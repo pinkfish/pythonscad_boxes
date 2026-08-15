@@ -31,6 +31,24 @@ if TYPE_CHECKING:
     from pybosl2.shapes3d import Bosl2Solid
 
 
+MIN_FINGER_HOLE_REACH_MM = 2.0
+"""The shallowest an automatic finger hole may be (FR-047).
+
+A tray short enough for the structural rule to bite still gets a grip, just a
+token one. Below this it is not a cut a finger can use, and the tray is better
+off with the dip than with nothing — the wall it would otherwise protect is
+only a couple of millimetres tall anyway.
+"""
+
+MAX_FINGER_HOLE_SPAN_SHARE = 0.75
+"""How much of a wall an automatic hole's mouth may take (FR-047a).
+
+Merely fitting is not the test. A mouth spanning the whole wall leaves two
+corner posts holding the rim, which is a slot rather than a grip; a quarter of
+the wall left uncut keeps something either side of the finger.
+"""
+
+
 def corner(
     solid: "Bosl2Solid",
     size: Sequence[float],
@@ -111,7 +129,7 @@ def _top_anchor():
     return Anchor.TOP
 
 
-def _hole_flare(wall_thickness: float, hole, reach: float) -> float:
+def _hole_flare(wall_thickness: float, hole, reach: float, ends: int = 1) -> float:
     """The face fillet an exterior finger hole's cut is built with.
 
     The fillet is made by flaring the sweep's ends, and the flare is isotropic
@@ -119,14 +137,110 @@ def _hole_flare(wall_thickness: float, hole, reach: float) -> float:
     as readily as it grows sideways. So this is also how far the cut reaches
     *below* its outline, which is what the placement has to allow for (T306).
 
-    Capped at half the reach: on a cut shallower than twice the wall's fillet
-    the flare would swallow the outline whole, leaving no straight run between
-    the roll at the top and the flare at the bottom.
+    Capped at half the reach, and at a quarter of it where the cut is a closed
+    window and so runs a flare past *both* ends (``ends=2``): on a cut shallower
+    than that the flare would swallow the outline whole, leaving no straight run
+    between the two curves — and no outline at all for `build_wall_scoop`.
     """
     from pyboxbuilder.compartments.finger_hole import scoop_face_flare
 
     flare = scoop_face_flare(wall_thickness, getattr(hole, "rounding_edge", None))
-    return min(flare, reach / 2.0)
+    return min(flare, reach / (2.0 * max(1, ends)))
+
+
+def finger_cut_conflicts(spec: dict) -> list[str]:
+    """Finger cuts that overlap something, described one per line (FR-006c).
+
+    Two cuts that overlap do not make two grips: they make one opening of a
+    shape nobody asked for, and the geometry gives no sign of which two cuts
+    made it — the merged solid looks deliberate. So the overlap is reported
+    rather than left for a render to reveal.
+
+    What is checked, and what is not: two holes on one wall are checked against
+    each other, and a hole is checked against the magnet pocket that wall would
+    carry. A lid track needs no check — every exterior hole is bounded by the
+    interior top (FR-043b1) and the track lives above it, so the two cannot
+    reach each other.
+
+    Args:
+        spec: Reads `finger_holes`, `width`, `length`, `height`,
+            `wall_thickness`, `magnet_type` and `magnet_size`.
+
+    Returns:
+        One message per conflict, naming both features and where they are.
+        Empty when the cuts are clear of each other.
+    """
+    from pyboxbuilder.box.base import wall_top
+    from pyboxbuilder.enums import MagnetType
+
+    holes = spec.get("finger_holes") or ()
+    messages: list[str] = []
+
+    def mouth(hole) -> float:
+        """Half the opening's width: the throat plus the flare it rolls out."""
+        radius = getattr(hole, "radius", 14.0)
+        flare = getattr(hole, "rounding_radius", None)
+        return radius + (3.0 if flare is None else flare)
+
+    by_side: dict[object, list] = {}
+    for hole in holes:
+        by_side.setdefault(getattr(hole, "side", None), []).append(hole)
+
+    for side, side_holes in by_side.items():
+        for index, first in enumerate(side_holes):
+            for second in side_holes[index + 1:]:
+                gap = abs((getattr(first, "offset", 0.0) or 0.0)
+                          - (getattr(second, "offset", 0.0) or 0.0))
+                overlap = mouth(first) + mouth(second) - gap
+                if overlap > 0:
+                    messages.append(
+                        f"finger holes on {getattr(side, 'value', side)} overlap by "
+                        f"{overlap:.1f}mm (offsets {getattr(first, 'offset', 0.0)} and "
+                        f"{getattr(second, 'offset', 0.0)}): they will cut as one opening"
+                    )
+
+    magnet_type = spec.get("magnet_type")
+    if magnet_type not in (None, MagnetType.NONE) and holes:
+        size = spec.get("magnet_size")
+        half = (size[0] if size else 6.0) / 2.0
+        from pyboxbuilder.box.types.no_lid import NoLidBox
+
+        magnet_sides = (
+            (ScoopSide.FRONT, ScoopSide.BACK)
+            if NoLidBox._magnet_sides_front_back(spec)
+            else (ScoopSide.LEFT, ScoopSide.RIGHT)
+        )
+        mid_height = spec["height"] / 2.0
+        for hole in holes:
+            if getattr(hole, "side", None) not in magnet_sides:
+                continue
+            # The pocket sits at the middle of the wall at mid-height; the cut
+            # hangs from the interior top. They clash when both ranges do.
+            interior_top = wall_top(spec, hole.side)
+            reach = min(getattr(hole, "depth", None) or getattr(hole, "radius", 14.0),
+                        interior_top - spec.get("floor_thickness", 1.6))
+            if interior_top - reach > mid_height:
+                continue
+            if abs(getattr(hole, "offset", 0.0) or 0.0) < mouth(hole) + half:
+                messages.append(
+                    f"the finger hole on {getattr(hole.side, 'value', hole.side)} "
+                    f"overlaps the magnet pocket in that wall: the pocket is cut "
+                    f"inside the hole"
+                )
+    return messages
+
+
+def warn_about_finger_cuts(spec: dict) -> None:
+    """Emit :func:`finger_cut_conflicts` as warnings, and build anyway (FR-006c).
+
+    A warning rather than an error: the merged cut is still a box, and a user
+    who meant it (two holes side by side making one long grip) is not wrong —
+    they just have to be told that is what they are getting.
+    """
+    import warnings
+
+    for message in finger_cut_conflicts(spec):
+        warnings.warn(f"{spec.get('label', 'box')}: {message}", stacklevel=2)
 
 
 def apply_finger_holes(body: "Bosl2Solid", spec: dict) -> "Bosl2Solid":
@@ -152,6 +266,8 @@ def apply_finger_holes(body: "Bosl2Solid", spec: dict) -> "Bosl2Solid":
     holes = spec.get("finger_holes") or ()
     if not holes:
         return body
+
+    warn_about_finger_cuts(spec)
 
     from pyboxbuilder.compartments.finger_hole import (
         DEFAULT_FLOOR_DIP_MM,
@@ -179,16 +295,19 @@ def apply_finger_holes(body: "Bosl2Solid", spec: dict) -> "Bosl2Solid":
         # The cut's height follows the finger unless told otherwise, and never
         # reaches deeper than the interior.
         reach = min(getattr(hole, "depth", None) or radius, interior_height)
-        flare = _hole_flare(wt, hole, reach)
-        # The outline's roll finishes tangent to the plane `outline_height`
-        # above its flat bottom, and that plane is the top of the wall: the
-        # outline is hung from `interior_top` so the mouth flows into the rim
-        # (FR-043a) instead of being sliced through mid-curve. It is a flare
-        # shorter than the reach because the cut runs that much below its
-        # outline, so the deepest point of the cut is the reach asked for
-        # (T306) — the two ends are aligned by the *outline's* height, not by
-        # shifting the whole solid, which moves one end for the other.
-        outline_height = reach - flare
+        # Wall standing above the cut turns it into a different shape: with no
+        # surface for the mouth roll to roll onto, the cut is a closed window
+        # instead of a scoop, filleted the whole way round (FR-043b1a). The
+        # window's top then needs the same allowance as its bottom, since the
+        # fillet grows past both — hence `ends`.
+        walled_over = interior_top < spec["height"] - 1e-9
+        flare = _hole_flare(wt, hole, reach, ends=2 if walled_over else 1)
+        # Both ends are set by the outline's height, not by shifting the solid:
+        # the cut runs a flare past each end of its outline, so an outline this
+        # much shorter puts the material removed exactly where the reach says
+        # (FR-006b/T306). Shifting instead moves one end for the other — which
+        # is how the mouth ended up finishing above the wall top.
+        outline_height = reach - (2 * flare if walled_over else flare)
         scoop = build_wall_scoop(
             inner_width,
             inner_length,
@@ -201,17 +320,16 @@ def apply_finger_holes(body: "Bosl2Solid", spec: dict) -> "Bosl2Solid":
             # Pinned rather than left to default, because the alignment above
             # is measured off this exact flare.
             rounding_edge=flare,
-            # Anything above the interior — a lid band, a sliding track — is
-            # material the hole must not cut into, so the outline's rim
-            # overshoot is trimmed off at the outline's own top, which is
-            # where the roll has finished and the overshoot begins.
-            top_limit=(
-                outline_height if interior_top < spec["height"] - 1e-9 else None
-            ),
+            roll_rise=getattr(hole, "roll_rise", None),
+            closed_top=walled_over,
+            # A scoop's outline overshoots its rim, which is free on a lidless
+            # box and must not be on any other; the window has no overshoot to
+            # trim, and its top is already the plane below.
+            top_limit=None,
             # There is wall below an exterior hole, not floor, so the face
             # flare can finish instead of being sliced off at the outline's
             # flat bottom — which is what leaves the wall's sawn cross-section
-            # showing at the base of the cut (FR-043g). Compartment scoops keep
+            # showing at the base of the cut (FR-043g2). Compartment scoops keep
             # the default clip: they bottom on the floor, and there the flare
             # has nowhere to go but through it.
             floor_clearance=flare + DEFAULT_FLOOR_DIP_MM,
@@ -222,7 +340,7 @@ def apply_finger_holes(body: "Bosl2Solid", spec: dict) -> "Bosl2Solid":
             [
                 wt + (offset if along_x else 0.0),
                 wt + (0.0 if along_x else offset),
-                interior_top - outline_height,
+                interior_top - outline_height - (flare if walled_over else 0.0),
             ]
         )
 
@@ -236,14 +354,26 @@ def no_lid_finger_holes(spec: dict):
     finger dip into each wall of the longer dimension. The sizing is a formula
     on the spec, not a constant:
 
-    - radius = `min(20, min(length, width) / 4, height - floor_thickness + 1)`;
-    - height = `min(radius, height - default_floor_thickness + 1)` (2mm floor);
-    - mouth rounding = 3mm.
+    - throat radius = `min(20, min(length, width) / 4, height - floor_thickness + 1)`
+      — a fingertip, capped at 20mm and at a quarter of the smaller *outer*
+      footprint dimension;
+    - reach = the radius, but **stopping a wall thickness plus a millimetre
+      above the tray's floor**, and never under 2mm;
+    - mouth flare = 3mm.
+
+    The reach's middle term is a structural rule, not arithmetic: the strip of
+    wall under the cut is what the tray is lifted by, so the cut stops short of
+    the floor by a wall's thickness and a millimetre. Written inline as
+    `height - ft - wt - 1` it reads like a fudge and has twice been "corrected"
+    to the older `height - 2 + 1`, which runs the cut into the floor of a
+    shallow tray (FR-047).
 
     A wall too short for the hole's mouth is skipped: a finger hole wider than
     the wall it is cut through breaks into the adjoining walls, so the tray goes
-    out with **no** hole rather than a broken one. That is what keeps a path box
-    with a short side sound.
+    out with **no** hole rather than a broken one. The mouth must leave a
+    quarter of the wall uncut, not merely fit inside it — a cut running wall to
+    wall is a slot, and what is left at each end is too little to grip
+    (FR-047a). That is what keeps a path box with a short side sound.
 
     Args:
         spec: Needs `width`, `length`, `height`; reads `wall_thickness` and
@@ -262,7 +392,10 @@ def no_lid_finger_holes(spec: dict):
     height = spec["height"]
 
     radius = min(20.0, min(length, width) / 4.0, height - ft + 1.0)
-    hole_height = max(min(radius, height - ft - wt - 1.0), 2)
+    # The strip of wall the tray is picked up by: the cut stops this far above
+    # the tray's floor, so what is left under it keeps the wall's own section.
+    deepest = height - ft - (wt + 1.0)
+    hole_height = max(min(radius, deepest), MIN_FINGER_HOLE_REACH_MM)
     rounding_radius = 3.0
 
     if length >= width:
@@ -272,9 +405,10 @@ def no_lid_finger_holes(spec: dict):
         sides = (ScoopSide.FRONT, ScoopSide.BACK)
         span = width - 2 * wt
 
-    # The mouth is `radius + rounding_radius` wide on each side of centre; the
-    # two of them have to fit inside the wall the hole is cut through.
-    if 2.0 * (radius + rounding_radius) > span * 3 / 4:
+    # The mouth is `radius + rounding_radius` wide on each side of centre, and
+    # has to leave a quarter of the wall uncut — fitting is not enough, since a
+    # cut running wall to wall is a slot with nothing left at either end to grip.
+    if 2.0 * (radius + rounding_radius) > span * MAX_FINGER_HOLE_SPAN_SHARE:
         return ()
 
     return tuple(

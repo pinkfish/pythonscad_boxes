@@ -152,24 +152,31 @@ class BoxBuilder:
         offset: float = 0.0,
         rounding_radius: float | None = None,
         rounding_edge: float | None = None,
+        roll_rise: float | None = None,
     ) -> "FingerHoleBuilder":
         """Add a finger hole to one of this box's exterior walls (FR-006).
 
-        The hole hangs from the rim, so a finger reaches in over the wall
-        rather than through its middle, and it is cut with the same smoothing
-        as a compartment scoop: a mouth flared into the rim and a fillet where
-        it emerges on each face of the wall.
+        The hole hangs from the top of the **interior** (FR-043b1) — not from
+        the outer rim, which on a lidded box is a lid band above it — so a
+        finger reaches in over the wall rather than through its middle. It is
+        cut with the same smoothing as a compartment scoop: a mouth rolled
+        into the wall's top and a fillet where it emerges on each face.
 
         Args:
             side: Which exterior wall to cut.
-            radius: Bore radius in mm; 14mm is adult fingertip sizing.
-            depth: How far down from the interior's top to reach. ``None``
-                uses the radius. Capped at the interior depth so the cut
-                cannot open the box's base.
+            radius: Throat radius in mm; 14mm is adult fingertip sizing.
+            depth: How far the cut reaches below the wall's top, measured to
+                the deepest point of the material it removes (FR-006b).
+                ``None`` uses the radius. Capped at the interior depth so the
+                cut cannot open the box's base.
             offset: Shift along the wall from its midpoint, in mm.
             rounding_radius: Mouth flare at the rim; ``None`` uses 3mm.
             rounding_edge: Face fillet; ``None`` uses ``wall_thickness / 2``,
                 the largest the wall has room for.
+            roll_rise: How far the mouth roll reaches down. ``None`` derives it
+                from the flare. The fourth of the numbers that define the
+                outline (FR-043a0): width and gentleness are separate, so a
+                shallow wall can take a gentler curve without a wider mouth.
 
         Returns:
             The :class:`FingerHoleBuilder` that was added, so it can be
@@ -186,6 +193,7 @@ class BoxBuilder:
             offset=offset,
             rounding_radius=rounding_radius,
             rounding_edge=rounding_edge,
+            roll_rise=roll_rise,
         )
         object.__setattr__(self, "finger_holes", self.finger_holes + (hole,))
         return hole
@@ -217,6 +225,13 @@ class FingerHoleBuilder:
     """Mouth flare where the cut meets the rim; ``None`` uses the default 3mm."""
     rounding_edge: float | None = None
     """Fillet where the cut emerges on a face; ``None`` uses ``wall_thickness / 2``."""
+    roll_rise: float | None = None
+    """How far the mouth roll reaches down; ``None`` derives it from the flare.
+
+    The gentleness of the curve, as against `rounding_radius`'s width of it
+    (FR-043a0/FR-043c3). Settable because on a shallow wall the rise is the only
+    one of the two that can give: there is height to spare for the curve and no
+    width to spare for the mouth."""
 
     def __post_init__(self) -> None:
         """Validate the hole.

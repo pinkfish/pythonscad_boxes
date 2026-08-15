@@ -240,6 +240,7 @@ def _fit_radii(
     height: float,
     top_rounding: float,
     bottom_rounding: float | None,
+    roll_rise: float | None = None,
 ) -> tuple[float, float, float]:
     """Size the two rolls to the scoop they are shaping.
 
@@ -248,6 +249,12 @@ def _fit_radii(
         height: Floor to rim.
         top_rounding: The top roll's outward flare (r1).
         bottom_rounding: Requested r2, or ``None`` to derive it.
+        roll_rise: How far the top roll reaches **down**. ``None`` derives it
+            as ``TOP_ROLL_RISE_RATIO`` times the flare. It is the fourth of the
+            numbers that define the outline (FR-043a0) and the one that says
+            how gently the top surface turns into the wall, so it has to be
+            reachable rather than fixed — on a wall with height to spare and no
+            width to spare, it is the only one that can give.
 
     Returns:
         ``(flare, rise, r2)`` — how far the top roll reaches out, how far it
@@ -261,7 +268,7 @@ def _fit_radii(
     if bottom_rounding is None:
         bottom_rounding = radius * DEFAULT_BOTTOM_ROUNDING_RATIO
     flare = max(0.0, top_rounding)
-    rise = flare * TOP_ROLL_RISE_RATIO
+    rise = flare * TOP_ROLL_RISE_RATIO if roll_rise is None else max(0.0, roll_rise)
     r2 = max(0.0, min(bottom_rounding, radius * (1.0 - MIN_FLAT_BOTTOM_RATIO)))
     if rise + r2 > height:
         scale = height / (rise + r2)
@@ -424,6 +431,43 @@ def _tangent_join(
             (fallback_x, top_centre[1]),
         )
     return best[1], best[2]
+
+
+def window_outline(
+    radius: float,
+    height: float,
+    bottom_rounding: float,
+) -> list[tuple[float, float]]:
+    """A **closed** finger opening: the scoop's outline with a roof on it.
+
+    An edge scoop opens onto the top of the wall it is cut into, and its mouth
+    roll is the transition onto that surface. Where the wall carries on above
+    the cut — a lidded box, whose hole stops at the interior top with the lid's
+    band standing over it (FR-043b1) — there is no surface to roll onto, and the
+    scoop's own outline cannot be used: capping it leaves the cut's ceiling
+    meeting each face of the wall at a square edge, with the face fillet
+    stopping dead at the cap. What belongs there is a closed window, filleted
+    the whole way round, which the offset sweep gives for nothing because the
+    fillet follows the ring (FR-044e1, FR-043b1a).
+
+    So the roll is dropped and the floor treatment is mirrored at the top: a
+    flat run with a fillet into each side, top and bottom alike.
+
+    Args:
+        radius: Half-width of the straight throat.
+        height: Bottom to top of the opening.
+        bottom_rounding: The corner fillet, already capped to fit; used at all
+            four corners.
+
+    Returns:
+        ``[(x, y), ...]`` closed counter-clockwise, bottom at ``y=0``.
+    """
+    r2 = max(0.0, min(bottom_rounding, radius, height / 2))
+    right: list[tuple[float, float]] = []
+    right += _quarter_arc((radius - r2, r2), r2, -90.0, 0.0)
+    right += _quarter_arc((radius - r2, height - r2), r2, 0.0, 90.0)
+    left = [(-x, y) for x, y in reversed(right)]
+    return left + right
 
 
 def scoop_outline(
@@ -590,6 +634,8 @@ def build_wall_scoop(
     floor_thickness: float | None = None,
     floor_clearance: float | None = None,
     top_limit: float | None = None,
+    closed_top: bool = False,
+    roll_rise: float | None = None,
 ) -> "Bosl2Solid":
     """Build a finger notch through a compartment wall.
 
@@ -637,6 +683,17 @@ def build_wall_scoop(
         floor_clearance: Dip below the well floor, overriding the value derived
             from ``floor_thickness``. ``0`` clips exactly at the floor, at the
             cost of a coincident face.
+        top_limit: Height, in the cut's own frame, above which it is trimmed
+            away — the guard for material that must not be cut into.
+        roll_rise: How far the mouth roll reaches down; ``None`` derives it
+            from the flare (FR-043c3). Width and gentleness are separate
+            settings, so a shallow wall can have a gentler curve without a
+            wider mouth.
+        closed_top: Build a **closed window** (:func:`window_outline`) instead
+            of a top-opening scoop. For a cut with wall standing above it,
+            where there is no surface for the mouth roll to roll onto and a
+            trimmed-off scoop would meet the faces at a square edge
+            (FR-043b1a).
 
     Returns:
         Bosl2Solid cutout, positioned in the compartment frame.
@@ -681,9 +738,13 @@ def build_wall_scoop(
     # both curves of the U driven by the same number, which is exactly what it
     # looked like. `scoop_profile` had the order right all along.
     flare, rise, r2 = _fit_radii(
-        radius, comp_depth, rounding_radius, bottom_rounding
+        radius, comp_depth, rounding_radius, bottom_rounding, roll_rise
     )
-    outline = scoop_outline(radius, comp_depth, flare, r2, rise)
+    outline = (
+        window_outline(radius, comp_depth, r2)
+        if closed_top
+        else scoop_outline(radius, comp_depth, flare, r2, rise)
+    )
     return _sweep_through_wall(
         outline, comp_width, comp_length, side,
         comp_depth=comp_depth,

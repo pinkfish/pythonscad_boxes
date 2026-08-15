@@ -107,9 +107,27 @@ CompartmentBuilder(
     depth: float,
     rounded_corners: float = 0.0,
     finger_scoop: bool = False,
-    scoop_side: ScoopSide = ScoopSide.FRONT,
+    scoop_side: ScoopSide | None = None,   # None → derived (FR-043b4/b6)
 )
 ```
+
+`scoop_side` defaults to **None**, not to a member: the side is derived — the compartment's shorter wall (FR-043b4), overridden to the lid's exit wall on a sliding box (FR-043b6). Pinning `FRONT` here would put a card box's cut in the long face and, on a sliding box, through the lid's groove.
+
+## Finger holes on a box (`BoxBuilder.finger_hole`)
+
+```
+box.finger_hole(
+    side: ScoopSide,                       # which exterior wall
+    *,
+    radius: float = 14.0,                  # throat radius — adult fingertip
+    depth: float | None = None,            # reach below the wall top; None → radius
+    offset: float = 0.0,                   # shift along the wall from its midpoint
+    rounding_radius: float | None = None,  # mouth flare; None → 3mm
+    rounding_edge: float | None = None,    # face fillet; None → wall_thickness / 2
+) -> FingerHoleBuilder
+```
+
+The cut hangs from the top of the **interior** (FR-043b1), not the outer rim, and `depth` is read to the deepest point of the material removed (FR-006b). A no-lid box gets a pair of these automatically (FR-047); `box(..., auto_finger_holes=False)` or naming any hole of your own suppresses them (FR-047b).
 
 ## Color (`pybosl2.Color`, re-exported from `pyboxbuilder`)
 

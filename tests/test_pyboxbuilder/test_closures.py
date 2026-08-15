@@ -644,7 +644,7 @@ if __name__ == "__main__":
 
 
 class HingeInsideTests(unittest.TestCase):
-    """FR-002c/d/e: the hinge lives in the box, and the interior knows it."""
+    """FR-002r/s/t: the hinge lives in the box, and the interior knows it."""
 
     HINGED = (BoxType.HINGE, BoxType.FILAMENT_HINGE)
 
@@ -735,7 +735,7 @@ class HingeInsideTests(unittest.TestCase):
 
 
 class SlipoverFingerNotchTests(unittest.TestCase):
-    """FR-002f/g/h: a sleeve you can actually get off."""
+    """FR-002u/g/h: a sleeve you can actually get off."""
 
     def sleeve(self, **overrides):
         from pyboxbuilder.box.registry import BOX_IMPL_REGISTRY
@@ -1020,7 +1020,7 @@ class CapCurveGrowthTests(unittest.TestCase):
 
 
 class CapIndentDepthTests(unittest.TestCase):
-    """FR-002q/SC-053: the indent is exactly the lid's offset deep."""
+    """FR-002q/SC-057: the indent is exactly the lid's offset deep."""
 
     def test_the_indent_matches_the_lid_offset(self) -> None:
         """It cut 0.5mm of the 1.15mm asked for: `build_wall_scoop` puts its
@@ -1043,3 +1043,49 @@ class CapIndentDepthTests(unittest.TestCase):
                 break
         self.assertIsNotNone(depth, "the indent must cut something")
         self.assertAlmostEqual(depth, m.inset, delta=0.06)
+
+
+class CapFootprintTooSmallTests(unittest.TestCase):
+    """FR-002m1: a footprint too small for the corner cutouts is refused.
+
+    The height check (FR-002n) is not enough on its own — a box can be tall and
+    narrow, and then the four corner cuts meet in the middle of every side and
+    leave the skirt gripping nothing along the whole face.
+    """
+
+    def spec(self, width: float, length: float) -> dict:
+        return dict(
+            label="Tiny", width=width, length=length, height=60,
+            wall_thickness=2.0, floor_thickness=2.0, lid_thickness=2.0,
+        )
+
+    def test_a_narrow_box_is_refused(self) -> None:
+        from pyboxbuilder.box.features import cap_finger_metrics
+
+        with self.assertRaises(ValueError) as caught:
+            cap_finger_metrics(self.spec(26, 100))
+        message = str(caught.exception)
+        self.assertIn("width", message)
+        self.assertIn("slipover", message, "the alternative is not named")
+
+    def test_the_other_axis_is_checked_too(self) -> None:
+        from pyboxbuilder.box.features import cap_finger_metrics
+
+        with self.assertRaises(ValueError):
+            cap_finger_metrics(self.spec(100, 26))
+
+    def test_a_box_with_room_is_not(self) -> None:
+        from pyboxbuilder.box.features import cap_finger_metrics
+
+        self.assertIsNotNone(cap_finger_metrics(self.spec(100, 80)))
+
+    def test_the_boundary_is_two_runs_and_the_band(self) -> None:
+        """Exactly `2 x 10 + 10`: the smallest side that can carry the pair."""
+        from pyboxbuilder.box.features import (
+            CAP_FINGER_MIN_BAND_MM, CAP_FINGER_MIN_LENGTH_MM, cap_finger_metrics,
+        )
+
+        smallest = 2 * CAP_FINGER_MIN_LENGTH_MM + CAP_FINGER_MIN_BAND_MM
+        self.assertIsNotNone(cap_finger_metrics(self.spec(smallest, 100)))
+        with self.assertRaises(ValueError):
+            cap_finger_metrics(self.spec(smallest - 0.5, 100))

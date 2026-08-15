@@ -93,3 +93,57 @@ class BoxRegistryTests(unittest.TestCase):
         )
         self.assertEqual(mag.magnet_diameter, 8.0)  # type: ignore[attr-defined]
         self.assertEqual(mag.magnet_count_width, 3)  # type: ignore[attr-defined]
+
+
+class MagnetAndFingerHoleSidesTests(unittest.TestCase):
+    """FR-039a/SC-060: the magnets take the walls the finger holes did not.
+
+    A pocket is cut at the middle of a wall at mid-height and FR-047 cuts a
+    hole at the middle of the two longer walls, so a fixed pair puts the two in
+    the same wall on half of all footprints — the pocket lands inside the cut
+    and nothing in the geometry says so. The proportions below are the three
+    cases that matters for: wider than long, longer than wide, and square.
+    """
+
+    def sides(self, width: float, length: float) -> tuple[set, bool]:
+        from pyboxbuilder.box.shell import no_lid_finger_holes
+        from pyboxbuilder.box.types.no_lid import NoLidBox
+
+        spec = {
+            "width": width, "length": length, "height": 30,
+            "wall_thickness": 2.0, "floor_thickness": 1.6,
+        }
+        spec["finger_holes"] = no_lid_finger_holes(spec)
+        hole_sides = {hole.side for hole in spec["finger_holes"]}
+        return hole_sides, NoLidBox._magnet_sides_front_back(spec)
+
+    def test_the_magnets_avoid_the_hole_walls(self) -> None:
+        from pyboxbuilder.enums import ScoopSide
+
+        for width, length in ((100, 80), (80, 100), (90, 90)):
+            with self.subTest(footprint=(width, length)):
+                hole_sides, front_back = self.sides(width, length)
+                magnet_sides = (
+                    {ScoopSide.FRONT, ScoopSide.BACK} if front_back
+                    else {ScoopSide.LEFT, ScoopSide.RIGHT}
+                )
+                self.assertTrue(hole_sides, "no automatic holes to avoid")
+                self.assertFalse(
+                    hole_sides & magnet_sides,
+                    f"magnets on {magnet_sides} share a wall with the holes",
+                )
+
+    def test_an_explicit_hole_moves_them_too(self) -> None:
+        """The sides are read off the spec, not recomputed, so a hand-placed
+        hole moves the magnets exactly as the automatic pair does."""
+        from pyboxbuilder.box.types.no_lid import NoLidBox
+        from pyboxbuilder.builders._base import FingerHoleBuilder
+        from pyboxbuilder.enums import ScoopSide
+
+        spec = {
+            "width": 80, "length": 100, "height": 30,
+            "wall_thickness": 2.0, "floor_thickness": 1.6,
+            "finger_holes": (FingerHoleBuilder(side=ScoopSide.FRONT),
+                             FingerHoleBuilder(side=ScoopSide.BACK)),
+        }
+        self.assertFalse(NoLidBox._magnet_sides_front_back(spec))

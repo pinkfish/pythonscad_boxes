@@ -16,13 +16,13 @@ That is a constraint on *this* document as much as on the code. Each design sect
 
 Three rules follow, and they are the ones to check a change against.
 
-**Derive, don't fix.** A default computed from what is already known — the wall thickness, the box's height, the piece being held — stays right across the range of boxes people build. A constant does not: 3mm of roll is invisible on a 14mm finger hole and overwhelming on a 4mm one, which is why `DEFAULT_TOP_ROUNDING_RATIO` is a ratio. Where a constant is genuinely right it is a *floor* or a *cap* on a derived value, not the value itself — the cap box's 4mm curve budget growing to 6mm where there is room, the sleeve's gap held between 3mm and 6mm.
+**Derive, don't fix (FR-000a).** A default computed from what is already known — the wall thickness, the box's height, the piece being held — stays right across the range of boxes people build. A constant does not: 3mm of roll is invisible on a 14mm finger hole and overwhelming on a 4mm one, which is why `DEFAULT_TOP_ROUNDING_RATIO` is a ratio. Where a constant is genuinely right it is a *floor* or a *cap* on a derived value, not the value itself — the cap box's 4mm curve budget growing to 6mm where there is room, the sleeve's gap held between 3mm and 6mm.
 
-**A feature that needs an override does not work.** If a parameter has to be set before the result is usable, the default is wrong, and the fix goes in the default rather than in the documentation. The measure of this is SC-000: no shipped example sets a geometric override. What the examples set is what the *game* needs. An override an example is forced to add is a bug report against a default.
+**A feature that needs an override does not work (FR-000c).** If a parameter has to be set before the result is usable, the default is wrong, and the fix goes in the default rather than in the documentation. The measure of this is SC-000: no shipped example sets a geometric override. What the examples set is what the *game* needs. An override an example is forced to add is a bug report against a default.
 
-**Refuse rather than degrade.** When the defaults genuinely cannot give a good part at the size asked for, say so and name the alternative — as a too-short cap box does, pointing at a slipover. That is part of working out of the box. Quietly shrinking a radius until it fits produces a part that looks finished and cannot be used, and the user finds out after printing it.
+**Refuse rather than degrade (FR-000d).** When the defaults genuinely cannot give a good part at the size asked for, say so and name the alternative — as a too-short cap box does, pointing at a slipover. That is part of working out of the box. Quietly shrinking a radius until it fits produces a part that looks finished and cannot be used, and the user finds out after printing it.
 
-Overrides still exist for the unusual case, but each is **one named parameter changing one thing**, never a set the user has to keep consistent. Where two values must agree — a lid and the groove it runs in, a skirt and the band it grips — the library derives one from the other and emits both from one function, so there is nothing to keep in step.
+Overrides still exist for the unusual case (FR-000b), but each is **one named parameter changing one thing**, never a set the user has to keep consistent. Where two values must agree — a lid and the groove it runs in, a skirt and the band it grips — the library derives one from the other and emits both from one function, so there is nothing to keep in step.
 
 ## Technical Context
 
@@ -146,7 +146,7 @@ Two things about a slipover sleeve were costing more than they bought.
 
 **It stops short of the foot.** A sleeve that runs all the way down closes onto the foot in a seam with nothing to grip. Leaving a band of body showing the whole way round gives the fingers something to pull on around the entire box, not only at the two corner notches. The skirt is therefore `height - foot - gap`, and the gap is a quarter of the covered height held between **3mm and 6mm**: wider where the box can spare it, because a wider gap takes a wider curve, and capped because every millimetre of gap is a millimetre of skirt given up.
 
-### Getting A Slipover Sleeve Back Off (FR-002f, FR-002g, FR-002h)
+### Getting A Slipover Sleeve Back Off (FR-002u, FR-002g, FR-002h)
 
 A slipover sleeve is a smooth box with nothing to hold: four covered sides, flush faces, no lip. The original cuts a notch into two **diagonally opposite** corners — diagonal so a pair of fingers pulls along the sleeve's axis instead of twisting it — placed just under the lid plate, where the notch exposes the body's corner for a thumb to push against.
 
@@ -200,14 +200,14 @@ Both were invisible in a render and obvious in a measurement, and both came from
 
 The rule the fix encodes: **the two curves answer different questions and must be sized from different quantities** — the top roll from the rounding radius, because it decides how wide the mouth is; the floor fillet from the throat radius, because it has to blend into a cut of that width.
 
-### The Hinge Goes Inside The Box (FR-002c, FR-002d, FR-002e)
+### The Hinge Goes Inside The Box (FR-002r, FR-002s, FR-002t)
 
 The hinge used to stand off the back of the box — `axis_y = length + radius + gap` — and Phase 18 recorded that as the one bounded exception to "a closed box is the size it declares". It is not a good exception: a box with a barrel hanging off it cannot be packed against its neighbours, and nothing tells the packer to reserve the room. The pin axis now sits **inside** the back wall (`axis_y = length - radius`), and is sunk far enough (`height + leaf_thickness - radius`) that the barrel's crown is flush with the closed box's top rather than standing 1mm proud of it. Measured: both hinged types are now exactly their declared size in all three axes, and nothing anywhere reaches outside the footprint.
 
 Two consequences follow, and neither is optional:
 
-- **Each half must be relieved out of the other (FR-002e).** Inside the box, the lid's knuckles occupy space the body's wall fills, and the body's knuckles occupy space the lid's plate fills. `Closure` carries `body_cut` and `lid_cut` for this. Relieving one side only is worse than a trap — it looks fixed, because the obvious symptom (the lid fused to the wall) disappears while the other half stays welded.
-- **The interior loses that room, so the contents mask has to know (FR-002d).** The barrel and webs stand in the back of the interior, right where a compartment would go. `interior_mask` is a per-type hook — `None` for every type whose interior is simply its interior — and the hinge types return the interior less the hinge's intrusion. `build_contents` clips the **wells** to it and leaves the finger scoops alone, since breaching a wall is a scoop's whole job. This is what the original does through `FilamentBoxInsideMask`, which subtracts the barrel's clearance cylinder and a chamfered support web from the interior cuboid.
+- **Each half must be relieved out of the other (FR-002t).** Inside the box, the lid's knuckles occupy space the body's wall fills, and the body's knuckles occupy space the lid's plate fills. `Closure` carries `body_cut` and `lid_cut` for this. Relieving one side only is worse than a trap — it looks fixed, because the obvious symptom (the lid fused to the wall) disappears while the other half stays welded.
+- **The interior loses that room, so the contents mask has to know (FR-002s).** The barrel and webs stand in the back of the interior, right where a compartment would go. `interior_mask` is a per-type hook — `None` for every type whose interior is simply its interior — and the hinge types return the interior less the hinge's intrusion. `build_contents` clips the **wells** to it and leaves the finger scoops alone, since breaching a wall is a scoop's whole job. This is what the original does through `FilamentBoxInsideMask`, which subtracts the barrel's clearance cylinder and a chamfered support web from the interior cuboid.
 
 ### A Sliding Box Needs Somewhere For The Lid To Go In (FR-002a)
 
@@ -301,7 +301,11 @@ All cutouts and outer edges MUST be smooth — no sharp 90° corners that catch 
    - The bottom **curves into the floor**, blending the wall cutout into the box bottom without a sharp corner.
    - The entire profile is **filleted** — no sharp edges anywhere along the scoop.
 
-1a. **An edge scoop is two radii and three straight runs (FR-043a).** Read from the top down::
+1a0. **One vocabulary and one datum (FR-006a, FR-006b).** Every finger cut in the library is an **edge scoop** (through a wall, open at the top), a **floor scoop**/bore (into a compartment floor), a **pull-out** (across a silhouette slot) or a **corner notch** (two edge scoops meeting at a corner). *Notch*, *cutout*, *dip* and *finger hole* are informal names for the first; the code and the messages use the four names.
+
+   Depth is measured **from the top of the wall the cut is in, to the deepest point of the material it removes** — which is at the wall's *faces*, where the face fillet reaches furthest, not at the outline's flat bottom. One datum sets both ends: the outline is built `reach - flare` tall and hung from the wall top, so the roll finishes tangent there and the flare bottoms out exactly `reach` below. Sizing the outline to the full reach and then sliding the solid up to fix the bottom is the alternative, and it fails at the other end — the roll finishes a flare *above* the wall top, so the top face meets it sliced through mid-curve. That is the whole of T306.
+
+1a. **An edge scoop is four numbers, three straight runs and two curves (FR-043a, FR-043a0).** Read from the top down::
 
         ===========...                      ...===========   flat top surface
                      ''..                ..''                r1: top face into wall
@@ -310,7 +314,9 @@ All cutouts and outer edges MUST be smooth — no sharp 90° corners that catch 
                           '..      ..''                      r2: wall into floor
                              ''--''                          flat bottom
 
-   **r1** leaves the top face *horizontally* and arrives at the wall *vertically*, so the top surface rolls over the rim instead of meeting the cut at an edge. **r2** turns the wall into the floor. Each arc is tangent at both of its ends, which is what makes the whole outline smooth — two radii state that more directly than a curve fitted between them, and each is a number a designer can set.
+   The four numbers are the **throat radius** (how wide the cut is), the **mouth flare** (`r1` — how far the roll reaches outward at the rim), the **roll rise** (how far it reaches down) and the **floor fillet** (`r2`). The roll leaves the top face *horizontally* and arrives at the throat *vertically*, so the top surface rolls over the rim instead of meeting the cut at an edge; the floor fillet turns the throat into the flat bottom. Each arc is tangent at both of its ends, which is what makes the whole outline smooth.
+
+   Two of the four describe the roll because flare and rise answer different questions (FR-043c3), which makes the roll an ellipse quadrant rather than an arc — "two radii" is the older, shorter description and it is what let the rise become a constant nobody could reach. All four are per-cut settings.
 
    The bottom is a **flat run**, not the meeting point of two fillets: a piece rests on it and a finger slides along it to get underneath. r2 is capped so at least a quarter of each half-width stays straight, because a fillet grown to the full half-width closes the flat into the U-shaped trough the flat bottom exists to avoid.
 
@@ -344,13 +350,29 @@ All cutouts and outer edges MUST be smooth — no sharp 90° corners that catch 
 
    One consequence of the implementation's convention is worth stating, because it is the opposite of what the name suggests: the path handed to `offset_sweep` is the cross-section **at the end face**, and the rim profile moves it as you travel inward. So the *widened* outline is the path, and the rim brings it back in — that is what puts the extra material at the face where a roundover belongs.
 
-   One detail the outline has to get right: it continues `RIM_OVERSHOOT_MM` **above** the rim rather than closing flush across the top. Closing flush puts a zero-angle cusp at each end of the r1 arc — the arc arrives travelling horizontally outward, the closing edge leaves horizontally back inward — and offsetting a cusp miters to infinity. Measured, a ±15mm profile came back ±55mm. Where there is material above the interior (a lid band, a sliding track) that overshoot is trimmed back off, so the cut stops at the interior top instead of carving through the band the lid seats in.
+   One detail the outline has to get right: it continues `RIM_OVERSHOOT_MM` **above** the rim rather than closing flush across the top. Closing flush puts a zero-angle cusp at each end of the roll — the arc arrives travelling horizontally outward, the closing edge leaves horizontally back inward — and offsetting a cusp miters to infinity. Measured, a ±15mm profile came back ±55mm. Nothing sits above the rim of a lidless box, so the overshoot removes nothing and guarantees the cut leaves no skin at the top face.
+
+1a2a. **On a lidded box the roll has to finish *below* the interior top (FR-043b1a).** There the alignment plane is inside material, not on a face, and a roll cannot be tangent to a plane it is buried in. The cut is therefore built **shorter** — the outline's height is reduced until the whole roll fits under the interior top — rather than run to full depth and clipped there.
+
+   Clipping is the tempting version, and it is a millimetre of code (`top_limit`, an intersection with a half-space). What it produces is a horizontal ceiling over the cut meeting the throat at 90°, which is the one square edge in the library that a finger is guaranteed to touch: FR-043 forbids exactly that. The trim survives only as the *guard* it was originally for — nothing may reach above the interior top — with the roll no longer relying on it.
 
 1a9. **Width and curve are independent (FR-043c3).** The top roll is an **ellipse quadrant**, not a circle: its outward flare sets how wide the mouth is, its downward rise sets how gently the top surface turns into the wall. A circle ties the two together, so the only way to get a gentler curve is a wider cut — backwards on a shallow wall, where there is height to spare for the curve and none to spare for the mouth. Only the *vertical* extents compete for the wall's height, so a shallow wall shortens the rise and leaves the width alone: Emberleaf's 6.5mm player-box wall and its 48mm card-box wall now cut the same 36mm-wide scoop, each with as much curve as it has room for.
 
    The floor fillet is separately generous (0.65 of the throat half-width) because it lives *inside* the throat and so costs no width at all.
 
 1a10. **A silhouette slot needs a pull-out, and it is part of the slot (FR-043c1, FR-043c2).** Cutting a slot to a piece's outline is what makes it hold the piece — and what leaves nowhere to get a fingertip under it. So every element slot carries a finger dish by default, half the piece's depth: deep enough to reach under, shallow enough that the piece still seats flat instead of tipping into the dish. It is rounded on every edge, curving in from the floor around it, because a dish with a square step around it is worse than no dish — the step is what a fingernail catches on. Depth, width and opting out are per slot.
+
+1a11. **The face fillet tapers out at the flat bottom (FR-043g, FR-043g1, FR-043g2).** The fillet is made by flaring the sweep's ends, and the flare is isotropic in the profile plane: it grows down past the flat bottom exactly as readily as it grows sideways. Three ways to absorb that, and only one keeps everything:
+
+   | | floor kept | depth kept | base rolled |
+   |---|---|---|---|
+   | clip at the floor dip (today) | yes | yes | **no** — sawn cross-section |
+   | raise the flat bottom by a fillet | yes | **no** — every scoop loses `wall/2` | yes |
+   | **taper the fillet to zero at the base** | yes | yes | yes |
+
+   So the fillet's radius is a function of height along the outline: full over the throat and the roll, easing to zero as it reaches the flat run. The bottom of the cut then rolls onto each face like the rest of the outline while the outline's own flat bottom stays where FR-006b put it, and the 0.2mm floor dip goes back to being what FR-043b5 says it is — a nudge off the floor plane, not a fillet allowance.
+
+   Where a cut has **wall below it instead of floor** — a box's exterior finger hole — the taper is unnecessary: the flare has material to finish into, so it is simply allowed to, and the reach is measured to it (FR-043g2). That is why the two callers pass different floor clips.
 
 1b. **A floor finger hole is not an edge scoop (FR-043a1).** They were briefly built from one profile, which put a flat-bottomed pan where a bowl belongs. An edge scoop is a channel you sweep a finger *along*; a floor hole is a bore you push a piece *up* through, so its bottom is tangent to the floor. The two share `_sweep_through_wall` — the depth matching, face fillets, floor clip and side placement are genuinely common — and differ only where they should, in the profile.
 
@@ -372,7 +394,7 @@ All cutouts and outer edges MUST be smooth — no sharp 90° corners that catch 
 3. **Implementation.** Box bodies use pybosl2 `cuboid(..., rounding=...)` for their outer edges. The finger scoops are ported from the original's `FingerHoleWall` / `FingerHoleBase` (`components.scad`), which are the reference for what "smooth" means here, and they carry **three separate roundings** that are easy to conflate:
 
    - **The mouth** (`rounding_radius`, default 3mm) — the top of the swept profile flares outward into the rim with a concave fillet on each shoulder, so the opening curves into the wall instead of ending in a right-angle lip. This is the part a fingertip rides over.
-   - **The faces** (`rounding_edge`, default `wall_thickness / 2`) — the sweep's two ends get a *negative* `os_circle` rim, which flares the cut outward tangent to each face so it flows onto the side of the box rather than leaving a sharp shadow line. Independently switchable per face (`round_inner` / `round_outer`).
+   - **The faces** (`rounding_edge`, default `wall_thickness / 2`) — the sweep's two ends get a roundover rim (`roundover_profile` in `pyboxbuilder/rounding.py`, **not** `os_circle`; see §1a3), which flares the cut outward tangent to each face so it flows onto the side of the box rather than leaving a sharp shadow line. Independently switchable per face (`round_inner` / `round_outer`), and tapered to zero at the flat bottom (§1a11).
 
      **Which surface the arc is tangent to is the whole feature** (FR-044e), and it is easy to get backwards, because the two candidates are indistinguishable in a parameter list: both run from the full radius at the face to zero at depth `r`. `sqrt(r² - d²)` is tangent to the *cut's own wall* and meets the face at 90°, which on a subtractive solid scoops a **cove** — a groove gouged in a ring around the opening, material taken out of the box rather than an edge softened. `r - sqrt(r² - (r - d)²)` is tangent to the *face*, and that is the roundover: the face rolls into the cut. The two are mirror images, so picking the wrong one yields geometry that is smooth, symmetric, plausible — and a defect.
    - **The base** — the bore is a circle tangent to the floor plane, so a card scoop's bottom curves into the floor rather than meeting it at a corner; a shallow floor scoop adds a `-fillet` cuboid pad blending the cut into the floor surface.
@@ -380,21 +402,27 @@ All cutouts and outer edges MUST be smooth — no sharp 90° corners that catch 
    Two constraints on this are load-bearing rather than incidental, and both were found by measuring rather than by looking:
 
    - **The sweep must be exactly the wall thickness** (`depth_of_hole = wall_thickness + 0.03`, centred on the wall), because a face fillet is produced by flaring the sweep's *end* — the end has to coincide with the face. Overshooting the wall by a millimetre, the obvious way to make sure a boolean leaves no skin, puts both fillets out in the air beyond the box and leaves the cut meeting the faces at a hard edge after all. It also fails to pierce any wall thicker than the overshoot.
-   - **The cut stops a controlled distance *below* the well floor**, not flush with it. Flush leaves the cut's bottom face coplanar with the floor, and a coincident face renders as speckle and is the classic way a boolean leaves a zero-thickness skin. The dip defaults to 0.2mm, or half the floor thickness (capped at 1mm) when the floor is known — the original's `height - floor_thickness + 1` is the same trick. It is a *limit* on the flare, not an offset applied regardless: with the roundings off there is no flare and the cut bottoms out exactly at the floor.
+   - **The cut stops a controlled distance *below* the well floor**, not flush with it. Flush leaves the cut's bottom face coplanar with the floor, and a coincident face renders as speckle and is the classic way a boolean leaves a zero-thickness skin. The dip is a constant 0.2mm whatever the floor thickness (FR-043b5): scaled as a share of the floor it reached a full millimetre and showed as the cut eating into a 2mm base. It is *only* that nudge — the face fillet gets its room from the taper of §1a11, never from a deeper dip.
 
-   `pyboxbuilder/sweep.py` provides the `offset_sweep` these need. Its rim arcs are built as a **chained hull** of offset slices, not as stacked prisms: one prism per slice is the obvious approach and what the legacy helper does, but it leaves an eight-step staircase across the fillet, which is visible in a Manifold render at print scale and is not a fillet at all.
+   The sweep itself is BOSL2's own `offset_sweep`, through `pybosl2`'s `Path2D` (§1a3). Two earlier stand-ins are recorded there and both failed on the same shape: stacked prisms leave a staircase, and a chained hull fills in the U.
 
-    A card finger hole runs the compartment's full depth so a finger reaches the last card at the bottom of the stack; an exterior box hole instead hangs from the rim, capped at the interior depth so it can never open the base.
+    A card finger hole runs the compartment's full depth so a finger reaches the last card at the bottom of the stack; an exterior box hole hangs from the **interior top** (FR-043b1), capped at the interior depth so it can never open the base, and on a lidded box it is shortened so its roll finishes below that plane (§1a2a).
 
-3a. **A no-lid box puts a finger hole in each of its longer walls by default (FR-047).** An open tray has no lid to grip, so it is lifted by the rim; the original (`no_lid.scad`) cuts a finger dip into both walls of the longer dimension — the length walls when `length > width` — so the tray can be picked up from either end. The sizing follows the original and is a formula on the spec, not a constant:
+3a. **A no-lid box puts a finger hole in each of its longer walls by default (FR-047).** An open tray has no lid to grip, so it is lifted by the rim; the original (`no_lid.scad`) cuts a finger dip into both walls of the longer dimension — the pair whose *span* is the longer of width and length, with a square footprint taking the length pair — so the tray can be picked up from either end. The sizing is a formula on the spec, not a constant:
 
-    - radius = `min(20, min(length, width) / 4, height - floor_thickness + 1)`;
-    - height = `min(finger_hole_size, height - default_floor_thickness + 1)` (`default_floor_thickness` is 2mm);
-    - mouth rounding = 3mm.
+    - throat radius = `min(20, min(length, width) / 4, height - floor_thickness + 1)`, on the **outer** footprint. The `+ 1` is a tolerance inherited from `no_lid.scad`; it cannot deepen the cut because the reach bounds that independently;
+    - reach = `max(min(throat radius, height - floor_thickness - wall_thickness - 1), 2)`;
+    - mouth flare = 3mm.
+
+    **The middle term of the reach is a structural rule, not arithmetic.** `height - floor_thickness - wall_thickness - 1` is the depth at which the cut stops **a wall thickness plus a millimetre above the tray's floor**, leaving the wall under the cut its full section — a tray is picked up by exactly that strip. Written as a subtraction chain it reads like a fudge and has twice been "simplified" back to the spec's older `height - 2 + 1`, which leaves the cut running into the floor on a shallow box. The 2mm floor on the whole expression is the other half of it: a cut shorter than that is not a grip.
 
     These are the same finger holes the Emberleaf card boxes use, cut through the library's own `pyboxbuilder/compartments/finger_hole.py` (`build_wall_scoop` / `build_scoop`) — **never** the legacy `components.py` `FingerHoleWall`. Reusing the one scoop builder is what keeps this hole identical to every other finger cut in the library: it arrives with the r1 mouth roll, the r2 floor fillet and the face fillets already correct, and it cannot drift from them.
 
-    **A wall too short for the hole is skipped (FR-047).** The hole's mouth is `radius + rounding_radius` wide on each side of centre, and the two of them have to fit inside the wall the hole is cut through. When they do not — a path box with a short side, a tiny tray — the wall goes out with **no** hole rather than one that breaks through into the adjoining walls. The check is `2 × (radius + rounding_radius) > span` on the box's interior dimension, the same bound `build_wall_scoop` uses; the difference is that the default hole is *dropped* there, not shrunk. The automatic holes are opt-out: `auto_finger_holes=False` on the box (or an explicit `finger_hole(side)`) suppresses them, so the lidded types and a caller who wants a plain tray are untouched.
+    **A wall too short for the hole is skipped (FR-047a).** The hole's mouth is `radius + rounding_radius` wide on each side of centre, and the two of them have to fit inside the wall the hole is cut through. When they do not — a path box with a short side, a tiny tray — the wall goes out with **no** hole rather than one that breaks through into the adjoining walls. The check is `2 × (radius + rounding_radius) > 0.75 × span` on the box's interior dimension — a quarter of the wall stays uncut, because a mouth allowed the whole span leaves two corner posts holding the rim. `build_wall_scoop` shrinks a cut that will not fit; the default hole is *dropped* instead. The automatic holes are opt-out (FR-047b): `auto_finger_holes=False` on the box (or an explicit `finger_hole(side)`) suppresses them, so the lidded types and a caller who wants a plain tray are untouched.
+
+    **A polygon path box gets none (FR-047c).** The rule names four walls and a longer side, and a polygon outline has neither; the helper reads `width`/`length`, which for a polygon is its bounding box, and would place the cut on a wall that may not be there. A path box with an explicit outline therefore gets no automatic holes and can still be given them by hand.
+
+    **Magnets move off the walls that carry the holes (FR-039a).** A magnet pocket is cut at the middle of a wall at mid-height, and FR-047 puts a hole at the middle of the two longer walls: fix the magnets to one pair and the two land in the same wall whenever the footprint is the other way round, with the pocket inside the cut. The magnets take the pair the holes did not — both pairs are opposing, so the attraction FR-039 is about is unaffected.
 
     **A hole much taller than `radius + rounding` gets a straight vertical throat.** The scoop profile joins its floor fillet and rim roll with the two circles' **common tangent** (`circle_circle_tangents` in `_tangent_join`), so a tall hole runs straight down at the throat instead of stepping where the arcs meet — the "intersecting circles" transition the original's `FingerHoleWall` uses for exactly this case.
 
@@ -986,7 +1014,7 @@ Emitted as a **warning**, with the run continuing:
 | `LidBuilder` set on a lidless box type | warn, drop the decoration |
 | Exported mesh empty (no geometry) | warn, do **not** write the file |
 | Body colour equal to all three accent colours | warn — the multi-colour 3MF degenerates to one material |
-| Overlapping finger cutouts | warn |
+| Overlapping finger cuts (FR-006c) | warn, naming each cut and its position — two cuts on the same wall whose mouths overlap, or a cut overlapping a magnet pocket or a lid track. The merged cut is still built: the warning exists because nothing in the geometry says which two cuts made that shape |
 | Empty project (no sub-boxes) | no files, no PDF, empty `ExportResult` — not an error |
 | `expandable=True` on a standalone box | ignored silently (documented, not warned) |
 
@@ -1016,11 +1044,17 @@ Where each requirement is designed, and where it is verified. Sections named bel
 | FR | Plan section | Module |
 |---|---|---|
 | FR-001, FR-002, FR-002a–FR-002f | Box Type Catalogue; The Dovetail Profile | `box/types/*`, `box/features.py` |
+| FR-002g–FR-002n1, FR-002q | Getting A Cap Lid Off | `box/types/cap.py`, `box/features.py` |
+| FR-002m1 | Getting A Cap Lid Off (footprint check) | `box/features.py` |
+| FR-002o, FR-002p, FR-002u | The Sleeve Is A Skin; Getting A Slipover Sleeve Back Off | `box/types/slipover.py` |
+| FR-002r, FR-002s, FR-002t | The Hinge Goes Inside The Box | `box/types/hinge.py`, `box/base.py` |
 | FR-003, FR-005 | Compartment Sizing and Placement | `compartments/builder.py`, `compartments/layout.py` |
 | FR-003a | Validation | `project.py` |
 | FR-004, FR-004a | Compartment Auto-Layout with Rotation | `compartments/layout.py` |
 | FR-004b | Compartment Auto-Layout (Element Pack Bounding Boxes) | `compartments/element.py` |
 | FR-006 | Finger Holes & Box Edge Smoothing | `compartments/finger_hole.py` |
+| FR-006a, FR-006b | Finger Holes §1a0 (one vocabulary, one datum) | `compartments/finger_hole.py`, `box/shell.py` |
+| FR-006c | Validation (warnings table) | `box/shell.py` (`finger_cut_conflicts`) |
 | FR-007, FR-011 | Validation | `compartments/layout.py`, `packing/layout.py` |
 | FR-008 | Compartment Sizing and Placement (Groups) | `compartments/layout.py` |
 | FR-008a | Multi-Bin Compartment Packing API | `project.py` |
@@ -1042,9 +1076,18 @@ Where each requirement is designed, and where it is verified. Sections named bel
 | FR-035, FR-036 | Lid Decoration Design (per-mode overrides) | `lid/builder.py`, `compartments/labels.py` |
 | FR-037 | Stackable Hexes Example (standalone) | `project.py` |
 | FR-038, FR-039 | Stackable Hexes Example; Typed Options | `box/types/no_lid.py` |
+| FR-039a | Finger Holes §3a (magnets move off the hole walls) | `box/types/no_lid.py` |
 | FR-040–FR-042 | 1835 Example (Hex Tiles) | `compartments/hex_grid.py` |
-| FR-043, FR-044 | Finger Holes & Box Edge Smoothing | `box/shell.py`, `compartments/finger_hole.py` |
+| FR-043, FR-043a–FR-043f, FR-044 | Finger Holes & Box Edge Smoothing | `box/shell.py`, `compartments/finger_hole.py`, `rounding.py` |
+| FR-043a0 | Finger Holes §1a (the four numbers) | `compartments/finger_hole.py`, `builders/_base.py` |
+| FR-043b1a | Finger Holes §1a2a (the roll finishes below a lidded interior top) | `compartments/finger_hole.py` (`window_outline`), `box/shell.py` |
+| FR-043g, FR-043g2 | Finger Holes §1a11 | `box/shell.py` (exterior holes only) |
+| FR-043g1 | Finger Holes §1a11 (the fillet tapers at the base) | *not yet built — **T305**, the one open task* |
 | FR-045 | Silhouette Fidelity | `compartments/element.py` |
+| FR-046, FR-046a, FR-046b | Curve Precision: Export vs Preview | `precision.py`, `project.py` |
+| FR-047 | Finger Holes §3a | `box/shell.py` |
+| FR-047a, FR-047b | Finger Holes §3a (skip, opt-out) | `box/shell.py` |
+| FR-047c | Finger Holes §3a (a polygon path box gets none) | `box/types/path.py` |
 
 | SC | Verified by |
 |---|---|
@@ -1061,13 +1104,39 @@ Where each requirement is designed, and where it is verified. Sections named bel
 | SC-005 | `test_packing.py`, `test_guillotine.py` |
 | SC-006 | `test_carve.py`, render tests |
 | SC-009, SC-010 | `test_packing.py` gap-threshold cases |
-| SC-010a/b/c | `test_spacer_merge.py`, `test_emberleaf.py` |
+| SC-010a, SC-010b, SC-010c | `test_spacer_merge.py`, `test_emberleaf.py` |
 | SC-011–SC-013 | `test_export.py`, `test_exporter.py`, render export tests |
 | SC-014–SC-016 | `test_lid_label.py`, `test_lid_decorate.py` |
 | SC-017–SC-019 | `test_export.py` PDF cases |
 | SC-020 | `test_project.py` standalone path |
 | SC-021, SC-022 | `test_all_box_types.py`, golden renders |
 | SC-023 | `boxes/stackable_hexes` + `test_hex_grid.py` |
+| SC-000, SC-000a | `test_project_coverage.py`, `test_ci_smoke.py` — every example builds with no geometric override |
+| SC-024 | `test_finger_smoothing.py` — `TwoRadiusProfileTests`: each curve is present and each can be switched off alone |
+| SC-025 | `test_finger_smoothing.py` — the sweep spans the wall and no more, at several wall thicknesses |
+| SC-026 | `test_finger_smoothing.py` — the cut dips 0.2mm below the well floor and never opens the base |
+| SC-027, SC-028, SC-029, SC-030, SC-032 | `test_rounding.py` — envelope preserved, no body/lid intersection, four corners, facet floor, tray radii |
+| SC-031 | `test_finger_smoothing.py` — `FaceRoundoverTests`: wider at the face than mid-wall, and no groove around the opening |
+| SC-033, SC-034, SC-035 | `test_precision.py`, `test_ci_smoke.py`, `test_project_coverage.py` |
+| SC-036 | `test_closures.py` — the channel reaches the open end and the stop wall survives |
+| SC-037 | `test_finger_smoothing.py` — `HoleAlignmentTests`: one call, right place, on every walled type |
+| SC-038, SC-042 | `test_finger_smoothing.py` — `WallTopTests`: the scoop reaches its own wall's top, per side |
+| SC-039, SC-040 | `test_finger_smoothing.py` — `ScoopSideDefaultTests`, `SlidingLidAxisTests` |
+| SC-041 | `test_closures.py` — `SlidingScoopAndLidEdgeTests` |
+| SC-043 | `test_finger_smoothing.py` — `PullOutRollTests` |
+| SC-044 | `test_finger_smoothing.py` — a shallow wall shortens the rise, not the mouth |
+| SC-053 | `test_finger_smoothing.py` — `NoLidFingerHoleTests`: the sizing formula, the side choice, the skip |
+| SC-054 | `test_finger_smoothing.py` — `ScoopCurveSourcesTests`: the floor fillet tracks the throat and the roll tracks the flare |
+| SC-055 | `test_rounding.py` — `MeasuredRoundingTests`: the inner rim loses its corner on a lidless box and not on a lidded one |
+| SC-056 | `test_closures.py` — `HingeInsideTests`: body and lid inside the declared envelope, sharing no volume |
+| SC-057 | `test_closures.py` — the cap indent is exactly the lid's offset deep |
+| SC-058 | `test_finger_smoothing.py` — the walled-over cut is a closed window, and the scoop keeps its overshoot |
+| SC-059 | *not yet verified — T305a* (blocked on T305) |
+| SC-060 | `test_all_box_types.py` — `MagnetAndFingerHoleSidesTests`, at three footprint proportions |
+| SC-061 | `test_finger_smoothing.py` — `NoLidFingerHoleTests`: the skip, the opt-out, and the wall left below the cut |
+| SC-062 | `test_finger_smoothing.py` — `FingertipFitsTests`: a 14mm prism inside the wall scoop and the floor bore |
+| SC-063 | `test_finger_smoothing.py` — `OverlappingCutsAreReportedTests` |
+| SC-064 | `test_finger_smoothing.py` — a polygon path box gets no automatic holes |
 
 ## Complexity Tracking
 

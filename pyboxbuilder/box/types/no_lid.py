@@ -12,7 +12,7 @@ if TYPE_CHECKING:
 
 
 from pyboxbuilder.box.base import Interior
-from pyboxbuilder.enums import MagnetType, StackableMode
+from pyboxbuilder.enums import MagnetType, ScoopSide, StackableMode
 
 
 class NoLidBox:
@@ -82,7 +82,16 @@ class NoLidBox:
         return body
 
     def _add_magnet_slots(self, body: "Bosl2Solid", spec: dict) -> "Bosl2Solid":
-        """Carve magnet cavities into opposing side walls."""
+        """Carve magnet cavities into the opposing walls that carry no finger hole.
+
+        Which pair is not cosmetic (FR-039a). A pocket is cut at the middle of a
+        wall at mid-height, and FR-047's holes are cut at the middle of the two
+        longer walls: pinned to one fixed pair, the two land in the same wall
+        whenever the footprint is the other way round, and the magnet ends up
+        inside the finger cut — a tray with a hole where a magnet should be, and
+        nothing in the geometry to say so. Both pairs are opposing, so taking
+        the free one costs the attraction FR-039 is about exactly nothing.
+        """
         from pybosl2 import cuboid, cylinder
 
         magnet_type = spec.get("magnet_type")
@@ -93,23 +102,52 @@ class NoLidBox:
         depth = size[2] if size and len(size) > 2 else (
             3.0 if magnet_type is MagnetType.ROUND else 2.0
         )
+        on_front_back = self._magnet_sides_front_back(spec)
 
         def slot():
             """A fresh solid per side — one handle must not span two branches."""
             if magnet_type is MagnetType.ROUND:
                 diameter = size[0] if size else 6.0
-                # Lay the cylinder along Y so it sinks into a front/back wall.
-                return cylinder(height=depth, radius=diameter / 2 + 0.1, **precision_kwargs()).rotate([90, 0, 0])
+                # Lay the cylinder along the axis it sinks into the wall on.
+                spin = [90, 0, 0] if on_front_back else [0, 90, 0]
+                return cylinder(height=depth, radius=diameter / 2 + 0.1, **precision_kwargs()).rotate(spin)
             w = size[0] if size else 10.0
             l = size[1] if size and len(size) > 1 else 5.0
-            return cuboid([w + 0.2, depth, l + 0.2])
+            box = [w + 0.2, depth, l + 0.2] if on_front_back else [depth, w + 0.2, l + 0.2]
+            return cuboid(box)
 
         mid_h = spec["height"] / 2
         # Blind pockets in the middle of the two opposing walls, open outward.
-        slot_a = slot().translate([spec["width"] / 2, depth / 2, mid_h])
-        slot_b = slot().translate([spec["width"] / 2, spec["length"] - depth / 2, mid_h])
+        if on_front_back:
+            centres = (
+                [spec["width"] / 2, depth / 2, mid_h],
+                [spec["width"] / 2, spec["length"] - depth / 2, mid_h],
+            )
+        else:
+            centres = (
+                [depth / 2, spec["length"] / 2, mid_h],
+                [spec["width"] - depth / 2, spec["length"] / 2, mid_h],
+            )
 
-        return body - slot_a - slot_b
+        return body - slot().translate(centres[0]) - slot().translate(centres[1])
+
+    @staticmethod
+    def _magnet_sides_front_back(spec: dict) -> bool:
+        """True when the magnets belong in the FRONT/BACK pair (FR-039a).
+
+        The free pair is whichever one the finger holes did not take. Holes are
+        read off the spec rather than recomputed, so an explicit `finger_hole()`
+        moves the magnets exactly as the automatic pair does; with holes on both
+        pairs (or none) the front/back default stands and FR-006c reports any
+        collision rather than this guessing.
+        """
+        holes = spec.get("finger_holes") or ()
+        sides = {getattr(hole, "side", None) for hole in holes}
+        front_back = {ScoopSide.FRONT, ScoopSide.BACK} & sides
+        left_right = {ScoopSide.LEFT, ScoopSide.RIGHT} & sides
+        if front_back and not left_right:
+            return False
+        return True
 
     def build_body(self, spec: dict) -> "Bosl2Solid":
         body = self._build_shell(spec)

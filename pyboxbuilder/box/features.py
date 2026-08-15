@@ -151,6 +151,15 @@ CAP_FINGER_MAX_LENGTH_SHARE = 1 / 6
 Two cutouts per side then leave two thirds of the band for the skirt to grip.
 """
 
+CAP_FINGER_MIN_BAND_MM = 10.0
+"""Uncut band that must survive between the two cutouts on a side (FR-002m1).
+
+The two runs are what a finger needs; this is what the *lid* needs. Let the
+cutouts meet in the middle and the side is one continuous slot, with the skirt
+gripping nothing along that whole face — which the height check (FR-002n) does
+not catch, because a small box can be tall.
+"""
+
 
 @dataclass(frozen=True)
 class CapFingerMetrics:
@@ -223,11 +232,6 @@ def cap_finger_metrics(spec: dict) -> CapFingerMetrics:
             f"open a shallow box that a cap lid cannot."
         )
 
-    height = spec.get("cap_finger_height")
-    if height is None:
-        height = curves
-    height = min(max(height, curves), available)
-
     def _run(dimension: float) -> float:
         # A sixth of the side, but never less than a fingertip: 10mm is what a
         # finger needs, a sixth is what the skirt would prefer.
@@ -236,9 +240,36 @@ def cap_finger_metrics(spec: dict) -> CapFingerMetrics:
         )
 
     override = spec.get("cap_finger_length")
+    length_x = override if override is not None else _run(spec["width"])
+    length_y = override if override is not None else _run(spec["length"])
+
+    # A footprint too small for the cuts is refused exactly as a too-short box
+    # is (FR-002m1). Two cutouts meet at each corner of every side, so a side
+    # spends twice its run plus the band between them; let them meet and the
+    # corner cuts merge into one slot down the whole face, and the skirt loses
+    # its bearing there. The height check alone passes a 30 x 30mm box and
+    # produces precisely that.
+    for axis, side, run in (("width", spec["width"], length_x),
+                            ("length", spec["length"], length_y)):
+        needed = 2 * run + CAP_FINGER_MIN_BAND_MM
+        if side < needed - 1e-9:
+            raise ValueError(
+                f"cap box {spec.get('label', '')!r} is {side:.1f}mm across its "
+                f"{axis} and cannot carry corner finger cutouts: two "
+                f"{run:.1f}mm cutouts and the {CAP_FINGER_MIN_BAND_MM:.1f}mm "
+                f"band between them need {needed:.1f}mm. Widen the box, set a "
+                f"shorter `cap_finger_length`, or use a slipover box, whose "
+                f"notches take two corners rather than four."
+            )
+
+    height = spec.get("cap_finger_height")
+    if height is None:
+        height = curves
+    height = min(max(height, curves), available)
+
     return CapFingerMetrics(
-        length_x=override if override is not None else _run(spec["width"]),
-        length_y=override if override is not None else _run(spec["length"]),
+        length_x=length_x,
+        length_y=length_y,
         height=height,
         radius=radius,
         base_z=m.band_z - height,

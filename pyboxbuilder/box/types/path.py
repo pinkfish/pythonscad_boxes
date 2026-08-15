@@ -46,13 +46,16 @@ class PathBox:
             add_no_lid_finger_holes(spec)
             return build_shell(spec)
 
+        # A polygon outline gets **no automatic holes** (FR-047c). The rule
+        # names four walls and a longer side, and `no_lid_finger_holes` reads
+        # `width`/`length` — for a polygon that is its bounding box, so the cut
+        # is placed on a wall that need not be there at all. An explicit
+        # `finger_hole(side)` still works: the caller can see the outline.
         outer = self._extrude(path, spec["height"])
         if not spec.get("hollow", True):
-            add_no_lid_finger_holes(spec)
             return apply_finger_holes(outer, spec)
         inner = self._extrude(_inset_path(path, wt), spec["height"] - ft)
         body = outer - inner.translate([0.0, 0.0, ft])
-        add_no_lid_finger_holes(spec)
         return apply_finger_holes(body, spec)
 
     @staticmethod

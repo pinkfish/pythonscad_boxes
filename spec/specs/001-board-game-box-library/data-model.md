@@ -75,9 +75,25 @@ Use `pybosl2.Color` directly — no custom Color class. Supports webcolor names 
 | `lid_thickness` | `float \| None` | None |
 | `lid` | `LidBuilder \| None` | None |
 | `finger_holes` | `tuple[FingerHoleBuilder, ...]` | () |
+| `auto_finger_holes` | `bool` | True (a no-lid box's default pair; FR-047b) |
 | `compartments` | `tuple[CompartmentBuilder, ...]` | () |
 
-**Methods**: `compartment(label, *, size, depth, ...) -> CompartmentBuilder`
+**Methods**: `compartment(label, *, size, depth, ...) -> CompartmentBuilder`, `finger_hole(side, *, radius, depth, offset, rounding_radius, rounding_edge) -> FingerHoleBuilder`
+
+## FingerHoleBuilder (`pyboxbuilder/builders/_base.py`)
+
+A finger hole on a box's **exterior** wall — the same edge scoop a compartment gets (FR-006a), aligned to the interior top (FR-043b1).
+
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `side` | `ScoopSide` | — | Which exterior wall the cut passes through |
+| `radius` | `float` | 14.0 | Throat radius — half the width of the straight run |
+| `depth` | `float \| None` | None → `radius` | Reach, measured to the deepest point of the material removed (FR-006b); capped at the interior depth |
+| `offset` | `float` | 0.0 | Shift along the wall from its midpoint |
+| `rounding_radius` | `float \| None` | None → 3mm | Mouth flare at the rim (`r1`) |
+| `rounding_edge` | `float \| None` | None → `wall_thickness / 2` | Face fillet where the cut emerges |
+
+Frozen; created through `BoxBuilder.finger_hole(...)`, which registers it on the box and returns it.
 
 ## Per-Type Builders (`pyboxbuilder/builders/`)
 
@@ -122,7 +138,7 @@ Pattern fills are `Callable[[width, length, thickness], Bosl2Solid]` functions t
 | `depth` | `float` | required |
 | `rounded_corners` | `float` | 0.0 |
 | `finger_scoop` | `bool` | False |
-| `scoop_side` | `ScoopSide` | FRONT |
+| `scoop_side` | `ScoopSide \| None` | None — derived: the shorter wall, or the lid's exit wall on a sliding box (FR-043b4/b6) |
 
 ## ExportResult (`pyboxbuilder/export/result.py`)
 

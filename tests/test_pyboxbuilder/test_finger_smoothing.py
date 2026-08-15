@@ -363,8 +363,12 @@ cuboid([1, 1, 1]).show()
         # No lid: the interior runs to the rim, so the cut reaches it.
         self.assertAlmostEqual(lidless_top, 40.0, delta=0.05)
         # 2mm lid: the interior tops out at 38, and the cut stops there rather
-        # than carving through the band the lid seats in.
-        self.assertAlmostEqual(lidded_top, 38.0, delta=0.05)
+        # than carving through the band the lid seats in. The window's fillet
+        # reaches that plane exactly *on* the wall's faces, which the body's own
+        # surface excludes, so the top the difference can show sits a fraction
+        # of a millimetre under it — the same effect as at the cut's bottom.
+        self.assertAlmostEqual(lidded_top, 38.0, delta=0.15)
+        self.assertLessEqual(lidded_top, 38.0 + 1e-6, "the cut reached the lid band")
 
     def test_depth_is_capped_at_the_interior_so_the_base_survives(self) -> None:
         """A hole asked to reach 100mm into a 40mm box stops inside the floor.
@@ -451,6 +455,37 @@ class NoLidFingerHoleTests(unittest.TestCase):
         holes = no_lid_finger_holes(self.spec(width=80, length=120))
         self.assertEqual([h.side for h in holes], [ScoopSide.LEFT, ScoopSide.RIGHT])
 
+    def test_the_cut_leaves_a_wall_and_a_millimetre_under_it(self) -> None:
+        """SC-061/FR-047: the strip below the cut is what the tray is lifted by.
+
+        The reach reads as `min(radius, height - ft - wt - 1)`, and it is the
+        second term that matters here — checked on a box short enough for it to
+        bind, since on a tall one the radius wins and the rule is invisible.
+        """
+        from pyboxbuilder.box.shell import no_lid_finger_holes
+
+        for height, floor, wall in ((40, 2.0, 2.0), (14, 1.6, 2.0), (12, 2.0, 3.0)):
+            with self.subTest(height=height):
+                spec = self.spec(height=height, floor_thickness=floor,
+                                 wall_thickness=wall)
+                holes = no_lid_finger_holes(spec)
+                self.assertTrue(holes, "the sizing rule dropped the holes entirely")
+                for hole in holes:
+                    left = (height - floor) - hole.depth
+                    self.assertGreaterEqual(
+                        round(left, 6), wall + 1.0,
+                        f"only {left}mm of tray wall left below the cut",
+                    )
+
+    def test_a_shallow_tray_still_gets_a_token_grip(self) -> None:
+        """The 2mm floor on the reach: a tray too short for the rule above
+        keeps a usable dip rather than losing the cut to a negative depth."""
+        from pyboxbuilder.box.shell import MIN_FINGER_HOLE_REACH_MM, no_lid_finger_holes
+
+        holes = no_lid_finger_holes(self.spec(height=5, floor_thickness=1.6))
+        for hole in holes:
+            self.assertEqual(hole.depth, MIN_FINGER_HOLE_REACH_MM)
+
     def test_a_hole_too_wide_for_its_wall_is_skipped(self) -> None:
         from pyboxbuilder.box.shell import no_lid_finger_holes
 
@@ -467,6 +502,21 @@ class NoLidFingerHoleTests(unittest.TestCase):
         opted = self.spec(auto_finger_holes=False)
         add_no_lid_finger_holes(opted)
         self.assertIsNone(opted.get("finger_holes"))
+
+    def test_a_polygon_path_box_gets_none(self) -> None:
+        """FR-047c/SC-064: the rule names four walls and a longer side, and a
+        polygon has neither — `no_lid_finger_holes` would read its bounding box
+        and cut into a wall that need not exist."""
+        from pyboxbuilder.box.types.path import PathBox
+
+        hexagon = [(0, 20), (17, 10), (17, -10), (0, -20), (-17, -10), (-17, 10)]
+        spec = self.spec(path=tuple(hexagon))
+        PathBox().build_body(spec)
+        self.assertFalse(spec.get("finger_holes"))
+
+        plain = self.spec()
+        PathBox().build_body(plain)
+        self.assertEqual(len(plain["finger_holes"]), 2)
 
     def test_explicit_holes_beat_the_automatic_ones(self) -> None:
         from pyboxbuilder.box.shell import add_no_lid_finger_holes
@@ -675,6 +725,36 @@ cuboid([1, 1, 1]).show()
         self.assertAlmostEqual(removed.size[2], FingerHoleBuilder.radius,
                                delta=0.2,
                                msg="the cut is not the depth it was asked for")
+
+    def test_a_walled_over_hole_is_a_closed_window(self) -> None:
+        """FR-043b1a/SC-058: where wall stands above the cut it is a window.
+
+        A scoop trimmed off at the interior top leaves its ceiling meeting each
+        face of the wall at a square edge, with the face fillet stopping dead at
+        the trim — the one sharp edge in the library a finger is guaranteed to
+        touch. With no surface for the mouth roll to roll onto, the cut is
+        closed and filleted the whole way round instead.
+
+        Measured on the outline, which is where the difference lives: the scoop
+        is open at the top (its widest point is its last one), the window is
+        not.
+        """
+        from pyboxbuilder.compartments.finger_hole import (
+            scoop_outline, window_outline,
+        )
+
+        window = window_outline(14.0, 12.0, 4.0)
+        tops = [y for _, y in window]
+        self.assertAlmostEqual(max(tops), 12.0, places=6)
+        # Closed: the topmost points are inset from the widest ones, so the
+        # ring turns back on itself instead of running off the top.
+        widest = max(abs(x) for x, _ in window)
+        top_run = max(abs(x) for x, y in window if abs(y - 12.0) < 1e-9)
+        self.assertLess(top_run, widest - 1.0, "the window is open at the top")
+
+        scoop = scoop_outline(14.0, 12.0, 3.0, 4.0, 4.8)
+        scoop_top = max(y for _, y in scoop)
+        self.assertGreater(scoop_top, 12.0, "the scoop lost its rim overshoot")
 
     def test_no_type_is_enlarged_by_its_hole(self) -> None:
         for name in ("no_lid", "sliding", "cap", "slipover"):
@@ -1090,3 +1170,196 @@ class ScoopFlareAlignmentTests(unittest.TestCase):
 
         hole = FingerHoleBuilder(side=ScoopSide.FRONT)
         self.assertAlmostEqual(_hole_flare(6.0, hole, 2.0), 1.0, places=6)
+
+
+class RollRiseIsReachableTests(unittest.TestCase):
+    """FR-043a0/T313: all four numbers of the outline are settable.
+
+    The rise is the one that says how *gently* the top surface turns into the
+    wall, and it was a module constant — so the quantity FR-043c3 exists to
+    separate from the mouth's width could not actually be varied by a caller.
+    """
+
+    def test_a_given_rise_reaches_the_outline(self) -> None:
+        from pyboxbuilder.compartments.finger_hole import _fit_radii
+
+        flare, rise, _ = _fit_radii(14.0, 30.0, 3.0, None, roll_rise=9.0)
+        self.assertAlmostEqual(rise, 9.0, places=6)
+        self.assertAlmostEqual(flare, 3.0, places=6, msg="the mouth widened with it")
+
+    def test_none_still_derives_it_from_the_flare(self) -> None:
+        from pyboxbuilder.compartments.finger_hole import (
+            TOP_ROLL_RISE_RATIO, _fit_radii,
+        )
+
+        _, rise, _ = _fit_radii(14.0, 30.0, 3.0, None)
+        self.assertAlmostEqual(rise, 3.0 * TOP_ROLL_RISE_RATIO, places=6)
+
+    def test_a_hole_carries_it_through_to_the_cut(self) -> None:
+        """The builder field reaches the geometry: a gentler roll on the same
+        mouth makes the cut taller, not wider."""
+        from pyboxbuilder.compartments.finger_hole import build_wall_scoop
+        from pyboxbuilder.enums import ScoopSide
+
+        def width(rise: float) -> float:
+            scoop = build_wall_scoop(
+                76.0, 56.0, 20.0, ScoopSide.FRONT, radius=14.0, wall_thickness=2.0,
+                rounding_radius=3.0, roll_rise=rise,
+            )
+            _, size = scoop.bounds()
+            return size[0]
+
+        self.assertAlmostEqual(width(4.8), width(9.0), delta=0.01)
+
+
+class OverlappingCutsAreReportedTests(unittest.TestCase):
+    """FR-006c/SC-063: an overlap is invisible in the geometry, so it is said.
+
+    Two cuts that overlap merge into one opening of a shape nobody specified,
+    and the merged solid looks every bit as deliberate as an intended one.
+    """
+
+    def spec(self, holes, **overrides) -> dict:
+        base = dict(
+            label="T", width=100, length=80, height=40,
+            wall_thickness=2.0, floor_thickness=2.0, finger_holes=holes,
+        )
+        base.update(overrides)
+        return base
+
+    def hole(self, side, **kw):
+        from pyboxbuilder.builders._base import FingerHoleBuilder
+
+        return FingerHoleBuilder(side=side, **kw)
+
+    def test_two_holes_on_one_wall_are_reported(self) -> None:
+        from pyboxbuilder.box.shell import finger_cut_conflicts
+
+        holes = (self.hole(ScoopSide.FRONT, offset=-8.0),
+                 self.hole(ScoopSide.FRONT, offset=8.0))
+        messages = finger_cut_conflicts(self.spec(holes))
+        self.assertEqual(len(messages), 1)
+        self.assertIn("front", messages[0])
+        self.assertIn("overlap", messages[0])
+
+    def test_holes_far_enough_apart_are_not(self) -> None:
+        from pyboxbuilder.box.shell import finger_cut_conflicts
+
+        holes = (self.hole(ScoopSide.FRONT, radius=6.0, rounding_radius=2.0, offset=-20.0),
+                 self.hole(ScoopSide.FRONT, radius=6.0, rounding_radius=2.0, offset=20.0))
+        self.assertEqual(finger_cut_conflicts(self.spec(holes)), [])
+
+    def test_holes_on_different_walls_are_not(self) -> None:
+        from pyboxbuilder.box.shell import finger_cut_conflicts
+
+        holes = (self.hole(ScoopSide.FRONT), self.hole(ScoopSide.BACK))
+        self.assertEqual(finger_cut_conflicts(self.spec(holes)), [])
+
+    def test_a_hole_over_a_magnet_pocket_is_reported(self) -> None:
+        from pyboxbuilder.box.shell import finger_cut_conflicts
+        from pyboxbuilder.enums import MagnetType
+
+        # Holes on both pairs leave the magnets nowhere to go, which is the
+        # case FR-039a hands to this check rather than guessing at.
+        holes = (self.hole(ScoopSide.FRONT), self.hole(ScoopSide.BACK),
+                 self.hole(ScoopSide.LEFT), self.hole(ScoopSide.RIGHT))
+        # A 20mm box: the cut hangs from the rim by a fingertip's radius and so
+        # reaches mid-height, where the pocket is. On a tall box the two miss
+        # each other and nothing is reported — checked below.
+        messages = finger_cut_conflicts(
+            self.spec(holes, height=20, magnet_type=MagnetType.ROUND,
+                      magnet_size=(6.0, 6.0, 3.0))
+        )
+        self.assertTrue(any("magnet" in m for m in messages), messages)
+
+    def test_a_pocket_the_cut_cannot_reach_is_not(self) -> None:
+        from pyboxbuilder.box.shell import finger_cut_conflicts
+        from pyboxbuilder.enums import MagnetType
+
+        holes = (self.hole(ScoopSide.FRONT), self.hole(ScoopSide.BACK),
+                 self.hole(ScoopSide.LEFT), self.hole(ScoopSide.RIGHT))
+        messages = finger_cut_conflicts(
+            self.spec(holes, height=60, magnet_type=MagnetType.ROUND,
+                      magnet_size=(6.0, 6.0, 3.0))
+        )
+        self.assertFalse([m for m in messages if "magnet" in m], messages)
+
+    def test_the_warning_reaches_the_caller(self) -> None:
+        import warnings
+
+        from pyboxbuilder.box.shell import warn_about_finger_cuts
+
+        holes = (self.hole(ScoopSide.FRONT, offset=-8.0),
+                 self.hole(ScoopSide.FRONT, offset=8.0))
+        with warnings.catch_warnings(record=True) as caught:
+            warnings.simplefilter("always")
+            warn_about_finger_cuts(self.spec(holes))
+        self.assertEqual(len(caught), 1)
+        self.assertIn("T:", str(caught[0].message))
+
+
+@unittest.skipUnless(render_available(), "PythonSCAD binary not available")
+class FingertipFitsTests(unittest.TestCase):
+    """SC-062: the cut admits the finger it is sized for.
+
+    Every other criterion here checks a formula or a curve. This one checks the
+    thing the whole family exists for, and it holds whichever formula produced
+    the cut: a fingertip-sized prism, stood on the flat bottom of a default cut,
+    is entirely inside the material removed.
+    """
+
+    @classmethod
+    def setUpClass(cls) -> None:
+        body = '''
+import os, re, tempfile, zipfile
+from openscad import export
+from pyboxbuilder.compartments.finger_hole import build_wall_scoop, build_floor_scoop
+from pyboxbuilder.enums import ScoopSide
+from pybosl2 import cuboid
+
+def volume(solid):
+    with tempfile.NamedTemporaryFile(suffix=".3mf", delete=False) as handle:
+        path = handle.name
+    try:
+        export(solid.shape, path)
+        model = zipfile.ZipFile(path).read("3D/3dmodel.model").decode()
+    finally:
+        os.unlink(path)
+    verts = [(float(x), float(y), float(z)) for x, y, z in re.findall(
+        r'<vertex x="([-0-9.e+]+)" y="([-0-9.e+]+)" z="([-0-9.e+]+)"', model)]
+    total = 0.0
+    for a, b, c in re.findall(r'<triangle v1="(\\d+)" v2="(\\d+)" v3="(\\d+)"', model):
+        p, q, r = verts[int(a)], verts[int(b)], verts[int(c)]
+        total += (p[0]*(q[1]*r[2]-r[1]*q[2]) - p[1]*(q[0]*r[2]-r[0]*q[2])
+                  + p[2]*(q[0]*r[1]-r[0]*q[1])) / 6.0
+    return abs(total)
+
+# A 14mm-wide fingertip, 8mm tall, standing on the cut's flat bottom in the
+# middle of the wall. Wall scoop on a 76 x 56 compartment, 20mm deep.
+scoop = build_wall_scoop(76, 56, 20, ScoopSide.FRONT, radius=14, wall_thickness=2)
+finger = cuboid([14.0, 1.6, 8.0]).translate([38.0, -1.0, 4.0])
+report("wall_finger", "%.4f" % volume(scoop & finger))
+report("wall_finger_full", "%.4f" % volume(finger))
+
+bore = build_floor_scoop(76, 56, ScoopSide.FRONT, radius=14, comp_depth=6,
+                          wall_thickness=2)
+tip = cuboid([14.0, 1.6, 3.0]).translate([38.0, -1.0, 3.0])
+report("floor_finger", "%.4f" % volume(bore & tip))
+report("floor_finger_full", "%.4f" % volume(tip))
+cuboid([1, 1, 1]).show()
+'''
+        cls.result = measure_python(body)
+        if not cls.result.ok:
+            raise AssertionError(f"measurement run failed: {cls.result.error}")
+
+    def test_a_fingertip_fits_the_wall_scoop(self) -> None:
+        got = float(self.result.reports["wall_finger"])
+        want = float(self.result.reports["wall_finger_full"])
+        self.assertAlmostEqual(got, want, delta=want * 0.02,
+                               msg="the scoop does not admit the finger it is sized for")
+
+    def test_a_fingertip_fits_the_floor_bore(self) -> None:
+        got = float(self.result.reports["floor_finger"])
+        want = float(self.result.reports["floor_finger_full"])
+        self.assertAlmostEqual(got, want, delta=want * 0.05,
+                               msg="the bore does not admit the finger it is sized for")
