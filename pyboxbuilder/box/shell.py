@@ -85,6 +85,7 @@ def build_shell(spec: dict) -> "Bosl2Solid":
 
     if spec.get("hollow", True):
         outer = outer - interior_block(spec)
+        outer = round_inner_rim(outer, spec)
     return apply_finger_holes(outer, spec)
 
 
@@ -110,23 +111,22 @@ def _top_anchor():
     return Anchor.TOP
 
 
-def _hole_drop(wall_thickness: float, hole) -> float:
-    """How far an exterior finger hole's cut reaches below its outline.
+def _hole_flare(wall_thickness: float, hole, reach: float) -> float:
+    """The face fillet an exterior finger hole's cut is built with.
 
-    The face fillet flares the sweep's end, and the flare is isotropic in the
-    profile plane — it grows down past the flat bottom as readily as sideways —
-    plus the small dip that keeps the cut's bottom face off any plane below it.
-    A caller placing the scoop against something has to add this back, or the
-    hole ends up that much deeper than the reach it was given (T306).
+    The fillet is made by flaring the sweep's ends, and the flare is isotropic
+    in the profile plane — it grows down past the outline's flat bottom exactly
+    as readily as it grows sideways. So this is also how far the cut reaches
+    *below* its outline, which is what the placement has to allow for (T306).
+
+    Capped at half the reach: on a cut shallower than twice the wall's fillet
+    the flare would swallow the outline whole, leaving no straight run between
+    the roll at the top and the flare at the bottom.
     """
-    from pyboxbuilder.compartments.finger_hole import (
-        DEFAULT_FLOOR_DIP_MM, scoop_face_flare,
-    )
+    from pyboxbuilder.compartments.finger_hole import scoop_face_flare
 
-    return (
-        scoop_face_flare(wall_thickness, getattr(hole, "rounding_edge", None))
-        + DEFAULT_FLOOR_DIP_MM
-    )
+    flare = scoop_face_flare(wall_thickness, getattr(hole, "rounding_edge", None))
+    return min(flare, reach / 2.0)
 
 
 def apply_finger_holes(body: "Bosl2Solid", spec: dict) -> "Bosl2Solid":
@@ -153,7 +153,9 @@ def apply_finger_holes(body: "Bosl2Solid", spec: dict) -> "Bosl2Solid":
     if not holes:
         return body
 
-    from pyboxbuilder.compartments.finger_hole import build_wall_scoop
+    from pyboxbuilder.compartments.finger_hole import (
+        DEFAULT_FLOOR_DIP_MM, build_wall_scoop,
+    )
 
     wt = spec.get("wall_thickness", 2.0)
     ft = spec.get("floor_thickness", 1.6)
@@ -176,27 +178,34 @@ def apply_finger_holes(body: "Bosl2Solid", spec: dict) -> "Bosl2Solid":
         # The cut's height follows the finger unless told otherwise, and never
         # reaches deeper than the interior.
         reach = min(getattr(hole, "depth", None) or radius, interior_height)
+        flare = _hole_flare(wt, hole, reach)
+        # The outline's roll finishes tangent to the plane `outline_height`
+        # above its flat bottom, and that plane is the top of the wall: the
+        # outline is hung from `interior_top` so the mouth flows into the rim
+        # (FR-043a) instead of being sliced through mid-curve. It is a flare
+        # shorter than the reach because the cut runs that much below its
+        # outline, so the deepest point of the cut is the reach asked for
+        # (T306) — the two ends are aligned by the *outline's* height, not by
+        # shifting the whole solid, which moves one end for the other.
+        outline_height = reach - flare
         scoop = build_wall_scoop(
             inner_width,
             inner_length,
-            reach,
+            outline_height,
             hole.side,
             radius=radius,
             wall_thickness=wt,
             # None lets r1 derive from the throat rather than pinning 3mm.
             rounding_radius=getattr(hole, "rounding_radius", None),
-            rounding_edge=getattr(hole, "rounding_edge", None),
+            # Pinned rather than left to default, because the alignment above
+            # is measured off this exact flare.
+            rounding_edge=flare,
             # Anything above the interior — a lid band, a sliding track — is
             # material the hole must not cut into, so the outline's rim
-            # overshoot is trimmed off there.
-            # Trimmed a flare short, because the whole scoop is placed a flare
-            # higher (below): without that the trim lands a flare *above*
-            # `interior_top` and the cut reaches into the lid band it exists to
-            # stay clear of.
+            # overshoot is trimmed off at the outline's own top, which is
+            # where the roll has finished and the overshoot begins.
             top_limit=(
-                reach - _hole_drop(wt, hole)
-                if interior_top < spec["height"] - 1e-9
-                else None
+                outline_height if interior_top < spec["height"] - 1e-9 else None
             ),
             # There is wall below an exterior hole, not floor, so the face
             # flare can finish instead of being sliced off at the outline's
@@ -204,19 +213,15 @@ def apply_finger_holes(body: "Bosl2Solid", spec: dict) -> "Bosl2Solid":
             # showing at the base of the cut (FR-043g). Compartment scoops keep
             # the default clip: they bottom on the floor, and there the flare
             # has nowhere to go but through it.
-            floor_clearance=_hole_drop(wt, hole),
+            floor_clearance=flare + DEFAULT_FLOOR_DIP_MM,
         )
         offset = getattr(hole, "offset", 0.0) or 0.0
         along_x = hole.side in (ScoopSide.FRONT, ScoopSide.BACK)
-        # The scoop's solid reaches below its outline by the face flare, so
-        # placing it at `interior_top - reach` puts the *outline's* bottom
-        # there and the cut's real bottom a flare lower — the hole ends up
-        # deeper than the reach it was given (T306). Add the flare back.
         body = body - scoop.translate(
             [
                 wt + (offset if along_x else 0.0),
                 wt + (0.0 if along_x else offset),
-                interior_top - reach + _hole_drop(wt, hole),
+                interior_top - outline_height,
             ]
         )
 
@@ -330,3 +335,81 @@ def interior_block(spec: dict) -> "Bosl2Solid":
         size,
         (wt, wt, ft),
     )
+
+
+def round_inner_rim(body: "Bosl2Solid", spec: dict) -> "Bosl2Solid":
+    """Round the **inner** top edge of a lidless box's rim (FR-043f).
+
+    An open tray's rim is exposed on both faces — it is the edge a hand runs
+    along when lifting the tray — so both of its edges carry the wall's fillet.
+    The outer one comes free with `build_shell`'s envelope rounding; the inner
+    one cannot come from there, and not for want of trying: `round_edges`
+    subtracts the sliver between an envelope and its rounded twin, and for the
+    *interior* envelope that sliver lands in the hollow rather than in the wall
+    (T303, measured: the wall at the rim went 7.2mm³ → 7.17mm³, i.e. nothing).
+
+    The inner rim is a convex edge **of the wall**, so what it takes is a
+    fillet ring subtracted at the interior's top perimeter: the interior prism,
+    flared outward by the radius over the last radius of its height, tangent to
+    the inner face where the flare starts and to the top face where it ends.
+    Everything below the flare is the interior itself, which is already void,
+    so the ring only ever removes the rim's inner corner.
+
+    Args:
+        body: The hollowed box body.
+        spec: Reads `rim_free` (a lidded box's rim is a sealing surface and
+            keeps its square inner edge), `hollow`, `width`, `length`,
+            `height`, `wall_thickness`, `floor_thickness` and `rounding`.
+
+    Returns:
+        The body with its inner rim rounded, or unchanged when the box is
+        lidded, solid, or too small to carry the fillet.
+    """
+    from pybosl2.path2d import Path2D
+    from pybosl2.shapes3d.base import CsgSolid
+
+    from pyboxbuilder.rounding import rounding_facets, roundover_profile
+
+    if not spec.get("rim_free") or not spec.get("hollow", True):
+        return body
+
+    wt = spec.get("wall_thickness", 2.0)
+    ft = spec.get("floor_thickness", 1.6)
+    inner_width = spec["width"] - 2 * wt
+    inner_length = spec["length"] - 2 * wt
+    interior_height = spec["height"] - ft
+    # Half the wall is all a rim can give up on this side and still be a rim:
+    # the outer edge is taking the same fillet from the other side (FR-043f).
+    radius = min(body_rounding(spec), wt / 2)
+    if radius <= 0 or min(inner_width, inner_length) <= 0:
+        return body
+    if interior_height <= radius:
+        return body
+
+    steps = max(8, rounding_facets()["fn"] // 4)
+    # The widened perimeter: the sweep's flared end is the path itself, and the
+    # roundover brings it back to the interior a radius along (that is the
+    # profile's convention — see `roundover_profile`).
+    rect = [
+        [wt - radius, wt - radius],
+        [wt + inner_width + radius, wt - radius],
+        [wt + inner_width + radius, wt + inner_length + radius],
+        [wt - radius, wt + inner_length + radius],
+    ]
+    # Swept mouth-down and flipped, because the flare has to be the sweep's
+    # *first* rim: `offset_sweep` carries the last offset a rim reached along
+    # its straight middle, so a flare asked for at the far end leaves the whole
+    # run at the widened size — a radius of wall gone from top to bottom.
+    swept = Path2D(rect, closed=True).offset_sweep(
+        height=2 * radius, bottom=roundover_profile(radius, steps), steps=steps
+    )
+    # Only the flare itself is wanted. What follows it is a prism of the plain
+    # interior — which is already void, so it removes nothing — carrying the
+    # sweep's far end, where a zero-height flange back out to the widened path
+    # would otherwise be left inside the wall.
+    keep = block(
+        [spec["width"] + 4 * radius, spec["length"] + 4 * radius, radius + 1.0],
+        at=(-2 * radius, -2 * radius, -1.0),
+    )
+    ring = (CsgSolid(swept.polyhedron()) & keep).mirror([0, 0, 1])
+    return body - ring.translate([0.0, 0.0, spec["height"]])

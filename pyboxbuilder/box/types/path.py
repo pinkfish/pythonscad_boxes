@@ -39,6 +39,9 @@ class PathBox:
             build_shell,
         )
 
+        # Lidless, whoever built the spec — see `NoLidBox._build_shell`.
+        spec.setdefault("rim_free", True)
+
         if not path:
             add_no_lid_finger_holes(spec)
             return build_shell(spec)

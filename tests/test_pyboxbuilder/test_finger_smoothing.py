@@ -652,6 +652,30 @@ cuboid([1, 1, 1]).show()
         self.assertLess(sliding_top, lidless_top,
                         "the lidded box's hole was aligned to the rim")
 
+    def test_the_cut_spans_exactly_the_depth_it_was_given(self) -> None:
+        """FR-043a/T306: the roll finishes tangent to the rim, and the cut
+        bottoms out its own depth below it.
+
+        Both ends are set by the *outline's* height. Sizing the outline to the
+        reach and then sliding the whole solid up to correct one end — which is
+        what it took to stop the cut running deep — moves the other end with
+        it, and the roll ends up finishing above the rim, so what the top face
+        meets is the roll sliced through mid-curve rather than tangentially.
+        """
+        from pyboxbuilder.builders._base import FingerHoleBuilder
+
+        removed = self.result.boxes["no_lid_removed"]
+        top = removed.position[2] + removed.size[2]
+        self.assertAlmostEqual(top, 40.0, delta=0.05,
+                               msg="the roll does not finish at the rim")
+        # The flare reaches its full depth *on* the wall's face, and the cut
+        # crosses the face with 0.015 of fudge to spare, so the deepest point
+        # the body itself can show sits a fraction of a millimetre inside it.
+        # The error this guards against is a whole flare (1mm), not this.
+        self.assertAlmostEqual(removed.size[2], FingerHoleBuilder.radius,
+                               delta=0.2,
+                               msg="the cut is not the depth it was asked for")
+
     def test_no_type_is_enlarged_by_its_hole(self) -> None:
         for name in ("no_lid", "sliding", "cap", "slipover"):
             with self.subTest(box_type=name):
@@ -1047,3 +1071,22 @@ class ScoopFlareAlignmentTests(unittest.TestCase):
 
         self.assertAlmostEqual(scoop_face_flare(4.0, 0.5), 0.5, places=6)
         self.assertEqual(scoop_face_flare(2.0, 0.0), 0.0)
+
+    def test_an_exterior_hole_uses_the_walls_flare(self) -> None:
+        from pyboxbuilder.box.shell import _hole_flare
+        from pyboxbuilder.builders._base import FingerHoleBuilder
+        from pyboxbuilder.enums import ScoopSide
+
+        hole = FingerHoleBuilder(side=ScoopSide.FRONT)
+        self.assertAlmostEqual(_hole_flare(3.0, hole, 14.0), 1.5, places=6)
+
+    def test_a_shallow_hole_caps_the_flare_at_half_its_reach(self) -> None:
+        """The flare grows past *both* ends of the outline, so on a cut
+        shallower than twice the wall's fillet it would leave no outline at
+        all — and `build_wall_scoop` rejects a non-positive height."""
+        from pyboxbuilder.box.shell import _hole_flare
+        from pyboxbuilder.builders._base import FingerHoleBuilder
+        from pyboxbuilder.enums import ScoopSide
+
+        hole = FingerHoleBuilder(side=ScoopSide.FRONT)
+        self.assertAlmostEqual(_hole_flare(6.0, hole, 2.0), 1.0, places=6)

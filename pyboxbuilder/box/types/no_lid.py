@@ -31,6 +31,11 @@ class NoLidBox:
     def _build_shell(self, spec: dict) -> "Bosl2Solid":
         from pyboxbuilder.box.shell import add_no_lid_finger_holes, build_shell
 
+        # A no-lid box has no lid band, whoever built the spec: `Project` sets
+        # this from the box type, but a spec assembled by hand would otherwise
+        # get its rim left square and every top-aligned feature — the finger
+        # holes below among them — hung a lid thickness too low (FR-043f).
+        spec.setdefault("rim_free", True)
         add_no_lid_finger_holes(spec)
         body = build_shell(spec)
         return body

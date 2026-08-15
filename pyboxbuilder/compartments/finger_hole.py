@@ -30,7 +30,7 @@ from typing import TYPE_CHECKING
 
 from pyboxbuilder.enums import ScoopSide
 from pyboxbuilder.precision import kwargs as precision_kwargs
-from pyboxbuilder.rounding import rounding_facets
+from pyboxbuilder.rounding import rounding_facets, roundover_profile
 
 if TYPE_CHECKING:
     from pybosl2.shapes2d import Bosl2Shape2D
@@ -701,39 +701,6 @@ def build_wall_scoop(
     )
 
 
-def _roundover_profile(radius: float, steps: int):
-    """A rim profile that **rounds the face over** into the cut.
-
-    ``os_circle`` is the obvious choice and is the wrong shape: its arc is
-    tangent to the cut's wall and meets the end face at 90°, which on a
-    subtractive solid hollows a cove *inside* the wall and leaves the opening
-    at nominal size — a cutout, not a roundover.
-
-    The roundover is the mirrored arc, tangent to the **face**::
-
-        z     = r · (1 - cos a)      # depth from the face
-        inset = r · sin a            # how far the cut has narrowed
-
-    so at the face the cut is a full ``r`` wider (and tangent to the face, so
-    the face flows into it), and by depth ``r`` it has settled onto the wall.
-
-    Args:
-        radius: The fillet radius.
-        steps: Points along the arc.
-
-    Returns:
-        An ``OSProfile`` for :meth:`Path2D.offset_sweep`, whose ``x`` is the
-        inward offset and ``y`` the depth from the face.
-    """
-    from pybosl2.skin import os_profile
-
-    points = []
-    for index in range(steps + 1):
-        angle = (math.pi / 2) * index / steps
-        points.append([radius * math.sin(angle), radius * (1.0 - math.cos(angle))])
-    return os_profile(points)
-
-
 def _sweep_through_wall(
     outline: list,
     comp_width: float,
@@ -812,8 +779,8 @@ def _sweep_through_wall(
         path = Path2D(ring, closed=True).offset(delta=fillet)
         swept = path.offset_sweep(
             height=depth,
-            bottom=_roundover_profile(fillet, steps) if round_outer else None,
-            top=_roundover_profile(fillet, steps) if round_inner else None,
+            bottom=roundover_profile(fillet, steps) if round_outer else None,
+            top=roundover_profile(fillet, steps) if round_inner else None,
             steps=steps,
         )
     else:

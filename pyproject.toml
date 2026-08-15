@@ -25,6 +25,7 @@ scripts = [
     "lark",
     "inkex",
     "numpy",
+    "shapely",
     "svgelements",
     "simplepath",
 ]

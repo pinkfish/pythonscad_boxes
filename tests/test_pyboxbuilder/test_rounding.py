@@ -6,6 +6,7 @@ fillets removed corner material and nothing else" — is about volume and face
 positions, which an offline bounding box on a lazy CSG tree cannot see.
 """
 
+import math
 import sys
 import unittest
 from pathlib import Path
@@ -202,6 +203,14 @@ report("square_volume", "%.4f" % volume(square))
 report("rounded_volume", "%.4f" % volume(rounded))
 report("lidless_volume", "%.4f" % volume(lidless))
 
+# FR-043f: both edges of a lidless rim are rounded. The probe straddles the
+# **inner face** at the top of the left wall (x = 2), 6mm of it, well away from
+# any corner: a probe sunk into the interior measures empty space on a lidded
+# box and a lidless one alike and so passes whatever the rim looks like.
+rim_probe = cuboid([2.0, 6.0, 1.0]).translate([2.0, 40.0, 39.5])
+report("lidded_inner_rim", "%.4f" % volume(rounded & rim_probe))
+report("lidless_inner_rim", "%.4f" % volume(lidless & rim_probe))
+
 # Rounding must not put material into a lid: every lidded type stays clear.
 # cap/slipover are the partial lids whose grip carries the mating rounding.
 for name in ("sliding", "sliding_catch", "card_library", "cap", "inset",
@@ -244,6 +253,21 @@ cuboid([1, 1, 1]).show()
         rounded = float(self.result.reports["rounded_volume"])
         lidless = float(self.result.reports["lidless_volume"])
         self.assertLess(lidless, rounded, "the free rim was left square")
+
+    def test_a_lidless_rim_is_rounded_on_its_inner_edge_too(self) -> None:
+        """FR-043f/SC-055: an open tray's rim is exposed on both faces.
+
+        The probe is half wall, half interior, so a square rim fills exactly
+        its wall half; the fillet takes the corner out of that half. A lidded
+        box's rim is a sealing surface and keeps its square inner edge.
+        """
+        lidded = float(self.result.reports["lidded_inner_rim"])
+        lidless = float(self.result.reports["lidless_inner_rim"])
+        # Half the 2 x 6 x 1 probe is wall, and a square inner rim fills it.
+        self.assertAlmostEqual(lidded, 6.0, delta=0.05)
+        # A quarter-round of the wall's radius, over the probe's 6mm.
+        expected = 6.0 - 6.0 * (1.0 - math.pi / 4) * default_rounding(2.0) ** 2
+        self.assertAlmostEqual(lidless, expected, delta=0.1)
 
     def test_no_rounded_body_intrudes_into_its_lid(self) -> None:
         """SC-028/FR-044a: the fillet that jams a sliding lid must not exist.

@@ -18,6 +18,7 @@ clear of the lid features cut into the same walls.
 
 from __future__ import annotations
 
+import math
 from typing import Sequence, TYPE_CHECKING
 
 from pyboxbuilder.precision import kwargs as precision_kwargs
@@ -285,6 +286,48 @@ def rounding_facets() -> dict:
     values = dict(settings.kwargs())
     values["fn"] = max(settings.fn or 0, MIN_ROUNDING_FACETS)
     return values
+
+
+def roundover_profile(radius: float, steps: int):
+    """A sweep-end profile that **rounds the end face over** into the sweep.
+
+    ``os_circle`` is the obvious choice and is the wrong shape: its arc is
+    tangent to the sweep's wall and meets the end face at 90°, which on a
+    subtractive solid hollows a cove *inside* the material and leaves the
+    opening at nominal size — a cutout, not a roundover (FR-044e).
+
+    The roundover is the mirrored arc, tangent to the **face**::
+
+        z     = r · (1 - cos a)      # depth from the face
+        inset = r · sin a            # how far the section has narrowed
+
+    so at the face the section is a full ``r`` wider (and tangent to the face,
+    so the face flows into it), and by depth ``r`` it has settled onto the
+    straight run.
+
+    Note which end this widens. ``offset_sweep`` leaves its straight middle at
+    the *last* offset the rim before it reached, so a profile on one end only
+    (a scoop fillets both faces; a rim fillet has one face) belongs on the
+    ``bottom``, where the column starts at the face and works inward — putting
+    it on ``top`` alone leaves the whole straight run at the path's size and
+    steps in at the arc. A ring wanted the other way up is built downward and
+    mirrored.
+
+    Args:
+        radius: The fillet radius.
+        steps: Points along the arc.
+
+    Returns:
+        An ``OSProfile`` for :meth:`Path2D.offset_sweep`, whose ``x`` is the
+        inward offset and ``y`` the depth from the face.
+    """
+    from pybosl2.skin import os_profile
+
+    points = []
+    for index in range(steps + 1):
+        angle = (math.pi / 2) * index / steps
+        points.append([radius * math.sin(angle), radius * (1.0 - math.cos(angle))])
+    return os_profile(points)
 
 
 def round_edges(

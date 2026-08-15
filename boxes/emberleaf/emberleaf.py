@@ -21,6 +21,7 @@ if "__file__" in globals():
     REPO_ROOT = Path(__file__).resolve().parents[2]
 else:
     REPO_ROOT = Path.cwd()
+print(REPO_ROOT)
 sys.path.insert(0, str(REPO_ROOT))
 # Venv site-packages (any Python version) so compiled extensions like shapely
 # and pybosl2 load inside the PythonSCAD UI's embedded Python — relative to
