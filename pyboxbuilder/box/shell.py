@@ -154,7 +154,8 @@ def apply_finger_holes(body: "Bosl2Solid", spec: dict) -> "Bosl2Solid":
         return body
 
     from pyboxbuilder.compartments.finger_hole import (
-        DEFAULT_FLOOR_DIP_MM, build_wall_scoop,
+        DEFAULT_FLOOR_DIP_MM,
+        build_wall_scoop,
     )
 
     wt = spec.get("wall_thickness", 2.0)
@@ -273,7 +274,7 @@ def no_lid_finger_holes(spec: dict):
 
     # The mouth is `radius + rounding_radius` wide on each side of centre; the
     # two of them have to fit inside the wall the hole is cut through.
-    if 2.0 * (radius + rounding_radius) > span:
+    if 2.0 * (radius + rounding_radius) > span * 3 / 4:
         return ()
 
     return tuple(
