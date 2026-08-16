@@ -1994,3 +1994,79 @@ cuboid([1, 1, 1]).show()
         """No flare at the inside: what would be its roundover is swept out
         into the well, which is void, so the wall keeps a square edge."""
         self.assertAlmostEqual(self.width("inner_face"), self.width("mid"), delta=0.1)
+
+
+@unittest.skipUnless(render_available(), "PythonSCAD binary not available")
+class TheCutDoesNotBiteTheBaseTests(unittest.TestCase):
+    """FR-043a10: below the floor, the cut is the bore and the wall — no more.
+
+    The sweep runs a fillet into the compartment so its inner rim finishes in
+    the void (see `NoRidgeInsideTheCutTests`), and that overshoot must stop at
+    the well's floor. Left to run, it takes a rounded bite out of the base
+    *inside* the well across the whole width of the cut — measured, 2mm in from
+    the wall over 33mm — which is a scallop in the surface the box stands on.
+    """
+
+    @classmethod
+    def setUpClass(cls) -> None:
+        body = '''
+import os, re, tempfile, zipfile
+from openscad import export
+from pyboxbuilder.compartments import finger_hole as fh
+from pyboxbuilder.enums import ScoopSide
+from pyboxbuilder.precision import kwargs as pk
+from pybosl2 import cuboid, cylinder
+
+def volume(solid):
+    with tempfile.NamedTemporaryFile(suffix=".3mf", delete=False) as handle:
+        path = handle.name
+    try:
+        export(solid.shape, path)
+        model = zipfile.ZipFile(path).read("3D/3dmodel.model").decode()
+    finally:
+        os.unlink(path)
+    verts = [(float(x), float(y), float(z)) for x, y, z in re.findall(
+        r'<vertex x="([-0-9.e+]+)" y="([-0-9.e+]+)" z="([-0-9.e+]+)"', model)]
+    total = 0.0
+    for a, b, c in re.findall(r'<triangle v1="(\\d+)" v2="(\\d+)" v3="(\\d+)"', model):
+        p, q, r = verts[int(a)], verts[int(b)], verts[int(c)]
+        total += (p[0]*(q[1]*r[2]-r[1]*q[2]) - p[1]*(q[0]*r[2]-r[0]*q[2])
+                  + p[2]*(q[0]*r[1]-r[0]*q[1])) / 6.0
+    return abs(total)
+
+def bitten(overshoot):
+    """Base material taken *inside the well*, beyond the bore's own circle."""
+    real = fh._sweep_through_wall
+    def patched(*a, **kw):
+        kw["inner_overshoot"] = overshoot
+        return real(*a, **kw)
+    fh._sweep_through_wall = patched
+    try:
+        cut = fh.build_through_hole(84.0, 92.0, ScoopSide.BACK, radius=15.0,
+                                    comp_depth=6.5, wall_thickness=3.0,
+                                    floor_thickness=2.0)
+    finally:
+        fh._sweep_through_wall = real
+    inside_well = cuboid([300, 92.0, 2.0]).translate([0, 46.0, -1.0])
+    bore = cylinder(height=40, radius=15.0, **pk()).translate([42.0, 92.0, 0.0])
+    return volume((cut & inside_well) - bore)
+
+report("as_built", "%.3f" % bitten(1.5))
+report("with_no_overshoot", "%.3f" % bitten(0.0))
+cuboid([1, 1, 1]).show()
+'''
+        cls.result = measure_python(body)
+        if not cls.result.ok:
+            raise AssertionError(f"measurement run failed: {cls.result.error}")
+
+    def test_the_overshoot_costs_the_base_nothing(self) -> None:
+        """The cut takes no more of the base than it would with no overshoot at
+        all — which is the whole of what the overshoot must not do."""
+        built = float(self.result.reports["as_built"])
+        without = float(self.result.reports["with_no_overshoot"])
+        self.assertAlmostEqual(built, without, delta=0.01)
+
+    def test_and_what_it_does_take_is_slight(self) -> None:
+        """What remains is the slot's own fillet where it crosses the wall's
+        inner face — a fraction of a millimetre deep across the cut."""
+        self.assertLess(float(self.result.reports["as_built"]), 10.0)

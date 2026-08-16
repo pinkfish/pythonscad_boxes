@@ -424,6 +424,8 @@ All cutouts and outer edges MUST be smooth — no sharp 90° corners that catch 
 
    **And one section through the wall.** `offset_sweep` holds its straight middle at the last offset its *first* rim reached, so asking for a rim on one end only leaves the middle at the path's full width with the other rim stepping in from it: measured, 33mm at both faces and through the middle, pinching to 30mm a fillet inside the outer face — a ridge running round the inside of the cut. So the sweep keeps **both** rims and runs a fillet further into the compartment (`inner_overshoot`), which puts the inner rim's whole transition in the well, where it is void. The wall then has one section, square at its inner face and rolled at its outer one.
 
+   **The overshoot stops at the floor.** It buys a constant section inside the wall, and below the well's floor it buys nothing and costs the base: measured, a rounded bite 2mm in from the wall across the cut's full 33mm, in the surface the box stands on. So the slot's below-floor part is clipped back to the wall's own thickness, and the bore — which is what opens the base — is unioned after. The test asserts the overshoot costs the base *nothing*: the same volume as a build without it.
+
    **The base stays flat**, which is a placement rule as much as a rounding one. The slot's ring has to start below the box by the face fillet *as well as* clear of the floor: a ring ending a millimetre under a 2mm floor puts its bottom roll back up inside the base and leaves a curled lip around the hole — visible from underneath, and the box sits on that surface.
 
    **The kind of cut is a per-compartment setting** (`FingerCut`), and the default is the through hole: a well that asks for a finger cut is usually a well something is stacked in. A well holding loose pieces asks for `SCOOP` and gets the side dip, which is also what the shallow-well branch (§1a13) still produces.
@@ -1210,6 +1212,7 @@ Where each requirement is designed, and where it is verified. Sections named bel
 | SC-073 | `test_finger_smoothing.py` — `ThroughFloorCutTests`: the base is open under the cut, and a scoop leaves it solid |
 | SC-074 | `test_finger_smoothing.py` — `WhichFaceRoundsTests`: the outward face is the one that rounds |
 | SC-075 | `test_finger_smoothing.py` — `NoRidgeInsideTheCutTests`: one section across the wall |
+| SC-076 | `test_finger_smoothing.py` — `TheCutDoesNotBiteTheBaseTests`: the overshoot costs the base nothing |
 | SC-068 | `test_finger_smoothing.py` — `NoLidFingerHoleTests`: the half-height cap |
 
 ## Complexity Tracking

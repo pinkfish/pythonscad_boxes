@@ -1389,5 +1389,23 @@ def build_through_hole(
         radius=radius,
     )
 
+    # The overshoot is there to move the inner rim's transition out of the
+    # wall, and it must not reach the **base**: below the well's floor it would
+    # take a rounded bite out of the floor *inside* the well, right across the
+    # cut's width — measured, 2mm in from the wall over the full 33mm. Below
+    # the floor the slot is the wall's own thickness and nothing more; the bore
+    # is what opens the base, and it is unioned after this.
+    reach = rounding_edge * 2 + 0.1
+    strip = {
+        ScoopSide.FRONT: (comp_width, reach, 0.0, reach / 2),
+        ScoopSide.BACK: (comp_width, reach, 0.0, comp_length - reach / 2),
+        ScoopSide.LEFT: (reach, comp_length, reach / 2, 0.0),
+        ScoopSide.RIGHT: (reach, comp_length, comp_width - reach / 2, 0.0),
+    }[side]
+    sunk = below + rounding_edge + 2.0
+    slot = slot - cuboid(
+        [max(strip[0], 1.0) * 2, max(strip[1], 1.0) * 2, sunk]
+    ).translate([strip[2] or comp_width / 2, strip[3] or comp_length / 2, -sunk / 2])
+
     x, y = _SIDE_CENTRES[side](comp_width, comp_length)
     return slot | bore.translate([x, y, 0.0])
