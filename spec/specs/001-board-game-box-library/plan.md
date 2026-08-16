@@ -364,18 +364,32 @@ All cutouts and outer edges MUST be smooth — no sharp 90° corners that catch 
 
 1a10. **A silhouette slot needs a pull-out, and it is part of the slot (FR-043c1, FR-043c2).** Cutting a slot to a piece's outline is what makes it hold the piece — and what leaves nowhere to get a fingertip under it. So every element slot carries a finger dish by default, half the piece's depth: deep enough to reach under, shallow enough that the piece still seats flat instead of tipping into the dish. It is rounded on every edge, curving in from the floor around it, because a dish with a square step around it is worse than no dish — the step is what a fingernail catches on. Depth, width and opting out are per slot.
 
-1a12. **A shallow cut is a dish, not a small-radius U (FR-043a7).** The two shapes come from the same outline machinery and are not the same shape:
+1a12. **A grip is two circles and the tangent between them (FR-043a7).** One construction, whatever the proportions::
 
-   | | base | sides | what sets the base |
-   |---|---|---|---|
-   | deep (depth below the roll ≥ half-width) | round, radius = the half-width | run up from it | the width |
-   | **shallow** | **one arc across the full width** | none — the arc *is* the side | the width **and** the depth |
+        ___________                     ___________   top face
+                   ''..           ..''                roll circle (r1)
+                       \         /                    the internal tangent
+                        \       /                     — the straight flank
+                         '..  ..'
+                            ''                        base circle, on the bottom
 
-   The failure this replaces is worth stating exactly, because it looks like a sizing bug and is a construction one: a corner radius is bounded by the depth (the circle has to fit under the roll) while the width is not, so on a shallow tray the corners come out tight, a flat run opens up between them, and the cut reads as a slot with two nicks. No amount of adjusting the radius fixes it — the base has to stop being *two* circles and become one.
+   The base circle sits centred on the bottom of the cut, radius defaulting to half the width. Each flank is the **internal** tangent between it and the roll circle: the run crosses between the two, because the arcs curve opposite ways. On a cut deep enough for that base the tangent comes out vertical and the shape is the familiar round base with straight sides; on a shallow cut the same circle presents a long flat sweep across the bottom and the run carries it up and out. Measured, half-width 20: at 30mm deep the run is 7mm and exactly vertical; at 14mm it is 9mm and tilted; at 6mm, 17mm and nearly flat. Nothing branches.
 
-   The dish's radius is the flattest arc that still meets the roll **tangentially**, which is a closed form: with `A = radius + flare` and `u = depth − rise`, `R = (A² + u² − flare²) / (2(u + flare))`. At that radius the two circles touch, so the join has no straight run and no crease — the base runs into the roll and the roll into the top face.
+   **A grip is never wider than it is deep (FR-043a8).** The flank's angle at the rim is set by the cut's aspect and by nothing else — 45mm over 9mm can only arrive at ~34°, where the same width at 19mm deep arrives at ~70° — so a wide shallow cut stops looking like the same feature however its circles are sized. Every other lever was tried first and none of them moves this: growing the base flattens the flank further, shrinking it flattens it further still (the line has to climb across the whole width either way), and a bigger roll only softens the last millimetre. So the width follows the depth: `throat ≤ depth`. A 40mm box is unaffected (its throat already sits at its depth); a 20mm box gets a 24mm grip instead of a 45mm one, arriving at ~45°.
 
-   Two details make it exact. The roll is **circular** in this branch (`rise = flare`): the mouth is an ellipse elsewhere (§1a9) and an ellipse cannot be made tangent to a circle by the circle-circle solver, so the one place tangency is the whole point is the one place the ellipse cannot be used. And the join is computed **analytically** — at exact tangency it is the point along the line of centres, `centre_b + (centre_t − centre_b) · R/(R + flare)` — because `circle_circle_tangents` has no internal tangent to return when the circles touch, and falls back to a vertical that is not on either arc.
+   It is a family resemblance, not a proportion: the roll stays 3mm (FR-047), so a small cut has a proportionally larger lip and arrives at 45–56° against a deep cut's 70–76°. Scaling the roll too would make them geometrically similar and leave a small grip with a lip too small to feel.
+
+   With FR-043a8 in force the width follows the depth, so a grip's base circle always fits and the growth rule below is a **backstop**: it covers a caller who asks for a wide shallow cut through `build_wall_scoop` directly, where the narrowing does not apply.
+
+   **The base circle grows as the cut shallows.** Half the width is the largest *round* base, and it is the right size only while the cut is deep enough to hold it: at 40mm wide and 10mm deep that circle's arc covers barely half the half-width and the rest is a straight ramp, which reads as a shallow trapezoid with a dimple in it. So the radius is `max(half-width, 0.9 × cap)` — nine tenths of the touching radius, the last tenth being what leaves a flank. Measured at 40mm wide: 30mm deep, the base covers the full half-width and the rule changes nothing; 15mm deep, likewise; 10mm deep, it covers 76% against 51%, with a 7.5mm flank. The rule only bites where the shape was wrong.
+
+   **Two ways to get this wrong, both of which we have shipped.** Taking the *external* tangent wraps both circles the same way and throws the flank wide of the cut — that is the one `_tangent_join`'s filter exists to reject. And sizing the base circle until the two circles **touch** collapses the run to a point: the outline stays continuous and stays tangent, and it reads as a single wobbling curve with no flank at all, which is what "looks super weird" is a description of. The touching radius is therefore a *cap*, not a size::
+
+        R_max = (A² + u² - flare²) / (2(u + flare))       A = radius + flare, u = depth - rise
+
+   The tangent itself is solved directly rather than through `circle_circle_tangents`, whose internal branch has nothing to return as the circles approach touching: with `d` the distance between centres and `γ` the angle between them, `β = acos((r1 + r2) / d)` gives the touch points at `γ ± β` on one circle and `γ ± β + π` on the other. The branch wanted is the one whose touches lie on the cut's own side and rise from base to roll.
+
+   A grip's roll is **circular** (rise = flare) so the construction is exact: two circles have an exact tangent and a circle and an ellipse do not, and this is the one place that matters. The elliptical roll of §1a9 stays with the compartment scoop, whose flank is a vertical run rather than a tangent.
 
 1a11. **The face fillet tapers out at the flat bottom (FR-043g, FR-043g1, FR-043g2).** The fillet is made by flaring the sweep's ends, and the flare is isotropic in the profile plane: it grows down past the flat bottom exactly as readily as it grows sideways. Three ways to absorb that, and only one keeps everything:
 
@@ -1106,7 +1120,8 @@ Where each requirement is designed, and where it is verified. Sections named bel
 | FR-046, FR-046a, FR-046b | Curve Precision: Export vs Preview | `precision.py`, `project.py` |
 | FR-047 | Finger Holes §3a | `box/shell.py` |
 | FR-043a5, FR-043a6 | Finger Holes §1a (the radius is kept; width and radius are independent) | `compartments/finger_hole.py`, `builders/_base.py` |
-| FR-043a7 | Finger Holes §1a12 (a shallow cut is a dish) | `compartments/finger_hole.py` |
+| FR-043a8 | Finger Holes §1a12 (a grip is never wider than it is deep) | `box/shell.py` |
+| FR-043a7 | Finger Holes §1a12 (two circles and the tangent between them) | `compartments/finger_hole.py` |
 | FR-047a, FR-047b | Finger Holes §3a (skip, opt-out) | `box/shell.py` |
 | FR-047c | Finger Holes §3a (a polygon path box gets none) | `box/types/path.py` |
 
@@ -1160,7 +1175,9 @@ Where each requirement is designed, and where it is verified. Sections named bel
 | SC-064 | `test_finger_smoothing.py` — a polygon path box gets no automatic holes |
 | SC-065 | `test_finger_smoothing.py` — `NoLidFingerHoleTests`: the 5mm strip, and the tray too short to keep it |
 | SC-066 | `test_finger_smoothing.py` — `CornerRadiusIsKeptTests`: the radius asked for is the radius built |
-| SC-067 | `test_finger_smoothing.py` — `ShallowCutIsADishTests`: one arc across the width, tangent to the roll |
+| SC-067 | `test_finger_smoothing.py` — `TangentFlankTests`: a straight run touching both circles, vertical when the cut is deep |
+| SC-069 | `test_finger_smoothing.py` — `TangentFlankTests`: the base covers more of the width as the cut shallows |
+| SC-070 | `test_finger_smoothing.py` — `GripStaysInProportionTests`: no grip is wider than it is deep, and the flank angles stay in family |
 | SC-068 | `test_finger_smoothing.py` — `NoLidFingerHoleTests`: the half-height cap |
 
 ## Complexity Tracking

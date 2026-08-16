@@ -327,12 +327,20 @@ def apply_finger_holes(body: "Bosl2Solid", spec: dict) -> "Bosl2Solid":
         # (FR-006b/T306). Shifting instead moves one end for the other — which
         # is how the mouth ended up finishing above the wall top.
         outline_height = reach - (2 * flare if walled_over else flare)
+        # A grip is never wider than it is deep (FR-043a8). The angle its flank
+        # arrives at the rim follows that aspect and nothing else — 45mm over
+        # 9mm can only come in at 34°, where the same width at 19mm deep comes
+        # in at 70° — so a shallow box gets a *smaller* grip rather than a
+        # stretched one, and the shape stays the one the rest of the library
+        # uses. Sizing the circles differently cannot fix it: a bigger base
+        # flattens the flank, a smaller one flattens it further.
+        throat = min(radius, outline_height)
         scoop = build_wall_scoop(
             inner_width,
             inner_length,
             outline_height,
             hole.side,
-            radius=radius,
+            radius=throat,
             wall_thickness=wt,
             # None lets r1 derive from the throat rather than pinning 3mm.
             rounding_radius=getattr(hole, "rounding_radius", None),
@@ -341,13 +349,12 @@ def apply_finger_holes(body: "Bosl2Solid", spec: dict) -> "Bosl2Solid":
             rounding_edge=flare,
             roll_rise=getattr(hole, "roll_rise", None),
             # A grip holds nothing, so its base is round rather than a flat pan
-            # with two corners: the radius defaults to half the width and is
-            # kept, with the tangents taking up the slack (FR-043a5).
-            bottom_rounding=(
-                getattr(hole, "bottom_radius", None)
-                if getattr(hole, "bottom_radius", None) is not None
-                else radius
-            ),
+            # with two corners (FR-043a5). `None` leaves the size to the fit,
+            # which is the one place that rule lives — passing the half-width
+            # from here reads as the same thing and is not: it counts as a
+            # request, so the base stops growing as the cut shallows (FR-043a7)
+            # and every shallow tray goes back to a ramp either side.
+            bottom_rounding=getattr(hole, "bottom_radius", None),
             keep_flat_bottom=False,
             closed_top=walled_over,
             # A scoop's outline overshoots its rim, which is free on a lidless
