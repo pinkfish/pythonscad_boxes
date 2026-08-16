@@ -46,8 +46,9 @@ class CardLibraryBox:
     def build_body(self, spec: dict) -> "Bosl2Solid":
         """A sleeve-fed card box: sliding channel plus a latch dimple."""
         from pyboxbuilder.box.features import sliding_catch, sliding_track
-        from pyboxbuilder.box.shell import build_shell
+        from pyboxbuilder.box.shell import build_shell, sliding_rim_rounding
 
+        spec.setdefault("rim_rounding", sliding_rim_rounding(spec))
         body = build_shell(spec) - sliding_track(spec).body
         return body - sliding_catch(spec, spec.get("latch_radius", 1.2), "x").body
 

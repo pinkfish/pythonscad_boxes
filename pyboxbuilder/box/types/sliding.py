@@ -33,8 +33,11 @@ class SlidingBox:
 
     def _build_shell(self, spec: dict) -> "Bosl2Solid":
         """Build the hollow box body shell."""
-        from pyboxbuilder.box.shell import build_shell
+        from pyboxbuilder.box.shell import build_shell, sliding_rim_rounding
 
+        # The lid lies down in the channel, so the rails' top edges are on the
+        # outside of the closed box and get rounded (FR-043f1).
+        spec.setdefault("rim_rounding", sliding_rim_rounding(spec))
         return build_shell(spec)
 
     def slides_along_length(self, spec: dict) -> bool:

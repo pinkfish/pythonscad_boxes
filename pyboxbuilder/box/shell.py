@@ -59,6 +59,33 @@ Half is where the wall still behaves like a wall — and it is a cap, not a
 target, so a deep box's cut is still sized by the finger.
 """
 
+SLIDING_RIM_ROUNDING_SHARE = 0.25
+"""How much of the wall a sliding box's top edge rounds over (FR-043f1).
+
+A lidded box's rim is usually left square because the lid seals against it and
+carries the rounding itself (FR-043d). A **sliding** box is the exception: its
+lid lies down in the channel, so what stands at the box's top is the rails'
+own outer edges — that edge is on the outside of the closed box and a hand
+runs along it.
+
+A quarter of the wall rather than the usual half, because the rail is what is
+left of the wall once the groove is cut into it: half a wall off its top edge
+is most of the bearing the lid rides on.
+"""
+
+
+def sliding_rim_rounding(spec: dict) -> float:
+    """The radius for a sliding box's exposed top edge (FR-043f1).
+
+    Args:
+        spec: Reads `wall_thickness`.
+
+    Returns:
+        A quarter of the wall, in mm.
+    """
+    return spec.get("wall_thickness", 2.0) * SLIDING_RIM_ROUNDING_SHARE
+
+
 MAX_FINGER_HOLE_SPAN_SHARE = 0.75
 """How much of a wall an automatic hole's mouth may take (FR-047a).
 
@@ -119,6 +146,14 @@ def build_shell(spec: dict) -> "Bosl2Solid":
         if spec.get("rim_free"):
             edges = edges + [_top_anchor()]
         outer = round_edges(outer, size, radius, edges)
+
+    # A type whose top face is exposed *with the lid on* rounds that edge too,
+    # at its own radius — a sliding box, whose lid lies down in the channel so
+    # the rails' outer edges are what a hand meets (FR-043f1). A lidless box
+    # has already rounded its rim above, at the body radius.
+    rim = 0.0 if spec.get("rim_free") else float(spec.get("rim_rounding") or 0.0)
+    if rim > 0:
+        outer = round_edges(outer, size, rim, [_top_anchor()])
 
     if spec.get("hollow", True):
         outer = outer - interior_block(spec)
