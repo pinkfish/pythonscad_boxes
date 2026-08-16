@@ -1895,3 +1895,102 @@ cuboid([1, 1, 1]).show()
         full = float(self.result.reports["probe_full"])
         self.assertAlmostEqual(got, full, delta=full * 0.05,
                                msg="a scoop opened the box's base")
+
+
+@unittest.skipUnless(render_available(), "PythonSCAD binary not available")
+class WhichFaceRoundsTests(unittest.TestCase):
+    """FR-043c: `round_outer` is the box's **outside**, and it is testable.
+
+    The sweep runs from the compartment side outward through the wall, so the
+    profile named `bottom` lands on the inner face and `top` on the outer one —
+    and they were wired the other way round. Nothing caught it because every
+    compartment scoop rounds both faces, and with both rounded the two are
+    indistinguishable. Asking for the outward face alone is what shows it.
+    """
+
+    @classmethod
+    def setUpClass(cls) -> None:
+        body = '''
+from pyboxbuilder.compartments.finger_hole import build_wall_scoop
+from pyboxbuilder.enums import ScoopSide
+from pybosl2 import cuboid
+
+# A FRONT cut on a 60 x 40 compartment: its wall is y in [-3, 0], so y = 0 is
+# the compartment side and y = -3 the box's outside. The throat is 2 x 10.
+for label, inner, outer in (("both", True, True), ("outer_only", False, True)):
+    cut = build_wall_scoop(60, 40, 20, ScoopSide.FRONT, radius=10, wall_thickness=3.0,
+                           round_inner=inner, round_outer=outer)
+    for face, y in (("inside", -0.2), ("outside", -2.8)):
+        measure(f"{label}_{face}", cut & cuboid([200, 0.3, 200]).translate([0, y, 0]))
+cuboid([1, 1, 1]).show()
+'''
+        cls.result = measure_python(body)
+        if not cls.result.ok:
+            raise AssertionError(f"measurement run failed: {cls.result.error}")
+
+    def width(self, name: str) -> float:
+        return self.result.boxes[name].size[0]
+
+    def test_rounding_the_outward_face_widens_the_outside(self) -> None:
+        """The cut must be wider at the box's outside than its nominal 20 + the
+        mouth's flare — that widening *is* the roundover (FR-044e)."""
+        self.assertGreater(self.width("outer_only_outside"), 32.0)
+
+    def test_and_leaves_the_far_face_alone(self) -> None:
+        """Not narrower than nominal: the unrounded end keeps the swept
+        section, and what `offset_sweep` leaves there is a flange of zero
+        height — which is why the through hole points it into the well."""
+        self.assertGreaterEqual(self.width("outer_only_inside"), 30.0)
+
+    def test_rounding_both_faces_widens_both(self) -> None:
+        self.assertAlmostEqual(self.width("both_inside"), self.width("both_outside"),
+                               delta=0.05)
+
+
+@unittest.skipUnless(render_available(), "PythonSCAD binary not available")
+class NoRidgeInsideTheCutTests(unittest.TestCase):
+    """FR-043a10: one section through the wall, square inside, rolled outside.
+
+    `offset_sweep` holds its straight middle at the last offset its *first* rim
+    reached, so a rim on one end only leaves the middle at the path's full width
+    and the other rim stepping in from it — a ridge running round the inside of
+    the cut, a fillet's depth from the outer face. Measured before the fix: 33mm
+    at both faces and through the middle, pinching to 30mm just inside the
+    outside. What a hand meets is the ridge, not the rounding.
+    """
+
+    @classmethod
+    def setUpClass(cls) -> None:
+        body = '''
+from pyboxbuilder.compartments.finger_hole import build_through_hole
+from pyboxbuilder.enums import ScoopSide
+from pybosl2 import cuboid
+
+# A 3mm wall spanning y 92..95, cut by a 15mm-radius hole.
+cut = build_through_hole(84.0, 92.0, ScoopSide.BACK, radius=15.0, comp_depth=6.5,
+                         wall_thickness=3.0, floor_thickness=2.0)
+for name, y in (("inner_face", 92.15), ("quarter", 92.9), ("mid", 93.5),
+                ("was_the_ridge", 93.6), ("outer_face", 94.9)):
+    measure(name, cut & cuboid([200, 0.2, 4]).translate([42, y, 2]))
+cuboid([1, 1, 1]).show()
+'''
+        cls.result = measure_python(body)
+        if not cls.result.ok:
+            raise AssertionError(f"measurement run failed: {cls.result.error}")
+
+    def width(self, name: str) -> float:
+        return self.result.boxes[name].size[0]
+
+    def test_the_section_is_constant_through_the_wall(self) -> None:
+        through = [self.width(n) for n in
+                   ("inner_face", "quarter", "mid", "was_the_ridge")]
+        self.assertLess(max(through) - min(through), 0.2,
+                        f"the cut steps inside the wall: {through}")
+
+    def test_only_the_outward_face_is_wider(self) -> None:
+        self.assertGreater(self.width("outer_face"), self.width("mid") + 1.0)
+
+    def test_the_inner_face_is_square_at_the_section(self) -> None:
+        """No flare at the inside: what would be its roundover is swept out
+        into the well, which is void, so the wall keeps a square edge."""
+        self.assertAlmostEqual(self.width("inner_face"), self.width("mid"), delta=0.1)

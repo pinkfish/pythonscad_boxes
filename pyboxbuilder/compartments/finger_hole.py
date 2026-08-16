@@ -982,6 +982,7 @@ def _sweep_through_wall(
     floor_thickness: float | None = None,
     floor_clearance: float | None = None,
     top_limit: float | None = None,
+    inner_overshoot: float = 0.0,
 ) -> "Bosl2Solid":
     """Sweep a 2-D scoop profile through a wall and place it on a side.
 
@@ -1008,6 +1009,14 @@ def _sweep_through_wall(
         breach_floor: Skip the floor clip entirely.
         floor_thickness: Box floor, sizing the permitted dip below it.
         floor_clearance: Explicit dip below the well floor.
+        inner_overshoot: How far past the wall's **inner** face to run the
+            sweep. `offset_sweep` holds its straight middle at the last offset
+            its *first* rim reached, so a rim on one end only leaves the middle
+            at the path's full width and the other rim stepping in from it — a
+            ridge inside the cut, a fillet's depth from the face. Running the
+            sweep a fillet further into the compartment puts that rim's whole
+            transition in the well, which is void anyway, and leaves the wall
+            with one constant section and a square inner edge.
         top_limit: Height, in the scoop's own frame, above which the cut is
             trimmed away. Needed when there is material above the cut — the
             lid band of a lidded box — where the outline's rim overshoot would
@@ -1021,7 +1030,7 @@ def _sweep_through_wall(
         rounding_edge = wall_thickness / 2
 
     fudge = 0.03
-    depth = wall_thickness + fudge
+    depth = wall_thickness + fudge + inner_overshoot
     rim = scoop_face_flare(wall_thickness, rounding_edge)
 
     # BOSL2's own offset_sweep, which lofts between offsets of the outline, so
@@ -1042,8 +1051,17 @@ def _sweep_through_wall(
         path = Path2D(ring, closed=True).offset(delta=fillet)
         swept = path.offset_sweep(
             height=depth,
-            bottom=roundover_profile(fillet, steps) if round_outer else None,
-            top=roundover_profile(fillet, steps) if round_inner else None,
+            # Which end is which: the sweep runs from the compartment side
+            # **outward** through the wall (the rotation below sends +z to -y,
+            # and the side placement puts z=0 on the compartment's own edge),
+            # so `bottom` is the inner face and `top` the box's outside. Naming
+            # them the other way round is the obvious mistake and a silent one
+            # — with both faces rounded, which every compartment scoop does,
+            # nothing distinguishes them. Measured: asking for the outward face
+            # alone used to leave it square at the nominal width and widen the
+            # compartment side instead.
+            bottom=roundover_profile(fillet, steps) if round_inner else None,
+            top=roundover_profile(fillet, steps) if round_outer else None,
             steps=steps,
         )
     else:
@@ -1057,7 +1075,9 @@ def _sweep_through_wall(
     # The profile is built in X-Z and extruded along +Z. Stand it up so the
     # extrusion runs along -Y (into the wall), then shift it so it spans the
     # wall from just outside the outer face to just inside the inner one.
-    standing = swept.rotate([90.0, 0.0, 0.0]).translate([0.0, fudge / 2, 0.0])
+    standing = swept.rotate([90.0, 0.0, 0.0]).translate(
+        [0.0, fudge / 2 + inner_overshoot, 0.0]
+    )
 
     if not breach_floor:
         # Clip the cut just *below* the well floor. The flare is isotropic in
@@ -1277,7 +1297,10 @@ def build_through_hole(
         floor_thickness: The floor it passes through; the cut starts below it.
         mouth_flare: How far the hole's top rolls outward into the wall's rim;
             ``None`` uses the 3mm the original does.
-        rounding_edge: Fillet where the cut emerges on a face. ``None`` uses
+        rounding_edge: Fillet where the cut emerges on the wall's **outside**
+            face. The inside face and the base stay square: the inside is what
+            a card stack rests against, and the base is a surface the box sits
+            on. ``None`` uses
             ``wall_thickness / 2``, as everywhere else.
 
     Returns:
@@ -1301,8 +1324,12 @@ def build_through_hole(
     radius = min(radius, span / 2)
 
     # Below the base and above the rim: the cut has to *leave* on both sides,
-    # so neither end is a coincident face for the boolean to resolve.
-    below = floor_thickness + 1.0
+    # so neither end is a coincident face for the boolean to resolve. Clear of
+    # the base by the **face fillet** as well, not just a hair: the fillet rolls
+    # right around the slot's ring, so a ring ending a millimetre under a 2mm
+    # floor puts its bottom roll back up inside the base and leaves a curled lip
+    # around the hole's underside. The hole meets the base flat (FR-043a10).
+    below = floor_thickness + rounding_edge + 0.5
     height = comp_depth + below + RIM_OVERSHOOT_MM
     # The bore's wall is a surface a finger runs right around, and a big one —
     # 30mm across on a card box. The ambient preview precision caps a circle at
@@ -1345,6 +1372,18 @@ def build_through_hole(
         wall_thickness=wall_thickness,
         rounding_radius=0.0,
         rounding_edge=rounding_edge,
+        # Only the box's **outside** is rolled — the inside is what the stack
+        # rests against, and a fillet there is a gap the bottom card slides
+        # into rather than anything a hand touches. It is still swept with
+        # *both* rims and run a fillet further into the compartment: that puts
+        # the inner rim's whole transition in the well, which is void, so what
+        # the wall gets is one constant section, square at its inner face and
+        # rolled at its outer one. Asking for a single rim instead leaves the
+        # middle at the path's full width with the other rim stepping in from
+        # it — a ridge inside the hole a fillet's depth from the outer face.
+        round_inner=True,
+        round_outer=True,
+        inner_overshoot=rounding_edge,
         breach_floor=True,
         span=span,
         radius=radius,

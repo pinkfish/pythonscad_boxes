@@ -420,6 +420,12 @@ All cutouts and outer edges MUST be smooth — no sharp 90° corners that catch 
 
    **Two curves inside it are easy to lose.** The bore's own wall is a surface a finger runs right around and a large one — 30mm across on a card box — and the ambient preview precision caps a circle at `fa = 12°`, which is 30 facets however big the circle is: a visible polygon. It takes `rounding_facets` (the fillet floor, 48) as the original takes a pinned 64. And the hole's **top corners roll into the wall's rim** rather than meeting it square: that edge is what a hand meets picking the box up, and the original flares it by `rounding_radius` and rolls the top over by half the wall besides.
 
+   **`round_outer` was the wrong face.** The sweep runs from the compartment side *outward* through the wall, so `offset_sweep`'s `bottom` profile lands on the inner face and `top` on the outer — and they were wired the other way about. Nothing caught it because every compartment scoop rounds both faces, and with both rounded the two are indistinguishable; asking for the outward face alone is what shows it, and that is now a test. Two consequences for the through hole: it rounds only the box's outside (the inside is what the stack rests against), and the flange `offset_sweep` leaves at the unrounded end points into the well, which is void already.
+
+   **And one section through the wall.** `offset_sweep` holds its straight middle at the last offset its *first* rim reached, so asking for a rim on one end only leaves the middle at the path's full width with the other rim stepping in from it: measured, 33mm at both faces and through the middle, pinching to 30mm a fillet inside the outer face — a ridge running round the inside of the cut. So the sweep keeps **both** rims and runs a fillet further into the compartment (`inner_overshoot`), which puts the inner rim's whole transition in the well, where it is void. The wall then has one section, square at its inner face and rolled at its outer one.
+
+   **The base stays flat**, which is a placement rule as much as a rounding one. The slot's ring has to start below the box by the face fillet *as well as* clear of the floor: a ring ending a millimetre under a 2mm floor puts its bottom roll back up inside the base and leaves a curled lip around the hole — visible from underneath, and the box sits on that surface.
+
    **The kind of cut is a per-compartment setting** (`FingerCut`), and the default is the through hole: a well that asks for a finger cut is usually a well something is stacked in. A well holding loose pieces asks for `SCOOP` and gets the side dip, which is also what the shallow-well branch (§1a13) still produces.
 
 1b. **A floor finger hole is not an edge scoop (FR-043a1).** They were briefly built from one profile, which put a flat-bottomed pan where a bowl belongs. An edge scoop is a channel you sweep a finger *along*; a floor hole is a bore you push a piece *up* through, so its bottom is tangent to the floor. The two share `_sweep_through_wall` — the depth matching, face fillets, floor clip and side placement are genuinely common — and differ only where they should, in the profile.
@@ -1202,6 +1208,8 @@ Where each requirement is designed, and where it is verified. Sections named bel
 | SC-071 | `test_finger_smoothing.py` — `OutlineNeverRunsBackwardsTests`: swept over width, depth and roll |
 | SC-072 | `test_finger_smoothing.py` — `ScoopSelectionTests`: a card well notches, a token tray bores |
 | SC-073 | `test_finger_smoothing.py` — `ThroughFloorCutTests`: the base is open under the cut, and a scoop leaves it solid |
+| SC-074 | `test_finger_smoothing.py` — `WhichFaceRoundsTests`: the outward face is the one that rounds |
+| SC-075 | `test_finger_smoothing.py` — `NoRidgeInsideTheCutTests`: one section across the wall |
 | SC-068 | `test_finger_smoothing.py` — `NoLidFingerHoleTests`: the half-height cap |
 
 ## Complexity Tracking
