@@ -46,8 +46,21 @@ version did, up to a full millimetre — spends half a 2mm floor on a cosmetic
 detail, and it showed as the cut visibly eating into the floor.
 """
 
-MIN_WALL_SCOOP_DEPTH_MM = 8.0
-"""Below this a wall notch has nothing to grip, so the floor scoop is used."""
+MIN_WALL_SCOOP_DEPTH_MM = 5.0
+"""Below this a wall notch has nothing to grip, so the floor scoop is used.
+
+The two cuts answer different situations. A notch in the wall is a dip a finger
+hooks into, and it needs depth to be a dip at all; a floor bore is a bowl in the
+well's own floor, for a tray too shallow for one — the original's 4mm token
+case.
+
+**8mm was too high**, and by more than it looks: Emberleaf's player card box has
+a 6.5mm well, which fell to the bore and came out as a nick in the rim about a
+millimetre deep, with the wall whole underneath it. What a card box needs there
+is a dip to get a fingertip under the stack. 5mm sits between that well and the
+4mm tray the bore is actually for, and it is the number the plan already assumed
+when it recorded these boxes cutting wall scoops.
+"""
 
 DEFAULT_MOUTH_ROUNDING_MM = 3.0
 """Fallback ``r1`` where nothing better can be derived."""

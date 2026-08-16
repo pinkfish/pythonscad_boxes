@@ -105,6 +105,24 @@ class ScoopSelectionTests(unittest.TestCase):
         direct = build_floor_scoop(40, 30, ScoopSide.FRONT, comp_depth=4, radius=12.0)
         self.assertEqual(repr(shallow), repr(direct))
 
+    def test_a_card_well_notches_and_a_token_tray_bores(self) -> None:
+        """SC-072/FR-043a9: the boundary sits below a card well.
+
+        At the inherited 8mm, Emberleaf's 6.5mm player card well fell to the
+        bore — which on a 10.5mm box is a nick in the rim a millimetre deep
+        with the wall whole underneath. A card box wants a dip to get a
+        fingertip under the stack; the bore is for the shallow token tray.
+        """
+        card_well = build_scoop(84.0, 92.0, 6.5, ScoopSide.BACK, wall_thickness=3.0)
+        as_notch = build_wall_scoop(84.0, 92.0, 6.5, ScoopSide.BACK, wall_thickness=3.0)
+        self.assertEqual(repr(card_well), repr(as_notch))
+
+        token_tray = build_scoop(84.0, 92.0, 4.0, ScoopSide.BACK, wall_thickness=3.0)
+        as_bore = build_floor_scoop(
+            84.0, 92.0, ScoopSide.BACK, comp_depth=4.0, radius=12.0, wall_thickness=3.0
+        )
+        self.assertEqual(repr(token_tray), repr(as_bore))
+
     def test_bad_dimensions_rejected(self) -> None:
         with self.assertRaises(ValueError):
             build_wall_scoop(40, 30, 0, ScoopSide.FRONT)

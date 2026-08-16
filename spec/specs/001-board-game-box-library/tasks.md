@@ -1085,6 +1085,9 @@ Measured against the original, the player box still carries 72,813mm³ of materi
 - [x] T325b [P] Write test: sweep width x depth x roll and assert **no outline segment ever runs backwards or downwards** between the base and the rim (SC-071). This is the invariant the shape has been failing in three different ways; it is cheap and it holds all of them.
 - [x] T325c **The one that was actually on the render**, found by the sweep above: the mouth roll was swept **270° the wrong way round**. `_angle_at` reports a touch point directly left of a centre through `atan2`, which distinguishes `+0.0` from `-0.0` — so it comes back as +180 or **-180**, and an arc swept to -180 goes round the bottom of the circle instead of over the top. Which one you get turns on floating-point arithmetic, so it appeared on one box size and not the next, and on a user's box and none of ours. Arc ends are now wound to within half a turn of where the sweep starts.
 
+- [x] T326 **A card well should notch, not bore** (FR-043a9). `MIN_WALL_SCOOP_DEPTH_MM` was inherited at 8mm, above the 6.5mm well of Emberleaf's player card box: it got the floor bore, which on a 10.5mm box shows as a nick in the rim a millimetre deep with the wall whole underneath. Lowered to 5mm — below a card well, above the 4mm tray the bore is for, and the number §1a9 of the plan already assumed.
+- [x] T326a [P] Write test: a 6.5mm well gets the wall notch and a 4mm tray still gets the bore (SC-072).
+
 **Checkpoint**: every grip is a base circle, a straight flank and a rolled end, at every depth. Measured, half-width 20: at 30mm deep the flank is 7mm and exactly vertical, at 15mm it is 8mm at 52°, at 10mm it is 13mm at 31° — and the largest turn anywhere in the outline is one facet's worth.
 
 ---

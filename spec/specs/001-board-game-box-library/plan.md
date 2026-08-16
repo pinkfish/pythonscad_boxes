@@ -407,6 +407,10 @@ All cutouts and outer edges MUST be smooth — no sharp 90° corners that catch 
 
    Where a cut has **wall below it instead of floor** — a box's exterior finger hole — the taper is unnecessary: the flare has material to finish into, so it is simply allowed to, and the reach is measured to it (FR-043g2). That is why the two callers pass different floor clips.
 
+1a13. **Where the notch gives way to the bore (FR-043a9).** `MIN_WALL_SCOOP_DEPTH_MM` decides which cut a compartment gets, and it was inherited at **8mm** — above the 6.5mm well of Emberleaf's player card box, which therefore got the bore. What that produces on a 10.5mm-tall box is a nick in the rim about a millimetre deep with the wall whole underneath: the bore is a bowl in the *well's floor*, so on a shallow well almost none of it reaches the wall's top edge, and what shows is the mouth's flare and nothing else. A card box wants the opposite — a dip in the wall to get a fingertip under the stack.
+
+   So the boundary is **5mm**: below the card well, above the 4mm token tray the bore is genuinely for. It is also the number this plan had already assumed, recording (§1a9) that Emberleaf's 6.5mm case cuts a wall scoop — the constant and the design note had drifted apart, and the geometry followed the constant.
+
 1b. **A floor finger hole is not an edge scoop (FR-043a1).** They were briefly built from one profile, which put a flat-bottomed pan where a bowl belongs. An edge scoop is a channel you sweep a finger *along*; a floor hole is a bore you push a piece *up* through, so its bottom is tangent to the floor. The two share `_sweep_through_wall` — the depth matching, face fillets, floor clip and side placement are genuinely common — and differ only where they should, in the profile.
 
 2. **Main box edges are smooth (FR-043d).** Every exposed edge of every printed piece is rounded over at `wall_thickness / 2` by default (FR-044):
@@ -1125,6 +1129,7 @@ Where each requirement is designed, and where it is verified. Sections named bel
 | FR-047 | Finger Holes §3a | `box/shell.py` |
 | FR-043a5, FR-043a6 | Finger Holes §1a (the radius is kept; width and radius are independent) | `compartments/finger_hole.py`, `builders/_base.py` |
 | FR-043a8 | Finger Holes §1a12 (a grip is never wider than it is deep) | `box/shell.py` |
+| FR-043a9 | Finger Holes §1a13 (where the notch gives way to the bore) | `compartments/finger_hole.py` |
 | FR-043a7 | Finger Holes §1a12 (two circles and the tangent between them) | `compartments/finger_hole.py` |
 | FR-047a, FR-047b | Finger Holes §3a (skip, opt-out) | `box/shell.py` |
 | FR-047c | Finger Holes §3a (a polygon path box gets none) | `box/types/path.py` |
@@ -1183,6 +1188,7 @@ Where each requirement is designed, and where it is verified. Sections named bel
 | SC-069 | `test_finger_smoothing.py` — `TangentFlankTests`: the base covers more of the width as the cut shallows |
 | SC-070 | `test_finger_smoothing.py` — `GripStaysInProportionTests`: no grip is wider than it is deep, and the flank angles stay in family |
 | SC-071 | `test_finger_smoothing.py` — `OutlineNeverRunsBackwardsTests`: swept over width, depth and roll |
+| SC-072 | `test_finger_smoothing.py` — `ScoopSelectionTests`: a card well notches, a token tray bores |
 | SC-068 | `test_finger_smoothing.py` — `NoLidFingerHoleTests`: the half-height cap |
 
 ## Complexity Tracking
