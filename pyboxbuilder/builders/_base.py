@@ -148,6 +148,8 @@ class BoxBuilder:
         side: "ScoopSide",
         *,
         radius: float = 14.0,
+        width: float | None = None,
+        bottom_radius: float | None = None,
         depth: float | None = None,
         offset: float = 0.0,
         rounding_radius: float | None = None,
@@ -164,7 +166,15 @@ class BoxBuilder:
 
         Args:
             side: Which exterior wall to cut.
-            radius: Throat radius in mm; 14mm is adult fingertip sizing.
+            radius: Throat radius in mm; 14mm is adult fingertip sizing. A
+                half-width, kept for callers that already speak in radii —
+                `width` says the same thing the other way round.
+            width: The cut's full width in mm. ``None`` takes twice `radius`.
+            bottom_radius: How the base curves into the sides. ``None`` takes
+                **half the width**, which makes the base one round curve rather
+                than a flat pan (FR-043a5); it is independent of the width
+                (FR-043a6), so a narrow grip can still have a fully round base
+                and a wide one a tight-cornered base.
             depth: How far the cut reaches below the wall's top, measured to
                 the deepest point of the material it removes (FR-006b).
                 ``None`` uses the radius. Capped at the interior depth so the
@@ -188,7 +198,8 @@ class BoxBuilder:
         """
         hole = FingerHoleBuilder(
             side=side,
-            radius=radius,
+            radius=radius if width is None else width / 2.0,
+            bottom_radius=bottom_radius,
             depth=depth,
             offset=offset,
             rounding_radius=rounding_radius,
@@ -211,7 +222,18 @@ class FingerHoleBuilder:
     side: ScoopSide
     """Which exterior wall the hole is cut through."""
     radius: float = 14.0
-    """Bore radius in mm — adult fingertip sizing by default."""
+    """Throat half-width in mm — adult fingertip sizing by default.
+
+    `BoxBuilder.finger_hole` also takes a `width`, which is twice this and the
+    way the requirement states it (FR-043a0); they are the same number.
+    """
+    bottom_radius: float | None = None
+    """How the base curves into the sides; ``None`` uses half the width.
+
+    Independent of the width (FR-043a6), and **kept** rather than shrunk to fit
+    (FR-043a5): where the depth cannot hold the circle the mouth's roll gives
+    first, and the straight run between the two circles absorbs the rest.
+    """
     depth: float | None = None
     """How far down from the interior's top the cut reaches.
 

@@ -241,6 +241,7 @@ def _fit_radii(
     top_rounding: float,
     bottom_rounding: float | None,
     roll_rise: float | None = None,
+    keep_flat_bottom: bool = True,
 ) -> tuple[float, float, float]:
     """Size the two rolls to the scoop they are shaping.
 
@@ -249,6 +250,9 @@ def _fit_radii(
         height: Floor to rim.
         top_rounding: The top roll's outward flare (r1).
         bottom_rounding: Requested r2, or ``None`` to derive it.
+        keep_flat_bottom: Cap the corner radius so a flat run survives at the
+            base — right for a compartment scoop, which something rests in
+            (FR-043a), wrong for a grip, whose base is round (FR-043a5).
         roll_rise: How far the top roll reaches **down**. ``None`` derives it
             as ``TOP_ROLL_RISE_RATIO`` times the flare. It is the fourth of the
             numbers that define the outline (FR-043a0) and the one that says
@@ -258,21 +262,36 @@ def _fit_radii(
 
     Returns:
         ``(flare, rise, r2)`` — how far the top roll reaches out, how far it
-        reaches down, and the floor fillet.
+        reaches down, and the corner radius.
 
     Only the two *vertical* extents compete for the height, so a shallow wall
     shortens the rise and leaves the flare — and therefore the width of the cut
     — alone. Scaling the flare too would narrow the mouth on exactly the boxes
     where a finger has least room to begin with.
+
+    **The corner radius is kept, not fitted** (FR-043a5). The straight run
+    between the two circles is what gives when a large radius meets a short cut,
+    and solving their common tangent is what makes that work — so the radius is
+    spent only against what is physically left after the rise has given way down
+    to a circular roll. Scaling it to fit, which is what this did, returned
+    14.4mm to a caller who asked for 20 and left nothing in the geometry to say
+    so.
     """
     if bottom_rounding is None:
         bottom_rounding = radius * DEFAULT_BOTTOM_ROUNDING_RATIO
     flare = max(0.0, top_rounding)
     rise = flare * TOP_ROLL_RISE_RATIO if roll_rise is None else max(0.0, roll_rise)
-    r2 = max(0.0, min(bottom_rounding, radius * (1.0 - MIN_FLAT_BOTTOM_RATIO)))
-    if rise + r2 > height:
-        scale = height / (rise + r2)
-        rise, r2 = rise * scale, r2 * scale
+    r2 = max(0.0, bottom_rounding)
+    if keep_flat_bottom:
+        # A compartment scoop holds something, so part of its base stays flat
+        # (FR-043a). A grip holds nothing and its base is round.
+        r2 = min(r2, radius * (1.0 - MIN_FLAT_BOTTOM_RATIO))
+    # Two corner circles cannot overlap, and the roll needs somewhere to sit:
+    # a circular roll (rise = flare) is as little as a roll can be and still
+    # roll. Everything past that comes off the rise before it comes off r2.
+    floor_rise = min(flare, height / 2.0)
+    r2 = max(0.0, min(r2, radius, height - floor_rise))
+    rise = max(floor_rise, min(rise, height - r2)) if height > r2 else 0.0
     return flare, rise, r2
 
 
@@ -636,6 +655,7 @@ def build_wall_scoop(
     top_limit: float | None = None,
     closed_top: bool = False,
     roll_rise: float | None = None,
+    keep_flat_bottom: bool = True,
 ) -> "Bosl2Solid":
     """Build a finger notch through a compartment wall.
 
@@ -685,6 +705,10 @@ def build_wall_scoop(
             cost of a coincident face.
         top_limit: Height, in the cut's own frame, above which it is trimmed
             away — the guard for material that must not be cut into.
+        keep_flat_bottom: Keep part of the base flat by capping the corner
+            radius (FR-043a) — for a well something rests in. A grip passes
+            ``False`` and gets the radius it asked for, with a round base
+            (FR-043a5).
         roll_rise: How far the mouth roll reaches down; ``None`` derives it
             from the flare (FR-043c3). Width and gentleness are separate
             settings, so a shallow wall can have a gentler curve without a
@@ -738,7 +762,8 @@ def build_wall_scoop(
     # both curves of the U driven by the same number, which is exactly what it
     # looked like. `scoop_profile` had the order right all along.
     flare, rise, r2 = _fit_radii(
-        radius, comp_depth, rounding_radius, bottom_rounding, roll_rise
+        radius, comp_depth, rounding_radius, bottom_rounding, roll_rise,
+        keep_flat_bottom=keep_flat_bottom,
     )
     outline = (
         window_outline(radius, comp_depth, r2)

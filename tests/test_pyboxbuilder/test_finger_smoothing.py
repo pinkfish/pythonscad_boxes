@@ -455,14 +455,16 @@ class NoLidFingerHoleTests(unittest.TestCase):
         holes = no_lid_finger_holes(self.spec(width=80, length=120))
         self.assertEqual([h.side for h in holes], [ScoopSide.LEFT, ScoopSide.RIGHT])
 
-    def test_the_cut_leaves_a_wall_and_a_millimetre_under_it(self) -> None:
-        """SC-061/FR-047: the strip below the cut is what the tray is lifted by.
+    def test_the_cut_leaves_five_millimetres_of_wall_under_it(self) -> None:
+        """SC-065/FR-047: the strip below the cut is what the tray is lifted by.
 
-        The reach reads as `min(radius, height - ft - wt - 1)`, and it is the
-        second term that matters here — checked on a box short enough for it to
-        bind, since on a tall one the radius wins and the rule is invisible.
+        The reach reads as `min(radius, height - ft - 5)`, and it is the second
+        term that matters here — checked on boxes short enough for it to bind,
+        since on a tall one the radius wins and the rule is invisible. It used
+        to leave `wall + 1`, which is a 3mm ribbon on the usual wall: it prints,
+        and it flexes.
         """
-        from pyboxbuilder.box.shell import no_lid_finger_holes
+        from pyboxbuilder.box.shell import MIN_WALL_BELOW_HOLE_MM, no_lid_finger_holes
 
         for height, floor, wall in ((40, 2.0, 2.0), (14, 1.6, 2.0), (12, 2.0, 3.0)):
             with self.subTest(height=height):
@@ -473,18 +475,22 @@ class NoLidFingerHoleTests(unittest.TestCase):
                 for hole in holes:
                     left = (height - floor) - hole.depth
                     self.assertGreaterEqual(
-                        round(left, 6), wall + 1.0,
+                        round(left, 6), MIN_WALL_BELOW_HOLE_MM,
                         f"only {left}mm of tray wall left below the cut",
                     )
 
-    def test_a_shallow_tray_still_gets_a_token_grip(self) -> None:
-        """The 2mm floor on the reach: a tray too short for the rule above
-        keeps a usable dip rather than losing the cut to a negative depth."""
-        from pyboxbuilder.box.shell import MIN_FINGER_HOLE_REACH_MM, no_lid_finger_holes
+    def test_a_tray_with_no_room_for_the_strip_gets_no_holes(self) -> None:
+        """The strip wins over the cut (FR-047a/SC-065).
 
-        holes = no_lid_finger_holes(self.spec(height=5, floor_thickness=1.6))
-        for hole in holes:
-            self.assertEqual(hole.depth, MIN_FINGER_HOLE_REACH_MM)
+        A 2mm floor on the reach is what this used to have, and it bought the
+        dip out of the very wall the rule protects. A tray this short is
+        liftable by its walls.
+        """
+        from pyboxbuilder.box.shell import no_lid_finger_holes
+
+        self.assertEqual(no_lid_finger_holes(self.spec(height=5, floor_thickness=1.6)), ())
+        self.assertEqual(no_lid_finger_holes(self.spec(height=8, floor_thickness=1.6)), ())
+        self.assertTrue(no_lid_finger_holes(self.spec(height=9, floor_thickness=1.6)))
 
     def test_a_hole_too_wide_for_its_wall_is_skipped(self) -> None:
         from pyboxbuilder.box.shell import no_lid_finger_holes
@@ -1363,3 +1369,67 @@ cuboid([1, 1, 1]).show()
         want = float(self.result.reports["floor_finger_full"])
         self.assertAlmostEqual(got, want, delta=want * 0.05,
                                msg="the bore does not admit the finger it is sized for")
+
+
+class CornerRadiusIsKeptTests(unittest.TestCase):
+    """FR-043a5/FR-043a6/SC-066: the radius asked for is the radius built.
+
+    It used to be narrowed twice over — capped at 0.75 of the half-width to
+    protect a flat run that a *grip* does not need, then scaled with the rise to
+    fit the height — so 20mm came back 14.4mm with nothing in the geometry to
+    say it had been refused. What gives instead is the straight run between the
+    circles, which is what solving their common tangent is for.
+    """
+
+    def fit(self, half_width, depth, asked, **kw):
+        from pyboxbuilder.compartments.finger_hole import _fit_radii
+
+        return _fit_radii(half_width, depth, 3.0, asked, keep_flat_bottom=False, **kw)
+
+    def test_a_radius_the_depth_can_hold_is_kept_exactly(self) -> None:
+        _, _, r2 = self.fit(20.0, 24.0, 20.0)
+        self.assertAlmostEqual(r2, 20.0, places=6)
+
+    def test_the_rise_gives_before_the_radius_does(self) -> None:
+        """A 19mm-deep cut cannot hold a 20mm circle *and* a 4.8mm rise. The
+        roll flattens to a circular one first, and only the remainder comes off
+        the radius — which still beats the 14.4mm the old scaling returned."""
+        _, rise, r2 = self.fit(20.0, 19.0, 20.0)
+        self.assertAlmostEqual(rise, 3.0, places=6)
+        self.assertAlmostEqual(r2, 16.0, places=6)
+
+    def test_at_half_the_width_the_base_is_one_round_curve(self) -> None:
+        from pyboxbuilder.compartments.finger_hole import scoop_outline
+
+        flare, rise, r2 = self.fit(10.0, 25.0, 10.0)
+        ring = scoop_outline(10.0, 25.0, flare, r2, rise)
+        flat = [x for x, y in ring if abs(y) < 1e-9]
+        self.assertLessEqual(len(flat), 2, "a flat run survived in a round base")
+        self.assertAlmostEqual(max(flat) if flat else 0.0, 0.0, places=6)
+
+    def test_a_compartment_scoop_keeps_its_flat_run(self) -> None:
+        """FR-043a: something rests on it, so that cut is capped as before."""
+        from pyboxbuilder.compartments.finger_hole import _fit_radii, scoop_outline
+
+        flare, rise, r2 = _fit_radii(20.0, 19.0, 3.0, 20.0)
+        ring = scoop_outline(20.0, 19.0, flare, r2, rise)
+        flat = [x for x, y in ring if abs(y) < 1e-9]
+        self.assertGreater(2 * max(flat), 1.0, "the flat bottom closed into a trough")
+
+    def test_width_and_radius_move_independently(self) -> None:
+        """FR-043a6: either one changes the outline without the other."""
+        wide, _, r2_same = self.fit(20.0, 30.0, 8.0)
+        narrow, _, r2_narrow = self.fit(10.0, 30.0, 8.0)
+        self.assertAlmostEqual(r2_same, r2_narrow, places=6)
+
+        _, _, r2_small = self.fit(20.0, 30.0, 4.0)
+        _, _, r2_big = self.fit(20.0, 30.0, 16.0)
+        self.assertNotAlmostEqual(r2_small, r2_big, places=3)
+
+    def test_the_builder_carries_the_radius_and_the_width(self) -> None:
+        from pyboxbuilder.builders.no_lid import NoLidBoxBuilder
+
+        box = NoLidBoxBuilder(label="T", size=(100, 80, 40))
+        hole = box.finger_hole(ScoopSide.FRONT, width=30.0, bottom_radius=6.0)
+        self.assertAlmostEqual(hole.radius, 15.0)
+        self.assertAlmostEqual(hole.bottom_radius, 6.0)

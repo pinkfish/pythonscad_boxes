@@ -1039,6 +1039,25 @@ Measured against the original, the player box still carries 72,813mm³ of materi
 
 ---
 
+## Phase 33: A grip you can trust, and a radius that is kept (FR-047, FR-043a5, FR-043a6)
+
+**Purpose**: Two things the tray got wrong. The strip of wall under a finger hole was a wall thickness and a millimetre — 3mm on a 2mm-walled box, which prints but flexes — and the scoop's corner radius was shrunk twice over to fit rather than being fitted around.
+
+**Goal**: 5mm of wall under every automatic hole; a corner radius that comes back the size it was asked for, with the tangents doing the fitting and the base coming out round.
+
+**Independent Test**: A tray's automatic hole leaves 5mm below it; a hole asked for a corner radius of half its width has a base with no flat run in it.
+
+- [x] T316 Raise the strip under an automatic finger hole to **5mm** (FR-047). Replace `wall_thickness + 1` with a named constant, and let the rule win where it and the 2mm minimum cut cannot both be had: the tray ships plain (FR-047a) rather than buying a token dip out of the strip it is meant to protect.
+- [x] T316a [P] Write test: every automatic hole leaves 5mm of tray wall below it, across heights including one where the radius is not the binding term, and a tray too short for the strip plus a 2mm cut gets none (SC-065).
+- [x] T317 **Keep the corner radius; fit the outline around it** (FR-043a5). `_fit_radii` narrows it twice — a cap at `0.75 ×` the half-width (`MIN_FLAT_BOTTOM_RATIO`, which is the *compartment* scoop's flat-run rule) and then a proportional scale of rise **and** radius to fit the height. Asked for 20mm on the no-lid tray, it returns 14.4mm. Keep the radius, spend the **rise** first (down to a circular roll, never past it), and reduce the radius only against what is physically left. The common tangent already joins whatever circles it is given (§1a4), so the straight run absorbs the rest.
+- [x] T318 **Default an exterior hole's base to round** (FR-043a5): its corner radius is half the cut's width — the largest circle there is — so the base is one curve into the tangents rather than a flat pan. A compartment scoop keeps its flat run: something rests on it.
+- [x] T319 **Width and corner radius, settable independently** (FR-043a6) — `width` and `bottom_radius` on `FingerHoleBuilder` and through `build_wall_scoop`, either one changing the outline without the other.
+- [x] T319a [P] Write test: the radius asked for is the radius built wherever the depth allows; at half the width the base has no flat run; width alone and radius alone each change the outline without the other (SC-066).
+
+**Checkpoint**: the tray keeps 5mm under its grips, and a radius asked for is a radius built. **Reached** — measured on the no-lid tray: a 20mm corner radius on a 19mm-deep cut now returns 16mm with the roll flattened to circular, against 14.4mm before; where the depth allows it (24mm) it returns the 20mm asked for and the base has no flat run at all.
+
+---
+
 ## Notes
 
 - [P] tasks = different files, no dependencies

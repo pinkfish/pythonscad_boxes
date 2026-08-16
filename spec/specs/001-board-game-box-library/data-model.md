@@ -78,7 +78,7 @@ Use `pybosl2.Color` directly — no custom Color class. Supports webcolor names 
 | `auto_finger_holes` | `bool` | True (a no-lid box's default pair; FR-047b) |
 | `compartments` | `tuple[CompartmentBuilder, ...]` | () |
 
-**Methods**: `compartment(label, *, size, depth, ...) -> CompartmentBuilder`, `finger_hole(side, *, radius, depth, offset, rounding_radius, rounding_edge) -> FingerHoleBuilder`
+**Methods**: `compartment(label, *, size, depth, ...) -> CompartmentBuilder`, `finger_hole(side, *, radius, width, bottom_radius, depth, offset, rounding_radius, rounding_edge, roll_rise) -> FingerHoleBuilder`
 
 ## FingerHoleBuilder (`pyboxbuilder/builders/_base.py`)
 
@@ -87,11 +87,13 @@ A finger hole on a box's **exterior** wall — the same edge scoop a compartment
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
 | `side` | `ScoopSide` | — | Which exterior wall the cut passes through |
-| `radius` | `float` | 14.0 | Throat radius — half the width of the straight run |
+| `radius` | `float` | 14.0 | Throat half-width; `finger_hole(width=...)` sets the same thing as a full width |
+| `bottom_radius` | `float \| None` | None → half the width | How the base curves into the sides; kept, not shrunk to fit (FR-043a5), and independent of the width (FR-043a6) |
 | `depth` | `float \| None` | None → `radius` | Reach, measured to the deepest point of the material removed (FR-006b); capped at the interior depth |
 | `offset` | `float` | 0.0 | Shift along the wall from its midpoint |
 | `rounding_radius` | `float \| None` | None → 3mm | Mouth flare at the rim (`r1`) |
 | `rounding_edge` | `float \| None` | None → `wall_thickness / 2` | Face fillet where the cut emerges |
+| `roll_rise` | `float \| None` | None → `1.6 ×` the flare | How far the mouth roll reaches down — the gentleness of the transition (FR-043c3) |
 
 Frozen; created through `BoxBuilder.finger_hole(...)`, which registers it on the box and returns it.
 

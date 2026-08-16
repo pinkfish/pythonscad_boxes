@@ -34,10 +34,20 @@ if TYPE_CHECKING:
 MIN_FINGER_HOLE_REACH_MM = 2.0
 """The shallowest an automatic finger hole may be (FR-047).
 
-A tray short enough for the structural rule to bite still gets a grip, just a
-token one. Below this it is not a cut a finger can use, and the tray is better
-off with the dip than with nothing — the wall it would otherwise protect is
-only a couple of millimetres tall anyway.
+Shallower than this is not a cut a finger can use, so a tray with no room for
+it *and* the strip below (:data:`MIN_WALL_BELOW_HOLE_MM`) ships plain rather
+than spending the strip on a token dip. This used to be a floor on the reach
+instead of a threshold, which bought exactly that dip out of the wall the rule
+protects.
+"""
+
+MIN_WALL_BELOW_HOLE_MM = 5.0
+"""Tray wall that must survive **below** an automatic finger hole (FR-047).
+
+The strip under the cut is what carries the tray: fingers hook into the hole
+and the whole load runs through the wall beneath it. This was a wall thickness
+plus a millimetre, which on the usual 2mm wall is a 3mm ribbon — it prints, and
+it flexes. 5mm is stiff enough to lift a full tray by.
 """
 
 MAX_FINGER_HOLE_SPAN_SHARE = 0.75
@@ -321,6 +331,15 @@ def apply_finger_holes(body: "Bosl2Solid", spec: dict) -> "Bosl2Solid":
             # is measured off this exact flare.
             rounding_edge=flare,
             roll_rise=getattr(hole, "roll_rise", None),
+            # A grip holds nothing, so its base is round rather than a flat pan
+            # with two corners: the radius defaults to half the width and is
+            # kept, with the tangents taking up the slack (FR-043a5).
+            bottom_rounding=(
+                getattr(hole, "bottom_radius", None)
+                if getattr(hole, "bottom_radius", None) is not None
+                else radius
+            ),
+            keep_flat_bottom=False,
             closed_top=walled_over,
             # A scoop's outline overshoots its rim, which is free on a lidless
             # box and must not be on any other; the window has no overshoot to
@@ -357,16 +376,16 @@ def no_lid_finger_holes(spec: dict):
     - throat radius = `min(20, min(length, width) / 4, height - floor_thickness + 1)`
       — a fingertip, capped at 20mm and at a quarter of the smaller *outer*
       footprint dimension;
-    - reach = the radius, but **stopping a wall thickness plus a millimetre
-      above the tray's floor**, and never under 2mm;
+    - reach = the radius, but **stopping 5mm above the tray's floor**;
     - mouth flare = 3mm.
 
-    The reach's middle term is a structural rule, not arithmetic: the strip of
-    wall under the cut is what the tray is lifted by, so the cut stops short of
-    the floor by a wall's thickness and a millimetre. Written inline as
-    `height - ft - wt - 1` it reads like a fudge and has twice been "corrected"
-    to the older `height - 2 + 1`, which runs the cut into the floor of a
-    shallow tray (FR-047).
+    The reach's last term is a structural rule, not arithmetic: the strip of
+    wall under the cut is what the tray is lifted by, so the cut stops 5mm short
+    of the floor. Written inline as `height - ft - 5` it reads like a fudge and
+    the older form has twice been "corrected" back to `height - 2 + 1`, which
+    runs the cut into the floor of a shallow tray. A tray with no room for the
+    strip and a usable cut gets **no** holes (FR-047a) rather than a token dip
+    taken out of the strip.
 
     A wall too short for the hole's mouth is skipped: a finger hole wider than
     the wall it is cut through breaks into the adjoining walls, so the tray goes
@@ -394,8 +413,12 @@ def no_lid_finger_holes(spec: dict):
     radius = min(20.0, min(length, width) / 4.0, height - ft + 1.0)
     # The strip of wall the tray is picked up by: the cut stops this far above
     # the tray's floor, so what is left under it keeps the wall's own section.
-    deepest = height - ft - (wt + 1.0)
-    hole_height = max(min(radius, deepest), MIN_FINGER_HOLE_REACH_MM)
+    deepest = height - ft - MIN_WALL_BELOW_HOLE_MM
+    hole_height = min(radius, deepest)
+    if hole_height < MIN_FINGER_HOLE_REACH_MM:
+        # No room for both. The strip wins: a tray this short is liftable by
+        # its walls, and a grip cut out of what holds it is not a grip.
+        return ()
     rounding_radius = 3.0
 
     if length >= width:

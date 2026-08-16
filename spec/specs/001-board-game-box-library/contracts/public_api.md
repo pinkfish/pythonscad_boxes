@@ -119,7 +119,9 @@ CompartmentBuilder(
 box.finger_hole(
     side: ScoopSide,                       # which exterior wall
     *,
-    radius: float = 14.0,                  # throat radius — adult fingertip
+    radius: float = 14.0,                  # throat half-width — adult fingertip
+    width: float | None = None,            # the cut's width; None → 2 x radius
+    bottom_radius: float | None = None,    # base curve; None → half the width
     depth: float | None = None,            # reach below the wall top; None → radius
     offset: float = 0.0,                   # shift along the wall from its midpoint
     rounding_radius: float | None = None,  # mouth flare; None → 3mm
@@ -127,7 +129,7 @@ box.finger_hole(
 ) -> FingerHoleBuilder
 ```
 
-The cut hangs from the top of the **interior** (FR-043b1), not the outer rim, and `depth` is read to the deepest point of the material removed (FR-006b). A no-lid box gets a pair of these automatically (FR-047); `box(..., auto_finger_holes=False)` or naming any hole of your own suppresses them (FR-047b).
+The cut hangs from the top of the **interior** (FR-043b1), not the outer rim, and `depth` is read to the deepest point of the material removed (FR-006b). `width` and `bottom_radius` are independent (FR-043a6), and the radius given is the radius built — the straight run between the circles is what gives when the depth is tight, not the circle (FR-043a5). A no-lid box gets a pair of these automatically (FR-047); `box(..., auto_finger_holes=False)` or naming any hole of your own suppresses them (FR-047b).
 
 ## Color (`pybosl2.Color`, re-exported from `pyboxbuilder`)
 
