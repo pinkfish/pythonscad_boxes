@@ -120,6 +120,15 @@ the cut is — it lives inside the throat — so it can afford a generous curve,
 and a finger following the wall down wants one.
 """
 
+TOUCHING_TOLERANCE_MM = 0.05
+"""How near touching two circles may be and still be joined at a point.
+
+Exact touching is a real configuration — a cut exactly a half-width plus a roll
+deep has it — and there the flank is a point on the line of centres, with the
+outline still tangent to both arcs. Inside this band that point is used; only a
+genuine overlap falls back to the vertical.
+"""
+
 BASE_ARC_SHARE = 0.9
 """How near the touching cap a grip's base circle is sized (FR-043a7).
 
@@ -354,14 +363,19 @@ def _fit_radii(
     # presents a long flat sweep and the tangent carries it up and out.
     #
     # The roll is circular here so the tangent is exact — two circles have one,
-    # a circle and an ellipse do not, and this is where that matters.
-    rise = floor_rise
+    # a circle and an ellipse do not, and this is where that matters. Radius and
+    # rise are **one number**: the circle is tangent to the top face, so its
+    # centre sits exactly its radius below the rim. Clamping the rise alone
+    # lifts that centre without shrinking the circle, which pushes it above the
+    # rim and leaves the cap and the tangent solved against a circle that is not
+    # the one drawn — and the outline then runs sideways to reach it.
+    flare = rise = floor_rise
     # Never as far as the radius that makes the two circles *touch*: there the
     # flank collapses to a point and the outline reads as one wobbling curve.
     # The cap sits above the half-width at every proportion (its minimum, over
     # all depths, is the half-width itself), so the default is always kept and
     # this binds only on a request larger than the shape can hold.
-    cap = dish_radius(radius, height, rise)
+    cap = dish_radius(radius, height, flare)
     # Half the width is the largest *round* base, and the right size while the
     # cut is deep enough to hold that circle. Below that the base has to take
     # **more** of the cut, not less, or it covers half the width and leaves a
@@ -513,8 +527,22 @@ def _tangent_join(
     distance = math.hypot(*span)
     reach = bottom_radius + top_radius
     if distance <= reach:
-        # Touching or overlapping: no internal tangent exists. The run would be
-        # a point anyway, so the vertical is as good an answer as there is.
+        # Touching is a real configuration — a cut exactly `half-width + roll`
+        # deep has it — and there the flank is a *point*, not a vertical: the
+        # circles meet on the line between their centres, and the outline runs
+        # through that point still tangent to both. Returning the vertical
+        # instead puts the join on neither arc, and the outline reaches it
+        # sideways: a step in the shoulder.
+        if distance > 1e-9 and reach - distance < TOUCHING_TOLERANCE_MM:
+            share = bottom_radius / reach
+            touch = (
+                bottom_centre[0] + span[0] * share,
+                bottom_centre[1] + span[1] * share,
+            )
+            return touch, touch
+        # Genuinely overlapping: there is no join to find. The vertical keeps
+        # the outline closed, and the sizing rules above are what stop this
+        # being reached.
         return (
             (fallback_x, bottom_centre[1]),
             (fallback_x, top_centre[1]),
@@ -586,6 +614,24 @@ def window_outline(
     return left + right
 
 
+def _sweep_end(angle: float, toward: float) -> float:
+    """*angle*, wound to within half a turn of *toward*, so an arc sweeps the short way.
+
+    `_angle_at` reports through :func:`math.atan2`, whose range straddles ±180
+    and which distinguishes ``+0.0`` from ``-0.0`` — so a point directly left of
+    a centre comes back as +180 or -180 depending on the sign of a zero, and an
+    arc swept to the wrong one goes 270° round instead of 90°. That is a cut
+    running sideways and down to reach its join, and which of the two you get
+    turns on floating-point arithmetic, so it appears at one box size and not
+    the next (FR-043a7).
+    """
+    while angle - toward > 180.0:
+        angle -= 360.0
+    while toward - angle > 180.0:
+        angle += 360.0
+    return angle
+
+
 def scoop_outline(
     radius: float,
     height: float,
@@ -629,12 +675,20 @@ def scoop_outline(
     # point, so the direction never changes across one: deep, the run comes out
     # vertical and this is the familiar throat; shallow, it tilts and shortens
     # and the base's arc does the rest.
-    right += _quarter_arc(bottom_centre, r2, -90.0, _angle_at(bottom_centre, join_low))
+    right += _quarter_arc(
+        bottom_centre, r2, -90.0, _sweep_end(_angle_at(bottom_centre, join_low), -90.0)
+    )
     if abs(rise - flare) < 1e-9:
         # A circular roll: the tangent's touch point is on it exactly, so the
-        # arc can start there.
+        # arc can start there — pointed the right way round. The touch sits on
+        # the roll's left half, at 90°..270°, and `_angle_at` reports that as
+        # either +180 or **-180** depending on the sign of a floating-point
+        # zero: `atan2(-0.0, -5.5)` is -180. Sweeping -180 → 90 takes the arc
+        # the long way round the bottom of the circle — 270° of it — which is
+        # the cut running sideways and down to reach a join it should have met
+        # head-on, and it lands on one box size and not the next.
         right += _quarter_arc(
-            top_centre, flare, _angle_at(top_centre, join_high), 90.0
+            top_centre, flare, _sweep_end(_angle_at(top_centre, join_high), 90.0), 90.0
         )
     else:
         # An elliptical roll (a compartment scoop): the touch point is computed

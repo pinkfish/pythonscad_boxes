@@ -383,11 +383,15 @@ All cutouts and outer edges MUST be smooth — no sharp 90° corners that catch 
 
    **The base circle grows as the cut shallows.** Half the width is the largest *round* base, and it is the right size only while the cut is deep enough to hold it: at 40mm wide and 10mm deep that circle's arc covers barely half the half-width and the rest is a straight ramp, which reads as a shallow trapezoid with a dimple in it. So the radius is `max(half-width, 0.9 × cap)` — nine tenths of the touching radius, the last tenth being what leaves a flank. Measured at 40mm wide: 30mm deep, the base covers the full half-width and the rule changes nothing; 15mm deep, likewise; 10mm deep, it covers 76% against 51%, with a 7.5mm flank. The rule only bites where the shape was wrong.
 
+   **The arc has to be pointed the right way round.** `_angle_at` reports through `atan2`, whose range straddles ±180 and which distinguishes `+0.0` from `-0.0`: a touch point directly left of a centre — which is exactly where a vertical flank meets the roll — comes back as +180 or **-180** depending on the sign of a zero. Swept to -180 the roll goes 270° round the bottom of the circle instead of 90° over the top, and the outline runs sideways and down to reach it. It turns on floating-point arithmetic, so it shows on one box size and not the next. Arc ends are wound to within half a turn of the start (`_sweep_end`), and the invariant that catches it — **no segment of the outline ever runs backwards or downwards** — is swept over ~30,000 combinations in the tests, because a bounding box, a volume and a facet count all look healthy while the shoulder has a step in it.
+
    **Two ways to get this wrong, both of which we have shipped.** Taking the *external* tangent wraps both circles the same way and throws the flank wide of the cut — that is the one `_tangent_join`'s filter exists to reject. And sizing the base circle until the two circles **touch** collapses the run to a point: the outline stays continuous and stays tangent, and it reads as a single wobbling curve with no flank at all, which is what "looks super weird" is a description of. The touching radius is therefore a *cap*, not a size::
 
         R_max = (A² + u² - flare²) / (2(u + flare))       A = radius + flare, u = depth - rise
 
    The tangent itself is solved directly rather than through `circle_circle_tangents`, whose internal branch has nothing to return as the circles approach touching: with `d` the distance between centres and `γ` the angle between them, `β = acos((r1 + r2) / d)` gives the touch points at `γ ± β` on one circle and `γ ± β + π` on the other. The branch wanted is the one whose touches lie on the cut's own side and rise from base to roll.
+
+   **The roll's radius and its rise are one number**, because it is a circle tangent to the top face: the centre sits exactly its radius below the rim. Where the cut is too shallow for the radius asked for, the *radius* shrinks. Clamping only the rise — which is what `min(flare, height/2)` did — lifts the centre without shrinking the circle, so it pokes above the rim and is no longer the circle the cap and the tangent were solved against. The flank then joins a point that is not on the drawn arc, and the outline runs sideways and down to reach it: a step in the shoulder, on shallow cuts only. Measured before the fix: 56 of 189 sampled (width, depth, roll) combinations produced a segment that reversed.
 
    A grip's roll is **circular** (rise = flare) so the construction is exact: two circles have an exact tangent and a circle and an ellipse do not, and this is the one place that matters. The elliptical roll of §1a9 stays with the compartment scoop, whose flank is a vertical run rather than a tangent.
 
@@ -1178,6 +1182,7 @@ Where each requirement is designed, and where it is verified. Sections named bel
 | SC-067 | `test_finger_smoothing.py` — `TangentFlankTests`: a straight run touching both circles, vertical when the cut is deep |
 | SC-069 | `test_finger_smoothing.py` — `TangentFlankTests`: the base covers more of the width as the cut shallows |
 | SC-070 | `test_finger_smoothing.py` — `GripStaysInProportionTests`: no grip is wider than it is deep, and the flank angles stay in family |
+| SC-071 | `test_finger_smoothing.py` — `OutlineNeverRunsBackwardsTests`: swept over width, depth and roll |
 | SC-068 | `test_finger_smoothing.py` — `NoLidFingerHoleTests`: the half-height cap |
 
 ## Complexity Tracking

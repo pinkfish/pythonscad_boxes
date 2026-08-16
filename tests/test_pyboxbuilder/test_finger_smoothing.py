@@ -1727,3 +1727,80 @@ class GripStaysInProportionTests(unittest.TestCase):
         throat, depth, _ = self.cut(40)
         self.assertAlmostEqual(throat, depth, places=6)
         self.assertGreaterEqual(throat, 19.0)
+
+
+class OutlineNeverRunsBackwardsTests(unittest.TestCase):
+    """SC-071: the outline is a path a finger follows, so it never reverses.
+
+    Walking the right half from the base to the rim, x must not decrease and y
+    must not drop. Three separate defects have been caught by exactly this and
+    by nothing else — a bounding box, a volume and a facet count all look
+    perfectly healthy while the shoulder has a step in it:
+
+    * the mouth roll swept 270° round the wrong way, because `atan2` reports a
+      point directly left of a centre as +180 or **-180** depending on the sign
+      of a floating-point zero;
+    * the roll's rise clamped without its radius, leaving the tangent solved
+      against a circle that was not the one drawn;
+    * the base circle sized until it touched the roll, so the join fell back to
+      a vertical lying on neither arc.
+
+    The sweep is wide because each of those appeared at some sizes and not
+    others; the one that prompted it was visible on a user's box and on none of
+    ours.
+    """
+
+    def first_reversal(self, half_width, depth, flare, keep_flat_bottom):
+        import math
+
+        from pyboxbuilder.compartments.finger_hole import _fit_radii, scoop_outline
+
+        roll, rise, base = _fit_radii(
+            half_width, depth, flare, None, keep_flat_bottom=keep_flat_bottom
+        )
+        ring = scoop_outline(half_width, depth, roll, base, rise)
+        right = [p for p in ring if p[0] >= -1e-9 and p[1] <= depth + 1e-9]
+        for a, b in zip(right, right[1:]):
+            if math.dist(a, b) < 1e-9:
+                continue
+            if b[0] < a[0] - 1e-6 or b[1] < a[1] - 1e-6:
+                return a, b
+        return None
+
+    def test_no_grip_outline_reverses(self) -> None:
+        for half_width in (3.0, 5.0, 8.0, 12.0, 20.0, 30.0):
+            for depth in (2.0, 4.0, 6.0, 9.0, 14.0, 25.0, 45.0):
+                for flare in (0.5, 1.0, 3.0, 5.0, 8.0):
+                    found = self.first_reversal(half_width, depth, flare, False)
+                    if found:  # subTest per case would be 210 of them
+                        self.fail(
+                            f"half-width {half_width}, depth {depth}, roll {flare}: "
+                            f"outline runs backwards {found[0]} -> {found[1]}"
+                        )
+
+    def test_no_compartment_scoop_outline_reverses(self) -> None:
+        for half_width in (3.0, 5.0, 8.0, 12.0, 20.0, 30.0):
+            for depth in (2.0, 4.0, 6.0, 9.0, 14.0, 25.0, 45.0):
+                for flare in (0.5, 1.0, 3.0, 5.0, 8.0):
+                    found = self.first_reversal(half_width, depth, flare, True)
+                    if found:
+                        self.fail(
+                            f"half-width {half_width}, depth {depth}, roll {flare}: "
+                            f"outline runs backwards {found[0]} -> {found[1]}"
+                        )
+
+    def test_the_roll_never_pokes_above_the_rim(self) -> None:
+        """It is a circle tangent to the top face: centre exactly its radius
+        below the rim. Clamping the rise alone lifted the centre and left the
+        circle its full size, which is how the tangent came to be solved
+        against a circle that was not the one drawn."""
+        from pyboxbuilder.compartments.finger_hole import _fit_radii
+
+        for depth in (2.0, 3.0, 4.0, 6.0, 9.0, 20.0):
+            for flare in (1.0, 3.0, 5.0, 8.0):
+                with self.subTest(depth=depth, flare=flare):
+                    roll, rise, _ = _fit_radii(
+                        10.0, depth, flare, None, keep_flat_bottom=False
+                    )
+                    self.assertAlmostEqual(roll, rise, places=9)
+                    self.assertLessEqual((depth - rise) + roll, depth + 1e-9)
