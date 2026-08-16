@@ -461,3 +461,74 @@ class ExportPrecisionTests(unittest.TestCase):
             self.assertIsNone(seen[0], "a preview must not jump to export precision")
         finally:
             impl.build_body = original  # type: ignore[method-assign]
+
+
+@unittest.skipUnless(render_available(), "PythonSCAD binary not available")
+class SlidingRimRoundingTests(unittest.TestCase):
+    """FR-043f1: a sliding box's top edge is exposed, so it rounds.
+
+    A lidded box normally keeps its rim square — the lid seals against it and
+    carries the rounding itself (FR-043d). A sliding box is the exception: its
+    lid lies down in the channel, so what stands at the top of the closed box is
+    the rails' own outer edges, and a hand runs along them.
+
+    At a quarter of the wall, not the usual half: the rail is what is left of
+    the wall once the groove is cut into it.
+    """
+
+    @classmethod
+    def setUpClass(cls) -> None:
+        body = '''
+import os, re, tempfile, zipfile
+from openscad import export
+from pyboxbuilder.box.registry import BOX_IMPL_REGISTRY
+from pyboxbuilder.enums import BoxType
+from pybosl2 import cuboid
+
+def volume(solid):
+    with tempfile.NamedTemporaryFile(suffix=".3mf", delete=False) as handle:
+        path = handle.name
+    try:
+        export(solid.shape, path)
+        model = zipfile.ZipFile(path).read("3D/3dmodel.model").decode()
+    finally:
+        os.unlink(path)
+    verts = [(float(x), float(y), float(z)) for x, y, z in re.findall(
+        r'<vertex x="([-0-9.e+]+)" y="([-0-9.e+]+)" z="([-0-9.e+]+)"', model)]
+    total = 0.0
+    for a, b, c in re.findall(r'<triangle v1="(\\d+)" v2="(\\d+)" v3="(\\d+)"', model):
+        p, q, r = verts[int(a)], verts[int(b)], verts[int(c)]
+        total += (p[0]*(q[1]*r[2]-r[1]*q[2]) - p[1]*(q[0]*r[2]-r[0]*q[2])
+                  + p[2]*(q[0]*r[1]-r[0]*q[1])) / 6.0
+    return abs(total)
+
+base = dict(label="T", width=100, length=80, height=40, wall_thickness=2.0,
+            floor_thickness=1.6, lid_thickness=2.0, hollow=True)
+# A probe straddling the top outer edge, away from the corners: a square edge
+# fills exactly half of it.
+probe = cuboid([1.0, 6.0, 1.0]).translate([0.0, 40.0, 40.0])
+for name in ("sliding", "sliding_catch", "card_library", "inset"):
+    report(name, "%.4f" % volume(BOX_IMPL_REGISTRY[BoxType(name)]().build_body(dict(base)) & probe))
+cuboid([1, 1, 1]).show()
+'''
+        cls.result = measure_python(body)
+        if not cls.result.ok:
+            raise AssertionError(f"measurement run failed: {cls.result.error}")
+
+    def test_every_sliding_type_rounds_its_top_edge(self) -> None:
+        from pyboxbuilder.box.shell import sliding_rim_rounding
+
+        radius = sliding_rim_rounding({"wall_thickness": 2.0})
+        self.assertAlmostEqual(radius, 0.5, places=6)
+        # A square edge fills half the probe; the fillet takes the corner
+        # sliver off it, over the probe's 6mm.
+        expected = 1.5 - 6.0 * (1.0 - math.pi / 4) * radius ** 2
+        for name in ("sliding", "sliding_catch", "card_library"):
+            with self.subTest(box_type=name):
+                self.assertAlmostEqual(
+                    float(self.result.reports[name]), expected, delta=0.05
+                )
+
+    def test_a_lidded_box_that_is_not_sliding_keeps_its_square_rim(self) -> None:
+        """Its lid seals against that rim and carries the rounding (FR-043d)."""
+        self.assertAlmostEqual(float(self.result.reports["inset"]), 1.5, delta=0.02)
