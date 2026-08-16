@@ -5,7 +5,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-from pyboxbuilder.enums import ScoopSide
+from pyboxbuilder.enums import FingerCut, ScoopSide
 from pyboxbuilder.compartments.element import CompartmentElement
 
 
@@ -42,7 +42,19 @@ class CompartmentBuilder:
     """
     """Corner radius in mm."""
     finger_scoop: bool = False
-    """Enable finger scoop cutout."""
+    """Cut a finger cutout into this compartment.
+
+    What kind of cut it is follows from :attr:`finger_cut`.
+    """
+    finger_cut: FingerCut = FingerCut.THROUGH_FLOOR
+    """Which cut a `finger_scoop=True` compartment gets (FR-043a10).
+
+    Defaults to the hole **through the floor**, because a well that is worth
+    cutting is usually a well something is stacked in, and a stack has no side
+    for a finger to reach down. A well of loose pieces asks for
+    :attr:`FingerCut.SCOOP` and gets the side dip instead, which leaves the
+    box's base solid under it.
+    """
     scoop_side: ScoopSide | None = None
     """Which wall the finger scoop pierces.
 

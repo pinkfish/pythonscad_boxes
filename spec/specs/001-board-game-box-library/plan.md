@@ -411,6 +411,15 @@ All cutouts and outer edges MUST be smooth — no sharp 90° corners that catch 
 
    So the boundary is **5mm**: below the card well, above the 4mm token tray the bore is genuinely for. It is also the number this plan had already assumed, recording (§1a9) that Emberleaf's 6.5mm case cuts a wall scoop — the constant and the design note had drifted apart, and the geometry followed the constant.
 
+1a14. **A card well is emptied through the floor (FR-043a10).** A scoop puts a finger down the *side* of what the well holds; a card stack fills its well, so there is no side to reach down and what actually lifts it is a thumb from underneath. Every card box in the original toolkit does this — `FingerHoleBase` is a cylinder, and its callers translate it `-default_floor_thickness - 0.5` so it starts *below* the base and cuts right through:
+
+        translate([0, card_width / 2, -default_floor_thickness - 0.5])
+          FingerHoleBase(radius=15, height=card_box_height);
+
+   The port had been giving those wells scoops, which is why a card box's cut looked like a decoration rather than a way in. The cut is a circle at the wall the cut's side names, straddling it so it breaks through: the finger arrives under the *edge* of the stack, which is where a card is lifted from, and the middle of the floor stays intact. Rolled where it emerges — into the floor, into the wall's top, and onto both faces — like every other finger cut.
+
+   **The kind of cut is a per-compartment setting** (`FingerCut`), and the default is the through hole: a well that asks for a finger cut is usually a well something is stacked in. A well holding loose pieces asks for `SCOOP` and gets the side dip, which is also what the shallow-well branch (§1a13) still produces.
+
 1b. **A floor finger hole is not an edge scoop (FR-043a1).** They were briefly built from one profile, which put a flat-bottomed pan where a bowl belongs. An edge scoop is a channel you sweep a finger *along*; a floor hole is a bore you push a piece *up* through, so its bottom is tangent to the floor. The two share `_sweep_through_wall` — the depth matching, face fillets, floor clip and side placement are genuinely common — and differ only where they should, in the profile.
 
 2. **Main box edges are smooth (FR-043d).** Every exposed edge of every printed piece is rounded over at `wall_thickness / 2` by default (FR-044):
@@ -1130,6 +1139,7 @@ Where each requirement is designed, and where it is verified. Sections named bel
 | FR-043a5, FR-043a6 | Finger Holes §1a (the radius is kept; width and radius are independent) | `compartments/finger_hole.py`, `builders/_base.py` |
 | FR-043a8 | Finger Holes §1a12 (a grip is never wider than it is deep) | `box/shell.py` |
 | FR-043a9 | Finger Holes §1a13 (where the notch gives way to the bore) | `compartments/finger_hole.py` |
+| FR-043a10 | Finger Holes §1a14 (a card well is emptied through the floor) | `compartments/finger_hole.py`, `compartments/carve.py` |
 | FR-043a7 | Finger Holes §1a12 (two circles and the tangent between them) | `compartments/finger_hole.py` |
 | FR-047a, FR-047b | Finger Holes §3a (skip, opt-out) | `box/shell.py` |
 | FR-047c | Finger Holes §3a (a polygon path box gets none) | `box/types/path.py` |
@@ -1189,6 +1199,7 @@ Where each requirement is designed, and where it is verified. Sections named bel
 | SC-070 | `test_finger_smoothing.py` — `GripStaysInProportionTests`: no grip is wider than it is deep, and the flank angles stay in family |
 | SC-071 | `test_finger_smoothing.py` — `OutlineNeverRunsBackwardsTests`: swept over width, depth and roll |
 | SC-072 | `test_finger_smoothing.py` — `ScoopSelectionTests`: a card well notches, a token tray bores |
+| SC-073 | `test_finger_smoothing.py` — `ThroughFloorCutTests`: the base is open under the cut, and a scoop leaves it solid |
 | SC-068 | `test_finger_smoothing.py` — `NoLidFingerHoleTests`: the half-height cap |
 
 ## Complexity Tracking

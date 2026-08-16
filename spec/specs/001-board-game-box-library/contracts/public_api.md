@@ -13,6 +13,7 @@ from pyboxbuilder import (
     LabelMode,                      # Enum: FRAMED, FRAMELESS
     PatternType,                    # Enum: HEX_GRID, GRID, VORONOI
     ScoopSide,                      # Enum: FRONT, BACK, LEFT, RIGHT
+    FingerCut,                      # Enum: THROUGH_FLOOR, SCOOP
     Color,                          # RGBA dataclass with named presets
     LidBuilder,                     # Lid decoration builder
     PatternBuilder,                 # Through-hole pattern builder
@@ -107,9 +108,12 @@ CompartmentBuilder(
     depth: float,
     rounded_corners: float = 0.0,
     finger_scoop: bool = False,
+    finger_cut: FingerCut = FingerCut.THROUGH_FLOOR,   # or FingerCut.SCOOP
     scoop_side: ScoopSide | None = None,   # None → derived (FR-043b4/b6)
 )
 ```
+
+`finger_cut` says what kind of cut a `finger_scoop=True` compartment gets (FR-043a10). **THROUGH_FLOOR** — the default — is a hole through the box's base at the wall, so a thumb pushes the contents up from underneath: what a stack needs, since a stack that fills its well leaves no side for a finger to reach down. **SCOOP** is the dip in the side, for loose pieces, and it leaves the base solid.
 
 `scoop_side` defaults to **None**, not to a member: the side is derived — the compartment's shorter wall (FR-043b4), overridden to the lid's exit wall on a sliding box (FR-043b6). Pinning `FRONT` here would put a card box's cut in the long face and, on a sliding box, through the lid's groove.
 

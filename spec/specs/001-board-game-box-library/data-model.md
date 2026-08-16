@@ -31,6 +31,7 @@ Project.export()
 | `LabelMode` | FRAMED, FRAMELESS | Label decoration style |
 | `PatternType` | HEX_GRID, GRID, VORONOI | Lid through-hole pattern |
 | `ScoopSide` | FRONT, BACK, LEFT, RIGHT | Finger scoop placement |
+| `FingerCut` | THROUGH_FLOOR, SCOOP | Which cut empties a compartment (FR-043a10) |
 
 ## Color (`pybosl2.Color`, re-exported from `pyboxbuilder`)
 
@@ -140,6 +141,7 @@ Pattern fills are `Callable[[width, length, thickness], Bosl2Solid]` functions t
 | `depth` | `float` | required |
 | `rounded_corners` | `float` | 0.0 |
 | `finger_scoop` | `bool` | False |
+| `finger_cut` | `FingerCut` | THROUGH_FLOOR — a hole through the base at the wall, for a stack; `SCOOP` gives the side dip instead (FR-043a10) |
 | `scoop_side` | `ScoopSide \| None` | None — derived: the shorter wall, or the lid's exit wall on a sliding box (FR-043b4/b6) |
 
 ## ExportResult (`pyboxbuilder/export/result.py`)

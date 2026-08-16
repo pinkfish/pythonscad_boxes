@@ -1088,6 +1088,10 @@ Measured against the original, the player box still carries 72,813mm³ of materi
 - [x] T326 **A card well should notch, not bore** (FR-043a9). `MIN_WALL_SCOOP_DEPTH_MM` was inherited at 8mm, above the 6.5mm well of Emberleaf's player card box: it got the floor bore, which on a 10.5mm box shows as a nick in the rim a millimetre deep with the wall whole underneath. Lowered to 5mm — below a card well, above the 4mm tray the bore is for, and the number §1a9 of the plan already assumed.
 - [x] T326a [P] Write test: a 6.5mm well gets the wall notch and a 4mm tray still gets the bore (SC-072).
 
+- [x] T327 **Cut card wells through the floor** (FR-043a10). Port `FingerHoleBase`: a circle at the wall the side names, straddling it so it breaks through, running from below the base up to the wall's top, rolled where it emerges — into the floor, into the wall's top and onto both faces. `build_through_hole` in `compartments/finger_hole.py`.
+- [x] T328 **Make the kind of cut a setting** (`FingerCut.THROUGH_FLOOR` / `SCOOP`) on the compartment, defaulting to the through hole, and wire it through `carve.py`. A well of loose pieces asks for the scoop.
+- [x] T328a [P] Write test: a compartment asking for a finger cut leaves the box's base **open** beneath it, and one asking for a scoop leaves it solid (SC-073).
+
 **Checkpoint**: every grip is a base circle, a straight flank and a rolled end, at every depth. Measured, half-width 20: at 30mm deep the flank is 7mm and exactly vertical, at 15mm it is 8mm at 52°, at 10mm it is 13mm at 31° — and the largest turn anywhere in the outline is one facet's worth.
 
 ---

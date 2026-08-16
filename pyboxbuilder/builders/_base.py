@@ -114,6 +114,7 @@ class BoxBuilder:
         depth: float | None = None,
         rounded_corners: float = 0.0,
         finger_scoop: bool = False,
+        finger_cut: "FingerCut | None" = None,
         scoop_side: "ScoopSide | None" = None,
         no_rotate: bool = False,
         shape_file: str | None = None,
@@ -125,6 +126,8 @@ class BoxBuilder:
         from pyboxbuilder.compartments.builder import CompartmentBuilder
         from pyboxbuilder.enums import ScoopSide
 
+        from pyboxbuilder.enums import FingerCut
+
         cb = CompartmentBuilder(
             label=label,
             size=size,
@@ -133,6 +136,7 @@ class BoxBuilder:
             depth=depth,
             rounded_corners=rounded_corners,
             finger_scoop=finger_scoop,
+            finger_cut=FingerCut.THROUGH_FLOOR if finger_cut is None else finger_cut,
             scoop_side=scoop_side,
             no_rotate=no_rotate,
             shape_file=shape_file,

@@ -121,6 +121,26 @@ class ScoopSide(Enum):
     RIGHT = "right"
 
 
+class FingerCut(Enum):
+    """How a compartment's finger cutout gets the contents out (FR-043a10).
+
+    The two answer different situations, and which one a well wants is about
+    what is *in* it rather than how big it is:
+
+    ``THROUGH_FLOOR``
+        A hole through the box's base at one wall, so a thumb pushes the
+        contents up from underneath. What a **stack** needs — a card stack
+        fills its well, leaving no side for a finger to reach down. The
+        original toolkit cuts every card box this way.
+    ``SCOOP``
+        A dip in the side of the well, for loose pieces a finger goes in
+        beside: tokens, a bag, a board. It leaves the base solid.
+    """
+
+    THROUGH_FLOOR = "through_floor"
+    SCOOP = "scoop"
+
+
 class ElementShape(Enum):
     """Silhouette kind for a `CompartmentElement` (FR-004a/FR-004b).
 

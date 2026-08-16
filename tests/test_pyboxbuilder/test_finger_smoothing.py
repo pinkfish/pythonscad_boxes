@@ -1822,3 +1822,76 @@ class OutlineNeverRunsBackwardsTests(unittest.TestCase):
                     )
                     self.assertAlmostEqual(roll, rise, places=9)
                     self.assertLessEqual((depth - rise) + roll, depth + 1e-9)
+
+
+@unittest.skipUnless(render_available(), "PythonSCAD binary not available")
+class ThroughFloorCutTests(unittest.TestCase):
+    """FR-043a10/SC-073: a card well is emptied from underneath.
+
+    A scoop puts a finger down the *side* of what a well holds, and a stack
+    that fills its well has no side to reach down — what lifts it is a thumb
+    from below, so the cut has to go through the box's base. The original
+    toolkit cuts every card box this way (`FingerHoleBase`, translated a floor
+    thickness below the base).
+
+    Measured under the box, because that is the whole point: a probe beneath
+    the cut is open to the outside when the cut is a through hole and solid
+    when it is a scoop.
+    """
+
+    @classmethod
+    def setUpClass(cls) -> None:
+        body = '''
+import os, re, tempfile, zipfile
+from openscad import export
+from pyboxbuilder import BoxType, FingerCut, Project
+from pybosl2 import cuboid
+
+def volume(solid):
+    with tempfile.NamedTemporaryFile(suffix=".3mf", delete=False) as handle:
+        path = handle.name
+    try:
+        export(solid.shape, path)
+        model = zipfile.ZipFile(path).read("3D/3dmodel.model").decode()
+    finally:
+        os.unlink(path)
+    verts = [(float(x), float(y), float(z)) for x, y, z in re.findall(
+        r'<vertex x="([-0-9.e+]+)" y="([-0-9.e+]+)" z="([-0-9.e+]+)"', model)]
+    total = 0.0
+    for a, b, c in re.findall(r'<triangle v1="(\\d+)" v2="(\\d+)" v3="(\\d+)"', model):
+        p, q, r = verts[int(a)], verts[int(b)], verts[int(c)]
+        total += (p[0]*(q[1]*r[2]-r[1]*q[2]) - p[1]*(q[0]*r[2]-r[0]*q[2])
+                  + p[2]*(q[0]*r[1]-r[0]*q[1])) / 6.0
+    return abs(total)
+
+def build(kind):
+    p = Project("A", game_box_size=(400, 300, 60), generate_spacers=False,
+                wall_thickness=3.0, floor_thickness=2.0, lid_thickness=2.0)
+    b = p.box(BoxType.SLIDING, "cards", size=(90, 98, 20), position=(0, 0, 0),
+              expandable=False, no_rotate=True)
+    b.compartment("Cards", size=(67, 92), depth=16.0, position=(9.0, 0.0),
+                  finger_scoop=True, finger_cut=kind)
+    p._resolve_final_layout()
+    return p._build_box_solids(b)[0]
+
+# The floor under the cut: the cut sits at the middle of a wall, so probe the
+# floor there. 6 x 3 x 2 of floor = 36 when solid.
+probe = cuboid([6.0, 3.0, 2.0]).translate([45.0, 94.0, 1.0])
+report("through_floor", "%.2f" % volume(build(FingerCut.THROUGH_FLOOR) & probe))
+report("scoop", "%.2f" % volume(build(FingerCut.SCOOP) & probe))
+report("probe_full", "%.2f" % volume(probe))
+cuboid([1, 1, 1]).show()
+'''
+        cls.result = measure_python(body)
+        if not cls.result.ok:
+            raise AssertionError(f"measurement run failed: {cls.result.error}")
+
+    def test_the_base_is_open_under_a_through_cut(self) -> None:
+        got = float(self.result.reports["through_floor"])
+        self.assertLess(got, 1.0, "the floor is still there under the cut")
+
+    def test_a_scoop_leaves_the_base_solid(self) -> None:
+        got = float(self.result.reports["scoop"])
+        full = float(self.result.reports["probe_full"])
+        self.assertAlmostEqual(got, full, delta=full * 0.05,
+                               msg="a scoop opened the box's base")

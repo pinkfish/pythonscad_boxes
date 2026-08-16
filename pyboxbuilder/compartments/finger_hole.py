@@ -1239,3 +1239,94 @@ def build_scoop(
         rounding_radius=rounding_radius, rounding_edge=rounding_edge,
         floor_thickness=floor_thickness,
     )
+
+
+def build_through_hole(
+    comp_width: float,
+    comp_length: float,
+    side: ScoopSide,
+    radius: float = 14.0,
+    comp_depth: float = 20.0,
+    wall_thickness: float = 2.0,
+    floor_thickness: float = 2.0,
+    rounding_edge: float | None = None,
+) -> "Bosl2Solid":
+    """A finger hole cut **through the floor**, for a well holding a stack.
+
+    A scoop puts a finger down the *side* of what a well holds. A card stack
+    fills its well, so there is no side to reach down — what lifts it is a thumb
+    from underneath, which means the cut has to go through the box's base
+    (FR-043a10). Every card box in the original toolkit does this: `FingerHoleBase`
+    is a cylinder, and its callers translate it ``-default_floor_thickness - 0.5``
+    so it starts below the base and cuts right through.
+
+    The circle sits **on the wall** the ``side`` names, straddling it, so the
+    finger arrives under the *edge* of the stack — where a card is lifted from —
+    and the middle of the floor is left to hold the pieces up. Rolled where it
+    emerges: onto both faces of the wall, and into the wall's top.
+
+    Args:
+        comp_width: Compartment footprint width.
+        comp_length: Compartment footprint length.
+        side: Which wall the hole is cut at.
+        radius: Hole radius in mm; capped to half the wall's span.
+        comp_depth: Compartment depth — the cut runs from below the base to
+            the top of the wall.
+        wall_thickness: The wall the hole breaks through.
+        floor_thickness: The floor it passes through; the cut starts below it.
+        rounding_edge: Fillet where the cut emerges on a face. ``None`` uses
+            ``wall_thickness / 2``, as everywhere else.
+
+    Returns:
+        Bosl2Solid cutout, positioned in the compartment frame — its floor at
+        ``z = 0``, so the cut reaches down to ``-floor_thickness`` and below.
+
+    Raises:
+        ValueError: If the compartment span, depth or radius is not positive.
+    """
+    from pybosl2 import cuboid, cylinder
+
+    span = comp_width if side in (ScoopSide.FRONT, ScoopSide.BACK) else comp_length
+    if span <= 0:
+        raise ValueError(f"compartment span must be > 0; got {span}")
+    if comp_depth <= 0:
+        raise ValueError(f"comp_depth must be > 0; got {comp_depth}")
+    if radius <= 0:
+        raise ValueError(f"radius must be > 0; got {radius}")
+    if rounding_edge is None:
+        rounding_edge = wall_thickness / 2
+    radius = min(radius, span / 2)
+
+    # Below the base and above the rim: the cut has to *leave* on both sides,
+    # so neither end is a coincident face for the boolean to resolve.
+    below = floor_thickness + 1.0
+    height = comp_depth + below + RIM_OVERSHOOT_MM
+    bore = cylinder(
+        height=height, radius=radius, **precision_kwargs()
+    ).translate([0.0, 0.0, height / 2 - below])
+
+    # The wall itself: the bore only reaches the wall's inner half, so the rest
+    # of the way through is a square-ended slot of the same width, rolled onto
+    # each face by the same fillet the scoops use (FR-043c).
+    depth = wall_thickness + 0.03
+    slot = _sweep_through_wall(
+        [
+            (-radius, -below),
+            (radius, -below),
+            (radius, comp_depth + RIM_OVERSHOOT_MM),
+            (-radius, comp_depth + RIM_OVERSHOOT_MM),
+        ],
+        comp_width,
+        comp_length,
+        side,
+        comp_depth=comp_depth,
+        wall_thickness=wall_thickness,
+        rounding_radius=0.0,
+        rounding_edge=rounding_edge,
+        breach_floor=True,
+        span=span,
+        radius=radius,
+    )
+
+    x, y = _SIDE_CENTRES[side](comp_width, comp_length)
+    return slot | bore.translate([x, y, 0.0])

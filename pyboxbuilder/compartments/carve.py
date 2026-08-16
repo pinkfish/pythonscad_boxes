@@ -124,6 +124,7 @@ def build_compartment_scoop(
     interior: Interior,
     scoop_side: ScoopSide = ScoopSide.FRONT,
     top_z: float | None = None,
+    kind: "FingerCut | None" = None,
 ) -> "Bosl2Solid":
     """Build a compartment's finger scoop — the part that pierces a wall.
 
@@ -137,11 +138,16 @@ def build_compartment_scoop(
         scoop_side: Which wall the scoop pierces.
         top_z: The box's top face. The cut reaches it so its roll merges into
             the rim; ``None`` falls back to the interior ceiling.
+        kind: Which cut to build (FR-043a10). ``None`` takes the through-floor
+            hole, which is what a well worth cutting usually wants — the
+            compartment carries the choice, and it is passed in rather than
+            read off the placement, which does not carry it.
 
     Returns:
         The scoop cutout, positioned in the box frame.
     """
-    from pyboxbuilder.compartments.finger_hole import build_scoop
+    from pyboxbuilder.compartments.finger_hole import build_scoop, build_through_hole
+    from pyboxbuilder.enums import FingerCut
 
     width, length = placement.size
     floor_z = compartment_floor_z(placement, interior)
@@ -155,11 +161,25 @@ def build_compartment_scoop(
     wall_thickness = interior.origin_x if interior.origin_x > 0 else 2.0
     # origin_z is the box floor: the scoop dips a fraction of it so its bottom
     # face is not coplanar with the well floor (which renders as speckle).
-    scoop = build_scoop(
-        width, length, depth, scoop_side,
-        wall_thickness=wall_thickness,
-        floor_thickness=interior.origin_z if interior.origin_z > 0 else None,
-    )
+    floor_thickness = interior.origin_z if interior.origin_z > 0 else None
+    if kind is None:
+        kind = FingerCut.THROUGH_FLOOR
+    if kind is FingerCut.THROUGH_FLOOR:
+        # A stack fills its well, so there is no side to reach down: the way
+        # out is a thumb from underneath, and the cut goes through the base
+        # (FR-043a10).
+        scoop = build_through_hole(
+            width, length, scoop_side,
+            comp_depth=depth,
+            wall_thickness=wall_thickness,
+            floor_thickness=floor_thickness or 2.0,
+        )
+    else:
+        scoop = build_scoop(
+            width, length, depth, scoop_side,
+            wall_thickness=wall_thickness,
+            floor_thickness=floor_thickness,
+        )
     return _place(scoop, placement, interior)
 
 
@@ -276,7 +296,10 @@ def build_contents(
             )
             side_top = (wall_tops or {}).get(side, top_z)
             scoops.append(
-                build_compartment_scoop(placement, interior, side, top_z=side_top)
+                build_compartment_scoop(
+                    placement, interior, side, top_z=side_top,
+                    kind=getattr(builder, "finger_cut", None),
+                )
             )
 
     contents = union_all(wells)
