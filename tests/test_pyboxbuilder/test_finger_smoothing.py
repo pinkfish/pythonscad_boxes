@@ -479,6 +479,24 @@ class NoLidFingerHoleTests(unittest.TestCase):
                         f"only {left}mm of tray wall left below the cut",
                     )
 
+    def test_the_cut_is_never_deeper_than_half_the_box(self) -> None:
+        """SC-068/FR-047: a fingertip's radius is 20mm and a tray is often 25mm
+        tall, so without this the cut takes four fifths of the wall and what is
+        left reads as two posts and a bridge.
+
+        Checked where the cap binds (a shallow-to-middling tray) and where it
+        does not (a deep one, sized by the finger instead).
+        """
+        from pyboxbuilder.box.shell import no_lid_finger_holes
+
+        for height, expected in ((25, 12.5), (30, 15.0), (50, 20.0)):
+            with self.subTest(height=height):
+                holes = no_lid_finger_holes(self.spec(height=height))
+                self.assertTrue(holes)
+                for hole in holes:
+                    self.assertLessEqual(hole.depth, height / 2 + 1e-9)
+                    self.assertAlmostEqual(hole.depth, expected, places=6)
+
     def test_a_tray_with_no_room_for_the_strip_gets_no_holes(self) -> None:
         """The strip wins over the cut (FR-047a/SC-065).
 
@@ -1391,12 +1409,21 @@ class CornerRadiusIsKeptTests(unittest.TestCase):
         self.assertAlmostEqual(r2, 20.0, places=6)
 
     def test_the_rise_gives_before_the_radius_does(self) -> None:
-        """A 19mm-deep cut cannot hold a 20mm circle *and* a 4.8mm rise. The
-        roll flattens to a circular one first, and only the remainder comes off
-        the radius — which still beats the 14.4mm the old scaling returned."""
+        """A 19mm-deep cut cannot hold a 20mm circle under a 4.8mm rise, so the
+        roll flattens to a circular one — and once it has, the base is a dish
+        (FR-043a7) and the 20mm is honoured whole. The old scaling returned
+        14.4mm for the same request."""
         _, rise, r2 = self.fit(20.0, 19.0, 20.0)
         self.assertAlmostEqual(rise, 3.0, places=6)
-        self.assertAlmostEqual(r2, 16.0, places=6)
+        self.assertAlmostEqual(r2, 20.0, places=6)
+
+    def test_a_radius_past_what_the_shape_allows_is_capped_there(self) -> None:
+        """The cap is the flattest arc that still touches the roll: flatter and
+        it stops reaching the cut's full width."""
+        from pyboxbuilder.compartments.finger_hole import dish_radius
+
+        _, rise, r2 = self.fit(20.0, 19.0, 500.0)
+        self.assertAlmostEqual(r2, dish_radius(20.0, 19.0, rise), places=6)
 
     def test_at_half_the_width_the_base_is_one_round_curve(self) -> None:
         from pyboxbuilder.compartments.finger_hole import scoop_outline
@@ -1433,3 +1460,85 @@ class CornerRadiusIsKeptTests(unittest.TestCase):
         hole = box.finger_hole(ScoopSide.FRONT, width=30.0, bottom_radius=6.0)
         self.assertAlmostEqual(hole.radius, 15.0)
         self.assertAlmostEqual(hole.bottom_radius, 6.0)
+
+
+class ShallowCutIsADishTests(unittest.TestCase):
+    """FR-043a7/SC-067: a shallow grip's base is one arc, not two corners.
+
+    A corner circle is bounded by the depth while the width is not, so sizing a
+    shallow cut like a deep one tightens the corners and opens a flat run
+    between them — a slot with two nicks, which gets worse the shallower the
+    tray. Below the depth that can hold a round base, the base becomes a single
+    long arc across the whole width instead.
+    """
+
+    def outline(self, half_width: float, depth: float):
+        from pyboxbuilder.compartments.finger_hole import _fit_radii, scoop_outline
+
+        flare, rise, r2 = _fit_radii(
+            half_width, depth, 3.0, None, keep_flat_bottom=False
+        )
+        return scoop_outline(half_width, depth, flare, r2, rise), r2, rise
+
+    def right_half(self, ring, depth):
+        """The outline's right side, bottom to rim, without the rim overshoot."""
+        return sorted(
+            (p for p in ring if p[0] >= -1e-9 and p[1] <= depth + 1e-9),
+            key=lambda p: p[1],
+        )
+
+    def test_the_base_is_one_sweep_with_no_flat_run(self) -> None:
+        ring, r2, _ = self.outline(20.0, 14.0)
+        flat = [x for x, y in ring if abs(y) < 1e-9]
+        self.assertLessEqual(len(flat), 2)
+        self.assertAlmostEqual(max(flat) if flat else 0.0, 0.0, places=6)
+
+    def test_the_arc_is_longer_than_the_cut_is_deep(self) -> None:
+        """That is what makes it a dish: the arc's widest point is above the
+        cut, so it opens all the way up instead of curling back in."""
+        for half_width, depth in ((20.0, 14.0), (20.0, 9.0), (14.0, 6.0)):
+            with self.subTest(depth=depth):
+                _, r2, _ = self.outline(half_width, depth)
+                self.assertGreater(r2, depth)
+                self.assertGreater(r2, half_width)
+
+    def test_the_cut_widens_all_the_way_to_the_rim(self) -> None:
+        ring, _, _ = self.outline(20.0, 14.0)
+        xs = [x for x, _ in self.right_half(ring, 14.0)]
+        for below, above in zip(xs, xs[1:]):
+            self.assertGreaterEqual(above, below - 1e-6, "the outline curls back in")
+
+    def test_the_base_meets_the_roll_without_a_crease(self) -> None:
+        """The join is a touch between two circles, so the direction does not
+        change across it — the base runs into the roll and the roll into the top
+        face with nothing to feel."""
+        import math
+
+        ring, _, _ = self.outline(20.0, 14.0)
+        points = self.right_half(ring, 14.0)
+        segments = [
+            (a, b) for a, b in zip(points, points[1:]) if math.dist(a, b) > 1e-9
+        ]
+        angles = [
+            math.degrees(math.atan2(b[1] - a[1], b[0] - a[0])) for a, b in segments
+        ]
+        turns = [abs(b - a) for a, b in zip(angles, angles[1:])]
+        # Every turn is one facet's worth; a crease at the join would stand out
+        # against them.
+        self.assertLess(max(turns), 2 * (sum(turns) / len(turns)) + 1e-6)
+
+    def test_a_deep_cut_keeps_its_round_base_and_straight_sides(self) -> None:
+        _, r2, rise = self.outline(20.0, 30.0)
+        self.assertAlmostEqual(r2, 20.0, places=6)
+        self.assertGreater(rise, 3.0, "the deep cut lost its gentler roll")
+
+    def test_the_two_shapes_agree_where_they_meet(self) -> None:
+        """At the depth where a round base just fits, the dish is that same
+        circle — so a box that changes height changes shape continuously."""
+        from pyboxbuilder.compartments.finger_hole import dish_radius
+
+        half_width, flare = 20.0, 3.0
+        meeting = half_width + flare  # depth at which `height - rise == radius`
+        self.assertAlmostEqual(
+            dish_radius(half_width, meeting, flare), half_width, delta=0.05
+        )

@@ -50,6 +50,15 @@ plus a millimetre, which on the usual 2mm wall is a 3mm ribbon — it prints, an
 it flexes. 5mm is stiff enough to lift a full tray by.
 """
 
+MAX_FINGER_HOLE_HEIGHT_SHARE = 0.5
+"""How deep an automatic finger hole may go, as a share of the box (FR-047).
+
+A fingertip's radius is 20mm and a tray is often 25mm tall, so the radius on its
+own takes four fifths of the wall: what is left reads as two posts and a bridge.
+Half is where the wall still behaves like a wall — and it is a cap, not a
+target, so a deep box's cut is still sized by the finger.
+"""
+
 MAX_FINGER_HOLE_SPAN_SHARE = 0.75
 """How much of a wall an automatic hole's mouth may take (FR-047a).
 
@@ -376,7 +385,8 @@ def no_lid_finger_holes(spec: dict):
     - throat radius = `min(20, min(length, width) / 4, height - floor_thickness + 1)`
       — a fingertip, capped at 20mm and at a quarter of the smaller *outer*
       footprint dimension;
-    - reach = the radius, but **stopping 5mm above the tray's floor**;
+    - reach = the radius, never past **half the box's height**, and **stopping
+      5mm above the tray's floor**;
     - mouth flare = 3mm.
 
     The reach's last term is a structural rule, not arithmetic: the strip of
@@ -414,7 +424,10 @@ def no_lid_finger_holes(spec: dict):
     # The strip of wall the tray is picked up by: the cut stops this far above
     # the tray's floor, so what is left under it keeps the wall's own section.
     deepest = height - ft - MIN_WALL_BELOW_HOLE_MM
-    hole_height = min(radius, deepest)
+    # And never past half the box, whatever the floor leaves: a fingertip's
+    # radius is 20mm and a tray is often 25mm tall, so the radius alone would
+    # take four fifths of the wall and leave two posts with a bridge between.
+    hole_height = min(radius, height * MAX_FINGER_HOLE_HEIGHT_SHARE, deepest)
     if hole_height < MIN_FINGER_HOLE_REACH_MM:
         # No room for both. The strip wins: a tray this short is liftable by
         # its walls, and a grip cut out of what holds it is not a grip.

@@ -235,6 +235,43 @@ def scoop_profile(
     return shapes2d.polygon([[float(x), float(y)] for x, y in ring])
 
 
+def dish_radius(radius: float, height: float, flare: float) -> float:
+    """The radius of a **shallow** cut's base: one arc across its whole width.
+
+    A deep cut is a bore — a round base with sides running up from it — and its
+    base radius is the half-width. A shallow one is a **dish**, and sizing it
+    the same way is what produces the U with tight corners a fingertip cannot
+    follow: a corner circle is bounded by the depth while the width is not, so
+    as the tray gets shallower the corners tighten and a flat run opens up
+    between them. The base has to stop being two circles and become one
+    (FR-043a7).
+
+    This is the flattest arc that still meets the mouth's roll **tangentially**,
+    which makes the join disappear — the base runs into the roll and the roll
+    into the top face with nothing to feel between them. Solved from the
+    tangency condition on the two centres, ``(0, R)`` and ``(A, u)``::
+
+        A² + (R - u)² = (R + flare)²   →   R = (A² + u² - flare²) / (2(u + flare))
+
+    Args:
+        radius: Half-width of the cut.
+        height: The outline's height.
+        flare: The mouth roll's outward flare, which is also its radius here —
+            the roll is circular in this branch, because a circle and an
+            ellipse cannot be made exactly tangent.
+
+    Returns:
+        The arc's radius, always larger than the half-width and, on a cut this
+        shallow, larger than the cut is deep — so the arc widens all the way up
+        instead of curling back in.
+    """
+    mouth = radius + flare
+    below_roll = height - flare
+    return (mouth * mouth + below_roll * below_roll - flare * flare) / (
+        2.0 * (below_roll + flare)
+    )
+
+
 def _fit_radii(
     radius: float,
     height: float,
@@ -277,21 +314,46 @@ def _fit_radii(
     14.4mm to a caller who asked for 20 and left nothing in the geometry to say
     so.
     """
-    if bottom_rounding is None:
-        bottom_rounding = radius * DEFAULT_BOTTOM_ROUNDING_RATIO
+    asked = bottom_rounding
     flare = max(0.0, top_rounding)
     rise = flare * TOP_ROLL_RISE_RATIO if roll_rise is None else max(0.0, roll_rise)
-    r2 = max(0.0, bottom_rounding)
+    # A roll has to have somewhere to sit; a circular one (rise = flare) is as
+    # little as a roll can be and still roll.
+    floor_rise = min(flare, height / 2.0)
+
     if keep_flat_bottom:
         # A compartment scoop holds something, so part of its base stays flat
-        # (FR-043a). A grip holds nothing and its base is round.
-        r2 = min(r2, radius * (1.0 - MIN_FLAT_BOTTOM_RATIO))
-    # Two corner circles cannot overlap, and the roll needs somewhere to sit:
-    # a circular roll (rise = flare) is as little as a roll can be and still
-    # roll. Everything past that comes off the rise before it comes off r2.
-    floor_rise = min(flare, height / 2.0)
-    r2 = max(0.0, min(r2, radius, height - floor_rise))
-    rise = max(floor_rise, min(rise, height - r2)) if height > r2 else 0.0
+        # (FR-043a), and its corner circles must not overlap each other.
+        r2 = radius * DEFAULT_BOTTOM_ROUNDING_RATIO if asked is None else asked
+        r2 = min(max(0.0, r2), radius * (1.0 - MIN_FLAT_BOTTOM_RATIO))
+        # Everything past that comes off the rise before it comes off r2.
+        r2 = max(0.0, min(r2, radius, height - floor_rise))
+        rise = max(floor_rise, min(rise, height - r2)) if height > r2 else 0.0
+        return flare, rise, r2
+
+    # A grip. Which of the two shapes it is follows from its own proportions
+    # (FR-043a7): with room below the roll for a circle of the half-width, the
+    # base is that round and the sides run up from it; without, it is a **dish**
+    # — one arc across the whole width. The two agree exactly at the depth where
+    # they meet, so a box that changes height changes shape continuously.
+    if height - rise >= radius:
+        r2 = radius if asked is None else max(0.0, asked)
+        r2 = min(r2, radius, height - floor_rise)
+        rise = max(floor_rise, min(rise, height - r2))
+        return flare, rise, r2
+
+    # The dish. Its roll is circular so the two curves can be exactly tangent
+    # (a circle and an ellipse cannot be), and its radius is the flattest arc
+    # that still touches that roll — flatter, and it no longer reaches the
+    # cut's full width.
+    rise = floor_rise
+    flattest = dish_radius(radius, height, rise)
+    if flattest < height:
+        # The arc's widest point would land inside the cut, so it would bulge
+        # and curl back in. Too narrow to dish: keep the round base.
+        r2 = min(radius if asked is None else max(0.0, asked), radius, height - rise)
+        return flare, rise, r2
+    r2 = flattest if asked is None else min(max(0.0, asked), flattest)
     return flare, rise, r2
 
 
@@ -518,20 +580,43 @@ def scoop_outline(
     """
     flare, r2 = top_rounding, bottom_rounding
     rise = flare if top_rise is None else top_rise
-    bottom_centre = (radius - r2, r2)
+    # Past the half-width the base is no longer a pair of corner circles but a
+    # single arc across the cut, so its centre stops sliding outward and sits on
+    # the axis (FR-043a7). Left to slide, the two mirrored arcs cross over each
+    # other and the base folds inside out.
+    bottom_centre = (max(0.0, radius - r2), r2)
     top_centre = (radius + flare, height - rise)
-    join_low, join_high = _tangent_join(
-        bottom_centre, r2, top_centre, flare, radius
-    )
 
     right: list[tuple[float, float]] = []
-    # r2 rolls the floor into the wall, a straight run carries up, and the top
-    # roll turns the wall into the top face. The straight run is the two
-    # circles' **common tangent**, so both joins are tangent by construction
-    # rather than by assuming the run is vertical.
-    right += _quarter_arc(bottom_centre, r2, -90.0, _angle_at(bottom_centre, join_low))
-    right.append((radius, height - rise))
-    right += _elliptical_quarter(top_centre, flare, rise)
+    if r2 >= radius and abs(rise - flare) < 1e-9:
+        # A **dish**: one arc up to the roll, and the roll on to the top face,
+        # the two exactly tangent. `dish_radius` sizes the arc so the circles
+        # touch, and at a touch there is no *internal* tangent for
+        # `circle_circle_tangents` to return — it falls back to a vertical that
+        # lies on neither arc. The touch point is on the line of centres, so
+        # take it from there.
+        span = (top_centre[0] - bottom_centre[0], top_centre[1] - bottom_centre[1])
+        reach = math.hypot(*span) or 1.0
+        share = r2 / (r2 + flare)
+        join = (bottom_centre[0] + span[0] * share, bottom_centre[1] + span[1] * share)
+        right += _quarter_arc(
+            bottom_centre, r2, -90.0, _angle_at(bottom_centre, join)
+        )
+        # Both arcs own the touch point; the sweep wants it once.
+        right += _quarter_arc(
+            top_centre, flare, _angle_at(top_centre, join), 90.0
+        )[1:]
+    else:
+        join_low, _ = _tangent_join(bottom_centre, r2, top_centre, flare, radius)
+        # r2 rolls the floor into the wall, a straight run carries up, and the
+        # top roll turns the wall into the top face. The straight run is the two
+        # circles' **common tangent**, so both joins are tangent by construction
+        # rather than by assuming the run is vertical.
+        right += _quarter_arc(
+            bottom_centre, r2, -90.0, _angle_at(bottom_centre, join_low)
+        )
+        right.append((radius, height - rise))
+        right += _elliptical_quarter(top_centre, flare, rise)
     # Carry on straight up past the rim. Closing the ring along the top instead
     # would put a **cusp** at each end of the r1 arc: the arc arrives there
     # travelling horizontally outward and the closing edge leaves horizontally

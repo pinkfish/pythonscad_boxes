@@ -1058,6 +1058,23 @@ Measured against the original, the player box still carries 72,813mm³ of materi
 
 ---
 
+## Phase 34: A shallow grip is a dish (FR-047, FR-043a7)
+
+**Purpose**: Two more things the tray gets wrong on a shallow box. The cut can take four fifths of the wall's height, and below a certain depth its base stops being a curve a finger can follow: the corner radius is bounded by the depth while the width is not, so the corners tighten, a flat run opens between them, and the cut reads as a slot with two nicks.
+
+**Goal**: no automatic cut deeper than half the box, and a shallow cut whose base is one long arc running tangentially into the mouth's roll.
+
+**Independent Test**: A 25mm tray's cut is 12.5mm deep; its base samples as a single monotone sweep with a radius larger than the cut is deep, and there is no change of direction where the base meets the roll.
+
+- [x] T320 Cap an automatic finger hole at **half the box's height** (FR-047). A fingertip's radius is 20mm and a tray is often 25mm tall; unchecked, the cut leaves the wall as two posts and a bridge.
+- [x] T320a [P] Write test: the cut is never deeper than half the height, checked where that cap binds and where the 5mm strip binds instead (SC-068).
+- [x] T321 Build a shallow cut's base as **one arc across the full width** (FR-043a7), radius `(A² + u² - flare²) / (2(u + flare))` — the flattest that still touches the mouth's roll. Centre it on the axis (the corner construction puts it off-axis, which mirrors into two crossing arcs), make the roll circular in this branch so the two curves *can* be tangent, and take the join analytically from the line of centres rather than from `circle_circle_tangents`, which has no internal tangent to return when circles touch and falls back to a vertical that is on neither arc.
+- [x] T321a [P] Write test: a shallow cut's lower half is one monotone sweep with no flat run, its radius exceeds its depth, the base and the roll meet with matching tangents, and a deep cut still gets the round base and straight sides (SC-067).
+
+**Checkpoint**: the shallow tray's grip is a dish a finger follows, and the deep one is unchanged.
+
+---
+
 ## Notes
 
 - [P] tasks = different files, no dependencies

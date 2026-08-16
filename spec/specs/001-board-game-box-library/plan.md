@@ -364,6 +364,19 @@ All cutouts and outer edges MUST be smooth — no sharp 90° corners that catch 
 
 1a10. **A silhouette slot needs a pull-out, and it is part of the slot (FR-043c1, FR-043c2).** Cutting a slot to a piece's outline is what makes it hold the piece — and what leaves nowhere to get a fingertip under it. So every element slot carries a finger dish by default, half the piece's depth: deep enough to reach under, shallow enough that the piece still seats flat instead of tipping into the dish. It is rounded on every edge, curving in from the floor around it, because a dish with a square step around it is worse than no dish — the step is what a fingernail catches on. Depth, width and opting out are per slot.
 
+1a12. **A shallow cut is a dish, not a small-radius U (FR-043a7).** The two shapes come from the same outline machinery and are not the same shape:
+
+   | | base | sides | what sets the base |
+   |---|---|---|---|
+   | deep (depth below the roll ≥ half-width) | round, radius = the half-width | run up from it | the width |
+   | **shallow** | **one arc across the full width** | none — the arc *is* the side | the width **and** the depth |
+
+   The failure this replaces is worth stating exactly, because it looks like a sizing bug and is a construction one: a corner radius is bounded by the depth (the circle has to fit under the roll) while the width is not, so on a shallow tray the corners come out tight, a flat run opens up between them, and the cut reads as a slot with two nicks. No amount of adjusting the radius fixes it — the base has to stop being *two* circles and become one.
+
+   The dish's radius is the flattest arc that still meets the roll **tangentially**, which is a closed form: with `A = radius + flare` and `u = depth − rise`, `R = (A² + u² − flare²) / (2(u + flare))`. At that radius the two circles touch, so the join has no straight run and no crease — the base runs into the roll and the roll into the top face.
+
+   Two details make it exact. The roll is **circular** in this branch (`rise = flare`): the mouth is an ellipse elsewhere (§1a9) and an ellipse cannot be made tangent to a circle by the circle-circle solver, so the one place tangency is the whole point is the one place the ellipse cannot be used. And the join is computed **analytically** — at exact tangency it is the point along the line of centres, `centre_b + (centre_t − centre_b) · R/(R + flare)` — because `circle_circle_tangents` has no internal tangent to return when the circles touch, and falls back to a vertical that is not on either arc.
+
 1a11. **The face fillet tapers out at the flat bottom (FR-043g, FR-043g1, FR-043g2).** The fillet is made by flaring the sweep's ends, and the flare is isotropic in the profile plane: it grows down past the flat bottom exactly as readily as it grows sideways. Three ways to absorb that, and only one keeps everything:
 
    | | floor kept | depth kept | base rolled |
@@ -413,10 +426,12 @@ All cutouts and outer edges MUST be smooth — no sharp 90° corners that catch 
 3a. **A no-lid box puts a finger hole in each of its longer walls by default (FR-047).** An open tray has no lid to grip, so it is lifted by the rim; the original (`no_lid.scad`) cuts a finger dip into both walls of the longer dimension — the pair whose *span* is the longer of width and length, with a square footprint taking the length pair — so the tray can be picked up from either end. The sizing is a formula on the spec, not a constant:
 
     - throat radius = `min(20, min(length, width) / 4, height - floor_thickness + 1)`, on the **outer** footprint. The `+ 1` is a tolerance inherited from `no_lid.scad`; it cannot deepen the cut because the reach bounds that independently;
-    - reach = `min(throat radius, height - floor_thickness - 5)`;
+    - reach = `min(throat radius, height / 2, height - floor_thickness - 5)`;
     - mouth flare = 3mm.
 
     **The last term of the reach is a structural rule, not arithmetic.** `height - floor_thickness - 5` is the depth at which the cut stops **5mm above the tray's floor**, leaving the wall under the cut its full section — a tray is picked up by exactly that strip, and it is the strip that carries the whole weight through a cut the fingers hook into. It was a wall thickness plus a millimetre and that is not enough: 3mm of 2mm-thick wall prints, but flexes. Written as a subtraction chain it reads like a fudge and has twice been "simplified" back to the spec's older `height - 2 + 1`, which leaves the cut running into the floor on a shallow box.
+
+    **Half the height is the other cap** (FR-047). A fingertip's radius is 20mm and a tray is often 25mm tall: unchecked, the cut takes four fifths of the wall and what is left reads as two posts with a bridge between them. Half is the point at which the wall still looks and behaves like a wall.
 
     **A tray with no room for it gets no holes.** The old expression carried a 2mm floor, which bought a token dip out of the very strip the rule protects. The 2mm is now the *threshold*: where `height - floor_thickness - 5` leaves less than that, the tray ships plain (FR-047a). A tray under about 9mm tall is in that band, and it is liftable by its walls anyway.
 
@@ -1091,6 +1106,7 @@ Where each requirement is designed, and where it is verified. Sections named bel
 | FR-046, FR-046a, FR-046b | Curve Precision: Export vs Preview | `precision.py`, `project.py` |
 | FR-047 | Finger Holes §3a | `box/shell.py` |
 | FR-043a5, FR-043a6 | Finger Holes §1a (the radius is kept; width and radius are independent) | `compartments/finger_hole.py`, `builders/_base.py` |
+| FR-043a7 | Finger Holes §1a12 (a shallow cut is a dish) | `compartments/finger_hole.py` |
 | FR-047a, FR-047b | Finger Holes §3a (skip, opt-out) | `box/shell.py` |
 | FR-047c | Finger Holes §3a (a polygon path box gets none) | `box/types/path.py` |
 
@@ -1144,6 +1160,8 @@ Where each requirement is designed, and where it is verified. Sections named bel
 | SC-064 | `test_finger_smoothing.py` — a polygon path box gets no automatic holes |
 | SC-065 | `test_finger_smoothing.py` — `NoLidFingerHoleTests`: the 5mm strip, and the tray too short to keep it |
 | SC-066 | `test_finger_smoothing.py` — `CornerRadiusIsKeptTests`: the radius asked for is the radius built |
+| SC-067 | `test_finger_smoothing.py` — `ShallowCutIsADishTests`: one arc across the width, tangent to the roll |
+| SC-068 | `test_finger_smoothing.py` — `NoLidFingerHoleTests`: the half-height cap |
 
 ## Complexity Tracking
 
