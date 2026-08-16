@@ -1249,6 +1249,7 @@ def build_through_hole(
     comp_depth: float = 20.0,
     wall_thickness: float = 2.0,
     floor_thickness: float = 2.0,
+    mouth_flare: float | None = None,
     rounding_edge: float | None = None,
 ) -> "Bosl2Solid":
     """A finger hole cut **through the floor**, for a well holding a stack.
@@ -1274,6 +1275,8 @@ def build_through_hole(
             the top of the wall.
         wall_thickness: The wall the hole breaks through.
         floor_thickness: The floor it passes through; the cut starts below it.
+        mouth_flare: How far the hole's top rolls outward into the wall's rim;
+            ``None`` uses the 3mm the original does.
         rounding_edge: Fillet where the cut emerges on a face. ``None`` uses
             ``wall_thickness / 2``, as everywhere else.
 
@@ -1301,21 +1304,40 @@ def build_through_hole(
     # so neither end is a coincident face for the boolean to resolve.
     below = floor_thickness + 1.0
     height = comp_depth + below + RIM_OVERSHOOT_MM
+    # The bore's wall is a surface a finger runs right around, and a big one —
+    # 30mm across on a card box. The ambient preview precision caps a circle at
+    # `fa = 12°`, i.e. 30 facets however large it is, which on a hole this size
+    # is a visible polygon rather than a curve. `rounding_facets` is the same
+    # floor every fillet in the library uses, and the original pins a count of
+    # 64 on this exact cylinder for the same reason; an export's higher count
+    # still wins.
     bore = cylinder(
-        height=height, radius=radius, **precision_kwargs()
+        height=height, radius=radius, **rounding_facets()
     ).translate([0.0, 0.0, height / 2 - below])
 
     # The wall itself: the bore only reaches the wall's inner half, so the rest
-    # of the way through is a square-ended slot of the same width, rolled onto
-    # each face by the same fillet the scoops use (FR-043c).
+    # of the way through is a slot of the same width, rolled onto each face by
+    # the same fillet the scoops use (FR-043c).
+    #
+    # Its **top corners roll into the wall's rim** rather than meeting it
+    # square (FR-043a10) — the original flares them by `rounding_radius` and
+    # rolls the top edge over by half the wall besides. This is the edge a hand
+    # meets when it picks the box up, so a square one is felt immediately. The
+    # roll is circular and tangent to the top face, as a grip's is.
+    if mouth_flare is None:
+        mouth_flare = DEFAULT_MOUTH_ROUNDING_MM
+    mouth_flare = max(0.0, min(mouth_flare, radius))
+    right: list[tuple[float, float]] = [(radius, -below)]
+    if mouth_flare > 0:
+        right += _quarter_arc(
+            (radius + mouth_flare, comp_depth - mouth_flare), mouth_flare, 180.0, 90.0
+        )
+    right.append((radius + mouth_flare, comp_depth + RIM_OVERSHOOT_MM))
+    outline = [(-x, y) for x, y in reversed(right)] + right
+
     depth = wall_thickness + 0.03
     slot = _sweep_through_wall(
-        [
-            (-radius, -below),
-            (radius, -below),
-            (radius, comp_depth + RIM_OVERSHOOT_MM),
-            (-radius, comp_depth + RIM_OVERSHOOT_MM),
-        ],
+        outline,
         comp_width,
         comp_length,
         side,

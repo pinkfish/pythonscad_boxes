@@ -155,13 +155,21 @@ class NoHardcodedFacetsTests(unittest.TestCase):
         self.assertEqual(offenders, [], "curve calls without precision:\n" + "\n".join(offenders))
 
 
+#: Helpers that hand a curve the precision in force. `rounding_facets` is
+#: `precision_kwargs` with a floor under the facet count (`MIN_ROUNDING_FACETS`),
+#: for curves that come out visibly polygonal at the ambient `fa` — a fillet, or
+#: the bore of a finger hole. An explicit higher count from the caller still
+#: wins in both, which is what this guard is really protecting.
+_PRECISION_HELPERS = ("precision_kwargs", "rounding_facets")
+
+
 def _is_precision_splat(keyword: ast.keyword) -> bool:
-    """True for a ``**precision_kwargs()`` argument."""
+    """True for a ``**precision_kwargs()`` or ``**rounding_facets()`` argument."""
     return (
         keyword.arg is None
         and isinstance(keyword.value, ast.Call)
         and isinstance(keyword.value.func, ast.Name)
-        and keyword.value.func.id == "precision_kwargs"
+        and keyword.value.func.id in _PRECISION_HELPERS
     )
 
 
