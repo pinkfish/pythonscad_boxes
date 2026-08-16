@@ -184,6 +184,12 @@ Making it exact took capping the skirt as well as checking it. The skirt default
 
 **Below that minimum the library raises**, naming the box's height, the minimum, each term of it, and recommending a **slipover** of the same size, which opens by its own corner notches. The alternative — quietly shrinking the radii until they fit — produces a cap box whose lid cannot be removed, and a part that looks finished and cannot be used is worse than one that refused to build.
 
+### A Sliding Box's Rim Is Exposed Too (FR-043f1)
+
+FR-043d leaves a lidded box's rim square because the lid seals against it and carries the rounding. A sliding lid does neither: it lies **down in the channel**, so the top of the closed box is the rails' own outer edges — and that is an edge a hand runs along every time the box is picked up. So the sliding family rounds it, at `wall_thickness / 4`: the rail is what is left of the wall once the groove is cut into it, and the usual half-wall would take most of the bearing the lid rides on.
+
+It is one setting (`rim_rounding` on the spec, `sliding_rim_rounding` for the value) read by `build_shell`, so the three sliding types share it rather than each rounding their own body, and a lidless box's rim keeps its own rule.
+
 ### A Lidless Rim Has Two Edges (FR-043f)
 
 `build_shell` rounds the top rim only when `rim_free` — set for the lidless types, because on a lidded box the rim is a sealing surface and its rounding belongs on the lid. That was right, but it only ever rounded the **outer** edge. `interior_block` leaves its top square deliberately, and the comment there gives the reason for a lidded box: the top is the opening.
@@ -1150,6 +1156,7 @@ Where each requirement is designed, and where it is verified. Sections named bel
 | FR-043a8 | Finger Holes §1a12 (a grip is never wider than it is deep) | `box/shell.py` |
 | FR-043a9 | Finger Holes §1a13 (where the notch gives way to the bore) | `compartments/finger_hole.py` |
 | FR-043a10 | Finger Holes §1a14 (a card well is emptied through the floor) | `compartments/finger_hole.py`, `compartments/carve.py` |
+| FR-043f1 | A Sliding Box's Rim Is Exposed Too | `box/shell.py`, `box/types/sliding*.py`, `box/types/card_library.py` |
 | FR-043a7 | Finger Holes §1a12 (two circles and the tangent between them) | `compartments/finger_hole.py` |
 | FR-047a, FR-047b | Finger Holes §3a (skip, opt-out) | `box/shell.py` |
 | FR-047c | Finger Holes §3a (a polygon path box gets none) | `box/types/path.py` |
@@ -1213,6 +1220,7 @@ Where each requirement is designed, and where it is verified. Sections named bel
 | SC-074 | `test_finger_smoothing.py` — `WhichFaceRoundsTests`: the outward face is the one that rounds |
 | SC-075 | `test_finger_smoothing.py` — `NoRidgeInsideTheCutTests`: one section across the wall |
 | SC-076 | `test_finger_smoothing.py` — `TheCutDoesNotBiteTheBaseTests`: the overshoot costs the base nothing |
+| SC-077 | `test_rounding.py` — `SlidingRimRoundingTests`: every sliding type rounds its top edge, a non-sliding lidded one does not |
 | SC-068 | `test_finger_smoothing.py` — `NoLidFingerHoleTests`: the half-height cap |
 
 ## Complexity Tracking
