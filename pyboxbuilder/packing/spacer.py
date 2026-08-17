@@ -58,14 +58,17 @@ class Void:
 
     @property
     def volume(self) -> float:
+        """The void's volume."""
         if self.path is not None:
             return _polygon_area(self.path) * self.size[2]
         return self.size[0] * self.size[1] * self.size[2]
 
     def far_corner(self) -> tuple[float, float, float]:
-        return tuple(p + s for p, s in zip(self.position, self.size))  # type: ignore[return-value]
+        """Return the void's far corner (origin plus size)."""
+        return tuple(p + s for p, s in zip(self.position, self.size, strict=False))  # type: ignore[return-value]
 
     def thinnest(self) -> float:
+        """Return the void's thinnest dimension."""
         return min(self.size)
 
     def relative_path(self) -> tuple[tuple[float, float], ...] | None:
@@ -81,7 +84,7 @@ class Void:
 
 
 def _plane_grid(container, placements) -> tuple[list[float], list[float], list[float]]:
-    """The sorted X/Y/Z planes bounding every box and the container itself."""
+    """Return the sorted X/Y/Z planes bounding every box and the container itself."""
     axes: list[set[float]] = [{0.0, float(container[i])} for i in range(3)]
     for placement in placements:
         for i in range(3):
@@ -149,6 +152,7 @@ def sweep_free_space(container, placements) -> list[Void]:
 
     Returns:
         Disjoint `Void`s covering all of the free space, in descending volume.
+
     """
     if not placements:
         return []
@@ -204,7 +208,7 @@ def sweep_free_space(container, placements) -> list[Void]:
 
 
 def _mergeable_axis(a: Void, b: Void) -> int | None:
-    """The axis along which `a` and `b` fuse into one box, or None.
+    """Return the axis along which `a` and `b` fuse into one box, or None.
 
     They fuse when they meet face to face on one axis and match exactly on the
     other two — the union then covers the two originals and nothing else, so it
@@ -279,7 +283,7 @@ def _polygon_area(path) -> float:
 
 
 def _footprints_touch(a: Void, b: Void) -> bool:
-    """True when two footprints share a border segment of non-zero length."""
+    """Return True when two footprints share a border segment of non-zero length."""
     for axis in range(2):
         other = 1 - axis
         a_lo, a_hi = a.position[axis], a.position[axis] + a.size[axis]
@@ -491,6 +495,7 @@ def generate_spacer_voids(
 
     Returns:
         The voids that earn a tray, in descending volume.
+
     """
     voids = merge_voids(sweep_free_space(container, placements))
     # Drop the unprintable slivers before grouping, so a 2mm shard cannot become
@@ -556,11 +561,12 @@ def generate_spacers(
 
     Returns:
         List of SpacerSpec for gaps that need filling.
+
     """
     spacers: list[SpacerSpec] = []
     counter = 1
 
-    for i, (row_w, row_l) in enumerate(zip(row_widths, row_lengths)):
+    for i, (row_w, row_l) in enumerate(zip(row_widths, row_lengths, strict=False)):
         remaining_w = container_width - row_w
         if remaining_w >= min_spacer_dim and remaining_w >= gap_threshold:
             y_offset = sum(row_lengths[:i]) if i > 0 else 0.0

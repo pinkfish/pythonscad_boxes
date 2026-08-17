@@ -97,19 +97,19 @@ when it recorded these boxes cutting wall scoops.
 __all__ = [
     "ARC_SAMPLES",
     "BASE_ARC_SHARE",
-    "CutProfile",
     "DEFAULT_BOTTOM_ROUNDING_RATIO",
     "DEFAULT_EDGE_ROUNDING_MM",
     "DEFAULT_FLOOR_DIP_MM",
     "DEFAULT_MOUTH_ROUNDING_MM",
     "DEFAULT_TOP_ROUNDING_RATIO",
-    "FaceTreatment",
     "MIN_FLAT_BOTTOM_RATIO",
     "RIM_OVERSHOOT_MM",
     "TOP_ROLL_RISE_RATIO",
     "TOUCHING_TOLERANCE_MM",
     "_SIDE_CENTRES",
     "_SIDE_SPIN",
+    "CutProfile",
+    "FaceTreatment",
     "_fit_radii",
     "_quarter_arc",
     "_sweep_through_wall",
@@ -138,12 +138,12 @@ def build_wall_scoop(
     radius: float = 12.0,
     wall_thickness: float = 2.0,
     *,
-    profile: "CutProfile" = CutProfile(),
-    faces: "FaceTreatment" = FaceTreatment(),
+    profile: CutProfile | None = None,
+    faces: FaceTreatment | None = None,
     floor_thickness: float | None = None,
     closed_top: bool = False,
     keep_flat_bottom: bool = True,
-) -> "Bosl2Solid":
+) -> Bosl2Solid:
     """Build a finger notch through a compartment wall.
 
     The **edge** profile from :func:`scoop_profile` — flat bottom, straight
@@ -172,6 +172,10 @@ def build_wall_scoop(
         radius: Notch radius in mm, capped so it cannot swallow the compartment.
         wall_thickness: Wall the cut passes through. Sets the sweep depth and,
             by default, the face fillet.
+        profile: The cut's edge profile — a ``CutProfile`` holding the shape
+            knobs below (mouth flare, base radius, roll rise).
+        faces: The cut's face treatment — a ``FaceTreatment`` holding the face
+            knobs below (fillet, which faces round, the floor clip).
         rounding_radius: ``r1`` — how far the mouth rolls out at the rim.
             ``None`` derives it as half the throat half-width, so the roll
             stays in proportion to the scoop.
@@ -211,7 +215,12 @@ def build_wall_scoop(
 
     Raises:
         ValueError: If the compartment or wall dimensions are not positive.
+
     """
+    if profile is None:
+        profile = CutProfile()
+    if faces is None:
+        faces = FaceTreatment()
     if comp_depth <= 0:
         raise ValueError(f"comp_depth must be > 0; got {comp_depth}")
     # The records carry the shape and the faces; `radius` stays a parameter
@@ -280,7 +289,7 @@ def build_floor_scoop(
     rounding_radius: float | None = None,
     rounding_edge: float | None = None,
     floor_thickness: float | None = None,
-) -> "Bosl2Solid":
+) -> Bosl2Solid:
     """Build a scoop that blends into the compartment floor, at one edge.
 
     Ported from ``FingerHoleBase``, which is the shallow-compartment case: a
@@ -306,6 +315,8 @@ def build_floor_scoop(
         wall_thickness: Wall the cut passes through; also sets the floor fillet.
         rounding_radius: Flare at the mouth where the cut meets the rim.
         rounding_edge: Fillet where the cut emerges on a face.
+        floor_thickness: The box floor under the compartment, sizing how far
+            the bore may dip below the well floor.
 
     Returns:
         Bosl2Solid cutout, positioned in the compartment frame. It reaches down
@@ -313,6 +324,7 @@ def build_floor_scoop(
 
     Raises:
         ValueError: If the compartment span is not positive.
+
     """
     from pybosl2 import cuboid
 
@@ -370,7 +382,7 @@ def build_floor_scoop(
 
     return cut
 def build_cut(
-    kind: "FingerCut",
+    kind: FingerCut,
     comp_width: float,
     comp_length: float,
     comp_depth: float,
@@ -379,9 +391,9 @@ def build_cut(
     radius: float = 12.0,
     wall_thickness: float = 2.0,
     floor_thickness: float | None = None,
-    profile: CutProfile = CutProfile(),
-    faces: FaceTreatment = FaceTreatment(),
-) -> "Bosl2Solid":
+    profile: CutProfile | None = None,
+    faces: FaceTreatment | None = None,
+) -> Bosl2Solid:
     """Build whichever finger cut this compartment wants — the only chooser.
 
     Three shapes can come out of a request for a finger cut, and which one it
@@ -412,9 +424,14 @@ def build_cut(
 
     Returns:
         Bosl2Solid cutout, positioned in the compartment frame.
+
     """
     from pyboxbuilder.enums import FingerCut
 
+    if profile is None:
+        profile = CutProfile()
+    if faces is None:
+        faces = FaceTreatment()
     if profile.half_width is not None:
         radius = profile.half_width
     if kind is FingerCut.THROUGH_FLOOR:
@@ -451,8 +468,8 @@ def build_scoop(
     rounding_radius: float | None = None,
     rounding_edge: float | None = None,
     floor_thickness: float | None = None,
-) -> "Bosl2Solid":
-    """A side scoop, wall or floor-blended by depth — `build_cut`'s SCOOP arm.
+) -> Bosl2Solid:
+    """Return a side scoop, wall or floor-blended by depth — `build_cut`'s SCOOP arm.
 
     Kept as its own name because "give me a scoop" reads better at a call site
     than "give me a cut of kind SCOOP", but it decides nothing: the two rules
@@ -478,8 +495,8 @@ def build_through_hole(
     floor_thickness: float = 2.0,
     mouth_flare: float | None = None,
     rounding_edge: float | None = None,
-) -> "Bosl2Solid":
-    """A finger hole cut **through the floor**, for a well holding a stack.
+) -> Bosl2Solid:
+    """Return a finger hole cut **through the floor**, for a well holding a stack.
 
     A scoop puts a finger down the *side* of what a well holds. A card stack
     fills its well, so there is no side to reach down — what lifts it is a thumb
@@ -516,6 +533,7 @@ def build_through_hole(
 
     Raises:
         ValueError: If the compartment span, depth or radius is not positive.
+
     """
     from pybosl2 import cuboid, cylinder
 

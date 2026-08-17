@@ -28,10 +28,11 @@ class SlidingCatchBox(BoxTypeBase):
 
     @staticmethod
     def _catch_radius(spec: BoxSpec) -> float:
-        """This box's catch size — its own, or the type's default."""
+        """Return this box's catch size — its own, or the type's default."""
         return spec.catch_radius if spec.catch_radius is not None else DEFAULT_CATCH_RADIUS_MM
 
     def interior(self, spec: BoxSpec) -> Interior:
+        """Return the frame the box's contents may occupy."""
         wt = spec.wall_thickness
         ft = spec.floor_thickness
         lt = spec.lid_thickness
@@ -43,7 +44,7 @@ class SlidingCatchBox(BoxTypeBase):
         )
 
     def preferred_scoop_side(self, spec: BoxSpec):
-        """A finger scoop belongs in the wall the lid leaves by.
+        """Return a finger scoop belongs in the wall the lid leaves by.
 
         The other three carry the lid — two hold its grooves — and a scoop cut
         into a groove takes away the bearing that keeps the lid straight.
@@ -53,13 +54,16 @@ class SlidingCatchBox(BoxTypeBase):
         return ScoopSide.RIGHT
 
     def lid_rounded_edges(self, spec: BoxSpec) -> list:
-        """Only the end that finishes outside the box: its top edge and the two
-        vertical corners there. The rest of the plate lives in the channel."""
+        """Return only the end that finishes outside the box.
+
+        Its top edge and the two vertical corners there. The rest of the plate
+        lives in the channel.
+        """
         from pybosl2 import Anchor
 
         return [Anchor.TOP_RIGHT, Anchor.FRONT_RIGHT, Anchor.BACK_RIGHT]
 
-    def build_body(self, spec: BoxSpec) -> "Bosl2Solid":
+    def build_body(self, spec: BoxSpec) -> Bosl2Solid:
         """Sliding grooves, plus a dimple beside the outlet for the catch."""
         from pyboxbuilder.box.features import sliding_catch, sliding_track
         from pyboxbuilder.box.shell import build_shell, sliding_rim_rounding
@@ -69,8 +73,8 @@ class SlidingCatchBox(BoxTypeBase):
         body = build_shell(spec) - sliding_track(spec).body
         return body - sliding_catch(spec, self._catch_radius(spec), "x").body
 
-    def build_lid(self, spec: BoxSpec, decoration: object = None) -> "Bosl2Solid":
-        """The sliding plate with a bump that clicks into the body's dimple."""
+    def build_lid(self, spec: BoxSpec, decoration: object = None) -> Bosl2Solid:
+        """Return the sliding plate with a bump that clicks into the body's dimple."""
         from pyboxbuilder.box.features import sliding_catch, sliding_track
 
         return sliding_track(spec).require_lid() | sliding_catch(

@@ -45,10 +45,10 @@ __all__ = [
     "Project",
     "ScoopSide",
     "StackableMode",
+    "__version__",
     "columns",
     "grid_pack",
     "rows",
     "run",
     "stack",
-    "__version__",
 ]

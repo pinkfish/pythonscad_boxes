@@ -17,8 +17,9 @@ so no caller has to remember to add half a size.
 
 from __future__ import annotations
 
+from collections.abc import Sequence
 from dataclasses import replace
-from typing import TYPE_CHECKING, Sequence
+from typing import TYPE_CHECKING
 
 from pyboxbuilder.box.spec import BoxSpec
 from pyboxbuilder.enums import ScoopSide
@@ -77,13 +78,14 @@ is most of the bearing the lid rides on.
 
 
 def sliding_rim_rounding(spec: BoxSpec) -> float:
-    """The radius for a sliding box's exposed top edge (FR-043f1).
+    """Return the radius for a sliding box's exposed top edge (FR-043f1).
 
     Args:
         spec: Reads `wall_thickness`.
 
     Returns:
         A quarter of the wall, in mm.
+
     """
     return spec.wall_thickness * SLIDING_RIM_ROUNDING_SHARE
 
@@ -101,16 +103,17 @@ the wall left uncut keeps something either side of the finger.
 
 
 def corner(
-    solid: "Bosl2Solid",
+    solid: Bosl2Solid,
     size: Sequence[float],
     at: Sequence[float] = (0.0, 0.0, 0.0),
-) -> "Bosl2Solid":
+) -> Bosl2Solid:
     """Place a centre-anchored solid so its minimum corner sits at `at`.
 
     Args:
         solid: A centre-anchored solid, as every pybosl2 primitive is.
         size: The solid's (width, length, height).
         at: Where its minimum corner should end up.
+
     """
     return solid.translate(
         [
@@ -121,14 +124,14 @@ def corner(
     )
 
 
-def block(size: Sequence[float], at: Sequence[float] = (0.0, 0.0, 0.0)) -> "Bosl2Solid":
-    """A cuboid of `size` whose minimum corner sits at `at`."""
+def block(size: Sequence[float], at: Sequence[float] = (0.0, 0.0, 0.0)) -> Bosl2Solid:
+    """Return a cuboid of `size` whose minimum corner sits at `at`."""
     from pybosl2 import cuboid
 
     return corner(cuboid(list(size)), size, at)
 
 
-def build_shell(spec: BoxSpec) -> "Bosl2Solid":
+def build_shell(spec: BoxSpec) -> Bosl2Solid:
     """Outer block, hollowed to the interior unless `spec.hollow` is False.
 
     Args:
@@ -137,6 +140,7 @@ def build_shell(spec: BoxSpec) -> "Bosl2Solid":
 
     Returns:
         The box body before any type-specific lid features are added.
+
     """
     size = [spec.width, spec.length, spec.height]
     outer = block(size)
@@ -149,7 +153,7 @@ def build_shell(spec: BoxSpec) -> "Bosl2Solid":
     if radius > 0:
         edges = vertical_and_bottom_edges()
         if spec.rim_free:
-            edges = edges + [_top_anchor()]
+            edges = [*edges, _top_anchor()]
         outer = round_edges(outer, size, radius, edges)
 
     # A type whose top face is exposed *with the lid on* rounds that edge too,
@@ -167,13 +171,14 @@ def build_shell(spec: BoxSpec) -> "Bosl2Solid":
 
 
 def body_rounding(spec: BoxSpec) -> float:
-    """The edge radius for this box body.
+    """Return the edge radius for this box body.
 
     Args:
         spec: Reads `rounding`; falls back to half the wall thickness.
 
     Returns:
         The radius in mm. ``0`` disables rounding entirely.
+
     """
     explicit = spec.rounding
     if explicit is not None:
@@ -182,14 +187,14 @@ def body_rounding(spec: BoxSpec) -> float:
 
 
 def _top_anchor():
-    """The TOP anchor, imported lazily so this module has no import-time pybosl2."""
+    """Return the TOP anchor, imported lazily so this module has no import-time pybosl2."""
     from pybosl2 import Anchor
 
     return Anchor.TOP
 
 
 def _hole_flare(wall_thickness: float, hole, reach: float, ends: int = 1) -> float:
-    """The face fillet an exterior finger hole's cut is built with.
+    """Return the face fillet an exterior finger hole's cut is built with.
 
     The fillet is made by flaring the sweep's ends, and the flare is isotropic
     in the profile plane — it grows down past the outline's flat bottom exactly
@@ -228,6 +233,7 @@ def finger_cut_conflicts(spec: BoxSpec) -> list[str]:
     Returns:
         One message per conflict, naming both features and where they are.
         Empty when the cuts are clear of each other.
+
     """
     from pyboxbuilder.builders._base import FingerHoleBuilder
     from pyboxbuilder.enums import MagnetType
@@ -300,7 +306,7 @@ def warn_about_finger_cuts(spec: BoxSpec) -> None:
         warnings.warn(f"{spec.label}: {message}", stacklevel=2)
 
 
-def apply_finger_holes(body: "Bosl2Solid", spec: BoxSpec) -> "Bosl2Solid":
+def apply_finger_holes(body: Bosl2Solid, spec: BoxSpec) -> Bosl2Solid:
     """Cut any exterior finger holes out of a box body (FR-006).
 
     A hole on the outside of a box is the same cut as a compartment's wall
@@ -319,6 +325,7 @@ def apply_finger_holes(body: "Bosl2Solid", spec: BoxSpec) -> "Bosl2Solid":
 
     Returns:
         The body with every hole subtracted; unchanged when there are none.
+
     """
     holes = spec.finger_holes or ()
     if not holes:
@@ -422,7 +429,7 @@ def apply_finger_holes(body: "Bosl2Solid", spec: BoxSpec) -> "Bosl2Solid":
 
 
 def no_lid_finger_holes(spec: BoxSpec):
-    """The finger holes a no-lid box cuts into its longer walls (FR-047).
+    """Return the finger holes a no-lid box cuts into its longer walls (FR-047).
 
     An open tray is lifted by the rim, so the original (`no_lid.scad`) puts a
     finger dip into each wall of the longer dimension. The sizing is a formula
@@ -457,6 +464,7 @@ def no_lid_finger_holes(spec: BoxSpec):
     Returns:
         A tuple of `FingerHoleBuilder`s — one per longer wall — or an empty
         tuple when the holes would not fit.
+
     """
     from pyboxbuilder.builders._base import FingerHoleBuilder
 
@@ -505,7 +513,7 @@ def no_lid_finger_holes(spec: BoxSpec):
 
 
 def with_no_lid_finger_holes(spec: BoxSpec) -> BoxSpec:
-    """A no-lid spec with its default finger holes, unless it already has some.
+    """Return a no-lid spec with its default finger holes, unless it already has some.
 
     Idempotent: an explicit ``finger_hole(side)`` call on the builder wins, and
     a second call to this changes nothing. A spec that sets
@@ -523,14 +531,15 @@ def with_no_lid_finger_holes(spec: BoxSpec) -> BoxSpec:
 
     Returns:
         The spec, or a copy carrying the automatic pair.
+
     """
     if spec.auto_finger_holes and not spec.finger_holes and not spec.path:
         return replace(spec, finger_holes=no_lid_finger_holes(spec))
     return spec
 
 
-def interior_block(spec: BoxSpec) -> "Bosl2Solid":
-    """The solid that `build_shell` removes — the box's full interior volume.
+def interior_block(spec: BoxSpec) -> Bosl2Solid:
+    """Return the solid that `build_shell` removes — the box's full interior volume.
 
     The void's **bottom edges are rounded**, which is what leaves a fillet
     inside the box: a void slightly smaller where it meets the floor means the
@@ -550,6 +559,7 @@ def interior_block(spec: BoxSpec) -> "Bosl2Solid":
 
     Returns:
         The interior volume, positioned in the box frame.
+
     """
     from pybosl2 import Anchor, cuboid
 
@@ -568,7 +578,7 @@ def interior_block(spec: BoxSpec) -> "Bosl2Solid":
     )
 
 
-def round_inner_rim(body: "Bosl2Solid", spec: BoxSpec) -> "Bosl2Solid":
+def round_inner_rim(body: Bosl2Solid, spec: BoxSpec) -> Bosl2Solid:
     """Round the **inner** top edge of a lidless box's rim (FR-043f).
 
     An open tray's rim is exposed on both faces — it is the edge a hand runs
@@ -595,6 +605,7 @@ def round_inner_rim(body: "Bosl2Solid", spec: BoxSpec) -> "Bosl2Solid":
     Returns:
         The body with its inner rim rounded, or unchanged when the box is
         lidded, solid, or too small to carry the fillet.
+
     """
     from pybosl2.path2d import Path2D
     from pybosl2.shapes3d.base import CsgSolid

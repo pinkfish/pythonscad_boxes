@@ -19,7 +19,8 @@ clear of the lid features cut into the same walls.
 from __future__ import annotations
 
 import math
-from typing import TYPE_CHECKING, Sequence
+from collections.abc import Sequence
+from typing import TYPE_CHECKING
 
 from pyboxbuilder.box.spec import BoxSpec
 
@@ -28,7 +29,7 @@ if TYPE_CHECKING:
 
 
 def default_rounding(wall_thickness: float) -> float:
-    """The default edge radius for a wall of the given thickness.
+    """Return the default edge radius for a wall of the given thickness.
 
     Args:
         wall_thickness: The box's wall thickness in mm.
@@ -36,6 +37,7 @@ def default_rounding(wall_thickness: float) -> float:
     Returns:
         ``wall_thickness / 2`` — a 1mm fillet on a typical 2mm wall, which
         FR-044 names as an acceptable default.
+
     """
     return wall_thickness / 2
 
@@ -52,7 +54,7 @@ wall thick, and a full-size fillet there would eat most of it.
 
 
 def mating_rounding(spec: BoxSpec) -> float:
-    """The radius for surfaces where a partial lid grips the body.
+    """Return the radius for surfaces where a partial lid grips the body.
 
     Both halves of the grip use this same value, so the lid's inner corners
     nest over the body's band corners instead of meeting them at a gap.
@@ -63,6 +65,7 @@ def mating_rounding(spec: BoxSpec) -> float:
 
     Returns:
         The radius in mm; ``0`` leaves the mating corners square.
+
     """
     from pyboxbuilder.box.shell import body_rounding
 
@@ -84,7 +87,7 @@ bearing surface.
 
 
 def lid_rounding(spec: BoxSpec) -> float:
-    """The edge radius for a lid, capped so it keeps enough support.
+    """Return the edge radius for a lid, capped so it keeps enough support.
 
     Args:
         spec: Reads `rounding` (or derives the body default) and
@@ -93,6 +96,7 @@ def lid_rounding(spec: BoxSpec) -> float:
     Returns:
         The radius in mm — the body radius, but never more than half the lid's
         thickness.
+
     """
     from pyboxbuilder.box.shell import body_rounding
 
@@ -108,8 +112,8 @@ def rounded_block(
     rounding: float,
     edges: Sequence,
     at: Sequence[float] = (0.0, 0.0, 0.0),
-) -> "Bosl2Solid":
-    """A corner-placed block with some of its edges rounded.
+) -> Bosl2Solid:
+    """Return a corner-placed block with some of its edges rounded.
 
     Args:
         size: The block's ``(width, length, height)``.
@@ -121,6 +125,7 @@ def rounded_block(
 
     Returns:
         The block, rounded where asked.
+
     """
     from pybosl2 import cuboid
 
@@ -146,6 +151,7 @@ def vertical_edges() -> list:
 
     Returns:
         The pybosl2 ``edges=`` selector naming all four vertical edges.
+
     """
     from pybosl2 import Anchor
 
@@ -158,10 +164,11 @@ def vertical_and_bottom_edges() -> list:
     Returns:
         The pybosl2 ``edges=`` selector for the edges a hand grips on a box
         body, leaving the top rim alone because that is where a lid mates.
+
     """
     from pybosl2 import Anchor
 
-    return vertical_edges() + [Anchor.BOTTOM]
+    return [*vertical_edges(), Anchor.BOTTOM]
 
 
 def vertical_and_top_edges() -> list:
@@ -170,14 +177,15 @@ def vertical_and_top_edges() -> list:
     Returns:
         The pybosl2 ``edges=`` selector for the four vertical corners and the
         top face's edges — the exposed edges of a closed box's upper surface.
+
     """
     from pybosl2 import Anchor
 
-    return vertical_edges() + [Anchor.TOP]
+    return [*vertical_edges(), Anchor.TOP]
 
 
 def max_radius(size: Sequence[float], edges: Sequence) -> float:
-    """The largest radius these edges can carry on a block of ``size``.
+    """Return the largest radius these edges can carry on a block of ``size``.
 
     A blanket ``min(size) / 2`` is the tempting guard and it is wrong often
     enough to matter: it rejects an 8mm fillet on the floor of a 12mm-deep
@@ -194,6 +202,7 @@ def max_radius(size: Sequence[float], edges: Sequence) -> float:
 
     Returns:
         The maximum radius in mm, or ``inf`` when no edge is selected.
+
     """
     from pybosl2._edges_lang import EDGE_OFFSETS
     from pybosl2._edges_lang import edges as resolve
@@ -217,8 +226,8 @@ def edge_slivers(
     rounding: float,
     edges: Sequence,
     at: Sequence[float] = (0.0, 0.0, 0.0),
-) -> "Bosl2Solid":
-    """The material a rounding removes: the square block minus the rounded one.
+) -> Bosl2Solid:
+    """Return the material a rounding removes: the square block minus the rounded one.
 
     Args:
         size: The block's ``(width, length, height)``.
@@ -233,6 +242,7 @@ def edge_slivers(
         ValueError: If ``rounding`` is not positive, or is at least half the
             smallest dimension — a fillet that large has no flat face left to
             blend into and folds the solid through itself.
+
     """
     from pybosl2 import cuboid
 
@@ -280,6 +290,7 @@ def rounding_facets() -> dict:
         The precision in force, with a floor on the facet count so a small
         radius still comes out curved rather than chamfered. An explicit,
         higher ``fn`` from the caller wins.
+
     """
     from pyboxbuilder.precision import precision
 
@@ -290,7 +301,7 @@ def rounding_facets() -> dict:
 
 
 def roundover_profile(radius: float, steps: int):
-    """A sweep-end profile that **rounds the end face over** into the sweep.
+    """Return a sweep-end profile that **rounds the end face over** into the sweep.
 
     ``os_circle`` is the obvious choice and is the wrong shape: its arc is
     tangent to the sweep's wall and meets the end face at 90°, which on a
@@ -321,6 +332,7 @@ def roundover_profile(radius: float, steps: int):
     Returns:
         An ``OSProfile`` for :meth:`Path2D.offset_sweep`, whose ``x`` is the
         inward offset and ``y`` the depth from the face.
+
     """
     from pybosl2.skin import os_profile
 
@@ -332,12 +344,12 @@ def roundover_profile(radius: float, steps: int):
 
 
 def round_edges(
-    solid: "Bosl2Solid",
+    solid: Bosl2Solid,
     size: Sequence[float],
     rounding: float,
     edges: Sequence,
     at: Sequence[float] = (0.0, 0.0, 0.0),
-) -> "Bosl2Solid":
+) -> Bosl2Solid:
     """Round ``solid``'s edges over the envelope ``size`` at ``at``.
 
     Args:
@@ -351,6 +363,7 @@ def round_edges(
     Returns:
         The solid with those edges rounded. Material outside the envelope —
         a hinge barrel, say — is untouched.
+
     """
     if rounding <= 0 or rounding > max_radius(size, edges):
         # Too large to be buildable on this piece; leave it square rather than

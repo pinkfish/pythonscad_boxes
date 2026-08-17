@@ -16,7 +16,7 @@ def build_floor_label(
     mode: str = "mmu",
     height: float = 0.2,
     font_size: float | None = None,
-) -> "Bosl2Solid | None":
+) -> Bosl2Solid | None:
     """Build a label for a compartment floor.
 
     In MMU mode, text is extruded 0.2mm above the floor for second-color
@@ -33,6 +33,7 @@ def build_floor_label(
 
     Returns:
         Bosl2Solid for the floor label, or None if bosl2 unavailable.
+
     """
     if font_size is None:
         max_size = min(width * 0.8 / max(len(text), 1) * 1.5, length * 0.5)
@@ -64,8 +65,8 @@ def build_compartment_label(
     comp_length: float,
     mode: str = "mmu",
     floor_z: float = 0.0,
-) -> "Bosl2Solid | None":
-    """Convenience wrapper for building a compartment floor label.
+) -> Bosl2Solid | None:
+    """Return a convenience wrapper for building a compartment floor label.
 
     Args:
         name: Animal/compartment name.
@@ -76,6 +77,7 @@ def build_compartment_label(
 
     Returns:
         Bosl2Solid positioned at the floor level, or None.
+
     """
     label = build_floor_label(name, comp_width - 2, comp_length - 2, mode=mode)
     if label is not None:

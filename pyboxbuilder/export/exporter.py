@@ -47,10 +47,11 @@ class PieceBounds:
     """"mmu" or "single"."""
 
     def fits_bed(self, bed: tuple[float, float, float]) -> bool:
-        """True when the piece fits a printer bed of the given size."""
-        return all(s <= b + 1e-6 for s, b in zip(self.size, bed))
+        """Return True when the piece fits a printer bed of the given size."""
+        return all(s <= b + 1e-6 for s, b in zip(self.size, bed, strict=False))
 
     def __str__(self) -> str:
+        """Return the piece as ``label [mode]: W x L x H mm``."""
         w, l, h = self.size
         return f"{self.label} [{self.mode}]: {w:.1f} x {l:.1f} x {h:.1f} mm"
 
@@ -70,6 +71,7 @@ class BoxExporter:
     Args:
         out_dir: Root output directory.
         game: Project name; becomes the subdirectory under `out_dir`.
+
     """
 
     def __init__(self, out_dir: str | Path, game: str) -> None:
@@ -91,7 +93,7 @@ class BoxExporter:
     # ----------------------------------------------------------------- write
 
     def is_current(self, label: str, part: str, mode: str, fingerprint: str) -> bool:
-        """True when the file on disk was built from this exact description.
+        """Return True when the file on disk was built from this exact description.
 
         Asked **before** the geometry is built, so an unchanged box costs
         nothing: the digest covers everything that shapes the piece, and none of
@@ -106,6 +108,7 @@ class BoxExporter:
 
         Returns:
             Whether the write can be skipped.
+
         """
         return fp.matches(self.path_for(label, part, mode), fingerprint)
 
@@ -123,6 +126,7 @@ class BoxExporter:
             part: "body" or "lid".
             mode: "mmu" or "single".
             size: The piece's declared size, recorded as its bounds.
+
         """
         self.state.skipped.append(self.relative(self.path_for(label, part, mode)))
         if size is not None:
@@ -135,8 +139,8 @@ class BoxExporter:
         label: str,
         part: str,
         mode: str,
-        solid: "Bosl2Solid | None" = None,
-        inserts: "list[Bosl2Solid] | None" = None,
+        solid: Bosl2Solid | None = None,
+        inserts: list[Bosl2Solid] | None = None,
         size: tuple[float, float, float] | None = None,
         fingerprint: str = "",
     ) -> str | None:
@@ -159,6 +163,7 @@ class BoxExporter:
         Note:
             Whether a write is *needed* is :meth:`is_current`'s decision, taken
             before the geometry is built. This writes what it is given.
+
         """
         path = self.path_for(label, part, mode)
         path.parent.mkdir(parents=True, exist_ok=True)
@@ -195,10 +200,10 @@ class BoxExporter:
     def write_box(
         self,
         label: str,
-        body: "Bosl2Solid | None" = None,
-        lid: "Bosl2Solid | None" = None,
-        body_inserts: "list[Bosl2Solid] | None" = None,
-        lid_inserts: "list[Bosl2Solid] | None" = None,
+        body: Bosl2Solid | None = None,
+        lid: Bosl2Solid | None = None,
+        body_inserts: list[Bosl2Solid] | None = None,
+        lid_inserts: list[Bosl2Solid] | None = None,
         size: tuple[float, float, float] | None = None,
         has_lid: bool = True,
     ) -> list[str]:
@@ -235,10 +240,10 @@ class BoxExporter:
 
     @staticmethod
     def _compose(
-        solid: "Bosl2Solid | None",
-        inserts: "list[Bosl2Solid] | None",
+        solid: Bosl2Solid | None,
+        inserts: list[Bosl2Solid] | None,
         mode: str,
-    ) -> "Bosl2Solid | list[Bosl2Solid] | None":
+    ) -> Bosl2Solid | list[Bosl2Solid] | None:
         """Combine a piece with its coloured inserts for the given mode."""
         if not inserts:
             return solid

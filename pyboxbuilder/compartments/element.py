@@ -15,8 +15,9 @@ actually built, so the layout maths stays importable without PythonSCAD.
 from __future__ import annotations
 
 import math
+from collections.abc import Iterable, Sequence
 from dataclasses import dataclass, replace
-from typing import TYPE_CHECKING, Iterable, Sequence
+from typing import TYPE_CHECKING
 
 from pyboxbuilder.enums import ElementShape
 from pyboxbuilder.precision import kwargs as precision_kwargs
@@ -68,6 +69,7 @@ class CompartmentElement:
     """Width of the pull-out across the slot. ``None`` uses a fingertip width."""
 
     def __post_init__(self) -> None:
+        """Validate the element's shape and size."""
         if self.shape is ElementShape.SVG and not self.shape_file:
             raise ValueError(
                 "CompartmentElement with shape=SVG requires shape_file="
@@ -124,7 +126,7 @@ class CompartmentElement:
             self.offset[1] + fl,
         )
 
-    def translated(self, dx: float, dy: float) -> "CompartmentElement":
+    def translated(self, dx: float, dy: float) -> CompartmentElement:
         """Return a copy shifted by (dx, dy) in the pack frame."""
         return replace(self, offset=(self.offset[0] + dx, self.offset[1] + dy))
 
@@ -172,6 +174,7 @@ def elements_footprint(
 
     Returns:
         (width, length) of the compartment needed to hold the pack, in mm.
+
     """
     if not elements:
         return (0.0, 0.0)
@@ -214,6 +217,7 @@ def grid_pack(
 
     Returns:
         The placed copies, in order.
+
     """
     out = []
     for i in range(count):
@@ -262,7 +266,7 @@ def _name(element: CompartmentElement) -> str:
 
 def build_element(
     element: CompartmentElement, default_depth: float
-) -> "Bosl2Solid":
+) -> Bosl2Solid:
     """Build the cutout solid for one element, in the compartment's local frame.
 
     pybosl2 primitives are centre-anchored, so each branch below builds its shape
@@ -311,7 +315,7 @@ def build_element(
     ])
 
 
-def svg_solid(shape_file: str, width: float, length: float, depth: float) -> "Bosl2Solid":
+def svg_solid(shape_file: str, width: float, length: float, depth: float) -> Bosl2Solid:
     """Extrude an SVG outline and scale it to fill `width` x `length` x `depth`.
 
     Returned centred on the origin, matching every pybosl2 primitive, so callers
@@ -354,8 +358,8 @@ DEFAULT_PULL_OUT_WIDTH_MM = 16.0
 
 def build_pull_out(
     element: CompartmentElement, default_depth: float
-) -> "Bosl2Solid | None":
-    """The finger dish that lets a piece be lifted out of its slot.
+) -> Bosl2Solid | None:
+    """Return the finger dish that lets a piece be lifted out of its slot.
 
     Cut across the slot and **curved in from the surrounding floor** on both
     sides, so a finger slides down into it rather than meeting a step. Without
@@ -372,6 +376,7 @@ def build_pull_out(
 
     Raises:
         ValueError: If the element has no resolved size.
+
     """
     if not element.pull_out:
         return None
@@ -407,7 +412,7 @@ def build_pull_out(
 
 def build_element_pack(
     elements: Iterable[CompartmentElement], default_depth: float
-) -> "Bosl2Solid | None":
+) -> Bosl2Solid | None:
     """Union every element cutout in a pack. Returns None for an empty pack."""
     pieces = []
     for element in elements:
@@ -416,7 +421,7 @@ def build_element_pack(
     return union_all([p for p in pieces if p is not None])
 
 
-def union_all(solids: list) -> "Bosl2Solid | None":
+def union_all(solids: list) -> Bosl2Solid | None:
     """Union a list of solids with a balanced fold.
 
     A left fold builds a chain as deep as the list, which the mesher pays for on
@@ -427,6 +432,6 @@ def union_all(solids: list) -> "Bosl2Solid | None":
     while len(solids) > 1:
         solids = [
             a | b if b is not None else a
-            for a, b in zip(solids[::2], list(solids[1::2]) + [None])
+            for a, b in zip(solids[::2], [*list(solids[1::2]), None], strict=False)
         ]
     return solids[0]

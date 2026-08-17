@@ -32,7 +32,7 @@ def _release() -> str:
         from importlib.metadata import version as _distribution_version
 
         return _distribution_version("pyboxbuilder")
-    except Exception:  # noqa: BLE001 — a source checkout without an install
+    except Exception:
         return "dev"
 
 

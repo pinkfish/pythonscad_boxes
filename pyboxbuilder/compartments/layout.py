@@ -1,8 +1,9 @@
 # SPDX-License-Identifier: Apache-2.0
 """Compartment auto-layout — 2D shelf-based bin packing."""
 
+from collections.abc import Sequence
 from dataclasses import dataclass, field
-from typing import Any, Sequence
+from typing import Any
 
 from pyboxbuilder.box.interior import Interior
 
@@ -30,6 +31,7 @@ def normalise_compartments(
 
     Returns:
         The same compartments, all seven fields long.
+
     """
     padding: tuple[Any, ...] = (None, None, ())
     return [
@@ -204,7 +206,7 @@ def compute_min_box_size(
     max_w: float | None = None,
     max_l: float | None = None,
 ) -> tuple[float, float, float]:
-    """The smallest box that holds these compartments.
+    """Return the smallest box that holds these compartments.
 
     With `max_w`/`max_l` given, lays the compartments out and measures the
     result; otherwise estimates a square footprint.
@@ -225,6 +227,7 @@ def compute_min_box_size(
 
     Returns:
         The box's outer `(width, length, height)` in mm.
+
     """
     if not compartments:
         return (
@@ -309,6 +312,7 @@ def pack_compartments_across_bins(
     Returns:
         A list of lists containing the partitioned compartments for each bin,
         or None if they cannot be successfully packed.
+
     """
     sorted_items = sorted(compartments, key=lambda x: x[1] * x[2], reverse=True)
     bins_content: list[list[Any]] = [[] for _ in bin_sizes]

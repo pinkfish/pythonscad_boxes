@@ -21,6 +21,7 @@ class NoLidBox(BoxTypeBase):
     """No-lid box type (open tray). Supports stackable rims and side magnets."""
 
     def interior(self, spec: BoxSpec) -> Interior:
+        """Return the frame the box's contents may occupy."""
         wt = spec.wall_thickness
         ft = spec.floor_thickness
         return Interior(
@@ -30,7 +31,7 @@ class NoLidBox(BoxTypeBase):
             origin_x=wt, origin_y=wt, origin_z=ft,
         )
 
-    def _build_shell(self, spec: BoxSpec) -> "Bosl2Solid":
+    def _build_shell(self, spec: BoxSpec) -> Bosl2Solid:
         from pyboxbuilder.box.shell import build_shell, with_no_lid_finger_holes
 
         # A no-lid box has no lid band, whoever built the spec: `Project` sets
@@ -42,7 +43,7 @@ class NoLidBox(BoxTypeBase):
         body = build_shell(spec)
         return body
 
-    def _add_stackable_rim(self, body: "Bosl2Solid", spec: BoxSpec) -> "Bosl2Solid":
+    def _add_stackable_rim(self, body: Bosl2Solid, spec: BoxSpec) -> Bosl2Solid:
         """Add an interlocking ring for stackable boxes.
 
         inside  → a recess carved into the top rim (box nests inside the box above)
@@ -83,7 +84,7 @@ class NoLidBox(BoxTypeBase):
             return body | ridge
         return body
 
-    def _add_magnet_slots(self, body: "Bosl2Solid", spec: BoxSpec) -> "Bosl2Solid":
+    def _add_magnet_slots(self, body: Bosl2Solid, spec: BoxSpec) -> Bosl2Solid:
         """Carve magnet cavities into the opposing walls that carry no finger hole.
 
         Which pair is not cosmetic (FR-039a). A pocket is cut at the middle of a
@@ -107,7 +108,7 @@ class NoLidBox(BoxTypeBase):
         on_front_back = self._magnet_sides_front_back(spec)
 
         def slot():
-            """A fresh solid per side — one handle must not span two branches."""
+            """Return a fresh solid per side — one handle must not span two branches."""
             if magnet_type is MagnetType.ROUND:
                 diameter = size[0] if size else 6.0
                 # Lay the cylinder along the axis it sinks into the wall on.
@@ -135,7 +136,7 @@ class NoLidBox(BoxTypeBase):
 
     @staticmethod
     def _magnet_sides_front_back(spec: BoxSpec) -> bool:
-        """True when the magnets belong in the FRONT/BACK pair (FR-039a).
+        """Return True when the magnets belong in the FRONT/BACK pair (FR-039a).
 
         The free pair is whichever one the finger holes did not take. Holes are
         read off the spec rather than recomputed, so an explicit `finger_hole()`
@@ -147,11 +148,10 @@ class NoLidBox(BoxTypeBase):
         sides = {getattr(hole, "side", None) for hole in holes}
         front_back = {ScoopSide.FRONT, ScoopSide.BACK} & sides
         left_right = {ScoopSide.LEFT, ScoopSide.RIGHT} & sides
-        if front_back and not left_right:
-            return False
-        return True
+        return not (front_back and not left_right)
 
-    def build_body(self, spec: BoxSpec) -> "Bosl2Solid":
+    def build_body(self, spec: BoxSpec) -> Bosl2Solid:
+        """Build the tray, adding the stackable rim and magnet slots when asked."""
         body = self._build_shell(spec)
         if spec.stackable:
             body = self._add_stackable_rim(body, spec)
@@ -159,6 +159,6 @@ class NoLidBox(BoxTypeBase):
             body = self._add_magnet_slots(body, spec)
         return body
 
-    def build_lid(self, spec: BoxSpec, decoration: object = None) -> "Bosl2Solid":
+    def build_lid(self, spec: BoxSpec, decoration: object = None) -> Bosl2Solid:
         """No-lid boxes have no lid."""
         return None

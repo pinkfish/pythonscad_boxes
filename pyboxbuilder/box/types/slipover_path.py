@@ -18,6 +18,7 @@ class SlipoverPathBox(BoxTypeBase):
     """Slipover-path lid box type."""
 
     def interior(self, spec: BoxSpec) -> Interior:
+        """Return the frame the box's contents may occupy."""
         wt = spec.wall_thickness
         ft = spec.floor_thickness
         lt = spec.lid_thickness
@@ -28,8 +29,8 @@ class SlipoverPathBox(BoxTypeBase):
             origin_x=wt, origin_y=wt, origin_z=ft,
         )
 
-    def build_body(self, spec: BoxSpec) -> "Bosl2Solid":
-        """A hollow tray on a polygon footprint, for a sleeve to slip over."""
+    def build_body(self, spec: BoxSpec) -> Bosl2Solid:
+        """Return a hollow tray on a polygon footprint, for a sleeve to slip over."""
         from pyboxbuilder.box.features import (
             extrude_footprint,
             offset_footprint,
@@ -57,8 +58,8 @@ class SlipoverPathBox(BoxTypeBase):
         )
         return outer - inner
 
-    def build_lid(self, spec: BoxSpec, decoration: object = None) -> "Bosl2Solid":
-        """A sleeve following the body's outline, stopping at the foot."""
+    def build_lid(self, spec: BoxSpec, decoration: object = None) -> Bosl2Solid:
+        """Return a sleeve following the body's outline, stopping at the foot."""
         from pyboxbuilder.box.features import path_sleeve
 
         path = spec.path or ()

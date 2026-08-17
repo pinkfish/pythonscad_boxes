@@ -19,7 +19,8 @@ added when the geometry to draw it is (FR-000c).
 from __future__ import annotations
 
 import random
-from typing import TYPE_CHECKING, Callable
+from collections.abc import Callable
+from typing import TYPE_CHECKING
 
 from pyboxbuilder.enums import PatternType
 from pyboxbuilder.precision import kwargs as precision_kwargs
@@ -42,7 +43,7 @@ DEPTH_OVERSHOOT = 1.2
 """How far a hole is over-extruded relative to the lid, so it breaks through."""
 
 def default_spacing(width: float, length: float) -> float:
-    """The cell size a pattern uses when the caller names none.
+    """Return the cell size a pattern uses when the caller names none.
 
     Derived from the lid rather than fixed, so the same pattern reads the same
     on a 40mm token lid and a 200mm card lid (FR-000).
@@ -53,6 +54,7 @@ def default_spacing(width: float, length: float) -> float:
 
     Returns:
         The spacing in mm — an eighth of the shorter side, never below 5mm.
+
     """
     return max(min(width, length) / 8.0, 5.0)
 
@@ -63,7 +65,7 @@ def build_pattern(
     thickness: float,
     pattern_type: PatternType,
     spacing: float | None = None,
-) -> "Bosl2Solid | None":
+) -> Bosl2Solid | None:
     """Build the through-hole cutouts for a lid.
 
     Args:
@@ -81,6 +83,7 @@ def build_pattern(
     Raises:
         ValueError: If the pattern has no fill registered — which cannot happen
             for a catalog member, and is the check that keeps it that way.
+
     """
     if spacing is None:
         spacing = default_spacing(width, length)
@@ -109,6 +112,7 @@ def _grid_cells(width, length, spacing, stagger=False):
     Yields:
         ``(x, y)`` centres, inset so a hole of :data:`HOLE_SHARE` stays whole —
         a pattern that runs off the edge leaves slivers, not holes.
+
     """
     margin = spacing * HOLE_SHARE / 2.0
     row_step = spacing * (0.866 if stagger else 1.0)  # sin(60°) for hex rows
@@ -136,6 +140,7 @@ def _punch(shape_at, width, length, spacing, stagger=False):
 
     Returns:
         The union of every hole, or ``None`` when none fit.
+
     """
     holes = None
     for x, y in _grid_cells(width, length, spacing, stagger):
@@ -207,7 +212,7 @@ def _triangle_fill(width, length, thickness, spacing, dense=False):
     def shape(x, y):
         # Alternating spin is what makes a triangle grid read as one, rather
         # than as rows of identical wedges.
-        spin = 180.0 if int(round(x / step)) % 2 else 0.0
+        spin = 180.0 if round(x / step) % 2 else 0.0
         return _prism(3, step * HOLE_SHARE, thickness, spin).translate(
             [x, y, thickness / 2]
         )

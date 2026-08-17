@@ -112,6 +112,7 @@ def scoop_face_flare(
 
     Returns:
         The flare in mm — normally ``wall_thickness / 2``.
+
     """
     if rounding_edge is None:
         rounding_edge = wall_thickness / 2
@@ -128,9 +129,9 @@ def _sweep_through_wall(
     rounding_radius: float,
     span: float,
     radius: float,
-    faces: "FaceTreatment" = FaceTreatment(),
+    faces: FaceTreatment | None = None,
     floor_thickness: float | None = None,
-) -> "Bosl2Solid":
+) -> Bosl2Solid:
     """Sweep a 2-D scoop profile through a wall and place it on a side.
 
     Shared by the edge scoop and the floor finger hole: the *profiles* differ
@@ -161,7 +162,10 @@ def _sweep_through_wall(
 
     Returns:
         The cutout, positioned in the compartment frame.
+
     """
+    if faces is None:
+        faces = FaceTreatment()
     rounding_edge = faces.fillet if faces.fillet is not None else wall_thickness / 2
     round_inner, round_outer = faces.round_inner, faces.round_outer
     inner_overshoot = faces.inner_overshoot

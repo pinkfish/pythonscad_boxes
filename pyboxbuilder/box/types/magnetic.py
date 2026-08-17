@@ -20,6 +20,7 @@ class MagneticBox(BoxTypeBase):
     """Magnetic-closure lid box type."""
 
     def interior(self, spec: BoxSpec) -> Interior:
+        """Return the frame the box's contents may occupy."""
         wt = spec.wall_thickness
         ft = spec.floor_thickness
         lt = spec.lid_thickness
@@ -32,7 +33,7 @@ class MagneticBox(BoxTypeBase):
 
     @staticmethod
     def _body_height(spec: BoxSpec) -> float:
-        """The body stops a lid's thickness short of the declared height.
+        """Return the body stops a lid's thickness short of the declared height.
 
         The lid closes onto the rim, so the two together come to `height` — the
         size the packer reserved. Building the walls full height would make the
@@ -40,7 +41,8 @@ class MagneticBox(BoxTypeBase):
         """
         return spec.height - spec.lid_thickness
 
-    def build_body(self, spec: BoxSpec) -> "Bosl2Solid":
+    def build_body(self, spec: BoxSpec) -> Bosl2Solid:
+        """Build the tray with blind magnet pockets in its top rim."""
         from pybosl2 import cylinder
 
         from pyboxbuilder.box.shell import build_shell
@@ -66,8 +68,8 @@ class MagneticBox(BoxTypeBase):
 
         return body
 
-    def build_lid(self, spec: BoxSpec, decoration: object = None) -> "Bosl2Solid":
-        """A plate that closes onto the rim, finishing at the declared height."""
+    def build_lid(self, spec: BoxSpec, decoration: object = None) -> Bosl2Solid:
+        """Return a plate that closes onto the rim, finishing at the declared height."""
         from pyboxbuilder.box.shell import block
 
         lt = spec.lid_thickness

@@ -82,7 +82,7 @@ class LidBuilder:
     """Fields to override for the single-colour export."""
 
     def titled(self, text: str, **overrides) -> LidBuilder:
-        """This lid style, carrying a particular box's text.
+        """Return this lid style, carrying a particular box's text.
 
         Args:
             text: The label for this box.
@@ -91,6 +91,7 @@ class LidBuilder:
 
         Returns:
             A copy; the style it was made from is unchanged.
+
         """
         return replace(self, text=text, **overrides)
 
@@ -121,7 +122,7 @@ class LidBuilder:
         )
 
     def for_mode(self, mode: str) -> LidBuilder:
-        """This lid as it prints in one colour mode.
+        """Return this lid as it prints in one colour mode.
 
         A per-mode override carries **only the fields it sets**. That has to be
         decided by what the caller passed rather than by comparing against the
@@ -135,6 +136,7 @@ class LidBuilder:
 
         Returns:
             The effective configuration; ``self`` when that mode sets nothing.
+
         """
         override = self.mmu_label if mode == "mmu" else self.single_label
         if override is None:
@@ -142,7 +144,7 @@ class LidBuilder:
         return replace(self, **override._stated(), mmu_label=None, single_label=None)
 
     def _stated(self) -> dict:
-        """The fields this override actually names.
+        """Return the fields this override actually names.
 
         A `LidBuilder` used as an override is a sparse record: every field
         defaults to ``None``, so "not mentioned" is representable and distinct
@@ -158,7 +160,7 @@ class LidBuilder:
         }
 
     def resolve_for_mode(self, mode: str) -> LidBuilder:
-        """Deprecated alias for :meth:`for_mode`."""
+        """Return the deprecated alias for :meth:`for_mode`."""
         import warnings
 
         warnings.warn(

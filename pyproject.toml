@@ -95,19 +95,45 @@ target-version = "py311"
 line-length = 120
 
 [tool.ruff.lint]
-select = ["E", "F", "I"]
+select = [
+    "E",   # pycodestyle errors
+    "W",   # pycodestyle warnings
+    "F",   # pyflakes
+    "I",   # isort
+    "B",   # flake8-bugbear
+    "C4",  # flake8-comprehensions
+    "SIM", # flake8-simplify
+    "RUF", # ruff-specific
+    "UP",  # pyupgrade
+    "D",   # pydocstyle (docstrings)
+]
 ignore = [
     # `w, l, h` is how this codebase — and OpenSCAD — names a box's three
     # dimensions, and `l` is unambiguous beside the other two. Renaming forty
     # of them to satisfy a rule about `l` looking like `1` would make the
     # geometry harder to read, not easier.
     "E741",
+    # A geometry library writes math in math: ×, −, µ, ² and – in docstrings and
+    # error messages are notation, not look-alike typos. Replacing them with
+    # ASCII would make the dimensions less precise.
+    "RUF001", "RUF002", "RUF003",
+    # The library documents dataclass fields as attributes with their own
+    # docstrings (see Project), so a class with a dataclass-generated __init__
+    # does not need a separate __init__ docstring.
+    "D107",
+    # A class whose sole job is to group related methods (builders) reads
+    # better with its members documented than with a restated summary.
+    "D101",
 ]
 
 [tool.ruff.lint.per-file-ignores]
 # An example has to put the repo root on sys.path before it can import the
-# library, so its imports cannot come first.
-"boxes/*" = ["E402"]
+# library, so its imports cannot come first. Examples are user-facing scripts,
+# not the library API, so the docstring rules do not apply to them either.
+"boxes/*" = ["E402", "D"]
+# Tests and docs build tooling are not the library API either.
+"tests/*" = ["D"]
+"docs/*" = ["D"]
 
 [tool.ruff.format]
 quote-style = "double"

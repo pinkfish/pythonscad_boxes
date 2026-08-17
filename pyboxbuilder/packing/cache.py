@@ -26,6 +26,7 @@ def cache_key(input_data: dict[str, Any]) -> str:
 
     Returns:
         Hex-encoded SHA-256 hash string.
+
     """
     input_data = dict(input_data)
     input_data["bgtk_version"] = BGTK_VERSION
@@ -38,6 +39,7 @@ def load_cache() -> dict[str, Any]:
 
     Returns:
         The full cache dictionary. Empty dict if file doesn't exist.
+
     """
     if not CACHE_FILE.exists():
         return {}
@@ -54,6 +56,7 @@ def save_cache(cache: dict[str, Any]) -> None:
 
     Args:
         cache: The full cache dictionary to persist.
+
     """
     CACHE_FILE.parent.mkdir(parents=True, exist_ok=True)
     with open(CACHE_FILE, "w") as f:
@@ -70,6 +73,7 @@ def get_cached(key: str) -> Any | None:
 
     Returns:
         The cached value, or None if not found.
+
     """
     global _memory_cache
     if key in _memory_cache:
@@ -89,6 +93,7 @@ def set_cached(key: str, value: Any) -> None:
     Args:
         key: SHA-256 hash key.
         value: The value to cache (must be JSON-serializable).
+
     """
     global _memory_cache
     _memory_cache[key] = value

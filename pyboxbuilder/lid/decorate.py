@@ -39,7 +39,7 @@ ENGRAVE_DEPTH_MM = 0.4
 class DecoratedLid:
     """A decorated lid, plus any parts that print in their own colour."""
 
-    solid: "Bosl2Solid"
+    solid: Bosl2Solid
     inserts: list = field(default_factory=list)
     """Coloured positives, kept separate in mmu mode and fused in single mode."""
 
@@ -48,11 +48,11 @@ class DecoratedLid:
 
 
 def decorate_lid(
-    lid: "Bosl2Solid",
-    builder: "LidBuilder | None",
+    lid: Bosl2Solid,
+    builder: LidBuilder | None,
     lid_thickness: float,
     mode: str = "mmu",
-    body_color: "Color | None" = None,
+    body_color: Color | None = None,
 ) -> DecoratedLid:
     """Apply a lid's label, pattern and colours to its geometry.
 
@@ -66,6 +66,7 @@ def decorate_lid(
 
     Returns:
         The decorated lid and its coloured inserts.
+
     """
     if lid is None or builder is None:
         return DecoratedLid(solid=lid)
@@ -92,7 +93,7 @@ def decorate_lid(
     return result
 
 
-def _top_face(lid: "Bosl2Solid") -> tuple[float, float, float, float, float] | None:
+def _top_face(lid: Bosl2Solid) -> tuple[float, float, float, float, float] | None:
     """(width, length, origin_x, origin_y, top_z) of the lid's upper surface."""
     try:
         (cx, cy, cz), (w, l, h) = lid.bounds()
@@ -104,15 +105,15 @@ def _top_face(lid: "Bosl2Solid") -> tuple[float, float, float, float, float] | N
 
 
 def _cut_pattern(
-    lid: "Bosl2Solid",
-    builder: "LidBuilder",
+    lid: Bosl2Solid,
+    builder: LidBuilder,
     width: float,
     length: float,
     origin_x: float,
     origin_y: float,
     top_z: float,
     lid_thickness: float,
-) -> "Bosl2Solid":
+) -> Bosl2Solid:
     """Cut the through-hole pattern into the lid, clear of its border."""
     from pyboxbuilder.box.shell import block
     from pyboxbuilder.lid.pattern import build_pattern
@@ -139,7 +140,7 @@ def _cut_pattern(
     return lid - (holes & block([area_w, area_l, depth], at=base))
 
 
-def _place_by_corner(solid: "Bosl2Solid", at) -> "Bosl2Solid":
+def _place_by_corner(solid: Bosl2Solid, at) -> Bosl2Solid:
     """Move a solid so its bounding box's minimum corner lands on `at`."""
     (cx, cy, cz), (w, l, h) = solid.bounds()
     return solid.translate([
@@ -149,7 +150,7 @@ def _place_by_corner(solid: "Bosl2Solid", at) -> "Bosl2Solid":
 
 def _apply_label(
     result: DecoratedLid,
-    builder: "LidBuilder",
+    builder: LidBuilder,
     width: float,
     length: float,
     origin_x: float,
@@ -198,7 +199,7 @@ def _apply_label(
         result.inserts.append(_coloured(onto_face(label.backing), builder.frame_color))
 
 
-def _with_accent_colors(builder: "LidBuilder", body_color) -> "LidBuilder":
+def _with_accent_colors(builder: LidBuilder, body_color) -> LidBuilder:
     """Fill in the accent colours the caller left unset (FR-022).
 
     An unset accent is not a subtle default — it is no colour at all, so the
@@ -211,6 +212,7 @@ def _with_accent_colors(builder: "LidBuilder", body_color) -> "LidBuilder":
 
     Returns:
         The configuration with text, frame and pattern colours resolved.
+
     """
     from dataclasses import replace
 

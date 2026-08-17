@@ -20,10 +20,7 @@ import sys
 from pathlib import Path
 
 # Repo root on sys.path, robust to __file__ being undefined (Jupyter / exec).
-if "__file__" in globals():
-    ROOT = Path(__file__).resolve().parents[2]
-else:
-    ROOT = Path.cwd()
+ROOT = Path(__file__).resolve().parents[2] if "__file__" in globals() else Path.cwd()
 sys.path.insert(0, str(ROOT))
 # Venv site-packages (any Python version) so compiled extensions like shapely
 # and pybosl2 load inside the PythonSCAD UI's embedded Python — relative to
@@ -36,7 +33,7 @@ for _sp in ROOT.glob("venv/*/lib/*/site-packages"):
 from pyboxbuilder import (
     BoxType,
     Color,
-    FingerCut,  # noqa: E402
+    FingerCut,
     LabelMode,
     LidBuilder,
     PatternBuilder,

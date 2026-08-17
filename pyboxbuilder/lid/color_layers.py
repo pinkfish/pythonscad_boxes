@@ -47,6 +47,7 @@ def resolve_colors(
 
     Returns:
         ColorLayerAssignment with all colors resolved.
+
     """
     if text_color is None:
         text_color = Color("white")

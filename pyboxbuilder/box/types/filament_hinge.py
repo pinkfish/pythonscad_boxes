@@ -19,6 +19,7 @@ class FilamentHingeBox(BoxTypeBase):
     """Filament (living) hinge lid box type."""
 
     def interior(self, spec: BoxSpec) -> Interior:
+        """Return the frame the box's contents may occupy."""
         wt = spec.wall_thickness
         ft = spec.floor_thickness
         lt = spec.lid_thickness
@@ -31,7 +32,7 @@ class FilamentHingeBox(BoxTypeBase):
 
     @staticmethod
     def _body_spec(spec: BoxSpec) -> BoxSpec:
-        """The body stops a lid's thickness below the box's stated height.
+        """Return the body stops a lid's thickness below the box's stated height.
 
         The lid closes onto the rim rather than inside it, so the two together
         come to `height` — build the walls full height and the closed lid would
@@ -41,7 +42,7 @@ class FilamentHingeBox(BoxTypeBase):
         return replace(spec, height=spec.height - lt)
 
     def interior_mask(self, spec: BoxSpec):
-        """The interior, less the room the hinge takes up inside it.
+        """Return the interior, less the room the hinge takes up inside it.
 
         The hinge sits within the box's outline, so its barrel and webs stand
         in the back of the interior. Compartments are clipped to what is left
@@ -52,6 +53,7 @@ class FilamentHingeBox(BoxTypeBase):
 
         Returns:
             The usable interior volume.
+
         """
         from pyboxbuilder.box.features import hinge_intrusion
         from pyboxbuilder.box.shell import block
@@ -66,8 +68,8 @@ class FilamentHingeBox(BoxTypeBase):
             self._body_spec(spec), spec.filament_diameter
         )
 
-    def build_body(self, spec: BoxSpec) -> "Bosl2Solid":
-        """The shell with half the hinge knuckles along its back edge."""
+    def build_body(self, spec: BoxSpec) -> Bosl2Solid:
+        """Return the shell with half the hinge knuckles along its back edge."""
         from pyboxbuilder.box.features import filament_hinge
         from pyboxbuilder.box.shell import build_shell
 
@@ -84,8 +86,8 @@ class FilamentHingeBox(BoxTypeBase):
             body = body - closure.body_cut
         return body if closure.body is None else body | closure.body
 
-    def build_lid(self, spec: BoxSpec, decoration: object = None) -> "Bosl2Solid":
-        """A plate carrying the interleaving knuckles, on the same pin axis.
+    def build_lid(self, spec: BoxSpec, decoration: object = None) -> Bosl2Solid:
+        """Return a plate carrying the interleaving knuckles, on the same pin axis.
 
         The hinge pin is a length of filament threaded through after printing,
         so the two halves stay separate parts.

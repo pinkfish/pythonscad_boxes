@@ -17,7 +17,7 @@ sys.path.insert(0, str(ROOT))
 for _sp in [*ROOT.glob(".venv/lib/*/site-packages"), *ROOT.glob("venv/*/lib/*/site-packages")]:
     sys.path.insert(0, str(_sp))
 
-from pyboxbuilder import (  # noqa: E402
+from pyboxbuilder import (
     BoxType,
     Color,
     FingerCut,

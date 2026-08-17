@@ -10,10 +10,7 @@ in the side walls and 1–4 internal divisions.
 import sys
 from pathlib import Path
 
-if "__file__" in globals():
-    ROOT = Path(__file__).resolve().parents[2]
-else:
-    ROOT = Path.cwd()
+ROOT = Path(__file__).resolve().parents[2] if "__file__" in globals() else Path.cwd()
 sys.path.insert(0, str(ROOT))
 # Venv site-packages (any Python version) so compiled extensions like shapely
 # and pybosl2 load inside the PythonSCAD UI's embedded Python — relative to

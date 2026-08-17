@@ -20,6 +20,7 @@ class CapBox(BoxTypeBase):
     """Cap (friction-fit) lid box type."""
 
     def interior(self, spec: BoxSpec) -> Interior:
+        """Return the frame the box's contents may occupy."""
         wt = spec.wall_thickness
         ft = spec.floor_thickness
         lt = spec.lid_thickness
@@ -30,8 +31,8 @@ class CapBox(BoxTypeBase):
             origin_x=wt, origin_y=wt, origin_z=ft,
         )
 
-    def build_body(self, spec: BoxSpec) -> "Bosl2Solid":
-        """The tray, stepped in at the top so the cap's skirt finishes flush.
+    def build_body(self, spec: BoxSpec) -> Bosl2Solid:
+        """Return the tray, stepped in at the top so the cap's skirt finishes flush.
 
         The body stops short of the declared height and its top band is set in
         by the lid's wall thickness: the declared size is the outside of the
@@ -41,8 +42,8 @@ class CapBox(BoxTypeBase):
 
         return cap_body(spec)
 
-    def build_lid(self, spec: BoxSpec, decoration: object = None) -> "Bosl2Solid":
-        """A cap: a top plate with a skirt that grips the body's stepped-in band."""
+    def build_lid(self, spec: BoxSpec, decoration: object = None) -> Bosl2Solid:
+        """Return a cap: a top plate with a skirt that grips the body's stepped-in band."""
         from pyboxbuilder.box.features import cap_lid
 
         return cap_lid(spec)

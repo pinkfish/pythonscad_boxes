@@ -12,10 +12,12 @@ per-side wall tops and their interior masks while the preview kept all three.
 
 from __future__ import annotations
 
+from collections.abc import Callable, Iterable
+from contextlib import suppress
 from dataclasses import dataclass, field
 from functools import cache, partial
 from pathlib import Path
-from typing import TYPE_CHECKING, Any, Callable, Iterable
+from typing import TYPE_CHECKING, Any
 
 from pyboxbuilder.enums import BoxType
 
@@ -53,7 +55,7 @@ class Piece:
     """Where the piece sits inside the game box, in mm."""
     _build: Callable[[], Any | None]
     """Builds this piece's geometry. Call :attr:`solid` rather than this."""
-    builder: "BoxBuilder | None" = None
+    builder: BoxBuilder | None = None
     """The box builder this piece came from; ``None`` for a spacer tray."""
 
     @property
@@ -83,7 +85,7 @@ class ResolvedBox:
     :meth:`Project.build`, not later, when a caller happens to touch a solid.
     """
 
-    builder: "BoxBuilder"
+    builder: BoxBuilder
     """The box this came from."""
     box: Any | None
     """Its type implementation, or ``None`` for a type with no geometry."""
@@ -101,11 +103,11 @@ class Build:
 
     pieces: tuple[Piece, ...]
     """Every body, lid and spacer, in project order."""
-    packing: "BoxPacking | None" = None
+    packing: BoxPacking | None = None
     """The resolved :class:`BoxPacking`, or ``None`` for a standalone project."""
 
     def of_kind(self, *kinds: str) -> list[Piece]:
-        """The pieces whose ``kind`` is any of ``kinds``."""
+        """Return the pieces whose ``kind`` is any of ``kinds``."""
         return [p for p in self.pieces if p.kind in kinds]
 
 
@@ -124,6 +126,7 @@ class Project:
             p.box(BoxType.SLIDING, "Cards", size=(120, 70, 50))
             p.box(BoxType.NO_LID, "Tokens", size=(80, 60, 30))
             p.show()
+
     """
 
     name: str
@@ -219,6 +222,7 @@ class Project:
                 p = Project("Cards", game_box_size=(300, 300, 80))
                 p.box(BoxType.SLIDING, "Cards", size=(120, 70, 50))
                 p.show(only="Cards")
+
         """
         from pyboxbuilder.box.registry import BOX_TYPE_REGISTRY
 
@@ -267,6 +271,7 @@ class Project:
             LayoutError: If the tree names an unknown box or places one twice.
             ValueError: If a named box has no explicit size, or the arrangement
                 does not fit the game box.
+
         """
         from pyboxbuilder.layout import LayoutError
         from pyboxbuilder.layout import arrange as resolve
@@ -318,6 +323,7 @@ class Project:
                 compartments, if its compartments overflow its interior, or if
                 its compartment ratios overflow.
             PackingError: If the boxes cannot be packed into the game box.
+
         """
         self._resolve_shared_compartments()
 
@@ -359,7 +365,7 @@ class Project:
         return Build(pieces=tuple(pieces), packing=packing)
 
     def _box_pieces(self, builder, at: tuple[float, float, float]) -> list[Piece]:
-        """The body and lid pieces for one box, at the position it packs to.
+        """Return the body and lid pieces for one box, at the position it packs to.
 
         The two share one build — a box type makes its body and its lid from
         the same measurements, and doing it twice would let them disagree — so
@@ -385,7 +391,7 @@ class Project:
 
     @staticmethod
     def _has_lid(builder) -> bool:
-        """True when this box type produces a lid file at all."""
+        """Return True when this box type produces a lid file at all."""
         from pyboxbuilder.box.registry import LIDLESS_BOX_TYPES
 
         return builder.box_type not in LIDLESS_BOX_TYPES
@@ -398,6 +404,7 @@ class Project:
 
         Raises:
             ValueError: If a group cannot be partitioned across its boxes.
+
         """
         from pyboxbuilder.builders._base import Cut
         from pyboxbuilder.compartments.builder import CompartmentBuilder
@@ -424,7 +431,7 @@ class Project:
                     f"Failed to partition shared compartments across boxes: {box_labels}"
                 )
 
-            for b, bin_items in zip(builders, packed_bins):
+            for b, bin_items in zip(builders, packed_bins, strict=False):
                 object.__setattr__(b, "compartments", tuple(
                     CompartmentBuilder(
                         label=name, size=(w, l), depth=d,
@@ -434,7 +441,7 @@ class Project:
                 ))
 
     def _by_label(self, label: str):
-        """The builder with this label, or ``None``."""
+        """Return the builder with this label, or ``None``."""
         return next((b for b in self._boxes if b.label == label), None)
 
     def _selected(self, only: str | Iterable[str] | None) -> set[str] | None:
@@ -451,6 +458,7 @@ class Project:
                 would look exactly like a box that failed to build — an empty
                 preview, or an export that wrote nothing — with nothing to say
                 which it was.
+
         """
         if only is None:
             return None
@@ -515,6 +523,7 @@ class Project:
             ValueError: If ``remove_layers`` is negative, ``only`` names a box
                 this project does not have, or a precision setting is out of
                 range.
+
         """
         from pyboxbuilder.precision import use
 
@@ -526,10 +535,9 @@ class Project:
 
         for piece in pieces:
             solid = piece.solid
-            try:
+            # Uncolourable geometry still previews, just uncoloured.
+            with suppress(AttributeError, TypeError):
                 solid = solid.color(piece.color)
-            except (AttributeError, TypeError):
-                pass  # Uncolourable geometry still previews, just uncoloured.
             solid.show()
 
     def preview_pieces(
@@ -560,6 +568,7 @@ class Project:
         Raises:
             ValueError: If ``remove_layers`` is negative, or ``only`` names a
                 box this project does not have.
+
         """
         from pyboxbuilder.preview import (
             PreviewPiece,
@@ -581,8 +590,8 @@ class Project:
         if wanted is not None:
             kept &= wanted
 
-        def colour_for(piece: Piece) -> "Color":
-            """A box's own colour when it declares one, else a stable hue."""
+        def colour_for(piece: Piece) -> Color:
+            """Return a box's own colour when it declares one, else a stable hue."""
             if piece.is_spacer:
                 return spacer_color(piece.label)
             declared = getattr(piece.builder, "color", None)
@@ -615,7 +624,7 @@ class Project:
     # ------------------------------------------------------------------ sizing
 
     def _container(self) -> tuple[float, float, float]:
-        """The game box's size, for the paths that require one.
+        """Return the game box's size, for the paths that require one.
 
         Returns:
             ``(width, length, height)`` in mm.
@@ -625,6 +634,7 @@ class Project:
                 the layout guide all need a container; without one they were
                 indexing ``None`` and failing with a TypeError from three
                 different lines.
+
         """
         if self.game_box_size is None:
             raise ValueError(
@@ -702,7 +712,7 @@ class Project:
         return packing
 
     def _min_size(self, builder) -> tuple[float, float, float]:
-        """The smallest this box may be: its explicit size, or its contents.
+        """Return the smallest this box may be: its explicit size, or its contents.
 
         Args:
             builder: The box to size. An explicit ``size`` wins; any axis left
@@ -714,6 +724,7 @@ class Project:
         Raises:
             ValueError: If the box has neither an explicit size nor
                 compartments to derive one from.
+
         """
         from pyboxbuilder.compartments.layout import compute_min_box_size
 
@@ -770,6 +781,7 @@ class Project:
         Raises:
             ValueError: If the box has neither an explicit size nor
                 compartments to derive one from.
+
         """
         size = self._min_size(builder)
         object.__setattr__(builder, "final_size", size)
@@ -777,7 +789,7 @@ class Project:
 
     # -------------------------------------------------------------- geometry
 
-    def _resolve_box(self, builder) -> "ResolvedBox":
+    def _resolve_box(self, builder) -> ResolvedBox:
         """Everything about a box that is decided before any geometry is cut.
 
         Kept separate from the geometry so it can run **eagerly**, during
@@ -795,6 +807,7 @@ class Project:
         Raises:
             ValueError: If the compartments overflow the interior, or their
                 ratios do.
+
         """
         from pyboxbuilder.box.registry import BOX_IMPL_REGISTRY
         from pyboxbuilder.box.spec import build_spec
@@ -893,6 +906,7 @@ class Project:
         Raises:
             ValueError: If the width or length ratios sum above 1.0, naming
                 each compartment that contributed.
+
         """
         for axis, attr in (("width", "width_ratio"), ("length", "length_ratio")):
             total = sum(getattr(cb, attr) or 0 for cb in builder.compartments)
@@ -916,6 +930,7 @@ class Project:
         Returns:
             The spacer placements, after the sweep → merge → shrink → filter
             pass (FR-014a/b/c). Empty when no gap survives the minimums.
+
         """
         from pyboxbuilder.packing.spacer import generate_spacer_placements
 
@@ -944,6 +959,7 @@ class Project:
         Returns:
             The built solid, or ``None`` when the geometry could not be built
             (pybosl2 unavailable, or a degenerate footprint).
+
         """
         from pyboxbuilder.box.registry import BOX_IMPL_REGISTRY
         from pyboxbuilder.box.spec import BoxSpec
@@ -983,6 +999,7 @@ class Project:
         Returns:
             ``(solid, inserts)`` — the decorated lid and its coloured positive
             inserts, or ``(piece.solid, None)`` when there is nothing to apply.
+
         """
         from pyboxbuilder.lid.decorate import decorate_lid
 
@@ -1045,6 +1062,7 @@ class Project:
             ValueError: If a box cannot be sized, a precision setting is out of
                 range, or ``only`` names a box this project does not have.
             PackingError: If the boxes cannot be packed into the game box.
+
         """
         from pyboxbuilder.export.exporter import BoxExporter
         from pyboxbuilder.export.result import ExportResult
@@ -1093,7 +1111,7 @@ class Project:
         )
 
     def _fingerprint(self, piece: Piece, mode: str) -> str:
-        """A hash of everything that decides this piece's geometry.
+        """Return a hash of everything that decides this piece's geometry.
 
         What makes a file worth rewriting is a change in the description it was
         built from, and that is knowable exactly — where comparing the meshes
@@ -1119,6 +1137,7 @@ class Project:
 
         Returns:
             A hex SHA-256 digest.
+
         """
         from pyboxbuilder.box.spec import describe
         from pyboxbuilder.packing.cache import cache_key
@@ -1151,6 +1170,7 @@ class Project:
         Args:
             out_dir: Root output directory.
             spacer_placements: The current set of spacer placements.
+
         """
         from pyboxbuilder.export.exporter import BoxExporter
 
@@ -1197,7 +1217,7 @@ class Project:
         boxes: list[str],
         compartments: list[tuple[str, float, float, float]],
     ) -> None:
-        """Registers a group of compartments to be dynamically partitioned across the given box labels."""
+        """Register a group of compartments to be dynamically partitioned across the given box labels."""
         self._shared_groups.append((boxes, compartments))
 
 

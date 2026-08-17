@@ -34,6 +34,7 @@ def register_box(
         box_type: The BoxType enum member.
         builder_class: The BoxBuilder subclass for this type.
         box_class: The BoxTypeBase implementation (can be registered later).
+
     """
     BOX_TYPE_REGISTRY[box_type] = builder_class
     if box_class is not None:

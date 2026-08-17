@@ -16,10 +16,11 @@ precision argument on functions that have nothing else to do with it.
 from __future__ import annotations
 
 import os
+from collections.abc import Iterator
 from contextlib import contextmanager
 from contextvars import ContextVar
 from dataclasses import dataclass
-from typing import Any, Iterator
+from typing import Any
 
 #: Default minimum angle per fragment, in degrees (OpenSCAD's ``$fa``).
 DEFAULT_FA = 12.0
@@ -54,12 +55,13 @@ never produces printable output. Application code should pass ``fn`` to
 
 
 def export_facets() -> int:
-    """The facet count a final export uses when the caller names none.
+    """Return the facet count a final export uses when the caller names none.
 
     Returns:
         :data:`EXPORT_FN`, or the value of :data:`EXPORT_FN_ENV` when that is
         set to a valid facet count (>= 3). A malformed value is ignored rather
         than raising, since it comes from the environment.
+
     """
     raw = os.environ.get(EXPORT_FN_ENV)
     if raw:
@@ -94,6 +96,7 @@ class Precision:
         Raises:
             ValueError: If ``fn`` is set below 3 (fewer than three facets is
                 not a curve), or if ``fa``/``fs`` is not positive.
+
         """
         if self.fn is not None and self.fn < 3:
             raise ValueError(f"fn must be >= 3 when set; got {self.fn}")
@@ -109,6 +112,7 @@ class Precision:
             A dict carrying ``fa``/``fs``, plus ``fn`` when it is set. Splat
             it into any curve-producing constructor:
             ``cylinder(height=h, radius=r, **precision().kwargs())``.
+
         """
         # Deliberately Any-valued: it is splatted into constructors whose
         # fn/fa/fs parameters have different types, and a narrower value type
@@ -119,7 +123,8 @@ class Precision:
         return values
 
 
-_CURRENT: ContextVar[Precision] = ContextVar("pyboxbuilder_precision", default=Precision())
+_DEFAULT_PRECISION = Precision()
+_CURRENT: ContextVar[Precision] = ContextVar("pyboxbuilder_precision", default=_DEFAULT_PRECISION)
 
 
 def precision() -> Precision:
@@ -128,18 +133,20 @@ def precision() -> Precision:
     Returns:
         The innermost :class:`Precision` set by :func:`use`, or the default
         (``fa=12, fs=2``) outside any such block.
+
     """
     return _CURRENT.get()
 
 
 def describe() -> dict[str, Any]:
-    """The precision in force, as a fingerprintable record.
+    """Return the precision in force, as a fingerprintable record.
 
     A piece built at 12 facets per circle and the same piece built at 256 are
     different geometry, so an export fingerprint has to carry this (FR-046).
 
     Returns:
         The current ``fn``/``fa``/``fs``.
+
     """
     current = precision()
     return {"fn": current.fn, "fa": current.fa, "fs": current.fs}
@@ -150,6 +157,7 @@ def kwargs() -> dict[str, Any]:
 
     Returns:
         The tessellation keyword arguments for the precision in force.
+
     """
     return precision().kwargs()
 
@@ -175,6 +183,7 @@ def use(
 
     Raises:
         ValueError: If any setting is out of range (see :class:`Precision`).
+
     """
     base = precision()
     active = Precision(

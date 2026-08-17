@@ -121,9 +121,8 @@ def _expand_in_place(
                 continue
             ox, oy, oz = other.position
             ow, ol, oh = other.size
-            if x < ox + ow and x + w > ox and y < oy + ol and y + l > oy:
-                if oz >= z + h:
-                    ceiling = min(ceiling, oz)
+            if x < ox + ow and x + w > ox and y < oy + ol and y + l > oy and oz >= z + h:
+                ceiling = min(ceiling, oz)
         if (ceiling - z) - h < HEIGHT_ABSORB_MM:
             placements[index] = sized(p, height=ceiling - z)
 
@@ -138,9 +137,8 @@ def _expand_in_place(
                 continue
             ox, oy, oz = other.position
             ow, ol, oh = other.size
-            if y < oy + ol and y + l > oy and z < oz + oh and z + h > oz:
-                if ox >= x + w:
-                    wall = min(wall, ox)
+            if y < oy + ol and y + l > oy and z < oz + oh and z + h > oz and ox >= x + w:
+                wall = min(wall, ox)
         placements[index] = sized(p, width=wall - x)
 
 
@@ -160,6 +158,7 @@ def pack_boxes(
 
     Returns:
         BoxPacking with placements assigned.
+
     """
     packing = BoxPacking(container_size=container_size)
 

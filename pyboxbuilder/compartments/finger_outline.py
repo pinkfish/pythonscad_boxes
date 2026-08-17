@@ -134,8 +134,8 @@ class CutProfile:
         """The throat's half-width, which is what the outline maths works in."""
         return None if self.width is None else self.width / 2.0
 
-    def with_half_width(self, half_width: float) -> "CutProfile":
-        """A copy whose width is set from a half-width."""
+    def with_half_width(self, half_width: float) -> CutProfile:
+        """Return a copy whose width is set from a half-width."""
         return replace(self, width=half_width * 2.0)
 def _quarter_arc(
     centre: tuple[float, float],
@@ -157,6 +157,7 @@ def _quarter_arc(
 
     Returns:
         ``[(x, y), ...]`` from start to end.
+
     """
     if radius <= 0:
         return [centre]
@@ -179,7 +180,7 @@ def scoop_profile(
     height: float,
     top_rounding: float = DEFAULT_MOUTH_ROUNDING_MM,
     bottom_rounding: float | None = None,
-) -> "Bosl2Shape2D":
+) -> Bosl2Shape2D:
     r"""Build the 2-D side profile of an **edge** scoop, in the X-Z plane.
 
     Two radii and three straight runs, read from the top down::
@@ -218,6 +219,7 @@ def scoop_profile(
     Raises:
         ValueError: If ``radius`` or ``height`` is not positive, or either
             radius is negative.
+
     """
     from pybosl2 import shapes2d
 
@@ -238,7 +240,7 @@ def scoop_profile(
     ring = scoop_outline(radius, height, flare, r2, rise)
     return shapes2d.polygon([[float(x), float(y)] for x, y in ring])
 def dish_radius(radius: float, height: float, flare: float) -> float:
-    """The radius of a **shallow** cut's base: one arc across its whole width.
+    """Return the radius of a **shallow** cut's base: one arc across its whole width.
 
     A deep cut is a bore — a round base with sides running up from it — and its
     base radius is the half-width. A shallow one is a **dish**, and sizing it
@@ -266,6 +268,7 @@ def dish_radius(radius: float, height: float, flare: float) -> float:
         The arc's radius, always larger than the half-width and, on a cut this
         shallow, larger than the cut is deep — so the arc widens all the way up
         instead of curling back in.
+
     """
     mouth = radius + flare
     below_roll = height - flare
@@ -313,6 +316,7 @@ def _fit_radii(
     to a circular roll. Scaling it to fit, which is what this did, returned
     14.4mm to a caller who asked for 20 and left nothing in the geometry to say
     so.
+
     """
     asked = bottom_rounding
     flare = max(0.0, top_rounding)
@@ -370,7 +374,7 @@ def floor_bore_outline(
     height: float,
     top_rounding: float = DEFAULT_MOUTH_ROUNDING_MM,
 ) -> list[tuple[float, float]]:
-    """The floor finger hole's closed outline, as one ring of points.
+    """Return the floor finger hole's closed outline, as one ring of points.
 
     The bore counterpart to :func:`scoop_outline`: a bowl tangent to the floor
     instead of a flat bottom, carrying the same r1 roll at its rim and the same
@@ -387,6 +391,7 @@ def floor_bore_outline(
     Raises:
         ValueError: If ``radius`` or ``height`` is not positive, or
             ``top_rounding`` is negative.
+
     """
     if radius <= 0:
         raise ValueError(f"bore radius must be > 0; got {radius}")
@@ -413,7 +418,7 @@ def _elliptical_quarter(
     rise: float,
     samples: int | None = None,
 ) -> list[tuple[float, float]]:
-    """The top roll: a quarter ellipse from the wall out to the top face.
+    """Return the top roll: a quarter ellipse from the wall out to the top face.
 
     Vertical where it leaves the wall and horizontal where it meets the top
     face, like a quarter circle, but with the two extents settable apart so a
@@ -427,6 +432,7 @@ def _elliptical_quarter(
 
     Returns:
         ``[(x, y), ...]`` from the wall to the top face.
+
     """
     if flare <= 0 or rise <= 0:
         return [(centre[0], centre[1] + rise)]
@@ -460,7 +466,7 @@ def _elliptical_quarter(
         )
     return points
 def _angle_at(centre: tuple[float, float], point: tuple[float, float]) -> float:
-    """The angle, in degrees, from ``centre`` to ``point``."""
+    """Return the angle, in degrees, from ``centre`` to ``point``."""
     return math.degrees(math.atan2(point[1] - centre[1], point[0] - centre[0]))
 def _tangent_join(
     bottom_centre: tuple[float, float],
@@ -488,6 +494,7 @@ def _tangent_join(
 
     Returns:
         ``(point_on_bottom_circle, point_on_top_circle)``.
+
     """
     if bottom_radius <= 0 or top_radius <= 0:
         return (
@@ -565,7 +572,7 @@ def window_outline(
     height: float,
     bottom_rounding: float,
 ) -> list[tuple[float, float]]:
-    """A **closed** finger opening: the scoop's outline with a roof on it.
+    """Return a **closed** finger opening: the scoop's outline with a roof on it.
 
     An edge scoop opens onto the top of the wall it is cut into, and its mouth
     roll is the transition onto that surface. Where the wall carries on above
@@ -588,6 +595,7 @@ def window_outline(
 
     Returns:
         ``[(x, y), ...]`` closed counter-clockwise, bottom at ``y=0``.
+
     """
     r2 = max(0.0, min(bottom_rounding, radius, height / 2))
     right: list[tuple[float, float]] = []
@@ -618,7 +626,7 @@ def scoop_outline(
     bottom_rounding: float,
     top_rise: float | None = None,
 ) -> list[tuple[float, float]]:
-    """The edge scoop's closed outline, as one ring of points.
+    """Return the edge scoop's closed outline, as one ring of points.
 
     Returned as a point ring rather than as 2-D geometry because the ring is
     what an offset sweep needs: it follows the outline around, so the fillet it
@@ -637,6 +645,7 @@ def scoop_outline(
 
     Returns:
         ``[(x, y), ...]`` closed counter-clockwise, floor at ``y=0``.
+
     """
     flare, r2 = top_rounding, bottom_rounding
     rise = flare if top_rise is None else top_rise
@@ -690,7 +699,7 @@ def floor_bore_profile(
     radius: float,
     height: float,
     top_rounding: float = DEFAULT_MOUTH_ROUNDING_MM,
-) -> "Bosl2Shape2D":
+) -> Bosl2Shape2D:
     """Build the 2-D profile of a **floor** finger hole, in the X-Z plane.
 
     Deliberately not the edge profile. An edge scoop is a shape you sweep a
@@ -713,6 +722,7 @@ def floor_bore_profile(
     Raises:
         ValueError: If ``radius`` or ``height`` is not positive, or
             ``top_rounding`` is negative.
+
     """
     from pybosl2 import shapes2d
 

@@ -24,6 +24,7 @@ class SlidingBox(BoxTypeBase):
     """
 
     def interior(self, spec: BoxSpec) -> Interior:
+        """Return the frame the box's contents may occupy."""
         wt = spec.wall_thickness
         ft = spec.floor_thickness
         lt = spec.lid_thickness
@@ -36,7 +37,7 @@ class SlidingBox(BoxTypeBase):
             origin_z=ft,
         )
 
-    def _build_shell(self, spec: BoxSpec) -> "Bosl2Solid":
+    def _build_shell(self, spec: BoxSpec) -> Bosl2Solid:
         """Build the hollow box body shell."""
         from pyboxbuilder.box.shell import build_shell, sliding_rim_rounding
 
@@ -61,17 +62,19 @@ class SlidingBox(BoxTypeBase):
 
         Returns:
             True when the box is longer than it is wide.
+
         """
         return spec.length > spec.width
 
-    def open_end_side(self, spec: BoxSpec) -> "ScoopSide":
-        """The wall the lid slides out through.
+    def open_end_side(self, spec: BoxSpec) -> ScoopSide:
+        """Return the wall the lid slides out through.
 
         Args:
             spec: Needs `width` and `length`.
 
         Returns:
             `BACK` when the lid slides along the length, else `RIGHT`.
+
         """
         from pyboxbuilder.enums import ScoopSide
 
@@ -91,13 +94,14 @@ class SlidingBox(BoxTypeBase):
 
         Returns:
             ``{ScoopSide: z}`` for all four sides.
+
         """
         from pyboxbuilder.enums import ScoopSide
 
         top = spec.height - (spec.lid_thickness or 0.0)
-        return {side: top for side in ScoopSide}
+        return dict.fromkeys(ScoopSide, top)
 
-    def preferred_scoop_side(self, spec: BoxSpec) -> "ScoopSide":
+    def preferred_scoop_side(self, spec: BoxSpec) -> ScoopSide:
         """Put a finger scoop in the wall the lid comes out of.
 
         On a sliding box the cards leave the same way the lid does, so the cut
@@ -110,6 +114,7 @@ class SlidingBox(BoxTypeBase):
 
         Returns:
             The open end's side.
+
         """
         return self.open_end_side(spec)
 
@@ -126,6 +131,7 @@ class SlidingBox(BoxTypeBase):
 
         Returns:
             A pybosl2 ``edges=`` selector for the exposed end.
+
         """
         from pybosl2 import Anchor
 
@@ -141,12 +147,13 @@ class SlidingBox(BoxTypeBase):
 
         Returns:
             ``"y"`` when the lid slides along the length, else ``"x"``.
+
         """
         return "y" if self.slides_along_length(spec) else "x"
 
     def _cut_lid_channel(
-        self, body: "Bosl2Solid", spec: BoxSpec
-    ) -> "Bosl2Solid":
+        self, body: Bosl2Solid, spec: BoxSpec
+    ) -> Bosl2Solid:
         """Cut the dovetailed slot the lid slides along, open at one end.
 
         One subtraction does both halves of the job, because they are the same
@@ -165,13 +172,14 @@ class SlidingBox(BoxTypeBase):
 
         Returns:
             The body with the dovetail channel cut.
+
         """
         from pyboxbuilder.box.features import dovetail_track
 
         return body - dovetail_track(spec, self._along_axis(spec)).body
 
     def _catch_radius(self, spec: BoxSpec) -> float:
-        """The bump catch's radius, or 0 for a plain sliding lid (FR-002e3).
+        """Return the bump catch's radius, or 0 for a plain sliding lid (FR-002e3).
 
         A plain sliding box has **no** catch by default, as the original
         toolkit's does: the dovetail already stops the lid lifting out, and
@@ -183,10 +191,11 @@ class SlidingBox(BoxTypeBase):
 
         Returns:
             The bump radius in mm; ``0`` for no catch.
+
         """
         return spec.catch_radius or 0.0
 
-    def build_body(self, spec: BoxSpec) -> "Bosl2Solid":
+    def build_body(self, spec: BoxSpec) -> Bosl2Solid:
         """Build the complete box body with dovetail grooves."""
         body = self._build_shell(spec)
         if spec.dovetail:
@@ -198,7 +207,7 @@ class SlidingBox(BoxTypeBase):
             body = body - sliding_catch(spec, radius, self._along_axis(spec)).body
         return body
 
-    def build_lid(self, spec: BoxSpec, decoration: object = None) -> "Bosl2Solid":
+    def build_lid(self, spec: BoxSpec, decoration: object = None) -> Bosl2Solid:
         """Build the sliding lid — a dovetailed plate, chamfered at its leading end."""
         from pyboxbuilder.box.features import dovetail_track
 

@@ -20,6 +20,7 @@ resolve. A description hash is exact, costs nothing, and needs no dependency.
 
 from __future__ import annotations
 
+import contextlib
 import json
 from pathlib import Path
 
@@ -28,7 +29,7 @@ SIDECAR_NAME = ".fingerprints.json"
 
 
 def _sidecar(path: Path) -> Path:
-    """The fingerprint record covering ``path``."""
+    """Return the fingerprint record covering ``path``."""
     return path.parent / SIDECAR_NAME
 
 
@@ -45,7 +46,7 @@ def _load(path: Path) -> dict[str, str]:
 
 
 def matches(path: Path, fingerprint: str) -> bool:
-    """True when ``path`` on disk was built from this exact description.
+    """Return True when ``path`` on disk was built from this exact description.
 
     Args:
         path: The file that would be written.
@@ -55,6 +56,7 @@ def matches(path: Path, fingerprint: str) -> bool:
         True only when the file exists, is not empty, and its recorded
         fingerprint is the one given. An unrecorded file is a miss, so a tree
         exported by an older version rewrites once and then settles.
+
     """
     if not fingerprint or not path.exists():
         return False
@@ -67,15 +69,15 @@ def record(path: Path, fingerprint: str) -> None:
     Args:
         path: The file just written.
         fingerprint: The digest of everything that decided its geometry.
+
     """
     if not fingerprint:
         return
     data = _load(path)
     data[path.name] = fingerprint
-    try:
+    # A cache that cannot be written is a cache miss next time.
+    with contextlib.suppress(OSError):
         _sidecar(path).write_text(json.dumps(data, indent=2, sort_keys=True))
-    except OSError:
-        pass  # A cache that cannot be written is a cache miss next time.
 
 
 def forget(path: Path) -> None:
@@ -83,10 +85,9 @@ def forget(path: Path) -> None:
 
     Args:
         path: The file being removed.
+
     """
     data = _load(path)
     if data.pop(path.name, None) is not None:
-        try:
+        with contextlib.suppress(OSError):
             _sidecar(path).write_text(json.dumps(data, indent=2, sort_keys=True))
-        except OSError:
-            pass

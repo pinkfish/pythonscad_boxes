@@ -48,6 +48,7 @@ def distribute_row_width(
 
     Raises:
         ValueError: If the items cannot fit in `available_width` at all.
+
     """
     if not items:
         return []

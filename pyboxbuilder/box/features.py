@@ -194,6 +194,7 @@ def cap_finger_metrics(spec: BoxSpec) -> CapFingerMetrics:
             the foot (FR-002n) — the smallest cap box is
             ``lid + 3 + 4 + 2``. A cap box built without the cutouts has no way
             to be opened, so this refuses rather than shrinking them.
+
     """
     m = cap_metrics(spec)
     lt = spec.lid_thickness
@@ -277,8 +278,8 @@ def cap_finger_metrics(spec: BoxSpec) -> CapFingerMetrics:
     )
 
 
-def cap_finger_cutouts(spec: BoxSpec) -> "Bosl2Solid":
-    """The four corner cutouts that let a cap lid be pushed off (FR-002i).
+def cap_finger_cutouts(spec: BoxSpec) -> Bosl2Solid:
+    """Return the four corner cutouts that let a cap lid be pushed off (FR-002i).
 
     Two wall scoops meeting at each corner — the same :func:`corner_catch` a
     slipover sleeve uses, and the original toolkit's ``CornerCatch`` before
@@ -297,6 +298,7 @@ def cap_finger_cutouts(spec: BoxSpec) -> "Bosl2Solid":
 
     Raises:
         ValueError: Via :func:`cap_finger_metrics`, when the box is too short.
+
     """
     from pyboxbuilder.compartments.element import union_all
 
@@ -333,8 +335,8 @@ def cap_finger_cutouts(spec: BoxSpec) -> "Bosl2Solid":
     return cutouts
 
 
-def cap_body(spec: BoxSpec) -> "Bosl2Solid":
-    """A cap box's body: full footprint below, stepped in for the skirt above."""
+def cap_body(spec: BoxSpec) -> Bosl2Solid:
+    """Return a cap box's body: full footprint below, stepped in for the skirt above."""
     from pyboxbuilder.box.shell import block, build_shell
 
     m = cap_metrics(spec)
@@ -367,8 +369,8 @@ def cap_body(spec: BoxSpec) -> "Bosl2Solid":
     return body
 
 
-def cap_lid(spec: BoxSpec) -> "Bosl2Solid":
-    """A cap box's lid: a plate whose skirt grips the body's stepped-in band.
+def cap_lid(spec: BoxSpec) -> Bosl2Solid:
+    """Return a cap box's lid: a plate whose skirt grips the body's stepped-in band.
 
     Its outer face is the declared footprint and its top is the declared height,
     so a closed cap box measures exactly what it was asked for.
@@ -430,6 +432,7 @@ def slipover_gap(spec: BoxSpec) -> float:
     Returns:
         The gap in mm — a quarter of the covered height, held between
         :data:`SLIPOVER_GAP_MIN_MM` and :data:`SLIPOVER_GAP_MAX_MM`.
+
     """
     explicit = spec.slipover_gap
     if explicit is not None:
@@ -451,6 +454,7 @@ def slipover_metrics(spec: BoxSpec) -> tuple[float, float]:
 
     Returns:
         ``(inset per side, body height)``.
+
     """
     wt = spec.wall_thickness
     lt = spec.lid_thickness
@@ -467,11 +471,11 @@ class Closure:
     half and adds its lid half, a knuckle adds both.
     """
 
-    body: "Bosl2Solid | None" = None
-    lid: "Bosl2Solid | None" = None
-    body_cut: "Bosl2Solid | None" = None
+    body: Bosl2Solid | None = None
+    lid: Bosl2Solid | None = None
+    body_cut: Bosl2Solid | None = None
     """Volume the **body** must give up for the lid's half to move."""
-    lid_cut: "Bosl2Solid | None" = None
+    lid_cut: Bosl2Solid | None = None
     """Volume the **lid** must give up for the body's half.
 
     Both directions are needed once a hinge sits inside the box: each half's
@@ -479,8 +483,8 @@ class Closure:
     only one side leaves the two fused just as surely as relieving neither.
     """
 
-    def require_lid(self) -> "Bosl2Solid":
-        """The lid half, for a closure that is required to have one.
+    def require_lid(self) -> Bosl2Solid:
+        """Return the lid half, for a closure that is required to have one.
 
         Args:
             None.
@@ -493,6 +497,7 @@ class Closure:
                 unioning two lid halves has no sensible answer without both,
                 and `None | solid` fails with a message about operand types
                 rather than about the geometry.
+
         """
         if self.lid is None:
             raise ValueError("this closure has no lid half to union")
@@ -503,7 +508,7 @@ class Closure:
 
 
 def rabbet(spec: BoxSpec, inset: float = 1.0) -> Closure:
-    """A ledge cut into the top rim, and the plate that drops into it.
+    """Return a ledge cut into the top rim, and the plate that drops into it.
 
     The lid finishes flush with the rim rather than sitting on top of it, which
     is what makes an inset box stackable.
@@ -512,6 +517,7 @@ def rabbet(spec: BoxSpec, inset: float = 1.0) -> Closure:
         spec: Box dimensions; reads `wall_thickness` and `lid_thickness`.
         inset: How far the ledge reaches in past the wall's inner face, so the
             lid has something to rest on rather than falling through.
+
     """
     from pyboxbuilder.box.shell import block
 
@@ -536,7 +542,7 @@ def rabbet(spec: BoxSpec, inset: float = 1.0) -> Closure:
 
 
 def sliding_dovetail(spec: BoxSpec) -> tuple[float, float]:
-    """The dovetail depths that hold a sliding lid in its grooves.
+    """Return the dovetail depths that hold a sliding lid in its grooves.
 
     The lid's two long edges are angled — a dovetail — so the lid is trapped in
     its grooves. In cross-section, perpendicular to the slide axis, the lid is a
@@ -552,13 +558,14 @@ def sliding_dovetail(spec: BoxSpec) -> tuple[float, float]:
         ``(top, bottom)`` — how far the key reaches into each side wall at the
         lid's top face and at its underside, in mm. The top is ``0`` (the lid's
         top face is the interior width); the bottom is half the wall width.
+
     """
     wt = spec.wall_thickness
     return 0.0, wt / 2
 
 
 def lead_chamfer_size(spec: BoxSpec) -> float:
-    """The slight chamfer that lets a lid start into its grooves (FR-002d).
+    """Return the slight chamfer that lets a lid start into its grooves (FR-002d).
 
     A **quarter** of the lid's thickness. It was half, which on a 2mm lid takes
     the leading end down to a 1mm knife edge — enough of a taper to read as a
@@ -571,6 +578,7 @@ def lead_chamfer_size(spec: BoxSpec) -> float:
 
     Returns:
         The chamfer depth in mm.
+
     """
     if spec.lead_chamfer is not None:
         return spec.lead_chamfer
@@ -578,7 +586,7 @@ def lead_chamfer_size(spec: BoxSpec) -> float:
 
 
 def lid_corner_rounding(spec: BoxSpec) -> float:
-    """The radius on the sliding lid's leading corners (FR-002e4).
+    """Return the radius on the sliding lid's leading corners (FR-002e4).
 
     Args:
         spec: Reads `wall_thickness`; an explicit `lid_corner_rounding` wins.
@@ -587,6 +595,7 @@ def lid_corner_rounding(spec: BoxSpec) -> float:
         The radius in mm — a quarter of the wall by default, capped at the
         dovetail's depth so the rounding cannot eat the key that retains the
         lid.
+
     """
     wt = spec.wall_thickness
     _, bottom_key = sliding_dovetail(spec)
@@ -606,8 +615,8 @@ def _dovetail_solid(
     height: float,
     z0: float,
     corner_rounding: float = 0.0,
-) -> "Bosl2Solid":
-    """A prism dovetailed on its two flanks and, at the closed end, in depth.
+) -> Bosl2Solid:
+    """Return a prism dovetailed on its two flanks and, at the closed end, in depth.
 
     Both faces are rectangles given by their **along**-axis span and their
     **across**-axis width. The across width tapers between them — that is the
@@ -664,8 +673,8 @@ def _lead_chamfer(
     size: float,
     from_top: bool = False,
     face_slope: float = 0.0,
-) -> "Bosl2Solid":
-    """A 45° wedge beveling one of the lid's leading horizontal edges.
+) -> Bosl2Solid:
+    """Return a 45° wedge beveling one of the lid's leading horizontal edges.
 
     ``lead`` is the leading end's coordinate along the slide axis at the face
     being cut — the end that enters the box first. The wedge is ``size`` deep at
@@ -695,6 +704,7 @@ def _lead_chamfer(
 
     Returns:
         The wedge to subtract from the lid.
+
     """
     from pybosl2.shapes3d import prismoid
 
@@ -726,7 +736,7 @@ def _lead_chamfer(
 
 
 def dovetail_track(spec: BoxSpec, along_axis: str = "x") -> Closure:
-    """The dovetailed channel a lid slides in, and the lid that fills it.
+    """Return the dovetailed channel a lid slides in, and the lid that fills it.
 
     One slot does both halves of the job, because they are the same slot: it
     leaves the interior clear at the top and bites half the wall width into
@@ -770,6 +780,7 @@ def dovetail_track(spec: BoxSpec, along_axis: str = "x") -> Closure:
 
     Returns:
         The channel to subtract from the body, and the lid that fills it.
+
     """
     wt = spec.wall_thickness
     lt = spec.lid_thickness
@@ -839,7 +850,7 @@ def dovetail_track(spec: BoxSpec, along_axis: str = "x") -> Closure:
 
 
 def sliding_track(spec: BoxSpec) -> Closure:
-    """The sliding channel and lid, in the slide-along-X frame.
+    """Return the sliding channel and lid, in the slide-along-X frame.
 
     A thin wrapper over :func:`dovetail_track` for the types that always slide
     along X (``SlidingCatchBox``, ``CardLibraryBox``).
@@ -850,7 +861,7 @@ def sliding_track(spec: BoxSpec) -> Closure:
 def sliding_catch(
     spec: BoxSpec, radius: float = 1.0, along_axis: str = "x"
 ) -> Closure:
-    """A bump-and-dimple detent that clicks the sliding lid shut (FR-002e1).
+    """Return a bump-and-dimple detent that clicks the sliding lid shut (FR-002e1).
 
     A pair of bumps on the lid drop into matching dimples in the two groove
     walls. The dimple is cut a touch larger so the two are not an interference
@@ -875,6 +886,7 @@ def sliding_catch(
 
     Returns:
         The dimples to subtract from the body, and the bumps to add to the lid.
+
     """
     from pybosl2 import sphere
 
@@ -927,8 +939,8 @@ def corner_catch(
     rounding_edge: float | None = None,
     top_rounding: float | None = None,
     bottom_rounding: float | None = None,
-) -> "Bosl2Solid":
-    """A finger notch wrapping a corner, as the original's ``CornerCatch``.
+) -> Bosl2Solid:
+    """Return a finger notch wrapping a corner, as the original's ``CornerCatch``.
 
     Not a new shape: the original builds it as **two `FingerHoleWall` scoops
     meeting at the corner**, one through each of the two walls, and this does
@@ -953,6 +965,7 @@ def corner_catch(
 
     Returns:
         The solid to subtract from the piece.
+
     """
     from pyboxbuilder.compartments.element import union_all
     from pyboxbuilder.compartments.finger_cuts import build_wall_scoop
@@ -997,8 +1010,8 @@ def corner_catch(
     return union_all(parts)
 
 
-def hinge_intrusion(spec: BoxSpec, filament_diameter: float = 1.75) -> "Bosl2Solid":
-    """The volume a hinge occupies inside the box, as a solid to subtract.
+def hinge_intrusion(spec: BoxSpec, filament_diameter: float = 1.75) -> Bosl2Solid:
+    """Return the volume a hinge occupies inside the box, as a solid to subtract.
 
     A hinge that sits inside the box's outline has to take that room from
     somewhere, and it takes it from the interior: the barrel and the leaf webs
@@ -1013,6 +1026,7 @@ def hinge_intrusion(spec: BoxSpec, filament_diameter: float = 1.75) -> "Bosl2Sol
 
     Returns:
         The solid the contents must keep clear of.
+
     """
     from pyboxbuilder.box.shell import block
 
@@ -1048,6 +1062,7 @@ def filament_hinge(
         knuckles: Total knuckles across the hinge, alternating body and lid.
         lid_thickness: Thickness of the leaf the lid's knuckles web into;
             defaults to the spec's.
+
     """
     from pybosl2 import cylinder
 
@@ -1167,7 +1182,7 @@ def offset_footprint(path, distance: float):
     return tuple(out)
 
 
-def extrude_footprint(path, height: float, base_z: float = 0.0) -> "Bosl2Solid":
+def extrude_footprint(path, height: float, base_z: float = 0.0) -> Bosl2Solid:
     """Extrude a footprint outline upward from `base_z`.
 
     `linear_extrude` is the one operation that already grows from its base
@@ -1193,8 +1208,8 @@ def path_body_metrics(spec: BoxSpec) -> tuple[float, float]:
     return wt / 2 + wiggle, spec.height - lt - wiggle
 
 
-def path_cap(spec: BoxSpec, path, cap_height: float) -> "Bosl2Solid":
-    """A cap whose skirt follows a polygon footprint instead of a rectangle.
+def path_cap(spec: BoxSpec, path, cap_height: float) -> Bosl2Solid:
+    """Return a cap whose skirt follows a polygon footprint instead of a rectangle.
 
     Its outer face is the declared outline, so a closed box measures exactly
     what it was asked for.
@@ -1211,8 +1226,8 @@ def path_cap(spec: BoxSpec, path, cap_height: float) -> "Bosl2Solid":
     return cap - cavity
 
 
-def path_sleeve(spec: BoxSpec, path, slip: float, foot: float = 0.0) -> "Bosl2Solid":
-    """A sleeve that slips over a polygon-footprint body, stopping at the foot."""
+def path_sleeve(spec: BoxSpec, path, slip: float, foot: float = 0.0) -> Bosl2Solid:
+    """Return a sleeve that slips over a polygon-footprint body, stopping at the foot."""
     lt = spec.lid_thickness
     slack = spec.slip_slack
     inset, _ = path_body_metrics(spec)

@@ -17,10 +17,7 @@ import sys
 from pathlib import Path
 
 # Repo root on sys.path, robust to __file__ being undefined (Jupyter / exec).
-if "__file__" in globals():
-    REPO_ROOT = Path(__file__).resolve().parents[2]
-else:
-    REPO_ROOT = Path.cwd()
+REPO_ROOT = Path(__file__).resolve().parents[2] if "__file__" in globals() else Path.cwd()
 print(REPO_ROOT)
 sys.path.insert(0, str(REPO_ROOT))
 # Venv site-packages (any Python version) so compiled extensions like shapely
@@ -34,7 +31,7 @@ for _sp in REPO_ROOT.glob("venv/*/lib/*/site-packages"):
 from pyboxbuilder import (
     BoxType,
     Color,
-    FingerCut,  # noqa: E402
+    FingerCut,
     LabelMode,
     LidBuilder,
     PatternBuilder,
@@ -45,8 +42,8 @@ from pyboxbuilder import (
     run,
     stack,
 )
-from pyboxbuilder.compartments import CompartmentElement, grid_pack  # noqa: E402
-from pyboxbuilder.enums import ElementShape  # noqa: E402
+from pyboxbuilder.compartments import CompartmentElement, grid_pack
+from pyboxbuilder.enums import ElementShape
 
 #: SVG silhouettes live beside this example (boxes/emberleaf/svg), so the
 #: example is self-contained and builds the same from any directory.

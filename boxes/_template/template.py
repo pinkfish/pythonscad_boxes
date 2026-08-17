@@ -20,7 +20,7 @@ for _sp in [*ROOT.glob(".venv/lib/*/site-packages"), *ROOT.glob("venv/*/lib/*/si
     sys.path.insert(0, str(_sp))
 
 # Imported ready for the examples below; uncomment what you need.
-from pyboxbuilder import (  # noqa: E402, F401
+from pyboxbuilder import (  # noqa: F401
     BoxType,
     Color,
     FingerCut,

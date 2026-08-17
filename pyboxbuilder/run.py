@@ -20,8 +20,9 @@ from __future__ import annotations
 import argparse
 import os
 import sys
+from collections.abc import Sequence
 from pathlib import Path
-from typing import TYPE_CHECKING, Sequence
+from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from pyboxbuilder.project import Project
@@ -34,7 +35,7 @@ DEFAULT_OUT_DIR = "output/"
 
 
 def _parser(default_out: str) -> argparse.ArgumentParser:
-    """The arguments an example accepts."""
+    """Return the arguments an example accepts."""
     parser = argparse.ArgumentParser(
         description="Preview this insert, or export its printable files.",
     )
@@ -74,7 +75,7 @@ def _parser(default_out: str) -> argparse.ArgumentParser:
 
 
 def run(
-    project: "Project",
+    project: Project,
     out_dir: str | Path = DEFAULT_OUT_DIR,
     *,
     show_lids: bool = False,
@@ -100,6 +101,7 @@ def run(
 
     Raises:
         SystemExit: If the arguments are malformed, as argparse does.
+
     """
     args = _parser(str(out_dir)).parse_args(sys.argv[1:] if argv is None else argv)
     only = args.box or None
@@ -118,7 +120,7 @@ def run(
     )
 
 
-def _report(project: "Project", result) -> None:
+def _report(project: Project, result) -> None:
     """Print what an export did."""
     print(
         f"{project.name}: {result.total_files} files "

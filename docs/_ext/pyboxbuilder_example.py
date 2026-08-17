@@ -123,7 +123,7 @@ class PyboxbuilderExampleDirective(Directive):
                 f"pythonscad-example: STL export timed out after 300s for:\n{code[:200]}"
             )
             return None
-        except Exception as exc:  # noqa: BLE001 — degrade, don't fail the build
+        except Exception as exc:
             _logger.error(
                 f"pythonscad-example: unexpected error rendering STL: {exc}"
             )

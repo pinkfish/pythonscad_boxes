@@ -17,14 +17,17 @@ class Interior:
 
     @property
     def max_x(self) -> float:
+        """The interior's far X edge."""
         return self.origin_x + self.width
 
     @property
     def max_y(self) -> float:
+        """The interior's far Y edge."""
         return self.origin_y + self.length
 
     @property
     def max_z(self) -> float:
+        """The interior's top Z edge."""
         return self.origin_z + self.height
 
     def contains_compartment(self, comp_w: float, comp_l: float) -> bool:

@@ -10,8 +10,8 @@ from __future__ import annotations
 
 import colorsys
 import hashlib
+from collections.abc import Sequence
 from dataclasses import dataclass
-from typing import Sequence
 
 from pybosl2 import Color
 
@@ -44,6 +44,7 @@ def _stable_fraction(label: str) -> float:
 
     Returns:
         A deterministic float in ``[0, 1)``.
+
     """
     digest = hashlib.md5(label.encode("utf-8")).digest()
     return int.from_bytes(digest[:4], "big") / 2 ** 32
@@ -60,6 +61,7 @@ def stable_color(label: str) -> Color:
 
     Returns:
         A saturated :class:`pybosl2.Color` whose hue is derived from the label.
+
     """
     r, g, b = colorsys.hsv_to_rgb(_stable_fraction(label), _HUE_SATURATION, _HUE_VALUE)
     return Color([r, g, b])
@@ -74,6 +76,7 @@ def spacer_color(label: str = "") -> Color:
 
     Returns:
         A grey :class:`pybosl2.Color`, never a hue from the box palette.
+
     """
     level = _SPACER_GREY_MIN + _SPACER_GREY_SPAN * _stable_fraction(label or "spacer")
     return Color([level, level, level])
@@ -88,6 +91,7 @@ def lighten(color: Color, amount: float = LID_LIGHTEN) -> Color:
 
     Returns:
         A new :class:`pybosl2.Color`; the input is not modified.
+
     """
     r, g, b, a = color.rgba
     return Color([c + (1.0 - c) * amount for c in (r, g, b)] + [a])
@@ -102,6 +106,7 @@ def with_alpha(color: Color, alpha: float) -> Color:
 
     Returns:
         A new :class:`pybosl2.Color` with the given alpha.
+
     """
     r, g, b, _ = color.rgba
     return Color([r, g, b, alpha])
@@ -118,6 +123,7 @@ def lid_color(box_color: Color) -> Color:
 
     Returns:
         A lighter, semi-transparent :class:`pybosl2.Color`.
+
     """
     return with_alpha(lighten(box_color), LID_ALPHA)
 
@@ -133,6 +139,7 @@ def layer_heights(placements: Sequence) -> list[float]:
 
     Returns:
         Sorted unique Z origins.
+
     """
     return sorted({round(p.position[2], 6) for p in placements})
 
@@ -153,6 +160,7 @@ def remove_top_layers(placements: Sequence, count: int) -> list:
 
     Raises:
         ValueError: If ``count`` is negative.
+
     """
     if count < 0:
         raise ValueError(f"remove_layers must be >= 0; got {count}")

@@ -66,8 +66,8 @@ def stl_viewer_html(
 
 def spec_viewer_html(
     variants: list[dict[str, str]],
-    width: int = 640,  # noqa: ARG001
-    height: int = 400,  # noqa: ARG001
+    width: int = 640,
+    height: int = 400,
 ) -> str:
     """Return variant data as a JSON string for embedding in a script element.
 
@@ -87,7 +87,7 @@ class STLDirective(Directive):
 
     required_arguments = 1
     final_argument_whitespace = True
-    option_spec = {
+    option_spec = {  # noqa: RUF012 — docutils directives use a shared class dict
         "color": directives.unchanged,
         "background": directives.unchanged,
         "width": directives.unchanged,

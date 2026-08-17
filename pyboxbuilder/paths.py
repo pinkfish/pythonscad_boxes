@@ -9,7 +9,7 @@ rather than a job for a general polygon-offset library. Both the spacer pass
 
 from __future__ import annotations
 
-from typing import Sequence
+from collections.abc import Sequence
 
 EPSILON = 0.01
 
@@ -32,7 +32,7 @@ def signed_area(path: Sequence[Point]) -> float:
 
 
 def is_rectilinear(path: Sequence[Point]) -> bool:
-    """True when every edge is axis-aligned."""
+    """Return True when every edge is axis-aligned."""
     for i, (x0, y0) in enumerate(path):
         x1, y1 = path[(i + 1) % len(path)]
         if abs(x0 - x1) > EPSILON and abs(y0 - y1) > EPSILON:
@@ -60,6 +60,7 @@ def inset_rectilinear(path: Sequence[Point], distance: float) -> Path:
 
     Returns:
         The inset outline, with the same number of points.
+
     """
     if distance == 0 or len(path) < 4:
         return tuple(path)

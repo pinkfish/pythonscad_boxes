@@ -42,6 +42,7 @@ class HexGridSpec:
 
     @property
     def apothem(self) -> float:
+        """The hex tile's apothem — half its flat-to-flat width."""
         return self.tile_width / 2
 
     @property
@@ -50,6 +51,7 @@ class HexGridSpec:
         return self.apothem / COS_30
 
     def __post_init__(self) -> None:
+        """Validate rows and cols are positive."""
         if self.rows <= 0 or self.cols <= 0:
             raise ValueError(
                 f"HexGrid rows and cols must be positive; got rows={self.rows} cols={self.cols}"
@@ -79,6 +81,7 @@ def compute_hex_layout(spec: HexGridSpec) -> list[HexCell]:
 
     Returns:
         List of HexCell with computed center coordinates.
+
     """
     cells: list[HexCell] = []
     r = spec.circumradius
@@ -108,6 +111,7 @@ def hex_grid_bounds(spec: HexGridSpec) -> tuple[float, float]:
 
     Returns:
         (width, length) of the full grid footprint in mm.
+
     """
     if spec.rows == 0 or spec.cols == 0:
         return (0.0, 0.0)
@@ -128,7 +132,7 @@ def hex_grid_bounds(spec: HexGridSpec) -> tuple[float, float]:
     return (width, length)
 
 
-def build_hex_grid(spec: HexGridSpec) -> "Bosl2Solid":
+def build_hex_grid(spec: HexGridSpec) -> Bosl2Solid:
     """Build the hexagonal cutout solid for a hex-grid compartment.
 
     Args:
@@ -137,6 +141,7 @@ def build_hex_grid(spec: HexGridSpec) -> "Bosl2Solid":
     Returns:
         A Bosl2Solid of all hex cell cutouts (positive geometry to subtract
         from the box floor), or None if pybosl2 is unavailable.
+
     """
     try:
         from pybosl2 import cylinder, regular_prism

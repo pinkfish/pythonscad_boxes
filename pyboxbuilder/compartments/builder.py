@@ -47,7 +47,7 @@ class CompartmentBuilder:
     as a tray: its corners and floor round to ``depth × 2/3`` so a finger can
     sweep a piece up the curve and out (FR-044f).
     """
-    cut: "Cut | None" = None
+    cut: Cut | None = None
     """How this compartment's contents come out; ``None`` means no cut.
 
     One setting rather than three (FR-006). It used to be a flag to ask for a
@@ -72,6 +72,7 @@ class CompartmentBuilder:
     derived from the elements."""
 
     def __post_init__(self) -> None:
+        """Validate the ratio fields lie in (0.0, 1.0]."""
         for name, val in [("width_ratio", self.width_ratio), ("length_ratio", self.length_ratio)]:
             if val is not None and not (0.0 < val <= 1.0):
                 raise ValueError(
@@ -108,12 +109,13 @@ class CompartmentBuilder:
         )
 
     def min_footprint(self) -> tuple[str, float, float, float] | None:
-        """What this compartment demands of a box that has no size yet.
+        """Return what this compartment demands of a box that has no size yet.
 
         Returns:
             ``(label, width, length, depth)`` in mm, or ``None`` when the well
             fills whatever it is given and so demands nothing — a box whose
             wells all fill needs an explicit size, and says so.
+
         """
         if self.fills_interior or self.size is None:
             return None
@@ -123,7 +125,7 @@ class CompartmentBuilder:
         self, interior_w: float, interior_l: float, interior_h: float,
         siblings: int = 1,
     ) -> tuple:
-        """This compartment as the layout engine takes it.
+        """Return this compartment as the layout engine takes it.
 
         Args:
             interior_w: Box interior width in mm.
@@ -136,6 +138,7 @@ class CompartmentBuilder:
 
         Returns:
             ``(label, width, length, depth, shape_file, position, elements)``.
+
         """
         width, length = self.resolve_size(interior_w, interior_l, siblings)
         return (
@@ -152,6 +155,7 @@ class CompartmentBuilder:
         Returns:
             The declared depth, or the full interior height when none was
             given — a well with nothing said about it goes to the floor.
+
         """
         return float(self.depth) if self.depth is not None else float(interior_h)
 
@@ -177,6 +181,7 @@ class CompartmentBuilder:
 
         Returns:
             (width, length) in mm.
+
         """
         from pyboxbuilder.compartments.layout import WALL_SPACING_MM
 

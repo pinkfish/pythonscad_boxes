@@ -19,6 +19,7 @@ class HingeBox(BoxTypeBase):
     """Pin-hinge lid box type."""
 
     def interior(self, spec: BoxSpec) -> Interior:
+        """Return the frame the box's contents may occupy."""
         wt = spec.wall_thickness
         ft = spec.floor_thickness
         lt = spec.lid_thickness
@@ -31,7 +32,7 @@ class HingeBox(BoxTypeBase):
 
     @staticmethod
     def _body_spec(spec: BoxSpec) -> BoxSpec:
-        """The body stops a lid's thickness short, so the closed lid seats on it."""
+        """Return the body stops a lid's thickness short, so the closed lid seats on it."""
         lt = spec.lid_thickness
         return replace(spec, height=spec.height - lt)
 
@@ -47,7 +48,7 @@ class HingeBox(BoxTypeBase):
         )
 
     def interior_mask(self, spec: BoxSpec):
-        """The interior, less the room the hinge takes up inside it.
+        """Return the interior, less the room the hinge takes up inside it.
 
         The hinge sits within the box's outline, so its barrel and webs stand
         in the back of the interior. Compartments are clipped to what is left
@@ -58,6 +59,7 @@ class HingeBox(BoxTypeBase):
 
         Returns:
             The usable interior volume.
+
         """
         from pyboxbuilder.box.features import hinge_intrusion
         from pyboxbuilder.box.shell import block
@@ -72,8 +74,8 @@ class HingeBox(BoxTypeBase):
             self._body_spec(spec), spec.hinge_pin_diameter
         )
 
-    def build_body(self, spec: BoxSpec) -> "Bosl2Solid":
-        """The shell carrying every other knuckle of the hinge."""
+    def build_body(self, spec: BoxSpec) -> Bosl2Solid:
+        """Return the shell carrying every other knuckle of the hinge."""
         from pyboxbuilder.box.shell import build_shell
 
         body = build_shell(self._body_spec(spec))
@@ -84,8 +86,8 @@ class HingeBox(BoxTypeBase):
             body = body - closure.body_cut
         return body if closure.body is None else body | closure.body
 
-    def build_lid(self, spec: BoxSpec, decoration: object = None) -> "Bosl2Solid":
-        """The lid carrying the interleaving knuckles, bored for the same pin.
+    def build_lid(self, spec: BoxSpec, decoration: object = None) -> Bosl2Solid:
+        """Return the lid carrying the interleaving knuckles, bored for the same pin.
 
         The knuckles alternate along one axis with a print gap between them, so
         the two halves come off the bed as separate parts and articulate once

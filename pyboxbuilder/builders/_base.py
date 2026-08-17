@@ -104,6 +104,7 @@ class BoxBuilder:
 
         Raises:
             TypeError: If ``stackable`` or ``magnet_type`` is not its enum.
+
         """
         for name, enum_cls in (("stackable", StackableMode), ("magnet_type", MagnetType)):
             value = getattr(self, name)
@@ -124,7 +125,7 @@ class BoxBuilder:
         depth: float | None = None,
         holds_pieces: bool = False,
         rounded_corners: float = 0.0,
-        cut: "Cut | FingerCut | None" = None,
+        cut: Cut | FingerCut | None = None,
         no_rotate: bool = False,
         shape_file: str | None = None,
         position: tuple[float, float] | None = None,
@@ -161,6 +162,7 @@ class BoxBuilder:
         Returns:
             The :class:`CompartmentBuilder` that was added, already registered
             on the box.
+
         """
         from pyboxbuilder.compartments.builder import CompartmentBuilder
 
@@ -179,7 +181,7 @@ class BoxBuilder:
             elements=elements,
             element_margin=element_margin,
         )
-        object.__setattr__(self, "compartments", self.compartments + (cb,))
+        object.__setattr__(self, "compartments", (*self.compartments, cb))
         return cb
 
     def cards(
@@ -190,7 +192,7 @@ class BoxBuilder:
         size: tuple[float, float],
         thickness: float = CARD_THICKNESS_MM,
         slack: float = CARD_SLACK_MM,
-        cut: "Cut | FingerCut | None" = FingerCut.THROUGH_FLOOR,
+        cut: Cut | FingerCut | None = FingerCut.THROUGH_FLOOR,
         **kwargs,
     ) -> CompartmentBuilder:
         """Add a well sized to hold a stack of cards.
@@ -225,6 +227,7 @@ class BoxBuilder:
 
         Raises:
             ValueError: If ``count`` is not positive.
+
         """
         if count <= 0:
             raise ValueError(f"card count must be > 0; got {count}")
@@ -238,7 +241,7 @@ class BoxBuilder:
 
     def finger_hole(
         self,
-        side: "ScoopSide",
+        side: ScoopSide,
         *,
         width: float = DEFAULT_FINGER_WIDTH_MM,
         depth: float | None = None,
@@ -248,7 +251,7 @@ class BoxBuilder:
         roll_rise: float | None = None,
         face_fillet: float | None = None,
         radius: float | None = None,
-    ) -> "FingerHoleBuilder":
+    ) -> FingerHoleBuilder:
         """Add a finger hole to one of this box's exterior walls (FR-006).
 
         The hole hangs from the top of the **interior** (FR-064) — not from
@@ -291,6 +294,7 @@ class BoxBuilder:
         Raises:
             TypeError: If ``side`` is not a :class:`ScoopSide`.
             ValueError: If ``radius`` or ``depth`` is not positive.
+
         """
         if radius is not None:
             import warnings
@@ -311,7 +315,7 @@ class BoxBuilder:
             face_fillet=face_fillet,
             roll_rise=roll_rise,
         )
-        object.__setattr__(self, "finger_holes", self.finger_holes + (hole,))
+        object.__setattr__(self, "finger_holes", (*self.finger_holes, hole))
         return hole
 
 
@@ -362,17 +366,17 @@ class Cut:
     wall."""
 
     @classmethod
-    def scoop(cls, **fields) -> "Cut":
-        """A dip in the side of the well, leaving its base solid."""
+    def scoop(cls, **fields) -> Cut:
+        """Return a dip in the side of the well, leaving its base solid."""
         return cls(kind=FingerCut.SCOOP, **fields)
 
     @classmethod
-    def through_floor(cls, **fields) -> "Cut":
-        """A hole through the box's base, for a well something is stacked in."""
+    def through_floor(cls, **fields) -> Cut:
+        """Return a hole through the box's base, for a well something is stacked in."""
         return cls(kind=FingerCut.THROUGH_FLOOR, **fields)
 
     @classmethod
-    def of(cls, value: "Cut | FingerCut | None") -> "Cut | None":
+    def of(cls, value: Cut | FingerCut | None) -> Cut | None:
         """Normalise what a caller passed as `cut=` into a record or ``None``.
 
         The enum on its own is the common case and reads better at a call site
@@ -449,6 +453,7 @@ class FingerHoleBuilder:
             TypeError: If ``side`` is not a :class:`ScoopSide` — a bare string
                 would silently match no wall.
             ValueError: If ``width`` or ``depth`` is not positive.
+
         """
         if not isinstance(self.side, ScoopSide):
             sides = ", ".join(f"ScoopSide.{m.name}" for m in ScoopSide)

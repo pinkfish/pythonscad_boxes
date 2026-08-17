@@ -64,7 +64,7 @@ class Placed:
 
 
 def _orientations(size: tuple[float, float, float], no_rotate: bool):
-    """The ways a box may be turned.
+    """Return the ways a box may be turned.
 
     Only the quarter turn about Z: a box printed with its lid on top has to stay
     that way up.
@@ -101,6 +101,7 @@ def pack_guillotine(
         node_budget: Search nodes before giving up. The 18-box Emberleaf layout
             resolves in 3,237 of them, in about 30ms; the budget is headroom for
             harder inputs, not a figure normal ones approach.
+
     """
     if not items:
         return []
@@ -122,7 +123,7 @@ def pack_guillotine(
     counts = tuple(len(group) for group in labels)
     smallest_dim = min(min(size) for size, _ in classes)
     total_volume = sum(
-        n * size[0] * size[1] * size[2] for n, (size, _) in zip(counts, classes)
+        n * size[0] * size[1] * size[2] for n, (size, _) in zip(counts, classes, strict=False)
     )
 
     nodes = 0
@@ -169,7 +170,7 @@ def pack_guillotine(
             if not full or gap_h <= EPS:
                 above = (x, y, z + bh, bw, bl, gap_h, False)
                 yield tuple(
-                    r for r in sides + (above,)
+                    r for r in (*sides, above)
                     if min(r[3], r[4], r[5]) > EPS and usable(r)
                 )
 
@@ -185,7 +186,7 @@ def pack_guillotine(
                 # it would leave a void with a box bridging over it.
                 if any(not usable(r) for r in layer_sides):
                     continue
-                yield layer_sides + ((x, y, z + bh, w, l, gap_h, False),)
+                yield (*layer_sides, (x, y, z + bh, w, l, gap_h, False))
 
     def solve(regions, remaining, need):
         nonlocal nodes
@@ -256,9 +257,7 @@ def pack_guillotine(
                     need - turned[0] * turned[1] * turned[2],
                 )
                 if tail is not None:
-                    return [
-                        (region[0], region[1], region[2], turned, rotated, i)
-                    ] + tail
+                    return [(region[0], region[1], region[2], turned, rotated, i), *tail]
 
         # Nothing fits, or nothing that fits leads anywhere. A plain region can
         # be given up as waste; one that owes a solid fill cannot.

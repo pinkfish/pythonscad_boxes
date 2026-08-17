@@ -23,8 +23,9 @@ import argparse
 import importlib.util
 import sys
 import time
+from collections.abc import Iterator, Sequence
 from pathlib import Path
-from typing import TYPE_CHECKING, Iterator, Sequence
+from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from pyboxbuilder.project import Project
@@ -33,7 +34,7 @@ EXAMPLES_DIR = "boxes"
 """Where `--all` looks for inserts, relative to the working directory."""
 
 
-def load_project(path: Path) -> "Project":
+def load_project(path: Path) -> Project:
     """Import an insert script and hand back the `Project` it defines.
 
     The script builds its project at import time and guards its own entry point
@@ -51,6 +52,7 @@ def load_project(path: Path) -> "Project":
         ValueError: If the module defines no `Project`, or more than one, so
             there is nothing (or no one thing) to build.
         ImportError: If the module cannot be imported.
+
     """
     from pyboxbuilder.project import Project
 
@@ -81,6 +83,7 @@ def find_examples(root: Path) -> Iterator[Path]:
 
     Yields:
         Each insert script.
+
     """
     for directory in sorted(p for p in root.iterdir() if p.is_dir()):
         if directory.name.startswith((".", "_")):
@@ -106,7 +109,7 @@ def _export(args: argparse.Namespace) -> int:
                 args.out, fn=args.fn,
                 only=args.box or None, force=args.force,
             )
-        except Exception as exc:  # noqa: BLE001 — one bad insert must not stop the rest
+        except Exception as exc:
             print(f"{path}: {type(exc).__name__}: {exc}", file=sys.stderr)
             failures += 1
             continue
@@ -138,7 +141,7 @@ def _list(args: argparse.Namespace) -> int:
 
 
 def _targets(args: argparse.Namespace) -> Iterator[Path]:
-    """The insert scripts this invocation names."""
+    """Return the insert scripts this invocation names."""
     if args.all:
         yield from find_examples(Path(args.examples))
     for name in args.script:
@@ -146,7 +149,7 @@ def _targets(args: argparse.Namespace) -> Iterator[Path]:
 
 
 def build_parser() -> argparse.ArgumentParser:
-    """The `pybox` command line."""
+    """Return the `pybox` command line."""
     parser = argparse.ArgumentParser(
         prog="pybox",
         description="Build printable files for a board game insert.",
@@ -205,6 +208,7 @@ def main(argv: Sequence[str] | None = None) -> int:
 
     Returns:
         A process exit status: 0 when every insert built.
+
     """
     args = build_parser().parse_args(argv)
     if not args.script and not args.all:

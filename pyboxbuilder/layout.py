@@ -24,8 +24,9 @@ ended; a group is as wide as its widest child on the axes it does not consume.
 
 from __future__ import annotations
 
+from collections.abc import Iterable, Sequence
 from dataclasses import dataclass
-from typing import TYPE_CHECKING, Iterable, Sequence, Union
+from typing import TYPE_CHECKING, Union
 
 if TYPE_CHECKING:
     from pyboxbuilder.builders._base import BoxBuilder
@@ -57,6 +58,7 @@ class Group:
         return found
 
     def __repr__(self) -> str:
+        """Return the layout tree in ``Axis(child, ...)`` form."""
         return f"{AXIS_NAMES[self.axis]}({', '.join(map(repr, self.children))})"
 
 
@@ -84,7 +86,8 @@ class Arrangement:
     """Overall extent of the arranged boxes."""
 
     def fits(self, container: Sequence[float], tolerance: float = 1e-6) -> bool:
-        return all(s <= c + tolerance for s, c in zip(self.size, container))
+        """Whether this arrangement fits within a container, within tolerance."""
+        return all(s <= c + tolerance for s, c in zip(self.size, container, strict=False))
 
 
 def measure(node: Node, sizes: dict[str, tuple[float, float, float]]) -> tuple[float, float, float]:
@@ -123,6 +126,7 @@ def arrange(
 
     Raises:
         LayoutError: If the tree names an unknown box, or names one twice.
+
     """
     positions: dict[str, tuple[float, float, float]] = {}
     _place(node, sizes, tuple(float(v) for v in origin), positions)
@@ -144,7 +148,7 @@ def _place(node, sizes, at, positions) -> None:
         cursor += measure(child, sizes)[node.axis] + node.gap
 
 
-def check_complete(node: Node, builders: Iterable["BoxBuilder"]) -> list[str]:
+def check_complete(node: Node, builders: Iterable[BoxBuilder]) -> list[str]:
     """Return the labels of boxes the project has but the layout leaves out."""
     named = set(node.labels() if isinstance(node, Group) else [node])
     return sorted(b.label for b in builders if b.label not in named)

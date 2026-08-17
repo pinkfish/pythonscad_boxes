@@ -169,12 +169,13 @@ class BoxSpec:
     stackable_fit_offset: float = 0.1
     """Clearance between a stacked box's rim and the one below it."""
 
-    def interior(self) -> "Interior":
-        """The usable volume inside this box.
+    def interior(self) -> Interior:
+        """Return the usable volume inside this box.
 
         Returns:
             An :class:`~pyboxbuilder.box.interior.Interior` in the box's own
             frame, inset by the wall on the sides and the floor below.
+
         """
         from pyboxbuilder.box.interior import Interior
 
@@ -196,6 +197,7 @@ class BoxSpec:
 
         Returns:
             The z of the wall's top.
+
         """
         if self.interior_top is not None:
             return float(self.interior_top)
@@ -210,11 +212,12 @@ class BoxSpec:
         Returns:
             That wall's top, or :meth:`default_wall_top` if this spec carries
             no per-side map yet.
+
         """
         return float(self.wall_tops.get(side, self.default_wall_top()))
 
-    def with_wall_tops(self, box: object) -> "BoxSpec":
-        """This spec with each wall's top resolved for a box type.
+    def with_wall_tops(self, box: object) -> BoxSpec:
+        """Return this spec with each wall's top resolved for a box type.
 
         The four walls of a box do **not** have to end at the same height, and
         assuming they do is how a scoop ends up hanging in space: a sliding
@@ -227,9 +230,10 @@ class BoxSpec:
 
         Returns:
             A copy carrying a complete ``wall_tops`` map.
+
         """
         fallback = self.default_wall_top()
-        tops = {side: fallback for side in ScoopSide}
+        tops = dict.fromkeys(ScoopSide, fallback)
         hook = getattr(box, "wall_tops", None)
         if hook is not None:
             for side, z in (hook(self) or {}).items():
@@ -265,6 +269,7 @@ def build_spec(project, builder, size: tuple[float, float, float]) -> BoxSpec:
 
     Returns:
         The assembled :class:`BoxSpec`.
+
     """
     from pyboxbuilder.box.registry import LIDLESS_BOX_TYPES
 
@@ -303,7 +308,7 @@ def build_spec(project, builder, size: tuple[float, float, float]) -> BoxSpec:
 
 
 def describe(builder) -> dict:
-    """A JSON-serialisable description of everything that shapes a box.
+    """Return a JSON-serialisable description of everything that shapes a box.
 
     Used to fingerprint an exported piece (FR-031): two runs of an unchanged
     project describe their boxes identically, so nothing is rewritten.
@@ -314,6 +319,7 @@ def describe(builder) -> dict:
     Returns:
         A dict of the builder's geometry-bearing fields, its compartments and
         its lid decoration.
+
     """
     def plain(value, field_name: str = ""):
         """Reduce a value to something `json.dumps(default=str)` compares."""
@@ -346,6 +352,7 @@ def _file_digest(path: str) -> str:
     Returns:
         A hex digest, or a marker naming the problem — which still differs from
         the digest, so a file that appears later counts as a change.
+
     """
     import hashlib
 

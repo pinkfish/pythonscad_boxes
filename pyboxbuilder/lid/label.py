@@ -38,11 +38,12 @@ class Label:
     material while the single-colour pass fuses them.
     """
 
-    text: "Bosl2Solid"
-    backing: "Bosl2Solid | None" = None
+    text: Bosl2Solid
+    backing: Bosl2Solid | None = None
     """Framed mode only: the plate and hatching behind the text."""
 
-    def combined(self) -> "Bosl2Solid":
+    def combined(self) -> Bosl2Solid:
+        """Return the text and, in framed mode, its backing plate, fused into one solid."""
         return self.text if self.backing is None else self.backing | self.text
 
 
@@ -98,7 +99,7 @@ def build_label(
     diagonal: bool = False,
     min_text_height_mm: float = 4.0,
     border_margin_mm: float = 5.0,
-) -> "Label | None":
+) -> Label | None:
     """Build a label for a lid face, or None if it would be illegible.
 
     Args:
@@ -115,6 +116,7 @@ def build_label(
 
     Returns:
         A `Label`, or None when the text would come out under the minimum.
+
     """
     from pyboxbuilder.box.shell import block, corner
 
@@ -166,7 +168,7 @@ def build_label(
 
 def _build_hatching(
     width: float, length: float, spacing: float = 3.0
-) -> "Bosl2Solid":
+) -> Bosl2Solid:
     """Diagonal hatching lines, centred on the origin and clipped to the area.
 
     The lines are cropped to the label rectangle so the hatching cannot spill

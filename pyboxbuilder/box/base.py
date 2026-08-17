@@ -33,7 +33,7 @@ class BoxTypeBase:
     with a lid sitting on top of it.
     """
 
-    def build_body(self, spec: "BoxSpec") -> "Bosl2Solid":
+    def build_body(self, spec: BoxSpec) -> Bosl2Solid:
         """Build the box body geometry.
 
         Args:
@@ -45,12 +45,13 @@ class BoxTypeBase:
 
         Raises:
             NotImplementedError: If the subclass does not provide one.
+
         """
         raise NotImplementedError(f"{type(self).__name__} must implement build_body()")
 
     def build_lid(
-        self, spec: "BoxSpec", decoration: object = None
-    ) -> "Bosl2Solid | None":
+        self, spec: BoxSpec, decoration: object = None
+    ) -> Bosl2Solid | None:
         """Build the lid geometry, in its seated position.
 
         Args:
@@ -60,11 +61,12 @@ class BoxTypeBase:
 
         Returns:
             The lid solid, or ``None`` for a lidless type.
+
         """
         return None
 
-    def interior(self, spec: "BoxSpec") -> Interior:
-        """The volume inside this box.
+    def interior(self, spec: BoxSpec) -> Interior:
+        """Return the volume inside this box.
 
         Args:
             spec: The box's resolved description.
@@ -73,10 +75,11 @@ class BoxTypeBase:
             The interior frame. The default is the spec's own — walls on four
             sides, floor below, lid above — which types that shorten the body
             for their lid override.
+
         """
         return spec.interior()
 
-    def preferred_scoop_side(self, spec: "BoxSpec") -> "ScoopSide | None":
+    def preferred_scoop_side(self, spec: BoxSpec) -> ScoopSide | None:
         """Which wall this box type wants a finger scoop in.
 
         A hook rather than a rule, because only the type knows: on a sliding
@@ -89,10 +92,11 @@ class BoxTypeBase:
         Returns:
             A :class:`~pyboxbuilder.enums.ScoopSide`, or ``None`` for "no
             preference", which leaves the compartment's own shape to decide.
+
         """
         return None
 
-    def lid_rounded_edges(self, spec: "BoxSpec") -> list:
+    def lid_rounded_edges(self, spec: BoxSpec) -> list:
         """Which of this box type's lid edges may be rounded.
 
         Args:
@@ -103,13 +107,14 @@ class BoxTypeBase:
             and the top face — suits a lid that sits on top of the box, where
             all of that is on the outside. A lid that slides into the box
             overrides it (FR-044i).
+
         """
         from pyboxbuilder.rounding import vertical_and_top_edges
 
         return vertical_and_top_edges()
 
-    def wall_tops(self, spec: "BoxSpec") -> dict:
-        """The sides whose walls do not end at this box's default top.
+    def wall_tops(self, spec: BoxSpec) -> dict:
+        """Return the sides whose walls do not end at this box's default top.
 
         Args:
             spec: The box's resolved description.
@@ -117,11 +122,12 @@ class BoxTypeBase:
         Returns:
             ``{ScoopSide: z}`` for the sides this type raises or lowers; empty
             when all four end level (FR-070/FR-071).
+
         """
         return {}
 
-    def interior_mask(self, spec: "BoxSpec") -> "Bosl2Solid | None":
-        """The volume inside the box that contents may actually occupy.
+    def interior_mask(self, spec: BoxSpec) -> Bosl2Solid | None:
+        """Return the volume inside the box that contents may actually occupy.
 
         Usually the whole interior, and a type only says otherwise when
         something of its own stands in there. A hinge box is the case that
@@ -135,5 +141,6 @@ class BoxTypeBase:
         Returns:
             A solid the contents must stay within, or ``None`` when the whole
             interior is available.
+
         """
         return None

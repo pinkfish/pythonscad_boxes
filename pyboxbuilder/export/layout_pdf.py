@@ -52,9 +52,12 @@ def generate_layout_pdf(
         output_path: Path to write the PDF file (str or Path).
         project_name: Game name for the title.
         game_box_size: Outer game box dimensions (W, L, H).
+        box_builders: The project's boxes, keyed by label, for colour and
+            label lookups. Optional.
 
     Returns:
         The output path, or None if generation failed.
+
     """
     output_path = Path(output_path)
     try:
@@ -163,9 +166,9 @@ def generate_layout_pdf(
             pdf.set_font("Helvetica", "B", 7.5)
             tw = pdf.get_string_width(lbl)
             th = 4.0
-            
+
             cx, cy = to_pdf(x + bw / 2, y + bl / 2, z + bh)
-            
+
             # Determine if label is covered by other active/visible boxes on this page
             is_covered = False
             z_top = z + bh
@@ -174,33 +177,33 @@ def generate_layout_pdf(
                 if other.label == label:
                     continue
                 ox, oy, oz = other.position
-                ow, ol, oh = other.size
+                ow, ol, _oh = other.size
                 sits_above = oz >= z_top - 0.5
                 overlaps_x = ox < x + bw - 1.0 and ox + ow > x + 1.0
                 overlaps_y = oy < y + bl - 1.0 and oy + ol > y + 1.0
                 if sits_above and overlaps_x and overlaps_y:
                     is_covered = True
                     break
-                    
+
             if is_covered:
                 # Shift label to the side to avoid stack occlusion
                 shift_dir = -1 if (x + bw/2) < game_box_size[0] / 2 else 1
                 cx_shifted = cx + shift_dir * 25
                 cy_shifted = cy - 5
-                
+
                 # Draw leader line
                 pdf.set_draw_color(200, 50, 50)
                 pdf.set_line_width(0.2)
                 pdf.set_dash_pattern(dash=1, gap=1)
                 pdf.line(cx, cy, cx_shifted, cy_shifted)
                 pdf.set_dash_pattern(dash=0, gap=0)
-                
+
                 # Draw text badge at shifted position
                 pdf.set_fill_color(255, 255, 255)
                 pdf.set_draw_color(40, 40, 40)
                 pdf.set_line_width(0.15)
                 pdf.rect(cx_shifted - tw/2 - 1.5, cy_shifted - th/2 - 1, tw + 3, th + 2, style="DF")
-                
+
                 pdf.set_text_color(0, 0, 0)
                 pdf.text(cx_shifted - tw/2, cy_shifted + th/2 - 1.0, lbl)
             else:
@@ -209,10 +212,10 @@ def generate_layout_pdf(
                 pdf.set_draw_color(40, 40, 40)
                 pdf.set_line_width(0.15)
                 pdf.rect(cx - tw/2 - 1.5, cy - th/2 - 1, tw + 3, th + 2, style="DF")
-                
+
                 pdf.set_text_color(0, 0, 0)
                 pdf.text(cx - tw/2, cy + th/2 - 1.0, lbl)
-                
+
             # If present, draw index number on the badge
             if index_str:
                 pdf.set_fill_color(200, 50, 50)
@@ -297,11 +300,11 @@ def generate_layout_pdf(
         for p in sorted_active:
             x, y, z = p.position
             bw, bl, bh = p.size
-            
+
             # Find original index for color mapping
             orig_idx = next(i for i, orig in enumerate(packing.placements) if orig.label == p.label)
             color = colors[orig_idx % len(colors)]
-            
+
             draw_box_3d(x, y, z, bw, bl, bh, color, p.label, str(orig_idx + 1), page.active_placements)
 
         # 5. Draw 2D Blueprint inset for Box if it has compartments
@@ -322,29 +325,29 @@ def draw_box_blueprint(pdf, builder, x_bp: float, y_bp: float, scale: float = 0.
     wt = builder.wall_thickness or 3.0
     ft = builder.floor_thickness or 1.6
     lt = builder.lid_thickness or 2.0
-    
+
     # Outer box boundary
     pdf.set_draw_color(50, 50, 50)
     pdf.set_line_width(0.3)
     pdf.set_fill_color(248, 248, 248)
     pdf.rect(x_bp, y_bp, builder.final_size[0] * scale, builder.final_size[1] * scale, style="DF")
-    
+
     # Interior border
     interior_w = builder.final_size[0] - 2 * wt
     interior_l = builder.final_size[1] - 2 * wt
     pdf.set_draw_color(120, 120, 120)
     pdf.set_line_width(0.15)
     pdf.rect(x_bp + wt * scale, y_bp + wt * scale, interior_w * scale, interior_l * scale, style="D")
-    
+
     # Title
     pdf.set_font("Helvetica", "B", 8)
     pdf.set_text_color(50, 50, 50)
     pdf.text(x_bp + 4.0 * scale, y_bp + 10.0 * scale, f"{builder.label} Layout")
-    
+
     # Draw compartments
     from pyboxbuilder.box.interior import Interior as BoxInterior
     from pyboxbuilder.compartments.layout import layout_compartments
-    
+
     interior = BoxInterior(
         width=interior_w,
         length=interior_l,
@@ -353,7 +356,7 @@ def draw_box_blueprint(pdf, builder, x_bp: float, y_bp: float, scale: float = 0.
         origin_y=wt,
         origin_z=ft,
     )
-    
+
     comp_data = []
     for cb in builder.compartments:
         resolved = cb.resolve_size(interior_w, interior_l)
@@ -366,10 +369,10 @@ def draw_box_blueprint(pdf, builder, x_bp: float, y_bp: float, scale: float = 0.
             cb.position,
             getattr(cb, "elements", ()),
         ))
-        
+
     no_rotate_labels = {cb.label for cb in builder.compartments if cb.no_rotate}
     comp_layout = layout_compartments(interior, comp_data, no_rotate_labels=no_rotate_labels)
-    
+
     pdf.set_font("Helvetica", "", 5)
     for placement in comp_layout.placements:
         # Coordinates relative to the blueprint origin
@@ -377,14 +380,14 @@ def draw_box_blueprint(pdf, builder, x_bp: float, y_bp: float, scale: float = 0.
         cy = y_bp + placement.position[1] * scale
         cw = placement.size[0] * scale
         ch = placement.size[1] * scale
-        
+
         # Draw compartment border
         pdf.set_draw_color(180, 180, 180)
         pdf.rect(cx, cy, cw, ch, style="D")
-        
+
         # Draw label
         pdf.text(cx + 1.0 * scale, cy + 4.0 * scale, placement.label)
-        
+
         # Draw shape/SVG if present
         if placement.shape_file:
             svg_path = Path(placement.shape_file)
@@ -433,6 +436,7 @@ def should_regenerate_layout(
 
     Returns:
         True if PDF should be regenerated, False if existing is current.
+
     """
     layout_data = {
         "placements": [

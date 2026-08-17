@@ -23,6 +23,7 @@ class SlipoverBox(BoxTypeBase):
     """Slipover lid box type."""
 
     def interior(self, spec: BoxSpec) -> Interior:
+        """Return the frame the box's contents may occupy."""
         wt = spec.wall_thickness
         ft = spec.floor_thickness
         lt = spec.lid_thickness
@@ -33,8 +34,8 @@ class SlipoverBox(BoxTypeBase):
             origin_x=wt, origin_y=wt, origin_z=ft,
         )
 
-    def build_body(self, spec: BoxSpec) -> "Bosl2Solid":
-        """The tray, set in all round so the sleeve finishes flush.
+    def build_body(self, spec: BoxSpec) -> Bosl2Solid:
+        """Return the tray, set in all round so the sleeve finishes flush.
 
         The declared size is the outside of the *closed* box, so the body is
         inset by a wall thickness and stops a lid thickness short — the sleeve
@@ -75,15 +76,15 @@ class SlipoverBox(BoxTypeBase):
             )
         return body
 
-    def build_lid(self, spec: BoxSpec, decoration: object = None) -> "Bosl2Solid":
-        """A sleeve that slips down over the body, stopping at the foot."""
+    def build_lid(self, spec: BoxSpec, decoration: object = None) -> Bosl2Solid:
+        """Return a sleeve that slips down over the body, stopping at the foot."""
         from pyboxbuilder.box.features import slipover_metrics
         from pyboxbuilder.box.shell import block
 
         lt = spec.lid_thickness
         foot = spec.foot
         slack = spec.slip_slack
-        inset, body_height = slipover_metrics(spec)
+        inset, _body_height = slipover_metrics(spec)
 
         # The sleeve stops a gap short of the foot rather than closing onto it,
         # leaving a band of body showing all the way round for the fingers to
@@ -112,7 +113,7 @@ class SlipoverBox(BoxTypeBase):
         sleeve = outer - cavity
         return sleeve - self._finger_notches(spec)
 
-    def _finger_notches(self, spec: BoxSpec) -> "Bosl2Solid":
+    def _finger_notches(self, spec: BoxSpec) -> Bosl2Solid:
         """Corner notches so the sleeve can be pulled off.
 
         A slipover sleeve is a smooth box with nothing to grip: it covers the
@@ -129,6 +130,7 @@ class SlipoverBox(BoxTypeBase):
 
         Returns:
             The solid to subtract from the sleeve.
+
         """
         from pyboxbuilder.box.features import corner_catch
         from pyboxbuilder.compartments.element import union_all

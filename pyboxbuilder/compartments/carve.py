@@ -15,7 +15,8 @@ to subtract it from the body.
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Sequence
+from collections.abc import Sequence
+from typing import TYPE_CHECKING
 
 from pyboxbuilder.box.interior import Interior
 from pyboxbuilder.enums import ScoopSide
@@ -33,7 +34,7 @@ if TYPE_CHECKING:
     from pyboxbuilder.compartments.layout import CompartmentPlacement
 
 
-def compartment_floor_z(placement: "CompartmentPlacement", interior: Interior) -> float:
+def compartment_floor_z(placement: CompartmentPlacement, interior: Interior) -> float:
     """Z of a compartment's floor.
 
     Wells are cut from the top down: the floor sits `depth` below the interior
@@ -45,12 +46,12 @@ def compartment_floor_z(placement: "CompartmentPlacement", interior: Interior) -
 
 
 def build_compartment_well(
-    placement: "CompartmentPlacement",
+    placement: CompartmentPlacement,
     interior: Interior,
     *,
     rounded_corners: float = 0.0,
     bottom_rounding: float = 0.0,
-) -> "Bosl2Solid":
+) -> Bosl2Solid:
     """Build a compartment's well — the part that stays inside the walls.
 
     Args:
@@ -64,6 +65,7 @@ def build_compartment_well(
 
     Returns:
         The cutout, positioned in the box frame.
+
     """
     from pybosl2 import Anchor, cuboid
 
@@ -101,7 +103,7 @@ def build_compartment_well(
     return _place(well.translate([width / 2, length / 2, depth / 2]), placement, interior)
 
 
-def default_scoop_side(placement: "CompartmentPlacement") -> ScoopSide:
+def default_scoop_side(placement: CompartmentPlacement) -> ScoopSide:
     """Which wall a scoop goes in when the compartment does not say.
 
     The **shorter** wall. A card stack is lifted out across its narrow
@@ -113,18 +115,19 @@ def default_scoop_side(placement: "CompartmentPlacement") -> ScoopSide:
 
     Returns:
         `LEFT` when the footprint is wider than it is long, else `FRONT`.
+
     """
     width, length = placement.size
     return ScoopSide.LEFT if width > length else ScoopSide.FRONT
 
 
 def build_compartment_scoop(
-    placement: "CompartmentPlacement",
+    placement: CompartmentPlacement,
     interior: Interior,
     scoop_side: ScoopSide = ScoopSide.FRONT,
     top_z: float | None = None,
-    cut: "Cut | None" = None,
-) -> "Bosl2Solid":
+    cut: Cut | None = None,
+) -> Bosl2Solid:
     """Build a compartment's finger scoop — the part that pierces a wall.
 
     The wall thickness is read off the interior frame (its origin is inset by
@@ -144,6 +147,7 @@ def build_compartment_scoop(
 
     Returns:
         The scoop cutout, positioned in the box frame.
+
     """
     from pyboxbuilder.builders._base import Cut
     from pyboxbuilder.compartments.finger_cuts import build_cut
@@ -184,8 +188,8 @@ def build_compartment_scoop(
 
 
 def _place(
-    solid: "Bosl2Solid", placement: "CompartmentPlacement", interior: Interior
-) -> "Bosl2Solid":
+    solid: Bosl2Solid, placement: CompartmentPlacement, interior: Interior
+) -> Bosl2Solid:
     """Move a compartment-local solid into the box frame."""
     return solid.translate([
         placement.position[0],
@@ -203,8 +207,8 @@ a shallow token tray a small one. A box-wide constant gets both wrong.
 """
 
 
-def tray_rounding(placement: "CompartmentPlacement", builder: object) -> float:
-    """The radius for a tray well's vertical corners and its floor.
+def tray_rounding(placement: CompartmentPlacement, builder: object) -> float:
+    """Return the radius for a tray well's vertical corners and its floor.
 
     Rounding is **opt-in**: a well is square unless its builder says it holds
     loose pieces. That is the right default because most wells are shaped by
@@ -222,6 +226,7 @@ def tray_rounding(placement: "CompartmentPlacement", builder: object) -> float:
     Returns:
         The radius in mm: ``depth × 2/3``, capped so it can neither swallow the
         well's footprint nor exceed its depth.
+
     """
     explicit = getattr(builder, "rounded_corners", 0.0) or 0.0
     if explicit <= 0:
@@ -239,15 +244,15 @@ def tray_rounding(placement: "CompartmentPlacement", builder: object) -> float:
 
 
 def build_contents(
-    placements: Sequence["CompartmentPlacement"],
+    placements: Sequence[CompartmentPlacement],
     interior: Interior,
     builders: dict | None = None,
     clip: bool = True,
     top_z: float | None = None,
     default_side: ScoopSide | None = None,
     wall_tops: dict | None = None,
-    mask: "Bosl2Solid | None" = None,
-) -> "Bosl2Solid | None":
+    mask: Bosl2Solid | None = None,
+) -> Bosl2Solid | None:
     """Union the cutouts for every placed compartment. None when there are none.
 
     Wells and finger scoops are treated differently on purpose: a well must stay
@@ -274,6 +279,7 @@ def build_contents(
         default_side: The box type's preferred scoop wall, used when the
             compartment names none. A sliding box insists on the wall its lid
             leaves by; most types have no opinion and leave it to the shape.
+
     """
     from pyboxbuilder.compartments.element import union_all
 
@@ -318,8 +324,8 @@ def build_contents(
     return scoop if contents is None else contents | scoop
 
 
-def interior_mouth(interior: Interior, headroom: float = 1000.0) -> "Bosl2Solid":
-    """The open volume above the interior ceiling — the box's mouth.
+def interior_mouth(interior: Interior, headroom: float = 1000.0) -> Bosl2Solid:
+    """Return the open volume above the interior ceiling — the box's mouth.
 
     Runs from the ceiling up past the top of any box, so whatever the type puts
     between the interior and the rim is cleared away and the wells are reachable.
@@ -336,8 +342,8 @@ def interior_mouth(interior: Interior, headroom: float = 1000.0) -> "Bosl2Solid"
     )
 
 
-def interior_column(interior: Interior) -> "Bosl2Solid":
-    """A tall prism over the interior footprint, used to clip compartments.
+def interior_column(interior: Interior) -> Bosl2Solid:
+    """Return a tall prism over the interior footprint, used to clip compartments.
 
     Clipping is in X/Y only: a cutout must never break through a side wall, but
     it does have to run out through the top of the box, which is where pieces go
