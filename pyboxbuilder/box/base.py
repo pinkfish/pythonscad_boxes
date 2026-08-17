@@ -17,6 +17,7 @@ from typing import TYPE_CHECKING
 from pyboxbuilder.box.interior import Interior
 
 if TYPE_CHECKING:
+    from pybosl2 import Anchor
     from pybosl2.shapes3d import Bosl2Solid
 
     from pyboxbuilder.box.spec import BoxSpec
@@ -96,7 +97,7 @@ class BoxTypeBase:
         """
         return None
 
-    def lid_rounded_edges(self, spec: BoxSpec) -> list:
+    def lid_rounded_edges(self, spec: BoxSpec) -> list[Anchor]:
         """Which of this box type's lid edges may be rounded.
 
         Args:
@@ -113,7 +114,7 @@ class BoxTypeBase:
 
         return vertical_and_top_edges()
 
-    def wall_tops(self, spec: BoxSpec) -> dict:
+    def wall_tops(self, spec: BoxSpec) -> dict[ScoopSide, float]:
         """Return the sides whose walls do not end at this box's default top.
 
         Args:

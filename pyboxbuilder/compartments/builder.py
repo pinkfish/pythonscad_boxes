@@ -124,7 +124,10 @@ class CompartmentBuilder:
     def resolved(
         self, interior_w: float, interior_l: float, interior_h: float,
         siblings: int = 1,
-    ) -> tuple:
+    ) -> tuple[
+        str, float, float, float,
+        str | None, tuple[float, float] | None, tuple[CompartmentElement, ...],
+    ]:
         """Return this compartment as the layout engine takes it.
 
         Args:

@@ -31,7 +31,10 @@ from pyboxbuilder.rounding import (
 )
 
 if TYPE_CHECKING:
+    from pybosl2 import Anchor
     from pybosl2.shapes3d import Bosl2Solid
+
+    from pyboxbuilder.builders._base import FingerHoleBuilder
 
 
 MIN_FINGER_HOLE_REACH_MM = 2.0
@@ -186,14 +189,16 @@ def body_rounding(spec: BoxSpec) -> float:
     return default_rounding(spec.wall_thickness)
 
 
-def _top_anchor():
+def _top_anchor() -> Anchor:
     """Return the TOP anchor, imported lazily so this module has no import-time pybosl2."""
     from pybosl2 import Anchor
 
     return Anchor.TOP
 
 
-def _hole_flare(wall_thickness: float, hole, reach: float, ends: int = 1) -> float:
+def _hole_flare(
+    wall_thickness: float, hole: FingerHoleBuilder, reach: float, ends: int = 1
+) -> float:
     """Return the face fillet an exterior finger hole's cut is built with.
 
     The fillet is made by flaring the sweep's ends, and the flare is isotropic
@@ -235,7 +240,6 @@ def finger_cut_conflicts(spec: BoxSpec) -> list[str]:
         Empty when the cuts are clear of each other.
 
     """
-    from pyboxbuilder.builders._base import FingerHoleBuilder
     from pyboxbuilder.enums import MagnetType
 
     holes: tuple[FingerHoleBuilder, ...] = spec.finger_holes or ()
@@ -428,7 +432,7 @@ def apply_finger_holes(body: Bosl2Solid, spec: BoxSpec) -> Bosl2Solid:
     return body
 
 
-def no_lid_finger_holes(spec: BoxSpec):
+def no_lid_finger_holes(spec: BoxSpec) -> tuple[FingerHoleBuilder, ...]:
     """Return the finger holes a no-lid box cuts into its longer walls (FR-047).
 
     An open tray is lifted by the rim, so the original (`no_lid.scad`) puts a

@@ -71,10 +71,12 @@ warn_redundant_casts = true
 # error against a class. These are **blocking in CI**; a type checker run with
 # `|| true`, as this one was, is decoration.
 check_untyped_defs = true
-disallow_untyped_defs = false
-# The full `strict = true` reports 226 more, nearly all of them missing
-# annotations on private helpers and calls into pybosl2, which ships no
-# py.typed. Worth doing, not worth blocking the build on before it is done.
+disallow_untyped_defs = true
+disallow_any_generics = true
+# Calls into pybosl2 (no py.typed) and fpdf are untyped; flagging them as
+# `untyped-call` would drown out the real errors in our own code. Everything
+# else in `strict` that is worth having is on above.
+disallow_untyped_calls = false
 exclude = [
     "^tests/",
     "^boxes/",

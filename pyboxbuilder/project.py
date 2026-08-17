@@ -23,10 +23,14 @@ from pyboxbuilder.enums import BoxType
 
 if TYPE_CHECKING:
     from pybosl2 import Color
+    from pybosl2.shapes3d import Bosl2Solid
 
     from pyboxbuilder.builders._base import BoxBuilder
+    from pyboxbuilder.export.exporter import BoxExporter, PieceBounds
     from pyboxbuilder.export.result import ExportResult
-    from pyboxbuilder.packing.layout import BoxPacking
+    from pyboxbuilder.layout import Arrangement, Node
+    from pyboxbuilder.packing.layout import BoxPacking, Placement
+    from pyboxbuilder.preview import PreviewPiece
 
 
 @dataclass(frozen=True)
@@ -167,7 +171,7 @@ class Project:
     is the first thing out, so this is not a spacer gap."""
     generate_spacers: bool = True
     """Whether to automatically generate spacer boxes/trays to fill layout gaps."""
-    box_defaults: dict | None = None
+    box_defaults: dict[str, Any] | None = None
     """Defaults applied to every :meth:`box` call that does not say otherwise.
 
     Every keyword :meth:`box` accepts may be given here once instead of on each
@@ -181,8 +185,10 @@ class Project:
     """
 
     _boxes: list[BoxBuilder] = field(default_factory=list, init=False)
-    _shared_groups: list = field(default_factory=list, init=False)
-    piece_bounds: tuple = field(default_factory=tuple, init=False)
+    _shared_groups: list[tuple[list[str], list[tuple[str, float, float, float]]]] = (
+        field(default_factory=list, init=False)
+    )
+    piece_bounds: tuple[PieceBounds, ...] = field(default_factory=tuple, init=False)
     """Bounding box of every exported piece, populated by `export()` (FR-027)."""
 
     def box(
@@ -191,7 +197,7 @@ class Project:
         label: str,
         *,
         size: tuple[float, float, float] | None = None,
-        **kwargs,
+        **kwargs: Any,
     ) -> BoxBuilder:
         """Add a sub-box to the project.
 
@@ -249,7 +255,9 @@ class Project:
         self._boxes.append(builder)
         return builder
 
-    def arrange(self, layout, origin: tuple[float, float, float] = (0.0, 0.0, 0.0)):
+    def arrange(
+        self, layout: Node, origin: tuple[float, float, float] = (0.0, 0.0, 0.0)
+    ) -> Arrangement:
         """Position boxes from a declarative layout tree (T186).
 
         The alternative to hand-typed coordinates for densely packed inserts,
@@ -340,11 +348,11 @@ class Project:
             return Build(pieces=tuple(pieces))
 
         packing = self._resolve_final_layout()
-        positions = {p.label: tuple(p.position) for p in packing.placements}
+        positions = {p.label: p.position for p in packing.placements}
 
         for builder in self._boxes:
             at = positions.get(builder.label, builder.position or (0.0, 0.0, 0.0))
-            pieces.extend(self._box_pieces(builder, tuple(at)))
+            pieces.extend(self._box_pieces(builder, at))
 
         spacers = self._spacer_placements(packing) if self.generate_spacers else []
         # The PDF draws the spacers alongside the boxes, so the packing carries
@@ -356,15 +364,17 @@ class Project:
                 Piece(
                     label=spacer.label,
                     kind="spacer",
-                    size=tuple(spacer.size),
-                    position=tuple(spacer.position),
+                    size=spacer.size,
+                    position=spacer.position,
                     _build=cache(partial(self._build_spacer_solid, spacer)),
                 )
             )
 
         return Build(pieces=tuple(pieces), packing=packing)
 
-    def _box_pieces(self, builder, at: tuple[float, float, float]) -> list[Piece]:
+    def _box_pieces(
+        self, builder: BoxBuilder, at: tuple[float, float, float]
+    ) -> list[Piece]:
         """Return the body and lid pieces for one box, at the position it packs to.
 
         The two share one build — a box type makes its body and its lid from
@@ -373,6 +383,7 @@ class Project:
         Neither runs until something asks for the geometry.
         """
         size = builder.final_size
+        assert size is not None
         # Validate now, build later: a project that cannot be built says so
         # when it is built, and only the CSG waits to be asked for.
         self._resolve_box(builder)
@@ -390,7 +401,7 @@ class Project:
         return pieces
 
     @staticmethod
-    def _has_lid(builder) -> bool:
+    def _has_lid(builder: BoxBuilder) -> bool:
         """Return True when this box type produces a lid file at all."""
         from pyboxbuilder.box.registry import LIDLESS_BOX_TYPES
 
@@ -440,7 +451,7 @@ class Project:
                     for name, w, l, d in bin_items
                 ))
 
-    def _by_label(self, label: str):
+    def _by_label(self, label: str) -> BoxBuilder | None:
         """Return the builder with this label, or ``None``."""
         return next((b for b in self._boxes if b.label == label), None)
 
@@ -546,7 +557,7 @@ class Project:
         remove_layers: int = 0,
         only: str | Iterable[str] | None = None,
         lids_only: bool = False,
-    ) -> list:
+    ) -> list[PreviewPiece]:
         """Build the list of separately-coloured solids :meth:`show` renders.
 
         Public because it is the cheap way to exercise the geometry: it packs
@@ -643,7 +654,7 @@ class Project:
             )
         return self.game_box_size
 
-    def _resolve_final_layout(self):
+    def _resolve_final_layout(self) -> BoxPacking:
         """Resolve each box's final size and packed position.
 
         Computes minimum sizes (from an explicit size or the compartments),
@@ -711,7 +722,7 @@ class Project:
         self._packing = packing
         return packing
 
-    def _min_size(self, builder) -> tuple[float, float, float]:
+    def _min_size(self, builder: BoxBuilder) -> tuple[float, float, float]:
         """Return the smallest this box may be: its explicit size, or its contents.
 
         Args:
@@ -758,7 +769,7 @@ class Project:
             if None in size:
                 derived = from_compartments()
                 size = [axis if axis is not None else derived[i] for i, axis in enumerate(size)]
-            return tuple(size)
+            return (size[0], size[1], size[2])
         if builder.compartments:
             return from_compartments()
         raise ValueError(
@@ -766,7 +777,7 @@ class Project:
             f"compartments — at least one is required."
         )
 
-    def _standalone_size(self, builder) -> tuple[float, float, float]:
+    def _standalone_size(self, builder: BoxBuilder) -> tuple[float, float, float]:
         """Resolve a standalone box's size and record it as its ``final_size``.
 
         Standalone boxes are never packed, so nothing else would set
@@ -789,7 +800,7 @@ class Project:
 
     # -------------------------------------------------------------- geometry
 
-    def _resolve_box(self, builder) -> ResolvedBox:
+    def _resolve_box(self, builder: BoxBuilder) -> ResolvedBox:
         """Everything about a box that is decided before any geometry is cut.
 
         Kept separate from the geometry so it can run **eagerly**, during
@@ -816,6 +827,7 @@ class Project:
         self._check_ratios(builder)
 
         size = builder.final_size
+        assert size is not None
         spec = build_spec(self, builder, size)
         interior = spec.interior()
 
@@ -853,7 +865,9 @@ class Project:
             compartments=comp_layout,
         )
 
-    def _build_box_solids(self, builder):
+    def _build_box_solids(
+        self, builder: BoxBuilder
+    ) -> tuple[Bosl2Solid | None, Bosl2Solid | None, tuple[float, float, float]]:
         """Build a box's body and lid geometry.
 
         Returns ``(body, lid, size)``; ``body``/``lid`` are ``None`` when the
@@ -861,6 +875,7 @@ class Project:
         """
         resolved = self._resolve_box(builder)
         size = builder.final_size
+        assert size is not None
         box, spec = resolved.box, resolved.spec
         if box is None:
             return None, None, size
@@ -900,7 +915,7 @@ class Project:
 
         return body, lid, size
 
-    def _check_ratios(self, builder) -> None:
+    def _check_ratios(self, builder: BoxBuilder) -> None:
         """Reject compartment ratios that overflow the interior (FR-003a).
 
         Raises:
@@ -920,7 +935,7 @@ class Project:
                     f"{total:.2f} (> 1.0): {over}"
                 )
 
-    def _spacer_placements(self, packing) -> list:
+    def _spacer_placements(self, packing: BoxPacking) -> list[Placement]:
         """Derive the spacer trays that fill the gaps in a packed layout.
 
         Args:
@@ -949,7 +964,7 @@ class Project:
             min_dim=self.min_spacer_height,
         )
 
-    def _build_spacer_solid(self, spacer):
+    def _build_spacer_solid(self, spacer: Placement) -> Bosl2Solid | None:
         """Build one spacer tray's geometry in its own local frame.
 
         Args:
@@ -989,7 +1004,9 @@ class Project:
         except Exception:
             return None
 
-    def _decorated_lid(self, piece: Piece, mode: str):
+    def _decorated_lid(
+        self, piece: Piece, mode: str
+    ) -> tuple[Any | None, list[Bosl2Solid] | None]:
         """One lid as it prints in a colour mode.
 
         Args:
@@ -1164,7 +1181,9 @@ class Project:
             "box": box,
         })
 
-    def _delete_stale_spacers(self, out_dir: str | Path, spacer_placements: list) -> None:
+    def _delete_stale_spacers(
+        self, out_dir: str | Path, spacer_placements: list[Placement]
+    ) -> None:
         """Delete orphaned spacer 3MF files that no longer match a spacer.
 
         Args:
@@ -1178,7 +1197,9 @@ class Project:
             "spacer_", {sp.label for sp in spacer_placements}
         )
 
-    def _write_layout_pdf(self, build: Build, out_dir: str | Path, exporter) -> None:
+    def _write_layout_pdf(
+        self, build: Build, out_dir: str | Path, exporter: BoxExporter
+    ) -> None:
         """Generate the packing guide PDF, if the layout changed (FR-034)."""
         if not self._boxes or build.packing is None:
             return

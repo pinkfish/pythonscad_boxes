@@ -40,7 +40,7 @@ class DecoratedLid:
     """A decorated lid, plus any parts that print in their own colour."""
 
     solid: Bosl2Solid
-    inserts: list = field(default_factory=list)
+    inserts: list[Bosl2Solid] = field(default_factory=list)
     """Coloured positives, kept separate in mmu mode and fused in single mode."""
 
     skipped_label: bool = False
@@ -140,7 +140,7 @@ def _cut_pattern(
     return lid - (holes & block([area_w, area_l, depth], at=base))
 
 
-def _place_by_corner(solid: Bosl2Solid, at) -> Bosl2Solid:
+def _place_by_corner(solid: Bosl2Solid, at: tuple[float, float, float]) -> Bosl2Solid:
     """Move a solid so its bounding box's minimum corner lands on `at`."""
     (cx, cy, cz), (w, l, h) = solid.bounds()
     return solid.translate([
@@ -182,7 +182,7 @@ def _apply_label(
         result.skipped_label = True
         return
 
-    def onto_face(solid):
+    def onto_face(solid: Bosl2Solid) -> Bosl2Solid:
         return solid.translate([origin_x, origin_y, top_z])
 
     if mode == "single":
@@ -199,7 +199,7 @@ def _apply_label(
         result.inserts.append(_coloured(onto_face(label.backing), builder.frame_color))
 
 
-def _with_accent_colors(builder: LidBuilder, body_color) -> LidBuilder:
+def _with_accent_colors(builder: LidBuilder, body_color: Color | None) -> LidBuilder:
     """Fill in the accent colours the caller left unset (FR-022).
 
     An unset accent is not a subtle default — it is no colour at all, so the
@@ -232,7 +232,7 @@ def _with_accent_colors(builder: LidBuilder, body_color) -> LidBuilder:
     )
 
 
-def _coloured(solid, colour):
+def _coloured(solid: Bosl2Solid, colour: Color | None) -> Bosl2Solid:
     """Tint a solid when a colour is set; pybosl2 wrappers carry their own."""
     if colour is None:
         return solid

@@ -119,7 +119,7 @@ def scoop_face_flare(
     fudge = 0.03
     return max(0.0, min(rounding_edge, (wall_thickness + fudge - 0.01) / 2))
 def _sweep_through_wall(
-    outline: list,
+    outline: list[tuple[float, float]],
     comp_width: float,
     comp_length: float,
     side: ScoopSide,

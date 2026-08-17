@@ -19,7 +19,7 @@ added when the geometry to draw it is (FR-000c).
 from __future__ import annotations
 
 import random
-from collections.abc import Callable
+from collections.abc import Callable, Iterator
 from typing import TYPE_CHECKING
 
 from pyboxbuilder.enums import PatternType
@@ -100,7 +100,9 @@ def build_pattern(
 
 # ── Cell placement ────────────────────────────────────────────────────
 
-def _grid_cells(width, length, spacing, stagger=False):
+def _grid_cells(
+    width: float, length: float, spacing: float, stagger: bool = False
+) -> Iterator[tuple[float, float]]:
     """Centres of every cell whose hole fits whole inside the lid.
 
     Args:
@@ -128,7 +130,13 @@ def _grid_cells(width, length, spacing, stagger=False):
         row += 1
 
 
-def _punch(shape_at, width, length, spacing, stagger=False):
+def _punch(
+    shape_at: Callable[[float, float], Bosl2Solid],
+    width: float,
+    length: float,
+    spacing: float,
+    stagger: bool = False,
+) -> Bosl2Solid | None:
     """Union one hole per cell.
 
     Args:
@@ -149,7 +157,9 @@ def _punch(shape_at, width, length, spacing, stagger=False):
     return holes
 
 
-def _prism(sides: int, across_flats: float, thickness: float, spin: float = 0.0):
+def _prism(
+    sides: int, across_flats: float, thickness: float, spin: float = 0.0
+) -> Bosl2Solid:
     """One regular-polygon hole, tall enough to break through the lid."""
     from pybosl2 import regular_prism
 
@@ -167,7 +177,9 @@ def _prism(sides: int, across_flats: float, thickness: float, spin: float = 0.0)
 
 # ── Fills ─────────────────────────────────────────────────────────────
 
-def _square_fill(width, length, thickness, spacing):
+def _square_fill(
+    width: float, length: float, thickness: float, spacing: float
+) -> Bosl2Solid | None:
     """Square holes on a square grid."""
     from pybosl2 import cuboid
 
@@ -180,7 +192,9 @@ def _square_fill(width, length, thickness, spacing):
     )
 
 
-def _circle_fill(width, length, thickness, spacing):
+def _circle_fill(
+    width: float, length: float, thickness: float, spacing: float
+) -> Bosl2Solid | None:
     """Round holes on a square grid."""
     from pybosl2 import cylinder
 
@@ -194,7 +208,9 @@ def _circle_fill(width, length, thickness, spacing):
     )
 
 
-def _hex_fill(width, length, thickness, spacing, dense=False):
+def _hex_fill(
+    width: float, length: float, thickness: float, spacing: float, dense: bool = False
+) -> Bosl2Solid | None:
     """Hexagonal holes in staggered rows — a honeycomb."""
     step = spacing * (DENSE_SPACING_SHARE if dense else 1.0)
     return _punch(
@@ -205,11 +221,13 @@ def _hex_fill(width, length, thickness, spacing, dense=False):
     )
 
 
-def _triangle_fill(width, length, thickness, spacing, dense=False):
+def _triangle_fill(
+    width: float, length: float, thickness: float, spacing: float, dense: bool = False
+) -> Bosl2Solid | None:
     """Triangular holes, alternating point-up and point-down along each row."""
     step = spacing * (DENSE_SPACING_SHARE if dense else 1.0)
 
-    def shape(x, y):
+    def shape(x: float, y: float) -> Bosl2Solid:
         # Alternating spin is what makes a triangle grid read as one, rather
         # than as rows of identical wedges.
         spin = 180.0 if round(x / step) % 2 else 0.0
@@ -220,7 +238,9 @@ def _triangle_fill(width, length, thickness, spacing, dense=False):
     return _punch(shape, width, length, step)
 
 
-def _octagon_fill(width, length, thickness, spacing):
+def _octagon_fill(
+    width: float, length: float, thickness: float, spacing: float
+) -> Bosl2Solid | None:
     """Octagonal holes on a square grid, leaving small square webs."""
     return _punch(
         lambda x, y: _prism(8, spacing * HOLE_SHARE, thickness, 22.5).translate(
@@ -241,7 +261,9 @@ VORONOI_JITTER = 0.28
 """How far a cell may wander from its grid point, as a share of the spacing."""
 
 
-def _voronoi_fill(width, length, thickness, spacing):
+def _voronoi_fill(
+    width: float, length: float, thickness: float, spacing: float
+) -> Bosl2Solid | None:
     """Round holes of varying size on a jittered grid — an organic scatter."""
     from pybosl2 import cylinder
 
@@ -259,7 +281,7 @@ def _voronoi_fill(width, length, thickness, spacing):
     return holes
 
 
-_PATTERN_FILLS: dict[PatternType, Callable] = {
+_PATTERN_FILLS: dict[PatternType, Callable[[float, float, float, float], Bosl2Solid | None]] = {
     PatternType.NONE: lambda w, l, t, s: None,
     PatternType.SQUARE: _square_fill,
     PatternType.CIRCLE: _circle_fill,

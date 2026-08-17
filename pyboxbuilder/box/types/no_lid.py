@@ -107,7 +107,7 @@ class NoLidBox(BoxTypeBase):
         )
         on_front_back = self._magnet_sides_front_back(spec)
 
-        def slot():
+        def slot() -> Bosl2Solid:
             """Return a fresh solid per side — one handle must not span two branches."""
             if magnet_type is MagnetType.ROUND:
                 diameter = size[0] if size else 6.0

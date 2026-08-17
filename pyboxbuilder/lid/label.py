@@ -53,7 +53,7 @@ NOMINAL_SIZE_MM = 10.0
 FONT = "Liberation Sans:style=Bold"
 
 
-def _set_text(text: str, diagonal: bool, width: float, length: float):
+def _set_text(text: str, diagonal: bool, width: float, length: float) -> Bosl2Solid:
     """Extrude the label text at the nominal size, rotated if diagonal."""
     from pybosl2 import text as bosl2_text
 

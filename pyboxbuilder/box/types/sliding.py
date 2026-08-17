@@ -9,6 +9,7 @@ from typing import TYPE_CHECKING
 from pyboxbuilder.box.spec import BoxSpec
 
 if TYPE_CHECKING:
+    from pybosl2 import Anchor
     from pybosl2.shapes3d import Bosl2Solid
 
     from pyboxbuilder.enums import ScoopSide
@@ -80,7 +81,7 @@ class SlidingBox(BoxTypeBase):
 
         return ScoopSide.BACK if self.slides_along_length(spec) else ScoopSide.RIGHT
 
-    def wall_tops(self, spec: BoxSpec) -> dict:
+    def wall_tops(self, spec: BoxSpec) -> dict[ScoopSide, float]:
         """Where each wall ends, which is not the same height all round.
 
         The channel is cut out of the top band across the whole box and runs
@@ -118,7 +119,7 @@ class SlidingBox(BoxTypeBase):
         """
         return self.open_end_side(spec)
 
-    def lid_rounded_edges(self, spec: BoxSpec) -> list:
+    def lid_rounded_edges(self, spec: BoxSpec) -> list[Anchor]:
         """Which of the lid's edges may be rounded.
 
         Only the end that ends up **outside** the box: its top edge and its two

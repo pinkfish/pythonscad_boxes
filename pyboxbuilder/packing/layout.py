@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
+from typing import Any
 
 
 class PackingError(ValueError):
@@ -49,7 +50,7 @@ Anything deeper is real space that a spacer should claim, not slack to grow into
 
 
 def _pack_guillotine(
-    container_size: tuple[float, float, float], boxes: list[dict]
+    container_size: tuple[float, float, float], boxes: list[dict[str, Any]]
 ) -> list[Placement] | None:
     """Try the guillotine solver, returning None if it finds nothing."""
     from pyboxbuilder.packing.guillotine import Item, pack_guillotine
@@ -81,7 +82,7 @@ def _pack_guillotine(
 def _expand_in_place(
     placements: list[Placement],
     container_size: tuple[float, float, float],
-    boxes: list[dict],
+    boxes: list[dict[str, Any]],
 ) -> None:
     """Grow expandable boxes into the slack around them (FR-012).
 
@@ -99,7 +100,11 @@ def _expand_in_place(
             expandable and bool(b.get("expandable_width", True)),
         )
 
-    def sized(placement, width=None, height=None):
+    def sized(
+        placement: Placement,
+        width: float | None = None,
+        height: float | None = None,
+    ) -> Placement:
         w, l, h = placement.size
         return Placement(
             label=placement.label,
@@ -144,7 +149,7 @@ def _expand_in_place(
 
 def pack_boxes(
     container_size: tuple[float, float, float],
-    boxes: list[dict],
+    boxes: list[dict[str, Any]],
     gap_threshold: float = 10.0,
     min_spacer_dim: float = 15.0,
 ) -> BoxPacking:

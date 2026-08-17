@@ -20,12 +20,14 @@ from __future__ import annotations
 
 import math
 from collections.abc import Sequence
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 from pyboxbuilder.box.spec import BoxSpec
 
 if TYPE_CHECKING:
+    from pybosl2 import Anchor
     from pybosl2.shapes3d import Bosl2Solid
+    from pybosl2.skin import OSProfile
 
 
 def default_rounding(wall_thickness: float) -> float:
@@ -110,7 +112,7 @@ def lid_rounding(spec: BoxSpec) -> float:
 def rounded_block(
     size: Sequence[float],
     rounding: float,
-    edges: Sequence,
+    edges: Sequence[Anchor],
     at: Sequence[float] = (0.0, 0.0, 0.0),
 ) -> Bosl2Solid:
     """Return a corner-placed block with some of its edges rounded.
@@ -140,7 +142,7 @@ def rounded_block(
     )
 
 
-def vertical_edges() -> list:
+def vertical_edges() -> list[Anchor]:
     """Edge selector for a box's four vertical corners.
 
     ``Anchor.Z`` looks like the obvious way to say this and is **wrong**: it is
@@ -158,7 +160,7 @@ def vertical_edges() -> list:
     return [Anchor.FRONT_LEFT, Anchor.FRONT_RIGHT, Anchor.BACK_LEFT, Anchor.BACK_RIGHT]
 
 
-def vertical_and_bottom_edges() -> list:
+def vertical_and_bottom_edges() -> list[Anchor]:
     """Edge selector for a body: the four vertical corners and the base.
 
     Returns:
@@ -171,7 +173,7 @@ def vertical_and_bottom_edges() -> list:
     return [*vertical_edges(), Anchor.BOTTOM]
 
 
-def vertical_and_top_edges() -> list:
+def vertical_and_top_edges() -> list[Anchor]:
     """Edge selector for a lid, or for the free rim of a lidless box.
 
     Returns:
@@ -184,7 +186,7 @@ def vertical_and_top_edges() -> list:
     return [*vertical_edges(), Anchor.TOP]
 
 
-def max_radius(size: Sequence[float], edges: Sequence) -> float:
+def max_radius(size: Sequence[float], edges: Sequence[Anchor]) -> float:
     """Return the largest radius these edges can carry on a block of ``size``.
 
     A blanket ``min(size) / 2`` is the tempting guard and it is wrong often
@@ -224,7 +226,7 @@ def max_radius(size: Sequence[float], edges: Sequence) -> float:
 def edge_slivers(
     size: Sequence[float],
     rounding: float,
-    edges: Sequence,
+    edges: Sequence[Anchor],
     at: Sequence[float] = (0.0, 0.0, 0.0),
 ) -> Bosl2Solid:
     """Return the material a rounding removes: the square block minus the rounded one.
@@ -283,7 +285,7 @@ Two reasons this floor exists, and the second sets the number:
 """
 
 
-def rounding_facets() -> dict:
+def rounding_facets() -> dict[str, Any]:
     """Tessellation arguments for an edge fillet.
 
     Returns:
@@ -300,7 +302,7 @@ def rounding_facets() -> dict:
     return values
 
 
-def roundover_profile(radius: float, steps: int):
+def roundover_profile(radius: float, steps: int) -> OSProfile:
     """Return a sweep-end profile that **rounds the end face over** into the sweep.
 
     ``os_circle`` is the obvious choice and is the wrong shape: its arc is
@@ -347,7 +349,7 @@ def round_edges(
     solid: Bosl2Solid,
     size: Sequence[float],
     rounding: float,
-    edges: Sequence,
+    edges: Sequence[Anchor],
     at: Sequence[float] = (0.0, 0.0, 0.0),
 ) -> Bosl2Solid:
     """Round ``solid``'s edges over the envelope ``size`` at ``at``.

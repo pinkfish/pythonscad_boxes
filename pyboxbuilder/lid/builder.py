@@ -4,7 +4,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, fields, replace
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 from pyboxbuilder.enums import LabelMode, PatternType
 
@@ -81,7 +81,7 @@ class LidBuilder:
     single_label: LidBuilder | None = None
     """Fields to override for the single-colour export."""
 
-    def titled(self, text: str, **overrides) -> LidBuilder:
+    def titled(self, text: str, **overrides: Any) -> LidBuilder:
         """Return this lid style, carrying a particular box's text.
 
         Args:
@@ -143,7 +143,7 @@ class LidBuilder:
             return self
         return replace(self, **override._stated(), mmu_label=None, single_label=None)
 
-    def _stated(self) -> dict:
+    def _stated(self) -> dict[str, Any]:
         """Return the fields this override actually names.
 
         A `LidBuilder` used as an override is a sparse record: every field

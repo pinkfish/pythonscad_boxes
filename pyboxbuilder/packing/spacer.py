@@ -20,7 +20,12 @@ which is what FR-014a forbids.
 
 from __future__ import annotations
 
+from collections.abc import Sequence
 from dataclasses import dataclass
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from pyboxbuilder.packing.layout import Placement
 
 EPSILON = 0.01
 """Coordinates closer than this are the same plane."""
@@ -83,7 +88,9 @@ class Void:
 # --------------------------------------------------------------------- sweep
 
 
-def _plane_grid(container, placements) -> tuple[list[float], list[float], list[float]]:
+def _plane_grid(
+    container: tuple[float, float, float], placements: Sequence[Placement]
+) -> tuple[list[float], list[float], list[float]]:
     """Return the sorted X/Y/Z planes bounding every box and the container itself."""
     axes: list[set[float]] = [{0.0, float(container[i])} for i in range(3)]
     for placement in placements:
@@ -96,7 +103,9 @@ def _plane_grid(container, placements) -> tuple[list[float], list[float], list[f
     )
 
 
-def _occupancy(planes, placements) -> list[list[list[bool]]]:
+def _occupancy(
+    planes: tuple[list[float], list[float], list[float]], placements: Sequence[Placement]
+) -> list[list[list[bool]]]:
     """Mark every grid cell that lies inside a placed box."""
     xs, ys, zs = planes
     nx, ny, nz = len(xs) - 1, len(ys) - 1, len(zs) - 1
@@ -117,7 +126,11 @@ def _occupancy(planes, placements) -> list[list[list[bool]]]:
     return occupied
 
 
-def _grow(taken, start, counts) -> tuple[int, int, int]:
+def _grow(
+    taken: list[list[list[bool]]],
+    start: tuple[int, int, int],
+    counts: tuple[int, int, int],
+) -> tuple[int, int, int]:
     """Grow the largest cell box from `start`: +x as far as it goes, then +y, then +z."""
     i, j, k = start
     nx, ny, nz = counts
@@ -139,7 +152,9 @@ def _grow(taken, start, counts) -> tuple[int, int, int]:
     return i2, j2, k2
 
 
-def sweep_free_space(container, placements) -> list[Void]:
+def sweep_free_space(
+    container: tuple[float, float, float], placements: Sequence[Placement]
+) -> list[Void]:
     """Decompose the space no placement occupies into boxes, largest first.
 
     Taking the biggest box available at each step is what keeps a big void in one
@@ -166,7 +181,7 @@ def sweep_free_space(container, placements) -> list[Void]:
     taken = _occupancy(planes, placements)
     largest_first = counts[0] * counts[1] * counts[2] <= MAX_GRID_CELLS
 
-    def void_from(start, end) -> Void:
+    def void_from(start: tuple[int, int, int], end: tuple[int, int, int]) -> Void:
         i, j, k = start
         i2, j2, k2 = end
         return Void(
@@ -276,7 +291,7 @@ def merge_voids(voids: list[Void]) -> list[Void]:
 # -------------------------------------------------- rectilinear merge (FR-018)
 
 
-def _polygon_area(path) -> float:
+def _polygon_area(path: tuple[tuple[float, float], ...]) -> float:
     from pyboxbuilder.paths import polygon_area
 
     return polygon_area(path)
@@ -379,7 +394,7 @@ def union_outline(voids: list[Void]) -> tuple[tuple[float, float], ...]:
     return _drop_collinear([(xs[i], ys[j]) for i, j in loop])
 
 
-def _drop_collinear(points) -> tuple[tuple[float, float], ...]:
+def _drop_collinear(points: Sequence[tuple[float, float]]) -> tuple[tuple[float, float], ...]:
     """Remove points that sit in the middle of a straight run."""
     kept = []
     for n, point in enumerate(points):
@@ -479,8 +494,8 @@ def _inset_polygon_void(void: Void, slack: float) -> Void:
 
 
 def generate_spacer_voids(
-    container,
-    placements,
+    container: tuple[float, float, float],
+    placements: Sequence[Placement],
     *,
     clearance: float = 0.0,
     min_dim: float = MIN_SPACER_DIM,
@@ -507,12 +522,12 @@ def generate_spacer_voids(
 
 
 def generate_spacer_placements(
-    container,
-    placements,
+    container: tuple[float, float, float],
+    placements: Sequence[Placement],
     *,
     clearance: float = 0.0,
     min_dim: float = MIN_SPACER_DIM,
-) -> list:
+) -> list[Placement]:
     """`generate_spacer_voids` as `Placement`s named `spacer_1..spacer_N`."""
     from pyboxbuilder.packing.layout import Placement
 

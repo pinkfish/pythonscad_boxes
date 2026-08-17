@@ -10,7 +10,12 @@ up against the box walls.
 
 from __future__ import annotations
 
+from collections.abc import Sequence
 from dataclasses import dataclass
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from pyboxbuilder.compartments.layout import CompartmentPlacement
 
 PRECISION = 1
 """Dimensional output is held to 0.1 mm (FR-003) — never rounded to whole mm."""
@@ -87,13 +92,15 @@ def distribute_rows(
     return [distribute_row_width(row, available_width, gap) for row in rows]
 
 
-def rows_from_placements(placements, gap: float = 2.0) -> list[list[str]]:
+def rows_from_placements(
+    placements: Sequence[CompartmentPlacement], gap: float = 2.0
+) -> list[list[str]]:
     """Group `CompartmentPlacement`s into rows by their y coordinate.
 
     Two placements share a row when their y origins are within `gap` of each
     other, which is how the shelf packer builds them.
     """
-    rows: list[list] = []
+    rows: list[list[CompartmentPlacement]] = []
     for placement in sorted(placements, key=lambda p: (p.position[1], p.position[0])):
         for row in rows:
             if abs(row[0].position[1] - placement.position[1]) <= gap:

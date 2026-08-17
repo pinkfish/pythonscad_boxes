@@ -60,7 +60,7 @@ class PathBox(BoxTypeBase):
         return apply_finger_holes(body, spec)
 
     @staticmethod
-    def _extrude(path, height: float) -> Bosl2Solid:
+    def _extrude(path: tuple[tuple[float, float], ...], height: float) -> Bosl2Solid:
         """Extrude a polygon outline with its base at z = 0.
 
         `linear_extrude` is the one operation that is *not* centre-anchored in Z

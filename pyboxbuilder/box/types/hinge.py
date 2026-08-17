@@ -11,6 +11,8 @@ from pyboxbuilder.box.spec import BoxSpec
 if TYPE_CHECKING:
     from pybosl2.shapes3d import Bosl2Solid
 
+    from pyboxbuilder.box.features import Closure
+
 
 from pyboxbuilder.box.base import BoxTypeBase, Interior
 
@@ -36,7 +38,7 @@ class HingeBox(BoxTypeBase):
         lt = spec.lid_thickness
         return replace(spec, height=spec.height - lt)
 
-    def _closure(self, spec: BoxSpec):
+    def _closure(self, spec: BoxSpec) -> Closure:
         """Both halves of the knuckle hinge, on one shared pin axis."""
         from pyboxbuilder.box.features import filament_hinge
 
@@ -47,7 +49,7 @@ class HingeBox(BoxTypeBase):
             lid_thickness=spec.lid_thickness,
         )
 
-    def interior_mask(self, spec: BoxSpec):
+    def interior_mask(self, spec: BoxSpec) -> Bosl2Solid:
         """Return the interior, less the room the hinge takes up inside it.
 
         The hinge sits within the box's outline, so its barrel and webs stand

@@ -31,6 +31,7 @@ if TYPE_CHECKING:
     from pybosl2.shapes3d import Bosl2Solid
 
     from pyboxbuilder.builders._base import Cut
+    from pyboxbuilder.compartments.builder import CompartmentBuilder
     from pyboxbuilder.compartments.layout import CompartmentPlacement
 
 
@@ -246,11 +247,11 @@ def tray_rounding(placement: CompartmentPlacement, builder: object) -> float:
 def build_contents(
     placements: Sequence[CompartmentPlacement],
     interior: Interior,
-    builders: dict | None = None,
+    builders: dict[str, CompartmentBuilder] | None = None,
     clip: bool = True,
     top_z: float | None = None,
     default_side: ScoopSide | None = None,
-    wall_tops: dict | None = None,
+    wall_tops: dict[ScoopSide, float] | None = None,
     mask: Bosl2Solid | None = None,
 ) -> Bosl2Solid | None:
     """Union the cutouts for every placed compartment. None when there are none.

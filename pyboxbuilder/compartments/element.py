@@ -24,6 +24,7 @@ from pyboxbuilder.precision import kwargs as precision_kwargs
 from pyboxbuilder.rounding import vertical_edges
 
 if TYPE_CHECKING:
+    from pybosl2 import Region
     from pybosl2.shapes3d import Bosl2Solid
 
 
@@ -331,7 +332,7 @@ def svg_solid(shape_file: str, width: float, length: float, depth: float) -> Bos
     ])
 
 
-def _svg_region(shape_file: str):
+def _svg_region(shape_file: str) -> Region:
     """Parse an SVG once and reuse it — a pack repeats the same file many times."""
     from pybosl2 import Region
 
@@ -342,7 +343,7 @@ def _svg_region(shape_file: str):
     return region
 
 
-_SVG_CACHE: dict = {}
+_SVG_CACHE: dict[str, Region] = {}
 
 
 PULL_OUT_DEPTH_SHARE = 0.5
@@ -421,7 +422,7 @@ def build_element_pack(
     return union_all([p for p in pieces if p is not None])
 
 
-def union_all(solids: list) -> Bosl2Solid | None:
+def union_all(solids: list[Bosl2Solid]) -> Bosl2Solid | None:
     """Union a list of solids with a balanced fold.
 
     A left fold builds a chain as deep as the list, which the mesher pays for on

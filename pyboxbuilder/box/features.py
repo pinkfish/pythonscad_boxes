@@ -908,7 +908,7 @@ def sliding_catch(
     flank = wt - bottom_key / 2 + s
     z = spec.height - lt / 2
 
-    def _place(solid, across_pos):
+    def _place(solid: Bosl2Solid, across_pos: float) -> Bosl2Solid:
         if along_axis == "x":
             return solid.translate([at_along, across_pos, z])
         return solid.translate([across_pos, at_along, z])
@@ -1164,7 +1164,9 @@ def filament_hinge(
 # --------------------------------------------------------------- path skirt
 
 
-def offset_footprint(path, distance: float):
+def offset_footprint(
+    path: tuple[tuple[float, float], ...], distance: float
+) -> tuple[tuple[float, float], ...]:
     """Grow or shrink a footprint outline by `distance` (positive shrinks)."""
     from pyboxbuilder.paths import inset_rectilinear, is_rectilinear
 
@@ -1182,7 +1184,9 @@ def offset_footprint(path, distance: float):
     return tuple(out)
 
 
-def extrude_footprint(path, height: float, base_z: float = 0.0) -> Bosl2Solid:
+def extrude_footprint(
+    path: tuple[tuple[float, float], ...], height: float, base_z: float = 0.0
+) -> Bosl2Solid:
     """Extrude a footprint outline upward from `base_z`.
 
     `linear_extrude` is the one operation that already grows from its base
@@ -1208,7 +1212,9 @@ def path_body_metrics(spec: BoxSpec) -> tuple[float, float]:
     return wt / 2 + wiggle, spec.height - lt - wiggle
 
 
-def path_cap(spec: BoxSpec, path, cap_height: float) -> Bosl2Solid:
+def path_cap(
+    spec: BoxSpec, path: tuple[tuple[float, float], ...], cap_height: float
+) -> Bosl2Solid:
     """Return a cap whose skirt follows a polygon footprint instead of a rectangle.
 
     Its outer face is the declared outline, so a closed box measures exactly
@@ -1226,7 +1232,12 @@ def path_cap(spec: BoxSpec, path, cap_height: float) -> Bosl2Solid:
     return cap - cavity
 
 
-def path_sleeve(spec: BoxSpec, path, slip: float, foot: float = 0.0) -> Bosl2Solid:
+def path_sleeve(
+    spec: BoxSpec,
+    path: tuple[tuple[float, float], ...],
+    slip: float,
+    foot: float = 0.0,
+) -> Bosl2Solid:
     """Return a sleeve that slips over a polygon-footprint body, stopping at the foot."""
     lt = spec.lid_thickness
     slack = spec.slip_slack

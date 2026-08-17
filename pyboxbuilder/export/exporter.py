@@ -265,7 +265,7 @@ def _label_from_filename(name: str, mode: str) -> str:
     return stem
 
 
-def _measure(payload) -> tuple[float, float, float] | None:
+def _measure(payload: Bosl2Solid | list[Bosl2Solid] | None) -> tuple[float, float, float] | None:
     """Measure a solid's bounding box, or None if it cannot be measured.
 
     PythonSCAD computes `.size` by meshing, so this only works inside the app.
@@ -287,7 +287,7 @@ def _measure(payload) -> tuple[float, float, float] | None:
     return (hi[0] - lo[0], hi[1] - lo[1], hi[2] - lo[2])
 
 
-def _solid_bounds(solid) -> tuple[tuple[float, ...], tuple[float, ...]] | None:
+def _solid_bounds(solid: Bosl2Solid) -> tuple[tuple[float, ...], tuple[float, ...]] | None:
     """(origin, size) of one solid's AABB, or None if it exposes no usable one.
 
     `Bosl2Solid.bounds()` already answers in (position, size) form and is the
@@ -311,7 +311,7 @@ def _solid_bounds(solid) -> tuple[tuple[float, ...], tuple[float, ...]] | None:
         return None
 
 
-def _export_3mf(payload, path: Path) -> bool:
+def _export_3mf(payload: Bosl2Solid | list[Bosl2Solid] | None, path: Path) -> bool:
     """Write a 3MF, returning False when no geometry backend is available."""
     if payload is None:
         return False

@@ -3,9 +3,12 @@
 
 from collections.abc import Sequence
 from dataclasses import dataclass, field
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 from pyboxbuilder.box.interior import Interior
+
+if TYPE_CHECKING:
+    from pyboxbuilder.compartments.element import CompartmentElement
 
 CompartmentSpec = tuple[
     str, float, float, float,
@@ -56,7 +59,7 @@ class CompartmentPlacement:
     depth: float
     position: tuple[float, float]  # (x, y) in interior frame
     shape_file: str | None = None
-    elements: tuple = ()
+    elements: tuple[CompartmentElement, ...] = ()
 
 
 @dataclass
@@ -317,7 +320,7 @@ def pack_compartments_across_bins(
     sorted_items = sorted(compartments, key=lambda x: x[1] * x[2], reverse=True)
     bins_content: list[list[Any]] = [[] for _ in bin_sizes]
 
-    def check_fit(bin_idx: int, candidate_list: list) -> bool:
+    def check_fit(bin_idx: int, candidate_list: list[Any]) -> bool:
         bin_w, bin_l = bin_sizes[bin_idx]
         local_wall_spacing = 0.0 if len(candidate_list) == 1 else wall_spacing
         x_cursor = local_wall_spacing
@@ -372,7 +375,7 @@ def pack_compartments_across_bins(
     steps = 0
     max_steps = 100000
 
-    def search(idx: int) -> list | None:
+    def search(idx: int) -> list[list[Any]] | None:
         nonlocal steps
         steps += 1
         if steps > max_steps:

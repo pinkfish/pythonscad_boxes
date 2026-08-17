@@ -8,3 +8,10 @@ repos:
       - id: ruff
         args: [--fix]
         files: ^(pyboxbuilder|boxes)/
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v2.3.0
+    hooks:
+      - id: mypy
+        # mypy needs the whole package, not just the staged files.
+        args: [pyboxbuilder/]
+        pass_filenames: false

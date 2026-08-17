@@ -25,6 +25,7 @@ from pathlib import Path
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
+    from pyboxbuilder.export.result import ExportResult
     from pyboxbuilder.project import Project
 
 FROM_MAKE_ENV = "FROM_MAKE"
@@ -120,7 +121,7 @@ def run(
     )
 
 
-def _report(project: Project, result) -> None:
+def _report(project: Project, result: ExportResult) -> None:
     """Print what an export did."""
     print(
         f"{project.name}: {result.total_files} files "

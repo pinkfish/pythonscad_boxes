@@ -12,6 +12,9 @@ from typing import TYPE_CHECKING
 from pyboxbuilder.packing.layout import Placement
 
 if TYPE_CHECKING:
+    from fpdf import FPDF
+
+    from pyboxbuilder.builders._base import BoxBuilder
     from pyboxbuilder.packing.layout import BoxPacking
 
 
@@ -41,7 +44,7 @@ def generate_layout_pdf(
     output_path: Path,
     project_name: str,
     game_box_size: tuple[float, float, float],
-    box_builders: list | None = None,
+    box_builders: list[BoxBuilder] | None = None,
 ) -> Path | None:
     """Generate a PDF packing guide with layered step-by-step breakdown.
 
@@ -84,7 +87,7 @@ def generate_layout_pdf(
     sin_a = math.sin(angle_rad)
     alpha = 0.45  # shortening factor for depth Y
 
-    def project(x, y, z):
+    def project(x: float, y: float, z: float) -> tuple[float, float]:
         px = x + y * cos_a * alpha
         py = -z - y * sin_a * alpha
         return px, py
@@ -119,7 +122,7 @@ def generate_layout_pdf(
     offset_x = margin + (avail_w - proj_w * scale) / 2 - min_px * scale
     offset_y = margin + 15 - min_py * scale
 
-    def to_pdf(x, y, z):
+    def to_pdf(x: float, y: float, z: float) -> tuple[float, float]:
         px, py = project(x, y, z)
         return offset_x + px * scale, offset_y + py * scale
 
@@ -130,7 +133,18 @@ def generate_layout_pdf(
         (160, 100, 80), (120, 140, 160),
     ]
 
-    def draw_box_3d(x, y, z, bw, bl, bh, color, label=None, index_str=None, visible_placements=None):
+    def draw_box_3d(
+        x: float,
+        y: float,
+        z: float,
+        bw: float,
+        bl: float,
+        bh: float,
+        color: tuple[int, int, int],
+        label: str | None = None,
+        index_str: str | None = None,
+        visible_placements: list[Placement] | None = None,
+    ) -> None:
         # Front face
         p_front = [to_pdf(x, y, z), to_pdf(x + bw, y, z),
                    to_pdf(x + bw, y, z + bh), to_pdf(x, y, z + bh)]
@@ -320,21 +334,25 @@ def generate_layout_pdf(
     return output_path
 
 
-def draw_box_blueprint(pdf, builder, x_bp: float, y_bp: float, scale: float = 0.45) -> None:
+def draw_box_blueprint(
+    pdf: FPDF, builder: BoxBuilder, x_bp: float, y_bp: float, scale: float = 0.45
+) -> None:
     """Draw a detailed 2D blueprint of the box containing its compartments and shapes."""
     wt = builder.wall_thickness or 3.0
     ft = builder.floor_thickness or 1.6
     lt = builder.lid_thickness or 2.0
+    final_size = builder.final_size
+    assert final_size is not None
 
     # Outer box boundary
     pdf.set_draw_color(50, 50, 50)
     pdf.set_line_width(0.3)
     pdf.set_fill_color(248, 248, 248)
-    pdf.rect(x_bp, y_bp, builder.final_size[0] * scale, builder.final_size[1] * scale, style="DF")
+    pdf.rect(x_bp, y_bp, final_size[0] * scale, final_size[1] * scale, style="DF")
 
     # Interior border
-    interior_w = builder.final_size[0] - 2 * wt
-    interior_l = builder.final_size[1] - 2 * wt
+    interior_w = final_size[0] - 2 * wt
+    interior_l = final_size[1] - 2 * wt
     pdf.set_draw_color(120, 120, 120)
     pdf.set_line_width(0.15)
     pdf.rect(x_bp + wt * scale, y_bp + wt * scale, interior_w * scale, interior_l * scale, style="D")
@@ -351,7 +369,7 @@ def draw_box_blueprint(pdf, builder, x_bp: float, y_bp: float, scale: float = 0.
     interior = BoxInterior(
         width=interior_w,
         length=interior_l,
-        height=builder.final_size[2] - lt - ft,
+        height=final_size[2] - lt - ft,
         origin_x=wt,
         origin_y=wt,
         origin_z=ft,

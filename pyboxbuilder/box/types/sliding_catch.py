@@ -9,7 +9,10 @@ from typing import TYPE_CHECKING
 from pyboxbuilder.box.spec import BoxSpec
 
 if TYPE_CHECKING:
+    from pybosl2 import Anchor
     from pybosl2.shapes3d import Bosl2Solid
+
+    from pyboxbuilder.enums import ScoopSide
 
 
 from pyboxbuilder.box.base import BoxTypeBase, Interior
@@ -43,7 +46,7 @@ class SlidingCatchBox(BoxTypeBase):
             origin_x=wt, origin_y=wt, origin_z=ft,
         )
 
-    def preferred_scoop_side(self, spec: BoxSpec):
+    def preferred_scoop_side(self, spec: BoxSpec) -> ScoopSide:
         """Return a finger scoop belongs in the wall the lid leaves by.
 
         The other three carry the lid — two hold its grooves — and a scoop cut
@@ -53,7 +56,7 @@ class SlidingCatchBox(BoxTypeBase):
 
         return ScoopSide.RIGHT
 
-    def lid_rounded_edges(self, spec: BoxSpec) -> list:
+    def lid_rounded_edges(self, spec: BoxSpec) -> list[Anchor]:
         """Return only the end that finishes outside the box.
 
         Its top edge and the two vertical corners there. The rest of the plate

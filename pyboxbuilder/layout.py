@@ -129,11 +129,21 @@ def arrange(
 
     """
     positions: dict[str, tuple[float, float, float]] = {}
-    _place(node, sizes, tuple(float(v) for v in origin), positions)
+    _place(
+        node,
+        sizes,
+        (float(origin[0]), float(origin[1]), float(origin[2])),
+        positions,
+    )
     return Arrangement(positions=positions, size=measure(node, sizes))
 
 
-def _place(node, sizes, at, positions) -> None:
+def _place(
+    node: Node,
+    sizes: dict[str, tuple[float, float, float]],
+    at: tuple[float, float, float],
+    positions: dict[str, tuple[float, float, float]],
+) -> None:
     if isinstance(node, str):
         if node in positions:
             raise LayoutError(f"Layout places box {node!r} more than once")
@@ -144,7 +154,7 @@ def _place(node, sizes, at, positions) -> None:
     for child in node.children:
         child_at = list(at)
         child_at[node.axis] = cursor
-        _place(child, sizes, tuple(child_at), positions)
+        _place(child, sizes, (child_at[0], child_at[1], child_at[2]), positions)
         cursor += measure(child, sizes)[node.axis] + node.gap
 
 

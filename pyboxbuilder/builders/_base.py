@@ -4,7 +4,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import TYPE_CHECKING, ClassVar
+from typing import TYPE_CHECKING, Any, ClassVar
 
 from pybosl2 import Color
 
@@ -193,7 +193,7 @@ class BoxBuilder:
         thickness: float = CARD_THICKNESS_MM,
         slack: float = CARD_SLACK_MM,
         cut: Cut | FingerCut | None = FingerCut.THROUGH_FLOOR,
-        **kwargs,
+        **kwargs: Any,
     ) -> CompartmentBuilder:
         """Add a well sized to hold a stack of cards.
 
@@ -366,12 +366,12 @@ class Cut:
     wall."""
 
     @classmethod
-    def scoop(cls, **fields) -> Cut:
+    def scoop(cls, **fields: Any) -> Cut:
         """Return a dip in the side of the well, leaving its base solid."""
         return cls(kind=FingerCut.SCOOP, **fields)
 
     @classmethod
-    def through_floor(cls, **fields) -> Cut:
+    def through_floor(cls, **fields: Any) -> Cut:
         """Return a hole through the box's base, for a well something is stacked in."""
         return cls(kind=FingerCut.THROUGH_FLOOR, **fields)
 

@@ -31,7 +31,11 @@ in 1,000,000 nodes; taking the smallest finds one in 3,237.
 
 from __future__ import annotations
 
+from collections.abc import Iterator
 from dataclasses import dataclass
+
+Region = tuple[float, float, float, float, float, float, bool]
+"""One free region: ``(x, y, z, w, l, h, full)`` (see the region comment below)."""
 
 EPS = 1e-9
 """Comparison tolerance in mm. Well under any printable dimension."""
@@ -63,7 +67,9 @@ class Placed:
     rotated: bool
 
 
-def _orientations(size: tuple[float, float, float], no_rotate: bool):
+def _orientations(
+    size: tuple[float, float, float], no_rotate: bool
+) -> Iterator[tuple[tuple[float, float, float], bool]]:
     """Return the ways a box may be turned.
 
     Only the quarter turn about Z: a box printed with its lid on top has to stay
@@ -127,13 +133,13 @@ def pack_guillotine(
     )
 
     nodes = 0
-    dead: set = set()
+    dead: set[tuple[tuple[tuple[float, float, float, bool], ...], tuple[int, ...]]] = set()
 
-    def usable(region):
+    def usable(region: Region) -> bool:
         """Whether a region is big enough to be worth keeping in the pool."""
         return min(region[3], region[4], region[5]) >= smallest_dim - EPS
 
-    def splits(region, size):
+    def splits(region: Region, size: tuple[float, float, float]) -> Iterator[tuple[Region, ...]]:
         """Every way of cutting `region` once a box sits in its origin corner.
 
         Yields tuples of sub-regions, or None for a split that is not allowed.
@@ -188,7 +194,9 @@ def pack_guillotine(
                     continue
                 yield (*layer_sides, (x, y, z + bh, w, l, gap_h, False))
 
-    def solve(regions, remaining, need):
+    def solve(
+        regions: tuple[Region, ...], remaining: tuple[int, ...], need: float
+    ) -> list[tuple[float, float, float, tuple[float, float, float], bool, int]] | None:
         nonlocal nodes
         nodes += 1
         if nodes > node_budget:

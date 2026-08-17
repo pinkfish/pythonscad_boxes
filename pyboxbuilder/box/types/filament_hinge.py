@@ -41,7 +41,7 @@ class FilamentHingeBox(BoxTypeBase):
         lt = spec.lid_thickness
         return replace(spec, height=spec.height - lt)
 
-    def interior_mask(self, spec: BoxSpec):
+    def interior_mask(self, spec: BoxSpec) -> Bosl2Solid:
         """Return the interior, less the room the hinge takes up inside it.
 
         The hinge sits within the box's outline, so its barrel and webs stand

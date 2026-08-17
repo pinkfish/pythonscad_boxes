@@ -12,8 +12,14 @@ import colorsys
 import hashlib
 from collections.abc import Sequence
 from dataclasses import dataclass
+from typing import TYPE_CHECKING
 
 from pybosl2 import Color
+
+if TYPE_CHECKING:
+    from pybosl2.shapes3d import Bosl2Solid
+
+    from pyboxbuilder.project import Piece
 
 # Saturation/value for generated box hues. Chosen so every hue reads as a
 # distinct, solid colour on screen rather than a pastel wash.
@@ -128,7 +134,7 @@ def lid_color(box_color: Color) -> Color:
     return with_alpha(lighten(box_color), LID_ALPHA)
 
 
-def layer_heights(placements: Sequence) -> list[float]:
+def layer_heights(placements: Sequence[Piece]) -> list[float]:
     """Return the distinct Z levels boxes rest at, lowest first.
 
     A "layer" is a height something sits at, so two boxes sharing a Z origin
@@ -144,7 +150,7 @@ def layer_heights(placements: Sequence) -> list[float]:
     return sorted({round(p.position[2], 6) for p in placements})
 
 
-def remove_top_layers(placements: Sequence, count: int) -> list:
+def remove_top_layers(placements: Sequence[Piece], count: int) -> list[Piece]:
     """Drop the top ``count`` vertical layers from a set of placements.
 
     A box is removed when its **top surface** rises above the cut, so a tall
@@ -186,7 +192,7 @@ class PreviewPiece:
 
     label: str
     """The piece's box label; lids and spacers keep their box's label."""
-    solid: object
+    solid: Bosl2Solid
     """The built geometry, already translated to its packed position."""
     color: Color
     """The colour to draw this piece in."""

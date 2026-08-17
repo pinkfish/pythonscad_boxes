@@ -23,6 +23,8 @@ from pyboxbuilder.enums import MagnetType, ScoopSide, StackableMode
 
 if TYPE_CHECKING:
     from pyboxbuilder.box.interior import Interior
+    from pyboxbuilder.builders._base import BoxBuilder
+    from pyboxbuilder.project import Project
 
 WIGGLE_MM = 0.2
 """Default clearance between two printed parts that have to fit together."""
@@ -255,7 +257,9 @@ _NOT_GEOMETRY = frozenset({
 _SPEC_FIELDS = frozenset(f.name for f in fields(BoxSpec))
 
 
-def build_spec(project, builder, size: tuple[float, float, float]) -> BoxSpec:
+def build_spec(
+    project: Project, builder: BoxBuilder, size: tuple[float, float, float]
+) -> BoxSpec:
     """Assemble the one description this box is built from.
 
     The single place a `BoxSpec` is made, so a previewed box and an exported
@@ -307,7 +311,7 @@ def build_spec(project, builder, size: tuple[float, float, float]) -> BoxSpec:
     )
 
 
-def describe(builder) -> dict:
+def describe(builder: BoxBuilder) -> dict[str, object]:
     """Return a JSON-serialisable description of everything that shapes a box.
 
     Used to fingerprint an exported piece (FR-031): two runs of an unchanged
@@ -321,7 +325,7 @@ def describe(builder) -> dict:
         its lid decoration.
 
     """
-    def plain(value, field_name: str = ""):
+    def plain(value: Any, field_name: str = "") -> Any:
         """Reduce a value to something `json.dumps(default=str)` compares."""
         if field_name == "shape_file" and value:
             # A silhouette's *contents* shape the box, not the path to it.
