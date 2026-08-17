@@ -338,13 +338,14 @@
 <span class="sd">    material while the single-colour pass fuses them.</span>
 <span class="sd">    """</span>
 
-    <span class="n">text</span><span class="p">:</span> <span class="s2">"Bosl2Solid"</span>
-    <span class="n">backing</span><span class="p">:</span> <span class="s2">"Bosl2Solid | None"</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">text</span><span class="p">:</span> <span class="n">Bosl2Solid</span>
+    <span class="n">backing</span><span class="p">:</span> <span class="n">Bosl2Solid</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="w">    </span><span class="sd">"""Framed mode only: the plate and hatching behind the text."""</span>
 
 <div class="viewcode-block" id="Label.combined">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.lid.label.Label.html#pyboxbuilder.lid.label.Label.combined">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">combined</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Bosl2Solid"</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">combined</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Return the text and, in framed mode, its backing plate, fused into one solid."""</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">text</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">backing</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">backing</span> <span class="o">|</span> <span class="bp">self</span><span class="o">.</span><span class="n">text</span></div>
 </div>
 
@@ -407,7 +408,7 @@
     <span class="n">diagonal</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">min_text_height_mm</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">4.0</span><span class="p">,</span>
     <span class="n">border_margin_mm</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">5.0</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Label | None"</span><span class="p">:</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Label</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Build a label for a lid face, or None if it would be illegible.</span>
 
 <span class="sd">    Args:</span>
@@ -424,6 +425,7 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        A `Label`, or None when the text would come out under the minimum.</span>
+
 <span class="sd">    """</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.shell</span><span class="w"> </span><span class="kn">import</span> <span class="n">block</span><span class="p">,</span> <span class="n">corner</span>
 
@@ -476,7 +478,7 @@
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_build_hatching</span><span class="p">(</span>
     <span class="n">width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">spacing</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">3.0</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Bosl2Solid"</span><span class="p">:</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Diagonal hatching lines, centred on the origin and clipped to the area.</span>
 
 <span class="sd">    The lines are cropped to the label rectangle so the hatching cannot spill</span>

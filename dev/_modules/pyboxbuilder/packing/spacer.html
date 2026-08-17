@@ -361,6 +361,7 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">volume</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""The void's volume."""</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">_polygon_area</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
@@ -368,12 +369,14 @@
 <div class="viewcode-block" id="Void.far_corner">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.packing.spacer.Void.html#pyboxbuilder.packing.spacer.Void.far_corner">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">far_corner</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
-        <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">p</span> <span class="o">+</span> <span class="n">s</span> <span class="k">for</span> <span class="n">p</span><span class="p">,</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">position</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">))</span>  <span class="c1"># type: ignore[return-value]</span></div>
+<span class="w">        </span><span class="sd">"""Return the void's far corner (origin plus size)."""</span>
+        <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">p</span> <span class="o">+</span> <span class="n">s</span> <span class="k">for</span> <span class="n">p</span><span class="p">,</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">position</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>  <span class="c1"># type: ignore[return-value]</span></div>
 
 
 <div class="viewcode-block" id="Void.thinnest">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.packing.spacer.Void.html#pyboxbuilder.packing.spacer.Void.thinnest">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">thinnest</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Return the void's thinnest dimension."""</span>
         <span class="k">return</span> <span class="nb">min</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">)</span></div>
 
 
@@ -394,7 +397,7 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_plane_grid</span><span class="p">(</span><span class="n">container</span><span class="p">,</span> <span class="n">placements</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]]:</span>
-<span class="w">    </span><span class="sd">"""The sorted X/Y/Z planes bounding every box and the container itself."""</span>
+<span class="w">    </span><span class="sd">"""Return the sorted X/Y/Z planes bounding every box and the container itself."""</span>
     <span class="n">axes</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">set</span><span class="p">[</span><span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[{</span><span class="mf">0.0</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">container</span><span class="p">[</span><span class="n">i</span><span class="p">])}</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">)]</span>
     <span class="k">for</span> <span class="n">placement</span> <span class="ow">in</span> <span class="n">placements</span><span class="p">:</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
@@ -464,6 +467,7 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        Disjoint `Void`s covering all of the free space, in descending volume.</span>
+
 <span class="sd">    """</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">placements</span><span class="p">:</span>
         <span class="k">return</span> <span class="p">[]</span>
@@ -520,7 +524,7 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_mergeable_axis</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="n">Void</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">Void</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""The axis along which `a` and `b` fuse into one box, or None.</span>
+<span class="w">    </span><span class="sd">"""Return the axis along which `a` and `b` fuse into one box, or None.</span>
 
 <span class="sd">    They fuse when they meet face to face on one axis and match exactly on the</span>
 <span class="sd">    other two — the union then covers the two originals and nothing else, so it</span>
@@ -598,7 +602,7 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_footprints_touch</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="n">Void</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">Void</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""True when two footprints share a border segment of non-zero length."""</span>
+<span class="w">    </span><span class="sd">"""Return True when two footprints share a border segment of non-zero length."""</span>
     <span class="k">for</span> <span class="n">axis</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">):</span>
         <span class="n">other</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">axis</span>
         <span class="n">a_lo</span><span class="p">,</span> <span class="n">a_hi</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="n">axis</span><span class="p">],</span> <span class="n">a</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="n">axis</span><span class="p">]</span> <span class="o">+</span> <span class="n">a</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="n">axis</span><span class="p">]</span>
@@ -821,6 +825,7 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        The voids that earn a tray, in descending volume.</span>
+
 <span class="sd">    """</span>
     <span class="n">voids</span> <span class="o">=</span> <span class="n">merge_voids</span><span class="p">(</span><span class="n">sweep_free_space</span><span class="p">(</span><span class="n">container</span><span class="p">,</span> <span class="n">placements</span><span class="p">))</span>
     <span class="c1"># Drop the unprintable slivers before grouping, so a 2mm shard cannot become</span>
@@ -892,11 +897,12 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        List of SpacerSpec for gaps that need filling.</span>
+
 <span class="sd">    """</span>
     <span class="n">spacers</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">SpacerSpec</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">counter</span> <span class="o">=</span> <span class="mi">1</span>
 
-    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">row_w</span><span class="p">,</span> <span class="n">row_l</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">row_widths</span><span class="p">,</span> <span class="n">row_lengths</span><span class="p">)):</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">row_w</span><span class="p">,</span> <span class="n">row_l</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">row_widths</span><span class="p">,</span> <span class="n">row_lengths</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">False</span><span class="p">)):</span>
         <span class="n">remaining_w</span> <span class="o">=</span> <span class="n">container_width</span> <span class="o">-</span> <span class="n">row_w</span>
         <span class="k">if</span> <span class="n">remaining_w</span> <span class="o">&gt;=</span> <span class="n">min_spacer_dim</span> <span class="ow">and</span> <span class="n">remaining_w</span> <span class="o">&gt;=</span> <span class="n">gap_threshold</span><span class="p">:</span>
             <span class="n">y_offset</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">row_lengths</span><span class="p">[:</span><span class="n">i</span><span class="p">])</span> <span class="k">if</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mf">0.0</span>

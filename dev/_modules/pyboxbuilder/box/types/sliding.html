@@ -326,6 +326,7 @@
 <div class="viewcode-block" id="SlidingBox.interior">
 <a class="viewcode-back" href="../../../../_autosummary/pyboxbuilder.box.types.sliding.SlidingBox.html#pyboxbuilder.box.types.sliding.SlidingBox.interior">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">interior</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Interior</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Return the frame the box's contents may occupy."""</span>
         <span class="n">wt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">wall_thickness</span>
         <span class="n">ft</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">floor_thickness</span>
         <span class="n">lt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">lid_thickness</span>
@@ -339,7 +340,7 @@
         <span class="p">)</span></div>
 
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">_build_shell</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Bosl2Solid"</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_build_shell</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Build the hollow box body shell."""</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.shell</span><span class="w"> </span><span class="kn">import</span> <span class="n">build_shell</span><span class="p">,</span> <span class="n">sliding_rim_rounding</span>
 
@@ -366,20 +367,22 @@
 
 <span class="sd">        Returns:</span>
 <span class="sd">            True when the box is longer than it is wide.</span>
+
 <span class="sd">        """</span>
         <span class="k">return</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span> <span class="o">&gt;</span> <span class="n">spec</span><span class="o">.</span><span class="n">width</span></div>
 
 
 <div class="viewcode-block" id="SlidingBox.open_end_side">
 <a class="viewcode-back" href="../../../../_autosummary/pyboxbuilder.box.types.sliding.SlidingBox.html#pyboxbuilder.box.types.sliding.SlidingBox.open_end_side">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">open_end_side</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"ScoopSide"</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">"""The wall the lid slides out through.</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">open_end_side</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ScoopSide</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Return the wall the lid slides out through.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            spec: Needs `width` and `length`.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            `BACK` when the lid slides along the length, else `RIGHT`.</span>
+
 <span class="sd">        """</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">ScoopSide</span>
 
@@ -402,16 +405,17 @@
 
 <span class="sd">        Returns:</span>
 <span class="sd">            ``{ScoopSide: z}`` for all four sides.</span>
+
 <span class="sd">        """</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">ScoopSide</span>
 
         <span class="n">top</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">height</span> <span class="o">-</span> <span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">lid_thickness</span> <span class="ow">or</span> <span class="mf">0.0</span><span class="p">)</span>
-        <span class="k">return</span> <span class="p">{</span><span class="n">side</span><span class="p">:</span> <span class="n">top</span> <span class="k">for</span> <span class="n">side</span> <span class="ow">in</span> <span class="n">ScoopSide</span><span class="p">}</span></div>
+        <span class="k">return</span> <span class="nb">dict</span><span class="o">.</span><span class="n">fromkeys</span><span class="p">(</span><span class="n">ScoopSide</span><span class="p">,</span> <span class="n">top</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="SlidingBox.preferred_scoop_side">
 <a class="viewcode-back" href="../../../../_autosummary/pyboxbuilder.box.types.sliding.SlidingBox.html#pyboxbuilder.box.types.sliding.SlidingBox.preferred_scoop_side">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">preferred_scoop_side</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"ScoopSide"</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">preferred_scoop_side</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ScoopSide</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Put a finger scoop in the wall the lid comes out of.</span>
 
 <span class="sd">        On a sliding box the cards leave the same way the lid does, so the cut</span>
@@ -424,6 +428,7 @@
 
 <span class="sd">        Returns:</span>
 <span class="sd">            The open end's side.</span>
+
 <span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">open_end_side</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span></div>
 
@@ -443,6 +448,7 @@
 
 <span class="sd">        Returns:</span>
 <span class="sd">            A pybosl2 ``edges=`` selector for the exposed end.</span>
+
 <span class="sd">        """</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">Anchor</span>
 
@@ -459,12 +465,13 @@
 
 <span class="sd">        Returns:</span>
 <span class="sd">            ``"y"`` when the lid slides along the length, else ``"x"``.</span>
+
 <span class="sd">        """</span>
         <span class="k">return</span> <span class="s2">"y"</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">slides_along_length</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span> <span class="k">else</span> <span class="s2">"x"</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_cut_lid_channel</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">body</span><span class="p">:</span> <span class="s2">"Bosl2Solid"</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Bosl2Solid"</span><span class="p">:</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">body</span><span class="p">:</span> <span class="n">Bosl2Solid</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Cut the dovetailed slot the lid slides along, open at one end.</span>
 
 <span class="sd">        One subtraction does both halves of the job, because they are the same</span>
@@ -483,13 +490,14 @@
 
 <span class="sd">        Returns:</span>
 <span class="sd">            The body with the dovetail channel cut.</span>
+
 <span class="sd">        """</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.features</span><span class="w"> </span><span class="kn">import</span> <span class="n">dovetail_track</span>
 
         <span class="k">return</span> <span class="n">body</span> <span class="o">-</span> <span class="n">dovetail_track</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_along_axis</span><span class="p">(</span><span class="n">spec</span><span class="p">))</span><span class="o">.</span><span class="n">body</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_catch_radius</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">"""The bump catch's radius, or 0 for a plain sliding lid (FR-002e3).</span>
+<span class="w">        </span><span class="sd">"""Return the bump catch's radius, or 0 for a plain sliding lid (FR-002e3).</span>
 
 <span class="sd">        A plain sliding box has **no** catch by default, as the original</span>
 <span class="sd">        toolkit's does: the dovetail already stops the lid lifting out, and</span>
@@ -501,12 +509,13 @@
 
 <span class="sd">        Returns:</span>
 <span class="sd">            The bump radius in mm; ``0`` for no catch.</span>
+
 <span class="sd">        """</span>
         <span class="k">return</span> <span class="n">spec</span><span class="o">.</span><span class="n">catch_radius</span> <span class="ow">or</span> <span class="mf">0.0</span>
 
 <div class="viewcode-block" id="SlidingBox.build_body">
 <a class="viewcode-back" href="../../../../_autosummary/pyboxbuilder.box.types.sliding.SlidingBox.html#pyboxbuilder.box.types.sliding.SlidingBox.build_body">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">build_body</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Bosl2Solid"</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_body</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Build the complete box body with dovetail grooves."""</span>
         <span class="n">body</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_build_shell</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">dovetail</span><span class="p">:</span>
@@ -521,7 +530,7 @@
 
 <div class="viewcode-block" id="SlidingBox.build_lid">
 <a class="viewcode-back" href="../../../../_autosummary/pyboxbuilder.box.types.sliding.SlidingBox.html#pyboxbuilder.box.types.sliding.SlidingBox.build_lid">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">build_lid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">,</span> <span class="n">decoration</span><span class="p">:</span> <span class="nb">object</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Bosl2Solid"</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_lid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">,</span> <span class="n">decoration</span><span class="p">:</span> <span class="nb">object</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Build the sliding lid — a dovetailed plate, chamfered at its leading end."""</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.features</span><span class="w"> </span><span class="kn">import</span> <span class="n">dovetail_track</span>
 

@@ -307,7 +307,7 @@
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Sequence</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Sequence</span>
 
 <span class="n">EPSILON</span> <span class="o">=</span> <span class="mf">0.01</span>
 
@@ -338,7 +338,7 @@
 <div class="viewcode-block" id="is_rectilinear">
 <a class="viewcode-back" href="../../_autosummary/pyboxbuilder.paths.is_rectilinear.html#pyboxbuilder.paths.is_rectilinear">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">is_rectilinear</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Point</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""True when every edge is axis-aligned."""</span>
+<span class="w">    </span><span class="sd">"""Return True when every edge is axis-aligned."""</span>
     <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">x0</span><span class="p">,</span> <span class="n">y0</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
         <span class="n">x1</span><span class="p">,</span> <span class="n">y1</span> <span class="o">=</span> <span class="n">path</span><span class="p">[(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">path</span><span class="p">)]</span>
         <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">x0</span> <span class="o">-</span> <span class="n">x1</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">EPSILON</span> <span class="ow">and</span> <span class="nb">abs</span><span class="p">(</span><span class="n">y0</span> <span class="o">-</span> <span class="n">y1</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">EPSILON</span><span class="p">:</span>
@@ -369,6 +369,7 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        The inset outline, with the same number of points.</span>
+
 <span class="sd">    """</span>
     <span class="k">if</span> <span class="n">distance</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">4</span><span class="p">:</span>
         <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>

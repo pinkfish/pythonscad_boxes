@@ -317,7 +317,8 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">random</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Callable</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Callable</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">PatternType</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.precision</span><span class="w"> </span><span class="kn">import</span> <span class="n">kwargs</span> <span class="k">as</span> <span class="n">precision_kwargs</span>
@@ -342,7 +343,7 @@
 <div class="viewcode-block" id="default_spacing">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.lid.pattern.default_spacing.html#pyboxbuilder.lid.pattern.default_spacing">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">default_spacing</span><span class="p">(</span><span class="n">width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">length</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""The cell size a pattern uses when the caller names none.</span>
+<span class="w">    </span><span class="sd">"""Return the cell size a pattern uses when the caller names none.</span>
 
 <span class="sd">    Derived from the lid rather than fixed, so the same pattern reads the same</span>
 <span class="sd">    on a 40mm token lid and a 200mm card lid (FR-000).</span>
@@ -353,6 +354,7 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        The spacing in mm — an eighth of the shorter side, never below 5mm.</span>
+
 <span class="sd">    """</span>
     <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">length</span><span class="p">)</span> <span class="o">/</span> <span class="mf">8.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">)</span></div>
 
@@ -366,7 +368,7 @@
     <span class="n">thickness</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">pattern_type</span><span class="p">:</span> <span class="n">PatternType</span><span class="p">,</span>
     <span class="n">spacing</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Bosl2Solid | None"</span><span class="p">:</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Build the through-hole cutouts for a lid.</span>
 
 <span class="sd">    Args:</span>
@@ -384,6 +386,7 @@
 <span class="sd">    Raises:</span>
 <span class="sd">        ValueError: If the pattern has no fill registered — which cannot happen</span>
 <span class="sd">            for a catalog member, and is the check that keeps it that way.</span>
+
 <span class="sd">    """</span>
     <span class="k">if</span> <span class="n">spacing</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">spacing</span> <span class="o">=</span> <span class="n">default_spacing</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">length</span><span class="p">)</span>
@@ -413,6 +416,7 @@
 <span class="sd">    Yields:</span>
 <span class="sd">        ``(x, y)`` centres, inset so a hole of :data:`HOLE_SHARE` stays whole —</span>
 <span class="sd">        a pattern that runs off the edge leaves slivers, not holes.</span>
+
 <span class="sd">    """</span>
     <span class="n">margin</span> <span class="o">=</span> <span class="n">spacing</span> <span class="o">*</span> <span class="n">HOLE_SHARE</span> <span class="o">/</span> <span class="mf">2.0</span>
     <span class="n">row_step</span> <span class="o">=</span> <span class="n">spacing</span> <span class="o">*</span> <span class="p">(</span><span class="mf">0.866</span> <span class="k">if</span> <span class="n">stagger</span> <span class="k">else</span> <span class="mf">1.0</span><span class="p">)</span>  <span class="c1"># sin(60°) for hex rows</span>
@@ -440,6 +444,7 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        The union of every hole, or ``None`` when none fit.</span>
+
 <span class="sd">    """</span>
     <span class="n">holes</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">_grid_cells</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">spacing</span><span class="p">,</span> <span class="n">stagger</span><span class="p">):</span>
@@ -511,7 +516,7 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">shape</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
         <span class="c1"># Alternating spin is what makes a triangle grid read as one, rather</span>
         <span class="c1"># than as rows of identical wedges.</span>
-        <span class="n">spin</span> <span class="o">=</span> <span class="mf">180.0</span> <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">x</span> <span class="o">/</span> <span class="n">step</span><span class="p">))</span> <span class="o">%</span> <span class="mi">2</span> <span class="k">else</span> <span class="mf">0.0</span>
+        <span class="n">spin</span> <span class="o">=</span> <span class="mf">180.0</span> <span class="k">if</span> <span class="nb">round</span><span class="p">(</span><span class="n">x</span> <span class="o">/</span> <span class="n">step</span><span class="p">)</span> <span class="o">%</span> <span class="mi">2</span> <span class="k">else</span> <span class="mf">0.0</span>
         <span class="k">return</span> <span class="n">_prism</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">step</span> <span class="o">*</span> <span class="n">HOLE_SHARE</span><span class="p">,</span> <span class="n">thickness</span><span class="p">,</span> <span class="n">spin</span><span class="p">)</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span>
             <span class="p">[</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">thickness</span> <span class="o">/</span> <span class="mi">2</span><span class="p">]</span>
         <span class="p">)</span>

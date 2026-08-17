@@ -320,6 +320,7 @@
 <div class="viewcode-block" id="CapPathBox.interior">
 <a class="viewcode-back" href="../../../../_autosummary/pyboxbuilder.box.types.cap_path.CapPathBox.html#pyboxbuilder.box.types.cap_path.CapPathBox.interior">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">interior</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Interior</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Return the frame the box's contents may occupy."""</span>
         <span class="n">wt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">wall_thickness</span>
         <span class="n">ft</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">floor_thickness</span>
         <span class="n">lt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">lid_thickness</span>
@@ -333,8 +334,8 @@
 
 <div class="viewcode-block" id="CapPathBox.build_body">
 <a class="viewcode-back" href="../../../../_autosummary/pyboxbuilder.box.types.cap_path.CapPathBox.html#pyboxbuilder.box.types.cap_path.CapPathBox.build_body">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">build_body</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Bosl2Solid"</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">"""A hollow tray on a polygon footprint, sized for a cap to fit over."""</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_body</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Return a hollow tray on a polygon footprint, sized for a cap to fit over."""</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.features</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
             <span class="n">extrude_footprint</span><span class="p">,</span>
             <span class="n">offset_footprint</span><span class="p">,</span>
@@ -366,8 +367,8 @@
 
 <div class="viewcode-block" id="CapPathBox.build_lid">
 <a class="viewcode-back" href="../../../../_autosummary/pyboxbuilder.box.types.cap_path.CapPathBox.html#pyboxbuilder.box.types.cap_path.CapPathBox.build_lid">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">build_lid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">,</span> <span class="n">decoration</span><span class="p">:</span> <span class="nb">object</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Bosl2Solid"</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">"""A cap whose skirt follows the same outline as the body."""</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_lid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">,</span> <span class="n">decoration</span><span class="p">:</span> <span class="nb">object</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Return a cap whose skirt follows the same outline as the body."""</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.features</span><span class="w"> </span><span class="kn">import</span> <span class="n">cap_lid</span><span class="p">,</span> <span class="n">path_cap</span>
 
         <span class="n">path</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">path</span> <span class="ow">or</span> <span class="p">()</span>

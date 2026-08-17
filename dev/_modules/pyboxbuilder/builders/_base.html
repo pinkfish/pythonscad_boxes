@@ -402,6 +402,7 @@
 
 <span class="sd">        Raises:</span>
 <span class="sd">            TypeError: If ``stackable`` or ``magnet_type`` is not its enum.</span>
+
 <span class="sd">        """</span>
         <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">enum_cls</span> <span class="ow">in</span> <span class="p">((</span><span class="s2">"stackable"</span><span class="p">,</span> <span class="n">StackableMode</span><span class="p">),</span> <span class="p">(</span><span class="s2">"magnet_type"</span><span class="p">,</span> <span class="n">MagnetType</span><span class="p">)):</span>
             <span class="n">value</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
@@ -422,7 +423,7 @@
         <span class="n">depth</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">holds_pieces</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="n">rounded_corners</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
-        <span class="n">cut</span><span class="p">:</span> <span class="s2">"Cut | FingerCut | None"</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">cut</span><span class="p">:</span> <span class="n">Cut</span> <span class="o">|</span> <span class="n">FingerCut</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">no_rotate</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="n">shape_file</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">position</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -459,6 +460,7 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            The :class:`CompartmentBuilder` that was added, already registered</span>
 <span class="sd">            on the box.</span>
+
 <span class="sd">        """</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.compartments.builder</span><span class="w"> </span><span class="kn">import</span> <span class="n">CompartmentBuilder</span>
 
@@ -477,7 +479,7 @@
             <span class="n">elements</span><span class="o">=</span><span class="n">elements</span><span class="p">,</span>
             <span class="n">element_margin</span><span class="o">=</span><span class="n">element_margin</span><span class="p">,</span>
         <span class="p">)</span>
-        <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">"compartments"</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">compartments</span> <span class="o">+</span> <span class="p">(</span><span class="n">cb</span><span class="p">,))</span>
+        <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">"compartments"</span><span class="p">,</span> <span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">compartments</span><span class="p">,</span> <span class="n">cb</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">cb</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">cards</span><span class="p">(</span>
@@ -488,7 +490,7 @@
         <span class="n">size</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
         <span class="n">thickness</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">CARD_THICKNESS_MM</span><span class="p">,</span>
         <span class="n">slack</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">CARD_SLACK_MM</span><span class="p">,</span>
-        <span class="n">cut</span><span class="p">:</span> <span class="s2">"Cut | FingerCut | None"</span> <span class="o">=</span> <span class="n">FingerCut</span><span class="o">.</span><span class="n">THROUGH_FLOOR</span><span class="p">,</span>
+        <span class="n">cut</span><span class="p">:</span> <span class="n">Cut</span> <span class="o">|</span> <span class="n">FingerCut</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">FingerCut</span><span class="o">.</span><span class="n">THROUGH_FLOOR</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CompartmentBuilder</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Add a well sized to hold a stack of cards.</span>
@@ -523,6 +525,7 @@
 
 <span class="sd">        Raises:</span>
 <span class="sd">            ValueError: If ``count`` is not positive.</span>
+
 <span class="sd">        """</span>
         <span class="k">if</span> <span class="n">count</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"card count must be &gt; 0; got </span><span class="si">{</span><span class="n">count</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
@@ -536,7 +539,7 @@
 
     <span class="k">def</span><span class="w"> </span><span class="nf">finger_hole</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">side</span><span class="p">:</span> <span class="s2">"ScoopSide"</span><span class="p">,</span>
+        <span class="n">side</span><span class="p">:</span> <span class="n">ScoopSide</span><span class="p">,</span>
         <span class="o">*</span><span class="p">,</span>
         <span class="n">width</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">DEFAULT_FINGER_WIDTH_MM</span><span class="p">,</span>
         <span class="n">depth</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -546,7 +549,7 @@
         <span class="n">roll_rise</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">face_fillet</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">radius</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"FingerHoleBuilder"</span><span class="p">:</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">FingerHoleBuilder</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Add a finger hole to one of this box's exterior walls (FR-006).</span>
 
 <span class="sd">        The hole hangs from the top of the **interior** (FR-064) — not from</span>
@@ -589,6 +592,7 @@
 <span class="sd">        Raises:</span>
 <span class="sd">            TypeError: If ``side`` is not a :class:`ScoopSide`.</span>
 <span class="sd">            ValueError: If ``radius`` or ``depth`` is not positive.</span>
+
 <span class="sd">        """</span>
         <span class="k">if</span> <span class="n">radius</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
@@ -609,7 +613,7 @@
             <span class="n">face_fillet</span><span class="o">=</span><span class="n">face_fillet</span><span class="p">,</span>
             <span class="n">roll_rise</span><span class="o">=</span><span class="n">roll_rise</span><span class="p">,</span>
         <span class="p">)</span>
-        <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">"finger_holes"</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">finger_holes</span> <span class="o">+</span> <span class="p">(</span><span class="n">hole</span><span class="p">,))</span>
+        <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">"finger_holes"</span><span class="p">,</span> <span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">finger_holes</span><span class="p">,</span> <span class="n">hole</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">hole</span>
 
 
@@ -664,23 +668,23 @@
 <div class="viewcode-block" id="Cut.scoop">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.html#pyboxbuilder.Cut.scoop">[docs]</a>
     <span class="nd">@classmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">scoop</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">**</span><span class="n">fields</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Cut"</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">"""A dip in the side of the well, leaving its base solid."""</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">scoop</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">**</span><span class="n">fields</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Cut</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Return a dip in the side of the well, leaving its base solid."""</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="n">FingerCut</span><span class="o">.</span><span class="n">SCOOP</span><span class="p">,</span> <span class="o">**</span><span class="n">fields</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="Cut.through_floor">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.html#pyboxbuilder.Cut.through_floor">[docs]</a>
     <span class="nd">@classmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">through_floor</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">**</span><span class="n">fields</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Cut"</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">"""A hole through the box's base, for a well something is stacked in."""</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">through_floor</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">**</span><span class="n">fields</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Cut</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Return a hole through the box's base, for a well something is stacked in."""</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="n">FingerCut</span><span class="o">.</span><span class="n">THROUGH_FLOOR</span><span class="p">,</span> <span class="o">**</span><span class="n">fields</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="Cut.of">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.html#pyboxbuilder.Cut.of">[docs]</a>
     <span class="nd">@classmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">of</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="s2">"Cut | FingerCut | None"</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Cut | None"</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">of</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Cut</span> <span class="o">|</span> <span class="n">FingerCut</span> <span class="o">|</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Cut</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Normalise what a caller passed as `cut=` into a record or ``None``.</span>
 
 <span class="sd">        The enum on its own is the common case and reads better at a call site</span>
@@ -759,6 +763,7 @@
 <span class="sd">            TypeError: If ``side`` is not a :class:`ScoopSide` — a bare string</span>
 <span class="sd">                would silently match no wall.</span>
 <span class="sd">            ValueError: If ``width`` or ``depth`` is not positive.</span>
+
 <span class="sd">        """</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">side</span><span class="p">,</span> <span class="n">ScoopSide</span><span class="p">):</span>
             <span class="n">sides</span> <span class="o">=</span> <span class="s2">", "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s2">"ScoopSide.</span><span class="si">{</span><span class="n">m</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">"</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">ScoopSide</span><span class="p">)</span>

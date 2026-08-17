@@ -318,8 +318,9 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">argparse</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Sequence</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Sequence</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span>
 
 <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.project</span><span class="w"> </span><span class="kn">import</span> <span class="n">Project</span>
@@ -332,7 +333,7 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_parser</span><span class="p">(</span><span class="n">default_out</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""The arguments an example accepts."""</span>
+<span class="w">    </span><span class="sd">"""Return the arguments an example accepts."""</span>
     <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span>
         <span class="n">description</span><span class="o">=</span><span class="s2">"Preview this insert, or export its printable files."</span><span class="p">,</span>
     <span class="p">)</span>
@@ -374,7 +375,7 @@
 <div class="viewcode-block" id="run">
 <a class="viewcode-back" href="../../_autosummary/pyboxbuilder.run.html#pyboxbuilder.run">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span>
-    <span class="n">project</span><span class="p">:</span> <span class="s2">"Project"</span><span class="p">,</span>
+    <span class="n">project</span><span class="p">:</span> <span class="n">Project</span><span class="p">,</span>
     <span class="n">out_dir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span> <span class="o">=</span> <span class="n">DEFAULT_OUT_DIR</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">show_lids</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
@@ -400,6 +401,7 @@
 
 <span class="sd">    Raises:</span>
 <span class="sd">        SystemExit: If the arguments are malformed, as argparse does.</span>
+
 <span class="sd">    """</span>
     <span class="n">args</span> <span class="o">=</span> <span class="n">_parser</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">out_dir</span><span class="p">))</span><span class="o">.</span><span class="n">parse_args</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="k">if</span> <span class="n">argv</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">argv</span><span class="p">)</span>
     <span class="n">only</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">box</span> <span class="ow">or</span> <span class="kc">None</span>
@@ -419,7 +421,7 @@
 
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">_report</span><span class="p">(</span><span class="n">project</span><span class="p">:</span> <span class="s2">"Project"</span><span class="p">,</span> <span class="n">result</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_report</span><span class="p">(</span><span class="n">project</span><span class="p">:</span> <span class="n">Project</span><span class="p">,</span> <span class="n">result</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Print what an export did."""</span>
     <span class="nb">print</span><span class="p">(</span>
         <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">project</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">total_files</span><span class="si">}</span><span class="s2"> files "</span>

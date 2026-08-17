@@ -320,6 +320,7 @@
 <div class="viewcode-block" id="InsetBox.interior">
 <a class="viewcode-back" href="../../../../_autosummary/pyboxbuilder.box.types.inset.InsetBox.html#pyboxbuilder.box.types.inset.InsetBox.interior">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">interior</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Interior</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Return the frame the box's contents may occupy."""</span>
         <span class="n">wt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">wall_thickness</span>
         <span class="n">ft</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">floor_thickness</span>
         <span class="n">lt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">lid_thickness</span>
@@ -333,8 +334,8 @@
 
 <div class="viewcode-block" id="InsetBox.build_body">
 <a class="viewcode-back" href="../../../../_autosummary/pyboxbuilder.box.types.inset.InsetBox.html#pyboxbuilder.box.types.inset.InsetBox.build_body">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">build_body</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Bosl2Solid"</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">"""The shell with a ledge cut into its top rim for the lid to sit in."""</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_body</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Return the shell with a ledge cut into its top rim for the lid to sit in."""</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.features</span><span class="w"> </span><span class="kn">import</span> <span class="n">rabbet</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.shell</span><span class="w"> </span><span class="kn">import</span> <span class="n">build_shell</span>
 
@@ -344,8 +345,8 @@
 
 <div class="viewcode-block" id="InsetBox.build_lid">
 <a class="viewcode-back" href="../../../../_autosummary/pyboxbuilder.box.types.inset.InsetBox.html#pyboxbuilder.box.types.inset.InsetBox.build_lid">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">build_lid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">,</span> <span class="n">decoration</span><span class="p">:</span> <span class="nb">object</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Bosl2Solid"</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">"""A plate that drops into the rabbet and finishes flush with the rim."""</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_lid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">,</span> <span class="n">decoration</span><span class="p">:</span> <span class="nb">object</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Return a plate that drops into the rabbet and finishes flush with the rim."""</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.features</span><span class="w"> </span><span class="kn">import</span> <span class="n">rabbet</span>
 
         <span class="k">return</span> <span class="n">rabbet</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="n">inset</span><span class="o">=</span><span class="n">spec</span><span class="o">.</span><span class="n">inset</span><span class="p">)</span><span class="o">.</span><span class="n">lid</span></div>

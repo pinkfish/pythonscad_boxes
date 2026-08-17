@@ -335,7 +335,7 @@
 
 <div class="viewcode-block" id="BoxTypeBase.build_body">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.base.BoxTypeBase.html#pyboxbuilder.box.base.BoxTypeBase.build_body">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">build_body</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="s2">"BoxSpec"</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Bosl2Solid"</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_body</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Build the box body geometry.</span>
 
 <span class="sd">        Args:</span>
@@ -347,6 +347,7 @@
 
 <span class="sd">        Raises:</span>
 <span class="sd">            NotImplementedError: If the subclass does not provide one.</span>
+
 <span class="sd">        """</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> must implement build_body()"</span><span class="p">)</span></div>
 
@@ -354,8 +355,8 @@
 <div class="viewcode-block" id="BoxTypeBase.build_lid">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.base.BoxTypeBase.html#pyboxbuilder.box.base.BoxTypeBase.build_lid">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">build_lid</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="s2">"BoxSpec"</span><span class="p">,</span> <span class="n">decoration</span><span class="p">:</span> <span class="nb">object</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Bosl2Solid | None"</span><span class="p">:</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">,</span> <span class="n">decoration</span><span class="p">:</span> <span class="nb">object</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Build the lid geometry, in its seated position.</span>
 
 <span class="sd">        Args:</span>
@@ -365,14 +366,15 @@
 
 <span class="sd">        Returns:</span>
 <span class="sd">            The lid solid, or ``None`` for a lidless type.</span>
+
 <span class="sd">        """</span>
         <span class="k">return</span> <span class="kc">None</span></div>
 
 
 <div class="viewcode-block" id="BoxTypeBase.interior">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.base.BoxTypeBase.html#pyboxbuilder.box.base.BoxTypeBase.interior">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">interior</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="s2">"BoxSpec"</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Interior</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">"""The volume inside this box.</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">interior</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Interior</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Return the volume inside this box.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            spec: The box's resolved description.</span>
@@ -381,13 +383,14 @@
 <span class="sd">            The interior frame. The default is the spec's own — walls on four</span>
 <span class="sd">            sides, floor below, lid above — which types that shorten the body</span>
 <span class="sd">            for their lid override.</span>
+
 <span class="sd">        """</span>
         <span class="k">return</span> <span class="n">spec</span><span class="o">.</span><span class="n">interior</span><span class="p">()</span></div>
 
 
 <div class="viewcode-block" id="BoxTypeBase.preferred_scoop_side">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.base.BoxTypeBase.html#pyboxbuilder.box.base.BoxTypeBase.preferred_scoop_side">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">preferred_scoop_side</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="s2">"BoxSpec"</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"ScoopSide | None"</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">preferred_scoop_side</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ScoopSide</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Which wall this box type wants a finger scoop in.</span>
 
 <span class="sd">        A hook rather than a rule, because only the type knows: on a sliding</span>
@@ -400,13 +403,14 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            A :class:`~pyboxbuilder.enums.ScoopSide`, or ``None`` for "no</span>
 <span class="sd">            preference", which leaves the compartment's own shape to decide.</span>
+
 <span class="sd">        """</span>
         <span class="k">return</span> <span class="kc">None</span></div>
 
 
 <div class="viewcode-block" id="BoxTypeBase.lid_rounded_edges">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.base.BoxTypeBase.html#pyboxbuilder.box.base.BoxTypeBase.lid_rounded_edges">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">lid_rounded_edges</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="s2">"BoxSpec"</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">lid_rounded_edges</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Which of this box type's lid edges may be rounded.</span>
 
 <span class="sd">        Args:</span>
@@ -417,6 +421,7 @@
 <span class="sd">            and the top face — suits a lid that sits on top of the box, where</span>
 <span class="sd">            all of that is on the outside. A lid that slides into the box</span>
 <span class="sd">            overrides it (FR-044i).</span>
+
 <span class="sd">        """</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.rounding</span><span class="w"> </span><span class="kn">import</span> <span class="n">vertical_and_top_edges</span>
 
@@ -425,8 +430,8 @@
 
 <div class="viewcode-block" id="BoxTypeBase.wall_tops">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.base.BoxTypeBase.html#pyboxbuilder.box.base.BoxTypeBase.wall_tops">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">wall_tops</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="s2">"BoxSpec"</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">"""The sides whose walls do not end at this box's default top.</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">wall_tops</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Return the sides whose walls do not end at this box's default top.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            spec: The box's resolved description.</span>
@@ -434,14 +439,15 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            ``{ScoopSide: z}`` for the sides this type raises or lowers; empty</span>
 <span class="sd">            when all four end level (FR-070/FR-071).</span>
+
 <span class="sd">        """</span>
         <span class="k">return</span> <span class="p">{}</span></div>
 
 
 <div class="viewcode-block" id="BoxTypeBase.interior_mask">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.base.BoxTypeBase.html#pyboxbuilder.box.base.BoxTypeBase.interior_mask">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">interior_mask</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="s2">"BoxSpec"</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Bosl2Solid | None"</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">"""The volume inside the box that contents may actually occupy.</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">interior_mask</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Return the volume inside the box that contents may actually occupy.</span>
 
 <span class="sd">        Usually the whole interior, and a type only says otherwise when</span>
 <span class="sd">        something of its own stands in there. A hinge box is the case that</span>
@@ -455,6 +461,7 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            A solid the contents must stay within, or ``None`` when the whole</span>
 <span class="sd">            interior is available.</span>
+
 <span class="sd">        """</span>
         <span class="k">return</span> <span class="kc">None</span></div>
 </div>

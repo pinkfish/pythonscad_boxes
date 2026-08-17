@@ -436,8 +436,8 @@
 
 <div class="viewcode-block" id="CutProfile.with_half_width">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.compartments.finger_outline.CutProfile.html#pyboxbuilder.compartments.finger_cuts.CutProfile.with_half_width">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">with_half_width</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">half_width</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"CutProfile"</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">"""A copy whose width is set from a half-width."""</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">with_half_width</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">half_width</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CutProfile</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Return a copy whose width is set from a half-width."""</span>
         <span class="k">return</span> <span class="n">replace</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="n">half_width</span> <span class="o">*</span> <span class="mf">2.0</span><span class="p">)</span></div>
 </div>
 
@@ -461,6 +461,7 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        ``[(x, y), ...]`` from start to end.</span>
+
 <span class="sd">    """</span>
     <span class="k">if</span> <span class="n">radius</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">centre</span><span class="p">]</span>
@@ -485,7 +486,7 @@
     <span class="n">height</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">top_rounding</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">DEFAULT_MOUTH_ROUNDING_MM</span><span class="p">,</span>
     <span class="n">bottom_rounding</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Bosl2Shape2D"</span><span class="p">:</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Shape2D</span><span class="p">:</span>
 <span class="w">    </span><span class="sa">r</span><span class="sd">"""Build the 2-D side profile of an **edge** scoop, in the X-Z plane.</span>
 
 <span class="sd">    Two radii and three straight runs, read from the top down::</span>
@@ -524,6 +525,7 @@
 <span class="sd">    Raises:</span>
 <span class="sd">        ValueError: If ``radius`` or ``height`` is not positive, or either</span>
 <span class="sd">            radius is negative.</span>
+
 <span class="sd">    """</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">shapes2d</span>
 
@@ -547,7 +549,7 @@
 <div class="viewcode-block" id="dish_radius">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.compartments.finger_outline.dish_radius.html#pyboxbuilder.compartments.finger_cuts.dish_radius">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">dish_radius</span><span class="p">(</span><span class="n">radius</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">height</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">flare</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""The radius of a **shallow** cut's base: one arc across its whole width.</span>
+<span class="w">    </span><span class="sd">"""Return the radius of a **shallow** cut's base: one arc across its whole width.</span>
 
 <span class="sd">    A deep cut is a bore — a round base with sides running up from it — and its</span>
 <span class="sd">    base radius is the half-width. A shallow one is a **dish**, and sizing it</span>
@@ -575,6 +577,7 @@
 <span class="sd">        The arc's radius, always larger than the half-width and, on a cut this</span>
 <span class="sd">        shallow, larger than the cut is deep — so the arc widens all the way up</span>
 <span class="sd">        instead of curling back in.</span>
+
 <span class="sd">    """</span>
     <span class="n">mouth</span> <span class="o">=</span> <span class="n">radius</span> <span class="o">+</span> <span class="n">flare</span>
     <span class="n">below_roll</span> <span class="o">=</span> <span class="n">height</span> <span class="o">-</span> <span class="n">flare</span>
@@ -623,6 +626,7 @@
 <span class="sd">    to a circular roll. Scaling it to fit, which is what this did, returned</span>
 <span class="sd">    14.4mm to a caller who asked for 20 and left nothing in the geometry to say</span>
 <span class="sd">    so.</span>
+
 <span class="sd">    """</span>
     <span class="n">asked</span> <span class="o">=</span> <span class="n">bottom_rounding</span>
     <span class="n">flare</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">top_rounding</span><span class="p">)</span>
@@ -682,7 +686,7 @@
     <span class="n">height</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">top_rounding</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">DEFAULT_MOUTH_ROUNDING_MM</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
-<span class="w">    </span><span class="sd">"""The floor finger hole's closed outline, as one ring of points.</span>
+<span class="w">    </span><span class="sd">"""Return the floor finger hole's closed outline, as one ring of points.</span>
 
 <span class="sd">    The bore counterpart to :func:`scoop_outline`: a bowl tangent to the floor</span>
 <span class="sd">    instead of a flat bottom, carrying the same r1 roll at its rim and the same</span>
@@ -699,6 +703,7 @@
 <span class="sd">    Raises:</span>
 <span class="sd">        ValueError: If ``radius`` or ``height`` is not positive, or</span>
 <span class="sd">            ``top_rounding`` is negative.</span>
+
 <span class="sd">    """</span>
     <span class="k">if</span> <span class="n">radius</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"bore radius must be &gt; 0; got </span><span class="si">{</span><span class="n">radius</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
@@ -726,7 +731,7 @@
     <span class="n">rise</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">samples</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
-<span class="w">    </span><span class="sd">"""The top roll: a quarter ellipse from the wall out to the top face.</span>
+<span class="w">    </span><span class="sd">"""Return the top roll: a quarter ellipse from the wall out to the top face.</span>
 
 <span class="sd">    Vertical where it leaves the wall and horizontal where it meets the top</span>
 <span class="sd">    face, like a quarter circle, but with the two extents settable apart so a</span>
@@ -740,6 +745,7 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        ``[(x, y), ...]`` from the wall to the top face.</span>
+
 <span class="sd">    """</span>
     <span class="k">if</span> <span class="n">flare</span> <span class="o">&lt;=</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">rise</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">return</span> <span class="p">[(</span><span class="n">centre</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">centre</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">rise</span><span class="p">)]</span>
@@ -773,7 +779,7 @@
         <span class="p">)</span>
     <span class="k">return</span> <span class="n">points</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">_angle_at</span><span class="p">(</span><span class="n">centre</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="n">point</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""The angle, in degrees, from ``centre`` to ``point``."""</span>
+<span class="w">    </span><span class="sd">"""Return the angle, in degrees, from ``centre`` to ``point``."""</span>
     <span class="k">return</span> <span class="n">math</span><span class="o">.</span><span class="n">degrees</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">atan2</span><span class="p">(</span><span class="n">point</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">centre</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">point</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">centre</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">_tangent_join</span><span class="p">(</span>
     <span class="n">bottom_centre</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
@@ -801,6 +807,7 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        ``(point_on_bottom_circle, point_on_top_circle)``.</span>
+
 <span class="sd">    """</span>
     <span class="k">if</span> <span class="n">bottom_radius</span> <span class="o">&lt;=</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">top_radius</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">return</span> <span class="p">(</span>
@@ -880,7 +887,7 @@
     <span class="n">height</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">bottom_rounding</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
-<span class="w">    </span><span class="sd">"""A **closed** finger opening: the scoop's outline with a roof on it.</span>
+<span class="w">    </span><span class="sd">"""Return a **closed** finger opening: the scoop's outline with a roof on it.</span>
 
 <span class="sd">    An edge scoop opens onto the top of the wall it is cut into, and its mouth</span>
 <span class="sd">    roll is the transition onto that surface. Where the wall carries on above</span>
@@ -903,6 +910,7 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        ``[(x, y), ...]`` closed counter-clockwise, bottom at ``y=0``.</span>
+
 <span class="sd">    """</span>
     <span class="n">r2</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="n">bottom_rounding</span><span class="p">,</span> <span class="n">radius</span><span class="p">,</span> <span class="n">height</span> <span class="o">/</span> <span class="mi">2</span><span class="p">))</span>
     <span class="n">right</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
@@ -936,7 +944,7 @@
     <span class="n">bottom_rounding</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">top_rise</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
-<span class="w">    </span><span class="sd">"""The edge scoop's closed outline, as one ring of points.</span>
+<span class="w">    </span><span class="sd">"""Return the edge scoop's closed outline, as one ring of points.</span>
 
 <span class="sd">    Returned as a point ring rather than as 2-D geometry because the ring is</span>
 <span class="sd">    what an offset sweep needs: it follows the outline around, so the fillet it</span>
@@ -955,6 +963,7 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        ``[(x, y), ...]`` closed counter-clockwise, floor at ``y=0``.</span>
+
 <span class="sd">    """</span>
     <span class="n">flare</span><span class="p">,</span> <span class="n">r2</span> <span class="o">=</span> <span class="n">top_rounding</span><span class="p">,</span> <span class="n">bottom_rounding</span>
     <span class="n">rise</span> <span class="o">=</span> <span class="n">flare</span> <span class="k">if</span> <span class="n">top_rise</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">top_rise</span>
@@ -1011,7 +1020,7 @@
     <span class="n">radius</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">height</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">top_rounding</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">DEFAULT_MOUTH_ROUNDING_MM</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Bosl2Shape2D"</span><span class="p">:</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Shape2D</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Build the 2-D profile of a **floor** finger hole, in the X-Z plane.</span>
 
 <span class="sd">    Deliberately not the edge profile. An edge scoop is a shape you sweep a</span>
@@ -1034,6 +1043,7 @@
 <span class="sd">    Raises:</span>
 <span class="sd">        ValueError: If ``radius`` or ``height`` is not positive, or</span>
 <span class="sd">            ``top_rounding`` is negative.</span>
+
 <span class="sd">    """</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">shapes2d</span>
 

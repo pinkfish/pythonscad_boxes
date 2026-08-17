@@ -315,8 +315,9 @@
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Sequence</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">replace</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Sequence</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.spec</span><span class="w"> </span><span class="kn">import</span> <span class="n">BoxSpec</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">ScoopSide</span>
@@ -377,13 +378,14 @@
 <div class="viewcode-block" id="sliding_rim_rounding">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.shell.sliding_rim_rounding.html#pyboxbuilder.box.shell.sliding_rim_rounding">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">sliding_rim_rounding</span><span class="p">(</span><span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""The radius for a sliding box's exposed top edge (FR-043f1).</span>
+<span class="w">    </span><span class="sd">"""Return the radius for a sliding box's exposed top edge (FR-043f1).</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        spec: Reads `wall_thickness`.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        A quarter of the wall, in mm.</span>
+
 <span class="sd">    """</span>
     <span class="k">return</span> <span class="n">spec</span><span class="o">.</span><span class="n">wall_thickness</span> <span class="o">*</span> <span class="n">SLIDING_RIM_ROUNDING_SHARE</span></div>
 
@@ -404,16 +406,17 @@
 <div class="viewcode-block" id="corner">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.shell.corner.html#pyboxbuilder.box.shell.corner">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">corner</span><span class="p">(</span>
-    <span class="n">solid</span><span class="p">:</span> <span class="s2">"Bosl2Solid"</span><span class="p">,</span>
+    <span class="n">solid</span><span class="p">:</span> <span class="n">Bosl2Solid</span><span class="p">,</span>
     <span class="n">size</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span>
     <span class="n">at</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Bosl2Solid"</span><span class="p">:</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Place a centre-anchored solid so its minimum corner sits at `at`.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        solid: A centre-anchored solid, as every pybosl2 primitive is.</span>
 <span class="sd">        size: The solid's (width, length, height).</span>
 <span class="sd">        at: Where its minimum corner should end up.</span>
+
 <span class="sd">    """</span>
     <span class="k">return</span> <span class="n">solid</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span>
         <span class="p">[</span>
@@ -427,8 +430,8 @@
 
 <div class="viewcode-block" id="block">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.shell.block.html#pyboxbuilder.box.shell.block">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">block</span><span class="p">(</span><span class="n">size</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">at</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">))</span> <span class="o">-&gt;</span> <span class="s2">"Bosl2Solid"</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""A cuboid of `size` whose minimum corner sits at `at`."""</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">block</span><span class="p">(</span><span class="n">size</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">at</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">))</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Return a cuboid of `size` whose minimum corner sits at `at`."""</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">cuboid</span>
 
     <span class="k">return</span> <span class="n">corner</span><span class="p">(</span><span class="n">cuboid</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">size</span><span class="p">)),</span> <span class="n">size</span><span class="p">,</span> <span class="n">at</span><span class="p">)</span></div>
@@ -437,7 +440,7 @@
 
 <div class="viewcode-block" id="build_shell">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.shell.build_shell.html#pyboxbuilder.box.shell.build_shell">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">build_shell</span><span class="p">(</span><span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Bosl2Solid"</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">build_shell</span><span class="p">(</span><span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Outer block, hollowed to the interior unless `spec.hollow` is False.</span>
 
 <span class="sd">    Args:</span>
@@ -446,6 +449,7 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        The box body before any type-specific lid features are added.</span>
+
 <span class="sd">    """</span>
     <span class="n">size</span> <span class="o">=</span> <span class="p">[</span><span class="n">spec</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">height</span><span class="p">]</span>
     <span class="n">outer</span> <span class="o">=</span> <span class="n">block</span><span class="p">(</span><span class="n">size</span><span class="p">)</span>
@@ -458,7 +462,7 @@
     <span class="k">if</span> <span class="n">radius</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
         <span class="n">edges</span> <span class="o">=</span> <span class="n">vertical_and_bottom_edges</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">rim_free</span><span class="p">:</span>
-            <span class="n">edges</span> <span class="o">=</span> <span class="n">edges</span> <span class="o">+</span> <span class="p">[</span><span class="n">_top_anchor</span><span class="p">()]</span>
+            <span class="n">edges</span> <span class="o">=</span> <span class="p">[</span><span class="o">*</span><span class="n">edges</span><span class="p">,</span> <span class="n">_top_anchor</span><span class="p">()]</span>
         <span class="n">outer</span> <span class="o">=</span> <span class="n">round_edges</span><span class="p">(</span><span class="n">outer</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">radius</span><span class="p">,</span> <span class="n">edges</span><span class="p">)</span>
 
     <span class="c1"># A type whose top face is exposed *with the lid on* rounds that edge too,</span>
@@ -479,13 +483,14 @@
 <div class="viewcode-block" id="body_rounding">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.shell.body_rounding.html#pyboxbuilder.box.shell.body_rounding">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">body_rounding</span><span class="p">(</span><span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""The edge radius for this box body.</span>
+<span class="w">    </span><span class="sd">"""Return the edge radius for this box body.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        spec: Reads `rounding`; falls back to half the wall thickness.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        The radius in mm. ``0`` disables rounding entirely.</span>
+
 <span class="sd">    """</span>
     <span class="n">explicit</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">rounding</span>
     <span class="k">if</span> <span class="n">explicit</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -495,14 +500,14 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_top_anchor</span><span class="p">():</span>
-<span class="w">    </span><span class="sd">"""The TOP anchor, imported lazily so this module has no import-time pybosl2."""</span>
+<span class="w">    </span><span class="sd">"""Return the TOP anchor, imported lazily so this module has no import-time pybosl2."""</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">Anchor</span>
 
     <span class="k">return</span> <span class="n">Anchor</span><span class="o">.</span><span class="n">TOP</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_hole_flare</span><span class="p">(</span><span class="n">wall_thickness</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">hole</span><span class="p">,</span> <span class="n">reach</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">ends</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""The face fillet an exterior finger hole's cut is built with.</span>
+<span class="w">    </span><span class="sd">"""Return the face fillet an exterior finger hole's cut is built with.</span>
 
 <span class="sd">    The fillet is made by flaring the sweep's ends, and the flare is isotropic</span>
 <span class="sd">    in the profile plane — it grows down past the outline's flat bottom exactly</span>
@@ -543,6 +548,7 @@
 <span class="sd">    Returns:</span>
 <span class="sd">        One message per conflict, naming both features and where they are.</span>
 <span class="sd">        Empty when the cuts are clear of each other.</span>
+
 <span class="sd">    """</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.builders._base</span><span class="w"> </span><span class="kn">import</span> <span class="n">FingerHoleBuilder</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">MagnetType</span>
@@ -621,7 +627,7 @@
 
 <div class="viewcode-block" id="apply_finger_holes">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.shell.apply_finger_holes.html#pyboxbuilder.box.shell.apply_finger_holes">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">apply_finger_holes</span><span class="p">(</span><span class="n">body</span><span class="p">:</span> <span class="s2">"Bosl2Solid"</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Bosl2Solid"</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">apply_finger_holes</span><span class="p">(</span><span class="n">body</span><span class="p">:</span> <span class="n">Bosl2Solid</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Cut any exterior finger holes out of a box body (FR-006).</span>
 
 <span class="sd">    A hole on the outside of a box is the same cut as a compartment's wall</span>
@@ -640,6 +646,7 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        The body with every hole subtracted; unchanged when there are none.</span>
+
 <span class="sd">    """</span>
     <span class="n">holes</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">finger_holes</span> <span class="ow">or</span> <span class="p">()</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">holes</span><span class="p">:</span>
@@ -746,7 +753,7 @@
 <div class="viewcode-block" id="no_lid_finger_holes">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.shell.no_lid_finger_holes.html#pyboxbuilder.box.shell.no_lid_finger_holes">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">no_lid_finger_holes</span><span class="p">(</span><span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">"""The finger holes a no-lid box cuts into its longer walls (FR-047).</span>
+<span class="w">    </span><span class="sd">"""Return the finger holes a no-lid box cuts into its longer walls (FR-047).</span>
 
 <span class="sd">    An open tray is lifted by the rim, so the original (`no_lid.scad`) puts a</span>
 <span class="sd">    finger dip into each wall of the longer dimension. The sizing is a formula</span>
@@ -781,6 +788,7 @@
 <span class="sd">    Returns:</span>
 <span class="sd">        A tuple of `FingerHoleBuilder`s — one per longer wall — or an empty</span>
 <span class="sd">        tuple when the holes would not fit.</span>
+
 <span class="sd">    """</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.builders._base</span><span class="w"> </span><span class="kn">import</span> <span class="n">FingerHoleBuilder</span>
 
@@ -832,7 +840,7 @@
 <div class="viewcode-block" id="with_no_lid_finger_holes">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.shell.with_no_lid_finger_holes.html#pyboxbuilder.box.shell.with_no_lid_finger_holes">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">with_no_lid_finger_holes</span><span class="p">(</span><span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BoxSpec</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""A no-lid spec with its default finger holes, unless it already has some.</span>
+<span class="w">    </span><span class="sd">"""Return a no-lid spec with its default finger holes, unless it already has some.</span>
 
 <span class="sd">    Idempotent: an explicit ``finger_hole(side)`` call on the builder wins, and</span>
 <span class="sd">    a second call to this changes nothing. A spec that sets</span>
@@ -850,6 +858,7 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        The spec, or a copy carrying the automatic pair.</span>
+
 <span class="sd">    """</span>
     <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">auto_finger_holes</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">spec</span><span class="o">.</span><span class="n">finger_holes</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">spec</span><span class="o">.</span><span class="n">path</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">replace</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="n">finger_holes</span><span class="o">=</span><span class="n">no_lid_finger_holes</span><span class="p">(</span><span class="n">spec</span><span class="p">))</span>
@@ -859,8 +868,8 @@
 
 <div class="viewcode-block" id="interior_block">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.shell.interior_block.html#pyboxbuilder.box.shell.interior_block">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">interior_block</span><span class="p">(</span><span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Bosl2Solid"</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""The solid that `build_shell` removes — the box's full interior volume.</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">interior_block</span><span class="p">(</span><span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Return the solid that `build_shell` removes — the box's full interior volume.</span>
 
 <span class="sd">    The void's **bottom edges are rounded**, which is what leaves a fillet</span>
 <span class="sd">    inside the box: a void slightly smaller where it meets the floor means the</span>
@@ -880,6 +889,7 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        The interior volume, positioned in the box frame.</span>
+
 <span class="sd">    """</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">Anchor</span><span class="p">,</span> <span class="n">cuboid</span>
 
@@ -901,7 +911,7 @@
 
 <div class="viewcode-block" id="round_inner_rim">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.shell.round_inner_rim.html#pyboxbuilder.box.shell.round_inner_rim">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">round_inner_rim</span><span class="p">(</span><span class="n">body</span><span class="p">:</span> <span class="s2">"Bosl2Solid"</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Bosl2Solid"</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">round_inner_rim</span><span class="p">(</span><span class="n">body</span><span class="p">:</span> <span class="n">Bosl2Solid</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Round the **inner** top edge of a lidless box's rim (FR-043f).</span>
 
 <span class="sd">    An open tray's rim is exposed on both faces — it is the edge a hand runs</span>
@@ -928,6 +938,7 @@
 <span class="sd">    Returns:</span>
 <span class="sd">        The body with its inner rim rounded, or unchanged when the box is</span>
 <span class="sd">        lidded, solid, or too small to carry the fillet.</span>
+
 <span class="sd">    """</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2.path2d</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path2D</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2.shapes3d.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">CsgSolid</span>

@@ -326,6 +326,7 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        Hex-encoded SHA-256 hash string.</span>
+
 <span class="sd">    """</span>
     <span class="n">input_data</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">input_data</span><span class="p">)</span>
     <span class="n">input_data</span><span class="p">[</span><span class="s2">"bgtk_version"</span><span class="p">]</span> <span class="o">=</span> <span class="n">BGTK_VERSION</span>
@@ -341,6 +342,7 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        The full cache dictionary. Empty dict if file doesn't exist.</span>
+
 <span class="sd">    """</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">CACHE_FILE</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
         <span class="k">return</span> <span class="p">{}</span>
@@ -360,6 +362,7 @@
 
 <span class="sd">    Args:</span>
 <span class="sd">        cache: The full cache dictionary to persist.</span>
+
 <span class="sd">    """</span>
     <span class="n">CACHE_FILE</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">CACHE_FILE</span><span class="p">,</span> <span class="s2">"w"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
@@ -379,6 +382,7 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        The cached value, or None if not found.</span>
+
 <span class="sd">    """</span>
     <span class="k">global</span> <span class="n">_memory_cache</span>
     <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">_memory_cache</span><span class="p">:</span>
@@ -401,6 +405,7 @@
 <span class="sd">    Args:</span>
 <span class="sd">        key: SHA-256 hash key.</span>
 <span class="sd">        value: The value to cache (must be JSON-serializable).</span>
+
 <span class="sd">    """</span>
     <span class="k">global</span> <span class="n">_memory_cache</span>
     <span class="n">_memory_cache</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>

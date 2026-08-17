@@ -1426,11 +1426,11 @@ precision argument on functions that have nothing else to do with it.</p>
 <p class="rubric">Functions</p>
 <table class="autosummary longtable docutils data align-default">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="pyboxbuilder.precision.describe.html#pyboxbuilder.precision.describe" title="pyboxbuilder.precision.describe (Python function) — The precision in force, as a fingerprintable record."><code class="xref py py-obj docutils literal notranslate"><span class="pre">describe</span></code></a></p></td>
-<td><p>The precision in force, as a fingerprintable record.</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="pyboxbuilder.precision.describe.html#pyboxbuilder.precision.describe" title="pyboxbuilder.precision.describe (Python function) — Return the precision in force, as a fingerprintable record."><code class="xref py py-obj docutils literal notranslate"><span class="pre">describe</span></code></a></p></td>
+<td><p>Return the precision in force, as a fingerprintable record.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="pyboxbuilder.precision.export_facets.html#pyboxbuilder.precision.export_facets" title="pyboxbuilder.precision.export_facets (Python function) — The facet count a final export uses when the caller names none."><code class="xref py py-obj docutils literal notranslate"><span class="pre">export_facets</span></code></a></p></td>
-<td><p>The facet count a final export uses when the caller names none.</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="pyboxbuilder.precision.export_facets.html#pyboxbuilder.precision.export_facets" title="pyboxbuilder.precision.export_facets (Python function) — Return the facet count a final export uses when the caller names none."><code class="xref py py-obj docutils literal notranslate"><span class="pre">export_facets</span></code></a></p></td>
+<td><p>Return the facet count a final export uses when the caller names none.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="pyboxbuilder.precision.kwargs.html#pyboxbuilder.precision.kwargs" title="pyboxbuilder.precision.kwargs (Python function) — Shorthand for precision().kwargs() at a geometry call site."><code class="xref py py-obj docutils literal notranslate"><span class="pre">kwargs</span></code></a></p></td>
 <td><p>Shorthand for <code class="docutils literal notranslate"><span class="pre">precision().kwargs()</span></code> at a geometry call site.</p></td>
@@ -1487,7 +1487,7 @@ it into any curve-producing constructor:
 <dl class="py function objdesc">
 <dt class="sig sig-object highlight py" id="pyboxbuilder.precision.describe">
 <span class="sig-prename descclassname"><span class="pre">pyboxbuilder.precision.</span></span><span class="sig-name descname"><span class="pre">describe</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span></span></span></span><a class="reference internal" href="../_modules/pyboxbuilder/precision.html#describe"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyboxbuilder.precision.describe" title="Link to this definition">¶</a></dt>
-<dd><p>The precision in force, as a fingerprintable record.</p>
+<dd><p>Return the precision in force, as a fingerprintable record.</p>
 <p>A piece built at 12 facets per circle and the same piece built at 256 are
 different geometry, so an export fingerprint has to carry this (FR-046).</p>
 <dl class="field-list simple">
@@ -1500,7 +1500,7 @@ different geometry, so an export fingerprint has to carry this (FR-046).</p>
 <dl class="py function objdesc">
 <dt class="sig sig-object highlight py" id="pyboxbuilder.precision.export_facets">
 <span class="sig-prename descclassname"><span class="pre">pyboxbuilder.precision.</span></span><span class="sig-name descname"><span class="pre">export_facets</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></span></span><a class="reference internal" href="../_modules/pyboxbuilder/precision.html#export_facets"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyboxbuilder.precision.export_facets" title="Link to this definition">¶</a></dt>
-<dd><p>The facet count a final export uses when the caller names none.</p>
+<dd><p>Return the facet count a final export uses when the caller names none.</p>
 <dl class="field-list simple">
 <dt class="field-odd" id="pyboxbuilder.precision.export_facets-returns">Returns<span class="colon">:</span><a class="headerlink" href="#pyboxbuilder.precision.export_facets-returns" title="Permalink to this headline">¶</a></dt>
 <dd class="field-odd"><p><a class="reference internal" href="#pyboxbuilder.precision.EXPORT_FN" title="pyboxbuilder.precision.EXPORT_FN (Python data) — Facets per circle for a final export, when the caller names no precision."><code class="xref py py-data docutils literal notranslate"><span class="pre">EXPORT_FN</span></code></a>, or the value of <a class="reference internal" href="#pyboxbuilder.precision.EXPORT_FN_ENV" title="pyboxbuilder.precision.EXPORT_FN_ENV (Python data) — Environment variable overriding EXPORT_FN, for draft builds."><code class="xref py py-data docutils literal notranslate"><span class="pre">EXPORT_FN_ENV</span></code></a> when that is

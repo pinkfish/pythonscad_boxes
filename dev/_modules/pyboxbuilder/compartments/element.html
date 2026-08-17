@@ -313,8 +313,9 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Sequence</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">replace</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Sequence</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">ElementShape</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.precision</span><span class="w"> </span><span class="kn">import</span> <span class="n">kwargs</span> <span class="k">as</span> <span class="n">precision_kwargs</span>
@@ -368,6 +369,7 @@
 <span class="w">    </span><span class="sd">"""Width of the pull-out across the slot. ``None`` uses a fingertip width."""</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Validate the element's shape and size."""</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">shape</span> <span class="ow">is</span> <span class="n">ElementShape</span><span class="o">.</span><span class="n">SVG</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">shape_file</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
                 <span class="s2">"CompartmentElement with shape=SVG requires shape_file="</span>
@@ -429,7 +431,7 @@
 
 <div class="viewcode-block" id="CompartmentElement.translated">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.compartments.element.CompartmentElement.html#pyboxbuilder.CompartmentElement.translated">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">translated</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dx</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">dy</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"CompartmentElement"</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">translated</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dx</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">dy</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CompartmentElement</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Return a copy shifted by (dx, dy) in the pack frame."""</span>
         <span class="k">return</span> <span class="n">replace</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">offset</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">dx</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">offset</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">dy</span><span class="p">))</span></div>
 </div>
@@ -484,6 +486,7 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        (width, length) of the compartment needed to hold the pack, in mm.</span>
+
 <span class="sd">    """</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">elements</span><span class="p">:</span>
         <span class="k">return</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
@@ -532,6 +535,7 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        The placed copies, in order.</span>
+
 <span class="sd">    """</span>
     <span class="n">out</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">count</span><span class="p">):</span>
@@ -586,7 +590,7 @@
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.compartments.element.build_element.html#pyboxbuilder.build_element">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">build_element</span><span class="p">(</span>
     <span class="n">element</span><span class="p">:</span> <span class="n">CompartmentElement</span><span class="p">,</span> <span class="n">default_depth</span><span class="p">:</span> <span class="nb">float</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Bosl2Solid"</span><span class="p">:</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Build the cutout solid for one element, in the compartment's local frame.</span>
 
 <span class="sd">    pybosl2 primitives are centre-anchored, so each branch below builds its shape</span>
@@ -638,7 +642,7 @@
 
 <div class="viewcode-block" id="svg_solid">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.compartments.element.svg_solid.html#pyboxbuilder.svg_solid">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">svg_solid</span><span class="p">(</span><span class="n">shape_file</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">depth</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Bosl2Solid"</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">svg_solid</span><span class="p">(</span><span class="n">shape_file</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">depth</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Extrude an SVG outline and scale it to fill `width` x `length` x `depth`.</span>
 
 <span class="sd">    Returned centred on the origin, matching every pybosl2 primitive, so callers</span>
@@ -684,8 +688,8 @@
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.compartments.element.build_pull_out.html#pyboxbuilder.build_pull_out">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">build_pull_out</span><span class="p">(</span>
     <span class="n">element</span><span class="p">:</span> <span class="n">CompartmentElement</span><span class="p">,</span> <span class="n">default_depth</span><span class="p">:</span> <span class="nb">float</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Bosl2Solid | None"</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""The finger dish that lets a piece be lifted out of its slot.</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Return the finger dish that lets a piece be lifted out of its slot.</span>
 
 <span class="sd">    Cut across the slot and **curved in from the surrounding floor** on both</span>
 <span class="sd">    sides, so a finger slides down into it rather than meeting a step. Without</span>
@@ -702,6 +706,7 @@
 
 <span class="sd">    Raises:</span>
 <span class="sd">        ValueError: If the element has no resolved size.</span>
+
 <span class="sd">    """</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">element</span><span class="o">.</span><span class="n">pull_out</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">None</span>
@@ -740,7 +745,7 @@
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.compartments.element.build_element_pack.html#pyboxbuilder.build_element_pack">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">build_element_pack</span><span class="p">(</span>
     <span class="n">elements</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CompartmentElement</span><span class="p">],</span> <span class="n">default_depth</span><span class="p">:</span> <span class="nb">float</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Bosl2Solid | None"</span><span class="p">:</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Union every element cutout in a pack. Returns None for an empty pack."""</span>
     <span class="n">pieces</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="n">elements</span><span class="p">:</span>
@@ -752,7 +757,7 @@
 
 <div class="viewcode-block" id="union_all">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.compartments.element.union_all.html#pyboxbuilder.union_all">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">union_all</span><span class="p">(</span><span class="n">solids</span><span class="p">:</span> <span class="nb">list</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Bosl2Solid | None"</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">union_all</span><span class="p">(</span><span class="n">solids</span><span class="p">:</span> <span class="nb">list</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Union a list of solids with a balanced fold.</span>
 
 <span class="sd">    A left fold builds a chain as deep as the list, which the mesher pays for on</span>
@@ -763,7 +768,7 @@
     <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">solids</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
         <span class="n">solids</span> <span class="o">=</span> <span class="p">[</span>
             <span class="n">a</span> <span class="o">|</span> <span class="n">b</span> <span class="k">if</span> <span class="n">b</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">a</span>
-            <span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">solids</span><span class="p">[::</span><span class="mi">2</span><span class="p">],</span> <span class="nb">list</span><span class="p">(</span><span class="n">solids</span><span class="p">[</span><span class="mi">1</span><span class="p">::</span><span class="mi">2</span><span class="p">])</span> <span class="o">+</span> <span class="p">[</span><span class="kc">None</span><span class="p">])</span>
+            <span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">solids</span><span class="p">[::</span><span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="o">*</span><span class="nb">list</span><span class="p">(</span><span class="n">solids</span><span class="p">[</span><span class="mi">1</span><span class="p">::</span><span class="mi">2</span><span class="p">]),</span> <span class="kc">None</span><span class="p">],</span> <span class="n">strict</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
         <span class="p">]</span>
     <span class="k">return</span> <span class="n">solids</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span></div>
 

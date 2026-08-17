@@ -339,7 +339,7 @@
 <span class="k">class</span><span class="w"> </span><span class="nc">DecoratedLid</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""A decorated lid, plus any parts that print in their own colour."""</span>
 
-    <span class="n">solid</span><span class="p">:</span> <span class="s2">"Bosl2Solid"</span>
+    <span class="n">solid</span><span class="p">:</span> <span class="n">Bosl2Solid</span>
     <span class="n">inserts</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span>
 <span class="w">    </span><span class="sd">"""Coloured positives, kept separate in mmu mode and fused in single mode."""</span>
 
@@ -351,11 +351,11 @@
 <div class="viewcode-block" id="decorate_lid">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.lid.decorate.decorate_lid.html#pyboxbuilder.lid.decorate.decorate_lid">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">decorate_lid</span><span class="p">(</span>
-    <span class="n">lid</span><span class="p">:</span> <span class="s2">"Bosl2Solid"</span><span class="p">,</span>
-    <span class="n">builder</span><span class="p">:</span> <span class="s2">"LidBuilder | None"</span><span class="p">,</span>
+    <span class="n">lid</span><span class="p">:</span> <span class="n">Bosl2Solid</span><span class="p">,</span>
+    <span class="n">builder</span><span class="p">:</span> <span class="n">LidBuilder</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">lid_thickness</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">mode</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"mmu"</span><span class="p">,</span>
-    <span class="n">body_color</span><span class="p">:</span> <span class="s2">"Color | None"</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">body_color</span><span class="p">:</span> <span class="n">Color</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DecoratedLid</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Apply a lid's label, pattern and colours to its geometry.</span>
 
@@ -369,6 +369,7 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        The decorated lid and its coloured inserts.</span>
+
 <span class="sd">    """</span>
     <span class="k">if</span> <span class="n">lid</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">builder</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">DecoratedLid</span><span class="p">(</span><span class="n">solid</span><span class="o">=</span><span class="n">lid</span><span class="p">)</span>
@@ -396,7 +397,7 @@
 
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">_top_face</span><span class="p">(</span><span class="n">lid</span><span class="p">:</span> <span class="s2">"Bosl2Solid"</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_top_face</span><span class="p">(</span><span class="n">lid</span><span class="p">:</span> <span class="n">Bosl2Solid</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""(width, length, origin_x, origin_y, top_z) of the lid's upper surface."""</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="p">(</span><span class="n">cx</span><span class="p">,</span> <span class="n">cy</span><span class="p">,</span> <span class="n">cz</span><span class="p">),</span> <span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">h</span><span class="p">)</span> <span class="o">=</span> <span class="n">lid</span><span class="o">.</span><span class="n">bounds</span><span class="p">()</span>
@@ -408,15 +409,15 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_cut_pattern</span><span class="p">(</span>
-    <span class="n">lid</span><span class="p">:</span> <span class="s2">"Bosl2Solid"</span><span class="p">,</span>
-    <span class="n">builder</span><span class="p">:</span> <span class="s2">"LidBuilder"</span><span class="p">,</span>
+    <span class="n">lid</span><span class="p">:</span> <span class="n">Bosl2Solid</span><span class="p">,</span>
+    <span class="n">builder</span><span class="p">:</span> <span class="n">LidBuilder</span><span class="p">,</span>
     <span class="n">width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">origin_x</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">origin_y</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">top_z</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">lid_thickness</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Bosl2Solid"</span><span class="p">:</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Cut the through-hole pattern into the lid, clear of its border."""</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.shell</span><span class="w"> </span><span class="kn">import</span> <span class="n">block</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.lid.pattern</span><span class="w"> </span><span class="kn">import</span> <span class="n">build_pattern</span>
@@ -443,7 +444,7 @@
     <span class="k">return</span> <span class="n">lid</span> <span class="o">-</span> <span class="p">(</span><span class="n">holes</span> <span class="o">&amp;</span> <span class="n">block</span><span class="p">([</span><span class="n">area_w</span><span class="p">,</span> <span class="n">area_l</span><span class="p">,</span> <span class="n">depth</span><span class="p">],</span> <span class="n">at</span><span class="o">=</span><span class="n">base</span><span class="p">))</span>
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">_place_by_corner</span><span class="p">(</span><span class="n">solid</span><span class="p">:</span> <span class="s2">"Bosl2Solid"</span><span class="p">,</span> <span class="n">at</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Bosl2Solid"</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_place_by_corner</span><span class="p">(</span><span class="n">solid</span><span class="p">:</span> <span class="n">Bosl2Solid</span><span class="p">,</span> <span class="n">at</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Move a solid so its bounding box's minimum corner lands on `at`."""</span>
     <span class="p">(</span><span class="n">cx</span><span class="p">,</span> <span class="n">cy</span><span class="p">,</span> <span class="n">cz</span><span class="p">),</span> <span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">h</span><span class="p">)</span> <span class="o">=</span> <span class="n">solid</span><span class="o">.</span><span class="n">bounds</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">solid</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span>
@@ -453,7 +454,7 @@
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_apply_label</span><span class="p">(</span>
     <span class="n">result</span><span class="p">:</span> <span class="n">DecoratedLid</span><span class="p">,</span>
-    <span class="n">builder</span><span class="p">:</span> <span class="s2">"LidBuilder"</span><span class="p">,</span>
+    <span class="n">builder</span><span class="p">:</span> <span class="n">LidBuilder</span><span class="p">,</span>
     <span class="n">width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">origin_x</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
@@ -502,7 +503,7 @@
         <span class="n">result</span><span class="o">.</span><span class="n">inserts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_coloured</span><span class="p">(</span><span class="n">onto_face</span><span class="p">(</span><span class="n">label</span><span class="o">.</span><span class="n">backing</span><span class="p">),</span> <span class="n">builder</span><span class="o">.</span><span class="n">frame_color</span><span class="p">))</span>
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">_with_accent_colors</span><span class="p">(</span><span class="n">builder</span><span class="p">:</span> <span class="s2">"LidBuilder"</span><span class="p">,</span> <span class="n">body_color</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"LidBuilder"</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_with_accent_colors</span><span class="p">(</span><span class="n">builder</span><span class="p">:</span> <span class="n">LidBuilder</span><span class="p">,</span> <span class="n">body_color</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LidBuilder</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Fill in the accent colours the caller left unset (FR-022).</span>
 
 <span class="sd">    An unset accent is not a subtle default — it is no colour at all, so the</span>
@@ -515,6 +516,7 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        The configuration with text, frame and pattern colours resolved.</span>
+
 <span class="sd">    """</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">replace</span>
 

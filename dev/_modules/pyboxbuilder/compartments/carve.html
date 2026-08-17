@@ -313,7 +313,8 @@
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Sequence</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Sequence</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.interior</span><span class="w"> </span><span class="kn">import</span> <span class="n">Interior</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">ScoopSide</span>
@@ -333,7 +334,7 @@
 
 <div class="viewcode-block" id="compartment_floor_z">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.compartments.carve.compartment_floor_z.html#pyboxbuilder.compartments.carve.compartment_floor_z">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">compartment_floor_z</span><span class="p">(</span><span class="n">placement</span><span class="p">:</span> <span class="s2">"CompartmentPlacement"</span><span class="p">,</span> <span class="n">interior</span><span class="p">:</span> <span class="n">Interior</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">compartment_floor_z</span><span class="p">(</span><span class="n">placement</span><span class="p">:</span> <span class="n">CompartmentPlacement</span><span class="p">,</span> <span class="n">interior</span><span class="p">:</span> <span class="n">Interior</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Z of a compartment's floor.</span>
 
 <span class="sd">    Wells are cut from the top down: the floor sits `depth` below the interior</span>
@@ -348,12 +349,12 @@
 <div class="viewcode-block" id="build_compartment_well">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.compartments.carve.build_compartment_well.html#pyboxbuilder.compartments.carve.build_compartment_well">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">build_compartment_well</span><span class="p">(</span>
-    <span class="n">placement</span><span class="p">:</span> <span class="s2">"CompartmentPlacement"</span><span class="p">,</span>
+    <span class="n">placement</span><span class="p">:</span> <span class="n">CompartmentPlacement</span><span class="p">,</span>
     <span class="n">interior</span><span class="p">:</span> <span class="n">Interior</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">rounded_corners</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
     <span class="n">bottom_rounding</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Bosl2Solid"</span><span class="p">:</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Build a compartment's well — the part that stays inside the walls.</span>
 
 <span class="sd">    Args:</span>
@@ -367,6 +368,7 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        The cutout, positioned in the box frame.</span>
+
 <span class="sd">    """</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">Anchor</span><span class="p">,</span> <span class="n">cuboid</span>
 
@@ -407,7 +409,7 @@
 
 <div class="viewcode-block" id="default_scoop_side">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.compartments.carve.default_scoop_side.html#pyboxbuilder.compartments.carve.default_scoop_side">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">default_scoop_side</span><span class="p">(</span><span class="n">placement</span><span class="p">:</span> <span class="s2">"CompartmentPlacement"</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ScoopSide</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">default_scoop_side</span><span class="p">(</span><span class="n">placement</span><span class="p">:</span> <span class="n">CompartmentPlacement</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ScoopSide</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Which wall a scoop goes in when the compartment does not say.</span>
 
 <span class="sd">    The **shorter** wall. A card stack is lifted out across its narrow</span>
@@ -419,6 +421,7 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        `LEFT` when the footprint is wider than it is long, else `FRONT`.</span>
+
 <span class="sd">    """</span>
     <span class="n">width</span><span class="p">,</span> <span class="n">length</span> <span class="o">=</span> <span class="n">placement</span><span class="o">.</span><span class="n">size</span>
     <span class="k">return</span> <span class="n">ScoopSide</span><span class="o">.</span><span class="n">LEFT</span> <span class="k">if</span> <span class="n">width</span> <span class="o">&gt;</span> <span class="n">length</span> <span class="k">else</span> <span class="n">ScoopSide</span><span class="o">.</span><span class="n">FRONT</span></div>
@@ -428,12 +431,12 @@
 <div class="viewcode-block" id="build_compartment_scoop">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.compartments.carve.build_compartment_scoop.html#pyboxbuilder.compartments.carve.build_compartment_scoop">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">build_compartment_scoop</span><span class="p">(</span>
-    <span class="n">placement</span><span class="p">:</span> <span class="s2">"CompartmentPlacement"</span><span class="p">,</span>
+    <span class="n">placement</span><span class="p">:</span> <span class="n">CompartmentPlacement</span><span class="p">,</span>
     <span class="n">interior</span><span class="p">:</span> <span class="n">Interior</span><span class="p">,</span>
     <span class="n">scoop_side</span><span class="p">:</span> <span class="n">ScoopSide</span> <span class="o">=</span> <span class="n">ScoopSide</span><span class="o">.</span><span class="n">FRONT</span><span class="p">,</span>
     <span class="n">top_z</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">cut</span><span class="p">:</span> <span class="s2">"Cut | None"</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Bosl2Solid"</span><span class="p">:</span>
+    <span class="n">cut</span><span class="p">:</span> <span class="n">Cut</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Build a compartment's finger scoop — the part that pierces a wall.</span>
 
 <span class="sd">    The wall thickness is read off the interior frame (its origin is inset by</span>
@@ -453,6 +456,7 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        The scoop cutout, positioned in the box frame.</span>
+
 <span class="sd">    """</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.builders._base</span><span class="w"> </span><span class="kn">import</span> <span class="n">Cut</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.compartments.finger_cuts</span><span class="w"> </span><span class="kn">import</span> <span class="n">build_cut</span>
@@ -494,8 +498,8 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_place</span><span class="p">(</span>
-    <span class="n">solid</span><span class="p">:</span> <span class="s2">"Bosl2Solid"</span><span class="p">,</span> <span class="n">placement</span><span class="p">:</span> <span class="s2">"CompartmentPlacement"</span><span class="p">,</span> <span class="n">interior</span><span class="p">:</span> <span class="n">Interior</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Bosl2Solid"</span><span class="p">:</span>
+    <span class="n">solid</span><span class="p">:</span> <span class="n">Bosl2Solid</span><span class="p">,</span> <span class="n">placement</span><span class="p">:</span> <span class="n">CompartmentPlacement</span><span class="p">,</span> <span class="n">interior</span><span class="p">:</span> <span class="n">Interior</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Move a compartment-local solid into the box frame."""</span>
     <span class="k">return</span> <span class="n">solid</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span>
         <span class="n">placement</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
@@ -515,8 +519,8 @@
 
 <div class="viewcode-block" id="tray_rounding">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.compartments.carve.tray_rounding.html#pyboxbuilder.compartments.carve.tray_rounding">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">tray_rounding</span><span class="p">(</span><span class="n">placement</span><span class="p">:</span> <span class="s2">"CompartmentPlacement"</span><span class="p">,</span> <span class="n">builder</span><span class="p">:</span> <span class="nb">object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""The radius for a tray well's vertical corners and its floor.</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">tray_rounding</span><span class="p">(</span><span class="n">placement</span><span class="p">:</span> <span class="n">CompartmentPlacement</span><span class="p">,</span> <span class="n">builder</span><span class="p">:</span> <span class="nb">object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Return the radius for a tray well's vertical corners and its floor.</span>
 
 <span class="sd">    Rounding is **opt-in**: a well is square unless its builder says it holds</span>
 <span class="sd">    loose pieces. That is the right default because most wells are shaped by</span>
@@ -534,6 +538,7 @@
 <span class="sd">    Returns:</span>
 <span class="sd">        The radius in mm: ``depth × 2/3``, capped so it can neither swallow the</span>
 <span class="sd">        well's footprint nor exceed its depth.</span>
+
 <span class="sd">    """</span>
     <span class="n">explicit</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">builder</span><span class="p">,</span> <span class="s2">"rounded_corners"</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span> <span class="ow">or</span> <span class="mf">0.0</span>
     <span class="k">if</span> <span class="n">explicit</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
@@ -554,15 +559,15 @@
 <div class="viewcode-block" id="build_contents">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.compartments.carve.build_contents.html#pyboxbuilder.compartments.carve.build_contents">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">build_contents</span><span class="p">(</span>
-    <span class="n">placements</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="s2">"CompartmentPlacement"</span><span class="p">],</span>
+    <span class="n">placements</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">CompartmentPlacement</span><span class="p">],</span>
     <span class="n">interior</span><span class="p">:</span> <span class="n">Interior</span><span class="p">,</span>
     <span class="n">builders</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">clip</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="n">top_z</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">default_side</span><span class="p">:</span> <span class="n">ScoopSide</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">wall_tops</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">mask</span><span class="p">:</span> <span class="s2">"Bosl2Solid | None"</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Bosl2Solid | None"</span><span class="p">:</span>
+    <span class="n">mask</span><span class="p">:</span> <span class="n">Bosl2Solid</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Union the cutouts for every placed compartment. None when there are none.</span>
 
 <span class="sd">    Wells and finger scoops are treated differently on purpose: a well must stay</span>
@@ -589,6 +594,7 @@
 <span class="sd">        default_side: The box type's preferred scoop wall, used when the</span>
 <span class="sd">            compartment names none. A sliding box insists on the wall its lid</span>
 <span class="sd">            leaves by; most types have no opinion and leave it to the shape.</span>
+
 <span class="sd">    """</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.compartments.element</span><span class="w"> </span><span class="kn">import</span> <span class="n">union_all</span>
 
@@ -636,8 +642,8 @@
 
 <div class="viewcode-block" id="interior_mouth">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.compartments.carve.interior_mouth.html#pyboxbuilder.compartments.carve.interior_mouth">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">interior_mouth</span><span class="p">(</span><span class="n">interior</span><span class="p">:</span> <span class="n">Interior</span><span class="p">,</span> <span class="n">headroom</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1000.0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Bosl2Solid"</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""The open volume above the interior ceiling — the box's mouth.</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">interior_mouth</span><span class="p">(</span><span class="n">interior</span><span class="p">:</span> <span class="n">Interior</span><span class="p">,</span> <span class="n">headroom</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1000.0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Return the open volume above the interior ceiling — the box's mouth.</span>
 
 <span class="sd">    Runs from the ceiling up past the top of any box, so whatever the type puts</span>
 <span class="sd">    between the interior and the rim is cleared away and the wells are reachable.</span>
@@ -657,8 +663,8 @@
 
 <div class="viewcode-block" id="interior_column">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.compartments.carve.interior_column.html#pyboxbuilder.compartments.carve.interior_column">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">interior_column</span><span class="p">(</span><span class="n">interior</span><span class="p">:</span> <span class="n">Interior</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Bosl2Solid"</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""A tall prism over the interior footprint, used to clip compartments.</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">interior_column</span><span class="p">(</span><span class="n">interior</span><span class="p">:</span> <span class="n">Interior</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Return a tall prism over the interior footprint, used to clip compartments.</span>
 
 <span class="sd">    Clipping is in X/Y only: a cutout must never break through a side wall, but</span>
 <span class="sd">    it does have to run out through the top of the box, which is where pieces go</span>

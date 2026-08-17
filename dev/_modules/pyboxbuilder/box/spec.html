@@ -471,12 +471,13 @@
 
 <div class="viewcode-block" id="BoxSpec.interior">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.spec.BoxSpec.html#pyboxbuilder.box.spec.BoxSpec.interior">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">interior</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Interior"</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">"""The usable volume inside this box.</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">interior</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Interior</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Return the usable volume inside this box.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            An :class:`~pyboxbuilder.box.interior.Interior` in the box's own</span>
 <span class="sd">            frame, inset by the wall on the sides and the floor below.</span>
+
 <span class="sd">        """</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.interior</span><span class="w"> </span><span class="kn">import</span> <span class="n">Interior</span>
 
@@ -501,6 +502,7 @@
 
 <span class="sd">        Returns:</span>
 <span class="sd">            The z of the wall's top.</span>
+
 <span class="sd">        """</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">interior_top</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">interior_top</span><span class="p">)</span>
@@ -518,14 +520,15 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            That wall's top, or :meth:`default_wall_top` if this spec carries</span>
 <span class="sd">            no per-side map yet.</span>
+
 <span class="sd">        """</span>
         <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">wall_tops</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">side</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">default_wall_top</span><span class="p">()))</span></div>
 
 
 <div class="viewcode-block" id="BoxSpec.with_wall_tops">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.spec.BoxSpec.html#pyboxbuilder.box.spec.BoxSpec.with_wall_tops">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">with_wall_tops</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">box</span><span class="p">:</span> <span class="nb">object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"BoxSpec"</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">"""This spec with each wall's top resolved for a box type.</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">with_wall_tops</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">box</span><span class="p">:</span> <span class="nb">object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BoxSpec</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Return this spec with each wall's top resolved for a box type.</span>
 
 <span class="sd">        The four walls of a box do **not** have to end at the same height, and</span>
 <span class="sd">        assuming they do is how a scoop ends up hanging in space: a sliding</span>
@@ -538,9 +541,10 @@
 
 <span class="sd">        Returns:</span>
 <span class="sd">            A copy carrying a complete ``wall_tops`` map.</span>
+
 <span class="sd">        """</span>
         <span class="n">fallback</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">default_wall_top</span><span class="p">()</span>
-        <span class="n">tops</span> <span class="o">=</span> <span class="p">{</span><span class="n">side</span><span class="p">:</span> <span class="n">fallback</span> <span class="k">for</span> <span class="n">side</span> <span class="ow">in</span> <span class="n">ScoopSide</span><span class="p">}</span>
+        <span class="n">tops</span> <span class="o">=</span> <span class="nb">dict</span><span class="o">.</span><span class="n">fromkeys</span><span class="p">(</span><span class="n">ScoopSide</span><span class="p">,</span> <span class="n">fallback</span><span class="p">)</span>
         <span class="n">hook</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">box</span><span class="p">,</span> <span class="s2">"wall_tops"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">hook</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">side</span><span class="p">,</span> <span class="n">z</span> <span class="ow">in</span> <span class="p">(</span><span class="n">hook</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="ow">or</span> <span class="p">{})</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
@@ -580,6 +584,7 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        The assembled :class:`BoxSpec`.</span>
+
 <span class="sd">    """</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.registry</span><span class="w"> </span><span class="kn">import</span> <span class="n">LIDLESS_BOX_TYPES</span>
 
@@ -621,7 +626,7 @@
 <div class="viewcode-block" id="describe">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.spec.describe.html#pyboxbuilder.box.spec.describe">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">describe</span><span class="p">(</span><span class="n">builder</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""A JSON-serialisable description of everything that shapes a box.</span>
+<span class="w">    </span><span class="sd">"""Return a JSON-serialisable description of everything that shapes a box.</span>
 
 <span class="sd">    Used to fingerprint an exported piece (FR-031): two runs of an unchanged</span>
 <span class="sd">    project describe their boxes identically, so nothing is rewritten.</span>
@@ -632,6 +637,7 @@
 <span class="sd">    Returns:</span>
 <span class="sd">        A dict of the builder's geometry-bearing fields, its compartments and</span>
 <span class="sd">        its lid decoration.</span>
+
 <span class="sd">    """</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">plain</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">field_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">"""Reduce a value to something `json.dumps(default=str)` compares."""</span>
@@ -665,6 +671,7 @@
 <span class="sd">    Returns:</span>
 <span class="sd">        A hex digest, or a marker naming the problem — which still differs from</span>
 <span class="sd">        the digest, so a file that appears later counts as a change.</span>
+
 <span class="sd">    """</span>
     <span class="kn">import</span><span class="w"> </span><span class="nn">hashlib</span>
 

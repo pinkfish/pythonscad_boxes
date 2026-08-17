@@ -1591,8 +1591,8 @@ with five knuckles by the geometry and three by the builder that configured it.<
 <tr class="row-odd"><td><p><a class="reference internal" href="pyboxbuilder.box.spec.build_spec.html#pyboxbuilder.box.spec.build_spec" title="pyboxbuilder.box.spec.build_spec (Python function) — Assemble the one description this box is built from."><code class="xref py py-obj docutils literal notranslate"><span class="pre">build_spec</span></code></a></p></td>
 <td><p>Assemble the one description this box is built from.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="pyboxbuilder.box.spec.describe.html#pyboxbuilder.box.spec.describe" title="pyboxbuilder.box.spec.describe (Python function) — A JSON-serialisable description of everything that shapes a box."><code class="xref py py-obj docutils literal notranslate"><span class="pre">describe</span></code></a></p></td>
-<td><p>A JSON-serialisable description of everything that shapes a box.</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="pyboxbuilder.box.spec.describe.html#pyboxbuilder.box.spec.describe" title="pyboxbuilder.box.spec.describe (Python function) — Return a JSON-serialisable description of everything that shapes a box."><code class="xref py py-obj docutils literal notranslate"><span class="pre">describe</span></code></a></p></td>
+<td><p>Return a JSON-serialisable description of everything that shapes a box.</p></td>
 </tr>
 </tbody>
 </table>
@@ -1623,7 +1623,7 @@ buried under the lid.</p>
 <dl class="py method objdesc">
 <dt class="sig sig-object highlight py" id="pyboxbuilder.box.spec.BoxSpec.interior">
 <span class="sig-name descname"><span class="pre">interior</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="desctype"><a class="reference internal" href="pyboxbuilder.box.base.html#pyboxbuilder.box.base.Interior" title="pyboxbuilder.box.base.Interior (Python class) — Bases: object"><span class="pre">Interior</span></a></span></span></span><a class="reference internal" href="../_modules/pyboxbuilder/box/spec.html#BoxSpec.interior"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyboxbuilder.box.spec.BoxSpec.interior" title="Link to this definition">¶</a></dt>
-<dd><p>The usable volume inside this box.</p>
+<dd><p>Return the usable volume inside this box.</p>
 <dl class="field-list simple">
 <dt class="field-odd" id="pyboxbuilder.box.spec.BoxSpec.interior-returns">Returns<span class="colon">:</span><a class="headerlink" href="#pyboxbuilder.box.spec.BoxSpec.interior-returns" title="Permalink to this headline">¶</a></dt>
 <dd class="field-odd"><p>An <a class="reference internal" href="pyboxbuilder.box.interior.Interior.html#pyboxbuilder.box.interior.Interior" title="pyboxbuilder.box.interior.Interior (Python class) — Bases: object"><code class="xref py py-class docutils literal notranslate"><span class="pre">Interior</span></code></a> in the box’s own
@@ -1653,7 +1653,7 @@ no per-side map yet.</p>
 <dl class="py method objdesc">
 <dt class="sig sig-object highlight py" id="pyboxbuilder.box.spec.BoxSpec.with_wall_tops">
 <span class="sig-name descname"><span class="pre">with_wall_tops</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="pyboxbuilder.box.spec.BoxSpec.html#pyboxbuilder.box.spec.BoxSpec.with_wall_tops.box" title="pyboxbuilder.box.spec.BoxSpec.with_wall_tops.box (Python parameter) — The box type implementation, whose wall_tops hook may raise or lower individual sides."><span class="n"><span class="pre">box</span></span></a><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><span class="pre">object</span></a></span></span></em></span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="desctype"><a class="reference internal" href="pyboxbuilder.box.spec.BoxSpec.html#pyboxbuilder.box.spec.BoxSpec" title="pyboxbuilder.box.spec.BoxSpec (Python class) — Bases: object"><span class="pre">BoxSpec</span></a></span></span></span><a class="reference internal" href="../_modules/pyboxbuilder/box/spec.html#BoxSpec.with_wall_tops"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyboxbuilder.box.spec.BoxSpec.with_wall_tops" title="Link to this definition">¶</a></dt>
-<dd><p>This spec with each wall’s top resolved for a box type.</p>
+<dd><p>Return this spec with each wall’s top resolved for a box type.</p>
 <p>The four walls of a box do <strong>not</strong> have to end at the same height, and
 assuming they do is how a scoop ends up hanging in space: a sliding
 box’s exit wall stops a lid thickness below the others, because that is
@@ -1964,7 +1964,7 @@ quarter of the covered height, held between 3mm and 6mm (FR-002p).</p>
 <dt class="sig sig-object highlight py" id="pyboxbuilder.box.spec.BoxSpec.wall_tops">
 <span class="sig-name descname"><span class="pre">wall_tops</span></span><span class="p"> <span class="pre">:</span> </span><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="pyboxbuilder.enums.ScoopSide.html#pyboxbuilder.enums.ScoopSide" title="pyboxbuilder.enums.ScoopSide (Python class) — Bases: Enum"><span class="pre">ScoopSide</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#pyboxbuilder.box.spec.BoxSpec.wall_tops" title="Link to this definition">¶</a></dt>
 <dd><p>The z of each wall’s top, per side (FR-070). Filled in by
-<a class="reference internal" href="pyboxbuilder.box.spec.BoxSpec.html#pyboxbuilder.box.spec.BoxSpec.with_wall_tops" title="pyboxbuilder.box.spec.BoxSpec.with_wall_tops (Python method) — This spec with each wall's top resolved for a box type."><code class="xref py py-meth docutils literal notranslate"><span class="pre">with_wall_tops()</span></code></a>; empty until then.</p>
+<a class="reference internal" href="pyboxbuilder.box.spec.BoxSpec.html#pyboxbuilder.box.spec.BoxSpec.with_wall_tops" title="pyboxbuilder.box.spec.BoxSpec.with_wall_tops (Python method) — Return this spec with each wall's top resolved for a box type."><code class="xref py py-meth docutils literal notranslate"><span class="pre">with_wall_tops()</span></code></a>; empty until then.</p>
 </dd></dl>
 
 <dl class="py attribute objdesc">
@@ -2002,7 +2002,7 @@ the thicknesses and rounding a box does not override.</p>
 <dl class="py function objdesc">
 <dt class="sig sig-object highlight py" id="pyboxbuilder.box.spec.describe">
 <span class="sig-prename descclassname"><span class="pre">pyboxbuilder.box.spec.</span></span><span class="sig-name descname"><span class="pre">describe</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="pyboxbuilder.box.spec.describe.html#pyboxbuilder.box.spec.describe.builder" title="pyboxbuilder.box.spec.describe.builder (Python parameter) — The box builder to describe."><span class="n"><span class="pre">builder</span></span></a></em></span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><span class="pre">dict</span></a></span></span></span><a class="reference internal" href="../_modules/pyboxbuilder/box/spec.html#describe"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyboxbuilder.box.spec.describe" title="Link to this definition">¶</a></dt>
-<dd><p>A JSON-serialisable description of everything that shapes a box.</p>
+<dd><p>Return a JSON-serialisable description of everything that shapes a box.</p>
 <p>Used to fingerprint an exported piece (FR-031): two runs of an unchanged
 project describe their boxes identically, so nothing is rewritten.</p>
 <dl class="field-list simple">

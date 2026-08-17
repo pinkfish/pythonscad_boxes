@@ -317,7 +317,8 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Sequence</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Sequence</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.spec</span><span class="w"> </span><span class="kn">import</span> <span class="n">BoxSpec</span>
 
@@ -328,7 +329,7 @@
 <div class="viewcode-block" id="default_rounding">
 <a class="viewcode-back" href="../../_autosummary/pyboxbuilder.rounding.default_rounding.html#pyboxbuilder.rounding.default_rounding">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">default_rounding</span><span class="p">(</span><span class="n">wall_thickness</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""The default edge radius for a wall of the given thickness.</span>
+<span class="w">    </span><span class="sd">"""Return the default edge radius for a wall of the given thickness.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        wall_thickness: The box's wall thickness in mm.</span>
@@ -336,6 +337,7 @@
 <span class="sd">    Returns:</span>
 <span class="sd">        ``wall_thickness / 2`` — a 1mm fillet on a typical 2mm wall, which</span>
 <span class="sd">        FR-044 names as an acceptable default.</span>
+
 <span class="sd">    """</span>
     <span class="k">return</span> <span class="n">wall_thickness</span> <span class="o">/</span> <span class="mi">2</span></div>
 
@@ -355,7 +357,7 @@
 <div class="viewcode-block" id="mating_rounding">
 <a class="viewcode-back" href="../../_autosummary/pyboxbuilder.rounding.mating_rounding.html#pyboxbuilder.rounding.mating_rounding">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">mating_rounding</span><span class="p">(</span><span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""The radius for surfaces where a partial lid grips the body.</span>
+<span class="w">    </span><span class="sd">"""Return the radius for surfaces where a partial lid grips the body.</span>
 
 <span class="sd">    Both halves of the grip use this same value, so the lid's inner corners</span>
 <span class="sd">    nest over the body's band corners instead of meeting them at a gap.</span>
@@ -366,6 +368,7 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        The radius in mm; ``0`` leaves the mating corners square.</span>
+
 <span class="sd">    """</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.shell</span><span class="w"> </span><span class="kn">import</span> <span class="n">body_rounding</span>
 
@@ -390,7 +393,7 @@
 <div class="viewcode-block" id="lid_rounding">
 <a class="viewcode-back" href="../../_autosummary/pyboxbuilder.rounding.lid_rounding.html#pyboxbuilder.rounding.lid_rounding">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">lid_rounding</span><span class="p">(</span><span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""The edge radius for a lid, capped so it keeps enough support.</span>
+<span class="w">    </span><span class="sd">"""Return the edge radius for a lid, capped so it keeps enough support.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        spec: Reads `rounding` (or derives the body default) and</span>
@@ -399,6 +402,7 @@
 <span class="sd">    Returns:</span>
 <span class="sd">        The radius in mm — the body radius, but never more than half the lid's</span>
 <span class="sd">        thickness.</span>
+
 <span class="sd">    """</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.shell</span><span class="w"> </span><span class="kn">import</span> <span class="n">body_rounding</span>
 
@@ -417,8 +421,8 @@
     <span class="n">rounding</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">edges</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">,</span>
     <span class="n">at</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Bosl2Solid"</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""A corner-placed block with some of its edges rounded.</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Return a corner-placed block with some of its edges rounded.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        size: The block's ``(width, length, height)``.</span>
@@ -430,6 +434,7 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        The block, rounded where asked.</span>
+
 <span class="sd">    """</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">cuboid</span>
 
@@ -458,6 +463,7 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        The pybosl2 ``edges=`` selector naming all four vertical edges.</span>
+
 <span class="sd">    """</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">Anchor</span>
 
@@ -473,10 +479,11 @@
 <span class="sd">    Returns:</span>
 <span class="sd">        The pybosl2 ``edges=`` selector for the edges a hand grips on a box</span>
 <span class="sd">        body, leaving the top rim alone because that is where a lid mates.</span>
+
 <span class="sd">    """</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">Anchor</span>
 
-    <span class="k">return</span> <span class="n">vertical_edges</span><span class="p">()</span> <span class="o">+</span> <span class="p">[</span><span class="n">Anchor</span><span class="o">.</span><span class="n">BOTTOM</span><span class="p">]</span></div>
+    <span class="k">return</span> <span class="p">[</span><span class="o">*</span><span class="n">vertical_edges</span><span class="p">(),</span> <span class="n">Anchor</span><span class="o">.</span><span class="n">BOTTOM</span><span class="p">]</span></div>
 
 
 
@@ -488,17 +495,18 @@
 <span class="sd">    Returns:</span>
 <span class="sd">        The pybosl2 ``edges=`` selector for the four vertical corners and the</span>
 <span class="sd">        top face's edges — the exposed edges of a closed box's upper surface.</span>
+
 <span class="sd">    """</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">Anchor</span>
 
-    <span class="k">return</span> <span class="n">vertical_edges</span><span class="p">()</span> <span class="o">+</span> <span class="p">[</span><span class="n">Anchor</span><span class="o">.</span><span class="n">TOP</span><span class="p">]</span></div>
+    <span class="k">return</span> <span class="p">[</span><span class="o">*</span><span class="n">vertical_edges</span><span class="p">(),</span> <span class="n">Anchor</span><span class="o">.</span><span class="n">TOP</span><span class="p">]</span></div>
 
 
 
 <div class="viewcode-block" id="max_radius">
 <a class="viewcode-back" href="../../_autosummary/pyboxbuilder.rounding.max_radius.html#pyboxbuilder.rounding.max_radius">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">max_radius</span><span class="p">(</span><span class="n">size</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">edges</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""The largest radius these edges can carry on a block of ``size``.</span>
+<span class="w">    </span><span class="sd">"""Return the largest radius these edges can carry on a block of ``size``.</span>
 
 <span class="sd">    A blanket ``min(size) / 2`` is the tempting guard and it is wrong often</span>
 <span class="sd">    enough to matter: it rejects an 8mm fillet on the floor of a 12mm-deep</span>
@@ -515,6 +523,7 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        The maximum radius in mm, or ``inf`` when no edge is selected.</span>
+
 <span class="sd">    """</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2._edges_lang</span><span class="w"> </span><span class="kn">import</span> <span class="n">EDGE_OFFSETS</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2._edges_lang</span><span class="w"> </span><span class="kn">import</span> <span class="n">edges</span> <span class="k">as</span> <span class="n">resolve</span>
@@ -541,8 +550,8 @@
     <span class="n">rounding</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">edges</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">,</span>
     <span class="n">at</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Bosl2Solid"</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""The material a rounding removes: the square block minus the rounded one.</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Return the material a rounding removes: the square block minus the rounded one.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        size: The block's ``(width, length, height)``.</span>
@@ -557,6 +566,7 @@
 <span class="sd">        ValueError: If ``rounding`` is not positive, or is at least half the</span>
 <span class="sd">            smallest dimension — a fillet that large has no flat face left to</span>
 <span class="sd">            blend into and folds the solid through itself.</span>
+
 <span class="sd">    """</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">cuboid</span>
 
@@ -607,6 +617,7 @@
 <span class="sd">        The precision in force, with a floor on the facet count so a small</span>
 <span class="sd">        radius still comes out curved rather than chamfered. An explicit,</span>
 <span class="sd">        higher ``fn`` from the caller wins.</span>
+
 <span class="sd">    """</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.precision</span><span class="w"> </span><span class="kn">import</span> <span class="n">precision</span>
 
@@ -620,7 +631,7 @@
 <div class="viewcode-block" id="roundover_profile">
 <a class="viewcode-back" href="../../_autosummary/pyboxbuilder.rounding.roundover_profile.html#pyboxbuilder.rounding.roundover_profile">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">roundover_profile</span><span class="p">(</span><span class="n">radius</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">steps</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">"""A sweep-end profile that **rounds the end face over** into the sweep.</span>
+<span class="w">    </span><span class="sd">"""Return a sweep-end profile that **rounds the end face over** into the sweep.</span>
 
 <span class="sd">    ``os_circle`` is the obvious choice and is the wrong shape: its arc is</span>
 <span class="sd">    tangent to the sweep's wall and meets the end face at 90°, which on a</span>
@@ -651,6 +662,7 @@
 <span class="sd">    Returns:</span>
 <span class="sd">        An ``OSProfile`` for :meth:`Path2D.offset_sweep`, whose ``x`` is the</span>
 <span class="sd">        inward offset and ``y`` the depth from the face.</span>
+
 <span class="sd">    """</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2.skin</span><span class="w"> </span><span class="kn">import</span> <span class="n">os_profile</span>
 
@@ -665,12 +677,12 @@
 <div class="viewcode-block" id="round_edges">
 <a class="viewcode-back" href="../../_autosummary/pyboxbuilder.rounding.round_edges.html#pyboxbuilder.rounding.round_edges">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">round_edges</span><span class="p">(</span>
-    <span class="n">solid</span><span class="p">:</span> <span class="s2">"Bosl2Solid"</span><span class="p">,</span>
+    <span class="n">solid</span><span class="p">:</span> <span class="n">Bosl2Solid</span><span class="p">,</span>
     <span class="n">size</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span>
     <span class="n">rounding</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">edges</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">,</span>
     <span class="n">at</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Bosl2Solid"</span><span class="p">:</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Round ``solid``'s edges over the envelope ``size`` at ``at``.</span>
 
 <span class="sd">    Args:</span>
@@ -684,6 +696,7 @@
 <span class="sd">    Returns:</span>
 <span class="sd">        The solid with those edges rounded. Material outside the envelope —</span>
 <span class="sd">        a hinge barrel, say — is untouched.</span>
+
 <span class="sd">    """</span>
     <span class="k">if</span> <span class="n">rounding</span> <span class="o">&lt;=</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">rounding</span> <span class="o">&gt;</span> <span class="n">max_radius</span><span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="n">edges</span><span class="p">):</span>
         <span class="c1"># Too large to be buildable on this piece; leave it square rather than</span>

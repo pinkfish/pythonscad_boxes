@@ -299,8 +299,9 @@
 <span></span><code><span class="c1"># SPDX-License-Identifier: Apache-2.0</span>
 <span class="sd">"""Compartment auto-layout — 2D shelf-based bin packing."""</span>
 
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Sequence</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">field</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Sequence</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.interior</span><span class="w"> </span><span class="kn">import</span> <span class="n">Interior</span>
 
@@ -330,6 +331,7 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        The same compartments, all seven fields long.</span>
+
 <span class="sd">    """</span>
     <span class="n">padding</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="p">())</span>
     <span class="k">return</span> <span class="p">[</span>
@@ -519,7 +521,7 @@
     <span class="n">max_w</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">max_l</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">"""The smallest box that holds these compartments.</span>
+<span class="w">    </span><span class="sd">"""Return the smallest box that holds these compartments.</span>
 
 <span class="sd">    With `max_w`/`max_l` given, lays the compartments out and measures the</span>
 <span class="sd">    result; otherwise estimates a square footprint.</span>
@@ -540,6 +542,7 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        The box's outer `(width, length, height)` in mm.</span>
+
 <span class="sd">    """</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">compartments</span><span class="p">:</span>
         <span class="k">return</span> <span class="p">(</span>
@@ -627,6 +630,7 @@
 <span class="sd">    Returns:</span>
 <span class="sd">        A list of lists containing the partitioned compartments for each bin,</span>
 <span class="sd">        or None if they cannot be successfully packed.</span>
+
 <span class="sd">    """</span>
     <span class="n">sorted_items</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">compartments</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">bins_content</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[[]</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">bin_sizes</span><span class="p">]</span>

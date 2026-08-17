@@ -347,7 +347,7 @@
 <span class="sd">    as a tray: its corners and floor round to ``depth × 2/3`` so a finger can</span>
 <span class="sd">    sweep a piece up the curve and out (FR-044f).</span>
 <span class="sd">    """</span>
-    <span class="n">cut</span><span class="p">:</span> <span class="s2">"Cut | None"</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">cut</span><span class="p">:</span> <span class="n">Cut</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="w">    </span><span class="sd">"""How this compartment's contents come out; ``None`` means no cut.</span>
 
 <span class="sd">    One setting rather than three (FR-006). It used to be a flag to ask for a</span>
@@ -372,6 +372,7 @@
 <span class="sd">    derived from the elements."""</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Validate the ratio fields lie in (0.0, 1.0]."""</span>
         <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="p">[(</span><span class="s2">"width_ratio"</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">width_ratio</span><span class="p">),</span> <span class="p">(</span><span class="s2">"length_ratio"</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">length_ratio</span><span class="p">)]:</span>
             <span class="k">if</span> <span class="n">val</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="p">(</span><span class="mf">0.0</span> <span class="o">&lt;</span> <span class="n">val</span> <span class="o">&lt;=</span> <span class="mf">1.0</span><span class="p">):</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
@@ -410,12 +411,13 @@
 <div class="viewcode-block" id="CompartmentBuilder.min_footprint">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.compartments.builder.CompartmentBuilder.html#pyboxbuilder.compartments.builder.CompartmentBuilder.min_footprint">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">min_footprint</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">"""What this compartment demands of a box that has no size yet.</span>
+<span class="w">        </span><span class="sd">"""Return what this compartment demands of a box that has no size yet.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            ``(label, width, length, depth)`` in mm, or ``None`` when the well</span>
 <span class="sd">            fills whatever it is given and so demands nothing — a box whose</span>
 <span class="sd">            wells all fill needs an explicit size, and says so.</span>
+
 <span class="sd">        """</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">fills_interior</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">size</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">None</span>
@@ -428,7 +430,7 @@
         <span class="bp">self</span><span class="p">,</span> <span class="n">interior_w</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">interior_l</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">interior_h</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
         <span class="n">siblings</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">"""This compartment as the layout engine takes it.</span>
+<span class="w">        </span><span class="sd">"""Return this compartment as the layout engine takes it.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            interior_w: Box interior width in mm.</span>
@@ -441,6 +443,7 @@
 
 <span class="sd">        Returns:</span>
 <span class="sd">            ``(label, width, length, depth, shape_file, position, elements)``.</span>
+
 <span class="sd">        """</span>
         <span class="n">width</span><span class="p">,</span> <span class="n">length</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">resolve_size</span><span class="p">(</span><span class="n">interior_w</span><span class="p">,</span> <span class="n">interior_l</span><span class="p">,</span> <span class="n">siblings</span><span class="p">)</span>
         <span class="k">return</span> <span class="p">(</span>
@@ -460,6 +463,7 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            The declared depth, or the full interior height when none was</span>
 <span class="sd">            given — a well with nothing said about it goes to the floor.</span>
+
 <span class="sd">        """</span>
         <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">depth</span><span class="p">)</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">depth</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="nb">float</span><span class="p">(</span><span class="n">interior_h</span><span class="p">)</span></div>
 
@@ -488,6 +492,7 @@
 
 <span class="sd">        Returns:</span>
 <span class="sd">            (width, length) in mm.</span>
+
 <span class="sd">        """</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.compartments.layout</span><span class="w"> </span><span class="kn">import</span> <span class="n">WALL_SPACING_MM</span>
 

@@ -318,6 +318,7 @@
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
+<span class="kn">import</span><span class="w"> </span><span class="nn">contextlib</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
 
@@ -326,7 +327,7 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_sidecar</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""The fingerprint record covering ``path``."""</span>
+<span class="w">    </span><span class="sd">"""Return the fingerprint record covering ``path``."""</span>
     <span class="k">return</span> <span class="n">path</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span> <span class="n">SIDECAR_NAME</span>
 
 
@@ -345,7 +346,7 @@
 <div class="viewcode-block" id="matches">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.export.fingerprint.matches.html#pyboxbuilder.export.fingerprint.matches">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">matches</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span> <span class="n">fingerprint</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""True when ``path`` on disk was built from this exact description.</span>
+<span class="w">    </span><span class="sd">"""Return True when ``path`` on disk was built from this exact description.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        path: The file that would be written.</span>
@@ -355,6 +356,7 @@
 <span class="sd">        True only when the file exists, is not empty, and its recorded</span>
 <span class="sd">        fingerprint is the one given. An unrecorded file is a miss, so a tree</span>
 <span class="sd">        exported by an older version rewrites once and then settles.</span>
+
 <span class="sd">    """</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">fingerprint</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
         <span class="k">return</span> <span class="kc">False</span>
@@ -370,15 +372,15 @@
 <span class="sd">    Args:</span>
 <span class="sd">        path: The file just written.</span>
 <span class="sd">        fingerprint: The digest of everything that decided its geometry.</span>
+
 <span class="sd">    """</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">fingerprint</span><span class="p">:</span>
         <span class="k">return</span>
     <span class="n">data</span> <span class="o">=</span> <span class="n">_load</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
     <span class="n">data</span><span class="p">[</span><span class="n">path</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">fingerprint</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="n">_sidecar</span><span class="p">(</span><span class="n">path</span><span class="p">)</span><span class="o">.</span><span class="n">write_text</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">sort_keys</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
-    <span class="k">except</span> <span class="ne">OSError</span><span class="p">:</span>
-        <span class="k">pass</span>  <span class="c1"># A cache that cannot be written is a cache miss next time.</span></div>
+    <span class="c1"># A cache that cannot be written is a cache miss next time.</span>
+    <span class="k">with</span> <span class="n">contextlib</span><span class="o">.</span><span class="n">suppress</span><span class="p">(</span><span class="ne">OSError</span><span class="p">):</span>
+        <span class="n">_sidecar</span><span class="p">(</span><span class="n">path</span><span class="p">)</span><span class="o">.</span><span class="n">write_text</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">sort_keys</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span></div>
 
 
 
@@ -389,13 +391,12 @@
 
 <span class="sd">    Args:</span>
 <span class="sd">        path: The file being removed.</span>
+
 <span class="sd">    """</span>
     <span class="n">data</span> <span class="o">=</span> <span class="n">_load</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">data</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">path</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="n">_sidecar</span><span class="p">(</span><span class="n">path</span><span class="p">)</span><span class="o">.</span><span class="n">write_text</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">sort_keys</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
-        <span class="k">except</span> <span class="ne">OSError</span><span class="p">:</span>
-            <span class="k">pass</span></div>
+        <span class="k">with</span> <span class="n">contextlib</span><span class="o">.</span><span class="n">suppress</span><span class="p">(</span><span class="ne">OSError</span><span class="p">):</span>
+            <span class="n">_sidecar</span><span class="p">(</span><span class="n">path</span><span class="p">)</span><span class="o">.</span><span class="n">write_text</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">sort_keys</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span></div>
 
 </code></pre></div>
 

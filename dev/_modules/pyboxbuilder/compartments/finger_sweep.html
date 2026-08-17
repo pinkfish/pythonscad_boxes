@@ -415,6 +415,7 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        The flare in mm — normally ``wall_thickness / 2``.</span>
+
 <span class="sd">    """</span>
     <span class="k">if</span> <span class="n">rounding_edge</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">rounding_edge</span> <span class="o">=</span> <span class="n">wall_thickness</span> <span class="o">/</span> <span class="mi">2</span>
@@ -432,9 +433,9 @@
     <span class="n">rounding_radius</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">span</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">radius</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
-    <span class="n">faces</span><span class="p">:</span> <span class="s2">"FaceTreatment"</span> <span class="o">=</span> <span class="n">FaceTreatment</span><span class="p">(),</span>
+    <span class="n">faces</span><span class="p">:</span> <span class="n">FaceTreatment</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">floor_thickness</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Bosl2Solid"</span><span class="p">:</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Sweep a 2-D scoop profile through a wall and place it on a side.</span>
 
 <span class="sd">    Shared by the edge scoop and the floor finger hole: the *profiles* differ</span>
@@ -465,7 +466,10 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        The cutout, positioned in the compartment frame.</span>
+
 <span class="sd">    """</span>
+    <span class="k">if</span> <span class="n">faces</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">faces</span> <span class="o">=</span> <span class="n">FaceTreatment</span><span class="p">()</span>
     <span class="n">rounding_edge</span> <span class="o">=</span> <span class="n">faces</span><span class="o">.</span><span class="n">fillet</span> <span class="k">if</span> <span class="n">faces</span><span class="o">.</span><span class="n">fillet</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">wall_thickness</span> <span class="o">/</span> <span class="mi">2</span>
     <span class="n">round_inner</span><span class="p">,</span> <span class="n">round_outer</span> <span class="o">=</span> <span class="n">faces</span><span class="o">.</span><span class="n">round_inner</span><span class="p">,</span> <span class="n">faces</span><span class="o">.</span><span class="n">round_outer</span>
     <span class="n">inner_overshoot</span> <span class="o">=</span> <span class="n">faces</span><span class="o">.</span><span class="n">inner_overshoot</span>

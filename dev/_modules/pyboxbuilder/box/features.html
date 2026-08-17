@@ -503,6 +503,7 @@
 <span class="sd">            the foot (FR-002n) — the smallest cap box is</span>
 <span class="sd">            ``lid + 3 + 4 + 2``. A cap box built without the cutouts has no way</span>
 <span class="sd">            to be opened, so this refuses rather than shrinking them.</span>
+
 <span class="sd">    """</span>
     <span class="n">m</span> <span class="o">=</span> <span class="n">cap_metrics</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
     <span class="n">lt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">lid_thickness</span>
@@ -589,8 +590,8 @@
 
 <div class="viewcode-block" id="cap_finger_cutouts">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.features.cap_finger_cutouts.html#pyboxbuilder.box.features.cap_finger_cutouts">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">cap_finger_cutouts</span><span class="p">(</span><span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Bosl2Solid"</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""The four corner cutouts that let a cap lid be pushed off (FR-002i).</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">cap_finger_cutouts</span><span class="p">(</span><span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Return the four corner cutouts that let a cap lid be pushed off (FR-002i).</span>
 
 <span class="sd">    Two wall scoops meeting at each corner — the same :func:`corner_catch` a</span>
 <span class="sd">    slipover sleeve uses, and the original toolkit's ``CornerCatch`` before</span>
@@ -609,6 +610,7 @@
 
 <span class="sd">    Raises:</span>
 <span class="sd">        ValueError: Via :func:`cap_finger_metrics`, when the box is too short.</span>
+
 <span class="sd">    """</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.compartments.element</span><span class="w"> </span><span class="kn">import</span> <span class="n">union_all</span>
 
@@ -648,8 +650,8 @@
 
 <div class="viewcode-block" id="cap_body">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.features.cap_body.html#pyboxbuilder.box.features.cap_body">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">cap_body</span><span class="p">(</span><span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Bosl2Solid"</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""A cap box's body: full footprint below, stepped in for the skirt above."""</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">cap_body</span><span class="p">(</span><span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Return a cap box's body: full footprint below, stepped in for the skirt above."""</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.shell</span><span class="w"> </span><span class="kn">import</span> <span class="n">block</span><span class="p">,</span> <span class="n">build_shell</span>
 
     <span class="n">m</span> <span class="o">=</span> <span class="n">cap_metrics</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
@@ -685,8 +687,8 @@
 
 <div class="viewcode-block" id="cap_lid">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.features.cap_lid.html#pyboxbuilder.box.features.cap_lid">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">cap_lid</span><span class="p">(</span><span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Bosl2Solid"</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""A cap box's lid: a plate whose skirt grips the body's stepped-in band.</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">cap_lid</span><span class="p">(</span><span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Return a cap box's lid: a plate whose skirt grips the body's stepped-in band.</span>
 
 <span class="sd">    Its outer face is the declared footprint and its top is the declared height,</span>
 <span class="sd">    so a closed cap box measures exactly what it was asked for.</span>
@@ -751,6 +753,7 @@
 <span class="sd">    Returns:</span>
 <span class="sd">        The gap in mm — a quarter of the covered height, held between</span>
 <span class="sd">        :data:`SLIPOVER_GAP_MIN_MM` and :data:`SLIPOVER_GAP_MAX_MM`.</span>
+
 <span class="sd">    """</span>
     <span class="n">explicit</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">slipover_gap</span>
     <span class="k">if</span> <span class="n">explicit</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -775,6 +778,7 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        ``(inset per side, body height)``.</span>
+
 <span class="sd">    """</span>
     <span class="n">wt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">wall_thickness</span>
     <span class="n">lt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">lid_thickness</span>
@@ -794,11 +798,11 @@
 <span class="sd">    half and adds its lid half, a knuckle adds both.</span>
 <span class="sd">    """</span>
 
-    <span class="n">body</span><span class="p">:</span> <span class="s2">"Bosl2Solid | None"</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">lid</span><span class="p">:</span> <span class="s2">"Bosl2Solid | None"</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">body_cut</span><span class="p">:</span> <span class="s2">"Bosl2Solid | None"</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">body</span><span class="p">:</span> <span class="n">Bosl2Solid</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">lid</span><span class="p">:</span> <span class="n">Bosl2Solid</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">body_cut</span><span class="p">:</span> <span class="n">Bosl2Solid</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="w">    </span><span class="sd">"""Volume the **body** must give up for the lid's half to move."""</span>
-    <span class="n">lid_cut</span><span class="p">:</span> <span class="s2">"Bosl2Solid | None"</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">lid_cut</span><span class="p">:</span> <span class="n">Bosl2Solid</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="w">    </span><span class="sd">"""Volume the **lid** must give up for the body's half.</span>
 
 <span class="sd">    Both directions are needed once a hinge sits inside the box: each half's</span>
@@ -808,8 +812,8 @@
 
 <div class="viewcode-block" id="Closure.require_lid">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.features.Closure.html#pyboxbuilder.box.features.Closure.require_lid">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">require_lid</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Bosl2Solid"</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">"""The lid half, for a closure that is required to have one.</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">require_lid</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Return the lid half, for a closure that is required to have one.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            None.</span>
@@ -822,6 +826,7 @@
 <span class="sd">                unioning two lid halves has no sensible answer without both,</span>
 <span class="sd">                and `None | solid` fails with a message about operand types</span>
 <span class="sd">                rather than about the geometry.</span>
+
 <span class="sd">        """</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">lid</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"this closure has no lid half to union"</span><span class="p">)</span>
@@ -836,7 +841,7 @@
 <div class="viewcode-block" id="rabbet">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.features.rabbet.html#pyboxbuilder.box.features.rabbet">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">rabbet</span><span class="p">(</span><span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">,</span> <span class="n">inset</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Closure</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""A ledge cut into the top rim, and the plate that drops into it.</span>
+<span class="w">    </span><span class="sd">"""Return a ledge cut into the top rim, and the plate that drops into it.</span>
 
 <span class="sd">    The lid finishes flush with the rim rather than sitting on top of it, which</span>
 <span class="sd">    is what makes an inset box stackable.</span>
@@ -845,6 +850,7 @@
 <span class="sd">        spec: Box dimensions; reads `wall_thickness` and `lid_thickness`.</span>
 <span class="sd">        inset: How far the ledge reaches in past the wall's inner face, so the</span>
 <span class="sd">            lid has something to rest on rather than falling through.</span>
+
 <span class="sd">    """</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.shell</span><span class="w"> </span><span class="kn">import</span> <span class="n">block</span>
 
@@ -872,7 +878,7 @@
 <div class="viewcode-block" id="sliding_dovetail">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.features.sliding_dovetail.html#pyboxbuilder.box.features.sliding_dovetail">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">sliding_dovetail</span><span class="p">(</span><span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">"""The dovetail depths that hold a sliding lid in its grooves.</span>
+<span class="w">    </span><span class="sd">"""Return the dovetail depths that hold a sliding lid in its grooves.</span>
 
 <span class="sd">    The lid's two long edges are angled — a dovetail — so the lid is trapped in</span>
 <span class="sd">    its grooves. In cross-section, perpendicular to the slide axis, the lid is a</span>
@@ -888,6 +894,7 @@
 <span class="sd">        ``(top, bottom)`` — how far the key reaches into each side wall at the</span>
 <span class="sd">        lid's top face and at its underside, in mm. The top is ``0`` (the lid's</span>
 <span class="sd">        top face is the interior width); the bottom is half the wall width.</span>
+
 <span class="sd">    """</span>
     <span class="n">wt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">wall_thickness</span>
     <span class="k">return</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">wt</span> <span class="o">/</span> <span class="mi">2</span></div>
@@ -897,7 +904,7 @@
 <div class="viewcode-block" id="lead_chamfer_size">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.features.lead_chamfer_size.html#pyboxbuilder.box.features.lead_chamfer_size">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">lead_chamfer_size</span><span class="p">(</span><span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""The slight chamfer that lets a lid start into its grooves (FR-002d).</span>
+<span class="w">    </span><span class="sd">"""Return the slight chamfer that lets a lid start into its grooves (FR-002d).</span>
 
 <span class="sd">    A **quarter** of the lid's thickness. It was half, which on a 2mm lid takes</span>
 <span class="sd">    the leading end down to a 1mm knife edge — enough of a taper to read as a</span>
@@ -910,6 +917,7 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        The chamfer depth in mm.</span>
+
 <span class="sd">    """</span>
     <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">lead_chamfer</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">spec</span><span class="o">.</span><span class="n">lead_chamfer</span>
@@ -920,7 +928,7 @@
 <div class="viewcode-block" id="lid_corner_rounding">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.features.lid_corner_rounding.html#pyboxbuilder.box.features.lid_corner_rounding">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">lid_corner_rounding</span><span class="p">(</span><span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""The radius on the sliding lid's leading corners (FR-002e4).</span>
+<span class="w">    </span><span class="sd">"""Return the radius on the sliding lid's leading corners (FR-002e4).</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        spec: Reads `wall_thickness`; an explicit `lid_corner_rounding` wins.</span>
@@ -929,6 +937,7 @@
 <span class="sd">        The radius in mm — a quarter of the wall by default, capped at the</span>
 <span class="sd">        dovetail's depth so the rounding cannot eat the key that retains the</span>
 <span class="sd">        lid.</span>
+
 <span class="sd">    """</span>
     <span class="n">wt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">wall_thickness</span>
     <span class="n">_</span><span class="p">,</span> <span class="n">bottom_key</span> <span class="o">=</span> <span class="n">sliding_dovetail</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
@@ -949,8 +958,8 @@
     <span class="n">height</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">z0</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">corner_rounding</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Bosl2Solid"</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""A prism dovetailed on its two flanks and, at the closed end, in depth.</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Return a prism dovetailed on its two flanks and, at the closed end, in depth.</span>
 
 <span class="sd">    Both faces are rectangles given by their **along**-axis span and their</span>
 <span class="sd">    **across**-axis width. The across width tapers between them — that is the</span>
@@ -1007,8 +1016,8 @@
     <span class="n">size</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">from_top</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">face_slope</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Bosl2Solid"</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""A 45° wedge beveling one of the lid's leading horizontal edges.</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Return a 45° wedge beveling one of the lid's leading horizontal edges.</span>
 
 <span class="sd">    ``lead`` is the leading end's coordinate along the slide axis at the face</span>
 <span class="sd">    being cut — the end that enters the box first. The wedge is ``size`` deep at</span>
@@ -1038,6 +1047,7 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        The wedge to subtract from the lid.</span>
+
 <span class="sd">    """</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2.shapes3d</span><span class="w"> </span><span class="kn">import</span> <span class="n">prismoid</span>
 
@@ -1071,7 +1081,7 @@
 <div class="viewcode-block" id="dovetail_track">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.features.dovetail_track.html#pyboxbuilder.box.features.dovetail_track">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">dovetail_track</span><span class="p">(</span><span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">,</span> <span class="n">along_axis</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"x"</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Closure</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""The dovetailed channel a lid slides in, and the lid that fills it.</span>
+<span class="w">    </span><span class="sd">"""Return the dovetailed channel a lid slides in, and the lid that fills it.</span>
 
 <span class="sd">    One slot does both halves of the job, because they are the same slot: it</span>
 <span class="sd">    leaves the interior clear at the top and bites half the wall width into</span>
@@ -1115,6 +1125,7 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        The channel to subtract from the body, and the lid that fills it.</span>
+
 <span class="sd">    """</span>
     <span class="n">wt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">wall_thickness</span>
     <span class="n">lt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">lid_thickness</span>
@@ -1187,7 +1198,7 @@
 <div class="viewcode-block" id="sliding_track">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.features.sliding_track.html#pyboxbuilder.box.features.sliding_track">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">sliding_track</span><span class="p">(</span><span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Closure</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""The sliding channel and lid, in the slide-along-X frame.</span>
+<span class="w">    </span><span class="sd">"""Return the sliding channel and lid, in the slide-along-X frame.</span>
 
 <span class="sd">    A thin wrapper over :func:`dovetail_track` for the types that always slide</span>
 <span class="sd">    along X (``SlidingCatchBox``, ``CardLibraryBox``).</span>
@@ -1201,7 +1212,7 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">sliding_catch</span><span class="p">(</span>
     <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">,</span> <span class="n">radius</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">along_axis</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"x"</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Closure</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""A bump-and-dimple detent that clicks the sliding lid shut (FR-002e1).</span>
+<span class="w">    </span><span class="sd">"""Return a bump-and-dimple detent that clicks the sliding lid shut (FR-002e1).</span>
 
 <span class="sd">    A pair of bumps on the lid drop into matching dimples in the two groove</span>
 <span class="sd">    walls. The dimple is cut a touch larger so the two are not an interference</span>
@@ -1226,6 +1237,7 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        The dimples to subtract from the body, and the bumps to add to the lid.</span>
+
 <span class="sd">    """</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">sphere</span>
 
@@ -1281,8 +1293,8 @@
     <span class="n">rounding_edge</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">top_rounding</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">bottom_rounding</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Bosl2Solid"</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""A finger notch wrapping a corner, as the original's ``CornerCatch``.</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Return a finger notch wrapping a corner, as the original's ``CornerCatch``.</span>
 
 <span class="sd">    Not a new shape: the original builds it as **two `FingerHoleWall` scoops</span>
 <span class="sd">    meeting at the corner**, one through each of the two walls, and this does</span>
@@ -1307,6 +1319,7 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        The solid to subtract from the piece.</span>
+
 <span class="sd">    """</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.compartments.element</span><span class="w"> </span><span class="kn">import</span> <span class="n">union_all</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.compartments.finger_cuts</span><span class="w"> </span><span class="kn">import</span> <span class="n">build_wall_scoop</span>
@@ -1354,8 +1367,8 @@
 
 <div class="viewcode-block" id="hinge_intrusion">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.features.hinge_intrusion.html#pyboxbuilder.box.features.hinge_intrusion">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">hinge_intrusion</span><span class="p">(</span><span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">,</span> <span class="n">filament_diameter</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.75</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Bosl2Solid"</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""The volume a hinge occupies inside the box, as a solid to subtract.</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">hinge_intrusion</span><span class="p">(</span><span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">,</span> <span class="n">filament_diameter</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.75</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Return the volume a hinge occupies inside the box, as a solid to subtract.</span>
 
 <span class="sd">    A hinge that sits inside the box's outline has to take that room from</span>
 <span class="sd">    somewhere, and it takes it from the interior: the barrel and the leaf webs</span>
@@ -1370,6 +1383,7 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        The solid the contents must keep clear of.</span>
+
 <span class="sd">    """</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.shell</span><span class="w"> </span><span class="kn">import</span> <span class="n">block</span>
 
@@ -1408,6 +1422,7 @@
 <span class="sd">        knuckles: Total knuckles across the hinge, alternating body and lid.</span>
 <span class="sd">        lid_thickness: Thickness of the leaf the lid's knuckles web into;</span>
 <span class="sd">            defaults to the spec's.</span>
+
 <span class="sd">    """</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">cylinder</span>
 
@@ -1533,7 +1548,7 @@
 
 <div class="viewcode-block" id="extrude_footprint">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.features.extrude_footprint.html#pyboxbuilder.box.features.extrude_footprint">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">extrude_footprint</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">height</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">base_z</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Bosl2Solid"</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">extrude_footprint</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">height</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">base_z</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Extrude a footprint outline upward from `base_z`.</span>
 
 <span class="sd">    `linear_extrude` is the one operation that already grows from its base</span>
@@ -1565,8 +1580,8 @@
 
 <div class="viewcode-block" id="path_cap">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.features.path_cap.html#pyboxbuilder.box.features.path_cap">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">path_cap</span><span class="p">(</span><span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">cap_height</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Bosl2Solid"</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""A cap whose skirt follows a polygon footprint instead of a rectangle.</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">path_cap</span><span class="p">(</span><span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">cap_height</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Return a cap whose skirt follows a polygon footprint instead of a rectangle.</span>
 
 <span class="sd">    Its outer face is the declared outline, so a closed box measures exactly</span>
 <span class="sd">    what it was asked for.</span>
@@ -1586,8 +1601,8 @@
 
 <div class="viewcode-block" id="path_sleeve">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.features.path_sleeve.html#pyboxbuilder.box.features.path_sleeve">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">path_sleeve</span><span class="p">(</span><span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">slip</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">foot</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Bosl2Solid"</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""A sleeve that slips over a polygon-footprint body, stopping at the foot."""</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">path_sleeve</span><span class="p">(</span><span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">slip</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">foot</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Return a sleeve that slips over a polygon-footprint body, stopping at the foot."""</span>
     <span class="n">lt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">lid_thickness</span>
     <span class="n">slack</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">slip_slack</span>
     <span class="n">inset</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">path_body_metrics</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>

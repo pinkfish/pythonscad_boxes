@@ -308,8 +308,8 @@
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">colorsys</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">hashlib</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Sequence</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Sequence</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">Color</span>
 
@@ -342,6 +342,7 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        A deterministic float in ``[0, 1)``.</span>
+
 <span class="sd">    """</span>
     <span class="n">digest</span> <span class="o">=</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">md5</span><span class="p">(</span><span class="n">label</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">"utf-8"</span><span class="p">))</span><span class="o">.</span><span class="n">digest</span><span class="p">()</span>
     <span class="k">return</span> <span class="nb">int</span><span class="o">.</span><span class="n">from_bytes</span><span class="p">(</span><span class="n">digest</span><span class="p">[:</span><span class="mi">4</span><span class="p">],</span> <span class="s2">"big"</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">**</span> <span class="mi">32</span>
@@ -360,6 +361,7 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        A saturated :class:`pybosl2.Color` whose hue is derived from the label.</span>
+
 <span class="sd">    """</span>
     <span class="n">r</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">colorsys</span><span class="o">.</span><span class="n">hsv_to_rgb</span><span class="p">(</span><span class="n">_stable_fraction</span><span class="p">(</span><span class="n">label</span><span class="p">),</span> <span class="n">_HUE_SATURATION</span><span class="p">,</span> <span class="n">_HUE_VALUE</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">Color</span><span class="p">([</span><span class="n">r</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">b</span><span class="p">])</span></div>
@@ -377,6 +379,7 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        A grey :class:`pybosl2.Color`, never a hue from the box palette.</span>
+
 <span class="sd">    """</span>
     <span class="n">level</span> <span class="o">=</span> <span class="n">_SPACER_GREY_MIN</span> <span class="o">+</span> <span class="n">_SPACER_GREY_SPAN</span> <span class="o">*</span> <span class="n">_stable_fraction</span><span class="p">(</span><span class="n">label</span> <span class="ow">or</span> <span class="s2">"spacer"</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">Color</span><span class="p">([</span><span class="n">level</span><span class="p">,</span> <span class="n">level</span><span class="p">,</span> <span class="n">level</span><span class="p">])</span></div>
@@ -394,6 +397,7 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        A new :class:`pybosl2.Color`; the input is not modified.</span>
+
 <span class="sd">    """</span>
     <span class="n">r</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span> <span class="o">=</span> <span class="n">color</span><span class="o">.</span><span class="n">rgba</span>
     <span class="k">return</span> <span class="n">Color</span><span class="p">([</span><span class="n">c</span> <span class="o">+</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">c</span><span class="p">)</span> <span class="o">*</span> <span class="n">amount</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">b</span><span class="p">)]</span> <span class="o">+</span> <span class="p">[</span><span class="n">a</span><span class="p">])</span></div>
@@ -411,6 +415,7 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        A new :class:`pybosl2.Color` with the given alpha.</span>
+
 <span class="sd">    """</span>
     <span class="n">r</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">color</span><span class="o">.</span><span class="n">rgba</span>
     <span class="k">return</span> <span class="n">Color</span><span class="p">([</span><span class="n">r</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">alpha</span><span class="p">])</span></div>
@@ -430,6 +435,7 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        A lighter, semi-transparent :class:`pybosl2.Color`.</span>
+
 <span class="sd">    """</span>
     <span class="k">return</span> <span class="n">with_alpha</span><span class="p">(</span><span class="n">lighten</span><span class="p">(</span><span class="n">box_color</span><span class="p">),</span> <span class="n">LID_ALPHA</span><span class="p">)</span></div>
 
@@ -448,6 +454,7 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        Sorted unique Z origins.</span>
+
 <span class="sd">    """</span>
     <span class="k">return</span> <span class="nb">sorted</span><span class="p">({</span><span class="nb">round</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="mi">6</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">placements</span><span class="p">})</span></div>
 
@@ -471,6 +478,7 @@
 
 <span class="sd">    Raises:</span>
 <span class="sd">        ValueError: If ``count`` is negative.</span>
+
 <span class="sd">    """</span>
     <span class="k">if</span> <span class="n">count</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"remove_layers must be &gt;= 0; got </span><span class="si">{</span><span class="n">count</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>

@@ -368,7 +368,7 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_orientations</span><span class="p">(</span><span class="n">size</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="n">no_rotate</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">"""The ways a box may be turned.</span>
+<span class="w">    </span><span class="sd">"""Return the ways a box may be turned.</span>
 
 <span class="sd">    Only the quarter turn about Z: a box printed with its lid on top has to stay</span>
 <span class="sd">    that way up.</span>
@@ -407,6 +407,7 @@
 <span class="sd">        node_budget: Search nodes before giving up. The 18-box Emberleaf layout</span>
 <span class="sd">            resolves in 3,237 of them, in about 30ms; the budget is headroom for</span>
 <span class="sd">            harder inputs, not a figure normal ones approach.</span>
+
 <span class="sd">    """</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">items</span><span class="p">:</span>
         <span class="k">return</span> <span class="p">[]</span>
@@ -428,7 +429,7 @@
     <span class="n">counts</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">group</span><span class="p">)</span> <span class="k">for</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">labels</span><span class="p">)</span>
     <span class="n">smallest_dim</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">size</span><span class="p">)</span> <span class="k">for</span> <span class="n">size</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">classes</span><span class="p">)</span>
     <span class="n">total_volume</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span>
-        <span class="n">n</span> <span class="o">*</span> <span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">size</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="n">_</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">counts</span><span class="p">,</span> <span class="n">classes</span><span class="p">)</span>
+        <span class="n">n</span> <span class="o">*</span> <span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">size</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="n">_</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">counts</span><span class="p">,</span> <span class="n">classes</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
     <span class="p">)</span>
 
     <span class="n">nodes</span> <span class="o">=</span> <span class="mi">0</span>
@@ -475,7 +476,7 @@
             <span class="k">if</span> <span class="ow">not</span> <span class="n">full</span> <span class="ow">or</span> <span class="n">gap_h</span> <span class="o">&lt;=</span> <span class="n">EPS</span><span class="p">:</span>
                 <span class="n">above</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">+</span> <span class="n">bh</span><span class="p">,</span> <span class="n">bw</span><span class="p">,</span> <span class="n">bl</span><span class="p">,</span> <span class="n">gap_h</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
                 <span class="k">yield</span> <span class="nb">tuple</span><span class="p">(</span>
-                    <span class="n">r</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">sides</span> <span class="o">+</span> <span class="p">(</span><span class="n">above</span><span class="p">,)</span>
+                    <span class="n">r</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="p">(</span><span class="o">*</span><span class="n">sides</span><span class="p">,</span> <span class="n">above</span><span class="p">)</span>
                     <span class="k">if</span> <span class="nb">min</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">r</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="n">r</span><span class="p">[</span><span class="mi">5</span><span class="p">])</span> <span class="o">&gt;</span> <span class="n">EPS</span> <span class="ow">and</span> <span class="n">usable</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
                 <span class="p">)</span>
 
@@ -491,7 +492,7 @@
                 <span class="c1"># it would leave a void with a box bridging over it.</span>
                 <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="ow">not</span> <span class="n">usable</span><span class="p">(</span><span class="n">r</span><span class="p">)</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">layer_sides</span><span class="p">):</span>
                     <span class="k">continue</span>
-                <span class="k">yield</span> <span class="n">layer_sides</span> <span class="o">+</span> <span class="p">((</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">+</span> <span class="n">bh</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">gap_h</span><span class="p">,</span> <span class="kc">False</span><span class="p">),)</span>
+                <span class="k">yield</span> <span class="p">(</span><span class="o">*</span><span class="n">layer_sides</span><span class="p">,</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">+</span> <span class="n">bh</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">gap_h</span><span class="p">,</span> <span class="kc">False</span><span class="p">))</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">solve</span><span class="p">(</span><span class="n">regions</span><span class="p">,</span> <span class="n">remaining</span><span class="p">,</span> <span class="n">need</span><span class="p">):</span>
         <span class="k">nonlocal</span> <span class="n">nodes</span>
@@ -562,9 +563,7 @@
                     <span class="n">need</span> <span class="o">-</span> <span class="n">turned</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">turned</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">turned</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
                 <span class="p">)</span>
                 <span class="k">if</span> <span class="n">tail</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                    <span class="k">return</span> <span class="p">[</span>
-                        <span class="p">(</span><span class="n">region</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">region</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">region</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">turned</span><span class="p">,</span> <span class="n">rotated</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
-                    <span class="p">]</span> <span class="o">+</span> <span class="n">tail</span>
+                    <span class="k">return</span> <span class="p">[(</span><span class="n">region</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">region</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">region</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">turned</span><span class="p">,</span> <span class="n">rotated</span><span class="p">,</span> <span class="n">i</span><span class="p">),</span> <span class="o">*</span><span class="n">tail</span><span class="p">]</span>
 
         <span class="c1"># Nothing fits, or nothing that fits leads anywhere. A plain region can</span>
         <span class="c1"># be given up as waste; one that owes a solid fill cannot.</span>

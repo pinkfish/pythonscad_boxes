@@ -314,10 +314,11 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Iterator</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">contextlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">contextmanager</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">contextvars</span><span class="w"> </span><span class="kn">import</span> <span class="n">ContextVar</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Iterator</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span>
 
 <span class="c1">#: Default minimum angle per fragment, in degrees (OpenSCAD's ``$fa``).</span>
 <span class="n">DEFAULT_FA</span> <span class="o">=</span> <span class="mf">12.0</span>
@@ -354,12 +355,13 @@
 <div class="viewcode-block" id="export_facets">
 <a class="viewcode-back" href="../../_autosummary/pyboxbuilder.precision.export_facets.html#pyboxbuilder.precision.export_facets">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">export_facets</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""The facet count a final export uses when the caller names none.</span>
+<span class="w">    </span><span class="sd">"""Return the facet count a final export uses when the caller names none.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        :data:`EXPORT_FN`, or the value of :data:`EXPORT_FN_ENV` when that is</span>
 <span class="sd">        set to a valid facet count (&gt;= 3). A malformed value is ignored rather</span>
 <span class="sd">        than raising, since it comes from the environment.</span>
+
 <span class="sd">    """</span>
     <span class="n">raw</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">EXPORT_FN_ENV</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">raw</span><span class="p">:</span>
@@ -397,6 +399,7 @@
 <span class="sd">        Raises:</span>
 <span class="sd">            ValueError: If ``fn`` is set below 3 (fewer than three facets is</span>
 <span class="sd">                not a curve), or if ``fa``/``fs`` is not positive.</span>
+
 <span class="sd">        """</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">fn</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">fn</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"fn must be &gt;= 3 when set; got </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">fn</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
@@ -414,6 +417,7 @@
 <span class="sd">            A dict carrying ``fa``/``fs``, plus ``fn`` when it is set. Splat</span>
 <span class="sd">            it into any curve-producing constructor:</span>
 <span class="sd">            ``cylinder(height=h, radius=r, **precision().kwargs())``.</span>
+
 <span class="sd">        """</span>
         <span class="c1"># Deliberately Any-valued: it is splatted into constructors whose</span>
         <span class="c1"># fn/fa/fs parameters have different types, and a narrower value type</span>
@@ -426,7 +430,8 @@
 
 
 
-<span class="n">_CURRENT</span><span class="p">:</span> <span class="n">ContextVar</span><span class="p">[</span><span class="n">Precision</span><span class="p">]</span> <span class="o">=</span> <span class="n">ContextVar</span><span class="p">(</span><span class="s2">"pyboxbuilder_precision"</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">Precision</span><span class="p">())</span>
+<span class="n">_DEFAULT_PRECISION</span> <span class="o">=</span> <span class="n">Precision</span><span class="p">()</span>
+<span class="n">_CURRENT</span><span class="p">:</span> <span class="n">ContextVar</span><span class="p">[</span><span class="n">Precision</span><span class="p">]</span> <span class="o">=</span> <span class="n">ContextVar</span><span class="p">(</span><span class="s2">"pyboxbuilder_precision"</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">_DEFAULT_PRECISION</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="precision">
@@ -437,6 +442,7 @@
 <span class="sd">    Returns:</span>
 <span class="sd">        The innermost :class:`Precision` set by :func:`use`, or the default</span>
 <span class="sd">        (``fa=12, fs=2``) outside any such block.</span>
+
 <span class="sd">    """</span>
     <span class="k">return</span> <span class="n">_CURRENT</span><span class="o">.</span><span class="n">get</span><span class="p">()</span></div>
 
@@ -445,13 +451,14 @@
 <div class="viewcode-block" id="describe">
 <a class="viewcode-back" href="../../_autosummary/pyboxbuilder.precision.describe.html#pyboxbuilder.precision.describe">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">describe</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">"""The precision in force, as a fingerprintable record.</span>
+<span class="w">    </span><span class="sd">"""Return the precision in force, as a fingerprintable record.</span>
 
 <span class="sd">    A piece built at 12 facets per circle and the same piece built at 256 are</span>
 <span class="sd">    different geometry, so an export fingerprint has to carry this (FR-046).</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        The current ``fn``/``fa``/``fs``.</span>
+
 <span class="sd">    """</span>
     <span class="n">current</span> <span class="o">=</span> <span class="n">precision</span><span class="p">()</span>
     <span class="k">return</span> <span class="p">{</span><span class="s2">"fn"</span><span class="p">:</span> <span class="n">current</span><span class="o">.</span><span class="n">fn</span><span class="p">,</span> <span class="s2">"fa"</span><span class="p">:</span> <span class="n">current</span><span class="o">.</span><span class="n">fa</span><span class="p">,</span> <span class="s2">"fs"</span><span class="p">:</span> <span class="n">current</span><span class="o">.</span><span class="n">fs</span><span class="p">}</span></div>
@@ -465,6 +472,7 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        The tessellation keyword arguments for the precision in force.</span>
+
 <span class="sd">    """</span>
     <span class="k">return</span> <span class="n">precision</span><span class="p">()</span><span class="o">.</span><span class="n">kwargs</span><span class="p">()</span></div>
 
@@ -493,6 +501,7 @@
 
 <span class="sd">    Raises:</span>
 <span class="sd">        ValueError: If any setting is out of range (see :class:`Precision`).</span>
+
 <span class="sd">    """</span>
     <span class="n">base</span> <span class="o">=</span> <span class="n">precision</span><span class="p">()</span>
     <span class="n">active</span> <span class="o">=</span> <span class="n">Precision</span><span class="p">(</span>
