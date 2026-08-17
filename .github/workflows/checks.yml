@@ -1,0 +1,30 @@
+name: checks
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  lint-and-type:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          # Matches [tool.mypy] python_version in pyproject.toml.
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e .
+          pip install ruff mypy
+
+      # Blocking, both of them. A lint or type check whose result is discarded
+      # is not a check.
+      - name: Lint
+        run: ruff check pyboxbuilder/ boxes/
+
+      - name: Type check
+        run: mypy pyboxbuilder/
