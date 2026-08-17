@@ -13,5 +13,3 @@ class FilamentHingeBoxBuilder(BoxBuilder):
     """Builder for filament (living) hinge lid box type."""
 
     box_type: ClassVar[BoxType] = BoxType.FILAMENT_HINGE
-    hinge_gap: float = 0.4
-    hinge_length: float = 4.0

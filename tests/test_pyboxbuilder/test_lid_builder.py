@@ -10,7 +10,7 @@ from pyboxbuilder.lid.builder import LidBuilder, PatternBuilder
 class PatternBuilderTests(unittest.TestCase):
     def test_defaults(self) -> None:
         pb = PatternBuilder()
-        self.assertEqual(pb.type, PatternType.HEX_GRID)
+        self.assertEqual(pb.type, PatternType.HEX)
         self.assertEqual(pb.colors, ())
         self.assertIsNone(pb.spacing)
 
@@ -42,10 +42,10 @@ class LidBuilderTests(unittest.TestCase):
         self.assertTrue(lb.diagonal)
 
     def test_with_pattern(self) -> None:
-        pb = PatternBuilder(type=PatternType.GRID, spacing=10.0)
+        pb = PatternBuilder(type=PatternType.SQUARE, spacing=10.0)
         lb = LidBuilder(text="Test", pattern=pb)
         self.assertIsNotNone(lb.pattern)
-        self.assertEqual(lb.pattern.type, PatternType.GRID)
+        self.assertEqual(lb.pattern.type, PatternType.SQUARE)
 
     def test_per_mode_override_mmu(self) -> None:
         """mmu_label overrides parent for MMU mode."""

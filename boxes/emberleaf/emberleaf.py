@@ -166,7 +166,7 @@ project = Project(
     generate_spacers=True,
 )
 
-LEAF_LID = PatternBuilder(type=PatternType.LEAF, spacing=10.0)
+LEAF_LID = PatternBuilder(type=PatternType.HEX, spacing=10.0)
 
 
 def player_box_elements(colour: str) -> tuple[CompartmentElement, ...]:

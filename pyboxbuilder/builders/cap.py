@@ -14,6 +14,4 @@ class CapBoxBuilder(BoxBuilder):
 
     box_type: ClassVar[BoxType] = BoxType.CAP
     cap_height: float | None = None
-    finger_hold_height: float | None = None
-    finger_hold_len: float | None = None
-    lid_wall_thickness: float | None = None
+    """Skirt height in mm; ``None`` derives it from the box height."""

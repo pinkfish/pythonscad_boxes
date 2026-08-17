@@ -16,12 +16,6 @@ class SlidingBoxBuilder(BoxBuilder):
 
     box_type: ClassVar[BoxType] = BoxType.SLIDING
 
-    two_layer: bool = False
-    """Use a two-layer sliding lid."""
-    two_layer_top_lid_ratio: float = 0.5
-    """Ratio of top lid layer thickness to total lid thickness."""
-    two_layer_vee_shape: bool = False
-    """Use vee-shaped interlocking on two-layer lids."""
     catch_radius: float | None = None
     """Bump-catch radius, or `None` for a plain sliding lid (FR-002e3).
 

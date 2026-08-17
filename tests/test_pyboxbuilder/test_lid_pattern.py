@@ -17,18 +17,26 @@ class PatternCoverageTests(unittest.TestCase):
                 self.assertIn(pt, _PATTERN_FILLS, f"{pt.name} missing fill")
 
     def test_no_fallback_to_grid(self):
-        """Each pattern resolves to a distinct fill; no single fallback."""
-        distinct_fills = {
-            _PATTERN_FILLS[pt] for pt in PatternType
-            if PatternType.__members__[pt.name] is pt and _PATTERN_FILLS.get(pt)
-        }
-        # Dense/lattice, pentagon, and tessellation groups each produce distinct callables
-        self.assertGreater(len(distinct_fills), 10)
+        """No two patterns share a fill — a catalog entry that silently drew
+        another pattern's shape is what this catalog was cut down to remove."""
+        fills = [_PATTERN_FILLS[pt] for pt in PatternType if pt is not PatternType.NONE]
+        self.assertEqual(len(set(fills)), len(fills))
+
+    def test_an_unregistered_pattern_is_refused_not_substituted(self):
+        """A missing fill must raise, never fall back to squares (FR-000c)."""
+        from unittest.mock import patch
+
+        from pyboxbuilder.lid.pattern import build_pattern
+
+        with patch.dict(_PATTERN_FILLS, clear=True):
+            with self.assertRaises(ValueError) as caught:
+                build_pattern(100.0, 70.0, 3.0, PatternType.HEX)
+        self.assertIn("HEX", str(caught.exception))
 
     def test_legacy_aliases_still_resolve(self):
         """HEX_GRID and GRID aliases still resolve to fill functions."""
-        self.assertIn(PatternType.HEX_GRID, _PATTERN_FILLS)
-        self.assertIn(PatternType.GRID, _PATTERN_FILLS)
+        self.assertIn(PatternType.HEX, _PATTERN_FILLS)
+        self.assertIn(PatternType.SQUARE, _PATTERN_FILLS)
 
     def test_unknown_pattern_raises(self):
         """No silent fallback: a missing fill should raise, not fall back."""

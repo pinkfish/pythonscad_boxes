@@ -143,10 +143,6 @@ class BoxSpec:
     """Number of knuckles along the hinge."""
     hinge_pin_diameter: float = 3.0
     """Diameter of the hinge pin, in mm."""
-    hinge_gap: float = 0.4
-    """Clearance between the two halves of a hinge."""
-    hinge_length: float = 4.0
-    """Length of each hinge knuckle along the barrel."""
     filament_diameter: float = 1.75
     """Diameter of the filament a living hinge is printed around."""
 

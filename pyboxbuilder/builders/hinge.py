@@ -13,6 +13,7 @@ class HingeBoxBuilder(BoxBuilder):
     """Builder for pin-hinge lid box type."""
 
     box_type: ClassVar[BoxType] = BoxType.HINGE
-    hinge_count: int = 3
-    hinge_diameter: float = 6.0
-    hinge_pin_diameter: float = 2.0
+    hinge_count: int | None = None
+    """Knuckles across the hinge; ``None`` uses the geometry's own default."""
+    hinge_pin_diameter: float | None = None
+    """Pin stock diameter in mm; ``None`` uses the geometry's own default."""

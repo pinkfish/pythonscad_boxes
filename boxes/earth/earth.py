@@ -132,7 +132,7 @@ fauna = project.box(
 )
 fauna.compartment("Cards", size=(CARD_W, CARD_L), depth=fauna_h - 3.6, cut=FingerCut.THROUGH_FLOOR)
 
-# Island (two_layer lid!)
+# Island
 island_h = 13.0
 island = project.box(
     BoxType.SLIDING,
@@ -141,7 +141,6 @@ island = project.box(
     position=(68.0, 99.0, 42.2),
     expandable=False,
     wall_thickness=3.0,
-    two_layer=True,
     lid=LidBuilder(text="Island", text_color=Color("white"), frame_color=Color("gold")),
 )
 island.compartment("Cards", size=(CARD_W, CARD_L), depth=island_h - 3.6, cut=FingerCut.THROUGH_FLOOR)

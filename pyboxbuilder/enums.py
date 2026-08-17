@@ -30,62 +30,34 @@ class LabelMode(Enum):
 
 
 class PatternType(Enum):
-    """Lid through-hole pattern type — full catalog ported from ShapeType."""
+    """Lid through-hole pattern (FR-023).
 
-    # Dense/lattice shapes
-    DENSE_HEX = "dense_hex"
-    DENSE_TRIANGLE = "dense_triangle"
-    CIRCLE = "circle"
-    HEX = "hex"
-    OCTOGON = "octogon"
-    TRIANGLE = "triangle"
+    Every member here is a shape the library actually draws. It listed 47 and
+    drew three: the tessellations and pentagon tilings wrapped an import of a
+    package this repo does not contain, inside a bare `except`, and fell back to
+    square holes — so a lid asking for LEAF got squares and nothing said so.
+    A member is added when the geometry to draw it is (FR-000c).
+    """
+
     NONE = "none"
+    """No pattern — a solid lid."""
+
     SQUARE = "square"
-    SUPERSHAPE = "supershape"
-    HILBERT = "hilbert"
-    CLOUD = "cloud"
-
-    # Pentagon tilings
-    PENTAGON_R1 = "pentagon_r1"
-    PENTAGON_R2 = "pentagon_r2"
-    PENTAGON_R3 = "pentagon_r3"
-    PENTAGON_R4 = "pentagon_r4"
-    PENTAGON_R5 = "pentagon_r5"
-    PENTAGON_R6 = "pentagon_r6"
-    PENTAGON_R7 = "pentagon_r7"
-    PENTAGON_R8 = "pentagon_r8"
-    PENTAGON_R9 = "pentagon_r9"
-    PENTAGON_R10 = "pentagon_r10"
-    PENTAGON_R11 = "pentagon_r11"
-    PENTAGON_R12 = "pentagon_r12"
-    PENTAGON_R13 = "pentagon_r13"
-    PENTAGON_R14 = "pentagon_r14"
-    PENTAGON_R15 = "pentagon_r15"
-
-    # Tessellations
-    LIZARD = "lizard"
+    """Square holes on a square grid."""
+    CIRCLE = "circle"
+    """Round holes on a square grid."""
+    HEX = "hex"
+    """Hexagonal holes in staggered rows — a honeycomb."""
+    DENSE_HEX = "dense_hex"
+    """The honeycomb at a tighter pitch."""
+    TRIANGLE = "triangle"
+    """Triangular holes, alternating point-up and point-down."""
+    DENSE_TRIANGLE = "dense_triangle"
+    """The triangle grid at a tighter pitch."""
+    OCTAGON = "octagon"
+    """Octagonal holes, leaving small square webs between them."""
     VORONOI = "voronoi"
-    LEAF = "leaf"
-    LEAF_VEINS = "leaf_veins"
-    DROP = "drop"
-    DELTOID_TRIHEXAGONAL = "deltoid_trihexagonal"
-    DELTOID_TRIHEXAGONAL_KITE = "deltoid_trihexagonal_kite"
-    HALF_REGULAR_HEXAGON = "half_regular_hexagon"
-    RHOMBI_TRI_HEXAGONAL = "rhombi_tri_hexagonal"
-    PENROSE_TILING_5 = "penrose_tiling_5"
-    PENROSE_TILING_7 = "penrose_tiling_7"
-    PEGASUS = "pegasus"
-    GOOSE = "goose"
-    CHICKEN = "chicken"
-    SHEEP = "sheep"
-    BIRD = "bird"
-    HEX_TESSELATION = "hex_tesselation"
-    KITE_TESSELATION = "kite_tesselation"
-    QUAD_TESSELATION = "quad_tesselation"
-
-    # Legacy aliases (kept for backward compatibility with distinct values)
-    HEX_GRID = "hex_grid"
-    GRID = "grid"
+    """Round holes of varying size on a jittered grid — an organic scatter."""
 
 
 class StackableMode(Enum):

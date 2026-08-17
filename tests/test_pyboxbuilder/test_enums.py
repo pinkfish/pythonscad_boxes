@@ -36,8 +36,8 @@ class EnumTests(unittest.TestCase):
         self.assertEqual(LabelMode.FRAMELESS.value, "frameless")
 
     def test_pattern_type_values(self) -> None:
-        self.assertEqual(PatternType.HEX_GRID.value, "hex_grid")
-        self.assertEqual(PatternType.GRID.value, "grid")
+        self.assertEqual(PatternType.HEX.value, "hex")
+        self.assertEqual(PatternType.SQUARE.value, "square")
         self.assertEqual(PatternType.VORONOI.value, "voronoi")
 
     def test_scoop_side_values(self) -> None:

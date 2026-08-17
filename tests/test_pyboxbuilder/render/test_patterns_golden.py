@@ -34,9 +34,9 @@ class PatternGoldenTests(unittest.TestCase):
         diff = compare_images(result.image_path, golden)
         self.assertLessEqual(diff, _TOLERANCE, f"{name} differs from golden by {diff:.1f}")
 
-    def test_hex_grid_pattern(self) -> None:
+    def test_hex_pattern(self) -> None:
         self._render_compare(
-            "pattern_hex_grid",
+            "pattern_hex",
             "from pyboxbuilder.enums import PatternType\n"
             "from pyboxbuilder.lid.pattern import build_pattern\n"
             "build_pattern(100, 70, 3.0, PatternType.HEX, spacing=10.0).show()\n",
@@ -52,10 +52,10 @@ class PatternGoldenTests(unittest.TestCase):
 
     def test_pentagon_tiling(self) -> None:
         self._render_compare(
-            "pattern_pentagon_r1",
+            "pattern_octagon",
             "from pyboxbuilder.enums import PatternType\n"
             "from pyboxbuilder.lid.pattern import build_pattern\n"
-            "build_pattern(100, 70, 3.0, PatternType.PENTAGON_R1, spacing=10.0).show()\n",
+            "build_pattern(100, 70, 3.0, PatternType.OCTAGON, spacing=10.0).show()\n",
         )
 
     def test_hex_grid_cutouts(self) -> None:

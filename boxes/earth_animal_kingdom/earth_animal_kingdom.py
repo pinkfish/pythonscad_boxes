@@ -160,7 +160,7 @@ project = Project(
     generate_spacers=False,
 )
 
-BIRD_LID = PatternBuilder(type=PatternType.BIRD, spacing=20.0)
+BIRD_LID = PatternBuilder(type=PatternType.VORONOI, spacing=20.0)
 
 # ── 1. Animal cards box ───────────────────────────────────────────────────
 card_box = project.box(

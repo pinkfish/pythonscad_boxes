@@ -1,13 +1,24 @@
 # SPDX-License-Identifier: Apache-2.0
-"""Pattern fill — full ShapeType catalog as lid through-hole cutouts.
+"""Lid through-hole patterns — the shapes a lid is perforated with (FR-023).
 
-Maps every PatternType member to a distinct fill function. Dense/lattice
-shapes generate grids of cutouts; pentagon tilings and tessellations wrap
-the borrowed generators from `pentagon_tilings.py` and `tesselations/`.
+Each member of :class:`~pyboxbuilder.enums.PatternType` draws the shape it is
+named after. That is worth stating because it was not true: the catalog listed
+47 members and three shapes, with a `_shape_grid_fill` that took the shape's
+name as an argument and ignored it, hexagons and triangles built from cuboids,
+and every tessellation wrapped in `except (ImportError, ..., Exception)` around
+an import of a package that is not in this repo — so a lid asking for LEAF, or
+PENROSE_TILING_5, or any of the fifteen pentagon tilings, silently came out with
+square holes.
+
+A pattern that quietly becomes a different pattern is worse than one that is
+missing: the user sees a plausible lid and never learns the request was
+dropped. So the catalog here is exactly what is implemented, and a member is
+added when the geometry to draw it is (FR-000c).
 """
 
 from __future__ import annotations
 
+import random
 from typing import TYPE_CHECKING, Callable
 
 from pyboxbuilder.enums import PatternType
@@ -16,6 +27,35 @@ from pyboxbuilder.precision import kwargs as precision_kwargs
 if TYPE_CHECKING:
     from pybosl2.shapes3d import Bosl2Solid
 
+HOLE_SHARE = 0.55
+"""How much of a pattern cell the hole itself takes.
+
+The rest is the web between holes. Over about two thirds the webs get thinner
+than a couple of extrusion widths and the lid loses its stiffness; much under a
+half and the pattern stops saving filament, which is the point of it (FR-023).
+"""
+
+DENSE_SPACING_SHARE = 0.6
+"""How much of the normal spacing a *dense* variant uses."""
+
+DEPTH_OVERSHOOT = 1.2
+"""How far a hole is over-extruded relative to the lid, so it breaks through."""
+
+def default_spacing(width: float, length: float) -> float:
+    """The cell size a pattern uses when the caller names none.
+
+    Derived from the lid rather than fixed, so the same pattern reads the same
+    on a 40mm token lid and a 200mm card lid (FR-000).
+
+    Args:
+        width: Lid width in mm.
+        length: Lid length in mm.
+
+    Returns:
+        The spacing in mm — an eighth of the shorter side, never below 5mm.
+    """
+    return max(min(width, length) / 8.0, 5.0)
+
 
 def build_pattern(
     width: float,
@@ -23,232 +63,210 @@ def build_pattern(
     thickness: float,
     pattern_type: PatternType,
     spacing: float | None = None,
-) -> "Bosl2Solid":
-    """Build a through-hole pattern solid for a lid.
+) -> "Bosl2Solid | None":
+    """Build the through-hole cutouts for a lid.
 
     Args:
         width: Lid width in mm.
         length: Lid length in mm.
-        thickness: Lid thickness (controls hole depth).
-        pattern_type: Any PatternType member.
-        spacing: Distance between pattern elements. Auto-calculated if None.
+        thickness: Lid thickness; the holes are cut deeper so they break through.
+        pattern_type: Which pattern. :attr:`PatternType.NONE` returns ``None``.
+        spacing: Distance between cell centres. ``None`` derives it from the
+            lid (see :func:`default_spacing`).
 
     Returns:
-        A Bosl2Solid representing the through-hole cutouts.
+        The solid to subtract from the lid, or ``None`` for no pattern and for
+        a lid too small to hold a single whole hole.
+
+    Raises:
+        ValueError: If the pattern has no fill registered — which cannot happen
+            for a catalog member, and is the check that keeps it that way.
     """
     if spacing is None:
-        spacing = max(min(width, length) / 8, 5.0)
+        spacing = default_spacing(width, length)
 
     fill = _PATTERN_FILLS.get(pattern_type)
     if fill is None:
-        raise ValueError(f"No fill function registered for PatternType.{pattern_type.name}")
+        available = ", ".join(sorted(p.name for p in _PATTERN_FILLS))
+        raise ValueError(
+            f"No fill registered for PatternType.{pattern_type.name}. "
+            f"Available: {available}"
+        )
     return fill(width, length, thickness, spacing)
 
 
-# ── Dense/lattice shape fills ─────────────────────────────────────
+# ── Cell placement ────────────────────────────────────────────────────
 
-def _grid_fill(width, length, thickness, spacing):
-    """Square grid through-holes."""
-    from pybosl2 import cuboid
+def _grid_cells(width, length, spacing, stagger=False):
+    """Centres of every cell whose hole fits whole inside the lid.
+
+    Args:
+        width: Lid width in mm.
+        length: Lid length in mm.
+        spacing: Distance between cell centres.
+        stagger: Offset alternate rows by half a cell, for a honeycomb.
+
+    Yields:
+        ``(x, y)`` centres, inset so a hole of :data:`HOLE_SHARE` stays whole —
+        a pattern that runs off the edge leaves slivers, not holes.
+    """
+    margin = spacing * HOLE_SHARE / 2.0
+    row_step = spacing * (0.866 if stagger else 1.0)  # sin(60°) for hex rows
+
+    y = margin
+    row = 0
+    while y <= length - margin:
+        x = margin + (spacing / 2.0 if stagger and row % 2 else 0.0)
+        while x <= width - margin:
+            yield x, y
+            x += spacing
+        y += row_step
+        row += 1
+
+
+def _punch(shape_at, width, length, spacing, stagger=False):
+    """Union one hole per cell.
+
+    Args:
+        shape_at: Called with ``(x, y)``; returns one hole solid in place.
+        width: Lid width in mm.
+        length: Lid length in mm.
+        spacing: Cell size in mm.
+        stagger: Offset alternate rows.
+
+    Returns:
+        The union of every hole, or ``None`` when none fit.
+    """
     holes = None
-    hole_size = spacing * 0.4
-    x_count = int(width / spacing) + 1
-    y_count = int(length / spacing) + 1
-    for xi in range(x_count):
-        cx = xi * spacing
-        if cx + hole_size > width:
-            continue
-        for yi in range(y_count):
-            cy = yi * spacing
-            if cy + hole_size > length:
-                continue
-            hole = cuboid([hole_size, hole_size, thickness * 1.2]).translate([cx, cy, -0.1])
-            holes = hole if holes is None else holes | hole
-    return holes or cuboid([1, 1, 1])
+    for x, y in _grid_cells(width, length, spacing, stagger):
+        hole = shape_at(x, y)
+        holes = hole if holes is None else holes | hole
+    return holes
 
 
-def _hex_grid_fill(width, length, thickness, spacing):
-    """Hexagonal grid through-holes (cubic approximation)."""
+def _prism(sides: int, across_flats: float, thickness: float, spin: float = 0.0):
+    """One regular-polygon hole, tall enough to break through the lid."""
+    from pybosl2 import regular_prism
+
+    # `inner_radius` is the apothem, which is what sizes a hole: the web left
+    # between neighbours is set by how wide the hole is across its flats, not
+    # by how far its corners reach.
+    return regular_prism(
+        sides=sides,
+        inner_radius=across_flats / 2.0,
+        height=thickness * DEPTH_OVERSHOOT,
+        spin=spin,
+        **precision_kwargs(),
+    )
+
+
+# ── Fills ─────────────────────────────────────────────────────────────
+
+def _square_fill(width, length, thickness, spacing):
+    """Square holes on a square grid."""
     from pybosl2 import cuboid
-    holes = None
-    hex_r = spacing / 2
-    row_h = hex_r * 1.5
-    x_count = int(width / spacing) + 2
-    y_count = int(length / row_h) + 2
-    for xi in range(x_count):
-        x_offset = 0 if xi % 2 == 0 else spacing / 2
-        for yi in range(y_count):
-            cx = xi * spacing
-            cy = yi * row_h + x_offset
-            if cx < 0 or cx > width or cy < 0 or cy > length:
-                continue
-            hole = cuboid([hex_r, hex_r, thickness * 1.2]).translate([cx, cy, -0.1])
-            holes = hole if holes is None else holes | hole
-    return holes or cuboid([1, 1, 1])
+
+    size = spacing * HOLE_SHARE
+    return _punch(
+        lambda x, y: cuboid([size, size, thickness * DEPTH_OVERSHOOT]).translate(
+            [x, y, thickness / 2]
+        ),
+        width, length, spacing,
+    )
 
 
-def _circle_grid_fill(width, length, thickness, spacing):
-    """Circular through-holes."""
+def _circle_fill(width, length, thickness, spacing):
+    """Round holes on a square grid."""
     from pybosl2 import cylinder
-    holes = None
-    r = spacing * 0.35
-    x_count = int(width / spacing) + 1
-    y_count = int(length / spacing) + 1
-    for xi in range(x_count):
-        cx = xi * spacing
-        for yi in range(y_count):
-            cy = yi * spacing
-            hole = cylinder(height=thickness * 1.2, radius=r,
-                            **precision_kwargs()).translate([cx, cy, -0.1])
-            holes = hole if holes is None else holes | hole
-    return holes or cylinder(height=1, radius=1, **precision_kwargs())
+
+    return _punch(
+        lambda x, y: cylinder(
+            height=thickness * DEPTH_OVERSHOOT,
+            radius=spacing * HOLE_SHARE / 2,
+            **precision_kwargs(),
+        ).translate([x, y, thickness / 2]),
+        width, length, spacing,
+    )
 
 
-def _triangle_grid_fill(width, length, thickness, spacing, dense=False):
-    """Triangular through-holes (cubic approximation)."""
-    from pybosl2 import cuboid
-    holes = None
-    hole_size = spacing * (0.35 if dense else 0.4)
-    x_count = int(width / spacing) + 1
-    y_count = int(length / spacing) + 1
-    for xi in range(x_count):
-        cx = xi * spacing
-        for yi in range(y_count):
-            cy = yi * spacing
-            hole = cuboid([hole_size, hole_size, thickness * 1.2]).translate([cx, cy, -0.1])
-            holes = hole if holes is None else holes | hole
-    return holes or cuboid([1, 1, 1])
+def _hex_fill(width, length, thickness, spacing, dense=False):
+    """Hexagonal holes in staggered rows — a honeycomb."""
+    step = spacing * (DENSE_SPACING_SHARE if dense else 1.0)
+    return _punch(
+        lambda x, y: _prism(6, step * HOLE_SHARE, thickness).translate(
+            [x, y, thickness / 2]
+        ),
+        width, length, step, stagger=True,
+    )
+
+
+def _triangle_fill(width, length, thickness, spacing, dense=False):
+    """Triangular holes, alternating point-up and point-down along each row."""
+    step = spacing * (DENSE_SPACING_SHARE if dense else 1.0)
+
+    def shape(x, y):
+        # Alternating spin is what makes a triangle grid read as one, rather
+        # than as rows of identical wedges.
+        spin = 180.0 if int(round(x / step)) % 2 else 0.0
+        return _prism(3, step * HOLE_SHARE, thickness, spin).translate(
+            [x, y, thickness / 2]
+        )
+
+    return _punch(shape, width, length, step)
+
+
+def _octagon_fill(width, length, thickness, spacing):
+    """Octagonal holes on a square grid, leaving small square webs."""
+    return _punch(
+        lambda x, y: _prism(8, spacing * HOLE_SHARE, thickness, 22.5).translate(
+            [x, y, thickness / 2]
+        ),
+        width, length, spacing,
+    )
+
+
+VORONOI_SEED = 42
+"""Fixed seed, so a lid's pattern is the same on every build.
+
+The pattern is part of the exported geometry and is what the export fingerprint
+is taken over, so a fresh random layout each run would rewrite the file forever.
+"""
+
+VORONOI_JITTER = 0.28
+"""How far a cell may wander from its grid point, as a share of the spacing."""
 
 
 def _voronoi_fill(width, length, thickness, spacing):
-    """Voronoi cell through-holes (deterministic jittered grid)."""
-    import random
+    """Round holes of varying size on a jittered grid — an organic scatter."""
+    from pybosl2 import cylinder
 
-    from pybosl2 import cuboid
+    rng = random.Random(VORONOI_SEED)
     holes = None
-    rng = random.Random(42)
-    x_count = int(width / spacing) + 1
-    y_count = int(length / spacing) + 1
-    hole_size = spacing * 0.35
-    for xi in range(x_count):
-        for yi in range(y_count):
-            cx = xi * spacing + rng.uniform(-spacing * 0.2, spacing * 0.2)
-            cy = yi * spacing + rng.uniform(-spacing * 0.2, spacing * 0.2)
-            if cx < 0 or cx + hole_size > width or cy < 0 or cy + hole_size > length:
-                continue
-            hole = cuboid([hole_size, hole_size, thickness * 1.2]).translate([cx, cy, -0.1])
-            holes = hole if holes is None else holes | hole
-    return holes or cuboid([1, 1, 1])
+    for x, y in _grid_cells(width, length, spacing):
+        jitter = spacing * VORONOI_JITTER
+        cx = min(max(x + rng.uniform(-jitter, jitter), 0.0), width)
+        cy = min(max(y + rng.uniform(-jitter, jitter), 0.0), length)
+        radius = spacing * HOLE_SHARE / 2 * rng.uniform(0.7, 1.15)
+        hole = cylinder(
+            height=thickness * DEPTH_OVERSHOOT, radius=radius, **precision_kwargs()
+        ).translate([cx, cy, thickness / 2])
+        holes = hole if holes is None else holes | hole
+    return holes
 
-
-def _shape_grid_fill(width, length, thickness, spacing, shape_name):
-    """Generic shape-grid fill (octogon, cloud, supershape, hilbert approximations)."""
-    from pybosl2 import cuboid
-    holes = None
-    hole_size = spacing * 0.4
-    x_count = int(width / spacing) + 1
-    y_count = int(length / spacing) + 1
-    for xi in range(x_count):
-        cx = xi * spacing
-        for yi in range(y_count):
-            cy = yi * spacing
-            hole = cuboid([hole_size, hole_size, thickness * 1.2]).translate([cx, cy, -0.1])
-            holes = hole if holes is None else holes | hole
-    return holes or cuboid([1, 1, 1])
-
-
-# ── Pentagon tiling fills (wrap pentagon_tilings.py) ──────────────
-
-def _make_pentagon_fill(pentagon_type: str):
-    def fill(width, length, thickness, spacing):
-        try:
-            from pentagon_tilings import pentagon_tesselation_area
-            from pybosl2 import linear_extrude
-            area = pentagon_tesselation_area(
-                pentagon_type=pentagon_type, pentagon_size=spacing,
-                width=width, length=length, thickness=thickness,
-            )
-            if area is None:
-                return _grid_fill(width, length, thickness, spacing)
-            return area
-        except (ImportError, Exception):
-            return _grid_fill(width, length, thickness, spacing)
-    return fill
-
-
-# ── Tessellation fills (wrap tesselations/ modules) ───────────────
-
-def _make_tesselation_fill(module_name: str, func_name: str):
-    def fill(width, length, thickness, spacing):
-        try:
-            import importlib
-            mod = importlib.import_module(module_name)
-            fn = getattr(mod, func_name)
-            result = fn(size=spacing, width=width, length=length, thickness=thickness)
-            if result is None:
-                return _grid_fill(width, length, thickness, spacing)
-            return result
-        except (ImportError, AttributeError, TypeError, Exception):
-            return _grid_fill(width, length, thickness, spacing)
-    return fill
-
-
-# ── Dispatch registry ─────────────────────────────────────────────
 
 _PATTERN_FILLS: dict[PatternType, Callable] = {
-    # Dense/lattice shapes
-    PatternType.DENSE_HEX: lambda w, l, t, s: _hex_grid_fill(w, l, t, s),
-    PatternType.DENSE_TRIANGLE: lambda w, l, t, s: _triangle_grid_fill(w, l, t, s, dense=True),
-    PatternType.CIRCLE: _circle_grid_fill,
-    PatternType.HEX: _hex_grid_fill,
-    PatternType.OCTOGON: lambda w, l, t, s: _shape_grid_fill(w, l, t, s, "octogon"),
-    PatternType.TRIANGLE: _triangle_grid_fill,
     PatternType.NONE: lambda w, l, t, s: None,
-    PatternType.SQUARE: _grid_fill,
-    PatternType.SUPERSHAPE: lambda w, l, t, s: _shape_grid_fill(w, l, t, s, "supershape"),
-    PatternType.HILBERT: lambda w, l, t, s: _shape_grid_fill(w, l, t, s, "hilbert"),
-    PatternType.CLOUD: lambda w, l, t, s: _shape_grid_fill(w, l, t, s, "cloud"),
-
-    # Pentagon tilings
-    PatternType.PENTAGON_R1: _make_pentagon_fill("R1"),
-    PatternType.PENTAGON_R2: _make_pentagon_fill("R2"),
-    PatternType.PENTAGON_R3: _make_pentagon_fill("R3"),
-    PatternType.PENTAGON_R4: _make_pentagon_fill("R4"),
-    PatternType.PENTAGON_R5: _make_pentagon_fill("R5"),
-    PatternType.PENTAGON_R6: _make_pentagon_fill("R6"),
-    PatternType.PENTAGON_R7: _make_pentagon_fill("R7"),
-    PatternType.PENTAGON_R8: _make_pentagon_fill("R8"),
-    PatternType.PENTAGON_R9: _make_pentagon_fill("R9"),
-    PatternType.PENTAGON_R10: _make_pentagon_fill("R10"),
-    PatternType.PENTAGON_R11: _make_pentagon_fill("R11"),
-    PatternType.PENTAGON_R12: _make_pentagon_fill("R12"),
-    PatternType.PENTAGON_R13: _make_pentagon_fill("R13"),
-    PatternType.PENTAGON_R14: _make_pentagon_fill("R14"),
-    PatternType.PENTAGON_R15: _make_pentagon_fill("R15"),
-
-    # Tessellations
-    PatternType.LIZARD: _make_tesselation_fill("tesselations.lizard", "LizardRepeat"),
+    PatternType.SQUARE: _square_fill,
+    PatternType.CIRCLE: _circle_fill,
+    PatternType.HEX: _hex_fill,
+    PatternType.DENSE_HEX: lambda w, l, t, s: _hex_fill(w, l, t, s, dense=True),
+    PatternType.TRIANGLE: _triangle_fill,
+    PatternType.DENSE_TRIANGLE: lambda w, l, t, s: _triangle_fill(w, l, t, s, dense=True),
+    PatternType.OCTAGON: _octagon_fill,
     PatternType.VORONOI: _voronoi_fill,
-    PatternType.LEAF: lambda w, l, t, s: _shape_grid_fill(w, l, t, s, "leaf"),
-    PatternType.LEAF_VEINS: lambda w, l, t, s: _shape_grid_fill(w, l, t, s, "leaf_veins"),
-    PatternType.DROP: lambda w, l, t, s: _shape_grid_fill(w, l, t, s, "drop"),
-    PatternType.DELTOID_TRIHEXAGONAL: lambda w, l, t, s: _shape_grid_fill(w, l, t, s, "deltoid"),
-    PatternType.DELTOID_TRIHEXAGONAL_KITE: lambda w, l, t, s: _shape_grid_fill(w, l, t, s, "deltoid_kite"),
-    PatternType.HALF_REGULAR_HEXAGON: lambda w, l, t, s: _shape_grid_fill(w, l, t, s, "half_hex"),
-    PatternType.RHOMBI_TRI_HEXAGONAL: lambda w, l, t, s: _shape_grid_fill(w, l, t, s, "rhombi_tri_hex"),
-    PatternType.PENROSE_TILING_5: lambda w, l, t, s: _shape_grid_fill(w, l, t, s, "penrose_5"),
-    PatternType.PENROSE_TILING_7: lambda w, l, t, s: _shape_grid_fill(w, l, t, s, "penrose_7"),
-    PatternType.PEGASUS: lambda w, l, t, s: _shape_grid_fill(w, l, t, s, "pegasus"),
-    PatternType.GOOSE: _make_tesselation_fill("tesselations.goose", "TesselationGooseArea"),
-    PatternType.CHICKEN: _make_tesselation_fill("tesselations.chicken", "TesselationChickenHex"),
-    PatternType.SHEEP: _make_tesselation_fill("tesselations.pentagons", "SheepTesselationArea"),
-    PatternType.BIRD: _make_tesselation_fill("tesselations.quad_tesselation", "TesselationBirdArea"),
-    PatternType.HEX_TESSELATION: _make_tesselation_fill("tesselations.hex_tesselation", "TesselationFlyingBirdArea"),
-    PatternType.KITE_TESSELATION: _make_tesselation_fill("tesselations.kite_tesselation", "TesselationHexKiteArea"),
-    PatternType.QUAD_TESSELATION: _make_tesselation_fill("tesselations.quad_tesselation", "TesselationBirdArea"),
 }
+"""Every pattern the library can draw.
 
-# Legacy aliases (distinct members with their own values) map to the
-# same fill functions as HEX and SQUARE respectively.
-_PATTERN_FILLS[PatternType.HEX_GRID] = _hex_grid_fill
-_PATTERN_FILLS[PatternType.GRID] = _grid_fill
+A member of :class:`PatternType` missing from here is a bug in one of the two,
+which is what :func:`build_pattern` checks rather than papering over.
+"""

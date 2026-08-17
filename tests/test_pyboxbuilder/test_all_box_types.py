@@ -44,7 +44,7 @@ class BoxRegistryTests(unittest.TestCase):
             (BoxType.SLIDING, {}),
             (BoxType.CAP, {"cap_height": 8.0}),
             (BoxType.HINGE, {"hinge_count": 3}),
-            (BoxType.FILAMENT_HINGE, {"hinge_gap": 0.4}),
+            (BoxType.FILAMENT_HINGE, {}),
             (BoxType.MAGNETIC, {"magnet_diameter": 6.0}),
             (BoxType.INSET, {}),
             (BoxType.SLIDING_CATCH, {}),
@@ -86,9 +86,9 @@ class BoxRegistryTests(unittest.TestCase):
         p = Project("TestTypes", game_box_size=(300, 200, 80))
 
         sliding = p.box(
-            BoxType.SLIDING, "S", size=(100, 80, 50), two_layer=True
+            BoxType.SLIDING, "S", size=(100, 80, 50), catch_radius=1.5
         )
-        self.assertTrue(sliding.two_layer)  # type: ignore[attr-defined]
+        self.assertEqual(sliding.catch_radius, 1.5)  # type: ignore[attr-defined]
 
         mag = p.box(
             BoxType.MAGNETIC, "M", size=(100, 80, 50),

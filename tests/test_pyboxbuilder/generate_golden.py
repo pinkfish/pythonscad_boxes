@@ -34,7 +34,7 @@ BOX_TYPES = {
 }
 
 PATTERNS = {
-    "pattern_hex_grid": (
+    "pattern_hex": (
         "from pyboxbuilder.enums import PatternType\n"
         "from pyboxbuilder.lid.pattern import build_pattern\n"
         "build_pattern(100, 70, 3.0, PatternType.HEX, spacing=10.0).show()\n"
@@ -44,10 +44,10 @@ PATTERNS = {
         "from pyboxbuilder.lid.pattern import build_pattern\n"
         "build_pattern(100, 70, 3.0, PatternType.VORONOI, spacing=10.0).show()\n"
     ),
-    "pattern_pentagon_r1": (
+    "pattern_octagon": (
         "from pyboxbuilder.enums import PatternType\n"
         "from pyboxbuilder.lid.pattern import build_pattern\n"
-        "build_pattern(100, 70, 3.0, PatternType.PENTAGON_R1, spacing=10.0).show()\n"
+        "build_pattern(100, 70, 3.0, PatternType.OCTAGON, spacing=10.0).show()\n"
     ),
     "hex_grid_cutouts": (
         "from pyboxbuilder.compartments.hex_grid import HexGridSpec, build_hex_grid\n"

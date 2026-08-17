@@ -16,7 +16,7 @@ if TYPE_CHECKING:
 class PatternBuilder:
     """Through-hole pattern configuration for a lid."""
 
-    type: PatternType = PatternType.HEX_GRID
+    type: PatternType = PatternType.HEX
     colors: tuple[Color, ...] = ()
     spacing: float | None = None
 

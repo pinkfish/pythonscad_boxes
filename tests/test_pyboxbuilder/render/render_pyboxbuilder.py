@@ -48,9 +48,10 @@ def build_box_body_expr(box_type: str, w: float, l: float, h: float) -> str:
     """
     return (
         "from pyboxbuilder.box.registry import BOX_IMPL_REGISTRY\n"
+        "from pyboxbuilder.box.spec import BoxSpec\n"
         "from pyboxbuilder.enums import BoxType\n"
         f"box = BOX_IMPL_REGISTRY[BoxType.{box_type}]()\n"
-        f"spec = {{'width': {w}, 'length': {l}, 'height': {h}, "
-        "'wall_thickness': 2.0, 'floor_thickness': 1.6, 'lid_thickness': 2.0}\n"
+        f"spec = BoxSpec(width={w}, length={l}, height={h}, "
+        "wall_thickness=2.0, floor_thickness=1.6, lid_thickness=2.0)\n"
         "box.build_body(spec).show()\n"
     )
