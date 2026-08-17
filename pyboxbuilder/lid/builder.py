@@ -29,8 +29,20 @@ reads as a mistake, because what a viewer sees is a single band of plain lid
 and one thing crossing it.
 """
 
-BORDER_MARGIN_MM = LID_BORDER_MM
-"""Margin an auto-sized label keeps clear of the lid's edge."""
+LABEL_INSET_MM = 2.0
+"""How far the label sits *inside* the lid's border, beyond the border itself.
+
+The border is a band of plain lid, and a label that runs to its inner edge
+reads as though it is touching the pattern rather than sitting in a space of
+its own. Two millimetres is enough to separate them without shrinking the text
+noticeably — on a card lid it costs about half a millimetre of cap height.
+"""
+
+BORDER_MARGIN_MM = LID_BORDER_MM + LABEL_INSET_MM
+"""Margin an auto-sized label keeps clear of the lid's edge.
+
+The lid's border plus the label's own inset, so the text sits inside the band
+the pattern stops at rather than level with it."""
 
 PATTERN_BORDER_MM = LID_BORDER_MM
 """Solid margin left around a lid's pattern, when nothing else says."""

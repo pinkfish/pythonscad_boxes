@@ -183,11 +183,15 @@ class PatternBorderTests(unittest.TestCase):
         for margin in self.margins(PatternType.HEX, 15.0):
             self.assertAlmostEqual(margin, 15.0, places=2)
 
-    def test_the_lid_border_is_one_number_for_pattern_and_label(self) -> None:
-        """A label set to a different margin from the pattern reads as a
-        mistake: what a viewer sees is one band of plain lid."""
+    def test_the_label_sits_inside_the_lid_border(self) -> None:
+        """One border for the lid, and the label set in from it.
+
+        The border is a band of plain lid; a label level with its inner edge
+        reads as touching the pattern rather than sitting in a space of its own.
+        """
         from pyboxbuilder.lid.builder import (
             BORDER_MARGIN_MM,
+            LABEL_INSET_MM,
             LID_BORDER_MM,
             PATTERN_BORDER_MM,
             LidBuilder,
@@ -195,15 +199,20 @@ class PatternBorderTests(unittest.TestCase):
         )
 
         self.assertEqual(LID_BORDER_MM, 8.0)
+        self.assertEqual(LABEL_INSET_MM, 2.0)
         self.assertEqual(PATTERN_BORDER_MM, LID_BORDER_MM)
-        self.assertEqual(BORDER_MARGIN_MM, LID_BORDER_MM)
+        self.assertEqual(BORDER_MARGIN_MM, LID_BORDER_MM + LABEL_INSET_MM)
         self.assertEqual(PatternBuilder().border_width, LID_BORDER_MM)
-        self.assertEqual(LidBuilder().border_margin, LID_BORDER_MM)
+        self.assertEqual(LidBuilder().border_margin, LID_BORDER_MM + LABEL_INSET_MM)
 
     def test_the_text_stays_inside_the_border(self) -> None:
         """Including a diagonal label, which is the one that ran off the lid."""
         from pyboxbuilder.enums import LabelMode
-        from pyboxbuilder.lid.builder import LID_BORDER_MM, LidBuilder
+        from pyboxbuilder.lid.builder import (
+            LABEL_INSET_MM,
+            LID_BORDER_MM,
+            LidBuilder,
+        )
         from pyboxbuilder.lid.decorate import _build_label
 
         width, length, _ = self.LID
@@ -216,10 +225,54 @@ class PatternBorderTests(unittest.TestCase):
                 )
                 assert label is not None
                 (cx, cy, _), (w, l, _) = label.combined().bounds()
-                self.assertGreaterEqual(round(cx - w / 2, 3), LID_BORDER_MM)
-                self.assertGreaterEqual(round(width - (cx + w / 2), 3), LID_BORDER_MM)
-                self.assertGreaterEqual(round(cy - l / 2, 3), LID_BORDER_MM)
-                self.assertGreaterEqual(round(length - (cy + l / 2), 3), LID_BORDER_MM)
+                inside = LID_BORDER_MM + LABEL_INSET_MM
+                self.assertGreaterEqual(round(cx - w / 2, 3), inside)
+                self.assertGreaterEqual(round(width - (cx + w / 2), 3), inside)
+                self.assertGreaterEqual(round(cy - l / 2, 3), inside)
+                self.assertGreaterEqual(round(length - (cy + l / 2), 3), inside)
+
+    def test_the_edges_are_cut_alike(self) -> None:
+        """SC-016h: opposite edges are mirror images.
+
+        Grown from one edge, the lattice landed wherever the arithmetic put it
+        — on a 96 x 70 lid one side was cut through the hexes and the other
+        through the webs, taking 56mm3 against 33mm3. It is anchored on the
+        area's centre instead.
+        """
+        from mesh import volume
+
+        from pyboxbuilder.box.shell import block
+
+        border = 8.0
+        for width, length in ((96.0, 70.0), (98.0, 142.5), (60.0, 60.0)):
+            with self.subTest(lid=(width, length)):
+                lid = block([width, length, 2.0])
+                from pyboxbuilder.lid.builder import LidBuilder, PatternBuilder
+                from pyboxbuilder.lid.decorate import decorate_lid
+
+                decorated = decorate_lid(
+                    lid,
+                    LidBuilder(pattern=PatternBuilder(
+                        type=PatternType.HEX, spacing=10.0, border=border,
+                    )),
+                    2.0, "mmu",
+                )
+                removed = lid - decorated.solid
+
+                def strip(at, size):
+                    return volume(removed & block(list(size), at=list(at)))
+
+                left = strip((border, border, 0), (1.0, length - 2 * border, 2.0))
+                right = strip(
+                    (width - border - 1.0, border, 0), (1.0, length - 2 * border, 2.0)
+                )
+                bottom = strip((border, border, 0), (width - 2 * border, 1.0, 2.0))
+                top = strip(
+                    (border, length - border - 1.0, 0), (width - 2 * border, 1.0, 2.0)
+                )
+                self.assertGreater(left, 0.0, "the pattern never reached the edge")
+                self.assertAlmostEqual(left, right, places=2)
+                self.assertAlmostEqual(bottom, top, places=2)
 
     def test_a_border_that_swallows_the_lid_leaves_it_solid(self) -> None:
         from pyboxbuilder.box.shell import block

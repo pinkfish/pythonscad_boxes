@@ -218,15 +218,17 @@ PatternBuilder(
 
 A pattern is specified by the **pitch** and the **web** between holes; the hole
 size follows. The web is the one with a right answer — it is what prints and
-what carries the lid. `border` is the lid's solid margin, and the label's `border_margin_mm` shares
-its default (`LID_BORDER_MM`, 8mm): what a viewer sees is one band of plain lid,
-so the pattern and the text keep the same one. It is the band the lid is picked
-up by, and on a sliding lid the band that rides in the grooves.
+what carries the lid. `border` is the lid's solid margin — `LID_BORDER_MM`, 8mm — the band the lid is
+picked up by and, on a sliding lid, the band that rides in the grooves. The
+label measures from the same border and then sits `LABEL_INSET_MM` (2mm)
+further in, so `LidBuilder.border_margin` is 10mm: one band of plain lid, with
+the pattern stopping at it and the text set inside it.
 
 The pattern **reaches** that border rather than stopping short of it: the
-lattice overhangs the area and is clipped to it, so the holes at the edge are
-partial. Holes also stop at the label's own shape — its shape, not its bounding
-box, since a diagonal label's box covers most of the lid (FR-023).
+lattice is anchored on the area's centre, run out a full cell past every edge,
+and clipped to it — so the holes at the edge are partial and opposite edges are
+cut alike. Holes also stop at the label's own shape — its shape, not its
+bounding box, since a diagonal label's box covers most of the lid (FR-023).
 
 `PatternType` contains only patterns the library draws: `NONE`, `SQUARE`,
 `CIRCLE`, `HEX`, `DENSE_HEX`, `TRIANGLE`, `DENSE_TRIANGLE`, `OCTAGON`,

@@ -270,24 +270,20 @@ def _cut_pattern(
         # peppering of pinholes is not (FR-000c).
         return lid
 
-    # Each fill anchors its own way, so place it by its bounding box rather
-    # than trusting where it put itself, then trim it to the area so it cannot
-    # eat into the lid's border.
-    holes = _place_by_corner(holes, base)
+    # The fills lay their lattice out in the area's own frame, deliberately
+    # overhanging every edge, so it is *moved* into place and not re-anchored.
+    # Re-anchoring by bounding box — which this used to do — threw the centring
+    # away and pushed the whole overhang to one side: on a 96 x 70 lid the
+    # right edge lost 56mm³ of material to the border strip and the left only
+    # 33mm³, so one side was cut through the hexes and the other through the
+    # webs. Trimming to the area is what keeps the border solid.
+    holes = holes.translate([base[0], base[1], base[2]])
     holes = holes & block([area_w, area_l, depth], at=base)
 
     keepout = _label_keepout(keep_clear, depth)
     if keepout is not None:
         holes = holes - keepout.translate([origin_x, origin_y, base[2]])
     return lid - holes
-
-
-def _place_by_corner(solid: Bosl2Solid, at: tuple[float, float, float]) -> Bosl2Solid:
-    """Move a solid so its bounding box's minimum corner lands on `at`."""
-    (cx, cy, cz), (w, l, h) = solid.bounds()
-    return solid.translate([
-        at[0] - (cx - w / 2), at[1] - (cy - l / 2), at[2] - (cz - h / 2),
-    ])
 
 
 def _apply_label(

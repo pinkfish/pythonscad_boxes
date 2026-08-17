@@ -335,6 +335,35 @@ A lid's outer edges are rounded because they are the outside of the closed box �
 - **The radius is capped at half the lid's thickness.** A body's radius is sized off the *wall*, which on a 2mm lid can be most of the plate; what it removes is exactly the material doing the bearing. Half leaves the other half square.
 - **Only the edges that finish outside get rounded**, decided by the type through a `lid_rounded_edges` hook. A cap or magnetic lid sits on top, so its four vertical corners and top face all qualify. A **sliding** lid does not: three of its four sides live inside the channel — two in the grooves, one against the stop — so only the end it slides out through is rounded, along with its top edge and the two vertical corners there (FR-044i).
 
+### Where A Lid's Pattern Starts And Stops (FR-023)
+
+Three decisions, each of which was got wrong first and shows up as the same
+symptom — a pattern that looks like it has shrunk away from the lid's edge.
+
+**The lattice is clipped, not fitted.** Holes are laid out past the edge of the
+area and trimmed to it, so the ones at the boundary come out partial. Placing
+only whole holes leaves up to a cell of unused margin inside the border: a lid
+asking for an 8mm border got 12mm or more of solid edge on two sides.
+
+**It starts a full cell outside the area, on every side.** A staggered row is
+shifted half a pitch, so a lattice that begins at the area's own edge begins
+*inside* it on every other row, leaving a strip of material along the leading
+edge while the trailing edge is covered twice over. One cell of run-up absorbs
+any row's offset; the surplus is clipped away with the rest.
+
+**It is anchored on the area's centre, not grown from an edge.** Grown from an
+edge the lattice lands wherever the arithmetic puts it — measured on a 96 x 70
+lid, one side was cut through the hexes and the other through the webs, taking
+56mm³ against 33mm³. Anchored at the centre the two sides are mirror images.
+
+The corollary is that a pattern must be **moved** into the area and never
+re-anchored to it by its bounding box: re-anchoring is exactly what discards
+the centring and pushes the whole overhang onto one side.
+
+One border serves the lid — the pattern stops at it and the label sits 2mm
+inside it. Two margins measured from different edges read as a mistake, because
+what a viewer sees is a single band of plain lid with things arranged in it.
+
 ### A Label Is An Inlay, Not An Embossing (FR-022, FR-022a)
 
 A lid's label is cut **into** the lid and filled flush, so the only thing that
