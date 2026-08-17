@@ -131,6 +131,16 @@ class Project:
             p.box(BoxType.NO_LID, "Tokens", size=(80, 60, 30))
             p.show()
 
+        Four equal wells sharing a box's room, sized by ratio:
+
+        .. pythonscad-example::
+
+            p = Project("Divided", game_box_size=(200, 150, 60))
+            box = p.box(BoxType.NO_LID, "Sorted", size=(100, 80, 30))
+            for i in range(4):
+                box.compartment(f"Slot{i + 1}", width_ratio=0.25)
+            p.show()
+
     """
 
     name: str
@@ -279,6 +289,23 @@ class Project:
             LayoutError: If the tree names an unknown box or places one twice.
             ValueError: If a named box has no explicit size, or the arrangement
                 does not fit the game box.
+
+        Examples:
+            An arrangement written down instead of measured:
+
+            .. pythonscad-example::
+
+                project = Project("BigGame", game_box_size=(300, 200, 80))
+                project.box(BoxType.SLIDING, "CardBox", size=(110, 75, 50))
+                project.box(BoxType.CAP, "TokenBox", size=(60, 50, 30))
+                project.box(BoxType.CAP, "DiceBox", size=(60, 50, 30))
+                project.box(BoxType.FILAMENT_HINGE, "BitBox", size=(80, 60, 40))
+                project.arrange(columns(
+                    "CardBox",
+                    stack("TokenBox", "DiceBox"),
+                    "BitBox",
+                ))
+                project.show()
 
         """
         from pyboxbuilder.layout import LayoutError

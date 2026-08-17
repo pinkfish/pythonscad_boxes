@@ -48,6 +48,24 @@ class LidBuilder:
                           pattern=PatternBuilder(PatternType.HEX))
         ...
         project.box(BoxType.SLIDING, "Favor", lid=LEAF.titled("Favors"))
+
+    Examples:
+        A frameless diagonal label on a hex-patterned lid:
+
+        .. pythonscad-example::
+
+            project = Project("FancyGame", game_box_size=(300, 200, 80))
+            STYLE = LidBuilder(
+                label_mode=LabelMode.FRAMELESS,
+                diagonal=True,
+                pattern=PatternBuilder(PatternType.HEX, spacing=10.0),
+            )
+            project.box(
+                BoxType.SLIDING, "Treasure", size=(90, 70, 40),
+                lid=STYLE.titled("Treasure", text_color=Color("gold")),
+            )
+            project.show(only="Treasure")
+
     """
 
     text: str | None = None
