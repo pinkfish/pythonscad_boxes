@@ -2,8 +2,8 @@
 """Project class — top-level API entry point.
 
 **One build path.** :meth:`Project.build` resolves the layout and builds every
-body, lid and spacer. :meth:`Project.show` renders what it returns and
-:meth:`Project.export` writes what it returns; neither builds geometry of its
+body, lid and spacer. :meth:`~pyboxbuilder.project.Project.show` renders what it returns and
+:meth:`~pyboxbuilder.project.Project.export` writes what it returns; neither builds geometry of its
 own. That is the whole difference between the two — render or write — and it is
 structural rather than a convention, because the alternative was two copies of
 the build that drifted: the exported parts silently lost their rounding, their
@@ -37,7 +37,7 @@ if TYPE_CHECKING:
 class Piece:
     """One printable piece of a project.
 
-    Both :meth:`Project.show` and :meth:`Project.export` consume these, so a
+    Both :meth:`~pyboxbuilder.project.Project.show` and :meth:`~pyboxbuilder.project.Project.export` consume these, so a
     piece previewed and the same piece printed are the same solid.
 
     **The geometry is built on demand.** Everything that identifies a piece —

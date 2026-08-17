@@ -15,7 +15,7 @@ The outline is four numbers (FR-051) and three parts:
   flank over into the rim so the top surface is entered tangentially.
 
 Keeping this separate from the sweep is what makes the shape testable without a
-renderer: :mod:`tests.test_pyboxbuilder.invariants` walks 420 of these paths and
+renderer: ``tests.test_pyboxbuilder.invariants`` walks 420 of these paths and
 asserts they never double back, always carry direction across a join, and stay
 inside the envelope the four numbers describe. Every shape defect that has
 reached a render was visible in the path alone.

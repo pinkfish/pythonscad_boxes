@@ -131,3 +131,53 @@ intersphinx_mapping = {
     "python": ("https://docs.python.org/3", None),
     "numpy": ("https://numpy.org/doc/stable/", None),
 }
+
+# --- linkcheck -------------------------------------------------------------
+# The ``pythonscad-example`` blocks emit relative ``_stl/<hash>.stl`` download
+# links to meshes generated at build time; those are assets, not links to
+# verify, so linkcheck must not try to resolve them.
+linkcheck_ignore = [r"_stl/"]
+
+# --- nitpicky --------------------------------------------------------------
+# Make every unresolved cross-reference an error, so a broken :class:/:meth:/
+# :ref: link in a docstring fails the build instead of slipping by as a warning.
+nitpicky = True
+
+# References that can never resolve — pybosl2/fpdf ship no inventory, pathlib
+# and fpdf types are external, and the builders in the private ``_base`` module
+# are not part of the documented API — are whitelisted so a real typo in a link
+# to the public API still fails the build.
+nitpick_ignore = [
+    # pybosl2 geometry types (no py.typed, no intersphinx inventory).
+    ("py:class", "Bosl2Solid"),
+    ("py:class", "Bosl2Shape2D"),
+    ("py:class", "Anchor"),
+    ("py:class", "OSProfile"),
+    ("py:class", "pybosl2.Color"),
+    ("py:meth", "Path2D.offset_sweep"),
+    # External stdlib / third-party types.
+    ("py:class", "Path"),
+    ("py:class", "FPDF"),
+    # Builders in the private builders._base module are not documented.
+    ("py:class", "BoxBuilder"),
+    ("py:class", "pyboxbuilder.builders._base.BoxBuilder"),
+    ("py:class", "FingerHoleBuilder"),
+    ("py:class", "pyboxbuilder.builders._base.SlidingLidFields"),
+    # Module-level constants referenced by name, not part of the API reference.
+    ("py:data", "DEFAULT_THROAT_RADIUS_MM"),
+    ("py:data", "MIN_TEXT_HEIGHT_MM"),
+    ("py:data", "BORDER_MARGIN_MM"),
+    ("py:data", "PATTERN_BORDER_MM"),
+    # Short type-annotation names — classes imported under TYPE_CHECKING so
+    # autodoc has no runtime name to link them to.
+    ("py:class", "CompartmentPlacement"),
+    ("py:class", "pyboxbuilder.compartments.layout.CompartmentPlacement"),
+    ("py:obj", "pyboxbuilder.compartments.layout.CompartmentPlacement"),
+    ("py:class", "Node"),
+    ("py:class", "Build"),
+    ("py:class", "ExportResult"),
+    ("py:class", "CutProfile"),
+    ("py:class", "CompartmentBuilder"),
+    ("py:class", "BoxPacking"),
+    ("py:attr", "Piece.solid"),
+]
