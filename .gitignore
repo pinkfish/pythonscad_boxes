@@ -10,6 +10,9 @@ __pycache__/
 *.egg-info/
 build/
 dist/
+docs/_build/
+docs/_autosummary/
+docs/_extra/
 pysolidfive/build/
 pysolidfive/docs/_build/
 pysolidfive/docs/_generated/
@@ -23,3 +26,5 @@ pysolidfive/tests/_render_output/
 # Render scratch (kept off the boot volume; see tests/render_app.py TEMP_ROOT)
 .render-tmp/
 .tmp_test_sprout.py
+
+.DS_Store

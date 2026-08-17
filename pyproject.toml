@@ -39,6 +39,15 @@ dev = [
     "pillow",
     "shapely",
 ]
+docs = [
+    # sphinx<9: sphinx-immaterial 0.13.x is not yet compatible with Sphinx 9
+    # (its apidoc python synopses integration raises KeyError: 'synopses').
+    "sphinx>=7,<9",
+    "sphinx-immaterial>=0.13",
+    # autodoc imports pyboxbuilder, whose geometry modules import shapely
+    # through pybosl2; without it the API reference fails to build.
+    "shapely",
+]
 
 [tool.setuptools.packages.find]
 include = ["pyboxbuilder*"]

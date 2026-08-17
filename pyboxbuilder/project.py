@@ -114,6 +114,16 @@ class Project:
     """Top-level game insert description.
 
     The single-import entry point for defining a board game insert.
+
+    Examples:
+        A two-box insert previewed as separate solids:
+
+        .. pythonscad-example::
+
+            p = Project("Cards", game_box_size=(300, 300, 80))
+            p.box(BoxType.SLIDING, "Cards", size=(120, 70, 50))
+            p.box(BoxType.NO_LID, "Tokens", size=(80, 60, 30))
+            p.show()
     """
 
     name: str
@@ -200,6 +210,15 @@ class Project:
         Raises:
             KeyError: If ``box_type`` has no registered builder.
             TypeError: If a keyword is not a field of that builder.
+
+        Examples:
+            Add a sliding card box, then preview it on its own:
+
+            .. pythonscad-example::
+
+                p = Project("Cards", game_box_size=(300, 300, 80))
+                p.box(BoxType.SLIDING, "Cards", size=(120, 70, 50))
+                p.show(only="Cards")
         """
         from pyboxbuilder.box.registry import BOX_TYPE_REGISTRY
 
