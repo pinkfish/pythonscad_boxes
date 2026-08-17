@@ -1285,8 +1285,8 @@ class Project:
         self._shared_groups.append((boxes, compartments))
 
 
-def _insert_color(insert: Any, fallback: "Color") -> "Color":
-    """The colour a lid insert previews in.
+def _insert_color(insert: Any, fallback: Color) -> Color:
+    """Return the colour a lid insert previews in.
 
     A coloured insert carries its own — that is what makes it a separate
     object — so the preview shows the material it will print in rather than
@@ -1298,6 +1298,7 @@ def _insert_color(insert: Any, fallback: "Color") -> "Color":
 
     Returns:
         The colour to draw it in.
+
     """
     own = getattr(insert, "color", None)
     return own if own is not None and not callable(own) else fallback

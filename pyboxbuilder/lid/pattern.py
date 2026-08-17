@@ -71,6 +71,7 @@ def hole_size(spacing: float, web: float | None) -> float:
         The hole's size across the flats, in mm. Zero when the pitch cannot
         hold a usable hole and the thinnest printable web at once — the caller
         then leaves the lid solid rather than perforating it uselessly.
+
     """
     gap = DEFAULT_WEB_MM if web is None else max(web, MIN_WEB_MM)
     size = spacing - gap
@@ -201,6 +202,7 @@ def _slack(extent: float, reach: float, step: float) -> float:
 
     Returns:
         The unused millimetres, to be split evenly between the two ends.
+
     """
     usable = extent - 2 * reach
     if usable < 0 or step <= 0:
@@ -252,6 +254,7 @@ def _reach(shape_at: Callable[[float, float], Bosl2Solid]) -> tuple[float, float
 
     Returns:
         ``(reach_x, reach_y)`` in mm.
+
     """
     (cx, cy, _), (w, l, _) = shape_at(0.0, 0.0).bounds()
     return (abs(cx) + w / 2.0, abs(cy) + l / 2.0)

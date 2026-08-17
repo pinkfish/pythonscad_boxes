@@ -30,6 +30,7 @@ if TYPE_CHECKING:
     from pybosl2.shapes3d import Bosl2Solid
 
     from pyboxbuilder.lid.builder import LidBuilder
+    from pyboxbuilder.lid.label import Label
 
 ENGRAVE_DEPTH_MM = 0.4
 """How deep a single-colour label is cut into the lid."""
@@ -79,18 +80,77 @@ def decorate_lid(
     width, length, origin_x, origin_y, top_z = face
     result = DecoratedLid(solid=lid)
 
+    # The label is built first even though it is applied last, because the
+    # pattern has to know where it lands: holes under the lettering leave it
+    # printing onto air, and in MMU mode the text is a separate object that
+    # would simply fall through. The label takes precedence and the pattern
+    # stops at its boundary (FR-023).
+    label = _build_label(resolved, width, length, mode) if resolved.text else None
+    if resolved.text and label is None:
+        result.skipped_label = True
+
     if resolved.pattern is not None:
         result.solid = _cut_pattern(
             result.solid, resolved, width, length,
             origin_x, origin_y, top_z, lid_thickness,
+            keep_clear=_label_footprint(label),
         )
 
-    if resolved.text:
-        _apply_label(
-            result, resolved, width, length, origin_x, origin_y, top_z, mode,
-        )
+    if label is not None:
+        _apply_label(result, resolved, label, origin_x, origin_y, top_z, mode)
 
     return result
+
+
+LABEL_CLEARANCE_MM = 1.5
+"""How far the pattern stands off the label, all round.
+
+Enough that the lettering has a margin of solid lid to sit on rather than
+ending exactly at a hole's edge, which is where a thin stroke would break away.
+"""
+
+
+def _build_label(
+    builder: LidBuilder, width: float, length: float, mode: str
+) -> Label | None:
+    """Build the label for this face, or ``None`` if it would be illegible."""
+    from pyboxbuilder.lid.label import build_label
+
+    assert builder.text is not None
+    # A frame is a colour feature: in one material there is nothing to
+    # distinguish the backing plate from the lid, so a framed label degenerates
+    # to engraved text. Asking for the frame anyway would also lift the text
+    # clear of the face and engrave nothing at all.
+    label_mode = builder.mode if mode != "single" else LabelMode.FRAMELESS
+
+    return build_label(
+        width=width,
+        length=length,
+        thickness=0.0,
+        text=builder.text,
+        label_mode=label_mode,
+        diagonal=builder.is_diagonal,
+        min_text_height_mm=builder.min_text_height,
+        border_margin_mm=builder.border_margin,
+    )
+
+
+def _label_footprint(label: Label | None) -> tuple[float, float, float, float] | None:
+    """Return the area a label occupies on the face, with its stand-off.
+
+    Args:
+        label: The built label, or ``None``.
+
+    Returns:
+        ``(x, y, width, length)`` in the face's own frame, or ``None`` when
+        there is no label to keep clear of.
+
+    """
+    if label is None:
+        return None
+    (cx, cy, _), (w, l, _) = label.combined().bounds()
+    pad = LABEL_CLEARANCE_MM
+    return (cx - w / 2 - pad, cy - l / 2 - pad, w + 2 * pad, l + 2 * pad)
 
 
 def _top_face(lid: Bosl2Solid) -> tuple[float, float, float, float, float] | None:
@@ -113,8 +173,27 @@ def _cut_pattern(
     origin_y: float,
     top_z: float,
     lid_thickness: float,
+    keep_clear: tuple[float, float, float, float] | None = None,
 ) -> Bosl2Solid:
-    """Cut the through-hole pattern into the lid, clear of its border."""
+    """Cut the through-hole pattern into the lid, clear of its border.
+
+    Args:
+        lid: The lid to perforate.
+        builder: The resolved lid configuration, read for its pattern.
+        width: The face's width in mm.
+        length: The face's length in mm.
+        origin_x: The face's minimum x, in the lid's frame.
+        origin_y: The face's minimum y.
+        top_z: The face's z.
+        lid_thickness: How deep the holes must reach to break through.
+        keep_clear: ``(x, y, width, length)`` on the face that must stay solid
+            — the label's footprint. Holes there would leave the lettering
+            printing onto air (FR-023).
+
+    Returns:
+        The perforated lid.
+
+    """
     from pyboxbuilder.box.shell import block
     from pyboxbuilder.lid.pattern import build_pattern
 
@@ -147,7 +226,14 @@ def _cut_pattern(
     # than trusting where it put itself, then trim it to the area so it cannot
     # eat into the lid's border.
     holes = _place_by_corner(holes, base)
-    return lid - (holes & block([area_w, area_l, depth], at=base))
+    holes = holes & block([area_w, area_l, depth], at=base)
+
+    if keep_clear is not None:
+        kx, ky, kw, kl = keep_clear
+        holes = holes - block(
+            [kw, kl, depth], at=(origin_x + kx, origin_y + ky, base[2])
+        )
+    return lid - holes
 
 
 def _place_by_corner(solid: Bosl2Solid, at: tuple[float, float, float]) -> Bosl2Solid:
@@ -161,36 +247,13 @@ def _place_by_corner(solid: Bosl2Solid, at: tuple[float, float, float]) -> Bosl2
 def _apply_label(
     result: DecoratedLid,
     builder: LidBuilder,
-    width: float,
-    length: float,
+    label: Label,
     origin_x: float,
     origin_y: float,
     top_z: float,
     mode: str,
 ) -> None:
     """Add the label to `result`, raised for mmu or engraved for single."""
-    from pyboxbuilder.lid.label import build_label
-
-    assert builder.text is not None
-    # A frame is a colour feature: in one material there is nothing to
-    # distinguish the backing plate from the lid, so a framed label degenerates
-    # to engraved text. Asking for the frame anyway would also lift the text
-    # clear of the face and engrave nothing at all.
-    label_mode = builder.mode if mode != "single" else LabelMode.FRAMELESS
-
-    label = build_label(
-        width=width,
-        length=length,
-        thickness=0.0,
-        text=builder.text,
-        label_mode=label_mode,
-        diagonal=builder.is_diagonal,
-        min_text_height_mm=builder.min_text_height,
-        border_margin_mm=builder.border_margin,
-    )
-    if label is None:
-        result.skipped_label = True
-        return
 
     def onto_face(solid: Bosl2Solid) -> Bosl2Solid:
         return solid.translate([origin_x, origin_y, top_z])
