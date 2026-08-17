@@ -3,7 +3,7 @@
 
 from __future__ import annotations
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from typing import TYPE_CHECKING, ClassVar
 
 from pybosl2 import Color
@@ -11,9 +11,9 @@ from pybosl2 import Color
 from pyboxbuilder.enums import BoxType, FingerCut, MagnetType, ScoopSide, StackableMode
 
 if TYPE_CHECKING:
-    from pyboxbuilder.lid.builder import LidBuilder
     from pyboxbuilder.compartments.builder import CompartmentBuilder
     from pyboxbuilder.compartments.element import CompartmentElement
+    from pyboxbuilder.lid.builder import LidBuilder
 
 
 

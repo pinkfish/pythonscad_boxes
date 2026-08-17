@@ -157,7 +157,7 @@ class AnimalLayoutTests(unittest.TestCase):
         for name, *_ in list(self.mod["ANIMAL_LAYOUT_1"]) + list(self.mod["ANIMAL_LAYOUT_2"]):
             key = name.rsplit("_", 1)[0] if name[-1].isdigit() else name
             counts[key] = counts.get(key, 0) + 1
-        # num= values from lib/animal_kingdom_items.scad
+        # num=values from lib/animal_kingdom_items.scad
         self.assertEqual(counts["turkey"], 5)
         self.assertEqual(counts["pangolin"], 5)
         self.assertEqual(counts["termite"], 5)

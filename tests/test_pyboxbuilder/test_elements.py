@@ -163,9 +163,11 @@ class ElementPackCompartmentTests(unittest.TestCase):
         )
         self.assertEqual(comp.resolve_size(200.0, 150.0), (85.0, 75.0))
 
-    def test_a_compartment_still_needs_some_way_to_be_sized(self) -> None:
-        with self.assertRaises(ValueError):
-            CompartmentBuilder(label="Nothing", depth=9.0)
+    def test_a_compartment_with_no_elements_or_size_fills_the_interior(self) -> None:
+        """An element pack is sized by its elements; a bare well by the box."""
+        bare = CompartmentBuilder(label="Nothing", depth=9.0)
+        self.assertTrue(bare.fills_interior)
+        self.assertEqual(bare.resolve_size(80.0, 60.0), (80.0, 60.0))
 
 
 if __name__ == "__main__":

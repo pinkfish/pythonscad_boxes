@@ -7,11 +7,11 @@ is pure Python; geometry generation delegates to pybosl2.
 
 from __future__ import annotations
 
-from pyboxbuilder.precision import kwargs as precision_kwargs
-
 import math
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from typing import TYPE_CHECKING
+
+from pyboxbuilder.precision import kwargs as precision_kwargs
 
 if TYPE_CHECKING:
     from pybosl2.shapes3d import Bosl2Solid
@@ -139,7 +139,7 @@ def build_hex_grid(spec: HexGridSpec) -> "Bosl2Solid":
         from the box floor), or None if pybosl2 is unavailable.
     """
     try:
-        from pybosl2 import regular_prism, cylinder
+        from pybosl2 import cylinder, regular_prism
     except ImportError:
         return None
 

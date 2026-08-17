@@ -2,6 +2,9 @@
 """Tests for box type registry and all 12 box types."""
 
 import unittest
+from dataclasses import replace
+
+from pyboxbuilder.box.spec import BoxSpec
 
 from pyboxbuilder.enums import BoxType
 from pyboxbuilder.box.registry import BOX_TYPE_REGISTRY, BOX_IMPL_REGISTRY
@@ -109,12 +112,10 @@ class MagnetAndFingerHoleSidesTests(unittest.TestCase):
         from pyboxbuilder.box.shell import no_lid_finger_holes
         from pyboxbuilder.box.types.no_lid import NoLidBox
 
-        spec = {
-            "width": width, "length": length, "height": 30,
-            "wall_thickness": 2.0, "floor_thickness": 1.6,
-        }
-        spec["finger_holes"] = no_lid_finger_holes(spec)
-        hole_sides = {hole.side for hole in spec["finger_holes"]}
+        spec = BoxSpec(width=width, length=length, height=30,
+            wall_thickness=2.0, floor_thickness=1.6)
+        spec = replace(spec, finger_holes=no_lid_finger_holes(spec))
+        hole_sides = {hole.side for hole in spec.finger_holes}
         return hole_sides, NoLidBox._magnet_sides_front_back(spec)
 
     def test_the_magnets_avoid_the_hole_walls(self) -> None:
@@ -140,10 +141,8 @@ class MagnetAndFingerHoleSidesTests(unittest.TestCase):
         from pyboxbuilder.builders._base import FingerHoleBuilder
         from pyboxbuilder.enums import ScoopSide
 
-        spec = {
-            "width": 80, "length": 100, "height": 30,
-            "wall_thickness": 2.0, "floor_thickness": 1.6,
-            "finger_holes": (FingerHoleBuilder(side=ScoopSide.FRONT),
-                             FingerHoleBuilder(side=ScoopSide.BACK)),
-        }
+        spec = BoxSpec(width=80, length=100, height=30,
+            wall_thickness=2.0, floor_thickness=1.6,
+            finger_holes=(FingerHoleBuilder(side=ScoopSide.FRONT),
+                             FingerHoleBuilder(side=ScoopSide.BACK)))
         self.assertFalse(NoLidBox._magnet_sides_front_back(spec))

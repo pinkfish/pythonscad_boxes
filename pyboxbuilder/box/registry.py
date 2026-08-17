@@ -7,12 +7,12 @@ from typing import TYPE_CHECKING
 from pyboxbuilder.enums import BoxType
 
 if TYPE_CHECKING:
-    from pyboxbuilder.box.base import BoxProtocol
+    from pyboxbuilder.box.base import BoxTypeBase
 
 
 @dataclass
 class _RegistryEntry:
-    box_class: type["BoxProtocol"]
+    box_class: type["BoxTypeBase"]
     builder_class: type
 
 
@@ -20,7 +20,7 @@ BOX_TYPE_REGISTRY: dict[BoxType, type] = {}
 """Maps BoxType enum members to their BoxBuilder subclass."""
 
 BOX_IMPL_REGISTRY: dict[BoxType, type] = {}
-"""Maps BoxType enum members to their BoxProtocol implementation."""
+"""Maps BoxType enum members to their BoxTypeBase implementation."""
 
 
 def register_box(
@@ -33,7 +33,7 @@ def register_box(
     Args:
         box_type: The BoxType enum member.
         builder_class: The BoxBuilder subclass for this type.
-        box_class: The BoxProtocol implementation (can be registered later).
+        box_class: The BoxTypeBase implementation (can be registered later).
     """
     BOX_TYPE_REGISTRY[box_type] = builder_class
     if box_class is not None:
@@ -41,33 +41,32 @@ def register_box(
 
 
 # Register available box types
-from pyboxbuilder.builders.sliding import SlidingBoxBuilder  # noqa: E402
-from pyboxbuilder.builders.cap import CapBoxBuilder  # noqa: E402
-from pyboxbuilder.builders.hinge import HingeBoxBuilder  # noqa: E402
-from pyboxbuilder.builders.filament_hinge import FilamentHingeBoxBuilder  # noqa: E402
-from pyboxbuilder.builders.magnetic import MagneticBoxBuilder  # noqa: E402
-from pyboxbuilder.builders.inset import InsetBoxBuilder  # noqa: E402
-from pyboxbuilder.builders.sliding_catch import SlidingCatchBoxBuilder  # noqa: E402
-from pyboxbuilder.builders.slipover import SlipoverBoxBuilder  # noqa: E402
-from pyboxbuilder.builders.slipover_path import SlipoverPathBoxBuilder  # noqa: E402
-from pyboxbuilder.builders.cap_path import CapPathBoxBuilder  # noqa: E402
-from pyboxbuilder.builders.no_lid import NoLidBoxBuilder  # noqa: E402
-from pyboxbuilder.builders.path import PathBoxBuilder  # noqa: E402
-from pyboxbuilder.builders.card_library import CardLibraryBoxBuilder  # noqa: E402
-
-from pyboxbuilder.box.types.sliding import SlidingBox  # noqa: E402
 from pyboxbuilder.box.types.cap import CapBox  # noqa: E402
-from pyboxbuilder.box.types.hinge import HingeBox  # noqa: E402
+from pyboxbuilder.box.types.cap_path import CapPathBox  # noqa: E402
+from pyboxbuilder.box.types.card_library import CardLibraryBox  # noqa: E402
 from pyboxbuilder.box.types.filament_hinge import FilamentHingeBox  # noqa: E402
-from pyboxbuilder.box.types.magnetic import MagneticBox  # noqa: E402
+from pyboxbuilder.box.types.hinge import HingeBox  # noqa: E402
 from pyboxbuilder.box.types.inset import InsetBox  # noqa: E402
+from pyboxbuilder.box.types.magnetic import MagneticBox  # noqa: E402
+from pyboxbuilder.box.types.no_lid import NoLidBox  # noqa: E402
+from pyboxbuilder.box.types.path import PathBox  # noqa: E402
+from pyboxbuilder.box.types.sliding import SlidingBox  # noqa: E402
 from pyboxbuilder.box.types.sliding_catch import SlidingCatchBox  # noqa: E402
 from pyboxbuilder.box.types.slipover import SlipoverBox  # noqa: E402
 from pyboxbuilder.box.types.slipover_path import SlipoverPathBox  # noqa: E402
-from pyboxbuilder.box.types.cap_path import CapPathBox  # noqa: E402
-from pyboxbuilder.box.types.no_lid import NoLidBox  # noqa: E402
-from pyboxbuilder.box.types.path import PathBox  # noqa: E402
-from pyboxbuilder.box.types.card_library import CardLibraryBox  # noqa: E402
+from pyboxbuilder.builders.cap import CapBoxBuilder  # noqa: E402
+from pyboxbuilder.builders.cap_path import CapPathBoxBuilder  # noqa: E402
+from pyboxbuilder.builders.card_library import CardLibraryBoxBuilder  # noqa: E402
+from pyboxbuilder.builders.filament_hinge import FilamentHingeBoxBuilder  # noqa: E402
+from pyboxbuilder.builders.hinge import HingeBoxBuilder  # noqa: E402
+from pyboxbuilder.builders.inset import InsetBoxBuilder  # noqa: E402
+from pyboxbuilder.builders.magnetic import MagneticBoxBuilder  # noqa: E402
+from pyboxbuilder.builders.no_lid import NoLidBoxBuilder  # noqa: E402
+from pyboxbuilder.builders.path import PathBoxBuilder  # noqa: E402
+from pyboxbuilder.builders.sliding import SlidingBoxBuilder  # noqa: E402
+from pyboxbuilder.builders.sliding_catch import SlidingCatchBoxBuilder  # noqa: E402
+from pyboxbuilder.builders.slipover import SlipoverBoxBuilder  # noqa: E402
+from pyboxbuilder.builders.slipover_path import SlipoverPathBoxBuilder  # noqa: E402
 
 register_box(BoxType.SLIDING, SlidingBoxBuilder, SlidingBox)
 register_box(BoxType.CAP, CapBoxBuilder, CapBox)

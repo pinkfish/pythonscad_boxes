@@ -37,9 +37,8 @@ Three separate roundings are at work, and they are easy to conflate:
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
-
 from dataclasses import replace
+from typing import TYPE_CHECKING
 
 from pyboxbuilder.compartments.finger_outline import (
     ARC_SAMPLES,
@@ -76,6 +75,7 @@ from pyboxbuilder.rounding import rounding_facets
 
 if TYPE_CHECKING:
     from pybosl2.shapes3d import Bosl2Solid
+
     from pyboxbuilder.enums import FingerCut
 
 

@@ -15,7 +15,10 @@ to subtract it from the body.
 
 from __future__ import annotations
 
-from pyboxbuilder.precision import kwargs as precision_kwargs
+from typing import TYPE_CHECKING, Sequence
+
+from pyboxbuilder.box.interior import Interior
+from pyboxbuilder.enums import ScoopSide
 from pyboxbuilder.rounding import (
     max_radius,
     round_edges,
@@ -23,15 +26,10 @@ from pyboxbuilder.rounding import (
     vertical_edges,
 )
 
-from typing import TYPE_CHECKING, Sequence
-
-from pyboxbuilder.box.interior import Interior
-from pyboxbuilder.enums import ScoopSide
-
 if TYPE_CHECKING:
-    from pyboxbuilder.builders._base import Cut
     from pybosl2.shapes3d import Bosl2Solid
 
+    from pyboxbuilder.builders._base import Cut
     from pyboxbuilder.compartments.layout import CompartmentPlacement
 
 

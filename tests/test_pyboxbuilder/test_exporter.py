@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: Apache-2.0
-"""Tests for the export pipeline: BoxExporter, mesh-equivalence gating, sizing."""
+"""Tests for the export pipeline: BoxExporter, fingerprint gating, sizing."""
 
 from __future__ import annotations
 
@@ -11,8 +11,9 @@ from pathlib import Path
 from pyboxbuilder.box.registry import BOX_IMPL_REGISTRY, BOX_TYPE_REGISTRY, LIDLESS_BOX_TYPES
 from pyboxbuilder.compartments.sizing import RowItem, distribute_row_width, rows_from_placements
 from pyboxbuilder.enums import BoxType
+from pyboxbuilder.box.spec import BoxSpec
 from pyboxbuilder.export.exporter import BoxExporter, PieceBounds
-from pyboxbuilder.export.hausdorff import mesh_digest, should_write
+from pyboxbuilder.export import fingerprint as fp
 
 
 class BoxExporterTests(unittest.TestCase):
@@ -65,8 +66,10 @@ class BoxExporterTests(unittest.TestCase):
     def test_real_geometry_is_exported_as_a_3mf(self) -> None:
         from pyboxbuilder.box.shell import build_shell
 
-        spec = {"width": 60.0, "length": 40.0, "height": 20.0,
-                "wall_thickness": 2.0, "floor_thickness": 1.6}
+        from pyboxbuilder.box.spec import BoxSpec
+
+        spec = BoxSpec(label="Tray", width=60.0, length=40.0, height=20.0,
+                       wall_thickness=2.0, floor_thickness=1.6)
         with tempfile.TemporaryDirectory() as tmp:
             exporter = BoxExporter(tmp, "MyGame")
             exporter.write_box("Tray", body=build_shell(spec), has_lid=False)
@@ -90,110 +93,69 @@ class PieceBoundsTests(unittest.TestCase):
         )
 
 
-def _load_pymeshlab():
-    """Import pymeshlab, reaching into the project venv if it is not on the path.
+class FingerprintGateTests(unittest.TestCase):
+    """An unchanged piece must not be rewritten (FR-031 / SC-012)."""
 
-    Without this the Hausdorff branch is exercised or not depending on whether
-    some unrelated test module happened to run first and put the venv on
-    sys.path — which is how a broken comparison went unnoticed.
-    """
-    try:
-        import pymeshlab  # type: ignore[import-not-found]
+    SIZE = (60.0, 40.0, 20.0)
 
-        return pymeshlab
-    except ImportError:
-        pass
+    def _spec(self):
+        from pyboxbuilder.box.spec import BoxSpec
 
-    import sys
-    from pathlib import Path as _Path
+        return BoxSpec(label="Tray", width=60.0, length=40.0, height=20.0)
 
-    root = _Path(__file__).resolve().parents[2]
-    for candidate in sorted(root.glob("venv/*/lib/*/site-packages")) + sorted(
-        root.glob(".venv/lib/*/site-packages")
-    ):
-        if (candidate / "pymeshlab").is_dir():
-            sys.path.insert(0, str(candidate))
-            try:
-                import pymeshlab  # type: ignore[import-not-found]
+    def _write(self, exporter, fingerprint: str):
+        from pyboxbuilder.box.shell import build_shell
 
-                return pymeshlab
-            except ImportError:
-                return None
-    return None
+        return exporter.write_piece(
+            "Tray", "body", "mmu", build_shell(self._spec()),
+            size=self.SIZE, fingerprint=fingerprint,
+        )
 
-
-class MeshEquivalenceTests(unittest.TestCase):
-    """A 3MF re-export must not count as a change (T071 / FR-026)."""
-
-    @staticmethod
-    def _export(path: Path, size: tuple[float, float, float]) -> None:
-        from openscad import export  # type: ignore[import-not-found]
-        from pybosl2 import cuboid
-
-        export(cuboid(list(size)).shape, str(path))
-
-    def test_same_geometry_re_exported_is_not_a_change(self) -> None:
+    def test_the_same_description_is_written_once(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
-            a, b = Path(tmp) / "a.3mf", Path(tmp) / "b.3mf"
-            self._export(a, (10.0, 10.0, 5.0))
-            self._export(b, (10.0, 10.0, 5.0))
+            exporter = BoxExporter(tmp, "MyGame")
+            self.assertIsNotNone(self._write(exporter, "abc"))
+            self.assertIsNone(self._write(exporter, "abc"))
+            self.assertEqual(exporter.state.written, ["MyGame/mmu/Tray_body.3mf"])
+            self.assertEqual(exporter.state.skipped, ["MyGame/mmu/Tray_body.3mf"])
 
-            # The files differ byte for byte — 3MF stamps a title, a timestamp
-            # and fresh UUIDs on every write — but the geometry is identical.
-            self.assertNotEqual(a.read_bytes(), b.read_bytes())
-            self.assertEqual(mesh_digest(a), mesh_digest(b))
-            self.assertFalse(should_write(a, b))
-
-    def test_different_geometry_is_a_change(self) -> None:
+    def test_a_changed_description_is_rewritten(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
-            a, b = Path(tmp) / "a.3mf", Path(tmp) / "b.3mf"
-            self._export(a, (10.0, 10.0, 5.0))
-            self._export(b, (10.0, 10.0, 6.0))
-            self.assertTrue(should_write(a, b))
+            exporter = BoxExporter(tmp, "MyGame")
+            self._write(exporter, "abc")
+            self.assertIsNotNone(self._write(exporter, "def"))
 
-    def test_hausdorff_sees_a_moved_face(self) -> None:
-        """The comparison must not be fooled by where the vertices happen to be.
-
-        Every vertex of a 10x10x5 box lies exactly on a side face of a 10x10x6
-        one, so sampling vertices alone — pymeshlab's default, at 8 samples —
-        measures zero for two boxes that differ by 0.5mm. This is the case that
-        made the exporter skip writing changed geometry.
-        """
-        pymeshlab = _load_pymeshlab()
-        if pymeshlab is None:
-            self.skipTest("pymeshlab is not importable")
-
-        from pyboxbuilder.export.hausdorff import hausdorff_distance
-
+    def test_an_unfingerprinted_file_is_always_written(self) -> None:
+        """A tree exported by an older version rewrites once, then settles."""
         with tempfile.TemporaryDirectory() as tmp:
-            a, b = Path(tmp) / "a.3mf", Path(tmp) / "b.3mf"
-            self._export(a, (10.0, 10.0, 5.0))
-            self._export(b, (10.0, 10.0, 6.0))
+            exporter = BoxExporter(tmp, "MyGame")
+            self._write(exporter, "")
+            self.assertIsNotNone(self._write(exporter, ""))
 
-            distance = hausdorff_distance(a, b)
-            self.assertIsNotNone(distance)
-            assert distance is not None
-            self.assertAlmostEqual(distance, 0.5, places=2)
-
-    def test_hausdorff_reports_zero_for_the_same_geometry(self) -> None:
-        pymeshlab = _load_pymeshlab()
-        if pymeshlab is None:
-            self.skipTest("pymeshlab is not importable")
-
-        from pyboxbuilder.export.hausdorff import hausdorff_distance
-
+    def test_a_missing_file_is_a_miss_however_it_was_fingerprinted(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
-            a, b = Path(tmp) / "a.3mf", Path(tmp) / "b.3mf"
-            self._export(a, (10.0, 10.0, 5.0))
-            self._export(b, (10.0, 10.0, 5.0))
-            self.assertEqual(hausdorff_distance(a, b), 0.0)
+            exporter = BoxExporter(tmp, "MyGame")
+            self._write(exporter, "abc")
+            exporter.path_for("Tray", "body", "mmu").unlink()
+            self.assertIsNotNone(self._write(exporter, "abc"))
 
-    def test_a_missing_file_always_needs_writing(self) -> None:
+    def test_a_corrupt_record_is_a_cache_miss_not_a_crash(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
-            a, b = Path(tmp) / "a.3mf", Path(tmp) / "b.3mf"
-            self._export(b, (10.0, 10.0, 5.0))
-            self.assertTrue(should_write(a, b))
-            self.assertIsNone(mesh_digest(a))
+            exporter = BoxExporter(tmp, "MyGame")
+            self._write(exporter, "abc")
+            sidecar = exporter.root / "mmu" / fp.SIDECAR_NAME
+            sidecar.write_text("{not json")
+            self.assertIsNotNone(self._write(exporter, "abc"))
+
+    def test_deleting_a_stale_file_forgets_its_fingerprint(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            exporter = BoxExporter(tmp, "MyGame")
+            exporter.write_piece(
+                "spacer_9", "body", "mmu", size=self.SIZE, fingerprint="abc"
+            )
+            path = exporter.path_for("spacer_9", "body", "mmu")
+            exporter.delete_stale("spacer_", set())
+            self.assertFalse(fp.matches(path, "abc"))
 
 
 class RowSizingTests(unittest.TestCase):
@@ -250,12 +212,14 @@ class PathBoxTests(unittest.TestCase):
     def test_path_boxes_are_lidless(self) -> None:
         self.assertEqual(LIDLESS_BOX_TYPES, frozenset({BoxType.NO_LID, BoxType.PATH}))
         box = BOX_IMPL_REGISTRY[BoxType.PATH]()
-        self.assertIsNone(box.build_lid({"width": 50, "length": 50, "height": 20}))
+        self.assertIsNone(box.build_lid(BoxSpec(width=50, length=50, height=20)))
 
     def test_a_path_box_with_no_path_is_a_plain_tray(self) -> None:
         box = BOX_IMPL_REGISTRY[BoxType.PATH]()
-        spec = {"width": 60.0, "length": 40.0, "height": 20.0,
-                "wall_thickness": 2.0, "floor_thickness": 1.6}
+        from pyboxbuilder.box.spec import BoxSpec
+
+        spec = BoxSpec(label="Tray", width=60.0, length=40.0, height=20.0,
+                       wall_thickness=2.0, floor_thickness=1.6)
         _, size = box.build_body(spec).bounds()
         # Sizes carry the rounding's 0.002mm faceting tolerance: a fillet is
         # an inscribed polygon, so it pulls its faces in by the sagitta.
@@ -265,21 +229,17 @@ class PathBoxTests(unittest.TestCase):
 
     def test_a_polygon_footprint_is_extruded_from_the_bed_up(self) -> None:
         box = BOX_IMPL_REGISTRY[BoxType.PATH]()
-        spec = {
-            "width": 60.0, "length": 40.0, "height": 20.0,
-            "wall_thickness": 2.0, "floor_thickness": 1.6,
-            "path": ((0.0, 0.0), (60.0, 0.0), (60.0, 25.0), (30.0, 40.0), (0.0, 25.0)),
-        }
+        spec = BoxSpec(width=60.0, length=40.0, height=20.0,
+            wall_thickness=2.0, floor_thickness=1.6,
+            path=((0.0, 0.0), (60.0, 0.0), (60.0, 25.0), (30.0, 40.0), (0.0, 25.0)))
         centre, size = box.build_body(spec).bounds()
         self.assertAlmostEqual(size[2], 20.0, places=3)
         self.assertAlmostEqual(centre[2] - size[2] / 2, 0.0, places=3)
 
     def test_interior_reserves_the_walls_and_floor(self) -> None:
         box = BOX_IMPL_REGISTRY[BoxType.PATH]()
-        interior = box.interior({
-            "width": 60.0, "length": 40.0, "height": 20.0,
-            "wall_thickness": 2.0, "floor_thickness": 1.6,
-        })
+        interior = box.interior(BoxSpec(width=60.0, length=40.0, height=20.0,
+            wall_thickness=2.0, floor_thickness=1.6))
         self.assertEqual(
             (interior.width, interior.length, interior.height), (56.0, 36.0, 18.4)
         )

@@ -154,7 +154,6 @@ def _apply_label(
     mode: str,
 ) -> None:
     """Add the label to `result`, raised for mmu or engraved for single."""
-    from pyboxbuilder.enums import LabelMode
     from pyboxbuilder.lid.label import build_label
 
     assert builder.text is not None

@@ -3,41 +3,44 @@
 
 from __future__ import annotations
 
+from dataclasses import replace
 from typing import TYPE_CHECKING
+
+from pyboxbuilder.box.spec import BoxSpec
 
 if TYPE_CHECKING:
     from pybosl2.shapes3d import Bosl2Solid
 
 
-from pyboxbuilder.box.base import Interior
+from pyboxbuilder.box.base import BoxTypeBase, Interior
 
 
-class FilamentHingeBox:
+class FilamentHingeBox(BoxTypeBase):
     """Filament (living) hinge lid box type."""
 
-    def interior(self, spec: dict) -> Interior:
-        wt = spec.get("wall_thickness", 2.0)
-        ft = spec.get("floor_thickness", 1.6)
-        lt = spec.get("lid_thickness", 2.0)
+    def interior(self, spec: BoxSpec) -> Interior:
+        wt = spec.wall_thickness
+        ft = spec.floor_thickness
+        lt = spec.lid_thickness
         return Interior(
-            width=spec["width"] - 2 * wt,
-            length=spec["length"] - 2 * wt,
-            height=spec["height"] - lt - ft,
+            width=spec.width - 2 * wt,
+            length=spec.length - 2 * wt,
+            height=spec.height - lt - ft,
             origin_x=wt, origin_y=wt, origin_z=ft,
         )
 
     @staticmethod
-    def _body_spec(spec: dict) -> dict:
+    def _body_spec(spec: BoxSpec) -> BoxSpec:
         """The body stops a lid's thickness below the box's stated height.
 
         The lid closes onto the rim rather than inside it, so the two together
         come to `height` — build the walls full height and the closed lid would
         sit in the same space as them.
         """
-        lt = spec.get("lid_thickness", 2.0)
-        return {**spec, "height": spec["height"] - lt}
+        lt = spec.lid_thickness
+        return replace(spec, height=spec.height - lt)
 
-    def interior_mask(self, spec: dict):
+    def interior_mask(self, spec: BoxSpec):
         """The interior, less the room the hinge takes up inside it.
 
         The hinge sits within the box's outline, so its barrel and webs stand
@@ -53,17 +56,17 @@ class FilamentHingeBox:
         from pyboxbuilder.box.features import hinge_intrusion
         from pyboxbuilder.box.shell import block
 
-        wt = spec.get("wall_thickness", 2.0)
-        ft = spec.get("floor_thickness", 1.6)
+        wt = spec.wall_thickness
+        ft = spec.floor_thickness
         available = block(
-            [spec["width"] - 2 * wt, spec["length"] - 2 * wt, spec["height"]],
+            [spec.width - 2 * wt, spec.length - 2 * wt, spec.height],
             at=(wt, wt, ft),
         )
         return available - hinge_intrusion(
-            self._body_spec(spec), spec.get("filament_diameter", 1.75)
+            self._body_spec(spec), spec.filament_diameter
         )
 
-    def build_body(self, spec: dict) -> "Bosl2Solid":
+    def build_body(self, spec: BoxSpec) -> "Bosl2Solid":
         """The shell with half the hinge knuckles along its back edge."""
         from pyboxbuilder.box.features import filament_hinge
         from pyboxbuilder.box.shell import build_shell
@@ -71,8 +74,8 @@ class FilamentHingeBox:
         body_spec = self._body_spec(spec)
         closure = filament_hinge(
             body_spec,
-            spec.get("filament_diameter", 1.75),
-            spec.get("hinge_knuckles", 5),
+            spec.filament_diameter,
+            spec.hinge_count,
         )
         body = build_shell(body_spec)
         # The relief comes off before the body's own knuckles go on, so the
@@ -81,7 +84,7 @@ class FilamentHingeBox:
             body = body - closure.body_cut
         return body if closure.body is None else body | closure.body
 
-    def build_lid(self, spec: dict, decoration: object = None) -> "Bosl2Solid":
+    def build_lid(self, spec: BoxSpec, decoration: object = None) -> "Bosl2Solid":
         """A plate carrying the interleaving knuckles, on the same pin axis.
 
         The hinge pin is a length of filament threaded through after printing,
@@ -90,15 +93,15 @@ class FilamentHingeBox:
         from pyboxbuilder.box.features import filament_hinge
         from pyboxbuilder.box.shell import block
 
-        lt = spec.get("lid_thickness", 2.0)
+        lt = spec.lid_thickness
         body_spec = self._body_spec(spec)
         lid = block(
-            [spec["width"], spec["length"], lt], at=(0, 0, body_spec["height"])
+            [spec.width, spec.length, lt], at=(0, 0, body_spec.height)
         )
         closure = filament_hinge(
             body_spec,
-            spec.get("filament_diameter", 1.75),
-            spec.get("hinge_knuckles", 5),
+            spec.filament_diameter,
+            spec.hinge_count,
         )
         if closure.lid_cut is not None:
             lid = lid - closure.lid_cut

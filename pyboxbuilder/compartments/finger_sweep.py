@@ -23,11 +23,9 @@ from typing import TYPE_CHECKING
 
 from pyboxbuilder.compartments.finger_outline import RIM_OVERSHOOT_MM
 from pyboxbuilder.enums import ScoopSide
-from pyboxbuilder.precision import kwargs as precision_kwargs
 from pyboxbuilder.rounding import rounding_facets, roundover_profile
 
 if TYPE_CHECKING:
-    from pybosl2.shapes2d import Bosl2Shape2D
     from pybosl2.shapes3d import Bosl2Solid
 
 

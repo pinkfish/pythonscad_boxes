@@ -14,14 +14,13 @@ actually built, so the layout maths stays importable without PythonSCAD.
 
 from __future__ import annotations
 
-from pyboxbuilder.precision import kwargs as precision_kwargs
-from pyboxbuilder.rounding import vertical_edges
-
 import math
 from dataclasses import dataclass, replace
 from typing import TYPE_CHECKING, Iterable, Sequence
 
 from pyboxbuilder.enums import ElementShape
+from pyboxbuilder.precision import kwargs as precision_kwargs
+from pyboxbuilder.rounding import vertical_edges
 
 if TYPE_CHECKING:
     from pybosl2.shapes3d import Bosl2Solid
@@ -272,7 +271,7 @@ def build_element(
     `z_offset`. The result can be subtracted from a box body once the compartment
     has been moved into the interior frame.
     """
-    from pybosl2 import Anchor, cuboid, cylinder, regular_prism, sphere
+    from pybosl2 import cuboid, cylinder, regular_prism, sphere
 
     assert element.size is not None
     w, l = element.size

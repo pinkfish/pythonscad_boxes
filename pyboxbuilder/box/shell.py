@@ -17,8 +17,10 @@ so no caller has to remember to add half a size.
 
 from __future__ import annotations
 
-from typing import Sequence, TYPE_CHECKING
+from dataclasses import replace
+from typing import TYPE_CHECKING, Sequence
 
+from pyboxbuilder.box.spec import BoxSpec
 from pyboxbuilder.enums import ScoopSide
 from pyboxbuilder.precision import kwargs as precision_kwargs
 from pyboxbuilder.rounding import (
@@ -74,7 +76,7 @@ is most of the bearing the lid rides on.
 """
 
 
-def sliding_rim_rounding(spec: dict) -> float:
+def sliding_rim_rounding(spec: BoxSpec) -> float:
     """The radius for a sliding box's exposed top edge (FR-043f1).
 
     Args:
@@ -83,7 +85,7 @@ def sliding_rim_rounding(spec: dict) -> float:
     Returns:
         A quarter of the wall, in mm.
     """
-    return spec.get("wall_thickness", 2.0) * SLIDING_RIM_ROUNDING_SHARE
+    return spec.wall_thickness * SLIDING_RIM_ROUNDING_SHARE
 
 
 MAX_FINGER_HOLE_SPAN_SHARE = 0.75
@@ -123,8 +125,8 @@ def block(size: Sequence[float], at: Sequence[float] = (0.0, 0.0, 0.0)) -> "Bosl
     return corner(cuboid(list(size)), size, at)
 
 
-def build_shell(spec: dict) -> "Bosl2Solid":
-    """Outer block, hollowed to the interior unless `spec["hollow"]` is False.
+def build_shell(spec: BoxSpec) -> "Bosl2Solid":
+    """Outer block, hollowed to the interior unless `spec.hollow` is False.
 
     Args:
         spec: Needs `width`, `length`, `height`; reads `wall_thickness`,
@@ -133,7 +135,7 @@ def build_shell(spec: dict) -> "Bosl2Solid":
     Returns:
         The box body before any type-specific lid features are added.
     """
-    size = [spec["width"], spec["length"], spec["height"]]
+    size = [spec.width, spec.length, spec.height]
     outer = block(size)
 
     # Round what a hand grips: the vertical corners and the base always, and the
@@ -143,7 +145,7 @@ def build_shell(spec: dict) -> "Bosl2Solid":
     radius = body_rounding(spec)
     if radius > 0:
         edges = vertical_and_bottom_edges()
-        if spec.get("rim_free"):
+        if spec.rim_free:
             edges = edges + [_top_anchor()]
         outer = round_edges(outer, size, radius, edges)
 
@@ -151,17 +153,17 @@ def build_shell(spec: dict) -> "Bosl2Solid":
     # at its own radius — a sliding box, whose lid lies down in the channel so
     # the rails' outer edges are what a hand meets (FR-043f1). A lidless box
     # has already rounded its rim above, at the body radius.
-    rim = 0.0 if spec.get("rim_free") else float(spec.get("rim_rounding") or 0.0)
+    rim = 0.0 if spec.rim_free else float(spec.rim_rounding or 0.0)
     if rim > 0:
         outer = round_edges(outer, size, rim, [_top_anchor()])
 
-    if spec.get("hollow", True):
+    if spec.hollow:
         outer = outer - interior_block(spec)
         outer = round_inner_rim(outer, spec)
     return apply_finger_holes(outer, spec)
 
 
-def body_rounding(spec: dict) -> float:
+def body_rounding(spec: BoxSpec) -> float:
     """The edge radius for this box body.
 
     Args:
@@ -170,10 +172,10 @@ def body_rounding(spec: dict) -> float:
     Returns:
         The radius in mm. ``0`` disables rounding entirely.
     """
-    explicit = spec.get("rounding")
+    explicit = spec.rounding
     if explicit is not None:
         return max(0.0, float(explicit))
-    return default_rounding(spec.get("wall_thickness", 2.0))
+    return default_rounding(spec.wall_thickness)
 
 
 def _top_anchor():
@@ -202,7 +204,7 @@ def _hole_flare(wall_thickness: float, hole, reach: float, ends: int = 1) -> flo
     return min(flare, reach / (2.0 * max(1, ends)))
 
 
-def finger_cut_conflicts(spec: dict) -> list[str]:
+def finger_cut_conflicts(spec: BoxSpec) -> list[str]:
     """Finger cuts that overlap something, described one per line (FR-006c).
 
     Two cuts that overlap do not make two grips: they make one opening of a
@@ -224,10 +226,9 @@ def finger_cut_conflicts(spec: dict) -> list[str]:
         One message per conflict, naming both features and where they are.
         Empty when the cuts are clear of each other.
     """
-    from pyboxbuilder.box.base import wall_top
     from pyboxbuilder.enums import MagnetType
 
-    holes = spec.get("finger_holes") or ()
+    holes = spec.finger_holes or ()
     messages: list[str] = []
 
     def mouth(hole) -> float:
@@ -253,9 +254,9 @@ def finger_cut_conflicts(spec: dict) -> list[str]:
                         f"{getattr(second, 'offset', 0.0)}): they will cut as one opening"
                     )
 
-    magnet_type = spec.get("magnet_type")
+    magnet_type = spec.magnet_type
     if magnet_type not in (None, MagnetType.NONE) and holes:
-        size = spec.get("magnet_size")
+        size = spec.magnet_size
         half = (size[0] if size else 6.0) / 2.0
         from pyboxbuilder.box.types.no_lid import NoLidBox
 
@@ -264,15 +265,15 @@ def finger_cut_conflicts(spec: dict) -> list[str]:
             if NoLidBox._magnet_sides_front_back(spec)
             else (ScoopSide.LEFT, ScoopSide.RIGHT)
         )
-        mid_height = spec["height"] / 2.0
+        mid_height = spec.height / 2.0
         for hole in holes:
             if getattr(hole, "side", None) not in magnet_sides:
                 continue
             # The pocket sits at the middle of the wall at mid-height; the cut
             # hangs from the interior top. They clash when both ranges do.
-            interior_top = wall_top(spec, hole.side)
+            interior_top = spec.wall_top(hole.side)
             reach = min(getattr(hole, "depth", None) or getattr(hole, "radius", 14.0),
-                        interior_top - spec.get("floor_thickness", 1.6))
+                        interior_top - spec.floor_thickness)
             if interior_top - reach > mid_height:
                 continue
             if abs(getattr(hole, "offset", 0.0) or 0.0) < mouth(hole) + half:
@@ -284,7 +285,7 @@ def finger_cut_conflicts(spec: dict) -> list[str]:
     return messages
 
 
-def warn_about_finger_cuts(spec: dict) -> None:
+def warn_about_finger_cuts(spec: BoxSpec) -> None:
     """Emit :func:`finger_cut_conflicts` as warnings, and build anyway (FR-006c).
 
     A warning rather than an error: the merged cut is still a box, and a user
@@ -294,10 +295,10 @@ def warn_about_finger_cuts(spec: dict) -> None:
     import warnings
 
     for message in finger_cut_conflicts(spec):
-        warnings.warn(f"{spec.get('label', 'box')}: {message}", stacklevel=2)
+        warnings.warn(f"{spec.label}: {message}", stacklevel=2)
 
 
-def apply_finger_holes(body: "Bosl2Solid", spec: dict) -> "Bosl2Solid":
+def apply_finger_holes(body: "Bosl2Solid", spec: BoxSpec) -> "Bosl2Solid":
     """Cut any exterior finger holes out of a box body (FR-006).
 
     A hole on the outside of a box is the same cut as a compartment's wall
@@ -317,7 +318,7 @@ def apply_finger_holes(body: "Bosl2Solid", spec: dict) -> "Bosl2Solid":
     Returns:
         The body with every hole subtracted; unchanged when there are none.
     """
-    holes = spec.get("finger_holes") or ()
+    holes = spec.finger_holes or ()
     if not holes:
         return body
 
@@ -327,22 +328,21 @@ def apply_finger_holes(body: "Bosl2Solid", spec: dict) -> "Bosl2Solid":
     from pyboxbuilder.compartments.finger_outline import CutProfile
     from pyboxbuilder.compartments.finger_sweep import DEFAULT_FLOOR_DIP_MM, FaceTreatment
 
-    wt = spec.get("wall_thickness", 2.0)
-    ft = spec.get("floor_thickness", 1.6)
-    inner_width = spec["width"] - 2 * wt
-    inner_length = spec["length"] - 2 * wt
+    wt = spec.wall_thickness
+    ft = spec.floor_thickness
+    inner_width = spec.width - 2 * wt
+    inner_length = spec.length - 2 * wt
 
     # Align to the top of the *inside*, not the outer rim. On a lidded box the
     # lid (or its track) occupies the band above the interior, so a hole hung
     # from the rim starts inside solid material and reads as a nick in the top
     # edge rather than as a cut into the well. A type whose body is already
     # shortened for its lid — cap, slipover — says so with `interior_top`.
-    from pyboxbuilder.box.base import wall_top
 
     for hole in holes:
         # Per side: the four walls need not end level, and a hole aligned to
         # the wrong one either floats above its wall or cuts into a lid feature.
-        interior_top = wall_top(spec, hole.side)
+        interior_top = spec.wall_top(hole.side)
         interior_height = interior_top - ft
         radius = getattr(hole, "radius", 14.0)
         # The cut's height follows the finger unless told otherwise, and never
@@ -353,7 +353,7 @@ def apply_finger_holes(body: "Bosl2Solid", spec: dict) -> "Bosl2Solid":
         # instead of a scoop, filleted the whole way round (FR-065). The
         # window's top then needs the same allowance as its bottom, since the
         # fillet grows past both — hence `ends`.
-        walled_over = interior_top < spec["height"] - 1e-9
+        walled_over = interior_top < spec.height - 1e-9
         flare = _hole_flare(wt, hole, reach, ends=2 if walled_over else 1)
         # Both ends are set by the outline's height, not by shifting the solid:
         # the cut runs a flare past each end of its outline, so an outline this
@@ -419,7 +419,7 @@ def apply_finger_holes(body: "Bosl2Solid", spec: dict) -> "Bosl2Solid":
     return body
 
 
-def no_lid_finger_holes(spec: dict):
+def no_lid_finger_holes(spec: BoxSpec):
     """The finger holes a no-lid box cuts into its longer walls (FR-047).
 
     An open tray is lifted by the rim, so the original (`no_lid.scad`) puts a
@@ -458,11 +458,11 @@ def no_lid_finger_holes(spec: dict):
     """
     from pyboxbuilder.builders._base import FingerHoleBuilder
 
-    wt = spec.get("wall_thickness", 2.0)
-    ft = spec.get("floor_thickness", 1.6)
-    width = spec["width"]
-    length = spec["length"]
-    height = spec["height"]
+    wt = spec.wall_thickness
+    ft = spec.floor_thickness
+    width = spec.width
+    length = spec.length
+    height = spec.height
 
     radius = min(20.0, min(length, width) / 4.0, height - ft + 1.0)
     # The strip of wall the tray is picked up by: the cut stops this far above
@@ -502,18 +502,32 @@ def no_lid_finger_holes(spec: dict):
     )
 
 
-def add_no_lid_finger_holes(spec: dict) -> None:
-    """Give a no-lid spec its default finger holes, unless it already has some.
+def with_no_lid_finger_holes(spec: BoxSpec) -> BoxSpec:
+    """A no-lid spec with its default finger holes, unless it already has some.
 
-    Idempotent on the ``finger_holes`` key: an explicit ``finger_hole(side)``
-    call on the builder wins, and a second call to this is a no-op. A spec that
-    sets ``auto_finger_holes`` to ``False`` opts out entirely.
+    Idempotent: an explicit ``finger_hole(side)`` call on the builder wins, and
+    a second call to this changes nothing. A spec that sets
+    ``auto_finger_holes`` to ``False`` opts out entirely (FR-047b).
+
+    A **polygon** footprint gets none either (FR-047c). The rule names four
+    walls and a longer side, and a polygon has neither — `no_lid_finger_holes`
+    would read the bounding box and place a cut on a wall that need not exist.
+    The test is the footprint rather than the box type, because that is what
+    the rule is actually about; an explicit `finger_hole(side)` still works,
+    since the caller can see the outline.
+
+    Args:
+        spec: The box's resolved description.
+
+    Returns:
+        The spec, or a copy carrying the automatic pair.
     """
-    if spec.get("auto_finger_holes", True) and not spec.get("finger_holes"):
-        spec["finger_holes"] = no_lid_finger_holes(spec)
+    if spec.auto_finger_holes and not spec.finger_holes and not spec.path:
+        return replace(spec, finger_holes=no_lid_finger_holes(spec))
+    return spec
 
 
-def interior_block(spec: dict) -> "Bosl2Solid":
+def interior_block(spec: BoxSpec) -> "Bosl2Solid":
     """The solid that `build_shell` removes — the box's full interior volume.
 
     The void's **bottom edges are rounded**, which is what leaves a fillet
@@ -537,9 +551,9 @@ def interior_block(spec: dict) -> "Bosl2Solid":
     """
     from pybosl2 import Anchor, cuboid
 
-    wt = spec.get("wall_thickness", 2.0)
-    ft = spec.get("floor_thickness", 1.6)
-    size = [spec["width"] - 2 * wt, spec["length"] - 2 * wt, spec["height"] - ft]
+    wt = spec.wall_thickness
+    ft = spec.floor_thickness
+    size = [spec.width - 2 * wt, spec.length - 2 * wt, spec.height - ft]
 
     radius = body_rounding(spec)
     if radius <= 0 or radius >= min(size) / 2:
@@ -552,7 +566,7 @@ def interior_block(spec: dict) -> "Bosl2Solid":
     )
 
 
-def round_inner_rim(body: "Bosl2Solid", spec: dict) -> "Bosl2Solid":
+def round_inner_rim(body: "Bosl2Solid", spec: BoxSpec) -> "Bosl2Solid":
     """Round the **inner** top edge of a lidless box's rim (FR-043f).
 
     An open tray's rim is exposed on both faces — it is the edge a hand runs
@@ -585,14 +599,14 @@ def round_inner_rim(body: "Bosl2Solid", spec: dict) -> "Bosl2Solid":
 
     from pyboxbuilder.rounding import rounding_facets, roundover_profile
 
-    if not spec.get("rim_free") or not spec.get("hollow", True):
+    if not spec.rim_free or not spec.hollow:
         return body
 
-    wt = spec.get("wall_thickness", 2.0)
-    ft = spec.get("floor_thickness", 1.6)
-    inner_width = spec["width"] - 2 * wt
-    inner_length = spec["length"] - 2 * wt
-    interior_height = spec["height"] - ft
+    wt = spec.wall_thickness
+    ft = spec.floor_thickness
+    inner_width = spec.width - 2 * wt
+    inner_length = spec.length - 2 * wt
+    interior_height = spec.height - ft
     # Half the wall is all a rim can give up on this side and still be a rim:
     # the outer edge is taking the same fillet from the other side (FR-043f).
     radius = min(body_rounding(spec), wt / 2)
@@ -623,8 +637,8 @@ def round_inner_rim(body: "Bosl2Solid", spec: dict) -> "Bosl2Solid":
     # sweep's far end, where a zero-height flange back out to the widened path
     # would otherwise be left inside the wall.
     keep = block(
-        [spec["width"] + 4 * radius, spec["length"] + 4 * radius, radius + 1.0],
+        [spec.width + 4 * radius, spec.length + 4 * radius, radius + 1.0],
         at=(-2 * radius, -2 * radius, -1.0),
     )
     ring = (CsgSolid(swept.polyhedron()) & keep).mirror([0, 0, 1])
-    return body - ring.translate([0.0, 0.0, spec["height"]])
+    return body - ring.translate([0.0, 0.0, spec.height])

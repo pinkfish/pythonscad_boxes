@@ -19,9 +19,9 @@ clear of the lid features cut into the same walls.
 from __future__ import annotations
 
 import math
-from typing import Sequence, TYPE_CHECKING
+from typing import TYPE_CHECKING, Sequence
 
-from pyboxbuilder.precision import kwargs as precision_kwargs
+from pyboxbuilder.box.spec import BoxSpec
 
 if TYPE_CHECKING:
     from pybosl2.shapes3d import Bosl2Solid
@@ -51,7 +51,7 @@ wall thick, and a full-size fillet there would eat most of it.
 """
 
 
-def mating_rounding(spec: dict) -> float:
+def mating_rounding(spec: BoxSpec) -> float:
     """The radius for surfaces where a partial lid grips the body.
 
     Both halves of the grip use this same value, so the lid's inner corners
@@ -66,7 +66,7 @@ def mating_rounding(spec: dict) -> float:
     """
     from pyboxbuilder.box.shell import body_rounding
 
-    explicit = spec.get("inner_rounding")
+    explicit = spec.inner_rounding
     if explicit is not None:
         return max(0.0, float(explicit))
     return body_rounding(spec) * MATING_ROUNDING_RATIO
@@ -83,7 +83,7 @@ bearing surface.
 """
 
 
-def lid_rounding(spec: dict) -> float:
+def lid_rounding(spec: BoxSpec) -> float:
     """The edge radius for a lid, capped so it keeps enough support.
 
     Args:
@@ -96,7 +96,7 @@ def lid_rounding(spec: dict) -> float:
     """
     from pyboxbuilder.box.shell import body_rounding
 
-    lid_thickness = spec.get("lid_thickness", 0.0) or 0.0
+    lid_thickness = spec.lid_thickness or 0.0
     radius = body_rounding(spec)
     if lid_thickness <= 0:
         return radius
@@ -195,7 +195,8 @@ def max_radius(size: Sequence[float], edges: Sequence) -> float:
     Returns:
         The maximum radius in mm, or ``inf`` when no edge is selected.
     """
-    from pybosl2._edges_lang import EDGE_OFFSETS, edges as resolve
+    from pybosl2._edges_lang import EDGE_OFFSETS
+    from pybosl2._edges_lang import edges as resolve
 
     matrix = resolve(list(edges) if isinstance(edges, (list, tuple)) else edges)
     limits: list[float] = []

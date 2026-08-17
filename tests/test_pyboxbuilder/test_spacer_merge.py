@@ -6,6 +6,8 @@ from __future__ import annotations
 import random
 import unittest
 
+from pyboxbuilder.box.spec import BoxSpec
+
 from pyboxbuilder.packing.layout import Placement
 from pyboxbuilder.packing.spacer import (
     Void,
@@ -224,10 +226,8 @@ class RectilinearMergeTests(unittest.TestCase):
 
         placements = [box("A", (0, 0, 0), (60, 40, 20))]
         spacer = generate_spacer_placements((100, 100, 20), placements)[0]
-        body = BOX_IMPL_REGISTRY[BoxType.PATH]().build_body({
-            "width": spacer.size[0], "length": spacer.size[1], "height": spacer.size[2],
-            "wall_thickness": 2.0, "floor_thickness": 1.6, "path": spacer.path,
-        })
+        body = BOX_IMPL_REGISTRY[BoxType.PATH]().build_body(BoxSpec(width=spacer.size[0], length=spacer.size[1], height=spacer.size[2],
+            wall_thickness=2.0, floor_thickness=1.6, path=spacer.path))
         _, size = body.bounds()
         self.assertAlmostEqual(size[0], spacer.size[0], places=2)
         self.assertAlmostEqual(size[1], spacer.size[1], places=2)

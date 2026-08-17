@@ -6,6 +6,8 @@ from __future__ import annotations
 import tempfile
 import unittest
 
+from pyboxbuilder.box.spec import BoxSpec
+
 from mesh import volume  # the shared measurer; see tests/mesh.py
 
 from pyboxbuilder.box.registry import BOX_IMPL_REGISTRY
@@ -14,10 +16,8 @@ from pyboxbuilder.lid.builder import LidBuilder, PatternBuilder
 from pyboxbuilder.lid.decorate import decorate_lid
 from pyboxbuilder.lid.label import build_label, text_height_for
 
-SPEC = {
-    "width": 100.0, "length": 70.0, "height": 30.0,
-    "wall_thickness": 2.0, "floor_thickness": 2.0, "lid_thickness": 2.0,
-}
+SPEC = BoxSpec(width=100.0, length=70.0, height=30.0,
+    wall_thickness=2.0, floor_thickness=2.0, lid_thickness=2.0)
 
 
 def bare_lid():

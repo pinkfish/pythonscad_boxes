@@ -12,7 +12,7 @@ from typing import TYPE_CHECKING
 from pyboxbuilder import Color
 
 if TYPE_CHECKING:
-    from pybosl2.shapes3d import Bosl2Solid
+    pass
 
 
 @dataclass
@@ -29,7 +29,6 @@ class ColorLayerAssignment:
     """Pattern top layer color (None = no pattern)."""
 
 
-from dataclasses import dataclass
 
 
 def resolve_colors(

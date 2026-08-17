@@ -20,10 +20,10 @@ so existing imports keep working; new code can take the specific module.
 from __future__ import annotations
 
 from pyboxbuilder.compartments.finger_cuts import (
-    DEFAULT_FLOOR_DIP_MM,
-    MIN_WALL_SCOOP_DEPTH_MM,
     _SIDE_CENTRES,
     _SIDE_SPIN,
+    DEFAULT_FLOOR_DIP_MM,
+    MIN_WALL_SCOOP_DEPTH_MM,
     build_cut,
     build_floor_scoop,
     build_scoop,

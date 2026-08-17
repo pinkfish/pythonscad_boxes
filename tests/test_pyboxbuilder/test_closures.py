@@ -8,9 +8,13 @@ intersection volume does not.
 """
 
 from __future__ import annotations
+from pyboxbuilder.box.spec import BoxSpec
+from dataclasses import replace
 
 import re
 import unittest
+
+from ._spec import spec
 
 from mesh import volume  # the shared measurer; see tests/mesh.py
 
@@ -26,10 +30,8 @@ from pyboxbuilder.box.features import (
 from pyboxbuilder.box.registry import BOX_IMPL_REGISTRY, LIDLESS_BOX_TYPES
 from pyboxbuilder.enums import BoxType
 
-SPEC = {
-    "width": 100.0, "length": 80.0, "height": 40.0,
-    "wall_thickness": 2.0, "floor_thickness": 2.0, "lid_thickness": 2.0,
-}
+SPEC = BoxSpec(width=100.0, length=80.0, height=40.0,
+    wall_thickness=2.0, floor_thickness=2.0, lid_thickness=2.0)
 
 
 
@@ -48,8 +50,8 @@ class MatingTests(unittest.TestCase):
                 continue
             with self.subTest(box_type=box_type.value):
                 box = BOX_IMPL_REGISTRY[box_type]()
-                body = box.build_body(dict(SPEC))
-                lid = box.build_lid(dict(SPEC))
+                body = box.build_body(SPEC)
+                lid = box.build_lid(SPEC)
                 self.assertIsNotNone(lid, f"{box_type.value} has no lid")
                 self.assertLess(
                     volume(body & lid), 0.01,
@@ -62,12 +64,12 @@ class MatingTests(unittest.TestCase):
             if box_type in LIDLESS_BOX_TYPES:
                 continue
             with self.subTest(box_type=box_type.value):
-                lid = BOX_IMPL_REGISTRY[box_type]().build_lid(dict(SPEC))
+                lid = BOX_IMPL_REGISTRY[box_type]().build_lid(SPEC)
                 self.assertGreater(volume(lid), 1000.0, box_type.value)
 
     def test_lidless_types_return_no_lid(self) -> None:
         for box_type in LIDLESS_BOX_TYPES:
-            self.assertIsNone(BOX_IMPL_REGISTRY[box_type]().build_lid(dict(SPEC)))
+            self.assertIsNone(BOX_IMPL_REGISTRY[box_type]().build_lid(SPEC))
 
 
 class DeclaredSizeTests(unittest.TestCase):
@@ -88,9 +90,9 @@ class DeclaredSizeTests(unittest.TestCase):
 
     def parts(self, box_type: BoxType):
         box = BOX_IMPL_REGISTRY[box_type]()
-        out = [box.build_body(dict(SPEC))]
+        out = [box.build_body(SPEC)]
         if box_type not in LIDLESS_BOX_TYPES:
-            out.append(box.build_lid(dict(SPEC)))
+            out.append(box.build_lid(SPEC))
         return [p for p in out if p is not None]
 
     @staticmethod
@@ -106,13 +108,13 @@ class DeclaredSizeTests(unittest.TestCase):
         from pyboxbuilder.box.shell import block
 
         return block(
-            [SPEC["width"], SPEC["length"], SPEC["height"] * 4],
-            at=(0.0, 0.0, -SPEC["height"]),
+            [SPEC.width, SPEC.length, SPEC.height * 4],
+            at=(0.0, 0.0, -SPEC.height),
         )
 
     def test_a_closed_box_is_the_size_it_was_asked_for(self) -> None:
         """Measured over the declared footprint, which is what packing reserves."""
-        want = (SPEC["width"], SPEC["length"], SPEC["height"])
+        want = (SPEC.width, SPEC.length, SPEC.height)
         axis_name = ("width", "length", "height")
         keep = self.footprint()
         for box_type in BoxType:
@@ -152,35 +154,35 @@ class DeclaredSizeTests(unittest.TestCase):
             with self.subTest(box_type=box_type.value):
                 (x0, x1), (y0, y1), (z0, z1) = self.extent(self.parts(box_type))
                 self.assertAlmostEqual(x0, 0.0, places=2)
-                self.assertAlmostEqual(x1, SPEC["width"], places=2)
+                self.assertAlmostEqual(x1, SPEC.width, places=2)
                 self.assertAlmostEqual(y0, 0.0, places=2)
-                self.assertAlmostEqual(y1, SPEC["length"], places=2)
+                self.assertAlmostEqual(y1, SPEC.length, places=2)
                 self.assertAlmostEqual(z0, 0.0, places=2)
-                self.assertAlmostEqual(z1, SPEC["height"], places=2)
+                self.assertAlmostEqual(z1, SPEC.height, places=2)
 
     def test_the_cap_body_leaves_room_for_its_lid(self) -> None:
         """The body stops short and steps in; the lid fills back out to size."""
         box = BOX_IMPL_REGISTRY[BoxType.CAP]()
-        (_, _, _), (body_w, _, body_h) = bbox(box.build_body(dict(SPEC)))
-        self.assertLess(body_h, SPEC["height"])
-        self.assertAlmostEqual(body_w, SPEC["width"], places=2)  # full at the base
+        (_, _, _), (body_w, _, body_h) = bbox(box.build_body(SPEC))
+        self.assertLess(body_h, SPEC.height)
+        self.assertAlmostEqual(body_w, SPEC.width, places=2)  # full at the base
 
-        (_, _, lid_z), (lid_w, _, _) = bbox(box.build_lid(dict(SPEC)))
-        self.assertAlmostEqual(lid_w, SPEC["width"], places=2)
+        (_, _, lid_z), (lid_w, _, _) = bbox(box.build_lid(SPEC))
+        self.assertAlmostEqual(lid_w, SPEC.width, places=2)
         self.assertLess(lid_z, body_h, "the skirt must reach down over the body")
 
     def test_the_slipover_body_sits_inside_its_sleeve(self) -> None:
         box = BOX_IMPL_REGISTRY[BoxType.SLIPOVER]()
-        (bx, by, _), (body_w, body_l, body_h) = bbox(box.build_body(dict(SPEC)))
+        (bx, by, _), (body_w, body_l, body_h) = bbox(box.build_body(SPEC))
         self.assertGreater(bx, 0.0)
         self.assertGreater(by, 0.0)
-        self.assertLess(body_w, SPEC["width"])
-        self.assertLess(body_l, SPEC["length"])
-        self.assertLess(body_h, SPEC["height"])
+        self.assertLess(body_w, SPEC.width)
+        self.assertLess(body_l, SPEC.length)
+        self.assertLess(body_h, SPEC.height)
 
-        (_, _, _), (lid_w, lid_l, _) = bbox(box.build_lid(dict(SPEC)))
-        self.assertAlmostEqual(lid_w, SPEC["width"], places=2)
-        self.assertAlmostEqual(lid_l, SPEC["length"], places=2)
+        (_, _, _), (lid_w, lid_l, _) = bbox(box.build_lid(SPEC))
+        self.assertAlmostEqual(lid_w, SPEC.width, places=2)
+        self.assertAlmostEqual(lid_l, SPEC.length, places=2)
 
 
 class RabbetTests(unittest.TestCase):
@@ -197,13 +199,13 @@ class RabbetTests(unittest.TestCase):
         """An inset lid standing proud would stop the box stacking."""
         closure = rabbet(SPEC)
         (_, _, z), (_, _, h) = bbox(closure.lid)
-        self.assertAlmostEqual(z + h, SPEC["height"], places=3)
+        self.assertAlmostEqual(z + h, SPEC.height, places=3)
 
     def test_the_ledge_leaves_wall_behind_it(self) -> None:
         closure = rabbet(SPEC, inset=1.0)
         (_, _, _), (recess_w, _, _) = bbox(closure.body)
-        self.assertLess(recess_w, SPEC["width"])
-        self.assertGreater(recess_w, SPEC["width"] - 2 * SPEC["wall_thickness"])
+        self.assertLess(recess_w, SPEC.width)
+        self.assertGreater(recess_w, SPEC.width - 2 * SPEC.wall_thickness)
 
 
 class SlidingTests(unittest.TestCase):
@@ -211,7 +213,7 @@ class SlidingTests(unittest.TestCase):
         """FR-002c: no key at the top (interior), half the wall at the bottom."""
         for wall in (1.0, 1.5, 2.0, 3.0, 6.0):
             with self.subTest(wall=wall):
-                top, bottom = sliding_dovetail({**SPEC, "wall_thickness": wall})
+                top, bottom = sliding_dovetail(replace(SPEC, wall_thickness=wall))
                 self.assertEqual(top, 0.0)
                 self.assertEqual(bottom, wall / 2)
 
@@ -222,9 +224,9 @@ class SlidingTests(unittest.TestCase):
         a 1mm knife edge — a taper big enough to read as the wedge a sliding
         lid should not have anywhere.
         """
-        self.assertEqual(lead_chamfer_size(SPEC), SPEC["lid_thickness"] / 4)
+        self.assertEqual(lead_chamfer_size(SPEC), SPEC.lid_thickness / 4)
         self.assertEqual(
-            lead_chamfer_size({**SPEC, "lead_chamfer": 0.5}), 0.5
+            lead_chamfer_size(replace(SPEC, lead_chamfer=0.5)), 0.5
         )
 
     def test_the_lid_flares_from_interior_to_half_wall(self) -> None:
@@ -232,11 +234,11 @@ class SlidingTests(unittest.TestCase):
         from pyboxbuilder.box.shell import block
 
         lid = sliding_track(SPEC).lid
-        wt = SPEC["wall_thickness"]
-        interior = SPEC["length"] - 2 * wt
+        wt = SPEC.wall_thickness
+        interior = SPEC.length - 2 * wt
         (_, _, _), (_, bottom_w, _) = bbox(lid)  # widest face is the underside
         top = lid & block(
-            [SPEC["width"], SPEC["length"], 0.01], at=(0, 0, SPEC["height"] - 0.01)
+            [SPEC.width, SPEC.length, 0.01], at=(0, 0, SPEC.height - 0.01)
         )
         (_, _, _), (_, top_w, _) = bbox(top)
         self.assertAlmostEqual(top_w, interior - FIT_SLACK_MM, delta=0.05)
@@ -245,7 +247,7 @@ class SlidingTests(unittest.TestCase):
     def test_the_leading_end_is_chamfered(self) -> None:
         """FR-002d: the chamfer removes material from the lid's leading bottom edge."""
         lid = sliding_track(SPEC).lid
-        plain = sliding_track({**SPEC, "lead_chamfer": 0.0}).lid
+        plain = sliding_track(replace(SPEC, lead_chamfer=0.0)).lid
         self.assertLess(volume(lid), volume(plain), "the chamfer must remove material")
 
     def test_the_groove_keeps_wall_behind_it(self) -> None:
@@ -253,15 +255,15 @@ class SlidingTests(unittest.TestCase):
         from pyboxbuilder.box.shell import block
 
         channel = sliding_track(SPEC).body
-        wt = SPEC["wall_thickness"]
+        wt = SPEC.wall_thickness
         (_, _, _), (_, floor_w, _) = bbox(channel)
         opening = channel & block(
-            [SPEC["width"], SPEC["length"], 0.01], at=(0, 0, SPEC["height"] - 0.01)
+            [SPEC.width, SPEC.length, 0.01], at=(0, 0, SPEC.height - 0.01)
         )
         (_, _, _), (_, opening_w, _) = bbox(opening)
         # Floor is half a wall in from each side; opening is the interior.
-        self.assertAlmostEqual(floor_w, SPEC["length"] - wt + 0.1, places=2)
-        self.assertAlmostEqual(opening_w, SPEC["length"] - 2 * wt, delta=0.3)
+        self.assertAlmostEqual(floor_w, SPEC.length - wt + 0.1, places=2)
+        self.assertAlmostEqual(opening_w, SPEC.length - 2 * wt, delta=0.3)
         self.assertLess(opening_w, floor_w)
 
     def test_the_back_is_dovetailed_like_the_sides(self) -> None:
@@ -271,13 +273,13 @@ class SlidingTests(unittest.TestCase):
         from pyboxbuilder.box.shell import block
 
         channel = sliding_track(SPEC).body
-        wt = SPEC["wall_thickness"]
-        lt = SPEC["lid_thickness"]
+        wt = SPEC.wall_thickness
+        lt = SPEC.lid_thickness
         top = channel & block(
-            [SPEC["width"], SPEC["length"], 0.01], at=(0, 0, SPEC["height"] - 0.01)
+            [SPEC.width, SPEC.length, 0.01], at=(0, 0, SPEC.height - 0.01)
         )
         bottom = channel & block(
-            [SPEC["width"], SPEC["length"], 0.01], at=(0, 0, SPEC["height"] - lt)
+            [SPEC.width, SPEC.length, 0.01], at=(0, 0, SPEC.height - lt)
         )
         (top_x, _, _), _ = bbox(top)
         (bottom_x, _, _), _ = bbox(bottom)
@@ -288,7 +290,7 @@ class SlidingTests(unittest.TestCase):
         """The lid's leading end reaches under the stop wall, not up against it."""
         (x, _, _), _ = bbox(sliding_track(SPEC).lid)
         self.assertLess(
-            x, SPEC["wall_thickness"], "the lid must reach into the back seat"
+            x, SPEC.wall_thickness, "the lid must reach into the back seat"
         )
 
     def test_the_lid_slides_out_without_interference(self) -> None:
@@ -303,10 +305,10 @@ class SlidingTests(unittest.TestCase):
         from pyboxbuilder.box.types.sliding import SlidingBox
 
         box = SlidingBox()
-        spec = {**SPEC, "hollow": True}
+        spec = replace(SPEC, hollow=True)
         body = box.build_body(spec)
         lid = box.build_lid(spec)
-        for step in (0.0, 1.0, 5.0, 25.0, 60.0, SPEC["width"]):
+        for step in (0.0, 1.0, 5.0, 25.0, 60.0, SPEC.width):
             with self.subTest(slid=step):
                 self.assertLess(
                     volume(body & lid.translate([step, 0, 0])), 0.01,
@@ -318,7 +320,7 @@ class SlidingTests(unittest.TestCase):
         from pyboxbuilder.box.types.sliding import SlidingBox
 
         box = SlidingBox()
-        spec = {**SPEC, "hollow": True}
+        spec = replace(SPEC, hollow=True)
         body = box.build_body(spec)
         lid = box.build_lid(spec)
         self.assertGreater(
@@ -329,7 +331,7 @@ class SlidingTests(unittest.TestCase):
     def test_the_lid_corners_are_rounded(self) -> None:
         """FR-002e4: rounded so they do not snag on the groove mouths."""
         rounded = sliding_track(SPEC).lid
-        square = sliding_track({**SPEC, "lid_corner_rounding": 0.0}).lid
+        square = sliding_track(replace(SPEC, lid_corner_rounding=0.0)).lid
         self.assertLess(
             volume(rounded), volume(square), "the rounding must remove material"
         )
@@ -344,18 +346,18 @@ class SlidingTests(unittest.TestCase):
         from pyboxbuilder.box.shell import block
 
         lid = sliding_track(SPEC).lid
-        square = sliding_track({**SPEC, "lead_chamfer": 0.0}).lid
-        lt = SPEC["lid_thickness"]
+        square = sliding_track(replace(SPEC, lead_chamfer=0.0)).lid
+        lt = SPEC.lid_thickness
 
         def lead_at(solid, z: float) -> float:
             slab = solid & block(
-                [SPEC["width"], SPEC["length"], 0.01], at=(0, 0, z)
+                [SPEC.width, SPEC.length, 0.01], at=(0, 0, z)
             )
             return bbox(slab)[0][0]
 
         for name, z in (
-            ("underside", SPEC["height"] - lt + 0.005),
-            ("top face", SPEC["height"] - 0.015),
+            ("underside", SPEC.height - lt + 0.005),
+            ("top face", SPEC.height - 0.015),
         ):
             with self.subTest(edge=name):
                 self.assertGreater(
@@ -366,14 +368,14 @@ class SlidingTests(unittest.TestCase):
     def test_the_sliding_clearance_is_configurable(self) -> None:
         """`sliding_slack` widens the gap between the lid and the groove."""
         default = sliding_track(SPEC).lid
-        roomy = sliding_track({**SPEC, "sliding_slack": 0.5}).lid
+        roomy = sliding_track(replace(SPEC, sliding_slack=0.5)).lid
         (_, _, _), (_, default_w, _) = bbox(default)
         (_, _, _), (_, roomy_w, _) = bbox(roomy)
         self.assertAlmostEqual(
-            default_w, SPEC["length"] - SPEC["wall_thickness"] - 0.2, places=2
+            default_w, SPEC.length - SPEC.wall_thickness - 0.2, places=2
         )
         self.assertAlmostEqual(
-            roomy_w, SPEC["length"] - SPEC["wall_thickness"] - 1.0, places=2
+            roomy_w, SPEC.length - SPEC.wall_thickness - 1.0, places=2
         )
         self.assertLess(roomy_w, default_w)
 
@@ -391,7 +393,7 @@ class SlidingBumpCatchTests(unittest.TestCase):
     def test_the_catch_sits_at_the_outlet_not_the_stop(self) -> None:
         """SC-049: dragging the bump the length of the groove wears it out."""
         radius = 1.0
-        outlet = SPEC["width"]  # along_axis "x" leaves through +X
+        outlet = SPEC.width  # along_axis "x" leaves through +X
         for name, solid in (
             ("dimple", sliding_catch(SPEC, radius, "x").body),
             ("bump", sliding_catch(SPEC, radius, "x").lid),
@@ -401,7 +403,7 @@ class SlidingBumpCatchTests(unittest.TestCase):
                 centre = x0 + dx / 2
                 self.assertLess(
                     outlet - centre,
-                    SPEC["wall_thickness"] + 2 * radius + 0.01,
+                    SPEC.wall_thickness + 2 * radius + 0.01,
                     "the catch must engage in the last few mm of travel",
                 )
 
@@ -410,8 +412,8 @@ class SlidingBumpCatchTests(unittest.TestCase):
         along_y = sliding_catch(SPEC, 1.0, "y").body
         (_, y0, _), (_, dy, _) = bbox(along_y)
         self.assertLess(
-            SPEC["length"] - (y0 + dy / 2),
-            SPEC["wall_thickness"] + 2.0 + 0.01,
+            SPEC.length - (y0 + dy / 2),
+            SPEC.wall_thickness + 2.0 + 0.01,
             "sliding along Y must put the catch near the +Y outlet",
         )
 
@@ -433,10 +435,10 @@ class SlidingBumpCatchTests(unittest.TestCase):
         from pyboxbuilder.box.types.sliding import SlidingBox
 
         box = SlidingBox()
-        spec = {**SPEC, "hollow": True}
+        spec = replace(SPEC, hollow=True)
         self.assertAlmostEqual(
             volume(box.build_lid(spec)),
-            volume(box.build_lid({**spec, "catch_radius": 0.0})),
+            volume(box.build_lid(replace(spec, catch_radius=0.0))),
             delta=0.01,
         )
 
@@ -444,12 +446,12 @@ class SlidingBumpCatchTests(unittest.TestCase):
         from pyboxbuilder.box.types.sliding import SlidingBox
 
         box = SlidingBox()
-        spec = {**SPEC, "hollow": True}
+        spec = replace(SPEC, hollow=True)
         plain = volume(box.build_lid(spec))
-        caught = volume(box.build_lid({**spec, "catch_radius": 1.0}))
+        caught = volume(box.build_lid(replace(spec, catch_radius=1.0)))
         self.assertGreater(caught, plain, "the bumps must add material to the lid")
         self.assertLess(
-            volume(box.build_body({**spec, "catch_radius": 1.0})),
+            volume(box.build_body(replace(spec, catch_radius=1.0))),
             volume(box.build_body(spec)),
             "the dimples must take material out of the body",
         )
@@ -472,11 +474,11 @@ class FilamentHingeTests(unittest.TestCase):
         closure = filament_hinge(SPEC)
         (_, knuckle_y, _), (_, knuckle_length, _) = bbox(closure.lid)
         self.assertLessEqual(
-            knuckle_y + knuckle_length, SPEC["length"] + 0.01,
+            knuckle_y + knuckle_length, SPEC.length + 0.01,
             "the hinge is standing outside the box",
         )
         self.assertGreater(
-            knuckle_y, SPEC["length"] * 0.5,
+            knuckle_y, SPEC.length * 0.5,
             "the hinge should be at the back, not adrift in the middle",
         )
 
@@ -497,12 +499,12 @@ class FilamentHingeTests(unittest.TestCase):
 
     def test_the_body_stops_short_so_the_lid_closes_onto_it(self) -> None:
         box = BOX_IMPL_REGISTRY[BoxType.FILAMENT_HINGE]()
-        body = box.build_body(dict(SPEC))
-        lid = box.build_lid(dict(SPEC))
+        body = box.build_body(SPEC)
+        lid = box.build_lid(SPEC)
         (_, _, _), (_, _, body_h) = bbox(body)
         (_, _, lid_z), (_, _, lid_h) = bbox(lid)
         # Closed, the pair comes to the box's stated height.
-        self.assertAlmostEqual(lid_z + lid_h, SPEC["height"], places=3)
+        self.assertAlmostEqual(lid_z + lid_h, SPEC.height, places=3)
 
 
 class HingeArticulationTests(unittest.TestCase):
@@ -510,7 +512,7 @@ class HingeArticulationTests(unittest.TestCase):
 
     def hinge_parts(self):
         box = BOX_IMPL_REGISTRY[BoxType.HINGE]()
-        return box.build_body(dict(SPEC)), box.build_lid(dict(SPEC))
+        return box.build_body(SPEC), box.build_lid(SPEC)
 
     def test_the_lid_carries_knuckles_too(self) -> None:
         """A plain plate cannot hinge, so the lid must reach down to the pin.
@@ -521,7 +523,7 @@ class HingeArticulationTests(unittest.TestCase):
         """
         _, lid = self.hinge_parts()
         (_, _, lid_z), (_, _, lid_h) = bbox(lid)
-        joint = SPEC["height"] - SPEC["lid_thickness"]
+        joint = SPEC.height - SPEC.lid_thickness
         self.assertLess(
             lid_z, joint - 0.5,
             "the lid has no knuckles reaching down to the pin",
@@ -548,11 +550,11 @@ class HingeArticulationTests(unittest.TestCase):
 
         _, lid = self.hinge_parts()
         over_box = lid & block(
-            [SPEC["width"], SPEC["length"], SPEC["height"] * 3],
-            at=(0.0, 0.0, -SPEC["height"]),
+            [SPEC.width, SPEC.length, SPEC.height * 3],
+            at=(0.0, 0.0, -SPEC.height),
         )
         (_, _, z), (_, _, h) = bbox(over_box)
-        self.assertAlmostEqual(z + h, SPEC["height"], places=3)
+        self.assertAlmostEqual(z + h, SPEC.height, places=3)
 
     def test_the_barrel_stays_behind_the_box(self) -> None:
         """Whatever protrudes must protrude backwards, not sideways or forwards."""
@@ -560,7 +562,7 @@ class HingeArticulationTests(unittest.TestCase):
         for part in (body, lid):
             (x, y, _), (w, l, _) = bbox(part)
             self.assertGreaterEqual(round(x, 3), 0.0)
-            self.assertLessEqual(round(x + w, 3), SPEC["width"])
+            self.assertLessEqual(round(x + w, 3), SPEC.width)
             self.assertGreaterEqual(round(y, 3), 0.0)
 
 
@@ -569,7 +571,7 @@ class PathClosureTests(unittest.TestCase):
                (40.0, 80.0), (0.0, 80.0))
 
     def spec(self) -> dict:
-        return {**SPEC, "path": self.L_SHAPE}
+        return replace(SPEC, path=self.L_SHAPE)
 
     def test_a_cap_path_lid_follows_the_polygon(self) -> None:
         box = BOX_IMPL_REGISTRY[BoxType.CAP_PATH]()
@@ -589,7 +591,7 @@ class PathClosureTests(unittest.TestCase):
     def test_a_path_body_is_hollow(self) -> None:
         box = BOX_IMPL_REGISTRY[BoxType.CAP_PATH]()
         hollow = volume(box.build_body(self.spec()))
-        solid = volume(box.build_body({**self.spec(), "hollow": False}))
+        solid = volume(box.build_body(replace(self.spec(), hollow=False)))
         self.assertLess(hollow, solid)
 
     def test_no_path_falls_back_to_the_rectangular_closure(self) -> None:
@@ -602,13 +604,13 @@ class PathClosureTests(unittest.TestCase):
         ):
             with self.subTest(box_type=box_type.value):
                 box = BOX_IMPL_REGISTRY[box_type]()
-                body = box.build_body(dict(SPEC))
-                lid = box.build_lid(dict(SPEC))
+                body = box.build_body(SPEC)
+                lid = box.build_lid(SPEC)
                 self.assertLess(volume(body & lid), 0.01)
 
                 twin = BOX_IMPL_REGISTRY[plain]()
-                self.assertEqual(bbox(body), bbox(twin.build_body(dict(SPEC))))
-                self.assertEqual(bbox(lid), bbox(twin.build_lid(dict(SPEC))))
+                self.assertEqual(bbox(body), bbox(twin.build_body(SPEC)))
+                self.assertEqual(bbox(lid), bbox(twin.build_lid(SPEC)))
 
 
 if __name__ == "__main__":
@@ -624,7 +626,7 @@ class HingeInsideTests(unittest.TestCase):
         from pyboxbuilder.box.registry import BOX_IMPL_REGISTRY
 
         impl = BOX_IMPL_REGISTRY[box_type]()
-        return impl.build_body(dict(SPEC)), impl.build_lid(dict(SPEC))
+        return impl.build_body(SPEC), impl.build_lid(SPEC)
 
     def test_the_closed_box_is_its_declared_size_in_every_axis(self) -> None:
         for box_type in self.HINGED:
@@ -633,7 +635,7 @@ class HingeInsideTests(unittest.TestCase):
                 low, size = bbox(body | lid)
                 for axis, name in enumerate(("width", "length", "height")):
                     self.assertAlmostEqual(low[axis], 0.0, places=2)
-                    self.assertAlmostEqual(size[axis], SPEC[name], places=2)
+                    self.assertAlmostEqual(size[axis], getattr(SPEC, name), places=2)
 
     def test_the_two_halves_are_still_separate(self) -> None:
         """Relieving one side only looks fixed and is not: the obvious symptom
@@ -651,18 +653,17 @@ class HingeInsideTests(unittest.TestCase):
         self.assertIsNotNone(closure.lid_cut, "the lid gives up nothing")
 
     def test_the_interior_mask_carves_out_the_hinge(self) -> None:
-        from pyboxbuilder.box.base import interior_mask
         from pyboxbuilder.box.registry import BOX_IMPL_REGISTRY
         from pyboxbuilder.box.shell import block
 
-        wt, ft = SPEC["wall_thickness"], SPEC["floor_thickness"]
+        wt, ft = SPEC.wall_thickness, SPEC.floor_thickness
         whole = block(
-            [SPEC["width"] - 2 * wt, SPEC["length"] - 2 * wt, SPEC["height"]],
+            [SPEC.width - 2 * wt, SPEC.length - 2 * wt, SPEC.height],
             at=(wt, wt, ft),
         )
         for box_type in self.HINGED:
             with self.subTest(box_type=box_type.value):
-                mask = interior_mask(BOX_IMPL_REGISTRY[box_type](), dict(SPEC))
+                mask = BOX_IMPL_REGISTRY[box_type]().interior_mask(SPEC)
                 self.assertIsNotNone(mask, "a hinge box must mask its interior")
                 self.assertLess(
                     volume(mask), volume(whole),
@@ -670,33 +671,31 @@ class HingeInsideTests(unittest.TestCase):
                 )
 
     def test_types_without_something_in_the_way_mask_nothing(self) -> None:
-        from pyboxbuilder.box.base import interior_mask
         from pyboxbuilder.box.registry import BOX_IMPL_REGISTRY
 
         for box_type in (BoxType.CAP, BoxType.SLIDING, BoxType.NO_LID):
             with self.subTest(box_type=box_type.value):
                 self.assertIsNone(
-                    interior_mask(BOX_IMPL_REGISTRY[box_type](), dict(SPEC))
+                    BOX_IMPL_REGISTRY[box_type]().interior_mask(SPEC)
                 )
 
     def test_a_compartment_is_clipped_clear_of_the_hinge(self) -> None:
-        from pyboxbuilder.box.base import interior_mask
         from pyboxbuilder.box.registry import BOX_IMPL_REGISTRY
         from pyboxbuilder.box.interior import Interior
         from pyboxbuilder.compartments.carve import build_contents
         from pyboxbuilder.compartments.layout import CompartmentPlacement
 
-        wt, ft = SPEC["wall_thickness"], SPEC["floor_thickness"]
+        wt, ft = SPEC.wall_thickness, SPEC.floor_thickness
         interior = Interior(
-            width=SPEC["width"] - 2 * wt, length=SPEC["length"] - 2 * wt,
-            height=SPEC["height"] - SPEC["lid_thickness"] - ft,
+            width=SPEC.width - 2 * wt, length=SPEC.length - 2 * wt,
+            height=SPEC.height - SPEC.lid_thickness - ft,
             origin_x=wt, origin_y=wt, origin_z=ft,
         )
         placement = CompartmentPlacement(
-            "Big", (SPEC["width"] - 2 * wt, SPEC["length"] - 2 * wt), 20.0, (wt, wt)
+            "Big", (SPEC.width - 2 * wt, SPEC.length - 2 * wt), 20.0, (wt, wt)
         )
         impl = BOX_IMPL_REGISTRY[BoxType.HINGE]()
-        mask = interior_mask(impl, dict(SPEC))
+        mask = impl.interior_mask(SPEC)
 
         unmasked = build_contents([placement], interior)
         masked = build_contents([placement], interior, mask=mask)
@@ -712,9 +711,7 @@ class SlipoverFingerNotchTests(unittest.TestCase):
     def sleeve(self, **overrides):
         from pyboxbuilder.box.registry import BOX_IMPL_REGISTRY
 
-        spec = dict(SPEC)
-        spec.update(overrides)
-        return BOX_IMPL_REGISTRY[BoxType.SLIPOVER]().build_lid(spec)
+        return BOX_IMPL_REGISTRY[BoxType.SLIPOVER]().build_lid(replace(SPEC, **overrides))
 
     def test_the_notches_remove_material(self) -> None:
         plain = self.sleeve(slipover_finger_height=0.0)
@@ -726,8 +723,8 @@ class SlipoverFingerNotchTests(unittest.TestCase):
 
     def test_they_do_not_change_the_declared_footprint(self) -> None:
         low, size = bbox(self.sleeve())
-        self.assertAlmostEqual(size[0], SPEC["width"], places=2)
-        self.assertAlmostEqual(size[1], SPEC["length"], places=2)
+        self.assertAlmostEqual(size[0], SPEC.width, places=2)
+        self.assertAlmostEqual(size[1], SPEC.length, places=2)
         self.assertAlmostEqual(low[0], 0.0, places=2)
         self.assertAlmostEqual(low[1], 0.0, places=2)
 
@@ -741,14 +738,14 @@ class SlipoverFingerNotchTests(unittest.TestCase):
         half = 0.4  # a corner column, generously sized
         corners = {
             "near": (0.0, 0.0),
-            "far": (SPEC["width"], SPEC["length"]),
-            "left": (0.0, SPEC["length"]),
-            "right": (SPEC["width"], 0.0),
+            "far": (SPEC.width, SPEC.length),
+            "left": (0.0, SPEC.length),
+            "right": (SPEC.width, 0.0),
         }
         for name, (x, y) in corners.items():
             column = block(
-                [SPEC["width"] * half, SPEC["length"] * half, SPEC["height"] * 2],
-                at=(x - SPEC["width"] * half / 2, y - SPEC["length"] * half / 2, -1),
+                [SPEC.width * half, SPEC.length * half, SPEC.height * 2],
+                at=(x - SPEC.width * half / 2, y - SPEC.length * half / 2, -1),
             )
             taken = volume(removed & column)
             with self.subTest(corner=name):
@@ -761,7 +758,7 @@ class SlipoverFingerNotchTests(unittest.TestCase):
         plain = self.sleeve(slipover_finger_height=0.0)
         (_, _, z0), (_, _, dz) = bbox(plain - self.sleeve())
         self.assertLessEqual(
-            z0 + dz, SPEC["height"] - SPEC["lid_thickness"] + 0.01,
+            z0 + dz, SPEC.height - SPEC.lid_thickness + 0.01,
             "the notch cut into the lid plate",
         )
 
@@ -785,12 +782,12 @@ class CapFingerCutoutTests(unittest.TestCase):
     def body(self, **overrides):
         from pyboxbuilder.box.features import cap_body
 
-        return cap_body({**SPEC, "hollow": True, **overrides})
+        return cap_body(replace(SPEC, hollow=True, **overrides))
 
     def metrics(self, **overrides):
         from pyboxbuilder.box.features import cap_finger_metrics
 
-        return cap_finger_metrics({**SPEC, "hollow": True, **overrides})
+        return cap_finger_metrics(replace(SPEC, hollow=True, **overrides))
 
     def probe(self, solid, x: float, y: float) -> float:
         """How much body material sits in a 3mm cube at mid-cut height."""
@@ -805,7 +802,7 @@ class CapFingerCutoutTests(unittest.TestCase):
         the side midpoints are the bearing the skirt actually grips."""
         plain = self.body(cap_finger_cutouts=False)
         cut = self.body()
-        w, l = SPEC["width"], SPEC["length"]
+        w, l = SPEC.width, SPEC.length
         for x, y in ((0.6, 5.0), (w - 0.6, 5.0), (0.6, l - 5.0), (w - 0.6, l - 5.0)):
             with self.subTest(corner=(x, y)):
                 self.assertLess(
@@ -826,7 +823,7 @@ class CapFingerCutoutTests(unittest.TestCase):
         )
 
         f = self.metrics()
-        for run, side in ((f.length_x, SPEC["width"]), (f.length_y, SPEC["length"])):
+        for run, side in ((f.length_x, SPEC.width), (f.length_y, SPEC.length)):
             with self.subTest(side=side):
                 self.assertGreaterEqual(run, CAP_FINGER_MIN_LENGTH_MM)
                 self.assertAlmostEqual(
@@ -847,7 +844,7 @@ class CapFingerCutoutTests(unittest.TestCase):
 
         f = self.metrics()
         self.assertGreaterEqual(
-            f.base_z - SPEC["floor_thickness"], CAP_FINGER_FOOT_MM
+            f.base_z - SPEC.floor_thickness, CAP_FINGER_FOOT_MM
         )
 
     def test_both_radii_meet_the_minimum(self) -> None:
@@ -884,7 +881,7 @@ class CapFingerCutoutTests(unittest.TestCase):
         )
 
         smallest = (
-            SPEC["lid_thickness"] + CAP_FINGER_MIN_SKIRT_MM
+            SPEC.lid_thickness + CAP_FINGER_MIN_SKIRT_MM
             + CAP_FINGER_CURVE_TOTAL_MM + CAP_FINGER_FOOT_MM
         )
         self.metrics(height=smallest)  # must not raise
@@ -899,7 +896,7 @@ class CapFingerCutoutTests(unittest.TestCase):
         for height in (17.0, 40.0):
             with self.subTest(height=height):
                 self.assertEqual(
-                    cap_metrics({**SPEC, "height": height}).cap_height,
+                    cap_metrics(replace(SPEC, height=height)).cap_height,
                     min(10.0, height / 2),
                 )
 
@@ -908,7 +905,7 @@ class CapFingerCutoutTests(unittest.TestCase):
         through the closed box."""
         from pyboxbuilder.box.features import cap_lid
 
-        self.assertLess(volume(self.body() & cap_lid(dict(SPEC))), 0.01)
+        self.assertLess(volume(self.body() & cap_lid(SPEC)), 0.01)
 
 
 class SlipoverSleeveTests(unittest.TestCase):
@@ -917,7 +914,7 @@ class SlipoverSleeveTests(unittest.TestCase):
     def parts(self, **overrides):
         from pyboxbuilder.box.registry import BOX_IMPL_REGISTRY
 
-        spec = {**SPEC, "hollow": True, **overrides}
+        spec = replace(SPEC, hollow=True, **overrides)
         box = BOX_IMPL_REGISTRY[BoxType.SLIPOVER]()
         return box.build_body(spec), box.build_lid(spec)
 
@@ -927,10 +924,10 @@ class SlipoverSleeveTests(unittest.TestCase):
         from pyboxbuilder.box.features import SLIPOVER_SLEEVE_WALL_SHARE, slipover_metrics
 
         inset, _ = slipover_metrics(SPEC)
-        wiggle = SPEC.get("size_spacing", 0.2)
+        wiggle = SPEC.size_spacing
         self.assertAlmostEqual(
             inset - wiggle,
-            SPEC["wall_thickness"] * SLIPOVER_SLEEVE_WALL_SHARE,
+            SPEC.wall_thickness * SLIPOVER_SLEEVE_WALL_SHARE,
             places=6,
         )
 
@@ -946,15 +943,15 @@ class SlipoverSleeveTests(unittest.TestCase):
         self.assertLessEqual(gap, SLIPOVER_GAP_MAX_MM)
         _, sleeve = self.parts()
         (_, _, z0), _ = bbox(sleeve)
-        self.assertAlmostEqual(z0, SPEC.get("foot", 0.0) + gap, delta=0.02)
+        self.assertAlmostEqual(z0, SPEC.foot + gap, delta=0.02)
 
     def test_the_gap_is_bounded_both_ways(self) -> None:
         from pyboxbuilder.box.features import (
             SLIPOVER_GAP_MAX_MM, SLIPOVER_GAP_MIN_MM, slipover_gap,
         )
 
-        self.assertEqual(slipover_gap({**SPEC, "height": 8.0}), SLIPOVER_GAP_MIN_MM)
-        self.assertEqual(slipover_gap({**SPEC, "height": 200.0}), SLIPOVER_GAP_MAX_MM)
+        self.assertEqual(slipover_gap(replace(SPEC, height=8.0)), SLIPOVER_GAP_MIN_MM)
+        self.assertEqual(slipover_gap(replace(SPEC, height=200.0)), SLIPOVER_GAP_MAX_MM)
 
     def test_the_sleeve_still_does_not_overlap_its_body(self) -> None:
         body, sleeve = self.parts()
@@ -967,7 +964,7 @@ class CapCurveGrowthTests(unittest.TestCase):
     def metrics(self, **overrides):
         from pyboxbuilder.box.features import cap_finger_metrics
 
-        return cap_finger_metrics({**SPEC, "hollow": True, **overrides})
+        return cap_finger_metrics(replace(SPEC, hollow=True, **overrides))
 
     def test_a_tall_box_gets_the_wider_curve(self) -> None:
         from pyboxbuilder.box.features import CAP_FINGER_CURVE_MAX_MM
@@ -1003,7 +1000,7 @@ class CapIndentDepthTests(unittest.TestCase):
         )
         from pyboxbuilder.box.shell import block
 
-        spec = {**SPEC, "hollow": True}
+        spec = replace(SPEC, hollow=True)
         m, f = cap_metrics(spec), cap_finger_metrics(spec)
         body = cap_body(spec)
         z = f.base_z + f.height / 2
@@ -1026,7 +1023,7 @@ class CapFootprintTooSmallTests(unittest.TestCase):
     """
 
     def spec(self, width: float, length: float) -> dict:
-        return dict(
+        return BoxSpec(
             label="Tiny", width=width, length=length, height=60,
             wall_thickness=2.0, floor_thickness=2.0, lid_thickness=2.0,
         )

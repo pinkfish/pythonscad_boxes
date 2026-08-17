@@ -3,44 +3,46 @@
 
 from __future__ import annotations
 
-from pyboxbuilder.precision import kwargs as precision_kwargs
-
+from dataclasses import replace
 from typing import TYPE_CHECKING
+
+from pyboxbuilder.box.spec import BoxSpec
+from pyboxbuilder.precision import kwargs as precision_kwargs
 
 if TYPE_CHECKING:
     from pybosl2.shapes3d import Bosl2Solid
 
 
-from pyboxbuilder.box.base import Interior
+from pyboxbuilder.box.base import BoxTypeBase, Interior
 from pyboxbuilder.enums import MagnetType, ScoopSide, StackableMode
 
 
-class NoLidBox:
+class NoLidBox(BoxTypeBase):
     """No-lid box type (open tray). Supports stackable rims and side magnets."""
 
-    def interior(self, spec: dict) -> Interior:
-        wt = spec.get("wall_thickness", 2.0)
-        ft = spec.get("floor_thickness", 1.6)
+    def interior(self, spec: BoxSpec) -> Interior:
+        wt = spec.wall_thickness
+        ft = spec.floor_thickness
         return Interior(
-            width=spec["width"] - 2 * wt,
-            length=spec["length"] - 2 * wt,
-            height=spec["height"] - ft,
+            width=spec.width - 2 * wt,
+            length=spec.length - 2 * wt,
+            height=spec.height - ft,
             origin_x=wt, origin_y=wt, origin_z=ft,
         )
 
-    def _build_shell(self, spec: dict) -> "Bosl2Solid":
-        from pyboxbuilder.box.shell import add_no_lid_finger_holes, build_shell
+    def _build_shell(self, spec: BoxSpec) -> "Bosl2Solid":
+        from pyboxbuilder.box.shell import build_shell, with_no_lid_finger_holes
 
         # A no-lid box has no lid band, whoever built the spec: `Project` sets
         # this from the box type, but a spec assembled by hand would otherwise
         # get its rim left square and every top-aligned feature — the finger
         # holes below among them — hung a lid thickness too low (FR-043f).
-        spec.setdefault("rim_free", True)
-        add_no_lid_finger_holes(spec)
+        spec = replace(spec, rim_free=True)
+        spec = with_no_lid_finger_holes(spec)
         body = build_shell(spec)
         return body
 
-    def _add_stackable_rim(self, body: "Bosl2Solid", spec: dict) -> "Bosl2Solid":
+    def _add_stackable_rim(self, body: "Bosl2Solid", spec: BoxSpec) -> "Bosl2Solid":
         """Add an interlocking ring for stackable boxes.
 
         inside  → a recess carved into the top rim (box nests inside the box above)
@@ -48,40 +50,40 @@ class NoLidBox:
         """
         from pyboxbuilder.box.shell import block
 
-        wt = spec.get("wall_thickness", 2.0)
-        stack = spec.get("stackable_thickness") or wt
-        fit = spec.get("stackable_fit_offset", 0.1)
-        mode = spec.get("stackable") or StackableMode.INSIDE
+        wt = spec.wall_thickness
+        stack = spec.stackable_thickness or wt
+        fit = spec.stackable_fit_offset
+        mode = spec.stackable or StackableMode.INSIDE
 
         if mode is StackableMode.INSIDE:
             # Carve a recess around the top rim, so the box above nests into it.
-            recess_w = spec["width"] - 2 * (wt - fit)
-            recess_l = spec["length"] - 2 * (wt - fit)
+            recess_w = spec.width - 2 * (wt - fit)
+            recess_l = spec.length - 2 * (wt - fit)
             recess = block(
                 [recess_w, recess_l, stack + 0.5],
                 at=(
-                    (spec["width"] - recess_w) / 2,
-                    (spec["length"] - recess_l) / 2,
-                    spec["height"] - stack,
+                    (spec.width - recess_w) / 2,
+                    (spec.length - recess_l) / 2,
+                    spec.height - stack,
                 ),
             )
             return body - recess
         elif mode == "outside":
             # Add a ridge around the bottom outside, so it grips the box below.
-            ridge_w = spec["width"] + 2 * (stack - fit)
-            ridge_l = spec["length"] + 2 * (stack - fit)
+            ridge_w = spec.width + 2 * (stack - fit)
+            ridge_l = spec.length + 2 * (stack - fit)
             ridge = block(
                 [ridge_w, ridge_l, stack],
                 at=(
-                    (spec["width"] - ridge_w) / 2,
-                    (spec["length"] - ridge_l) / 2,
+                    (spec.width - ridge_w) / 2,
+                    (spec.length - ridge_l) / 2,
                     0,
                 ),
             )
             return body | ridge
         return body
 
-    def _add_magnet_slots(self, body: "Bosl2Solid", spec: dict) -> "Bosl2Solid":
+    def _add_magnet_slots(self, body: "Bosl2Solid", spec: BoxSpec) -> "Bosl2Solid":
         """Carve magnet cavities into the opposing walls that carry no finger hole.
 
         Which pair is not cosmetic (FR-039a). A pocket is cut at the middle of a
@@ -94,11 +96,11 @@ class NoLidBox:
         """
         from pybosl2 import cuboid, cylinder
 
-        magnet_type = spec.get("magnet_type")
+        magnet_type = spec.magnet_type
         if magnet_type is None or magnet_type is MagnetType.NONE:
             return body
 
-        size = spec.get("magnet_size")
+        size = spec.magnet_size
         depth = size[2] if size and len(size) > 2 else (
             3.0 if magnet_type is MagnetType.ROUND else 2.0
         )
@@ -116,23 +118,23 @@ class NoLidBox:
             box = [w + 0.2, depth, l + 0.2] if on_front_back else [depth, w + 0.2, l + 0.2]
             return cuboid(box)
 
-        mid_h = spec["height"] / 2
+        mid_h = spec.height / 2
         # Blind pockets in the middle of the two opposing walls, open outward.
         if on_front_back:
             centres = (
-                [spec["width"] / 2, depth / 2, mid_h],
-                [spec["width"] / 2, spec["length"] - depth / 2, mid_h],
+                [spec.width / 2, depth / 2, mid_h],
+                [spec.width / 2, spec.length - depth / 2, mid_h],
             )
         else:
             centres = (
-                [depth / 2, spec["length"] / 2, mid_h],
-                [spec["width"] - depth / 2, spec["length"] / 2, mid_h],
+                [depth / 2, spec.length / 2, mid_h],
+                [spec.width - depth / 2, spec.length / 2, mid_h],
             )
 
         return body - slot().translate(centres[0]) - slot().translate(centres[1])
 
     @staticmethod
-    def _magnet_sides_front_back(spec: dict) -> bool:
+    def _magnet_sides_front_back(spec: BoxSpec) -> bool:
         """True when the magnets belong in the FRONT/BACK pair (FR-039a).
 
         The free pair is whichever one the finger holes did not take. Holes are
@@ -141,7 +143,7 @@ class NoLidBox:
         pairs (or none) the front/back default stands and FR-006c reports any
         collision rather than this guessing.
         """
-        holes = spec.get("finger_holes") or ()
+        holes = spec.finger_holes or ()
         sides = {getattr(hole, "side", None) for hole in holes}
         front_back = {ScoopSide.FRONT, ScoopSide.BACK} & sides
         left_right = {ScoopSide.LEFT, ScoopSide.RIGHT} & sides
@@ -149,15 +151,14 @@ class NoLidBox:
             return False
         return True
 
-    def build_body(self, spec: dict) -> "Bosl2Solid":
+    def build_body(self, spec: BoxSpec) -> "Bosl2Solid":
         body = self._build_shell(spec)
-        if spec.get("stackable"):
+        if spec.stackable:
             body = self._add_stackable_rim(body, spec)
-        if spec.get("magnet_type") not in (None, MagnetType.NONE):
+        if spec.magnet_type not in (None, MagnetType.NONE):
             body = self._add_magnet_slots(body, spec)
         return body
 
-    def build_lid(self, spec: dict, decoration: object = None) -> "Bosl2Solid":
-        from pybosl2 import cuboid
+    def build_lid(self, spec: BoxSpec, decoration: object = None) -> "Bosl2Solid":
         """No-lid boxes have no lid."""
         return None

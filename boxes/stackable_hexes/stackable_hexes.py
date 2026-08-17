@@ -59,14 +59,11 @@ def stackable_hex(
         no_rotate=True,                # hex is rotationally symmetric
     )
     if divisions > 1:
-        # Partition the hex into N equal compartments
-        sector = (stackable_width - wall_thickness * 2.5) / divisions
+        # Partition the hex into N equal compartments. The ratio is a share of
+        # the room the wells actually have, so N of them at 1/N fit — no
+        # arithmetic here about the box's walls or the layout's gutters.
         for i in range(divisions):
-            box.compartment(
-                f"div{i + 1}",
-                size=(sector, sector),
-                depth=stackable_height - wall_thickness,
-            )
+            box.compartment(f"div{i + 1}", width_ratio=1 / divisions)
 
 
 # Standalone project (no game box → each box exports independently)

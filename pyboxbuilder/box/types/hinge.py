@@ -3,47 +3,50 @@
 
 from __future__ import annotations
 
+from dataclasses import replace
 from typing import TYPE_CHECKING
+
+from pyboxbuilder.box.spec import BoxSpec
 
 if TYPE_CHECKING:
     from pybosl2.shapes3d import Bosl2Solid
 
 
-from pyboxbuilder.box.base import Interior
+from pyboxbuilder.box.base import BoxTypeBase, Interior
 
 
-class HingeBox:
+class HingeBox(BoxTypeBase):
     """Pin-hinge lid box type."""
 
-    def interior(self, spec: dict) -> Interior:
-        wt = spec.get("wall_thickness", 2.0)
-        ft = spec.get("floor_thickness", 1.6)
-        lt = spec.get("lid_thickness", 2.0)
+    def interior(self, spec: BoxSpec) -> Interior:
+        wt = spec.wall_thickness
+        ft = spec.floor_thickness
+        lt = spec.lid_thickness
         return Interior(
-            width=spec["width"] - 2 * wt,
-            length=spec["length"] - 2 * wt,
-            height=spec["height"] - lt - ft,
+            width=spec.width - 2 * wt,
+            length=spec.length - 2 * wt,
+            height=spec.height - lt - ft,
             origin_x=wt, origin_y=wt, origin_z=ft,
         )
 
     @staticmethod
-    def _body_spec(spec: dict) -> dict:
+    def _body_spec(spec: BoxSpec) -> BoxSpec:
         """The body stops a lid's thickness short, so the closed lid seats on it."""
-        lt = spec.get("lid_thickness", 2.0)
-        return {**spec, "height": spec["height"] - lt}
+        lt = spec.lid_thickness
+        return replace(spec, height=spec.height - lt)
 
-    def _closure(self, spec: dict):
+    def _closure(self, spec: BoxSpec):
         """Both halves of the knuckle hinge, on one shared pin axis."""
         from pyboxbuilder.box.features import filament_hinge
 
         return filament_hinge(
             self._body_spec(spec),
-            filament_diameter=spec.get("hinge_pin_diameter", 3.0),
-            knuckles=spec.get("hinge_count", 5),
-            lid_thickness=spec.get("lid_thickness", 2.0),
+            filament_diameter=spec.hinge_pin_diameter,
+            knuckles=spec.hinge_count,
+            lid_thickness=spec.lid_thickness,
         )
 
-    def interior_mask(self, spec: dict):
+    def interior_mask(self, spec: BoxSpec):
         """The interior, less the room the hinge takes up inside it.
 
         The hinge sits within the box's outline, so its barrel and webs stand
@@ -59,17 +62,17 @@ class HingeBox:
         from pyboxbuilder.box.features import hinge_intrusion
         from pyboxbuilder.box.shell import block
 
-        wt = spec.get("wall_thickness", 2.0)
-        ft = spec.get("floor_thickness", 1.6)
+        wt = spec.wall_thickness
+        ft = spec.floor_thickness
         available = block(
-            [spec["width"] - 2 * wt, spec["length"] - 2 * wt, spec["height"]],
+            [spec.width - 2 * wt, spec.length - 2 * wt, spec.height],
             at=(wt, wt, ft),
         )
         return available - hinge_intrusion(
-            self._body_spec(spec), spec.get("hinge_pin_diameter", 3.0)
+            self._body_spec(spec), spec.hinge_pin_diameter
         )
 
-    def build_body(self, spec: dict) -> "Bosl2Solid":
+    def build_body(self, spec: BoxSpec) -> "Bosl2Solid":
         """The shell carrying every other knuckle of the hinge."""
         from pyboxbuilder.box.shell import build_shell
 
@@ -81,7 +84,7 @@ class HingeBox:
             body = body - closure.body_cut
         return body if closure.body is None else body | closure.body
 
-    def build_lid(self, spec: dict, decoration: object = None) -> "Bosl2Solid":
+    def build_lid(self, spec: BoxSpec, decoration: object = None) -> "Bosl2Solid":
         """The lid carrying the interleaving knuckles, bored for the same pin.
 
         The knuckles alternate along one axis with a print gap between them, so
@@ -90,10 +93,10 @@ class HingeBox:
         """
         from pyboxbuilder.box.shell import block
 
-        lt = spec.get("lid_thickness", 2.0)
+        lt = spec.lid_thickness
         lid = block(
-            [spec["width"], spec["length"], lt],
-            at=(0, 0, self._body_spec(spec)["height"]),
+            [spec.width, spec.length, lt],
+            at=(0, 0, self._body_spec(spec).height),
         )
         closure = self._closure(spec)
         if closure.lid_cut is not None:

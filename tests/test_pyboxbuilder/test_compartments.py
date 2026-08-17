@@ -60,10 +60,38 @@ class CompartmentBuilderTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             CompartmentBuilder(label="Bad", width_ratio=1.5, depth=20)
 
-    def test_no_size_or_ratio_raises(self) -> None:
-        """At least one sizing mode is required."""
-        with self.assertRaises(ValueError):
-            CompartmentBuilder(label="NoSize", depth=20)
+    def test_no_size_means_fill_the_interior(self) -> None:
+        """A well with nothing said about it takes the whole interior (FR-000).
+
+        This is the common case — one box, one well — and it used to be an
+        error, which meant every such box repeated `size - 2 * wall` at the
+        call site to say what the library already knew.
+        """
+        well = CompartmentBuilder(label="NoSize", depth=20)
+        self.assertTrue(well.fills_interior)
+        self.assertEqual(well.resolve_size(96.0, 76.0), (96.0, 76.0))
+        # And it demands nothing of a box that has no size of its own.
+        self.assertIsNone(well.min_footprint())
+
+    def test_no_depth_means_run_to_the_floor(self) -> None:
+        well = CompartmentBuilder(label="Deep", size=(50.0, 40.0))
+        self.assertEqual(well.resolve_depth(36.4), 36.4)
+        self.assertEqual(well.resolve_depth(12.0), 12.0)
+
+    def test_a_box_whose_wells_all_fill_needs_its_own_size(self) -> None:
+        """Nothing can be derived from a well that only fills, so say so."""
+        from pyboxbuilder.enums import BoxType
+        from pyboxbuilder.project import Project
+
+        p = Project("Fill", game_box_size=(200, 150, 60))
+        b = p.box(BoxType.NO_LID, "Tray")
+        b.compartment("Everything")
+        with self.assertRaises(ValueError) as caught:
+            p.build()
+        message = str(caught.exception)
+        self.assertIn("Tray", message)
+        self.assertIn("Everything", message)
+        self.assertIn("size=", message)
 
     def test_ratio_overflow_rejected_in_project(self) -> None:
         """Project export rejects compartments whose ratios sum > 1.0."""

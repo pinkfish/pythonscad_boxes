@@ -25,7 +25,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import TYPE_CHECKING
 
-from pyboxbuilder.export.hausdorff import should_write
+from pyboxbuilder.export import fingerprint as fp
 
 if TYPE_CHECKING:
     from pybosl2.shapes3d import Bosl2Solid
@@ -97,8 +97,9 @@ class BoxExporter:
         solid: "Bosl2Solid | None" = None,
         inserts: "list[Bosl2Solid] | None" = None,
         size: tuple[float, float, float] | None = None,
+        fingerprint: str = "",
     ) -> str | None:
-        """Export one piece, skipping the write when the geometry is unchanged.
+        """Export one piece, skipping the write when nothing about it changed.
 
         Args:
             label: Box label.
@@ -108,6 +109,9 @@ class BoxExporter:
             inserts: Positive coloured inserts. Kept as separate objects in mmu
                 mode and unioned into `solid` in single mode (T068a).
             size: Bounding box to record when it cannot be measured from `solid`.
+            fingerprint: Digest of the description this piece was built from.
+                A file whose recorded fingerprint matches is left alone; an
+                empty fingerprint always writes.
 
         Returns:
             The relative path if written, None if skipped.
@@ -122,6 +126,14 @@ class BoxExporter:
                 PieceBounds(label=f"{label}_{part}", size=measured, mode=mode)
             )
 
+        # Nothing about this piece has changed since it was last written, so
+        # the mesh it would produce is the one already there. Decided before
+        # building the file, which is also what makes an unchanged re-export
+        # fast rather than merely quiet.
+        if fp.matches(path, fingerprint):
+            self.state.skipped.append(self.relative(path))
+            return None
+
         # Keep the .3mf suffix on the temp file — the exporter picks its format
         # from the extension and silently falls back to STL without it.
         candidate = path.with_name(f".{path.stem}.tmp.3mf")
@@ -131,18 +143,16 @@ class BoxExporter:
             # No geometry backend: create the file if it is missing, otherwise
             # leave the previous export in place rather than truncating it.
             if path.exists():
+                fp.record(path, fingerprint)
                 self.state.skipped.append(self.relative(path))
                 return None
             path.touch()
+            fp.record(path, fingerprint)
             self.state.written.append(self.relative(path))
             return self.relative(path)
 
-        if path.exists() and not should_write(path, candidate):
-            candidate.unlink(missing_ok=True)
-            self.state.skipped.append(self.relative(path))
-            return None
-
         candidate.replace(path)
+        fp.record(path, fingerprint)
         self.state.written.append(self.relative(path))
         return self.relative(path)
 
@@ -176,8 +186,11 @@ class BoxExporter:
             if not mode_dir.exists():
                 continue
             for f in mode_dir.glob(f"{prefix}*"):
+                if f.name == fp.SIDECAR_NAME:
+                    continue
                 label = _label_from_filename(f.name, mode)
                 if label not in keep_labels:
+                    fp.forget(f)
                     f.unlink(missing_ok=True)
                     removed.append(self.relative(f))
         return removed

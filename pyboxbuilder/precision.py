@@ -16,7 +16,6 @@ precision argument on functions that have nothing else to do with it.
 from __future__ import annotations
 
 import os
-
 from contextlib import contextmanager
 from contextvars import ContextVar
 from dataclasses import dataclass
@@ -131,6 +130,19 @@ def precision() -> Precision:
         (``fa=12, fs=2``) outside any such block.
     """
     return _CURRENT.get()
+
+
+def describe() -> dict[str, Any]:
+    """The precision in force, as a fingerprintable record.
+
+    A piece built at 12 facets per circle and the same piece built at 256 are
+    different geometry, so an export fingerprint has to carry this (FR-046).
+
+    Returns:
+        The current ``fn``/``fa``/``fs``.
+    """
+    current = precision()
+    return {"fn": current.fn, "fa": current.fa, "fs": current.fs}
 
 
 def kwargs() -> dict[str, Any]:

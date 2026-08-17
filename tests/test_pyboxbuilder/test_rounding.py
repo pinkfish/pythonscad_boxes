@@ -9,6 +9,10 @@ positions, which an offline bounding box on a lazy CSG tree cannot see.
 import math
 import sys
 import unittest
+from dataclasses import replace
+
+from ._spec import spec
+from pyboxbuilder.box.spec import BoxSpec
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
@@ -39,16 +43,16 @@ class DefaultRadiusTests(unittest.TestCase):
         self.assertEqual(default_rounding(3.0), 1.5)
 
     def test_spec_falls_back_to_the_wall(self) -> None:
-        self.assertEqual(body_rounding({"wall_thickness": 3.0}), 1.5)
+        self.assertEqual(body_rounding(spec(wall_thickness=3.0)), 1.5)
 
     def test_explicit_zero_disables_it(self) -> None:
-        self.assertEqual(body_rounding({"wall_thickness": 3.0, "rounding": 0}), 0.0)
+        self.assertEqual(body_rounding(spec(wall_thickness=3.0, rounding=0)), 0.0)
 
     def test_explicit_value_wins(self) -> None:
-        self.assertEqual(body_rounding({"wall_thickness": 3.0, "rounding": 0.4}), 0.4)
+        self.assertEqual(body_rounding(spec(wall_thickness=3.0, rounding=0.4)), 0.4)
 
     def test_negative_is_clamped_not_flipped(self) -> None:
-        self.assertEqual(body_rounding({"wall_thickness": 2.0, "rounding": -5}), 0.0)
+        self.assertEqual(body_rounding(spec(wall_thickness=2.0, rounding=-5)), 0.0)
 
 
 class EdgeSelectorTests(unittest.TestCase):
@@ -97,23 +101,23 @@ class MatingRoundingTests(unittest.TestCase):
     """FR-044b: a partial lid's grip is rounded smaller, and on both halves."""
 
     def test_defaults_to_half_the_body_radius(self) -> None:
-        self.assertEqual(mating_rounding({"wall_thickness": 2.0}), 0.5)
-        self.assertEqual(mating_rounding({"wall_thickness": 3.0}), 0.75)
+        self.assertEqual(mating_rounding(spec(wall_thickness=2.0)), 0.5)
+        self.assertEqual(mating_rounding(spec(wall_thickness=3.0)), 0.75)
 
     def test_is_smaller_than_the_outer_radius(self) -> None:
-        spec = {"wall_thickness": 2.0}
-        self.assertLess(mating_rounding(spec), body_rounding(spec))
+        subject = spec(wall_thickness=2.0)
+        self.assertLess(mating_rounding(subject), body_rounding(subject))
 
     def test_explicit_inner_rounding_wins(self) -> None:
         self.assertEqual(
-            mating_rounding({"wall_thickness": 2.0, "inner_rounding": 0.2}), 0.2
+            mating_rounding(spec(wall_thickness=2.0, inner_rounding=0.2)), 0.2
         )
 
     def test_zero_leaves_the_grip_square(self) -> None:
-        self.assertEqual(mating_rounding({"wall_thickness": 2.0, "inner_rounding": 0}), 0.0)
+        self.assertEqual(mating_rounding(spec(wall_thickness=2.0, inner_rounding=0)), 0.0)
 
     def test_follows_an_explicit_body_radius(self) -> None:
-        self.assertEqual(mating_rounding({"wall_thickness": 2.0, "rounding": 4.0}), 2.0)
+        self.assertEqual(mating_rounding(spec(wall_thickness=2.0, rounding=4.0)), 2.0)
 
     def test_project_and_box_plumbing(self) -> None:
         project = Project("M", game_box_size=(200, 150, 60), inner_rounding=0.3)
@@ -170,16 +174,18 @@ import os, re, tempfile, zipfile
 from openscad import export
 from pyboxbuilder.box.shell import build_shell
 from pyboxbuilder.box.registry import BOX_IMPL_REGISTRY
+from pyboxbuilder.box.spec import BoxSpec
 from pyboxbuilder.enums import BoxType
+from dataclasses import replace
 from pybosl2 import cuboid
 
 
-base = dict(label="T", width=100, length=80, height=40, wall_thickness=2.0,
+base = BoxSpec(label="T", width=100, length=80, height=40, wall_thickness=2.0,
             floor_thickness=1.6, lid_thickness=2.0, hollow=True)
 
-square = build_shell(dict(base, rounding=0))
-rounded = build_shell(dict(base))
-lidless = build_shell(dict(base, rim_free=True))
+square = build_shell(replace(base, rounding=0))
+rounded = build_shell(base)
+lidless = build_shell(replace(base, rim_free=True))
 measure("square", square)
 measure("rounded", rounded)
 measure("lidless", lidless)
@@ -201,9 +207,8 @@ for name in ("sliding", "sliding_catch", "card_library", "cap", "inset",
              "slipover", "cap_path", "slipover_path"):
     box_type = BoxType(name)
     impl = BOX_IMPL_REGISTRY[box_type]
-    spec = dict(base)
     report(name + "_overlap",
-           "%.4f" % volume(impl().build_body(spec) & impl().build_lid(spec)))
+           "%.4f" % volume(impl().build_body(base) & impl().build_lid(base)))
 cuboid([1, 1, 1]).show()
 '''
         cls.result = measure_python(body)
@@ -466,17 +471,19 @@ class SlidingRimRoundingTests(unittest.TestCase):
 import os, re, tempfile, zipfile
 from openscad import export
 from pyboxbuilder.box.registry import BOX_IMPL_REGISTRY
+from pyboxbuilder.box.spec import BoxSpec
 from pyboxbuilder.enums import BoxType
+from dataclasses import replace
 from pybosl2 import cuboid
 
 
-base = dict(label="T", width=100, length=80, height=40, wall_thickness=2.0,
+base = BoxSpec(label="T", width=100, length=80, height=40, wall_thickness=2.0,
             floor_thickness=1.6, lid_thickness=2.0, hollow=True)
 # A probe straddling the top outer edge, away from the corners: a square edge
 # fills exactly half of it.
 probe = cuboid([1.0, 6.0, 1.0]).translate([0.0, 40.0, 40.0])
 for name in ("sliding", "sliding_catch", "card_library", "inset"):
-    report(name, "%.4f" % volume(BOX_IMPL_REGISTRY[BoxType(name)]().build_body(dict(base)) & probe))
+    report(name, "%.4f" % volume(BOX_IMPL_REGISTRY[BoxType(name)]().build_body(base) & probe))
 cuboid([1, 1, 1]).show()
 '''
         cls.result = measure_python(body)
@@ -486,7 +493,7 @@ cuboid([1, 1, 1]).show()
     def test_every_sliding_type_rounds_its_top_edge(self) -> None:
         from pyboxbuilder.box.shell import sliding_rim_rounding
 
-        radius = sliding_rim_rounding({"wall_thickness": 2.0})
+        radius = sliding_rim_rounding(spec(wall_thickness=2.0))
         self.assertAlmostEqual(radius, 0.5, places=6)
         # A square edge fills half the probe; the fillet takes the corner
         # sliver off it, over the probe's 6mm.

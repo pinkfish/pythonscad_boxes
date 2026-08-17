@@ -3,16 +3,22 @@
 
 from pybosl2 import Color
 
-from pyboxbuilder.enums import (
-    FingerCut,
-    BoxType, ElementShape, LabelMode, MagnetType, PatternType, ScoopSide, StackableMode,
-)
 from pyboxbuilder.builders._base import Cut
-from pyboxbuilder.project import Project
 from pyboxbuilder.compartments.element import CompartmentElement, grid_pack
-from pyboxbuilder.lid.builder import LidBuilder, PatternBuilder
+from pyboxbuilder.enums import (
+    BoxType,
+    ElementShape,
+    FingerCut,
+    LabelMode,
+    MagnetType,
+    PatternType,
+    ScoopSide,
+    StackableMode,
+)
 from pyboxbuilder.export.result import ExportResult
 from pyboxbuilder.layout import columns, rows, stack
+from pyboxbuilder.lid.builder import LidBuilder, PatternBuilder
+from pyboxbuilder.project import Project
 
 __all__ = [
     "Cut", "FingerCut", "Project", "BoxType", "LabelMode", "PatternType", "ScoopSide",

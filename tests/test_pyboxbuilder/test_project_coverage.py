@@ -75,7 +75,7 @@ class BoxKwargsPropagationTests(unittest.TestCase):
 
 class ManualPositionTests(unittest.TestCase):
     def test_manual_positions_skip_packer(self) -> None:
-        """Boxes with position= are placed manually, not auto-packed."""
+        """Boxes with position=are placed manually, not auto-packed."""
         p = Project("Manual", game_box_size=(300, 200, 80), clearance_slack=0.0)
         p.box(BoxType.SLIDING, "A", size=(100, 80, 40), position=(0, 0, 0), no_rotate=True)
         p.box(BoxType.CAP, "B", size=(60, 50, 30), position=(100, 0, 0), no_rotate=True)

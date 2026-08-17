@@ -2,6 +2,8 @@
 """Tests for pyboxbuilder enums."""
 
 import unittest
+from pyboxbuilder.box.spec import BoxSpec
+from dataclasses import replace
 
 from pyboxbuilder.enums import (
     BoxType, LabelMode, MagnetType, PatternType, ScoopSide, StackableMode,
@@ -86,11 +88,11 @@ class StackableAndMagnetEnumTests(unittest.TestCase):
         """A stackable box with magnets must differ from a plain one."""
         from pyboxbuilder.box.types.no_lid import NoLidBox
 
-        base = dict(label="Hex", width=40, length=40, height=20,
+        base = BoxSpec(label="Hex", width=40, length=40, height=20,
                     wall_thickness=2.0, floor_thickness=2.0, lid_thickness=0.0)
-        plain = repr(NoLidBox().build_body(dict(base)))
+        plain = repr(NoLidBox().build_body(base))
         featured = repr(NoLidBox().build_body(
-            dict(base, stackable=StackableMode.INSIDE, magnet_type=MagnetType.ROUND,
+            replace(base, stackable=StackableMode.INSIDE, magnet_type=MagnetType.ROUND,
                  magnet_size=(6, 6, 3))
         ))
         self.assertNotEqual(plain, featured)
@@ -98,8 +100,8 @@ class StackableAndMagnetEnumTests(unittest.TestCase):
     def test_magnet_none_means_no_magnets(self) -> None:
         from pyboxbuilder.box.types.no_lid import NoLidBox
 
-        base = dict(label="Hex", width=40, length=40, height=20,
+        base = BoxSpec(label="Hex", width=40, length=40, height=20,
                     wall_thickness=2.0, floor_thickness=2.0, lid_thickness=0.0)
-        plain = repr(NoLidBox().build_body(dict(base)))
-        explicit_none = repr(NoLidBox().build_body(dict(base, magnet_type=MagnetType.NONE)))
+        plain = repr(NoLidBox().build_body(base))
+        explicit_none = repr(NoLidBox().build_body(replace(base, magnet_type=MagnetType.NONE)))
         self.assertEqual(plain, explicit_none)

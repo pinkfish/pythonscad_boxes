@@ -5,6 +5,13 @@ from dataclasses import dataclass, field
 
 from pyboxbuilder.box.interior import Interior
 
+WALL_SPACING_MM = 2.0
+"""Wall left between adjacent compartments, and between one and the box wall.
+
+Declared here because two things have to agree on it: the layout that inserts
+the gutters, and the ratio sizing that has to leave room for them.
+"""
+
 
 @dataclass
 class CompartmentPlacement:
@@ -33,7 +40,7 @@ class CompartmentLayout:
 def layout_compartments(
     interior: Interior,
     compartments: list[tuple[str, float, float, float, str | None, tuple[float, float] | None, tuple | None]] | list[tuple[str, float, float, float]],
-    wall_spacing: float = 2.0,
+    wall_spacing: float = WALL_SPACING_MM,
     no_rotate_labels: set[str] | None = None,
 ) -> CompartmentLayout:
     """Row-based layout of compartments inside the box interior with 90-degree rotation support.
@@ -236,7 +243,7 @@ def compute_min_box_size(
 def pack_compartments_across_bins(
     compartments: list[tuple[str, float, float, float]],
     bin_sizes: list[tuple[float, float]],
-    wall_spacing: float = 2.0,
+    wall_spacing: float = WALL_SPACING_MM,
 ) -> list[list[tuple[str, float, float, float]]] | None:
     """Partitions compartments across multiple bin interior footprints using backtracking shelf packing.
 

@@ -8,11 +8,10 @@ the borrowed generators from `pentagon_tilings.py` and `tesselations/`.
 
 from __future__ import annotations
 
-from pyboxbuilder.precision import kwargs as precision_kwargs
-
 from typing import TYPE_CHECKING, Callable
 
 from pyboxbuilder.enums import PatternType
+from pyboxbuilder.precision import kwargs as precision_kwargs
 
 if TYPE_CHECKING:
     from pybosl2.shapes3d import Bosl2Solid
@@ -123,8 +122,9 @@ def _triangle_grid_fill(width, length, thickness, spacing, dense=False):
 
 def _voronoi_fill(width, length, thickness, spacing):
     """Voronoi cell through-holes (deterministic jittered grid)."""
-    from pybosl2 import cuboid
     import random
+
+    from pybosl2 import cuboid
     holes = None
     rng = random.Random(42)
     x_count = int(width / spacing) + 1

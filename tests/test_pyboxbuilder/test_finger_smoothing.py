@@ -9,6 +9,10 @@ lazy CSG tree is an estimate and cannot see a boolean's true extent.
 
 import sys
 import unittest
+from dataclasses import replace
+
+from ._spec import spec
+from pyboxbuilder.box.spec import BoxSpec
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
@@ -299,9 +303,11 @@ class ExteriorFingerHoleTests(unittest.TestCase):
         body = '''
 from pyboxbuilder.enums import ScoopSide
 from pyboxbuilder.box.shell import build_shell
+from pyboxbuilder.box.spec import BoxSpec
+from dataclasses import replace
 from pybosl2 import cuboid
 
-base = dict(label="Tray", width=100, length=80, height=40,
+base = BoxSpec(label="Tray", width=100, length=80, height=40,
             wall_thickness=2.0, floor_thickness=1.6, lid_thickness=0.0, hollow=True)
 
 class Hole:
@@ -310,28 +316,28 @@ class Hole:
         self.side, self.radius, self.depth, self.offset = side, radius, depth, offset
         self.rounding_radius = self.rounding_edge = None
 
-plain = build_shell(dict(base))
+plain = build_shell(base)
 measure("plain", plain)
-measure("holed", build_shell(dict(base, finger_holes=(Hole(ScoopSide.LEFT),
+measure("holed", build_shell(replace(base, finger_holes=(Hole(ScoopSide.LEFT),
                                                       Hole(ScoopSide.RIGHT)))))
 # What each hole actually removed from the wall.
 measure("removed_left",
-        build_shell(dict(base)) - build_shell(dict(base, finger_holes=(Hole(ScoopSide.LEFT),))))
+        build_shell(base) - build_shell(replace(base, finger_holes=(Hole(ScoopSide.LEFT),))))
 measure("removed_front",
-        build_shell(dict(base)) - build_shell(dict(base, finger_holes=(Hole(ScoopSide.FRONT),))))
+        build_shell(base) - build_shell(replace(base, finger_holes=(Hole(ScoopSide.FRONT),))))
 # The same cut on a *lidded* box. `base` has lid_thickness 0, so its interior
 # runs to the rim and a cut reaching 40 is correct there; a 2mm lid moves the
 # interior top to 38 and the cut must follow it. Rounding is off on both so the
 # comparison is not reading a facet-level disagreement between two
 # independently meshed shells.
-_lidless = dict(base, rounding=0, lid_thickness=0.0)
-_lidded = dict(base, rounding=0, lid_thickness=2.0)
+_lidless = replace(base, rounding=0, lid_thickness=0.0)
+_lidded = replace(base, rounding=0, lid_thickness=2.0)
 measure("removed_lidless",
-        build_shell(dict(_lidless)) - build_shell(dict(_lidless, finger_holes=(Hole(ScoopSide.FRONT),))))
+        build_shell(_lidless) - build_shell(replace(_lidless, finger_holes=(Hole(ScoopSide.FRONT),))))
 measure("removed_lidded",
-        build_shell(dict(_lidded)) - build_shell(dict(_lidded, finger_holes=(Hole(ScoopSide.FRONT),))))
+        build_shell(_lidded) - build_shell(replace(_lidded, finger_holes=(Hole(ScoopSide.FRONT),))))
 measure("removed_deep",
-        build_shell(dict(base)) - build_shell(dict(base, finger_holes=(Hole(ScoopSide.FRONT, depth=100),))))
+        build_shell(base) - build_shell(replace(base, finger_holes=(Hole(ScoopSide.FRONT, depth=100),))))
 
 # The same capped cut on its own, where no mesh-difference sliver can appear.
 from pyboxbuilder.compartments.finger_hole import (
@@ -449,12 +455,11 @@ class NoLidFingerHoleTests(unittest.TestCase):
     """FR-047: a no-lid box puts default finger holes in its longer walls."""
 
     def spec(self, **overrides) -> dict:
-        base = dict(
+        base = BoxSpec(
             width=100, length=80, height=40,
             wall_thickness=2.0, floor_thickness=2.0,
         )
-        base.update(overrides)
-        return base
+        return replace(base, **overrides)
 
     def test_the_holes_follow_the_original_sizing(self) -> None:
         from pyboxbuilder.box.shell import no_lid_finger_holes
@@ -535,37 +540,30 @@ class NoLidFingerHoleTests(unittest.TestCase):
         self.assertEqual(no_lid_finger_holes(self.spec(width=12, length=12, height=10)), ())
 
     def test_auto_holes_are_added_and_can_be_opted_out(self) -> None:
-        from pyboxbuilder.box.shell import add_no_lid_finger_holes
+        from pyboxbuilder.box.shell import with_no_lid_finger_holes
 
-        spec = self.spec()
-        add_no_lid_finger_holes(spec)
-        self.assertEqual(len(spec["finger_holes"]), 2)
+        self.assertEqual(len(with_no_lid_finger_holes(self.spec()).finger_holes), 2)
 
-        opted = self.spec(auto_finger_holes=False)
-        add_no_lid_finger_holes(opted)
-        self.assertIsNone(opted.get("finger_holes"))
+        opted = with_no_lid_finger_holes(self.spec(auto_finger_holes=False))
+        self.assertEqual(opted.finger_holes, ())
 
     def test_a_polygon_path_box_gets_none(self) -> None:
         """FR-047c/SC-064: the rule names four walls and a longer side, and a
         polygon has neither — `no_lid_finger_holes` would read its bounding box
         and cut into a wall that need not exist."""
-        from pyboxbuilder.box.types.path import PathBox
+        from pyboxbuilder.box.shell import with_no_lid_finger_holes
 
-        hexagon = [(0, 20), (17, 10), (17, -10), (0, -20), (-17, -10), (-17, 10)]
-        spec = self.spec(path=tuple(hexagon))
-        PathBox().build_body(spec)
-        self.assertFalse(spec.get("finger_holes"))
-
-        plain = self.spec()
-        PathBox().build_body(plain)
-        self.assertEqual(len(plain["finger_holes"]), 2)
+        hexagon = ((0, 20), (17, 10), (17, -10), (0, -20), (-17, -10), (-17, 10))
+        polygon = with_no_lid_finger_holes(self.spec(path=hexagon))
+        self.assertEqual(polygon.finger_holes, ())
+        # The same box declared rectangular gets the FR-047 pair (SC-064).
+        self.assertEqual(len(with_no_lid_finger_holes(self.spec()).finger_holes), 2)
 
     def test_explicit_holes_beat_the_automatic_ones(self) -> None:
-        from pyboxbuilder.box.shell import add_no_lid_finger_holes
+        from pyboxbuilder.box.shell import with_no_lid_finger_holes
 
-        spec = self.spec(finger_holes=(object(),))
-        add_no_lid_finger_holes(spec)
-        self.assertEqual(len(spec["finger_holes"]), 1)
+        kept = with_no_lid_finger_holes(self.spec(finger_holes=(object(),)))
+        self.assertEqual(len(kept.finger_holes), 1)
 
 
 if __name__ == "__main__":
@@ -930,11 +928,11 @@ class SlidingLidAxisTests(unittest.TestCase):
 
     def test_a_long_box_slides_along_its_length(self) -> None:
         self.assertTrue(self.box().slides_along_length(
-            {"width": 90.0, "length": 98.0}))
+            spec(width=90.0, length=98.0)))
 
     def test_a_wide_box_slides_along_its_width(self) -> None:
         self.assertFalse(self.box().slides_along_length(
-            {"width": 120.0, "length": 60.0}))
+            spec(width=120.0, length=60.0)))
 
 
 class SlidingScoopAndLidEdgeTests(unittest.TestCase):
@@ -946,23 +944,21 @@ class SlidingScoopAndLidEdgeTests(unittest.TestCase):
         return BOX_IMPL_REGISTRY[box_type]()
 
     def test_a_sliding_scoop_goes_in_the_exit_wall(self) -> None:
-        from pyboxbuilder.box.base import preferred_scoop_side
         from pyboxbuilder.enums import BoxType
 
         box = self.box(BoxType.SLIDING)
         # Longer than wide: slides along Y, so it exits the BACK wall.
         self.assertIs(
-            preferred_scoop_side(box, {"width": 90.0, "length": 98.0}), ScoopSide.BACK
+            box.preferred_scoop_side(spec(width=90.0, length=98.0)), ScoopSide.BACK
         )
         # Wider than long: slides along X, so it exits the RIGHT wall.
         self.assertIs(
-            preferred_scoop_side(box, {"width": 120.0, "length": 60.0}), ScoopSide.RIGHT
+            box.preferred_scoop_side(spec(width=120.0, length=60.0)), ScoopSide.RIGHT
         )
 
     def test_the_type_beats_the_compartment_shape(self) -> None:
         """A wide compartment would otherwise take the LEFT wall, which on a
         sliding box is a groove wall."""
-        from pyboxbuilder.box.base import preferred_scoop_side
         from pyboxbuilder.compartments.carve import default_scoop_side
         from pyboxbuilder.compartments.layout import CompartmentPlacement
         from pyboxbuilder.enums import BoxType
@@ -970,47 +966,44 @@ class SlidingScoopAndLidEdgeTests(unittest.TestCase):
         wide = CompartmentPlacement("c", (92.0, 67.0), 20.0, (0.0, 0.0))
         self.assertIs(default_scoop_side(wide), ScoopSide.LEFT)
         self.assertIs(
-            preferred_scoop_side(self.box(BoxType.SLIDING), {"width": 90.0, "length": 98.0}),
+            self.box(BoxType.SLIDING).preferred_scoop_side(spec(width=90.0, length=98.0)),
             ScoopSide.BACK,
         )
 
     def test_types_without_an_opinion_leave_it_to_the_shape(self) -> None:
-        from pyboxbuilder.box.base import preferred_scoop_side
         from pyboxbuilder.enums import BoxType
 
         for box_type in (BoxType.CAP, BoxType.NO_LID, BoxType.SLIPOVER):
             with self.subTest(box_type=box_type.value):
                 self.assertIsNone(
-                    preferred_scoop_side(self.box(box_type), {"width": 90.0, "length": 98.0})
+                    self.box(box_type).preferred_scoop_side(spec(width=90.0, length=98.0))
                 )
 
     def test_a_sliding_lid_rounds_only_its_exit_end(self) -> None:
         from pybosl2._edges_lang import edges
 
-        from pyboxbuilder.box.base import lid_rounded_edges
         from pyboxbuilder.enums import BoxType
 
-        spec = {"width": 90.0, "length": 98.0}
-        sliding = edges(lid_rounded_edges(self.box(BoxType.SLIDING), spec))
+        subject = spec(width=90.0, length=98.0)
+        sliding = edges(self.box(BoxType.SLIDING).lid_rounded_edges(subject))
         self.assertEqual(sum(sum(row) for row in sliding), 3,
                          "a sliding lid must not round its groove edges")
 
     def test_a_cap_lid_rounds_all_its_outside_edges(self) -> None:
         from pybosl2._edges_lang import edges
 
-        from pyboxbuilder.box.base import lid_rounded_edges
         from pyboxbuilder.enums import BoxType
 
-        cap = edges(lid_rounded_edges(self.box(BoxType.CAP), {"width": 90.0, "length": 98.0}))
+        cap = edges(self.box(BoxType.CAP).lid_rounded_edges(spec(width=90.0, length=98.0)))
         self.assertEqual(sum(sum(row) for row in cap), 8)
 
     def test_the_lid_radius_is_capped_by_its_thickness(self) -> None:
         from pyboxbuilder.rounding import lid_rounding
 
         # A 4mm wall would give a 2mm body radius; a 2mm lid may take 1mm.
-        self.assertEqual(lid_rounding({"wall_thickness": 4.0, "lid_thickness": 2.0}), 1.0)
+        self.assertEqual(lid_rounding(spec(wall_thickness=4.0, lid_thickness=2.0)), 1.0)
         # A thick lid is not the constraint, so the body radius stands.
-        self.assertEqual(lid_rounding({"wall_thickness": 2.0, "lid_thickness": 8.0}), 1.0)
+        self.assertEqual(lid_rounding(spec(wall_thickness=2.0, lid_thickness=8.0)), 1.0)
 
 
 class WallTopTests(unittest.TestCase):
@@ -1022,16 +1015,14 @@ class WallTopTests(unittest.TestCase):
         return BOX_IMPL_REGISTRY[box_type]()
 
     def spec(self, **kwargs):
-        base = dict(width=98.0, length=73.0, height=52.5,
+        base = BoxSpec(width=98.0, length=73.0, height=52.5,
                     wall_thickness=2.0, lid_thickness=2.0, floor_thickness=2.0)
-        base.update(kwargs)
-        return base
+        return replace(base, **kwargs)
 
     def test_a_lidless_box_ends_at_its_own_top(self) -> None:
-        from pyboxbuilder.box.base import wall_tops
         from pyboxbuilder.enums import BoxType
 
-        tops = wall_tops(self.box(BoxType.NO_LID), self.spec(rim_free=True))
+        tops = self.spec(rim_free=True).with_wall_tops(self.box(BoxType.NO_LID)).wall_tops
         for side, z in tops.items():
             with self.subTest(side=side.value):
                 self.assertAlmostEqual(z, 52.5)
@@ -1039,36 +1030,32 @@ class WallTopTests(unittest.TestCase):
     def test_a_sliding_box_stops_at_its_channel(self) -> None:
         """Its exit wall's material ends there, and cutting the others above
         that line would break into the channel the lid rides in."""
-        from pyboxbuilder.box.base import wall_tops
         from pyboxbuilder.enums import BoxType
 
-        tops = wall_tops(self.box(BoxType.SLIDING), self.spec())
+        tops = self.spec().with_wall_tops(self.box(BoxType.SLIDING)).wall_tops
         for side, z in tops.items():
             with self.subTest(side=side.value):
                 self.assertAlmostEqual(z, 50.5)
 
     def test_every_side_is_covered(self) -> None:
-        from pyboxbuilder.box.base import wall_tops
         from pyboxbuilder.enums import BoxType
 
-        tops = wall_tops(self.box(BoxType.CAP), self.spec())
+        tops = self.spec().with_wall_tops(self.box(BoxType.CAP)).wall_tops
         self.assertEqual(set(tops), set(ScoopSide))
 
     def test_a_spec_carrying_the_map_is_read_per_side(self) -> None:
-        from pyboxbuilder.box.base import wall_top
-
-        spec = self.spec(wall_tops={ScoopSide.BACK: 40.0})
-        self.assertAlmostEqual(wall_top(spec, ScoopSide.BACK), 40.0)
+        
+        subject = self.spec(wall_tops={ScoopSide.BACK: 40.0})
+        self.assertAlmostEqual(subject.wall_top(ScoopSide.BACK), 40.0)
         # A side the map does not mention falls back to the generic rule.
-        self.assertAlmostEqual(wall_top(spec, ScoopSide.FRONT), 50.5)
+        self.assertAlmostEqual(subject.wall_top(ScoopSide.FRONT), 50.5)
 
     def test_without_a_map_it_still_allows_for_the_lid(self) -> None:
-        from pyboxbuilder.box.base import default_wall_top
-
-        self.assertAlmostEqual(default_wall_top(self.spec()), 50.5)
-        self.assertAlmostEqual(default_wall_top(self.spec(rim_free=True)), 52.5)
+        
+        self.assertAlmostEqual(self.spec().default_wall_top(), 50.5)
+        self.assertAlmostEqual(self.spec(rim_free=True).default_wall_top(), 52.5)
         # An explicit interior_top wins, for bodies already shortened.
-        self.assertAlmostEqual(default_wall_top(self.spec(interior_top=30.0)), 30.0)
+        self.assertAlmostEqual(self.spec(interior_top=30.0).default_wall_top(), 30.0)
 
 
 class PullOutRollTests(unittest.TestCase):
@@ -1256,12 +1243,11 @@ class OverlappingCutsAreReportedTests(unittest.TestCase):
     """
 
     def spec(self, holes, **overrides) -> dict:
-        base = dict(
+        base = BoxSpec(
             label="T", width=100, length=80, height=40,
             wall_thickness=2.0, floor_thickness=2.0, finger_holes=holes,
         )
-        base.update(overrides)
-        return base
+        return replace(base, **overrides)
 
     def hole(self, side, **kw):
         from pyboxbuilder.builders._base import FingerHoleBuilder
@@ -1631,13 +1617,14 @@ class GripBaseIsDerivedNotPinnedTests(unittest.TestCase):
 
         from pyboxbuilder.box.shell import apply_finger_holes, no_lid_finger_holes
 
-        spec = dict(
+        spec = BoxSpec(
             width=100, length=80, height=20, wall_thickness=2.0,
             floor_thickness=1.6, rim_free=True,
         )
-        spec.update(spec_overrides)
-        spec.setdefault("finger_holes", no_lid_finger_holes(spec))
-        self.assertTrue(spec["finger_holes"], "no holes to inspect")
+        spec = replace(spec, **spec_overrides)
+        if not spec.finger_holes:
+            spec = replace(spec, finger_holes=no_lid_finger_holes(spec))
+        self.assertTrue(spec.finger_holes, "no holes to inspect")
 
         body = MagicMock()
         body.__sub__.return_value = body
@@ -1665,7 +1652,7 @@ class GripBaseIsDerivedNotPinnedTests(unittest.TestCase):
         from pyboxbuilder.box.shell import _hole_flare, no_lid_finger_holes
         from pyboxbuilder.compartments.finger_hole import CutProfile, FaceTreatment, _fit_radii
 
-        spec = dict(
+        spec = BoxSpec(
             width=100, length=80, height=20, wall_thickness=2.0,
             floor_thickness=1.6, rim_free=True,
         )
@@ -1697,7 +1684,7 @@ class GripStaysInProportionTests(unittest.TestCase):
         from pyboxbuilder.box.shell import _hole_flare, no_lid_finger_holes
         from pyboxbuilder.compartments.finger_hole import CutProfile, FaceTreatment, _fit_radii, scoop_outline
 
-        spec = dict(
+        spec = BoxSpec(
             width=100, length=80, height=box_height,
             wall_thickness=2.0, floor_thickness=1.6, rim_free=True,
         )

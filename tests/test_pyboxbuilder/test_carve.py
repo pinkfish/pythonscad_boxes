@@ -6,8 +6,11 @@ the wrong place still produces facets, but it changes how much material is left.
 """
 
 from __future__ import annotations
+from dataclasses import replace
 
 import unittest
+
+from pyboxbuilder.box.spec import BoxSpec
 
 from pyboxbuilder.builders._base import Cut
 from pyboxbuilder.box.interior import Interior
@@ -18,11 +21,9 @@ from pyboxbuilder.compartments.layout import CompartmentPlacement
 from pyboxbuilder.enums import FingerCut, ScoopSide
 
 # A cap-style box: the interior stops `lid_thickness` below the rim.
-SPEC = {
-    "width": 100.0, "length": 80.0, "height": 30.0,
-    "wall_thickness": 2.0, "floor_thickness": 2.0, "lid_thickness": 2.0,
-    "hollow": False,
-}
+SPEC = BoxSpec(width=100.0, length=80.0, height=30.0,
+    wall_thickness=2.0, floor_thickness=2.0, lid_thickness=2.0,
+    hollow=False)
 INTERIOR = Interior(
     width=96.0, length=76.0, height=26.0, origin_x=2.0, origin_y=2.0, origin_z=2.0
 )
@@ -46,7 +47,7 @@ class ShellTests(unittest.TestCase):
         Sizes carry the rounding's 0.002mm faceting tolerance — see
         `test_hollow_false_keeps_a_solid_block`.
         """
-        low, size = bbox(build_shell({**SPEC, "hollow": True}))
+        low, size = bbox(build_shell(replace(SPEC, hollow=True)))
         for got in low:
             self.assertAlmostEqual(got, 0.0, delta=0.01)
         for got, want in zip(size, (100.0, 80.0, 30.0)):
@@ -80,7 +81,7 @@ class MouthTests(unittest.TestCase):
         contents = build_contents([placement], INTERIOR)
         low, size = bbox(contents)
         self.assertGreater(
-            low[2] + size[2], SPEC["height"],
+            low[2] + size[2], SPEC.height,
             "the cutout must reach past the top of the box",
         )
 

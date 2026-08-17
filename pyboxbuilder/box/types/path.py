@@ -3,58 +3,57 @@
 
 from __future__ import annotations
 
+from dataclasses import replace
 from typing import TYPE_CHECKING
+
+from pyboxbuilder.box.spec import BoxSpec
 
 if TYPE_CHECKING:
     from pybosl2.shapes3d import Bosl2Solid
 
-from pyboxbuilder.box.base import Interior
+from pyboxbuilder.box.base import BoxTypeBase, Interior
 
 
-class PathBox:
+class PathBox(BoxTypeBase):
     """Open tray whose footprint is a 2D polygon path rather than a rectangle.
 
     Produces a body only — a path box has no lid, so `build_lid` returns None
     and the exporter writes no `_lid.3mf` for it.
     """
 
-    def interior(self, spec: dict) -> Interior:
-        wt = spec.get("wall_thickness", 2.0)
-        ft = spec.get("floor_thickness", 1.6)
+    def interior(self, spec: BoxSpec) -> Interior:
+        wt = spec.wall_thickness
+        ft = spec.floor_thickness
         return Interior(
-            width=spec["width"] - 2 * wt,
-            length=spec["length"] - 2 * wt,
-            height=spec["height"] - ft,
+            width=spec.width - 2 * wt,
+            length=spec.length - 2 * wt,
+            height=spec.height - ft,
             origin_x=wt, origin_y=wt, origin_z=ft,
         )
 
-    def build_body(self, spec: dict) -> "Bosl2Solid":
-        wt = spec.get("wall_thickness", 2.0)
-        ft = spec.get("floor_thickness", 1.6)
-        path = spec.get("path") or ()
+    def build_body(self, spec: BoxSpec) -> "Bosl2Solid":
+        wt = spec.wall_thickness
+        ft = spec.floor_thickness
+        path = spec.path or ()
 
         from pyboxbuilder.box.shell import (
-            add_no_lid_finger_holes,
             apply_finger_holes,
             build_shell,
+            with_no_lid_finger_holes,
         )
 
-        # Lidless, whoever built the spec — see `NoLidBox._build_shell`.
-        spec.setdefault("rim_free", True)
+        # Lidless, whoever built the spec — see `NoLidBox._build_shell`. The
+        # automatic holes decline themselves on a polygon footprint (FR-047c),
+        # so this path needs no special case.
+        spec = with_no_lid_finger_holes(replace(spec, rim_free=True))
 
         if not path:
-            add_no_lid_finger_holes(spec)
             return build_shell(spec)
 
-        # A polygon outline gets **no automatic holes** (FR-047c). The rule
-        # names four walls and a longer side, and `no_lid_finger_holes` reads
-        # `width`/`length` — for a polygon that is its bounding box, so the cut
-        # is placed on a wall that need not be there at all. An explicit
-        # `finger_hole(side)` still works: the caller can see the outline.
-        outer = self._extrude(path, spec["height"])
-        if not spec.get("hollow", True):
+        outer = self._extrude(path, spec.height)
+        if not spec.hollow:
             return apply_finger_holes(outer, spec)
-        inner = self._extrude(_inset_path(path, wt), spec["height"] - ft)
+        inner = self._extrude(_inset_path(path, wt), spec.height - ft)
         body = outer - inner.translate([0.0, 0.0, ft])
         return apply_finger_holes(body, spec)
 
@@ -70,7 +69,7 @@ class PathBox:
         profile = Path2D([(float(x), float(y)) for x, y in path], closed=True)
         return profile.linear_extrude(height=height)
 
-    def build_lid(self, spec: dict, decoration: object = None) -> None:
+    def build_lid(self, spec: BoxSpec, decoration: object = None) -> None:
         """Path boxes have no lid."""
         return None
 
