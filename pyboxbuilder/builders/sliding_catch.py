@@ -4,12 +4,12 @@
 from dataclasses import dataclass
 from typing import ClassVar
 
-from pyboxbuilder.builders._base import BoxBuilder
+from pyboxbuilder.builders._base import BoxBuilder, SlidingLidFields
 from pyboxbuilder.enums import BoxType
 
 
 @dataclass(frozen=True)
-class SlidingCatchBoxBuilder(BoxBuilder):
+class SlidingCatchBoxBuilder(SlidingLidFields, BoxBuilder):
     """Builder for sliding-catch lid box type."""
 
     box_type: ClassVar[BoxType] = BoxType.SLIDING_CATCH

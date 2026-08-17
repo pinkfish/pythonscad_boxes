@@ -20,6 +20,7 @@ pair rather than one solid:
 
 from __future__ import annotations
 
+from collections.abc import Sequence
 from dataclasses import dataclass, field
 from typing import TYPE_CHECKING
 
@@ -84,6 +85,7 @@ def decorate_lid(
     lid_thickness: float,
     mode: str = "mmu",
     body_color: Color | None = None,
+    reserved: Sequence[tuple[float, float, float]] = (),
 ) -> DecoratedLid:
     """Apply a lid's label, pattern and colours to its geometry.
 
@@ -94,6 +96,9 @@ def decorate_lid(
         mode: "mmu" or "single".
         body_color: The box's own colour, which the accents are derived to
             contrast with when the caller names none (FR-022).
+        reserved: ``(x, y, radius)`` circles on the lid that the pattern must
+            leave solid — a box type's own lid features, such as a sliding
+            lid's fingernail dish (FR-002e5).
 
     Returns:
         The decorated lid and its coloured inserts.
@@ -125,6 +130,7 @@ def decorate_lid(
             origin_x, origin_y, top_z, lid_thickness,
             keep_clear=label,
             label_clearance=resolved.label_clearance,
+            reserved=reserved,
         )
 
     if label is not None:
@@ -261,6 +267,7 @@ def _cut_pattern(
     lid_thickness: float,
     keep_clear: Label | None = None,
     label_clearance: float = LABEL_CLEARANCE_MM,
+    reserved: Sequence[tuple[float, float, float]] = (),
 ) -> Bosl2Solid:
     """Cut the through-hole pattern into the lid, clear of its border.
 
@@ -276,6 +283,7 @@ def _cut_pattern(
         keep_clear: The label whose shape must stay solid. Holes under the
             lettering would leave it printing onto air (FR-023).
         label_clearance: Solid margin kept around the lettering.
+        reserved: ``(x, y, radius)`` circles the pattern must leave solid.
 
     Returns:
         The perforated lid.
@@ -322,7 +330,25 @@ def _cut_pattern(
     keepout = _label_keepout(keep_clear, depth, label_clearance)
     if keepout is not None:
         holes = holes - keepout.translate([origin_x, origin_y, base[2]])
+
+    # A box type's own lid features — a sliding lid's fingernail dish — are
+    # already cut into the plate. The pattern keeps off them and off the ring
+    # of material they are pulled against (FR-002e5); these arrive in the
+    # lid's own frame, not the face's.
+    for x, y, radius in reserved:
+        holes = holes - _disc(x, y, base[2], radius, depth)
     return lid - holes
+
+
+def _disc(x: float, y: float, z: float, radius: float, depth: float) -> Bosl2Solid:
+    """Return a cylinder at ``(x, y)``, for reserving a round patch of lid."""
+    from pybosl2 import cylinder
+
+    from pyboxbuilder.precision import kwargs as precision_kwargs
+
+    return cylinder(height=depth, radius=radius, **precision_kwargs()).translate(
+        [x, y, z + depth / 2]
+    )
 
 
 def _apply_label(
@@ -370,7 +396,12 @@ def _apply_label(
     ):
         if part is None:
             continue
-        inlay = onto_face(_to_depth(part))
+        # Clipped to the lid as it stands, so an inlay only ever fills material
+        # that was actually there. Where the label crosses something already
+        # cut — a pattern hole, or a sliding lid's fingernail dish — the
+        # unclipped inlay would hang in the gap with nothing under it, and the
+        # lid would no longer give up exactly the volume the insert fills.
+        inlay = onto_face(_to_depth(part)) & result.solid
         result.solid = result.solid - inlay
         result.inserts.append(LidInsert(_coloured(inlay, colour), colour))
 

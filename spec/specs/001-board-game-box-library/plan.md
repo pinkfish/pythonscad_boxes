@@ -328,6 +328,64 @@ A lid that only needs to not slide out in a bag wants a **detent**, and a detent
 
 The catch is generated from the same slide-axis frame as the channel, so it lands on the correct pair of walls whichever way round the box is. It is **off by default** on a plain sliding box — the original toolkit's sliding box has no catch, and a dovetail on its own already holds a lid in — and always on for the sliding-catch and card-library types, which exist for it. Setting a catch radius on a plain sliding box turns it on.
 
+### Getting A Sliding Lid Started (FR-002e5)
+
+A seated sliding lid offers a hand almost nothing. It is a plate flush with the
+box's top, trapped in its grooves; the only exposed surfaces are its end face —
+one lid thickness tall, usually 2mm — and its top, which is flat. Every other
+closure in this library has something to pull on and this one had nothing, so
+it gets a **fingernail catch**: a shallow dish in the top face at the exit end.
+
+**The top of a sphere, not a pocket.** A nail entering a spherical dish meets a
+surface curving away from it in every direction, so it slides in and ends up
+loading the lid along the slide axis — which is the direction the lid is
+supposed to move. A cylindrical pocket presents a wall and a floor instead: the
+nail catches on the rim, and what it loads is the thin lip at the top of the
+wall.
+
+**At the exit end, centred across the lid.** That end is the only one a hand can
+reach with the box closed, and centring it means the pull is straight down the
+grooves rather than a twist that binds the plate.
+
+**Straddling the border.** The catch belongs where the fingers are, at the edge,
+so it sits on the border line — half in the plain band, half inside it — rather
+than out in the middle of the pattern.
+
+**Never through the plate, and never surrounded by holes.** The depth is capped
+at half the lid's thickness, so there is always a plate's worth of material
+under the dish, and a 1mm ring of solid lid is kept around it clear of any
+pattern. Both are the same concern: the dish is a thinned spot that gets pulled
+on, so it needs whole material behind and beside it. A hole opening onto its rim
+is where the lid would tear.
+
+The sizes are derived from the lid — its narrow dimension and its thickness —
+so a small card box gets a small dish rather than one sized for a card lid, and
+every number is settable for the box that wants otherwise.
+
+**One declaration per type.** Three types slide, and none of them repeats any of
+the above. Each states the one thing only it knows:
+
+```python
+def slide_axis(self, spec) -> str: return "x"
+```
+
+and ends `build_lid` with `return self.cut_fingernail_catch(lid, spec)`. The
+dish, its position, its depth cap and the keep-out all follow from that answer
+in `BoxTypeBase`, and a lid that lifts off inherits a `slide_axis` of `None` and
+so takes no dish without saying anything. The three settings ride the same
+split: they are a `SlidingLidFields` mixin on the three sliding builders rather
+than fields on `BoxBuilder`, because on a cap box they would be knobs the
+geometry never reads (FR-000f).
+
+**The decoration is told, not left to guess.** The dish is cut by the type and
+the pattern is cut by the exporter, which would otherwise punch holes straight
+through the ring the dish is pulled against. So the type publishes it:
+`lid_keepouts()` returns `(x, y, radius)` circles, `Project` hands them to
+`decorate_lid(..., reserved=...)`, and the pattern subtracts a disc from its
+holes there. It is a general channel rather than a special case for this
+feature — any type with something of its own on its lid declares it the same
+way.
+
 ### Rounding a Lid Without Rounding Away Its Support (FR-044h, FR-044i)
 
 A lid's outer edges are rounded because they are the outside of the closed box — but a lid is thin, and its edges are also what hold it. Two limits keep the second from being sacrificed to the first:

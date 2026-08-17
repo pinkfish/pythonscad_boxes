@@ -320,6 +320,33 @@ class BoxBuilder:
 
 
 @dataclass(frozen=True)
+class SlidingLidFields:
+    """Fields every sliding-lid builder carries (FR-002e5).
+
+    Mixed into the sliding types rather than added to :class:`BoxBuilder`,
+    because on a lid that lifts off they would be three settings that do
+    nothing — and a field the geometry never reads is a defect, not a
+    placeholder (FR-000f).
+    """
+
+    fingernail_catch: bool | None = None
+    """Cut the dish a nail starts the lid with; ``None`` means yes.
+
+    Set ``False`` for a lid opened some other way — one behind a latch, or one
+    whose face is given over to something the dish would interrupt."""
+    fingernail_radius: float | None = None
+    """Radius of the dish's opening, in mm.
+
+    ``None`` derives it from the lid — a sixth of its width across the slide —
+    so a token lid and a card lid both get a dish in proportion to them."""
+    fingernail_depth: float | None = None
+    """How deep the dish is sunk, in mm.
+
+    ``None`` uses half the lid's thickness, and anything deeper is clamped to
+    that: the lid has to keep a plate's worth of material under the dish."""
+
+
+@dataclass(frozen=True)
 class Cut:
     """How a compartment gets its contents out (FR-006, FR-060).
 

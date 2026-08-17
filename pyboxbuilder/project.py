@@ -1071,10 +1071,33 @@ class Project:
                 piece.solid, builder.lid,
                 builder.lid_thickness or self.lid_thickness, mode,
                 body_color=builder.color,
+                reserved=self._lid_keepouts(builder),
             )
             return decorated.solid, decorated.inserts or None
         except ImportError:
             return piece.solid, None
+
+    def _lid_keepouts(self, builder: BoxBuilder) -> list[tuple[float, float, float]]:
+        """Patches of a box's lid its own type needs left solid.
+
+        A sliding lid's fingernail dish is the case (FR-002e5): the type cuts
+        it, and the decoration has to know so its pattern does not open a hole
+        onto the rim the dish is pulled against.
+
+        Args:
+            builder: The box whose lid is being decorated.
+
+        Returns:
+            ``(x, y, radius)`` circles in the lid's own frame.
+
+        """
+        from pyboxbuilder.box.registry import BOX_IMPL_REGISTRY
+        from pyboxbuilder.box.spec import build_spec
+
+        box_cls = BOX_IMPL_REGISTRY.get(builder.box_type)
+        if box_cls is None or builder.final_size is None:
+            return []
+        return box_cls().lid_keepouts(build_spec(self, builder, builder.final_size))
 
     # ----------------------------------------------------------------- export
 

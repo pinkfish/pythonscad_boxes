@@ -115,6 +115,18 @@ class BoxSpec:
     default (FR-002e3)."""
     latch_radius: float = 1.2
     """Catch radius for the card-library type, which always carries one."""
+    fingernail_catch: bool = True
+    """Cut the dish a nail starts a sliding lid with (FR-002e5).
+
+    On by default: a seated sliding lid is a flush plate with nothing to grip,
+    so the dish is part of the type rather than an option. Only the sliding
+    family reads this."""
+    fingernail_radius: float | None = None
+    """Opening radius of that dish; ``None`` derives it from the lid's narrow
+    dimension."""
+    fingernail_depth: float | None = None
+    """How deep it sinks; ``None`` uses half the lid's thickness, which is also
+    the cap — the dish must never pierce the plate."""
 
     # ── Cap and slipover ─────────────────────────────────────────────────
     cap_height: float | None = None
