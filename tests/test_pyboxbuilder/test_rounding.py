@@ -10,10 +10,11 @@ import math
 import sys
 import unittest
 from dataclasses import replace
+from pathlib import Path
+
+from pyboxbuilder.box.spec import BoxSpec
 
 from ._spec import spec
-from pyboxbuilder.box.spec import BoxSpec
-from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 if str(REPO_ROOT / "tests") not in sys.path:
@@ -420,9 +421,8 @@ class ExportPrecisionTests(unittest.TestCase):
     def test_export_uses_it_and_show_does_not(self) -> None:
         import tempfile
 
-        from pyboxbuilder.precision import EXPORT_FN, precision
-
         from pyboxbuilder.box.registry import BOX_IMPL_REGISTRY
+        from pyboxbuilder.precision import EXPORT_FN, precision
 
         seen = []
         impl = BOX_IMPL_REGISTRY[BoxType.NO_LID]

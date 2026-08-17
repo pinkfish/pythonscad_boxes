@@ -94,9 +94,23 @@ class LayoutTests(unittest.TestCase):
         self.assertEqual(self.boxes["CardBoxPlayerRed"].box_type, BoxType.SLIDING)
 
     def test_every_box_is_manually_positioned(self) -> None:
+        """Placement is what keeps the packer off a box.
+
+        This used to also assert `expandable` was False on each of them, which
+        the example said twenty-one times. A placed box is not the packer's to
+        move, grow or turn, so placement decides it and the flag is redundant.
+        """
         for label, builder in self.boxes.items():
             self.assertIsNotNone(builder.position, f"{label} has no position")
-            self.assertFalse(builder.expandable, f"{label} is expandable")
+
+    def test_a_placed_box_is_not_expanded_or_rotated(self) -> None:
+        """The packer never sees a placed box, whatever its flags say."""
+        placed = self.mod["project"].build().packing.placements
+        by_label = {p.label: p for p in placed}
+        for label, builder in self.boxes.items():
+            with self.subTest(box=label):
+                self.assertEqual(tuple(by_label[label].size), tuple(builder.size))
+                self.assertFalse(by_label[label].rotation)
 
     def test_player_boxes_stack_in_two_columns(self) -> None:
         pbl, pbh = self.mod["PLAYER_BOX_LENGTH"], self.mod["PLAYER_BOX_HEIGHT"]

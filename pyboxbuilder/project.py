@@ -204,11 +204,12 @@ class Project:
         from pyboxbuilder.layout import LayoutError
         from pyboxbuilder.layout import arrange as resolve
 
-        sizes: dict[str, tuple[float, float, float]] = {}
-        for builder in self._boxes:
-            if builder.size is None or any(v is None for v in builder.size):
-                continue  # resolved from compartments later; can't be arranged
-            sizes[builder.label] = tuple(builder.size)  # type: ignore[arg-type]
+        # Size every box first, including the ones sized from their contents.
+        # Those used to be skipped here, and the arrangement then reported them
+        # as "not in the project" — so a box described by what goes in it,
+        # which is how the library asks you to describe one, could not be
+        # arranged at all.
+        sizes = {b.label: self._min_size(b) for b in self._boxes}
 
         arrangement = resolve(layout, sizes, origin)
 
@@ -487,6 +488,12 @@ class Project:
             size = self._min_size(builder)
             resolved_min_sizes[builder.label] = size
             if builder.position is not None:
+                # A box that has been placed — by hand or by `arrange()` — is
+                # not the packer's to move, grow or turn. Expanding it would
+                # push it into its neighbour, and rotating it would leave the
+                # arrangement's arithmetic describing a box that no longer
+                # exists. So placement decides both, and neither has to be
+                # switched off at every call site (FR-000b).
                 manual_placements.append(
                     Placement(label=builder.label, position=builder.position, size=size, rotation=False)
                 )
@@ -799,6 +806,7 @@ class Project:
             decorated = decorate_lid(
                 piece.solid, builder.lid,
                 builder.lid_thickness or self.lid_thickness, mode,
+                body_color=builder.color,
             )
             return decorated.solid, decorated.inserts or None
         except ImportError:

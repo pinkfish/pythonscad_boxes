@@ -1,13 +1,13 @@
 # SPDX-License-Identifier: Apache-2.0
 """Tests for export functionality."""
 
-import unittest
 import tempfile
+import unittest
 from pathlib import Path
 
+from pyboxbuilder.enums import BoxType
 from pyboxbuilder.export.result import ExportResult
 from pyboxbuilder.project import Project
-from pyboxbuilder.enums import BoxType
 
 
 class ExportTests(unittest.TestCase):

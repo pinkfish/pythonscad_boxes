@@ -11,6 +11,8 @@ from pyboxbuilder.box.spec import BoxSpec
 if TYPE_CHECKING:
     from pybosl2.shapes3d import Bosl2Solid
 
+    from pyboxbuilder.enums import ScoopSide
+
 from pyboxbuilder.box.base import BoxTypeBase, Interior
 
 

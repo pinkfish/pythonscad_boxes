@@ -25,7 +25,7 @@ for _sp in ROOT.glob("venv/*/lib/*/site-packages"):
 
 from pybosl2 import Color
 
-from pyboxbuilder import FingerCut, Project, BoxType, LabelMode, LidBuilder
+from pyboxbuilder import BoxType, FingerCut, LabelMode, LidBuilder, Project, run
 
 # ── Game Box Dimensions ───────────────────────────────────────────
 box_width = 214
@@ -126,13 +126,4 @@ for i, company in enumerate(companies):
 
 # ── Export ────────────────────────────────────────────────────────
 if __name__ == "__main__":
-    import os
-    if os.environ.get("FROM_MAKE") == "1":
-        result = project.export("output/")
-        print(f"Exported {result.total_files} files:")
-        print(f"  Written: {len(result.written)}")
-        for f in result.written:
-            print(f"    ✓ {f}")
-
-    else:
-        project.show()
+    run(project)

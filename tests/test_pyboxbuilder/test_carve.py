@@ -6,15 +6,14 @@ the wrong place still produces facets, but it changes how much material is left.
 """
 
 from __future__ import annotations
-from dataclasses import replace
 
 import unittest
+from dataclasses import replace
 
-from pyboxbuilder.box.spec import BoxSpec
-
-from pyboxbuilder.builders._base import Cut
 from pyboxbuilder.box.interior import Interior
 from pyboxbuilder.box.shell import block, build_shell
+from pyboxbuilder.box.spec import BoxSpec
+from pyboxbuilder.builders._base import Cut
 from pyboxbuilder.compartments.builder import CompartmentBuilder
 from pyboxbuilder.compartments.carve import build_contents, interior_mouth
 from pyboxbuilder.compartments.layout import CompartmentPlacement
@@ -148,7 +147,10 @@ class CompartmentCarveTests(unittest.TestCase):
         in `build_cut` now, so this pins all three arms to it.
         """
         from pyboxbuilder.compartments.finger_hole import (
-            build_cut, build_floor_scoop, build_through_hole, build_wall_scoop,
+            build_cut,
+            build_floor_scoop,
+            build_through_hole,
+            build_wall_scoop,
         )
 
         self.assertEqual(

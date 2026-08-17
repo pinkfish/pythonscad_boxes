@@ -4,7 +4,7 @@
 import unittest
 
 from pyboxbuilder.enums import PatternType
-from pyboxbuilder.lid.pattern import build_pattern, _PATTERN_FILLS
+from pyboxbuilder.lid.pattern import _PATTERN_FILLS, build_pattern
 
 
 class PatternCoverageTests(unittest.TestCase):

@@ -16,6 +16,16 @@ if TYPE_CHECKING:
     from pyboxbuilder.lid.builder import LidBuilder
 
 
+CARD_THICKNESS_MM = 0.6
+"""One standard board game card. Sleeved cards run nearer 0.8mm."""
+
+CARD_SLACK_MM = 1.0
+"""Clearance around a card stack, so it goes in and comes out freely."""
+
+DEFAULT_FINGER_WIDTH_MM = 28.0
+"""How wide a finger cut is when nothing says otherwise — a fingertip (FR-051)."""
+
+
 
 @dataclass(frozen=True)
 class BoxBuilder:
@@ -112,6 +122,7 @@ class BoxBuilder:
         width_ratio: float | None = None,
         length_ratio: float | None = None,
         depth: float | None = None,
+        holds_pieces: bool = False,
         rounded_corners: float = 0.0,
         cut: "Cut | FingerCut | None" = None,
         no_rotate: bool = False,
@@ -123,9 +134,33 @@ class BoxBuilder:
         """Add a compartment to this box.
 
         Args:
+            label: The well's name, used in the layout guide and in errors.
+            size: Its ``(width, length)`` footprint in mm. ``None`` fills
+                whatever the box has left — the common case of one well and one
+                box, where the arithmetic is the library's to do (FR-000).
+            width_ratio: Its share of the room the wells have across the box,
+                as an alternative to an absolute width.
+            length_ratio: The same along the box.
+            depth: How deep the well is cut. ``None`` runs it to the floor.
+            holds_pieces: Declare this a tray for loose pieces, so its corners
+                and floor round to ``depth × 2/3`` and a finger can sweep a
+                piece up and out (FR-044f). Off means square, which is what a
+                card slot or a silhouette wants.
+            rounded_corners: An explicit corner radius, for the rare well whose
+                curve is not the one `holds_pieces` derives.
             cut: How its contents come out — a :class:`FingerCut` for "this
                 kind, everything else derived", a :class:`Cut` when something
                 needs saying, or ``None`` for no cut at all (FR-006).
+            no_rotate: Keep the well's orientation through the layout.
+            shape_file: An SVG whose outline the well is cut to.
+            position: An explicit ``(x, y)`` in the interior frame, instead of
+                letting the layout place it.
+            elements: Individual piece pockets making up an element pack.
+            element_margin: Clearance around an element pack's bounding box.
+
+        Returns:
+            The :class:`CompartmentBuilder` that was added, already registered
+            on the box.
         """
         from pyboxbuilder.compartments.builder import CompartmentBuilder
 
@@ -135,6 +170,7 @@ class BoxBuilder:
             width_ratio=width_ratio,
             length_ratio=length_ratio,
             depth=depth,
+            holds_pieces=holds_pieces,
             rounded_corners=rounded_corners,
             cut=Cut.of(cut),
             no_rotate=no_rotate,
@@ -146,11 +182,65 @@ class BoxBuilder:
         object.__setattr__(self, "compartments", self.compartments + (cb,))
         return cb
 
+    def cards(
+        self,
+        label: str,
+        *,
+        count: int,
+        size: tuple[float, float],
+        thickness: float = CARD_THICKNESS_MM,
+        slack: float = CARD_SLACK_MM,
+        cut: "Cut | FingerCut | None" = FingerCut.THROUGH_FLOOR,
+        **kwargs,
+    ) -> CompartmentBuilder:
+        """Add a well sized to hold a stack of cards.
+
+        A card box is described by what goes in it — how many cards, how big —
+        and every dimension of the well follows from that. Written out, it is
+        the same three lines at every call site::
+
+            h = project.floor_thickness + project.lid_thickness + 0.6 * 32 + 1
+            box = project.box(..., size=(68, 99, h))
+            box.compartment("Cards", size=(62, 93), depth=h - 3.6, ...)
+
+        which asks the caller to know the library's own floor and lid, and to
+        keep three numbers in step by hand (FR-000b). Leave the box's height
+        unset and it is derived from this instead.
+
+        Args:
+            label: The well's name.
+            count: How many cards the well holds.
+            size: The card's ``(width, length)`` in mm.
+            thickness: One card's thickness in mm. The default suits a standard
+                board game card; sleeved cards run nearer 0.8mm.
+            slack: Clearance added around the stack, so the cards go in and come
+                out without being pinched.
+            cut: How the stack is got out. A stack that fills its well leaves no
+                side for a finger, so the default is a hole through the base for
+                a thumb to push up through (FR-060).
+            **kwargs: Any other :meth:`compartment` keyword.
+
+        Returns:
+            The :class:`CompartmentBuilder` that was added.
+
+        Raises:
+            ValueError: If ``count`` is not positive.
+        """
+        if count <= 0:
+            raise ValueError(f"card count must be > 0; got {count}")
+        return self.compartment(
+            label,
+            size=(size[0] + slack, size[1] + slack),
+            depth=count * thickness + slack,
+            cut=cut,
+            **kwargs,
+        )
+
     def finger_hole(
         self,
         side: "ScoopSide",
         *,
-        width: float = 28.0,
+        width: float = DEFAULT_FINGER_WIDTH_MM,
         depth: float | None = None,
         offset: float = 0.0,
         base_radius: float | None = None,
@@ -213,12 +303,12 @@ class BoxBuilder:
             width = radius * 2.0
         hole = FingerHoleBuilder(
             side=side,
-            radius=width / 2.0,
-            bottom_radius=base_radius,
+            width=width,
+            base_radius=base_radius,
             depth=depth,
             offset=offset,
-            rounding_radius=mouth_flare,
-            rounding_edge=face_fillet,
+            mouth_flare=mouth_flare,
+            face_fillet=face_fillet,
             roll_rise=roll_rise,
         )
         object.__setattr__(self, "finger_holes", self.finger_holes + (hole,))
@@ -305,17 +395,20 @@ class FingerHoleBuilder:
     Cut with the same builder as a compartment's wall scoop, so it gets the
     same mouth flare and face fillets: see
     :func:`pyboxbuilder.compartments.finger_cuts.build_wall_scoop`.
+
+    The field names are the ones the requirements use and the ones
+    :meth:`BoxBuilder.finger_hole` takes — `width`, `base_radius`,
+    `mouth_flare`, `face_fillet` (FR-006a). They were `radius`,
+    `bottom_radius`, `rounding_radius` and `rounding_edge` here, so every
+    number in a finger cut had two names and one of the pairs differed by a
+    factor of two, which is the pair a reader is most likely to conflate.
     """
 
     side: ScoopSide
     """Which exterior wall the hole is cut through."""
-    radius: float = 14.0
-    """Throat half-width in mm — adult fingertip sizing by default.
-
-    `BoxBuilder.finger_hole` also takes a `width`, which is twice this and the
-    way the requirement states it (FR-051); they are the same number.
-    """
-    bottom_radius: float | None = None
+    width: float = DEFAULT_FINGER_WIDTH_MM
+    """The cut's full width in mm — how much finger goes in (FR-051)."""
+    base_radius: float | None = None
     """How the base curves into the sides; ``None`` uses half the width.
 
     Independent of the width (FR-055), and **kept** rather than shrunk to fit
@@ -325,23 +418,29 @@ class FingerHoleBuilder:
     depth: float | None = None
     """How far down from the interior's top the cut reaches.
 
-    ``None`` uses the radius, which is how the original sizes it: the height of
-    a finger cut follows the finger, not the wall. A fixed default made every
-    hole a shallow nick regardless of how big a finger it was cut for.
+    ``None`` uses half the width, which is how the original sizes it: the
+    height of a finger cut follows the finger, not the wall. A fixed default
+    made every hole a shallow nick regardless of how big a finger it was cut
+    for.
     """
     offset: float = 0.0
     """Shift along the wall from its midpoint, in mm."""
-    rounding_radius: float | None = None
+    mouth_flare: float | None = None
     """Mouth flare where the cut meets the rim; ``None`` uses the default 3mm."""
-    rounding_edge: float | None = None
+    face_fillet: float | None = None
     """Fillet where the cut emerges on a face; ``None`` uses ``wall_thickness / 2``."""
     roll_rise: float | None = None
     """How far the mouth roll reaches down; ``None`` derives it from the flare.
 
-    The gentleness of the curve, as against `rounding_radius`'s width of it
+    The gentleness of the curve, as against `mouth_flare`'s width of it
     (FR-051/FR-057). Settable because on a shallow wall the rise is the only
     one of the two that can give: there is height to spare for the curve and no
     width to spare for the mouth."""
+
+    @property
+    def radius(self) -> float:
+        """Half the width — the throat radius the geometry is swept around."""
+        return self.width / 2.0
 
     def __post_init__(self) -> None:
         """Validate the hole.
@@ -349,12 +448,12 @@ class FingerHoleBuilder:
         Raises:
             TypeError: If ``side`` is not a :class:`ScoopSide` — a bare string
                 would silently match no wall.
-            ValueError: If ``radius`` or ``depth`` is not positive.
+            ValueError: If ``width`` or ``depth`` is not positive.
         """
         if not isinstance(self.side, ScoopSide):
             sides = ", ".join(f"ScoopSide.{m.name}" for m in ScoopSide)
             raise TypeError(f"finger hole side must be a ScoopSide ({sides}); got {self.side!r}")
-        if self.radius <= 0:
-            raise ValueError(f"finger hole radius must be > 0; got {self.radius}")
+        if self.width <= 0:
+            raise ValueError(f"finger hole width must be > 0; got {self.width}")
         if self.depth is not None and self.depth <= 0:
             raise ValueError(f"finger hole depth must be > 0; got {self.depth}")

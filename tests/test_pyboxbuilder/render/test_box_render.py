@@ -3,9 +3,9 @@
 
 import unittest
 
-from pyboxbuilder.project import Project
-from pyboxbuilder.enums import BoxType
 from pyboxbuilder.box.interior import Interior
+from pyboxbuilder.enums import BoxType
+from pyboxbuilder.project import Project
 
 
 class BoxRenderTests(unittest.TestCase):

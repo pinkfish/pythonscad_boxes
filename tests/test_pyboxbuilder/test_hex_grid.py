@@ -5,9 +5,9 @@ import unittest
 
 from pyboxbuilder.compartments.hex_grid import (
     HexGridSpec,
+    build_hex_grid,
     compute_hex_layout,
     hex_grid_bounds,
-    build_hex_grid,
 )
 
 

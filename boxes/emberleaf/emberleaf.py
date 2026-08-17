@@ -32,9 +32,18 @@ for _sp in REPO_ROOT.glob("venv/*/lib/*/site-packages"):
     sys.path.insert(0, str(_sp))
 
 from pyboxbuilder import (
+    BoxType,
+    Color,
     FingerCut,  # noqa: E402
-    BoxType, Color, LabelMode, LidBuilder, PatternBuilder, PatternType, Project,
-    columns, rows, stack,
+    LabelMode,
+    LidBuilder,
+    PatternBuilder,
+    PatternType,
+    Project,
+    columns,
+    rows,
+    run,
+    stack,
 )
 from pyboxbuilder.compartments import CompartmentElement, grid_pack  # noqa: E402
 from pyboxbuilder.enums import ElementShape  # noqa: E402
@@ -166,7 +175,17 @@ project = Project(
     generate_spacers=True,
 )
 
-LEAF_LID = PatternBuilder(type=PatternType.HEX, spacing=10.0)
+LEAF_PATTERN = PatternBuilder(type=PatternType.HEX, spacing=10.0)
+
+EMBERLEAF_LID = LidBuilder(
+    label_mode=LabelMode.FRAMELESS,
+    diagonal=True,
+    pattern=LEAF_PATTERN,
+    text_color=Color("white"),
+)
+"""The insert's one lid style. Each box wears it with its own text — and its
+own colour where the piece it holds has one — via `.titled()`, instead of the
+same five lines repeated at twenty-one boxes."""
 
 
 def player_box_elements(colour: str) -> tuple[CompartmentElement, ...]:
@@ -292,14 +311,7 @@ for colour in PLAYER_COLOURS:
         BoxType.CAP,
         f"PlayerBox{colour}",
         size=(PLAYER_BOX_WIDTH, PLAYER_BOX_LENGTH, PLAYER_BOX_HEIGHT),
-        expandable=False,
-        lid=LidBuilder(
-            text="Player",
-            label_mode=LabelMode.FRAMELESS,
-            diagonal=True,
-            pattern=LEAF_LID,
-            text_color=Color("white"),
-        ),
+        lid=EMBERLEAF_LID.titled("Player"),
     )
     # One compartment spanning the interior, whose elements are the piece slots.
     player_box.compartment(
@@ -329,14 +341,7 @@ for material, colour in MATERIAL_BOXES:
         BoxType.CAP,
         f"MaterialBox{material}",
         size=(MATERIAL_BOX_WIDTH, MATERIAL_BOX_LENGTH, MATERIAL_BOX_HEIGHT),
-        expandable=False,
-        lid=LidBuilder(
-            text=material,
-            label_mode=LabelMode.FRAMELESS,
-            diagonal=True,
-            pattern=LEAF_LID,
-            text_color=Color(colour),
-        ),
+        lid=EMBERLEAF_LID.titled(material, text_color=Color(colour)),
     )
     # A single rounded well filling the interior (RoundedBoxAllSides).
     material_box.compartment(
@@ -365,15 +370,7 @@ for card_type, lid_text in CARD_BOXES:
         BoxType.SLIDING,
         f"CardBox{card_type}",
         size=(CARD_BOX_WIDTH, CARD_BOX_LENGTH, CARD_BOX_HEIGHT),
-        expandable=False,
-        no_rotate=True,
-        lid=LidBuilder(
-            text=lid_text,
-            label_mode=LabelMode.FRAMELESS,
-            diagonal=True,
-            pattern=LEAF_LID,
-            text_color=Color("white"),
-        ),
+        lid=EMBERLEAF_LID.titled(lid_text),
     )
     card_box.compartment(
         "Cards",
@@ -395,15 +392,7 @@ for colour in PLAYER_CARD_COLOURS:
         BoxType.SLIDING,
         f"CardBoxPlayer{colour}",
         size=(PLAYER_CARD_BOX_WIDTH, PLAYER_CARD_BOX_LENGTH, PLAYER_CARD_BOX_HEIGHT),
-        expandable=False,
-        no_rotate=True,
-        lid=LidBuilder(
-            text="Player",
-            label_mode=LabelMode.FRAMELESS,
-            diagonal=True,
-            pattern=LEAF_LID,
-            text_color=Color(colour.lower()),
-        ),
+        lid=EMBERLEAF_LID.titled("Player", text_color=Color(colour.lower())),
     )
     player_card_box.compartment(
         "Cards",
@@ -418,14 +407,7 @@ common_box = project.box(
     BoxType.CAP,
     "CommonBox",
     size=(COMMON_BOX_WIDTH, COMMON_BOX_LENGTH, COMMON_BOX_HEIGHT),
-    expandable=False,
-    lid=LidBuilder(
-        text="Trophy",
-        label_mode=LabelMode.FRAMELESS,
-        diagonal=True,
-        pattern=LEAF_LID,
-        text_color=Color("white"),
-    ),
+    lid=EMBERLEAF_LID.titled("Trophy"),
 )
 
 
@@ -534,15 +516,4 @@ project.arrange(columns(
 
 
 if __name__ == "__main__":
-    import os
-    if os.environ.get("FROM_MAKE") == "1":
-        result = project.export("output/")
-        print(f"Exported {result.total_files} files ({len(result.written)} written, "
-              f"{len(result.skipped)} unchanged):")
-        for file in result.written:
-            print(f"  + {file}")
-        for bounds in project.piece_bounds:
-            print(f"    {bounds}")
-
-    else:
-        project.show()
+    run(project)

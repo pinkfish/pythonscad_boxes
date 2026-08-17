@@ -34,9 +34,17 @@ for _sp in ROOT.glob("venv/*/lib/*/site-packages"):
     sys.path.insert(0, str(_sp))
 
 from pyboxbuilder import (
+    BoxType,
+    Color,
     FingerCut,  # noqa: E402
-    BoxType, Color, LabelMode, LidBuilder, PatternBuilder, PatternType, Project,
-    columns, stack,
+    LabelMode,
+    LidBuilder,
+    PatternBuilder,
+    PatternType,
+    Project,
+    columns,
+    run,
+    stack,
 )
 
 # ── Game box and material constants (examples/earth_animal_kingdom.scad) ──
@@ -167,7 +175,6 @@ card_box = project.box(
     BoxType.SLIDING,
     "AnimalCardsBox",
     size=(CARD_BOX_WIDTH, CARD_BOX_LENGTH, CARD_BOX_HEIGHT),
-    expandable=False,
     lid=LidBuilder(
         text="Animal Cards",
         label_mode=LabelMode.FRAMED,
@@ -192,7 +199,6 @@ sprout_box = project.box(
     BoxType.FILAMENT_HINGE,
     "SproutBox",
     size=(SPROUT_BOX_WIDTH, SPROUT_BOX_LENGTH, SPROUT_BOX_HEIGHT),
-    expandable=False,
     lid=LidBuilder(
         text="Sprouts",
         label_mode=LabelMode.FRAMED,
@@ -218,7 +224,6 @@ canopy_box = project.box(
     BoxType.FILAMENT_HINGE,
     "CanopyBox",
     size=(CANOPY_BOX_WIDTH, CANOPY_BOX_LENGTH, CANOPY_BOX_HEIGHT),
-    expandable=False,
     lid=LidBuilder(
         text="Canopies",
         label_mode=LabelMode.FRAMED,
@@ -242,8 +247,7 @@ def add_animal_box(label: str, slots):
         BoxType.SLIPOVER,
         label,
         size=(ANIMAL_BOX_WIDTH, ANIMAL_BOX_LENGTH, ANIMAL_BOX_HEIGHT),
-        expandable=False,
-        wall_thickness=ANIMAL_WALL,
+            wall_thickness=ANIMAL_WALL,
         foot=ANIMAL_FOOT,
         lid=LidBuilder(
             text="Animals",
@@ -282,7 +286,6 @@ project.box(
     BoxType.NO_LID,
     "SpacerBox",
     size=(SPACER_BOX_WIDTH, SPACER_BOX_LENGTH, SPACER_BOX_HEIGHT),
-    expandable=False,
 )
 
 # ── 6. Arrangement ────────────────────────────────────────────────────────
@@ -298,14 +301,4 @@ project.arrange(columns(
 
 # ── Export ────────────────────────────────────────────────────────────────
 if __name__ == "__main__":
-    import os
-    if os.environ.get("FROM_MAKE") == "1":
-        result = project.export("output/")
-        print(f"Exported {result.total_files} files ({len(result.written)} written, "
-              f"{len(result.skipped)} unchanged)")
-        for bounds in project.piece_bounds:
-            if bounds.mode == "mmu":
-                print(f"    {bounds}")
-
-    else:
-        project.show()
+    run(project)

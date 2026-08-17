@@ -14,7 +14,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))  # repo root
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent / "tests"))
 
-from render_app import render_script, RenderResult  # noqa: E402
+from render_app import RenderResult, render_script  # noqa: E402
 
 GOLDEN_DIR = Path(__file__).resolve().parent.parent / "golden"
 OUT_DIR = Path(__file__).resolve().parent.parent / "_render_output"

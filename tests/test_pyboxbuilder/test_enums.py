@@ -2,11 +2,16 @@
 """Tests for pyboxbuilder enums."""
 
 import unittest
-from pyboxbuilder.box.spec import BoxSpec
 from dataclasses import replace
 
+from pyboxbuilder.box.spec import BoxSpec
 from pyboxbuilder.enums import (
-    BoxType, LabelMode, MagnetType, PatternType, ScoopSide, StackableMode,
+    BoxType,
+    LabelMode,
+    MagnetType,
+    PatternType,
+    ScoopSide,
+    StackableMode,
 )
 from pyboxbuilder.project import Project
 

@@ -23,10 +23,12 @@ for _sp in ROOT.glob(".venv/lib/*/site-packages"):
 for _sp in ROOT.glob("venv/*/lib/*/site-packages"):
     sys.path.insert(0, str(_sp))
 
-from pybosl2 import Color
-
 from pyboxbuilder import (
-    Project, BoxType, LabelMode, LidBuilder, MagnetType, StackableMode,
+    BoxType,
+    MagnetType,
+    Project,
+    StackableMode,
+    run,
 )
 
 # ── Stackable Hex Parameters ──────────────────────────────────────
@@ -95,13 +97,4 @@ for divisions, label in rect_variants:
 
 # ── Export ────────────────────────────────────────────────────────
 if __name__ == "__main__":
-    import os
-    if os.environ.get("FROM_MAKE") == "1":
-        result = project.export("output/")
-        print(f"Exported {result.total_files} files:")
-        print(f"  Written: {len(result.written)}")
-        for f in result.written:
-            print(f"    ✓ {f}")
-
-    else:
-        project.show()
+    run(project)

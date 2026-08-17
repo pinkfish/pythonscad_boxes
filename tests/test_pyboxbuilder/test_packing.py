@@ -3,9 +3,9 @@
 
 import unittest
 
-from pyboxbuilder.packing.layout import pack_boxes, BoxPacking, PackingError
+from pyboxbuilder.packing.cache import cache_key, get_cached, set_cached
+from pyboxbuilder.packing.layout import BoxPacking, PackingError, pack_boxes
 from pyboxbuilder.packing.spacer import generate_spacers
-from pyboxbuilder.packing.cache import cache_key, set_cached, get_cached
 
 
 class PackingTests(unittest.TestCase):

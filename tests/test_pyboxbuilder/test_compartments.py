@@ -95,8 +95,8 @@ class CompartmentBuilderTests(unittest.TestCase):
 
     def test_ratio_overflow_rejected_in_project(self) -> None:
         """Project export rejects compartments whose ratios sum > 1.0."""
-        from pyboxbuilder.project import Project
         from pyboxbuilder.enums import BoxType
+        from pyboxbuilder.project import Project
         p = Project("Overflow", game_box_size=(200, 150, 60))
         b = p.box(BoxType.SLIDING, "Bad", size=(100, 100, 50))
         b.compartment("A", width_ratio=0.6, depth=20)
@@ -127,3 +127,95 @@ class CompartmentBuilderTests(unittest.TestCase):
     def test_rounded_corners_default(self) -> None:
         cb = CompartmentBuilder(label="Well", size=(50, 50), depth=30)
         self.assertEqual(cb.rounded_corners, 0.0)
+
+
+class ContentSizingTests(unittest.TestCase):
+    """FR-000: describe what goes in the box, not the geometry."""
+
+    def project(self):
+        from pyboxbuilder.project import Project
+
+        return Project("Cards", game_box_size=(300, 200, 80))
+
+    def test_a_card_box_is_sized_by_its_cards(self) -> None:
+        from pyboxbuilder.enums import BoxType
+
+        p = self.project()
+        box = p.box(BoxType.SLIDING, "Deck", size=(70, 100, None))
+        box.cards("Cards", count=50, size=(62.0, 93.0))
+
+        # The well is the card plus its slack; the box's height follows from
+        # the stack, the floor and the lid — none of it written at the call site.
+        well = box.compartments[0]
+        self.assertEqual(well.size, (63.0, 94.0))
+        self.assertAlmostEqual(well.depth, 50 * 0.6 + 1.0)
+        self.assertGreater(p._min_size(box)[2], well.depth)
+
+    def test_a_stack_comes_out_through_the_floor_by_default(self) -> None:
+        """A stack that fills its well leaves no side for a finger (FR-060)."""
+        from pyboxbuilder.enums import BoxType, FingerCut
+
+        box = self.project().box(BoxType.SLIDING, "Deck", size=(70, 100, None))
+        box.cards("Cards", count=10, size=(62.0, 93.0))
+        self.assertIs(box.compartments[0].cut.kind, FingerCut.THROUGH_FLOOR)
+
+    def test_sleeved_cards_take_a_thicker_stack(self) -> None:
+        from pyboxbuilder.enums import BoxType
+
+        box = self.project().box(BoxType.SLIDING, "Deck", size=(70, 100, None))
+        box.cards("Cards", count=50, size=(62.0, 93.0), thickness=0.8)
+        self.assertAlmostEqual(box.compartments[0].depth, 50 * 0.8 + 1.0)
+
+    def test_no_cards_is_refused(self) -> None:
+        from pyboxbuilder.enums import BoxType
+
+        box = self.project().box(BoxType.SLIDING, "Deck", size=(70, 100, None))
+        with self.assertRaises(ValueError):
+            box.cards("Cards", count=0, size=(62.0, 93.0))
+
+
+class BoxDefaultsTests(unittest.TestCase):
+    """FR-000b: a value shared by every box is said once."""
+
+    def test_defaults_reach_every_box(self) -> None:
+        from pyboxbuilder.enums import BoxType
+        from pyboxbuilder.project import Project
+
+        p = Project("G", game_box_size=(300, 200, 80),
+                    box_defaults={"wall_thickness": 3.0, "no_rotate": True})
+        box = p.box(BoxType.SLIDING, "A", size=(70, 100, 40))
+        self.assertEqual(box.wall_thickness, 3.0)
+        self.assertTrue(box.no_rotate)
+
+    def test_a_box_may_still_say_otherwise(self) -> None:
+        from pyboxbuilder.enums import BoxType
+        from pyboxbuilder.project import Project
+
+        p = Project("G", game_box_size=(300, 200, 80),
+                    box_defaults={"wall_thickness": 3.0})
+        box = p.box(BoxType.SLIDING, "A", size=(70, 100, 40), wall_thickness=1.5)
+        self.assertEqual(box.wall_thickness, 1.5)
+
+    def test_a_default_a_builder_does_not_have_is_ignored(self) -> None:
+        """A project-wide default is not an error for the types that lack it."""
+        from pyboxbuilder.enums import BoxType
+        from pyboxbuilder.project import Project
+
+        p = Project("G", game_box_size=(300, 200, 80),
+                    box_defaults={"cap_height": 8.0})
+        sliding = p.box(BoxType.SLIDING, "A", size=(70, 100, 40))
+        cap = p.box(BoxType.CAP, "B", size=(70, 100, 40))
+        self.assertFalse(hasattr(sliding, "cap_height"))
+        self.assertEqual(cap.cap_height, 8.0)
+
+    def test_an_unknown_keyword_is_refused_by_name(self) -> None:
+        """A parameter the type does not have used to be silently dropped."""
+        from pyboxbuilder.enums import BoxType
+        from pyboxbuilder.project import Project
+
+        p = Project("G", game_box_size=(300, 200, 80))
+        with self.assertRaises(TypeError) as caught:
+            p.box(BoxType.SLIDING, "A", size=(70, 100, 40), two_layer=True)
+        message = str(caught.exception)
+        self.assertIn("two_layer", message)
+        self.assertIn("SlidingBoxBuilder", message)

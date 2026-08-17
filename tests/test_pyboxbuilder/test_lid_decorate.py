@@ -6,11 +6,10 @@ from __future__ import annotations
 import tempfile
 import unittest
 
-from pyboxbuilder.box.spec import BoxSpec
-
 from mesh import volume  # the shared measurer; see tests/mesh.py
 
 from pyboxbuilder.box.registry import BOX_IMPL_REGISTRY
+from pyboxbuilder.box.spec import BoxSpec
 from pyboxbuilder.enums import BoxType, LabelMode, PatternType
 from pyboxbuilder.lid.builder import LidBuilder, PatternBuilder
 from pyboxbuilder.lid.decorate import decorate_lid

@@ -62,6 +62,15 @@ from pyboxbuilder.compartments.finger_sweep import (
 )
 
 __all__ = [
+    "_SIDE_CENTRES",
+    "_SIDE_SPIN",
+    "_angle_at",
+    "_elliptical_quarter",
+    "_fit_radii",
+    "_quarter_arc",
+    "_sweep_end",
+    "_sweep_through_wall",
+    "_tangent_join",
     "ARC_SAMPLES",
     "BASE_ARC_SHARE",
     "DEFAULT_BOTTOM_ROUNDING_RATIO",

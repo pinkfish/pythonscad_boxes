@@ -1,21 +1,21 @@
 # SPDX-License-Identifier: Apache-2.0
-"""Color layer assignment for MMU (multi-material) printing.
+"""Accent colours for multi-material lids (FR-022).
 
-Assigns three independently settable accent colors to label text,
-frame top layer, and pattern top layer.
+Three colours are settable independently — the label text, the frame's top
+layer and the pattern's top layer — and each has a default derived from the
+body colour rather than left unset. That matters: an unset accent is not a
+subtle default, it is *no colour*, so the feature only worked for a caller who
+already knew to set all three (FR-000a).
 """
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from dataclasses import dataclass
 
-from pyboxbuilder import Color
-
-if TYPE_CHECKING:
-    pass
+from pybosl2 import Color
 
 
-@dataclass
+@dataclass(frozen=True)
 class ColorLayerAssignment:
     """Maps geometry components to their accent colors."""
 

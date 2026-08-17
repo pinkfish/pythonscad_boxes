@@ -26,6 +26,7 @@ from typing import TYPE_CHECKING
 from pyboxbuilder.enums import LabelMode
 
 if TYPE_CHECKING:
+    from pybosl2 import Color
     from pybosl2.shapes3d import Bosl2Solid
 
     from pyboxbuilder.lid.builder import LidBuilder
@@ -51,6 +52,7 @@ def decorate_lid(
     builder: "LidBuilder | None",
     lid_thickness: float,
     mode: str = "mmu",
+    body_color: "Color | None" = None,
 ) -> DecoratedLid:
     """Apply a lid's label, pattern and colours to its geometry.
 
@@ -59,6 +61,8 @@ def decorate_lid(
         builder: The lid configuration; None leaves the lid untouched.
         lid_thickness: Thickness of the plate the decoration goes into.
         mode: "mmu" or "single".
+        body_color: The box's own colour, which the accents are derived to
+            contrast with when the caller names none (FR-022).
 
     Returns:
         The decorated lid and its coloured inserts.
@@ -66,7 +70,7 @@ def decorate_lid(
     if lid is None or builder is None:
         return DecoratedLid(solid=lid)
 
-    resolved = builder.resolve_for_mode(mode)
+    resolved = _with_accent_colors(builder.for_mode(mode), body_color)
     face = _top_face(lid)
     if face is None:
         return DecoratedLid(solid=lid)
@@ -114,7 +118,7 @@ def _cut_pattern(
     from pyboxbuilder.lid.pattern import build_pattern
 
     assert builder.pattern is not None
-    margin = builder.border_margin_mm
+    margin = builder.border_margin
     area_w = width - 2 * margin
     area_l = length - 2 * margin
     if area_w <= 0 or area_l <= 0:
@@ -161,7 +165,7 @@ def _apply_label(
     # distinguish the backing plate from the lid, so a framed label degenerates
     # to engraved text. Asking for the frame anyway would also lift the text
     # clear of the face and engrave nothing at all.
-    label_mode = builder.label_mode if mode != "single" else LabelMode.FRAMELESS
+    label_mode = builder.mode if mode != "single" else LabelMode.FRAMELESS
 
     label = build_label(
         width=width,
@@ -169,9 +173,9 @@ def _apply_label(
         thickness=0.0,
         text=builder.text,
         label_mode=label_mode,
-        diagonal=builder.diagonal,
-        min_text_height_mm=builder.min_text_height_mm,
-        border_margin_mm=builder.border_margin_mm,
+        diagonal=builder.is_diagonal,
+        min_text_height_mm=builder.min_text_height,
+        border_margin_mm=builder.border_margin,
     )
     if label is None:
         result.skipped_label = True
@@ -192,6 +196,38 @@ def _apply_label(
     result.inserts.append(_coloured(text, builder.text_color))
     if label.backing is not None:
         result.inserts.append(_coloured(onto_face(label.backing), builder.frame_color))
+
+
+def _with_accent_colors(builder: "LidBuilder", body_color) -> "LidBuilder":
+    """Fill in the accent colours the caller left unset (FR-022).
+
+    An unset accent is not a subtle default — it is no colour at all, so the
+    insert prints in whatever the slicer picks and the three-colour lid the
+    requirement describes needs all three set before it works at all.
+
+    Args:
+        builder: The resolved lid configuration.
+        body_color: The box's colour, or ``None`` for the neutral default.
+
+    Returns:
+        The configuration with text, frame and pattern colours resolved.
+    """
+    from dataclasses import replace
+
+    from pybosl2 import Color
+
+    from pyboxbuilder.lid.color_layers import resolve_colors
+
+    colors = resolve_colors(
+        body_color if body_color is not None else Color("gray"),
+        builder.text_color, builder.frame_color, builder.pattern_color,
+    )
+    return replace(
+        builder,
+        text_color=colors.text_color,
+        frame_color=colors.frame_color,
+        pattern_color=colors.pattern_color,
+    )
 
 
 def _coloured(solid, colour):

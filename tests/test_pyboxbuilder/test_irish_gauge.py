@@ -3,7 +3,7 @@
 
 import unittest
 
-from pyboxbuilder import Project, BoxType, LabelMode, LidBuilder
+from pyboxbuilder import BoxType, LabelMode, LidBuilder, Project
 
 
 class IrishGaugeTests(unittest.TestCase):

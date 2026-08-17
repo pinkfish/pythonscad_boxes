@@ -9,11 +9,11 @@ import zipfile
 from pathlib import Path
 
 from pyboxbuilder.box.registry import BOX_IMPL_REGISTRY, BOX_TYPE_REGISTRY, LIDLESS_BOX_TYPES
+from pyboxbuilder.box.spec import BoxSpec
 from pyboxbuilder.compartments.sizing import RowItem, distribute_row_width, rows_from_placements
 from pyboxbuilder.enums import BoxType
-from pyboxbuilder.box.spec import BoxSpec
-from pyboxbuilder.export.exporter import BoxExporter, PieceBounds
 from pyboxbuilder.export import fingerprint as fp
+from pyboxbuilder.export.exporter import BoxExporter, PieceBounds
 
 
 class BoxExporterTests(unittest.TestCase):
@@ -65,7 +65,6 @@ class BoxExporterTests(unittest.TestCase):
 
     def test_real_geometry_is_exported_as_a_3mf(self) -> None:
         from pyboxbuilder.box.shell import build_shell
-
         from pyboxbuilder.box.spec import BoxSpec
 
         spec = BoxSpec(label="Tray", width=60.0, length=40.0, height=20.0,

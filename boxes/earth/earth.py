@@ -1,301 +1,178 @@
-import math
+# SPDX-License-Identifier: Apache-2.0
+"""Earth insert.
+
+Card boxes are described by the cards they hold — `box.cards(count=..., size=...)`
+works out the well and the box's height from that — and the arrangement is
+written down rather than typed out as coordinates.
+"""
+
 import sys
 from pathlib import Path
 
 # Repo root on sys.path, robust to __file__ being undefined (Jupyter / exec).
-if "__file__" in globals():
-    ROOT = Path(__file__).resolve().parents[2]
-else:
-    ROOT = Path.cwd()
+ROOT = Path(__file__).resolve().parents[2] if "__file__" in globals() else Path.cwd()
 sys.path.insert(0, str(ROOT))
 # Venv site-packages (any Python version) so compiled extensions like shapely
-# and pybosl2 load inside the PythonSCAD UI's embedded Python — relative to
-# ROOT, no absolute paths, no hardcoded version. Every other example carries
-# this; without it this one only builds when the caller has already set the
-# path up, and fails with a bare "No module named 'pybosl2'" when run directly.
-for _sp in ROOT.glob(".venv/lib/*/site-packages"):
-    sys.path.insert(0, str(_sp))
-for _sp in ROOT.glob("venv/*/lib/*/site-packages"):
+# and pybosl2 load inside the PythonSCAD UI's embedded Python.
+for _sp in [*ROOT.glob(".venv/lib/*/site-packages"), *ROOT.glob("venv/*/lib/*/site-packages")]:
     sys.path.insert(0, str(_sp))
 
-from pyboxbuilder import (
-    FingerCut,  # noqa: E402
-    Project, BoxType, ScoopSide, LabelMode, PatternType, LidBuilder, PatternBuilder, Color,
+from pyboxbuilder import (  # noqa: E402
+    BoxType,
+    Color,
+    FingerCut,
+    LabelMode,
+    LidBuilder,
+    Project,
+    columns,
+    rows,
+    run,
+    stack,
 )
 
-# Create project with 288 x 288 x 72 game box size
+# ── Game box and card constants ───────────────────────────────────
+CARD = (62.0, 93.0)
+"""One Earth card, in mm."""
+
+WALL = 3.0
+"""Card boxes take a thicker wall than the library's default."""
+
+SLACK = 1.0
+"""Clearance around a card, so it goes in and comes out freely. The same
+number `cards()` uses around the stack."""
+
+FOOTPRINT = (CARD[0] + 2 * WALL + SLACK, CARD[1] + 2 * WALL + SLACK)
+"""Every card and player box shares this footprint (FR-013a), so they stack
+into uniform columns. Derived from the card rather than typed as 68 x 99, so a
+different game's card moves every box that holds one."""
+
 project = Project(
     "Earth",
     game_box_size=(288.0, 288.0, 72.0),
-    wall_thickness=2.0,
-    floor_thickness=1.6,
-    lid_thickness=2.0,
     clearance_slack=0.0,
     generate_spacers=False,
+    # The card boxes take a thicker wall. Nothing else here differs from the
+    # library's defaults, so nothing else is set.
+    box_defaults={"wall_thickness": WALL},
 )
 
-# ── Card Size Constants ───────────────────────────────────────────
-CARD_W, CARD_L = 62.0, 93.0
-card_height_10 = 6.0
-single_card_thickness = card_height_10 / 10.0  # 0.6mm per card
+# ── Lid styles ────────────────────────────────────────────────────
+# Written once and worn by many boxes: only the text and the accent change.
+EARTH_LID = LidBuilder(label_mode=LabelMode.FRAMED, text_color=Color("white"),
+                       frame_color=Color("darkgreen"))
+GOLD_LID = LidBuilder(text_color=Color("white"), frame_color=Color("gold"))
+TEAL_LID = LidBuilder(text_color=Color("white"), frame_color=Color("teal"))
 
-# Card counts
-flora_cards = 179
-terrain_cards = 66
-event_cards = 38
-earth_cards = flora_cards + terrain_cards + event_cards  # 283 cards
 
-ecosystem_cards = 32
-fauna_cards = 23
-island_cards = 10
-climate_cards = 10
-solo_cards = 6
-season_cards = 12
-abundance_other_cards = 10
+def card_box(label: str, count: int, lid: LidBuilder, text: str):
+    """A sliding card box holding `count` cards.
 
-# ── 1. Earth Card Boxes (4 identical columns/bins) ────────────────
-# 3 full-height Earth Card Boxes, 1 smaller Earth Card Box, and 1 Compost Box stacked on top.
-# In the original, card_box_width=68, length=99. Let's make them size=(68, 99, None) and expandable.
-for i in range(4):
+    The height is left unset: it falls out of the card count, the floor and the
+    lid, which is what `cards()` is for.
+    """
     box = project.box(
-        BoxType.SLIDING,
-        f"EarthCardBox{i+1}",
-        size=(68.0, 99.0, 55.2),
-        position=(i * 68.0, 0.0, 0.0),
-        expandable=False,
-        wall_thickness=3.0,
-        lid=LidBuilder(
-            text="Earth",
-            label_mode=LabelMode.FRAMED,
-            text_color=Color("white"),
-            frame_color=Color("darkgreen"),
-        ),
+        BoxType.SLIDING, label,
+        size=(FOOTPRINT[0], FOOTPRINT[1], None),
+        lid=lid.titled(text),
     )
-    box.compartment("Cards", size=(CARD_W, CARD_L), depth=51.6, cut=FingerCut.THROUGH_FLOOR)
+    box.cards("Cards", count=count, size=CARD)
+    return box
 
-# Small Earth Card Box (height is small, 1/3 of the full column height)
-small_card = project.box(
-    BoxType.SLIDING,
-    "EarthCardBoxSmall",
-    size=(68.0, 99.0, 18.4),
-    position=(0.0, 99.0, 0.0),
-    expandable=False,
-    wall_thickness=3.0,
-    lid=LidBuilder(
-        text="Earth",
-        label_mode=LabelMode.FRAMED,
-        text_color=Color("white"),
-        frame_color=Color("darkgreen"),
-    ),
-)
-small_card.compartment("Cards", size=(CARD_W, CARD_L), depth=14.8, cut=FingerCut.THROUGH_FLOOR)
 
-# Compost Box (stacked on top of the small Earth box)
+# ── 1. Earth card boxes ───────────────────────────────────────────
+# Flora, terrain and events, split four ways so a column fits under the boards.
+EARTH_CARDS = 179 + 66 + 38
+for i in range(4):
+    card_box(f"EarthCardBox{i + 1}", EARTH_CARDS // 4, EARTH_LID, "Earth")
+
+card_box("EarthCardBoxSmall", 20, EARTH_LID, "Earth")
+
+# ── 2. The other decks ────────────────────────────────────────────
+card_box("EcosystemCardBox", 32, GOLD_LID, "Ecosystem")
+card_box("FaunaCardBox", 23, GOLD_LID, "Fauna")
+card_box("IslandCardBox", 10, GOLD_LID, "Island")
+card_box("ClimateCardBox", 10, TEAL_LID, "Climate")
+card_box("SoloCardBox", 6, TEAL_LID, "Solo")
+card_box("SeasonCardBox", 12, TEAL_LID, "Season")
+card_box("AbundanceOtherCardBox", 10, TEAL_LID, "Abundance")
+
+# ── 3. Compost, start and player boxes ────────────────────────────
 compost = project.box(
-    BoxType.FILAMENT_HINGE,
-    "CompostBox",
-    size=(68.0, 99.0, 36.8),
-    position=(0.0, 99.0, 18.4),
-    expandable=False,
-    lid=LidBuilder(
-        text="Compost",
-        text_color=Color("white"),
-        frame_color=Color("brown"),
-    ),
+    BoxType.FILAMENT_HINGE, "CompostBox",
+    size=(*FOOTPRINT, 36.8),
+    lid=LidBuilder(text_color=Color("white"), frame_color=Color("brown")).titled("Compost"),
 )
-compost.compartment("Compost", size=(60.0, 91.0), depth=33.2, cut=FingerCut.SCOOP)
+compost.compartment("Compost", holds_pieces=True, cut=FingerCut.SCOOP)
 
-# ── 2. Small Card Boxes (Ecosystem, Fauna, Island stack) ─────────
-# Ecosystem
-ecosystem_h = project.floor_thickness + project.lid_thickness + single_card_thickness * ecosystem_cards + 1.0  # ~23.8
-ecosystem = project.box(
-    BoxType.SLIDING,
-    "EcosystemCardBox",
-    size=(68.0, 99.0, ecosystem_h),
-    position=(68.0, 99.0, 0.0),
-    expandable=False,
-    wall_thickness=3.0,
-    lid=LidBuilder(text="Ecosystem", text_color=Color("white"), frame_color=Color("gold")),
-)
-ecosystem.compartment("Cards", size=(CARD_W, CARD_L), depth=ecosystem_h - 3.6, cut=FingerCut.THROUGH_FLOOR)
-
-# Fauna
-fauna_h = project.floor_thickness + project.lid_thickness + single_card_thickness * fauna_cards + 1.0  # ~18.4
-fauna = project.box(
-    BoxType.SLIDING,
-    "FaunaCardBox",
-    size=(68.0, 99.0, fauna_h),
-    position=(68.0, 99.0, 23.8),
-    expandable=False,
-    wall_thickness=3.0,
-    lid=LidBuilder(text="Fauna", text_color=Color("white"), frame_color=Color("gold")),
-)
-fauna.compartment("Cards", size=(CARD_W, CARD_L), depth=fauna_h - 3.6, cut=FingerCut.THROUGH_FLOOR)
-
-# Island
-island_h = 13.0
-island = project.box(
-    BoxType.SLIDING,
-    "IslandCardBox",
-    size=(68.0, 99.0, island_h),
-    position=(68.0, 99.0, 42.2),
-    expandable=False,
-    wall_thickness=3.0,
-    lid=LidBuilder(text="Island", text_color=Color("white"), frame_color=Color("gold")),
-)
-island.compartment("Cards", size=(CARD_W, CARD_L), depth=island_h - 3.6, cut=FingerCut.THROUGH_FLOOR)
-
-# ── 3. Start & Climate/Solo/Season Stack ─────────────────────────
-climate_h = project.floor_thickness + project.lid_thickness + single_card_thickness * climate_cards + 1.0  # ~10.6
-climate = project.box(
-    BoxType.SLIDING,
-    "ClimateCardBox",
-    size=(68.0, 99.0, climate_h),
-    position=(136.0, 99.0, 0.0),
-    expandable=False,
-    wall_thickness=3.0,
-    lid=LidBuilder(text="Climate", text_color=Color("white"), frame_color=Color("teal")),
-)
-climate.compartment("Cards", size=(CARD_W, CARD_L), depth=climate_h - 3.6, cut=FingerCut.THROUGH_FLOOR)
-
-solo_h = project.floor_thickness + project.lid_thickness + single_card_thickness * solo_cards + 1.0  # ~8.2
-solo = project.box(
-    BoxType.SLIDING,
-    "SoloCardBox",
-    size=(68.0, 99.0, solo_h),
-    position=(136.0, 99.0, 10.6),
-    expandable=False,
-    wall_thickness=3.0,
-    lid=LidBuilder(text="Solo", text_color=Color("white"), frame_color=Color("teal")),
-)
-solo.compartment("Cards", size=(CARD_W, CARD_L), depth=solo_h - 3.6, cut=FingerCut.THROUGH_FLOOR)
-
-season_h = project.floor_thickness + project.lid_thickness + single_card_thickness * season_cards + 1.0  # ~11.8
-season = project.box(
-    BoxType.SLIDING,
-    "SeasonCardBox",
-    size=(68.0, 99.0, season_h),
-    position=(136.0, 99.0, 18.8),
-    expandable=False,
-    wall_thickness=3.0,
-    lid=LidBuilder(text="Season", text_color=Color("white"), frame_color=Color("teal")),
-)
-season.compartment("Cards", size=(CARD_W, CARD_L), depth=season_h - 3.6, cut=FingerCut.THROUGH_FLOOR)
-
-abundance_h = project.floor_thickness + project.lid_thickness + single_card_thickness * abundance_other_cards + 1.0  # ~10.6
-abundance = project.box(
-    BoxType.SLIDING,
-    "AbundanceOtherCardBox",
-    size=(68.0, 99.0, abundance_h),
-    position=(136.0, 99.0, 30.6),
-    expandable=False,
-    wall_thickness=3.0,
-    lid=LidBuilder(text="Abundance", text_color=Color("white"), frame_color=Color("teal")),
-)
-abundance.compartment("Cards", size=(CARD_W, CARD_L), depth=abundance_h - 3.6, cut=FingerCut.THROUGH_FLOOR)
-
-start_h = 14.0
 start_box = project.box(
-    BoxType.CAP,
-    "StartBox",
-    size=(68.0, 99.0, start_h),
-    position=(136.0, 99.0, 41.2),
-    expandable=False,
-    lid=LidBuilder(text="Start", text_color=Color("white"), frame_color=Color("gold")),
+    BoxType.CAP, "StartBox",
+    size=(*FOOTPRINT, 12.0),
+    lid=GOLD_LID.titled("Start"),
 )
-start_box.compartment("Start", size=(60.0, 91.0), depth=start_h - 3.6, cut=FingerCut.SCOOP)
+start_box.compartment("Start", holds_pieces=True, cut=FingerCut.SCOOP)
 
-# ── 4. Player Boxes (6 color slipover lids) ───────────────────────
-player_colours = ["red", "green", "yellow", "blue", "purple", "pink"]
-for idx, col in enumerate(player_colours):
-    pbox = project.box(
-        BoxType.SLIPOVER,
-        f"PlayerBox{col.capitalize()}",
-        size=(68.0, 99.0, 9.2),
-        position=(204.0, 99.0, idx * 9.2),
-        expandable=False,
-        lid=LidBuilder(text="Player", text_color=Color("white")),
+PLAYER_COLOURS = ["red", "green", "yellow", "blue", "purple", "pink"]
+for colour in PLAYER_COLOURS:
+    player = project.box(
+        BoxType.SLIPOVER, f"PlayerBox{colour.capitalize()}",
+        size=(*FOOTPRINT, 9.2),
+        lid=LidBuilder(text_color=Color("white")).titled("Player"),
     )
-    pbox.compartment("PlayerComponents", size=(60.0, 91.0), depth=5.6, cut=FingerCut.SCOOP)
+    player.compartment("PlayerComponents", holds_pieces=True, cut=FingerCut.SCOOP)
 
-# ── 5. Canopy Box ─────────────────────────────────────────────────
+# ── 4. Canopy, sprouts, score pad and seeds ───────────────────────
 canopy = project.box(
-    BoxType.FILAMENT_HINGE,
-    "CanopyBox",
-    size=(168.0, 89.0, 55.2),
-    position=(0.0, 198.0, 0.0),
-    expandable=False,
-    lid=LidBuilder(text="Canopy", text_color=Color("white"), frame_color=Color("olive")),
+    BoxType.FILAMENT_HINGE, "CanopyBox", size=(168.0, 88.0, 55.2),
+    lid=LidBuilder(text_color=Color("white"), frame_color=Color("olive")).titled("Canopy"),
 )
-canopy.compartment("Canopies", size=(160.0, 81.0), depth=45.0, cut=FingerCut.SCOOP)
+canopy.compartment("Canopies", holds_pieces=True, cut=FingerCut.SCOOP)
 
-# ── 6. Sprouts & Score Pad Stack ──────────────────────────────────
-score_pad = project.box(
-    BoxType.NO_LID,
-    "ScorePadBox",
-    size=(107.0, 89.0, 6.6),
-    position=(168.0, 198.0, 0.0),
-    expandable=False,
-)
-score_pad.compartment("Pad", size=(99.0, 81.0), depth=5.0)
+score_pad = project.box(BoxType.NO_LID, "ScorePadBox", size=(107.0, 88.0, 6.6))
+score_pad.compartment("Pad")
 
 sprout = project.box(
-    BoxType.FILAMENT_HINGE,
-    "SproutBox",
-    size=(107.0, 89.0, 48.6),
-    position=(168.0, 198.0, 6.6),
-    expandable=False,
-    lid=LidBuilder(text="Sprouts", text_color=Color("white"), frame_color=Color("green")),
+    BoxType.FILAMENT_HINGE, "SproutBox", size=(107.0, 88.0, 48.6),
+    lid=LidBuilder(text_color=Color("white"), frame_color=Color("green")).titled("Sprouts"),
 )
-sprout.compartment("Sprouts", size=(99.0, 81.0), depth=35.0, cut=FingerCut.SCOOP)
+sprout.compartment("Sprouts", holds_pieces=True, cut=FingerCut.SCOOP)
 
-# ── 7. Seed Box ───────────────────────────────────────────────────
-# Fits vertically on the side
 seed = project.box(
-    BoxType.FILAMENT_HINGE,
-    "SeedBox",
-    size=(16.0, 46.0, 72.0),
-    position=(272.0, 0.0, 0.0),
-    expandable=False,
-    lid=LidBuilder(text="Seeds", text_color=Color("white"), frame_color=Color("brown")),
+    BoxType.FILAMENT_HINGE, "SeedBox", size=(12.0, 46.0, 72.0),
+    lid=LidBuilder(text_color=Color("white"), frame_color=Color("brown")).titled("Seeds"),
 )
-seed.compartment("Seeds", size=(8.0, 38.0), depth=68.4)
+seed.compartment("Seeds", holds_pieces=True)
 
-# ── 8. Player Boards (Flat addition to pack alongside boxes) ──────
-# Player boards block: width 242, length 288, height 16.8 (6 boards + 1 middle board + 1 abundance board)
-project.box(
-    BoxType.NO_LID,
-    "PlayerBoards",
-    size=(242.0, 288.0, 16.8),
-    position=(0.0, 0.0, 55.2),
-    expandable=False,
-)
+# ── 5. Boards ─────────────────────────────────────────────────────
+# Six player boards, a middle board and the abundance board go on top; the
+# abundance boards stand on edge down the right side.
+project.box(BoxType.NO_LID, "PlayerBoards", size=(242.0, 288.0, 16.8))
+project.box(BoxType.NO_LID, "AbundanceBoards", size=(12.0, 241.0, 57.0))
 
-# ── 9. Abundance Boards (Vertical stack on right side) ───────────
-project.box(
-    BoxType.NO_LID,
-    "AbundanceBoards",
-    size=(12.6, 241.0, 57.0),
-    position=(275.4, 46.0, 0.0),
-    expandable=False,
-)
-
-# ── 10. Top Spaced Box (Hollow spacer next to abundance boards) ──
-project.box(
-    BoxType.NO_LID,
-    "TopSpacedBox",
-    size=(46.0, 241.0, 15.0),
-    position=(242.0, 46.0, 57.0),
-    expandable=False,
-)
+# ── 6. Arrangement ────────────────────────────────────────────────
+# Three columns of stacked boxes across the front, the tall boxes behind them,
+# and the boards on top. Change a card count and everything downstream moves.
+project.arrange(columns(
+    stack(
+        rows(
+            # Front row: the four Earth decks side by side.
+            columns(*(f"EarthCardBox{i + 1}" for i in range(4))),
+            # Middle row: four columns of stacked boxes, each to the same height.
+            columns(
+                stack("EarthCardBoxSmall", "CompostBox"),
+                stack("EcosystemCardBox", "FaunaCardBox", "IslandCardBox"),
+                stack("ClimateCardBox", "SoloCardBox", "SeasonCardBox",
+                      "AbundanceOtherCardBox", "StartBox"),
+                stack(*(f"PlayerBox{c.capitalize()}" for c in PLAYER_COLOURS)),
+            ),
+            # Back row: the canopy, and the sprouts under the score pad.
+            columns("CanopyBox", stack("ScorePadBox", "SproutBox")),
+        ),
+        # The boards go on top of all of it — first thing out of the box.
+        "PlayerBoards",
+    ),
+    # A narrow strip down the right for the seeds and the abundance boards.
+    rows("SeedBox", "AbundanceBoards"),
+))
 
 if __name__ == "__main__":
-    import os
-    if os.environ.get("FROM_MAKE") == "1":
-        result = project.export("output/")
-        print(f"Exported {result.total_files} files:")
-        for file in result.written:
-            print(f"  ✓ {file}")
-
-    else:
-        project.show()
+    run(project)

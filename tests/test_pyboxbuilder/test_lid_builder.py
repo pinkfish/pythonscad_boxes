@@ -19,14 +19,16 @@ class LidBuilderTests(unittest.TestCase):
     def test_defaults(self) -> None:
         lb = LidBuilder()
         self.assertIsNone(lb.text)
-        self.assertEqual(lb.label_mode, LabelMode.FRAMED)
-        self.assertFalse(lb.diagonal)
+        # Unset, so a per-mode override can tell it from a stated FRAMED.
+        self.assertIsNone(lb.label_mode)
+        self.assertEqual(lb.mode, LabelMode.FRAMED)
+        self.assertFalse(lb.is_diagonal)
         self.assertIsNone(lb.text_color)
         self.assertIsNone(lb.frame_color)
         self.assertIsNone(lb.pattern)
         self.assertIsNone(lb.pattern_color)
-        self.assertEqual(lb.min_text_height_mm, 4.0)
-        self.assertEqual(lb.border_margin_mm, 5.0)
+        self.assertEqual(lb.min_text_height, 4.0)
+        self.assertEqual(lb.border_margin, 5.0)
 
     def test_with_text(self) -> None:
         lb = LidBuilder(text="Cards")
@@ -54,7 +56,7 @@ class LidBuilderTests(unittest.TestCase):
             label_mode=LabelMode.FRAMED,
             mmu_label=LidBuilder(text="Cards", label_mode=LabelMode.FRAMELESS),
         )
-        resolved = parent.resolve_for_mode("mmu")
+        resolved = parent.for_mode("mmu")
         self.assertEqual(resolved.label_mode, LabelMode.FRAMELESS)
         self.assertEqual(resolved.text, "Cards")
 
@@ -65,14 +67,14 @@ class LidBuilderTests(unittest.TestCase):
             label_mode=LabelMode.FRAMED,
             single_label=LidBuilder(text="CARDZ", label_mode=LabelMode.FRAMED),
         )
-        resolved = parent.resolve_for_mode("single")
+        resolved = parent.for_mode("single")
         self.assertEqual(resolved.text, "CARDZ")
 
     def test_no_override_falls_back(self) -> None:
         """Unset mode falls back to parent."""
         lb = LidBuilder(text="Cards", label_mode=LabelMode.FRAMED)
-        self.assertIs(lb.resolve_for_mode("mmu"), lb)
-        self.assertIs(lb.resolve_for_mode("single"), lb)
+        self.assertIs(lb.for_mode("mmu"), lb)
+        self.assertIs(lb.for_mode("single"), lb)
 
     def test_override_does_not_affect_other_mode(self) -> None:
         """MMU override leaves single mode unchanged."""
@@ -81,5 +83,43 @@ class LidBuilderTests(unittest.TestCase):
             label_mode=LabelMode.FRAMED,
             mmu_label=LidBuilder(label_mode=LabelMode.FRAMELESS),
         )
-        self.assertEqual(lb.resolve_for_mode("mmu").label_mode, LabelMode.FRAMELESS)
-        self.assertEqual(lb.resolve_for_mode("single").label_mode, LabelMode.FRAMED)
+        self.assertEqual(lb.for_mode("mmu").label_mode, LabelMode.FRAMELESS)
+        self.assertEqual(lb.for_mode("single").label_mode, LabelMode.FRAMED)
+
+    def test_an_override_may_state_the_value_that_used_to_be_the_default(self) -> None:
+        """FRAMED as an override was indistinguishable from saying nothing.
+
+        The merge decided intent by comparing against the field's default, so
+        an override could never state FRAMED, could never turn `diagonal` back
+        off, and always imposed its own margins whether it mentioned them or not.
+        """
+        lb = LidBuilder(
+            text="Cards",
+            label_mode=LabelMode.FRAMELESS,
+            diagonal=True,
+            border_margin_mm=9.0,
+            single_label=LidBuilder(label_mode=LabelMode.FRAMED, diagonal=False),
+        )
+        single = lb.for_mode("single")
+        self.assertEqual(single.mode, LabelMode.FRAMED)
+        self.assertFalse(single.is_diagonal)
+        # The override said nothing about the margin, so the parent's stands.
+        self.assertEqual(single.border_margin, 9.0)
+        self.assertEqual(single.text, "Cards")
+
+    def test_titled_copies_a_style_for_one_box(self) -> None:
+        """A style is written once and worn by many boxes (FR-000b)."""
+        style = LidBuilder(label_mode=LabelMode.FRAMELESS, diagonal=True)
+        favor = style.titled("Favors")
+        self.assertEqual(favor.text, "Favors")
+        self.assertEqual(favor.mode, LabelMode.FRAMELESS)
+        self.assertTrue(favor.is_diagonal)
+        self.assertIsNone(style.text, "the style itself is unchanged")
+
+    def test_titled_takes_a_colour_too(self) -> None:
+        from pybosl2 import Color
+
+        style = LidBuilder(label_mode=LabelMode.FRAMELESS)
+        red = style.titled("Player", text_color=Color("red"))
+        self.assertEqual(red.text, "Player")
+        self.assertIsNotNone(red.text_color)

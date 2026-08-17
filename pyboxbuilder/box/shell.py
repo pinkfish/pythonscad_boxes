@@ -200,7 +200,7 @@ def _hole_flare(wall_thickness: float, hole, reach: float, ends: int = 1) -> flo
     """
     from pyboxbuilder.compartments.finger_sweep import scoop_face_flare
 
-    flare = scoop_face_flare(wall_thickness, getattr(hole, "rounding_edge", None))
+    flare = scoop_face_flare(wall_thickness, hole.face_fillet)
     return min(flare, reach / (2.0 * max(1, ends)))
 
 
@@ -234,7 +234,7 @@ def finger_cut_conflicts(spec: BoxSpec) -> list[str]:
     def mouth(hole) -> float:
         """Half the opening's width: the throat plus the flare it rolls out."""
         radius = getattr(hole, "radius", 14.0)
-        flare = getattr(hole, "rounding_radius", None)
+        flare = hole.mouth_flare
         return radius + (3.0 if flare is None else flare)
 
     by_side: dict[object, list] = {}
@@ -383,9 +383,9 @@ def apply_finger_holes(body: "Bosl2Solid", spec: BoxSpec) -> "Bosl2Solid":
                 # and is not: it counts as a *request*, which switches the
                 # derived rule off — that is how every shallow tray went back
                 # to a ramp either side without anything failing.
-                mouth_flare=getattr(hole, "rounding_radius", None),
-                base_radius=getattr(hole, "bottom_radius", None),
-                roll_rise=getattr(hole, "roll_rise", None),
+                mouth_flare=hole.mouth_flare,
+                base_radius=hole.base_radius,
+                roll_rise=hole.roll_rise,
             ),
             faces=FaceTreatment(
                 # Pinned rather than derived, because the alignment above is
@@ -494,9 +494,9 @@ def no_lid_finger_holes(spec: BoxSpec):
     return tuple(
         FingerHoleBuilder(
             side=side,
-            radius=radius,
+            width=radius * 2.0,
             depth=hole_height,
-            rounding_radius=rounding_radius,
+            mouth_flare=rounding_radius,
         )
         for side in sides
     )

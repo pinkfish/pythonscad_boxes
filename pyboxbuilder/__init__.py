@@ -19,10 +19,27 @@ from pyboxbuilder.export.result import ExportResult
 from pyboxbuilder.layout import columns, rows, stack
 from pyboxbuilder.lid.builder import LidBuilder, PatternBuilder
 from pyboxbuilder.project import Project
+from pyboxbuilder.run import run
 
 __all__ = [
-    "Cut", "FingerCut", "Project", "BoxType", "LabelMode", "PatternType", "ScoopSide",
-           "MagnetType", "StackableMode",
-           "ElementShape", "Color", "CompartmentElement", "grid_pack",
-           "LidBuilder", "PatternBuilder", "ExportResult",
-           "columns", "rows", "stack"]
+    "BoxType",
+    "Color",
+    "CompartmentElement",
+    "Cut",
+    "ElementShape",
+    "ExportResult",
+    "FingerCut",
+    "LabelMode",
+    "LidBuilder",
+    "MagnetType",
+    "PatternBuilder",
+    "PatternType",
+    "Project",
+    "ScoopSide",
+    "StackableMode",
+    "columns",
+    "grid_pack",
+    "rows",
+    "run",
+    "stack",
+]

@@ -94,6 +94,42 @@ is a dip to get a fingertip under the stack. 5mm sits between that well and the
 4mm tray the bore is actually for, and it is the number the plan already assumed
 when it recorded these boxes cutting wall scoops.
 """
+__all__ = [
+    "ARC_SAMPLES",
+    "BASE_ARC_SHARE",
+    "CutProfile",
+    "DEFAULT_BOTTOM_ROUNDING_RATIO",
+    "DEFAULT_EDGE_ROUNDING_MM",
+    "DEFAULT_FLOOR_DIP_MM",
+    "DEFAULT_MOUTH_ROUNDING_MM",
+    "DEFAULT_TOP_ROUNDING_RATIO",
+    "FaceTreatment",
+    "MIN_FLAT_BOTTOM_RATIO",
+    "RIM_OVERSHOOT_MM",
+    "TOP_ROLL_RISE_RATIO",
+    "TOUCHING_TOLERANCE_MM",
+    "_SIDE_CENTRES",
+    "_SIDE_SPIN",
+    "_fit_radii",
+    "_quarter_arc",
+    "_sweep_through_wall",
+    "build_cut",
+    "build_floor_scoop",
+    "build_scoop",
+    "build_through_hole",
+    "build_wall_scoop",
+    "dish_radius",
+    "floor_bore_outline",
+    "floor_bore_profile",
+    "scoop_face_flare",
+    "scoop_outline",
+    "scoop_profile",
+    "window_outline",
+]
+"""Re-exported so a caller has one import for the whole finger-cut vocabulary
+(FR-006a), rather than having to know which of three modules a name lives in."""
+
+
 def build_wall_scoop(
     comp_width: float,
     comp_length: float,
@@ -207,12 +243,6 @@ def build_wall_scoop(
 
     if rounding_edge is None:
         rounding_edge = wall_thickness / 2
-
-    # Just the wall, plus a hair at each face so the boolean has no coincident
-    # plane to resolve. See the note above on why this must not be larger.
-    fudge = 0.03
-    depth = wall_thickness + fudge
-    rim = scoop_face_flare(wall_thickness, rounding_edge)
 
     # Named rather than splatted: `_fit_radii` returns (flare, rise, r2) and
     # `scoop_outline` takes (top_rounding, bottom_rounding, top_rise), so
@@ -539,7 +569,6 @@ def build_through_hole(
     right.append((radius + mouth_flare, comp_depth + RIM_OVERSHOOT_MM))
     outline = [(-x, y) for x, y in reversed(right)] + right
 
-    depth = wall_thickness + 0.03
     slot = _sweep_through_wall(
         outline,
         comp_width,

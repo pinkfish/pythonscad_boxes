@@ -7,7 +7,6 @@ import random
 import unittest
 
 from pyboxbuilder.box.spec import BoxSpec
-
 from pyboxbuilder.packing.layout import Placement
 from pyboxbuilder.packing.spacer import (
     Void,

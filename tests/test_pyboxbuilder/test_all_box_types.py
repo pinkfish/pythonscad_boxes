@@ -4,10 +4,9 @@
 import unittest
 from dataclasses import replace
 
+from pyboxbuilder.box.registry import BOX_IMPL_REGISTRY, BOX_TYPE_REGISTRY
 from pyboxbuilder.box.spec import BoxSpec
-
 from pyboxbuilder.enums import BoxType
-from pyboxbuilder.box.registry import BOX_TYPE_REGISTRY, BOX_IMPL_REGISTRY
 from pyboxbuilder.project import Project
 
 
@@ -18,12 +17,12 @@ class BoxRegistryTests(unittest.TestCase):
             self.assertIn(bt, BOX_IMPL_REGISTRY, f"{bt} not in BOX_IMPL_REGISTRY")
 
     def test_registry_returns_correct_builder_class(self) -> None:
-        from pyboxbuilder.builders.sliding import SlidingBoxBuilder
         from pyboxbuilder.builders.cap import CapBoxBuilder
-        from pyboxbuilder.builders.hinge import HingeBoxBuilder
         from pyboxbuilder.builders.filament_hinge import FilamentHingeBoxBuilder
+        from pyboxbuilder.builders.hinge import HingeBoxBuilder
         from pyboxbuilder.builders.magnetic import MagneticBoxBuilder
         from pyboxbuilder.builders.no_lid import NoLidBoxBuilder
+        from pyboxbuilder.builders.sliding import SlidingBoxBuilder
 
         self.assertIs(BOX_TYPE_REGISTRY[BoxType.SLIDING], SlidingBoxBuilder)
         self.assertIs(BOX_TYPE_REGISTRY[BoxType.CAP], CapBoxBuilder)

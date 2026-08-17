@@ -4,8 +4,8 @@
 import tempfile
 import unittest
 
-from pyboxbuilder.project import Project
 from pyboxbuilder.enums import BoxType, LabelMode
+from pyboxbuilder.project import Project
 
 
 class StandaloneModeTests(unittest.TestCase):

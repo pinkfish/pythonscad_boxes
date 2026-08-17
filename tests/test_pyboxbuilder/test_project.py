@@ -4,8 +4,8 @@
 import unittest
 from pathlib import Path
 
-from pyboxbuilder.project import Project
 from pyboxbuilder.enums import BoxType
+from pyboxbuilder.project import Project
 
 
 class ProjectTests(unittest.TestCase):

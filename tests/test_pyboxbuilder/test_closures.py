@@ -8,13 +8,10 @@ intersection volume does not.
 """
 
 from __future__ import annotations
-from pyboxbuilder.box.spec import BoxSpec
-from dataclasses import replace
 
 import re
 import unittest
-
-from ._spec import spec
+from dataclasses import replace
 
 from mesh import volume  # the shared measurer; see tests/mesh.py
 
@@ -28,7 +25,10 @@ from pyboxbuilder.box.features import (
     sliding_track,
 )
 from pyboxbuilder.box.registry import BOX_IMPL_REGISTRY, LIDLESS_BOX_TYPES
+from pyboxbuilder.box.spec import BoxSpec
 from pyboxbuilder.enums import BoxType
+
+from ._spec import spec
 
 SPEC = BoxSpec(width=100.0, length=80.0, height=40.0,
     wall_thickness=2.0, floor_thickness=2.0, lid_thickness=2.0)
@@ -680,8 +680,8 @@ class HingeInsideTests(unittest.TestCase):
                 )
 
     def test_a_compartment_is_clipped_clear_of_the_hinge(self) -> None:
-        from pyboxbuilder.box.registry import BOX_IMPL_REGISTRY
         from pyboxbuilder.box.interior import Interior
+        from pyboxbuilder.box.registry import BOX_IMPL_REGISTRY
         from pyboxbuilder.compartments.carve import build_contents
         from pyboxbuilder.compartments.layout import CompartmentPlacement
 
@@ -819,7 +819,8 @@ class CapFingerCutoutTests(unittest.TestCase):
     def test_the_run_along_each_side_is_bounded(self) -> None:
         """FR-002m: at least a fingertip, at most a sixth of the side."""
         from pyboxbuilder.box.features import (
-            CAP_FINGER_MAX_LENGTH_SHARE, CAP_FINGER_MIN_LENGTH_MM,
+            CAP_FINGER_MAX_LENGTH_SHARE,
+            CAP_FINGER_MIN_LENGTH_MM,
         )
 
         f = self.metrics()
@@ -876,7 +877,8 @@ class CapFingerCutoutTests(unittest.TestCase):
         rather than the 11mm the stack actually needs.
         """
         from pyboxbuilder.box.features import (
-            CAP_FINGER_CURVE_TOTAL_MM, CAP_FINGER_FOOT_MM,
+            CAP_FINGER_CURVE_TOTAL_MM,
+            CAP_FINGER_FOOT_MM,
             CAP_FINGER_MIN_SKIRT_MM,
         )
 
@@ -935,7 +937,9 @@ class SlipoverSleeveTests(unittest.TestCase):
         """FR-002p: a band of body shows all the way round to pull on, rather
         than the sleeve closing onto the foot in a seam with nothing to grip."""
         from pyboxbuilder.box.features import (
-            SLIPOVER_GAP_MAX_MM, SLIPOVER_GAP_MIN_MM, slipover_gap,
+            SLIPOVER_GAP_MAX_MM,
+            SLIPOVER_GAP_MIN_MM,
+            slipover_gap,
         )
 
         gap = slipover_gap(SPEC)
@@ -947,7 +951,9 @@ class SlipoverSleeveTests(unittest.TestCase):
 
     def test_the_gap_is_bounded_both_ways(self) -> None:
         from pyboxbuilder.box.features import (
-            SLIPOVER_GAP_MAX_MM, SLIPOVER_GAP_MIN_MM, slipover_gap,
+            SLIPOVER_GAP_MAX_MM,
+            SLIPOVER_GAP_MIN_MM,
+            slipover_gap,
         )
 
         self.assertEqual(slipover_gap(replace(SPEC, height=8.0)), SLIPOVER_GAP_MIN_MM)
@@ -996,7 +1002,9 @@ class CapIndentDepthTests(unittest.TestCase):
         wall on the far side of the compartment origin, so each corner arm
         landed beside the skin rather than on it."""
         from pyboxbuilder.box.features import (
-            cap_body, cap_finger_metrics, cap_metrics,
+            cap_body,
+            cap_finger_metrics,
+            cap_metrics,
         )
         from pyboxbuilder.box.shell import block
 
@@ -1051,7 +1059,9 @@ class CapFootprintTooSmallTests(unittest.TestCase):
     def test_the_boundary_is_two_runs_and_the_band(self) -> None:
         """Exactly `2 x 10 + 10`: the smallest side that can carry the pair."""
         from pyboxbuilder.box.features import (
-            CAP_FINGER_MIN_BAND_MM, CAP_FINGER_MIN_LENGTH_MM, cap_finger_metrics,
+            CAP_FINGER_MIN_BAND_MM,
+            CAP_FINGER_MIN_LENGTH_MM,
+            cap_finger_metrics,
         )
 
         smallest = 2 * CAP_FINGER_MIN_LENGTH_MM + CAP_FINGER_MIN_BAND_MM

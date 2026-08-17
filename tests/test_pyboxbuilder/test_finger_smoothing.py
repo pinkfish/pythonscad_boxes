@@ -10,10 +10,11 @@ lazy CSG tree is an estimate and cannot see a boolean's true extent.
 import sys
 import unittest
 from dataclasses import replace
+from pathlib import Path
+
+from pyboxbuilder.box.spec import BoxSpec
 
 from ._spec import spec
-from pyboxbuilder.box.spec import BoxSpec
-from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 if str(REPO_ROOT / "tests") not in sys.path:
@@ -23,9 +24,9 @@ from render_app import measure_python, render_available  # noqa: E402
 
 from pyboxbuilder.compartments.finger_hole import (  # noqa: E402
     DEFAULT_MOUTH_ROUNDING_MM,
+    MIN_WALL_SCOOP_DEPTH_MM,
     CutProfile,
     FaceTreatment,
-    MIN_WALL_SCOOP_DEPTH_MM,
     build_floor_scoop,
     build_scoop,
     build_wall_scoop,
@@ -312,9 +313,10 @@ base = BoxSpec(label="Tray", width=100, length=80, height=40,
 
 class Hole:
     """Stands in for FingerHoleBuilder — build_shell only reads attributes."""
-    def __init__(self, side, radius=14.0, depth=6.0, offset=0.0):
-        self.side, self.radius, self.depth, self.offset = side, radius, depth, offset
-        self.rounding_radius = self.rounding_edge = None
+    def __init__(self, side, width=28.0, depth=6.0, offset=0.0):
+        self.side, self.width, self.depth, self.offset = side, width, depth, offset
+        self.radius = width / 2.0
+        self.base_radius = self.mouth_flare = self.face_fillet = self.roll_rise = None
 
 plain = build_shell(base)
 measure("plain", plain)
@@ -470,7 +472,7 @@ class NoLidFingerHoleTests(unittest.TestCase):
         for hole in holes:
             self.assertEqual(hole.radius, 20.0)  # min(20, 80/4=20, 40-2+1=39)
             self.assertEqual(hole.depth, 20.0)   # min(20, 40-2+1=39)
-            self.assertEqual(hole.rounding_radius, 3.0)
+            self.assertEqual(hole.mouth_flare, 3.0)
 
     def test_the_longer_dimension_chooses_the_side(self) -> None:
         from pyboxbuilder.box.shell import no_lid_finger_holes
@@ -748,7 +750,7 @@ cuboid([1, 1, 1]).show()
         it, and the roll ends up finishing above the rim, so what the top face
         meets is the roll sliced through mid-curve rather than tangentially.
         """
-        from pyboxbuilder.builders._base import FingerHoleBuilder
+        from pyboxbuilder.builders._base import DEFAULT_FINGER_WIDTH_MM
 
         removed = self.result.boxes["no_lid_removed"]
         top = removed.position[2] + removed.size[2]
@@ -758,7 +760,7 @@ cuboid([1, 1, 1]).show()
         # crosses the face with 0.015 of fudge to spare, so the deepest point
         # the body itself can show sits a fraction of a millimetre inside it.
         # The error this guards against is a whole flare (1mm), not this.
-        self.assertAlmostEqual(removed.size[2], FingerHoleBuilder.radius,
+        self.assertAlmostEqual(removed.size[2], DEFAULT_FINGER_WIDTH_MM / 2,
                                delta=0.2,
                                msg="the cut is not the depth it was asked for")
 
@@ -776,7 +778,8 @@ cuboid([1, 1, 1]).show()
         not.
         """
         from pyboxbuilder.compartments.finger_hole import (
-            scoop_outline, window_outline,
+            scoop_outline,
+            window_outline,
         )
 
         window = window_outline(14.0, 12.0, 4.0)
@@ -906,9 +909,8 @@ class ScoopSideDefaultTests(unittest.TestCase):
         self.assertIs(default_scoop_side(self.placement((67.0, 92.0))), ScoopSide.FRONT)
 
     def test_an_explicit_side_still_wins(self) -> None:
-        from pyboxbuilder.compartments.builder import CompartmentBuilder
-
         from pyboxbuilder.builders._base import Cut
+        from pyboxbuilder.compartments.builder import CompartmentBuilder
 
         explicit = CompartmentBuilder(label="c", size=(92.0, 67.0),
                                       cut=Cut(side=ScoopSide.BACK))
@@ -1132,7 +1134,8 @@ class ScoopCurveSourcesTests(unittest.TestCase):
         """The splat that caused it: `_fit_radii` returns (flare, rise, r2) and
         `scoop_outline` takes (top_rounding, bottom_rounding, top_rise)."""
         from pyboxbuilder.compartments.finger_hole import (
-            _fit_radii, build_wall_scoop,
+            _fit_radii,
+            build_wall_scoop,
         )
         from pyboxbuilder.enums import ScoopSide
 
@@ -1149,7 +1152,8 @@ class ScoopFlareAlignmentTests(unittest.TestCase):
         """The face fillet is isotropic in the profile plane, so it grows down
         past the flat bottom exactly as readily as it grows sideways."""
         from pyboxbuilder.compartments.finger_hole import (
-            build_wall_scoop, scoop_face_flare,
+            build_wall_scoop,
+            scoop_face_flare,
         )
         from pyboxbuilder.enums import ScoopSide
 
@@ -1213,7 +1217,8 @@ class RollRiseIsReachableTests(unittest.TestCase):
 
     def test_none_still_derives_it_from_the_flare(self) -> None:
         from pyboxbuilder.compartments.finger_hole import (
-            TOP_ROLL_RISE_RATIO, _fit_radii,
+            TOP_ROLL_RISE_RATIO,
+            _fit_radii,
         )
 
         _, rise, _ = _fit_radii(14.0, 30.0, 3.0, None)
@@ -1223,8 +1228,10 @@ class RollRiseIsReachableTests(unittest.TestCase):
         """The builder field reaches the geometry: a gentler roll on the same
         mouth makes the cut taller, not wider."""
         from pyboxbuilder.compartments.finger_hole import (
-    CutProfile, FaceTreatment, build_wall_scoop,
-)
+            CutProfile,
+            FaceTreatment,
+            build_wall_scoop,
+        )
         from pyboxbuilder.enums import ScoopSide
 
         def width(rise: float) -> float:
@@ -1267,8 +1274,8 @@ class OverlappingCutsAreReportedTests(unittest.TestCase):
     def test_holes_far_enough_apart_are_not(self) -> None:
         from pyboxbuilder.box.shell import finger_cut_conflicts
 
-        holes = (self.hole(ScoopSide.FRONT, radius=6.0, rounding_radius=2.0, offset=-20.0),
-                 self.hole(ScoopSide.FRONT, radius=6.0, rounding_radius=2.0, offset=20.0))
+        holes = (self.hole(ScoopSide.FRONT, width=12.0, mouth_flare=2.0, offset=-20.0),
+                 self.hole(ScoopSide.FRONT, width=12.0, mouth_flare=2.0, offset=20.0))
         self.assertEqual(finger_cut_conflicts(self.spec(holes)), [])
 
     def test_holes_on_different_walls_are_not(self) -> None:
@@ -1451,7 +1458,7 @@ class CornerRadiusIsKeptTests(unittest.TestCase):
         box = NoLidBoxBuilder(label="T", size=(100, 80, 40))
         hole = box.finger_hole(ScoopSide.FRONT, width=30.0, base_radius=6.0)
         self.assertAlmostEqual(hole.radius, 15.0)
-        self.assertAlmostEqual(hole.bottom_radius, 6.0)
+        self.assertAlmostEqual(hole.base_radius, 6.0)
 
     def test_the_old_radius_still_works_and_says_so(self) -> None:
         """Deprecated rather than removed: two names for one dimension, one of
@@ -1642,7 +1649,7 @@ class GripBaseIsDerivedNotPinnedTests(unittest.TestCase):
     def test_an_explicit_radius_still_reaches_it(self) -> None:
         from pyboxbuilder.builders._base import FingerHoleBuilder
 
-        hole = FingerHoleBuilder(side=ScoopSide.FRONT, bottom_radius=7.0)
+        hole = FingerHoleBuilder(side=ScoopSide.FRONT, base_radius=7.0)
         kwargs = self.scoop_call(finger_holes=(hole,))
         self.assertAlmostEqual(kwargs["profile"].base_radius, 7.0)
 
@@ -1659,7 +1666,7 @@ class GripBaseIsDerivedNotPinnedTests(unittest.TestCase):
         hole = no_lid_finger_holes(spec)[0]
         outline_height = hole.depth - _hole_flare(2.0, hole, hole.depth)
         _, _, r2 = _fit_radii(
-            hole.radius, outline_height, hole.rounding_radius, None,
+            hole.radius, outline_height, hole.mouth_flare, None,
             keep_flat_bottom=False,
         )
         self.assertGreater(r2, hole.radius * 1.2)
@@ -1692,7 +1699,7 @@ class GripStaysInProportionTests(unittest.TestCase):
         depth = hole.depth - _hole_flare(2.0, hole, hole.depth)
         throat = min(hole.radius, depth)
         flare, rise, r2 = _fit_radii(
-            throat, depth, hole.rounding_radius, None, keep_flat_bottom=False
+            throat, depth, hole.mouth_flare, None, keep_flat_bottom=False
         )
         ring = scoop_outline(throat, depth, flare, r2, rise)
         points = sorted(
