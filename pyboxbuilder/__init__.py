@@ -1,6 +1,8 @@
 # SPDX-License-Identifier: Apache-2.0
 """OpenSCAD Board Game Toolkit — pyboxbuilder box library."""
 
+from importlib.metadata import PackageNotFoundError, version as _distribution_version
+
 from pybosl2 import Color
 
 from pyboxbuilder.builders._base import Cut
@@ -20,6 +22,11 @@ from pyboxbuilder.layout import columns, rows, stack
 from pyboxbuilder.lid.builder import LidBuilder, PatternBuilder
 from pyboxbuilder.project import Project
 from pyboxbuilder.run import run
+
+try:
+    __version__ = _distribution_version("pyboxbuilder")
+except PackageNotFoundError:
+    __version__ = "0.0.0"
 
 __all__ = [
     "BoxType",
@@ -42,4 +49,5 @@ __all__ = [
     "rows",
     "run",
     "stack",
+    "__version__",
 ]

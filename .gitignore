@@ -8,6 +8,8 @@ examples/output/*.deps
 __pycache__/
 *.pyc
 *.egg-info/
+build/
+dist/
 pysolidfive/build/
 pysolidfive/docs/_build/
 pysolidfive/docs/_generated/

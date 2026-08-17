@@ -1,10 +1,10 @@
 [build-system]
-requires = ["setuptools>=64", "wheel"]
+requires = ["setuptools>=64", "wheel", "setuptools_scm>=8"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "pyboxbuilder"
-version = "0.1.0"
+dynamic = ["version"]
 description = "Board game box/insert design library for PythonSCAD"
 requires-python = ">=3.10"
 dependencies = [
@@ -45,6 +45,11 @@ include = ["pyboxbuilder*"]
 
 [tool.setuptools.package-data]
 pyboxbuilder = ["py.typed"]
+
+# Version is derived from the git tag (`v1.2.3` -> `1.2.3`) so a release is
+# tagged, not hand-edited. The fallback covers building from an sdist (no .git).
+[tool.setuptools_scm]
+fallback_version = "0.0.0"
 
 [tool.mypy]
 python_version = "3.12"
