@@ -653,3 +653,105 @@ class LeafTileTests(unittest.TestCase):
         )
         spaced = build_pattern(100, 70, 3.0, PatternType.LEAF, spacing=self.SPACING)
         self.assertGreater(volume(tiled & area), volume(spaced & area))
+
+
+class VoronoiTests(unittest.TestCase):
+    """VORONOI draws Voronoi cells, not a scatter of circles (FR-023).
+
+    The thing that makes a Voronoi look like a Voronoi is that neighbouring
+    cells share a **straight edge**. Round holes on a jittered grid — which is
+    what this member used to cut — never do: they leave a web that fattens and
+    thins between every pair, and reads as spots rather than as a net.
+    """
+
+    SPACING = 20.0
+    AREA = (100.0, 70.0, 3.0)
+
+    def holes(self, spacing: float | None = None, web: float | None = None):
+        return build_pattern(
+            *self.AREA, PatternType.VORONOI, spacing=spacing or self.SPACING, web=web
+        )
+
+    def area(self):
+        from pyboxbuilder.box.shell import block
+
+        return block(list(self.AREA))
+
+    def test_the_cells_tile_the_area(self) -> None:
+        """A tiling leaves only the web, so most of the lid opens up. Circles
+        on the same grid cannot pass this: a disc inscribed in a cell covers
+        π/4 of it at best, and these were smaller than inscribed."""
+        from mesh import volume
+
+        opened = volume(self.holes() & self.area())
+        self.assertGreater(opened / (self.AREA[0] * self.AREA[1] * self.AREA[2]), 0.7)
+
+    def test_the_cells_are_not_round(self) -> None:
+        """Measured where it shows: a disc of the cell's own size fits inside a
+        polygonal cell with room to spare, and inside a round one exactly."""
+        from mesh import volume
+
+        from pyboxbuilder.box.shell import block
+
+        # A window over one cell's worth of lid, away from the edges.
+        window = block([self.SPACING, self.SPACING, self.AREA[2]], at=(40.0, 25.0, 0.0))
+        opened = volume(self.holes() & window)
+        # Round holes at this pitch cover at most π/4 of their cell, and after
+        # the web and the size variation, well under that.
+        self.assertGreater(
+            opened / (self.SPACING ** 2 * self.AREA[2]), 0.785,
+            "the cells are no bigger than inscribed circles",
+        )
+
+    def test_it_is_the_same_pattern_on_every_build(self) -> None:
+        """The seed is fixed because the pattern is part of the exported
+        geometry, and the fingerprint is taken over it: a fresh layout each run
+        would rewrite the file forever (SC-012)."""
+        from mesh import volume
+
+        self.assertAlmostEqual(volume(self.holes()), volume(self.holes()), places=6)
+
+    def test_the_cells_are_irregular(self) -> None:
+        """A jitter near zero would give a square grid, which is SQUARE."""
+        from pyboxbuilder.lid.pattern import VORONOI_JITTER, _voronoi_points
+
+        self.assertGreater(VORONOI_JITTER, 0.5)
+        points = _voronoi_points(*self.AREA[:2], self.SPACING)
+        spread = {round(x, 3) for x, _ in points}
+        self.assertGreater(
+            len(spread), len(points) / 2, "the points are lined up in columns"
+        )
+
+    def test_the_seeds_overhang_the_area(self) -> None:
+        """A cell is only the right shape if it has neighbours all round, so
+        the ring beyond the edge is what makes the cells *at* the edge real."""
+        from pyboxbuilder.lid.pattern import _voronoi_points
+
+        width, length = self.AREA[:2]
+        points = _voronoi_points(width, length, self.SPACING)
+        self.assertTrue(any(x < 0 or x > width for x, _ in points))
+        self.assertTrue(any(y < 0 or y > length for _, y in points))
+
+    def test_a_cell_is_bounded_by_its_neighbours(self) -> None:
+        """Not by the big rectangle standing in for each half-plane: a cell
+        that kept that size would swallow the whole lid."""
+        from mesh import volume
+
+        from pyboxbuilder.lid.pattern import _voronoi_cell, _voronoi_points
+
+        points = _voronoi_points(*self.AREA[:2], self.SPACING)
+        middle = min(points, key=lambda p: (p[0] - 50.0) ** 2 + (p[1] - 35.0) ** 2)
+        cell = _voronoi_cell(middle, points, 0.8, self.SPACING * 3)
+        self.assertIsNotNone(cell)
+        # Extruded so it can be measured: a bounded cell is a few cells' area,
+        # not the reach of the half-planes it was cut from.
+        solid = cell.linear_extrude(height=1.0)
+        self.assertLess(volume(solid), (self.SPACING * 3) ** 2)
+
+    def test_a_thicker_web_opens_less_of_the_lid(self) -> None:
+        """The web is what a pattern is specified by, here as everywhere."""
+        from mesh import volume
+
+        thin = volume(self.holes(web=1.0) & self.area())
+        thick = volume(self.holes(web=4.0) & self.area())
+        self.assertGreater(thin, thick)

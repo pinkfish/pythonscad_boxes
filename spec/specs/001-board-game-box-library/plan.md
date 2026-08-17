@@ -460,6 +460,37 @@ spine, which also braces the widest part of the hole — where a perforated lid
 gives way. A leaf too narrow to keep a printable opening either side of it is
 cut whole instead, because two slits read as a crack.
 
+#### Voronoi Means Voronoi (FR-023)
+
+This member was round holes of varying size on a jittered grid. That is a
+scatter of circles and reads as one — the thing that makes a Voronoi look like a
+Voronoi is that neighbouring cells **share a straight edge**, and circles never
+do. Between every pair of them the web fattens and thins, so what the lid shows
+is spots rather than a net.
+
+A real cell is the region closer to its own seed than to any other, which is the
+intersection of one half-plane per neighbour: the side of their perpendicular
+bisector the seed is on. Two details make it come out right:
+
+- **Inset the half-planes, not the finished polygon.** Every bounding edge moves
+  in by the same amount whatever angle it sits at, so the web is an even width
+  all the way round. Insetting the polygon afterwards would do the same thing
+  here, but only because these cells are convex; doing it per-edge is the reason
+  it is true rather than a coincidence.
+- **Cut back further, then grow it all back.** The cells are inset by half the
+  web *plus* the corner radius and then offset out by that radius, which rounds
+  the junctions — where three cells meet at a point — without widening the web
+  along the edges. A sharp junction is a stress raiser in a lid whose whole job
+  is to be thin.
+
+Neighbours further than about three cell sizes cannot bound a cell, so they are
+not tested. That is what keeps this cheap: the whole pattern for a 100 × 70 lid
+builds in under a second.
+
+The seeds overhang the area, like every other pattern's lattice — a cell is only
+the right shape if it has neighbours on every side, so the ring beyond the edge
+is what makes the cells *at* the edge real rather than bounded by nothing.
+
 #### The Other Leaf: A Tile Rather Than A Shape (FR-023)
 
 `LEAF` above is a shape that is spaced out; `LEAF_TESSELLATION` is a **tile**.
