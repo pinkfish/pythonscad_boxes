@@ -245,29 +245,31 @@ def compute_min_box_size(
 
     # If max dimensions are provided, try laying out the compartments
     if max_w is not None and max_l is not None:
-        try:
-            interior = Interior(
-                width=max_w,
-                length=max_l,
-                origin_x=0.0,
-                origin_y=0.0,
-                height=max(d for _, _, _, d in compartments) + 1.0,
-            )
-            layout = layout_compartments(interior, compartments)
-            if not layout.overflow and layout.placements:
-                # From the interior's own origin, not from the first placement:
-                # the gutter before it is part of what the box has to hold, and
-                # so is the one after the last.
-                gutter = 0.0 if len(layout.placements) == 1 else WALL_SPACING_MM
-                min_x = min_y = 0.0
-                max_x = max(p.position[0] + p.size[0] for p in layout.placements) + gutter
-                max_y = max(p.position[1] + p.size[1] for p in layout.placements) + gutter
-                w = (max_x - min_x) + 2 * wall_thickness + 0.5
-                l = (max_y - min_y) + 2 * wall_thickness + 0.5
-                h = max(p.depth for p in layout.placements) + floor_thickness + lid_thickness + 0.5
-                return (w, l, h)
-        except Exception:
-            pass
+        # No try/except. A failure in the real layout used to fall through to
+        # the estimate below, so a box came out sized by a guess and nothing
+        # said the measurement had failed — a wrong answer being quieter than
+        # no answer (FR-000h). Overflow and an empty layout are still handled,
+        # because those are outcomes rather than failures.
+        interior = Interior(
+            width=max_w,
+            length=max_l,
+            origin_x=0.0,
+            origin_y=0.0,
+            height=max(d for _, _, _, d in compartments) + 1.0,
+        )
+        layout = layout_compartments(interior, compartments)
+        if not layout.overflow and layout.placements:
+            # From the interior's own origin, not from the first placement:
+            # the gutter before it is part of what the box has to hold, and
+            # so is the one after the last.
+            gutter = 0.0 if len(layout.placements) == 1 else WALL_SPACING_MM
+            min_x = min_y = 0.0
+            max_x = max(p.position[0] + p.size[0] for p in layout.placements) + gutter
+            max_y = max(p.position[1] + p.size[1] for p in layout.placements) + gutter
+            w = (max_x - min_x) + 2 * wall_thickness + 0.5
+            l = (max_y - min_y) + 2 * wall_thickness + 0.5
+            h = max(p.depth for p in layout.placements) + floor_thickness + lid_thickness + 0.5
+            return (w, l, h)
 
     # Fallback to estimating a square layout
     max_w_comp = max(w for _, w, _, _ in compartments)

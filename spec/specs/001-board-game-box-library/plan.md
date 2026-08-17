@@ -1394,6 +1394,52 @@ Every exported piece's bounding box is measured (not computed from the declared 
 
 Smoothing and silhouette fidelity are in direct tension, so the rule is explicit: **the outline of a piece shape is never modified.** SVG silhouettes, animal outlines, token cutouts and engraved shapes are reproduced exactly as authored, even where the result is awkward to print — thin features, overhangs, sharp interior corners all stand. The fillets and chamfers of FR-043/FR-044 apply only to structural edges the toolkit itself creates: box rims and corners, compartment wall/floor junctions, finger scoops and finger holes. No global smoothing pass may run over element geometry, and the SVG parse cache stores the path as parsed.
 
+## Nothing Fails Quietly (FR-000h)
+
+The worst bug in this library was one that never raised. Every geometry builder
+answered a missing backend with `None`, the exporter turned that into `False`,
+and `write_piece` turned *that* into a `path.touch()` — so an export with no
+backend created the whole directory tree, wrote a **0-byte 3MF per piece**,
+recorded every one as written, and exited 0. A broken install and a successful
+run were the same output. You found out at the slicer.
+
+It was not one mistake, it was a habit, and the same habit had spread:
+
+- `except ImportError: pass` around the body build → a box with **no
+  compartments carved into it**.
+- `except ImportError: return piece.solid, None` in the lid path → **every lid
+  blank**, no label and no pattern.
+- `except Exception: return None` for a spacer → the spacer **missing from the
+  layout**, which is invisible because the layout still looks full.
+- `except Exception: return solid` around `.color()` → a **single-material
+  print** from a description asking for several.
+- `except Exception: pass` around the layout PDF, commented "best-effort".
+- `except Exception: pass` around the compartment layout, falling through to an
+  **estimated** box size — a wrong number wearing a measurement's clothes, and
+  the box then gets built to it.
+
+So the rule is now the plain one: **if the library cannot do what was asked, it
+raises**. `pyboxbuilder/deps.py` holds the one helper the dependency cases need,
+because "ImportError" is not an answer a user can act on — `require()` names the
+package, what it was needed for, and how to install it. That last part earns its
+keep twice over: `pip install fpdf` fetches a different, abandoned package, and
+the geometry backend is not on PyPI at all, so the honest hint is "run this
+through PythonSCAD".
+
+**None of these dependencies is optional**, which is why none of them may be
+answered by degrading. There is no mode of this library that works without
+geometry.
+
+The one exception is a **cache**. A corrupt fingerprint record, or one that
+cannot be written, is treated as a miss and regenerated. That loses no output
+and the next run is correct, which is exactly the property none of the cases
+above had.
+
+The exporter's placeholder had one real use — it let the layout, PDF and packing
+pipeline be tested with no app. That was worth less than it cost: those tests
+now pass real geometry, which is what they were meant to be testing against
+anyway, and the empty-piece path is an error instead.
+
 ## Validation, Errors and Warnings
 
 Rejected at specification/export time with a descriptive `ValueError` (or `PackingError`) naming the offender:

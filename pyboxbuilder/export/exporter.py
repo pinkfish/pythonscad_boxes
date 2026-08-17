@@ -14,10 +14,10 @@ everything into one body. Writes are gated on each piece's fingerprint — the
 description it was built from — so re-exporting an unchanged project rewrites
 nothing (see `pyboxbuilder.export.fingerprint`).
 
-Geometry export runs through PythonSCAD, which is not importable from plain
-CPython. When it is unavailable the exporter still creates the file tree and
-records the piece's bounding box, so the layout, PDF and packing pipeline stay
-testable off-app.
+Geometry export runs through PythonSCAD. When it is unavailable this **raises**:
+it used to create the file tree anyway, writing a 0-byte 3MF per piece and
+reporting every one as written, so a broken install looked exactly like a
+successful export until the files reached a slicer (FR-000h).
 """
 
 from __future__ import annotations
@@ -26,6 +26,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import TYPE_CHECKING
 
+from pyboxbuilder.deps import require
 from pyboxbuilder.export import fingerprint as fp
 
 if TYPE_CHECKING:
@@ -150,7 +151,7 @@ class BoxExporter:
             label: Box label.
             part: "body" or "lid".
             mode: "mmu" or "single".
-            solid: The main geometry. None writes a placeholder (no app available).
+            solid: The main geometry. There must be some: see Raises.
             inserts: Positive coloured inserts. Kept as separate objects in mmu
                 mode and unioned into `solid` in single mode (T068a).
             size: Bounding box to record when it cannot be measured from `solid`.
@@ -159,6 +160,11 @@ class BoxExporter:
 
         Returns:
             The relative path if written, None if skipped.
+
+        Raises:
+            RuntimeError: If the piece has no geometry to write, or if the
+                backend accepts it and produces no file.
+            MissingDependencyError: If the geometry backend is not installed.
 
         Note:
             Whether a write is *needed* is :meth:`is_current`'s decision, taken
@@ -181,16 +187,17 @@ class BoxExporter:
         wrote_candidate = _export_3mf(payload, candidate)
 
         if not wrote_candidate:
-            # No geometry backend: create the file if it is missing, otherwise
-            # leave the previous export in place rather than truncating it.
-            if path.exists():
-                fp.record(path, fingerprint)
-                self.state.skipped.append(self.relative(path))
-                return None
-            path.touch()
-            fp.record(path, fingerprint)
-            self.state.written.append(self.relative(path))
-            return self.relative(path)
+            # Nothing to write. This used to touch an empty file and report it
+            # as exported, which is the failure mode a user cannot see: a tree
+            # full of 0-byte 3MFs and an export that said it succeeded
+            # (FR-000h). A lidless box never gets here — `write_box` guards the
+            # lid on `has_lid` — so an empty piece is a box that failed to build.
+            candidate.unlink(missing_ok=True)
+            raise RuntimeError(
+                f"{label} {part} built no geometry, so {path.name} would be an "
+                "empty file. A box that cannot be built must say so rather than "
+                "exporting nothing."
+            )
 
         candidate.replace(path)
         fp.record(path, fingerprint)
@@ -288,49 +295,67 @@ def _measure(payload: Bosl2Solid | list[Bosl2Solid] | None) -> tuple[float, floa
 
 
 def _solid_bounds(solid: Bosl2Solid) -> tuple[tuple[float, ...], tuple[float, ...]] | None:
-    """(origin, size) of one solid's AABB, or None if it exposes no usable one.
+    """(origin, size) of one solid's AABB, or None if it exposes neither.
 
     `Bosl2Solid.bounds()` already answers in (position, size) form and is the
     reliable source; the raw `.position` / `.size` attributes are only meaningful
     on native objects — on a pybosl2 wrapper they are bound methods, not triples.
+
+    A solid that *has* one of those and cannot produce a number from it raises,
+    rather than measuring as ``None``: the bounds are what a user checks a piece
+    against their print bed with, and a piece silently missing from that report
+    reads as a piece that fits (FR-000h).
     """
     bounds = getattr(solid, "bounds", None)
     if callable(bounds):
-        try:
-            origin, size = bounds()
-            return (tuple(float(v) for v in origin), tuple(float(v) for v in size))
-        except Exception:
-            return None
+        origin, size = bounds()
+        return (tuple(float(v) for v in origin), tuple(float(v) for v in size))
 
     position, size = getattr(solid, "position", None), getattr(solid, "size", None)
     if position is None or size is None:
         return None
-    try:
-        return (tuple(float(v) for v in position), tuple(float(v) for v in size))
-    except (TypeError, ValueError):
-        return None
+    return (tuple(float(v) for v in position), tuple(float(v) for v in size))
 
 
 def _export_3mf(payload: Bosl2Solid | list[Bosl2Solid] | None, path: Path) -> bool:
-    """Write a 3MF, returning False when no geometry backend is available."""
+    """Write a 3MF file.
+
+    Args:
+        payload: The solid, or the list of them that make up one piece.
+        path: Where to write it.
+
+    Returns:
+        ``False`` when there was **nothing to write** — a lidless type's lid,
+        or a piece whose geometry came back empty. That is the only false this
+        returns: a backend that is missing, or a write that fails, raises.
+
+    Raises:
+        MissingDependencyError: If the geometry backend is not installed.
+        RuntimeError: If the write is attempted and produces no file.
+
+    """
     if payload is None:
-        return False
-    try:
-        from openscad import export
-    except ImportError:
         return False
 
     solids = payload if isinstance(payload, list) else [payload]
     if not solids:
         return False
 
+    # Not imported at module scope: the FFI is only needed once there is
+    # something to write, and a project that builds but never exports should
+    # not require it. Missing at this point is fatal, though — the caller asked
+    # for a file, and the alternative was reporting success having written none.
+    export = require("openscad", f"write {path.name}").export
+
     combined = solids[0]
     for solid in solids[1:]:
         combined = combined | solid
-    try:
-        # `export` only takes native PyOpenSCAD objects; `.shape` is how a
-        # pybosl2 wrapper crosses that boundary.
-        export(getattr(combined, "shape", combined), str(path))
-    except Exception:
-        return False
-    return path.exists()
+    # `export` only takes native PyOpenSCAD objects; `.shape` is how a
+    # pybosl2 wrapper crosses that boundary.
+    export(getattr(combined, "shape", combined), str(path))
+    if not path.exists():
+        raise RuntimeError(
+            f"exporting {path} reported success but wrote no file. "
+            "The geometry backend accepted the solid and produced nothing."
+        )
+    return True

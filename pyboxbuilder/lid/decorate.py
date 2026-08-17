@@ -246,11 +246,13 @@ def _as_depth(solid: Bosl2Solid, depth: float) -> Bosl2Solid:
 
 
 def _top_face(lid: Bosl2Solid) -> tuple[float, float, float, float, float] | None:
-    """(width, length, origin_x, origin_y, top_z) of the lid's upper surface."""
-    try:
-        (cx, cy, cz), (w, l, h) = lid.bounds()
-    except Exception:
-        return None
+    """(width, length, origin_x, origin_y, top_z) of the lid's upper surface.
+
+    A lid that cannot be measured raises rather than measuring as ``None``:
+    ``None`` meant the caller skipped the whole decoration, so a lid came out
+    with no label and no pattern and nothing said why (FR-000h).
+    """
+    (cx, cy, cz), (w, l, h) = lid.bounds()
     if w <= 0 or l <= 0:
         return None
     return (float(w), float(l), float(cx - w / 2), float(cy - l / 2), float(cz + h / 2))
@@ -460,10 +462,12 @@ def _with_accent_colors(builder: LidBuilder, body_color: Color | None) -> LidBui
 
 
 def _coloured(solid: Bosl2Solid, colour: Color | None) -> Bosl2Solid:
-    """Tint a solid when a colour is set; pybosl2 wrappers carry their own."""
+    """Tint a solid when a colour is set; pybosl2 wrappers carry their own.
+
+    An uncolourable solid raises. Returning it untinted instead produced a
+    single-material print from a description that asked for several, which is
+    exactly the failure a user does not see until it comes off the bed.
+    """
     if colour is None:
         return solid
-    try:
-        return solid.color(colour)
-    except Exception:
-        return solid
+    return solid.color(colour)

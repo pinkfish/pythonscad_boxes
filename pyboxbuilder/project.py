@@ -13,7 +13,6 @@ per-side wall tops and their interior masks while the preview kept all three.
 from __future__ import annotations
 
 from collections.abc import Callable, Iterable
-from contextlib import suppress
 from dataclasses import dataclass, field
 from functools import cache, partial
 from pathlib import Path
@@ -573,8 +572,7 @@ class Project:
 
         for piece in pieces:
             solid = piece.solid
-            # Uncolourable geometry still previews, just uncoloured.
-            with suppress(AttributeError, TypeError):
+            if piece.color is not None:
                 solid = solid.color(piece.color)
             solid.show()
 
@@ -923,38 +921,37 @@ class Project:
         if box is None:
             return None, None, size
 
-        body = lid = None
-        try:
-            body = box.build_body(spec)
-            lid = box.build_lid(spec)
+        # No try/except around any of this. It used to swallow ImportError,
+        # which meant a missing geometry backend produced a box with no
+        # compartments carved into it and no word said (FR-000h).
+        body = box.build_body(spec)
+        lid = box.build_lid(spec)
 
-            # A lidded box leaves its rim square so the lid can seal against
-            # it; the lid carries the rounding for the closed box's top and
-            # upper corners instead (FR-043). Only the edges this type leaves
-            # on the outside, and never more than half the lid's thickness —
-            # the rest is what the lid is supported and located by.
-            if lid is not None:
-                from pyboxbuilder.rounding import lid_rounding, round_edges
+        # A lidded box leaves its rim square so the lid can seal against
+        # it; the lid carries the rounding for the closed box's top and
+        # upper corners instead (FR-043). Only the edges this type leaves
+        # on the outside, and never more than half the lid's thickness —
+        # the rest is what the lid is supported and located by.
+        if lid is not None:
+            from pyboxbuilder.rounding import lid_rounding, round_edges
 
-                lid = round_edges(
-                    lid, list(size), lid_rounding(spec), box.lid_rounded_edges(spec)
-                )
+            lid = round_edges(
+                lid, list(size), lid_rounding(spec), box.lid_rounded_edges(spec)
+            )
 
-            if resolved.compartments is not None and body is not None:
-                from pyboxbuilder.compartments.carve import build_contents
+        if resolved.compartments is not None and body is not None:
+            from pyboxbuilder.compartments.carve import build_contents
 
-                contents = build_contents(
-                    resolved.compartments.placements, resolved.interior,
-                    {cb.label: cb for cb in builder.compartments},
-                    top_z=size[2],
-                    default_side=box.preferred_scoop_side(spec),
-                    wall_tops=spec.wall_tops,
-                    mask=box.interior_mask(spec),
-                )
-                if contents is not None:
-                    body = body - contents
-        except ImportError:
-            pass
+            contents = build_contents(
+                resolved.compartments.placements, resolved.interior,
+                {cb.label: cb for cb in builder.compartments},
+                top_z=size[2],
+                default_side=box.preferred_scoop_side(spec),
+                wall_tops=spec.wall_tops,
+                mask=box.interior_mask(spec),
+            )
+            if contents is not None:
+                body = body - contents
 
         return body, lid, size
 
@@ -1022,30 +1019,34 @@ class Project:
         from pyboxbuilder.box.registry import BOX_IMPL_REGISTRY
         from pyboxbuilder.box.spec import BoxSpec
 
-        try:
-            # An L/T/U-shaped leftover is a PathBox; a plain rectangle is a
-            # NoLidBox tray.
-            spacer_cls = BOX_IMPL_REGISTRY.get(BoxType.PATH if spacer.path else BoxType.NO_LID)
-            if spacer_cls is None:
-                return None
-            spec = BoxSpec(
-                label=spacer.label,
-                width=spacer.size[0],
-                length=spacer.size[1],
-                height=spacer.size[2],
-                wall_thickness=self.wall_thickness,
-                floor_thickness=self.floor_thickness,
-                lid_thickness=0.0,
-                path=tuple(spacer.path or ()),
-                rounding=self.rounding,
-                rim_free=True,
-                # A spacer is dead fill: it has no contents to reach into, so
-                # it takes none of the automatic grips a tray gets.
-                auto_finger_holes=False,
+        # An L/T/U-shaped leftover is a PathBox; a plain rectangle is a
+        # NoLidBox tray.
+        box_type = BoxType.PATH if spacer.path else BoxType.NO_LID
+        spacer_cls = BOX_IMPL_REGISTRY.get(box_type)
+        if spacer_cls is None:
+            raise LookupError(
+                f"spacer {spacer.label} needs a {box_type.value} box and the "
+                "registry has none, so it would be left out of the export."
             )
-            return spacer_cls().build_body(spec)
-        except Exception:
-            return None
+        spec = BoxSpec(
+            label=spacer.label,
+            width=spacer.size[0],
+            length=spacer.size[1],
+            height=spacer.size[2],
+            wall_thickness=self.wall_thickness,
+            floor_thickness=self.floor_thickness,
+            lid_thickness=0.0,
+            path=tuple(spacer.path or ()),
+            rounding=self.rounding,
+            rim_free=True,
+            # A spacer is dead fill: it has no contents to reach into, so
+            # it takes none of the automatic grips a tray gets.
+            auto_finger_holes=False,
+        )
+        # Errors propagate. Returning None here dropped the spacer from the
+        # export without a word, and a missing spacer is invisible in a layout
+        # that still looks complete (FR-000h).
+        return spacer_cls().build_body(spec)
 
     def _decorated_lid(
         self, piece: Piece, mode: str
@@ -1066,16 +1067,16 @@ class Project:
         builder = piece.builder
         if piece.solid is None or builder is None or builder.lid is None:
             return piece.solid, None
-        try:
-            decorated = decorate_lid(
-                piece.solid, builder.lid,
-                builder.lid_thickness or self.lid_thickness, mode,
-                body_color=builder.color,
-                reserved=self._lid_keepouts(builder),
-            )
-            return decorated.solid, decorated.inserts or None
-        except ImportError:
-            return piece.solid, None
+        # Not guarded. Swallowing ImportError here returned the *undecorated*
+        # lid, so a broken install printed every lid blank — no label, no
+        # pattern — and the export reported success (FR-000h).
+        decorated = decorate_lid(
+            piece.solid, builder.lid,
+            builder.lid_thickness or self.lid_thickness, mode,
+            body_color=builder.color,
+            reserved=self._lid_keepouts(builder),
+        )
+        return decorated.solid, decorated.inserts or None
 
     def _lid_keepouts(self, builder: BoxBuilder) -> list[tuple[float, float, float]]:
         """Patches of a box's lid its own type needs left solid.
@@ -1270,22 +1271,21 @@ class Project:
         """Generate the packing guide PDF, if the layout changed (FR-034)."""
         if not self._boxes or build.packing is None:
             return
-        try:
-            from pyboxbuilder.export.layout_pdf import (
-                generate_layout_pdf,
-                should_regenerate_layout,
-            )
+        # The PDF used to be "best-effort", wrapped in `except Exception: pass`.
+        # A layout sheet that quietly is not there is the same class of failure
+        # as a box that quietly is not there (FR-000h).
+        from pyboxbuilder.export.layout_pdf import (
+            generate_layout_pdf,
+            should_regenerate_layout,
+        )
 
-            pdf_path = Path(out_dir) / self.name / "layout.pdf"
-            if should_regenerate_layout(build.packing, pdf_path):
-                result = generate_layout_pdf(
-                    build.packing, pdf_path, self.name, self._container(),
-                    box_builders=self._boxes,
-                )
-                if result:
-                    exporter.state.written.append(f"{self.name}/layout.pdf")
-        except Exception:
-            pass  # PDF is best-effort; don't block export
+        pdf_path = Path(out_dir) / self.name / "layout.pdf"
+        if should_regenerate_layout(build.packing, pdf_path):
+            generate_layout_pdf(
+                build.packing, pdf_path, self.name, self._container(),
+                box_builders=self._boxes,
+            )
+            exporter.state.written.append(f"{self.name}/layout.pdf")
 
     # ------------------------------------------------------------ compartments
 
