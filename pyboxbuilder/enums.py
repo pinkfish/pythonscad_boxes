@@ -58,6 +58,12 @@ class PatternType(Enum):
     """Octagonal holes, leaving small square webs between them."""
     VORONOI = "voronoi"
     """Round holes of varying size on a jittered grid — an organic scatter."""
+    LEAF = "leaf"
+    """Pointed-oval leaves, each with a midrib, interlocking in offset rows."""
+    LEAF_TESSELLATION = "leaf_tessellation"
+    """Leaves that tile the lid edge to edge, leaving a net of their outlines."""
+    LEAF_VEINS = "leaf_veins"
+    """That tessellation with a midrib and branching veins left in each leaf."""
 
 
 class StackableMode(Enum):

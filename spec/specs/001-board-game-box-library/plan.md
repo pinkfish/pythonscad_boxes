@@ -429,6 +429,81 @@ The corollary is that a pattern must be **moved** into the area and never
 re-anchored to it by its bounding box: re-anchoring is exactly what discards
 the centring and pushes the whole overhang onto one side.
 
+#### Making The Leaves Interlock (FR-023)
+
+A honeycomb needs no thought about spacing, because a hexagon's neighbours are
+all the same distance away: one pitch, in all six directions. Nothing else in
+the catalog is like that, and the leaf is the case that shows what the lattice
+was quietly assuming.
+
+A leaf is the pointed oval two overlapping circles leave, twice as long as it is
+wide — at 1:1 it is a circle, and the taper is the whole of what reads as a
+leaf. Laid out on offset rows, it must **not** step a full leaf-width between
+them. Where one leaf is at its widest its neighbours above and below are near
+their tips, so the rows nest into one another; stepping the full width leaves a
+band of solid lid along every row, and the pattern reads as stripes rather than
+as foliage.
+
+How far they nest is a property of the outline, so it is solved rather than
+guessed. The rows are offset half a pitch, so the closest the two come is at the
+midpoint between the offset centres — by symmetry both leaves are the same
+height there — and the step is that height, doubled, plus the web. It comes out
+around a fifth of a leaf-width of overlap, and the web then measures the same
+between rows as it does tip-to-tip along one.
+
+So `_grid_cells` takes a **row step** rather than deriving one. `sin(60°)` stays
+the default, because it is right for the shape that lattice was written for, and
+a shape that is not as tall as it is wide states its own.
+
+The midrib is the other half of reading as a leaf: a bar of lid left along the
+spine, which also braces the widest part of the hole — where a perforated lid
+gives way. A leaf too narrow to keep a printable opening either side of it is
+cut whole instead, because two slits read as a crack.
+
+#### The Other Leaf: A Tile Rather Than A Shape (FR-023)
+
+`LEAF` above is a shape that is spaced out; `LEAF_TESSELLATION` is a **tile**.
+The difference is worth two members rather than an option, because it changes
+what a lid looks like: a tile covers the plane, so the material left over is
+exactly the web, and the lid reads as a net of leaf outlines rather than as a
+sheet with leaves punched out of it.
+
+The tile is seven-sided, and the useful thing about it is how its edges pair up.
+The two edges to the tip are equal and opposite to the two from the base, so
+each is another leaf's edge under translation. The base's single long edge is
+matched not by one edge but by the **two short notch edges of two different
+neighbours** — which is what lets the rows interlock. Those pairings give the
+lattice directly: a pitch of `2√3` sections across, rows every `2`, each row
+shifted half a pitch.
+
+That it tiles is checkable in one number, so it is checked: the leaf's area
+equals one lattice cell's. Gaps or overlaps both break that equality, and no
+amount of eyeballing a render is as good.
+
+Holes come from insetting the tile by half the web — the tile covers the plane,
+so half from each of two neighbours is the whole gap between them.
+
+**The veins are three strokes and a spine**, not the reference pattern's
+recursion. That pattern branches each vein twice more and rotates the
+sub-branches about the leaf's base; at a lid's scale the detail closes into a
+blur, and the strokes that produced it were placed by constants that only held
+at one leaf size. What survives the reduction is a midrib and a few branches
+running forward to the margin.
+
+Two constraints on where a vein may go, both structural:
+
+- **Every vein ends on the midrib or on the outline.** One floating in the
+  middle of a hole is an island, and the printer has nothing to start it on.
+- **None starts at the base.** Three leaves meet at each base, so veins
+  converging there compound into a six-pointed star across the whole lattice,
+  and what the eye picks out is the star rather than the leaf around it. Moving
+  the start a little way along the midrib costs nothing and fixes it.
+
+A tiling pattern also leans on the lid's border in a way the others do not. The
+material it leaves is a single connected net, so every piece of it reaches the
+edge of the patterned area and joins the border there. Cut the same pattern with
+no border and the pieces at the edge are islands.
+
 One border serves the lid — the pattern stops at it and the label sits 2mm
 inside it. Two margins measured from different edges read as a mistake, because
 what a viewer sees is a single band of plain lid with things arranged in it.
@@ -1276,7 +1351,7 @@ One number, `Project.clearance_slack` (default 1.0mm, sane range 1–2mm), appli
 - *Framed*: a rectangular frame with diagonal hatching behind the text (bed adhesion for text islands, spaced so the text bridges without supports) plus a small outer border. The backing plate hugs the text rather than filling the label area, so a lid can carry a frame **and** a pattern (T200).
 - *Diagonal* is an orientation available in both modes: corner-to-corner at the lid's natural angle, which is 45° only when the lid is square.
 
-**Patterns cut through.** A pattern is a through-hole fill over the lid face — maximum filament saving — clipped twice: at the lid outline, and at the label area, which takes precedence (FR-023 note, and the reason a framed label does not lose its border). The catalogue is the full ported `ShapeType` set: dense/lattice shapes, `PENTAGON_R1`–`R15`, and the tessellation families; `build_pattern` dispatches every member with **no fallback to grid** (T116/T117).
+**Patterns cut through.** A pattern is a through-hole fill over the lid face — maximum filament saving — clipped twice: at the lid outline, and at the label area, which takes precedence (FR-023 note, and the reason a framed label does not lose its border). The catalogue is exactly what `_PATTERN_FILLS` draws — `NONE`, `SQUARE`, `CIRCLE`, `HEX`, `DENSE_HEX`, `TRIANGLE`, `DENSE_TRIANGLE`, `OCTAGON`, `VORONOI`, `LEAF` — and `build_pattern` **raises** for a member without a fill rather than falling back to a grid (T116/T117). The list grows by implementation: the ported `ShapeType` set named forty-seven and drew three.
 
 **Three accent colours, independently settable**: label text, frame top layer, pattern top layer — each defaulting to a value distinct from the body colour. Patterns may assign different colours to different elements (FR-024).
 

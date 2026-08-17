@@ -58,6 +58,31 @@ class PatternGoldenTests(unittest.TestCase):
             "build_pattern(100, 70, 3.0, PatternType.OCTAGON, spacing=10.0).show()\n",
         )
 
+    def test_leaf_pattern(self) -> None:
+        self._render_compare(
+            "pattern_leaf",
+            "from pyboxbuilder.enums import PatternType\n"
+            "from pyboxbuilder.lid.pattern import build_pattern\n"
+            "build_pattern(100, 70, 3.0, PatternType.LEAF, spacing=14.0).show()\n",
+        )
+
+    def test_leaf_tessellation_pattern(self) -> None:
+        self._render_compare(
+            "pattern_leaf_tessellation",
+            "from pyboxbuilder.enums import PatternType\n"
+            "from pyboxbuilder.lid.pattern import build_pattern\n"
+            "build_pattern(100, 70, 3.0, PatternType.LEAF_TESSELLATION, "
+            "spacing=22.0).show()\n",
+        )
+
+    def test_leaf_veins_pattern(self) -> None:
+        self._render_compare(
+            "pattern_leaf_veins",
+            "from pyboxbuilder.enums import PatternType\n"
+            "from pyboxbuilder.lid.pattern import build_pattern\n"
+            "build_pattern(100, 70, 3.0, PatternType.LEAF_VEINS, spacing=22.0).show()\n",
+        )
+
     def test_hex_grid_cutouts(self) -> None:
         self._render_compare(
             "hex_grid_cutouts",
