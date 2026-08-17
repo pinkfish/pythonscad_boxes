@@ -646,10 +646,11 @@ class Project:
             if piece.solid is None:
                 continue
 
-            solid = piece.solid
+            solid, inserts = piece.solid, None
             if piece.kind == "lid":
                 # Show the lid as it prints, decoration and all.
-                solid = self._decorated_lid(piece, "mmu")[0] or solid
+                decorated, inserts = self._decorated_lid(piece, "mmu")
+                solid = decorated or solid
 
             colour = colour_for(piece)
             if piece.kind == "lid":
@@ -657,6 +658,21 @@ class Project:
             out.append(
                 PreviewPiece(piece.label, solid.translate(list(piece.position)), colour, piece.kind)
             )
+
+            # A lid's label and frame are *inserts* — separate solids, so the
+            # slicer can give each its own material (FR-025). Dropping them
+            # here left every previewed lid blank while the exported one
+            # carried its label, which is the divergence FR-046c exists to
+            # prevent: what is previewed must be what is printed. Each keeps
+            # its own colour rather than being fused into the lid's, since
+            # that is the whole reason it is a separate object.
+            for insert in inserts or ():
+                out.append(
+                    PreviewPiece(
+                        piece.label, insert.translate(list(piece.position)),
+                        _insert_color(insert, colour), "lid",
+                    )
+                )
         return out
 
     # ------------------------------------------------------------------ sizing
@@ -1267,6 +1283,24 @@ class Project:
     ) -> None:
         """Register a group of compartments to be dynamically partitioned across the given box labels."""
         self._shared_groups.append((boxes, compartments))
+
+
+def _insert_color(insert: Any, fallback: "Color") -> "Color":
+    """The colour a lid insert previews in.
+
+    A coloured insert carries its own — that is what makes it a separate
+    object — so the preview shows the material it will print in rather than
+    tinting it like the lid it sits on.
+
+    Args:
+        insert: The insert solid, which may already be coloured.
+        fallback: The lid's own preview colour, for an insert with none.
+
+    Returns:
+        The colour to draw it in.
+    """
+    own = getattr(insert, "color", None)
+    return own if own is not None and not callable(own) else fallback
 
 
 STANDALONE_GAP_MM = 10.0

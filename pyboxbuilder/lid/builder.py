@@ -23,16 +23,53 @@ BORDER_MARGIN_MM = 5.0
 """Margin an auto-sized label keeps clear of the lid's edge."""
 
 
+PATTERN_BORDER_MM = 10.0
+"""Solid margin left around a lid's pattern, when nothing else says.
+
+The border is what the lid is picked up and located by, and on a sliding lid it
+is what rides in the grooves — so it has to be wide enough to hold, and wide
+enough that a hole never lands on the edge that does the holding. It is wider
+than the label's own margin because the two are answering different questions:
+the label's keeps text off the edge, this keeps *material* at it.
+"""
+
+
 @dataclass(frozen=True)
 class PatternBuilder:
-    """Through-hole pattern configuration for a lid."""
+    """Through-hole pattern configuration for a lid.
+
+    A pattern is specified by the **pitch** between holes and the **web** left
+    between them. The web is the one with a right answer — it is what prints,
+    and what carries the lid — so it is the one to state; the hole size follows
+    from the two.
+    """
 
     type: PatternType = PatternType.HEX
     """Which pattern to cut. See :class:`~pyboxbuilder.enums.PatternType`."""
     colors: tuple[Color, ...] = ()
     """Accent colours for the pattern's top layer, if any."""
     spacing: float | None = None
-    """Cell size in mm; ``None`` derives it from the lid's shorter side."""
+    """Centre-to-centre distance between holes, in mm.
+
+    ``None`` derives it from the area being filled — an eighth of its shorter
+    side, never below 5mm — so the same pattern reads the same on a token lid
+    and a card lid."""
+    web: float | None = None
+    """Material left between neighbouring holes, in mm.
+
+    ``None`` uses :data:`~pyboxbuilder.lid.pattern.DEFAULT_WEB_MM`. Raising it
+    thickens the ribs without changing the pitch; the holes shrink to make
+    room."""
+    border: float | None = None
+    """Solid margin around the whole pattern, in mm.
+
+    ``None`` uses :data:`PATTERN_BORDER_MM`. ``0`` runs the pattern to the
+    lid's edge, which is rarely what a lid wants — see that constant."""
+
+    @property
+    def border_width(self) -> float:
+        """The border, resolved."""
+        return PATTERN_BORDER_MM if self.border is None else max(0.0, self.border)
 
 
 @dataclass(frozen=True)

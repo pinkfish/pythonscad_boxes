@@ -119,7 +119,10 @@ def _cut_pattern(
     from pyboxbuilder.lid.pattern import build_pattern
 
     assert builder.pattern is not None
-    margin = builder.border_margin
+    # The pattern's border is its own, not the label's: one keeps text off the
+    # edge, the other keeps *material* there — the band the lid is picked up
+    # by, and on a sliding lid the band that rides in the grooves.
+    margin = builder.pattern.border_width
     area_w = width - 2 * margin
     area_l = length - 2 * margin
     if area_w <= 0 or area_l <= 0:
@@ -131,11 +134,18 @@ def _cut_pattern(
     base = (origin_x + margin, origin_y + margin, top_z - lid_thickness - 1.0)
 
     holes = build_pattern(
-        area_w, area_l, depth, builder.pattern.type, builder.pattern.spacing
+        area_w, area_l, depth, builder.pattern.type,
+        builder.pattern.spacing, builder.pattern.web,
     )
-    # Each fill function anchors its own way, so place it by its bounding box
-    # rather than trusting where it put itself, then trim it to the area so it
-    # cannot eat into the lid's border.
+    if holes is None:
+        # No hole fits — too small an area, or a pitch that cannot hold a hole
+        # and a printable web at once. A solid lid is the right answer; a
+        # peppering of pinholes is not (FR-000c).
+        return lid
+
+    # Each fill anchors its own way, so place it by its bounding box rather
+    # than trusting where it put itself, then trim it to the area so it cannot
+    # eat into the lid's border.
     holes = _place_by_corner(holes, base)
     return lid - (holes & block([area_w, area_l, depth], at=base))
 

@@ -48,7 +48,7 @@ class PatternCoverageTests(unittest.TestCase):
     def test_none_pattern_returns_none(self):
         """PatternType.NONE produces no cutouts."""
         fill = _PATTERN_FILLS[PatternType.NONE]
-        self.assertIsNone(fill(100, 70, 3.0, 10.0))
+        self.assertIsNone(fill(100, 70, 3.0, 10.0, None))
 
 
 class PatternFillTests(unittest.TestCase):
