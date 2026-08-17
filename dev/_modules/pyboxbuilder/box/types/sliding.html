@@ -307,6 +307,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.spec</span><span class="w"> </span><span class="kn">import</span> <span class="n">BoxSpec</span>
 
 <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">Anchor</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2.shapes3d</span><span class="w"> </span><span class="kn">import</span> <span class="n">Bosl2Solid</span>
 
     <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">ScoopSide</span>
@@ -391,7 +392,7 @@
 
 <div class="viewcode-block" id="SlidingBox.wall_tops">
 <a class="viewcode-back" href="../../../../_autosummary/pyboxbuilder.box.types.sliding.SlidingBox.html#pyboxbuilder.box.types.sliding.SlidingBox.wall_tops">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">wall_tops</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">wall_tops</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="n">ScoopSide</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">"""Where each wall ends, which is not the same height all round.</span>
 
 <span class="sd">        The channel is cut out of the top band across the whole box and runs</span>
@@ -435,7 +436,7 @@
 
 <div class="viewcode-block" id="SlidingBox.lid_rounded_edges">
 <a class="viewcode-back" href="../../../../_autosummary/pyboxbuilder.box.types.sliding.SlidingBox.html#pyboxbuilder.box.types.sliding.SlidingBox.lid_rounded_edges">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">lid_rounded_edges</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">lid_rounded_edges</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Anchor</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">"""Which of the lid's edges may be rounded.</span>
 
 <span class="sd">        Only the end that ends up **outside** the box: its top edge and its two</span>

@@ -302,6 +302,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">field</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span>
 
 
 <div class="viewcode-block" id="PackingError">
@@ -356,7 +357,7 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_pack_guillotine</span><span class="p">(</span>
-    <span class="n">container_size</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="n">boxes</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span>
+    <span class="n">container_size</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="n">boxes</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Placement</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Try the guillotine solver, returning None if it finds nothing."""</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.packing.guillotine</span><span class="w"> </span><span class="kn">import</span> <span class="n">Item</span><span class="p">,</span> <span class="n">pack_guillotine</span>
@@ -388,7 +389,7 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">_expand_in_place</span><span class="p">(</span>
     <span class="n">placements</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Placement</span><span class="p">],</span>
     <span class="n">container_size</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
-    <span class="n">boxes</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">],</span>
+    <span class="n">boxes</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]],</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Grow expandable boxes into the slack around them (FR-012).</span>
 
@@ -406,7 +407,11 @@
             <span class="n">expandable</span> <span class="ow">and</span> <span class="nb">bool</span><span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"expandable_width"</span><span class="p">,</span> <span class="kc">True</span><span class="p">)),</span>
         <span class="p">)</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">sized</span><span class="p">(</span><span class="n">placement</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">sized</span><span class="p">(</span>
+        <span class="n">placement</span><span class="p">:</span> <span class="n">Placement</span><span class="p">,</span>
+        <span class="n">width</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">height</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Placement</span><span class="p">:</span>
         <span class="n">w</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">h</span> <span class="o">=</span> <span class="n">placement</span><span class="o">.</span><span class="n">size</span>
         <span class="k">return</span> <span class="n">Placement</span><span class="p">(</span>
             <span class="n">label</span><span class="o">=</span><span class="n">placement</span><span class="o">.</span><span class="n">label</span><span class="p">,</span>
@@ -453,7 +458,7 @@
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.packing.layout.pack_boxes.html#pyboxbuilder.packing.layout.pack_boxes">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">pack_boxes</span><span class="p">(</span>
     <span class="n">container_size</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
-    <span class="n">boxes</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">],</span>
+    <span class="n">boxes</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]],</span>
     <span class="n">gap_threshold</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">10.0</span><span class="p">,</span>
     <span class="n">min_spacer_dim</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">15.0</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BoxPacking</span><span class="p">:</span>

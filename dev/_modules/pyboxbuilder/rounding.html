@@ -318,12 +318,14 @@
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Sequence</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Any</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.spec</span><span class="w"> </span><span class="kn">import</span> <span class="n">BoxSpec</span>
 
 <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">Anchor</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2.shapes3d</span><span class="w"> </span><span class="kn">import</span> <span class="n">Bosl2Solid</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2.skin</span><span class="w"> </span><span class="kn">import</span> <span class="n">OSProfile</span>
 
 
 <div class="viewcode-block" id="default_rounding">
@@ -419,7 +421,7 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">rounded_block</span><span class="p">(</span>
     <span class="n">size</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span>
     <span class="n">rounding</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
-    <span class="n">edges</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">,</span>
+    <span class="n">edges</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Anchor</span><span class="p">],</span>
     <span class="n">at</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Return a corner-placed block with some of its edges rounded.</span>
@@ -452,7 +454,7 @@
 
 <div class="viewcode-block" id="vertical_edges">
 <a class="viewcode-back" href="../../_autosummary/pyboxbuilder.rounding.vertical_edges.html#pyboxbuilder.rounding.vertical_edges">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">vertical_edges</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">vertical_edges</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Anchor</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">"""Edge selector for a box's four vertical corners.</span>
 
 <span class="sd">    ``Anchor.Z`` looks like the obvious way to say this and is **wrong**: it is</span>
@@ -473,7 +475,7 @@
 
 <div class="viewcode-block" id="vertical_and_bottom_edges">
 <a class="viewcode-back" href="../../_autosummary/pyboxbuilder.rounding.vertical_and_bottom_edges.html#pyboxbuilder.rounding.vertical_and_bottom_edges">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">vertical_and_bottom_edges</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">vertical_and_bottom_edges</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Anchor</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">"""Edge selector for a body: the four vertical corners and the base.</span>
 
 <span class="sd">    Returns:</span>
@@ -489,7 +491,7 @@
 
 <div class="viewcode-block" id="vertical_and_top_edges">
 <a class="viewcode-back" href="../../_autosummary/pyboxbuilder.rounding.vertical_and_top_edges.html#pyboxbuilder.rounding.vertical_and_top_edges">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">vertical_and_top_edges</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">vertical_and_top_edges</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Anchor</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">"""Edge selector for a lid, or for the free rim of a lidless box.</span>
 
 <span class="sd">    Returns:</span>
@@ -505,7 +507,7 @@
 
 <div class="viewcode-block" id="max_radius">
 <a class="viewcode-back" href="../../_autosummary/pyboxbuilder.rounding.max_radius.html#pyboxbuilder.rounding.max_radius">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">max_radius</span><span class="p">(</span><span class="n">size</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">edges</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">max_radius</span><span class="p">(</span><span class="n">size</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">edges</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Anchor</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Return the largest radius these edges can carry on a block of ``size``.</span>
 
 <span class="sd">    A blanket ``min(size) / 2`` is the tempting guard and it is wrong often</span>
@@ -548,7 +550,7 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">edge_slivers</span><span class="p">(</span>
     <span class="n">size</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span>
     <span class="n">rounding</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
-    <span class="n">edges</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">,</span>
+    <span class="n">edges</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Anchor</span><span class="p">],</span>
     <span class="n">at</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Return the material a rounding removes: the square block minus the rounded one.</span>
@@ -610,7 +612,7 @@
 
 <div class="viewcode-block" id="rounding_facets">
 <a class="viewcode-back" href="../../_autosummary/pyboxbuilder.rounding.rounding_facets.html#pyboxbuilder.rounding.rounding_facets">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">rounding_facets</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">rounding_facets</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">"""Tessellation arguments for an edge fillet.</span>
 
 <span class="sd">    Returns:</span>
@@ -630,7 +632,7 @@
 
 <div class="viewcode-block" id="roundover_profile">
 <a class="viewcode-back" href="../../_autosummary/pyboxbuilder.rounding.roundover_profile.html#pyboxbuilder.rounding.roundover_profile">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">roundover_profile</span><span class="p">(</span><span class="n">radius</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">steps</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">roundover_profile</span><span class="p">(</span><span class="n">radius</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">steps</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">OSProfile</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Return a sweep-end profile that **rounds the end face over** into the sweep.</span>
 
 <span class="sd">    ``os_circle`` is the obvious choice and is the wrong shape: its arc is</span>
@@ -680,7 +682,7 @@
     <span class="n">solid</span><span class="p">:</span> <span class="n">Bosl2Solid</span><span class="p">,</span>
     <span class="n">size</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span>
     <span class="n">rounding</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
-    <span class="n">edges</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">,</span>
+    <span class="n">edges</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Anchor</span><span class="p">],</span>
     <span class="n">at</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Round ``solid``'s edges over the envelope ``size`` at ``at``.</span>

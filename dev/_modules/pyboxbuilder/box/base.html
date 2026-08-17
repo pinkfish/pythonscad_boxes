@@ -315,6 +315,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.interior</span><span class="w"> </span><span class="kn">import</span> <span class="n">Interior</span>
 
 <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">Anchor</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2.shapes3d</span><span class="w"> </span><span class="kn">import</span> <span class="n">Bosl2Solid</span>
 
     <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.spec</span><span class="w"> </span><span class="kn">import</span> <span class="n">BoxSpec</span>
@@ -410,7 +411,7 @@
 
 <div class="viewcode-block" id="BoxTypeBase.lid_rounded_edges">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.base.BoxTypeBase.html#pyboxbuilder.box.base.BoxTypeBase.lid_rounded_edges">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">lid_rounded_edges</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">lid_rounded_edges</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Anchor</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">"""Which of this box type's lid edges may be rounded.</span>
 
 <span class="sd">        Args:</span>
@@ -430,7 +431,7 @@
 
 <div class="viewcode-block" id="BoxTypeBase.wall_tops">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.base.BoxTypeBase.html#pyboxbuilder.box.base.BoxTypeBase.wall_tops">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">wall_tops</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">wall_tops</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="n">ScoopSide</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">"""Return the sides whose walls do not end at this box's default top.</span>
 
 <span class="sd">        Args:</span>

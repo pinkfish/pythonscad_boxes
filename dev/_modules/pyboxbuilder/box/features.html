@@ -1259,7 +1259,7 @@
     <span class="n">flank</span> <span class="o">=</span> <span class="n">wt</span> <span class="o">-</span> <span class="n">bottom_key</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">s</span>
     <span class="n">z</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">height</span> <span class="o">-</span> <span class="n">lt</span> <span class="o">/</span> <span class="mi">2</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">_place</span><span class="p">(</span><span class="n">solid</span><span class="p">,</span> <span class="n">across_pos</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_place</span><span class="p">(</span><span class="n">solid</span><span class="p">:</span> <span class="n">Bosl2Solid</span><span class="p">,</span> <span class="n">across_pos</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">along_axis</span> <span class="o">==</span> <span class="s2">"x"</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">solid</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">at_along</span><span class="p">,</span> <span class="n">across_pos</span><span class="p">,</span> <span class="n">z</span><span class="p">])</span>
         <span class="k">return</span> <span class="n">solid</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">across_pos</span><span class="p">,</span> <span class="n">at_along</span><span class="p">,</span> <span class="n">z</span><span class="p">])</span>
@@ -1527,7 +1527,9 @@
 
 <div class="viewcode-block" id="offset_footprint">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.features.offset_footprint.html#pyboxbuilder.box.features.offset_footprint">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">offset_footprint</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">distance</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">offset_footprint</span><span class="p">(</span>
+    <span class="n">path</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="o">...</span><span class="p">],</span> <span class="n">distance</span><span class="p">:</span> <span class="nb">float</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="o">...</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">"""Grow or shrink a footprint outline by `distance` (positive shrinks)."""</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.paths</span><span class="w"> </span><span class="kn">import</span> <span class="n">inset_rectilinear</span><span class="p">,</span> <span class="n">is_rectilinear</span>
 
@@ -1548,7 +1550,9 @@
 
 <div class="viewcode-block" id="extrude_footprint">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.features.extrude_footprint.html#pyboxbuilder.box.features.extrude_footprint">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">extrude_footprint</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">height</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">base_z</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">extrude_footprint</span><span class="p">(</span>
+    <span class="n">path</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="o">...</span><span class="p">],</span> <span class="n">height</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">base_z</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Extrude a footprint outline upward from `base_z`.</span>
 
 <span class="sd">    `linear_extrude` is the one operation that already grows from its base</span>
@@ -1580,7 +1584,9 @@
 
 <div class="viewcode-block" id="path_cap">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.features.path_cap.html#pyboxbuilder.box.features.path_cap">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">path_cap</span><span class="p">(</span><span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">cap_height</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">path_cap</span><span class="p">(</span>
+    <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="o">...</span><span class="p">],</span> <span class="n">cap_height</span><span class="p">:</span> <span class="nb">float</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Return a cap whose skirt follows a polygon footprint instead of a rectangle.</span>
 
 <span class="sd">    Its outer face is the declared outline, so a closed box measures exactly</span>
@@ -1601,7 +1607,12 @@
 
 <div class="viewcode-block" id="path_sleeve">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.features.path_sleeve.html#pyboxbuilder.box.features.path_sleeve">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">path_sleeve</span><span class="p">(</span><span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">slip</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">foot</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">path_sleeve</span><span class="p">(</span>
+    <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">,</span>
+    <span class="n">path</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="o">...</span><span class="p">],</span>
+    <span class="n">slip</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">foot</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Return a sleeve that slips over a polygon-footprint body, stopping at the foot."""</span>
     <span class="n">lt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">lid_thickness</span>
     <span class="n">slack</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">slip_slack</span>

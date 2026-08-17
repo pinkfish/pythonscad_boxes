@@ -307,7 +307,10 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.spec</span><span class="w"> </span><span class="kn">import</span> <span class="n">BoxSpec</span>
 
 <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">Anchor</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2.shapes3d</span><span class="w"> </span><span class="kn">import</span> <span class="n">Bosl2Solid</span>
+
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">ScoopSide</span>
 
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">BoxTypeBase</span><span class="p">,</span> <span class="n">Interior</span>
@@ -348,7 +351,7 @@
 
 <div class="viewcode-block" id="SlidingCatchBox.preferred_scoop_side">
 <a class="viewcode-back" href="../../../../_autosummary/pyboxbuilder.box.types.sliding_catch.SlidingCatchBox.html#pyboxbuilder.box.types.sliding_catch.SlidingCatchBox.preferred_scoop_side">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">preferred_scoop_side</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">preferred_scoop_side</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ScoopSide</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Return a finger scoop belongs in the wall the lid leaves by.</span>
 
 <span class="sd">        The other three carry the lid — two hold its grooves — and a scoop cut</span>
@@ -361,7 +364,7 @@
 
 <div class="viewcode-block" id="SlidingCatchBox.lid_rounded_edges">
 <a class="viewcode-back" href="../../../../_autosummary/pyboxbuilder.box.types.sliding_catch.SlidingCatchBox.html#pyboxbuilder.box.types.sliding_catch.SlidingCatchBox.lid_rounded_edges">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">lid_rounded_edges</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">lid_rounded_edges</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Anchor</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">"""Return only the end that finishes outside the box.</span>
 
 <span class="sd">        Its top edge and the two vertical corners there. The rest of the plate</span>

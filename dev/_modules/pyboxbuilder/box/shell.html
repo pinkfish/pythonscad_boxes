@@ -329,7 +329,10 @@
 <span class="p">)</span>
 
 <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">Anchor</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2.shapes3d</span><span class="w"> </span><span class="kn">import</span> <span class="n">Bosl2Solid</span>
+
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.builders._base</span><span class="w"> </span><span class="kn">import</span> <span class="n">FingerHoleBuilder</span>
 
 
 <span class="n">MIN_FINGER_HOLE_REACH_MM</span> <span class="o">=</span> <span class="mf">2.0</span>
@@ -499,14 +502,16 @@
 
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">_top_anchor</span><span class="p">():</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_top_anchor</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Anchor</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Return the TOP anchor, imported lazily so this module has no import-time pybosl2."""</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">Anchor</span>
 
     <span class="k">return</span> <span class="n">Anchor</span><span class="o">.</span><span class="n">TOP</span>
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">_hole_flare</span><span class="p">(</span><span class="n">wall_thickness</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">hole</span><span class="p">,</span> <span class="n">reach</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">ends</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_hole_flare</span><span class="p">(</span>
+    <span class="n">wall_thickness</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">hole</span><span class="p">:</span> <span class="n">FingerHoleBuilder</span><span class="p">,</span> <span class="n">reach</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">ends</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Return the face fillet an exterior finger hole's cut is built with.</span>
 
 <span class="sd">    The fillet is made by flaring the sweep's ends, and the flare is isotropic</span>
@@ -550,7 +555,6 @@
 <span class="sd">        Empty when the cuts are clear of each other.</span>
 
 <span class="sd">    """</span>
-    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.builders._base</span><span class="w"> </span><span class="kn">import</span> <span class="n">FingerHoleBuilder</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">MagnetType</span>
 
     <span class="n">holes</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">FingerHoleBuilder</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">finger_holes</span> <span class="ow">or</span> <span class="p">()</span>
@@ -752,7 +756,7 @@
 
 <div class="viewcode-block" id="no_lid_finger_holes">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.shell.no_lid_finger_holes.html#pyboxbuilder.box.shell.no_lid_finger_holes">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">no_lid_finger_holes</span><span class="p">(</span><span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">no_lid_finger_holes</span><span class="p">(</span><span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">FingerHoleBuilder</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">"""Return the finger holes a no-lid box cuts into its longer walls (FR-047).</span>
 
 <span class="sd">    An open tray is lifted by the rim, so the original (`no_lid.scad`) puts a</span>

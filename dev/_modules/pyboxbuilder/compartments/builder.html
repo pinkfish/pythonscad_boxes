@@ -429,7 +429,10 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">resolved</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">interior_w</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">interior_l</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">interior_h</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
         <span class="n">siblings</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span>
+        <span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">CompartmentElement</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span>
+    <span class="p">]:</span>
 <span class="w">        </span><span class="sd">"""Return this compartment as the layout engine takes it.</span>
 
 <span class="sd">        Args:</span>

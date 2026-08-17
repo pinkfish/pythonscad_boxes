@@ -596,7 +596,7 @@
     <span class="k">return</span> <span class="n">stem</span>
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">_measure</span><span class="p">(</span><span class="n">payload</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_measure</span><span class="p">(</span><span class="n">payload</span><span class="p">:</span> <span class="n">Bosl2Solid</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="n">Bosl2Solid</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Measure a solid's bounding box, or None if it cannot be measured.</span>
 
 <span class="sd">    PythonSCAD computes `.size` by meshing, so this only works inside the app.</span>
@@ -618,7 +618,7 @@
     <span class="k">return</span> <span class="p">(</span><span class="n">hi</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">lo</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">hi</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">lo</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">hi</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="n">lo</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">_solid_bounds</span><span class="p">(</span><span class="n">solid</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="o">...</span><span class="p">]]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_solid_bounds</span><span class="p">(</span><span class="n">solid</span><span class="p">:</span> <span class="n">Bosl2Solid</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="o">...</span><span class="p">]]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""(origin, size) of one solid's AABB, or None if it exposes no usable one.</span>
 
 <span class="sd">    `Bosl2Solid.bounds()` already answers in (position, size) form and is the</span>
@@ -642,7 +642,7 @@
         <span class="k">return</span> <span class="kc">None</span>
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">_export_3mf</span><span class="p">(</span><span class="n">payload</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_export_3mf</span><span class="p">(</span><span class="n">payload</span><span class="p">:</span> <span class="n">Bosl2Solid</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="n">Bosl2Solid</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Write a 3MF, returning False when no geometry backend is available."""</span>
     <span class="k">if</span> <span class="n">payload</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">False</span>

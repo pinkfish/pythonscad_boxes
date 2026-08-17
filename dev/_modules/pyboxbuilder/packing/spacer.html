@@ -318,7 +318,12 @@
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Sequence</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span>
+
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.packing.layout</span><span class="w"> </span><span class="kn">import</span> <span class="n">Placement</span>
 
 <span class="n">EPSILON</span> <span class="o">=</span> <span class="mf">0.01</span>
 <span class="sd">"""Coordinates closer than this are the same plane."""</span>
@@ -396,7 +401,9 @@
 <span class="c1"># --------------------------------------------------------------------- sweep</span>
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">_plane_grid</span><span class="p">(</span><span class="n">container</span><span class="p">,</span> <span class="n">placements</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]]:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_plane_grid</span><span class="p">(</span>
+    <span class="n">container</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="n">placements</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Placement</span><span class="p">]</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]]:</span>
 <span class="w">    </span><span class="sd">"""Return the sorted X/Y/Z planes bounding every box and the container itself."""</span>
     <span class="n">axes</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">set</span><span class="p">[</span><span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[{</span><span class="mf">0.0</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">container</span><span class="p">[</span><span class="n">i</span><span class="p">])}</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">)]</span>
     <span class="k">for</span> <span class="n">placement</span> <span class="ow">in</span> <span class="n">placements</span><span class="p">:</span>
@@ -409,7 +416,9 @@
     <span class="p">)</span>
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">_occupancy</span><span class="p">(</span><span class="n">planes</span><span class="p">,</span> <span class="n">placements</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">bool</span><span class="p">]]]:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_occupancy</span><span class="p">(</span>
+    <span class="n">planes</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]],</span> <span class="n">placements</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Placement</span><span class="p">]</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">bool</span><span class="p">]]]:</span>
 <span class="w">    </span><span class="sd">"""Mark every grid cell that lies inside a placed box."""</span>
     <span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">,</span> <span class="n">zs</span> <span class="o">=</span> <span class="n">planes</span>
     <span class="n">nx</span><span class="p">,</span> <span class="n">ny</span><span class="p">,</span> <span class="n">nz</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">xs</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">ys</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">zs</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
@@ -430,7 +439,11 @@
     <span class="k">return</span> <span class="n">occupied</span>
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">_grow</span><span class="p">(</span><span class="n">taken</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">counts</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_grow</span><span class="p">(</span>
+    <span class="n">taken</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">bool</span><span class="p">]]],</span>
+    <span class="n">start</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span>
+    <span class="n">counts</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">"""Grow the largest cell box from `start`: +x as far as it goes, then +y, then +z."""</span>
     <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span> <span class="o">=</span> <span class="n">start</span>
     <span class="n">nx</span><span class="p">,</span> <span class="n">ny</span><span class="p">,</span> <span class="n">nz</span> <span class="o">=</span> <span class="n">counts</span>
@@ -454,7 +467,9 @@
 
 <div class="viewcode-block" id="sweep_free_space">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.packing.spacer.sweep_free_space.html#pyboxbuilder.packing.spacer.sweep_free_space">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">sweep_free_space</span><span class="p">(</span><span class="n">container</span><span class="p">,</span> <span class="n">placements</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Void</span><span class="p">]:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">sweep_free_space</span><span class="p">(</span>
+    <span class="n">container</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="n">placements</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Placement</span><span class="p">]</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Void</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">"""Decompose the space no placement occupies into boxes, largest first.</span>
 
 <span class="sd">    Taking the biggest box available at each step is what keeps a big void in one</span>
@@ -481,7 +496,7 @@
     <span class="n">taken</span> <span class="o">=</span> <span class="n">_occupancy</span><span class="p">(</span><span class="n">planes</span><span class="p">,</span> <span class="n">placements</span><span class="p">)</span>
     <span class="n">largest_first</span> <span class="o">=</span> <span class="n">counts</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">counts</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">counts</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">MAX_GRID_CELLS</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">void_from</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Void</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">void_from</span><span class="p">(</span><span class="n">start</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="n">end</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Void</span><span class="p">:</span>
         <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span> <span class="o">=</span> <span class="n">start</span>
         <span class="n">i2</span><span class="p">,</span> <span class="n">j2</span><span class="p">,</span> <span class="n">k2</span> <span class="o">=</span> <span class="n">end</span>
         <span class="k">return</span> <span class="n">Void</span><span class="p">(</span>
@@ -595,7 +610,7 @@
 <span class="c1"># -------------------------------------------------- rectilinear merge (FR-018)</span>
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">_polygon_area</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_polygon_area</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="o">...</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.paths</span><span class="w"> </span><span class="kn">import</span> <span class="n">polygon_area</span>
 
     <span class="k">return</span> <span class="n">polygon_area</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
@@ -701,7 +716,7 @@
 
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">_drop_collinear</span><span class="p">(</span><span class="n">points</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="o">...</span><span class="p">]:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_drop_collinear</span><span class="p">(</span><span class="n">points</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="o">...</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">"""Remove points that sit in the middle of a straight run."""</span>
     <span class="n">kept</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">point</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">points</span><span class="p">):</span>
@@ -809,8 +824,8 @@
 <div class="viewcode-block" id="generate_spacer_voids">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.packing.spacer.generate_spacer_voids.html#pyboxbuilder.packing.spacer.generate_spacer_voids">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">generate_spacer_voids</span><span class="p">(</span>
-    <span class="n">container</span><span class="p">,</span>
-    <span class="n">placements</span><span class="p">,</span>
+    <span class="n">container</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
+    <span class="n">placements</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Placement</span><span class="p">],</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">clearance</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
     <span class="n">min_dim</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">MIN_SPACER_DIM</span><span class="p">,</span>
@@ -840,12 +855,12 @@
 <div class="viewcode-block" id="generate_spacer_placements">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.packing.spacer.generate_spacer_placements.html#pyboxbuilder.packing.spacer.generate_spacer_placements">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">generate_spacer_placements</span><span class="p">(</span>
-    <span class="n">container</span><span class="p">,</span>
-    <span class="n">placements</span><span class="p">,</span>
+    <span class="n">container</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
+    <span class="n">placements</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Placement</span><span class="p">],</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">clearance</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
     <span class="n">min_dim</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">MIN_SPACER_DIM</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Placement</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">"""`generate_spacer_voids` as `Placement`s named `spacer_1..spacer_N`."""</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.packing.layout</span><span class="w"> </span><span class="kn">import</span> <span class="n">Placement</span>
 

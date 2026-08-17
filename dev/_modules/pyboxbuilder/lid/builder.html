@@ -302,7 +302,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">fields</span><span class="p">,</span> <span class="n">replace</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Any</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">LabelMode</span><span class="p">,</span> <span class="n">PatternType</span>
 
@@ -386,7 +386,7 @@
 
 <div class="viewcode-block" id="LidBuilder.titled">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.lid.builder.LidBuilder.html#pyboxbuilder.LidBuilder.titled">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">titled</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">overrides</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LidBuilder</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">titled</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">overrides</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LidBuilder</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Return this lid style, carrying a particular box's text.</span>
 
 <span class="sd">        Args:</span>
@@ -452,7 +452,7 @@
         <span class="k">return</span> <span class="n">replace</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">override</span><span class="o">.</span><span class="n">_stated</span><span class="p">(),</span> <span class="n">mmu_label</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">single_label</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></div>
 
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">_stated</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_stated</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">"""Return the fields this override actually names.</span>
 
 <span class="sd">        A `LidBuilder` used as an override is a sparse record: every field</span>

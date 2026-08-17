@@ -309,6 +309,8 @@
 <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2.shapes3d</span><span class="w"> </span><span class="kn">import</span> <span class="n">Bosl2Solid</span>
 
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.features</span><span class="w"> </span><span class="kn">import</span> <span class="n">Closure</span>
+
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">BoxTypeBase</span><span class="p">,</span> <span class="n">Interior</span>
 
@@ -339,7 +341,7 @@
         <span class="n">lt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">lid_thickness</span>
         <span class="k">return</span> <span class="n">replace</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">spec</span><span class="o">.</span><span class="n">height</span> <span class="o">-</span> <span class="n">lt</span><span class="p">)</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">_closure</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_closure</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Closure</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Both halves of the knuckle hinge, on one shared pin axis."""</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.features</span><span class="w"> </span><span class="kn">import</span> <span class="n">filament_hinge</span>
 
@@ -352,7 +354,7 @@
 
 <div class="viewcode-block" id="HingeBox.interior_mask">
 <a class="viewcode-back" href="../../../../_autosummary/pyboxbuilder.box.types.hinge.HingeBox.html#pyboxbuilder.box.types.hinge.HingeBox.interior_mask">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">interior_mask</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">interior_mask</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Return the interior, less the room the hinge takes up inside it.</span>
 
 <span class="sd">        The hinge sits within the box's outline, so its barrel and webs stand</span>

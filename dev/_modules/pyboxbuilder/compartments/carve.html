@@ -329,6 +329,7 @@
     <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2.shapes3d</span><span class="w"> </span><span class="kn">import</span> <span class="n">Bosl2Solid</span>
 
     <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.builders._base</span><span class="w"> </span><span class="kn">import</span> <span class="n">Cut</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.compartments.builder</span><span class="w"> </span><span class="kn">import</span> <span class="n">CompartmentBuilder</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.compartments.layout</span><span class="w"> </span><span class="kn">import</span> <span class="n">CompartmentPlacement</span>
 
 
@@ -561,11 +562,11 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">build_contents</span><span class="p">(</span>
     <span class="n">placements</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">CompartmentPlacement</span><span class="p">],</span>
     <span class="n">interior</span><span class="p">:</span> <span class="n">Interior</span><span class="p">,</span>
-    <span class="n">builders</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">builders</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">CompartmentBuilder</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">clip</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="n">top_z</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">default_side</span><span class="p">:</span> <span class="n">ScoopSide</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">wall_tops</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">wall_tops</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="n">ScoopSide</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">mask</span><span class="p">:</span> <span class="n">Bosl2Solid</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Union the cutouts for every placed compartment. None when there are none.</span>

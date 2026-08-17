@@ -321,6 +321,8 @@
 
 <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.interior</span><span class="w"> </span><span class="kn">import</span> <span class="n">Interior</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.builders._base</span><span class="w"> </span><span class="kn">import</span> <span class="n">BoxBuilder</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.project</span><span class="w"> </span><span class="kn">import</span> <span class="n">Project</span>
 
 <span class="n">WIGGLE_MM</span> <span class="o">=</span> <span class="mf">0.2</span>
 <span class="sd">"""Default clearance between two printed parts that have to fit together."""</span>
@@ -570,7 +572,9 @@
 
 <div class="viewcode-block" id="build_spec">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.spec.build_spec.html#pyboxbuilder.box.spec.build_spec">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">build_spec</span><span class="p">(</span><span class="n">project</span><span class="p">,</span> <span class="n">builder</span><span class="p">,</span> <span class="n">size</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">BoxSpec</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">build_spec</span><span class="p">(</span>
+    <span class="n">project</span><span class="p">:</span> <span class="n">Project</span><span class="p">,</span> <span class="n">builder</span><span class="p">:</span> <span class="n">BoxBuilder</span><span class="p">,</span> <span class="n">size</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BoxSpec</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Assemble the one description this box is built from.</span>
 
 <span class="sd">    The single place a `BoxSpec` is made, so a previewed box and an exported</span>
@@ -625,7 +629,7 @@
 
 <div class="viewcode-block" id="describe">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.spec.describe.html#pyboxbuilder.box.spec.describe">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">describe</span><span class="p">(</span><span class="n">builder</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">describe</span><span class="p">(</span><span class="n">builder</span><span class="p">:</span> <span class="n">BoxBuilder</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">object</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">"""Return a JSON-serialisable description of everything that shapes a box.</span>
 
 <span class="sd">    Used to fingerprint an exported piece (FR-031): two runs of an unchanged</span>
@@ -639,7 +643,7 @@
 <span class="sd">        its lid decoration.</span>
 
 <span class="sd">    """</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">plain</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">field_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">plain</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">field_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Reduce a value to something `json.dumps(default=str)` compares."""</span>
         <span class="k">if</span> <span class="n">field_name</span> <span class="o">==</span> <span class="s2">"shape_file"</span> <span class="ow">and</span> <span class="n">value</span><span class="p">:</span>
             <span class="c1"># A silhouette's *contents* shape the box, not the path to it.</span>

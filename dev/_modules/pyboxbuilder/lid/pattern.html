@@ -317,7 +317,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">random</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Callable</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Iterator</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">PatternType</span>
@@ -404,7 +404,9 @@
 
 <span class="c1"># ── Cell placement ────────────────────────────────────────────────────</span>
 
-<span class="k">def</span><span class="w"> </span><span class="nf">_grid_cells</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">spacing</span><span class="p">,</span> <span class="n">stagger</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_grid_cells</span><span class="p">(</span>
+    <span class="n">width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">spacing</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">stagger</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
 <span class="w">    </span><span class="sd">"""Centres of every cell whose hole fits whole inside the lid.</span>
 
 <span class="sd">    Args:</span>
@@ -432,7 +434,13 @@
         <span class="n">row</span> <span class="o">+=</span> <span class="mi">1</span>
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">_punch</span><span class="p">(</span><span class="n">shape_at</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">spacing</span><span class="p">,</span> <span class="n">stagger</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_punch</span><span class="p">(</span>
+    <span class="n">shape_at</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="n">Bosl2Solid</span><span class="p">],</span>
+    <span class="n">width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">spacing</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">stagger</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Union one hole per cell.</span>
 
 <span class="sd">    Args:</span>
@@ -453,7 +461,9 @@
     <span class="k">return</span> <span class="n">holes</span>
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">_prism</span><span class="p">(</span><span class="n">sides</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">across_flats</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">thickness</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">spin</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_prism</span><span class="p">(</span>
+    <span class="n">sides</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">across_flats</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">thickness</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">spin</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""One regular-polygon hole, tall enough to break through the lid."""</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">regular_prism</span>
 
@@ -471,7 +481,9 @@
 
 <span class="c1"># ── Fills ─────────────────────────────────────────────────────────────</span>
 
-<span class="k">def</span><span class="w"> </span><span class="nf">_square_fill</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">thickness</span><span class="p">,</span> <span class="n">spacing</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_square_fill</span><span class="p">(</span>
+    <span class="n">width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">thickness</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">spacing</span><span class="p">:</span> <span class="nb">float</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Square holes on a square grid."""</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">cuboid</span>
 
@@ -484,7 +496,9 @@
     <span class="p">)</span>
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">_circle_fill</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">thickness</span><span class="p">,</span> <span class="n">spacing</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_circle_fill</span><span class="p">(</span>
+    <span class="n">width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">thickness</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">spacing</span><span class="p">:</span> <span class="nb">float</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Round holes on a square grid."""</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">cylinder</span>
 
@@ -498,7 +512,9 @@
     <span class="p">)</span>
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">_hex_fill</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">thickness</span><span class="p">,</span> <span class="n">spacing</span><span class="p">,</span> <span class="n">dense</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_hex_fill</span><span class="p">(</span>
+    <span class="n">width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">thickness</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">spacing</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">dense</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Hexagonal holes in staggered rows — a honeycomb."""</span>
     <span class="n">step</span> <span class="o">=</span> <span class="n">spacing</span> <span class="o">*</span> <span class="p">(</span><span class="n">DENSE_SPACING_SHARE</span> <span class="k">if</span> <span class="n">dense</span> <span class="k">else</span> <span class="mf">1.0</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">_punch</span><span class="p">(</span>
@@ -509,11 +525,13 @@
     <span class="p">)</span>
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">_triangle_fill</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">thickness</span><span class="p">,</span> <span class="n">spacing</span><span class="p">,</span> <span class="n">dense</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_triangle_fill</span><span class="p">(</span>
+    <span class="n">width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">thickness</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">spacing</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">dense</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Triangular holes, alternating point-up and point-down along each row."""</span>
     <span class="n">step</span> <span class="o">=</span> <span class="n">spacing</span> <span class="o">*</span> <span class="p">(</span><span class="n">DENSE_SPACING_SHARE</span> <span class="k">if</span> <span class="n">dense</span> <span class="k">else</span> <span class="mf">1.0</span><span class="p">)</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">shape</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">shape</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
         <span class="c1"># Alternating spin is what makes a triangle grid read as one, rather</span>
         <span class="c1"># than as rows of identical wedges.</span>
         <span class="n">spin</span> <span class="o">=</span> <span class="mf">180.0</span> <span class="k">if</span> <span class="nb">round</span><span class="p">(</span><span class="n">x</span> <span class="o">/</span> <span class="n">step</span><span class="p">)</span> <span class="o">%</span> <span class="mi">2</span> <span class="k">else</span> <span class="mf">0.0</span>
@@ -524,7 +542,9 @@
     <span class="k">return</span> <span class="n">_punch</span><span class="p">(</span><span class="n">shape</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">step</span><span class="p">)</span>
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">_octagon_fill</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">thickness</span><span class="p">,</span> <span class="n">spacing</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_octagon_fill</span><span class="p">(</span>
+    <span class="n">width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">thickness</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">spacing</span><span class="p">:</span> <span class="nb">float</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Octagonal holes on a square grid, leaving small square webs."""</span>
     <span class="k">return</span> <span class="n">_punch</span><span class="p">(</span>
         <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">_prism</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="n">spacing</span> <span class="o">*</span> <span class="n">HOLE_SHARE</span><span class="p">,</span> <span class="n">thickness</span><span class="p">,</span> <span class="mf">22.5</span><span class="p">)</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span>
@@ -545,7 +565,9 @@
 <span class="sd">"""How far a cell may wander from its grid point, as a share of the spacing."""</span>
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">_voronoi_fill</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">thickness</span><span class="p">,</span> <span class="n">spacing</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_voronoi_fill</span><span class="p">(</span>
+    <span class="n">width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">thickness</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">spacing</span><span class="p">:</span> <span class="nb">float</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Round holes of varying size on a jittered grid — an organic scatter."""</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">cylinder</span>
 
@@ -563,7 +585,7 @@
     <span class="k">return</span> <span class="n">holes</span>
 
 
-<span class="n">_PATTERN_FILLS</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="n">PatternType</span><span class="p">,</span> <span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+<span class="n">_PATTERN_FILLS</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="n">PatternType</span><span class="p">,</span> <span class="n">Callable</span><span class="p">[[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="n">Bosl2Solid</span> <span class="o">|</span> <span class="kc">None</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{</span>
     <span class="n">PatternType</span><span class="o">.</span><span class="n">NONE</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">w</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">s</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">PatternType</span><span class="o">.</span><span class="n">SQUARE</span><span class="p">:</span> <span class="n">_square_fill</span><span class="p">,</span>
     <span class="n">PatternType</span><span class="o">.</span><span class="n">CIRCLE</span><span class="p">:</span> <span class="n">_circle_fill</span><span class="p">,</span>

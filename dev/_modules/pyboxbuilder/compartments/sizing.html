@@ -308,7 +308,12 @@
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Sequence</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span>
+
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.compartments.layout</span><span class="w"> </span><span class="kn">import</span> <span class="n">CompartmentPlacement</span>
 
 <span class="n">PRECISION</span> <span class="o">=</span> <span class="mi">1</span>
 <span class="sd">"""Dimensional output is held to 0.1 mm (FR-003) — never rounded to whole mm."""</span>
@@ -396,13 +401,15 @@
 
 <div class="viewcode-block" id="rows_from_placements">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.compartments.sizing.rows_from_placements.html#pyboxbuilder.compartments.sizing.rows_from_placements">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">rows_from_placements</span><span class="p">(</span><span class="n">placements</span><span class="p">,</span> <span class="n">gap</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">2.0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">rows_from_placements</span><span class="p">(</span>
+    <span class="n">placements</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">CompartmentPlacement</span><span class="p">],</span> <span class="n">gap</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">2.0</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
 <span class="w">    </span><span class="sd">"""Group `CompartmentPlacement`s into rows by their y coordinate.</span>
 
 <span class="sd">    Two placements share a row when their y origins are within `gap` of each</span>
 <span class="sd">    other, which is how the shelf packer builds them.</span>
 <span class="sd">    """</span>
-    <span class="n">rows</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">rows</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="n">CompartmentPlacement</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">placement</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">placements</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">p</span><span class="p">:</span> <span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">p</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">0</span><span class="p">])):</span>
         <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">:</span>
             <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">placement</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">&lt;=</span> <span class="n">gap</span><span class="p">:</span>

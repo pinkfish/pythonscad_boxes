@@ -310,8 +310,14 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">hashlib</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Sequence</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">Color</span>
+
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2.shapes3d</span><span class="w"> </span><span class="kn">import</span> <span class="n">Bosl2Solid</span>
+
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.project</span><span class="w"> </span><span class="kn">import</span> <span class="n">Piece</span>
 
 <span class="c1"># Saturation/value for generated box hues. Chosen so every hue reads as a</span>
 <span class="c1"># distinct, solid colour on screen rather than a pastel wash.</span>
@@ -443,7 +449,7 @@
 
 <div class="viewcode-block" id="layer_heights">
 <a class="viewcode-back" href="../../_autosummary/pyboxbuilder.preview.layer_heights.html#pyboxbuilder.preview.layer_heights">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">layer_heights</span><span class="p">(</span><span class="n">placements</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">layer_heights</span><span class="p">(</span><span class="n">placements</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Piece</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">"""Return the distinct Z levels boxes rest at, lowest first.</span>
 
 <span class="sd">    A "layer" is a height something sits at, so two boxes sharing a Z origin</span>
@@ -462,7 +468,7 @@
 
 <div class="viewcode-block" id="remove_top_layers">
 <a class="viewcode-back" href="../../_autosummary/pyboxbuilder.preview.remove_top_layers.html#pyboxbuilder.preview.remove_top_layers">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">remove_top_layers</span><span class="p">(</span><span class="n">placements</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">count</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">remove_top_layers</span><span class="p">(</span><span class="n">placements</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Piece</span><span class="p">],</span> <span class="n">count</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Piece</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">"""Drop the top ``count`` vertical layers from a set of placements.</span>
 
 <span class="sd">    A box is removed when its **top surface** rises above the cut, so a tall</span>
@@ -507,7 +513,7 @@
 
     <span class="n">label</span><span class="p">:</span> <span class="nb">str</span>
 <span class="w">    </span><span class="sd">"""The piece's box label; lids and spacers keep their box's label."""</span>
-    <span class="n">solid</span><span class="p">:</span> <span class="nb">object</span>
+    <span class="n">solid</span><span class="p">:</span> <span class="n">Bosl2Solid</span>
 <span class="w">    </span><span class="sd">"""The built geometry, already translated to its packed position."""</span>
     <span class="n">color</span><span class="p">:</span> <span class="n">Color</span>
 <span class="w">    </span><span class="sd">"""The colour to draw this piece in."""</span>

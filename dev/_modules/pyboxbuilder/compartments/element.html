@@ -322,6 +322,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.rounding</span><span class="w"> </span><span class="kn">import</span> <span class="n">vertical_edges</span>
 
 <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">Region</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2.shapes3d</span><span class="w"> </span><span class="kn">import</span> <span class="n">Bosl2Solid</span>
 
 
@@ -659,7 +660,7 @@
 
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">_svg_region</span><span class="p">(</span><span class="n">shape_file</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_svg_region</span><span class="p">(</span><span class="n">shape_file</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Region</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Parse an SVG once and reuse it — a pack repeats the same file many times."""</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">Region</span>
 
@@ -670,7 +671,7 @@
     <span class="k">return</span> <span class="n">region</span>
 
 
-<span class="n">_SVG_CACHE</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">_SVG_CACHE</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Region</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
 
 
 <span class="n">PULL_OUT_DEPTH_SHARE</span> <span class="o">=</span> <span class="mf">0.5</span>
@@ -757,7 +758,7 @@
 
 <div class="viewcode-block" id="union_all">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.compartments.element.union_all.html#pyboxbuilder.union_all">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">union_all</span><span class="p">(</span><span class="n">solids</span><span class="p">:</span> <span class="nb">list</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">union_all</span><span class="p">(</span><span class="n">solids</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Bosl2Solid</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Union a list of solids with a balanced fold.</span>
 
 <span class="sd">    A left fold builds a chain as deep as the list, which the mesher pays for on</span>

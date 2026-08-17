@@ -329,7 +329,11 @@
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Iterator</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
+
+<span class="n">Region</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">bool</span><span class="p">]</span>
+<span class="sd">"""One free region: ``(x, y, z, w, l, h, full)`` (see the region comment below)."""</span>
 
 <span class="n">EPS</span> <span class="o">=</span> <span class="mf">1e-9</span>
 <span class="sd">"""Comparison tolerance in mm. Well under any printable dimension."""</span>
@@ -367,7 +371,9 @@
 
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">_orientations</span><span class="p">(</span><span class="n">size</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="n">no_rotate</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_orientations</span><span class="p">(</span>
+    <span class="n">size</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="n">no_rotate</span><span class="p">:</span> <span class="nb">bool</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="nb">bool</span><span class="p">]]:</span>
 <span class="w">    </span><span class="sd">"""Return the ways a box may be turned.</span>
 
 <span class="sd">    Only the quarter turn about Z: a box printed with its lid on top has to stay</span>
@@ -433,13 +439,13 @@
     <span class="p">)</span>
 
     <span class="n">nodes</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="n">dead</span><span class="p">:</span> <span class="nb">set</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+    <span class="n">dead</span><span class="p">:</span> <span class="nb">set</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">bool</span><span class="p">],</span> <span class="o">...</span><span class="p">],</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">]]]</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">usable</span><span class="p">(</span><span class="n">region</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">usable</span><span class="p">(</span><span class="n">region</span><span class="p">:</span> <span class="n">Region</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Whether a region is big enough to be worth keeping in the pool."""</span>
         <span class="k">return</span> <span class="nb">min</span><span class="p">(</span><span class="n">region</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">region</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="n">region</span><span class="p">[</span><span class="mi">5</span><span class="p">])</span> <span class="o">&gt;=</span> <span class="n">smallest_dim</span> <span class="o">-</span> <span class="n">EPS</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">splits</span><span class="p">(</span><span class="n">region</span><span class="p">,</span> <span class="n">size</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">splits</span><span class="p">(</span><span class="n">region</span><span class="p">:</span> <span class="n">Region</span><span class="p">,</span> <span class="n">size</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="n">Region</span><span class="p">,</span> <span class="o">...</span><span class="p">]]:</span>
 <span class="w">        </span><span class="sd">"""Every way of cutting `region` once a box sits in its origin corner.</span>
 
 <span class="sd">        Yields tuples of sub-regions, or None for a split that is not allowed.</span>
@@ -494,7 +500,9 @@
                     <span class="k">continue</span>
                 <span class="k">yield</span> <span class="p">(</span><span class="o">*</span><span class="n">layer_sides</span><span class="p">,</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">+</span> <span class="n">bh</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">gap_h</span><span class="p">,</span> <span class="kc">False</span><span class="p">))</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">solve</span><span class="p">(</span><span class="n">regions</span><span class="p">,</span> <span class="n">remaining</span><span class="p">,</span> <span class="n">need</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">solve</span><span class="p">(</span>
+        <span class="n">regions</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Region</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="n">remaining</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="n">need</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="nb">bool</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">nonlocal</span> <span class="n">nodes</span>
         <span class="n">nodes</span> <span class="o">+=</span> <span class="mi">1</span>
         <span class="k">if</span> <span class="n">nodes</span> <span class="o">&gt;</span> <span class="n">node_budget</span><span class="p">:</span>

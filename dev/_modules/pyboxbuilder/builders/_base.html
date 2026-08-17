@@ -302,7 +302,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">ClassVar</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">ClassVar</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">Color</span>
 
@@ -491,7 +491,7 @@
         <span class="n">thickness</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">CARD_THICKNESS_MM</span><span class="p">,</span>
         <span class="n">slack</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">CARD_SLACK_MM</span><span class="p">,</span>
         <span class="n">cut</span><span class="p">:</span> <span class="n">Cut</span> <span class="o">|</span> <span class="n">FingerCut</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">FingerCut</span><span class="o">.</span><span class="n">THROUGH_FLOOR</span><span class="p">,</span>
-        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CompartmentBuilder</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Add a well sized to hold a stack of cards.</span>
 
@@ -668,7 +668,7 @@
 <div class="viewcode-block" id="Cut.scoop">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.html#pyboxbuilder.Cut.scoop">[docs]</a>
     <span class="nd">@classmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">scoop</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">**</span><span class="n">fields</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Cut</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">scoop</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">**</span><span class="n">fields</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Cut</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Return a dip in the side of the well, leaving its base solid."""</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="n">FingerCut</span><span class="o">.</span><span class="n">SCOOP</span><span class="p">,</span> <span class="o">**</span><span class="n">fields</span><span class="p">)</span></div>
 
@@ -676,7 +676,7 @@
 <div class="viewcode-block" id="Cut.through_floor">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.html#pyboxbuilder.Cut.through_floor">[docs]</a>
     <span class="nd">@classmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">through_floor</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">**</span><span class="n">fields</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Cut</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">through_floor</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">**</span><span class="n">fields</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Cut</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Return a hole through the box's base, for a well something is stacked in."""</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="n">FingerCut</span><span class="o">.</span><span class="n">THROUGH_FLOOR</span><span class="p">,</span> <span class="o">**</span><span class="n">fields</span><span class="p">)</span></div>
 

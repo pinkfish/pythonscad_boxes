@@ -323,6 +323,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span>
 
 <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.export.result</span><span class="w"> </span><span class="kn">import</span> <span class="n">ExportResult</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.project</span><span class="w"> </span><span class="kn">import</span> <span class="n">Project</span>
 
 <span class="n">FROM_MAKE_ENV</span> <span class="o">=</span> <span class="s2">"FROM_MAKE"</span>
@@ -421,7 +422,7 @@
 
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">_report</span><span class="p">(</span><span class="n">project</span><span class="p">:</span> <span class="n">Project</span><span class="p">,</span> <span class="n">result</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_report</span><span class="p">(</span><span class="n">project</span><span class="p">:</span> <span class="n">Project</span><span class="p">,</span> <span class="n">result</span><span class="p">:</span> <span class="n">ExportResult</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Print what an export did."""</span>
     <span class="nb">print</span><span class="p">(</span>
         <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">project</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">total_files</span><span class="si">}</span><span class="s2"> files "</span>

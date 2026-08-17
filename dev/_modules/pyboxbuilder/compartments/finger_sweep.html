@@ -423,7 +423,7 @@
     <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="n">rounding_edge</span><span class="p">,</span> <span class="p">(</span><span class="n">wall_thickness</span> <span class="o">+</span> <span class="n">fudge</span> <span class="o">-</span> <span class="mf">0.01</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">))</span></div>
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_sweep_through_wall</span><span class="p">(</span>
-    <span class="n">outline</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span>
+    <span class="n">outline</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]],</span>
     <span class="n">comp_width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">comp_length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">side</span><span class="p">:</span> <span class="n">ScoopSide</span><span class="p">,</span>
