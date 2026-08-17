@@ -10,9 +10,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # Must match the Python the PythonSCAD app bundles (3.14): the render
+      # subprocess imports pybosl2/shapely from this interpreter's site-packages,
+      # and shapely ships version-specific compiled extensions.
       - uses: actions/setup-python@v5
         with:
-          python-version: "3.12"
+          python-version: "3.14"
 
       - name: Install dependencies
         run: |

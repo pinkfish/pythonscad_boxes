@@ -87,8 +87,23 @@ def find_bosl2_scad_dir() -> str | None:
 
 
 def _venv_site_packages() -> str | None:
+    """The site-packages dir the PythonSCAD subprocess must import pybosl2 from.
+
+    The app runs its own embedded CPython, so it does not see the packages the
+    test interpreter has installed unless we put them on its ``sys.path``.
+    Locally that is a ``.venv``; in CI there is no venv, so fall back to the
+    current interpreter's own site-packages. Both must match the app's Python
+    minor version, or pybosl2's compiled deps (shapely) will not load.
+    """
     hits = list(PROJECT_ROOT.glob(".venv/lib/*/site-packages"))
-    return str(hits[0]) if hits else None
+    if hits:
+        return str(hits[0])
+    import sysconfig
+
+    purelib = sysconfig.get_paths().get("purelib")
+    if purelib and Path(purelib).exists():
+        return purelib
+    return None
 
 
 def render_available() -> bool:
