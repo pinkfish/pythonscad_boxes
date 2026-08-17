@@ -172,7 +172,7 @@ project = Project(
     generate_spacers=True,
 )
 
-LEAF_PATTERN = PatternBuilder(type=PatternType.LEAF, spacing=14.0)
+LEAF_PATTERN = PatternBuilder(type=PatternType.LEAF_TESSELLATION, spacing=14.0)
 """Leaves, for the game they are named after.
 
 This said `LEAF` in the original toolkit and cut hexagons, because the catalog

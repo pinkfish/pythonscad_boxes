@@ -3,12 +3,16 @@
 
 from collections.abc import Sequence
 from dataclasses import dataclass, field
-from typing import TYPE_CHECKING, Any
+from typing import Any
 
 from pyboxbuilder.box.interior import Interior
 
-if TYPE_CHECKING:
-    from pyboxbuilder.compartments.element import CompartmentElement
+# Imported for real rather than under TYPE_CHECKING: `CompartmentPlacement`
+# annotates a field with it, and Sphinx resolves annotations through
+# `get_type_hints`, which needs the name in this module's namespace. Deferring
+# it made the docs build die with a NameError instead of documenting the class.
+# There is no cycle to avoid here — `element` does not import this module.
+from pyboxbuilder.compartments.element import CompartmentElement
 
 CompartmentSpec = tuple[
     str, float, float, float,
