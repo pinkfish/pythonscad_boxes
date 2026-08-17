@@ -5,11 +5,35 @@ from __future__ import annotations
 
 import hashlib
 import json
+from dataclasses import dataclass
 from pathlib import Path
 from typing import TYPE_CHECKING
 
+from pyboxbuilder.packing.layout import Placement
+
 if TYPE_CHECKING:
     from pyboxbuilder.packing.layout import BoxPacking
+
+
+@dataclass(frozen=True)
+class LayerPage:
+    """One page of the packing guide: the layer it shows, and what is under it.
+
+    A record rather than a dict, so a typo in a key is an error at the line
+    that made it rather than a `KeyError` three hundred lines later — and so
+    the placements keep their type on the way through.
+    """
+
+    name: str
+    """The layer's name, as printed on the page."""
+    active_placements: list[Placement]
+    """Boxes belonging to this layer, drawn in full colour."""
+    lower_placements: list[Placement]
+    """Boxes already packed beneath it, drawn in light grey for context."""
+    active_spacers: list[Placement]
+    """Spacer trays belonging to this layer."""
+    lower_spacers: list[Placement]
+    """Spacer trays beneath it."""
 
 
 def generate_layout_pdf(
@@ -151,7 +175,10 @@ def generate_layout_pdf(
                     continue
                 ox, oy, oz = other.position
                 ow, ol, oh = other.size
-                if oz >= z_top - 0.5 and (ox < x + bw - 1.0 and ox + ow > x + 1.0) and (oy < y + bl - 1.0 and oy + ol > y + 1.0):
+                sits_above = oz >= z_top - 0.5
+                overlaps_x = ox < x + bw - 1.0 and ox + ow > x + 1.0
+                overlaps_y = oy < y + bl - 1.0 and oy + ol > y + 1.0
+                if sits_above and overlaps_x and overlaps_y:
                     is_covered = True
                     break
                     
@@ -190,10 +217,13 @@ def generate_layout_pdf(
             if index_str:
                 pdf.set_fill_color(200, 50, 50)
                 pdf.set_draw_color(40, 40, 40)
-                pdf.rect((cx_shifted if is_covered else cx) - tw/2 - 5.5, (cy_shifted if is_covered else cy) - th/2 - 1, 4.5, th + 2, style="DF")
+                label_x = cx_shifted if is_covered else cx
+                label_y = cy_shifted if is_covered else cy
+                pdf.rect(label_x - tw / 2 - 5.5, label_y - th / 2 - 1,
+                         4.5, th + 2, style="DF")
                 pdf.set_text_color(255, 255, 255)
                 pdf.set_font("Helvetica", "B", 7)
-                pdf.text((cx_shifted if is_covered else cx) - tw/2 - 4.5, (cy_shifted if is_covered else cy) + th/2 - 1.0, index_str)
+                pdf.text(label_x - tw / 2 - 4.5, label_y + th / 2 - 1.0, index_str)
 
     # Group placements dynamically by Z coordinates into 3 logical layers
     H = game_box_size[2]
@@ -203,27 +233,25 @@ def generate_layout_pdf(
         ("Top Layer", lambda z: z >= H * 0.7, lambda z: z < H * 0.7),
     ]
 
-    active_pages = []
+    active_pages: list[LayerPage] = []
     for name, is_active, is_lower in layer_defs:
-        active_p = [p for p in packing.placements if is_active(p.position[2])]
-        lower_p = [p for p in packing.placements if is_lower(p.position[2])]
-        active_s = [s for s in packing.spacer_placements if is_active(s.position[2])]
-        lower_s = [s for s in packing.spacer_placements if is_lower(s.position[2])]
-        if active_p or active_s:
-            active_pages.append({
-                "name": name,
-                "active_placements": active_p,
-                "lower_placements": lower_p,
-                "active_spacers": active_s,
-                "lower_spacers": lower_s,
-            })
+        page = LayerPage(
+            name=name,
+            active_placements=[p for p in packing.placements if is_active(p.position[2])],
+            lower_placements=[p for p in packing.placements if is_lower(p.position[2])],
+            active_spacers=[s for s in packing.spacer_placements if is_active(s.position[2])],
+            lower_spacers=[s for s in packing.spacer_placements if is_lower(s.position[2])],
+        )
+        if page.active_placements or page.active_spacers:
+            active_pages.append(page)
 
     for step_idx, page in enumerate(active_pages):
         pdf.add_page()
 
         # Page Header
         pdf.set_font("Helvetica", "B", 14)
-        pdf.cell(0, 8, f"Packing Guide: {project_name} - Step {step_idx + 1}: {page['name']}", align="C", new_x="LMARGIN", new_y="NEXT")
+        heading = f"Packing Guide: {project_name} - Step {step_idx + 1}: {page.name}"
+        pdf.cell(0, 8, heading, align="C", new_x="LMARGIN", new_y="NEXT")
         pdf.set_font("Helvetica", "", 9)
         pdf.cell(0, 5, f"Game box: {game_box_size[0]:.0f}x{game_box_size[1]:.0f}x{game_box_size[2]:.0f}mm",
                  align="C", new_x="LMARGIN", new_y="NEXT")
@@ -241,30 +269,31 @@ def generate_layout_pdf(
             pdf.line(*to_pdf(cx, cy, 0), *to_pdf(cx, cy, game_box_size[2]))
         # Top face
         p_top = [to_pdf(0, 0, game_box_size[2]), to_pdf(game_box_size[0], 0, game_box_size[2]),
-                 to_pdf(game_box_size[0], game_box_size[1], game_box_size[2]), to_pdf(0, game_box_size[1], game_box_size[2])]
+                 to_pdf(game_box_size[0], game_box_size[1], game_box_size[2]),
+                 to_pdf(0, game_box_size[1], game_box_size[2])]
         pdf.polygon(p_top, style="D")
 
         # 1. Draw Lower Layer Spacers (background - light gray)
-        for sp in page["lower_spacers"]:
+        for sp in page.lower_spacers:
             x, y, z = sp.position
             sw, sl, sh = sp.size
             draw_box_3d(x, y, z, sw, sl, sh, (240, 240, 240))
 
         # 2. Draw Lower Layer Placements (background context - light gray)
-        for p in page["lower_placements"]:
+        for p in page.lower_placements:
             x, y, z = p.position
             bw, bl, bh = p.size
             draw_box_3d(x, y, z, bw, bl, bh, (220, 220, 220))
 
         # 3. Draw Active Layer Spacers (full gray spacers)
-        for sp in page["active_spacers"]:
+        for sp in page.active_spacers:
             x, y, z = sp.position
             sw, sl, sh = sp.size
             draw_box_3d(x, y, z, sw, sl, sh, (200, 200, 200), "spacer")
 
         # 4. Draw Active Layer Placements (colored)
         # Sort placements by height Z to render bottom active ones first
-        sorted_active = sorted(page["active_placements"], key=lambda p: p.position[2])
+        sorted_active = sorted(page.active_placements, key=lambda p: p.position[2])
         for p in sorted_active:
             x, y, z = p.position
             bw, bl, bh = p.size
@@ -273,10 +302,13 @@ def generate_layout_pdf(
             orig_idx = next(i for i, orig in enumerate(packing.placements) if orig.label == p.label)
             color = colors[orig_idx % len(colors)]
             
-            draw_box_3d(x, y, z, bw, bl, bh, color, p.label, str(orig_idx + 1), page["active_placements"])
+            draw_box_3d(x, y, z, bw, bl, bh, color, p.label, str(orig_idx + 1), page.active_placements)
 
         # 5. Draw 2D Blueprint inset for Box if it has compartments
-        active_compartment_boxes = [p for p in page["active_placements"] if box_map.get(p.label) and box_map[p.label].compartments]
+        active_compartment_boxes = [
+            p for p in page.active_placements
+            if box_map.get(p.label) and box_map[p.label].compartments
+        ]
         if active_compartment_boxes:
             draw_box_blueprint(pdf, box_map[active_compartment_boxes[0].label], 230, 25, scale=0.45)
 

@@ -6,6 +6,7 @@ from __future__ import annotations
 from dataclasses import replace
 from typing import TYPE_CHECKING
 
+from pyboxbuilder.box.base import BoxTypeBase, Interior
 from pyboxbuilder.box.spec import BoxSpec
 
 SLIPOVER_FINGER_MAX_MM = 20.0
@@ -16,9 +17,6 @@ SLIPOVER_FINGER_MIN_RADIUS_MM = 7.0
 
 if TYPE_CHECKING:
     from pybosl2.shapes3d import Bosl2Solid
-
-
-from pyboxbuilder.box.base import BoxTypeBase, Interior
 
 
 class SlipoverBox(BoxTypeBase):

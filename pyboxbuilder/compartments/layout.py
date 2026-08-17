@@ -2,8 +2,40 @@
 """Compartment auto-layout — 2D shelf-based bin packing."""
 
 from dataclasses import dataclass, field
+from typing import Any, Sequence
 
 from pyboxbuilder.box.interior import Interior
+
+CompartmentSpec = tuple[
+    str, float, float, float,
+    str | None, tuple[float, float] | None, tuple[Any, ...],
+]
+"""One compartment as the layout takes it.
+
+``(label, width, length, depth, shape_file, position, elements)``. The short
+forms — a bare ``(label, width, length, depth)`` from `compute_min_box_size`,
+say — are padded by :func:`normalise_compartments` rather than being a second
+shape every reader has to allow for.
+"""
+
+
+def normalise_compartments(
+    compartments: Sequence[Sequence[Any]],
+) -> list[CompartmentSpec]:
+    """Pad every compartment tuple out to the full seven fields.
+
+    Args:
+        compartments: Tuples of four to seven fields, in `CompartmentSpec`
+            order.
+
+    Returns:
+        The same compartments, all seven fields long.
+    """
+    padding: tuple[Any, ...] = (None, None, ())
+    return [
+        (tuple(c) + padding[len(c) - 4:]) if len(c) < 7 else tuple(c)
+        for c in compartments
+    ]
 
 WALL_SPACING_MM = 2.0
 """Wall left between adjacent compartments, and between one and the box wall.
@@ -39,7 +71,7 @@ class CompartmentLayout:
 
 def layout_compartments(
     interior: Interior,
-    compartments: list[tuple[str, float, float, float, str | None, tuple[float, float] | None, tuple | None]] | list[tuple[str, float, float, float]],
+    compartments: Sequence[Sequence[Any]],
     wall_spacing: float = WALL_SPACING_MM,
     no_rotate_labels: set[str] | None = None,
 ) -> CompartmentLayout:
@@ -47,21 +79,10 @@ def layout_compartments(
 
     Handles manual coordinates if position is specified in the compartment tuple.
     """
-    # Convert old 4-tuples, 5-tuples and 6-tuples to 7-tuples for backward compatibility
-    comps_7 = []
-    for c in compartments:
-        if len(c) == 4:
-            comps_7.append((c[0], c[1], c[2], c[3], None, None, ()))
-        elif len(c) == 5:
-            comps_7.append((c[0], c[1], c[2], c[3], c[4], None, ()))
-        elif len(c) == 6:
-            comps_7.append((c[0], c[1], c[2], c[3], c[4], c[5], ()))
-        else:
-            comps_7.append(c)
-    compartments = comps_7
+    comps = normalise_compartments(compartments)
 
     layout = CompartmentLayout()
-    if not compartments:
+    if not comps:
         return layout
 
     no_rotate_labels = no_rotate_labels or set()
@@ -71,7 +92,7 @@ def layout_compartments(
 
     # 1. Process manually placed compartments first
     auto_comps = []
-    for comp in compartments:
+    for comp in comps:
         label, comp_w, comp_l, comp_depth, shape_file, pos, elements = comp
         if pos is not None:
             # Validate fit
@@ -107,8 +128,15 @@ def layout_compartments(
     for label, comp_w, comp_l, comp_depth, shape_file, _, elements in sorted_comps:
         can_rotate = label not in no_rotate_labels
         # Check both normal and rotated orientations
-        fits_normal = (x_cursor + comp_w + wall_spacing <= interior_w) and (y_cursor + comp_l + wall_spacing <= interior_l)
-        fits_rotated = can_rotate and (x_cursor + comp_l + wall_spacing <= interior_w) and (y_cursor + comp_w + wall_spacing <= interior_l)
+        fits_normal = (
+            (x_cursor + comp_w + wall_spacing <= interior_w)
+            and (y_cursor + comp_l + wall_spacing <= interior_l)
+        )
+        fits_rotated = (
+            can_rotate
+            and (x_cursor + comp_l + wall_spacing <= interior_w)
+            and (y_cursor + comp_w + wall_spacing <= interior_l)
+        )
 
         w, l = comp_w, comp_l
         if fits_normal or fits_rotated:
@@ -125,8 +153,15 @@ def layout_compartments(
             current_row_height = 0.0
 
             # Re-evaluate fit in new row
-            fits_normal_new = (x_cursor + comp_w + wall_spacing <= interior_w) and (y_cursor + comp_l + wall_spacing <= interior_l)
-            fits_rotated_new = can_rotate and (x_cursor + comp_l + wall_spacing <= interior_w) and (y_cursor + comp_w + wall_spacing <= interior_l)
+            fits_normal_new = (
+                (x_cursor + comp_w + wall_spacing <= interior_w)
+                and (y_cursor + comp_l + wall_spacing <= interior_l)
+            )
+            fits_rotated_new = (
+                can_rotate
+                and (x_cursor + comp_l + wall_spacing <= interior_w)
+                and (y_cursor + comp_w + wall_spacing <= interior_l)
+            )
 
             if fits_normal_new or fits_rotated_new:
                 if fits_normal_new and fits_rotated_new:
@@ -257,7 +292,7 @@ def pack_compartments_across_bins(
         or None if they cannot be successfully packed.
     """
     sorted_items = sorted(compartments, key=lambda x: x[1] * x[2], reverse=True)
-    bins_content = [[] for _ in bin_sizes]
+    bins_content: list[list[Any]] = [[] for _ in bin_sizes]
 
     def check_fit(bin_idx: int, candidate_list: list) -> bool:
         bin_w, bin_l = bin_sizes[bin_idx]
@@ -267,8 +302,14 @@ def pack_compartments_across_bins(
         current_row_height = 0.0
 
         for _, comp_w, comp_l, _ in candidate_list:
-            fits_normal = (x_cursor + comp_w + local_wall_spacing <= bin_w) and (y_cursor + comp_l + local_wall_spacing <= bin_l)
-            fits_rotated = (x_cursor + comp_l + local_wall_spacing <= bin_w) and (y_cursor + comp_w + local_wall_spacing <= bin_l)
+            fits_normal = (
+                (x_cursor + comp_w + local_wall_spacing <= bin_w)
+                and (y_cursor + comp_l + local_wall_spacing <= bin_l)
+            )
+            fits_rotated = (
+                (x_cursor + comp_l + local_wall_spacing <= bin_w)
+                and (y_cursor + comp_w + local_wall_spacing <= bin_l)
+            )
 
             w, l = comp_w, comp_l
             if fits_normal or fits_rotated:
@@ -282,8 +323,14 @@ def pack_compartments_across_bins(
                 y_cursor += current_row_height + local_wall_spacing
                 current_row_height = 0.0
 
-                fits_normal_new = (x_cursor + comp_w + local_wall_spacing <= bin_w) and (y_cursor + comp_l + local_wall_spacing <= bin_l)
-                fits_rotated_new = (x_cursor + comp_l + local_wall_spacing <= bin_w) and (y_cursor + comp_w + local_wall_spacing <= bin_l)
+                fits_normal_new = (
+                    (x_cursor + comp_w + local_wall_spacing <= bin_w)
+                    and (y_cursor + comp_l + local_wall_spacing <= bin_l)
+                )
+                fits_rotated_new = (
+                    (x_cursor + comp_l + local_wall_spacing <= bin_w)
+                    and (y_cursor + comp_w + local_wall_spacing <= bin_l)
+                )
 
                 if fits_normal_new or fits_rotated_new:
                     if fits_normal_new and fits_rotated_new:

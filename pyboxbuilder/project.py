@@ -14,7 +14,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 from pyboxbuilder.enums import BoxType
 
@@ -23,6 +23,7 @@ if TYPE_CHECKING:
 
     from pyboxbuilder.builders._base import BoxBuilder
     from pyboxbuilder.export.result import ExportResult
+    from pyboxbuilder.packing.layout import BoxPacking
 
 
 @dataclass(frozen=True)
@@ -37,9 +38,12 @@ class Piece:
     """The box label this piece belongs to; a lid keeps its body's label."""
     kind: str
     """One of ``"body"``, ``"lid"`` or ``"spacer"``."""
-    solid: object | None
+    solid: Any | None
     """The built geometry in the piece's own local frame, or ``None`` when the
-    geometry backend was unavailable."""
+    geometry backend was unavailable.
+
+    Typed loosely because pybosl2 ships no `py.typed`, so a solid is untyped
+    from here on however it is declared."""
     size: tuple[float, float, float]
     """The piece's declared ``(width, length, height)`` in mm."""
     position: tuple[float, float, float]
@@ -59,7 +63,7 @@ class Build:
 
     pieces: tuple[Piece, ...]
     """Every body, lid and spacer, in project order."""
-    packing: object | None = None
+    packing: "BoxPacking | None" = None
     """The resolved :class:`BoxPacking`, or ``None`` for a standalone project."""
 
     def of_kind(self, *kinds: str) -> list[Piece]:
@@ -106,7 +110,10 @@ class Project:
     clearance_slack: float = 1.0
     """Clearance slack on each side of the game box in the X/Y directions (mm)."""
     board_thickness: float = 0.0
-    """Thickness of the game board (mm). Reserved space at the TOP of the box — the board sits on top of the sub-boxes, not a spacer gap."""
+    """Thickness of the game board (mm).
+
+    Reserved at the TOP of the box: the board sits on top of the sub-boxes and
+    is the first thing out, so this is not a spacer gap."""
     generate_spacers: bool = True
     """Whether to automatically generate spacer boxes/trays to fill layout gaps."""
     box_defaults: dict | None = None
@@ -160,21 +167,24 @@ class Project:
 
         builder_cls = BOX_TYPE_REGISTRY[box_type]
 
-        fields = {"size": size}
-        for name, value in (self.box_defaults or {}).items():
-            if name in builder_cls.__dataclass_fields__:
-                fields[name] = value
-        fields.update(kwargs)
+        from dataclasses import fields as dataclass_fields
 
-        unknown = sorted(set(fields) - set(builder_cls.__dataclass_fields__))
+        known = {f.name for f in dataclass_fields(builder_cls)}
+        values: dict[str, Any] = {"size": size}
+        for name, value in (self.box_defaults or {}).items():
+            if name in known:
+                values[name] = value
+        values.update(kwargs)
+
+        unknown = sorted(set(values) - known)
         if unknown:
-            valid = ", ".join(sorted(builder_cls.__dataclass_fields__))
+            valid = ", ".join(sorted(known))
             raise TypeError(
                 f"{builder_cls.__name__} has no field(s) {', '.join(unknown)}. "
                 f"Valid fields: {valid}"
             )
 
-        builder = builder_cls(label=label, **fields)
+        builder = builder_cls(label=label, **values)
         self._boxes.append(builder)
         return builder
 
@@ -472,6 +482,25 @@ class Project:
 
     # ------------------------------------------------------------------ sizing
 
+    def _container(self) -> tuple[float, float, float]:
+        """The game box's size, for the paths that require one.
+
+        Returns:
+            ``(width, length, height)`` in mm.
+
+        Raises:
+            ValueError: If this is a standalone project. Packing, spacers and
+                the layout guide all need a container; without one they were
+                indexing ``None`` and failing with a TypeError from three
+                different lines.
+        """
+        if self.game_box_size is None:
+            raise ValueError(
+                f"Project '{self.name}' has no game_box_size, so there is "
+                f"nothing to pack into. Standalone boxes export directly."
+            )
+        return self.game_box_size
+
     def _resolve_final_layout(self):
         """Resolve each box's final size and packed position.
 
@@ -512,10 +541,11 @@ class Project:
         # height below it — otherwise auto-placed boxes climb into the space
         # the board needs.
         slack = self.clearance_slack
+        container = self._container()
         packing_container = (
-            self.game_box_size[0] - 2 * slack,
-            self.game_box_size[1] - 2 * slack,
-            self.game_box_size[2] - self.board_thickness,
+            container[0] - 2 * slack,
+            container[1] - 2 * slack,
+            container[2] - self.board_thickness,
         )
         packing = pack_boxes(packing_container, box_data)
 
@@ -577,7 +607,7 @@ class Project:
                 bounds = {
                     "max_w": self.game_box_size[0] - 2 * wt,
                     "max_l": self.game_box_size[1] - 2 * wt,
-                }
+                }  # narrowed by the check above
             return compute_min_box_size(measured, wt, ft, lt, **bounds)
 
         if builder.size is not None:
@@ -735,10 +765,11 @@ class Project:
 
         # Effective container: subtract the board thickness from the height so
         # the board area stays reserved rather than being filled with a spacer.
+        container = self._container()
         effective_container = (
-            self.game_box_size[0],
-            self.game_box_size[1],
-            self.game_box_size[2] - self.board_thickness,
+            container[0],
+            container[1],
+            container[2] - self.board_thickness,
         )
         return generate_spacer_placements(
             effective_container,
@@ -933,7 +964,7 @@ class Project:
 
     def _write_layout_pdf(self, build: Build, out_dir: str | Path, exporter) -> None:
         """Generate the packing guide PDF, if the layout changed (FR-034)."""
-        if not self._boxes:
+        if not self._boxes or build.packing is None:
             return
         try:
             from pyboxbuilder.export.layout_pdf import (
@@ -944,7 +975,7 @@ class Project:
             pdf_path = Path(out_dir) / self.name / "layout.pdf"
             if should_regenerate_layout(build.packing, pdf_path):
                 result = generate_layout_pdf(
-                    build.packing, pdf_path, self.name, self.game_box_size,
+                    build.packing, pdf_path, self.name, self._container(),
                     box_builders=self._boxes,
                 )
                 if result:

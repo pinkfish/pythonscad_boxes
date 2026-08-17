@@ -45,15 +45,34 @@ include = ["pyboxbuilder*"]
 pyboxbuilder = ["py.typed"]
 
 [tool.mypy]
-python_version = "3.10"
-strict = true
+python_version = "3.12"
 warn_unused_ignores = true
 warn_redundant_casts = true
+# The checks that catch real defects here — a name that is not on the object, an
+# argument of the wrong type, a subscript into something that is not indexable.
+# That class is exactly what let the spec dict drift: `spec.get("rim_free")`
+# against a spec that never carried the key type-checks fine as a dict and is an
+# error against a class. These are **blocking in CI**; a type checker run with
+# `|| true`, as this one was, is decoration.
+check_untyped_defs = true
+disallow_untyped_defs = false
+# The full `strict = true` reports 226 more, nearly all of them missing
+# annotations on private helpers and calls into pybosl2, which ships no
+# py.typed. Worth doing, not worth blocking the build on before it is done.
 exclude = [
     "^tests/",
     "^boxes/",
     "^\\.venv/",
 ]
+
+# pybosl2 ships no py.typed marker, so every geometry import reports as
+# untyped. Sixty of those drowned out the errors in our own code, and mypy
+# gave up before checking most of it — which is how the type checker came to
+# be run with `|| true` in CI and stopped meaning anything.
+[[tool.mypy.overrides]]
+module = ["pybosl2.*", "openscad", "pymeshlab", "fpdf", "numpy.*", "compartments"]
+ignore_missing_imports = true
+follow_imports = "skip"
 
 [tool.ruff]
 target-version = "py311"
@@ -61,6 +80,18 @@ line-length = 120
 
 [tool.ruff.lint]
 select = ["E", "F", "I"]
+ignore = [
+    # `w, l, h` is how this codebase — and OpenSCAD — names a box's three
+    # dimensions, and `l` is unambiguous beside the other two. Renaming forty
+    # of them to satisfy a rule about `l` looking like `1` would make the
+    # geometry harder to read, not easier.
+    "E741",
+]
+
+[tool.ruff.lint.per-file-ignores]
+# An example has to put the repo root on sys.path before it can import the
+# library, so its imports cannot come first.
+"boxes/*" = ["E402"]
 
 [tool.ruff.format]
 quote-style = "double"

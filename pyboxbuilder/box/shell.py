@@ -88,6 +88,9 @@ def sliding_rim_rounding(spec: BoxSpec) -> float:
     return spec.wall_thickness * SLIDING_RIM_ROUNDING_SHARE
 
 
+DEFAULT_MOUTH_FLARE_MM = 3.0
+"""How far a finger cut's mouth rolls out at the rim when none is given."""
+
 MAX_FINGER_HOLE_SPAN_SHARE = 0.75
 """How much of a wall an automatic hole's mouth may take (FR-047a).
 
@@ -226,32 +229,31 @@ def finger_cut_conflicts(spec: BoxSpec) -> list[str]:
         One message per conflict, naming both features and where they are.
         Empty when the cuts are clear of each other.
     """
+    from pyboxbuilder.builders._base import FingerHoleBuilder
     from pyboxbuilder.enums import MagnetType
 
-    holes = spec.finger_holes or ()
+    holes: tuple[FingerHoleBuilder, ...] = spec.finger_holes or ()
     messages: list[str] = []
 
-    def mouth(hole) -> float:
+    def mouth(hole: FingerHoleBuilder) -> float:
         """Half the opening's width: the throat plus the flare it rolls out."""
-        radius = getattr(hole, "radius", 14.0)
         flare = hole.mouth_flare
-        return radius + (3.0 if flare is None else flare)
+        return hole.radius + (DEFAULT_MOUTH_FLARE_MM if flare is None else flare)
 
-    by_side: dict[object, list] = {}
+    by_side: dict[ScoopSide, list[FingerHoleBuilder]] = {}
     for hole in holes:
-        by_side.setdefault(getattr(hole, "side", None), []).append(hole)
+        by_side.setdefault(hole.side, []).append(hole)
 
     for side, side_holes in by_side.items():
         for index, first in enumerate(side_holes):
             for second in side_holes[index + 1:]:
-                gap = abs((getattr(first, "offset", 0.0) or 0.0)
-                          - (getattr(second, "offset", 0.0) or 0.0))
+                gap = abs(first.offset - second.offset)
                 overlap = mouth(first) + mouth(second) - gap
                 if overlap > 0:
                     messages.append(
-                        f"finger holes on {getattr(side, 'value', side)} overlap by "
-                        f"{overlap:.1f}mm (offsets {getattr(first, 'offset', 0.0)} and "
-                        f"{getattr(second, 'offset', 0.0)}): they will cut as one opening"
+                        f"finger holes on {side.value} overlap by "
+                        f"{overlap:.1f}mm (offsets {first.offset} and "
+                        f"{second.offset}): they will cut as one opening"
                     )
 
     magnet_type = spec.magnet_type
@@ -267,18 +269,18 @@ def finger_cut_conflicts(spec: BoxSpec) -> list[str]:
         )
         mid_height = spec.height / 2.0
         for hole in holes:
-            if getattr(hole, "side", None) not in magnet_sides:
+            if hole.side not in magnet_sides:
                 continue
             # The pocket sits at the middle of the wall at mid-height; the cut
             # hangs from the interior top. They clash when both ranges do.
             interior_top = spec.wall_top(hole.side)
-            reach = min(getattr(hole, "depth", None) or getattr(hole, "radius", 14.0),
+            reach = min(hole.depth if hole.depth is not None else hole.radius,
                         interior_top - spec.floor_thickness)
             if interior_top - reach > mid_height:
                 continue
-            if abs(getattr(hole, "offset", 0.0) or 0.0) < mouth(hole) + half:
+            if abs(hole.offset) < mouth(hole) + half:
                 messages.append(
-                    f"the finger hole on {getattr(hole.side, 'value', hole.side)} "
+                    f"the finger hole on {hole.side.value} "
                     f"overlaps the magnet pocket in that wall: the pocket is cut "
                     f"inside the hole"
                 )

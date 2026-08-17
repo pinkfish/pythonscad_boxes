@@ -479,6 +479,25 @@ class Closure:
     only one side leaves the two fused just as surely as relieving neither.
     """
 
+    def require_lid(self) -> "Bosl2Solid":
+        """The lid half, for a closure that is required to have one.
+
+        Args:
+            None.
+
+        Returns:
+            The lid solid.
+
+        Raises:
+            ValueError: If this closure produced no lid half. A caller
+                unioning two lid halves has no sensible answer without both,
+                and `None | solid` fails with a message about operand types
+                rather than about the geometry.
+        """
+        if self.lid is None:
+            raise ValueError("this closure has no lid half to union")
+        return self.lid
+
 
 # ------------------------------------------------------------------- rabbet
 

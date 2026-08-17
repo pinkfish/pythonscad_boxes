@@ -10,8 +10,9 @@ Output layout (FR-025):
 
 The `mmu` pass keeps positive inserts (labels, accents) as separate coloured
 solids so the slicer can assign them their own material; the `single` pass fuses
-everything into one body. Writes are gated on mesh equivalence, so re-exporting
-an unchanged project rewrites nothing.
+everything into one body. Writes are gated on each piece's fingerprint — the
+description it was built from — so re-exporting an unchanged project rewrites
+nothing (see `pyboxbuilder.export.fingerprint`).
 
 Geometry export runs through PythonSCAD, which is not importable from plain
 CPython. When it is unavailable the exporter still creates the file tree and
@@ -262,6 +263,8 @@ def _solid_bounds(solid) -> tuple[tuple[float, ...], tuple[float, ...]] | None:
             return None
 
     position, size = getattr(solid, "position", None), getattr(solid, "size", None)
+    if position is None or size is None:
+        return None
     try:
         return (tuple(float(v) for v in position), tuple(float(v) for v in size))
     except (TypeError, ValueError):
@@ -273,7 +276,7 @@ def _export_3mf(payload, path: Path) -> bool:
     if payload is None:
         return False
     try:
-        from openscad import export  # type: ignore[import-not-found]
+        from openscad import export
     except ImportError:
         return False
 

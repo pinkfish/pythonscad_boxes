@@ -184,7 +184,7 @@ def pack_boxes(
     try:
         from compartments import pack_3d_boxes
     except ImportError:
-        pack_3d_boxes = None  # type: ignore[assignment]
+        pack_3d_boxes = None
 
     # Prepare items for 3D packer. The axis codes it understands are "w" (grow
     # right to the next neighbour) and "h" (close a sub-3mm gap above, FR-012);

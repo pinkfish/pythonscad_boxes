@@ -60,6 +60,6 @@ class CardLibraryBox(BoxTypeBase):
         """The sliding face, latched shut so the cards cannot spill."""
         from pyboxbuilder.box.features import sliding_catch, sliding_track
 
-        return sliding_track(spec).lid | sliding_catch(
+        return sliding_track(spec).require_lid() | sliding_catch(
             spec, spec.latch_radius, "x"
-        ).lid
+        ).require_lid()

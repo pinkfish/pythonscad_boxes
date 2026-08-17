@@ -73,4 +73,6 @@ class SlidingCatchBox(BoxTypeBase):
         """The sliding plate with a bump that clicks into the body's dimple."""
         from pyboxbuilder.box.features import sliding_catch, sliding_track
 
-        return sliding_track(spec).lid | sliding_catch(spec, self._catch_radius(spec), "x").lid
+        return sliding_track(spec).require_lid() | sliding_catch(
+            spec, self._catch_radius(spec), "x"
+        ).require_lid()

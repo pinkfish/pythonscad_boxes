@@ -17,7 +17,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install pytest pybosl2 numpy pymeshlab fpdf2
+          pip install pytest pybosl2 numpy fpdf2
           pip install -e .
 
       # A CI pass is not a build. It verifies the pipeline's decisions — which
@@ -35,11 +35,17 @@ jobs:
       - name: Build every example through the preview path
         run: python -m pytest tests/test_pyboxbuilder/test_ci_smoke.py -q
 
-      - name: Type check with pyright
+      # Blocking, both of them. These ran with `|| true` for long enough that
+      # `lid/color_layers.py` sat in the tree using `@dataclass` without
+      # importing it — a module that raised on import, and that nothing
+      # imported, so its part of FR-022 had never run. A type checker whose
+      # result is discarded is not a type checker.
+      - name: Lint
         run: |
-          npx --yes pyright pyboxbuilder/ --outputjson || true
+          python -m pip install ruff
+          ruff check pyboxbuilder/ boxes/
 
-      - name: Type check with mypy
+      - name: Type check
         run: |
           python -m pip install mypy
-          mypy pyboxbuilder/ || true
+          mypy pyboxbuilder/
