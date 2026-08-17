@@ -110,33 +110,37 @@ class FingerprintGateTests(unittest.TestCase):
             size=self.SIZE, fingerprint=fingerprint,
         )
 
-    def test_the_same_description_is_written_once(self) -> None:
+    def _current(self, exporter, fingerprint: str) -> bool:
+        return exporter.is_current("Tray", "body", "mmu", fingerprint)
+
+    def test_the_same_description_is_recognised(self) -> None:
+        """`is_current` answers **before** the geometry is built, which is what
+        makes an unchanged box free rather than merely quiet."""
         with tempfile.TemporaryDirectory() as tmp:
             exporter = BoxExporter(tmp, "MyGame")
-            self.assertIsNotNone(self._write(exporter, "abc"))
-            self.assertIsNone(self._write(exporter, "abc"))
-            self.assertEqual(exporter.state.written, ["MyGame/mmu/Tray_body.3mf"])
-            self.assertEqual(exporter.state.skipped, ["MyGame/mmu/Tray_body.3mf"])
+            self.assertFalse(self._current(exporter, "abc"))
+            self._write(exporter, "abc")
+            self.assertTrue(self._current(exporter, "abc"))
 
-    def test_a_changed_description_is_rewritten(self) -> None:
+    def test_a_changed_description_is_stale(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             exporter = BoxExporter(tmp, "MyGame")
             self._write(exporter, "abc")
-            self.assertIsNotNone(self._write(exporter, "def"))
+            self.assertFalse(self._current(exporter, "def"))
 
-    def test_an_unfingerprinted_file_is_always_written(self) -> None:
+    def test_an_unfingerprinted_file_is_always_stale(self) -> None:
         """A tree exported by an older version rewrites once, then settles."""
         with tempfile.TemporaryDirectory() as tmp:
             exporter = BoxExporter(tmp, "MyGame")
             self._write(exporter, "")
-            self.assertIsNotNone(self._write(exporter, ""))
+            self.assertFalse(self._current(exporter, ""))
 
-    def test_a_missing_file_is_a_miss_however_it_was_fingerprinted(self) -> None:
+    def test_a_missing_file_is_stale_however_it_was_fingerprinted(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             exporter = BoxExporter(tmp, "MyGame")
             self._write(exporter, "abc")
             exporter.path_for("Tray", "body", "mmu").unlink()
-            self.assertIsNotNone(self._write(exporter, "abc"))
+            self.assertFalse(self._current(exporter, "abc"))
 
     def test_a_corrupt_record_is_a_cache_miss_not_a_crash(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
@@ -144,7 +148,16 @@ class FingerprintGateTests(unittest.TestCase):
             self._write(exporter, "abc")
             sidecar = exporter.root / "mmu" / fp.SIDECAR_NAME
             sidecar.write_text("{not json")
-            self.assertIsNotNone(self._write(exporter, "abc"))
+            self.assertFalse(self._current(exporter, "abc"))
+
+    def test_a_skipped_piece_is_reported_with_its_bounds(self) -> None:
+        """It is still one of the project's pieces, and FR-027 still wants its
+        size — the declared one, since measuring means building it."""
+        with tempfile.TemporaryDirectory() as tmp:
+            exporter = BoxExporter(tmp, "MyGame")
+            exporter.note_unchanged("Tray", "body", "mmu", self.SIZE)
+            self.assertEqual(exporter.state.skipped, ["MyGame/mmu/Tray_body.3mf"])
+            self.assertEqual(exporter.state.bounds[0].size, self.SIZE)
 
     def test_deleting_a_stale_file_forgets_its_fingerprint(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:

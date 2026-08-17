@@ -90,6 +90,46 @@ class BoxExporter:
 
     # ----------------------------------------------------------------- write
 
+    def is_current(self, label: str, part: str, mode: str, fingerprint: str) -> bool:
+        """True when the file on disk was built from this exact description.
+
+        Asked **before** the geometry is built, so an unchanged box costs
+        nothing: the digest covers everything that shapes the piece, and none of
+        it needs the mesh (FR-031).
+
+        Args:
+            label: Box label.
+            part: "body" or "lid".
+            mode: "mmu" or "single".
+            fingerprint: Digest of the description the piece would be built
+                from. Empty always reports stale.
+
+        Returns:
+            Whether the write can be skipped.
+        """
+        return fp.matches(self.path_for(label, part, mode), fingerprint)
+
+    def note_unchanged(
+        self, label: str, part: str, mode: str,
+        size: tuple[float, float, float] | None = None,
+    ) -> None:
+        """Record a piece that was skipped without being built.
+
+        Its bounding box is the declared size rather than a measured one, since
+        measuring would mean building the thing this skipped (FR-027).
+
+        Args:
+            label: Box label.
+            part: "body" or "lid".
+            mode: "mmu" or "single".
+            size: The piece's declared size, recorded as its bounds.
+        """
+        self.state.skipped.append(self.relative(self.path_for(label, part, mode)))
+        if size is not None:
+            self.state.bounds.append(
+                PieceBounds(label=f"{label}_{part}", size=size, mode=mode)
+            )
+
     def write_piece(
         self,
         label: str,
@@ -110,12 +150,15 @@ class BoxExporter:
             inserts: Positive coloured inserts. Kept as separate objects in mmu
                 mode and unioned into `solid` in single mode (T068a).
             size: Bounding box to record when it cannot be measured from `solid`.
-            fingerprint: Digest of the description this piece was built from.
-                A file whose recorded fingerprint matches is left alone; an
-                empty fingerprint always writes.
+            fingerprint: Digest of the description this piece was built from,
+                recorded beside the file for the next run to compare against.
 
         Returns:
             The relative path if written, None if skipped.
+
+        Note:
+            Whether a write is *needed* is :meth:`is_current`'s decision, taken
+            before the geometry is built. This writes what it is given.
         """
         path = self.path_for(label, part, mode)
         path.parent.mkdir(parents=True, exist_ok=True)
@@ -126,14 +169,6 @@ class BoxExporter:
             self.state.bounds.append(
                 PieceBounds(label=f"{label}_{part}", size=measured, mode=mode)
             )
-
-        # Nothing about this piece has changed since it was last written, so
-        # the mesh it would produce is the one already there. Decided before
-        # building the file, which is also what makes an unchanged re-export
-        # fast rather than merely quiet.
-        if fp.matches(path, fingerprint):
-            self.state.skipped.append(self.relative(path))
-            return None
 
         # Keep the .3mf suffix on the temp file — the exporter picks its format
         # from the extension and silently falls back to STL without it.

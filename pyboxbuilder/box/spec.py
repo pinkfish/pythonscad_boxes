@@ -16,6 +16,7 @@ with five knuckles by the geometry and three by the builder that configured it.
 from __future__ import annotations
 
 from dataclasses import dataclass, field, fields, replace
+from pathlib import Path
 from typing import TYPE_CHECKING, Any
 
 from pyboxbuilder.enums import MagnetType, ScoopSide, StackableMode
@@ -314,10 +315,15 @@ def describe(builder) -> dict:
         A dict of the builder's geometry-bearing fields, its compartments and
         its lid decoration.
     """
-    def plain(value):
+    def plain(value, field_name: str = ""):
         """Reduce a value to something `json.dumps(default=str)` compares."""
+        if field_name == "shape_file" and value:
+            # A silhouette's *contents* shape the box, not the path to it.
+            # Named by path alone, editing the SVG changed nothing about the
+            # description and the well was never re-cut.
+            return {"path": str(value), "sha256": _file_digest(value)}
         if hasattr(value, "__dataclass_fields__"):
-            return {f: plain(getattr(value, f)) for f in value.__dataclass_fields__}
+            return {f: plain(getattr(value, f), f) for f in value.__dataclass_fields__}
         if isinstance(value, (list, tuple)):
             return [plain(v) for v in value]
         if isinstance(value, dict):
@@ -325,7 +331,25 @@ def describe(builder) -> dict:
         return value
 
     return {
-        name: plain(getattr(builder, name))
+        name: plain(getattr(builder, name), name)
         for name in builder.__dataclass_fields__
         if name not in ("box_id", "final_size")
     } | {"box_type": builder.box_type.value}
+
+
+def _file_digest(path: str) -> str:
+    """SHA-256 of a file a box's geometry is cut from, or why it could not be read.
+
+    Args:
+        path: The file, usually an SVG silhouette.
+
+    Returns:
+        A hex digest, or a marker naming the problem — which still differs from
+        the digest, so a file that appears later counts as a change.
+    """
+    import hashlib
+
+    try:
+        return hashlib.sha256(Path(path).read_bytes()).hexdigest()
+    except OSError as exc:
+        return f"unreadable:{type(exc).__name__}"

@@ -59,7 +59,8 @@ else may build a second time.
 
 ```
 Build(pieces: tuple[Piece, ...], packing: BoxPacking | None)
-Piece(label, kind, solid, size, position, builder)   # kind: "body" | "lid" | "spacer"
+Piece(label, kind, size, position, builder)   # kind: "body" | "lid" | "spacer"
+Piece.solid                                  # built on first use (FR-031a)
 ```
 
 ### `.box(box_type, label, *, size=None, **fields) -> BoxBuilder`
@@ -107,15 +108,57 @@ Resolves a `columns`/`rows`/`stack` tree into a position per box. Every box is
 sized first, including the ones sized from their contents, so a box described by
 what goes in it can be arranged.
 
-### `.export(out_dir, fn=None, fa=None, fs=None) -> ExportResult`
+### `.export(out_dir, fn=None, fa=None, fs=None, only=None, force=False) -> ExportResult`
 
 Writes what `build()` returns. Each piece's write is gated on a digest of the
 description it was built from (FR-031), recorded in `.fingerprints.json` beside
-the files.
+the files — and a piece that is current is **not built**, so an unchanged box
+costs nothing (FR-031a).
 
-### `.show(show_lids=False, remove_layers=0, fn=None, fa=None, fs=None)`
+- `only` — one label or several; everything else is left alone on disk, neither
+  rewritten nor deleted.
+- `force` — rebuild and rewrite everything.
+
+### `.show(show_lids=False, remove_layers=0, only=None, lids_only=False, fn=None, fa=None, fs=None)`
 
 Renders what `build()` returns. A shown lid carries its decoration.
+
+- `only` — show just these boxes, and build only those (FR-046d).
+- `lids_only` — the lids without their bodies, for looking at a label or a
+  pattern the body would otherwise hide. Implies `show_lids`.
+
+### `Piece.solid`
+
+Built on first use, and kept. Everything that *identifies* a piece — its label,
+size, position, and the description it would be built from — is available
+without building it, which is what lets an export decide before it pays.
+
+## Commands
+
+```sh
+pybox export boxes/emberleaf/emberleaf.py     # print quality, only what changed
+pybox export --all --out output/
+pybox export boxes/earth/earth.py --box EarthCardBox1
+pybox export boxes/earth/earth.py --force
+pybox list --all                              # every insert's boxes
+
+make export                                   # every insert
+make export-emberleaf                         # one insert
+make export FORCE=1
+make show-emberleaf ARGS="--box CommonBox --lids"
+```
+
+An example script takes the same arguments directly:
+
+```sh
+python3 boxes/emberleaf/emberleaf.py --box CommonBox --lids
+python3 boxes/emberleaf/emberleaf.py --lids-only
+python3 boxes/emberleaf/emberleaf.py --export --box CommonBox
+```
+
+Producing print-quality files is always a command you run (FR-031b). Nothing
+does it as a side effect: at 256 facets a full insert takes tens of seconds to
+minutes.
 
 ## LidBuilder (`pyboxbuilder/lid/builder.py`)
 

@@ -13,8 +13,9 @@ per-side wall tops and their interior masks while the preview kept all three.
 from __future__ import annotations
 
 from dataclasses import dataclass, field
+from functools import cache, partial
 from pathlib import Path
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, Callable, Iterable
 
 from pyboxbuilder.enums import BoxType
 
@@ -28,33 +29,70 @@ if TYPE_CHECKING:
 
 @dataclass(frozen=True)
 class Piece:
-    """One printable piece of a project, built once.
+    """One printable piece of a project.
 
     Both :meth:`Project.show` and :meth:`Project.export` consume these, so a
     piece previewed and the same piece printed are the same solid.
+
+    **The geometry is built on demand.** Everything that identifies a piece —
+    its label, its size, where it sits, and the description it would be built
+    from — is known without building it, and that is what decides whether an
+    export needs to write it at all (FR-031). Building eagerly meant a re-export
+    with nothing changed still paid for every box: 15 of Emberleaf's 21 seconds
+    at draft precision, and minutes at the 256 facets an export actually uses,
+    all spent on geometry the fingerprint was about to discard.
     """
 
     label: str
     """The box label this piece belongs to; a lid keeps its body's label."""
     kind: str
     """One of ``"body"``, ``"lid"`` or ``"spacer"``."""
-    solid: Any | None
-    """The built geometry in the piece's own local frame, or ``None`` when the
-    geometry backend was unavailable.
-
-    Typed loosely because pybosl2 ships no `py.typed`, so a solid is untyped
-    from here on however it is declared."""
     size: tuple[float, float, float]
     """The piece's declared ``(width, length, height)`` in mm."""
     position: tuple[float, float, float]
     """Where the piece sits inside the game box, in mm."""
+    _build: Callable[[], Any | None]
+    """Builds this piece's geometry. Call :attr:`solid` rather than this."""
     builder: "BoxBuilder | None" = None
     """The box builder this piece came from; ``None`` for a spacer tray."""
+
+    @property
+    def solid(self) -> Any | None:
+        """The built geometry, in the piece's own local frame.
+
+        Built on first use and kept, so asking twice costs once. ``None`` when
+        the geometry backend was unavailable.
+
+        Typed loosely because pybosl2 ships no `py.typed`, so a solid is
+        untyped from here on however it is declared.
+        """
+        return self._build()
 
     @property
     def is_spacer(self) -> bool:
         """True when this piece is an auto-generated spacer tray."""
         return self.kind == "spacer"
+
+
+@dataclass(frozen=True)
+class ResolvedBox:
+    """A box after validation and layout, before any geometry is cut.
+
+    Split out so the checks run when the project is built and the CSG runs when
+    something asks for it: a project that cannot be built must say so at
+    :meth:`Project.build`, not later, when a caller happens to touch a solid.
+    """
+
+    builder: "BoxBuilder"
+    """The box this came from."""
+    box: Any | None
+    """Its type implementation, or ``None`` for a type with no geometry."""
+    spec: Any
+    """The :class:`~pyboxbuilder.box.spec.BoxSpec` it will be built from."""
+    interior: Any
+    """Its interior frame."""
+    compartments: Any | None
+    """The resolved compartment layout, or ``None`` when it has none."""
 
 
 @dataclass(frozen=True)
@@ -239,16 +277,22 @@ class Project:
     # ------------------------------------------------------------------ build
 
     def build(self) -> Build:
-        """Resolve the layout and build every piece of this project.
+        """Resolve the layout and describe every piece of this project.
 
         The one build path. :meth:`show` renders what this returns and
         :meth:`export` writes it, so a previewed part and a printed part are
         the same solid — there is no second assembly of the geometry for one of
         them to fall behind in.
 
+        Resolving the layout is eager, because every piece's size and position
+        depend on every other's. The **geometry** is built per piece on first
+        use (:attr:`Piece.solid`), so a caller that only needs some of it — an
+        export skipping the boxes whose description has not changed, a preview
+        of one box — pays for what it asks for.
+
         Returns:
-            A :class:`Build` carrying every body, lid and spacer, each in its
-            own local frame with the position it occupies in the game box.
+            A :class:`Build` carrying every body, lid and spacer, each with the
+            position it occupies in the game box.
 
         Raises:
             ValueError: If a box can be sized neither explicitly nor from its
@@ -287,25 +331,36 @@ class Project:
                 Piece(
                     label=spacer.label,
                     kind="spacer",
-                    solid=self._build_spacer_solid(spacer),
                     size=tuple(spacer.size),
                     position=tuple(spacer.position),
+                    _build=cache(partial(self._build_spacer_solid, spacer)),
                 )
             )
 
         return Build(pieces=tuple(pieces), packing=packing)
 
     def _box_pieces(self, builder, at: tuple[float, float, float]) -> list[Piece]:
-        """The body and lid pieces for one box, at the position it packs to."""
-        body, lid, size = self._build_box_solids(builder)
+        """The body and lid pieces for one box, at the position it packs to.
+
+        The two share one build — a box type makes its body and its lid from
+        the same measurements, and doing it twice would let them disagree — so
+        the shared call is memoised and each piece takes its half of the result.
+        Neither runs until something asks for the geometry.
+        """
+        size = builder.final_size
+        # Validate now, build later: a project that cannot be built says so
+        # when it is built, and only the CSG waits to be asked for.
+        self._resolve_box(builder)
+        build_once = cache(partial(self._build_box_solids, builder))
+
         pieces = [
-            Piece(label=builder.label, kind="body", solid=body, size=size,
-                  position=at, builder=builder)
+            Piece(label=builder.label, kind="body", size=size, position=at,
+                  builder=builder, _build=lambda: build_once()[0])
         ]
         if self._has_lid(builder):
             pieces.append(
-                Piece(label=builder.label, kind="lid", solid=lid, size=size,
-                      position=at, builder=builder)
+                Piece(label=builder.label, kind="lid", size=size, position=at,
+                      builder=builder, _build=lambda: build_once()[1])
             )
         return pieces
 
@@ -363,12 +418,42 @@ class Project:
         """The builder with this label, or ``None``."""
         return next((b for b in self._boxes if b.label == label), None)
 
+    def _selected(self, only: str | Iterable[str] | None) -> set[str] | None:
+        """Which box labels a caller asked for, checked against the project.
+
+        Args:
+            only: One label, several, or ``None`` for all of them.
+
+        Returns:
+            The set of labels, or ``None`` when everything was asked for.
+
+        Raises:
+            ValueError: If a label is not in this project. A silent miss here
+                would look exactly like a box that failed to build — an empty
+                preview, or an export that wrote nothing — with nothing to say
+                which it was.
+        """
+        if only is None:
+            return None
+        wanted = {only} if isinstance(only, str) else set(only)
+
+        known = {b.label for b in self._boxes}
+        unknown = sorted(wanted - known)
+        if unknown:
+            raise ValueError(
+                f"Project '{self.name}' has no box(es) named "
+                f"{', '.join(unknown)}. It has: {', '.join(sorted(known))}"
+            )
+        return wanted
+
     # ------------------------------------------------------------------- show
 
     def show(
         self,
         show_lids: bool = False,
         remove_layers: int = 0,
+        only: str | Iterable[str] | None = None,
+        lids_only: bool = False,
         fn: int | None = None,
         fa: float | None = None,
         fs: float | None = None,
@@ -393,6 +478,12 @@ class Project:
                 layout, revealing what sits underneath — the live equivalent
                 of the exploded PDF view. A box is removed when its top
                 surface rises above the cut.
+            only: Show just these boxes, by label. One box on its own is the
+                usual way to look at a box you are working on, and it is also
+                the cheap one: nothing else is built.
+            lids_only: Show the lids without their bodies — for looking at a
+                label or a lid pattern, which the body would otherwise sit
+                under. Implies ``show_lids``.
             fn: Fixed facets per circle for every curve in the preview.
                 ``None`` (the default) defers to fa/fs, which sizes facets by
                 how large each curve actually is — that is what keeps a preview
@@ -402,13 +493,17 @@ class Project:
             fs: Minimum fragment size, in mm (default 2).
 
         Raises:
-            ValueError: If ``remove_layers`` is negative, or a precision
-                setting is out of range.
+            ValueError: If ``remove_layers`` is negative, ``only`` names a box
+                this project does not have, or a precision setting is out of
+                range.
         """
         from pyboxbuilder.precision import use
 
         with use(fn=fn, fa=fa, fs=fs):
-            pieces = self.preview_pieces(show_lids=show_lids, remove_layers=remove_layers)
+            pieces = self.preview_pieces(
+                show_lids=show_lids, remove_layers=remove_layers,
+                only=only, lids_only=lids_only,
+            )
 
         for piece in pieces:
             solid = piece.solid
@@ -418,7 +513,13 @@ class Project:
                 pass  # Uncolourable geometry still previews, just uncoloured.
             solid.show()
 
-    def preview_pieces(self, show_lids: bool = False, remove_layers: int = 0) -> list:
+    def preview_pieces(
+        self,
+        show_lids: bool = False,
+        remove_layers: int = 0,
+        only: str | Iterable[str] | None = None,
+        lids_only: bool = False,
+    ) -> list:
         """Build the list of separately-coloured solids :meth:`show` renders.
 
         Public because it is the cheap way to exercise the geometry: it packs
@@ -430,13 +531,16 @@ class Project:
         Args:
             show_lids: Include each box's lid, lightened and semi-transparent.
             remove_layers: Number of top layers to omit.
+            only: Restrict to these box labels.
+            lids_only: Leave the bodies out; implies ``show_lids``.
 
         Returns:
             A list of :class:`pyboxbuilder.preview.PreviewPiece`, one per body,
             lid and spacer — never unioned together.
 
         Raises:
-            ValueError: If ``remove_layers`` is negative.
+            ValueError: If ``remove_layers`` is negative, or ``only`` names a
+                box this project does not have.
         """
         from pyboxbuilder.preview import (
             PreviewPiece,
@@ -449,9 +553,14 @@ class Project:
         if remove_layers < 0:
             raise ValueError(f"remove_layers must be >= 0; got {remove_layers}")
 
+        wanted = self._selected(only)
+        show_lids = show_lids or lids_only
+
         build = self.build()
         bodies_and_spacers = build.of_kind("body", "spacer")
         kept = {p.label for p in remove_top_layers(bodies_and_spacers, remove_layers)}
+        if wanted is not None:
+            kept &= wanted
 
         def colour_for(piece: Piece) -> "Color":
             """A box's own colour when it declares one, else a stable hue."""
@@ -462,9 +571,13 @@ class Project:
 
         out: list[PreviewPiece] = []
         for piece in build.pieces:
-            if piece.label not in kept or piece.solid is None:
+            if piece.label not in kept:
                 continue
             if piece.kind == "lid" and not show_lids:
+                continue
+            if piece.kind != "lid" and lids_only:
+                continue
+            if piece.solid is None:
                 continue
 
             solid = piece.solid
@@ -645,11 +758,20 @@ class Project:
 
     # -------------------------------------------------------------- geometry
 
-    def _build_box_solids(self, builder):
-        """Build a box's body and lid solids from its resolved final size.
+    def _resolve_box(self, builder) -> "ResolvedBox":
+        """Everything about a box that is decided before any geometry is cut.
 
-        Returns ``(body, lid, size)``; ``body``/``lid`` are ``None`` when the
-        box type produced no geometry (or pybosl2 is unavailable).
+        Kept separate from the geometry so it can run **eagerly**, during
+        :meth:`build`, while the CSG waits to be asked for. A project that
+        cannot be built has to say so when it is built, not later when
+        something happens to look at a solid — and the validation is what
+        decides that, not the geometry.
+
+        Args:
+            builder: The box to resolve, already carrying its ``final_size``.
+
+        Returns:
+            Its :class:`ResolvedBox`.
 
         Raises:
             ValueError: If the compartments overflow the interior, or their
@@ -659,11 +781,11 @@ class Project:
         from pyboxbuilder.box.spec import build_spec
         from pyboxbuilder.compartments.layout import layout_compartments
 
+        self._check_ratios(builder)
+
         size = builder.final_size
         spec = build_spec(self, builder, size)
         interior = spec.interior()
-
-        self._check_ratios(builder)
 
         siblings = len(builder.compartments)
         comp_data = [
@@ -672,11 +794,9 @@ class Project:
         ]
 
         box_cls = BOX_IMPL_REGISTRY.get(builder.box_type)
-        if box_cls is None:
-            return None, None, size
-
-        box = box_cls()
-        spec = spec.with_wall_tops(box)
+        box = box_cls() if box_cls is not None else None
+        if box is not None:
+            spec = spec.with_wall_tops(box)
 
         comp_layout = None
         if comp_data:
@@ -696,6 +816,23 @@ class Project:
                     f"interior ({interior.width}x{interior.length})"
                 )
 
+        return ResolvedBox(
+            builder=builder, box=box, spec=spec, interior=interior,
+            compartments=comp_layout,
+        )
+
+    def _build_box_solids(self, builder):
+        """Build a box's body and lid geometry.
+
+        Returns ``(body, lid, size)``; ``body``/``lid`` are ``None`` when the
+        box type produced no geometry (or pybosl2 is unavailable).
+        """
+        resolved = self._resolve_box(builder)
+        size = builder.final_size
+        box, spec = resolved.box, resolved.spec
+        if box is None:
+            return None, None, size
+
         body = lid = None
         try:
             body = box.build_body(spec)
@@ -713,11 +850,11 @@ class Project:
                     lid, list(size), lid_rounding(spec), box.lid_rounded_edges(spec)
                 )
 
-            if comp_layout is not None and body is not None:
+            if resolved.compartments is not None and body is not None:
                 from pyboxbuilder.compartments.carve import build_contents
 
                 contents = build_contents(
-                    comp_layout.placements, interior,
+                    resolved.compartments.placements, resolved.interior,
                     {cb.label: cb for cb in builder.compartments},
                     top_z=size[2],
                     default_side=box.preferred_scoop_side(spec),
@@ -851,12 +988,21 @@ class Project:
         fn: int | None = None,
         fa: float | None = None,
         fs: float | None = None,
+        only: str | Iterable[str] | None = None,
+        force: bool = False,
     ) -> ExportResult:
         """Write every piece of this project, and the layout PDF.
 
         Writes exactly what :meth:`show` renders — the same :meth:`build` —
         so the only difference between previewing and exporting is that this
         one puts the result on disk.
+
+        **A box whose description has not changed is not rebuilt.** The digest
+        that decides whether a file needs writing (FR-031) is known before any
+        geometry is cut, so an unchanged box costs nothing at all rather than
+        being built and then discarded. That is what makes a repeat export at
+        print precision practical: it is the difference between minutes and a
+        second.
 
         Args:
             out_dir: Directory to write into; files land under
@@ -868,13 +1014,17 @@ class Project:
                 value for a quick throwaway build.
             fa: Minimum angle per fragment, in degrees (default 12).
             fs: Minimum fragment size, in mm (default 2).
+            only: Export just these box labels. Everything else is left alone
+                on disk — not deleted, not rewritten.
+            force: Rebuild and rewrite every piece, whether its description
+                changed or not.
 
         Returns:
             An :class:`ExportResult` listing the files written and skipped.
 
         Raises:
-            ValueError: If a box cannot be sized, or a precision setting is
-                out of range.
+            ValueError: If a box cannot be sized, a precision setting is out of
+                range, or ``only`` names a box this project does not have.
             PackingError: If the boxes cannot be packed into the game box.
         """
         from pyboxbuilder.export.exporter import BoxExporter
@@ -883,26 +1033,37 @@ class Project:
 
         with use(fn=export_facets() if fn is None else fn, fa=fa, fs=fs):
             build = self.build()
+            wanted = self._selected(only)
 
             exporter = BoxExporter(out_dir, self.name)
-            exporter.delete_stale(
-                "spacer_", {p.label for p in build.of_kind("spacer")}
-            )
+            if wanted is None:
+                # A partial export knows nothing about the pieces it was not
+                # asked for, so it must not conclude they are stale.
+                exporter.delete_stale(
+                    "spacer_", {p.label for p in build.of_kind("spacer")}
+                )
 
             for piece in build.pieces:
+                if wanted is not None and piece.label not in wanted:
+                    continue
                 for mode in ("mmu", "single"):
+                    fingerprint = self._fingerprint(piece, mode)
+                    part = "body" if piece.is_spacer else piece.kind
+
+                    if not force and exporter.is_current(piece.label, part, mode, fingerprint):
+                        exporter.note_unchanged(piece.label, part, mode, piece.size)
+                        continue
+
                     solid, inserts = (
                         self._decorated_lid(piece, mode)
                         if piece.kind == "lid" else (piece.solid, None)
                     )
                     exporter.write_piece(
-                        piece.label,
-                        "body" if piece.is_spacer else piece.kind,
-                        mode, solid, inserts, size=piece.size,
-                        fingerprint=self._fingerprint(piece, mode),
+                        piece.label, part, mode, solid, inserts,
+                        size=piece.size, fingerprint=fingerprint,
                     )
 
-            if build.packing is not None:
+            if build.packing is not None and wanted is None:
                 self._write_layout_pdf(build, out_dir, exporter)
 
         self.piece_bounds = tuple(exporter.state.bounds)
@@ -921,6 +1082,17 @@ class Project:
         and no writes; a boolean solver that retriangulates a complex mesh
         differently between runs no longer reads as a change (FR-031).
 
+        It covers what shapes **this piece**, and no more. Two things are
+        deliberately left out, because including them rebuilds parts whose
+        geometry has not changed:
+
+        - **Where the piece sits.** A 3MF holds the piece in its own frame, so
+          moving a box in the game box does not alter the file. Without this,
+          shortening one box in a stack rebuilt every box above it.
+        - **The other half of the box.** A body does not change when its lid's
+          label does, so a body's fingerprint leaves the lid decoration out and
+          a lid's leaves the compartments out.
+
         Args:
             piece: The piece being written.
             mode: ``"mmu"`` or ``"single"`` — the two differ in geometry, so
@@ -932,6 +1104,11 @@ class Project:
         from pyboxbuilder.box.spec import describe
         from pyboxbuilder.packing.cache import cache_key
         from pyboxbuilder.precision import describe as describe_precision
+
+        box = describe(piece.builder) if piece.builder is not None else None
+        if box is not None:
+            box.pop("position", None)
+            box.pop("lid" if piece.kind == "body" else "compartments", None)
 
         return cache_key({
             "kind": piece.kind,
@@ -946,7 +1123,7 @@ class Project:
                 "rounding": self.rounding,
                 "inner_rounding": self.inner_rounding,
             },
-            "box": describe(piece.builder) if piece.builder is not None else None,
+            "box": box,
         })
 
     def _delete_stale_spacers(self, out_dir: str | Path, spacer_placements: list) -> None:
