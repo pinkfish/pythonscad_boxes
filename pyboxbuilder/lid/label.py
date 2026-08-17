@@ -32,19 +32,38 @@ FRAME_PADDING_MM = 3.0
 
 @dataclass(frozen=True)
 class Label:
-    """A built label, split by the colour it wants to print in.
+    """A built label, split by the colour each part prints in.
 
-    Keeping the parts separate is what lets the MMU pass assign each its own
-    material while the single-colour pass fuses them.
+    Keeping the parts separate is what lets the multi-material pass inlay each
+    in its own colour while the single-colour pass fuses them.
+
+    Three parts, and only two of them are coloured. The **plate** is the box's
+    own material — it is never cut, so nothing is inlaid into it (FR-022) —
+    which is why it is here only to say where the label sits, not what to print.
     """
 
     text: Bosl2Solid
-    backing: Bosl2Solid | None = None
-    """Framed mode only: the plate and hatching behind the text."""
+    """The lettering. Inlaid in the text colour, black by default."""
+    hatching: Bosl2Solid | None = None
+    """Framed mode only: the striped grid behind the text, inlaid light grey."""
+    plate: Bosl2Solid | None = None
+    """Framed mode only: the area the label occupies.
+
+    Not a coloured part — it stays lid material. Carried so the pattern knows
+    what to keep clear of and the single-colour pass knows what to engrave.
+    """
+
+    @property
+    def backing(self) -> Bosl2Solid | None:
+        """The plate and its striped grid, as one solid."""
+        if self.plate is None:
+            return self.hatching
+        return self.plate if self.hatching is None else self.plate | self.hatching
 
     def combined(self) -> Bosl2Solid:
-        """Return the text and, in framed mode, its backing plate, fused into one solid."""
-        return self.text if self.backing is None else self.backing | self.text
+        """Return every part of the label fused into one solid."""
+        backing = self.backing
+        return self.text if backing is None else backing | self.text
 
 
 NOMINAL_SIZE_MM = 10.0
@@ -160,10 +179,10 @@ def build_label(
         [plate_w, plate_l, BACKING_HEIGHT_MM],
         at=(plate_x, plate_y, 0.0),
     )
-    return Label(
-        text=solid.translate([0.0, 0.0, BACKING_HEIGHT_MM]),
-        backing=plate | hatching,
-    )
+    # The striped grid stops at the lettering: the two are inlaid side by side
+    # into one face, so a stripe running under a glyph would be competing with
+    # it for the same top layer.
+    return Label(text=solid, hatching=hatching - solid, plate=plate)
 
 
 def _build_hatching(

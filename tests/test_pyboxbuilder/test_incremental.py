@@ -225,7 +225,17 @@ class SelectivePreviewTests(unittest.TestCase):
 
     def test_lids_only_leaves_the_bodies_out(self) -> None:
         pieces = project().preview_pieces(only="Deck", lids_only=True)
-        self.assertEqual([(p.label, p.kind) for p in pieces], [("Deck", "lid")])
+        self.assertTrue(pieces)
+        self.assertEqual({(p.label, p.kind) for p in pieces}, {("Deck", "lid")})
+
+    def test_a_previewed_lid_carries_its_label(self) -> None:
+        """A label is a coloured *insert*, a separate solid so the slicer can
+        give it its own material. The preview dropped the inserts, so every
+        lid previewed blank while the exported one carried its text — the
+        divergence FR-046c exists to prevent."""
+        plain = project(lid_text="").preview_pieces(only="Deck", lids_only=True)
+        labelled = project(lid_text="Deck").preview_pieces(only="Deck", lids_only=True)
+        self.assertGreater(len(labelled), len(plain))
 
     def test_lids_only_implies_show_lids(self) -> None:
         """Asking for lids and getting nothing would be a puzzling result."""

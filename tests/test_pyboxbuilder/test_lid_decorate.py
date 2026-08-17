@@ -84,15 +84,20 @@ class DecorationTests(unittest.TestCase):
         )
 
     def test_mmu_keeps_the_label_as_a_separate_insert(self) -> None:
-        """The lid itself is untouched so the slicer can give the text its own
-        material (T068a)."""
+        """The text is its own solid so the slicer can give it its own
+        material (T068a) — and it is inlaid, so the lid gives up exactly the
+        volume the insert fills (FR-022a)."""
         lid = bare_lid()
         decorated = decorate_lid(
             lid, LidBuilder(text="Animals", label_mode=LabelMode.FRAMELESS), 2.0, "mmu"
         )
         self.assertEqual(len(decorated.inserts), 1)
-        self.assertAlmostEqual(volume(decorated.solid), volume(lid), places=3)
         self.assertGreater(volume(decorated.inserts[0]), 0.0)
+        self.assertAlmostEqual(
+            volume(decorated.solid) + volume(decorated.inserts[0]),
+            volume(lid), places=3,
+            msg="the inlay should fill exactly the recess cut for it",
+        )
 
     def test_framed_mmu_yields_text_and_backing_separately(self) -> None:
         decorated = decorate_lid(
@@ -205,3 +210,137 @@ class ExportIntegrationTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class InlaidLabelTests(unittest.TestCase):
+    """FR-022a: a label is cut into the lid and filled flush, not raised on it."""
+
+    def lid(self):
+        from pyboxbuilder.box.shell import block
+
+        return block([90.0, 60.0, 2.0])
+
+    def decorated(self, mode: str = "mmu", **lid_kwargs):
+        from pyboxbuilder.lid.builder import LidBuilder
+        from pyboxbuilder.lid.decorate import decorate_lid
+
+        return decorate_lid(
+            self.lid(), LidBuilder(**lid_kwargs).titled("Tokens"), 2.0, mode
+        )
+
+    @staticmethod
+    def _top(solid) -> float:
+        (_, _, cz), (_, _, h) = solid.bounds()
+        return cz + h / 2
+
+    def test_nothing_stands_above_the_lid_face(self) -> None:
+        """A raised label is knocked off, stops the lid sitting flush under a
+        board, and on a sliding lid fouls the mouth of the channel."""
+        plain = self.lid()
+        result = self.decorated()
+        self.assertAlmostEqual(self._top(result.solid), self._top(plain), places=6)
+        for insert in result.inserts:
+            self.assertLessEqual(self._top(insert), self._top(plain) + 1e-6)
+
+    def test_each_inlay_is_exactly_the_recess_deep(self) -> None:
+        from pyboxbuilder.lid.decorate import INLAY_DEPTH_MM
+
+        for insert in self.decorated().inserts:
+            (_, _, _), (_, _, h) = insert.bounds()
+            self.assertAlmostEqual(h, INLAY_DEPTH_MM, places=6)
+
+    def test_the_recess_is_cut_out_of_the_lid(self) -> None:
+        """The inlay fills a hole; it does not sit on the surface."""
+        result = self.decorated()
+        self.assertNotEqual(repr(result.solid), repr(self.lid()))
+
+    def test_a_framed_label_inlays_its_text_and_its_striped_grid(self) -> None:
+        from pyboxbuilder.enums import LabelMode
+
+        result = self.decorated(label_mode=LabelMode.FRAMED)
+        self.assertEqual(len(result.inserts), 2)
+
+    def test_a_frameless_label_inlays_only_its_text(self) -> None:
+        from pyboxbuilder.enums import LabelMode
+
+        result = self.decorated(label_mode=LabelMode.FRAMELESS)
+        self.assertEqual(len(result.inserts), 1)
+
+    def test_the_plate_between_them_is_never_cut(self) -> None:
+        """That is what makes it the box's own material, with no insert of its
+        own and no colour to choose (FR-022).
+
+        Measured as material surviving in the label's own area: if the plate
+        were recessed too, the top layer there would be empty.
+        """
+        from pyboxbuilder.enums import LabelMode
+        from pyboxbuilder.lid.decorate import INLAY_DEPTH_MM
+        from pyboxbuilder.lid.label import build_label
+
+        label = build_label(90.0, 60.0, 0.0, "Tokens", label_mode=LabelMode.FRAMED)
+        assert label is not None and label.plate is not None
+        (px, py, _), (pw, pl, _) = label.plate.bounds()
+
+        from pyboxbuilder.box.shell import block
+
+        result = self.decorated(label_mode=LabelMode.FRAMED)
+        top_layer = block(
+            [pw, pl, INLAY_DEPTH_MM],
+            at=(px - pw / 2, py - pl / 2, 2.0 - INLAY_DEPTH_MM),
+        )
+        self.assertGreater(
+            volume(result.solid & top_layer), 0.0,
+            "the plate was recessed along with the text and the grid",
+        )
+
+    def test_a_single_colour_label_is_still_engraved(self) -> None:
+        """No second material to inlay, so depth is all there is (FR-036)."""
+        from pyboxbuilder.lid.decorate import ENGRAVE_DEPTH_MM
+
+        result = self.decorated(mode="single")
+        self.assertEqual(result.inserts, [])
+        cut = self.lid() - result.solid
+        (_, _, _), (_, _, h) = cut.bounds()
+        self.assertAlmostEqual(h, ENGRAVE_DEPTH_MM, places=6)
+
+
+class LabelColorTests(unittest.TestCase):
+    """FR-022: legible without setting anything."""
+
+    def test_text_defaults_to_black(self) -> None:
+        from pybosl2 import Color
+
+        from pyboxbuilder.lid.color_layers import resolve_colors
+
+        self.assertEqual(
+            resolve_colors(Color("darkgreen")).text_color.rgba[:3], (0.0, 0.0, 0.0)
+        )
+
+    def test_the_striped_grid_defaults_to_light_grey(self) -> None:
+        from pybosl2 import Color
+
+        from pyboxbuilder.lid.color_layers import resolve_colors
+
+        red, green, blue, _ = resolve_colors(Color("darkgreen")).frame_color.rgba
+        self.assertEqual(round(red, 3), round(green, 3))
+        self.assertEqual(round(green, 3), round(blue, 3))
+        self.assertGreater(red, 0.7, "a light neutral, not a saturated accent")
+
+    def test_the_defaults_do_not_follow_the_body(self) -> None:
+        """A hue shifted off the box's colour is no more legible against it."""
+        from pybosl2 import Color
+
+        from pyboxbuilder.lid.color_layers import resolve_colors
+
+        for body in ("darkgreen", "white", "crimson"):
+            with self.subTest(body=body):
+                colors = resolve_colors(Color(body))
+                self.assertEqual(colors.text_color.rgba[:3], (0.0, 0.0, 0.0))
+
+    def test_an_explicit_colour_still_wins(self) -> None:
+        from pybosl2 import Color
+
+        from pyboxbuilder.lid.color_layers import resolve_colors
+
+        colors = resolve_colors(Color("darkgreen"), text_color=Color("gold"))
+        self.assertNotEqual(colors.text_color.rgba[:3], (0.0, 0.0, 0.0))

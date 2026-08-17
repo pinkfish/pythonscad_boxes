@@ -178,7 +178,6 @@ EMBERLEAF_LID = LidBuilder(
     label_mode=LabelMode.FRAMELESS,
     diagonal=True,
     pattern=LEAF_PATTERN,
-    text_color=Color("white"),
 )
 """The insert's one lid style. Each box wears it with its own text — and its
 own colour where the piece it holds has one — via `.titled()`, instead of the
@@ -389,7 +388,7 @@ for colour in PLAYER_CARD_COLOURS:
         BoxType.SLIDING,
         f"CardBoxPlayer{colour}",
         size=(PLAYER_CARD_BOX_WIDTH, PLAYER_CARD_BOX_LENGTH, PLAYER_CARD_BOX_HEIGHT),
-        lid=EMBERLEAF_LID.titled("Player", text_color=Color(colour.lower())),
+        lid=EMBERLEAF_LID.titled("Player"),
     )
     player_card_box.compartment(
         "Cards",
@@ -513,4 +512,4 @@ project.arrange(columns(
 
 
 if __name__ == "__main__":
-    run(project)
+    run(project, show_lids=True)

@@ -335,6 +335,69 @@ A lid's outer edges are rounded because they are the outside of the closed box �
 - **The radius is capped at half the lid's thickness.** A body's radius is sized off the *wall*, which on a 2mm lid can be most of the plate; what it removes is exactly the material doing the bearing. Half leaves the other half square.
 - **Only the edges that finish outside get rounded**, decided by the type through a `lid_rounded_edges` hook. A cap or magnetic lid sits on top, so its four vertical corners and top face all qualify. A **sliding** lid does not: three of its four sides live inside the channel — two in the grooves, one against the stop — so only the end it slides out through is rounded, along with its top edge and the two vertical corners there (FR-044i).
 
+### Where A Lid's Pattern Starts And Stops (FR-023)
+
+Three decisions, each of which was got wrong first and shows up as the same
+symptom — a pattern that looks like it has shrunk away from the lid's edge.
+
+**The lattice is clipped, not fitted.** Holes are laid out past the edge of the
+area and trimmed to it, so the ones at the boundary come out partial. Placing
+only whole holes leaves up to a cell of unused margin inside the border: a lid
+asking for an 8mm border got 12mm or more of solid edge on two sides.
+
+**It starts a full cell outside the area, on every side.** A staggered row is
+shifted half a pitch, so a lattice that begins at the area's own edge begins
+*inside* it on every other row, leaving a strip of material along the leading
+edge while the trailing edge is covered twice over. One cell of run-up absorbs
+any row's offset; the surplus is clipped away with the rest.
+
+**It is anchored on the area's centre, not grown from an edge.** Grown from an
+edge the lattice lands wherever the arithmetic puts it — measured on a 96 x 70
+lid, one side was cut through the hexes and the other through the webs, taking
+56mm³ against 33mm³. Anchored at the centre the two sides are mirror images.
+
+The corollary is that a pattern must be **moved** into the area and never
+re-anchored to it by its bounding box: re-anchoring is exactly what discards
+the centring and pushes the whole overhang onto one side.
+
+One border serves the lid — the pattern stops at it and the label sits 2mm
+inside it. Two margins measured from different edges read as a mistake, because
+what a viewer sees is a single band of plain lid with things arranged in it.
+
+### A Label Is An Inlay, Not An Embossing (FR-022, FR-022a)
+
+A lid's label is cut **into** the lid and filled flush, so the only thing that
+changes at the label is the colour of the top layer.
+
+Three reasons it is not raised. Raised lettering is the first thing knocked off
+a lid that lives in a box with twenty other boxes; it stops the lid sitting
+flush under whatever is stacked on it, which on this library's inserts is
+usually a board; and on a sliding lid it fouls the mouth of the channel the lid
+has to enter. An inlay has none of those problems and prints no slower — the
+recess and the fill are the same layers either way.
+
+What that means for the geometry, and the reason it is simpler than it sounds:
+
+- **Only what changes colour is recessed.** The glyphs, and — in framed mode —
+  the striped grid behind them. Nothing else is cut.
+- **The plate between them is never touched**, so it is the box's own material
+  by construction. That is what FR-022 means by the backing being the material
+  colour: there is no insert to place and no colour to choose, because there is
+  nothing there but lid.
+- **The fill is flush.** Each coloured insert is exactly as deep as its recess,
+  so the closed lid's top face is flat.
+
+The three colours follow from what each part is for. The text is **black**,
+because it is read against a lid whose colour is the game's choice and black is
+the one that reads against all of them — white, the previous default, vanishes
+on any pale box. The striped grid is **light grey**, because it is a texture
+that has to separate the lettering from the lid without competing with it. The
+plate is the **box's material**, because it is the box.
+
+A single-colour export cannot inlay: there is no second material, so depth is
+the only thing that can make a label visible, and it keeps engraving the text
+(FR-036).
+
 ### Tray Wells, and Where Rounding Stops (FR-044f, FR-044g)
 
 **Rounding is off by default and opted into** (FR-044f). A well is square unless its builder sets `holds_pieces`, because most wells are shaped by what they hold — a card slot, a token silhouette, a board recess — and softening those changes a fit rather than improving it. The case that benefits is a tray of loose pieces you have to pick out, and it says so. This is the same principle as the mating surfaces: rounding is for geometry the toolkit invents, never for geometry the game dictates.
