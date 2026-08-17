@@ -3330,6 +3330,24 @@ the style at every box (FR-000b):</p>
 <span class="n">project</span><span class="o">.</span><span class="n">box</span><span class="p">(</span><span class="n">BoxType</span><span class="o">.</span><span class="n">SLIDING</span><span class="p">,</span> <span class="s2">"Favor"</span><span class="p">,</span> <span class="n">lid</span><span class="o">=</span><span class="n">LEAF</span><span class="o">.</span><span class="n">titled</span><span class="p">(</span><span class="s2">"Favors"</span><span class="p">))</span>
 </code></pre></div>
 </div>
+<div class="example admonition">
+<p class="admonition-title">Examples</p>
+<p>A frameless diagonal label on a hex-patterned lid:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="n">project</span> <span class="o">=</span> <span class="n">Project</span><span class="p">(</span><span class="s2">"FancyGame"</span><span class="p">,</span> <span class="n">game_box_size</span><span class="o">=</span><span class="p">(</span><span class="mi">300</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">80</span><span class="p">))</span>
+<span class="n">STYLE</span> <span class="o">=</span> <span class="n">LidBuilder</span><span class="p">(</span>
+    <span class="n">label_mode</span><span class="o">=</span><span class="n">LabelMode</span><span class="o">.</span><span class="n">FRAMELESS</span><span class="p">,</span>
+    <span class="n">diagonal</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">pattern</span><span class="o">=</span><span class="n">PatternBuilder</span><span class="p">(</span><span class="n">PatternType</span><span class="o">.</span><span class="n">HEX</span><span class="p">,</span> <span class="n">spacing</span><span class="o">=</span><span class="mf">10.0</span><span class="p">),</span>
+<span class="p">)</span>
+<span class="n">project</span><span class="o">.</span><span class="n">box</span><span class="p">(</span>
+    <span class="n">BoxType</span><span class="o">.</span><span class="n">SLIDING</span><span class="p">,</span> <span class="s2">"Treasure"</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">90</span><span class="p">,</span> <span class="mi">70</span><span class="p">,</span> <span class="mi">40</span><span class="p">),</span>
+    <span class="n">lid</span><span class="o">=</span><span class="n">STYLE</span><span class="o">.</span><span class="n">titled</span><span class="p">(</span><span class="s2">"Treasure"</span><span class="p">,</span> <span class="n">text_color</span><span class="o">=</span><span class="n">Color</span><span class="p">(</span><span class="s2">"gold"</span><span class="p">)),</span>
+<span class="p">)</span>
+<span class="n">project</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">only</span><span class="o">=</span><span class="s2">"Treasure"</span><span class="p">)</span>
+</code></pre></div>
+</div>
+<div class="stl-viewer" data-stl-uri="_stl/e89ef1270901753c.stl" data-stl-color="#6f9ac9" style="width:100%;height:360px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a class="reference external" href="_stl/e89ef1270901753c.stl">⬇ Download STL mesh</a></p>
+</div>
 <dl class="py method objdesc">
 <dt class="sig sig-object highlight py" id="pyboxbuilder.LidBuilder.for_mode">
 <span class="sig-name descname"><span class="pre">for_mode</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#pyboxbuilder.LidBuilder.for_mode.mode" title="pyboxbuilder.LidBuilder.for_mode.mode (Python parameter) — &quot;mmu&quot; or &quot;single&quot;."><span class="n"><span class="pre">mode</span></span></a><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></span></em></span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="desctype"><a class="reference internal" href="pyboxbuilder.lid.builder.LidBuilder.html#pyboxbuilder.lid.builder.LidBuilder" title="pyboxbuilder.lid.builder.LidBuilder (Python class) — Bases: object"><span class="pre">LidBuilder</span></a></span></span></span><a class="reference internal" href="../_modules/pyboxbuilder/lid/builder.html#LidBuilder.for_mode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyboxbuilder.LidBuilder.for_mode" title="Link to this definition">¶</a></dt>
@@ -3609,6 +3627,15 @@ A member is added when the geometry to draw it is (FR-000c).</p>
 </code></pre></div>
 </div>
 <div class="stl-viewer" data-stl-uri="_stl/c739064b07e3dfc7.stl" data-stl-color="#6f9ac9" style="width:100%;height:360px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a class="reference external" href="_stl/c739064b07e3dfc7.stl">⬇ Download STL mesh</a></p>
+<p>Four equal wells sharing a box’s room, sized by ratio:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="n">p</span> <span class="o">=</span> <span class="n">Project</span><span class="p">(</span><span class="s2">"Divided"</span><span class="p">,</span> <span class="n">game_box_size</span><span class="o">=</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="mi">150</span><span class="p">,</span> <span class="mi">60</span><span class="p">))</span>
+<span class="n">box</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">box</span><span class="p">(</span><span class="n">BoxType</span><span class="o">.</span><span class="n">NO_LID</span><span class="p">,</span> <span class="s2">"Sorted"</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">80</span><span class="p">,</span> <span class="mi">30</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">):</span>
+    <span class="n">box</span><span class="o">.</span><span class="n">compartment</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Slot</span><span class="si">{</span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="n">width_ratio</span><span class="o">=</span><span class="mf">0.25</span><span class="p">)</span>
+<span class="n">p</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div>
+</div>
+<div class="stl-viewer" data-stl-uri="_stl/69d80872df26d512.stl" data-stl-color="#6f9ac9" style="width:100%;height:360px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a class="reference external" href="_stl/69d80872df26d512.stl">⬇ Download STL mesh</a></p>
 </div>
 <dl class="py method objdesc">
 <dt class="sig sig-object highlight sig-wrap py" id="pyboxbuilder.Project.arrange">
@@ -3640,6 +3667,24 @@ the packer — the arrangement’s arithmetic assumed the size it was given
 </ul>
 </dd>
 </dl>
+<div class="example admonition">
+<p class="admonition-title">Examples</p>
+<p>An arrangement written down instead of measured:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="n">project</span> <span class="o">=</span> <span class="n">Project</span><span class="p">(</span><span class="s2">"BigGame"</span><span class="p">,</span> <span class="n">game_box_size</span><span class="o">=</span><span class="p">(</span><span class="mi">300</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">80</span><span class="p">))</span>
+<span class="n">project</span><span class="o">.</span><span class="n">box</span><span class="p">(</span><span class="n">BoxType</span><span class="o">.</span><span class="n">SLIDING</span><span class="p">,</span> <span class="s2">"CardBox"</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">110</span><span class="p">,</span> <span class="mi">75</span><span class="p">,</span> <span class="mi">50</span><span class="p">))</span>
+<span class="n">project</span><span class="o">.</span><span class="n">box</span><span class="p">(</span><span class="n">BoxType</span><span class="o">.</span><span class="n">CAP</span><span class="p">,</span> <span class="s2">"TokenBox"</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">60</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">30</span><span class="p">))</span>
+<span class="n">project</span><span class="o">.</span><span class="n">box</span><span class="p">(</span><span class="n">BoxType</span><span class="o">.</span><span class="n">CAP</span><span class="p">,</span> <span class="s2">"DiceBox"</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">60</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">30</span><span class="p">))</span>
+<span class="n">project</span><span class="o">.</span><span class="n">box</span><span class="p">(</span><span class="n">BoxType</span><span class="o">.</span><span class="n">FILAMENT_HINGE</span><span class="p">,</span> <span class="s2">"BitBox"</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">80</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span> <span class="mi">40</span><span class="p">))</span>
+<span class="n">project</span><span class="o">.</span><span class="n">arrange</span><span class="p">(</span><span class="n">columns</span><span class="p">(</span>
+    <span class="s2">"CardBox"</span><span class="p">,</span>
+    <span class="n">stack</span><span class="p">(</span><span class="s2">"TokenBox"</span><span class="p">,</span> <span class="s2">"DiceBox"</span><span class="p">),</span>
+    <span class="s2">"BitBox"</span><span class="p">,</span>
+<span class="p">))</span>
+<span class="n">project</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div>
+</div>
+<div class="stl-viewer" data-stl-uri="_stl/5fe06148e77099ac.stl" data-stl-color="#6f9ac9" style="width:100%;height:360px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a class="reference external" href="_stl/5fe06148e77099ac.stl">⬇ Download STL mesh</a></p>
+</div>
 </dd></dl>
 
 <dl class="py method objdesc">

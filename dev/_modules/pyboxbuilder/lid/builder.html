@@ -351,6 +351,24 @@
 <span class="sd">                          pattern=PatternBuilder(PatternType.HEX))</span>
 <span class="sd">        ...</span>
 <span class="sd">        project.box(BoxType.SLIDING, "Favor", lid=LEAF.titled("Favors"))</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        A frameless diagonal label on a hex-patterned lid:</span>
+
+<span class="sd">        .. pythonscad-example::</span>
+
+<span class="sd">            project = Project("FancyGame", game_box_size=(300, 200, 80))</span>
+<span class="sd">            STYLE = LidBuilder(</span>
+<span class="sd">                label_mode=LabelMode.FRAMELESS,</span>
+<span class="sd">                diagonal=True,</span>
+<span class="sd">                pattern=PatternBuilder(PatternType.HEX, spacing=10.0),</span>
+<span class="sd">            )</span>
+<span class="sd">            project.box(</span>
+<span class="sd">                BoxType.SLIDING, "Treasure", size=(90, 70, 40),</span>
+<span class="sd">                lid=STYLE.titled("Treasure", text_color=Color("gold")),</span>
+<span class="sd">            )</span>
+<span class="sd">            project.show(only="Treasure")</span>
+
 <span class="sd">    """</span>
 
     <span class="n">text</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>

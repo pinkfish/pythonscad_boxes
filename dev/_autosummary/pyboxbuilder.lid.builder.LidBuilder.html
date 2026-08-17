@@ -1351,6 +1351,24 @@ the style at every box (FR-000b):</p>
 <span class="n">project</span><span class="o">.</span><span class="n">box</span><span class="p">(</span><span class="n">BoxType</span><span class="o">.</span><span class="n">SLIDING</span><span class="p">,</span> <span class="s2">"Favor"</span><span class="p">,</span> <span class="n">lid</span><span class="o">=</span><span class="n">LEAF</span><span class="o">.</span><span class="n">titled</span><span class="p">(</span><span class="s2">"Favors"</span><span class="p">))</span>
 </code></pre></div>
 </div>
+<div class="example admonition">
+<p class="admonition-title">Examples</p>
+<p>A frameless diagonal label on a hex-patterned lid:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="n">project</span> <span class="o">=</span> <span class="n">Project</span><span class="p">(</span><span class="s2">"FancyGame"</span><span class="p">,</span> <span class="n">game_box_size</span><span class="o">=</span><span class="p">(</span><span class="mi">300</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">80</span><span class="p">))</span>
+<span class="n">STYLE</span> <span class="o">=</span> <span class="n">LidBuilder</span><span class="p">(</span>
+    <span class="n">label_mode</span><span class="o">=</span><span class="n">LabelMode</span><span class="o">.</span><span class="n">FRAMELESS</span><span class="p">,</span>
+    <span class="n">diagonal</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">pattern</span><span class="o">=</span><span class="n">PatternBuilder</span><span class="p">(</span><span class="n">PatternType</span><span class="o">.</span><span class="n">HEX</span><span class="p">,</span> <span class="n">spacing</span><span class="o">=</span><span class="mf">10.0</span><span class="p">),</span>
+<span class="p">)</span>
+<span class="n">project</span><span class="o">.</span><span class="n">box</span><span class="p">(</span>
+    <span class="n">BoxType</span><span class="o">.</span><span class="n">SLIDING</span><span class="p">,</span> <span class="s2">"Treasure"</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">90</span><span class="p">,</span> <span class="mi">70</span><span class="p">,</span> <span class="mi">40</span><span class="p">),</span>
+    <span class="n">lid</span><span class="o">=</span><span class="n">STYLE</span><span class="o">.</span><span class="n">titled</span><span class="p">(</span><span class="s2">"Treasure"</span><span class="p">,</span> <span class="n">text_color</span><span class="o">=</span><span class="n">Color</span><span class="p">(</span><span class="s2">"gold"</span><span class="p">)),</span>
+<span class="p">)</span>
+<span class="n">project</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">only</span><span class="o">=</span><span class="s2">"Treasure"</span><span class="p">)</span>
+</code></pre></div>
+</div>
+<div class="stl-viewer" data-stl-uri="_stl/e89ef1270901753c.stl" data-stl-color="#6f9ac9" style="width:100%;height:360px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a class="reference external" href="_stl/e89ef1270901753c.stl">⬇ Download STL mesh</a></p>
+</div>
 <dl class="py method objdesc">
 <dt class="sig sig-object highlight py" id="pyboxbuilder.lid.builder.LidBuilder.for_mode">
 <span class="sig-name descname"><span class="pre">for_mode</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#pyboxbuilder.lid.builder.LidBuilder.for_mode.mode" title="pyboxbuilder.lid.builder.LidBuilder.for_mode.mode (Python parameter) — &quot;mmu&quot; or &quot;single&quot;."><span class="n"><span class="pre">mode</span></span></a><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></span></em></span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="desctype"><a class="reference internal" href="#pyboxbuilder.lid.builder.LidBuilder" title="pyboxbuilder.lid.builder.LidBuilder (Python class) — Bases: object"><span class="pre">LidBuilder</span></a></span></span></span><a class="reference internal" href="../_modules/pyboxbuilder/lid/builder.html#LidBuilder.for_mode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyboxbuilder.lid.builder.LidBuilder.for_mode" title="Link to this definition">¶</a></dt>

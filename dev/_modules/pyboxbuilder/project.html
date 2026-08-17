@@ -443,6 +443,16 @@
 <span class="sd">            p.box(BoxType.NO_LID, "Tokens", size=(80, 60, 30))</span>
 <span class="sd">            p.show()</span>
 
+<span class="sd">        Four equal wells sharing a box's room, sized by ratio:</span>
+
+<span class="sd">        .. pythonscad-example::</span>
+
+<span class="sd">            p = Project("Divided", game_box_size=(200, 150, 60))</span>
+<span class="sd">            box = p.box(BoxType.NO_LID, "Sorted", size=(100, 80, 30))</span>
+<span class="sd">            for i in range(4):</span>
+<span class="sd">                box.compartment(f"Slot{i + 1}", width_ratio=0.25)</span>
+<span class="sd">            p.show()</span>
+
 <span class="sd">    """</span>
 
     <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
@@ -596,6 +606,23 @@
 <span class="sd">            LayoutError: If the tree names an unknown box or places one twice.</span>
 <span class="sd">            ValueError: If a named box has no explicit size, or the arrangement</span>
 <span class="sd">                does not fit the game box.</span>
+
+<span class="sd">        Examples:</span>
+<span class="sd">            An arrangement written down instead of measured:</span>
+
+<span class="sd">            .. pythonscad-example::</span>
+
+<span class="sd">                project = Project("BigGame", game_box_size=(300, 200, 80))</span>
+<span class="sd">                project.box(BoxType.SLIDING, "CardBox", size=(110, 75, 50))</span>
+<span class="sd">                project.box(BoxType.CAP, "TokenBox", size=(60, 50, 30))</span>
+<span class="sd">                project.box(BoxType.CAP, "DiceBox", size=(60, 50, 30))</span>
+<span class="sd">                project.box(BoxType.FILAMENT_HINGE, "BitBox", size=(80, 60, 40))</span>
+<span class="sd">                project.arrange(columns(</span>
+<span class="sd">                    "CardBox",</span>
+<span class="sd">                    stack("TokenBox", "DiceBox"),</span>
+<span class="sd">                    "BitBox",</span>
+<span class="sd">                ))</span>
+<span class="sd">                project.show()</span>
 
 <span class="sd">        """</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.layout</span><span class="w"> </span><span class="kn">import</span> <span class="n">LayoutError</span>

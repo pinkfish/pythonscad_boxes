@@ -1562,6 +1562,15 @@
 </code></pre></div>
 </div>
 <div class="stl-viewer" data-stl-uri="_stl/c739064b07e3dfc7.stl" data-stl-color="#6f9ac9" style="width:100%;height:360px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a class="reference external" href="_stl/c739064b07e3dfc7.stl">⬇ Download STL mesh</a></p>
+<p>Four equal wells sharing a box’s room, sized by ratio:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="n">p</span> <span class="o">=</span> <span class="n">Project</span><span class="p">(</span><span class="s2">"Divided"</span><span class="p">,</span> <span class="n">game_box_size</span><span class="o">=</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="mi">150</span><span class="p">,</span> <span class="mi">60</span><span class="p">))</span>
+<span class="n">box</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">box</span><span class="p">(</span><span class="n">BoxType</span><span class="o">.</span><span class="n">NO_LID</span><span class="p">,</span> <span class="s2">"Sorted"</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">80</span><span class="p">,</span> <span class="mi">30</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">):</span>
+    <span class="n">box</span><span class="o">.</span><span class="n">compartment</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Slot</span><span class="si">{</span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="n">width_ratio</span><span class="o">=</span><span class="mf">0.25</span><span class="p">)</span>
+<span class="n">p</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div>
+</div>
+<div class="stl-viewer" data-stl-uri="_stl/69d80872df26d512.stl" data-stl-color="#6f9ac9" style="width:100%;height:360px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a class="reference external" href="_stl/69d80872df26d512.stl">⬇ Download STL mesh</a></p>
 </div>
 <dl class="py method objdesc">
 <dt class="sig sig-object highlight sig-wrap py" id="pyboxbuilder.project.Project.arrange">
@@ -1593,6 +1602,24 @@ the packer — the arrangement’s arithmetic assumed the size it was given
 </ul>
 </dd>
 </dl>
+<div class="example admonition">
+<p class="admonition-title">Examples</p>
+<p>An arrangement written down instead of measured:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="n">project</span> <span class="o">=</span> <span class="n">Project</span><span class="p">(</span><span class="s2">"BigGame"</span><span class="p">,</span> <span class="n">game_box_size</span><span class="o">=</span><span class="p">(</span><span class="mi">300</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">80</span><span class="p">))</span>
+<span class="n">project</span><span class="o">.</span><span class="n">box</span><span class="p">(</span><span class="n">BoxType</span><span class="o">.</span><span class="n">SLIDING</span><span class="p">,</span> <span class="s2">"CardBox"</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">110</span><span class="p">,</span> <span class="mi">75</span><span class="p">,</span> <span class="mi">50</span><span class="p">))</span>
+<span class="n">project</span><span class="o">.</span><span class="n">box</span><span class="p">(</span><span class="n">BoxType</span><span class="o">.</span><span class="n">CAP</span><span class="p">,</span> <span class="s2">"TokenBox"</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">60</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">30</span><span class="p">))</span>
+<span class="n">project</span><span class="o">.</span><span class="n">box</span><span class="p">(</span><span class="n">BoxType</span><span class="o">.</span><span class="n">CAP</span><span class="p">,</span> <span class="s2">"DiceBox"</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">60</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">30</span><span class="p">))</span>
+<span class="n">project</span><span class="o">.</span><span class="n">box</span><span class="p">(</span><span class="n">BoxType</span><span class="o">.</span><span class="n">FILAMENT_HINGE</span><span class="p">,</span> <span class="s2">"BitBox"</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">80</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span> <span class="mi">40</span><span class="p">))</span>
+<span class="n">project</span><span class="o">.</span><span class="n">arrange</span><span class="p">(</span><span class="n">columns</span><span class="p">(</span>
+    <span class="s2">"CardBox"</span><span class="p">,</span>
+    <span class="n">stack</span><span class="p">(</span><span class="s2">"TokenBox"</span><span class="p">,</span> <span class="s2">"DiceBox"</span><span class="p">),</span>
+    <span class="s2">"BitBox"</span><span class="p">,</span>
+<span class="p">))</span>
+<span class="n">project</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div>
+</div>
+<div class="stl-viewer" data-stl-uri="_stl/5fe06148e77099ac.stl" data-stl-color="#6f9ac9" style="width:100%;height:360px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a class="reference external" href="_stl/5fe06148e77099ac.stl">⬇ Download STL mesh</a></p>
+</div>
 </dd></dl>
 
 <dl class="py method objdesc">
