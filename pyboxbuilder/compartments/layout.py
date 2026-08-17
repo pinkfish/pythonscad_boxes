@@ -204,11 +204,27 @@ def compute_min_box_size(
     max_w: float | None = None,
     max_l: float | None = None,
 ) -> tuple[float, float, float]:
-    """Compute the minimum box outer dimensions from compartment data.
+    """The smallest box that holds these compartments.
 
-    Estimates the box size needed to hold all compartments in a shelf layout.
-    If max_w and max_l are provided, runs layout_compartments to find the exact footprint.
-    Otherwise, estimates a square footprint.
+    With `max_w`/`max_l` given, lays the compartments out and measures the
+    result; otherwise estimates a square footprint.
+
+    The measurement **includes the gutters the layout puts around them**. It
+    used to measure only the placements' own extent, so the size it returned was
+    one gutter short on each axis — and a box sized from its compartments then
+    failed to fit those same compartments, which is a confusing error to get
+    from a box you never gave a size to.
+
+    Args:
+        compartments: `(label, width, length, depth)` per compartment.
+        wall_thickness: The box's wall, in mm.
+        floor_thickness: The box's floor, in mm.
+        lid_thickness: The box's lid, in mm.
+        max_w: Interior width available, if the box sits in a container.
+        max_l: Interior length available.
+
+    Returns:
+        The box's outer `(width, length, height)` in mm.
     """
     if not compartments:
         return (
@@ -229,10 +245,13 @@ def compute_min_box_size(
             )
             layout = layout_compartments(interior, compartments)
             if not layout.overflow and layout.placements:
-                min_x = min(p.position[0] for p in layout.placements)
-                max_x = max(p.position[0] + p.size[0] for p in layout.placements)
-                min_y = min(p.position[1] for p in layout.placements)
-                max_y = max(p.position[1] + p.size[1] for p in layout.placements)
+                # From the interior's own origin, not from the first placement:
+                # the gutter before it is part of what the box has to hold, and
+                # so is the one after the last.
+                gutter = 0.0 if len(layout.placements) == 1 else WALL_SPACING_MM
+                min_x = min_y = 0.0
+                max_x = max(p.position[0] + p.size[0] for p in layout.placements) + gutter
+                max_y = max(p.position[1] + p.size[1] for p in layout.placements) + gutter
                 w = (max_x - min_x) + 2 * wall_thickness + 0.5
                 l = (max_y - min_y) + 2 * wall_thickness + 0.5
                 h = max(p.depth for p in layout.placements) + floor_thickness + lid_thickness + 0.5

@@ -11,13 +11,16 @@ from pyboxbuilder import (
     Project,                        # Top-level entry point
     BoxType,                        # Enum: SLIDING, CAP, HINGE, ...
     LabelMode,                      # Enum: FRAMED, FRAMELESS
-    PatternType,                    # Enum: HEX_GRID, GRID, VORONOI
+    PatternType,                    # Enum: HEX, SQUARE, VORONOI, ...
     ScoopSide,                      # Enum: FRONT, BACK, LEFT, RIGHT
     FingerCut,                      # Enum: THROUGH_FLOOR, SCOOP
-    Color,                          # RGBA dataclass with named presets
+    Cut,                            # Record: how a compartment's contents come out
+    Color,                          # pybosl2.Color, re-exported
     LidBuilder,                     # Lid decoration builder
     PatternBuilder,                 # Through-hole pattern builder
     ExportResult,                   # Result of Project.export()
+    columns, rows, stack,           # Declarative layout
+    run,                            # Example entry point: preview, or export
 )
 ```
 
@@ -27,91 +30,186 @@ from pyboxbuilder import (
 Project(
     name: str,
     *,
-    game_box_size: tuple[float, float, float],
+    game_box_size: tuple[float, float, float] | None = None,   # None → standalone
     wall_thickness: float = 2.0,
     floor_thickness: float = 1.6,
     lid_thickness: float = 2.0,
+    rounding: float | None = None,          # None → wall / 2
+    inner_rounding: float | None = None,    # None → half the outer radius
     gap_threshold: float = 10.0,
     min_spacer_dim: float = 15.0,
+    min_spacer_height: float = 5.0,
+    clearance_slack: float = 1.0,
+    board_thickness: float = 0.0,
+    generate_spacers: bool = True,
+    box_defaults: dict | None = None,       # applied to every .box() call
 )
 ```
 
-### `.box(box_type, label, *, size, ...)` → Typed Builder
+`box_defaults` carries any keyword `.box()` accepts, so a value every box shares
+is written once (FR-000b). A keyword given to `.box()` wins over it; a keyword a
+particular builder does not have is ignored there rather than being an error.
 
-`@overload` signatures (12 total) — return type depends on `box_type`:
+### `.build() -> Build`
 
-| box_type | Returns | Type-specific kwargs |
+**The only thing in the library that builds geometry** (FR-046c). Resolves the
+layout, sizes every box, and returns every body, lid and spacer as a `Piece`.
+`show()` renders what it returns; `export()` writes what it returns. Nothing
+else may build a second time.
+
+```
+Build(pieces: tuple[Piece, ...], packing: BoxPacking | None)
+Piece(label, kind, solid, size, position, builder)   # kind: "body" | "lid" | "spacer"
+```
+
+### `.box(box_type, label, *, size=None, **fields) -> BoxBuilder`
+
+Returns the builder registered for `box_type`. Every keyword must be a field of
+that builder: an unknown one raises `TypeError` naming it and listing the valid
+fields (FR-000f). `size` axes may individually be `None`, and are then derived
+from the box's contents.
+
+| box_type | Returns | Type-specific fields |
 |----------|---------|---------------------|
-| `BoxType.SLIDING` | `SlidingBoxBuilder` | `two_layer`, `two_layer_top_lid_ratio`, `two_layer_vee_shape` |
-| `BoxType.CAP` | `CapBoxBuilder` | `cap_height`, `finger_hold_height`, `finger_hold_len`, `lid_wall_thickness` |
-| `BoxType.HINGE` | `HingeBoxBuilder` | (type-specific fields) |
-| `BoxType.FILAMENT_HINGE` | `FilamentHingeBoxBuilder` | ... |
-| `BoxType.MAGNETIC` | `MagneticBoxBuilder` | `magnet_diameter`, `magnet_height`, `magnet_count_*` |
-| `BoxType.INSET` | `InsetBoxBuilder` | ... |
-| `BoxType.SLIDING_CATCH` | `SlidingCatchBoxBuilder` | ... |
-| `BoxType.SLIPOVER` | `SlipoverBoxBuilder` | ... |
-| `BoxType.SLIPOVER_PATH` | `SlipoverPathBoxBuilder` | ... |
-| `BoxType.CAP_PATH` | `CapPathBoxBuilder` | ... |
-| `BoxType.NO_LID` | `NoLidBoxBuilder` | `stackable` (inside/outside), `stackable_thickness`, `magnet_type` (round/rect), `magnet_size` |
-| `BoxType.CARD_LIBRARY` | `CardLibraryBoxBuilder` | ... |
+| `BoxType.SLIDING` | `SlidingBoxBuilder` | `catch_radius` |
+| `BoxType.CAP` | `CapBoxBuilder` | `cap_height` |
+| `BoxType.HINGE` | `HingeBoxBuilder` | `hinge_count`, `hinge_pin_diameter` |
+| `BoxType.FILAMENT_HINGE` | `FilamentHingeBoxBuilder` | — |
+| `BoxType.MAGNETIC` | `MagneticBoxBuilder` | `magnet_diameter`, `magnet_height`, `magnet_count_width`, `magnet_count_length` |
+| `BoxType.INSET` | `InsetBoxBuilder` | — |
+| `BoxType.SLIDING_CATCH` | `SlidingCatchBoxBuilder` | — |
+| `BoxType.SLIPOVER` | `SlipoverBoxBuilder` | `foot`, `slip` |
+| `BoxType.SLIPOVER_PATH` | `SlipoverPathBoxBuilder` | — |
+| `BoxType.CAP_PATH` | `CapPathBoxBuilder` | — |
+| `BoxType.NO_LID` | `NoLidBoxBuilder` | — |
+| `BoxType.PATH` | `PathBoxBuilder` | `path`, `hollow` |
+| `BoxType.CARD_LIBRARY` | `CardLibraryBoxBuilder` | — |
 
-All builders share these base kwargs: `size: tuple[float, float, float] | None = None` (auto-computed from compartments if omitted), `position: tuple[float, float, float] | None = None` (manual packing position), `expandable: bool = True`, `expandable_width: bool = True`, `expandable_length: bool = True`, `no_rotate: bool = False` (prevent 3D packer rotation, FR-013c), `stackable: str | None = None` (`"inside"`/`"outside"`, no-lid only, FR-038), `stackable_thickness: float | None = None`, `magnet_type: str | None = None` (`"round"`/`"rect"`, FR-039), `magnet_size: tuple[float, float, float] | None = None`, `wall_thickness: float | None = None`, `floor_thickness: float | None = None`, `lid_thickness: float | None = None`, `lid: LidBuilder | None = None`.
+Every field listed is read by the geometry. A field that is not is a defect, not
+a placeholder (FR-000f) — `two_layer`, `two_layer_top_lid_ratio`,
+`two_layer_vee_shape`, `hinge_diameter`, `finger_hold_height`,
+`finger_hold_len`, `lid_wall_thickness`, `hinge_gap` and `hinge_length` were all
+once documented here and read nowhere.
 
-### `.export(out_dir: str | Path) -> ExportResult`
+All builders share: `size`, `position`, `expandable`, `expandable_width`,
+`expandable_length`, `no_rotate`, `stackable`, `stackable_thickness`,
+`magnet_type`, `magnet_size`, `wall_thickness`, `floor_thickness`,
+`lid_thickness`, `rounding`, `inner_rounding`, `lid`, `color`,
+`auto_finger_holes`.
 
-Builds all geometry, packs boxes, generates spacers, writes 3MF files. Cached layout (SHA-256 hash). Hausdorff-gated file writes.
+**A placed box is not the packer's.** Giving a box a `position` — directly or
+through `arrange()` — is what keeps the packer off it; `expandable` and
+`no_rotate` then have no effect and need not be set.
 
-## LidBuilder (`pyboxbuilder/lid/builder.py`) — Fresh Design
+### `.arrange(layout, origin=(0, 0, 0)) -> Arrangement`
+
+Resolves a `columns`/`rows`/`stack` tree into a position per box. Every box is
+sized first, including the ones sized from their contents, so a box described by
+what goes in it can be arranged.
+
+### `.export(out_dir, fn=None, fa=None, fs=None) -> ExportResult`
+
+Writes what `build()` returns. Each piece's write is gated on a digest of the
+description it was built from (FR-031), recorded in `.fingerprints.json` beside
+the files.
+
+### `.show(show_lids=False, remove_layers=0, fn=None, fa=None, fs=None)`
+
+Renders what `build()` returns. A shown lid carries its decoration.
+
+## LidBuilder (`pyboxbuilder/lid/builder.py`)
 
 ```
 LidBuilder(
     text: str | None = None,
-    label_mode: LabelMode = LabelMode.FRAMED,
-    diagonal: bool = False,
+    label_mode: LabelMode | None = None,      # None → FRAMED
+    diagonal: bool | None = None,             # None → False
     text_color: Color | None = None,
     frame_color: Color | None = None,
     pattern: PatternBuilder | None = None,
     pattern_color: Color | None = None,
-    min_text_height_mm: float = 4.0,
-    border_margin_mm: float = 5.0,
-    mmu_label: LidBuilder | None = None,      # Override for MMU export mode
-    single_label: LidBuilder | None = None,    # Override for single-color export mode
+    min_text_height_mm: float | None = None,  # None → 4.0
+    border_margin_mm: float | None = None,    # None → 5.0
+    mmu_label: LidBuilder | None = None,      # override for MMU export
+    single_label: LidBuilder | None = None,   # override for single-colour export
 )
 ```
 
-**Per-mode overrides**: `mmu_label` and `single_label` allow different label specifications per export mode. When set, their fields override the parent LidBuilder for that mode. The common use case is `label_mode=LabelMode.FRAMED` (default) with `mmu_label=LidBuilder(label_mode=LabelMode.FRAMELESS)` — single-color uses a framed recessed label, MMU uses a frameless text-only label. Unset modes fall back to the parent fields.
+`.titled(text, **overrides)` returns a copy carrying one box's text, so a lid
+*style* is written once and worn by many boxes.
 
-**Fresh design** — not constrained by legacy `LidPlate`/`build_lid()`.
+**Every field defaults to `None`** so "not mentioned" is representable, which is
+what a per-mode override needs: `.for_mode(mode)` applies only the fields the
+override actually names. The resolved values are read through `.mode`,
+`.is_diagonal`, `.min_text_height` and `.border_margin`. Deciding intent by
+comparing against a field's default instead — which `resolve_for_mode()` did —
+meant an override could not state `FRAMED`, could not turn `diagonal` off, and
+always imposed its own margins.
 
-Default colors when `None`: `text_color` → `Color.WHITE()`, `frame_color` → contrasting hue from body, `pattern_color` → third contrasting hue.
-
-**Compartment labels per mode**: Single-color exports use engraved 0.2mm recessed cutout text (visible by depth contrast). MMU exports use 0.2mm raised second-color text (visible by material color contrast). This is controlled by a `mode` parameter in `build_floor_label()`.
+Accent colours default from the body colour: text to white, frame and pattern to
+contrasting hues (FR-022). An unset accent is *no colour*, not a subtle default,
+so they are resolved rather than passed through.
 
 ## PatternBuilder (`pyboxbuilder/lid/builder.py`)
 
 ```
 PatternBuilder(
-    type: PatternType = PatternType.HEX_GRID,
+    type: PatternType = PatternType.HEX,
     colors: tuple[Color, ...] = (),
-    spacing: float | None = None,
+    spacing: float | None = None,      # None → lid's shorter side / 8, min 5mm
 )
 ```
 
-Pattern fills are `Callable[[float, float, float], Bosl2Solid]` — functions from (width, length, thickness) to through-hole cutout solid. Tessellation generators (penrose, pentagon, voronoi) are borrowed from the existing codebase. Multiple `colors` assign different elements within the pattern.
+`PatternType` contains only patterns the library draws: `NONE`, `SQUARE`,
+`CIRCLE`, `HEX`, `DENSE_HEX`, `TRIANGLE`, `DENSE_TRIANGLE`, `OCTAGON`,
+`VORONOI`. A member with no fill raises rather than substituting another
+member's shape (FR-000g).
 
-## CompartmentBuilder (`pyboxbuilder/compartments/builder.py`)
+## Compartments (`BoxBuilder.compartment`, `BoxBuilder.cards`)
 
 ```
-CompartmentBuilder(
+box.compartment(
     label: str,
-    size: tuple[float, float],
-    depth: float,
+    *,
+    size: tuple[float, float] | None = None,   # None → fill the interior
+    width_ratio: float | None = None,          # share of the room the wells have
+    length_ratio: float | None = None,
+    depth: float | None = None,                # None → run to the floor
+    holds_pieces: bool = False,                # tray: round corners and floor
     rounded_corners: float = 0.0,
-    cut: Cut | FingerCut | None = None,    # None → no finger cut
-)
+    cut: Cut | FingerCut | None = None,
+    no_rotate: bool = False,
+    shape_file: str | None = None,
+    position: tuple[float, float] | None = None,
+    elements: tuple[CompartmentElement, ...] = (),
+    element_margin: float = 0.0,
+) -> CompartmentBuilder
 ```
 
-`cut` is **one** field for a decision that used to be spread over three (`finger_scoop`, `finger_cut`, `scoop_side`) which had to be kept in agreement — `finger_cut=SCOOP` did nothing without `finger_scoop=True`, and a `scoop_side` on a compartment with no scoop was silently dropped. `None` means no cut. Anything else asks for one and says what it is:
+```
+box.cards(
+    label: str,
+    *,
+    count: int,
+    size: tuple[float, float],        # one card
+    thickness: float = 0.6,           # sleeved cards run nearer 0.8
+    slack: float = 1.0,
+    cut = FingerCut.THROUGH_FLOOR,
+    **compartment_kwargs,
+) -> CompartmentBuilder
+```
+
+A card box is described by its cards: the well's footprint and depth follow, and
+so does the box's height if its `size` leaves that axis `None` (FR-003b).
+
+A **ratio is a share of the room the wells actually have** — the interior less
+the spacing the layout puts before, between and after them — so N wells at `1/N`
+fit (FR-003c). A well whose size was derived that way is never rotated by the
+layout (FR-003d).
+
+`cut` is **one** field for a decision that used to be spread over three
+(`finger_scoop`, `finger_cut`, `scoop_side`) which had to be kept in agreement.
+`None` means no cut; anything else asks for one and says what it is:
 
 ```
 cut = FingerCut.SCOOP                        # widened by Cut.of
@@ -120,9 +218,15 @@ cut = Cut.through_floor(width=30.0)
 cut = Cut(kind=FingerCut.SCOOP, base_radius=6.0, mouth_flare=3.0)
 ```
 
-`kind` says what sort of cut it is (FR-060). **THROUGH_FLOOR** — the default — is a hole through the box's base at the wall, so a thumb pushes the contents up from underneath: what a stack needs, since a stack that fills its well leaves no side for a finger to reach down. **SCOOP** is the dip in the side, for loose pieces, and it leaves the base solid.
+**THROUGH_FLOOR** — the default for a card stack — is a hole through the box's
+base at the wall, so a thumb pushes the contents up from underneath: what a
+stack needs, since a stack that fills its well leaves no side for a finger to
+reach down (FR-060). **SCOOP** is the dip in the side, for loose pieces, and it
+leaves the base solid.
 
-`side` defaults to **None**, not to a member: it is derived — the compartment's shorter wall (FR-068), overridden to the lid's exit wall on a sliding box (FR-069). Pinning `FRONT` here would put a card box's cut in the long face and, on a sliding box, through the lid's groove. The remaining fields (`width`, `depth`, `offset`, `base_radius`, `mouth_flare`, `roll_rise`, `face_fillet`) name the same numbers as `finger_hole()` below and default to `None`, meaning *derive it*.
+`side` defaults to **None**, not to a member: it is derived — the compartment's
+shorter wall (FR-068), overridden to the lid's exit wall on a sliding box
+(FR-069).
 
 ## Finger holes on a box (`BoxBuilder.finger_hole`)
 
@@ -141,40 +245,73 @@ box.finger_hole(
 ) -> FingerHoleBuilder
 ```
 
-Every dimension here is a **full width or a radius of curvature**, never a half of something else: the outline is stated as a width (FR-051), and a signature offering `radius` *and* `width`, one of them half the other, invites the caller to set the wrong one. `radius` is kept as a deprecated alias for one release and raises a `DeprecationWarning`.
+**These are the names `FingerHoleBuilder` uses too** (FR-006a). They were
+`radius`, `bottom_radius`, `rounding_radius` and `rounding_edge` on the record
+while the method took the four above, so every number in a finger cut had two
+names and one of the pairs differed by a factor of two.
 
-The cut hangs from the top of the **interior** (FR-064), not the outer rim, and `depth` is read to the deepest point of the material removed (FR-006b). `width` and `base_radius` are independent (FR-055), and the radius given is the radius built — the straight run between the circles is what gives when the depth is tight, not the circle (FR-054). A no-lid box gets a pair of these automatically (FR-047); `box(..., auto_finger_holes=False)` or naming any hole of your own suppresses them (FR-047b).
+Every dimension here is a **full width or a radius of curvature**, never a half
+of something else. The cut hangs from the top of the **interior** (FR-064), and
+`depth` is read to the deepest point of the material removed (FR-006b). `width`
+and `base_radius` are independent (FR-055), and the radius given is the radius
+built (FR-054). A no-lid box gets a pair of these automatically (FR-047);
+`box(..., auto_finger_holes=False)` or naming any hole of your own suppresses
+them (FR-047b), as does a polygon footprint (FR-047c).
+
+## BoxSpec (`pyboxbuilder/box/spec.py`)
+
+The frozen record a box type is built from, and **the one place every geometric
+default is declared** (FR-000e). A box type reads `spec.wall_thickness`; it does
+not carry a fallback of its own. Derive a variant with `dataclasses.replace`.
+
+Assembled only by `build_spec(project, builder, size)`.
+
+## BoxTypeBase (`pyboxbuilder/box/base.py`)
+
+Every box type inherits it. `build_body` is required; `build_lid`, `interior`,
+`preferred_scoop_side`, `lid_rounded_edges`, `wall_tops` and `interior_mask` have
+defaults a subclass overrides. These were discovered with `getattr` — a protocol
+no reader can see and no checker can verify, where a misspelled override is a
+method that never runs and never complains.
 
 ## Color (`pybosl2.Color`, re-exported from `pyboxbuilder`)
 
 ```
 Color([r, g, b])        # list/tuple of floats 0.0–1.0
 Color("white")          # webcolor name
-Color("darkgreen")      # webcolor name
-Color("gold")           # webcolor name
-# no presets — use Color("name") at the call site
+Color("darkgreen")
 ```
+
+No presets: use `Color("name")` at the call site.
 
 ## File Naming
 
 ```
 {out_dir}/{project.name}/mmu/{label}_body.3mf
 {out_dir}/{project.name}/mmu/{label}_lid.3mf
-{out_dir}/{project.name}/mmu/spacer_{N}.3mf
+{out_dir}/{project.name}/mmu/spacer_{N}_body.3mf
 {out_dir}/{project.name}/single/{label}_body_single.3mf
 {out_dir}/{project.name}/single/{label}_lid_single.3mf
-{out_dir}/{project.name}/single/spacer_{N}_single.3mf
+{out_dir}/{project.name}/single/spacer_{N}_body_single.3mf
+{out_dir}/{project.name}/layout.pdf
 ```
 
-No-lid box types skip `_lid` files.
+No-lid box types skip `_lid` files. Each directory also carries a
+`.fingerprints.json` recording what each file was built from.
 
 ## Error Contract
 
 | Condition | Error | Message includes |
 |-----------|-------|-----------------|
-| Invalid BoxType | `ValueError` | Valid enum values |
-| Unknown type-specific kwarg | `TypeError` | Builder name, valid field names |
-| Duplicate box label | `ValueError` | The duplicate label |
-| Compartment depth > interior | `ValueError` | Label, depth, max allowed |
-| Boxes overflow container | `ValueError` | Which boxes overflow, by how much |
+| Invalid BoxType | `KeyError` | The unregistered type |
+| Unknown type-specific kwarg | `TypeError` | Builder name, the unknown field, valid field names |
+| Compartment ratio out of (0, 1] | `ValueError` | Compartment label, the ratio |
+| Ratios summing above 1.0 | `ValueError` | Box label, the sum, each contributor |
+| Compartments overflow the interior | `ValueError` | Box label, the interior size |
+| Box with no size and only filling wells | `ValueError` | Box label, its wells, what to set |
+| Boxes overflow container | `PackingError` | Which boxes overflow, by how much |
+| Arrangement larger than the game box | `LayoutError` | Both sizes |
+| Cap box too short for its finger cutouts | `ValueError` | Height, minimum, each term, the slipover alternative |
+| Standalone project asked to pack | `ValueError` | Project name |
+| Pattern with no registered fill | `ValueError` | The member, the available ones |
 | Empty mesh (0 facets) | Warning (not error) | Box label, skipped |

@@ -24,23 +24,65 @@ Three rules follow, and they are the ones to check a change against.
 
 Overrides still exist for the unusual case (FR-000b), but each is **one named parameter changing one thing**, never a set the user has to keep consistent. Where two values must agree — a lid and the groove it runs in, a skirt and the band it grips — the library derives one from the other and emits both from one function, so there is nothing to keep in step.
 
+### Every Default Is Declared Once, In `BoxSpec` (FR-000e)
+
+A default that is stated twice is two defaults, and they will differ. Every
+geometric default in the library is therefore a **field default on
+`pyboxbuilder.box.spec.BoxSpec`**, and no function downstream carries a
+fallback of its own: a function that needs the wall thickness reads
+`spec.wall_thickness` and gets the number from that one file.
+
+The rule exists because the spec used to be a plain `dict`. Reading a key that
+might be absent means writing the default at the call site, so `wall_thickness`
+was restated at 36 of them, `lid_thickness` at 33 and `floor_thickness` at 23 —
+and the copies diverged: a hinge was built with five knuckles by the geometry
+and three by the builder that configured it, and `hinge_knuckles` and
+`hinge_count` were two names for the same number.
+
+What follows from it, and is worth checking a change against:
+
+- **`spec.get("x", default)` is the shape of the bug.** A `BoxSpec` is a frozen
+  dataclass, so a name that is not a field is an `AttributeError` at the line
+  that reads it and a type error before that — which is what stops a key
+  quietly going missing from one of two assembly sites.
+- **One function assembles it**: `build_spec(project, builder, size)`. A box
+  type never sees a description built anywhere else.
+- **Derive a variant with `dataclasses.replace`**, never by copying fields. A
+  cap box's body is `replace(spec, height=m.body_height)`.
+- **A per-type default that genuinely differs** — a sliding-catch box always has
+  a catch, a plain sliding box has none — belongs on the *type*, resolving the
+  spec's `None`, not as a second default on the field.
+
+A box type's optional behaviour is likewise a **method on `BoxTypeBase`** with a
+default implementation, not a hook discovered with `getattr`. A hook found by
+name is a protocol no reader can see and no checker can verify; a misspelled
+override is then a method that never runs and never complains.
+
 ## Technical Context
 
 **Language/Version**: Python 3.12+ with strict type annotations (`py.typed` marker)
 
-**Primary Dependencies**: pybosl2 >= 0.7.8 (CSG geometry), numpy, pymeshlab >= 0.2.0 (Hausdorff mesh comparison)
+**Primary Dependencies**: pybosl2 >= 0.7.7 (CSG geometry), numpy, fpdf2 (the packing guide)
+
+Note what is *not* here: pymeshlab. The write-if-changed gate used to compare
+exported meshes with a Hausdorff distance, which measured the wrong thing —
+OpenSCAD does not promise to retriangulate a complex CSG tree identically
+between runs, so nine of Emberleaf's pieces were rewritten on every export while
+a tolerance loose enough to absorb that would have been far above the 0.1mm the
+library resolves. The gate is a hash of the description a piece was built from
+(FR-031), which is exact, free, and needs no dependency.
 
 **Borrowed from existing code**: Tessellation generators (`penrose_tiling.py`, `pentagon_tilings.py`, `tesselations/`), shape generators (`shapes.py` coin/hex/etc.), and pybosl2's `cuboid()`/`cylinder()`/boolean CSG. These are algorithm libraries, not architecture constraints.
 
 **Storage**: Disk JSON cache (`pyboxbuilder/.layout_cache.json`), 3MF files + `layout.pdf` in `{out_dir}/{game}/mmu/`, `{out_dir}/{game}/single/`, and `{out_dir}/{game}/layout.pdf`
 
-**Testing**: `unittest` two-tier: fast pure-Python and full PythonSCAD render with golden-image comparison. `pyright` strict mode for type checking.
+**Testing**: `unittest` two-tier: fast pure-Python and full PythonSCAD render with golden-image comparison. `ruff` and `mypy` on every push, both **blocking**.
 
 **Target Platform**: macOS (PythonSCAD.app), cross-platform Python
 
 **Project Type**: Greenfield Python library inside `pyboxbuilder/`, single-import strictly-typed API
 
-**Performance Goals**: Full bin-packing may take longer on first run (complex layouts). Once cached (SHA-256 hit), regeneration completes in: 20-compartment layout < 1s, 6-sub-box auto-size < 2s, Hausdorff-based 3MF write-if-changed. Cached re-exports with zero geometry changes complete in < 0.5s.
+**Performance Goals**: Full bin-packing may take longer on first run (complex layouts). Once cached (SHA-256 hit), regeneration completes in: 20-compartment layout < 1s, 6-sub-box auto-size < 2s, fingerprint-gated 3MF write-if-changed. Cached re-exports with zero geometry changes complete in < 0.5s.
 
 **Constraints**: Enums for all type selections, no bare strings, no dict parameter objects, typed builders per box type, no import of existing `box_base.py`/`lids_base.py` architecture, CSG over SDF, Apache-2.0 header. **Do not reinvent the wheel — use classes that already exist in pybosl2 wherever possible.** ALL geometry MUST use pybosl2 solids (`cuboid`, `cylinder`, `sphere`, `prismoid`, etc.) and pybosl2 2D shapes/paths — never import `pythonscad` or any native OpenSCAD built-in directly. Use bosl2 basic pieces (`cube`, `cylinder`, `sphere`, `linear_extrude`, etc.) wherever possible instead of higher-level shape generators. **Do NOT implement a Color class. Use `pybosl2.Color` directly.** No wrapper, no custom implementation, no fallback. pybosl2's Color supports webcolor names: use names like `Color("darkgreen")`, `Color("gold")` instead of hardcoding RGB values. **Do NOT define preset constants** (no `WHITE`, `BLACK`, etc.) — just use `Color("white")`, `Color("black")` directly at the call site. The `pyboxbuilder/color.py` file must not exist. Minimum dimensional precision is 0.1mm — no rounding to whole millimetres. Compartments support ratio-based sizing (`width_ratio`, `length_ratio`) as an alternative to absolute dimensions; ratios are validated to sum ≤ 1.0 per row. Lid labels support per-export-mode overrides: `mmu_label` and `single_label` sub-configurations enable different label styles per material mode (e.g., frameless for MMU, framed for single). Compartment labels render as single-layer engraved cutouts for single-color and raised MMU second-color text for multi-color. Boxes support a `no_rotate` flag (default `False`) so directionally-constrained boxes opt out of packer rotation (FR-013c). When the packer rotates a box, its compartments are re-laid-out in the rotated interior frame (FR-013b). Standalone boxes export without a game box/packing (FR-037). No-lid boxes support stackable rims (inside/outside, FR-038) and round/rectangular side magnet slots (FR-039).
 
@@ -54,7 +96,7 @@ Overrides still exist for the unusual case (FR-000b), but each is **one named pa
 |-----------|--------|----------|
 | I. Developer Experience First | PASS | Single `from pyboxbuilder import Project, BoxType, ...`; enums prevent typos; typed builders give IDE autocomplete; fresh lid design not constrained by legacy |
 | II. Single Source of Truth | PASS | Each box type's config lives on its typed builder; `BoxSpec` equivalent is frozen; lid decoration is one `LidBuilder` |
-| III. Performance by Design | PASS | Layout cache with SHA-256 hash, Hausdorff skip-if-unchanged, CSG over SDF |
+| III. Performance by Design | PASS | Layout cache with SHA-256 hash, fingerprint skip-if-unchanged, CSG over SDF |
 | IV. Test-First | PASS | All new code tested; measurement-based geometry assertions; regression tests |
 | V. Documented by Default | PASS | All enums/builders/functions fully docstringed; Earth Animal Kingdom is reference |
 
@@ -90,7 +132,21 @@ Every public method, class, function, enum, and dataclass field MUST carry a det
 
 The repository MUST have GitHub Actions workflows that run on every push:
 
-1. **Test verification** (`.github/workflows/test.yml`): runs the fast pure-Python suite (`pytest tests/test_pyboxbuilder/`) and `pyright` type checking on every push and PR. It runs at **draft curve precision** and produces no printable output — see *Curve Precision: Export vs Preview*.
+1. **Test verification** (`.github/workflows/test.yml`): runs the fast pure-Python suite (`pytest tests/test_pyboxbuilder/`), then `ruff` and `mypy` on every push and PR. It runs at **draft curve precision** and produces no printable output — see *Curve Precision: Export vs Preview*.
+
+   **The lint and type steps are blocking.** They ran with `|| true` for long
+   enough that `lid/color_layers.py` sat in the tree using `@dataclass` without
+   importing it — a module that raised on import, which nothing imported, and
+   whose part of FR-022 had therefore never run. A checker whose result is
+   discarded is not a checker; if a rule is not worth failing the build over,
+   the rule should be turned off rather than reported and ignored.
+
+   mypy runs with `check_untyped_defs` rather than full `strict`: the errors
+   that catch defects here are the ones about a name that is not on an object
+   and an argument of the wrong type, and that set is at zero and stays there.
+   `strict` additionally wants an annotation on every private helper and every
+   call into pybosl2, which ships no `py.typed` — worth doing, not worth
+   blocking on before it is done.
 2. **Rendering verification** (`.github/workflows/render.yml`): runs the pybosl2/PythonSCAD render tests (golden-image comparison) on push — these exercise the CSG geometry (`build_body`/`build_lid`, pattern fills, hex-grid cutouts, tessellation wraps, stackable rims, magnet slots, lid labels) that pure Python cannot validate. The workflow provisions the PythonSCAD binary and fails on any render regression.
 3. **Docs generation** (`.github/workflows/docs.yml`):
    - **Dev docs on checkin**: every push to a non-release branch regenerates and publishes the API docs under a `dev/` prefix (development documentation).
@@ -115,22 +171,24 @@ Concretely:
 
 ### Make vs. Interactive: `FROM_MAKE` selects export vs. `show()`
 
-The `__main__` guard branches on the `FROM_MAKE` environment variable so the same
-file does the right thing in both contexts:
+An example's entry point is **one call**, `pyboxbuilder.run(project)`, which
+branches on the `FROM_MAKE` environment variable so the same file does the right
+thing in both contexts:
 
 ```python
 if __name__ == "__main__":
-    import os
-    if os.environ.get("FROM_MAKE") == "1":
-        result = project.export("output/")   # batch build: writes 3MF + PDF
-        # ... report written/skipped pieces ...
-    else:
-        project.show()                        # interactive: renders the layout
+    run(project)
 ```
+
+It is a library function rather than a snippet to copy because it *was* a
+snippet to copy: the twelve lines it replaces were pasted into seven examples
+and had drifted four different ways — some printed the written files, some only
+counted them, some reported piece bounds, one filtered them to mmu. None of that
+is a property of the game being described (FR-000d).
 
 - **Inside make** (`FROM_MAKE=1`): the example runs the export flow — `project.export("output/")` writes the 3MF files and layout PDF. The make build sets `FROM_MAKE=1` (as `tests/render_app.py` does) so the dependency-driven build regenerates box output without popping up a render window.
 - **Not inside make** (PythonSCAD GUI, Jupyter, or a plain `python3` shell): `FROM_MAKE` is unset, so the example calls `project.show()`, which builds every box body at its final packed position and shows them for interactive preview.
-- **`Project.show(show_lids=False, remove_layers=0)`** is a read-only preview: it resolves the layout (reusing the same `_resolve_final_layout()` packing as `export()`), builds each body, and places it at its packed position. It does NOT write files or produce a PDF. `export()` is unchanged and remains the batch path.
+- **`Project.show(show_lids=False, remove_layers=0)`** is a read-only preview: it renders what `Project.build()` returns — the same pieces `export()` writes — at their packed positions. It does NOT write files or produce a PDF. See *One Build Path* above: the preview and the export are the same geometry, not two builds kept in step.
 - **Each box stays a separate object — `show()` MUST NOT union the bodies.** Every box (and every lid, and every spacer) is shown as its own solid, so the preview keeps one part per box. This is not a stylistic preference; unioning defeats the rest of this section. A union is a single solid with a single colour, so per-box colours (below), the lid's lighter translucent shade, and the spacer grey all collapse into whatever the first operand happened to carry. It also fuses touching boxes into one indivisible blob, which is exactly the thing a packing preview exists to let you see the seams of — and it pays a full CSG merge over the whole insert for a picture that renders fine without one. `show()` therefore builds a list of independently coloured, independently placed solids and shows each.
 - **Lids are hidden by default** — lids obscure the layout (they cover the compartments and neighbouring boxes), so `show()` renders bodies only. Pass `project.show(show_lids=True)` to also place each lid in its seated position (inside/on its body — `build_lid()` already positions it relative to the box origin, so the lid uses the same translation as the body; no extra Z offset). When a lid is shown it MUST be rendered **semi-transparent with a 50% alpha channel** so the box underneath remains visible through it, and it MUST use a **slightly lighter version of its box's colour** (not the exact same colour) so the lid reads as a distinct piece sitting on the box rather than blending into it.
 - **Layer removal for viewing beneath.** `show()` MUST accept `remove_layers=N` (default 0): when N > 0, the top `N` vertical layers of the packed layout are omitted from the render, revealing the boxes underneath. "Layer" is defined by Z position — boxes whose top surface sits above the N-th vertical slice are removed, so stacked boxes (and boxes under lids/boards) become visible. This is the interactive equivalent of the exploded PDF view, but for the live preview.
@@ -284,6 +342,41 @@ A lid's outer edges are rounded because they are the outside of the closed box �
 A well that does opt in gets **both its vertical corners and its floor edges** rounded (FR-044f1) — corners alone leave the piece sitting in a square trough, which is the shape the rounding existed to remove. The radius comes from the **well's own depth, `depth × 2/3`**, not from the box: what makes a piece retrievable is the curve the finger follows, so a deep well wants a big sweep and a shallow token tray a small one, and a box-wide constant gets both wrong. It is capped so it can exceed neither the footprint nor the depth. An SVG silhouette or element pack stays square even when declared a tray (FR-044g) — FR-045's fidelity rule overrides the default rather than combining with it.
 
 One trap sits underneath this. The obvious guard on "is this radius buildable" is `radius < min(size) / 2`, and it is wrong often enough to matter: it rejects an 8mm floor fillet in a 12mm-deep tray — perfectly buildable — because the *depth* is the smallest dimension. What actually constrains a fillet is the dimensions **perpendicular** to the edge it runs along, halved only where the opposite edge is rounded too (two fillets growing towards each other meet at half the gap; one growing alone can use all of it). `rounding.max_radius` computes that from the resolved edge matrix.
+
+### One Build Path: `show()` and `export()` Differ Only In Where The Result Goes (FR-046c)
+
+**`Project.build()` is the only thing in the library that builds geometry.** It
+resolves the layout, sizes every box, and builds every body, lid and spacer.
+`show()` renders what it returns; `export()` writes what it returns. That is the
+entire difference between them, and it is enforced by there being one function
+rather than by anyone remembering to keep two in step.
+
+This is stated as a rule because the alternative was tried and failed silently.
+`export()` used to assemble its own spec dict and run its own sizing pass — a
+near-copy of the preview's, ninety lines long — and the two drifted. Measured on
+the same box built through each path, the exported spec was missing `rounding`,
+`rim_free`, `inner_rounding` and `wall_tops`, and the export never called
+`round_edges` on the lid or passed the carve its `top_z`, its scoop side or its
+interior mask. So **none of** FR-043f, FR-044b, FR-044h/i, FR-067, FR-069,
+FR-070/071 or FR-002s reached a printed part, while every one of them passed its
+tests — because FR-046b routes CI's geometry coverage through the preview path,
+which had them all.
+
+Two consequences to keep:
+
+- **Nothing may build geometry outside `build()`.** A new output — a bill of
+  materials, an assembly render, a bed layout — consumes `Build.pieces`. If it
+  needs something the pieces do not carry, the fix is to put it on `Piece`, not
+  to build a second time.
+- **A divergence between preview and export is a bug in this rule**, not a
+  difference to document. The two are the same solid; a test may assert that by
+  building through both and comparing.
+
+Decoration is the one thing applied after `build()`, because it is genuinely
+per-colour-mode: the same lid prints with raised coloured text for MMU and
+engraved text for single (FR-036). It is applied from one function that both
+callers use, and `show()` renders the MMU decoration so a preview still shows
+the label it will print.
 
 ### Curve Precision: Export vs Preview (FR-046)
 
@@ -542,12 +635,15 @@ pyboxbuilder/                    # NEW: Greenfield package
 ├── export/                     # NEW: Fresh 3MF export
 │   ├── exporter.py             # BoxExporter
 │   ├── result.py               # ExportResult
-│   ├── hausdorff.py            # pymeshlab-based conditional write
+│   ├── fingerprint.py          # conditional write, gated on the build inputs
 │   └── layout_pdf.py           # PDF packing guide generation
-├── shapes/                     # BORROWED: Existing shape generators
-│   └── (coin, hexagon, rounded rect, etc. from shapes.py)
-└── tesselations/               # BORROWED: Existing tessellation generators
-    └── (penrose, pentagon, voronoi, etc.)
+└── run.py                      # `run(project)` — preview, or export under make
+
+Neither `shapes/` nor `tesselations/` exists. They were planned as borrowed
+algorithm packages and shipped as two empty `__init__.py` files, which is what
+let `lid/pattern.py` import `tesselations.lizard` inside a bare `except` and
+fall back to square holes for two thirds of its catalog. A package is added when
+there is something in it.
 
 pyboxbuilder/__init__.py         # SINGLE IMPORT entry point (the package itself):
                                  #   from pyboxbuilder import Project, BoxType, ...
@@ -585,7 +681,7 @@ tests/
 | Lid decoration pipeline | **Fresh** | Not constrained by `LidPlate`/`build_lid()` contract |
 | Compartment layout | **Fresh** | New auto-layout with row alignment |
 | Nested box packing | **Fresh** | Fill-to-fit rows, spacer generation. Integrates dynamic dimension expansion based on 3D packing solvers, and propagates resolved sizes back to builders using a `final_size` attribute. |
-| 3MF export | **Fresh** | New exporter, same pymeshlab backend |
+| 3MF export | **Fresh** | New exporter; write gate is a description hash, no mesh comparison |
 | Typed builder API | **Fresh** | Enums, typed dataclasses, `@overload` dispatch. Adds a unique `box_id` field to distinguish duplicate instances. |
 | Caching strategy | **Fresh** | Same SHA-256 approach, new cache file. Stores 3D box packing layouts in `.layout_cache.json` to bypass solver on subsequent runs. |
 | PDF packing guide | **Fresh** | Standards-compliant valid PDF with scaled 2D top-down box layout, labels, dimensions, packing order numbers. Layered exploded breakdown with arrow connectors. Cached regeneration via SHA-256 layout hash. |
@@ -1045,7 +1141,9 @@ The constraint above says enums for all type selections. Two fields on `BoxBuild
 `Project.export(out_dir)` runs: resolve layout (pack → expand → propagate `final_size`) → generate spacers → build each piece per colour mode → write conditionally → delete stale → PDF.
 
 - **Files.** `{out_dir}/{game}/mmu/` and `{out_dir}/{game}/single/`, named `<label>_body.3mf` / `<label>_lid.3mf`. A lidless type produces a body only. Each spacer gets its own file. So a kit of 1 outer + 3 sub-boxes + 2 spacers is (4 × 2 + 2) × 2 = 20 files (SC-011).
-- **Write-if-different.** A 3MF stamps a fresh timestamp and UUIDs on every write, so byte comparison never matches. The gate is a 3D Hausdorff distance against the mesh already on disk (tolerance 0.001mm, user-settable), measured **in both directions** and sampled over faces and edges, not vertices — one-sided vertex sampling reported 0.0 for boxes differing by 0.5mm (T211). Without pymeshlab the exporter falls back to a `<mesh>`-only digest.
+- **Write-if-different is decided from the inputs, not the output.** A 3MF stamps a fresh timestamp and UUIDs on every write, so byte comparison never matches; but comparing the *meshes* is the wrong instrument. The gate is a SHA-256 over everything that decides a piece's geometry — the box's fields, its compartments, its lid, the project's thicknesses and rounding, the curve precision — recorded in a `.fingerprints.json` beside the files and compared on the next run.
+
+  This replaced a Hausdorff distance from pymeshlab, 10,000 samples in each direction per file, and the replacement is a correctness fix rather than an optimisation. OpenSCAD's boolean solver does not promise to retriangulate a complex CSG tree identically between runs, so nine of Emberleaf's pieces — the SVG player boxes, the element-pack common box and the three spacers — measured as *changed* on every single export and were rewritten every time, failing SC-012. A tolerance loose enough to absorb that would sit far above the 0.1mm the library promises to resolve, so no setting of it was right. The description is exact, costs nothing, and is decided before the file is built rather than after.
 - **Reporting.** `ExportResult` lists written and skipped paths; `Project.piece_bounds` carries every piece's measured bounding box (below).
 - **Stale files.** `BoxExporter.delete_stale` removes `spacer_*` files a run no longer produces, so a layout that drops from four spacers to three leaves no orphan.
 - **A corrupt cache is a miss**, silently regenerated — never an error.
@@ -1140,7 +1238,7 @@ Where each requirement is designed, and where it is verified. Sections named bel
 | FR-026 | Builder API Shape | `project.py`, `builders/*` |
 | FR-027 | Print-Bed Reporting | `export/exporter.py` |
 | FR-028 | *deferred, not in v1* | — |
-| FR-029–FR-032 | Export Pipeline and Caching | `export/exporter.py`, `export/hausdorff.py`, `export/result.py` |
+| FR-029–FR-032 | Export Pipeline and Caching | `export/exporter.py`, `export/fingerprint.py`, `export/result.py` |
 | FR-033, FR-034 | 3D Oblique Exploded PDF Guide Layout | `export/layout_pdf.py` |
 | FR-035, FR-036 | Lid Decoration Design (per-mode overrides) | `lid/builder.py`, `compartments/labels.py` |
 | FR-037 | Stackable Hexes Example (standalone) | `project.py` |

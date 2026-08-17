@@ -1,20 +1,21 @@
 # Quickstart: Board Game Box Library
 
-**Date**: 2026-08-11 | **Feature**: specs/001-board-game-box-library
-
 **Package**: `pyboxbuilder/` | **Import**: `from pyboxbuilder import ...`
+
+Every scenario below is executable as written. That is the point of the file:
+it drifted from the code once — advertising `Color.WHITE()`, which the plan
+explicitly bans, and `two_layer=True`, which the library read nowhere — and a
+quickstart that does not run is worse than none.
 
 ## Prerequisites
 
-- Python 3.12+ (strict typing)
-- PythonSCAD dev build
-- pybosl2 >= 0.7.8, numpy, pymeshlab
-- pyright (type checking)
+- Python 3.12+
+- PythonSCAD dev build (for geometry; the layout and packing run without it)
+- pybosl2 >= 0.7.7, numpy, fpdf2
 
 ```sh
-cd /path/to/openscad_boardgame_toolkit
 python3 -m venv .venv && source .venv/bin/activate
-pip install pybosl2 numpy pymeshlab
+pip install -e ".[dev]"
 ```
 
 ## The Single Import
@@ -24,69 +25,114 @@ from pyboxbuilder import (
     Project,
     BoxType, LabelMode, PatternType, ScoopSide, FingerCut, Cut,
     Color, LidBuilder, PatternBuilder,
+    columns, rows, stack, run,
 )
 ```
 
-## Validation Scenario 1: Type-Safe Box with Lid Decoration
+## Scenario 1: A card box, described by its cards
 
 ```python
-from pyboxbuilder import Project, BoxType, LabelMode, Color, LidBuilder
+from pyboxbuilder import BoxType, Color, LabelMode, LidBuilder, Project
 
-project = Project("CardGame", game_box_size=(200, 150, 60))
+project = Project("CardGame", game_box_size=(200, 150, 90))
 
-# BoxType.SLIDING → returns SlidingBoxBuilder
 cards = project.box(
     BoxType.SLIDING, "Cards",
-    size=(180, 70, 50),
-    two_layer=True,                    # SlidingBoxBuilder only
-    lid=LidBuilder(
-        text="Cards",
-        label_mode=LabelMode.FRAMED,
-        text_color=Color.WHITE(),
-        frame_color=Color(0.9, 0.7, 0.1),
-    ),
+    size=(70, 100, None),                  # height follows from the cards
+    lid=LidBuilder(label_mode=LabelMode.FRAMED,
+                   frame_color=Color("gold")).titled("Cards"),
 )
-
-# Type error caught by pyright:
-# project.box(BoxType.SLIDING, "Bad", size=(100, 80, 40), cap_height=8.0)
-#                       ^^^^^^^^^ SlidingBoxBuilder has no 'cap_height'
+cards.cards("Deck", count=120, size=(63.5, 88.0))   # 120 x 0.6mm = a 72mm stack
 
 project.export("output/")
 ```
 
-## Validation Scenario 2: Lid with Through-Hole Pattern + Diagonal Text
+**Expected**: the well is the card plus its slack; the box's height is the
+stack plus the floor and the lid. Nothing in the file computes either.
+
+## Scenario 2: A tray of loose pieces
 
 ```python
-from pyboxbuilder import Project, BoxType, LabelMode, PatternType, Color, LidBuilder, PatternBuilder
+from pyboxbuilder import BoxType, FingerCut, Project
 
-project = Project("FancyGame", game_box_size=(200, 150, 60))
+project = Project("Tokens", game_box_size=(200, 150, 60))
 
-box = project.box(
-    BoxType.SLIDING, "Treasure",
-    size=(180, 70, 50),
-    lid=LidBuilder(
-        text="TREASURE",
-        label_mode=LabelMode.FRAMED,
-        diagonal=True,                 # Corner-to-corner
-        text_color=Color.WHITE(),
-        frame_color=Color(0.9, 0.7, 0.1),
-        pattern=PatternBuilder(
-            type=PatternType.HEX_GRID,
-            colors=(Color(0.2, 0.6, 0.9),),
-        ),
-        pattern_color=Color(0.2, 0.6, 0.9),
-    ),
+tokens = project.box(BoxType.NO_LID, "Tokens", size=(80, 60, 25))
+tokens.compartment("Wood", holds_pieces=True, cut=FingerCut.SCOOP)
+
+project.show()
+```
+
+**Expected**: one well filling the interior, its corners and floor rounded so a
+finger sweeps a piece out, and the tray's own pair of lifting holes in its
+longer walls. No size, no depth and no radius are given: each has a default that
+suits the box it is in.
+
+## Scenario 3: Dividing a box evenly
+
+```python
+from pyboxbuilder import BoxType, Project
+
+project = Project("Divided", game_box_size=(200, 150, 60))
+
+box = project.box(BoxType.NO_LID, "Sorted", size=(100, 80, 30))
+for i in range(4):
+    box.compartment(f"Slot{i + 1}", width_ratio=0.25)
+
+project.show()
+```
+
+**Expected**: four equal wells that fit. A ratio is a share of the room the
+wells actually have, so four quarters fit rather than overflowing by the three
+dividing walls between them.
+
+## Scenario 4: A lid style worn by many boxes
+
+```python
+from pyboxbuilder import (
+    BoxType, Color, LabelMode, LidBuilder, PatternBuilder, PatternType, Project,
 )
+
+project = Project("FancyGame", game_box_size=(300, 200, 80))
+
+STYLE = LidBuilder(
+    label_mode=LabelMode.FRAMELESS,
+    diagonal=True,
+    pattern=PatternBuilder(type=PatternType.HEX, spacing=10.0),
+)
+
+for name, colour in (("Treasure", "gold"), ("Traps", "crimson"), ("Loot", "teal")):
+    project.box(
+        BoxType.SLIDING, name, size=(90, 70, 40),
+        lid=STYLE.titled(name, text_color=Color(colour)),
+    )
 
 project.export("output/")
 ```
 
-**Expected**: Through-holes cut lid. Framed diagonal text with gold frame, white text, blue pattern. 3 accent colors in multi-color 3MF.
+**Expected**: three lids sharing a frame, a pattern and a text angle, differing
+only where they should. The accent colours the style does not name are derived
+to contrast with the body.
 
-## Validation Scenario 3: Multi-Box Game with Auto-Sizing
+## Scenario 5: The minimum text height guard
 
 ```python
-from pyboxbuilder import Project, BoxType, LidBuilder
+from pyboxbuilder import BoxType, LidBuilder, Project
+
+project = Project("TinyGame", game_box_size=(100, 80, 30))
+project.box(BoxType.SLIDING, "Tiny", size=(30, 20, 20),
+            lid=LidBuilder(text="A"))
+
+project.export("output/")
+```
+
+**Expected**: the lid exports with no text. "A" on a 30 × 20mm lid computes
+below the 4mm minimum, so the label is skipped rather than printed as a smudge.
+
+## Scenario 6: An arrangement, written down
+
+```python
+from pyboxbuilder import BoxType, Project, columns, rows, stack
 
 project = Project("BigGame", game_box_size=(300, 200, 80))
 
@@ -95,97 +141,57 @@ project.box(BoxType.CAP, "TokenBox", size=(60, 50, 30))
 project.box(BoxType.CAP, "DiceBox", size=(60, 50, 30))
 project.box(BoxType.FILAMENT_HINGE, "BitBox", size=(80, 60, 40))
 
-result = project.export("output/")
-assert len(result.written) > 0
-
-# Second export (unchanged) → all skipped
-result2 = project.export("output/")
-assert len(result2.written) == 0
-```
-
-## Validation Scenario 4: Min Text Height Guard
-
-```python
-from pyboxbuilder import Project, BoxType, LabelMode, Color, LidBuilder
-
-project = Project("TinyGame", game_box_size=(100, 80, 30))
-box = project.box(
-    BoxType.SLIDING, "Tiny",
-    size=(30, 20, 20),
-    lid=LidBuilder(text="A", min_text_height_mm=4.0),
-)
+project.arrange(columns(
+    "CardBox",
+    stack("TokenBox", "DiceBox"),
+    "BitBox",
+))
 
 result = project.export("output/")
-# Lid exports without text — "A" @ 30x20mm lid = < 4mm text height → skipped
+assert result.written
+
+# Exported again, unchanged, nothing is rewritten.
+assert not project.export("output/").written
 ```
 
-## Validation Scenario 5: Auto-Computed Box Size from Compartments
+**Expected**: positions fall out of the sizes, and a second export writes zero
+files. A placed box is not the packer's, so neither `expandable` nor
+`no_rotate` needs setting.
+
+## Scenario 7: A box sized entirely by its contents
 
 ```python
-from pyboxbuilder import Project, BoxType, ScoopSide
+from pyboxbuilder import BoxType, FingerCut, Project
 
 project = Project("ComputedBox", game_box_size=(200, 150, 60))
 
-# No `size=` specified — computed from compartments
-cards = project.box(BoxType.SLIDING, "CardBox")
-
-# These compartments drive the minimum box size
-cards.compartment("Deck", size=(90, 65), depth=45)
+cards = project.box(BoxType.SLIDING, "CardBox")     # no size at all
+cards.compartment("Deck", size=(90, 65), depth=45, cut=FingerCut.THROUGH_FLOOR)
 cards.compartment("SideSlot", size=(55, 45), depth=25)
-
-# The box minimum = 90+55+walls+spacing wide × 65+walls long
-# Depth drives height = 45+floor+lid
-
-result = project.export("output/")
-# Box auto-sized to fit its compartments, then expanded to fill the game box row
-```
-
-**Expected**: CardBox minimum dimensions computed from Deck + SideSlot compartments. Box expands during packing. If `size` were explicitly set, compartments would be validated against it instead.
-
-## Validation Scenario 6: Earth Animal Kingdom
-
-```python
-from pyboxbuilder import (
-    Project, BoxType, LabelMode, Color, FingerCut,
-    LidBuilder, PatternBuilder, PatternType, ScoopSide,
-)
-
-project = Project("EarthAnimalKingdom", game_box_size=(288, 158, 47))
-
-cards = project.box(
-    BoxType.SLIDING, "AnimalCards",
-    size=(110, 80, 40),
-    lid=LidBuilder(text="Animal Cards", label_mode=LabelMode.FRAMED),
-)
-cards.compartment("Deck", size=(50, 70), depth=36, cut=FingerCut.THROUGH_FLOOR)
-cards.compartment("Discard", size=(50, 70), depth=36)
-
-# Per-animal compartments in token boxes
-ANIMALS = ["Lion", "Elephant", "Eagle", "Bear", "Wolf", "Fox", "Owl", "Hawk"]
-for i in range(2):
-    b = project.box(
-        BoxType.FILAMENT_HINGE, f"Animals{i+1}",
-        size=(130, 55, 30),
-        lid=LidBuilder(text=f"Animals {i+1}"),
-    )
-    for animal in ANIMALS[i * 4 : (i + 1) * 4]:
-        b.compartment(animal, size=(25, 45), depth=26, cut=FingerCut.SCOOP)
-
-project.box(BoxType.NO_LID, "Boards", size=(70, 150, 15), expandable=False)
 
 project.export("output/")
 ```
 
-## Type Checking
+**Expected**: the box's footprint and height are computed from its wells, then
+expanded to fill its row during packing. A box whose wells *all* fill — nothing
+to derive from — is refused with a message naming them.
 
-```sh
-npx pyright pyboxbuilder/enums.py pyboxbuilder/builders/
-npx pyright boxes/earth_animal_kingdom/earth_animal_kingdom.py
+## Scenario 8: An example's entry point
+
+```python
+if __name__ == "__main__":
+    run(project)
 ```
 
-## Running Tests
+Previews in the PythonSCAD GUI or a notebook; exports under the make build,
+which sets `FROM_MAKE=1`.
+
+## Checks
 
 ```sh
-python3 tests/run_fast.py test_pyboxbuilder
-python3 -m unittest discover -s tests -p "test_*.py"
+PYBOXBUILDER_EXPORT_FN=12 python3 -m pytest tests/test_pyboxbuilder/ -q
+ruff check pyboxbuilder/ boxes/
+mypy pyboxbuilder/
 ```
+
+All three are blocking in CI.
