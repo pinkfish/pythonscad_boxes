@@ -118,63 +118,113 @@ class HoleAndWebTests(unittest.TestCase):
 
 
 class PatternBorderTests(unittest.TestCase):
-    """A solid margin all round, so the edge that holds the lid survives."""
+    """A solid margin all round, so the edge that holds the lid survives.
 
-    AREA = (80.0, 100.0)
+    Measured on the **cut lid**, not on the raw lattice: the lattice
+    deliberately overhangs and is clipped to the border, which is what puts a
+    partial hole against each edge instead of leaving a cell's worth of unused
+    margin inside it.
+    """
+
+    LID = (80.0, 100.0, 2.0)
     PITCH = 11.0
+
+    def cut(self, pattern_type: PatternType, border: float):
+        """The lid, perforated, and the material the pattern removed."""
+        from pyboxbuilder.box.shell import block
+        from pyboxbuilder.lid.builder import LidBuilder, PatternBuilder
+        from pyboxbuilder.lid.decorate import decorate_lid
+
+        lid = block(list(self.LID))
+        decorated = decorate_lid(
+            lid,
+            LidBuilder(pattern=PatternBuilder(
+                type=pattern_type, spacing=self.PITCH, border=border,
+            )),
+            self.LID[2], "mmu",
+        )
+        return lid, lid - decorated.solid
 
     def margins(self, pattern_type: PatternType, border: float) -> tuple[float, ...]:
         """Solid millimetres between the lid's edge and the nearest hole."""
-        from pyboxbuilder.lid.pattern import build_pattern
-
-        width, length = self.AREA
-        holes = build_pattern(
-            width - 2 * border, length - 2 * border, 3.0, pattern_type,
-            spacing=self.PITCH,
-        )
-        assert holes is not None
-        (cx, cy, _), (w, l, _) = holes.bounds()
-        return (
-            border + cx - w / 2, width - (border + cx + w / 2),
-            border + cy - l / 2, length - (border + cy + l / 2),
-        )
+        width, length, _ = self.LID
+        _, removed = self.cut(pattern_type, border)
+        (cx, cy, _), (w, l, _) = removed.bounds()
+        return (cx - w / 2, width - (cx + w / 2), cy - l / 2, length - (cy + l / 2))
 
     def test_every_pattern_keeps_the_border(self) -> None:
-        """Measured on the built holes, not on the nominal size: a hexagon
-        reaches 15% further at its corners than across its flats, and taking
-        the inset from the flats let the outer holes bleed past the border."""
         for pattern_type in PatternType:
             if pattern_type is PatternType.NONE:
                 continue
             with self.subTest(pattern=pattern_type.name):
-                for margin in self.margins(pattern_type, 10.0):
-                    self.assertGreaterEqual(round(margin, 3), 10.0)
+                for margin in self.margins(pattern_type, 8.0):
+                    self.assertGreaterEqual(round(margin, 3), 8.0)
 
-    def test_the_margins_are_even(self) -> None:
-        """The grid is centred, so the leftover is shared rather than piling up
-        on the far side as an extra cell's worth of border."""
-        left, right, bottom, top = self.margins(PatternType.HEX, 10.0)
-        self.assertAlmostEqual(left, right, places=3)
-        self.assertAlmostEqual(bottom, top, places=3)
+    def test_the_pattern_reaches_the_border(self) -> None:
+        """Not merely stays inside it: a lid asking for an 8mm border had 12mm
+        or more of solid edge on two sides, because only whole holes were
+        placed and the leftover became extra margin."""
+        for pattern_type in (PatternType.HEX, PatternType.SQUARE, PatternType.CIRCLE):
+            with self.subTest(pattern=pattern_type.name):
+                for margin in self.margins(pattern_type, 8.0):
+                    self.assertAlmostEqual(margin, 8.0, places=2)
+
+    def test_the_edge_holes_are_partial(self) -> None:
+        """A hole straddling the border is drawn and clipped, which is what
+        lets the pattern reach it."""
+        _, removed = self.cut(PatternType.HEX, 8.0)
+        (cx, cy, _), (w, l, _) = removed.bounds()
+        width, length, _ = self.LID
+        # A lattice that only placed whole hexes could not span this much.
+        self.assertAlmostEqual(w, width - 16.0, places=2)
+        self.assertAlmostEqual(l, length - 16.0, places=2)
 
     def test_the_border_is_settable(self) -> None:
-        wide = self.margins(PatternType.HEX, 20.0)
-        for margin in wide:
-            self.assertGreaterEqual(round(margin, 3), 20.0)
+        for margin in self.margins(PatternType.HEX, 15.0):
+            self.assertAlmostEqual(margin, 15.0, places=2)
 
-    def test_the_pattern_border_defaults_to_ten_and_is_its_own(self) -> None:
-        """Not the label's margin: one keeps text off the edge, the other
-        keeps material at it."""
-        from pyboxbuilder.lid.builder import PATTERN_BORDER_MM, PatternBuilder
+    def test_the_lid_border_is_one_number_for_pattern_and_label(self) -> None:
+        """A label set to a different margin from the pattern reads as a
+        mistake: what a viewer sees is one band of plain lid."""
+        from pyboxbuilder.lid.builder import (
+            BORDER_MARGIN_MM,
+            LID_BORDER_MM,
+            PATTERN_BORDER_MM,
+            LidBuilder,
+            PatternBuilder,
+        )
 
-        self.assertEqual(PATTERN_BORDER_MM, 10.0)
-        self.assertEqual(PatternBuilder().border_width, 10.0)
-        self.assertEqual(PatternBuilder(border=4.0).border_width, 4.0)
+        self.assertEqual(LID_BORDER_MM, 8.0)
+        self.assertEqual(PATTERN_BORDER_MM, LID_BORDER_MM)
+        self.assertEqual(BORDER_MARGIN_MM, LID_BORDER_MM)
+        self.assertEqual(PatternBuilder().border_width, LID_BORDER_MM)
+        self.assertEqual(LidBuilder().border_margin, LID_BORDER_MM)
+
+    def test_the_text_stays_inside_the_border(self) -> None:
+        """Including a diagonal label, which is the one that ran off the lid."""
+        from pyboxbuilder.enums import LabelMode
+        from pyboxbuilder.lid.builder import LID_BORDER_MM, LidBuilder
+        from pyboxbuilder.lid.decorate import _build_label
+
+        width, length, _ = self.LID
+        for diagonal in (False, True):
+            with self.subTest(diagonal=diagonal):
+                label = _build_label(
+                    LidBuilder(label_mode=LabelMode.FRAMELESS, diagonal=diagonal)
+                    .titled("Favors"),
+                    width, length, "mmu",
+                )
+                assert label is not None
+                (cx, cy, _), (w, l, _) = label.combined().bounds()
+                self.assertGreaterEqual(round(cx - w / 2, 3), LID_BORDER_MM)
+                self.assertGreaterEqual(round(width - (cx + w / 2), 3), LID_BORDER_MM)
+                self.assertGreaterEqual(round(cy - l / 2, 3), LID_BORDER_MM)
+                self.assertGreaterEqual(round(length - (cy + l / 2), 3), LID_BORDER_MM)
 
     def test_a_border_that_swallows_the_lid_leaves_it_solid(self) -> None:
+        from pyboxbuilder.box.shell import block
         from pyboxbuilder.lid.builder import LidBuilder, PatternBuilder
         from pyboxbuilder.lid.decorate import decorate_lid
-        from pyboxbuilder.box.shell import block
 
         lid = block([30.0, 30.0, 2.0])
         decorated = decorate_lid(

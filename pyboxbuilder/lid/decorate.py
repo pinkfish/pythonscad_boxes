@@ -101,7 +101,7 @@ def decorate_lid(
         result.solid = _cut_pattern(
             result.solid, resolved, width, length,
             origin_x, origin_y, top_z, lid_thickness,
-            keep_clear=_label_footprint(label),
+            keep_clear=label,
         )
 
     if label is not None:
@@ -143,22 +143,63 @@ def _build_label(
     )
 
 
-def _label_footprint(label: Label | None) -> tuple[float, float, float, float] | None:
-    """Return the area a label occupies on the face, with its stand-off.
+KEEPOUT_DIRECTIONS = 12
+"""How many directions the label is smeared in to grow its keep-out.
+
+A cheap stand-in for a true offset: the label is unioned with copies of itself
+shifted a clearance in a ring of directions, which grows its outline by that
+clearance to within the ring's own resolution. Twelve is close enough at 1.5mm
+that no glyph shows a facet, and it costs a dozen unions rather than a
+Minkowski sum over every letter.
+"""
+
+
+def _label_keepout(label: Label | None, depth: float) -> Bosl2Solid | None:
+    """Return the volume a label needs kept solid, in the face's own frame.
+
+    Follows the label's **shape**, not its bounding box. A box is right for a
+    framed label, whose plate is a rectangle, and badly wrong for a diagonal
+    one: "Favors" set corner to corner on a 96 x 70 lid has a bounding box
+    covering 71% of it, so keeping that clear suppressed nearly every hole and
+    the lid came out looking solid. What has to stay solid is the lettering and
+    a margin around it — not the rectangle it happens to span.
 
     Args:
         label: The built label, or ``None``.
+        depth: How tall to make the keep-out, so it spans the holes it blocks.
 
     Returns:
-        ``(x, y, width, length)`` in the face's own frame, or ``None`` when
-        there is no label to keep clear of.
+        The solid to keep clear of, or ``None`` when there is no label.
 
     """
     if label is None:
         return None
-    (cx, cy, _), (w, l, _) = label.combined().bounds()
-    pad = LABEL_CLEARANCE_MM
-    return (cx - w / 2 - pad, cy - l / 2 - pad, w + 2 * pad, l + 2 * pad)
+
+    # A framed label's plate really is a rectangle, and it already stands off
+    # the text by its own padding, so it is its own keep-out.
+    if label.plate is not None:
+        return _as_depth(label.plate, depth)
+
+    return _as_depth(_grown(label.text, LABEL_CLEARANCE_MM), depth)
+
+
+def _grown(solid: Bosl2Solid, by: float) -> Bosl2Solid:
+    """Return `solid` widened in the face's plane by roughly `by` millimetres."""
+    import math
+
+    grown = solid
+    for i in range(KEEPOUT_DIRECTIONS):
+        angle = 2 * math.pi * i / KEEPOUT_DIRECTIONS
+        grown = grown | solid.translate([by * math.cos(angle), by * math.sin(angle), 0.0])
+    return grown
+
+
+def _as_depth(solid: Bosl2Solid, depth: float) -> Bosl2Solid:
+    """Return `solid` stretched in z to `depth`, with its base at z = 0."""
+    (_, _, cz), (_, _, h) = solid.bounds()
+    if h <= 0:
+        return solid
+    return solid.translate([0.0, 0.0, -(cz - h / 2)]).scale([1.0, 1.0, depth / h])
 
 
 def _top_face(lid: Bosl2Solid) -> tuple[float, float, float, float, float] | None:
@@ -181,7 +222,7 @@ def _cut_pattern(
     origin_y: float,
     top_z: float,
     lid_thickness: float,
-    keep_clear: tuple[float, float, float, float] | None = None,
+    keep_clear: Label | None = None,
 ) -> Bosl2Solid:
     """Cut the through-hole pattern into the lid, clear of its border.
 
@@ -194,9 +235,8 @@ def _cut_pattern(
         origin_y: The face's minimum y.
         top_z: The face's z.
         lid_thickness: How deep the holes must reach to break through.
-        keep_clear: ``(x, y, width, length)`` on the face that must stay solid
-            — the label's footprint. Holes there would leave the lettering
-            printing onto air (FR-023).
+        keep_clear: The label whose shape must stay solid. Holes under the
+            lettering would leave it printing onto air (FR-023).
 
     Returns:
         The perforated lid.
@@ -236,11 +276,9 @@ def _cut_pattern(
     holes = _place_by_corner(holes, base)
     holes = holes & block([area_w, area_l, depth], at=base)
 
-    if keep_clear is not None:
-        kx, ky, kw, kl = keep_clear
-        holes = holes - block(
-            [kw, kl, depth], at=(origin_x + kx, origin_y + ky, base[2])
-        )
+    keepout = _label_keepout(keep_clear, depth)
+    if keepout is not None:
+        holes = holes - keepout.translate([origin_x, origin_y, base[2]])
     return lid - holes
 
 

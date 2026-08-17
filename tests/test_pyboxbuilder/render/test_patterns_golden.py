@@ -50,7 +50,7 @@ class PatternGoldenTests(unittest.TestCase):
             "build_pattern(100, 70, 3.0, PatternType.VORONOI, spacing=10.0).show()\n",
         )
 
-    def test_pentagon_tiling(self) -> None:
+    def test_octagon_pattern(self) -> None:
         self._render_compare(
             "pattern_octagon",
             "from pyboxbuilder.enums import PatternType\n"

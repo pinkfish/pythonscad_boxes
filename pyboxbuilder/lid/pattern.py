@@ -18,6 +18,7 @@ added when the geometry to draw it is (FR-000c).
 
 from __future__ import annotations
 
+import math
 import random
 from collections.abc import Callable, Iterator
 from typing import TYPE_CHECKING
@@ -147,67 +148,44 @@ def _grid_cells(
     width: float,
     length: float,
     spacing: float,
-    reach: tuple[float, float],
     stagger: bool = False,
 ) -> Iterator[tuple[float, float]]:
-    """Centres of every cell whose hole fits whole inside the area.
+    """Centres of a lattice covering the whole area, overhanging its edges.
+
+    The holes are **clipped to the area** by the caller, so the ones at the
+    boundary come out as partial hexes and the pattern reaches the border
+    exactly. Placing only whole holes instead — inset by a hole's reach — left
+    up to a cell's worth of unused margin inside the border, so a lid asking
+    for an 8mm border got 12mm or more of solid edge on two sides and the
+    pattern looked as though it had shrunk away from it.
 
     Args:
         width: Width of the area to fill, in mm.
         length: Its length, in mm.
         spacing: Centre-to-centre distance between holes.
-        reach: How far the hole extends from its centre along x and y. This is
-            the shape's real half-extent, not half its nominal size: a hexagon
-            reaches 15% further at its corners than across its flats, so an
-            inset taken from the flats let the outermost holes bleed past the
-            border and be clipped into slivers.
         stagger: Offset alternate rows by half a cell, for a honeycomb.
 
     Yields:
-        ``(x, y)`` centres, inset so every hole stays whole — a pattern that
-        runs off the edge leaves slivers, not holes.
+        ``(x, y)`` centres, in the area's own frame. Some lie outside it: that
+        is what puts a partial hole against each edge.
 
     """
-    reach_x, reach_y = reach
     row_step = spacing * (0.866 if stagger else 1.0)  # sin(60°) for hex rows
+    if spacing <= 0 or row_step <= 0:
+        return
 
-    # Centre the grid in the area. A pattern anchored at one corner leaves the
-    # leftover — up to a whole cell — as extra margin on the far side, so a lid
-    # comes out with a 10mm border on two edges and 16mm on the other two.
-    start_x = reach_x + _slack(width, reach_x, spacing) / 2.0
-    start_y = reach_y + _slack(length, reach_y, row_step) / 2.0
+    # A row of centres past each edge, so a hole straddling the boundary is
+    # still drawn and then clipped. Centred, so the two edges are cut alike.
+    columns = math.ceil(width / spacing) + 2
+    rows = math.ceil(length / row_step) + 2
+    start_x = (width - (columns - 1) * spacing) / 2.0
+    start_y = (length - (rows - 1) * row_step) / 2.0
 
-    y = start_y
-    row = 0
-    while y <= length - reach_y + _EPS:
-        x = start_x + (spacing / 2.0 if stagger and row % 2 else 0.0)
-        while x <= width - reach_x + _EPS:
-            yield x, y
-            x += spacing
-        y += row_step
-        row += 1
-
-
-_EPS = 1e-9
-"""Slack for the float comparison that decides whether the last cell fits."""
-
-
-def _slack(extent: float, reach: float, step: float) -> float:
-    """How much room is left over once as many cells as fit have been placed.
-
-    Args:
-        extent: The area's size along this axis, in mm.
-        reach: How far a hole reaches from its centre along it.
-        step: Distance between neighbouring centres.
-
-    Returns:
-        The unused millimetres, to be split evenly between the two ends.
-
-    """
-    usable = extent - 2 * reach
-    if usable < 0 or step <= 0:
-        return 0.0
-    return usable - int(usable / step + _EPS) * step
+    for row in range(rows):
+        y = start_y + row * row_step
+        offset = spacing / 2.0 if stagger and row % 2 else 0.0
+        for column in range(columns):
+            yield start_x + column * spacing + offset, y
 
 
 def _punch(
@@ -240,24 +218,10 @@ def _punch(
         return None
 
     holes = None
-    for x, y in _grid_cells(width, length, spacing, _reach(shape_at), stagger):
+    for x, y in _grid_cells(width, length, spacing, stagger):
         cut = shape_at(x, y)
         holes = cut if holes is None else holes | cut
     return holes
-
-
-def _reach(shape_at: Callable[[float, float], Bosl2Solid]) -> tuple[float, float]:
-    """How far one hole extends from its centre, along x and y.
-
-    Args:
-        shape_at: The fill's shape factory, called once at the origin.
-
-    Returns:
-        ``(reach_x, reach_y)`` in mm.
-
-    """
-    (cx, cy, _), (w, l, _) = shape_at(0.0, 0.0).bounds()
-    return (abs(cx) + w / 2.0, abs(cy) + l / 2.0)
 
 
 def _prism(
@@ -314,15 +278,37 @@ def _circle_fill(
     )
 
 
+POINTY_TOP_SPIN = 30.0
+"""Rotation that stands a hexagon on a flat, with its flats left and right.
+
+`regular_prism` draws a hexagon with a vertex to the right — flats top and
+bottom — and the staggered lattice below needs the opposite: flats *left and
+right*, so a row's neighbours sit across-flats from each other and the next row
+nests into the notches between them. Without this the lattice was tiling one
+orientation with the spacing of the other, which left the rows barely clearing
+each other horizontally and floating apart vertically. It is not a honeycomb
+until the hexagon and the lattice agree.
+"""
+
+
 def _hex_fill(
     width: float, length: float, thickness: float, spacing: float,
     web: float | None = None, dense: bool = False,
 ) -> Bosl2Solid | None:
-    """Hexagonal holes in staggered rows — a honeycomb."""
+    """Hexagonal holes in staggered rows — a true honeycomb.
+
+    Every neighbour, in the row and in the rows either side, sits exactly one
+    pitch away: the horizontal pitch is the hole's width plus the web, and the
+    rows step ``sin(60°)`` of that while offsetting half a pitch. So the web is
+    the same in all six directions, which is what makes it a honeycomb rather
+    than rows of hexagons.
+    """
     step = spacing * (DENSE_SPACING_SHARE if dense else 1.0)
     size = hole_size(step, web)
     return _punch(
-        lambda x, y: _prism(6, size, thickness).translate([x, y, thickness / 2]),
+        lambda x, y: _prism(6, size, thickness, POINTY_TOP_SPIN).translate(
+            [x, y, thickness / 2]
+        ),
         width, length, step, size, stagger=True,
     )
 
@@ -391,11 +377,10 @@ def _voronoi_fill(
 
     rng = random.Random(VORONOI_SEED)
     holes = None
-    reach = size / 2 * VORONOI_MAX_SCALE + spacing * VORONOI_JITTER
-    for x, y in _grid_cells(width, length, spacing, (reach, reach)):
+    for x, y in _grid_cells(width, length, spacing):
         jitter = spacing * VORONOI_JITTER
-        cx = min(max(x + rng.uniform(-jitter, jitter), 0.0), width)
-        cy = min(max(y + rng.uniform(-jitter, jitter), 0.0), length)
+        cx = x + rng.uniform(-jitter, jitter)
+        cy = y + rng.uniform(-jitter, jitter)
         radius = size / 2 * rng.uniform(VORONOI_MIN_SCALE, VORONOI_MAX_SCALE)
         cut = cylinder(
             height=thickness * DEPTH_OVERSHOOT, radius=radius, **precision_kwargs()

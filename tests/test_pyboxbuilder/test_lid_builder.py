@@ -28,7 +28,8 @@ class LidBuilderTests(unittest.TestCase):
         self.assertIsNone(lb.pattern)
         self.assertIsNone(lb.pattern_color)
         self.assertEqual(lb.min_text_height, 4.0)
-        self.assertEqual(lb.border_margin, 5.0)
+        # The label shares the lid's border with the pattern (FR-023).
+        self.assertEqual(lb.border_margin, 8.0)
 
     def test_with_text(self) -> None:
         lb = LidBuilder(text="Cards")

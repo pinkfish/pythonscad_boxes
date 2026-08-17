@@ -19,19 +19,21 @@ Below this an FDM printer cannot hold the strokes of a letter apart, so the
 label comes out as a smudge; skipping it leaves a clean lid instead.
 """
 
-BORDER_MARGIN_MM = 5.0
-"""Margin an auto-sized label keeps clear of the lid's edge."""
-
-
-PATTERN_BORDER_MM = 10.0
-"""Solid margin left around a lid's pattern, when nothing else says.
+LID_BORDER_MM = 8.0
+"""Solid margin around everything on a lid — its pattern and its label alike.
 
 The border is what the lid is picked up and located by, and on a sliding lid it
-is what rides in the grooves — so it has to be wide enough to hold, and wide
-enough that a hole never lands on the edge that does the holding. It is wider
-than the label's own margin because the two are answering different questions:
-the label's keeps text off the edge, this keeps *material* at it.
+is what rides in the grooves, so it has to survive whatever is put on the face.
+**One number** covers both: a label set to a different margin from the pattern
+reads as a mistake, because what a viewer sees is a single band of plain lid
+and one thing crossing it.
 """
+
+BORDER_MARGIN_MM = LID_BORDER_MM
+"""Margin an auto-sized label keeps clear of the lid's edge."""
+
+PATTERN_BORDER_MM = LID_BORDER_MM
+"""Solid margin left around a lid's pattern, when nothing else says."""
 
 
 @dataclass(frozen=True)

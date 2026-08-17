@@ -212,16 +212,21 @@ PatternBuilder(
     colors: tuple[Color, ...] = (),
     spacing: float | None = None,      # pitch; None → shorter side / 8, min 5mm
     web: float | None = None,          # material between holes; None → 1.6mm
-    border: float | None = None,       # solid margin all round; None → 10mm
+    border: float | None = None,       # solid margin all round; None → 8mm
 )
 ```
 
 A pattern is specified by the **pitch** and the **web** between holes; the hole
 size follows. The web is the one with a right answer — it is what prints and
-what carries the lid. `border` is the pattern's own margin, separate from the
-label's `border_margin_mm`: one keeps text off the edge, the other keeps
-material at it — the band the lid is picked up by, and on a sliding lid the band
-that rides in the grooves. Holes also stop at the label's boundary (FR-023).
+what carries the lid. `border` is the lid's solid margin, and the label's `border_margin_mm` shares
+its default (`LID_BORDER_MM`, 8mm): what a viewer sees is one band of plain lid,
+so the pattern and the text keep the same one. It is the band the lid is picked
+up by, and on a sliding lid the band that rides in the grooves.
+
+The pattern **reaches** that border rather than stopping short of it: the
+lattice overhangs the area and is clipped to it, so the holes at the edge are
+partial. Holes also stop at the label's own shape — its shape, not its bounding
+box, since a diagonal label's box covers most of the lid (FR-023).
 
 `PatternType` contains only patterns the library draws: `NONE`, `SQUARE`,
 `CIRCLE`, `HEX`, `DENSE_HEX`, `TRIANGLE`, `DENSE_TRIANGLE`, `OCTAGON`,
