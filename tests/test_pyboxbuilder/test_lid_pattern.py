@@ -755,3 +755,49 @@ class VoronoiTests(unittest.TestCase):
         thin = volume(self.holes(web=1.0) & self.area())
         thick = volume(self.holes(web=4.0) & self.area())
         self.assertGreater(thin, thick)
+
+
+class VoronoiDefaultPitchTests(unittest.TestCase):
+    """A Voronoi cell is the hole, so it needs a coarser floor (FR-023)."""
+
+    def floor(self) -> float:
+        from pyboxbuilder.lid.pattern import MIN_DERIVED_SPACING_MM
+
+        return MIN_DERIVED_SPACING_MM[PatternType.VORONOI]
+
+    def test_a_small_lid_does_not_get_pinholes(self) -> None:
+        """An eighth of a small lid's shorter side leaves a cell only a few
+        times the web — which reads as a peppering, not as a pattern."""
+        from pyboxbuilder.lid.pattern import default_spacing
+
+        area = (82.0, 55.25)
+        self.assertLess(default_spacing(*area), self.floor())
+
+        from mesh import volume
+
+        from pyboxbuilder.box.shell import block
+
+        holes = build_pattern(*area, 2.0, PatternType.VORONOI)
+        opened = volume(holes & block([*area, 2.0])) / (area[0] * area[1] * 2.0)
+        self.assertGreater(opened, 0.45, "the lid is nearly all web")
+
+    def test_a_big_lid_still_derives_its_own(self) -> None:
+        """The floor is a floor, not a fixed size: a large lid keeps scaling."""
+        from pyboxbuilder.lid.pattern import default_spacing
+
+        self.assertGreater(default_spacing(82.0, 126.5), self.floor())
+
+    def test_only_the_derived_pitch_is_floored(self) -> None:
+        """A caller who asks for 5mm cells gets 5mm cells (FR-000g)."""
+        from mesh import volume
+
+        fine = build_pattern(80, 60, 2.0, PatternType.VORONOI, spacing=5.0)
+        floored = build_pattern(80, 60, 2.0, PatternType.VORONOI, spacing=self.floor())
+        self.assertLess(volume(fine), volume(floored))
+
+    def test_other_patterns_keep_the_generic_default(self) -> None:
+        """Their holes are inscribed in their cells, so the generic floor is
+        already right for them — this is a Voronoi calibration, not a new rule."""
+        from pyboxbuilder.lid.pattern import MIN_DERIVED_SPACING_MM
+
+        self.assertEqual(list(MIN_DERIVED_SPACING_MM), [PatternType.VORONOI])

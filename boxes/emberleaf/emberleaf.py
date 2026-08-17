@@ -172,19 +172,16 @@ project = Project(
     generate_spacers=True,
 )
 
-LEAF_PATTERN = PatternBuilder(type=PatternType.VORONOI, spacing=14.0)
-"""Leaves, for the game they are named after.
+LEAF_PATTERN = PatternBuilder(type=PatternType.VORONOI)
+"""An organic scatter of cells, sized from each lid rather than fixed.
 
-This said `LEAF` in the original toolkit and cut hexagons, because the catalog
-listed shapes it could not draw and fell back to squares — then to hexes when
-the catalog was cut back to what was real. The pattern draws leaves now, so the
-name is the shape again (FR-023).
+The original toolkit asked for `LEAF` here and cut squares, because its catalog
+listed shapes it could not draw; trimming the catalog to what was real turned
+that into hexes. Both are drawn now, and this insert takes the Voronoi.
 
-These leaves **tile**: the leftover between them is exactly the web, so what
-the lid shows is a net of leaf outlines rather than a sheet with leaves punched
-out of it. The pitch is a leaf's base-to-tip length, and it stands about a
-sixth taller than that, so 14mm here reads at about the size 10mm did as
-hexes."""
+No pitch is given. The insert's lids run from a 98mm player box to a much
+narrower material box, and one number cannot suit both — the derived pitch is a
+share of each lid's own shorter side (FR-000)."""
 
 EMBERLEAF_LID = LidBuilder(
     label_mode=LabelMode.FRAMELESS,

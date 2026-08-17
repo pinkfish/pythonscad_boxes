@@ -99,6 +99,22 @@ def default_spacing(width: float, length: float) -> float:
     return max(min(width, length) / 8.0, 5.0)
 
 
+MIN_DERIVED_SPACING_MM = {
+    PatternType.VORONOI: 8.0,
+}
+"""Patterns whose derived pitch needs a higher floor than the generic one.
+
+:func:`default_spacing` is calibrated for a hole **inscribed** in its cell, which
+is what most of the catalog cuts. A Voronoi cell *tiles*, so the cell is the
+hole, and the web is taken out of a cell rather than out of the gap around one.
+An eighth of a small lid's shorter side leaves a cell only a few times the web,
+which prints and reads as a peppering of pinholes rather than as a pattern.
+
+Only the derived pitch is floored. A caller who asks for 5mm cells gets 5mm
+cells: a named option does what it says (FR-000g).
+"""
+
+
 def build_pattern(
     width: float,
     length: float,
@@ -131,7 +147,10 @@ def build_pattern(
 
     """
     if spacing is None:
-        spacing = default_spacing(width, length)
+        spacing = max(
+            default_spacing(width, length),
+            MIN_DERIVED_SPACING_MM.get(pattern_type, 0.0),
+        )
 
     fill = _PATTERN_FILLS.get(pattern_type)
     if fill is None:

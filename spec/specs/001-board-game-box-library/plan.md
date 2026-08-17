@@ -491,6 +491,21 @@ The seeds overhang the area, like every other pattern's lattice — a cell is on
 the right shape if it has neighbours on every side, so the ring beyond the edge
 is what makes the cells *at* the edge real rather than bounded by nothing.
 
+**The default pitch needed its own floor**, and the reason is the tiling again.
+`default_spacing` gives an eighth of the shorter side, which is calibrated for a
+hole *inscribed* in its cell — a hexagon at pitch p is p across and the web comes
+out of the gap around it. A Voronoi cell **is** the hole, so the web comes out of
+the cell itself, and an eighth of a small lid leaves a cell only a few times the
+web: it prints and reads as a peppering of pinholes rather than as a pattern.
+
+The first attempt at this was a share applied inside the fill — cells cut at two
+thirds of the requested pitch. That was the wrong lever, because it double-counts
+with the derived default: on Emberleaf's material box it took a 6.9mm derived
+pitch down to 4.5mm cells, which is exactly the peppering it was meant to avoid.
+A floor on the derived pitch fixes the small lids without touching the large ones,
+and it leaves an explicit pitch alone — a caller who asks for 5mm cells gets 5mm
+cells (FR-000g).
+
 #### The Other Leaf: A Tile Rather Than A Shape (FR-023)
 
 `LEAF` above is a shape that is spaced out; `LEAF_TESSELLATION` is a **tile**.
