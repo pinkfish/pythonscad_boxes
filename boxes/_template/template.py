@@ -20,6 +20,7 @@ for _sp in ROOT.glob("venv/*/lib/*/site-packages"):
     sys.path.insert(0, str(_sp))
 
 from pyboxbuilder import (
+    FingerCut,
     Project, BoxType, LabelMode, Color,
     LidBuilder, PatternBuilder, PatternType, ScoopSide,
 )
@@ -46,7 +47,7 @@ project = Project(
 #         frame_color=Color("gold"),
 #     ),
 # )
-# cards.compartment("Deck", size=(90, 65), depth=45, finger_scoop=True)
+# cards.compartment("Deck", size=(90, 65), depth=45, cut=FingerCut.THROUGH_FLOOR)
 
 # ── Export ────────────────────────────────────────────────────────
 if __name__ == "__main__":

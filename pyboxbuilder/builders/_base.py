@@ -8,7 +8,7 @@ from typing import TYPE_CHECKING, ClassVar
 
 from pybosl2 import Color
 
-from pyboxbuilder.enums import BoxType, MagnetType, ScoopSide, StackableMode
+from pyboxbuilder.enums import BoxType, FingerCut, MagnetType, ScoopSide, StackableMode
 
 if TYPE_CHECKING:
     from pyboxbuilder.lid.builder import LidBuilder
@@ -113,20 +113,21 @@ class BoxBuilder:
         length_ratio: float | None = None,
         depth: float | None = None,
         rounded_corners: float = 0.0,
-        finger_scoop: bool = False,
-        finger_cut: "FingerCut | None" = None,
-        scoop_side: "ScoopSide | None" = None,
+        cut: "Cut | FingerCut | None" = None,
         no_rotate: bool = False,
         shape_file: str | None = None,
         position: tuple[float, float] | None = None,
         elements: tuple[CompartmentElement, ...] = (),
         element_margin: float = 0.0,
     ) -> CompartmentBuilder:
-        """Add a compartment to this box."""
-        from pyboxbuilder.compartments.builder import CompartmentBuilder
-        from pyboxbuilder.enums import ScoopSide
+        """Add a compartment to this box.
 
-        from pyboxbuilder.enums import FingerCut
+        Args:
+            cut: How its contents come out — a :class:`FingerCut` for "this
+                kind, everything else derived", a :class:`Cut` when something
+                needs saying, or ``None`` for no cut at all (FR-006).
+        """
+        from pyboxbuilder.compartments.builder import CompartmentBuilder
 
         cb = CompartmentBuilder(
             label=label,
@@ -135,9 +136,7 @@ class BoxBuilder:
             length_ratio=length_ratio,
             depth=depth,
             rounded_corners=rounded_corners,
-            finger_scoop=finger_scoop,
-            finger_cut=FingerCut.THROUGH_FLOOR if finger_cut is None else finger_cut,
-            scoop_side=scoop_side,
+            cut=Cut.of(cut),
             no_rotate=no_rotate,
             shape_file=shape_file,
             position=position,
@@ -151,18 +150,18 @@ class BoxBuilder:
         self,
         side: "ScoopSide",
         *,
-        radius: float = 14.0,
-        width: float | None = None,
-        bottom_radius: float | None = None,
+        width: float = 28.0,
         depth: float | None = None,
         offset: float = 0.0,
-        rounding_radius: float | None = None,
-        rounding_edge: float | None = None,
+        base_radius: float | None = None,
+        mouth_flare: float | None = None,
         roll_rise: float | None = None,
+        face_fillet: float | None = None,
+        radius: float | None = None,
     ) -> "FingerHoleBuilder":
         """Add a finger hole to one of this box's exterior walls (FR-006).
 
-        The hole hangs from the top of the **interior** (FR-043b1) — not from
+        The hole hangs from the top of the **interior** (FR-064) — not from
         the outer rim, which on a lidded box is a lid band above it — so a
         finger reaches in over the wall rather than through its middle. It is
         cut with the same smoothing as a compartment scoop: a mouth rolled
@@ -170,26 +169,29 @@ class BoxBuilder:
 
         Args:
             side: Which exterior wall to cut.
-            radius: Throat radius in mm; 14mm is adult fingertip sizing. A
-                half-width, kept for callers that already speak in radii —
-                `width` says the same thing the other way round.
-            width: The cut's full width in mm. ``None`` takes twice `radius`.
-            bottom_radius: How the base curves into the sides. ``None`` takes
+            width: The cut's full width in mm; 28mm is adult fingertip sizing.
+            base_radius: How the base curves into the sides. ``None`` takes
                 **half the width**, which makes the base one round curve rather
-                than a flat pan (FR-043a5); it is independent of the width
-                (FR-043a6), so a narrow grip can still have a fully round base
+                than a flat pan (FR-054); it is independent of the width
+                (FR-055), so a narrow grip can still have a fully round base
                 and a wide one a tight-cornered base.
+            mouth_flare: How far the mouth rolls out at the rim; ``None`` uses
+                3mm.
+            face_fillet: The roundover where the cut emerges on a face;
+                ``None`` uses ``wall_thickness / 2``, the largest the wall has
+                room for.
+            radius: **Deprecated.** The same measurement as `width`, halved.
+                Two names for one dimension, one of them half the other, is a
+                foot-gun in a signature this size; `width` is what the
+                requirements state (FR-051). Passing it still works and warns.
             depth: How far the cut reaches below the wall's top, measured to
                 the deepest point of the material it removes (FR-006b).
                 ``None`` uses the radius. Capped at the interior depth so the
                 cut cannot open the box's base.
             offset: Shift along the wall from its midpoint, in mm.
-            rounding_radius: Mouth flare at the rim; ``None`` uses 3mm.
-            rounding_edge: Face fillet; ``None`` uses ``wall_thickness / 2``,
-                the largest the wall has room for.
             roll_rise: How far the mouth roll reaches down. ``None`` derives it
                 from the flare. The fourth of the numbers that define the
-                outline (FR-043a0): width and gentleness are separate, so a
+                outline (FR-051): width and gentleness are separate, so a
                 shallow wall can take a gentler curve without a wider mouth.
 
         Returns:
@@ -200,18 +202,100 @@ class BoxBuilder:
             TypeError: If ``side`` is not a :class:`ScoopSide`.
             ValueError: If ``radius`` or ``depth`` is not positive.
         """
+        if radius is not None:
+            import warnings
+
+            warnings.warn(
+                "finger_hole(radius=...) is deprecated; pass width= instead, "
+                "which is twice it and is what the requirements state.",
+                DeprecationWarning, stacklevel=2,
+            )
+            width = radius * 2.0
         hole = FingerHoleBuilder(
             side=side,
-            radius=radius if width is None else width / 2.0,
-            bottom_radius=bottom_radius,
+            radius=width / 2.0,
+            bottom_radius=base_radius,
             depth=depth,
             offset=offset,
-            rounding_radius=rounding_radius,
-            rounding_edge=rounding_edge,
+            rounding_radius=mouth_flare,
+            rounding_edge=face_fillet,
             roll_rise=roll_rise,
         )
         object.__setattr__(self, "finger_holes", self.finger_holes + (hole,))
         return hole
+
+
+@dataclass(frozen=True)
+class Cut:
+    """How a compartment gets its contents out (FR-006, FR-060).
+
+    One record rather than a flag to turn a cut on, a second to choose which
+    kind, a third for the side and half a dozen loose measurements. Those were
+    four separate decisions spread across a fifteen-parameter call, and two of
+    them meant the same thing: `finger_scoop=True, finger_cut=SCOOP` said
+    "cut one" twice.
+
+    Every measurement is ``None`` for "derive it", because the right value
+    depends on the well's own proportions and on the box's wall — which the
+    builder knows and the person describing a game does not (FR-000, FR-059).
+
+    Typical use is the shorthand::
+
+        box.compartment("Cards", size=..., depth=..., cut=FingerCut.THROUGH_FLOOR)
+
+    and the record itself only when something needs saying::
+
+        cut=Cut.scoop(side=ScoopSide.LEFT, width=30)
+    """
+
+    kind: FingerCut = FingerCut.THROUGH_FLOOR
+    """Which cut. A hole through the base for a stack, a side dip for loose
+    pieces (:class:`FingerCut`)."""
+    side: ScoopSide | None = None
+    """Which wall it goes in. ``None`` derives it — the shorter wall, or a
+    sliding lid's exit wall (FR-068/b6)."""
+    width: float | None = None
+    """How wide the cut is. ``None`` uses a fingertip."""
+    depth: float | None = None
+    """How far down it reaches, measured to the deepest point of the material
+    it removes (FR-006b). ``None`` runs it to the well's floor."""
+    offset: float = 0.0
+    """Shift along the wall from its midpoint, in mm."""
+    base_radius: float | None = None
+    """How the base curves into the sides; ``None`` derives it (FR-054)."""
+    mouth_flare: float | None = None
+    """How far the mouth rolls out at the rim; ``None`` derives it."""
+    roll_rise: float | None = None
+    """How far that roll reaches down — its gentleness (FR-057)."""
+    face_fillet: float | None = None
+    """The roundover where the cut emerges on a face; ``None`` uses half the
+    wall."""
+
+    @classmethod
+    def scoop(cls, **fields) -> "Cut":
+        """A dip in the side of the well, leaving its base solid."""
+        return cls(kind=FingerCut.SCOOP, **fields)
+
+    @classmethod
+    def through_floor(cls, **fields) -> "Cut":
+        """A hole through the box's base, for a well something is stacked in."""
+        return cls(kind=FingerCut.THROUGH_FLOOR, **fields)
+
+    @classmethod
+    def of(cls, value: "Cut | FingerCut | None") -> "Cut | None":
+        """Normalise what a caller passed as `cut=` into a record or ``None``.
+
+        The enum on its own is the common case and reads better at a call site
+        than a constructor does, so it is accepted as shorthand for "this kind,
+        everything else derived".
+        """
+        if value is None or isinstance(value, cls):
+            return value
+        if isinstance(value, FingerCut):
+            return cls(kind=value)
+        raise TypeError(
+            f"cut must be a Cut, a FingerCut or None; got {value!r}"
+        )
 
 
 @dataclass(frozen=True)
@@ -220,7 +304,7 @@ class FingerHoleBuilder:
 
     Cut with the same builder as a compartment's wall scoop, so it gets the
     same mouth flare and face fillets: see
-    :func:`pyboxbuilder.compartments.finger_hole.build_wall_scoop`.
+    :func:`pyboxbuilder.compartments.finger_cuts.build_wall_scoop`.
     """
 
     side: ScoopSide
@@ -229,13 +313,13 @@ class FingerHoleBuilder:
     """Throat half-width in mm — adult fingertip sizing by default.
 
     `BoxBuilder.finger_hole` also takes a `width`, which is twice this and the
-    way the requirement states it (FR-043a0); they are the same number.
+    way the requirement states it (FR-051); they are the same number.
     """
     bottom_radius: float | None = None
     """How the base curves into the sides; ``None`` uses half the width.
 
-    Independent of the width (FR-043a6), and **kept** rather than shrunk to fit
-    (FR-043a5): where the depth cannot hold the circle the mouth's roll gives
+    Independent of the width (FR-055), and **kept** rather than shrunk to fit
+    (FR-054): where the depth cannot hold the circle the mouth's roll gives
     first, and the straight run between the two circles absorbs the rest.
     """
     depth: float | None = None
@@ -255,7 +339,7 @@ class FingerHoleBuilder:
     """How far the mouth roll reaches down; ``None`` derives it from the flare.
 
     The gentleness of the curve, as against `rounding_radius`'s width of it
-    (FR-043a0/FR-043c3). Settable because on a shallow wall the rise is the only
+    (FR-051/FR-057). Settable because on a shallow wall the rise is the only
     one of the two that can give: there is height to spare for the curve and no
     width to spare for the mouth."""
 

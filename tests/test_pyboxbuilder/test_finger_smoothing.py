@@ -19,6 +19,8 @@ from render_app import measure_python, render_available  # noqa: E402
 
 from pyboxbuilder.compartments.finger_hole import (  # noqa: E402
     DEFAULT_MOUTH_ROUNDING_MM,
+    CutProfile,
+    FaceTreatment,
     MIN_WALL_SCOOP_DEPTH_MM,
     build_floor_scoop,
     build_scoop,
@@ -65,7 +67,7 @@ class OutlineTests(unittest.TestCase):
         self.assertAlmostEqual(max(y for _, y in ring), height + RIM_OVERSHOOT_MM)
 
     def test_the_outline_is_a_closed_ring_around_the_cut(self) -> None:
-        from pyboxbuilder.compartments.finger_hole import scoop_outline
+        from pyboxbuilder.compartments.finger_hole import CutProfile, FaceTreatment, scoop_outline
 
         ring = scoop_outline(10, 30, 5, 5)
         self.assertGreater(len(ring), 8)
@@ -76,7 +78,7 @@ class OutlineTests(unittest.TestCase):
 
     def test_the_floor_bore_outline_is_a_bowl(self) -> None:
         """Its lowest point is a single tangent touch, not a flat run."""
-        from pyboxbuilder.compartments.finger_hole import floor_bore_outline
+        from pyboxbuilder.compartments.finger_hole import CutProfile, FaceTreatment, floor_bore_outline
 
         ring = floor_bore_outline(10, 30, 3)
         floor_points = [x for x, y in ring if abs(y) < 1e-6]
@@ -85,7 +87,7 @@ class OutlineTests(unittest.TestCase):
     def test_a_tall_scoop_has_a_straight_vertical_throat(self) -> None:
         """radius + smoothing << height: the floor and rim circles are joined by
         their common tangent — a straight vertical run, not a step at either join."""
-        from pyboxbuilder.compartments.finger_hole import scoop_outline
+        from pyboxbuilder.compartments.finger_hole import CutProfile, FaceTreatment, scoop_outline
 
         ring = scoop_outline(10, 30, 3, 3)
         right = [(x, y) for x, y in ring if x > 1e-6]
@@ -106,7 +108,7 @@ class ScoopSelectionTests(unittest.TestCase):
         self.assertEqual(repr(shallow), repr(direct))
 
     def test_a_card_well_notches_and_a_token_tray_bores(self) -> None:
-        """SC-072/FR-043a9: the boundary sits below a card well.
+        """SC-072/FR-061: the boundary sits below a card well.
 
         At the inherited 8mm, Emberleaf's 6.5mm player card well fell to the
         bore — which on a 10.5mm box is a nick in the rim a millimetre deep
@@ -137,7 +139,7 @@ class MeasuredScoopTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
         body = '''
-from pyboxbuilder.compartments.finger_hole import build_wall_scoop, build_floor_scoop
+from pyboxbuilder.compartments.finger_hole import CutProfile, FaceTreatment, build_wall_scoop, build_floor_scoop
 from pyboxbuilder.enums import ScoopSide
 from pybosl2 import cuboid
 
@@ -146,15 +148,12 @@ from pybosl2 import cuboid
 measure("wt2", build_wall_scoop(40, 30, 20, ScoopSide.FRONT, radius=10, wall_thickness=2))
 measure("wt3", build_wall_scoop(40, 30, 20, ScoopSide.FRONT, radius=10, wall_thickness=3))
 measure("wt5", build_wall_scoop(40, 30, 20, ScoopSide.FRONT, radius=10, wall_thickness=5))
-measure("square", build_wall_scoop(40, 30, 20, ScoopSide.FRONT, radius=10,
-                                   wall_thickness=2, rounding_edge=0, rounding_radius=0))
-measure("no_mouth", build_wall_scoop(40, 30, 20, ScoopSide.FRONT, radius=10,
-                                      wall_thickness=2, rounding_radius=0))
+measure("square", build_wall_scoop(40, 30, 20, ScoopSide.FRONT, radius=10, wall_thickness=2, profile=CutProfile(mouth_flare=0), faces=FaceTreatment(fillet=0)))
+measure("no_mouth", build_wall_scoop(40, 30, 20, ScoopSide.FRONT, radius=10, wall_thickness=2, profile=CutProfile(mouth_flare=0)))
 measure("left", build_wall_scoop(40, 30, 20, ScoopSide.LEFT, radius=10, wall_thickness=2))
 measure("right", build_wall_scoop(40, 30, 20, ScoopSide.RIGHT, radius=10, wall_thickness=2))
 measure("back", build_wall_scoop(40, 30, 20, ScoopSide.BACK, radius=10, wall_thickness=2))
-measure("breaching", build_wall_scoop(40, 30, 20, ScoopSide.FRONT, radius=10,
-                                       wall_thickness=2, breach_floor=True))
+measure("breaching", build_wall_scoop(40, 30, 20, ScoopSide.FRONT, radius=10, wall_thickness=2, faces=FaceTreatment(breach_floor=True)))
 measure("thick_floor", build_wall_scoop(40, 30, 20, ScoopSide.FRONT, radius=10,
                                          wall_thickness=2, floor_thickness=4))
 measure("floor", build_floor_scoop(40, 30, ScoopSide.FRONT, radius=8, comp_depth=5,
@@ -335,11 +334,12 @@ measure("removed_deep",
         build_shell(dict(base)) - build_shell(dict(base, finger_holes=(Hole(ScoopSide.FRONT, depth=100),))))
 
 # The same capped cut on its own, where no mesh-difference sliver can appear.
-from pyboxbuilder.compartments.finger_hole import build_wall_scoop
+from pyboxbuilder.compartments.finger_hole import (
+    CutProfile, FaceTreatment, build_wall_scoop,
+)
 _reach = 40 - 1.6
 measure("deep_scoop_solid",
-        build_wall_scoop(96, 76, _reach, ScoopSide.FRONT, radius=14.0,
-                         wall_thickness=2.0, rounding_radius=3.0)
+        build_wall_scoop(96, 76, _reach, ScoopSide.FRONT, radius=14.0, wall_thickness=2.0, profile=CutProfile(mouth_flare=3.0))
         .translate([2, 2, 40 - _reach]))
 cuboid([1, 1, 1]).show()
 '''
@@ -366,7 +366,7 @@ cuboid([1, 1, 1]).show()
         self.assertAlmostEqual(front.position[1] + front.size[1], 2.0, places=2)
 
     def test_a_hole_hangs_from_the_interior_top_not_the_rim(self) -> None:
-        """FR-043b1. The spec here has a 2mm lid, so the interior tops out at
+        """FR-064. The spec here has a 2mm lid, so the interior tops out at
         38 and the cut must stop there rather than at the box's own 40.
 
         Only the top is asserted: this measures the *difference* of two
@@ -422,7 +422,7 @@ class FingerHoleBuilderTests(unittest.TestCase):
 
     def test_finger_hole_registers_on_the_box(self) -> None:
         box = self.project_box()
-        hole = box.finger_hole(ScoopSide.LEFT, radius=12.0, depth=8.0)
+        hole = box.finger_hole(ScoopSide.LEFT, width=24.0, depth=8.0)
         self.assertEqual(box.finger_holes, (hole,))
         self.assertIs(hole.side, ScoopSide.LEFT)
         self.assertEqual(hole.radius, 12.0)
@@ -440,7 +440,7 @@ class FingerHoleBuilderTests(unittest.TestCase):
     def test_non_positive_dimensions_rejected(self) -> None:
         box = self.project_box()
         with self.assertRaises(ValueError):
-            box.finger_hole(ScoopSide.LEFT, radius=0)
+            box.finger_hole(ScoopSide.LEFT, width=0)
         with self.assertRaises(ValueError):
             box.finger_hole(ScoopSide.LEFT, depth=-1)
 
@@ -573,7 +573,7 @@ if __name__ == "__main__":
 
 
 class TwoRadiusProfileTests(unittest.TestCase):
-    """FR-043a: an edge scoop is r1 at the rim, r2 into a flat bottom."""
+    """FR-050: an edge scoop is r1 at the rim, r2 into a flat bottom."""
 
     def outline(self, profile) -> str:
         return repr(profile)
@@ -659,7 +659,7 @@ class FlatBottomTests(unittest.TestCase):
 
 
 class DerivedDefaultTests(unittest.TestCase):
-    """FR-043a2/a3: the defaults have to work with no overrides."""
+    """FR-059/a3: the defaults have to work with no overrides."""
 
     def test_r1_scales_with_the_throat(self) -> None:
         """A fixed r1 is invisible on a big scoop and huge on a small one."""
@@ -671,10 +671,7 @@ class DerivedDefaultTests(unittest.TestCase):
         for radius in (4.0, 14.0):
             with self.subTest(radius=radius):
                 derived = build_wall_scoop(200, 200, 30, ScoopSide.FRONT, radius=radius)
-                explicit = build_wall_scoop(
-                    200, 200, 30, ScoopSide.FRONT, radius=radius,
-                    rounding_radius=radius * DEFAULT_TOP_ROUNDING_RATIO,
-                )
+                explicit = build_wall_scoop(200, 200, 30, ScoopSide.FRONT, radius=radius, profile=CutProfile(mouth_flare=radius * DEFAULT_TOP_ROUNDING_RATIO))
                 self.assertEqual(repr(derived), repr(explicit))
                 self.assertIsNotNone(scoop_profile(radius, 30))
 
@@ -685,8 +682,7 @@ class DerivedDefaultTests(unittest.TestCase):
         span, radius = 20.0, 14.0
         narrow = build_wall_scoop(span, 40, 30, ScoopSide.FRONT, radius=radius)
         # r1 zeroed would make it identical to a scoop built with no roll at all.
-        flat = build_wall_scoop(span, 40, 30, ScoopSide.FRONT, radius=radius,
-                                rounding_radius=0.0)
+        flat = build_wall_scoop(span, 40, 30, ScoopSide.FRONT, radius=radius, profile=CutProfile(mouth_flare=0.0))
         self.assertNotEqual(repr(narrow), repr(flat), "the top roll was zeroed")
         self.assertIsNotNone(scoop_profile(radius, 30))
 
@@ -700,7 +696,7 @@ class DerivedDefaultTests(unittest.TestCase):
 
 @unittest.skipUnless(render_available(), "PythonSCAD binary not available")
 class HoleAlignmentTests(unittest.TestCase):
-    """FR-043b1/b2: one call, right place, on every walled type."""
+    """FR-064/b2: one call, right place, on every walled type."""
 
     @classmethod
     def setUpClass(cls) -> None:
@@ -745,7 +741,7 @@ cuboid([1, 1, 1]).show()
                         "the lidded box's hole was aligned to the rim")
 
     def test_the_cut_spans_exactly_the_depth_it_was_given(self) -> None:
-        """FR-043a/T306: the roll finishes tangent to the rim, and the cut
+        """FR-050/T306: the roll finishes tangent to the rim, and the cut
         bottoms out its own depth below it.
 
         Both ends are set by the *outline's* height. Sizing the outline to the
@@ -769,7 +765,7 @@ cuboid([1, 1, 1]).show()
                                msg="the cut is not the depth it was asked for")
 
     def test_a_walled_over_hole_is_a_closed_window(self) -> None:
-        """FR-043b1a/SC-058: where wall stands above the cut it is a window.
+        """FR-065/SC-058: where wall stands above the cut it is a window.
 
         A scoop trimmed off at the interior top leaves its ceiling meeting each
         face of the wall at a square edge, with the face fillet stopping dead at
@@ -818,19 +814,19 @@ class FaceRoundoverTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
         body = '''
-from pyboxbuilder.compartments.finger_hole import build_wall_scoop
+from pyboxbuilder.compartments.finger_hole import (
+    CutProfile, FaceTreatment, build_wall_scoop,
+)
 from pyboxbuilder.enums import ScoopSide
 from pybosl2 import cuboid
 
 # 4mm wall, 2mm face fillet. The wall spans y = -4 .. 0.
-scoop = build_wall_scoop(96, 76, 20, ScoopSide.FRONT, radius=14,
-                         wall_thickness=4, rounding_edge=2.0)
+scoop = build_wall_scoop(96, 76, 20, ScoopSide.FRONT, radius=14, wall_thickness=4, faces=FaceTreatment(fillet=2.0))
 for y, name in ((-3.9, "at_face"), (-2.0, "mid_wall")):
     measure(name, scoop & cuboid([300, 0.2, 300]).translate([0, y, 0]))
 
 # With the fillet off there is nothing to widen: the two match.
-square = build_wall_scoop(96, 76, 20, ScoopSide.FRONT, radius=14,
-                          wall_thickness=4, rounding_edge=0.0)
+square = build_wall_scoop(96, 76, 20, ScoopSide.FRONT, radius=14, wall_thickness=4, faces=FaceTreatment(fillet=0.0))
 for y, name in ((-3.9, "square_at_face"), (-2.0, "square_mid_wall")):
     measure(name, square & cuboid([300, 0.2, 300]).translate([0, y, 0]))
 cuboid([1, 1, 1]).show()
@@ -861,7 +857,7 @@ cuboid([1, 1, 1]).show()
 
 
 class TangentJoinTests(unittest.TestCase):
-    """FR-043a4: the run between the arcs is a solved common tangent."""
+    """FR-053: the run between the arcs is a solved common tangent."""
 
     def test_it_finds_the_throat_for_the_usual_placement(self) -> None:
         from pyboxbuilder.compartments.finger_hole import _tangent_join
@@ -894,7 +890,7 @@ class TangentJoinTests(unittest.TestCase):
 
 
 class ScoopSideDefaultTests(unittest.TestCase):
-    """FR-043b4: the cut goes in the short wall unless told otherwise."""
+    """FR-068: the cut goes in the short wall unless told otherwise."""
 
     def placement(self, size):
         from pyboxbuilder.compartments.layout import CompartmentPlacement
@@ -914,11 +910,13 @@ class ScoopSideDefaultTests(unittest.TestCase):
     def test_an_explicit_side_still_wins(self) -> None:
         from pyboxbuilder.compartments.builder import CompartmentBuilder
 
+        from pyboxbuilder.builders._base import Cut
+
         explicit = CompartmentBuilder(label="c", size=(92.0, 67.0),
-                                      finger_scoop=True, scoop_side=ScoopSide.BACK)
-        self.assertIs(explicit.scoop_side, ScoopSide.BACK)
+                                      cut=Cut(side=ScoopSide.BACK))
+        self.assertIs(explicit.cut.side, ScoopSide.BACK)
         # Unspecified stays None so the short-wall rule can apply.
-        self.assertIsNone(CompartmentBuilder(label="c", size=(92.0, 67.0)).scoop_side)
+        self.assertIsNone(CompartmentBuilder(label="c", size=(92.0, 67.0), cut=Cut()).cut.side)
 
 
 class SlidingLidAxisTests(unittest.TestCase):
@@ -940,7 +938,7 @@ class SlidingLidAxisTests(unittest.TestCase):
 
 
 class SlidingScoopAndLidEdgeTests(unittest.TestCase):
-    """FR-043b6 / FR-044h / FR-044i: the lid dictates both."""
+    """FR-069 / FR-044h / FR-044i: the lid dictates both."""
 
     def box(self, box_type):
         from pyboxbuilder.box.registry import BOX_IMPL_REGISTRY
@@ -1016,7 +1014,7 @@ class SlidingScoopAndLidEdgeTests(unittest.TestCase):
 
 
 class WallTopTests(unittest.TestCase):
-    """FR-043b7/b8: each wall's top is its own, not the box's."""
+    """FR-070/b8: each wall's top is its own, not the box's."""
 
     def box(self, box_type):
         from pyboxbuilder.box.registry import BOX_IMPL_REGISTRY
@@ -1074,7 +1072,7 @@ class WallTopTests(unittest.TestCase):
 
 
 class PullOutRollTests(unittest.TestCase):
-    """FR-043c1: the roll spans the scoop's depth, not a token radius."""
+    """FR-078: the roll spans the scoop's depth, not a token radius."""
 
     def test_only_the_vertical_extents_compete_for_the_height(self) -> None:
         """A shallow wall shortens the roll's rise and leaves the width alone.
@@ -1083,7 +1081,7 @@ class PullOutRollTests(unittest.TestCase):
         the wall had height to spare for a curve and none to spare for a wider
         mouth, and one number was deciding both.
         """
-        from pyboxbuilder.compartments.finger_hole import _fit_radii
+        from pyboxbuilder.compartments.finger_hole import CutProfile, FaceTreatment, _fit_radii
 
         deep_flare, deep_rise, _ = _fit_radii(12.0, 26.0, 6.0, None)
         shallow_flare, shallow_rise, _ = _fit_radii(12.0, 6.5, 6.0, None)
@@ -1106,13 +1104,13 @@ class PullOutRollTests(unittest.TestCase):
         self.assertLessEqual(rise + r2, 18.0 + 1e-9)
 
     def fit(self, radius, height):
-        from pyboxbuilder.compartments.finger_hole import _fit_radii
+        from pyboxbuilder.compartments.finger_hole import CutProfile, FaceTreatment, _fit_radii
 
         return _fit_radii(radius, height, radius * 0.5, None)
 
 
 class ScoopCurveSourcesTests(unittest.TestCase):
-    """FR-043e/SC-054: the two curves are sized from two different quantities."""
+    """FR-077/SC-054: the two curves are sized from two different quantities."""
 
     def fillet(self, radius: float, rounding: float, height: float = 40.0) -> float:
         """The floor fillet `build_wall_scoop` would actually use.
@@ -1121,7 +1119,7 @@ class ScoopCurveSourcesTests(unittest.TestCase):
         one budget — the height — and on a shallow one both shrink together.
         That coupling is real; being sized off the same *radius* was not.
         """
-        from pyboxbuilder.compartments.finger_hole import _fit_radii
+        from pyboxbuilder.compartments.finger_hole import CutProfile, FaceTreatment, _fit_radii
 
         _, _, r2 = _fit_radii(radius, height, rounding, None)
         return r2
@@ -1158,7 +1156,7 @@ class ScoopCurveSourcesTests(unittest.TestCase):
 
 
 class ScoopFlareAlignmentTests(unittest.TestCase):
-    """T306/FR-043g: a scoop's solid is taller than the height it was asked for."""
+    """T306/FR-074: a scoop's solid is taller than the height it was asked for."""
 
     def test_the_flare_reaches_below_the_outline(self) -> None:
         """The face fillet is isotropic in the profile plane, so it grows down
@@ -1173,23 +1171,20 @@ class ScoopFlareAlignmentTests(unittest.TestCase):
         # default floor clip in force it is sliced at the dip instead — which
         # is correct for a compartment scoop bottoming on the floor, and is
         # why an exterior hole passes a `floor_clearance` that lets it finish.
-        scoop = build_wall_scoop(
-            76.0, 56.0, 14.0, ScoopSide.FRONT, radius=14.0, wall_thickness=wt,
-            breach_floor=True,
-        )
+        scoop = build_wall_scoop(76.0, 56.0, 14.0, ScoopSide.FRONT, radius=14.0, wall_thickness=wt, faces=FaceTreatment(breach_floor=True))
         centre, size = scoop.bounds()
         bottom = centre[2] - size[2] / 2
         self.assertAlmostEqual(bottom, -scoop_face_flare(wt), delta=0.05)
 
     def test_the_flare_is_half_the_wall(self) -> None:
-        from pyboxbuilder.compartments.finger_hole import scoop_face_flare
+        from pyboxbuilder.compartments.finger_hole import CutProfile, FaceTreatment, scoop_face_flare
 
         for wall in (2.0, 3.0, 4.0):
             with self.subTest(wall=wall):
                 self.assertAlmostEqual(scoop_face_flare(wall), wall / 2, places=6)
 
     def test_an_explicit_edge_rounding_is_respected(self) -> None:
-        from pyboxbuilder.compartments.finger_hole import scoop_face_flare
+        from pyboxbuilder.compartments.finger_hole import CutProfile, FaceTreatment, scoop_face_flare
 
         self.assertAlmostEqual(scoop_face_flare(4.0, 0.5), 0.5, places=6)
         self.assertEqual(scoop_face_flare(2.0, 0.0), 0.0)
@@ -1215,15 +1210,15 @@ class ScoopFlareAlignmentTests(unittest.TestCase):
 
 
 class RollRiseIsReachableTests(unittest.TestCase):
-    """FR-043a0/T313: all four numbers of the outline are settable.
+    """FR-051/T313: all four numbers of the outline are settable.
 
     The rise is the one that says how *gently* the top surface turns into the
-    wall, and it was a module constant — so the quantity FR-043c3 exists to
+    wall, and it was a module constant — so the quantity FR-057 exists to
     separate from the mouth's width could not actually be varied by a caller.
     """
 
     def test_a_given_rise_reaches_the_outline(self) -> None:
-        from pyboxbuilder.compartments.finger_hole import _fit_radii
+        from pyboxbuilder.compartments.finger_hole import CutProfile, FaceTreatment, _fit_radii
 
         flare, rise, _ = _fit_radii(14.0, 30.0, 3.0, None, roll_rise=9.0)
         self.assertAlmostEqual(rise, 9.0, places=6)
@@ -1240,14 +1235,13 @@ class RollRiseIsReachableTests(unittest.TestCase):
     def test_a_hole_carries_it_through_to_the_cut(self) -> None:
         """The builder field reaches the geometry: a gentler roll on the same
         mouth makes the cut taller, not wider."""
-        from pyboxbuilder.compartments.finger_hole import build_wall_scoop
+        from pyboxbuilder.compartments.finger_hole import (
+    CutProfile, FaceTreatment, build_wall_scoop,
+)
         from pyboxbuilder.enums import ScoopSide
 
         def width(rise: float) -> float:
-            scoop = build_wall_scoop(
-                76.0, 56.0, 20.0, ScoopSide.FRONT, radius=14.0, wall_thickness=2.0,
-                rounding_radius=3.0, roll_rise=rise,
-            )
+            scoop = build_wall_scoop(76.0, 56.0, 20.0, ScoopSide.FRONT, radius=14.0, wall_thickness=2.0, profile=CutProfile(mouth_flare=3.0, roll_rise=rise))
             _, size = scoop.bounds()
             return size[0]
 
@@ -1354,27 +1348,10 @@ class FingertipFitsTests(unittest.TestCase):
     def setUpClass(cls) -> None:
         body = '''
 import os, re, tempfile, zipfile
-from openscad import export
-from pyboxbuilder.compartments.finger_hole import build_wall_scoop, build_floor_scoop
+from pyboxbuilder.compartments.finger_hole import CutProfile, FaceTreatment, build_wall_scoop, build_floor_scoop
 from pyboxbuilder.enums import ScoopSide
 from pybosl2 import cuboid
 
-def volume(solid):
-    with tempfile.NamedTemporaryFile(suffix=".3mf", delete=False) as handle:
-        path = handle.name
-    try:
-        export(solid.shape, path)
-        model = zipfile.ZipFile(path).read("3D/3dmodel.model").decode()
-    finally:
-        os.unlink(path)
-    verts = [(float(x), float(y), float(z)) for x, y, z in re.findall(
-        r'<vertex x="([-0-9.e+]+)" y="([-0-9.e+]+)" z="([-0-9.e+]+)"', model)]
-    total = 0.0
-    for a, b, c in re.findall(r'<triangle v1="(\\d+)" v2="(\\d+)" v3="(\\d+)"', model):
-        p, q, r = verts[int(a)], verts[int(b)], verts[int(c)]
-        total += (p[0]*(q[1]*r[2]-r[1]*q[2]) - p[1]*(q[0]*r[2]-r[0]*q[2])
-                  + p[2]*(q[0]*r[1]-r[0]*q[1])) / 6.0
-    return abs(total)
 
 # A 14mm-wide fingertip, 8mm tall, standing on the cut's flat bottom in the
 # middle of the wall. Wall scoop on a 76 x 56 compartment, 20mm deep.
@@ -1408,7 +1385,7 @@ cuboid([1, 1, 1]).show()
 
 
 class CornerRadiusIsKeptTests(unittest.TestCase):
-    """FR-043a5/FR-043a6/SC-066: the radius asked for is the radius built.
+    """FR-054/FR-055/SC-066: the radius asked for is the radius built.
 
     It used to be narrowed twice over — capped at 0.75 of the half-width to
     protect a flat run that a *grip* does not need, then scaled with the rise to
@@ -1418,7 +1395,7 @@ class CornerRadiusIsKeptTests(unittest.TestCase):
     """
 
     def fit(self, half_width, depth, asked, **kw):
-        from pyboxbuilder.compartments.finger_hole import _fit_radii
+        from pyboxbuilder.compartments.finger_hole import CutProfile, FaceTreatment, _fit_radii
 
         return _fit_radii(half_width, depth, 3.0, asked, keep_flat_bottom=False, **kw)
 
@@ -1429,7 +1406,7 @@ class CornerRadiusIsKeptTests(unittest.TestCase):
                 self.assertAlmostEqual(r2, 20.0, places=6)
 
     def test_a_grip_rolls_on_a_circle(self) -> None:
-        """FR-043a7: the flank is the tangent between two circles, and only two
+        """FR-052: the flank is the tangent between two circles, and only two
         circles have an exact one — so a grip's roll is circular. The gentler
         ellipse stays with the compartment scoop, whose flank is vertical."""
         flare, rise, _ = self.fit(20.0, 19.0, 20.0)
@@ -1455,7 +1432,7 @@ class CornerRadiusIsKeptTests(unittest.TestCase):
                 )
 
     def test_at_half_the_width_the_base_is_one_round_curve(self) -> None:
-        from pyboxbuilder.compartments.finger_hole import scoop_outline
+        from pyboxbuilder.compartments.finger_hole import CutProfile, FaceTreatment, scoop_outline
 
         flare, rise, r2 = self.fit(10.0, 25.0, 10.0)
         ring = scoop_outline(10.0, 25.0, flare, r2, rise)
@@ -1464,8 +1441,8 @@ class CornerRadiusIsKeptTests(unittest.TestCase):
         self.assertAlmostEqual(max(flat) if flat else 0.0, 0.0, places=6)
 
     def test_a_compartment_scoop_keeps_its_flat_run(self) -> None:
-        """FR-043a: something rests on it, so that cut is capped as before."""
-        from pyboxbuilder.compartments.finger_hole import _fit_radii, scoop_outline
+        """FR-050: something rests on it, so that cut is capped as before."""
+        from pyboxbuilder.compartments.finger_hole import CutProfile, FaceTreatment, _fit_radii, scoop_outline
 
         flare, rise, r2 = _fit_radii(20.0, 19.0, 3.0, 20.0)
         ring = scoop_outline(20.0, 19.0, flare, r2, rise)
@@ -1473,7 +1450,7 @@ class CornerRadiusIsKeptTests(unittest.TestCase):
         self.assertGreater(2 * max(flat), 1.0, "the flat bottom closed into a trough")
 
     def test_width_and_radius_move_independently(self) -> None:
-        """FR-043a6: either one changes the outline without the other."""
+        """FR-055: either one changes the outline without the other."""
         wide, _, r2_same = self.fit(20.0, 30.0, 8.0)
         narrow, _, r2_narrow = self.fit(10.0, 30.0, 8.0)
         self.assertAlmostEqual(r2_same, r2_narrow, places=6)
@@ -1482,17 +1459,33 @@ class CornerRadiusIsKeptTests(unittest.TestCase):
         _, _, r2_big = self.fit(20.0, 30.0, 16.0)
         self.assertNotAlmostEqual(r2_small, r2_big, places=3)
 
-    def test_the_builder_carries_the_radius_and_the_width(self) -> None:
+    def test_the_builder_carries_the_width_and_the_base(self) -> None:
         from pyboxbuilder.builders.no_lid import NoLidBoxBuilder
 
         box = NoLidBoxBuilder(label="T", size=(100, 80, 40))
-        hole = box.finger_hole(ScoopSide.FRONT, width=30.0, bottom_radius=6.0)
+        hole = box.finger_hole(ScoopSide.FRONT, width=30.0, base_radius=6.0)
         self.assertAlmostEqual(hole.radius, 15.0)
         self.assertAlmostEqual(hole.bottom_radius, 6.0)
 
+    def test_the_old_radius_still_works_and_says_so(self) -> None:
+        """Deprecated rather than removed: two names for one dimension, one of
+        them half the other, is the foot-gun — not the callers who already
+        speak in radii."""
+        import warnings
+
+        from pyboxbuilder.builders.no_lid import NoLidBoxBuilder
+
+        box = NoLidBoxBuilder(label="T", size=(100, 80, 40))
+        with warnings.catch_warnings(record=True) as caught:
+            warnings.simplefilter("always")
+            hole = box.finger_hole(ScoopSide.FRONT, radius=15.0)
+        self.assertAlmostEqual(hole.radius, 15.0)
+        self.assertEqual(len(caught), 1)
+        self.assertIs(caught[0].category, DeprecationWarning)
+
 
 class TangentFlankTests(unittest.TestCase):
-    """FR-043a7/SC-067: a grip is two circles joined by their internal tangent.
+    """FR-052/SC-067: a grip is two circles joined by their internal tangent.
 
     One construction for every proportion: a base circle on the bottom of the
     cut, the roll at each end, and a straight run touching both. Deep, that run
@@ -1506,7 +1499,7 @@ class TangentFlankTests(unittest.TestCase):
     """
 
     def outline(self, half_width: float, depth: float):
-        from pyboxbuilder.compartments.finger_hole import _fit_radii, scoop_outline
+        from pyboxbuilder.compartments.finger_hole import CutProfile, FaceTreatment, _fit_radii, scoop_outline
 
         flare, rise, r2 = _fit_radii(
             half_width, depth, 3.0, None, keep_flat_bottom=False
@@ -1623,7 +1616,7 @@ class TangentFlankTests(unittest.TestCase):
 
 
 class GripBaseIsDerivedNotPinnedTests(unittest.TestCase):
-    """FR-043a7: the base's size is decided in one place — the fit.
+    """FR-052: the base's size is decided in one place — the fit.
 
     `apply_finger_holes` passed the half-width down as the base radius, which
     reads as "the default" and is not: an explicit value counts as a *request*,
@@ -1649,7 +1642,7 @@ class GripBaseIsDerivedNotPinnedTests(unittest.TestCase):
         body = MagicMock()
         body.__sub__.return_value = body
         with patch(
-            "pyboxbuilder.compartments.finger_hole.build_wall_scoop"
+            "pyboxbuilder.compartments.finger_cuts.build_wall_scoop"
         ) as builder:
             builder.return_value = MagicMock()
             builder.return_value.translate.return_value = MagicMock()
@@ -1657,20 +1650,20 @@ class GripBaseIsDerivedNotPinnedTests(unittest.TestCase):
         return builder.call_args.kwargs
 
     def test_the_base_radius_is_left_to_the_fit(self) -> None:
-        self.assertIsNone(self.scoop_call()["bottom_rounding"])
+        self.assertIsNone(self.scoop_call()["profile"].base_radius)
 
     def test_an_explicit_radius_still_reaches_it(self) -> None:
         from pyboxbuilder.builders._base import FingerHoleBuilder
 
         hole = FingerHoleBuilder(side=ScoopSide.FRONT, bottom_radius=7.0)
         kwargs = self.scoop_call(finger_holes=(hole,))
-        self.assertAlmostEqual(kwargs["bottom_rounding"], 7.0)
+        self.assertAlmostEqual(kwargs["profile"].base_radius, 7.0)
 
     def test_the_shallow_tray_gets_the_grown_base(self) -> None:
         """End to end on the numbers the tray actually builds with: a 20mm box
         cuts 10mm deep, and its base circle is larger than the half-width."""
         from pyboxbuilder.box.shell import _hole_flare, no_lid_finger_holes
-        from pyboxbuilder.compartments.finger_hole import _fit_radii
+        from pyboxbuilder.compartments.finger_hole import CutProfile, FaceTreatment, _fit_radii
 
         spec = dict(
             width=100, length=80, height=20, wall_thickness=2.0,
@@ -1686,7 +1679,7 @@ class GripBaseIsDerivedNotPinnedTests(unittest.TestCase):
 
 
 class GripStaysInProportionTests(unittest.TestCase):
-    """FR-043a8/SC-070: a grip is never wider than it is deep.
+    """FR-056/SC-070: a grip is never wider than it is deep.
 
     The angle a cut's flank arrives at the rim follows its aspect and nothing
     else: 45mm wide over 9mm deep can only come in at about 34°, against about
@@ -1702,7 +1695,7 @@ class GripStaysInProportionTests(unittest.TestCase):
         import math
 
         from pyboxbuilder.box.shell import _hole_flare, no_lid_finger_holes
-        from pyboxbuilder.compartments.finger_hole import _fit_radii, scoop_outline
+        from pyboxbuilder.compartments.finger_hole import CutProfile, FaceTreatment, _fit_radii, scoop_outline
 
         spec = dict(
             width=100, length=80, height=box_height,
@@ -1771,7 +1764,7 @@ class OutlineNeverRunsBackwardsTests(unittest.TestCase):
     def first_reversal(self, half_width, depth, flare, keep_flat_bottom):
         import math
 
-        from pyboxbuilder.compartments.finger_hole import _fit_radii, scoop_outline
+        from pyboxbuilder.compartments.finger_hole import CutProfile, FaceTreatment, _fit_radii, scoop_outline
 
         roll, rise, base = _fit_radii(
             half_width, depth, flare, None, keep_flat_bottom=keep_flat_bottom
@@ -1812,7 +1805,7 @@ class OutlineNeverRunsBackwardsTests(unittest.TestCase):
         below the rim. Clamping the rise alone lifted the centre and left the
         circle its full size, which is how the tangent came to be solved
         against a circle that was not the one drawn."""
-        from pyboxbuilder.compartments.finger_hole import _fit_radii
+        from pyboxbuilder.compartments.finger_hole import CutProfile, FaceTreatment, _fit_radii
 
         for depth in (2.0, 3.0, 4.0, 6.0, 9.0, 20.0):
             for flare in (1.0, 3.0, 5.0, 8.0):
@@ -1826,7 +1819,7 @@ class OutlineNeverRunsBackwardsTests(unittest.TestCase):
 
 @unittest.skipUnless(render_available(), "PythonSCAD binary not available")
 class ThroughFloorCutTests(unittest.TestCase):
-    """FR-043a10/SC-073: a card well is emptied from underneath.
+    """FR-060/SC-073: a card well is emptied from underneath.
 
     A scoop puts a finger down the *side* of what a well holds, and a stack
     that fills its well has no side to reach down — what lifts it is a thumb
@@ -1843,26 +1836,9 @@ class ThroughFloorCutTests(unittest.TestCase):
     def setUpClass(cls) -> None:
         body = '''
 import os, re, tempfile, zipfile
-from openscad import export
 from pyboxbuilder import BoxType, FingerCut, Project
 from pybosl2 import cuboid
 
-def volume(solid):
-    with tempfile.NamedTemporaryFile(suffix=".3mf", delete=False) as handle:
-        path = handle.name
-    try:
-        export(solid.shape, path)
-        model = zipfile.ZipFile(path).read("3D/3dmodel.model").decode()
-    finally:
-        os.unlink(path)
-    verts = [(float(x), float(y), float(z)) for x, y, z in re.findall(
-        r'<vertex x="([-0-9.e+]+)" y="([-0-9.e+]+)" z="([-0-9.e+]+)"', model)]
-    total = 0.0
-    for a, b, c in re.findall(r'<triangle v1="(\\d+)" v2="(\\d+)" v3="(\\d+)"', model):
-        p, q, r = verts[int(a)], verts[int(b)], verts[int(c)]
-        total += (p[0]*(q[1]*r[2]-r[1]*q[2]) - p[1]*(q[0]*r[2]-r[0]*q[2])
-                  + p[2]*(q[0]*r[1]-r[0]*q[1])) / 6.0
-    return abs(total)
 
 def build(kind):
     p = Project("A", game_box_size=(400, 300, 60), generate_spacers=False,
@@ -1870,7 +1846,7 @@ def build(kind):
     b = p.box(BoxType.SLIDING, "cards", size=(90, 98, 20), position=(0, 0, 0),
               expandable=False, no_rotate=True)
     b.compartment("Cards", size=(67, 92), depth=16.0, position=(9.0, 0.0),
-                  finger_scoop=True, finger_cut=kind)
+                  cut=kind)
     p._resolve_final_layout()
     return p._build_box_solids(b)[0]
 
@@ -1899,7 +1875,7 @@ cuboid([1, 1, 1]).show()
 
 @unittest.skipUnless(render_available(), "PythonSCAD binary not available")
 class WhichFaceRoundsTests(unittest.TestCase):
-    """FR-043c: `round_outer` is the box's **outside**, and it is testable.
+    """FR-073: `round_outer` is the box's **outside**, and it is testable.
 
     The sweep runs from the compartment side outward through the wall, so the
     profile named `bottom` lands on the inner face and `top` on the outer one —
@@ -1911,15 +1887,16 @@ class WhichFaceRoundsTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
         body = '''
-from pyboxbuilder.compartments.finger_hole import build_wall_scoop
+from pyboxbuilder.compartments.finger_hole import (
+    CutProfile, FaceTreatment, build_wall_scoop,
+)
 from pyboxbuilder.enums import ScoopSide
 from pybosl2 import cuboid
 
 # A FRONT cut on a 60 x 40 compartment: its wall is y in [-3, 0], so y = 0 is
 # the compartment side and y = -3 the box's outside. The throat is 2 x 10.
 for label, inner, outer in (("both", True, True), ("outer_only", False, True)):
-    cut = build_wall_scoop(60, 40, 20, ScoopSide.FRONT, radius=10, wall_thickness=3.0,
-                           round_inner=inner, round_outer=outer)
+    cut = build_wall_scoop(60, 40, 20, ScoopSide.FRONT, radius=10, wall_thickness=3.0, faces=FaceTreatment(round_inner=inner, round_outer=outer))
     for face, y in (("inside", -0.2), ("outside", -2.8)):
         measure(f"{label}_{face}", cut & cuboid([200, 0.3, 200]).translate([0, y, 0]))
 cuboid([1, 1, 1]).show()
@@ -1949,7 +1926,7 @@ cuboid([1, 1, 1]).show()
 
 @unittest.skipUnless(render_available(), "PythonSCAD binary not available")
 class NoRidgeInsideTheCutTests(unittest.TestCase):
-    """FR-043a10: one section through the wall, square inside, rolled outside.
+    """FR-060: one section through the wall, square inside, rolled outside.
 
     `offset_sweep` holds its straight middle at the last offset its *first* rim
     reached, so a rim on one end only leaves the middle at the path's full width
@@ -1962,7 +1939,7 @@ class NoRidgeInsideTheCutTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
         body = '''
-from pyboxbuilder.compartments.finger_hole import build_through_hole
+from pyboxbuilder.compartments.finger_hole import CutProfile, FaceTreatment, build_through_hole
 from pyboxbuilder.enums import ScoopSide
 from pybosl2 import cuboid
 
@@ -1998,7 +1975,7 @@ cuboid([1, 1, 1]).show()
 
 @unittest.skipUnless(render_available(), "PythonSCAD binary not available")
 class TheCutDoesNotBiteTheBaseTests(unittest.TestCase):
-    """FR-043a10: below the floor, the cut is the bore and the wall — no more.
+    """FR-060: below the floor, the cut is the bore and the wall — no more.
 
     The sweep runs a fillet into the compartment so its inner rim finishes in
     the void (see `NoRidgeInsideTheCutTests`), and that overshoot must stop at
@@ -2011,34 +1988,19 @@ class TheCutDoesNotBiteTheBaseTests(unittest.TestCase):
     def setUpClass(cls) -> None:
         body = '''
 import os, re, tempfile, zipfile
-from openscad import export
 from pyboxbuilder.compartments import finger_hole as fh
 from pyboxbuilder.enums import ScoopSide
 from pyboxbuilder.precision import kwargs as pk
 from pybosl2 import cuboid, cylinder
 
-def volume(solid):
-    with tempfile.NamedTemporaryFile(suffix=".3mf", delete=False) as handle:
-        path = handle.name
-    try:
-        export(solid.shape, path)
-        model = zipfile.ZipFile(path).read("3D/3dmodel.model").decode()
-    finally:
-        os.unlink(path)
-    verts = [(float(x), float(y), float(z)) for x, y, z in re.findall(
-        r'<vertex x="([-0-9.e+]+)" y="([-0-9.e+]+)" z="([-0-9.e+]+)"', model)]
-    total = 0.0
-    for a, b, c in re.findall(r'<triangle v1="(\\d+)" v2="(\\d+)" v3="(\\d+)"', model):
-        p, q, r = verts[int(a)], verts[int(b)], verts[int(c)]
-        total += (p[0]*(q[1]*r[2]-r[1]*q[2]) - p[1]*(q[0]*r[2]-r[0]*q[2])
-                  + p[2]*(q[0]*r[1]-r[0]*q[1])) / 6.0
-    return abs(total)
 
 def bitten(overshoot):
     """Base material taken *inside the well*, beyond the bore's own circle."""
+    from dataclasses import replace
     real = fh._sweep_through_wall
     def patched(*a, **kw):
-        kw["inner_overshoot"] = overshoot
+        kw["faces"] = replace(kw.get("faces", fh.FaceTreatment()),
+                              inner_overshoot=overshoot)
         return real(*a, **kw)
     fh._sweep_through_wall = patched
     try:

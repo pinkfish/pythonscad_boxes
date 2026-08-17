@@ -33,7 +33,8 @@ for _sp in ROOT.glob(".venv/lib/*/site-packages"):
 for _sp in ROOT.glob("venv/*/lib/*/site-packages"):
     sys.path.insert(0, str(_sp))
 
-from pyboxbuilder import (  # noqa: E402
+from pyboxbuilder import (
+    FingerCut,  # noqa: E402
     BoxType, Color, LabelMode, LidBuilder, PatternBuilder, PatternType, Project,
     columns, stack,
 )
@@ -180,7 +181,7 @@ card_box.compartment(
     size=(ANIMAL_CARD_WIDTH, ANIMAL_CARD_LENGTH),
     depth=CARD_BOX_HEIGHT - FLOOR - LID,
     position=(0.0, 0.0),
-    finger_scoop=True,
+    cut=FingerCut.THROUGH_FLOOR,
 )
 
 # ── 2. Sprout box ─────────────────────────────────────────────────────────

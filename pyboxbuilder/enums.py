@@ -122,7 +122,7 @@ class ScoopSide(Enum):
 
 
 class FingerCut(Enum):
-    """How a compartment's finger cutout gets the contents out (FR-043a10).
+    """How a compartment's finger cutout gets the contents out (FR-060).
 
     The two answer different situations, and which one a well wants is about
     what is *in* it rather than how big it is:

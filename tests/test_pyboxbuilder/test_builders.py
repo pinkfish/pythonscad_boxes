@@ -2,6 +2,7 @@
 """Tests for BoxBuilder base class."""
 
 import unittest
+from pyboxbuilder.builders._base import Cut
 
 from pyboxbuilder.builders._base import BoxBuilder, FingerHoleBuilder
 from pyboxbuilder.enums import BoxType, ScoopSide
@@ -49,19 +50,19 @@ class BoxBuilderTests(unittest.TestCase):
         self.assertEqual(cb.label, "Well1")
         self.assertEqual(cb.size, (90, 65))
         self.assertEqual(cb.depth, 45)
-        self.assertFalse(cb.finger_scoop)
+        self.assertIsNone(cb.cut)
         # Unset until carve time, which picks the shorter wall.
-        self.assertIsNone(cb.scoop_side)
+
         self.assertEqual(len(b.compartments), 1)
 
     def test_add_compartment_with_scoop(self) -> None:
         b = BoxBuilder(label="Test", size=(200, 150, 60))
         cb = b.compartment(
             "ScoopWell", size=(50, 50), depth=25,
-            finger_scoop=True, scoop_side=ScoopSide.LEFT,
+            cut=Cut.scoop(side=ScoopSide.LEFT),
         )
-        self.assertTrue(cb.finger_scoop)
-        self.assertEqual(cb.scoop_side, ScoopSide.LEFT)
+        self.assertIsNotNone(cb.cut)
+        self.assertEqual(cb.cut.side, ScoopSide.LEFT)
 
     def test_finger_holes_default_empty(self) -> None:
         b = BoxBuilder(label="Test", size=(100, 100, 50))

@@ -138,6 +138,9 @@ def render_python(body: str, *, imgsize: tuple[int, int] = (200, 150), timeout: 
         "os.environ['FROM_MAKE'] = '1'\n"
         + (f"sys.path.insert(0, {_venv_site_packages()!r})\n" if _venv_site_packages() else "")
         + f"sys.path.insert(0, {str(PROJECT_ROOT)!r})\n"
+        # tests/ too, so a measured script imports the shared volume
+        # helper instead of carrying a copy of it (tests/mesh.py).
+        + f"sys.path.insert(0, {str(PROJECT_ROOT / 'tests')!r})\n"
     )
     with tempfile.NamedTemporaryFile("w", suffix=".py", delete=False, dir=tempfile.gettempdir()) as f:
         f.write(header + body)
@@ -219,6 +222,9 @@ def render_script(
         "os.environ['FROM_MAKE'] = '1'\n"
         + (f"sys.path.insert(0, {_venv_site_packages()!r})\n" if _venv_site_packages() else "")
         + f"sys.path.insert(0, {str(PROJECT_ROOT)!r})\n"
+        # tests/ too, so a measured script imports the shared volume
+        # helper instead of carrying a copy of it (tests/mesh.py).
+        + f"sys.path.insert(0, {str(PROJECT_ROOT / 'tests')!r})\n"
     )
     with tempfile.NamedTemporaryFile("w", suffix=".py", delete=False, dir=tempfile.gettempdir()) as f:
         f.write(header + source)
@@ -270,6 +276,9 @@ def measure(name, obj):
 def report(name, value):
     """Report an arbitrary scalar/string as `REPORT <name> <value>`."""
     _emit("REPORT %s %s" % (name, value))
+
+
+from mesh import volume  # noqa: F401 — the shared measurer, tests/mesh.py
 '''
 
 

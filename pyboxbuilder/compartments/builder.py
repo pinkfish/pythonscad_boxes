@@ -5,7 +5,10 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-from pyboxbuilder.enums import FingerCut, ScoopSide
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from pyboxbuilder.builders._base import Cut
 from pyboxbuilder.compartments.element import CompartmentElement
 
 
@@ -41,27 +44,14 @@ class CompartmentBuilder:
     sweep a piece up the curve and out (FR-044f).
     """
     """Corner radius in mm."""
-    finger_scoop: bool = False
-    """Cut a finger cutout into this compartment.
+    cut: "Cut | None" = None
+    """How this compartment's contents come out; ``None`` means no cut.
 
-    What kind of cut it is follows from :attr:`finger_cut`.
+    One setting rather than three (FR-006). It used to be a flag to ask for a
+    cut, a second to choose its kind and a third for its side — and the first
+    two said the same thing twice, so `finger_scoop=True, finger_cut=SCOOP`
+    was the way to ask for one scoop.
     """
-    finger_cut: FingerCut = FingerCut.THROUGH_FLOOR
-    """Which cut a `finger_scoop=True` compartment gets (FR-043a10).
-
-    Defaults to the hole **through the floor**, because a well that is worth
-    cutting is usually a well something is stacked in, and a stack has no side
-    for a finger to reach down. A well of loose pieces asks for
-    :attr:`FingerCut.SCOOP` and gets the side dip instead, which leaves the
-    box's base solid under it.
-    """
-    scoop_side: ScoopSide | None = None
-    """Which wall the finger scoop pierces.
-
-    ``None`` puts it in the **shorter** wall, which is where a card stack is
-    lifted out from — see `carve.default_scoop_side`.
-    """
-    """Which side the finger scoop is on."""
     no_rotate: bool = False
     """Prevent the layout algorithm from rotating this compartment (e.g. directional card slots)."""
     shape_file: str | None = None

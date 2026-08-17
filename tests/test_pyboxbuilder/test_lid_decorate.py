@@ -3,9 +3,10 @@
 
 from __future__ import annotations
 
-import os
 import tempfile
 import unittest
+
+from mesh import volume  # the shared measurer; see tests/mesh.py
 
 from pyboxbuilder.box.registry import BOX_IMPL_REGISTRY
 from pyboxbuilder.enums import BoxType, LabelMode, PatternType
@@ -23,36 +24,6 @@ def bare_lid():
     return BOX_IMPL_REGISTRY[BoxType.SLIDING]().build_lid(SPEC)
 
 
-def volume(solid) -> float:
-    """Mesh volume of a solid, via a round trip through the 3MF exporter."""
-    import re
-    import zipfile
-
-    from openscad import export  # type: ignore[import-not-found]
-
-    with tempfile.NamedTemporaryFile(suffix=".3mf", delete=False) as handle:
-        path = handle.name
-    try:
-        export(solid.shape, path)
-        model = zipfile.ZipFile(path).read("3D/3dmodel.model").decode()
-    finally:
-        os.unlink(path)
-
-    verts = [
-        (float(x), float(y), float(z))
-        for x, y, z in re.findall(
-            r'<vertex x="([-0-9.e+]+)" y="([-0-9.e+]+)" z="([-0-9.e+]+)"', model
-        )
-    ]
-    total = 0.0
-    for a, b, c in re.findall(r'<triangle v1="(\d+)" v2="(\d+)" v3="(\d+)"', model):
-        p, q, r = verts[int(a)], verts[int(b)], verts[int(c)]
-        total += (
-            p[0] * (q[1] * r[2] - r[1] * q[2])
-            - p[1] * (q[0] * r[2] - r[0] * q[2])
-            + p[2] * (q[0] * r[1] - r[0] * q[1])
-        ) / 6.0
-    return abs(total)
 
 
 class LabelSizingTests(unittest.TestCase):

@@ -3,6 +3,7 @@
 
 import unittest
 
+from pyboxbuilder.builders._base import Cut
 from pyboxbuilder.compartments.builder import CompartmentBuilder
 from pyboxbuilder.enums import ScoopSide
 
@@ -14,7 +15,7 @@ class CompartmentBuilderTests(unittest.TestCase):
         self.assertEqual(cb.size, (50, 50))
         self.assertEqual(cb.depth, 30)
         self.assertEqual(cb.rounded_corners, 0.0)
-        self.assertFalse(cb.finger_scoop)
+        self.assertIsNone(cb.cut)
 
     def test_ratio_based_sizing(self) -> None:
         """Compartment sized by ratio of interior."""
@@ -84,16 +85,16 @@ class CompartmentBuilderTests(unittest.TestCase):
         the long wall.
         """
         cb = CompartmentBuilder(
-            label="Well", size=(50, 50), depth=30, finger_scoop=True,
+            label="Well", size=(50, 50), depth=30, cut=Cut(),
         )
-        self.assertIsNone(cb.scoop_side)
+        self.assertIsNone(cb.cut.side)
 
     def test_explicit_scoop_side(self) -> None:
         cb = CompartmentBuilder(
             label="Well", size=(50, 50), depth=30,
-            finger_scoop=True, scoop_side=ScoopSide.BACK,
+            cut=Cut(side=ScoopSide.BACK),
         )
-        self.assertEqual(cb.scoop_side, ScoopSide.BACK)
+        self.assertEqual(cb.cut.side, ScoopSide.BACK)
 
     def test_rounded_corners_default(self) -> None:
         cb = CompartmentBuilder(label="Well", size=(50, 50), depth=30)

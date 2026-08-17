@@ -29,6 +29,7 @@ from pyboxbuilder.box.interior import Interior
 from pyboxbuilder.enums import ScoopSide
 
 if TYPE_CHECKING:
+    from pyboxbuilder.builders._base import Cut
     from pybosl2.shapes3d import Bosl2Solid
 
     from pyboxbuilder.compartments.layout import CompartmentPlacement
@@ -124,7 +125,7 @@ def build_compartment_scoop(
     interior: Interior,
     scoop_side: ScoopSide = ScoopSide.FRONT,
     top_z: float | None = None,
-    kind: "FingerCut | None" = None,
+    cut: "Cut | None" = None,
 ) -> "Bosl2Solid":
     """Build a compartment's finger scoop — the part that pierces a wall.
 
@@ -138,16 +139,18 @@ def build_compartment_scoop(
         scoop_side: Which wall the scoop pierces.
         top_z: The box's top face. The cut reaches it so its roll merges into
             the rim; ``None`` falls back to the interior ceiling.
-        kind: Which cut to build (FR-043a10). ``None`` takes the through-floor
-            hole, which is what a well worth cutting usually wants — the
-            compartment carries the choice, and it is passed in rather than
-            read off the placement, which does not carry it.
+        cut: What the compartment asked for (FR-006) — kind, side and any
+            measurement it wanted to name. Passed in rather than read off the
+            placement, which does not carry it: reaching for it there returned
+            a default and looked like it worked.
 
     Returns:
         The scoop cutout, positioned in the box frame.
     """
-    from pyboxbuilder.compartments.finger_hole import build_scoop, build_through_hole
-    from pyboxbuilder.enums import FingerCut
+    from pyboxbuilder.builders._base import Cut
+    from pyboxbuilder.compartments.finger_cuts import build_cut
+    from pyboxbuilder.compartments.finger_outline import CutProfile
+    from pyboxbuilder.compartments.finger_sweep import FaceTreatment
 
     width, length = placement.size
     floor_z = compartment_floor_z(placement, interior)
@@ -162,24 +165,23 @@ def build_compartment_scoop(
     # origin_z is the box floor: the scoop dips a fraction of it so its bottom
     # face is not coplanar with the well floor (which renders as speckle).
     floor_thickness = interior.origin_z if interior.origin_z > 0 else None
-    if kind is None:
-        kind = FingerCut.THROUGH_FLOOR
-    if kind is FingerCut.THROUGH_FLOOR:
-        # A stack fills its well, so there is no side to reach down: the way
-        # out is a thumb from underneath, and the cut goes through the base
-        # (FR-043a10).
-        scoop = build_through_hole(
-            width, length, scoop_side,
-            comp_depth=depth,
-            wall_thickness=wall_thickness,
-            floor_thickness=floor_thickness or 2.0,
-        )
-    else:
-        scoop = build_scoop(
-            width, length, depth, scoop_side,
-            wall_thickness=wall_thickness,
-            floor_thickness=floor_thickness,
-        )
+    cut = cut if cut is not None else Cut()
+    # Which of the three shapes this becomes is `build_cut`'s call, not ours:
+    # the kind asked for and the well's depth are one decision, and splitting
+    # it across two modules is how a card box ends up with a scoop (FR-060).
+    scoop = build_cut(
+        cut.kind,
+        width, length, cut.depth if cut.depth is not None else depth, scoop_side,
+        wall_thickness=wall_thickness,
+        floor_thickness=floor_thickness,
+        profile=CutProfile(
+            width=cut.width,
+            base_radius=cut.base_radius,
+            mouth_flare=cut.mouth_flare,
+            roll_rise=cut.roll_rise,
+        ),
+        faces=FaceTreatment(fillet=cut.face_fillet),
+    )
     return _place(scoop, placement, interior)
 
 
@@ -288,17 +290,13 @@ def build_contents(
                 placement, interior, rounded_corners=radius, bottom_rounding=radius,
             )
         )
-        if getattr(builder, "finger_scoop", False):
-            side = (
-                getattr(builder, "scoop_side", None)
-                or default_side
-                or default_scoop_side(placement)
-            )
+        cut = getattr(builder, "cut", None)
+        if cut is not None:
+            side = cut.side or default_side or default_scoop_side(placement)
             side_top = (wall_tops or {}).get(side, top_z)
             scoops.append(
                 build_compartment_scoop(
-                    placement, interior, side, top_z=side_top,
-                    kind=getattr(builder, "finger_cut", None),
+                    placement, interior, side, top_z=side_top, cut=cut,
                 )
             )
 

@@ -107,15 +107,22 @@ CompartmentBuilder(
     size: tuple[float, float],
     depth: float,
     rounded_corners: float = 0.0,
-    finger_scoop: bool = False,
-    finger_cut: FingerCut = FingerCut.THROUGH_FLOOR,   # or FingerCut.SCOOP
-    scoop_side: ScoopSide | None = None,   # None → derived (FR-043b4/b6)
+    cut: Cut | FingerCut | None = None,    # None → no finger cut
 )
 ```
 
-`finger_cut` says what kind of cut a `finger_scoop=True` compartment gets (FR-043a10). **THROUGH_FLOOR** — the default — is a hole through the box's base at the wall, so a thumb pushes the contents up from underneath: what a stack needs, since a stack that fills its well leaves no side for a finger to reach down. **SCOOP** is the dip in the side, for loose pieces, and it leaves the base solid.
+`cut` is **one** field for a decision that used to be spread over three (`finger_scoop`, `finger_cut`, `scoop_side`) which had to be kept in agreement — `finger_cut=SCOOP` did nothing without `finger_scoop=True`, and a `scoop_side` on a compartment with no scoop was silently dropped. `None` means no cut. Anything else asks for one and says what it is:
 
-`scoop_side` defaults to **None**, not to a member: the side is derived — the compartment's shorter wall (FR-043b4), overridden to the lid's exit wall on a sliding box (FR-043b6). Pinning `FRONT` here would put a card box's cut in the long face and, on a sliding box, through the lid's groove.
+```
+cut = FingerCut.SCOOP                        # widened by Cut.of
+cut = Cut.scoop(side=ScoopSide.FRONT)
+cut = Cut.through_floor(width=30.0)
+cut = Cut(kind=FingerCut.SCOOP, base_radius=6.0, mouth_flare=3.0)
+```
+
+`kind` says what sort of cut it is (FR-060). **THROUGH_FLOOR** — the default — is a hole through the box's base at the wall, so a thumb pushes the contents up from underneath: what a stack needs, since a stack that fills its well leaves no side for a finger to reach down. **SCOOP** is the dip in the side, for loose pieces, and it leaves the base solid.
+
+`side` defaults to **None**, not to a member: it is derived — the compartment's shorter wall (FR-068), overridden to the lid's exit wall on a sliding box (FR-069). Pinning `FRONT` here would put a card box's cut in the long face and, on a sliding box, through the lid's groove. The remaining fields (`width`, `depth`, `offset`, `base_radius`, `mouth_flare`, `roll_rise`, `face_fillet`) name the same numbers as `finger_hole()` below and default to `None`, meaning *derive it*.
 
 ## Finger holes on a box (`BoxBuilder.finger_hole`)
 
@@ -123,17 +130,20 @@ CompartmentBuilder(
 box.finger_hole(
     side: ScoopSide,                       # which exterior wall
     *,
-    radius: float = 14.0,                  # throat half-width — adult fingertip
-    width: float | None = None,            # the cut's width; None → 2 x radius
-    bottom_radius: float | None = None,    # base curve; None → half the width
-    depth: float | None = None,            # reach below the wall top; None → radius
+    width: float = 28.0,                   # the cut's full width — adult fingertip
+    depth: float | None = None,            # reach below the wall top; None → half the width
     offset: float = 0.0,                   # shift along the wall from its midpoint
-    rounding_radius: float | None = None,  # mouth flare; None → 3mm
-    rounding_edge: float | None = None,    # face fillet; None → wall_thickness / 2
+    base_radius: float | None = None,      # base curve; None → half the width
+    mouth_flare: float | None = None,      # roll at the rim; None → 3mm
+    roll_rise: float | None = None,        # how far the roll reaches down; None → 1.6 x flare
+    face_fillet: float | None = None,      # face roundover; None → wall_thickness / 2
+    radius: float | None = None,           # DEPRECATED — half the width; warns
 ) -> FingerHoleBuilder
 ```
 
-The cut hangs from the top of the **interior** (FR-043b1), not the outer rim, and `depth` is read to the deepest point of the material removed (FR-006b). `width` and `bottom_radius` are independent (FR-043a6), and the radius given is the radius built — the straight run between the circles is what gives when the depth is tight, not the circle (FR-043a5). A no-lid box gets a pair of these automatically (FR-047); `box(..., auto_finger_holes=False)` or naming any hole of your own suppresses them (FR-047b).
+Every dimension here is a **full width or a radius of curvature**, never a half of something else: the outline is stated as a width (FR-051), and a signature offering `radius` *and* `width`, one of them half the other, invites the caller to set the wrong one. `radius` is kept as a deprecated alias for one release and raises a `DeprecationWarning`.
+
+The cut hangs from the top of the **interior** (FR-064), not the outer rim, and `depth` is read to the deepest point of the material removed (FR-006b). `width` and `base_radius` are independent (FR-055), and the radius given is the radius built — the straight run between the circles is what gives when the depth is tight, not the circle (FR-054). A no-lid box gets a pair of these automatically (FR-047); `box(..., auto_finger_holes=False)` or naming any hole of your own suppresses them (FR-047b).
 
 ## Color (`pybosl2.Color`, re-exported from `pyboxbuilder`)
 

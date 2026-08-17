@@ -7,6 +7,7 @@ from pyboxbuilder.enums import (
     FingerCut,
     BoxType, ElementShape, LabelMode, MagnetType, PatternType, ScoopSide, StackableMode,
 )
+from pyboxbuilder.builders._base import Cut
 from pyboxbuilder.project import Project
 from pyboxbuilder.compartments.element import CompartmentElement, grid_pack
 from pyboxbuilder.lid.builder import LidBuilder, PatternBuilder
@@ -14,7 +15,7 @@ from pyboxbuilder.export.result import ExportResult
 from pyboxbuilder.layout import columns, rows, stack
 
 __all__ = [
-    "FingerCut","Project", "BoxType", "LabelMode", "PatternType", "ScoopSide",
+    "Cut", "FingerCut", "Project", "BoxType", "LabelMode", "PatternType", "ScoopSide",
            "MagnetType", "StackableMode",
            "ElementShape", "Color", "CompartmentElement", "grid_pack",
            "LidBuilder", "PatternBuilder", "ExportResult",

@@ -18,7 +18,8 @@ for _sp in ROOT.glob(".venv/lib/*/site-packages"):
 for _sp in ROOT.glob("venv/*/lib/*/site-packages"):
     sys.path.insert(0, str(_sp))
 
-from pyboxbuilder import (  # noqa: E402
+from pyboxbuilder import (
+    FingerCut,  # noqa: E402
     Project, BoxType, ScoopSide, LabelMode, PatternType, LidBuilder, PatternBuilder, Color,
 )
 
@@ -70,7 +71,7 @@ for i in range(4):
             frame_color=Color("darkgreen"),
         ),
     )
-    box.compartment("Cards", size=(CARD_W, CARD_L), depth=51.6, finger_scoop=True)
+    box.compartment("Cards", size=(CARD_W, CARD_L), depth=51.6, cut=FingerCut.THROUGH_FLOOR)
 
 # Small Earth Card Box (height is small, 1/3 of the full column height)
 small_card = project.box(
@@ -87,7 +88,7 @@ small_card = project.box(
         frame_color=Color("darkgreen"),
     ),
 )
-small_card.compartment("Cards", size=(CARD_W, CARD_L), depth=14.8, finger_scoop=True)
+small_card.compartment("Cards", size=(CARD_W, CARD_L), depth=14.8, cut=FingerCut.THROUGH_FLOOR)
 
 # Compost Box (stacked on top of the small Earth box)
 compost = project.box(
@@ -102,7 +103,7 @@ compost = project.box(
         frame_color=Color("brown"),
     ),
 )
-compost.compartment("Compost", size=(60.0, 91.0), depth=33.2, finger_scoop=True)
+compost.compartment("Compost", size=(60.0, 91.0), depth=33.2, cut=FingerCut.SCOOP)
 
 # ── 2. Small Card Boxes (Ecosystem, Fauna, Island stack) ─────────
 # Ecosystem
@@ -116,7 +117,7 @@ ecosystem = project.box(
     wall_thickness=3.0,
     lid=LidBuilder(text="Ecosystem", text_color=Color("white"), frame_color=Color("gold")),
 )
-ecosystem.compartment("Cards", size=(CARD_W, CARD_L), depth=ecosystem_h - 3.6, finger_scoop=True)
+ecosystem.compartment("Cards", size=(CARD_W, CARD_L), depth=ecosystem_h - 3.6, cut=FingerCut.THROUGH_FLOOR)
 
 # Fauna
 fauna_h = project.floor_thickness + project.lid_thickness + single_card_thickness * fauna_cards + 1.0  # ~18.4
@@ -129,7 +130,7 @@ fauna = project.box(
     wall_thickness=3.0,
     lid=LidBuilder(text="Fauna", text_color=Color("white"), frame_color=Color("gold")),
 )
-fauna.compartment("Cards", size=(CARD_W, CARD_L), depth=fauna_h - 3.6, finger_scoop=True)
+fauna.compartment("Cards", size=(CARD_W, CARD_L), depth=fauna_h - 3.6, cut=FingerCut.THROUGH_FLOOR)
 
 # Island (two_layer lid!)
 island_h = 13.0
@@ -143,7 +144,7 @@ island = project.box(
     two_layer=True,
     lid=LidBuilder(text="Island", text_color=Color("white"), frame_color=Color("gold")),
 )
-island.compartment("Cards", size=(CARD_W, CARD_L), depth=island_h - 3.6, finger_scoop=True)
+island.compartment("Cards", size=(CARD_W, CARD_L), depth=island_h - 3.6, cut=FingerCut.THROUGH_FLOOR)
 
 # ── 3. Start & Climate/Solo/Season Stack ─────────────────────────
 climate_h = project.floor_thickness + project.lid_thickness + single_card_thickness * climate_cards + 1.0  # ~10.6
@@ -156,7 +157,7 @@ climate = project.box(
     wall_thickness=3.0,
     lid=LidBuilder(text="Climate", text_color=Color("white"), frame_color=Color("teal")),
 )
-climate.compartment("Cards", size=(CARD_W, CARD_L), depth=climate_h - 3.6, finger_scoop=True)
+climate.compartment("Cards", size=(CARD_W, CARD_L), depth=climate_h - 3.6, cut=FingerCut.THROUGH_FLOOR)
 
 solo_h = project.floor_thickness + project.lid_thickness + single_card_thickness * solo_cards + 1.0  # ~8.2
 solo = project.box(
@@ -168,7 +169,7 @@ solo = project.box(
     wall_thickness=3.0,
     lid=LidBuilder(text="Solo", text_color=Color("white"), frame_color=Color("teal")),
 )
-solo.compartment("Cards", size=(CARD_W, CARD_L), depth=solo_h - 3.6, finger_scoop=True)
+solo.compartment("Cards", size=(CARD_W, CARD_L), depth=solo_h - 3.6, cut=FingerCut.THROUGH_FLOOR)
 
 season_h = project.floor_thickness + project.lid_thickness + single_card_thickness * season_cards + 1.0  # ~11.8
 season = project.box(
@@ -180,7 +181,7 @@ season = project.box(
     wall_thickness=3.0,
     lid=LidBuilder(text="Season", text_color=Color("white"), frame_color=Color("teal")),
 )
-season.compartment("Cards", size=(CARD_W, CARD_L), depth=season_h - 3.6, finger_scoop=True)
+season.compartment("Cards", size=(CARD_W, CARD_L), depth=season_h - 3.6, cut=FingerCut.THROUGH_FLOOR)
 
 abundance_h = project.floor_thickness + project.lid_thickness + single_card_thickness * abundance_other_cards + 1.0  # ~10.6
 abundance = project.box(
@@ -192,7 +193,7 @@ abundance = project.box(
     wall_thickness=3.0,
     lid=LidBuilder(text="Abundance", text_color=Color("white"), frame_color=Color("teal")),
 )
-abundance.compartment("Cards", size=(CARD_W, CARD_L), depth=abundance_h - 3.6, finger_scoop=True)
+abundance.compartment("Cards", size=(CARD_W, CARD_L), depth=abundance_h - 3.6, cut=FingerCut.THROUGH_FLOOR)
 
 start_h = 14.0
 start_box = project.box(
@@ -203,7 +204,7 @@ start_box = project.box(
     expandable=False,
     lid=LidBuilder(text="Start", text_color=Color("white"), frame_color=Color("gold")),
 )
-start_box.compartment("Start", size=(60.0, 91.0), depth=start_h - 3.6, finger_scoop=True)
+start_box.compartment("Start", size=(60.0, 91.0), depth=start_h - 3.6, cut=FingerCut.SCOOP)
 
 # ── 4. Player Boxes (6 color slipover lids) ───────────────────────
 player_colours = ["red", "green", "yellow", "blue", "purple", "pink"]
@@ -216,7 +217,7 @@ for idx, col in enumerate(player_colours):
         expandable=False,
         lid=LidBuilder(text="Player", text_color=Color("white")),
     )
-    pbox.compartment("PlayerComponents", size=(60.0, 91.0), depth=5.6, finger_scoop=True)
+    pbox.compartment("PlayerComponents", size=(60.0, 91.0), depth=5.6, cut=FingerCut.SCOOP)
 
 # ── 5. Canopy Box ─────────────────────────────────────────────────
 canopy = project.box(
@@ -227,7 +228,7 @@ canopy = project.box(
     expandable=False,
     lid=LidBuilder(text="Canopy", text_color=Color("white"), frame_color=Color("olive")),
 )
-canopy.compartment("Canopies", size=(160.0, 81.0), depth=45.0, finger_scoop=True)
+canopy.compartment("Canopies", size=(160.0, 81.0), depth=45.0, cut=FingerCut.SCOOP)
 
 # ── 6. Sprouts & Score Pad Stack ──────────────────────────────────
 score_pad = project.box(
@@ -247,7 +248,7 @@ sprout = project.box(
     expandable=False,
     lid=LidBuilder(text="Sprouts", text_color=Color("white"), frame_color=Color("green")),
 )
-sprout.compartment("Sprouts", size=(99.0, 81.0), depth=35.0, finger_scoop=True)
+sprout.compartment("Sprouts", size=(99.0, 81.0), depth=35.0, cut=FingerCut.SCOOP)
 
 # ── 7. Seed Box ───────────────────────────────────────────────────
 # Fits vertically on the side

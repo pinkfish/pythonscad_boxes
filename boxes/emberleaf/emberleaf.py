@@ -31,7 +31,8 @@ for _sp in REPO_ROOT.glob(".venv/lib/*/site-packages"):
 for _sp in REPO_ROOT.glob("venv/*/lib/*/site-packages"):
     sys.path.insert(0, str(_sp))
 
-from pyboxbuilder import (  # noqa: E402
+from pyboxbuilder import (
+    FingerCut,  # noqa: E402
     BoxType, Color, LabelMode, LidBuilder, PatternBuilder, PatternType, Project,
     columns, rows, stack,
 )
@@ -379,7 +380,7 @@ for card_type, lid_text in CARD_BOXES:
         size=(CARD_LENGTH + 1, CARD_WIDTH + 1),
         depth=CARD_INNER_H,
         position=(0.0, 0.0),
-        finger_scoop=True,
+        cut=FingerCut.THROUGH_FLOOR,
     )
 
 # ── 4. Player card boxes ──────────────────────────────────────────────────
@@ -409,7 +410,7 @@ for colour in PLAYER_CARD_COLOURS:
         size=(CARD_WIDTH + 1, CARD_LENGTH + 1),
         depth=PLAYER_CARD_INNER_H,
         position=((PLAYER_CARD_INNER_W - CARD_WIDTH) / 2, 0.0),
-        finger_scoop=True,
+        cut=FingerCut.THROUGH_FLOOR,
     )
 
 # ── 5. Common box ─────────────────────────────────────────────────────────

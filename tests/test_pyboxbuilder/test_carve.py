@@ -9,12 +9,13 @@ from __future__ import annotations
 
 import unittest
 
+from pyboxbuilder.builders._base import Cut
 from pyboxbuilder.box.interior import Interior
 from pyboxbuilder.box.shell import block, build_shell
 from pyboxbuilder.compartments.builder import CompartmentBuilder
 from pyboxbuilder.compartments.carve import build_contents, interior_mouth
 from pyboxbuilder.compartments.layout import CompartmentPlacement
-from pyboxbuilder.enums import ScoopSide
+from pyboxbuilder.enums import FingerCut, ScoopSide
 
 # A cap-style box: the interior stops `lid_thickness` below the rim.
 SPEC = {
@@ -109,7 +110,7 @@ class CompartmentCarveTests(unittest.TestCase):
         placement = CompartmentPlacement("Cards", (96.0, 76.0), 26.0, (2.0, 2.0))
         builder = CompartmentBuilder(
             label="Cards", size=(96.0, 76.0), depth=26.0,
-            finger_scoop=True, scoop_side=ScoopSide.FRONT,
+            cut=Cut(side=ScoopSide.FRONT),
         )
         plain = build_contents([placement], INTERIOR)
         scooped = build_contents([placement], INTERIOR, {"Cards": builder})
@@ -136,6 +137,67 @@ class CompartmentCarveTests(unittest.TestCase):
         deep = build_scoop(60.0, 40.0, 26.0, ScoopSide.FRONT, radius=12.0)
         expected = build_wall_scoop(60.0, 40.0, 26.0, ScoopSide.FRONT, radius=12.0)
         self.assertEqual(bbox(deep), bbox(expected))
+
+    def test_build_cut_owns_both_choices(self) -> None:
+        """One chooser, not two (FR-060).
+
+        The kind used to be decided in `carve.py` and the wall-against-floor
+        depth rule inside `build_scoop`, so a caller could satisfy one and miss
+        the other — which is how the card boxes shipped with scoops. Both live
+        in `build_cut` now, so this pins all three arms to it.
+        """
+        from pyboxbuilder.compartments.finger_hole import (
+            build_cut, build_floor_scoop, build_through_hole, build_wall_scoop,
+        )
+
+        self.assertEqual(
+            bbox(build_cut(FingerCut.SCOOP, 60.0, 40.0, 26.0, ScoopSide.FRONT, radius=12.0)),
+            bbox(build_wall_scoop(60.0, 40.0, 26.0, ScoopSide.FRONT, radius=12.0)),
+        )
+        self.assertEqual(
+            bbox(build_cut(FingerCut.SCOOP, 60.0, 40.0, 4.0, ScoopSide.FRONT, radius=12.0)),
+            bbox(build_floor_scoop(60.0, 40.0, ScoopSide.FRONT, radius=12.0, comp_depth=4.0)),
+        )
+        self.assertEqual(
+            bbox(build_cut(FingerCut.THROUGH_FLOOR, 60.0, 40.0, 26.0, ScoopSide.FRONT, radius=12.0)),
+            bbox(build_through_hole(60.0, 40.0, ScoopSide.FRONT, radius=12.0, comp_depth=26.0)),
+        )
+
+    def test_a_cuts_measurements_reach_the_geometry(self) -> None:
+        """Every field on `Cut` has to arrive somewhere.
+
+        They were added to the record before they were wired, and a parameter
+        that is accepted and dropped is worse than one that does not exist —
+        the caller gets no error and no effect. This asserts the handoff
+        rather than the shape, because the handoff is what was missing.
+        """
+        from unittest.mock import patch
+
+        placement = CompartmentPlacement("Cards", (96.0, 76.0), 26.0, (2.0, 2.0))
+        builder = CompartmentBuilder(
+            label="Cards", size=(96.0, 76.0), depth=26.0,
+            cut=Cut(
+                kind=FingerCut.SCOOP, side=ScoopSide.FRONT,
+                width=30.0, depth=18.0, base_radius=6.0,
+                mouth_flare=2.5, roll_rise=4.0, face_fillet=1.25,
+            ),
+        )
+        from pyboxbuilder.compartments import finger_cuts
+
+        with patch.object(
+            finger_cuts, "build_cut", wraps=finger_cuts.build_cut
+        ) as chooser:
+            build_contents([placement], INTERIOR, {"Cards": builder})
+
+        (kind, _w, _l, depth, side), kwargs = chooser.call_args
+        self.assertIs(kind, FingerCut.SCOOP)
+        self.assertIs(side, ScoopSide.FRONT)
+        self.assertEqual(depth, 18.0)
+        self.assertEqual(kwargs["profile"].width, 30.0)
+        self.assertEqual(kwargs["profile"].base_radius, 6.0)
+        self.assertEqual(kwargs["profile"].mouth_flare, 2.5)
+        self.assertEqual(kwargs["profile"].roll_rise, 4.0)
+        self.assertEqual(kwargs["faces"].fillet, 1.25)
 
     def test_no_compartments_carves_nothing(self) -> None:
         self.assertIsNone(build_contents([], INTERIOR))

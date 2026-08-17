@@ -24,7 +24,7 @@ for _sp in ROOT.glob("venv/*/lib/*/site-packages"):
 
 from pybosl2 import Color
 
-from pyboxbuilder import Project, BoxType, LabelMode, LidBuilder
+from pyboxbuilder import FingerCut, Project, BoxType, LabelMode, LidBuilder
 
 # ── Game Box Dimensions ───────────────────────────────────────────
 box_width = 216
@@ -109,7 +109,7 @@ for box_idx in range(2):
     )
     for slot in range(4):
         denom = money_names[box_idx * 4 + slot]
-        money.compartment(denom, size=(50, money_length - 4), depth=5.0, finger_scoop=True, no_rotate=True)
+        money.compartment(denom, size=(50, money_length - 4), depth=5.0, cut=FingerCut.SCOOP, no_rotate=True)
 
 # ── Share Boxes (4, 2 companies each) ─────────────────────────────
 for box_idx in range(4):
@@ -128,7 +128,7 @@ for box_idx in range(4):
                 share_names[company_idx],
                 size=(44, 64),
                 depth=shares_height,
-                finger_scoop=True,
+                cut=FingerCut.THROUGH_FLOOR,
             )
 
 # ── Middle Box (tokens / trains / private company cards) ──────────
@@ -155,7 +155,7 @@ for i, depth_count in enumerate(token_depths):
         token_labels[i],
         size=(token_diameter * (depth_count + 1), token_diameter * 2),
         depth=middle_height - lid_thickness - floor_thickness,
-        finger_scoop=True,
+        cut=FingerCut.THROUGH_FLOOR,
     )
 middle.compartment("Trains", size=(44, 64), depth=middle_height)
 middle.compartment("Private", size=(44, 64), depth=middle_height)
@@ -180,7 +180,7 @@ first_player.compartment(
     "LargeMarkers",
     size=(large_marker_diameter, large_marker_length - 8),
     depth=first_player_box_height - lid_thickness - floor_thickness,
-    finger_scoop=True,
+    cut=FingerCut.THROUGH_FLOOR,
 )
 
 # ── Export ────────────────────────────────────────────────────────

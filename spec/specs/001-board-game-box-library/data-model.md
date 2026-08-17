@@ -31,7 +31,7 @@ Project.export()
 | `LabelMode` | FRAMED, FRAMELESS | Label decoration style |
 | `PatternType` | HEX_GRID, GRID, VORONOI | Lid through-hole pattern |
 | `ScoopSide` | FRONT, BACK, LEFT, RIGHT | Finger scoop placement |
-| `FingerCut` | THROUGH_FLOOR, SCOOP | Which cut empties a compartment (FR-043a10) |
+| `FingerCut` | THROUGH_FLOOR, SCOOP | Which cut empties a compartment (FR-060) |
 
 ## Color (`pybosl2.Color`, re-exported from `pyboxbuilder`)
 
@@ -79,24 +79,41 @@ Use `pybosl2.Color` directly — no custom Color class. Supports webcolor names 
 | `auto_finger_holes` | `bool` | True (a no-lid box's default pair; FR-047b) |
 | `compartments` | `tuple[CompartmentBuilder, ...]` | () |
 
-**Methods**: `compartment(label, *, size, depth, ...) -> CompartmentBuilder`, `finger_hole(side, *, radius, width, bottom_radius, depth, offset, rounding_radius, rounding_edge, roll_rise) -> FingerHoleBuilder`
+**Methods**: `compartment(label, *, size, depth, cut=None, ...) -> CompartmentBuilder`, `finger_hole(side, *, width, depth, offset, base_radius, mouth_flare, roll_rise, face_fillet) -> FingerHoleBuilder`
 
 ## FingerHoleBuilder (`pyboxbuilder/builders/_base.py`)
 
-A finger hole on a box's **exterior** wall — the same edge scoop a compartment gets (FR-006a), aligned to the interior top (FR-043b1).
+A finger hole on a box's **exterior** wall — the same edge scoop a compartment gets (FR-006a), aligned to the interior top (FR-064).
 
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
 | `side` | `ScoopSide` | — | Which exterior wall the cut passes through |
-| `radius` | `float` | 14.0 | Throat half-width; `finger_hole(width=...)` sets the same thing as a full width |
-| `bottom_radius` | `float \| None` | None → half the width | How the base curves into the sides; kept, not shrunk to fit (FR-043a5), and independent of the width (FR-043a6) |
+| `radius` | `float` | 14.0 | Throat half-width — the **stored** form; callers set it as `finger_hole(width=...)`, twice this |
+| `bottom_radius` | `float \| None` | None → half the width | How the base curves into the sides; kept, not shrunk to fit (FR-054), and independent of the width (FR-055) |
 | `depth` | `float \| None` | None → `radius` | Reach, measured to the deepest point of the material removed (FR-006b); capped at the interior depth |
 | `offset` | `float` | 0.0 | Shift along the wall from its midpoint |
 | `rounding_radius` | `float \| None` | None → 3mm | Mouth flare at the rim (`r1`) |
 | `rounding_edge` | `float \| None` | None → `wall_thickness / 2` | Face fillet where the cut emerges |
-| `roll_rise` | `float \| None` | None → `1.6 ×` the flare | How far the mouth roll reaches down — the gentleness of the transition (FR-043c3) |
+| `roll_rise` | `float \| None` | None → `1.6 ×` the flare | How far the mouth roll reaches down — the gentleness of the transition (FR-057) |
 
 Frozen; created through `BoxBuilder.finger_hole(...)`, which registers it on the box and returns it.
+
+**The call and the record use different names on purpose.** The requirements state the outline as a **width** (FR-051), and a signature carrying both `radius` and `width` — one of them half the other — is a foot-gun; so the method takes `width`, `base_radius`, `mouth_flare`, `face_fillet` and halves the width once, on the way in. `finger_hole(radius=...)` still works and raises a `DeprecationWarning`.
+
+## Cut (`pyboxbuilder/builders/_base.py`)
+
+What kind of finger cut a compartment gets, and how it is shaped — one record in place of the three parallel fields (`finger_scoop`, `finger_cut`, `scoop_side`) that used to have to agree with each other.
+
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `kind` | `FingerCut` | THROUGH_FLOOR | A hole through the base at the wall, for a stack; `SCOOP` gives the side dip instead (FR-060) |
+| `side` | `ScoopSide \| None` | None | Derived: the shorter wall, or the lid's exit wall on a sliding box (FR-068/b6) |
+| `width` | `float \| None` | None | Full width of the cut; `None` sizes it from the compartment |
+| `depth` | `float \| None` | None | Reach, to the deepest point removed (FR-006b) |
+| `offset` | `float` | 0.0 | Shift along the wall from its midpoint |
+| `base_radius` / `mouth_flare` / `roll_rise` / `face_fillet` | `float \| None` | None | The outline and face numbers, as on `FingerHoleBuilder` |
+
+Constructors: `Cut.scoop(...)`, `Cut.through_floor(...)`, and `Cut.of(value)` — which accepts a bare `FingerCut` member, so `cut=FingerCut.SCOOP` is the short form of `cut=Cut(kind=FingerCut.SCOOP)`. `cut=None` means no finger cut at all, which is what the absent `finger_scoop=False` used to say.
 
 ## Per-Type Builders (`pyboxbuilder/builders/`)
 
@@ -140,9 +157,7 @@ Pattern fills are `Callable[[width, length, thickness], Bosl2Solid]` functions t
 | `length_ratio` | `float \| None` | None |
 | `depth` | `float` | required |
 | `rounded_corners` | `float` | 0.0 |
-| `finger_scoop` | `bool` | False |
-| `finger_cut` | `FingerCut` | THROUGH_FLOOR — a hole through the base at the wall, for a stack; `SCOOP` gives the side dip instead (FR-043a10) |
-| `scoop_side` | `ScoopSide \| None` | None — derived: the shorter wall, or the lid's exit wall on a sliding box (FR-043b4/b6) |
+| `cut` | `Cut \| None` | None — no finger cut. A `Cut` (or a bare `FingerCut`, widened by `Cut.of`) asks for one and carries its side and shape |
 
 ## ExportResult (`pyboxbuilder/export/result.py`)
 

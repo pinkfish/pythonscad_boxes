@@ -933,7 +933,9 @@ def corner_catch(
     Returns:
         The solid to subtract from the piece.
     """
-    from pyboxbuilder.compartments.finger_hole import build_wall_scoop
+    from pyboxbuilder.compartments.finger_cuts import build_wall_scoop
+    from pyboxbuilder.compartments.finger_outline import CutProfile
+    from pyboxbuilder.compartments.finger_sweep import FaceTreatment
     from pyboxbuilder.compartments.element import union_all
     from pyboxbuilder.enums import ScoopSide
 
@@ -946,14 +948,15 @@ def corner_catch(
             span, span, height, side,
             radius=radius,
             wall_thickness=wall_thickness,
-            rounding_edge=rounding_edge,
-            rounding_radius=top_rounding,
-            bottom_rounding=bottom_rounding,
-            breach_floor=True,
-            # There is material above a corner notch — the lid plate — so the
-            # outline's rim overshoot is trimmed off rather than carving
-            # through it.
-            top_limit=height,
+            profile=CutProfile(mouth_flare=top_rounding, base_radius=bottom_rounding),
+            faces=FaceTreatment(
+                fillet=rounding_edge,
+                breach_floor=True,
+                # There is material above a corner notch — the lid plate — so
+                # the outline's rim overshoot is trimmed off rather than
+                # carving through it.
+                top_limit=height,
+            ),
         )
         # `build_wall_scoop` puts its wall on the far side of the compartment
         # origin, so each arm's slab lands at [-wall_thickness, 0] across the

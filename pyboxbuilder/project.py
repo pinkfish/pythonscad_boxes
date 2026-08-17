@@ -669,6 +669,8 @@ class Project:
 
         # 0. Resolve shared compartments across multiple bins dynamically
         from pyboxbuilder.compartments.builder import CompartmentBuilder
+        from pyboxbuilder.builders._base import Cut
+        from pyboxbuilder.enums import FingerCut
         from pyboxbuilder.enums import ScoopSide
         for box_labels, comps in self._shared_groups:
             builders = [next((x for x in self._boxes if x.label == label), None) for label in box_labels]
@@ -694,8 +696,8 @@ class Project:
                             label=name,
                             size=(w, l),
                             depth=d,
-                            finger_scoop=True,
-                            scoop_side=ScoopSide.FRONT,
+                            cut=Cut(kind=FingerCut.THROUGH_FLOOR,
+                                    side=ScoopSide.FRONT),
                         )
                     )
                 object.__setattr__(b, "compartments", tuple(new_compartments))

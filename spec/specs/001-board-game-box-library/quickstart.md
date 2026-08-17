@@ -22,7 +22,7 @@ pip install pybosl2 numpy pymeshlab
 ```python
 from pyboxbuilder import (
     Project,
-    BoxType, LabelMode, PatternType, ScoopSide,
+    BoxType, LabelMode, PatternType, ScoopSide, FingerCut, Cut,
     Color, LidBuilder, PatternBuilder,
 )
 ```
@@ -146,7 +146,7 @@ result = project.export("output/")
 
 ```python
 from pyboxbuilder import (
-    Project, BoxType, LabelMode, Color,
+    Project, BoxType, LabelMode, Color, FingerCut,
     LidBuilder, PatternBuilder, PatternType, ScoopSide,
 )
 
@@ -157,7 +157,7 @@ cards = project.box(
     size=(110, 80, 40),
     lid=LidBuilder(text="Animal Cards", label_mode=LabelMode.FRAMED),
 )
-cards.compartment("Deck", size=(50, 70), depth=36, finger_scoop=True)
+cards.compartment("Deck", size=(50, 70), depth=36, cut=FingerCut.THROUGH_FLOOR)
 cards.compartment("Discard", size=(50, 70), depth=36)
 
 # Per-animal compartments in token boxes
@@ -169,7 +169,7 @@ for i in range(2):
         lid=LidBuilder(text=f"Animals {i+1}"),
     )
     for animal in ANIMALS[i * 4 : (i + 1) * 4]:
-        b.compartment(animal, size=(25, 45), depth=26, finger_scoop=True)
+        b.compartment(animal, size=(25, 45), depth=26, cut=FingerCut.SCOOP)
 
 project.box(BoxType.NO_LID, "Boards", size=(70, 150, 15), expandable=False)
 

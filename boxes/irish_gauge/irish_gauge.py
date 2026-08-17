@@ -25,7 +25,7 @@ for _sp in ROOT.glob("venv/*/lib/*/site-packages"):
 
 from pybosl2 import Color
 
-from pyboxbuilder import Project, BoxType, LabelMode, LidBuilder
+from pyboxbuilder import FingerCut, Project, BoxType, LabelMode, LidBuilder
 
 # ── Game Box Dimensions ───────────────────────────────────────────
 box_width = 214
@@ -85,7 +85,7 @@ money = project.box(
 for i, denomination in enumerate(["1", "5", "10"]):
     money.compartment(
         denomination, size=(card_width, card_length - 4), depth=money_box_height,
-        finger_scoop=True, no_rotate=True,
+        cut=FingerCut.SCOOP, no_rotate=True,
     )
 
 # ── Company Boxes (5, shared footprint, distinct contents) ────────
@@ -111,12 +111,12 @@ for i, company in enumerate(companies):
     share_depth = single_card_thickness * company["shares"] + 1
     box.compartment(
         "Shares", size=(43, card_length), depth=share_depth,
-        finger_scoop=True,
+        cut=FingerCut.THROUGH_FLOOR,
     )
     # Trains well (19 trains, ~6x4 grid)
     box.compartment(
         "Trains", size=(train_length * 6, train_width * 4), depth=train_height,
-        finger_scoop=True,
+        cut=FingerCut.THROUGH_FLOOR,
     )
     # Dividend marker slot
     box.compartment(
