@@ -19,14 +19,12 @@ from __future__ import annotations
 
 import hashlib
 import subprocess
-import sys
 from pathlib import Path
 
 from docutils import nodes
 from docutils.parsers.rst import Directive
-from sphinx.util import logging
-
 from render_stl import find_pythonscad_binary, host_site_packages, render_stl_script
+from sphinx.util import logging
 from stl_viewer import stl_viewer_html
 
 _DOCS_DIR = Path(__file__).resolve().parent.parent

@@ -1,7 +1,8 @@
 # SPDX-License-Identifier: Apache-2.0
 """OpenSCAD Board Game Toolkit — pyboxbuilder box library."""
 
-from importlib.metadata import PackageNotFoundError, version as _distribution_version
+from importlib.metadata import PackageNotFoundError
+from importlib.metadata import version as _distribution_version
 
 from pybosl2 import Color
 
