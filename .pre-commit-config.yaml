@@ -1,0 +1,10 @@
+# Run `pre-commit install` once to wire these hooks into your git checkout.
+# They run on every staged change and mirror what CI enforces in test.yml
+# (ruff check pyboxbuilder/ boxes/).
+repos:
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.16.0
+    hooks:
+      - id: ruff
+        args: [--fix]
+        files: ^(pyboxbuilder|boxes)/

@@ -79,7 +79,11 @@ ruff check pyboxbuilder/ boxes/
 mypy pyboxbuilder/
 ```
 
-All three are blocking in CI.
+All three are blocking in CI. Ruff also runs locally as a pre-commit hook:
+
+```sh
+pre-commit install
+```
 
 ## License
 
