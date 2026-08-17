@@ -336,20 +336,31 @@ one lid thickness tall, usually 2mm — and its top, which is flat. Every other
 closure in this library has something to pull on and this one had nothing, so
 it gets a **fingernail catch**: a shallow dish in the top face at the exit end.
 
-**The top of a sphere, not a pocket.** A nail entering a spherical dish meets a
-surface curving away from it in every direction, so it slides in and ends up
-loading the lid along the slide axis — which is the direction the lid is
-supposed to move. A cylindrical pocket presents a wall and a floor instead: the
-nail catches on the rim, and what it loads is the thin lip at the top of the
-wall.
+**Half a sphere: a bowl to get into, and a flat wall to pull on.** Those are two
+jobs and they want opposite surfaces. Getting *in* wants curvature — a nail
+meeting a surface that falls away in every direction finds the dish without
+being aimed at it, where a cylindrical pocket presents a rim for the nail to
+catch on instead of dropping in. Pulling wants flat: a whole dish curves away on
+the pull side too, so a nail loading it is riding up a slope, and what the dish
+does under load is eject the nail rather than move the lid. So the dish is the
+top of a sphere cut in half on a plane square to the slide axis — bowl one side,
+wall the other, split through the centre so the wall is the dish's full depth
+rather than a sliver of it.
+
+**The inboard half is the one removed**, and that is forced rather than chosen. A
+nail can push and cannot pull, so the surface it bears on has to have the lid's
+material behind it *in the direction of travel*: the wall between the dish and
+the exit edge. Keep the other half and the only wall available is one that can
+be pushed inboard, which drives the lid further into the box.
 
 **At the exit end, centred across the lid.** That end is the only one a hand can
 reach with the box closed, and centring it means the pull is straight down the
 grooves rather than a twist that binds the plate.
 
-**Straddling the border.** The catch belongs where the fingers are, at the edge,
-so it sits on the border line — half in the plain band, half inside it — rather
-than out in the middle of the pattern.
+**The wall stands on the border line.** That puts the band of plain lid at the
+edge behind the wall — which is exactly the material the nail is pressing on,
+and it wants to be whole — and puts the bowl inside it, where there is room for
+a nail to get in.
 
 **Never through the plate, and never surrounded by holes.** The depth is capped
 at half the lid's thickness, so there is always a plate's worth of material

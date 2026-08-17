@@ -32,6 +32,38 @@ def lid_for(box_type: BoxType, spec: BoxSpec = SPEC):
     return BOX_IMPL_REGISTRY[box_type]().build_lid(spec)
 
 
+def catch_for(spec: BoxSpec = SPEC):
+    """The catch a sliding box of `spec` gets, asked of the type itself."""
+    from pyboxbuilder.box.features import fingernail_catch
+
+    box = BOX_IMPL_REGISTRY[BoxType.SLIDING]()
+    found = fingernail_catch(spec, box.slide_axis(spec))
+    assert found is not None
+    return found
+
+
+def removed_at(catch, offset: float, spec: BoxSpec = SPEC) -> float:
+    """Depth cut out of a thin column `offset` mm along the slide from centre.
+
+    Negative is inboard, into the bowl; positive is outboard, past the wall and
+    towards the lid's edge. Reported as a depth so it can be read against the
+    lid's thickness.
+    """
+    side = 0.4
+    x, y = catch.centre
+    if catch.axis == "x":
+        x += offset
+    else:
+        y += offset
+    column = block(
+        [side, side, spec.lid_thickness],
+        at=(x - side / 2, y - side / 2, spec.height - spec.lid_thickness),
+    )
+    plain = lid_for(BoxType.SLIDING, replace(spec, fingernail_catch=False))
+    dished = lid_for(BoxType.SLIDING, spec)
+    return (volume(plain & column) - volume(dished & column)) / (side * side)
+
+
 class WhichTypesCarryOneTests(unittest.TestCase):
     def test_every_sliding_type_has_a_dish(self) -> None:
         """SC-050a."""
@@ -95,13 +127,7 @@ class SetPerBoxTests(unittest.TestCase):
 
 
 class WhereItSitsTests(unittest.TestCase):
-    def catch(self, spec: BoxSpec = SPEC):
-        from pyboxbuilder.box.features import fingernail_catch
-
-        box = BOX_IMPL_REGISTRY[BoxType.SLIDING]()
-        found = fingernail_catch(spec, box.slide_axis(spec))
-        assert found is not None
-        return found
+    catch = staticmethod(catch_for)
 
     def test_it_sits_at_the_exit_end_centred(self) -> None:
         """SC-050a: the only end a hand can reach, and centred so the pull is
@@ -115,15 +141,22 @@ class WhereItSitsTests(unittest.TestCase):
         self.assertAlmostEqual(catch.centre[0], tall.width / 2, places=3)
         self.assertGreater(catch.centre[1], tall.length * 0.75)
 
-    def test_it_overlaps_the_border(self) -> None:
-        """SC-050c: the catch belongs where the fingers are, at the edge."""
+    def test_the_wall_stands_on_the_border_line(self) -> None:
+        """SC-050c: the catch belongs where the fingers are, at the edge.
+
+        The wall on the border line puts the band of plain lid outside it — the
+        material a nail presses on — and the bowl inside it.
+        """
         from pyboxbuilder.lid.builder import LID_BORDER_MM
 
         catch = self.catch()
-        nearest = SPEC.width - (catch.centre[0] + catch.radius)
-        furthest = SPEC.width - (catch.centre[0] - catch.radius)
-        self.assertLess(nearest, LID_BORDER_MM, "wholly inside the patterned area")
-        self.assertGreater(furthest, LID_BORDER_MM, "wholly inside the border")
+        self.assertAlmostEqual(
+            SPEC.width - catch.centre[0], LID_BORDER_MM, places=3
+        )
+        self.assertLess(
+            SPEC.width - (catch.centre[0] - catch.radius), 2 * LID_BORDER_MM,
+            "the bowl reaches well past the border, into the middle of the lid",
+        )
 
     def test_a_small_lid_gets_a_small_dish(self) -> None:
         """Derived from the lid, not fixed (FR-000)."""
@@ -167,36 +200,60 @@ class HowDeepItGoesTests(unittest.TestCase):
         assert catch is not None
         self.assertLessEqual(catch.depth, SPEC.lid_thickness / 2)
 
-    def test_it_is_a_spherical_cap_not_a_pocket(self) -> None:
-        """SC-050b: deepest at the centre, shallowing to nothing at the rim.
+    def test_the_bowl_is_a_spherical_cap_not_a_pocket(self) -> None:
+        """SC-050b: deepest at the wall, shallowing to nothing at the rim.
 
-        A cylindrical pocket has a wall and a floor, and a nail catches on its
-        rim rather than under it.
+        The bowl is what the nail goes *into*, and it curves away in every
+        direction so the nail finds it without being aimed. A cylindrical
+        pocket has a wall and a floor all round, and the nail catches on its
+        rim rather than dropping in.
         """
-        from pyboxbuilder.box.features import fingernail_catch
+        catch = catch_for(SPEC)
+        deep = removed_at(catch, -0.2)
+        middle = removed_at(catch, -catch.radius * 0.6)
+        rim = removed_at(catch, -catch.radius * 0.95)
+        self.assertGreater(deep, middle)
+        self.assertGreater(middle, rim)
 
-        catch = fingernail_catch(SPEC, "x")
-        assert catch is not None
-        lid = lid_for(BoxType.SLIDING)
 
-        def removed_at(offset: float) -> float:
-            """Material missing from a thin column at `offset` from centre."""
-            column = block(
-                [0.6, 0.6, SPEC.lid_thickness],
-                at=(
-                    catch.centre[0] + offset - 0.3,
-                    catch.centre[1] - 0.3,
-                    SPEC.height - SPEC.lid_thickness,
-                ),
-            )
-            plain = lid_for(BoxType.SLIDING, replace(SPEC, fingernail_catch=False))
-            return volume(plain & column) - volume(lid & column)
+class TheWallTests(unittest.TestCase):
+    """SC-050e: half a dish, so the nail has something flat to pull on."""
 
-        centre = removed_at(0.0)
-        middle = removed_at(catch.radius * 0.6)
-        edge = removed_at(catch.radius * 0.95)
-        self.assertGreater(centre, middle)
-        self.assertGreater(middle, edge)
+    def assertNothingCut(self, depth: float, msg: str = "") -> None:
+        """Assert a probe found full-thickness lid, to within mesh noise."""
+        self.assertAlmostEqual(depth, 0.0, places=6, msg=msg or None)
+
+    def test_the_outboard_half_is_left_as_lid(self) -> None:
+        """A whole dish curves away on the pull side too, and a nail loading it
+        rides up that slope and skids out instead of moving the lid."""
+        catch = catch_for(SPEC)
+        self.assertGreater(removed_at(catch, -0.3), 0.0, "no bowl to get into")
+        self.assertNothingCut(removed_at(catch, +0.3), "the wall was cut away")
+        self.assertNothingCut(removed_at(catch, +catch.radius * 0.9))
+
+    def test_the_wall_stands_across_the_pull(self) -> None:
+        """Whichever way the lid slides — the flat has to face the hand."""
+        tall = replace(SPEC, width=70.0, length=120.0)          # exits +y
+        catch = catch_for(tall)
+        self.assertEqual(catch.axis, "y")
+        self.assertGreater(removed_at(catch, -0.3, tall), 0.0)
+        self.assertNothingCut(removed_at(catch, +0.3, tall))
+
+    def test_the_wall_is_as_deep_as_the_dish(self) -> None:
+        """Split through the sphere's centre, so the nail gets the whole depth
+        to bear on rather than a sliver of it."""
+        catch = catch_for(SPEC)
+        # The probe averages over a small square, so it reads a shade under the
+        # depth at the wall itself; a sliver would read a fraction of it.
+        self.assertGreater(removed_at(catch, -0.3), catch.depth * 0.9)
+
+    def test_the_material_behind_the_wall_reaches_the_lid_edge(self) -> None:
+        """What the nail pushes on is the band of plain lid outside the wall;
+        a hole cut through it is what would break away in the hand."""
+        catch = catch_for(SPEC)
+        for offset in (1.0, 3.0, 6.0):
+            with self.subTest(mm_outboard=offset):
+                self.assertNothingCut(removed_at(catch, offset))
 
 
 class PatternKeepsClearTests(unittest.TestCase):

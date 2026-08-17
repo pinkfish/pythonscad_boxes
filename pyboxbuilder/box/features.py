@@ -1286,11 +1286,16 @@ class FingernailCatch:
     """A sliding lid's fingernail dish: where it is, and how big."""
 
     centre: tuple[float, float]
-    """Where the dish sits on the lid, in the box's frame."""
+    """Where the dish sits on the lid, in the box's frame.
+
+    The centre of the *whole* sphere the dish is half of, so it is also where
+    the flat wall stands — see :func:`fingernail_dish`."""
     radius: float
     """The opening's radius — what a nail sees on the surface."""
     depth: float
     """How far it sinks below the lid's top face."""
+    axis: str = "x"
+    """The axis the lid slides along, which the flat wall stands square to."""
 
     @property
     def keepout_radius(self) -> float:
@@ -1330,9 +1335,9 @@ def fingernail_catch(spec: BoxSpec, along_axis: str) -> FingernailCatch | None:
     if depth <= 0:
         return None
 
-    # On the border line at the exit end, so half the dish lies in the plain
-    # band at the edge and half inside it — the catch belongs where the
-    # fingers are.
+    # On the border line at the exit end: the wall stands on the line, with the
+    # band of plain lid outside it as the material a nail presses on, and the
+    # bowl inside it. The catch belongs where the fingers are.
     from pyboxbuilder.lid.builder import LID_BORDER_MM
 
     inset = min(LID_BORDER_MM, (spec.width if along_axis == "x" else spec.length) / 4.0)
@@ -1341,31 +1346,57 @@ def fingernail_catch(spec: BoxSpec, along_axis: str) -> FingernailCatch | None:
         if along_axis == "x"
         else (spec.width / 2.0, spec.length - inset)
     )
-    return FingernailCatch(centre=centre, radius=radius, depth=depth)
+    return FingernailCatch(
+        centre=centre, radius=radius, depth=depth, axis=along_axis
+    )
 
 
 def fingernail_dish(spec: BoxSpec, catch: FingernailCatch) -> Bosl2Solid:
     """Return the solid to subtract from a lid to leave the dish.
 
-    A **sphere**, sunk so that only its top breaks the lid's face. A nail
-    entering it meets a surface curving away in every direction and slides in;
-    a cylindrical pocket would present a wall and a floor, and the nail would
-    catch on the rim rather than under it.
+    **Half** the top of a sphere, split on a plane square to the slide axis:
+    a bowl on the inboard side, and a flat wall standing across the pull on the
+    outboard side. The two halves do different jobs. The bowl is what a nail
+    goes into — a surface curving away in every direction, so the nail finds it
+    without being aimed. The wall is what the nail then pulls on, and it has to
+    be flat: a whole dish curves away on the pull side too, so a nail loading it
+    is riding up a slope and skids out of the dish instead of moving the lid.
+
+    Which half is kept is not a matter of taste. A nail can push and not pull,
+    so the surface it bears on must have the lid's material on the far side of
+    it *in the direction of travel* — the wall between the dish and the exit
+    edge. Keeping the other half would give a wall that can only be pushed
+    inboard, which drives the lid further into the box.
 
     Args:
         spec: Needs `height`; reads `lid_thickness`.
         catch: The dish to build.
 
     Returns:
-        The sphere to subtract.
+        The half-sphere to subtract.
 
     """
     from pybosl2 import sphere
+
+    from pyboxbuilder.box.shell import block
 
     # A cap of depth d showing an opening of radius r comes off a sphere of
     # radius (r² + d²) / 2d — solve the chord, do not guess it.
     ball = (catch.radius ** 2 + catch.depth ** 2) / (2 * catch.depth)
     top = spec.height
-    return sphere(radius=ball, **precision_kwargs()).translate(
+    dish = sphere(radius=ball, **precision_kwargs()).translate(
         [catch.centre[0], catch.centre[1], top - catch.depth + ball]
     )
+
+    # Everything inboard of the wall. Sized off the ball rather than the
+    # opening, because the sphere is wider below the surface than at it.
+    reach = ball + 1
+    span = 2 * reach
+    x, y = catch.centre
+    size = [span, span, span]
+    at = [x - reach, y - reach, top - reach]
+    # The wall stands on the centre line: the half kept runs from there back
+    # along the slide axis, and the other half of the sphere is left as lid.
+    axis = 0 if catch.axis == "x" else 1
+    size[axis] = reach
+    return dish & block(size, at=at)
