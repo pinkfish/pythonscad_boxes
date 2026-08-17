@@ -50,10 +50,11 @@ jobs:
       # and `--ignore` skips the golden/render directory and the preview smoke
       # test (both already run above).
       - name: Run fast pure-Python tests
-        run: python -m pytest tests/test_pyboxbuilder/ -q \
-          --ignore=tests/test_pyboxbuilder/render \
-          --ignore=tests/test_pyboxbuilder/test_ci_smoke.py \
-          -k "not export"
+        run: |
+          python -m pytest tests/test_pyboxbuilder/ -q \
+            --ignore=tests/test_pyboxbuilder/render \
+            --ignore=tests/test_pyboxbuilder/test_ci_smoke.py \
+            -k "not export"
 
       # Blocking, both of them. These ran with `|| true` for long enough that
       # `lid/color_layers.py` sat in the tree using `@dataclass` without
