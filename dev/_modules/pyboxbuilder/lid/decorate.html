@@ -297,14 +297,14 @@
 
 <h1>Source code for pyboxbuilder.lid.decorate</h1><div class="highlight"><pre>
 <span></span><code><span class="c1"># SPDX-License-Identifier: Apache-2.0</span>
-<span class="sd">&quot;&quot;&quot;Apply a `LidBuilder` to a lid&#39;s geometry (T161 / US9).</span>
+<span class="sd">"""Apply a `LidBuilder` to a lid's geometry (T161 / US9).</span>
 
 <span class="sd">Every box type produces a bare lid; this is where it gets its label, its</span>
 <span class="sd">through-hole pattern and its colours. Doing it here rather than in each box type</span>
 <span class="sd">means all thirteen types decorate identically, and a new type gets decoration</span>
 <span class="sd">for free.</span>
 
-<span class="sd">The decoratable face is derived from the lid&#39;s own bounding box — its top, inset</span>
+<span class="sd">The decoratable face is derived from the lid's own bounding box — its top, inset</span>
 <span class="sd">by the border margin — so no box type has to declare where its flat area is.</span>
 
 <span class="sd">Colour handling differs by export mode, which is the whole reason this returns a</span>
@@ -314,7 +314,7 @@
 <span class="sd">  its own material.</span>
 <span class="sd">* **single** — the label is engraved into the lid instead, because a raised</span>
 <span class="sd">  label in one colour is invisible.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
@@ -330,46 +330,46 @@
     <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.lid.builder</span><span class="w"> </span><span class="kn">import</span> <span class="n">LidBuilder</span>
 
 <span class="n">ENGRAVE_DEPTH_MM</span> <span class="o">=</span> <span class="mf">0.4</span>
-<span class="sd">&quot;&quot;&quot;How deep a single-colour label is cut into the lid.&quot;&quot;&quot;</span>
+<span class="sd">"""How deep a single-colour label is cut into the lid."""</span>
 
 
 <div class="viewcode-block" id="DecoratedLid">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.lid.decorate.DecoratedLid.html#pyboxbuilder.lid.decorate.DecoratedLid">[docs]</a>
 <span class="nd">@dataclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">DecoratedLid</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;A decorated lid, plus any parts that print in their own colour.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""A decorated lid, plus any parts that print in their own colour."""</span>
 
-    <span class="n">solid</span><span class="p">:</span> <span class="s2">&quot;Bosl2Solid&quot;</span>
+    <span class="n">solid</span><span class="p">:</span> <span class="s2">"Bosl2Solid"</span>
     <span class="n">inserts</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Coloured positives, kept separate in mmu mode and fused in single mode.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Coloured positives, kept separate in mmu mode and fused in single mode."""</span>
 
     <span class="n">skipped_label</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;True when the label was dropped for being under the minimum text height.&quot;&quot;&quot;</span></div>
+<span class="w">    </span><span class="sd">"""True when the label was dropped for being under the minimum text height."""</span></div>
 
 
 
 <div class="viewcode-block" id="decorate_lid">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.lid.decorate.decorate_lid.html#pyboxbuilder.lid.decorate.decorate_lid">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">decorate_lid</span><span class="p">(</span>
-    <span class="n">lid</span><span class="p">:</span> <span class="s2">&quot;Bosl2Solid&quot;</span><span class="p">,</span>
-    <span class="n">builder</span><span class="p">:</span> <span class="s2">&quot;LidBuilder | None&quot;</span><span class="p">,</span>
+    <span class="n">lid</span><span class="p">:</span> <span class="s2">"Bosl2Solid"</span><span class="p">,</span>
+    <span class="n">builder</span><span class="p">:</span> <span class="s2">"LidBuilder | None"</span><span class="p">,</span>
     <span class="n">lid_thickness</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
-    <span class="n">mode</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;mmu&quot;</span><span class="p">,</span>
-    <span class="n">body_color</span><span class="p">:</span> <span class="s2">&quot;Color | None&quot;</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">mode</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"mmu"</span><span class="p">,</span>
+    <span class="n">body_color</span><span class="p">:</span> <span class="s2">"Color | None"</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DecoratedLid</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Apply a lid&#39;s label, pattern and colours to its geometry.</span>
+<span class="w">    </span><span class="sd">"""Apply a lid's label, pattern and colours to its geometry.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        lid: The bare lid from a box type&#39;s `build_lid`.</span>
+<span class="sd">        lid: The bare lid from a box type's `build_lid`.</span>
 <span class="sd">        builder: The lid configuration; None leaves the lid untouched.</span>
 <span class="sd">        lid_thickness: Thickness of the plate the decoration goes into.</span>
-<span class="sd">        mode: &quot;mmu&quot; or &quot;single&quot;.</span>
-<span class="sd">        body_color: The box&#39;s own colour, which the accents are derived to</span>
+<span class="sd">        mode: "mmu" or "single".</span>
+<span class="sd">        body_color: The box's own colour, which the accents are derived to</span>
 <span class="sd">            contrast with when the caller names none (FR-022).</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        The decorated lid and its coloured inserts.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="n">lid</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">builder</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">DecoratedLid</span><span class="p">(</span><span class="n">solid</span><span class="o">=</span><span class="n">lid</span><span class="p">)</span>
 
@@ -396,8 +396,8 @@
 
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">_top_face</span><span class="p">(</span><span class="n">lid</span><span class="p">:</span> <span class="s2">&quot;Bosl2Solid&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;(width, length, origin_x, origin_y, top_z) of the lid&#39;s upper surface.&quot;&quot;&quot;</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_top_face</span><span class="p">(</span><span class="n">lid</span><span class="p">:</span> <span class="s2">"Bosl2Solid"</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""(width, length, origin_x, origin_y, top_z) of the lid's upper surface."""</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="p">(</span><span class="n">cx</span><span class="p">,</span> <span class="n">cy</span><span class="p">,</span> <span class="n">cz</span><span class="p">),</span> <span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">h</span><span class="p">)</span> <span class="o">=</span> <span class="n">lid</span><span class="o">.</span><span class="n">bounds</span><span class="p">()</span>
     <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
@@ -408,16 +408,16 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_cut_pattern</span><span class="p">(</span>
-    <span class="n">lid</span><span class="p">:</span> <span class="s2">&quot;Bosl2Solid&quot;</span><span class="p">,</span>
-    <span class="n">builder</span><span class="p">:</span> <span class="s2">&quot;LidBuilder&quot;</span><span class="p">,</span>
+    <span class="n">lid</span><span class="p">:</span> <span class="s2">"Bosl2Solid"</span><span class="p">,</span>
+    <span class="n">builder</span><span class="p">:</span> <span class="s2">"LidBuilder"</span><span class="p">,</span>
     <span class="n">width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">origin_x</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">origin_y</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">top_z</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">lid_thickness</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Bosl2Solid&quot;</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Cut the through-hole pattern into the lid, clear of its border.&quot;&quot;&quot;</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Bosl2Solid"</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Cut the through-hole pattern into the lid, clear of its border."""</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.shell</span><span class="w"> </span><span class="kn">import</span> <span class="n">block</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.lid.pattern</span><span class="w"> </span><span class="kn">import</span> <span class="n">build_pattern</span>
 
@@ -438,13 +438,13 @@
     <span class="p">)</span>
     <span class="c1"># Each fill function anchors its own way, so place it by its bounding box</span>
     <span class="c1"># rather than trusting where it put itself, then trim it to the area so it</span>
-    <span class="c1"># cannot eat into the lid&#39;s border.</span>
+    <span class="c1"># cannot eat into the lid's border.</span>
     <span class="n">holes</span> <span class="o">=</span> <span class="n">_place_by_corner</span><span class="p">(</span><span class="n">holes</span><span class="p">,</span> <span class="n">base</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">lid</span> <span class="o">-</span> <span class="p">(</span><span class="n">holes</span> <span class="o">&amp;</span> <span class="n">block</span><span class="p">([</span><span class="n">area_w</span><span class="p">,</span> <span class="n">area_l</span><span class="p">,</span> <span class="n">depth</span><span class="p">],</span> <span class="n">at</span><span class="o">=</span><span class="n">base</span><span class="p">))</span>
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">_place_by_corner</span><span class="p">(</span><span class="n">solid</span><span class="p">:</span> <span class="s2">&quot;Bosl2Solid&quot;</span><span class="p">,</span> <span class="n">at</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Bosl2Solid&quot;</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Move a solid so its bounding box&#39;s minimum corner lands on `at`.&quot;&quot;&quot;</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_place_by_corner</span><span class="p">(</span><span class="n">solid</span><span class="p">:</span> <span class="s2">"Bosl2Solid"</span><span class="p">,</span> <span class="n">at</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Bosl2Solid"</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Move a solid so its bounding box's minimum corner lands on `at`."""</span>
     <span class="p">(</span><span class="n">cx</span><span class="p">,</span> <span class="n">cy</span><span class="p">,</span> <span class="n">cz</span><span class="p">),</span> <span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">h</span><span class="p">)</span> <span class="o">=</span> <span class="n">solid</span><span class="o">.</span><span class="n">bounds</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">solid</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span>
         <span class="n">at</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="p">(</span><span class="n">cx</span> <span class="o">-</span> <span class="n">w</span> <span class="o">/</span> <span class="mi">2</span><span class="p">),</span> <span class="n">at</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="p">(</span><span class="n">cy</span> <span class="o">-</span> <span class="n">l</span> <span class="o">/</span> <span class="mi">2</span><span class="p">),</span> <span class="n">at</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="p">(</span><span class="n">cz</span> <span class="o">-</span> <span class="n">h</span> <span class="o">/</span> <span class="mi">2</span><span class="p">),</span>
@@ -453,7 +453,7 @@
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_apply_label</span><span class="p">(</span>
     <span class="n">result</span><span class="p">:</span> <span class="n">DecoratedLid</span><span class="p">,</span>
-    <span class="n">builder</span><span class="p">:</span> <span class="s2">&quot;LidBuilder&quot;</span><span class="p">,</span>
+    <span class="n">builder</span><span class="p">:</span> <span class="s2">"LidBuilder"</span><span class="p">,</span>
     <span class="n">width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">origin_x</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
@@ -461,7 +461,7 @@
     <span class="n">top_z</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">mode</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Add the label to `result`, raised for mmu or engraved for single.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Add the label to `result`, raised for mmu or engraved for single."""</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.lid.label</span><span class="w"> </span><span class="kn">import</span> <span class="n">build_label</span>
 
     <span class="k">assert</span> <span class="n">builder</span><span class="o">.</span><span class="n">text</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
@@ -469,7 +469,7 @@
     <span class="c1"># distinguish the backing plate from the lid, so a framed label degenerates</span>
     <span class="c1"># to engraved text. Asking for the frame anyway would also lift the text</span>
     <span class="c1"># clear of the face and engrave nothing at all.</span>
-    <span class="n">label_mode</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">mode</span> <span class="k">if</span> <span class="n">mode</span> <span class="o">!=</span> <span class="s2">&quot;single&quot;</span> <span class="k">else</span> <span class="n">LabelMode</span><span class="o">.</span><span class="n">FRAMELESS</span>
+    <span class="n">label_mode</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">mode</span> <span class="k">if</span> <span class="n">mode</span> <span class="o">!=</span> <span class="s2">"single"</span> <span class="k">else</span> <span class="n">LabelMode</span><span class="o">.</span><span class="n">FRAMELESS</span>
 
     <span class="n">label</span> <span class="o">=</span> <span class="n">build_label</span><span class="p">(</span>
         <span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span>
@@ -488,7 +488,7 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">onto_face</span><span class="p">(</span><span class="n">solid</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">solid</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">origin_x</span><span class="p">,</span> <span class="n">origin_y</span><span class="p">,</span> <span class="n">top_z</span><span class="p">])</span>
 
-    <span class="k">if</span> <span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;single&quot;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">mode</span> <span class="o">==</span> <span class="s2">"single"</span><span class="p">:</span>
         <span class="c1"># One material, so a raised label would not read — sink the *text*</span>
         <span class="c1"># instead. Engraving the backing plate too would just cut a rectangular</span>
         <span class="c1"># recess and take the lettering with it.</span>
@@ -502,8 +502,8 @@
         <span class="n">result</span><span class="o">.</span><span class="n">inserts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_coloured</span><span class="p">(</span><span class="n">onto_face</span><span class="p">(</span><span class="n">label</span><span class="o">.</span><span class="n">backing</span><span class="p">),</span> <span class="n">builder</span><span class="o">.</span><span class="n">frame_color</span><span class="p">))</span>
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">_with_accent_colors</span><span class="p">(</span><span class="n">builder</span><span class="p">:</span> <span class="s2">&quot;LidBuilder&quot;</span><span class="p">,</span> <span class="n">body_color</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;LidBuilder&quot;</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Fill in the accent colours the caller left unset (FR-022).</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_with_accent_colors</span><span class="p">(</span><span class="n">builder</span><span class="p">:</span> <span class="s2">"LidBuilder"</span><span class="p">,</span> <span class="n">body_color</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"LidBuilder"</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Fill in the accent colours the caller left unset (FR-022).</span>
 
 <span class="sd">    An unset accent is not a subtle default — it is no colour at all, so the</span>
 <span class="sd">    insert prints in whatever the slicer picks and the three-colour lid the</span>
@@ -511,11 +511,11 @@
 
 <span class="sd">    Args:</span>
 <span class="sd">        builder: The resolved lid configuration.</span>
-<span class="sd">        body_color: The box&#39;s colour, or ``None`` for the neutral default.</span>
+<span class="sd">        body_color: The box's colour, or ``None`` for the neutral default.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        The configuration with text, frame and pattern colours resolved.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">replace</span>
 
     <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">Color</span>
@@ -523,7 +523,7 @@
     <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.lid.color_layers</span><span class="w"> </span><span class="kn">import</span> <span class="n">resolve_colors</span>
 
     <span class="n">colors</span> <span class="o">=</span> <span class="n">resolve_colors</span><span class="p">(</span>
-        <span class="n">body_color</span> <span class="k">if</span> <span class="n">body_color</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">Color</span><span class="p">(</span><span class="s2">&quot;gray&quot;</span><span class="p">),</span>
+        <span class="n">body_color</span> <span class="k">if</span> <span class="n">body_color</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">Color</span><span class="p">(</span><span class="s2">"gray"</span><span class="p">),</span>
         <span class="n">builder</span><span class="o">.</span><span class="n">text_color</span><span class="p">,</span> <span class="n">builder</span><span class="o">.</span><span class="n">frame_color</span><span class="p">,</span> <span class="n">builder</span><span class="o">.</span><span class="n">pattern_color</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="k">return</span> <span class="n">replace</span><span class="p">(</span>
@@ -535,7 +535,7 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_coloured</span><span class="p">(</span><span class="n">solid</span><span class="p">,</span> <span class="n">colour</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Tint a solid when a colour is set; pybosl2 wrappers carry their own.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Tint a solid when a colour is set; pybosl2 wrappers carry their own."""</span>
     <span class="k">if</span> <span class="n">colour</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">solid</span>
     <span class="k">try</span><span class="p">:</span>

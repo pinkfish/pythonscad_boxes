@@ -297,7 +297,7 @@
 
 <h1>Source code for pyboxbuilder.box.registry</h1><div class="highlight"><pre>
 <span></span><code><span class="c1"># SPDX-License-Identifier: Apache-2.0</span>
-<span class="sd">&quot;&quot;&quot;Box type registry — maps BoxType enum to implementation classes.&quot;&quot;&quot;</span>
+<span class="sd">"""Box type registry — maps BoxType enum to implementation classes."""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span>
@@ -310,15 +310,15 @@
 
 <span class="nd">@dataclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">_RegistryEntry</span><span class="p">:</span>
-    <span class="n">box_class</span><span class="p">:</span> <span class="nb">type</span><span class="p">[</span><span class="s2">&quot;BoxTypeBase&quot;</span><span class="p">]</span>
+    <span class="n">box_class</span><span class="p">:</span> <span class="nb">type</span><span class="p">[</span><span class="s2">"BoxTypeBase"</span><span class="p">]</span>
     <span class="n">builder_class</span><span class="p">:</span> <span class="nb">type</span>
 
 
 <span class="n">BOX_TYPE_REGISTRY</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="n">BoxType</span><span class="p">,</span> <span class="nb">type</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
-<span class="sd">&quot;&quot;&quot;Maps BoxType enum members to their BoxBuilder subclass.&quot;&quot;&quot;</span>
+<span class="sd">"""Maps BoxType enum members to their BoxBuilder subclass."""</span>
 
 <span class="n">BOX_IMPL_REGISTRY</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="n">BoxType</span><span class="p">,</span> <span class="nb">type</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
-<span class="sd">&quot;&quot;&quot;Maps BoxType enum members to their BoxTypeBase implementation.&quot;&quot;&quot;</span>
+<span class="sd">"""Maps BoxType enum members to their BoxTypeBase implementation."""</span>
 
 
 <div class="viewcode-block" id="register_box">
@@ -328,13 +328,13 @@
     <span class="n">builder_class</span><span class="p">:</span> <span class="nb">type</span><span class="p">,</span>
     <span class="n">box_class</span><span class="p">:</span> <span class="nb">type</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Register a box type with its builder and optional implementation.</span>
+<span class="w">    </span><span class="sd">"""Register a box type with its builder and optional implementation.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        box_type: The BoxType enum member.</span>
 <span class="sd">        builder_class: The BoxBuilder subclass for this type.</span>
 <span class="sd">        box_class: The BoxTypeBase implementation (can be registered later).</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">BOX_TYPE_REGISTRY</span><span class="p">[</span><span class="n">box_type</span><span class="p">]</span> <span class="o">=</span> <span class="n">builder_class</span>
     <span class="k">if</span> <span class="n">box_class</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">BOX_IMPL_REGISTRY</span><span class="p">[</span><span class="n">box_type</span><span class="p">]</span> <span class="o">=</span> <span class="n">box_class</span></div>
@@ -385,7 +385,7 @@
 
 
 <span class="n">LIDLESS_BOX_TYPES</span><span class="p">:</span> <span class="nb">frozenset</span><span class="p">[</span><span class="n">BoxType</span><span class="p">]</span> <span class="o">=</span> <span class="nb">frozenset</span><span class="p">({</span><span class="n">BoxType</span><span class="o">.</span><span class="n">NO_LID</span><span class="p">,</span> <span class="n">BoxType</span><span class="o">.</span><span class="n">PATH</span><span class="p">})</span>
-<span class="sd">&quot;&quot;&quot;Box types that produce a body file only — no lid geometry, no `_lid.3mf`.&quot;&quot;&quot;</span>
+<span class="sd">"""Box types that produce a body file only — no lid geometry, no `_lid.3mf`."""</span>
 </code></pre></div>
 
 

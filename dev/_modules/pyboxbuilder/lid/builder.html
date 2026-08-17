@@ -297,7 +297,7 @@
 
 <h1>Source code for pyboxbuilder.lid.builder</h1><div class="highlight"><pre>
 <span></span><code><span class="c1"># SPDX-License-Identifier: Apache-2.0</span>
-<span class="sd">&quot;&quot;&quot;Lid decoration builders.&quot;&quot;&quot;</span>
+<span class="sd">"""Lid decoration builders."""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
@@ -311,28 +311,28 @@
 
 
 <span class="n">MIN_TEXT_HEIGHT_MM</span> <span class="o">=</span> <span class="mf">4.0</span>
-<span class="sd">&quot;&quot;&quot;Shortest a label may print before it is skipped instead (FR-020).</span>
+<span class="sd">"""Shortest a label may print before it is skipped instead (FR-020).</span>
 
 <span class="sd">Below this an FDM printer cannot hold the strokes of a letter apart, so the</span>
 <span class="sd">label comes out as a smudge; skipping it leaves a clean lid instead.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="n">BORDER_MARGIN_MM</span> <span class="o">=</span> <span class="mf">5.0</span>
-<span class="sd">&quot;&quot;&quot;Margin an auto-sized label keeps clear of the lid&#39;s edge.&quot;&quot;&quot;</span>
+<span class="sd">"""Margin an auto-sized label keeps clear of the lid's edge."""</span>
 
 
 <div class="viewcode-block" id="PatternBuilder">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.lid.builder.PatternBuilder.html#pyboxbuilder.PatternBuilder">[docs]</a>
 <span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">PatternBuilder</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Through-hole pattern configuration for a lid.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Through-hole pattern configuration for a lid."""</span>
 
     <span class="nb">type</span><span class="p">:</span> <span class="n">PatternType</span> <span class="o">=</span> <span class="n">PatternType</span><span class="o">.</span><span class="n">HEX</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Which pattern to cut. See :class:`~pyboxbuilder.enums.PatternType`.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Which pattern to cut. See :class:`~pyboxbuilder.enums.PatternType`."""</span>
     <span class="n">colors</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Color</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Accent colours for the pattern&#39;s top layer, if any.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Accent colours for the pattern's top layer, if any."""</span>
     <span class="n">spacing</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Cell size in mm; ``None`` derives it from the lid&#39;s shorter side.&quot;&quot;&quot;</span></div>
+<span class="w">    </span><span class="sd">"""Cell size in mm; ``None`` derives it from the lid's shorter side."""</span></div>
 
 
 
@@ -340,54 +340,54 @@
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.lid.builder.LidBuilder.html#pyboxbuilder.LidBuilder">[docs]</a>
 <span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">LidBuilder</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Lid decoration configuration.</span>
+<span class="w">    </span><span class="sd">"""Lid decoration configuration.</span>
 
 <span class="sd">    One of these usually describes a *style* rather than a single lid — the</span>
 <span class="sd">    same frame, pattern and colours across a whole insert — so</span>
-<span class="sd">    :meth:`titled` makes a copy carrying one box&#39;s text instead of repeating</span>
+<span class="sd">    :meth:`titled` makes a copy carrying one box's text instead of repeating</span>
 <span class="sd">    the style at every box (FR-000b)::</span>
 
 <span class="sd">        LEAF = LidBuilder(label_mode=LabelMode.FRAMELESS, diagonal=True,</span>
 <span class="sd">                          pattern=PatternBuilder(PatternType.HEX))</span>
 <span class="sd">        ...</span>
-<span class="sd">        project.box(BoxType.SLIDING, &quot;Favor&quot;, lid=LEAF.titled(&quot;Favors&quot;))</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">        project.box(BoxType.SLIDING, "Favor", lid=LEAF.titled("Favors"))</span>
+<span class="sd">    """</span>
 
     <span class="n">text</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Label text; ``None`` leaves the lid unlabelled.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Label text; ``None`` leaves the lid unlabelled."""</span>
     <span class="n">label_mode</span><span class="p">:</span> <span class="n">LabelMode</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Framed (border + hatching behind the text) or frameless (text only).</span>
+<span class="w">    </span><span class="sd">"""Framed (border + hatching behind the text) or frameless (text only).</span>
 
 <span class="sd">    ``None`` means :attr:`~pyboxbuilder.enums.LabelMode.FRAMED`. It is spelled</span>
 <span class="sd">    as ``None`` rather than defaulted directly so a per-mode override can tell</span>
-<span class="sd">    &quot;I want framed&quot; from &quot;I said nothing about the frame&quot; — see</span>
-<span class="sd">    :meth:`for_mode`.&quot;&quot;&quot;</span>
+<span class="sd">    "I want framed" from "I said nothing about the frame" — see</span>
+<span class="sd">    :meth:`for_mode`."""</span>
     <span class="n">diagonal</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Run the text corner to corner rather than along the lid; ``None`` is no.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Run the text corner to corner rather than along the lid; ``None`` is no."""</span>
     <span class="n">text_color</span><span class="p">:</span> <span class="n">Color</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Colour of the label text; ``None`` uses white.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Colour of the label text; ``None`` uses white."""</span>
     <span class="n">frame_color</span><span class="p">:</span> <span class="n">Color</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Colour of the frame&#39;s top layer; ``None`` contrasts with the body.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Colour of the frame's top layer; ``None`` contrasts with the body."""</span>
     <span class="n">pattern</span><span class="p">:</span> <span class="n">PatternBuilder</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Through-hole pattern, or ``None`` for a plain lid.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Through-hole pattern, or ``None`` for a plain lid."""</span>
     <span class="n">pattern_color</span><span class="p">:</span> <span class="n">Color</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Colour of the pattern&#39;s top layer; ``None`` contrasts with the body.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Colour of the pattern's top layer; ``None`` contrasts with the body."""</span>
     <span class="n">min_text_height_mm</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Below this the label is skipped rather than printed illegibly (FR-020).</span>
+<span class="w">    </span><span class="sd">"""Below this the label is skipped rather than printed illegibly (FR-020).</span>
 
-<span class="sd">    ``None`` uses :data:`MIN_TEXT_HEIGHT_MM`.&quot;&quot;&quot;</span>
+<span class="sd">    ``None`` uses :data:`MIN_TEXT_HEIGHT_MM`."""</span>
     <span class="n">border_margin_mm</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Margin the auto-sized label keeps clear of the lid&#39;s edge; ``None`` uses</span>
-<span class="sd">    :data:`BORDER_MARGIN_MM`.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Margin the auto-sized label keeps clear of the lid's edge; ``None`` uses</span>
+<span class="sd">    :data:`BORDER_MARGIN_MM`."""</span>
     <span class="n">mmu_label</span><span class="p">:</span> <span class="n">LidBuilder</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Fields to override for the multi-material export (see :meth:`for_mode`).&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Fields to override for the multi-material export (see :meth:`for_mode`)."""</span>
     <span class="n">single_label</span><span class="p">:</span> <span class="n">LidBuilder</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Fields to override for the single-colour export.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Fields to override for the single-colour export."""</span>
 
 <div class="viewcode-block" id="LidBuilder.titled">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.lid.builder.LidBuilder.html#pyboxbuilder.LidBuilder.titled">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">titled</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">overrides</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LidBuilder</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;This lid style, carrying a particular box&#39;s text.</span>
+<span class="w">        </span><span class="sd">"""This lid style, carrying a particular box's text.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            text: The label for this box.</span>
@@ -396,23 +396,23 @@
 
 <span class="sd">        Returns:</span>
 <span class="sd">            A copy; the style it was made from is unchanged.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="n">replace</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="n">text</span><span class="p">,</span> <span class="o">**</span><span class="n">overrides</span><span class="p">)</span></div>
 
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">mode</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LabelMode</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;The label style, resolved.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""The label style, resolved."""</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">label_mode</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">label_mode</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">LabelMode</span><span class="o">.</span><span class="n">FRAMED</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">is_diagonal</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Whether the text runs corner to corner, resolved.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Whether the text runs corner to corner, resolved."""</span>
         <span class="k">return</span> <span class="nb">bool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">diagonal</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">min_text_height</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;The shortest printable label, resolved.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""The shortest printable label, resolved."""</span>
         <span class="k">return</span> <span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">min_text_height_mm</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">min_text_height_mm</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">MIN_TEXT_HEIGHT_MM</span>
@@ -420,7 +420,7 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">border_margin</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;The margin kept clear at the lid&#39;s edge, resolved.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""The margin kept clear at the lid's edge, resolved."""</span>
         <span class="k">return</span> <span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">border_margin_mm</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">border_margin_mm</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">BORDER_MARGIN_MM</span>
@@ -429,51 +429,51 @@
 <div class="viewcode-block" id="LidBuilder.for_mode">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.lid.builder.LidBuilder.html#pyboxbuilder.LidBuilder.for_mode">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">for_mode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LidBuilder</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;This lid as it prints in one colour mode.</span>
+<span class="w">        </span><span class="sd">"""This lid as it prints in one colour mode.</span>
 
 <span class="sd">        A per-mode override carries **only the fields it sets**. That has to be</span>
 <span class="sd">        decided by what the caller passed rather than by comparing against the</span>
-<span class="sd">        field&#39;s default, which is what this used to do: a `single_label` asking</span>
+<span class="sd">        field's default, which is what this used to do: a `single_label` asking</span>
 <span class="sd">        for `LabelMode.FRAMED` was indistinguishable from one that said nothing,</span>
 <span class="sd">        `diagonal=False` could not turn off a diagonal, and the margins were</span>
 <span class="sd">        taken from the override whether it mentioned them or not.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            mode: ``&quot;mmu&quot;`` or ``&quot;single&quot;``.</span>
+<span class="sd">            mode: ``"mmu"`` or ``"single"``.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            The effective configuration; ``self`` when that mode sets nothing.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">override</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mmu_label</span> <span class="k">if</span> <span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;mmu&quot;</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">single_label</span>
+<span class="sd">        """</span>
+        <span class="n">override</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mmu_label</span> <span class="k">if</span> <span class="n">mode</span> <span class="o">==</span> <span class="s2">"mmu"</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">single_label</span>
         <span class="k">if</span> <span class="n">override</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span>
         <span class="k">return</span> <span class="n">replace</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">override</span><span class="o">.</span><span class="n">_stated</span><span class="p">(),</span> <span class="n">mmu_label</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">single_label</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></div>
 
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_stated</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;The fields this override actually names.</span>
+<span class="w">        </span><span class="sd">"""The fields this override actually names.</span>
 
 <span class="sd">        A `LidBuilder` used as an override is a sparse record: every field</span>
-<span class="sd">        defaults to ``None``, so &quot;not mentioned&quot; is representable and distinct</span>
+<span class="sd">        defaults to ``None``, so "not mentioned" is representable and distinct</span>
 <span class="sd">        from every value the field can take. That is why `label_mode`,</span>
 <span class="sd">        `diagonal` and the two margins are ``| None`` rather than carrying</span>
 <span class="sd">        their defaults directly — the defaults live in the properties above.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="p">{</span>
             <span class="n">f</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">fields</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;mmu_label&quot;</span><span class="p">,</span> <span class="s2">&quot;single_label&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"mmu_label"</span><span class="p">,</span> <span class="s2">"single_label"</span><span class="p">)</span>
             <span class="ow">and</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f</span><span class="o">.</span><span class="n">name</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
         <span class="p">}</span>
 
 <div class="viewcode-block" id="LidBuilder.resolve_for_mode">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.lid.builder.LidBuilder.html#pyboxbuilder.LidBuilder.resolve_for_mode">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">resolve_for_mode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LidBuilder</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Deprecated alias for :meth:`for_mode`.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Deprecated alias for :meth:`for_mode`."""</span>
         <span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
 
         <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-            <span class="s2">&quot;LidBuilder.resolve_for_mode() is deprecated; use for_mode().&quot;</span><span class="p">,</span>
+            <span class="s2">"LidBuilder.resolve_for_mode() is deprecated; use for_mode()."</span><span class="p">,</span>
             <span class="ne">DeprecationWarning</span><span class="p">,</span> <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">for_mode</span><span class="p">(</span><span class="n">mode</span><span class="p">)</span></div>

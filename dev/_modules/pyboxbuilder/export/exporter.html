@@ -297,7 +297,7 @@
 
 <h1>Source code for pyboxbuilder.export.exporter</h1><div class="highlight"><pre>
 <span></span><code><span class="c1"># SPDX-License-Identifier: Apache-2.0</span>
-<span class="sd">&quot;&quot;&quot;BoxExporter — writes per-box and per-spacer 3MF files (T068a/T068b/T070/T072).</span>
+<span class="sd">"""BoxExporter — writes per-box and per-spacer 3MF files (T068a/T068b/T070/T072).</span>
 
 <span class="sd">Output layout (FR-025):</span>
 
@@ -308,15 +308,15 @@
 
 <span class="sd">The `mmu` pass keeps positive inserts (labels, accents) as separate coloured</span>
 <span class="sd">solids so the slicer can assign them their own material; the `single` pass fuses</span>
-<span class="sd">everything into one body. Writes are gated on each piece&#39;s fingerprint — the</span>
+<span class="sd">everything into one body. Writes are gated on each piece's fingerprint — the</span>
 <span class="sd">description it was built from — so re-exporting an unchanged project rewrites</span>
 <span class="sd">nothing (see `pyboxbuilder.export.fingerprint`).</span>
 
 <span class="sd">Geometry export runs through PythonSCAD, which is not importable from plain</span>
 <span class="sd">CPython. When it is unavailable the exporter still creates the file tree and</span>
-<span class="sd">records the piece&#39;s bounding box, so the layout, PDF and packing pipeline stay</span>
+<span class="sd">records the piece's bounding box, so the layout, PDF and packing pipeline stay</span>
 <span class="sd">testable off-app.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
@@ -329,33 +329,33 @@
 <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2.shapes3d</span><span class="w"> </span><span class="kn">import</span> <span class="n">Bosl2Solid</span>
 
-<span class="n">MMU</span> <span class="o">=</span> <span class="s2">&quot;mmu&quot;</span>
-<span class="n">SINGLE</span> <span class="o">=</span> <span class="s2">&quot;single&quot;</span>
+<span class="n">MMU</span> <span class="o">=</span> <span class="s2">"mmu"</span>
+<span class="n">SINGLE</span> <span class="o">=</span> <span class="s2">"single"</span>
 
 
 <div class="viewcode-block" id="PieceBounds">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.export.exporter.PieceBounds.html#pyboxbuilder.export.exporter.PieceBounds">[docs]</a>
 <span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">PieceBounds</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Measured bounding box of one exported piece (T068b / FR-027).&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Measured bounding box of one exported piece (T068b / FR-027)."""</span>
 
     <span class="n">label</span><span class="p">:</span> <span class="nb">str</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Piece name, e.g. &quot;PlayerBoxBlack_body&quot;.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Piece name, e.g. "PlayerBoxBlack_body"."""</span>
     <span class="n">size</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;(width, length, height) in mm.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""(width, length, height) in mm."""</span>
     <span class="n">mode</span><span class="p">:</span> <span class="nb">str</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;&quot;mmu&quot; or &quot;single&quot;.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">""""mmu" or "single"."""</span>
 
 <div class="viewcode-block" id="PieceBounds.fits_bed">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.export.exporter.PieceBounds.html#pyboxbuilder.export.exporter.PieceBounds.fits_bed">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">fits_bed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bed</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;True when the piece fits a printer bed of the given size.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""True when the piece fits a printer bed of the given size."""</span>
         <span class="k">return</span> <span class="nb">all</span><span class="p">(</span><span class="n">s</span> <span class="o">&lt;=</span> <span class="n">b</span> <span class="o">+</span> <span class="mf">1e-6</span> <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">b</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="n">bed</span><span class="p">))</span></div>
 
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="n">w</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">h</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">size</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="si">}</span><span class="s2"> [</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">mode</span><span class="si">}</span><span class="s2">]: </span><span class="si">{</span><span class="n">w</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> x </span><span class="si">{</span><span class="n">l</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> x </span><span class="si">{</span><span class="n">h</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> mm&quot;</span></div>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="si">}</span><span class="s2"> [</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">mode</span><span class="si">}</span><span class="s2">]: </span><span class="si">{</span><span class="n">w</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> x </span><span class="si">{</span><span class="n">l</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> x </span><span class="si">{</span><span class="n">h</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> mm"</span></div>
 
 
 
@@ -363,7 +363,7 @@
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.export.exporter.ExporterState.html#pyboxbuilder.export.exporter.ExporterState">[docs]</a>
 <span class="nd">@dataclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">ExporterState</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Files written / skipped so far, plus the bounding boxes measured.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Files written / skipped so far, plus the bounding boxes measured."""</span>
 
     <span class="n">written</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span>
     <span class="n">skipped</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span>
@@ -374,12 +374,12 @@
 <div class="viewcode-block" id="BoxExporter">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.export.exporter.BoxExporter.html#pyboxbuilder.export.exporter.BoxExporter">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">BoxExporter</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Writes the 3MF tree for one project.</span>
+<span class="w">    </span><span class="sd">"""Writes the 3MF tree for one project.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        out_dir: Root output directory.</span>
 <span class="sd">        game: Project name; becomes the subdirectory under `out_dir`.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">out_dir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span><span class="p">,</span> <span class="n">game</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">root</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">out_dir</span><span class="p">)</span> <span class="o">/</span> <span class="n">game</span>
@@ -391,16 +391,16 @@
 <div class="viewcode-block" id="BoxExporter.path_for">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.export.exporter.BoxExporter.html#pyboxbuilder.export.exporter.BoxExporter.path_for">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">path_for</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">part</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">mode</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Path of one piece. `part` is &quot;body&quot; or &quot;lid&quot;.&quot;&quot;&quot;</span>
-        <span class="n">suffix</span> <span class="o">=</span> <span class="s2">&quot;_single&quot;</span> <span class="k">if</span> <span class="n">mode</span> <span class="o">==</span> <span class="n">SINGLE</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">root</span> <span class="o">/</span> <span class="n">mode</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">label</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">part</span><span class="si">}{</span><span class="n">suffix</span><span class="si">}</span><span class="s2">.3mf&quot;</span></div>
+<span class="w">        </span><span class="sd">"""Path of one piece. `part` is "body" or "lid"."""</span>
+        <span class="n">suffix</span> <span class="o">=</span> <span class="s2">"_single"</span> <span class="k">if</span> <span class="n">mode</span> <span class="o">==</span> <span class="n">SINGLE</span> <span class="k">else</span> <span class="s2">""</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">root</span> <span class="o">/</span> <span class="n">mode</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">label</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">part</span><span class="si">}{</span><span class="n">suffix</span><span class="si">}</span><span class="s2">.3mf"</span></div>
 
 
 <div class="viewcode-block" id="BoxExporter.relative">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.export.exporter.BoxExporter.html#pyboxbuilder.export.exporter.BoxExporter.relative">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">relative</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Path as recorded in `ExportResult`, relative to the output root.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">game</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">path</span><span class="o">.</span><span class="n">relative_to</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">)</span><span class="o">.</span><span class="n">as_posix</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span></div>
+<span class="w">        </span><span class="sd">"""Path as recorded in `ExportResult`, relative to the output root."""</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">game</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">path</span><span class="o">.</span><span class="n">relative_to</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">)</span><span class="o">.</span><span class="n">as_posix</span><span class="p">()</span><span class="si">}</span><span class="s2">"</span></div>
 
 
     <span class="c1"># ----------------------------------------------------------------- write</span>
@@ -408,7 +408,7 @@
 <div class="viewcode-block" id="BoxExporter.is_current">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.export.exporter.BoxExporter.html#pyboxbuilder.export.exporter.BoxExporter.is_current">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">is_current</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">part</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">mode</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">fingerprint</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;True when the file on disk was built from this exact description.</span>
+<span class="w">        </span><span class="sd">"""True when the file on disk was built from this exact description.</span>
 
 <span class="sd">        Asked **before** the geometry is built, so an unchanged box costs</span>
 <span class="sd">        nothing: the digest covers everything that shapes the piece, and none of</span>
@@ -416,14 +416,14 @@
 
 <span class="sd">        Args:</span>
 <span class="sd">            label: Box label.</span>
-<span class="sd">            part: &quot;body&quot; or &quot;lid&quot;.</span>
-<span class="sd">            mode: &quot;mmu&quot; or &quot;single&quot;.</span>
+<span class="sd">            part: "body" or "lid".</span>
+<span class="sd">            mode: "mmu" or "single".</span>
 <span class="sd">            fingerprint: Digest of the description the piece would be built</span>
 <span class="sd">                from. Empty always reports stale.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            Whether the write can be skipped.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="n">fp</span><span class="o">.</span><span class="n">matches</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path_for</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">part</span><span class="p">,</span> <span class="n">mode</span><span class="p">),</span> <span class="n">fingerprint</span><span class="p">)</span></div>
 
 
@@ -433,21 +433,21 @@
         <span class="bp">self</span><span class="p">,</span> <span class="n">label</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">part</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">mode</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">size</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Record a piece that was skipped without being built.</span>
+<span class="w">        </span><span class="sd">"""Record a piece that was skipped without being built.</span>
 
 <span class="sd">        Its bounding box is the declared size rather than a measured one, since</span>
 <span class="sd">        measuring would mean building the thing this skipped (FR-027).</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            label: Box label.</span>
-<span class="sd">            part: &quot;body&quot; or &quot;lid&quot;.</span>
-<span class="sd">            mode: &quot;mmu&quot; or &quot;single&quot;.</span>
-<span class="sd">            size: The piece&#39;s declared size, recorded as its bounds.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">            part: "body" or "lid".</span>
+<span class="sd">            mode: "mmu" or "single".</span>
+<span class="sd">            size: The piece's declared size, recorded as its bounds.</span>
+<span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">skipped</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">relative</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path_for</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">part</span><span class="p">,</span> <span class="n">mode</span><span class="p">)))</span>
         <span class="k">if</span> <span class="n">size</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">bounds</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-                <span class="n">PieceBounds</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">label</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">part</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="n">mode</span><span class="p">)</span>
+                <span class="n">PieceBounds</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">label</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">part</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="n">mode</span><span class="p">)</span>
             <span class="p">)</span></div>
 
 
@@ -458,17 +458,17 @@
         <span class="n">label</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">part</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">mode</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-        <span class="n">solid</span><span class="p">:</span> <span class="s2">&quot;Bosl2Solid | None&quot;</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">inserts</span><span class="p">:</span> <span class="s2">&quot;list[Bosl2Solid] | None&quot;</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">solid</span><span class="p">:</span> <span class="s2">"Bosl2Solid | None"</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">inserts</span><span class="p">:</span> <span class="s2">"list[Bosl2Solid] | None"</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">size</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">fingerprint</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="n">fingerprint</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Export one piece, skipping the write when nothing about it changed.</span>
+<span class="w">        </span><span class="sd">"""Export one piece, skipping the write when nothing about it changed.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            label: Box label.</span>
-<span class="sd">            part: &quot;body&quot; or &quot;lid&quot;.</span>
-<span class="sd">            mode: &quot;mmu&quot; or &quot;single&quot;.</span>
+<span class="sd">            part: "body" or "lid".</span>
+<span class="sd">            mode: "mmu" or "single".</span>
 <span class="sd">            solid: The main geometry. None writes a placeholder (no app available).</span>
 <span class="sd">            inserts: Positive coloured inserts. Kept as separate objects in mmu</span>
 <span class="sd">                mode and unioned into `solid` in single mode (T068a).</span>
@@ -480,9 +480,9 @@
 <span class="sd">            The relative path if written, None if skipped.</span>
 
 <span class="sd">        Note:</span>
-<span class="sd">            Whether a write is *needed* is :meth:`is_current`&#39;s decision, taken</span>
+<span class="sd">            Whether a write is *needed* is :meth:`is_current`'s decision, taken</span>
 <span class="sd">            before the geometry is built. This writes what it is given.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">path_for</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">part</span><span class="p">,</span> <span class="n">mode</span><span class="p">)</span>
         <span class="n">path</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
@@ -490,12 +490,12 @@
         <span class="n">measured</span> <span class="o">=</span> <span class="n">_measure</span><span class="p">(</span><span class="n">payload</span><span class="p">)</span> <span class="ow">or</span> <span class="n">size</span>
         <span class="k">if</span> <span class="n">measured</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">bounds</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-                <span class="n">PieceBounds</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">label</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">part</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">measured</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="n">mode</span><span class="p">)</span>
+                <span class="n">PieceBounds</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">label</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">part</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">measured</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="n">mode</span><span class="p">)</span>
             <span class="p">)</span>
 
         <span class="c1"># Keep the .3mf suffix on the temp file — the exporter picks its format</span>
         <span class="c1"># from the extension and silently falls back to STL without it.</span>
-        <span class="n">candidate</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">with_name</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;.</span><span class="si">{</span><span class="n">path</span><span class="o">.</span><span class="n">stem</span><span class="si">}</span><span class="s2">.tmp.3mf&quot;</span><span class="p">)</span>
+        <span class="n">candidate</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">with_name</span><span class="p">(</span><span class="sa">f</span><span class="s2">".</span><span class="si">{</span><span class="n">path</span><span class="o">.</span><span class="n">stem</span><span class="si">}</span><span class="s2">.tmp.3mf"</span><span class="p">)</span>
         <span class="n">wrote_candidate</span> <span class="o">=</span> <span class="n">_export_3mf</span><span class="p">(</span><span class="n">payload</span><span class="p">,</span> <span class="n">candidate</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="n">wrote_candidate</span><span class="p">:</span>
@@ -521,21 +521,21 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">write_box</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">label</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-        <span class="n">body</span><span class="p">:</span> <span class="s2">&quot;Bosl2Solid | None&quot;</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">lid</span><span class="p">:</span> <span class="s2">&quot;Bosl2Solid | None&quot;</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">body_inserts</span><span class="p">:</span> <span class="s2">&quot;list[Bosl2Solid] | None&quot;</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">lid_inserts</span><span class="p">:</span> <span class="s2">&quot;list[Bosl2Solid] | None&quot;</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">body</span><span class="p">:</span> <span class="s2">"Bosl2Solid | None"</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">lid</span><span class="p">:</span> <span class="s2">"Bosl2Solid | None"</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">body_inserts</span><span class="p">:</span> <span class="s2">"list[Bosl2Solid] | None"</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">lid_inserts</span><span class="p">:</span> <span class="s2">"list[Bosl2Solid] | None"</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">size</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">has_lid</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Export a box&#39;s body and (optionally) lid in both colour modes.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Export a box's body and (optionally) lid in both colour modes."""</span>
         <span class="n">out</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">mode</span> <span class="ow">in</span> <span class="p">(</span><span class="n">MMU</span><span class="p">,</span> <span class="n">SINGLE</span><span class="p">):</span>
-            <span class="n">written</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">write_piece</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="s2">&quot;body&quot;</span><span class="p">,</span> <span class="n">mode</span><span class="p">,</span> <span class="n">body</span><span class="p">,</span> <span class="n">body_inserts</span><span class="p">,</span> <span class="n">size</span><span class="p">)</span>
+            <span class="n">written</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">write_piece</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="s2">"body"</span><span class="p">,</span> <span class="n">mode</span><span class="p">,</span> <span class="n">body</span><span class="p">,</span> <span class="n">body_inserts</span><span class="p">,</span> <span class="n">size</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">written</span><span class="p">:</span>
                 <span class="n">out</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">written</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">has_lid</span><span class="p">:</span>
-                <span class="n">written</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">write_piece</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="s2">&quot;lid&quot;</span><span class="p">,</span> <span class="n">mode</span><span class="p">,</span> <span class="n">lid</span><span class="p">,</span> <span class="n">lid_inserts</span><span class="p">,</span> <span class="n">size</span><span class="p">)</span>
+                <span class="n">written</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">write_piece</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="s2">"lid"</span><span class="p">,</span> <span class="n">mode</span><span class="p">,</span> <span class="n">lid</span><span class="p">,</span> <span class="n">lid_inserts</span><span class="p">,</span> <span class="n">size</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">written</span><span class="p">:</span>
                     <span class="n">out</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">written</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">out</span></div>
@@ -544,13 +544,13 @@
 <div class="viewcode-block" id="BoxExporter.delete_stale">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.export.exporter.BoxExporter.html#pyboxbuilder.export.exporter.BoxExporter.delete_stale">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">delete_stale</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prefix</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">keep_labels</span><span class="p">:</span> <span class="nb">set</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Delete `{prefix}*` files whose label is no longer generated (T126).&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Delete `{prefix}*` files whose label is no longer generated (T126)."""</span>
         <span class="n">removed</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">mode</span> <span class="ow">in</span> <span class="p">(</span><span class="n">MMU</span><span class="p">,</span> <span class="n">SINGLE</span><span class="p">):</span>
             <span class="n">mode_dir</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">root</span> <span class="o">/</span> <span class="n">mode</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">mode_dir</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
                 <span class="k">continue</span>
-            <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">mode_dir</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">prefix</span><span class="si">}</span><span class="s2">*&quot;</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">mode_dir</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">prefix</span><span class="si">}</span><span class="s2">*"</span><span class="p">):</span>
                 <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">fp</span><span class="o">.</span><span class="n">SIDECAR_NAME</span><span class="p">:</span>
                     <span class="k">continue</span>
                 <span class="n">label</span> <span class="o">=</span> <span class="n">_label_from_filename</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">mode</span><span class="p">)</span>
@@ -565,11 +565,11 @@
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">_compose</span><span class="p">(</span>
-        <span class="n">solid</span><span class="p">:</span> <span class="s2">&quot;Bosl2Solid | None&quot;</span><span class="p">,</span>
-        <span class="n">inserts</span><span class="p">:</span> <span class="s2">&quot;list[Bosl2Solid] | None&quot;</span><span class="p">,</span>
+        <span class="n">solid</span><span class="p">:</span> <span class="s2">"Bosl2Solid | None"</span><span class="p">,</span>
+        <span class="n">inserts</span><span class="p">:</span> <span class="s2">"list[Bosl2Solid] | None"</span><span class="p">,</span>
         <span class="n">mode</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Bosl2Solid | list[Bosl2Solid] | None&quot;</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Combine a piece with its coloured inserts for the given mode.&quot;&quot;&quot;</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Bosl2Solid | list[Bosl2Solid] | None"</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Combine a piece with its coloured inserts for the given mode."""</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">inserts</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">solid</span>
         <span class="k">if</span> <span class="n">mode</span> <span class="o">==</span> <span class="n">MMU</span><span class="p">:</span>
@@ -583,19 +583,19 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_label_from_filename</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">mode</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Recover a box label from an exported filename.&quot;&quot;&quot;</span>
-    <span class="n">stem</span> <span class="o">=</span> <span class="n">name</span><span class="p">[:</span><span class="o">-</span><span class="mi">4</span><span class="p">]</span> <span class="k">if</span> <span class="n">name</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.3mf&quot;</span><span class="p">)</span> <span class="k">else</span> <span class="n">name</span>
-    <span class="k">for</span> <span class="n">suffix</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;_body_single&quot;</span><span class="p">,</span> <span class="s2">&quot;_lid_single&quot;</span><span class="p">,</span> <span class="s2">&quot;_body&quot;</span><span class="p">,</span> <span class="s2">&quot;_lid&quot;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Recover a box label from an exported filename."""</span>
+    <span class="n">stem</span> <span class="o">=</span> <span class="n">name</span><span class="p">[:</span><span class="o">-</span><span class="mi">4</span><span class="p">]</span> <span class="k">if</span> <span class="n">name</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">".3mf"</span><span class="p">)</span> <span class="k">else</span> <span class="n">name</span>
+    <span class="k">for</span> <span class="n">suffix</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"_body_single"</span><span class="p">,</span> <span class="s2">"_lid_single"</span><span class="p">,</span> <span class="s2">"_body"</span><span class="p">,</span> <span class="s2">"_lid"</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">stem</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="n">suffix</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">stem</span><span class="p">[:</span> <span class="o">-</span><span class="nb">len</span><span class="p">(</span><span class="n">suffix</span><span class="p">)]</span>
     <span class="k">return</span> <span class="n">stem</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_measure</span><span class="p">(</span><span class="n">payload</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Measure a solid&#39;s bounding box, or None if it cannot be measured.</span>
+<span class="w">    </span><span class="sd">"""Measure a solid's bounding box, or None if it cannot be measured.</span>
 
 <span class="sd">    PythonSCAD computes `.size` by meshing, so this only works inside the app.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="n">payload</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">None</span>
     <span class="n">solids</span> <span class="o">=</span> <span class="n">payload</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">payload</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="k">else</span> <span class="p">[</span><span class="n">payload</span><span class="p">]</span>
@@ -614,13 +614,13 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_solid_bounds</span><span class="p">(</span><span class="n">solid</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="o">...</span><span class="p">]]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;(origin, size) of one solid&#39;s AABB, or None if it exposes no usable one.</span>
+<span class="w">    </span><span class="sd">"""(origin, size) of one solid's AABB, or None if it exposes no usable one.</span>
 
 <span class="sd">    `Bosl2Solid.bounds()` already answers in (position, size) form and is the</span>
 <span class="sd">    reliable source; the raw `.position` / `.size` attributes are only meaningful</span>
 <span class="sd">    on native objects — on a pybosl2 wrapper they are bound methods, not triples.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">bounds</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">solid</span><span class="p">,</span> <span class="s2">&quot;bounds&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+<span class="sd">    """</span>
+    <span class="n">bounds</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">solid</span><span class="p">,</span> <span class="s2">"bounds"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
     <span class="k">if</span> <span class="nb">callable</span><span class="p">(</span><span class="n">bounds</span><span class="p">):</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">origin</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="n">bounds</span><span class="p">()</span>
@@ -628,7 +628,7 @@
         <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">None</span>
 
-    <span class="n">position</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">solid</span><span class="p">,</span> <span class="s2">&quot;position&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">solid</span><span class="p">,</span> <span class="s2">&quot;size&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="n">position</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">solid</span><span class="p">,</span> <span class="s2">"position"</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">solid</span><span class="p">,</span> <span class="s2">"size"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">position</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">size</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">None</span>
     <span class="k">try</span><span class="p">:</span>
@@ -638,7 +638,7 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_export_3mf</span><span class="p">(</span><span class="n">payload</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Write a 3MF, returning False when no geometry backend is available.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Write a 3MF, returning False when no geometry backend is available."""</span>
     <span class="k">if</span> <span class="n">payload</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">False</span>
     <span class="k">try</span><span class="p">:</span>
@@ -656,7 +656,7 @@
     <span class="k">try</span><span class="p">:</span>
         <span class="c1"># `export` only takes native PyOpenSCAD objects; `.shape` is how a</span>
         <span class="c1"># pybosl2 wrapper crosses that boundary.</span>
-        <span class="n">export</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">combined</span><span class="p">,</span> <span class="s2">&quot;shape&quot;</span><span class="p">,</span> <span class="n">combined</span><span class="p">),</span> <span class="nb">str</span><span class="p">(</span><span class="n">path</span><span class="p">))</span>
+        <span class="n">export</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">combined</span><span class="p">,</span> <span class="s2">"shape"</span><span class="p">,</span> <span class="n">combined</span><span class="p">),</span> <span class="nb">str</span><span class="p">(</span><span class="n">path</span><span class="p">))</span>
     <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">False</span>
     <span class="k">return</span> <span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span>

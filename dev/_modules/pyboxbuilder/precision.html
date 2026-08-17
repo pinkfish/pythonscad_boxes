@@ -297,7 +297,7 @@
 
 <h1>Source code for pyboxbuilder.precision</h1><div class="highlight"><pre>
 <span></span><code><span class="c1"># SPDX-License-Identifier: Apache-2.0</span>
-<span class="sd">&quot;&quot;&quot;Curve precision — the ``fn`` / ``fa`` / ``fs`` tessellation controls.</span>
+<span class="sd">"""Curve precision — the ``fn`` / ``fa`` / ``fs`` tessellation controls.</span>
 
 <span class="sd">Every curved feature the toolkit builds (cylinders, spheres, fillets and</span>
 <span class="sd">chamfers, finger scoops and holes, lid-pattern curves) takes its facet count</span>
@@ -309,7 +309,7 @@
 <span class="sd">every function signature: the geometry call sites are several layers below the</span>
 <span class="sd">public API and threading a parameter through each of them would put a</span>
 <span class="sd">precision argument on functions that have nothing else to do with it.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
@@ -319,14 +319,14 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Iterator</span>
 
-<span class="c1">#: Default minimum angle per fragment, in degrees (OpenSCAD&#39;s ``$fa``).</span>
+<span class="c1">#: Default minimum angle per fragment, in degrees (OpenSCAD's ``$fa``).</span>
 <span class="n">DEFAULT_FA</span> <span class="o">=</span> <span class="mf">12.0</span>
 
-<span class="c1">#: Default minimum fragment size, in mm (OpenSCAD&#39;s ``$fs``).</span>
+<span class="c1">#: Default minimum fragment size, in mm (OpenSCAD's ``$fs``).</span>
 <span class="n">DEFAULT_FS</span> <span class="o">=</span> <span class="mf">2.0</span>
 
 <span class="n">EXPORT_FN</span> <span class="o">=</span> <span class="mi">256</span>
-<span class="sd">&quot;&quot;&quot;Facets per circle for a final export, when the caller names no precision.</span>
+<span class="sd">"""Facets per circle for a final export, when the caller names no precision.</span>
 
 <span class="sd">An export is the geometry that gets **printed**, so it is worth paying for:</span>
 <span class="sd">at 256 facets a curve is smooth well past the resolution of any FDM nozzle,</span>
@@ -336,31 +336,31 @@
 <span class="sd">``fn`` unset so ``fa``/``fs`` size the facets by how big the curve actually</span>
 <span class="sd">is, which is what keeps an interactive render responsive. Pass an explicit</span>
 <span class="sd">``fn`` to either one to override.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
-<span class="n">EXPORT_FN_ENV</span> <span class="o">=</span> <span class="s2">&quot;PYBOXBUILDER_EXPORT_FN&quot;</span>
-<span class="sd">&quot;&quot;&quot;Environment variable overriding :data:`EXPORT_FN`, for draft builds.</span>
+<span class="n">EXPORT_FN_ENV</span> <span class="o">=</span> <span class="s2">"PYBOXBUILDER_EXPORT_FN"</span>
+<span class="sd">"""Environment variable overriding :data:`EXPORT_FN`, for draft builds.</span>
 
 <span class="sd">Print quality is for the 3MFs you actually send to a slicer, and it costs real</span>
-<span class="sd">time: Irish Gauge&#39;s 32 files take about 90 seconds at 256 facets against a few</span>
+<span class="sd">time: Irish Gauge's 32 files take about 90 seconds at 256 facets against a few</span>
 <span class="sd">seconds at the fa/fs default. **A CI pass is not a build** — it checks that the</span>
 <span class="sd">pipeline names, counts, caches and deletes the right files, and none of that</span>
 <span class="sd">depends on how finely a cylinder is tessellated — so CI sets this coarse and</span>
 <span class="sd">never produces printable output. Application code should pass ``fn`` to</span>
 <span class="sd">:meth:`Project.export` explicitly rather than set this.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 
 <div class="viewcode-block" id="export_facets">
 <a class="viewcode-back" href="../../_autosummary/pyboxbuilder.precision.export_facets.html#pyboxbuilder.precision.export_facets">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">export_facets</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;The facet count a final export uses when the caller names none.</span>
+<span class="w">    </span><span class="sd">"""The facet count a final export uses when the caller names none.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        :data:`EXPORT_FN`, or the value of :data:`EXPORT_FN_ENV` when that is</span>
 <span class="sd">        set to a valid facet count (&gt;= 3). A malformed value is ignored rather</span>
 <span class="sd">        than raising, since it comes from the environment.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">raw</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">EXPORT_FN_ENV</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">raw</span><span class="p">:</span>
         <span class="k">try</span><span class="p">:</span>
@@ -377,67 +377,67 @@
 <a class="viewcode-back" href="../../_autosummary/pyboxbuilder.precision.html#pyboxbuilder.precision.Precision">[docs]</a>
 <span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">Precision</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;How finely curves are tessellated.</span>
+<span class="w">    </span><span class="sd">"""How finely curves are tessellated.</span>
 
-<span class="sd">    Mirrors OpenSCAD&#39;s three special variables. ``fn`` is absolute and wins</span>
+<span class="sd">    Mirrors OpenSCAD's three special variables. ``fn`` is absolute and wins</span>
 <span class="sd">    when set; otherwise ``fa`` and ``fs`` together decide the facet count, so</span>
 <span class="sd">    a small radius gets few facets and a large one gets many.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="n">fn</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Fixed number of facets per full circle. ``None`` defers to fa/fs.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Fixed number of facets per full circle. ``None`` defers to fa/fs."""</span>
     <span class="n">fa</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">DEFAULT_FA</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Minimum angle per fragment, in degrees. Lower is finer.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Minimum angle per fragment, in degrees. Lower is finer."""</span>
     <span class="n">fs</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">DEFAULT_FS</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Minimum fragment size, in mm. Lower is finer.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Minimum fragment size, in mm. Lower is finer."""</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Validate the settings.</span>
+<span class="w">        </span><span class="sd">"""Validate the settings.</span>
 
 <span class="sd">        Raises:</span>
 <span class="sd">            ValueError: If ``fn`` is set below 3 (fewer than three facets is</span>
 <span class="sd">                not a curve), or if ``fa``/``fs`` is not positive.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">fn</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">fn</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;fn must be &gt;= 3 when set; got </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">fn</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"fn must be &gt;= 3 when set; got </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">fn</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">fa</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;fa must be &gt; 0; got </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">fa</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"fa must be &gt; 0; got </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">fa</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">fs</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;fs must be &gt; 0; got </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">fs</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"fs must be &gt; 0; got </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">fs</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
 <div class="viewcode-block" id="Precision.kwargs">
 <a class="viewcode-back" href="../../_autosummary/pyboxbuilder.precision.html#pyboxbuilder.precision.Precision.kwargs">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">kwargs</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the settings as keyword arguments for a pybosl2 call.</span>
+<span class="w">        </span><span class="sd">"""Return the settings as keyword arguments for a pybosl2 call.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            A dict carrying ``fa``/``fs``, plus ``fn`` when it is set. Splat</span>
 <span class="sd">            it into any curve-producing constructor:</span>
 <span class="sd">            ``cylinder(height=h, radius=r, **precision().kwargs())``.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="c1"># Deliberately Any-valued: it is splatted into constructors whose</span>
         <span class="c1"># fn/fa/fs parameters have different types, and a narrower value type</span>
         <span class="c1"># makes a type checker complain at every one of those call sites.</span>
-        <span class="n">values</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;fa&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">fa</span><span class="p">,</span> <span class="s2">&quot;fs&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">fs</span><span class="p">}</span>
+        <span class="n">values</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"fa"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">fa</span><span class="p">,</span> <span class="s2">"fs"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">fs</span><span class="p">}</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">fn</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">values</span><span class="p">[</span><span class="s2">&quot;fn&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fn</span>
+            <span class="n">values</span><span class="p">[</span><span class="s2">"fn"</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fn</span>
         <span class="k">return</span> <span class="n">values</span></div>
 </div>
 
 
 
-<span class="n">_CURRENT</span><span class="p">:</span> <span class="n">ContextVar</span><span class="p">[</span><span class="n">Precision</span><span class="p">]</span> <span class="o">=</span> <span class="n">ContextVar</span><span class="p">(</span><span class="s2">&quot;pyboxbuilder_precision&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">Precision</span><span class="p">())</span>
+<span class="n">_CURRENT</span><span class="p">:</span> <span class="n">ContextVar</span><span class="p">[</span><span class="n">Precision</span><span class="p">]</span> <span class="o">=</span> <span class="n">ContextVar</span><span class="p">(</span><span class="s2">"pyboxbuilder_precision"</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">Precision</span><span class="p">())</span>
 
 
 <div class="viewcode-block" id="precision">
 <a class="viewcode-back" href="../../_autosummary/pyboxbuilder.precision.Precision.html#pyboxbuilder.precision.precision">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">precision</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Precision</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the precision currently in force.</span>
+<span class="w">    </span><span class="sd">"""Return the precision currently in force.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        The innermost :class:`Precision` set by :func:`use`, or the default</span>
 <span class="sd">        (``fa=12, fs=2``) outside any such block.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">return</span> <span class="n">_CURRENT</span><span class="o">.</span><span class="n">get</span><span class="p">()</span></div>
 
 
@@ -445,27 +445,27 @@
 <div class="viewcode-block" id="describe">
 <a class="viewcode-back" href="../../_autosummary/pyboxbuilder.precision.describe.html#pyboxbuilder.precision.describe">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">describe</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;The precision in force, as a fingerprintable record.</span>
+<span class="w">    </span><span class="sd">"""The precision in force, as a fingerprintable record.</span>
 
 <span class="sd">    A piece built at 12 facets per circle and the same piece built at 256 are</span>
 <span class="sd">    different geometry, so an export fingerprint has to carry this (FR-046).</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        The current ``fn``/``fa``/``fs``.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">current</span> <span class="o">=</span> <span class="n">precision</span><span class="p">()</span>
-    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;fn&quot;</span><span class="p">:</span> <span class="n">current</span><span class="o">.</span><span class="n">fn</span><span class="p">,</span> <span class="s2">&quot;fa&quot;</span><span class="p">:</span> <span class="n">current</span><span class="o">.</span><span class="n">fa</span><span class="p">,</span> <span class="s2">&quot;fs&quot;</span><span class="p">:</span> <span class="n">current</span><span class="o">.</span><span class="n">fs</span><span class="p">}</span></div>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">"fn"</span><span class="p">:</span> <span class="n">current</span><span class="o">.</span><span class="n">fn</span><span class="p">,</span> <span class="s2">"fa"</span><span class="p">:</span> <span class="n">current</span><span class="o">.</span><span class="n">fa</span><span class="p">,</span> <span class="s2">"fs"</span><span class="p">:</span> <span class="n">current</span><span class="o">.</span><span class="n">fs</span><span class="p">}</span></div>
 
 
 
 <div class="viewcode-block" id="kwargs">
 <a class="viewcode-back" href="../../_autosummary/pyboxbuilder.precision.kwargs.html#pyboxbuilder.precision.kwargs">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">kwargs</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Shorthand for ``precision().kwargs()`` at a geometry call site.</span>
+<span class="w">    </span><span class="sd">"""Shorthand for ``precision().kwargs()`` at a geometry call site.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        The tessellation keyword arguments for the precision in force.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">return</span> <span class="n">precision</span><span class="p">()</span><span class="o">.</span><span class="n">kwargs</span><span class="p">()</span></div>
 
 
@@ -478,7 +478,7 @@
     <span class="n">fa</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">fs</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Precision</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Build geometry at a given curve precision for the duration of a block.</span>
+<span class="w">    </span><span class="sd">"""Build geometry at a given curve precision for the duration of a block.</span>
 
 <span class="sd">    Unspecified settings keep their current value, so ``use(fn=64)`` raises</span>
 <span class="sd">    the facet count without disturbing fa/fs.</span>
@@ -493,7 +493,7 @@
 
 <span class="sd">    Raises:</span>
 <span class="sd">        ValueError: If any setting is out of range (see :class:`Precision`).</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">base</span> <span class="o">=</span> <span class="n">precision</span><span class="p">()</span>
     <span class="n">active</span> <span class="o">=</span> <span class="n">Precision</span><span class="p">(</span>
         <span class="n">fn</span><span class="o">=</span><span class="n">fn</span> <span class="k">if</span> <span class="n">fn</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">base</span><span class="o">.</span><span class="n">fn</span><span class="p">,</span>

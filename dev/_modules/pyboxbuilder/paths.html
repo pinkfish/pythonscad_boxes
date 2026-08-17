@@ -297,13 +297,13 @@
 
 <h1>Source code for pyboxbuilder.paths</h1><div class="highlight"><pre>
 <span></span><code><span class="c1"># SPDX-License-Identifier: Apache-2.0</span>
-<span class="sd">&quot;&quot;&quot;Polygon helpers for the rectilinear outlines the packer produces.</span>
+<span class="sd">"""Polygon helpers for the rectilinear outlines the packer produces.</span>
 
 <span class="sd">Leftover space between axis-aligned boxes is always rectilinear — every edge</span>
 <span class="sd">runs along X or Y — which makes exact offsetting a few lines of arithmetic</span>
 <span class="sd">rather than a job for a general polygon-offset library. Both the spacer pass</span>
-<span class="sd">(clearance around a tray) and `PathBox` (a tray&#39;s inner cavity) need it.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">(clearance around a tray) and `PathBox` (a tray's inner cavity) need it.</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
@@ -318,7 +318,7 @@
 <div class="viewcode-block" id="polygon_area">
 <a class="viewcode-back" href="../../_autosummary/pyboxbuilder.paths.polygon_area.html#pyboxbuilder.paths.polygon_area">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">polygon_area</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Point</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Shoelace area of a closed outline.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Shoelace area of a closed outline."""</span>
     <span class="k">return</span> <span class="nb">abs</span><span class="p">(</span><span class="n">signed_area</span><span class="p">(</span><span class="n">path</span><span class="p">))</span> <span class="o">/</span> <span class="mi">2</span></div>
 
 
@@ -326,7 +326,7 @@
 <div class="viewcode-block" id="signed_area">
 <a class="viewcode-back" href="../../_autosummary/pyboxbuilder.paths.signed_area.html#pyboxbuilder.paths.signed_area">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">signed_area</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Point</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Twice the signed area — positive when the outline runs counter-clockwise.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Twice the signed area — positive when the outline runs counter-clockwise."""</span>
     <span class="n">total</span> <span class="o">=</span> <span class="mf">0.0</span>
     <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">x0</span><span class="p">,</span> <span class="n">y0</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
         <span class="n">x1</span><span class="p">,</span> <span class="n">y1</span> <span class="o">=</span> <span class="n">path</span><span class="p">[(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">path</span><span class="p">)]</span>
@@ -338,7 +338,7 @@
 <div class="viewcode-block" id="is_rectilinear">
 <a class="viewcode-back" href="../../_autosummary/pyboxbuilder.paths.is_rectilinear.html#pyboxbuilder.paths.is_rectilinear">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">is_rectilinear</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Point</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;True when every edge is axis-aligned.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""True when every edge is axis-aligned."""</span>
     <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">x0</span><span class="p">,</span> <span class="n">y0</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
         <span class="n">x1</span><span class="p">,</span> <span class="n">y1</span> <span class="o">=</span> <span class="n">path</span><span class="p">[(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">path</span><span class="p">)]</span>
         <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">x0</span> <span class="o">-</span> <span class="n">x1</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">EPSILON</span> <span class="ow">and</span> <span class="nb">abs</span><span class="p">(</span><span class="n">y0</span> <span class="o">-</span> <span class="n">y1</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">EPSILON</span><span class="p">:</span>
@@ -350,16 +350,16 @@
 <div class="viewcode-block" id="inset_rectilinear">
 <a class="viewcode-back" href="../../_autosummary/pyboxbuilder.paths.inset_rectilinear.html#pyboxbuilder.paths.inset_rectilinear">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">inset_rectilinear</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Point</span><span class="p">],</span> <span class="n">distance</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Pull a rectilinear outline inward by `distance`.</span>
+<span class="w">    </span><span class="sd">"""Pull a rectilinear outline inward by `distance`.</span>
 
 <span class="sd">    Every corner joins one horizontal and one vertical edge, so its new position</span>
-<span class="sd">    is the old one moved by `distance` along each incident edge&#39;s inward normal.</span>
+<span class="sd">    is the old one moved by `distance` along each incident edge's inward normal.</span>
 <span class="sd">    That is exact for convex and reflex corners alike — an L stays an L, with all</span>
 <span class="sd">    six of its sides moved in, which a centroid scale would not manage. A reflex</span>
-<span class="sd">    corner correctly moves *out* into the notch, keeping the arm&#39;s width right.</span>
+<span class="sd">    corner correctly moves *out* into the notch, keeping the arm's width right.</span>
 
 <span class="sd">    Which way is inward depends on the direction the outline is traversed, not on</span>
-<span class="sd">    where a corner&#39;s neighbours happen to sit, so the normals come from the</span>
+<span class="sd">    where a corner's neighbours happen to sit, so the normals come from the</span>
 <span class="sd">    directed edges: for a counter-clockwise ring, edge `(dx, dy)` points inward</span>
 <span class="sd">    along `(-dy, dx)`.</span>
 
@@ -369,7 +369,7 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        The inset outline, with the same number of points.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="n">distance</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">4</span><span class="p">:</span>
         <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
 
@@ -399,7 +399,7 @@
 <div class="viewcode-block" id="bounds">
 <a class="viewcode-back" href="../../_autosummary/pyboxbuilder.paths.bounds.html#pyboxbuilder.paths.bounds">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">bounds</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Point</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Point</span><span class="p">,</span> <span class="n">Point</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;(min corner, max corner) of an outline.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""(min corner, max corner) of an outline."""</span>
     <span class="n">xs</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">path</span><span class="p">]</span>
     <span class="n">ys</span> <span class="o">=</span> <span class="p">[</span><span class="n">y</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">path</span><span class="p">]</span>
     <span class="k">return</span> <span class="p">((</span><span class="nb">min</span><span class="p">(</span><span class="n">xs</span><span class="p">),</span> <span class="nb">min</span><span class="p">(</span><span class="n">ys</span><span class="p">)),</span> <span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">xs</span><span class="p">),</span> <span class="nb">max</span><span class="p">(</span><span class="n">ys</span><span class="p">)))</span></div>

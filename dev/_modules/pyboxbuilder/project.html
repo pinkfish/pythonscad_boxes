@@ -297,7 +297,7 @@
 
 <h1>Source code for pyboxbuilder.project</h1><div class="highlight"><pre>
 <span></span><code><span class="c1"># SPDX-License-Identifier: Apache-2.0</span>
-<span class="sd">&quot;&quot;&quot;Project class — top-level API entry point.</span>
+<span class="sd">"""Project class — top-level API entry point.</span>
 
 <span class="sd">**One build path.** :meth:`Project.build` resolves the layout and builds every</span>
 <span class="sd">body, lid and spacer. :meth:`Project.show` renders what it returns and</span>
@@ -306,7 +306,7 @@
 <span class="sd">structural rather than a convention, because the alternative was two copies of</span>
 <span class="sd">the build that drifted: the exported parts silently lost their rounding, their</span>
 <span class="sd">per-side wall tops and their interior masks while the preview kept all three.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
@@ -329,7 +329,7 @@
 <a class="viewcode-back" href="../../_autosummary/pyboxbuilder.project.Piece.html#pyboxbuilder.Piece">[docs]</a>
 <span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">Piece</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;One printable piece of a project.</span>
+<span class="w">    </span><span class="sd">"""One printable piece of a project.</span>
 
 <span class="sd">    Both :meth:`Project.show` and :meth:`Project.export` consume these, so a</span>
 <span class="sd">    piece previewed and the same piece printed are the same solid.</span>
@@ -338,40 +338,40 @@
 <span class="sd">    its label, its size, where it sits, and the description it would be built</span>
 <span class="sd">    from — is known without building it, and that is what decides whether an</span>
 <span class="sd">    export needs to write it at all (FR-031). Building eagerly meant a re-export</span>
-<span class="sd">    with nothing changed still paid for every box: 15 of Emberleaf&#39;s 21 seconds</span>
+<span class="sd">    with nothing changed still paid for every box: 15 of Emberleaf's 21 seconds</span>
 <span class="sd">    at draft precision, and minutes at the 256 facets an export actually uses,</span>
 <span class="sd">    all spent on geometry the fingerprint was about to discard.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="n">label</span><span class="p">:</span> <span class="nb">str</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;The box label this piece belongs to; a lid keeps its body&#39;s label.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""The box label this piece belongs to; a lid keeps its body's label."""</span>
     <span class="n">kind</span><span class="p">:</span> <span class="nb">str</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;One of ``&quot;body&quot;``, ``&quot;lid&quot;`` or ``&quot;spacer&quot;``.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""One of ``"body"``, ``"lid"`` or ``"spacer"``."""</span>
     <span class="n">size</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;The piece&#39;s declared ``(width, length, height)`` in mm.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""The piece's declared ``(width, length, height)`` in mm."""</span>
     <span class="n">position</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Where the piece sits inside the game box, in mm.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Where the piece sits inside the game box, in mm."""</span>
     <span class="n">_build</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[],</span> <span class="n">Any</span> <span class="o">|</span> <span class="kc">None</span><span class="p">]</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Builds this piece&#39;s geometry. Call :attr:`solid` rather than this.&quot;&quot;&quot;</span>
-    <span class="n">builder</span><span class="p">:</span> <span class="s2">&quot;BoxBuilder | None&quot;</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;The box builder this piece came from; ``None`` for a spacer tray.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Builds this piece's geometry. Call :attr:`solid` rather than this."""</span>
+    <span class="n">builder</span><span class="p">:</span> <span class="s2">"BoxBuilder | None"</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">"""The box builder this piece came from; ``None`` for a spacer tray."""</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">solid</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;The built geometry, in the piece&#39;s own local frame.</span>
+<span class="w">        </span><span class="sd">"""The built geometry, in the piece's own local frame.</span>
 
 <span class="sd">        Built on first use and kept, so asking twice costs once. ``None`` when</span>
 <span class="sd">        the geometry backend was unavailable.</span>
 
 <span class="sd">        Typed loosely because pybosl2 ships no `py.typed`, so a solid is</span>
 <span class="sd">        untyped from here on however it is declared.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_build</span><span class="p">()</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">is_spacer</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;True when this piece is an auto-generated spacer tray.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">kind</span> <span class="o">==</span> <span class="s2">&quot;spacer&quot;</span></div>
+<span class="w">        </span><span class="sd">"""True when this piece is an auto-generated spacer tray."""</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">kind</span> <span class="o">==</span> <span class="s2">"spacer"</span></div>
 
 
 
@@ -379,23 +379,23 @@
 <a class="viewcode-back" href="../../_autosummary/pyboxbuilder.project.ResolvedBox.html#pyboxbuilder.ResolvedBox">[docs]</a>
 <span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">ResolvedBox</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;A box after validation and layout, before any geometry is cut.</span>
+<span class="w">    </span><span class="sd">"""A box after validation and layout, before any geometry is cut.</span>
 
 <span class="sd">    Split out so the checks run when the project is built and the CSG runs when</span>
 <span class="sd">    something asks for it: a project that cannot be built must say so at</span>
 <span class="sd">    :meth:`Project.build`, not later, when a caller happens to touch a solid.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
-    <span class="n">builder</span><span class="p">:</span> <span class="s2">&quot;BoxBuilder&quot;</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;The box this came from.&quot;&quot;&quot;</span>
+    <span class="n">builder</span><span class="p">:</span> <span class="s2">"BoxBuilder"</span>
+<span class="w">    </span><span class="sd">"""The box this came from."""</span>
     <span class="n">box</span><span class="p">:</span> <span class="n">Any</span> <span class="o">|</span> <span class="kc">None</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Its type implementation, or ``None`` for a type with no geometry.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Its type implementation, or ``None`` for a type with no geometry."""</span>
     <span class="n">spec</span><span class="p">:</span> <span class="n">Any</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;The :class:`~pyboxbuilder.box.spec.BoxSpec` it will be built from.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""The :class:`~pyboxbuilder.box.spec.BoxSpec` it will be built from."""</span>
     <span class="n">interior</span><span class="p">:</span> <span class="n">Any</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Its interior frame.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Its interior frame."""</span>
     <span class="n">compartments</span><span class="p">:</span> <span class="n">Any</span> <span class="o">|</span> <span class="kc">None</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;The resolved compartment layout, or ``None`` when it has none.&quot;&quot;&quot;</span></div>
+<span class="w">    </span><span class="sd">"""The resolved compartment layout, or ``None`` when it has none."""</span></div>
 
 
 
@@ -403,17 +403,17 @@
 <a class="viewcode-back" href="../../_autosummary/pyboxbuilder.project.Build.html#pyboxbuilder.Build">[docs]</a>
 <span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">Build</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Everything a project resolves to: its pieces and its packing.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Everything a project resolves to: its pieces and its packing."""</span>
 
     <span class="n">pieces</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Piece</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Every body, lid and spacer, in project order.&quot;&quot;&quot;</span>
-    <span class="n">packing</span><span class="p">:</span> <span class="s2">&quot;BoxPacking | None&quot;</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;The resolved :class:`BoxPacking`, or ``None`` for a standalone project.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Every body, lid and spacer, in project order."""</span>
+    <span class="n">packing</span><span class="p">:</span> <span class="s2">"BoxPacking | None"</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">"""The resolved :class:`BoxPacking`, or ``None`` for a standalone project."""</span>
 
 <div class="viewcode-block" id="Build.of_kind">
 <a class="viewcode-back" href="../../_autosummary/pyboxbuilder.project.Build.html#pyboxbuilder.Build.of_kind">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">of_kind</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">kinds</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Piece</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;The pieces whose ``kind`` is any of ``kinds``.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""The pieces whose ``kind`` is any of ``kinds``."""</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">p</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">pieces</span> <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">kind</span> <span class="ow">in</span> <span class="n">kinds</span><span class="p">]</span></div>
 </div>
 
@@ -423,7 +423,7 @@
 <a class="viewcode-back" href="../../_autosummary/pyboxbuilder.project.Project.html#pyboxbuilder.Project">[docs]</a>
 <span class="nd">@dataclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">Project</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Top-level game insert description.</span>
+<span class="w">    </span><span class="sd">"""Top-level game insert description.</span>
 
 <span class="sd">    The single-import entry point for defining a board game insert.</span>
 
@@ -432,67 +432,67 @@
 
 <span class="sd">        .. pythonscad-example::</span>
 
-<span class="sd">            p = Project(&quot;Cards&quot;, game_box_size=(300, 300, 80))</span>
-<span class="sd">            p.box(BoxType.SLIDING, &quot;Cards&quot;, size=(120, 70, 50))</span>
-<span class="sd">            p.box(BoxType.NO_LID, &quot;Tokens&quot;, size=(80, 60, 30))</span>
+<span class="sd">            p = Project("Cards", game_box_size=(300, 300, 80))</span>
+<span class="sd">            p.box(BoxType.SLIDING, "Cards", size=(120, 70, 50))</span>
+<span class="sd">            p.box(BoxType.NO_LID, "Tokens", size=(80, 60, 30))</span>
 <span class="sd">            p.show()</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Game name; becomes the output subdirectory.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Game name; becomes the output subdirectory."""</span>
     <span class="n">game_box_size</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Outer game box dimensions [W, L, H] in mm. None = standalone boxes (no game box).&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Outer game box dimensions [W, L, H] in mm. None = standalone boxes (no game box)."""</span>
     <span class="n">wall_thickness</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">2.0</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Default wall thickness for all sub-boxes.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Default wall thickness for all sub-boxes."""</span>
     <span class="n">floor_thickness</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.6</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Default floor thickness.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Default floor thickness."""</span>
     <span class="n">lid_thickness</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">2.0</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Default lid thickness.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Default lid thickness."""</span>
     <span class="n">rounding</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Edge radius for every box&#39;s exposed edges (FR-043/FR-044).</span>
+<span class="w">    </span><span class="sd">"""Edge radius for every box's exposed edges (FR-043/FR-044).</span>
 
 <span class="sd">    ``None`` derives it per box as ``wall_thickness / 2``. ``0`` leaves</span>
 <span class="sd">    every edge square.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">inner_rounding</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Edge radius where a partial lid grips the body (FR-044b).</span>
+<span class="w">    </span><span class="sd">"""Edge radius where a partial lid grips the body (FR-044b).</span>
 
-<span class="sd">    Applies to a cap&#39;s band and skirt cavity, and a slipover&#39;s body and sleeve</span>
+<span class="sd">    Applies to a cap's band and skirt cavity, and a slipover's body and sleeve</span>
 <span class="sd">    cavity — both halves of the grip, so they nest. ``None`` derives it as half</span>
 <span class="sd">    the outer radius.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">gap_threshold</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">10.0</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Gaps &lt;= this are absorbed by adjacent boxes.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Gaps &lt;= this are absorbed by adjacent boxes."""</span>
     <span class="n">min_spacer_dim</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">15.0</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Minimum spacer width/length before absorption.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Minimum spacer width/length before absorption."""</span>
     <span class="n">min_spacer_height</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">5.0</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;A spacer tray thinner than this on any axis is dropped as unprintable (FR-014).&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""A spacer tray thinner than this on any axis is dropped as unprintable (FR-014)."""</span>
     <span class="n">clearance_slack</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Clearance slack on each side of the game box in the X/Y directions (mm).&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Clearance slack on each side of the game box in the X/Y directions (mm)."""</span>
     <span class="n">board_thickness</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Thickness of the game board (mm).</span>
+<span class="w">    </span><span class="sd">"""Thickness of the game board (mm).</span>
 
 <span class="sd">    Reserved at the TOP of the box: the board sits on top of the sub-boxes and</span>
-<span class="sd">    is the first thing out, so this is not a spacer gap.&quot;&quot;&quot;</span>
+<span class="sd">    is the first thing out, so this is not a spacer gap."""</span>
     <span class="n">generate_spacers</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Whether to automatically generate spacer boxes/trays to fill layout gaps.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Whether to automatically generate spacer boxes/trays to fill layout gaps."""</span>
     <span class="n">box_defaults</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Defaults applied to every :meth:`box` call that does not say otherwise.</span>
+<span class="w">    </span><span class="sd">"""Defaults applied to every :meth:`box` call that does not say otherwise.</span>
 
 <span class="sd">    Every keyword :meth:`box` accepts may be given here once instead of on each</span>
 <span class="sd">    box — ``wall_thickness``, ``no_rotate``, ``color`` and the rest. An insert</span>
 <span class="sd">    whose boxes all share a wall thickness or all decline rotation says so once</span>
 <span class="sd">    (FR-000b)::</span>
 
-<span class="sd">        Project(&quot;Earth&quot;, ..., box_defaults={&quot;wall_thickness&quot;: 3.0})</span>
+<span class="sd">        Project("Earth", ..., box_defaults={"wall_thickness": 3.0})</span>
 
 <span class="sd">    A value passed to :meth:`box` always wins over the default.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="n">_boxes</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">BoxBuilder</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">list</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
     <span class="n">_shared_groups</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">list</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
     <span class="n">piece_bounds</span><span class="p">:</span> <span class="nb">tuple</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">tuple</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Bounding box of every exported piece, populated by `export()` (FR-027).&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Bounding box of every exported piece, populated by `export()` (FR-027)."""</span>
 
 <div class="viewcode-block" id="Project.box">
 <a class="viewcode-back" href="../../_autosummary/pyboxbuilder.project.Project.html#pyboxbuilder.Project.box">[docs]</a>
@@ -504,18 +504,18 @@
         <span class="n">size</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BoxBuilder</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add a sub-box to the project.</span>
+<span class="w">        </span><span class="sd">"""Add a sub-box to the project.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            box_type: Which lid mechanism the box uses. Selects the builder</span>
 <span class="sd">                class, so the type-specific keywords available here follow from</span>
 <span class="sd">                it.</span>
-<span class="sd">            label: The box&#39;s name; used for file naming and by</span>
+<span class="sd">            label: The box's name; used for file naming and by</span>
 <span class="sd">                :meth:`arrange`.</span>
 <span class="sd">            size: ``(width, length, height)`` in mm. ``None`` derives it from</span>
 <span class="sd">                the compartments.</span>
-<span class="sd">            **kwargs: Any field of the box&#39;s builder. Anything not given falls</span>
-<span class="sd">                back to :attr:`box_defaults`, then to the field&#39;s own default.</span>
+<span class="sd">            **kwargs: Any field of the box's builder. Anything not given falls</span>
+<span class="sd">                back to :attr:`box_defaults`, then to the field's own default.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            The type-specific :class:`BoxBuilder`, already registered on the</span>
@@ -530,10 +530,10 @@
 
 <span class="sd">            .. pythonscad-example::</span>
 
-<span class="sd">                p = Project(&quot;Cards&quot;, game_box_size=(300, 300, 80))</span>
-<span class="sd">                p.box(BoxType.SLIDING, &quot;Cards&quot;, size=(120, 70, 50))</span>
-<span class="sd">                p.show(only=&quot;Cards&quot;)</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">                p = Project("Cards", game_box_size=(300, 300, 80))</span>
+<span class="sd">                p.box(BoxType.SLIDING, "Cards", size=(120, 70, 50))</span>
+<span class="sd">                p.show(only="Cards")</span>
+<span class="sd">        """</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.registry</span><span class="w"> </span><span class="kn">import</span> <span class="n">BOX_TYPE_REGISTRY</span>
 
         <span class="n">builder_cls</span> <span class="o">=</span> <span class="n">BOX_TYPE_REGISTRY</span><span class="p">[</span><span class="n">box_type</span><span class="p">]</span>
@@ -541,7 +541,7 @@
         <span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">fields</span> <span class="k">as</span> <span class="n">dataclass_fields</span>
 
         <span class="n">known</span> <span class="o">=</span> <span class="p">{</span><span class="n">f</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">dataclass_fields</span><span class="p">(</span><span class="n">builder_cls</span><span class="p">)}</span>
-        <span class="n">values</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;size&quot;</span><span class="p">:</span> <span class="n">size</span><span class="p">}</span>
+        <span class="n">values</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"size"</span><span class="p">:</span> <span class="n">size</span><span class="p">}</span>
         <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">box_defaults</span> <span class="ow">or</span> <span class="p">{})</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">known</span><span class="p">:</span>
                 <span class="n">values</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
@@ -549,10 +549,10 @@
 
         <span class="n">unknown</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">values</span><span class="p">)</span> <span class="o">-</span> <span class="n">known</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">unknown</span><span class="p">:</span>
-            <span class="n">valid</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">known</span><span class="p">))</span>
+            <span class="n">valid</span> <span class="o">=</span> <span class="s2">", "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">known</span><span class="p">))</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">builder_cls</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> has no field(s) </span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">unknown</span><span class="p">)</span><span class="si">}</span><span class="s2">. &quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;Valid fields: </span><span class="si">{</span><span class="n">valid</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">builder_cls</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> has no field(s) </span><span class="si">{</span><span class="s1">', '</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">unknown</span><span class="p">)</span><span class="si">}</span><span class="s2">. "</span>
+                <span class="sa">f</span><span class="s2">"Valid fields: </span><span class="si">{</span><span class="n">valid</span><span class="si">}</span><span class="s2">"</span>
             <span class="p">)</span>
 
         <span class="n">builder</span> <span class="o">=</span> <span class="n">builder_cls</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span> <span class="o">**</span><span class="n">values</span><span class="p">)</span>
@@ -563,19 +563,19 @@
 <div class="viewcode-block" id="Project.arrange">
 <a class="viewcode-back" href="../../_autosummary/pyboxbuilder.project.Project.html#pyboxbuilder.Project.arrange">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">arrange</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">layout</span><span class="p">,</span> <span class="n">origin</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Position boxes from a declarative layout tree (T186).</span>
+<span class="w">        </span><span class="sd">"""Position boxes from a declarative layout tree (T186).</span>
 
 <span class="sd">        The alternative to hand-typed coordinates for densely packed inserts,</span>
 <span class="sd">        where the packer cannot help: describe the structure with</span>
 <span class="sd">        `columns`/`rows`/`stack` and let the sizes decide the positions.</span>
 
 <span class="sd">        A box placed here is placed, so it is neither expanded nor rotated by</span>
-<span class="sd">        the packer — the arrangement&#39;s arithmetic assumed the size it was given</span>
+<span class="sd">        the packer — the arrangement's arithmetic assumed the size it was given</span>
 <span class="sd">        (FR-013c).</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            layout: A `pyboxbuilder.layout` group, or a single box label.</span>
-<span class="sd">            origin: Where the arrangement&#39;s minimum corner goes.</span>
+<span class="sd">            origin: Where the arrangement's minimum corner goes.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            The `Arrangement`, so a caller can inspect the resolved extent.</span>
@@ -584,13 +584,13 @@
 <span class="sd">            LayoutError: If the tree names an unknown box or places one twice.</span>
 <span class="sd">            ValueError: If a named box has no explicit size, or the arrangement</span>
 <span class="sd">                does not fit the game box.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.layout</span><span class="w"> </span><span class="kn">import</span> <span class="n">LayoutError</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.layout</span><span class="w"> </span><span class="kn">import</span> <span class="n">arrange</span> <span class="k">as</span> <span class="n">resolve</span>
 
         <span class="c1"># Size every box first, including the ones sized from their contents.</span>
         <span class="c1"># Those used to be skipped here, and the arrangement then reported them</span>
-        <span class="c1"># as &quot;not in the project&quot; — so a box described by what goes in it,</span>
+        <span class="c1"># as "not in the project" — so a box described by what goes in it,</span>
         <span class="c1"># which is how the library asks you to describe one, could not be</span>
         <span class="c1"># arranged at all.</span>
         <span class="n">sizes</span> <span class="o">=</span> <span class="p">{</span><span class="n">b</span><span class="o">.</span><span class="n">label</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_min_size</span><span class="p">(</span><span class="n">b</span><span class="p">)</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_boxes</span><span class="p">}</span>
@@ -599,15 +599,15 @@
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">game_box_size</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">arrangement</span><span class="o">.</span><span class="n">fits</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">game_box_size</span><span class="p">):</span>
             <span class="k">raise</span> <span class="n">LayoutError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Arrangement is </span><span class="si">{</span><span class="n">arrangement</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> x &quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">arrangement</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> x </span><span class="si">{</span><span class="n">arrangement</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> mm, &quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;which does not fit the </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">game_box_size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> x &quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">game_box_size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> x </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">game_box_size</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> mm game box.&quot;</span>
+                <span class="sa">f</span><span class="s2">"Arrangement is </span><span class="si">{</span><span class="n">arrangement</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> x "</span>
+                <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">arrangement</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> x </span><span class="si">{</span><span class="n">arrangement</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> mm, "</span>
+                <span class="sa">f</span><span class="s2">"which does not fit the </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">game_box_size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> x "</span>
+                <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">game_box_size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> x </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">game_box_size</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> mm game box."</span>
             <span class="p">)</span>
 
         <span class="n">by_label</span> <span class="o">=</span> <span class="p">{</span><span class="n">b</span><span class="o">.</span><span class="n">label</span><span class="p">:</span> <span class="n">b</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_boxes</span><span class="p">}</span>
         <span class="k">for</span> <span class="n">label</span><span class="p">,</span> <span class="n">position</span> <span class="ow">in</span> <span class="n">arrangement</span><span class="o">.</span><span class="n">positions</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="n">by_label</span><span class="p">[</span><span class="n">label</span><span class="p">],</span> <span class="s2">&quot;position&quot;</span><span class="p">,</span> <span class="n">position</span><span class="p">)</span>
+            <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="n">by_label</span><span class="p">[</span><span class="n">label</span><span class="p">],</span> <span class="s2">"position"</span><span class="p">,</span> <span class="n">position</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">arrangement</span></div>
 
 
@@ -616,15 +616,15 @@
 <div class="viewcode-block" id="Project.build">
 <a class="viewcode-back" href="../../_autosummary/pyboxbuilder.project.Project.html#pyboxbuilder.Project.build">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">build</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Build</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Resolve the layout and describe every piece of this project.</span>
+<span class="w">        </span><span class="sd">"""Resolve the layout and describe every piece of this project.</span>
 
 <span class="sd">        The one build path. :meth:`show` renders what this returns and</span>
 <span class="sd">        :meth:`export` writes it, so a previewed part and a printed part are</span>
 <span class="sd">        the same solid — there is no second assembly of the geometry for one of</span>
 <span class="sd">        them to fall behind in.</span>
 
-<span class="sd">        Resolving the layout is eager, because every piece&#39;s size and position</span>
-<span class="sd">        depend on every other&#39;s. The **geometry** is built per piece on first</span>
+<span class="sd">        Resolving the layout is eager, because every piece's size and position</span>
+<span class="sd">        depend on every other's. The **geometry** is built per piece on first</span>
 <span class="sd">        use (:attr:`Piece.solid`), so a caller that only needs some of it — an</span>
 <span class="sd">        export skipping the boxes whose description has not changed, a preview</span>
 <span class="sd">        of one box — pays for what it asks for.</span>
@@ -638,7 +638,7 @@
 <span class="sd">                compartments, if its compartments overflow its interior, or if</span>
 <span class="sd">                its compartment ratios overflow.</span>
 <span class="sd">            PackingError: If the boxes cannot be packed into the game box.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_resolve_shared_compartments</span><span class="p">()</span>
 
         <span class="n">pieces</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Piece</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
@@ -669,7 +669,7 @@
             <span class="n">pieces</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
                 <span class="n">Piece</span><span class="p">(</span>
                     <span class="n">label</span><span class="o">=</span><span class="n">spacer</span><span class="o">.</span><span class="n">label</span><span class="p">,</span>
-                    <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;spacer&quot;</span><span class="p">,</span>
+                    <span class="n">kind</span><span class="o">=</span><span class="s2">"spacer"</span><span class="p">,</span>
                     <span class="n">size</span><span class="o">=</span><span class="nb">tuple</span><span class="p">(</span><span class="n">spacer</span><span class="o">.</span><span class="n">size</span><span class="p">),</span>
                     <span class="n">position</span><span class="o">=</span><span class="nb">tuple</span><span class="p">(</span><span class="n">spacer</span><span class="o">.</span><span class="n">position</span><span class="p">),</span>
                     <span class="n">_build</span><span class="o">=</span><span class="n">cache</span><span class="p">(</span><span class="n">partial</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_build_spacer_solid</span><span class="p">,</span> <span class="n">spacer</span><span class="p">)),</span>
@@ -680,13 +680,13 @@
 
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_box_pieces</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">builder</span><span class="p">,</span> <span class="n">at</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Piece</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;The body and lid pieces for one box, at the position it packs to.</span>
+<span class="w">        </span><span class="sd">"""The body and lid pieces for one box, at the position it packs to.</span>
 
 <span class="sd">        The two share one build — a box type makes its body and its lid from</span>
 <span class="sd">        the same measurements, and doing it twice would let them disagree — so</span>
 <span class="sd">        the shared call is memoised and each piece takes its half of the result.</span>
 <span class="sd">        Neither runs until something asks for the geometry.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">size</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">final_size</span>
         <span class="c1"># Validate now, build later: a project that cannot be built says so</span>
         <span class="c1"># when it is built, and only the CSG waits to be asked for.</span>
@@ -694,32 +694,32 @@
         <span class="n">build_once</span> <span class="o">=</span> <span class="n">cache</span><span class="p">(</span><span class="n">partial</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_build_box_solids</span><span class="p">,</span> <span class="n">builder</span><span class="p">))</span>
 
         <span class="n">pieces</span> <span class="o">=</span> <span class="p">[</span>
-            <span class="n">Piece</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="n">builder</span><span class="o">.</span><span class="n">label</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;body&quot;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">,</span> <span class="n">position</span><span class="o">=</span><span class="n">at</span><span class="p">,</span>
+            <span class="n">Piece</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="n">builder</span><span class="o">.</span><span class="n">label</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"body"</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">,</span> <span class="n">position</span><span class="o">=</span><span class="n">at</span><span class="p">,</span>
                   <span class="n">builder</span><span class="o">=</span><span class="n">builder</span><span class="p">,</span> <span class="n">_build</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="n">build_once</span><span class="p">()[</span><span class="mi">0</span><span class="p">])</span>
         <span class="p">]</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_has_lid</span><span class="p">(</span><span class="n">builder</span><span class="p">):</span>
             <span class="n">pieces</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-                <span class="n">Piece</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="n">builder</span><span class="o">.</span><span class="n">label</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;lid&quot;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">,</span> <span class="n">position</span><span class="o">=</span><span class="n">at</span><span class="p">,</span>
+                <span class="n">Piece</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="n">builder</span><span class="o">.</span><span class="n">label</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"lid"</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">,</span> <span class="n">position</span><span class="o">=</span><span class="n">at</span><span class="p">,</span>
                       <span class="n">builder</span><span class="o">=</span><span class="n">builder</span><span class="p">,</span> <span class="n">_build</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="n">build_once</span><span class="p">()[</span><span class="mi">1</span><span class="p">])</span>
             <span class="p">)</span>
         <span class="k">return</span> <span class="n">pieces</span>
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">_has_lid</span><span class="p">(</span><span class="n">builder</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;True when this box type produces a lid file at all.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""True when this box type produces a lid file at all."""</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.registry</span><span class="w"> </span><span class="kn">import</span> <span class="n">LIDLESS_BOX_TYPES</span>
 
         <span class="k">return</span> <span class="n">builder</span><span class="o">.</span><span class="n">box_type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">LIDLESS_BOX_TYPES</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_resolve_shared_compartments</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Partition each shared compartment group across its boxes (FR-008a).</span>
+<span class="w">        </span><span class="sd">"""Partition each shared compartment group across its boxes (FR-008a).</span>
 
 <span class="sd">        Runs before anything is sized, so a preview and an export see the same</span>
 <span class="sd">        compartments in the same boxes.</span>
 
 <span class="sd">        Raises:</span>
 <span class="sd">            ValueError: If a group cannot be partitioned across its boxes.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.builders._base</span><span class="w"> </span><span class="kn">import</span> <span class="n">Cut</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.compartments.builder</span><span class="w"> </span><span class="kn">import</span> <span class="n">CompartmentBuilder</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.compartments.layout</span><span class="w"> </span><span class="kn">import</span> <span class="n">pack_compartments_across_bins</span>
@@ -742,11 +742,11 @@
             <span class="n">packed_bins</span> <span class="o">=</span> <span class="n">pack_compartments_across_bins</span><span class="p">(</span><span class="n">comps</span><span class="p">,</span> <span class="n">bin_sizes</span><span class="p">)</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">packed_bins</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">&quot;Failed to partition shared compartments across boxes: </span><span class="si">{</span><span class="n">box_labels</span><span class="si">}</span><span class="s2">&quot;</span>
+                    <span class="sa">f</span><span class="s2">"Failed to partition shared compartments across boxes: </span><span class="si">{</span><span class="n">box_labels</span><span class="si">}</span><span class="s2">"</span>
                 <span class="p">)</span>
 
             <span class="k">for</span> <span class="n">b</span><span class="p">,</span> <span class="n">bin_items</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">builders</span><span class="p">,</span> <span class="n">packed_bins</span><span class="p">):</span>
-                <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="s2">&quot;compartments&quot;</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">(</span>
+                <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="s2">"compartments"</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">(</span>
                     <span class="n">CompartmentBuilder</span><span class="p">(</span>
                         <span class="n">label</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">l</span><span class="p">),</span> <span class="n">depth</span><span class="o">=</span><span class="n">d</span><span class="p">,</span>
                         <span class="n">cut</span><span class="o">=</span><span class="n">Cut</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="n">FingerCut</span><span class="o">.</span><span class="n">THROUGH_FLOOR</span><span class="p">,</span> <span class="n">side</span><span class="o">=</span><span class="n">ScoopSide</span><span class="o">.</span><span class="n">FRONT</span><span class="p">),</span>
@@ -755,11 +755,11 @@
                 <span class="p">))</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_by_label</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;The builder with this label, or ``None``.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""The builder with this label, or ``None``."""</span>
         <span class="k">return</span> <span class="nb">next</span><span class="p">((</span><span class="n">b</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_boxes</span> <span class="k">if</span> <span class="n">b</span><span class="o">.</span><span class="n">label</span> <span class="o">==</span> <span class="n">label</span><span class="p">),</span> <span class="kc">None</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_selected</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">only</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">set</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Which box labels a caller asked for, checked against the project.</span>
+<span class="w">        </span><span class="sd">"""Which box labels a caller asked for, checked against the project.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            only: One label, several, or ``None`` for all of them.</span>
@@ -772,7 +772,7 @@
 <span class="sd">                would look exactly like a box that failed to build — an empty</span>
 <span class="sd">                preview, or an export that wrote nothing — with nothing to say</span>
 <span class="sd">                which it was.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="n">only</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">None</span>
         <span class="n">wanted</span> <span class="o">=</span> <span class="p">{</span><span class="n">only</span><span class="p">}</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">only</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">else</span> <span class="nb">set</span><span class="p">(</span><span class="n">only</span><span class="p">)</span>
@@ -781,8 +781,8 @@
         <span class="n">unknown</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">wanted</span> <span class="o">-</span> <span class="n">known</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">unknown</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Project &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39; has no box(es) named &quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">unknown</span><span class="p">)</span><span class="si">}</span><span class="s2">. It has: </span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">known</span><span class="p">))</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="sa">f</span><span class="s2">"Project '</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">' has no box(es) named "</span>
+                <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="s1">', '</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">unknown</span><span class="p">)</span><span class="si">}</span><span class="s2">. It has: </span><span class="si">{</span><span class="s1">', '</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">known</span><span class="p">))</span><span class="si">}</span><span class="s2">"</span>
             <span class="p">)</span>
         <span class="k">return</span> <span class="n">wanted</span>
 
@@ -800,7 +800,7 @@
         <span class="n">fa</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">fs</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Preview the packed box layout interactively.</span>
+<span class="w">        </span><span class="sd">"""Preview the packed box layout interactively.</span>
 
 <span class="sd">        Renders exactly what :meth:`export` writes — same build, same geometry</span>
 <span class="sd">        — as separate solids at their packed positions. Each box is shown as</span>
@@ -814,7 +814,7 @@
 <span class="sd">            show_lids: Place each lid in its seated position as well. Off by</span>
 <span class="sd">                default because lids cover the compartments and their</span>
 <span class="sd">                neighbours. A shown lid carries its decoration and is drawn</span>
-<span class="sd">                semi-transparent in a lighter shade of its box&#39;s colour so it</span>
+<span class="sd">                semi-transparent in a lighter shade of its box's colour so it</span>
 <span class="sd">                reads as a separate piece.</span>
 <span class="sd">            remove_layers: Omit the top N vertical layers of the packed</span>
 <span class="sd">                layout, revealing what sits underneath — the live equivalent</span>
@@ -838,7 +838,7 @@
 <span class="sd">            ValueError: If ``remove_layers`` is negative, ``only`` names a box</span>
 <span class="sd">                this project does not have, or a precision setting is out of</span>
 <span class="sd">                range.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.precision</span><span class="w"> </span><span class="kn">import</span> <span class="n">use</span>
 
         <span class="k">with</span> <span class="n">use</span><span class="p">(</span><span class="n">fn</span><span class="o">=</span><span class="n">fn</span><span class="p">,</span> <span class="n">fa</span><span class="o">=</span><span class="n">fa</span><span class="p">,</span> <span class="n">fs</span><span class="o">=</span><span class="n">fs</span><span class="p">):</span>
@@ -865,7 +865,7 @@
         <span class="n">only</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">lids_only</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Build the list of separately-coloured solids :meth:`show` renders.</span>
+<span class="w">        </span><span class="sd">"""Build the list of separately-coloured solids :meth:`show` renders.</span>
 
 <span class="sd">        Public because it is the cheap way to exercise the geometry: it packs</span>
 <span class="sd">        the layout and builds every body, lid and spacer, but writes nothing</span>
@@ -874,7 +874,7 @@
 <span class="sd">        its time tessellating 3MFs no one is going to print.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            show_lids: Include each box&#39;s lid, lightened and semi-transparent.</span>
+<span class="sd">            show_lids: Include each box's lid, lightened and semi-transparent.</span>
 <span class="sd">            remove_layers: Number of top layers to omit.</span>
 <span class="sd">            only: Restrict to these box labels.</span>
 <span class="sd">            lids_only: Leave the bodies out; implies ``show_lids``.</span>
@@ -886,7 +886,7 @@
 <span class="sd">        Raises:</span>
 <span class="sd">            ValueError: If ``remove_layers`` is negative, or ``only`` names a</span>
 <span class="sd">                box this project does not have.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.preview</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
             <span class="n">PreviewPiece</span><span class="p">,</span>
             <span class="n">lid_color</span><span class="p">,</span>
@@ -896,42 +896,42 @@
         <span class="p">)</span>
 
         <span class="k">if</span> <span class="n">remove_layers</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;remove_layers must be &gt;= 0; got </span><span class="si">{</span><span class="n">remove_layers</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"remove_layers must be &gt;= 0; got </span><span class="si">{</span><span class="n">remove_layers</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
         <span class="n">wanted</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_selected</span><span class="p">(</span><span class="n">only</span><span class="p">)</span>
         <span class="n">show_lids</span> <span class="o">=</span> <span class="n">show_lids</span> <span class="ow">or</span> <span class="n">lids_only</span>
 
         <span class="n">build</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">build</span><span class="p">()</span>
-        <span class="n">bodies_and_spacers</span> <span class="o">=</span> <span class="n">build</span><span class="o">.</span><span class="n">of_kind</span><span class="p">(</span><span class="s2">&quot;body&quot;</span><span class="p">,</span> <span class="s2">&quot;spacer&quot;</span><span class="p">)</span>
+        <span class="n">bodies_and_spacers</span> <span class="o">=</span> <span class="n">build</span><span class="o">.</span><span class="n">of_kind</span><span class="p">(</span><span class="s2">"body"</span><span class="p">,</span> <span class="s2">"spacer"</span><span class="p">)</span>
         <span class="n">kept</span> <span class="o">=</span> <span class="p">{</span><span class="n">p</span><span class="o">.</span><span class="n">label</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">remove_top_layers</span><span class="p">(</span><span class="n">bodies_and_spacers</span><span class="p">,</span> <span class="n">remove_layers</span><span class="p">)}</span>
         <span class="k">if</span> <span class="n">wanted</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">kept</span> <span class="o">&amp;=</span> <span class="n">wanted</span>
 
-        <span class="k">def</span><span class="w"> </span><span class="nf">colour_for</span><span class="p">(</span><span class="n">piece</span><span class="p">:</span> <span class="n">Piece</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Color&quot;</span><span class="p">:</span>
-<span class="w">            </span><span class="sd">&quot;&quot;&quot;A box&#39;s own colour when it declares one, else a stable hue.&quot;&quot;&quot;</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">colour_for</span><span class="p">(</span><span class="n">piece</span><span class="p">:</span> <span class="n">Piece</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Color"</span><span class="p">:</span>
+<span class="w">            </span><span class="sd">"""A box's own colour when it declares one, else a stable hue."""</span>
             <span class="k">if</span> <span class="n">piece</span><span class="o">.</span><span class="n">is_spacer</span><span class="p">:</span>
                 <span class="k">return</span> <span class="n">spacer_color</span><span class="p">(</span><span class="n">piece</span><span class="o">.</span><span class="n">label</span><span class="p">)</span>
-            <span class="n">declared</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">piece</span><span class="o">.</span><span class="n">builder</span><span class="p">,</span> <span class="s2">&quot;color&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="n">declared</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">piece</span><span class="o">.</span><span class="n">builder</span><span class="p">,</span> <span class="s2">"color"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">declared</span> <span class="k">if</span> <span class="n">declared</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">stable_color</span><span class="p">(</span><span class="n">piece</span><span class="o">.</span><span class="n">label</span><span class="p">)</span>
 
         <span class="n">out</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">PreviewPiece</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">piece</span> <span class="ow">in</span> <span class="n">build</span><span class="o">.</span><span class="n">pieces</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">piece</span><span class="o">.</span><span class="n">label</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kept</span><span class="p">:</span>
                 <span class="k">continue</span>
-            <span class="k">if</span> <span class="n">piece</span><span class="o">.</span><span class="n">kind</span> <span class="o">==</span> <span class="s2">&quot;lid&quot;</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">show_lids</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">piece</span><span class="o">.</span><span class="n">kind</span> <span class="o">==</span> <span class="s2">"lid"</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">show_lids</span><span class="p">:</span>
                 <span class="k">continue</span>
-            <span class="k">if</span> <span class="n">piece</span><span class="o">.</span><span class="n">kind</span> <span class="o">!=</span> <span class="s2">&quot;lid&quot;</span> <span class="ow">and</span> <span class="n">lids_only</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">piece</span><span class="o">.</span><span class="n">kind</span> <span class="o">!=</span> <span class="s2">"lid"</span> <span class="ow">and</span> <span class="n">lids_only</span><span class="p">:</span>
                 <span class="k">continue</span>
             <span class="k">if</span> <span class="n">piece</span><span class="o">.</span><span class="n">solid</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="k">continue</span>
 
             <span class="n">solid</span> <span class="o">=</span> <span class="n">piece</span><span class="o">.</span><span class="n">solid</span>
-            <span class="k">if</span> <span class="n">piece</span><span class="o">.</span><span class="n">kind</span> <span class="o">==</span> <span class="s2">&quot;lid&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">piece</span><span class="o">.</span><span class="n">kind</span> <span class="o">==</span> <span class="s2">"lid"</span><span class="p">:</span>
                 <span class="c1"># Show the lid as it prints, decoration and all.</span>
-                <span class="n">solid</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_decorated_lid</span><span class="p">(</span><span class="n">piece</span><span class="p">,</span> <span class="s2">&quot;mmu&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">or</span> <span class="n">solid</span>
+                <span class="n">solid</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_decorated_lid</span><span class="p">(</span><span class="n">piece</span><span class="p">,</span> <span class="s2">"mmu"</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">or</span> <span class="n">solid</span>
 
             <span class="n">colour</span> <span class="o">=</span> <span class="n">colour_for</span><span class="p">(</span><span class="n">piece</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">piece</span><span class="o">.</span><span class="n">kind</span> <span class="o">==</span> <span class="s2">&quot;lid&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">piece</span><span class="o">.</span><span class="n">kind</span> <span class="o">==</span> <span class="s2">"lid"</span><span class="p">:</span>
                 <span class="n">colour</span> <span class="o">=</span> <span class="n">lid_color</span><span class="p">(</span><span class="n">colour</span><span class="p">)</span>
             <span class="n">out</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
                 <span class="n">PreviewPiece</span><span class="p">(</span><span class="n">piece</span><span class="o">.</span><span class="n">label</span><span class="p">,</span> <span class="n">solid</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">piece</span><span class="o">.</span><span class="n">position</span><span class="p">)),</span> <span class="n">colour</span><span class="p">,</span> <span class="n">piece</span><span class="o">.</span><span class="n">kind</span><span class="p">)</span>
@@ -942,7 +942,7 @@
     <span class="c1"># ------------------------------------------------------------------ sizing</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_container</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;The game box&#39;s size, for the paths that require one.</span>
+<span class="w">        </span><span class="sd">"""The game box's size, for the paths that require one.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            ``(width, length, height)`` in mm.</span>
@@ -952,21 +952,21 @@
 <span class="sd">                the layout guide all need a container; without one they were</span>
 <span class="sd">                indexing ``None`` and failing with a TypeError from three</span>
 <span class="sd">                different lines.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">game_box_size</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Project &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39; has no game_box_size, so there is &quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;nothing to pack into. Standalone boxes export directly.&quot;</span>
+                <span class="sa">f</span><span class="s2">"Project '</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">' has no game_box_size, so there is "</span>
+                <span class="sa">f</span><span class="s2">"nothing to pack into. Standalone boxes export directly."</span>
             <span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">game_box_size</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_resolve_final_layout</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Resolve each box&#39;s final size and packed position.</span>
+<span class="w">        </span><span class="sd">"""Resolve each box's final size and packed position.</span>
 
 <span class="sd">        Computes minimum sizes (from an explicit size or the compartments),</span>
 <span class="sd">        runs the 3D packer, and sets ``final_size`` on every builder. Returns</span>
 <span class="sd">        the :class:`BoxPacking`, whose placements carry the final positions.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.packing.layout</span><span class="w"> </span><span class="kn">import</span> <span class="n">Placement</span><span class="p">,</span> <span class="n">pack_boxes</span>
 
         <span class="n">box_data</span> <span class="o">=</span> <span class="p">[]</span>
@@ -977,9 +977,9 @@
             <span class="n">resolved_min_sizes</span><span class="p">[</span><span class="n">builder</span><span class="o">.</span><span class="n">label</span><span class="p">]</span> <span class="o">=</span> <span class="n">size</span>
             <span class="k">if</span> <span class="n">builder</span><span class="o">.</span><span class="n">position</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="c1"># A box that has been placed — by hand or by `arrange()` — is</span>
-                <span class="c1"># not the packer&#39;s to move, grow or turn. Expanding it would</span>
+                <span class="c1"># not the packer's to move, grow or turn. Expanding it would</span>
                 <span class="c1"># push it into its neighbour, and rotating it would leave the</span>
-                <span class="c1"># arrangement&#39;s arithmetic describing a box that no longer</span>
+                <span class="c1"># arrangement's arithmetic describing a box that no longer</span>
                 <span class="c1"># exists. So placement decides both, and neither has to be</span>
                 <span class="c1"># switched off at every call site (FR-000b).</span>
                 <span class="n">manual_placements</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
@@ -987,13 +987,13 @@
                 <span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">box_data</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
-                    <span class="s2">&quot;label&quot;</span><span class="p">:</span> <span class="n">builder</span><span class="o">.</span><span class="n">label</span><span class="p">,</span>
-                    <span class="s2">&quot;size&quot;</span><span class="p">:</span> <span class="n">size</span><span class="p">,</span>
+                    <span class="s2">"label"</span><span class="p">:</span> <span class="n">builder</span><span class="o">.</span><span class="n">label</span><span class="p">,</span>
+                    <span class="s2">"size"</span><span class="p">:</span> <span class="n">size</span><span class="p">,</span>
                     <span class="c1"># `expandable` is the master switch: off means the box keeps</span>
                     <span class="c1"># the size it was given. The per-axis flags only narrow it.</span>
-                    <span class="s2">&quot;expandable&quot;</span><span class="p">:</span> <span class="n">builder</span><span class="o">.</span><span class="n">expandable</span><span class="p">,</span>
-                    <span class="s2">&quot;expandable_width&quot;</span><span class="p">:</span> <span class="n">builder</span><span class="o">.</span><span class="n">expandable</span> <span class="ow">and</span> <span class="n">builder</span><span class="o">.</span><span class="n">expandable_width</span><span class="p">,</span>
-                    <span class="s2">&quot;no_rotate&quot;</span><span class="p">:</span> <span class="n">builder</span><span class="o">.</span><span class="n">no_rotate</span><span class="p">,</span>
+                    <span class="s2">"expandable"</span><span class="p">:</span> <span class="n">builder</span><span class="o">.</span><span class="n">expandable</span><span class="p">,</span>
+                    <span class="s2">"expandable_width"</span><span class="p">:</span> <span class="n">builder</span><span class="o">.</span><span class="n">expandable</span> <span class="ow">and</span> <span class="n">builder</span><span class="o">.</span><span class="n">expandable_width</span><span class="p">,</span>
+                    <span class="s2">"no_rotate"</span><span class="p">:</span> <span class="n">builder</span><span class="o">.</span><span class="n">no_rotate</span><span class="p">,</span>
                 <span class="p">})</span>
 
         <span class="c1"># The board sits on top of the sub-boxes, so the packer only gets the</span>
@@ -1023,13 +1023,13 @@
         <span class="n">resolved_sizes</span> <span class="o">=</span> <span class="p">{</span><span class="n">p</span><span class="o">.</span><span class="n">label</span><span class="p">:</span> <span class="n">p</span><span class="o">.</span><span class="n">size</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">packing</span><span class="o">.</span><span class="n">placements</span><span class="p">}</span>
         <span class="k">for</span> <span class="n">builder</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_boxes</span><span class="p">:</span>
             <span class="n">val</span> <span class="o">=</span> <span class="n">resolved_sizes</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">builder</span><span class="o">.</span><span class="n">label</span><span class="p">)</span> <span class="ow">or</span> <span class="n">resolved_min_sizes</span><span class="p">[</span><span class="n">builder</span><span class="o">.</span><span class="n">label</span><span class="p">]</span>
-            <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="n">builder</span><span class="p">,</span> <span class="s2">&quot;final_size&quot;</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span>
+            <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="n">builder</span><span class="p">,</span> <span class="s2">"final_size"</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_packing</span> <span class="o">=</span> <span class="n">packing</span>
         <span class="k">return</span> <span class="n">packing</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_min_size</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">builder</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;The smallest this box may be: its explicit size, or its contents.</span>
+<span class="w">        </span><span class="sd">"""The smallest this box may be: its explicit size, or its contents.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            builder: The box to size. An explicit ``size`` wins; any axis left</span>
@@ -1041,7 +1041,7 @@
 <span class="sd">        Raises:</span>
 <span class="sd">            ValueError: If the box has neither an explicit size nor</span>
 <span class="sd">                compartments to derive one from.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.compartments.layout</span><span class="w"> </span><span class="kn">import</span> <span class="n">compute_min_box_size</span>
 
         <span class="n">wt</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">wall_thickness</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">wall_thickness</span>
@@ -1054,18 +1054,18 @@
                 <span class="k">if</span> <span class="n">fp</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
             <span class="p">]</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">measured</span><span class="p">:</span>
-                <span class="n">fills</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cb</span><span class="o">.</span><span class="n">label</span> <span class="k">for</span> <span class="n">cb</span> <span class="ow">in</span> <span class="n">builder</span><span class="o">.</span><span class="n">compartments</span><span class="p">)</span>
+                <span class="n">fills</span> <span class="o">=</span> <span class="s2">", "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cb</span><span class="o">.</span><span class="n">label</span> <span class="k">for</span> <span class="n">cb</span> <span class="ow">in</span> <span class="n">builder</span><span class="o">.</span><span class="n">compartments</span><span class="p">)</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">&quot;Box &#39;</span><span class="si">{</span><span class="n">builder</span><span class="o">.</span><span class="n">label</span><span class="si">}</span><span class="s2">&#39; has no size, and its compartments &quot;</span>
-                    <span class="sa">f</span><span class="s2">&quot;(</span><span class="si">{</span><span class="n">fills</span><span class="si">}</span><span class="s2">) all fill whatever they are given — so there is &quot;</span>
-                    <span class="sa">f</span><span class="s2">&quot;nothing to derive one from. Give the box a size=(w, l, h), &quot;</span>
-                    <span class="sa">f</span><span class="s2">&quot;or give a compartment a size=(w, l).&quot;</span>
+                    <span class="sa">f</span><span class="s2">"Box '</span><span class="si">{</span><span class="n">builder</span><span class="o">.</span><span class="n">label</span><span class="si">}</span><span class="s2">' has no size, and its compartments "</span>
+                    <span class="sa">f</span><span class="s2">"(</span><span class="si">{</span><span class="n">fills</span><span class="si">}</span><span class="s2">) all fill whatever they are given — so there is "</span>
+                    <span class="sa">f</span><span class="s2">"nothing to derive one from. Give the box a size=(w, l, h), "</span>
+                    <span class="sa">f</span><span class="s2">"or give a compartment a size=(w, l)."</span>
                 <span class="p">)</span>
             <span class="n">bounds</span> <span class="o">=</span> <span class="p">{}</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">game_box_size</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">bounds</span> <span class="o">=</span> <span class="p">{</span>
-                    <span class="s2">&quot;max_w&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">game_box_size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">wt</span><span class="p">,</span>
-                    <span class="s2">&quot;max_l&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">game_box_size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">wt</span><span class="p">,</span>
+                    <span class="s2">"max_w"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">game_box_size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">wt</span><span class="p">,</span>
+                    <span class="s2">"max_l"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">game_box_size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">wt</span><span class="p">,</span>
                 <span class="p">}</span>  <span class="c1"># narrowed by the check above</span>
             <span class="k">return</span> <span class="n">compute_min_box_size</span><span class="p">(</span><span class="n">measured</span><span class="p">,</span> <span class="n">wt</span><span class="p">,</span> <span class="n">ft</span><span class="p">,</span> <span class="n">lt</span><span class="p">,</span> <span class="o">**</span><span class="n">bounds</span><span class="p">)</span>
 
@@ -1078,12 +1078,12 @@
         <span class="k">if</span> <span class="n">builder</span><span class="o">.</span><span class="n">compartments</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">from_compartments</span><span class="p">()</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;Box &#39;</span><span class="si">{</span><span class="n">builder</span><span class="o">.</span><span class="n">label</span><span class="si">}</span><span class="s2">&#39; has no explicit size and no &quot;</span>
-            <span class="sa">f</span><span class="s2">&quot;compartments — at least one is required.&quot;</span>
+            <span class="sa">f</span><span class="s2">"Box '</span><span class="si">{</span><span class="n">builder</span><span class="o">.</span><span class="n">label</span><span class="si">}</span><span class="s2">' has no explicit size and no "</span>
+            <span class="sa">f</span><span class="s2">"compartments — at least one is required."</span>
         <span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_standalone_size</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">builder</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Resolve a standalone box&#39;s size and record it as its ``final_size``.</span>
+<span class="w">        </span><span class="sd">"""Resolve a standalone box's size and record it as its ``final_size``.</span>
 
 <span class="sd">        Standalone boxes are never packed, so nothing else would set</span>
 <span class="sd">        ``final_size``.</span>
@@ -1097,15 +1097,15 @@
 <span class="sd">        Raises:</span>
 <span class="sd">            ValueError: If the box has neither an explicit size nor</span>
 <span class="sd">                compartments to derive one from.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">size</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_min_size</span><span class="p">(</span><span class="n">builder</span><span class="p">)</span>
-        <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="n">builder</span><span class="p">,</span> <span class="s2">&quot;final_size&quot;</span><span class="p">,</span> <span class="n">size</span><span class="p">)</span>
+        <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="n">builder</span><span class="p">,</span> <span class="s2">"final_size"</span><span class="p">,</span> <span class="n">size</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">size</span>
 
     <span class="c1"># -------------------------------------------------------------- geometry</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">_resolve_box</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">builder</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;ResolvedBox&quot;</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Everything about a box that is decided before any geometry is cut.</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_resolve_box</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">builder</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"ResolvedBox"</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Everything about a box that is decided before any geometry is cut.</span>
 
 <span class="sd">        Kept separate from the geometry so it can run **eagerly**, during</span>
 <span class="sd">        :meth:`build`, while the CSG waits to be asked for. A project that</span>
@@ -1122,7 +1122,7 @@
 <span class="sd">        Raises:</span>
 <span class="sd">            ValueError: If the compartments overflow the interior, or their</span>
 <span class="sd">                ratios do.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.registry</span><span class="w"> </span><span class="kn">import</span> <span class="n">BOX_IMPL_REGISTRY</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.spec</span><span class="w"> </span><span class="kn">import</span> <span class="n">build_spec</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.compartments.layout</span><span class="w"> </span><span class="kn">import</span> <span class="n">layout_compartments</span>
@@ -1147,7 +1147,7 @@
         <span class="n">comp_layout</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">if</span> <span class="n">comp_data</span><span class="p">:</span>
             <span class="c1"># A well sized *from* the interior must not then be turned against</span>
-            <span class="c1"># it: its width was derived on the box&#39;s width axis, so rotating it</span>
+            <span class="c1"># it: its width was derived on the box's width axis, so rotating it</span>
             <span class="c1"># asks the length to hold a number computed for the width.</span>
             <span class="n">no_rotate_labels</span> <span class="o">=</span> <span class="p">{</span>
                 <span class="n">cb</span><span class="o">.</span><span class="n">label</span> <span class="k">for</span> <span class="n">cb</span> <span class="ow">in</span> <span class="n">builder</span><span class="o">.</span><span class="n">compartments</span>
@@ -1158,8 +1158,8 @@
             <span class="p">)</span>
             <span class="k">if</span> <span class="n">comp_layout</span><span class="o">.</span><span class="n">overflow</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">&quot;Compartments do not fit in box &#39;</span><span class="si">{</span><span class="n">builder</span><span class="o">.</span><span class="n">label</span><span class="si">}</span><span class="s2">&#39; &quot;</span>
-                    <span class="sa">f</span><span class="s2">&quot;interior (</span><span class="si">{</span><span class="n">interior</span><span class="o">.</span><span class="n">width</span><span class="si">}</span><span class="s2">x</span><span class="si">{</span><span class="n">interior</span><span class="o">.</span><span class="n">length</span><span class="si">}</span><span class="s2">)&quot;</span>
+                    <span class="sa">f</span><span class="s2">"Compartments do not fit in box '</span><span class="si">{</span><span class="n">builder</span><span class="o">.</span><span class="n">label</span><span class="si">}</span><span class="s2">' "</span>
+                    <span class="sa">f</span><span class="s2">"interior (</span><span class="si">{</span><span class="n">interior</span><span class="o">.</span><span class="n">width</span><span class="si">}</span><span class="s2">x</span><span class="si">{</span><span class="n">interior</span><span class="o">.</span><span class="n">length</span><span class="si">}</span><span class="s2">)"</span>
                 <span class="p">)</span>
 
         <span class="k">return</span> <span class="n">ResolvedBox</span><span class="p">(</span>
@@ -1168,11 +1168,11 @@
         <span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_build_box_solids</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">builder</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Build a box&#39;s body and lid geometry.</span>
+<span class="w">        </span><span class="sd">"""Build a box's body and lid geometry.</span>
 
 <span class="sd">        Returns ``(body, lid, size)``; ``body``/``lid`` are ``None`` when the</span>
 <span class="sd">        box type produced no geometry (or pybosl2 is unavailable).</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">resolved</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resolve_box</span><span class="p">(</span><span class="n">builder</span><span class="p">)</span>
         <span class="n">size</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">final_size</span>
         <span class="n">box</span><span class="p">,</span> <span class="n">spec</span> <span class="o">=</span> <span class="n">resolved</span><span class="o">.</span><span class="n">box</span><span class="p">,</span> <span class="n">resolved</span><span class="o">.</span><span class="n">spec</span>
@@ -1185,9 +1185,9 @@
             <span class="n">lid</span> <span class="o">=</span> <span class="n">box</span><span class="o">.</span><span class="n">build_lid</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
 
             <span class="c1"># A lidded box leaves its rim square so the lid can seal against</span>
-            <span class="c1"># it; the lid carries the rounding for the closed box&#39;s top and</span>
+            <span class="c1"># it; the lid carries the rounding for the closed box's top and</span>
             <span class="c1"># upper corners instead (FR-043). Only the edges this type leaves</span>
-            <span class="c1"># on the outside, and never more than half the lid&#39;s thickness —</span>
+            <span class="c1"># on the outside, and never more than half the lid's thickness —</span>
             <span class="c1"># the rest is what the lid is supported and located by.</span>
             <span class="k">if</span> <span class="n">lid</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.rounding</span><span class="w"> </span><span class="kn">import</span> <span class="n">lid_rounding</span><span class="p">,</span> <span class="n">round_edges</span>
@@ -1215,26 +1215,26 @@
         <span class="k">return</span> <span class="n">body</span><span class="p">,</span> <span class="n">lid</span><span class="p">,</span> <span class="n">size</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_check_ratios</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">builder</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Reject compartment ratios that overflow the interior (FR-003a).</span>
+<span class="w">        </span><span class="sd">"""Reject compartment ratios that overflow the interior (FR-003a).</span>
 
 <span class="sd">        Raises:</span>
 <span class="sd">            ValueError: If the width or length ratios sum above 1.0, naming</span>
 <span class="sd">                each compartment that contributed.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">for</span> <span class="n">axis</span><span class="p">,</span> <span class="n">attr</span> <span class="ow">in</span> <span class="p">((</span><span class="s2">&quot;width&quot;</span><span class="p">,</span> <span class="s2">&quot;width_ratio&quot;</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;length&quot;</span><span class="p">,</span> <span class="s2">&quot;length_ratio&quot;</span><span class="p">)):</span>
+<span class="sd">        """</span>
+        <span class="k">for</span> <span class="n">axis</span><span class="p">,</span> <span class="n">attr</span> <span class="ow">in</span> <span class="p">((</span><span class="s2">"width"</span><span class="p">,</span> <span class="s2">"width_ratio"</span><span class="p">),</span> <span class="p">(</span><span class="s2">"length"</span><span class="p">,</span> <span class="s2">"length_ratio"</span><span class="p">)):</span>
             <span class="n">total</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">cb</span><span class="p">,</span> <span class="n">attr</span><span class="p">)</span> <span class="ow">or</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">cb</span> <span class="ow">in</span> <span class="n">builder</span><span class="o">.</span><span class="n">compartments</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">total</span> <span class="o">&gt;</span> <span class="mf">1.0</span><span class="p">:</span>
-                <span class="n">over</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">cb</span><span class="o">.</span><span class="n">label</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="nb">getattr</span><span class="p">(</span><span class="n">cb</span><span class="p">,</span><span class="w"> </span><span class="n">attr</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="n">over</span> <span class="o">=</span> <span class="s2">", "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">cb</span><span class="o">.</span><span class="n">label</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="nb">getattr</span><span class="p">(</span><span class="n">cb</span><span class="p">,</span><span class="w"> </span><span class="n">attr</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span>
                     <span class="k">for</span> <span class="n">cb</span> <span class="ow">in</span> <span class="n">builder</span><span class="o">.</span><span class="n">compartments</span> <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">cb</span><span class="p">,</span> <span class="n">attr</span><span class="p">)</span>
                 <span class="p">)</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">&quot;Box &#39;</span><span class="si">{</span><span class="n">builder</span><span class="o">.</span><span class="n">label</span><span class="si">}</span><span class="s2">&#39; compartment </span><span class="si">{</span><span class="n">axis</span><span class="si">}</span><span class="s2"> ratios sum to &quot;</span>
-                    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">total</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> (&gt; 1.0): </span><span class="si">{</span><span class="n">over</span><span class="si">}</span><span class="s2">&quot;</span>
+                    <span class="sa">f</span><span class="s2">"Box '</span><span class="si">{</span><span class="n">builder</span><span class="o">.</span><span class="n">label</span><span class="si">}</span><span class="s2">' compartment </span><span class="si">{</span><span class="n">axis</span><span class="si">}</span><span class="s2"> ratios sum to "</span>
+                    <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">total</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> (&gt; 1.0): </span><span class="si">{</span><span class="n">over</span><span class="si">}</span><span class="s2">"</span>
                 <span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_spacer_placements</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">packing</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Derive the spacer trays that fill the gaps in a packed layout.</span>
+<span class="w">        </span><span class="sd">"""Derive the spacer trays that fill the gaps in a packed layout.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            packing: The resolved :class:`BoxPacking` whose placements the</span>
@@ -1243,7 +1243,7 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            The spacer placements, after the sweep → merge → shrink → filter</span>
 <span class="sd">            pass (FR-014a/b/c). Empty when no gap survives the minimums.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.packing.spacer</span><span class="w"> </span><span class="kn">import</span> <span class="n">generate_spacer_placements</span>
 
         <span class="c1"># Effective container: subtract the board thickness from the height so</span>
@@ -1262,7 +1262,7 @@
         <span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_build_spacer_solid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spacer</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Build one spacer tray&#39;s geometry in its own local frame.</span>
+<span class="w">        </span><span class="sd">"""Build one spacer tray's geometry in its own local frame.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            spacer: A spacer placement carrying ``label``, ``size`` and an</span>
@@ -1271,7 +1271,7 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            The built solid, or ``None`` when the geometry could not be built</span>
 <span class="sd">            (pybosl2 unavailable, or a degenerate footprint).</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.registry</span><span class="w"> </span><span class="kn">import</span> <span class="n">BOX_IMPL_REGISTRY</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.spec</span><span class="w"> </span><span class="kn">import</span> <span class="n">BoxSpec</span>
 
@@ -1301,16 +1301,16 @@
             <span class="k">return</span> <span class="kc">None</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_decorated_lid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">piece</span><span class="p">:</span> <span class="n">Piece</span><span class="p">,</span> <span class="n">mode</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;One lid as it prints in a colour mode.</span>
+<span class="w">        </span><span class="sd">"""One lid as it prints in a colour mode.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            piece: The lid piece to decorate.</span>
-<span class="sd">            mode: ``&quot;mmu&quot;`` or ``&quot;single&quot;``.</span>
+<span class="sd">            mode: ``"mmu"`` or ``"single"``.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            ``(solid, inserts)`` — the decorated lid and its coloured positive</span>
 <span class="sd">            inserts, or ``(piece.solid, None)`` when there is nothing to apply.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.lid.decorate</span><span class="w"> </span><span class="kn">import</span> <span class="n">decorate_lid</span>
 
         <span class="n">builder</span> <span class="o">=</span> <span class="n">piece</span><span class="o">.</span><span class="n">builder</span>
@@ -1339,7 +1339,7 @@
         <span class="n">only</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">force</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ExportResult</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Write every piece of this project, and the layout PDF.</span>
+<span class="w">        </span><span class="sd">"""Write every piece of this project, and the layout PDF.</span>
 
 <span class="sd">        Writes exactly what :meth:`show` renders — the same :meth:`build` —</span>
 <span class="sd">        so the only difference between previewing and exporting is that this</span>
@@ -1374,7 +1374,7 @@
 <span class="sd">            ValueError: If a box cannot be sized, a precision setting is out of</span>
 <span class="sd">                range, or ``only`` names a box this project does not have.</span>
 <span class="sd">            PackingError: If the boxes cannot be packed into the game box.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.export.exporter</span><span class="w"> </span><span class="kn">import</span> <span class="n">BoxExporter</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.export.result</span><span class="w"> </span><span class="kn">import</span> <span class="n">ExportResult</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.precision</span><span class="w"> </span><span class="kn">import</span> <span class="n">export_facets</span><span class="p">,</span> <span class="n">use</span>
@@ -1388,15 +1388,15 @@
                 <span class="c1"># A partial export knows nothing about the pieces it was not</span>
                 <span class="c1"># asked for, so it must not conclude they are stale.</span>
                 <span class="n">exporter</span><span class="o">.</span><span class="n">delete_stale</span><span class="p">(</span>
-                    <span class="s2">&quot;spacer_&quot;</span><span class="p">,</span> <span class="p">{</span><span class="n">p</span><span class="o">.</span><span class="n">label</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">build</span><span class="o">.</span><span class="n">of_kind</span><span class="p">(</span><span class="s2">&quot;spacer&quot;</span><span class="p">)}</span>
+                    <span class="s2">"spacer_"</span><span class="p">,</span> <span class="p">{</span><span class="n">p</span><span class="o">.</span><span class="n">label</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">build</span><span class="o">.</span><span class="n">of_kind</span><span class="p">(</span><span class="s2">"spacer"</span><span class="p">)}</span>
                 <span class="p">)</span>
 
             <span class="k">for</span> <span class="n">piece</span> <span class="ow">in</span> <span class="n">build</span><span class="o">.</span><span class="n">pieces</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">wanted</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">piece</span><span class="o">.</span><span class="n">label</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">wanted</span><span class="p">:</span>
                     <span class="k">continue</span>
-                <span class="k">for</span> <span class="n">mode</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;mmu&quot;</span><span class="p">,</span> <span class="s2">&quot;single&quot;</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">mode</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"mmu"</span><span class="p">,</span> <span class="s2">"single"</span><span class="p">):</span>
                     <span class="n">fingerprint</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fingerprint</span><span class="p">(</span><span class="n">piece</span><span class="p">,</span> <span class="n">mode</span><span class="p">)</span>
-                    <span class="n">part</span> <span class="o">=</span> <span class="s2">&quot;body&quot;</span> <span class="k">if</span> <span class="n">piece</span><span class="o">.</span><span class="n">is_spacer</span> <span class="k">else</span> <span class="n">piece</span><span class="o">.</span><span class="n">kind</span>
+                    <span class="n">part</span> <span class="o">=</span> <span class="s2">"body"</span> <span class="k">if</span> <span class="n">piece</span><span class="o">.</span><span class="n">is_spacer</span> <span class="k">else</span> <span class="n">piece</span><span class="o">.</span><span class="n">kind</span>
 
                     <span class="k">if</span> <span class="ow">not</span> <span class="n">force</span> <span class="ow">and</span> <span class="n">exporter</span><span class="o">.</span><span class="n">is_current</span><span class="p">(</span><span class="n">piece</span><span class="o">.</span><span class="n">label</span><span class="p">,</span> <span class="n">part</span><span class="p">,</span> <span class="n">mode</span><span class="p">,</span> <span class="n">fingerprint</span><span class="p">):</span>
                         <span class="n">exporter</span><span class="o">.</span><span class="n">note_unchanged</span><span class="p">(</span><span class="n">piece</span><span class="o">.</span><span class="n">label</span><span class="p">,</span> <span class="n">part</span><span class="p">,</span> <span class="n">mode</span><span class="p">,</span> <span class="n">piece</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
@@ -1404,7 +1404,7 @@
 
                     <span class="n">solid</span><span class="p">,</span> <span class="n">inserts</span> <span class="o">=</span> <span class="p">(</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">_decorated_lid</span><span class="p">(</span><span class="n">piece</span><span class="p">,</span> <span class="n">mode</span><span class="p">)</span>
-                        <span class="k">if</span> <span class="n">piece</span><span class="o">.</span><span class="n">kind</span> <span class="o">==</span> <span class="s2">&quot;lid&quot;</span> <span class="k">else</span> <span class="p">(</span><span class="n">piece</span><span class="o">.</span><span class="n">solid</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+                        <span class="k">if</span> <span class="n">piece</span><span class="o">.</span><span class="n">kind</span> <span class="o">==</span> <span class="s2">"lid"</span> <span class="k">else</span> <span class="p">(</span><span class="n">piece</span><span class="o">.</span><span class="n">solid</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
                     <span class="p">)</span>
                     <span class="n">exporter</span><span class="o">.</span><span class="n">write_piece</span><span class="p">(</span>
                         <span class="n">piece</span><span class="o">.</span><span class="n">label</span><span class="p">,</span> <span class="n">part</span><span class="p">,</span> <span class="n">mode</span><span class="p">,</span> <span class="n">solid</span><span class="p">,</span> <span class="n">inserts</span><span class="p">,</span>
@@ -1423,7 +1423,7 @@
 
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_fingerprint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">piece</span><span class="p">:</span> <span class="n">Piece</span><span class="p">,</span> <span class="n">mode</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;A hash of everything that decides this piece&#39;s geometry.</span>
+<span class="w">        </span><span class="sd">"""A hash of everything that decides this piece's geometry.</span>
 
 <span class="sd">        What makes a file worth rewriting is a change in the description it was</span>
 <span class="sd">        built from, and that is knowable exactly — where comparing the meshes</span>
@@ -1438,58 +1438,58 @@
 <span class="sd">        - **Where the piece sits.** A 3MF holds the piece in its own frame, so</span>
 <span class="sd">          moving a box in the game box does not alter the file. Without this,</span>
 <span class="sd">          shortening one box in a stack rebuilt every box above it.</span>
-<span class="sd">        - **The other half of the box.** A body does not change when its lid&#39;s</span>
-<span class="sd">          label does, so a body&#39;s fingerprint leaves the lid decoration out and</span>
-<span class="sd">          a lid&#39;s leaves the compartments out.</span>
+<span class="sd">        - **The other half of the box.** A body does not change when its lid's</span>
+<span class="sd">          label does, so a body's fingerprint leaves the lid decoration out and</span>
+<span class="sd">          a lid's leaves the compartments out.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            piece: The piece being written.</span>
-<span class="sd">            mode: ``&quot;mmu&quot;`` or ``&quot;single&quot;`` — the two differ in geometry, so</span>
+<span class="sd">            mode: ``"mmu"`` or ``"single"`` — the two differ in geometry, so</span>
 <span class="sd">                they fingerprint separately.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            A hex SHA-256 digest.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.spec</span><span class="w"> </span><span class="kn">import</span> <span class="n">describe</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.packing.cache</span><span class="w"> </span><span class="kn">import</span> <span class="n">cache_key</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.precision</span><span class="w"> </span><span class="kn">import</span> <span class="n">describe</span> <span class="k">as</span> <span class="n">describe_precision</span>
 
         <span class="n">box</span> <span class="o">=</span> <span class="n">describe</span><span class="p">(</span><span class="n">piece</span><span class="o">.</span><span class="n">builder</span><span class="p">)</span> <span class="k">if</span> <span class="n">piece</span><span class="o">.</span><span class="n">builder</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span>
         <span class="k">if</span> <span class="n">box</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">box</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;position&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
-            <span class="n">box</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;lid&quot;</span> <span class="k">if</span> <span class="n">piece</span><span class="o">.</span><span class="n">kind</span> <span class="o">==</span> <span class="s2">&quot;body&quot;</span> <span class="k">else</span> <span class="s2">&quot;compartments&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="n">box</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"position"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="n">box</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"lid"</span> <span class="k">if</span> <span class="n">piece</span><span class="o">.</span><span class="n">kind</span> <span class="o">==</span> <span class="s2">"body"</span> <span class="k">else</span> <span class="s2">"compartments"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">cache_key</span><span class="p">({</span>
-            <span class="s2">&quot;kind&quot;</span><span class="p">:</span> <span class="n">piece</span><span class="o">.</span><span class="n">kind</span><span class="p">,</span>
-            <span class="s2">&quot;label&quot;</span><span class="p">:</span> <span class="n">piece</span><span class="o">.</span><span class="n">label</span><span class="p">,</span>
-            <span class="s2">&quot;mode&quot;</span><span class="p">:</span> <span class="n">mode</span><span class="p">,</span>
-            <span class="s2">&quot;size&quot;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">piece</span><span class="o">.</span><span class="n">size</span><span class="p">),</span>
-            <span class="s2">&quot;precision&quot;</span><span class="p">:</span> <span class="n">describe_precision</span><span class="p">(),</span>
-            <span class="s2">&quot;project&quot;</span><span class="p">:</span> <span class="p">{</span>
-                <span class="s2">&quot;wall_thickness&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">wall_thickness</span><span class="p">,</span>
-                <span class="s2">&quot;floor_thickness&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">floor_thickness</span><span class="p">,</span>
-                <span class="s2">&quot;lid_thickness&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">lid_thickness</span><span class="p">,</span>
-                <span class="s2">&quot;rounding&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">rounding</span><span class="p">,</span>
-                <span class="s2">&quot;inner_rounding&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">inner_rounding</span><span class="p">,</span>
+            <span class="s2">"kind"</span><span class="p">:</span> <span class="n">piece</span><span class="o">.</span><span class="n">kind</span><span class="p">,</span>
+            <span class="s2">"label"</span><span class="p">:</span> <span class="n">piece</span><span class="o">.</span><span class="n">label</span><span class="p">,</span>
+            <span class="s2">"mode"</span><span class="p">:</span> <span class="n">mode</span><span class="p">,</span>
+            <span class="s2">"size"</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">piece</span><span class="o">.</span><span class="n">size</span><span class="p">),</span>
+            <span class="s2">"precision"</span><span class="p">:</span> <span class="n">describe_precision</span><span class="p">(),</span>
+            <span class="s2">"project"</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">"wall_thickness"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">wall_thickness</span><span class="p">,</span>
+                <span class="s2">"floor_thickness"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">floor_thickness</span><span class="p">,</span>
+                <span class="s2">"lid_thickness"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">lid_thickness</span><span class="p">,</span>
+                <span class="s2">"rounding"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">rounding</span><span class="p">,</span>
+                <span class="s2">"inner_rounding"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">inner_rounding</span><span class="p">,</span>
             <span class="p">},</span>
-            <span class="s2">&quot;box&quot;</span><span class="p">:</span> <span class="n">box</span><span class="p">,</span>
+            <span class="s2">"box"</span><span class="p">:</span> <span class="n">box</span><span class="p">,</span>
         <span class="p">})</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_delete_stale_spacers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">out_dir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span><span class="p">,</span> <span class="n">spacer_placements</span><span class="p">:</span> <span class="nb">list</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Delete orphaned spacer 3MF files that no longer match a spacer.</span>
+<span class="w">        </span><span class="sd">"""Delete orphaned spacer 3MF files that no longer match a spacer.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            out_dir: Root output directory.</span>
 <span class="sd">            spacer_placements: The current set of spacer placements.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.export.exporter</span><span class="w"> </span><span class="kn">import</span> <span class="n">BoxExporter</span>
 
         <span class="n">BoxExporter</span><span class="p">(</span><span class="n">out_dir</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span><span class="o">.</span><span class="n">delete_stale</span><span class="p">(</span>
-            <span class="s2">&quot;spacer_&quot;</span><span class="p">,</span> <span class="p">{</span><span class="n">sp</span><span class="o">.</span><span class="n">label</span> <span class="k">for</span> <span class="n">sp</span> <span class="ow">in</span> <span class="n">spacer_placements</span><span class="p">}</span>
+            <span class="s2">"spacer_"</span><span class="p">,</span> <span class="p">{</span><span class="n">sp</span><span class="o">.</span><span class="n">label</span> <span class="k">for</span> <span class="n">sp</span> <span class="ow">in</span> <span class="n">spacer_placements</span><span class="p">}</span>
         <span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_write_layout_pdf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">build</span><span class="p">:</span> <span class="n">Build</span><span class="p">,</span> <span class="n">out_dir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span><span class="p">,</span> <span class="n">exporter</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate the packing guide PDF, if the layout changed (FR-034).&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Generate the packing guide PDF, if the layout changed (FR-034)."""</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_boxes</span> <span class="ow">or</span> <span class="n">build</span><span class="o">.</span><span class="n">packing</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span>
         <span class="k">try</span><span class="p">:</span>
@@ -1498,16 +1498,16 @@
                 <span class="n">should_regenerate_layout</span><span class="p">,</span>
             <span class="p">)</span>
 
-            <span class="n">pdf_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">out_dir</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">/</span> <span class="s2">&quot;layout.pdf&quot;</span>
+            <span class="n">pdf_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">out_dir</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">/</span> <span class="s2">"layout.pdf"</span>
             <span class="k">if</span> <span class="n">should_regenerate_layout</span><span class="p">(</span><span class="n">build</span><span class="o">.</span><span class="n">packing</span><span class="p">,</span> <span class="n">pdf_path</span><span class="p">):</span>
                 <span class="n">result</span> <span class="o">=</span> <span class="n">generate_layout_pdf</span><span class="p">(</span>
                     <span class="n">build</span><span class="o">.</span><span class="n">packing</span><span class="p">,</span> <span class="n">pdf_path</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_container</span><span class="p">(),</span>
                     <span class="n">box_builders</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_boxes</span><span class="p">,</span>
                 <span class="p">)</span>
                 <span class="k">if</span> <span class="n">result</span><span class="p">:</span>
-                    <span class="n">exporter</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">written</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">/layout.pdf&quot;</span><span class="p">)</span>
+                    <span class="n">exporter</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">written</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">/layout.pdf"</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
-            <span class="k">pass</span>  <span class="c1"># PDF is best-effort; don&#39;t block export</span>
+            <span class="k">pass</span>  <span class="c1"># PDF is best-effort; don't block export</span>
 
     <span class="c1"># ------------------------------------------------------------ compartments</span>
 
@@ -1519,7 +1519,7 @@
         <span class="n">bin_sizes</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]],</span>
         <span class="n">wall_spacing</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">2.0</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Partitions compartments across multiple bin interior footprints using backtracking shelf packing.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Partitions compartments across multiple bin interior footprints using backtracking shelf packing."""</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.compartments.layout</span><span class="w"> </span><span class="kn">import</span> <span class="n">pack_compartments_across_bins</span>
 
         <span class="k">return</span> <span class="n">pack_compartments_across_bins</span><span class="p">(</span><span class="n">compartments</span><span class="p">,</span> <span class="n">bin_sizes</span><span class="p">,</span> <span class="n">wall_spacing</span><span class="p">)</span></div>
@@ -1532,14 +1532,14 @@
         <span class="n">boxes</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
         <span class="n">compartments</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]],</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Registers a group of compartments to be dynamically partitioned across the given box labels.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Registers a group of compartments to be dynamically partitioned across the given box labels."""</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_shared_groups</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">boxes</span><span class="p">,</span> <span class="n">compartments</span><span class="p">))</span></div>
 </div>
 
 
 
 <span class="n">STANDALONE_GAP_MM</span> <span class="o">=</span> <span class="mf">10.0</span>
-<span class="sd">&quot;&quot;&quot;Gap left between standalone boxes when they are lined up for a preview.&quot;&quot;&quot;</span>
+<span class="sd">"""Gap left between standalone boxes when they are lined up for a preview."""</span>
 </code></pre></div>
 
 

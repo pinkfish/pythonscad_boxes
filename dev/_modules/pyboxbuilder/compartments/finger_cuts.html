@@ -297,17 +297,17 @@
 
 <h1>Source code for pyboxbuilder.compartments.finger_cuts</h1><div class="highlight"><pre>
 <span></span><code><span class="c1"># SPDX-License-Identifier: Apache-2.0</span>
-<span class="sd">&quot;&quot;&quot;The finger cuts themselves — three shapes, and the one thing that chooses.</span>
+<span class="sd">"""The finger cuts themselves — three shapes, and the one thing that chooses.</span>
 
-<span class="sd">Ported from the original toolkit&#39;s ``FingerHoleWall`` and ``FingerHoleBase``</span>
+<span class="sd">Ported from the original toolkit's ``FingerHoleWall`` and ``FingerHoleBase``</span>
 <span class="sd">(``components.scad``), which are the reference for how a finger cut is meant to</span>
 <span class="sd">be smoothed. A request for a finger cut becomes one of three solids:</span>
 
 <span class="sd">* a **wall scoop** — a dip notched into the top of a wall, for a well deep</span>
 <span class="sd">  enough that a finger can hook into it;</span>
-<span class="sd">* a **floor scoop** — a bowl in the well&#39;s own floor, for a tray too shallow</span>
+<span class="sd">* a **floor scoop** — a bowl in the well's own floor, for a tray too shallow</span>
 <span class="sd">  for a notch to be a notch;</span>
-<span class="sd">* a **through hole** — a bore straight through the box&#39;s base at the wall, for</span>
+<span class="sd">* a **through hole** — a bore straight through the box's base at the wall, for</span>
 <span class="sd">  a well holding a stack, which fills its well and leaves no side to reach down.</span>
 
 <span class="sd">Which one you get turns on two questions — the kind asked for, and whether the</span>
@@ -316,8 +316,8 @@
 <span class="sd">could satisfy one rule and miss the other, and the card boxes shipped with</span>
 <span class="sd">scoops for a release (T327, T341).</span>
 
-<span class="sd">Every builder here returns a cutout in the compartment&#39;s own frame: (0, 0, 0)</span>
-<span class="sd">is the compartment&#39;s lower-left corner at its floor, the footprint runs out to</span>
+<span class="sd">Every builder here returns a cutout in the compartment's own frame: (0, 0, 0)</span>
+<span class="sd">is the compartment's lower-left corner at its floor, the footprint runs out to</span>
 <span class="sd">(comp_width, comp_length), and +Z is up towards the rim.</span>
 
 <span class="sd">Three separate roundings are at work, and they are easy to conflate:</span>
@@ -330,8 +330,8 @@
 <span class="sd">   side of the wall it flows onto that face tangentially rather than leaving a</span>
 <span class="sd">   sharp shadow line. It belongs to the sweep; see :mod:`.finger_sweep`.</span>
 <span class="sd">3. **The base** — a floor scoop additionally fillets the cut into the floor</span>
-<span class="sd">   plane, so the bottom blends into the box&#39;s inside surface.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">   plane, so the bottom blends into the box's inside surface.</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
@@ -378,54 +378,54 @@
 
 
 <span class="n">MIN_WALL_SCOOP_DEPTH_MM</span> <span class="o">=</span> <span class="mf">5.0</span>
-<span class="sd">&quot;&quot;&quot;Below this a wall notch has nothing to grip, so the floor scoop is used.</span>
+<span class="sd">"""Below this a wall notch has nothing to grip, so the floor scoop is used.</span>
 
 <span class="sd">The two cuts answer different situations. A notch in the wall is a dip a finger</span>
 <span class="sd">hooks into, and it needs depth to be a dip at all; a floor bore is a bowl in the</span>
-<span class="sd">well&#39;s own floor, for a tray too shallow for one — the original&#39;s 4mm token</span>
+<span class="sd">well's own floor, for a tray too shallow for one — the original's 4mm token</span>
 <span class="sd">case.</span>
 
-<span class="sd">**8mm was too high**, and by more than it looks: Emberleaf&#39;s player card box has</span>
+<span class="sd">**8mm was too high**, and by more than it looks: Emberleaf's player card box has</span>
 <span class="sd">a 6.5mm well, which fell to the bore and came out as a nick in the rim about a</span>
 <span class="sd">millimetre deep, with the wall whole underneath it. What a card box needs there</span>
 <span class="sd">is a dip to get a fingertip under the stack. 5mm sits between that well and the</span>
 <span class="sd">4mm tray the bore is actually for, and it is the number the plan already assumed</span>
 <span class="sd">when it recorded these boxes cutting wall scoops.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="s2">&quot;ARC_SAMPLES&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;BASE_ARC_SHARE&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;CutProfile&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;DEFAULT_BOTTOM_ROUNDING_RATIO&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;DEFAULT_EDGE_ROUNDING_MM&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;DEFAULT_FLOOR_DIP_MM&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;DEFAULT_MOUTH_ROUNDING_MM&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;DEFAULT_TOP_ROUNDING_RATIO&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;FaceTreatment&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;MIN_FLAT_BOTTOM_RATIO&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;RIM_OVERSHOOT_MM&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;TOP_ROLL_RISE_RATIO&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;TOUCHING_TOLERANCE_MM&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;_SIDE_CENTRES&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;_SIDE_SPIN&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;_fit_radii&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;_quarter_arc&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;_sweep_through_wall&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;build_cut&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;build_floor_scoop&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;build_scoop&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;build_through_hole&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;build_wall_scoop&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;dish_radius&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;floor_bore_outline&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;floor_bore_profile&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;scoop_face_flare&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;scoop_outline&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;scoop_profile&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;window_outline&quot;</span><span class="p">,</span>
+    <span class="s2">"ARC_SAMPLES"</span><span class="p">,</span>
+    <span class="s2">"BASE_ARC_SHARE"</span><span class="p">,</span>
+    <span class="s2">"CutProfile"</span><span class="p">,</span>
+    <span class="s2">"DEFAULT_BOTTOM_ROUNDING_RATIO"</span><span class="p">,</span>
+    <span class="s2">"DEFAULT_EDGE_ROUNDING_MM"</span><span class="p">,</span>
+    <span class="s2">"DEFAULT_FLOOR_DIP_MM"</span><span class="p">,</span>
+    <span class="s2">"DEFAULT_MOUTH_ROUNDING_MM"</span><span class="p">,</span>
+    <span class="s2">"DEFAULT_TOP_ROUNDING_RATIO"</span><span class="p">,</span>
+    <span class="s2">"FaceTreatment"</span><span class="p">,</span>
+    <span class="s2">"MIN_FLAT_BOTTOM_RATIO"</span><span class="p">,</span>
+    <span class="s2">"RIM_OVERSHOOT_MM"</span><span class="p">,</span>
+    <span class="s2">"TOP_ROLL_RISE_RATIO"</span><span class="p">,</span>
+    <span class="s2">"TOUCHING_TOLERANCE_MM"</span><span class="p">,</span>
+    <span class="s2">"_SIDE_CENTRES"</span><span class="p">,</span>
+    <span class="s2">"_SIDE_SPIN"</span><span class="p">,</span>
+    <span class="s2">"_fit_radii"</span><span class="p">,</span>
+    <span class="s2">"_quarter_arc"</span><span class="p">,</span>
+    <span class="s2">"_sweep_through_wall"</span><span class="p">,</span>
+    <span class="s2">"build_cut"</span><span class="p">,</span>
+    <span class="s2">"build_floor_scoop"</span><span class="p">,</span>
+    <span class="s2">"build_scoop"</span><span class="p">,</span>
+    <span class="s2">"build_through_hole"</span><span class="p">,</span>
+    <span class="s2">"build_wall_scoop"</span><span class="p">,</span>
+    <span class="s2">"dish_radius"</span><span class="p">,</span>
+    <span class="s2">"floor_bore_outline"</span><span class="p">,</span>
+    <span class="s2">"floor_bore_profile"</span><span class="p">,</span>
+    <span class="s2">"scoop_face_flare"</span><span class="p">,</span>
+    <span class="s2">"scoop_outline"</span><span class="p">,</span>
+    <span class="s2">"scoop_profile"</span><span class="p">,</span>
+    <span class="s2">"window_outline"</span><span class="p">,</span>
 <span class="p">]</span>
-<span class="sd">&quot;&quot;&quot;Re-exported so a caller has one import for the whole finger-cut vocabulary</span>
-<span class="sd">(FR-006a), rather than having to know which of three modules a name lives in.&quot;&quot;&quot;</span>
+<span class="sd">"""Re-exported so a caller has one import for the whole finger-cut vocabulary</span>
+<span class="sd">(FR-006a), rather than having to know which of three modules a name lives in."""</span>
 
 
 <div class="viewcode-block" id="build_wall_scoop">
@@ -438,23 +438,23 @@
     <span class="n">radius</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">12.0</span><span class="p">,</span>
     <span class="n">wall_thickness</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">2.0</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
-    <span class="n">profile</span><span class="p">:</span> <span class="s2">&quot;CutProfile&quot;</span> <span class="o">=</span> <span class="n">CutProfile</span><span class="p">(),</span>
-    <span class="n">faces</span><span class="p">:</span> <span class="s2">&quot;FaceTreatment&quot;</span> <span class="o">=</span> <span class="n">FaceTreatment</span><span class="p">(),</span>
+    <span class="n">profile</span><span class="p">:</span> <span class="s2">"CutProfile"</span> <span class="o">=</span> <span class="n">CutProfile</span><span class="p">(),</span>
+    <span class="n">faces</span><span class="p">:</span> <span class="s2">"FaceTreatment"</span> <span class="o">=</span> <span class="n">FaceTreatment</span><span class="p">(),</span>
     <span class="n">floor_thickness</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">closed_top</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">keep_flat_bottom</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Bosl2Solid&quot;</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Build a finger notch through a compartment wall.</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Bosl2Solid"</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Build a finger notch through a compartment wall.</span>
 
 <span class="sd">    The **edge** profile from :func:`scoop_profile` — flat bottom, straight</span>
 <span class="sd">    throat, rolled rim — swept through the wall, with a</span>
-<span class="sd">    concave rim on each end so the cut flows onto the wall&#39;s faces instead of</span>
-<span class="sd">    ending in a sharp line (``FingerHoleWall``&#39;s ``rounding_edge``).</span>
+<span class="sd">    concave rim on each end so the cut flows onto the wall's faces instead of</span>
+<span class="sd">    ending in a sharp line (``FingerHoleWall``'s ``rounding_edge``).</span>
 
 <span class="sd">    **The sweep is exactly the wall thickness, centred on the wall** (the</span>
 <span class="sd">    original passes ``depth_of_hole = wall_thickness + 0.03``), and that is</span>
 <span class="sd">    load-bearing rather than incidental: a face fillet is produced by flaring</span>
-<span class="sd">    the sweep&#39;s *end*, so the end has to coincide with the face. Overshooting</span>
+<span class="sd">    the sweep's *end*, so the end has to coincide with the face. Overshooting</span>
 <span class="sd">    the wall by a millimetre — the obvious way to make sure a boolean leaves no</span>
 <span class="sd">    skin — puts both fillets out in the air beyond the box and leaves the cut</span>
 <span class="sd">    meeting the faces at a hard edge after all. The 0.03 of fudge is the whole</span>
@@ -462,7 +462,7 @@
 
 <span class="sd">    The sweep runs from the compartment floor to the rim, so a finger can reach</span>
 <span class="sd">    the last card at the bottom of the stack, and is clipped at the floor plane</span>
-<span class="sd">    so the box&#39;s base is not breached from the outside.</span>
+<span class="sd">    so the box's base is not breached from the outside.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        comp_width: Compartment footprint width.</span>
@@ -486,11 +486,11 @@
 <span class="sd">            with no clip at all. Off by default.</span>
 <span class="sd">        floor_thickness: The box floor under this compartment. Used to size the</span>
 <span class="sd">            dip below the well floor (half the floor, at most 1mm), which is</span>
-<span class="sd">            what keeps the cut&#39;s bottom face off the floor plane.</span>
+<span class="sd">            what keeps the cut's bottom face off the floor plane.</span>
 <span class="sd">        floor_clearance: Dip below the well floor, overriding the value derived</span>
 <span class="sd">            from ``floor_thickness``. ``0`` clips exactly at the floor, at the</span>
 <span class="sd">            cost of a coincident face.</span>
-<span class="sd">        top_limit: Height, in the cut&#39;s own frame, above which it is trimmed</span>
+<span class="sd">        top_limit: Height, in the cut's own frame, above which it is trimmed</span>
 <span class="sd">            away — the guard for material that must not be cut into.</span>
 <span class="sd">        keep_flat_bottom: Keep part of the base flat by capping the corner</span>
 <span class="sd">            radius (FR-050) — for a well something rests in. A grip passes</span>
@@ -511,9 +511,9 @@
 
 <span class="sd">    Raises:</span>
 <span class="sd">        ValueError: If the compartment or wall dimensions are not positive.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="n">comp_depth</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;comp_depth must be &gt; 0; got </span><span class="si">{</span><span class="n">comp_depth</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"comp_depth must be &gt; 0; got </span><span class="si">{</span><span class="n">comp_depth</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
     <span class="c1"># The records carry the shape and the faces; `radius` stays a parameter</span>
     <span class="c1"># because it is the one dimension every caller states, and a profile that</span>
     <span class="c1"># names a width wins over it.</span>
@@ -526,7 +526,7 @@
     <span class="k">if</span> <span class="n">rounding_radius</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">rounding_radius</span> <span class="o">=</span> <span class="n">radius</span> <span class="o">*</span> <span class="n">DEFAULT_TOP_ROUNDING_RATIO</span>
     <span class="k">if</span> <span class="n">wall_thickness</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;wall_thickness must be &gt; 0; got </span><span class="si">{</span><span class="n">wall_thickness</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"wall_thickness must be &gt; 0; got </span><span class="si">{</span><span class="n">wall_thickness</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
     <span class="n">span</span> <span class="o">=</span> <span class="n">comp_width</span> <span class="k">if</span> <span class="n">side</span> <span class="ow">in</span> <span class="p">(</span><span class="n">ScoopSide</span><span class="o">.</span><span class="n">FRONT</span><span class="p">,</span> <span class="n">ScoopSide</span><span class="o">.</span><span class="n">BACK</span><span class="p">)</span> <span class="k">else</span> <span class="n">comp_length</span>
 
@@ -546,7 +546,7 @@
 
     <span class="c1"># Named rather than splatted: `_fit_radii` returns (flare, rise, r2) and</span>
     <span class="c1"># `scoop_outline` takes (top_rounding, bottom_rounding, top_rise), so</span>
-    <span class="c1"># `*_fit_radii(...)` fed the top roll&#39;s **rise** to the floor fillet and the</span>
+    <span class="c1"># `*_fit_radii(...)` fed the top roll's **rise** to the floor fillet and the</span>
     <span class="c1"># floor fillet to the rise. The bottom curve was therefore sized off the</span>
     <span class="c1"># rounding radius (1.6x the top flare) instead of off the throat radius —</span>
     <span class="c1"># both curves of the U driven by the same number, which is exactly what it</span>
@@ -583,17 +583,17 @@
     <span class="n">rounding_radius</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">rounding_edge</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">floor_thickness</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Bosl2Solid&quot;</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Build a scoop that blends into the compartment floor, at one edge.</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Bosl2Solid"</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Build a scoop that blends into the compartment floor, at one edge.</span>
 
 <span class="sd">    Ported from ``FingerHoleBase``, which is the shallow-compartment case: a</span>
 <span class="sd">    wall notch in a 4mm wall gives a finger nothing to bite, so the cut is</span>
 <span class="sd">    taken into the *floor* instead. Three parts, matching the original:</span>
 
-<span class="sd">    1. the bore itself, running the compartment&#39;s full depth;</span>
+<span class="sd">    1. the bore itself, running the compartment's full depth;</span>
 <span class="sd">    2. a mouth flared into the rim, as on a wall scoop;</span>
 <span class="sd">    3. a fillet blending the cut into the floor plane, so the bottom of the</span>
-<span class="sd">       scoop curves into the box&#39;s inside surface rather than meeting it at a</span>
+<span class="sd">       scoop curves into the box's inside surface rather than meeting it at a</span>
 <span class="sd">       right angle.</span>
 
 <span class="sd">    The floor fillet is what distinguishes this from a plain dish, and it is</span>
@@ -604,7 +604,7 @@
 <span class="sd">        comp_width: Compartment footprint width.</span>
 <span class="sd">        comp_length: Compartment footprint length.</span>
 <span class="sd">        side: Which edge the scoop sits against.</span>
-<span class="sd">        radius: Bore radius in mm, capped to half the compartment&#39;s span.</span>
+<span class="sd">        radius: Bore radius in mm, capped to half the compartment's span.</span>
 <span class="sd">        comp_depth: Compartment depth. Defaults to ``radius`` when unknown.</span>
 <span class="sd">        wall_thickness: Wall the cut passes through; also sets the floor fillet.</span>
 <span class="sd">        rounding_radius: Flare at the mouth where the cut meets the rim.</span>
@@ -612,16 +612,16 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        Bosl2Solid cutout, positioned in the compartment frame. It reaches down</span>
-<span class="sd">        to the floor plane and no further, so the box&#39;s base stays intact.</span>
+<span class="sd">        to the floor plane and no further, so the box's base stays intact.</span>
 
 <span class="sd">    Raises:</span>
 <span class="sd">        ValueError: If the compartment span is not positive.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">cuboid</span>
 
     <span class="n">span</span> <span class="o">=</span> <span class="n">comp_width</span> <span class="k">if</span> <span class="n">side</span> <span class="ow">in</span> <span class="p">(</span><span class="n">ScoopSide</span><span class="o">.</span><span class="n">FRONT</span><span class="p">,</span> <span class="n">ScoopSide</span><span class="o">.</span><span class="n">BACK</span><span class="p">)</span> <span class="k">else</span> <span class="n">comp_length</span>
     <span class="k">if</span> <span class="n">span</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;compartment span must be &gt; 0; got </span><span class="si">{</span><span class="n">span</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"compartment span must be &gt; 0; got </span><span class="si">{</span><span class="n">span</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
     <span class="n">radius</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">radius</span><span class="p">,</span> <span class="n">span</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">rounding_radius</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -676,7 +676,7 @@
 <div class="viewcode-block" id="build_cut">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.compartments.finger_hole.html#pyboxbuilder.compartments.finger_cuts.build_cut">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">build_cut</span><span class="p">(</span>
-    <span class="n">kind</span><span class="p">:</span> <span class="s2">&quot;FingerCut&quot;</span><span class="p">,</span>
+    <span class="n">kind</span><span class="p">:</span> <span class="s2">"FingerCut"</span><span class="p">,</span>
     <span class="n">comp_width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">comp_length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">comp_depth</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
@@ -687,8 +687,8 @@
     <span class="n">floor_thickness</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">profile</span><span class="p">:</span> <span class="n">CutProfile</span> <span class="o">=</span> <span class="n">CutProfile</span><span class="p">(),</span>
     <span class="n">faces</span><span class="p">:</span> <span class="n">FaceTreatment</span> <span class="o">=</span> <span class="n">FaceTreatment</span><span class="p">(),</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Bosl2Solid&quot;</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Build whichever finger cut this compartment wants — the only chooser.</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Bosl2Solid"</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Build whichever finger cut this compartment wants — the only chooser.</span>
 
 <span class="sd">    Three shapes can come out of a request for a finger cut, and which one it</span>
 <span class="sd">    is turns on two questions:</span>
@@ -712,13 +712,13 @@
 <span class="sd">        side: Which wall or edge the cut sits on.</span>
 <span class="sd">        radius: Throat half-width; `profile.width` overrides it when given.</span>
 <span class="sd">        wall_thickness: Wall the cut passes through.</span>
-<span class="sd">        floor_thickness: The box&#39;s base under the well.</span>
-<span class="sd">        profile: The outline&#39;s four numbers (FR-051); `None` fields derive.</span>
+<span class="sd">        floor_thickness: The box's base under the well.</span>
+<span class="sd">        profile: The outline's four numbers (FR-051); `None` fields derive.</span>
 <span class="sd">        faces: How the cut is treated where it emerges.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        Bosl2Solid cutout, positioned in the compartment frame.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">FingerCut</span>
 
     <span class="k">if</span> <span class="n">profile</span><span class="o">.</span><span class="n">half_width</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -760,13 +760,13 @@
     <span class="n">rounding_radius</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">rounding_edge</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">floor_thickness</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Bosl2Solid&quot;</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;A side scoop, wall or floor-blended by depth — `build_cut`&#39;s SCOOP arm.</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Bosl2Solid"</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""A side scoop, wall or floor-blended by depth — `build_cut`'s SCOOP arm.</span>
 
-<span class="sd">    Kept as its own name because &quot;give me a scoop&quot; reads better at a call site</span>
-<span class="sd">    than &quot;give me a cut of kind SCOOP&quot;, but it decides nothing: the two rules</span>
+<span class="sd">    Kept as its own name because "give me a scoop" reads better at a call site</span>
+<span class="sd">    than "give me a cut of kind SCOOP", but it decides nothing: the two rules</span>
 <span class="sd">    live in :func:`build_cut`.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">FingerCut</span>
 
     <span class="k">return</span> <span class="n">build_cut</span><span class="p">(</span>
@@ -790,12 +790,12 @@
     <span class="n">floor_thickness</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">2.0</span><span class="p">,</span>
     <span class="n">mouth_flare</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">rounding_edge</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Bosl2Solid&quot;</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;A finger hole cut **through the floor**, for a well holding a stack.</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Bosl2Solid"</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""A finger hole cut **through the floor**, for a well holding a stack.</span>
 
 <span class="sd">    A scoop puts a finger down the *side* of what a well holds. A card stack</span>
 <span class="sd">    fills its well, so there is no side to reach down — what lifts it is a thumb</span>
-<span class="sd">    from underneath, which means the cut has to go through the box&#39;s base</span>
+<span class="sd">    from underneath, which means the cut has to go through the box's base</span>
 <span class="sd">    (FR-060). Every card box in the original toolkit does this: `FingerHoleBase`</span>
 <span class="sd">    is a cylinder, and its callers translate it ``-default_floor_thickness - 0.5``</span>
 <span class="sd">    so it starts below the base and cuts right through.</span>
@@ -803,20 +803,20 @@
 <span class="sd">    The circle sits **on the wall** the ``side`` names, straddling it, so the</span>
 <span class="sd">    finger arrives under the *edge* of the stack — where a card is lifted from —</span>
 <span class="sd">    and the middle of the floor is left to hold the pieces up. Rolled where it</span>
-<span class="sd">    emerges: onto both faces of the wall, and into the wall&#39;s top.</span>
+<span class="sd">    emerges: onto both faces of the wall, and into the wall's top.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        comp_width: Compartment footprint width.</span>
 <span class="sd">        comp_length: Compartment footprint length.</span>
 <span class="sd">        side: Which wall the hole is cut at.</span>
-<span class="sd">        radius: Hole radius in mm; capped to half the wall&#39;s span.</span>
+<span class="sd">        radius: Hole radius in mm; capped to half the wall's span.</span>
 <span class="sd">        comp_depth: Compartment depth — the cut runs from below the base to</span>
 <span class="sd">            the top of the wall.</span>
 <span class="sd">        wall_thickness: The wall the hole breaks through.</span>
 <span class="sd">        floor_thickness: The floor it passes through; the cut starts below it.</span>
-<span class="sd">        mouth_flare: How far the hole&#39;s top rolls outward into the wall&#39;s rim;</span>
+<span class="sd">        mouth_flare: How far the hole's top rolls outward into the wall's rim;</span>
 <span class="sd">            ``None`` uses the 3mm the original does.</span>
-<span class="sd">        rounding_edge: Fillet where the cut emerges on the wall&#39;s **outside**</span>
+<span class="sd">        rounding_edge: Fillet where the cut emerges on the wall's **outside**</span>
 <span class="sd">            face. The inside face and the base stay square: the inside is what</span>
 <span class="sd">            a card stack rests against, and the base is a surface the box sits</span>
 <span class="sd">            on. ``None`` uses</span>
@@ -828,16 +828,16 @@
 
 <span class="sd">    Raises:</span>
 <span class="sd">        ValueError: If the compartment span, depth or radius is not positive.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">cuboid</span><span class="p">,</span> <span class="n">cylinder</span>
 
     <span class="n">span</span> <span class="o">=</span> <span class="n">comp_width</span> <span class="k">if</span> <span class="n">side</span> <span class="ow">in</span> <span class="p">(</span><span class="n">ScoopSide</span><span class="o">.</span><span class="n">FRONT</span><span class="p">,</span> <span class="n">ScoopSide</span><span class="o">.</span><span class="n">BACK</span><span class="p">)</span> <span class="k">else</span> <span class="n">comp_length</span>
     <span class="k">if</span> <span class="n">span</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;compartment span must be &gt; 0; got </span><span class="si">{</span><span class="n">span</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"compartment span must be &gt; 0; got </span><span class="si">{</span><span class="n">span</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">comp_depth</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;comp_depth must be &gt; 0; got </span><span class="si">{</span><span class="n">comp_depth</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"comp_depth must be &gt; 0; got </span><span class="si">{</span><span class="n">comp_depth</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">radius</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;radius must be &gt; 0; got </span><span class="si">{</span><span class="n">radius</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"radius must be &gt; 0; got </span><span class="si">{</span><span class="n">radius</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">rounding_edge</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">rounding_edge</span> <span class="o">=</span> <span class="n">wall_thickness</span> <span class="o">/</span> <span class="mi">2</span>
     <span class="n">radius</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">radius</span><span class="p">,</span> <span class="n">span</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
@@ -845,31 +845,31 @@
     <span class="c1"># Below the base and above the rim: the cut has to *leave* on both sides,</span>
     <span class="c1"># so neither end is a coincident face for the boolean to resolve. Clear of</span>
     <span class="c1"># the base by the **face fillet** as well, not just a hair: the fillet rolls</span>
-    <span class="c1"># right around the slot&#39;s ring, so a ring ending a millimetre under a 2mm</span>
+    <span class="c1"># right around the slot's ring, so a ring ending a millimetre under a 2mm</span>
     <span class="c1"># floor puts its bottom roll back up inside the base and leaves a curled lip</span>
-    <span class="c1"># around the hole&#39;s underside. The hole meets the base flat (FR-060).</span>
+    <span class="c1"># around the hole's underside. The hole meets the base flat (FR-060).</span>
     <span class="n">below</span> <span class="o">=</span> <span class="n">floor_thickness</span> <span class="o">+</span> <span class="n">rounding_edge</span> <span class="o">+</span> <span class="mf">0.5</span>
     <span class="n">height</span> <span class="o">=</span> <span class="n">comp_depth</span> <span class="o">+</span> <span class="n">below</span> <span class="o">+</span> <span class="n">RIM_OVERSHOOT_MM</span>
-    <span class="c1"># The bore&#39;s wall is a surface a finger runs right around, and a big one —</span>
+    <span class="c1"># The bore's wall is a surface a finger runs right around, and a big one —</span>
     <span class="c1"># 30mm across on a card box. The ambient preview precision caps a circle at</span>
     <span class="c1"># `fa = 12°`, i.e. 30 facets however large it is, which on a hole this size</span>
     <span class="c1"># is a visible polygon rather than a curve. `rounding_facets` is the same</span>
     <span class="c1"># floor every fillet in the library uses, and the original pins a count of</span>
-    <span class="c1"># 64 on this exact cylinder for the same reason; an export&#39;s higher count</span>
+    <span class="c1"># 64 on this exact cylinder for the same reason; an export's higher count</span>
     <span class="c1"># still wins.</span>
     <span class="n">bore</span> <span class="o">=</span> <span class="n">cylinder</span><span class="p">(</span>
         <span class="n">height</span><span class="o">=</span><span class="n">height</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="n">radius</span><span class="p">,</span> <span class="o">**</span><span class="n">rounding_facets</span><span class="p">()</span>
     <span class="p">)</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">height</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">-</span> <span class="n">below</span><span class="p">])</span>
 
-    <span class="c1"># The wall itself: the bore only reaches the wall&#39;s inner half, so the rest</span>
+    <span class="c1"># The wall itself: the bore only reaches the wall's inner half, so the rest</span>
     <span class="c1"># of the way through is a slot of the same width, rolled onto each face by</span>
     <span class="c1"># the same fillet the scoops use (FR-073).</span>
     <span class="c1">#</span>
-    <span class="c1"># Its **top corners roll into the wall&#39;s rim** rather than meeting it</span>
+    <span class="c1"># Its **top corners roll into the wall's rim** rather than meeting it</span>
     <span class="c1"># square (FR-060) — the original flares them by `rounding_radius` and</span>
     <span class="c1"># rolls the top edge over by half the wall besides. This is the edge a hand</span>
     <span class="c1"># meets when it picks the box up, so a square one is felt immediately. The</span>
-    <span class="c1"># roll is circular and tangent to the top face, as a grip&#39;s is.</span>
+    <span class="c1"># roll is circular and tangent to the top face, as a grip's is.</span>
     <span class="k">if</span> <span class="n">mouth_flare</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">mouth_flare</span> <span class="o">=</span> <span class="n">DEFAULT_MOUTH_ROUNDING_MM</span>
     <span class="n">mouth_flare</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="n">mouth_flare</span><span class="p">,</span> <span class="n">radius</span><span class="p">))</span>
@@ -891,15 +891,15 @@
         <span class="n">rounding_radius</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
         <span class="n">span</span><span class="o">=</span><span class="n">span</span><span class="p">,</span>
         <span class="n">radius</span><span class="o">=</span><span class="n">radius</span><span class="p">,</span>
-        <span class="c1"># Only the box&#39;s **outside** is rolled — the inside is what the stack</span>
+        <span class="c1"># Only the box's **outside** is rolled — the inside is what the stack</span>
         <span class="c1"># rests against, and a fillet there is a gap the bottom card slides</span>
         <span class="c1"># into rather than anything a hand touches. It is still swept with</span>
         <span class="c1"># *both* rims and run a fillet further into the compartment: that puts</span>
-        <span class="c1"># the inner rim&#39;s whole transition in the well, which is void, so what</span>
+        <span class="c1"># the inner rim's whole transition in the well, which is void, so what</span>
         <span class="c1"># the wall gets is one constant section, square at its inner face and</span>
         <span class="c1"># rolled at its outer one. Asking for a single rim instead leaves the</span>
-        <span class="c1"># middle at the path&#39;s full width with the other rim stepping in from</span>
-        <span class="c1"># it — a ridge inside the hole a fillet&#39;s depth from the outer face.</span>
+        <span class="c1"># middle at the path's full width with the other rim stepping in from</span>
+        <span class="c1"># it — a ridge inside the hole a fillet's depth from the outer face.</span>
         <span class="n">faces</span><span class="o">=</span><span class="n">FaceTreatment</span><span class="p">(</span>
             <span class="n">fillet</span><span class="o">=</span><span class="n">rounding_edge</span><span class="p">,</span>
             <span class="n">round_inner</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
@@ -909,11 +909,11 @@
         <span class="p">),</span>
     <span class="p">)</span>
 
-    <span class="c1"># The overshoot is there to move the inner rim&#39;s transition out of the</span>
-    <span class="c1"># wall, and it must not reach the **base**: below the well&#39;s floor it would</span>
+    <span class="c1"># The overshoot is there to move the inner rim's transition out of the</span>
+    <span class="c1"># wall, and it must not reach the **base**: below the well's floor it would</span>
     <span class="c1"># take a rounded bite out of the floor *inside* the well, right across the</span>
-    <span class="c1"># cut&#39;s width — measured, 2mm in from the wall over the full 33mm. Below</span>
-    <span class="c1"># the floor the slot is the wall&#39;s own thickness and nothing more; the bore</span>
+    <span class="c1"># cut's width — measured, 2mm in from the wall over the full 33mm. Below</span>
+    <span class="c1"># the floor the slot is the wall's own thickness and nothing more; the bore</span>
     <span class="c1"># is what opens the base, and it is unioned after this.</span>
     <span class="n">reach</span> <span class="o">=</span> <span class="n">rounding_edge</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">+</span> <span class="mf">0.1</span>
     <span class="n">strip</span> <span class="o">=</span> <span class="p">{</span>

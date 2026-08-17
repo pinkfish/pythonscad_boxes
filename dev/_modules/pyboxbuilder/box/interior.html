@@ -297,7 +297,7 @@
 
 <h1>Source code for pyboxbuilder.box.interior</h1><div class="highlight"><pre>
 <span></span><code><span class="c1"># SPDX-License-Identifier: Apache-2.0</span>
-<span class="sd">&quot;&quot;&quot;Interior computation and hollowing utilities.&quot;&quot;&quot;</span>
+<span class="sd">"""Interior computation and hollowing utilities."""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
 
@@ -306,7 +306,7 @@
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.interior.Interior.html#pyboxbuilder.box.base.Interior">[docs]</a>
 <span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">Interior</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;The usable volume inside a box.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""The usable volume inside a box."""</span>
 
     <span class="n">width</span><span class="p">:</span> <span class="nb">float</span>
     <span class="n">length</span><span class="p">:</span> <span class="nb">float</span>
@@ -330,7 +330,7 @@
 <div class="viewcode-block" id="Interior.contains_compartment">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.interior.Interior.html#pyboxbuilder.box.base.Interior.contains_compartment">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">contains_compartment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">comp_w</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">comp_l</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check whether a compartment footprint fits in the interior.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Check whether a compartment footprint fits in the interior."""</span>
         <span class="k">return</span> <span class="n">comp_w</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="ow">and</span> <span class="n">comp_l</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">length</span></div>
 </div>
 

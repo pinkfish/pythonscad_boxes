@@ -297,7 +297,7 @@
 
 <h1>Source code for pyboxbuilder.builders.slipover</h1><div class="highlight"><pre>
 <span></span><code><span class="c1"># SPDX-License-Identifier: Apache-2.0</span>
-<span class="sd">&quot;&quot;&quot;SlipoverBoxBuilder — typed builder for slipover lid boxes.&quot;&quot;&quot;</span>
+<span class="sd">"""SlipoverBoxBuilder — typed builder for slipover lid boxes."""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">ClassVar</span>
@@ -310,15 +310,15 @@
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.builders.slipover.SlipoverBoxBuilder.html#pyboxbuilder.builders.slipover.SlipoverBoxBuilder">[docs]</a>
 <span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">SlipoverBoxBuilder</span><span class="p">(</span><span class="n">BoxBuilder</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Builder for slipover lid box type.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Builder for slipover lid box type."""</span>
 
     <span class="n">box_type</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="n">BoxType</span><span class="p">]</span> <span class="o">=</span> <span class="n">BoxType</span><span class="o">.</span><span class="n">SLIPOVER</span>
 
     <span class="n">foot</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Height of the exposed base the sleeve stops against, in mm. 0 = the</span>
-<span class="sd">    sleeve covers the whole body.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Height of the exposed base the sleeve stops against, in mm. 0 = the</span>
+<span class="sd">    sleeve covers the whole body."""</span>
     <span class="n">slip</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.6</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Thickness of the sleeve wall that wraps the body.&quot;&quot;&quot;</span></div>
+<span class="w">    </span><span class="sd">"""Thickness of the sleeve wall that wraps the body."""</span></div>
 
 </code></pre></div>
 

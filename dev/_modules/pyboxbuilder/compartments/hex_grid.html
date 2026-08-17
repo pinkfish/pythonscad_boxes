@@ -297,11 +297,11 @@
 
 <h1>Source code for pyboxbuilder.compartments.hex_grid</h1><div class="highlight"><pre>
 <span></span><code><span class="c1"># SPDX-License-Identifier: Apache-2.0</span>
-<span class="sd">&quot;&quot;&quot;Hex-grid compartment layout — hexagonal tile cutouts with push block and finger hole.</span>
+<span class="sd">"""Hex-grid compartment layout — hexagonal tile cutouts with push block and finger hole.</span>
 
 <span class="sd">Ports the `HexGridWithCutouts` behaviour from the original toolkit. Layout math</span>
 <span class="sd">is pure Python; geometry generation delegates to pybosl2.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
@@ -321,24 +321,24 @@
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.compartments.hex_grid.HexGridSpec.html#pyboxbuilder.compartments.hex_grid.HexGridSpec">[docs]</a>
 <span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">HexGridSpec</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Configuration for a hex-grid compartment (FR-040).&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Configuration for a hex-grid compartment (FR-040)."""</span>
 
     <span class="n">rows</span><span class="p">:</span> <span class="nb">int</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Number of rows of hex cells.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Number of rows of hex cells."""</span>
     <span class="n">cols</span><span class="p">:</span> <span class="nb">int</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Number of columns of hex cells.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Number of columns of hex cells."""</span>
     <span class="n">tile_width</span><span class="p">:</span> <span class="nb">float</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Apothem-to-apothem width of each hex tile (mm).&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Apothem-to-apothem width of each hex tile (mm)."""</span>
     <span class="n">height</span><span class="p">:</span> <span class="nb">float</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Depth of the hex cell cutouts (mm).&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Depth of the hex cell cutouts (mm)."""</span>
     <span class="n">spacing</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Gap between adjacent hex cells (mm).&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Gap between adjacent hex cells (mm)."""</span>
     <span class="n">push_block_height</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Height of the raised central pillar; 0 = flat floor (FR-041).&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Height of the raised central pillar; 0 = flat floor (FR-041)."""</span>
     <span class="n">push_block_width</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">15.0</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Width of the raised pillar (apothem-to-apothem, mm).&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Width of the raised pillar (apothem-to-apothem, mm)."""</span>
     <span class="n">finger_hole_diameter</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Diameter of the floor finger hole; 0 = no finger hole (FR-042).&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Diameter of the floor finger hole; 0 = no finger hole (FR-042)."""</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">apothem</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
@@ -346,16 +346,16 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">circumradius</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Hex circumradius derived from the apothem (FR-040).&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Hex circumradius derived from the apothem (FR-040)."""</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">apothem</span> <span class="o">/</span> <span class="n">COS_30</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">rows</span> <span class="o">&lt;=</span> <span class="mi">0</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">cols</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;HexGrid rows and cols must be positive; got rows=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">rows</span><span class="si">}</span><span class="s2"> cols=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">cols</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="sa">f</span><span class="s2">"HexGrid rows and cols must be positive; got rows=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">rows</span><span class="si">}</span><span class="s2"> cols=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">cols</span><span class="si">}</span><span class="s2">"</span>
             <span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">tile_width</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;tile_width must be &gt; 0; got </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">tile_width</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"tile_width must be &gt; 0; got </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">tile_width</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span></div>
 
 
 
@@ -363,19 +363,19 @@
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.compartments.hex_grid.HexCell.html#pyboxbuilder.compartments.hex_grid.HexCell">[docs]</a>
 <span class="nd">@dataclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">HexCell</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Position of a single hex cell within a grid.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Position of a single hex cell within a grid."""</span>
 
     <span class="n">row</span><span class="p">:</span> <span class="nb">int</span>
     <span class="n">col</span><span class="p">:</span> <span class="nb">int</span>
     <span class="n">center</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;(x, y) center of the hex cell.&quot;&quot;&quot;</span></div>
+<span class="w">    </span><span class="sd">"""(x, y) center of the hex cell."""</span></div>
 
 
 
 <div class="viewcode-block" id="compute_hex_layout">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.compartments.hex_grid.compute_hex_layout.html#pyboxbuilder.compartments.hex_grid.compute_hex_layout">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">compute_hex_layout</span><span class="p">(</span><span class="n">spec</span><span class="p">:</span> <span class="n">HexGridSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">HexCell</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute the (x, y) center of every hex cell in a rows×cols grid.</span>
+<span class="w">    </span><span class="sd">"""Compute the (x, y) center of every hex cell in a rows×cols grid.</span>
 
 <span class="sd">    Hex grids use a staggered (pointy-top) layout: odd rows are offset</span>
 <span class="sd">    horizontally by half a cell width.</span>
@@ -385,7 +385,7 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        List of HexCell with computed center coordinates.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">cells</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">HexCell</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">r</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">circumradius</span>
     <span class="n">ap</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">apothem</span>
@@ -410,14 +410,14 @@
 <div class="viewcode-block" id="hex_grid_bounds">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.compartments.hex_grid.hex_grid_bounds.html#pyboxbuilder.compartments.hex_grid.hex_grid_bounds">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">hex_grid_bounds</span><span class="p">(</span><span class="n">spec</span><span class="p">:</span> <span class="n">HexGridSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute the bounding (width, length) of a hex grid.</span>
+<span class="w">    </span><span class="sd">"""Compute the bounding (width, length) of a hex grid.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        spec: The hex grid specification.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        (width, length) of the full grid footprint in mm.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">rows</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">spec</span><span class="o">.</span><span class="n">cols</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">return</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
 
@@ -440,8 +440,8 @@
 
 <div class="viewcode-block" id="build_hex_grid">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.compartments.hex_grid.build_hex_grid.html#pyboxbuilder.compartments.hex_grid.build_hex_grid">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">build_hex_grid</span><span class="p">(</span><span class="n">spec</span><span class="p">:</span> <span class="n">HexGridSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Bosl2Solid&quot;</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Build the hexagonal cutout solid for a hex-grid compartment.</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">build_hex_grid</span><span class="p">(</span><span class="n">spec</span><span class="p">:</span> <span class="n">HexGridSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Bosl2Solid"</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Build the hexagonal cutout solid for a hex-grid compartment.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        spec: The hex grid specification.</span>
@@ -449,7 +449,7 @@
 <span class="sd">    Returns:</span>
 <span class="sd">        A Bosl2Solid of all hex cell cutouts (positive geometry to subtract</span>
 <span class="sd">        from the box floor), or None if pybosl2 is unavailable.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">cylinder</span><span class="p">,</span> <span class="n">regular_prism</span>
     <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>

@@ -297,7 +297,7 @@
 
 <h1>Source code for pyboxbuilder.box.types.slipover</h1><div class="highlight"><pre>
 <span></span><code><span class="c1"># SPDX-License-Identifier: Apache-2.0</span>
-<span class="sd">&quot;&quot;&quot;SlipoverBox — slipover lid box type.&quot;&quot;&quot;</span>
+<span class="sd">"""SlipoverBox — slipover lid box type."""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
@@ -308,10 +308,10 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.spec</span><span class="w"> </span><span class="kn">import</span> <span class="n">BoxSpec</span>
 
 <span class="n">SLIPOVER_FINGER_MAX_MM</span> <span class="o">=</span> <span class="mf">20.0</span>
-<span class="sd">&quot;&quot;&quot;Tallest a sleeve&#39;s corner notch gets, however deep the box.&quot;&quot;&quot;</span>
+<span class="sd">"""Tallest a sleeve's corner notch gets, however deep the box."""</span>
 
 <span class="n">SLIPOVER_FINGER_MIN_RADIUS_MM</span> <span class="o">=</span> <span class="mf">7.0</span>
-<span class="sd">&quot;&quot;&quot;Smallest notch radius that still admits a fingertip.&quot;&quot;&quot;</span>
+<span class="sd">"""Smallest notch radius that still admits a fingertip."""</span>
 
 <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2.shapes3d</span><span class="w"> </span><span class="kn">import</span> <span class="n">Bosl2Solid</span>
@@ -320,7 +320,7 @@
 <div class="viewcode-block" id="SlipoverBox">
 <a class="viewcode-back" href="../../../../_autosummary/pyboxbuilder.box.types.slipover.SlipoverBox.html#pyboxbuilder.box.types.slipover.SlipoverBox">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">SlipoverBox</span><span class="p">(</span><span class="n">BoxTypeBase</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Slipover lid box type.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Slipover lid box type."""</span>
 
 <div class="viewcode-block" id="SlipoverBox.interior">
 <a class="viewcode-back" href="../../../../_autosummary/pyboxbuilder.box.types.slipover.SlipoverBox.html#pyboxbuilder.box.types.slipover.SlipoverBox.interior">[docs]</a>
@@ -338,14 +338,14 @@
 
 <div class="viewcode-block" id="SlipoverBox.build_body">
 <a class="viewcode-back" href="../../../../_autosummary/pyboxbuilder.box.types.slipover.SlipoverBox.html#pyboxbuilder.box.types.slipover.SlipoverBox.build_body">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">build_body</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Bosl2Solid&quot;</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;The tray, set in all round so the sleeve finishes flush.</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_body</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Bosl2Solid"</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""The tray, set in all round so the sleeve finishes flush.</span>
 
 <span class="sd">        The declared size is the outside of the *closed* box, so the body is</span>
 <span class="sd">        inset by a wall thickness and stops a lid thickness short — the sleeve</span>
 <span class="sd">        occupies the difference. A `foot` keeps its full footprint at the very</span>
 <span class="sd">        bottom for the sleeve to seat against.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.features</span><span class="w"> </span><span class="kn">import</span> <span class="n">slipover_metrics</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.shell</span><span class="w"> </span><span class="kn">import</span> <span class="n">build_shell</span>
 
@@ -353,7 +353,7 @@
         <span class="n">foot</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">foot</span>
 
         <span class="c1"># The whole body is what the sleeve grips, so its corners take the</span>
-        <span class="c1"># smaller mating radius — matched by the sleeve&#39;s cavity in build_lid.</span>
+        <span class="c1"># smaller mating radius — matched by the sleeve's cavity in build_lid.</span>
         <span class="c1"># Only the foot below the sleeve stays a fully-rounded exposed edge.</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.rounding</span><span class="w"> </span><span class="kn">import</span> <span class="n">mating_rounding</span>
 
@@ -363,7 +363,7 @@
                 <span class="n">width</span><span class="o">=</span><span class="n">spec</span><span class="o">.</span><span class="n">width</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">inset</span><span class="p">,</span>
                 <span class="n">length</span><span class="o">=</span><span class="n">spec</span><span class="o">.</span><span class="n">length</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">inset</span><span class="p">,</span>
                 <span class="n">height</span><span class="o">=</span><span class="n">body_height</span><span class="p">,</span>
-                <span class="c1"># Already shortened for the sleeve, so its top is the inside&#39;s top.</span>
+                <span class="c1"># Already shortened for the sleeve, so its top is the inside's top.</span>
                 <span class="n">interior_top</span><span class="o">=</span><span class="n">body_height</span><span class="p">,</span>
                 <span class="n">rounding</span><span class="o">=</span><span class="n">mating_rounding</span><span class="p">(</span><span class="n">spec</span><span class="p">),</span>
             <span class="p">)</span>
@@ -383,8 +383,8 @@
 
 <div class="viewcode-block" id="SlipoverBox.build_lid">
 <a class="viewcode-back" href="../../../../_autosummary/pyboxbuilder.box.types.slipover.SlipoverBox.html#pyboxbuilder.box.types.slipover.SlipoverBox.build_lid">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">build_lid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">,</span> <span class="n">decoration</span><span class="p">:</span> <span class="nb">object</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Bosl2Solid&quot;</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;A sleeve that slips down over the body, stopping at the foot.&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_lid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">,</span> <span class="n">decoration</span><span class="p">:</span> <span class="nb">object</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Bosl2Solid"</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""A sleeve that slips down over the body, stopping at the foot."""</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.features</span><span class="w"> </span><span class="kn">import</span> <span class="n">slipover_metrics</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.shell</span><span class="w"> </span><span class="kn">import</span> <span class="n">block</span>
 
@@ -406,7 +406,7 @@
         <span class="p">)</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.rounding</span><span class="w"> </span><span class="kn">import</span> <span class="n">mating_rounding</span><span class="p">,</span> <span class="n">rounded_block</span><span class="p">,</span> <span class="n">vertical_edges</span>
 
-        <span class="c1"># Matched to the body&#39;s corners so the sleeve nests over them.</span>
+        <span class="c1"># Matched to the body's corners so the sleeve nests over them.</span>
         <span class="n">cavity</span> <span class="o">=</span> <span class="n">rounded_block</span><span class="p">(</span>
             <span class="p">[</span>
                 <span class="n">spec</span><span class="o">.</span><span class="n">width</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">inset</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">slack</span><span class="p">,</span>
@@ -421,15 +421,15 @@
         <span class="k">return</span> <span class="n">sleeve</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_finger_notches</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span></div>
 
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">_finger_notches</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Bosl2Solid&quot;</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Corner notches so the sleeve can be pulled off.</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_finger_notches</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Bosl2Solid"</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Corner notches so the sleeve can be pulled off.</span>
 
 <span class="sd">        A slipover sleeve is a smooth box with nothing to grip: it covers the</span>
 <span class="sd">        body on four sides and its own faces are flush, so there is nowhere to</span>
 <span class="sd">        get a fingertip. The original cuts a notch into two **diagonally</span>
-<span class="sd">        opposite** corners — diagonal so the two hands pull along the sleeve&#39;s</span>
-<span class="sd">        axis rather than twisting it — sized at half the skirt&#39;s height and</span>
-<span class="sd">        placed just under the lid plate, where the notch exposes the body&#39;s</span>
+<span class="sd">        opposite** corners — diagonal so the two hands pull along the sleeve's</span>
+<span class="sd">        axis rather than twisting it — sized at half the skirt's height and</span>
+<span class="sd">        placed just under the lid plate, where the notch exposes the body's</span>
 <span class="sd">        corner and a thumb can push it out.</span>
 
 <span class="sd">        Args:</span>
@@ -438,7 +438,7 @@
 
 <span class="sd">        Returns:</span>
 <span class="sd">            The solid to subtract from the sleeve.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.features</span><span class="w"> </span><span class="kn">import</span> <span class="n">corner_catch</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.compartments.element</span><span class="w"> </span><span class="kn">import</span> <span class="n">union_all</span>
 
@@ -447,10 +447,10 @@
         <span class="n">foot</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">foot</span>
 
         <span class="n">skirt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">height</span> <span class="o">-</span> <span class="n">foot</span> <span class="o">-</span> <span class="n">lt</span>
-        <span class="c1"># The original&#39;s sizing: half the skirt, capped, and a radius that stays</span>
+        <span class="c1"># The original's sizing: half the skirt, capped, and a radius that stays</span>
         <span class="c1"># usable on a shallow box.</span>
         <span class="c1"># An explicit None check, not `or`: `slipover_finger_height=0` means</span>
-        <span class="c1"># &quot;no notch&quot;, and `or` reads zero as &quot;unset&quot; and hands back the default.</span>
+        <span class="c1"># "no notch", and `or` reads zero as "unset" and hands back the default.</span>
         <span class="n">requested</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">slipover_finger_height</span>
         <span class="n">height</span> <span class="o">=</span> <span class="p">(</span>
             <span class="nb">min</span><span class="p">(</span><span class="n">SLIPOVER_FINGER_MAX_MM</span><span class="p">,</span> <span class="n">skirt</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="k">if</span> <span class="n">requested</span> <span class="ow">is</span> <span class="kc">None</span>

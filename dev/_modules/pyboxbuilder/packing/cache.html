@@ -297,7 +297,7 @@
 
 <h1>Source code for pyboxbuilder.packing.cache</h1><div class="highlight"><pre>
 <span></span><code><span class="c1"># SPDX-License-Identifier: Apache-2.0</span>
-<span class="sd">&quot;&quot;&quot;Two-level layout cache — memory + disk JSON with SHA-256 hash keys.&quot;&quot;&quot;</span>
+<span class="sd">"""Two-level layout cache — memory + disk JSON with SHA-256 hash keys."""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
@@ -306,29 +306,29 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span>
 
-<span class="n">CACHE_FILE</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;pyboxbuilder/.layout_cache.json&quot;</span><span class="p">)</span>
-<span class="sd">&quot;&quot;&quot;Disk cache file path.&quot;&quot;&quot;</span>
+<span class="n">CACHE_FILE</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">"pyboxbuilder/.layout_cache.json"</span><span class="p">)</span>
+<span class="sd">"""Disk cache file path."""</span>
 
-<span class="n">BGTK_VERSION</span> <span class="o">=</span> <span class="s2">&quot;1.0.0&quot;</span>
-<span class="sd">&quot;&quot;&quot;Version key for global cache invalidation on library changes.&quot;&quot;&quot;</span>
+<span class="n">BGTK_VERSION</span> <span class="o">=</span> <span class="s2">"1.0.0"</span>
+<span class="sd">"""Version key for global cache invalidation on library changes."""</span>
 
 <span class="n">_memory_cache</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
-<span class="sd">&quot;&quot;&quot;In-memory cache for instant re-access within a process.&quot;&quot;&quot;</span>
+<span class="sd">"""In-memory cache for instant re-access within a process."""</span>
 
 
 <div class="viewcode-block" id="cache_key">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.packing.cache.cache_key.html#pyboxbuilder.packing.cache.cache_key">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">cache_key</span><span class="p">(</span><span class="n">input_data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate a SHA-256 hash cache key from serialized input.</span>
+<span class="w">    </span><span class="sd">"""Generate a SHA-256 hash cache key from serialized input.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        input_data: Dictionary of input parameters to hash.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        Hex-encoded SHA-256 hash string.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">input_data</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">input_data</span><span class="p">)</span>
-    <span class="n">input_data</span><span class="p">[</span><span class="s2">&quot;bgtk_version&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">BGTK_VERSION</span>
+    <span class="n">input_data</span><span class="p">[</span><span class="s2">"bgtk_version"</span><span class="p">]</span> <span class="o">=</span> <span class="n">BGTK_VERSION</span>
     <span class="n">serialized</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">input_data</span><span class="p">,</span> <span class="n">sort_keys</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="nb">str</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha256</span><span class="p">(</span><span class="n">serialized</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span></div>
 
@@ -337,11 +337,11 @@
 <div class="viewcode-block" id="load_cache">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.packing.cache.load_cache.html#pyboxbuilder.packing.cache.load_cache">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">load_cache</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Load the disk cache into memory.</span>
+<span class="w">    </span><span class="sd">"""Load the disk cache into memory.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        The full cache dictionary. Empty dict if file doesn&#39;t exist.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">        The full cache dictionary. Empty dict if file doesn't exist.</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">CACHE_FILE</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
         <span class="k">return</span> <span class="p">{}</span>
     <span class="k">try</span><span class="p">:</span>
@@ -356,13 +356,13 @@
 <div class="viewcode-block" id="save_cache">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.packing.cache.save_cache.html#pyboxbuilder.packing.cache.save_cache">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">save_cache</span><span class="p">(</span><span class="n">cache</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Save the cache dictionary to disk.</span>
+<span class="w">    </span><span class="sd">"""Save the cache dictionary to disk.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        cache: The full cache dictionary to persist.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">CACHE_FILE</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">CACHE_FILE</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">CACHE_FILE</span><span class="p">,</span> <span class="s2">"w"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
         <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">cache</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">sort_keys</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
 
 
@@ -370,7 +370,7 @@
 <div class="viewcode-block" id="get_cached">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.packing.cache.get_cached.html#pyboxbuilder.packing.cache.get_cached">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_cached</span><span class="p">(</span><span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get a cached value by key.</span>
+<span class="w">    </span><span class="sd">"""Get a cached value by key.</span>
 
 <span class="sd">    Checks memory cache first, then disk cache. Caches to memory on disk hit.</span>
 
@@ -379,7 +379,7 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        The cached value, or None if not found.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">global</span> <span class="n">_memory_cache</span>
     <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">_memory_cache</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">_memory_cache</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
@@ -396,12 +396,12 @@
 <div class="viewcode-block" id="set_cached">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.packing.cache.set_cached.html#pyboxbuilder.packing.cache.set_cached">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">set_cached</span><span class="p">(</span><span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Store a value in both memory and disk cache.</span>
+<span class="w">    </span><span class="sd">"""Store a value in both memory and disk cache.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        key: SHA-256 hash key.</span>
 <span class="sd">        value: The value to cache (must be JSON-serializable).</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">global</span> <span class="n">_memory_cache</span>
     <span class="n">_memory_cache</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
 
@@ -414,7 +414,7 @@
 <div class="viewcode-block" id="layout_cache_clear">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.packing.cache.layout_cache_clear.html#pyboxbuilder.packing.cache.layout_cache_clear">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">layout_cache_clear</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Clear all caches (memory and disk).&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Clear all caches (memory and disk)."""</span>
     <span class="k">global</span> <span class="n">_memory_cache</span>
     <span class="n">_memory_cache</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
     <span class="k">if</span> <span class="n">CACHE_FILE</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>

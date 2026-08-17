@@ -297,7 +297,7 @@
 
 <h1>Source code for pyboxbuilder.builders.cap</h1><div class="highlight"><pre>
 <span></span><code><span class="c1"># SPDX-License-Identifier: Apache-2.0</span>
-<span class="sd">&quot;&quot;&quot;CapBoxBuilder — typed builder for friction-fit cap lid boxes.&quot;&quot;&quot;</span>
+<span class="sd">"""CapBoxBuilder — typed builder for friction-fit cap lid boxes."""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">ClassVar</span>
@@ -310,11 +310,11 @@
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.builders.cap.CapBoxBuilder.html#pyboxbuilder.builders.cap.CapBoxBuilder">[docs]</a>
 <span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">CapBoxBuilder</span><span class="p">(</span><span class="n">BoxBuilder</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Builder for cap (friction-fit) lid box type.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Builder for cap (friction-fit) lid box type."""</span>
 
     <span class="n">box_type</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="n">BoxType</span><span class="p">]</span> <span class="o">=</span> <span class="n">BoxType</span><span class="o">.</span><span class="n">CAP</span>
     <span class="n">cap_height</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Skirt height in mm; ``None`` derives it from the box height.&quot;&quot;&quot;</span></div>
+<span class="w">    </span><span class="sd">"""Skirt height in mm; ``None`` derives it from the box height."""</span></div>
 
 </code></pre></div>
 

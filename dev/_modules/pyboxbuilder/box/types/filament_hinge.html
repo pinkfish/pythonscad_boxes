@@ -297,7 +297,7 @@
 
 <h1>Source code for pyboxbuilder.box.types.filament_hinge</h1><div class="highlight"><pre>
 <span></span><code><span class="c1"># SPDX-License-Identifier: Apache-2.0</span>
-<span class="sd">&quot;&quot;&quot;FilamentHingeBox — living-hinge lid box type.&quot;&quot;&quot;</span>
+<span class="sd">"""FilamentHingeBox — living-hinge lid box type."""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
@@ -316,7 +316,7 @@
 <div class="viewcode-block" id="FilamentHingeBox">
 <a class="viewcode-back" href="../../../../_autosummary/pyboxbuilder.box.types.filament_hinge.FilamentHingeBox.html#pyboxbuilder.box.types.filament_hinge.FilamentHingeBox">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">FilamentHingeBox</span><span class="p">(</span><span class="n">BoxTypeBase</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Filament (living) hinge lid box type.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Filament (living) hinge lid box type."""</span>
 
 <div class="viewcode-block" id="FilamentHingeBox.interior">
 <a class="viewcode-back" href="../../../../_autosummary/pyboxbuilder.box.types.filament_hinge.FilamentHingeBox.html#pyboxbuilder.box.types.filament_hinge.FilamentHingeBox.interior">[docs]</a>
@@ -334,30 +334,30 @@
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">_body_spec</span><span class="p">(</span><span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BoxSpec</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;The body stops a lid&#39;s thickness below the box&#39;s stated height.</span>
+<span class="w">        </span><span class="sd">"""The body stops a lid's thickness below the box's stated height.</span>
 
 <span class="sd">        The lid closes onto the rim rather than inside it, so the two together</span>
 <span class="sd">        come to `height` — build the walls full height and the closed lid would</span>
 <span class="sd">        sit in the same space as them.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">lt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">lid_thickness</span>
         <span class="k">return</span> <span class="n">replace</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">spec</span><span class="o">.</span><span class="n">height</span> <span class="o">-</span> <span class="n">lt</span><span class="p">)</span>
 
 <div class="viewcode-block" id="FilamentHingeBox.interior_mask">
 <a class="viewcode-back" href="../../../../_autosummary/pyboxbuilder.box.types.filament_hinge.FilamentHingeBox.html#pyboxbuilder.box.types.filament_hinge.FilamentHingeBox.interior_mask">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">interior_mask</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;The interior, less the room the hinge takes up inside it.</span>
+<span class="w">        </span><span class="sd">"""The interior, less the room the hinge takes up inside it.</span>
 
-<span class="sd">        The hinge sits within the box&#39;s outline, so its barrel and webs stand</span>
+<span class="sd">        The hinge sits within the box's outline, so its barrel and webs stand</span>
 <span class="sd">        in the back of the interior. Compartments are clipped to what is left</span>
 <span class="sd">        rather than being allowed to collide with it.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            spec: The box&#39;s spec dict.</span>
+<span class="sd">            spec: The box's spec dict.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            The usable interior volume.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.features</span><span class="w"> </span><span class="kn">import</span> <span class="n">hinge_intrusion</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.shell</span><span class="w"> </span><span class="kn">import</span> <span class="n">block</span>
 
@@ -374,8 +374,8 @@
 
 <div class="viewcode-block" id="FilamentHingeBox.build_body">
 <a class="viewcode-back" href="../../../../_autosummary/pyboxbuilder.box.types.filament_hinge.FilamentHingeBox.html#pyboxbuilder.box.types.filament_hinge.FilamentHingeBox.build_body">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">build_body</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Bosl2Solid&quot;</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;The shell with half the hinge knuckles along its back edge.&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_body</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Bosl2Solid"</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""The shell with half the hinge knuckles along its back edge."""</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.features</span><span class="w"> </span><span class="kn">import</span> <span class="n">filament_hinge</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.shell</span><span class="w"> </span><span class="kn">import</span> <span class="n">build_shell</span>
 
@@ -386,7 +386,7 @@
             <span class="n">spec</span><span class="o">.</span><span class="n">hinge_count</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="n">body</span> <span class="o">=</span> <span class="n">build_shell</span><span class="p">(</span><span class="n">body_spec</span><span class="p">)</span>
-        <span class="c1"># The relief comes off before the body&#39;s own knuckles go on, so the</span>
+        <span class="c1"># The relief comes off before the body's own knuckles go on, so the</span>
         <span class="c1"># cut cannot eat into them.</span>
         <span class="k">if</span> <span class="n">closure</span><span class="o">.</span><span class="n">body_cut</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">body</span> <span class="o">=</span> <span class="n">body</span> <span class="o">-</span> <span class="n">closure</span><span class="o">.</span><span class="n">body_cut</span>
@@ -395,12 +395,12 @@
 
 <div class="viewcode-block" id="FilamentHingeBox.build_lid">
 <a class="viewcode-back" href="../../../../_autosummary/pyboxbuilder.box.types.filament_hinge.FilamentHingeBox.html#pyboxbuilder.box.types.filament_hinge.FilamentHingeBox.build_lid">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">build_lid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">,</span> <span class="n">decoration</span><span class="p">:</span> <span class="nb">object</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Bosl2Solid&quot;</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;A plate carrying the interleaving knuckles, on the same pin axis.</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_lid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">,</span> <span class="n">decoration</span><span class="p">:</span> <span class="nb">object</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Bosl2Solid"</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""A plate carrying the interleaving knuckles, on the same pin axis.</span>
 
 <span class="sd">        The hinge pin is a length of filament threaded through after printing,</span>
 <span class="sd">        so the two halves stay separate parts.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.features</span><span class="w"> </span><span class="kn">import</span> <span class="n">filament_hinge</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.shell</span><span class="w"> </span><span class="kn">import</span> <span class="n">block</span>
 

@@ -297,13 +297,13 @@
 
 <h1>Source code for pyboxbuilder.compartments.finger_sweep</h1><div class="highlight"><pre>
 <span></span><code><span class="c1"># SPDX-License-Identifier: Apache-2.0</span>
-<span class="sd">&quot;&quot;&quot;Turning a cut&#39;s outline into a solid that crosses a wall.</span>
+<span class="sd">"""Turning a cut's outline into a solid that crosses a wall.</span>
 
 <span class="sd">The outline (:mod:`pyboxbuilder.compartments.finger_outline`) says what shape</span>
 <span class="sd">the cut is; this says what happens to it on the way through the wall. That is</span>
 <span class="sd">two questions, and they are the ones this module owns:</span>
 
-<span class="sd">* **how far it runs** — a wall&#39;s thickness plus the overshoot each end needs to</span>
+<span class="sd">* **how far it runs** — a wall's thickness plus the overshoot each end needs to</span>
 <span class="sd">  leave cleanly, so no face of the cut is coplanar with a face of the box;</span>
 <span class="sd">* **what each end does when it emerges** — square, or rolled over onto the face</span>
 <span class="sd">  by a fillet, decided per face (:class:`FaceTreatment`).</span>
@@ -312,7 +312,7 @@
 <span class="sd">*outward*, so the near end is the inside of the wall and the far end its</span>
 <span class="sd">outside, which is what a hand touches. Wiring those two the wrong way round is</span>
 <span class="sd">invisible whenever both are rounded the same, and shipped once (T330).</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
@@ -328,14 +328,14 @@
 
 
 <span class="n">DEFAULT_FLOOR_DIP_MM</span> <span class="o">=</span> <span class="mf">0.2</span>
-<span class="sd">&quot;&quot;&quot;How far a cut passes below the well floor, by default.</span>
+<span class="sd">"""How far a cut passes below the well floor, by default.</span>
 
-<span class="sd">Its only job is to keep the cut&#39;s bottom face off the floor plane, since a</span>
+<span class="sd">Its only job is to keep the cut's bottom face off the floor plane, since a</span>
 <span class="sd">coincident face renders as speckle and is how a boolean leaves a zero-thickness</span>
 <span class="sd">skin. 0.2mm does that. Scaling it with the floor thickness — which an earlier</span>
 <span class="sd">version did, up to a full millimetre — spends half a 2mm floor on a cosmetic</span>
 <span class="sd">detail, and it showed as the cut visibly eating into the floor.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="n">_SIDE_CENTRES</span> <span class="o">=</span> <span class="p">{</span>
     <span class="n">ScoopSide</span><span class="o">.</span><span class="n">FRONT</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">w</span><span class="p">,</span> <span class="n">l</span><span class="p">:</span> <span class="p">(</span><span class="n">w</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span>
@@ -353,52 +353,52 @@
 
 
 <span class="n">DEFAULT_EDGE_ROUNDING_MM</span> <span class="o">=</span> <span class="mf">1.0</span>
-<span class="sd">&quot;&quot;&quot;Fallback face fillet where no wall thickness is known.</span>
+<span class="sd">"""Fallback face fillet where no wall thickness is known.</span>
 
 <span class="sd">The scoops normally derive it as ``wall_thickness / 2`` instead, which is what</span>
 <span class="sd">the original passes and the largest fillet a wall has room for.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 <div class="viewcode-block" id="FaceTreatment">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.compartments.finger_sweep.FaceTreatment.html#pyboxbuilder.compartments.finger_cuts.FaceTreatment">[docs]</a>
 <span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">FaceTreatment</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;What happens where a cut **meets the wall it passes through** (FR-073).</span>
+<span class="w">    </span><span class="sd">"""What happens where a cut **meets the wall it passes through** (FR-073).</span>
 
 <span class="sd">    Kept apart from :class:`CutProfile` because it answers a different question:</span>
 <span class="sd">    the profile is the shape of the opening, this is what its edges do. They</span>
 <span class="sd">    were one flat parameter list, and the two most expensive bugs in this file</span>
 <span class="sd">    lived exactly on the seam — a face rounded on the wrong side, and a rim</span>
 <span class="sd">    profile on one end only leaving a ridge inside the cut.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="n">fillet</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;The roundover radius where the cut emerges. ``None`` uses half the wall,</span>
-<span class="sd">    the largest a wall can carry (FR-059).&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""The roundover radius where the cut emerges. ``None`` uses half the wall,</span>
+<span class="sd">    the largest a wall can carry (FR-059)."""</span>
     <span class="n">round_outer</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Round the box&#39;s **outside** face — the one a hand meets.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Round the box's **outside** face — the one a hand meets."""</span>
     <span class="n">round_inner</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Round the compartment-side face. Off for a cut something rests against,</span>
-<span class="sd">    where a fillet is a gap rather than a comfort.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Round the compartment-side face. Off for a cut something rests against,</span>
+<span class="sd">    where a fillet is a gap rather than a comfort."""</span>
     <span class="n">inner_overshoot</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;How far past the inner face to run the sweep, so a rim&#39;s transition</span>
-<span class="sd">    finishes in the void instead of leaving a ridge inside the wall.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""How far past the inner face to run the sweep, so a rim's transition</span>
+<span class="sd">    finishes in the void instead of leaving a ridge inside the wall."""</span>
     <span class="n">breach_floor</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Let the cut run below the well floor unclipped.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Let the cut run below the well floor unclipped."""</span>
     <span class="n">floor_clearance</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;How far below the well floor the cut may reach; ``None`` derives it.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""How far below the well floor the cut may reach; ``None`` derives it."""</span>
     <span class="n">top_limit</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Height above which the cut is trimmed — the guard for material that must</span>
-<span class="sd">    not be cut into.&quot;&quot;&quot;</span></div>
+<span class="w">    </span><span class="sd">"""Height above which the cut is trimmed — the guard for material that must</span>
+<span class="sd">    not be cut into."""</span></div>
 
 <div class="viewcode-block" id="scoop_face_flare">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.compartments.finger_sweep.scoop_face_flare.html#pyboxbuilder.compartments.finger_cuts.scoop_face_flare">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">scoop_face_flare</span><span class="p">(</span>
     <span class="n">wall_thickness</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">rounding_edge</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;How far a wall scoop&#39;s face fillet reaches **beyond** its outline (FR-074).</span>
+<span class="w">    </span><span class="sd">"""How far a wall scoop's face fillet reaches **beyond** its outline (FR-074).</span>
 
 <span class="sd">    The fillet that rolls the cut onto each face is produced by flaring the</span>
-<span class="sd">    sweep&#39;s end, and the flare is isotropic in the profile plane — it grows</span>
+<span class="sd">    sweep's end, and the flare is isotropic in the profile plane — it grows</span>
 <span class="sd">    downward past the flat bottom exactly as readily as it grows sideways. So</span>
 <span class="sd">    the solid `build_wall_scoop` returns is this much taller than the height it</span>
 <span class="sd">    was asked for, at each end.</span>
@@ -406,7 +406,7 @@
 <span class="sd">    Callers that place a scoop against something — a floor, an interior top —</span>
 <span class="sd">    must add this back, or the cut lands lower than the height they asked for</span>
 <span class="sd">    (T306). It is also what the floor clip has to allow for: clipping at the</span>
-<span class="sd">    outline&#39;s flat bottom slices the flare off mid-curve and leaves the wall&#39;s</span>
+<span class="sd">    outline's flat bottom slices the flare off mid-curve and leaves the wall's</span>
 <span class="sd">    sawn cross-section showing at the base of the scoop.</span>
 
 <span class="sd">    Args:</span>
@@ -415,7 +415,7 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        The flare in mm — normally ``wall_thickness / 2``.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="n">rounding_edge</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">rounding_edge</span> <span class="o">=</span> <span class="n">wall_thickness</span> <span class="o">/</span> <span class="mi">2</span>
     <span class="n">fudge</span> <span class="o">=</span> <span class="mf">0.03</span>
@@ -432,20 +432,20 @@
     <span class="n">rounding_radius</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">span</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">radius</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
-    <span class="n">faces</span><span class="p">:</span> <span class="s2">&quot;FaceTreatment&quot;</span> <span class="o">=</span> <span class="n">FaceTreatment</span><span class="p">(),</span>
+    <span class="n">faces</span><span class="p">:</span> <span class="s2">"FaceTreatment"</span> <span class="o">=</span> <span class="n">FaceTreatment</span><span class="p">(),</span>
     <span class="n">floor_thickness</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Bosl2Solid&quot;</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Sweep a 2-D scoop profile through a wall and place it on a side.</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Bosl2Solid"</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Sweep a 2-D scoop profile through a wall and place it on a side.</span>
 
 <span class="sd">    Shared by the edge scoop and the floor finger hole: the *profiles* differ</span>
 <span class="sd">    (that is the point — one is a channel, the other a bore), but everything</span>
 <span class="sd">    around them is the same, and duplicating it is how the two drift apart.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        outline: The scoop&#39;s closed 2-D outline as a point ring, floor at</span>
+<span class="sd">        outline: The scoop's closed 2-D outline as a point ring, floor at</span>
 <span class="sd">            ``y=0``. A ring rather than a 2-D shape because the fillet has to</span>
 <span class="sd">            follow it around: the sweep offsets the outline itself, so the</span>
-<span class="sd">            fillet traces the scoop&#39;s own curve on each face.</span>
+<span class="sd">            fillet traces the scoop's own curve on each face.</span>
 <span class="sd">        comp_width: Compartment footprint width.</span>
 <span class="sd">        comp_length: Compartment footprint length.</span>
 <span class="sd">        side: Which wall to cut through.</span>
@@ -453,11 +453,11 @@
 <span class="sd">        wall_thickness: The wall being crossed; sets the sweep depth.</span>
 <span class="sd">        rounding_radius: r1, used to size the floor clip.</span>
 <span class="sd">        span: The compartment span along the cut wall.</span>
-<span class="sd">        radius: The scoop&#39;s half-width, used to size the floor clip.</span>
+<span class="sd">        radius: The scoop's half-width, used to size the floor clip.</span>
 <span class="sd">        faces: What happens where the cut meets the wall — the fillet, which</span>
 <span class="sd">            faces get it, the overshoot, the floor clip and the top trim. One</span>
-<span class="sd">            record rather than seven parameters because the seam between &quot;the</span>
-<span class="sd">            shape of the opening&quot; and &quot;what its edges do&quot; is where this file&#39;s</span>
+<span class="sd">            record rather than seven parameters because the seam between "the</span>
+<span class="sd">            shape of the opening" and "what its edges do" is where this file's</span>
 <span class="sd">            two most expensive bugs lived: a face rounded on the wrong side,</span>
 <span class="sd">            and a rim profile on one end only leaving a ridge inside the cut</span>
 <span class="sd">            (:class:`FaceTreatment`).</span>
@@ -465,7 +465,7 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        The cutout, positioned in the compartment frame.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">rounding_edge</span> <span class="o">=</span> <span class="n">faces</span><span class="o">.</span><span class="n">fillet</span> <span class="k">if</span> <span class="n">faces</span><span class="o">.</span><span class="n">fillet</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">wall_thickness</span> <span class="o">/</span> <span class="mi">2</span>
     <span class="n">round_inner</span><span class="p">,</span> <span class="n">round_outer</span> <span class="o">=</span> <span class="n">faces</span><span class="o">.</span><span class="n">round_inner</span><span class="p">,</span> <span class="n">faces</span><span class="o">.</span><span class="n">round_outer</span>
     <span class="n">inner_overshoot</span> <span class="o">=</span> <span class="n">faces</span><span class="o">.</span><span class="n">inner_overshoot</span>
@@ -476,13 +476,13 @@
     <span class="n">depth</span> <span class="o">=</span> <span class="n">wall_thickness</span> <span class="o">+</span> <span class="n">fudge</span> <span class="o">+</span> <span class="n">inner_overshoot</span>
     <span class="n">rim</span> <span class="o">=</span> <span class="n">scoop_face_flare</span><span class="p">(</span><span class="n">wall_thickness</span><span class="p">,</span> <span class="n">rounding_edge</span><span class="p">)</span>
 
-    <span class="c1"># BOSL2&#39;s own offset_sweep, which lofts between offsets of the outline, so</span>
-    <span class="c1"># the fillet follows the cut&#39;s curve. (A hand-rolled stand-in chained</span>
+    <span class="c1"># BOSL2's own offset_sweep, which lofts between offsets of the outline, so</span>
+    <span class="c1"># the fillet follows the cut's curve. (A hand-rolled stand-in chained</span>
     <span class="c1"># convex hulls between slices, and a hull across a U-shaped outline bridges</span>
     <span class="c1"># the notch — the fillet came out as a ramp across the opening.)</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2.path2d</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path2D</span>
 
-    <span class="n">steps</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="n">rounding_facets</span><span class="p">()[</span><span class="s2">&quot;fn&quot;</span><span class="p">]</span> <span class="o">//</span> <span class="mi">4</span><span class="p">)</span>
+    <span class="n">steps</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="n">rounding_facets</span><span class="p">()[</span><span class="s2">"fn"</span><span class="p">]</span> <span class="o">//</span> <span class="mi">4</span><span class="p">)</span>
     <span class="n">ring</span> <span class="o">=</span> <span class="p">[[</span><span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="n">y</span><span class="p">)]</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">outline</span><span class="p">]</span>
     <span class="n">fillet</span> <span class="o">=</span> <span class="n">rim</span> <span class="k">if</span> <span class="p">(</span><span class="n">rim</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="p">(</span><span class="n">round_outer</span> <span class="ow">or</span> <span class="n">round_inner</span><span class="p">))</span> <span class="k">else</span> <span class="mf">0.0</span>
 
@@ -496,8 +496,8 @@
             <span class="n">height</span><span class="o">=</span><span class="n">depth</span><span class="p">,</span>
             <span class="c1"># Which end is which: the sweep runs from the compartment side</span>
             <span class="c1"># **outward** through the wall (the rotation below sends +z to -y,</span>
-            <span class="c1"># and the side placement puts z=0 on the compartment&#39;s own edge),</span>
-            <span class="c1"># so `bottom` is the inner face and `top` the box&#39;s outside. Naming</span>
+            <span class="c1"># and the side placement puts z=0 on the compartment's own edge),</span>
+            <span class="c1"># so `bottom` is the inner face and `top` the box's outside. Naming</span>
             <span class="c1"># them the other way round is the obvious mistake and a silent one</span>
             <span class="c1"># — with both faces rounded, which every compartment scoop does,</span>
             <span class="c1"># nothing distinguishes them. Measured: asking for the outward face</span>
@@ -528,11 +528,11 @@
         <span class="c1"># sideways, and left alone it would thin the floor by the fillet.</span>
         <span class="c1">#</span>
         <span class="c1"># The clip does not sit exactly on the floor plane, though: that leaves</span>
-        <span class="c1"># the cut&#39;s bottom face coplanar with the floor, and a coincident face</span>
+        <span class="c1"># the cut's bottom face coplanar with the floor, and a coincident face</span>
         <span class="c1"># renders as speckle and is the classic way a boolean leaves a</span>
-        <span class="c1"># zero-thickness skin. The original&#39;s answer is to overshoot into the</span>
+        <span class="c1"># zero-thickness skin. The original's answer is to overshoot into the</span>
         <span class="c1"># floor by about a millimetre; this does the same, bounded by half the</span>
-        <span class="c1"># floor so the box&#39;s base is still solid underneath.</span>
+        <span class="c1"># floor so the box's base is still solid underneath.</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">cuboid</span>
 
         <span class="n">dip</span> <span class="o">=</span> <span class="n">floor_clearance</span> <span class="k">if</span> <span class="n">floor_clearance</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="nb">min</span><span class="p">(</span>

@@ -297,7 +297,7 @@
 
 <h1>Source code for pyboxbuilder.box.spec</h1><div class="highlight"><pre>
 <span></span><code><span class="c1"># SPDX-License-Identifier: Apache-2.0</span>
-<span class="sd">&quot;&quot;&quot;BoxSpec — the one description a box type is built from.</span>
+<span class="sd">"""BoxSpec — the one description a box type is built from.</span>
 
 <span class="sd">Every geometric default in the library is declared **once**, here, as a field</span>
 <span class="sd">default. Nothing downstream restates one: a function that needs the wall</span>
@@ -309,7 +309,7 @@
 <span class="sd">different exclusion lists, and whose defaults were restated at 170 call sites —</span>
 <span class="sd">``wall_thickness`` alone at 36 of them. That is how a hinge came to be built</span>
 <span class="sd">with five knuckles by the geometry and three by the builder that configured it.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
@@ -323,161 +323,161 @@
     <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.interior</span><span class="w"> </span><span class="kn">import</span> <span class="n">Interior</span>
 
 <span class="n">WIGGLE_MM</span> <span class="o">=</span> <span class="mf">0.2</span>
-<span class="sd">&quot;&quot;&quot;Default clearance between two printed parts that have to fit together.&quot;&quot;&quot;</span>
+<span class="sd">"""Default clearance between two printed parts that have to fit together."""</span>
 
 
 <div class="viewcode-block" id="BoxSpec">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.spec.BoxSpec.html#pyboxbuilder.box.spec.BoxSpec">[docs]</a>
 <span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">BoxSpec</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Everything a box type needs to build its body and lid.</span>
+<span class="w">    </span><span class="sd">"""Everything a box type needs to build its body and lid.</span>
 
 <span class="sd">    Frozen, so a type cannot reach back and change the description it was</span>
 <span class="sd">    handed. Derive a variant with :func:`dataclasses.replace`::</span>
 
 <span class="sd">        body_spec = replace(spec, height=spec.height - spec.lid_thickness)</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="c1"># ── Identity and envelope ────────────────────────────────────────────</span>
     <span class="n">width</span><span class="p">:</span> <span class="nb">float</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Outer width (X) in mm.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Outer width (X) in mm."""</span>
     <span class="n">length</span><span class="p">:</span> <span class="nb">float</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Outer length (Y) in mm.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Outer length (Y) in mm."""</span>
     <span class="n">height</span><span class="p">:</span> <span class="nb">float</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Outer height (Z) in mm.&quot;&quot;&quot;</span>
-    <span class="n">label</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;box&quot;</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;The box&#39;s name, used for file naming and in error messages.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Outer height (Z) in mm."""</span>
+    <span class="n">label</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"box"</span>
+<span class="w">    </span><span class="sd">"""The box's name, used for file naming and in error messages."""</span>
 
     <span class="c1"># ── Material thicknesses ─────────────────────────────────────────────</span>
     <span class="n">wall_thickness</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">2.0</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Side wall thickness in mm.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Side wall thickness in mm."""</span>
     <span class="n">floor_thickness</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.6</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Base thickness in mm.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Base thickness in mm."""</span>
     <span class="n">lid_thickness</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">2.0</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Lid plate thickness in mm; ``0`` for a lidless type.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Lid plate thickness in mm; ``0`` for a lidless type."""</span>
 
     <span class="c1"># ── Interior ─────────────────────────────────────────────────────────</span>
     <span class="n">hollow</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Hollow the whole interior. ``False`` where compartments define the</span>
-<span class="sd">    cavities instead, or for a solid block.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Hollow the whole interior. ``False`` where compartments define the</span>
+<span class="sd">    cavities instead, or for a solid block."""</span>
     <span class="n">path</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Closed polygon footprint for a path box; empty means the rectangle</span>
-<span class="sd">    implied by ``width`` and ``length`` (FR-018).&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Closed polygon footprint for a path box; empty means the rectangle</span>
+<span class="sd">    implied by ``width`` and ``length`` (FR-018)."""</span>
     <span class="n">interior_top</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Explicit z of the interior&#39;s ceiling; ``None`` derives it as the box top</span>
-<span class="sd">    less any band the lid occupies (FR-064).&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Explicit z of the interior's ceiling; ``None`` derives it as the box top</span>
+<span class="sd">    less any band the lid occupies (FR-064)."""</span>
     <span class="n">wall_tops</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="n">ScoopSide</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">dict</span><span class="p">)</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;The z of each wall&#39;s top, per side (FR-070). Filled in by</span>
-<span class="sd">    :meth:`with_wall_tops`; empty until then.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""The z of each wall's top, per side (FR-070). Filled in by</span>
+<span class="sd">    :meth:`with_wall_tops`; empty until then."""</span>
 
     <span class="c1"># ── Rounding (FR-043/FR-044) ─────────────────────────────────────────</span>
     <span class="n">rounding</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Radius for this body&#39;s exposed edges; ``None`` uses half the wall.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Radius for this body's exposed edges; ``None`` uses half the wall."""</span>
     <span class="n">inner_rounding</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Radius where a partial lid grips the body; ``None`` uses half the</span>
-<span class="sd">    outer radius (FR-044b).&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Radius where a partial lid grips the body; ``None`` uses half the</span>
+<span class="sd">    outer radius (FR-044b)."""</span>
     <span class="n">rim_free</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;True when nothing mates with the top rim, so the rim rounds too</span>
-<span class="sd">    (FR-043f).&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""True when nothing mates with the top rim, so the rim rounds too</span>
+<span class="sd">    (FR-043f)."""</span>
     <span class="n">rim_rounding</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Radius for a top edge that stays exposed with the lid on — a sliding</span>
-<span class="sd">    box&#39;s rails (FR-043f1). ``None`` means none.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Radius for a top edge that stays exposed with the lid on — a sliding</span>
+<span class="sd">    box's rails (FR-043f1). ``None`` means none."""</span>
     <span class="n">lid_corner_rounding</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Radius of a sliding lid&#39;s vertical corners; ``None`` derives it from the</span>
-<span class="sd">    wall, capped at the dovetail depth (FR-002e4).&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Radius of a sliding lid's vertical corners; ``None`` derives it from the</span>
+<span class="sd">    wall, capped at the dovetail depth (FR-002e4)."""</span>
 
     <span class="c1"># ── Finger cuts ──────────────────────────────────────────────────────</span>
     <span class="n">finger_holes</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Explicit exterior finger holes on this box&#39;s walls.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Explicit exterior finger holes on this box's walls."""</span>
     <span class="n">auto_finger_holes</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Let a lidless box cut its own default pair of grips (FR-047/FR-047b).&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Let a lidless box cut its own default pair of grips (FR-047/FR-047b)."""</span>
 
     <span class="c1"># ── Fits ─────────────────────────────────────────────────────────────</span>
     <span class="n">size_spacing</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">WIGGLE_MM</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;General clearance between two mating printed parts, in mm.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""General clearance between two mating printed parts, in mm."""</span>
     <span class="n">sliding_slack</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.1</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Clearance per side between a sliding lid and its groove (FR-002f).&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Clearance per side between a sliding lid and its groove (FR-002f)."""</span>
     <span class="n">cap_slack</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">WIGGLE_MM</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Clearance between a cap lid&#39;s skirt and the body band it grips.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Clearance between a cap lid's skirt and the body band it grips."""</span>
     <span class="n">slip_slack</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">WIGGLE_MM</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Clearance between a slipover sleeve and the body it wraps.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Clearance between a slipover sleeve and the body it wraps."""</span>
 
     <span class="c1"># ── Sliding family ───────────────────────────────────────────────────</span>
     <span class="n">dovetail</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Cut the lid&#39;s retaining dovetail; ``False`` leaves a plain channel.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Cut the lid's retaining dovetail; ``False`` leaves a plain channel."""</span>
     <span class="n">lead_chamfer</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Chamfer on the lid&#39;s leading end; ``None`` uses a quarter of the lid</span>
-<span class="sd">    thickness (FR-002d).&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Chamfer on the lid's leading end; ``None`` uses a quarter of the lid</span>
+<span class="sd">    thickness (FR-002d)."""</span>
     <span class="n">catch_radius</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Bump-catch radius; ``None`` is no catch, which is a plain sliding box&#39;s</span>
-<span class="sd">    default (FR-002e3).&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Bump-catch radius; ``None`` is no catch, which is a plain sliding box's</span>
+<span class="sd">    default (FR-002e3)."""</span>
     <span class="n">latch_radius</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.2</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Catch radius for the card-library type, which always carries one.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Catch radius for the card-library type, which always carries one."""</span>
 
     <span class="c1"># ── Cap and slipover ─────────────────────────────────────────────────</span>
     <span class="n">cap_height</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Skirt height of a cap lid; ``None`` derives it from the box height.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Skirt height of a cap lid; ``None`` derives it from the box height."""</span>
     <span class="n">cap_finger_cutouts</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Cut the four corner finger recesses in a cap body (FR-002i).&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Cut the four corner finger recesses in a cap body (FR-002i)."""</span>
     <span class="n">cap_finger_radius</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Corner cutout radius; ``None`` derives it from the height available.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Corner cutout radius; ``None`` derives it from the height available."""</span>
     <span class="n">cap_finger_length</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;How far a corner cutout runs along each side; ``None`` derives it</span>
-<span class="sd">    between 10mm and a sixth of the side (FR-002m).&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""How far a corner cutout runs along each side; ``None`` derives it</span>
+<span class="sd">    between 10mm and a sixth of the side (FR-002m)."""</span>
     <span class="n">cap_finger_height</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Height of a corner cutout; ``None`` derives it from the skirt.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Height of a corner cutout; ``None`` derives it from the skirt."""</span>
     <span class="n">foot</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Height of exposed base a slipover sleeve stops above (FR-002p).&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Height of exposed base a slipover sleeve stops above (FR-002p)."""</span>
     <span class="n">slip</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.6</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Slipover sleeve wall thickness.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Slipover sleeve wall thickness."""</span>
     <span class="n">slipover_gap</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Band of body left showing below the sleeve; ``None`` derives it as a</span>
-<span class="sd">    quarter of the covered height, held between 3mm and 6mm (FR-002p).&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Band of body left showing below the sleeve; ``None`` derives it as a</span>
+<span class="sd">    quarter of the covered height, held between 3mm and 6mm (FR-002p)."""</span>
     <span class="n">slipover_finger_height</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Height of the sleeve&#39;s corner notches; ``None`` uses half the skirt,</span>
-<span class="sd">    capped at 20mm (FR-002h).&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Height of the sleeve's corner notches; ``None`` uses half the skirt,</span>
+<span class="sd">    capped at 20mm (FR-002h)."""</span>
     <span class="n">inset</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Rabbet depth for an inset lid.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Rabbet depth for an inset lid."""</span>
 
     <span class="c1"># ── Hinges ───────────────────────────────────────────────────────────</span>
     <span class="n">hinge_count</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">5</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Number of knuckles along the hinge.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Number of knuckles along the hinge."""</span>
     <span class="n">hinge_pin_diameter</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">3.0</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Diameter of the hinge pin, in mm.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Diameter of the hinge pin, in mm."""</span>
     <span class="n">filament_diameter</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.75</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Diameter of the filament a living hinge is printed around.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Diameter of the filament a living hinge is printed around."""</span>
 
     <span class="c1"># ── Magnets (FR-039) ─────────────────────────────────────────────────</span>
     <span class="n">magnet_type</span><span class="p">:</span> <span class="n">MagnetType</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Magnet slot shape; ``None`` means no magnets.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Magnet slot shape; ``None`` means no magnets."""</span>
     <span class="n">magnet_size</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Slot dimensions ``(diameter_or_width, length, depth)``.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Slot dimensions ``(diameter_or_width, length, depth)``."""</span>
     <span class="n">magnet_diameter</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">6.0</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Round magnet diameter, in mm.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Round magnet diameter, in mm."""</span>
     <span class="n">magnet_height</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">3.0</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Round magnet slot depth, in mm.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Round magnet slot depth, in mm."""</span>
     <span class="n">magnet_count_width</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Magnets per wall on the width axis.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Magnets per wall on the width axis."""</span>
     <span class="n">magnet_count_length</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Magnets per wall on the length axis.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Magnets per wall on the length axis."""</span>
 
     <span class="c1"># ── Stacking (FR-038) ────────────────────────────────────────────────</span>
     <span class="n">stackable</span><span class="p">:</span> <span class="n">StackableMode</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Interlocking rim mode; ``None`` means not stackable.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Interlocking rim mode; ``None`` means not stackable."""</span>
     <span class="n">stackable_thickness</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Interlocking rim thickness; ``None`` derives it from the wall.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Interlocking rim thickness; ``None`` derives it from the wall."""</span>
     <span class="n">stackable_fit_offset</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.1</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Clearance between a stacked box&#39;s rim and the one below it.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Clearance between a stacked box's rim and the one below it."""</span>
 
 <div class="viewcode-block" id="BoxSpec.interior">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.spec.BoxSpec.html#pyboxbuilder.box.spec.BoxSpec.interior">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">interior</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Interior&quot;</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;The usable volume inside this box.</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">interior</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Interior"</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""The usable volume inside this box.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            An :class:`~pyboxbuilder.box.interior.Interior` in the box&#39;s own</span>
+<span class="sd">            An :class:`~pyboxbuilder.box.interior.Interior` in the box's own</span>
 <span class="sd">            frame, inset by the wall on the sides and the floor below.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.interior</span><span class="w"> </span><span class="kn">import</span> <span class="n">Interior</span>
 
         <span class="k">return</span> <span class="n">Interior</span><span class="p">(</span>
@@ -493,15 +493,15 @@
 <div class="viewcode-block" id="BoxSpec.default_wall_top">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.spec.BoxSpec.html#pyboxbuilder.box.spec.BoxSpec.default_wall_top">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">default_wall_top</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;How high a wall stands when the box type says nothing about it.</span>
+<span class="w">        </span><span class="sd">"""How high a wall stands when the box type says nothing about it.</span>
 
-<span class="sd">        The box&#39;s own top face, less any band a lid occupies — so a cut merges</span>
+<span class="sd">        The box's own top face, less any band a lid occupies — so a cut merges</span>
 <span class="sd">        into the surface a hand actually touches rather than into a plane</span>
 <span class="sd">        buried under the lid.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            The z of the wall&#39;s top.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">            The z of the wall's top.</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">interior_top</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">interior_top</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">height</span> <span class="o">-</span> <span class="p">(</span><span class="mf">0.0</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">rim_free</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">lid_thickness</span><span class="p">)</span></div>
@@ -510,26 +510,26 @@
 <div class="viewcode-block" id="BoxSpec.wall_top">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.spec.BoxSpec.html#pyboxbuilder.box.spec.BoxSpec.wall_top">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">wall_top</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">side</span><span class="p">:</span> <span class="n">ScoopSide</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;One wall&#39;s top z (FR-070).</span>
+<span class="w">        </span><span class="sd">"""One wall's top z (FR-070).</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            side: Which wall.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            That wall&#39;s top, or :meth:`default_wall_top` if this spec carries</span>
+<span class="sd">            That wall's top, or :meth:`default_wall_top` if this spec carries</span>
 <span class="sd">            no per-side map yet.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">wall_tops</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">side</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">default_wall_top</span><span class="p">()))</span></div>
 
 
 <div class="viewcode-block" id="BoxSpec.with_wall_tops">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.spec.BoxSpec.html#pyboxbuilder.box.spec.BoxSpec.with_wall_tops">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">with_wall_tops</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">box</span><span class="p">:</span> <span class="nb">object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;BoxSpec&quot;</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;This spec with each wall&#39;s top resolved for a box type.</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">with_wall_tops</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">box</span><span class="p">:</span> <span class="nb">object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"BoxSpec"</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""This spec with each wall's top resolved for a box type.</span>
 
 <span class="sd">        The four walls of a box do **not** have to end at the same height, and</span>
 <span class="sd">        assuming they do is how a scoop ends up hanging in space: a sliding</span>
-<span class="sd">        box&#39;s exit wall stops a lid thickness below the others, because that is</span>
+<span class="sd">        box's exit wall stops a lid thickness below the others, because that is</span>
 <span class="sd">        where its channel runs out through it.</span>
 
 <span class="sd">        Args:</span>
@@ -538,10 +538,10 @@
 
 <span class="sd">        Returns:</span>
 <span class="sd">            A copy carrying a complete ``wall_tops`` map.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">fallback</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">default_wall_top</span><span class="p">()</span>
         <span class="n">tops</span> <span class="o">=</span> <span class="p">{</span><span class="n">side</span><span class="p">:</span> <span class="n">fallback</span> <span class="k">for</span> <span class="n">side</span> <span class="ow">in</span> <span class="n">ScoopSide</span><span class="p">}</span>
-        <span class="n">hook</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">box</span><span class="p">,</span> <span class="s2">&quot;wall_tops&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">hook</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">box</span><span class="p">,</span> <span class="s2">"wall_tops"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">hook</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">side</span><span class="p">,</span> <span class="n">z</span> <span class="ow">in</span> <span class="p">(</span><span class="n">hook</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="ow">or</span> <span class="p">{})</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
                 <span class="n">tops</span><span class="p">[</span><span class="n">side</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
@@ -553,12 +553,12 @@
 <span class="c1">#: Fields on a `BoxBuilder` that describe the project or the packing rather</span>
 <span class="c1">#: than the geometry, so they never reach a `BoxSpec`.</span>
 <span class="n">_NOT_GEOMETRY</span> <span class="o">=</span> <span class="nb">frozenset</span><span class="p">({</span>
-    <span class="s2">&quot;box_type&quot;</span><span class="p">,</span> <span class="s2">&quot;label&quot;</span><span class="p">,</span> <span class="s2">&quot;box_id&quot;</span><span class="p">,</span> <span class="s2">&quot;size&quot;</span><span class="p">,</span> <span class="s2">&quot;final_size&quot;</span><span class="p">,</span> <span class="s2">&quot;position&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;expandable&quot;</span><span class="p">,</span> <span class="s2">&quot;expandable_width&quot;</span><span class="p">,</span> <span class="s2">&quot;expandable_length&quot;</span><span class="p">,</span> <span class="s2">&quot;no_rotate&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;lid&quot;</span><span class="p">,</span> <span class="s2">&quot;compartments&quot;</span><span class="p">,</span> <span class="s2">&quot;color&quot;</span><span class="p">,</span>
-    <span class="c1"># Passed explicitly below, after falling back to the project&#39;s own.</span>
-    <span class="s2">&quot;wall_thickness&quot;</span><span class="p">,</span> <span class="s2">&quot;floor_thickness&quot;</span><span class="p">,</span> <span class="s2">&quot;lid_thickness&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;rounding&quot;</span><span class="p">,</span> <span class="s2">&quot;inner_rounding&quot;</span><span class="p">,</span>
+    <span class="s2">"box_type"</span><span class="p">,</span> <span class="s2">"label"</span><span class="p">,</span> <span class="s2">"box_id"</span><span class="p">,</span> <span class="s2">"size"</span><span class="p">,</span> <span class="s2">"final_size"</span><span class="p">,</span> <span class="s2">"position"</span><span class="p">,</span>
+    <span class="s2">"expandable"</span><span class="p">,</span> <span class="s2">"expandable_width"</span><span class="p">,</span> <span class="s2">"expandable_length"</span><span class="p">,</span> <span class="s2">"no_rotate"</span><span class="p">,</span>
+    <span class="s2">"lid"</span><span class="p">,</span> <span class="s2">"compartments"</span><span class="p">,</span> <span class="s2">"color"</span><span class="p">,</span>
+    <span class="c1"># Passed explicitly below, after falling back to the project's own.</span>
+    <span class="s2">"wall_thickness"</span><span class="p">,</span> <span class="s2">"floor_thickness"</span><span class="p">,</span> <span class="s2">"lid_thickness"</span><span class="p">,</span>
+    <span class="s2">"rounding"</span><span class="p">,</span> <span class="s2">"inner_rounding"</span><span class="p">,</span>
 <span class="p">})</span>
 
 <span class="n">_SPEC_FIELDS</span> <span class="o">=</span> <span class="nb">frozenset</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">fields</span><span class="p">(</span><span class="n">BoxSpec</span><span class="p">))</span>
@@ -567,7 +567,7 @@
 <div class="viewcode-block" id="build_spec">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.spec.build_spec.html#pyboxbuilder.box.spec.build_spec">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">build_spec</span><span class="p">(</span><span class="n">project</span><span class="p">,</span> <span class="n">builder</span><span class="p">,</span> <span class="n">size</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">BoxSpec</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Assemble the one description this box is built from.</span>
+<span class="w">    </span><span class="sd">"""Assemble the one description this box is built from.</span>
 
 <span class="sd">    The single place a `BoxSpec` is made, so a previewed box and an exported</span>
 <span class="sd">    box cannot be built from different descriptions.</span>
@@ -575,12 +575,12 @@
 <span class="sd">    Args:</span>
 <span class="sd">        project: The owning :class:`~pyboxbuilder.project.Project`, read for</span>
 <span class="sd">            the thicknesses and rounding a box does not override.</span>
-<span class="sd">        builder: The box&#39;s :class:`~pyboxbuilder.builders._base.BoxBuilder`.</span>
-<span class="sd">        size: The box&#39;s resolved ``(width, length, height)`` in mm.</span>
+<span class="sd">        builder: The box's :class:`~pyboxbuilder.builders._base.BoxBuilder`.</span>
+<span class="sd">        size: The box's resolved ``(width, length, height)`` in mm.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        The assembled :class:`BoxSpec`.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.registry</span><span class="w"> </span><span class="kn">import</span> <span class="n">LIDLESS_BOX_TYPES</span>
 
     <span class="n">wt</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">wall_thickness</span> <span class="ow">or</span> <span class="n">project</span><span class="o">.</span><span class="n">wall_thickness</span>
@@ -611,7 +611,7 @@
             <span class="n">builder</span><span class="o">.</span><span class="n">inner_rounding</span> <span class="k">if</span> <span class="n">builder</span><span class="o">.</span><span class="n">inner_rounding</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
             <span class="k">else</span> <span class="n">project</span><span class="o">.</span><span class="n">inner_rounding</span>
         <span class="p">),</span>
-        <span class="c1"># A lidless box&#39;s rim is exposed on both faces, so it rounds too.</span>
+        <span class="c1"># A lidless box's rim is exposed on both faces, so it rounds too.</span>
         <span class="n">rim_free</span><span class="o">=</span><span class="n">builder</span><span class="o">.</span><span class="n">box_type</span> <span class="ow">in</span> <span class="n">LIDLESS_BOX_TYPES</span><span class="p">,</span>
         <span class="o">**</span><span class="n">overrides</span><span class="p">,</span>
     <span class="p">)</span></div>
@@ -621,7 +621,7 @@
 <div class="viewcode-block" id="describe">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.spec.describe.html#pyboxbuilder.box.spec.describe">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">describe</span><span class="p">(</span><span class="n">builder</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;A JSON-serialisable description of everything that shapes a box.</span>
+<span class="w">    </span><span class="sd">"""A JSON-serialisable description of everything that shapes a box.</span>
 
 <span class="sd">    Used to fingerprint an exported piece (FR-031): two runs of an unchanged</span>
 <span class="sd">    project describe their boxes identically, so nothing is rewritten.</span>
@@ -630,17 +630,17 @@
 <span class="sd">        builder: The box builder to describe.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        A dict of the builder&#39;s geometry-bearing fields, its compartments and</span>
+<span class="sd">        A dict of the builder's geometry-bearing fields, its compartments and</span>
 <span class="sd">        its lid decoration.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">plain</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">field_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Reduce a value to something `json.dumps(default=str)` compares.&quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">field_name</span> <span class="o">==</span> <span class="s2">&quot;shape_file&quot;</span> <span class="ow">and</span> <span class="n">value</span><span class="p">:</span>
-            <span class="c1"># A silhouette&#39;s *contents* shape the box, not the path to it.</span>
+<span class="sd">    """</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">plain</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">field_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Reduce a value to something `json.dumps(default=str)` compares."""</span>
+        <span class="k">if</span> <span class="n">field_name</span> <span class="o">==</span> <span class="s2">"shape_file"</span> <span class="ow">and</span> <span class="n">value</span><span class="p">:</span>
+            <span class="c1"># A silhouette's *contents* shape the box, not the path to it.</span>
             <span class="c1"># Named by path alone, editing the SVG changed nothing about the</span>
             <span class="c1"># description and the well was never re-cut.</span>
-            <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;path&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">),</span> <span class="s2">&quot;sha256&quot;</span><span class="p">:</span> <span class="n">_file_digest</span><span class="p">(</span><span class="n">value</span><span class="p">)}</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="s2">&quot;__dataclass_fields__&quot;</span><span class="p">):</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s2">"path"</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">),</span> <span class="s2">"sha256"</span><span class="p">:</span> <span class="n">_file_digest</span><span class="p">(</span><span class="n">value</span><span class="p">)}</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="s2">"__dataclass_fields__"</span><span class="p">):</span>
             <span class="k">return</span> <span class="p">{</span><span class="n">f</span><span class="p">:</span> <span class="n">plain</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">f</span><span class="p">),</span> <span class="n">f</span><span class="p">)</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">value</span><span class="o">.</span><span class="n">__dataclass_fields__</span><span class="p">}</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
             <span class="k">return</span> <span class="p">[</span><span class="n">plain</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">value</span><span class="p">]</span>
@@ -651,13 +651,13 @@
     <span class="k">return</span> <span class="p">{</span>
         <span class="n">name</span><span class="p">:</span> <span class="n">plain</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">builder</span><span class="p">,</span> <span class="n">name</span><span class="p">),</span> <span class="n">name</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">builder</span><span class="o">.</span><span class="n">__dataclass_fields__</span>
-        <span class="k">if</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;box_id&quot;</span><span class="p">,</span> <span class="s2">&quot;final_size&quot;</span><span class="p">)</span>
-    <span class="p">}</span> <span class="o">|</span> <span class="p">{</span><span class="s2">&quot;box_type&quot;</span><span class="p">:</span> <span class="n">builder</span><span class="o">.</span><span class="n">box_type</span><span class="o">.</span><span class="n">value</span><span class="p">}</span></div>
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"box_id"</span><span class="p">,</span> <span class="s2">"final_size"</span><span class="p">)</span>
+    <span class="p">}</span> <span class="o">|</span> <span class="p">{</span><span class="s2">"box_type"</span><span class="p">:</span> <span class="n">builder</span><span class="o">.</span><span class="n">box_type</span><span class="o">.</span><span class="n">value</span><span class="p">}</span></div>
 
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_file_digest</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;SHA-256 of a file a box&#39;s geometry is cut from, or why it could not be read.</span>
+<span class="w">    </span><span class="sd">"""SHA-256 of a file a box's geometry is cut from, or why it could not be read.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        path: The file, usually an SVG silhouette.</span>
@@ -665,13 +665,13 @@
 <span class="sd">    Returns:</span>
 <span class="sd">        A hex digest, or a marker naming the problem — which still differs from</span>
 <span class="sd">        the digest, so a file that appears later counts as a change.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="kn">import</span><span class="w"> </span><span class="nn">hashlib</span>
 
     <span class="k">try</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha256</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="n">path</span><span class="p">)</span><span class="o">.</span><span class="n">read_bytes</span><span class="p">())</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span>
     <span class="k">except</span> <span class="ne">OSError</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;unreadable:</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">exc</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">"unreadable:</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">exc</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">"</span>
 </code></pre></div>
 
 

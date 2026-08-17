@@ -297,7 +297,7 @@
 
 <h1>Source code for pyboxbuilder.layout</h1><div class="highlight"><pre>
 <span></span><code><span class="c1"># SPDX-License-Identifier: Apache-2.0</span>
-<span class="sd">&quot;&quot;&quot;Declarative layout — say how the boxes are arranged, not where they sit (T186).</span>
+<span class="sd">"""Declarative layout — say how the boxes are arranged, not where they sit (T186).</span>
 
 <span class="sd">There is a gap between the two ways of placing boxes. Free-form packing works</span>
 <span class="sd">below roughly 70% fill and gives up above it; explicit coordinates always work</span>
@@ -309,16 +309,16 @@
 
 <span class="sd">    project.arrange(columns(</span>
 <span class="sd">        rows(                                        # left column</span>
-<span class="sd">            stack(&quot;PlayerBoxBlack&quot;, &quot;PlayerBoxYellow&quot;),</span>
-<span class="sd">            stack(&quot;PlayerBoxRed&quot;, &quot;PlayerBoxBlue&quot;),</span>
+<span class="sd">            stack("PlayerBoxBlack", "PlayerBoxYellow"),</span>
+<span class="sd">            stack("PlayerBoxRed", "PlayerBoxBlue"),</span>
 <span class="sd">        ),</span>
-<span class="sd">        rows(&quot;CardBoxFavor&quot;, &quot;CardBoxHero&quot;),         # middle column</span>
+<span class="sd">        rows("CardBoxFavor", "CardBoxHero"),         # middle column</span>
 <span class="sd">    ))</span>
 
 <span class="sd">`columns` runs along X, `rows` along Y, `stack` along Z. Groups nest freely, so</span>
 <span class="sd">a stack can end in a pair of rows. Each child starts where the previous one</span>
 <span class="sd">ended; a group is as wide as its widest child on the axes it does not consume.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
@@ -329,15 +329,15 @@
     <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.builders._base</span><span class="w"> </span><span class="kn">import</span> <span class="n">BoxBuilder</span>
 
 <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Z</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span>
-<span class="n">AXIS_NAMES</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;columns&quot;</span><span class="p">,</span> <span class="s2">&quot;rows&quot;</span><span class="p">,</span> <span class="s2">&quot;stack&quot;</span><span class="p">)</span>
+<span class="n">AXIS_NAMES</span> <span class="o">=</span> <span class="p">(</span><span class="s2">"columns"</span><span class="p">,</span> <span class="s2">"rows"</span><span class="p">,</span> <span class="s2">"stack"</span><span class="p">)</span>
 
-<span class="n">Node</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="s2">&quot;Group&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span>
+<span class="n">Node</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="s2">"Group"</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span>
 
 
 <div class="viewcode-block" id="LayoutError">
 <a class="viewcode-back" href="../../_autosummary/pyboxbuilder.layout.html#pyboxbuilder.LayoutError">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">LayoutError</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Raised when a layout tree cannot be resolved into positions.&quot;&quot;&quot;</span></div>
+<span class="w">    </span><span class="sd">"""Raised when a layout tree cannot be resolved into positions."""</span></div>
 
 
 
@@ -345,17 +345,17 @@
 <a class="viewcode-back" href="../../_autosummary/pyboxbuilder.layout.Group.html#pyboxbuilder.Group">[docs]</a>
 <span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">Group</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;A run of boxes or sub-groups laid end to end along one axis.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""A run of boxes or sub-groups laid end to end along one axis."""</span>
 
     <span class="n">axis</span><span class="p">:</span> <span class="nb">int</span>
     <span class="n">children</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Node</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span>
     <span class="n">gap</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Clearance inserted between adjacent children, in mm.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Clearance inserted between adjacent children, in mm."""</span>
 
 <div class="viewcode-block" id="Group.labels">
 <a class="viewcode-back" href="../../_autosummary/pyboxbuilder.layout.Group.html#pyboxbuilder.Group.labels">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">labels</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Every box label in this subtree, in layout order.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Every box label in this subtree, in layout order."""</span>
         <span class="n">found</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">children</span><span class="p">:</span>
             <span class="n">found</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="n">child</span><span class="p">]</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">child</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">else</span> <span class="n">child</span><span class="o">.</span><span class="n">labels</span><span class="p">())</span>
@@ -363,14 +363,14 @@
 
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">AXIS_NAMES</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">axis</span><span class="p">]</span><span class="si">}</span><span class="s2">(</span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">repr</span><span class="p">,</span><span class="w"> </span><span class="bp">self</span><span class="o">.</span><span class="n">children</span><span class="p">))</span><span class="si">}</span><span class="s2">)&quot;</span></div>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">AXIS_NAMES</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">axis</span><span class="p">]</span><span class="si">}</span><span class="s2">(</span><span class="si">{</span><span class="s1">', '</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">repr</span><span class="p">,</span><span class="w"> </span><span class="bp">self</span><span class="o">.</span><span class="n">children</span><span class="p">))</span><span class="si">}</span><span class="s2">)"</span></div>
 
 
 
 <div class="viewcode-block" id="columns">
 <a class="viewcode-back" href="../../_autosummary/pyboxbuilder.layout.columns.html#pyboxbuilder.columns">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">columns</span><span class="p">(</span><span class="o">*</span><span class="n">children</span><span class="p">:</span> <span class="n">Node</span><span class="p">,</span> <span class="n">gap</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Group</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Lay children out left to right along X.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Lay children out left to right along X."""</span>
     <span class="k">return</span> <span class="n">Group</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="n">X</span><span class="p">,</span> <span class="n">children</span><span class="o">=</span><span class="nb">tuple</span><span class="p">(</span><span class="n">children</span><span class="p">),</span> <span class="n">gap</span><span class="o">=</span><span class="n">gap</span><span class="p">)</span></div>
 
 
@@ -378,7 +378,7 @@
 <div class="viewcode-block" id="rows">
 <a class="viewcode-back" href="../../_autosummary/pyboxbuilder.layout.rows.html#pyboxbuilder.rows">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">rows</span><span class="p">(</span><span class="o">*</span><span class="n">children</span><span class="p">:</span> <span class="n">Node</span><span class="p">,</span> <span class="n">gap</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Group</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Lay children out front to back along Y.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Lay children out front to back along Y."""</span>
     <span class="k">return</span> <span class="n">Group</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="n">Y</span><span class="p">,</span> <span class="n">children</span><span class="o">=</span><span class="nb">tuple</span><span class="p">(</span><span class="n">children</span><span class="p">),</span> <span class="n">gap</span><span class="o">=</span><span class="n">gap</span><span class="p">)</span></div>
 
 
@@ -386,7 +386,7 @@
 <div class="viewcode-block" id="stack">
 <a class="viewcode-back" href="../../_autosummary/pyboxbuilder.layout.stack.html#pyboxbuilder.stack">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">stack</span><span class="p">(</span><span class="o">*</span><span class="n">children</span><span class="p">:</span> <span class="n">Node</span><span class="p">,</span> <span class="n">gap</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Group</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Lay children out bottom to top along Z.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Lay children out bottom to top along Z."""</span>
     <span class="k">return</span> <span class="n">Group</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="n">Z</span><span class="p">,</span> <span class="n">children</span><span class="o">=</span><span class="nb">tuple</span><span class="p">(</span><span class="n">children</span><span class="p">),</span> <span class="n">gap</span><span class="o">=</span><span class="n">gap</span><span class="p">)</span></div>
 
 
@@ -395,11 +395,11 @@
 <a class="viewcode-back" href="../../_autosummary/pyboxbuilder.layout.Arrangement.html#pyboxbuilder.Arrangement">[docs]</a>
 <span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">Arrangement</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;The result of resolving a layout tree.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""The result of resolving a layout tree."""</span>
 
     <span class="n">positions</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]</span>
     <span class="n">size</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Overall extent of the arranged boxes.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Overall extent of the arranged boxes."""</span>
 
 <div class="viewcode-block" id="Arrangement.fits">
 <a class="viewcode-back" href="../../_autosummary/pyboxbuilder.layout.Arrangement.html#pyboxbuilder.Arrangement.fits">[docs]</a>
@@ -412,10 +412,10 @@
 <div class="viewcode-block" id="measure">
 <a class="viewcode-back" href="../../_autosummary/pyboxbuilder.layout.measure.html#pyboxbuilder.measure">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">measure</span><span class="p">(</span><span class="n">node</span><span class="p">:</span> <span class="n">Node</span><span class="p">,</span> <span class="n">sizes</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Extent of a node: children sum along its axis and max on the other two.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Extent of a node: children sum along its axis and max on the other two."""</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">node</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">sizes</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">LayoutError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Layout names a box that is not in the project: </span><span class="si">{</span><span class="n">node</span><span class="si">!r}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">LayoutError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Layout names a box that is not in the project: </span><span class="si">{</span><span class="n">node</span><span class="si">!r}</span><span class="s2">"</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">sizes</span><span class="p">[</span><span class="n">node</span><span class="p">]</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="n">node</span><span class="o">.</span><span class="n">children</span><span class="p">:</span>
@@ -438,19 +438,19 @@
     <span class="n">sizes</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]],</span>
     <span class="n">origin</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Arrangement</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Resolve a layout tree into a position per box.</span>
+<span class="w">    </span><span class="sd">"""Resolve a layout tree into a position per box.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        node: The root group, or a single box label.</span>
 <span class="sd">        sizes: {label: (width, length, height)} for every box named in the tree.</span>
-<span class="sd">        origin: Where the arrangement&#39;s minimum corner goes.</span>
+<span class="sd">        origin: Where the arrangement's minimum corner goes.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        The positions and the overall extent.</span>
 
 <span class="sd">    Raises:</span>
 <span class="sd">        LayoutError: If the tree names an unknown box, or names one twice.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">positions</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="n">_place</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">sizes</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">origin</span><span class="p">),</span> <span class="n">positions</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">Arrangement</span><span class="p">(</span><span class="n">positions</span><span class="o">=</span><span class="n">positions</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">measure</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">sizes</span><span class="p">))</span></div>
@@ -460,7 +460,7 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">_place</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">sizes</span><span class="p">,</span> <span class="n">at</span><span class="p">,</span> <span class="n">positions</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">positions</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">LayoutError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Layout places box </span><span class="si">{</span><span class="n">node</span><span class="si">!r}</span><span class="s2"> more than once&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">LayoutError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Layout places box </span><span class="si">{</span><span class="n">node</span><span class="si">!r}</span><span class="s2"> more than once"</span><span class="p">)</span>
         <span class="n">positions</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">=</span> <span class="n">at</span>
         <span class="k">return</span>
 
@@ -474,8 +474,8 @@
 
 <div class="viewcode-block" id="check_complete">
 <a class="viewcode-back" href="../../_autosummary/pyboxbuilder.layout.check_complete.html#pyboxbuilder.check_complete">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">check_complete</span><span class="p">(</span><span class="n">node</span><span class="p">:</span> <span class="n">Node</span><span class="p">,</span> <span class="n">builders</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="s2">&quot;BoxBuilder&quot;</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the labels of boxes the project has but the layout leaves out.&quot;&quot;&quot;</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">check_complete</span><span class="p">(</span><span class="n">node</span><span class="p">:</span> <span class="n">Node</span><span class="p">,</span> <span class="n">builders</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="s2">"BoxBuilder"</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">"""Return the labels of boxes the project has but the layout leaves out."""</span>
     <span class="n">named</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">labels</span><span class="p">()</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">Group</span><span class="p">)</span> <span class="k">else</span> <span class="p">[</span><span class="n">node</span><span class="p">])</span>
     <span class="k">return</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">label</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">builders</span> <span class="k">if</span> <span class="n">b</span><span class="o">.</span><span class="n">label</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">named</span><span class="p">)</span></div>
 

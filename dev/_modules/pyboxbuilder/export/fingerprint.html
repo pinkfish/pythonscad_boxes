@@ -297,41 +297,41 @@
 
 <h1>Source code for pyboxbuilder.export.fingerprint</h1><div class="highlight"><pre>
 <span></span><code><span class="c1"># SPDX-License-Identifier: Apache-2.0</span>
-<span class="sd">&quot;&quot;&quot;Conditional write, gated on the description a piece was built from (FR-031).</span>
+<span class="sd">"""Conditional write, gated on the description a piece was built from (FR-031).</span>
 
 <span class="sd">Re-exporting an unchanged box should not rewrite its 3MF — a rewritten file</span>
 <span class="sd">looks modified to the slicer and to git even when the geometry is identical.</span>
 <span class="sd">What decides that is whether the *description* changed, and that is knowable</span>
-<span class="sd">exactly: the box&#39;s fields, its compartments, its lid, the project&#39;s</span>
+<span class="sd">exactly: the box's fields, its compartments, its lid, the project's</span>
 <span class="sd">thicknesses, the curve precision. This module records that fingerprint beside</span>
 <span class="sd">the file and compares it on the next run.</span>
 
 <span class="sd">It replaces a mesh comparison (a Hausdorff distance from pymeshlab, over 10,000</span>
 <span class="sd">surface samples in each direction, per file). That measured the wrong thing.</span>
-<span class="sd">OpenSCAD&#39;s boolean solver does not promise to triangulate a complex CSG tree</span>
-<span class="sd">identically between runs, so nine of Emberleaf&#39;s pieces — the SVG player boxes,</span>
+<span class="sd">OpenSCAD's boolean solver does not promise to triangulate a complex CSG tree</span>
+<span class="sd">identically between runs, so nine of Emberleaf's pieces — the SVG player boxes,</span>
 <span class="sd">the element-pack common box and the three spacers — measured as *changed* on</span>
 <span class="sd">every single export and were rewritten every time, while the tolerance that</span>
 <span class="sd">would have absorbed that was far above the 0.1mm the library promises to</span>
 <span class="sd">resolve. A description hash is exact, costs nothing, and needs no dependency.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
 
-<span class="n">SIDECAR_NAME</span> <span class="o">=</span> <span class="s2">&quot;.fingerprints.json&quot;</span>
-<span class="sd">&quot;&quot;&quot;Per-directory record of what each file in it was built from.&quot;&quot;&quot;</span>
+<span class="n">SIDECAR_NAME</span> <span class="o">=</span> <span class="s2">".fingerprints.json"</span>
+<span class="sd">"""Per-directory record of what each file in it was built from."""</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_sidecar</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;The fingerprint record covering ``path``.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""The fingerprint record covering ``path``."""</span>
     <span class="k">return</span> <span class="n">path</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span> <span class="n">SIDECAR_NAME</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_load</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Read a directory&#39;s fingerprints, treating any damage as a cache miss.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Read a directory's fingerprints, treating any damage as a cache miss."""</span>
     <span class="n">record</span> <span class="o">=</span> <span class="n">_sidecar</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">record</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
         <span class="k">return</span> <span class="p">{}</span>
@@ -345,7 +345,7 @@
 <div class="viewcode-block" id="matches">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.export.fingerprint.matches.html#pyboxbuilder.export.fingerprint.matches">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">matches</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span> <span class="n">fingerprint</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;True when ``path`` on disk was built from this exact description.</span>
+<span class="w">    </span><span class="sd">"""True when ``path`` on disk was built from this exact description.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        path: The file that would be written.</span>
@@ -355,7 +355,7 @@
 <span class="sd">        True only when the file exists, is not empty, and its recorded</span>
 <span class="sd">        fingerprint is the one given. An unrecorded file is a miss, so a tree</span>
 <span class="sd">        exported by an older version rewrites once and then settles.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">fingerprint</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
         <span class="k">return</span> <span class="kc">False</span>
     <span class="k">return</span> <span class="n">_load</span><span class="p">(</span><span class="n">path</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">path</span><span class="o">.</span><span class="n">name</span><span class="p">)</span> <span class="o">==</span> <span class="n">fingerprint</span></div>
@@ -365,12 +365,12 @@
 <div class="viewcode-block" id="record">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.export.fingerprint.record.html#pyboxbuilder.export.fingerprint.record">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">record</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span> <span class="n">fingerprint</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Note what ``path`` was built from, for the next run to compare against.</span>
+<span class="w">    </span><span class="sd">"""Note what ``path`` was built from, for the next run to compare against.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        path: The file just written.</span>
 <span class="sd">        fingerprint: The digest of everything that decided its geometry.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">fingerprint</span><span class="p">:</span>
         <span class="k">return</span>
     <span class="n">data</span> <span class="o">=</span> <span class="n">_load</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
@@ -385,11 +385,11 @@
 <div class="viewcode-block" id="forget">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.export.fingerprint.forget.html#pyboxbuilder.export.fingerprint.forget">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">forget</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Drop ``path``&#39;s fingerprint, so a deleted file is not remembered.</span>
+<span class="w">    </span><span class="sd">"""Drop ``path``'s fingerprint, so a deleted file is not remembered.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        path: The file being removed.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">data</span> <span class="o">=</span> <span class="n">_load</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">data</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">path</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">try</span><span class="p">:</span>

@@ -297,7 +297,7 @@
 
 <h1>Source code for pyboxbuilder.export.result</h1><div class="highlight"><pre>
 <span></span><code><span class="c1"># SPDX-License-Identifier: Apache-2.0</span>
-<span class="sd">&quot;&quot;&quot;Export result data class.&quot;&quot;&quot;</span>
+<span class="sd">"""Export result data class."""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
 
@@ -306,16 +306,16 @@
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.export.result.ExportResult.html#pyboxbuilder.ExportResult">[docs]</a>
 <span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">ExportResult</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Result of a Project.export() call.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Result of a Project.export() call."""</span>
 
     <span class="n">written</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Relative file paths that were created or updated.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Relative file paths that were created or updated."""</span>
     <span class="n">skipped</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Relative file paths skipped (unchanged geometry).&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Relative file paths skipped (unchanged geometry)."""</span>
     <span class="n">total_files</span><span class="p">:</span> <span class="nb">int</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Total files in the export tree.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Total files in the export tree."""</span>
     <span class="n">cached_from</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Cache key hash if layout was served from cache, else None.&quot;&quot;&quot;</span></div>
+<span class="w">    </span><span class="sd">"""Cache key hash if layout was served from cache, else None."""</span></div>
 
 </code></pre></div>
 

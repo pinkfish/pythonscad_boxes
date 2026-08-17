@@ -297,7 +297,7 @@
 
 <h1>Source code for pyboxbuilder.builders._base</h1><div class="highlight"><pre>
 <span></span><code><span class="c1"># SPDX-License-Identifier: Apache-2.0</span>
-<span class="sd">&quot;&quot;&quot;BoxBuilder base class and registry stub.&quot;&quot;&quot;</span>
+<span class="sd">"""BoxBuilder base class and registry stub."""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
@@ -315,101 +315,101 @@
 
 
 <span class="n">CARD_THICKNESS_MM</span> <span class="o">=</span> <span class="mf">0.6</span>
-<span class="sd">&quot;&quot;&quot;One standard board game card. Sleeved cards run nearer 0.8mm.&quot;&quot;&quot;</span>
+<span class="sd">"""One standard board game card. Sleeved cards run nearer 0.8mm."""</span>
 
 <span class="n">CARD_SLACK_MM</span> <span class="o">=</span> <span class="mf">1.0</span>
-<span class="sd">&quot;&quot;&quot;Clearance around a card stack, so it goes in and comes out freely.&quot;&quot;&quot;</span>
+<span class="sd">"""Clearance around a card stack, so it goes in and comes out freely."""</span>
 
 <span class="n">DEFAULT_FINGER_WIDTH_MM</span> <span class="o">=</span> <span class="mf">28.0</span>
-<span class="sd">&quot;&quot;&quot;How wide a finger cut is when nothing says otherwise — a fingertip (FR-051).&quot;&quot;&quot;</span>
+<span class="sd">"""How wide a finger cut is when nothing says otherwise — a fingertip (FR-051)."""</span>
 
 
 
 <span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">BoxBuilder</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Base builder for all box types.</span>
+<span class="w">    </span><span class="sd">"""Base builder for all box types.</span>
 
 <span class="sd">    Carries common fields shared by every box type. Subclassed by</span>
 <span class="sd">    type-specific builders that add their own typed fields.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="n">box_type</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="n">BoxType</span><span class="p">]</span>
     <span class="n">label</span><span class="p">:</span> <span class="nb">str</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Box identifier, used for file naming.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Box identifier, used for file naming."""</span>
     <span class="n">box_id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Unique instance identifier; defaults to label.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Unique instance identifier; defaults to label."""</span>
     <span class="n">size</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Box dimensions [W, L, H] in mm. None = auto-compute from compartments.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Box dimensions [W, L, H] in mm. None = auto-compute from compartments."""</span>
     <span class="n">position</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Manual packing position override [X, Y, Z] in mm.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Manual packing position override [X, Y, Z] in mm."""</span>
     <span class="n">stackable</span><span class="p">:</span> <span class="n">StackableMode</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Interlocking rim mode for no-lid boxes; ``None`` means not stackable.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Interlocking rim mode for no-lid boxes; ``None`` means not stackable."""</span>
     <span class="n">stackable_thickness</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Interlocking rim thickness for stackable boxes.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Interlocking rim thickness for stackable boxes."""</span>
     <span class="n">magnet_type</span><span class="p">:</span> <span class="n">MagnetType</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Magnet slot shape; ``None`` or :attr:`MagnetType.NONE` means no magnets.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Magnet slot shape; ``None`` or :attr:`MagnetType.NONE` means no magnets."""</span>
     <span class="n">magnet_size</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Magnet slot dimensions [diameter_or_width, length, depth].&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Magnet slot dimensions [diameter_or_width, length, depth]."""</span>
     <span class="n">final_size</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Resolved size after packing; set-once frozen during export.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Resolved size after packing; set-once frozen during export."""</span>
     <span class="n">expandable</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Box can be auto-sized larger during packing.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Box can be auto-sized larger during packing."""</span>
     <span class="n">expandable_width</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Width axis can expand.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Width axis can expand."""</span>
     <span class="n">expandable_length</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Length axis can expand.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Length axis can expand."""</span>
     <span class="n">no_rotate</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Prevent 3D packer from rotating the box (keeps compartment layout directional).&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Prevent 3D packer from rotating the box (keeps compartment layout directional)."""</span>
     <span class="n">wall_thickness</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Per-box wall thickness override; None uses project default.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Per-box wall thickness override; None uses project default."""</span>
     <span class="n">floor_thickness</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Per-box floor thickness override.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Per-box floor thickness override."""</span>
     <span class="n">lid_thickness</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Per-box lid thickness override.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Per-box lid thickness override."""</span>
     <span class="n">rounding</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Edge radius for this box&#39;s exposed edges; None uses the project default.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Edge radius for this box's exposed edges; None uses the project default."""</span>
     <span class="n">inner_rounding</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Edge radius where a partial lid grips this body; None uses half the outer radius.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Edge radius where a partial lid grips this body; None uses half the outer radius."""</span>
     <span class="n">lid</span><span class="p">:</span> <span class="n">LidBuilder</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Lid decoration configuration.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Lid decoration configuration."""</span>
     <span class="n">color</span><span class="p">:</span> <span class="n">Color</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Body colour, as a :class:`pybosl2.Color` (webcolor names welcome).</span>
+<span class="w">    </span><span class="sd">"""Body colour, as a :class:`pybosl2.Color` (webcolor names welcome).</span>
 
-<span class="sd">    Used as the box&#39;s material colour on export and as its colour in</span>
+<span class="sd">    Used as the box's material colour on export and as its colour in</span>
 <span class="sd">    :meth:`Project.show`. When unset, a preview assigns a stable pseudo-random</span>
 <span class="sd">    hue derived from the label so adjacent boxes stay distinguishable; that</span>
 <span class="sd">    fallback is view-time only and never reaches the exported geometry.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">finger_holes</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">FingerHoleBuilder</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Finger holes on box exterior walls.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Finger holes on box exterior walls."""</span>
     <span class="n">auto_finger_holes</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Let a lidless box cut its own default finger holes (FR-047).</span>
+<span class="w">    </span><span class="sd">"""Let a lidless box cut its own default finger holes (FR-047).</span>
 
 <span class="sd">    Only the no-lid and path types read this: when there are no explicit</span>
 <span class="sd">    ``finger_holes``, they add a finger hole to each wall of their longer side,</span>
 <span class="sd">    sized after the original. ``False`` opts out and leaves the walls plain.</span>
 <span class="sd">    Lidded types ignore it.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">compartments</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">CompartmentBuilder</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Interior compartments.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Interior compartments."""</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Reject bare strings where the API takes an enum.</span>
+<span class="w">        </span><span class="sd">"""Reject bare strings where the API takes an enum.</span>
 
-<span class="sd">        Type selections are enums throughout, so a stray ``&quot;inside&quot;`` or</span>
-<span class="sd">        ``&quot;round&quot;`` is a mistake worth naming at construction rather than a</span>
+<span class="sd">        Type selections are enums throughout, so a stray ``"inside"`` or</span>
+<span class="sd">        ``"round"`` is a mistake worth naming at construction rather than a</span>
 <span class="sd">        silent no-match deep inside the geometry code.</span>
 
 <span class="sd">        Raises:</span>
 <span class="sd">            TypeError: If ``stackable`` or ``magnet_type`` is not its enum.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">enum_cls</span> <span class="ow">in</span> <span class="p">((</span><span class="s2">&quot;stackable&quot;</span><span class="p">,</span> <span class="n">StackableMode</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;magnet_type&quot;</span><span class="p">,</span> <span class="n">MagnetType</span><span class="p">)):</span>
+<span class="sd">        """</span>
+        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">enum_cls</span> <span class="ow">in</span> <span class="p">((</span><span class="s2">"stackable"</span><span class="p">,</span> <span class="n">StackableMode</span><span class="p">),</span> <span class="p">(</span><span class="s2">"magnet_type"</span><span class="p">,</span> <span class="n">MagnetType</span><span class="p">)):</span>
             <span class="n">value</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">enum_cls</span><span class="p">):</span>
-                <span class="n">members</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">enum_cls</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">m</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">enum_cls</span><span class="p">)</span>
+                <span class="n">members</span> <span class="o">=</span> <span class="s2">", "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">enum_cls</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">m</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">"</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">enum_cls</span><span class="p">)</span>
                 <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">&quot;Box &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="si">}</span><span class="s2">&#39;: </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> must be a </span><span class="si">{</span><span class="n">enum_cls</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> &quot;</span>
-                    <span class="sa">f</span><span class="s2">&quot;(</span><span class="si">{</span><span class="n">members</span><span class="si">}</span><span class="s2">) or None; got </span><span class="si">{</span><span class="n">value</span><span class="si">!r}</span><span class="s2">&quot;</span>
+                    <span class="sa">f</span><span class="s2">"Box '</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="si">}</span><span class="s2">': </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> must be a </span><span class="si">{</span><span class="n">enum_cls</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> "</span>
+                    <span class="sa">f</span><span class="s2">"(</span><span class="si">{</span><span class="n">members</span><span class="si">}</span><span class="s2">) or None; got </span><span class="si">{</span><span class="n">value</span><span class="si">!r}</span><span class="s2">"</span>
                 <span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">compartment</span><span class="p">(</span>
@@ -422,20 +422,20 @@
         <span class="n">depth</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">holds_pieces</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="n">rounded_corners</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
-        <span class="n">cut</span><span class="p">:</span> <span class="s2">&quot;Cut | FingerCut | None&quot;</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">cut</span><span class="p">:</span> <span class="s2">"Cut | FingerCut | None"</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">no_rotate</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="n">shape_file</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">position</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">elements</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">CompartmentElement</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="p">(),</span>
         <span class="n">element_margin</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CompartmentBuilder</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add a compartment to this box.</span>
+<span class="w">        </span><span class="sd">"""Add a compartment to this box.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            label: The well&#39;s name, used in the layout guide and in errors.</span>
+<span class="sd">            label: The well's name, used in the layout guide and in errors.</span>
 <span class="sd">            size: Its ``(width, length)`` footprint in mm. ``None`` fills</span>
 <span class="sd">                whatever the box has left — the common case of one well and one</span>
-<span class="sd">                box, where the arithmetic is the library&#39;s to do (FR-000).</span>
+<span class="sd">                box, where the arithmetic is the library's to do (FR-000).</span>
 <span class="sd">            width_ratio: Its share of the room the wells have across the box,</span>
 <span class="sd">                as an alternative to an absolute width.</span>
 <span class="sd">            length_ratio: The same along the box.</span>
@@ -446,20 +446,20 @@
 <span class="sd">                card slot or a silhouette wants.</span>
 <span class="sd">            rounded_corners: An explicit corner radius, for the rare well whose</span>
 <span class="sd">                curve is not the one `holds_pieces` derives.</span>
-<span class="sd">            cut: How its contents come out — a :class:`FingerCut` for &quot;this</span>
-<span class="sd">                kind, everything else derived&quot;, a :class:`Cut` when something</span>
+<span class="sd">            cut: How its contents come out — a :class:`FingerCut` for "this</span>
+<span class="sd">                kind, everything else derived", a :class:`Cut` when something</span>
 <span class="sd">                needs saying, or ``None`` for no cut at all (FR-006).</span>
-<span class="sd">            no_rotate: Keep the well&#39;s orientation through the layout.</span>
+<span class="sd">            no_rotate: Keep the well's orientation through the layout.</span>
 <span class="sd">            shape_file: An SVG whose outline the well is cut to.</span>
 <span class="sd">            position: An explicit ``(x, y)`` in the interior frame, instead of</span>
 <span class="sd">                letting the layout place it.</span>
 <span class="sd">            elements: Individual piece pockets making up an element pack.</span>
-<span class="sd">            element_margin: Clearance around an element pack&#39;s bounding box.</span>
+<span class="sd">            element_margin: Clearance around an element pack's bounding box.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            The :class:`CompartmentBuilder` that was added, already registered</span>
 <span class="sd">            on the box.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.compartments.builder</span><span class="w"> </span><span class="kn">import</span> <span class="n">CompartmentBuilder</span>
 
         <span class="n">cb</span> <span class="o">=</span> <span class="n">CompartmentBuilder</span><span class="p">(</span>
@@ -477,7 +477,7 @@
             <span class="n">elements</span><span class="o">=</span><span class="n">elements</span><span class="p">,</span>
             <span class="n">element_margin</span><span class="o">=</span><span class="n">element_margin</span><span class="p">,</span>
         <span class="p">)</span>
-        <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;compartments&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">compartments</span> <span class="o">+</span> <span class="p">(</span><span class="n">cb</span><span class="p">,))</span>
+        <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">"compartments"</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">compartments</span> <span class="o">+</span> <span class="p">(</span><span class="n">cb</span><span class="p">,))</span>
         <span class="k">return</span> <span class="n">cb</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">cards</span><span class="p">(</span>
@@ -488,10 +488,10 @@
         <span class="n">size</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
         <span class="n">thickness</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">CARD_THICKNESS_MM</span><span class="p">,</span>
         <span class="n">slack</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">CARD_SLACK_MM</span><span class="p">,</span>
-        <span class="n">cut</span><span class="p">:</span> <span class="s2">&quot;Cut | FingerCut | None&quot;</span> <span class="o">=</span> <span class="n">FingerCut</span><span class="o">.</span><span class="n">THROUGH_FLOOR</span><span class="p">,</span>
+        <span class="n">cut</span><span class="p">:</span> <span class="s2">"Cut | FingerCut | None"</span> <span class="o">=</span> <span class="n">FingerCut</span><span class="o">.</span><span class="n">THROUGH_FLOOR</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CompartmentBuilder</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add a well sized to hold a stack of cards.</span>
+<span class="w">        </span><span class="sd">"""Add a well sized to hold a stack of cards.</span>
 
 <span class="sd">        A card box is described by what goes in it — how many cards, how big —</span>
 <span class="sd">        and every dimension of the well follows from that. Written out, it is</span>
@@ -499,17 +499,17 @@
 
 <span class="sd">            h = project.floor_thickness + project.lid_thickness + 0.6 * 32 + 1</span>
 <span class="sd">            box = project.box(..., size=(68, 99, h))</span>
-<span class="sd">            box.compartment(&quot;Cards&quot;, size=(62, 93), depth=h - 3.6, ...)</span>
+<span class="sd">            box.compartment("Cards", size=(62, 93), depth=h - 3.6, ...)</span>
 
-<span class="sd">        which asks the caller to know the library&#39;s own floor and lid, and to</span>
-<span class="sd">        keep three numbers in step by hand (FR-000b). Leave the box&#39;s height</span>
+<span class="sd">        which asks the caller to know the library's own floor and lid, and to</span>
+<span class="sd">        keep three numbers in step by hand (FR-000b). Leave the box's height</span>
 <span class="sd">        unset and it is derived from this instead.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            label: The well&#39;s name.</span>
+<span class="sd">            label: The well's name.</span>
 <span class="sd">            count: How many cards the well holds.</span>
-<span class="sd">            size: The card&#39;s ``(width, length)`` in mm.</span>
-<span class="sd">            thickness: One card&#39;s thickness in mm. The default suits a standard</span>
+<span class="sd">            size: The card's ``(width, length)`` in mm.</span>
+<span class="sd">            thickness: One card's thickness in mm. The default suits a standard</span>
 <span class="sd">                board game card; sleeved cards run nearer 0.8mm.</span>
 <span class="sd">            slack: Clearance added around the stack, so the cards go in and come</span>
 <span class="sd">                out without being pinched.</span>
@@ -523,9 +523,9 @@
 
 <span class="sd">        Raises:</span>
 <span class="sd">            ValueError: If ``count`` is not positive.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="n">count</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;card count must be &gt; 0; got </span><span class="si">{</span><span class="n">count</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"card count must be &gt; 0; got </span><span class="si">{</span><span class="n">count</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">compartment</span><span class="p">(</span>
             <span class="n">label</span><span class="p">,</span>
             <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">slack</span><span class="p">,</span> <span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">slack</span><span class="p">),</span>
@@ -536,7 +536,7 @@
 
     <span class="k">def</span><span class="w"> </span><span class="nf">finger_hole</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">side</span><span class="p">:</span> <span class="s2">&quot;ScoopSide&quot;</span><span class="p">,</span>
+        <span class="n">side</span><span class="p">:</span> <span class="s2">"ScoopSide"</span><span class="p">,</span>
         <span class="o">*</span><span class="p">,</span>
         <span class="n">width</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">DEFAULT_FINGER_WIDTH_MM</span><span class="p">,</span>
         <span class="n">depth</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -546,18 +546,18 @@
         <span class="n">roll_rise</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">face_fillet</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">radius</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;FingerHoleBuilder&quot;</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add a finger hole to one of this box&#39;s exterior walls (FR-006).</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"FingerHoleBuilder"</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Add a finger hole to one of this box's exterior walls (FR-006).</span>
 
 <span class="sd">        The hole hangs from the top of the **interior** (FR-064) — not from</span>
 <span class="sd">        the outer rim, which on a lidded box is a lid band above it — so a</span>
 <span class="sd">        finger reaches in over the wall rather than through its middle. It is</span>
 <span class="sd">        cut with the same smoothing as a compartment scoop: a mouth rolled</span>
-<span class="sd">        into the wall&#39;s top and a fillet where it emerges on each face.</span>
+<span class="sd">        into the wall's top and a fillet where it emerges on each face.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            side: Which exterior wall to cut.</span>
-<span class="sd">            width: The cut&#39;s full width in mm; 28mm is adult fingertip sizing.</span>
+<span class="sd">            width: The cut's full width in mm; 28mm is adult fingertip sizing.</span>
 <span class="sd">            base_radius: How the base curves into the sides. ``None`` takes</span>
 <span class="sd">                **half the width**, which makes the base one round curve rather</span>
 <span class="sd">                than a flat pan (FR-054); it is independent of the width</span>
@@ -572,10 +572,10 @@
 <span class="sd">                Two names for one dimension, one of them half the other, is a</span>
 <span class="sd">                foot-gun in a signature this size; `width` is what the</span>
 <span class="sd">                requirements state (FR-051). Passing it still works and warns.</span>
-<span class="sd">            depth: How far the cut reaches below the wall&#39;s top, measured to</span>
+<span class="sd">            depth: How far the cut reaches below the wall's top, measured to</span>
 <span class="sd">                the deepest point of the material it removes (FR-006b).</span>
 <span class="sd">                ``None`` uses the radius. Capped at the interior depth so the</span>
-<span class="sd">                cut cannot open the box&#39;s base.</span>
+<span class="sd">                cut cannot open the box's base.</span>
 <span class="sd">            offset: Shift along the wall from its midpoint, in mm.</span>
 <span class="sd">            roll_rise: How far the mouth roll reaches down. ``None`` derives it</span>
 <span class="sd">                from the flare. The fourth of the numbers that define the</span>
@@ -589,13 +589,13 @@
 <span class="sd">        Raises:</span>
 <span class="sd">            TypeError: If ``side`` is not a :class:`ScoopSide`.</span>
 <span class="sd">            ValueError: If ``radius`` or ``depth`` is not positive.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="n">radius</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
 
             <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-                <span class="s2">&quot;finger_hole(radius=...) is deprecated; pass width= instead, &quot;</span>
-                <span class="s2">&quot;which is twice it and is what the requirements state.&quot;</span><span class="p">,</span>
+                <span class="s2">"finger_hole(radius=...) is deprecated; pass width= instead, "</span>
+                <span class="s2">"which is twice it and is what the requirements state."</span><span class="p">,</span>
                 <span class="ne">DeprecationWarning</span><span class="p">,</span> <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
             <span class="p">)</span>
             <span class="n">width</span> <span class="o">=</span> <span class="n">radius</span> <span class="o">*</span> <span class="mf">2.0</span>
@@ -609,7 +609,7 @@
             <span class="n">face_fillet</span><span class="o">=</span><span class="n">face_fillet</span><span class="p">,</span>
             <span class="n">roll_rise</span><span class="o">=</span><span class="n">roll_rise</span><span class="p">,</span>
         <span class="p">)</span>
-        <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;finger_holes&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">finger_holes</span> <span class="o">+</span> <span class="p">(</span><span class="n">hole</span><span class="p">,))</span>
+        <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">"finger_holes"</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">finger_holes</span> <span class="o">+</span> <span class="p">(</span><span class="n">hole</span><span class="p">,))</span>
         <span class="k">return</span> <span class="n">hole</span>
 
 
@@ -617,82 +617,82 @@
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.html#pyboxbuilder.Cut">[docs]</a>
 <span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">Cut</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;How a compartment gets its contents out (FR-006, FR-060).</span>
+<span class="w">    </span><span class="sd">"""How a compartment gets its contents out (FR-006, FR-060).</span>
 
 <span class="sd">    One record rather than a flag to turn a cut on, a second to choose which</span>
 <span class="sd">    kind, a third for the side and half a dozen loose measurements. Those were</span>
 <span class="sd">    four separate decisions spread across a fifteen-parameter call, and two of</span>
 <span class="sd">    them meant the same thing: `finger_scoop=True, finger_cut=SCOOP` said</span>
-<span class="sd">    &quot;cut one&quot; twice.</span>
+<span class="sd">    "cut one" twice.</span>
 
-<span class="sd">    Every measurement is ``None`` for &quot;derive it&quot;, because the right value</span>
-<span class="sd">    depends on the well&#39;s own proportions and on the box&#39;s wall — which the</span>
+<span class="sd">    Every measurement is ``None`` for "derive it", because the right value</span>
+<span class="sd">    depends on the well's own proportions and on the box's wall — which the</span>
 <span class="sd">    builder knows and the person describing a game does not (FR-000, FR-059).</span>
 
 <span class="sd">    Typical use is the shorthand::</span>
 
-<span class="sd">        box.compartment(&quot;Cards&quot;, size=..., depth=..., cut=FingerCut.THROUGH_FLOOR)</span>
+<span class="sd">        box.compartment("Cards", size=..., depth=..., cut=FingerCut.THROUGH_FLOOR)</span>
 
 <span class="sd">    and the record itself only when something needs saying::</span>
 
 <span class="sd">        cut=Cut.scoop(side=ScoopSide.LEFT, width=30)</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="n">kind</span><span class="p">:</span> <span class="n">FingerCut</span> <span class="o">=</span> <span class="n">FingerCut</span><span class="o">.</span><span class="n">THROUGH_FLOOR</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Which cut. A hole through the base for a stack, a side dip for loose</span>
-<span class="sd">    pieces (:class:`FingerCut`).&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Which cut. A hole through the base for a stack, a side dip for loose</span>
+<span class="sd">    pieces (:class:`FingerCut`)."""</span>
     <span class="n">side</span><span class="p">:</span> <span class="n">ScoopSide</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Which wall it goes in. ``None`` derives it — the shorter wall, or a</span>
-<span class="sd">    sliding lid&#39;s exit wall (FR-068/b6).&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Which wall it goes in. ``None`` derives it — the shorter wall, or a</span>
+<span class="sd">    sliding lid's exit wall (FR-068/b6)."""</span>
     <span class="n">width</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;How wide the cut is. ``None`` uses a fingertip.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""How wide the cut is. ``None`` uses a fingertip."""</span>
     <span class="n">depth</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;How far down it reaches, measured to the deepest point of the material</span>
-<span class="sd">    it removes (FR-006b). ``None`` runs it to the well&#39;s floor.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""How far down it reaches, measured to the deepest point of the material</span>
+<span class="sd">    it removes (FR-006b). ``None`` runs it to the well's floor."""</span>
     <span class="n">offset</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Shift along the wall from its midpoint, in mm.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Shift along the wall from its midpoint, in mm."""</span>
     <span class="n">base_radius</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;How the base curves into the sides; ``None`` derives it (FR-054).&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""How the base curves into the sides; ``None`` derives it (FR-054)."""</span>
     <span class="n">mouth_flare</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;How far the mouth rolls out at the rim; ``None`` derives it.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""How far the mouth rolls out at the rim; ``None`` derives it."""</span>
     <span class="n">roll_rise</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;How far that roll reaches down — its gentleness (FR-057).&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""How far that roll reaches down — its gentleness (FR-057)."""</span>
     <span class="n">face_fillet</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;The roundover where the cut emerges on a face; ``None`` uses half the</span>
-<span class="sd">    wall.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""The roundover where the cut emerges on a face; ``None`` uses half the</span>
+<span class="sd">    wall."""</span>
 
 <div class="viewcode-block" id="Cut.scoop">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.html#pyboxbuilder.Cut.scoop">[docs]</a>
     <span class="nd">@classmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">scoop</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">**</span><span class="n">fields</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Cut&quot;</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;A dip in the side of the well, leaving its base solid.&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">scoop</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">**</span><span class="n">fields</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Cut"</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""A dip in the side of the well, leaving its base solid."""</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="n">FingerCut</span><span class="o">.</span><span class="n">SCOOP</span><span class="p">,</span> <span class="o">**</span><span class="n">fields</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="Cut.through_floor">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.html#pyboxbuilder.Cut.through_floor">[docs]</a>
     <span class="nd">@classmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">through_floor</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">**</span><span class="n">fields</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Cut&quot;</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;A hole through the box&#39;s base, for a well something is stacked in.&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">through_floor</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">**</span><span class="n">fields</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Cut"</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""A hole through the box's base, for a well something is stacked in."""</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="n">FingerCut</span><span class="o">.</span><span class="n">THROUGH_FLOOR</span><span class="p">,</span> <span class="o">**</span><span class="n">fields</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="Cut.of">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.html#pyboxbuilder.Cut.of">[docs]</a>
     <span class="nd">@classmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">of</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="s2">&quot;Cut | FingerCut | None&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Cut | None&quot;</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Normalise what a caller passed as `cut=` into a record or ``None``.</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">of</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="s2">"Cut | FingerCut | None"</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Cut | None"</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Normalise what a caller passed as `cut=` into a record or ``None``.</span>
 
 <span class="sd">        The enum on its own is the common case and reads better at a call site</span>
-<span class="sd">        than a constructor does, so it is accepted as shorthand for &quot;this kind,</span>
-<span class="sd">        everything else derived&quot;.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        than a constructor does, so it is accepted as shorthand for "this kind,</span>
+<span class="sd">        everything else derived".</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="bp">cls</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">value</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">FingerCut</span><span class="p">):</span>
             <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="n">value</span><span class="p">)</span>
         <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;cut must be a Cut, a FingerCut or None; got </span><span class="si">{</span><span class="n">value</span><span class="si">!r}</span><span class="s2">&quot;</span>
+            <span class="sa">f</span><span class="s2">"cut must be a Cut, a FingerCut or None; got </span><span class="si">{</span><span class="n">value</span><span class="si">!r}</span><span class="s2">"</span>
         <span class="p">)</span></div>
 </div>
 
@@ -700,9 +700,9 @@
 
 <span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">FingerHoleBuilder</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;A finger hole on a box&#39;s exterior wall (FR-006).</span>
+<span class="w">    </span><span class="sd">"""A finger hole on a box's exterior wall (FR-006).</span>
 
-<span class="sd">    Cut with the same builder as a compartment&#39;s wall scoop, so it gets the</span>
+<span class="sd">    Cut with the same builder as a compartment's wall scoop, so it gets the</span>
 <span class="sd">    same mouth flare and face fillets: see</span>
 <span class="sd">    :func:`pyboxbuilder.compartments.finger_cuts.build_wall_scoop`.</span>
 
@@ -712,61 +712,61 @@
 <span class="sd">    `bottom_radius`, `rounding_radius` and `rounding_edge` here, so every</span>
 <span class="sd">    number in a finger cut had two names and one of the pairs differed by a</span>
 <span class="sd">    factor of two, which is the pair a reader is most likely to conflate.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="n">side</span><span class="p">:</span> <span class="n">ScoopSide</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Which exterior wall the hole is cut through.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Which exterior wall the hole is cut through."""</span>
     <span class="n">width</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">DEFAULT_FINGER_WIDTH_MM</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;The cut&#39;s full width in mm — how much finger goes in (FR-051).&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""The cut's full width in mm — how much finger goes in (FR-051)."""</span>
     <span class="n">base_radius</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;How the base curves into the sides; ``None`` uses half the width.</span>
+<span class="w">    </span><span class="sd">"""How the base curves into the sides; ``None`` uses half the width.</span>
 
 <span class="sd">    Independent of the width (FR-055), and **kept** rather than shrunk to fit</span>
-<span class="sd">    (FR-054): where the depth cannot hold the circle the mouth&#39;s roll gives</span>
+<span class="sd">    (FR-054): where the depth cannot hold the circle the mouth's roll gives</span>
 <span class="sd">    first, and the straight run between the two circles absorbs the rest.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">depth</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;How far down from the interior&#39;s top the cut reaches.</span>
+<span class="w">    </span><span class="sd">"""How far down from the interior's top the cut reaches.</span>
 
 <span class="sd">    ``None`` uses half the width, which is how the original sizes it: the</span>
 <span class="sd">    height of a finger cut follows the finger, not the wall. A fixed default</span>
 <span class="sd">    made every hole a shallow nick regardless of how big a finger it was cut</span>
 <span class="sd">    for.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">offset</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Shift along the wall from its midpoint, in mm.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Shift along the wall from its midpoint, in mm."""</span>
     <span class="n">mouth_flare</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Mouth flare where the cut meets the rim; ``None`` uses the default 3mm.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Mouth flare where the cut meets the rim; ``None`` uses the default 3mm."""</span>
     <span class="n">face_fillet</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Fillet where the cut emerges on a face; ``None`` uses ``wall_thickness / 2``.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Fillet where the cut emerges on a face; ``None`` uses ``wall_thickness / 2``."""</span>
     <span class="n">roll_rise</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;How far the mouth roll reaches down; ``None`` derives it from the flare.</span>
+<span class="w">    </span><span class="sd">"""How far the mouth roll reaches down; ``None`` derives it from the flare.</span>
 
-<span class="sd">    The gentleness of the curve, as against `mouth_flare`&#39;s width of it</span>
+<span class="sd">    The gentleness of the curve, as against `mouth_flare`'s width of it</span>
 <span class="sd">    (FR-051/FR-057). Settable because on a shallow wall the rise is the only</span>
 <span class="sd">    one of the two that can give: there is height to spare for the curve and no</span>
-<span class="sd">    width to spare for the mouth.&quot;&quot;&quot;</span>
+<span class="sd">    width to spare for the mouth."""</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">radius</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Half the width — the throat radius the geometry is swept around.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Half the width — the throat radius the geometry is swept around."""</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">/</span> <span class="mf">2.0</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Validate the hole.</span>
+<span class="w">        </span><span class="sd">"""Validate the hole.</span>
 
 <span class="sd">        Raises:</span>
 <span class="sd">            TypeError: If ``side`` is not a :class:`ScoopSide` — a bare string</span>
 <span class="sd">                would silently match no wall.</span>
 <span class="sd">            ValueError: If ``width`` or ``depth`` is not positive.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">side</span><span class="p">,</span> <span class="n">ScoopSide</span><span class="p">):</span>
-            <span class="n">sides</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;ScoopSide.</span><span class="si">{</span><span class="n">m</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">ScoopSide</span><span class="p">)</span>
-            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;finger hole side must be a ScoopSide (</span><span class="si">{</span><span class="n">sides</span><span class="si">}</span><span class="s2">); got </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">side</span><span class="si">!r}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">sides</span> <span class="o">=</span> <span class="s2">", "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s2">"ScoopSide.</span><span class="si">{</span><span class="n">m</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">"</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">ScoopSide</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"finger hole side must be a ScoopSide (</span><span class="si">{</span><span class="n">sides</span><span class="si">}</span><span class="s2">); got </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">side</span><span class="si">!r}</span><span class="s2">"</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;finger hole width must be &gt; 0; got </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"finger hole width must be &gt; 0; got </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">depth</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">depth</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;finger hole depth must be &gt; 0; got </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">depth</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"finger hole depth must be &gt; 0; got </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">depth</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </code></pre></div>
 
 

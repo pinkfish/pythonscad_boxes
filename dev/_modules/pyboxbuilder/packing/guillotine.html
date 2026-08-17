@@ -297,7 +297,7 @@
 
 <h1>Source code for pyboxbuilder.packing.guillotine</h1><div class="highlight"><pre>
 <span></span><code><span class="c1"># SPDX-License-Identifier: Apache-2.0</span>
-<span class="sd">&quot;&quot;&quot;Guillotine box packer for densely-filled inserts (T187).</span>
+<span class="sd">"""Guillotine box packer for densely-filled inserts (T187).</span>
 
 <span class="sd">The extreme-point First-Fit-Decreasing solver in `layout.py` places boxes at</span>
 <span class="sd">corner points, which fragments the free space: above roughly 70% fill it cannot</span>
@@ -310,7 +310,7 @@
 <span class="sd">things make that work where the corner-point search did not:</span>
 
 <span class="sd">**Support is structural, not checked.** A box may only be opened above another</span>
-<span class="sd">box&#39;s own top face, or above a layer that is required to be filled solid (see</span>
+<span class="sd">box's own top face, or above a layer that is required to be filled solid (see</span>
 <span class="sd">`Region.full`). The corner-point search floats a box with one corner resting on</span>
 <span class="sd">another; bolting an explicit support test onto it made the search 3000x more</span>
 <span class="sd">expensive and it still failed.</span>
@@ -325,28 +325,28 @@
 <span class="sd">surfaces immediately instead of after the rest of the box is filled around it.</span>
 <span class="sd">Measured on Emberleaf, taking the largest region first fails to find any packing</span>
 <span class="sd">in 1,000,000 nodes; taking the smallest finds one in 3,237.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
 
 <span class="n">EPS</span> <span class="o">=</span> <span class="mf">1e-9</span>
-<span class="sd">&quot;&quot;&quot;Comparison tolerance in mm. Well under any printable dimension.&quot;&quot;&quot;</span>
+<span class="sd">"""Comparison tolerance in mm. Well under any printable dimension."""</span>
 
 <span class="n">PLACES</span> <span class="o">=</span> <span class="mi">6</span>
-<span class="sd">&quot;&quot;&quot;Decimal places region sizes are rounded to.</span>
+<span class="sd">"""Decimal places region sizes are rounded to.</span>
 
 <span class="sd">Repeated subtraction leaves dust like 71.24999999999999, which would stop two</span>
 <span class="sd">states that are really the same from sharing a memo entry.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 
 <div class="viewcode-block" id="Item">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.packing.guillotine.Item.html#pyboxbuilder.packing.guillotine.Item">[docs]</a>
 <span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">Item</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;A box to place.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""A box to place."""</span>
 
     <span class="n">label</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">size</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span>
@@ -358,7 +358,7 @@
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.packing.guillotine.Placed.html#pyboxbuilder.packing.guillotine.Placed">[docs]</a>
 <span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">Placed</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Where one box ended up.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Where one box ended up."""</span>
 
     <span class="n">label</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">position</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span>
@@ -368,11 +368,11 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_orientations</span><span class="p">(</span><span class="n">size</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="n">no_rotate</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;The ways a box may be turned.</span>
+<span class="w">    </span><span class="sd">"""The ways a box may be turned.</span>
 
 <span class="sd">    Only the quarter turn about Z: a box printed with its lid on top has to stay</span>
 <span class="sd">    that way up.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">w</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">h</span> <span class="o">=</span> <span class="n">size</span>
     <span class="k">yield</span> <span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">h</span><span class="p">),</span> <span class="kc">False</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">no_rotate</span> <span class="ow">and</span> <span class="nb">abs</span><span class="p">(</span><span class="n">w</span> <span class="o">-</span> <span class="n">l</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">EPS</span><span class="p">:</span>
@@ -394,7 +394,7 @@
     <span class="o">*</span><span class="p">,</span>
     <span class="n">node_budget</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">200_000</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Placed</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Pack `items` into `container`, or return None if this search cannot.</span>
+<span class="w">    </span><span class="sd">"""Pack `items` into `container`, or return None if this search cannot.</span>
 
 <span class="sd">    Returns None rather than raising: the caller decides whether to fall back to</span>
 <span class="sd">    another solver or to report the failure. None is not proof that no packing</span>
@@ -407,7 +407,7 @@
 <span class="sd">        node_budget: Search nodes before giving up. The 18-box Emberleaf layout</span>
 <span class="sd">            resolves in 3,237 of them, in about 30ms; the budget is headroom for</span>
 <span class="sd">            harder inputs, not a figure normal ones approach.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">items</span><span class="p">:</span>
         <span class="k">return</span> <span class="p">[]</span>
 
@@ -435,26 +435,26 @@
     <span class="n">dead</span><span class="p">:</span> <span class="nb">set</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">usable</span><span class="p">(</span><span class="n">region</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Whether a region is big enough to be worth keeping in the pool.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Whether a region is big enough to be worth keeping in the pool."""</span>
         <span class="k">return</span> <span class="nb">min</span><span class="p">(</span><span class="n">region</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">region</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="n">region</span><span class="p">[</span><span class="mi">5</span><span class="p">])</span> <span class="o">&gt;=</span> <span class="n">smallest_dim</span> <span class="o">-</span> <span class="n">EPS</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">splits</span><span class="p">(</span><span class="n">region</span><span class="p">,</span> <span class="n">size</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Every way of cutting `region` once a box sits in its origin corner.</span>
+<span class="w">        </span><span class="sd">"""Every way of cutting `region` once a box sits in its origin corner.</span>
 
 <span class="sd">        Yields tuples of sub-regions, or None for a split that is not allowed.</span>
 
 <span class="sd">        Two families:</span>
 
-<span class="sd">        * **Corner** -- the box&#39;s own faces cut the region, and the only space</span>
+<span class="sd">        * **Corner** -- the box's own faces cut the region, and the only space</span>
 <span class="sd">          opened above the box is the column standing on it. Two variants,</span>
 <span class="sd">          differing in which side slab runs the full depth.</span>
-<span class="sd">        * **Layer** -- cut clean across the region at the box&#39;s height first, so</span>
-<span class="sd">          the space above spans the whole footprint rather than one box&#39;s top.</span>
+<span class="sd">        * **Layer** -- cut clean across the region at the box's height first, so</span>
+<span class="sd">          the space above spans the whole footprint rather than one box's top.</span>
 <span class="sd">          This is what lets a box bridge two boxes below it, which is how real</span>
 <span class="sd">          inserts stack, and the corner family cannot express it. The rest of the</span>
 <span class="sd">          layer is marked `full` so it has to be filled solid; otherwise the</span>
 <span class="sd">          bridge would span a void.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">full</span> <span class="o">=</span> <span class="n">region</span>
         <span class="n">bw</span><span class="p">,</span> <span class="n">bl</span><span class="p">,</span> <span class="n">bh</span> <span class="o">=</span> <span class="n">size</span>
         <span class="n">gap_h</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">h</span> <span class="o">-</span> <span class="n">bh</span><span class="p">,</span> <span class="n">PLACES</span><span class="p">)</span>
@@ -471,7 +471,7 @@
                     <span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">bw</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">w</span> <span class="o">-</span> <span class="n">bw</span><span class="p">,</span> <span class="n">PLACES</span><span class="p">),</span> <span class="n">bl</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">full</span><span class="p">),</span>
                 <span class="p">)</span>
 
-            <span class="c1"># Corner: space above the box is exactly the box&#39;s top face.</span>
+            <span class="c1"># Corner: space above the box is exactly the box's top face.</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">full</span> <span class="ow">or</span> <span class="n">gap_h</span> <span class="o">&lt;=</span> <span class="n">EPS</span><span class="p">:</span>
                 <span class="n">above</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">+</span> <span class="n">bh</span><span class="p">,</span> <span class="n">bw</span><span class="p">,</span> <span class="n">bl</span><span class="p">,</span> <span class="n">gap_h</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
                 <span class="k">yield</span> <span class="nb">tuple</span><span class="p">(</span>
@@ -479,7 +479,7 @@
                     <span class="k">if</span> <span class="nb">min</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">r</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="n">r</span><span class="p">[</span><span class="mi">5</span><span class="p">])</span> <span class="o">&gt;</span> <span class="n">EPS</span> <span class="ow">and</span> <span class="n">usable</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
                 <span class="p">)</span>
 
-            <span class="c1"># Layer: cut across at the box&#39;s height. The rest of this layer must</span>
+            <span class="c1"># Layer: cut across at the box's height. The rest of this layer must</span>
             <span class="c1"># be filled solid, so anything placed above it is fully supported.</span>
             <span class="k">if</span> <span class="n">gap_h</span> <span class="o">&gt;</span> <span class="n">EPS</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">full</span><span class="p">:</span>
                 <span class="n">layer_sides</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span>
@@ -532,7 +532,7 @@
                     <span class="k">continue</span>
                 <span class="k">if</span> <span class="n">must_fill</span> <span class="ow">and</span> <span class="nb">abs</span><span class="p">(</span><span class="n">h</span> <span class="o">-</span> <span class="n">rh</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">EPS</span><span class="p">:</span>
                     <span class="k">continue</span>  <span class="c1"># a short box here would leave a void above it</span>
-                <span class="c1"># Prefer a box that finishes flush with the region&#39;s walls: a</span>
+                <span class="c1"># Prefer a box that finishes flush with the region's walls: a</span>
                 <span class="c1"># flush face leaves no sliver behind it.</span>
                 <span class="n">flush</span> <span class="o">=</span> <span class="p">(</span>
                     <span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">w</span> <span class="o">-</span> <span class="n">rw</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">EPS</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">l</span> <span class="o">-</span> <span class="n">rl</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">EPS</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">h</span> <span class="o">-</span> <span class="n">rh</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">EPS</span><span class="p">)</span>

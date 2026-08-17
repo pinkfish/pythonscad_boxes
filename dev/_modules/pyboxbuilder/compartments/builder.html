@@ -297,7 +297,7 @@
 
 <h1>Source code for pyboxbuilder.compartments.builder</h1><div class="highlight"><pre>
 <span></span><code><span class="c1"># SPDX-License-Identifier: Apache-2.0</span>
-<span class="sd">&quot;&quot;&quot;Compartment builder dataclass.&quot;&quot;&quot;</span>
+<span class="sd">"""Compartment builder dataclass."""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
@@ -313,32 +313,32 @@
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.compartments.builder.CompartmentBuilder.html#pyboxbuilder.compartments.builder.CompartmentBuilder">[docs]</a>
 <span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">CompartmentBuilder</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Configuration for a single interior compartment.</span>
+<span class="w">    </span><span class="sd">"""Configuration for a single interior compartment.</span>
 
 <span class="sd">    Size can be specified as absolute millimetres (size=) or as</span>
 <span class="sd">    ratios of the box interior (width_ratio=, length_ratio=). Ratios</span>
 <span class="sd">    must be in range (0.0, 1.0]. At least one sizing mode is required.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="n">label</span><span class="p">:</span> <span class="nb">str</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compartment identifier.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Compartment identifier."""</span>
     <span class="n">size</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Footprint [W, L] in mm. Required if width_ratio/length_ratio not set.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Footprint [W, L] in mm. Required if width_ratio/length_ratio not set."""</span>
     <span class="n">width_ratio</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Fraction of box interior width (0.0 &lt; ratio &lt;= 1.0).&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Fraction of box interior width (0.0 &lt; ratio &lt;= 1.0)."""</span>
     <span class="n">length_ratio</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Fraction of box interior length (0.0 &lt; ratio &lt;= 1.0).&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Fraction of box interior length (0.0 &lt; ratio &lt;= 1.0)."""</span>
     <span class="n">depth</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Well depth in mm. ``None`` runs the well to the box&#39;s floor.</span>
+<span class="w">    </span><span class="sd">"""Well depth in mm. ``None`` runs the well to the box's floor.</span>
 
 <span class="sd">    Filling the interior is what a well normally does, so it is what happens</span>
 <span class="sd">    when nothing is said (FR-000). The alternative was a fixed 10mm, which is</span>
 <span class="sd">    right for no box in particular and quietly wrong for every deep one.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">rounded_corners</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Corner radius in mm. Prefer `holds_pieces`, which derives it.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Corner radius in mm. Prefer `holds_pieces`, which derives it."""</span>
     <span class="n">holds_pieces</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Whether this well holds loose pieces that have to be picked out.</span>
+<span class="w">    </span><span class="sd">"""Whether this well holds loose pieces that have to be picked out.</span>
 
 <span class="sd">    Off by default, which means **square corners and a square floor**. Rounding</span>
 <span class="sd">    is opt-in rather than opt-out because most wells are shaped by what they</span>
@@ -346,46 +346,46 @@
 <span class="sd">    those changes a fit rather than improving it. Setting this marks the well</span>
 <span class="sd">    as a tray: its corners and floor round to ``depth × 2/3`` so a finger can</span>
 <span class="sd">    sweep a piece up the curve and out (FR-044f).</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">cut</span><span class="p">:</span> <span class="s2">&quot;Cut | None&quot;</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;How this compartment&#39;s contents come out; ``None`` means no cut.</span>
+<span class="sd">    """</span>
+    <span class="n">cut</span><span class="p">:</span> <span class="s2">"Cut | None"</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">"""How this compartment's contents come out; ``None`` means no cut.</span>
 
 <span class="sd">    One setting rather than three (FR-006). It used to be a flag to ask for a</span>
 <span class="sd">    cut, a second to choose its kind and a third for its side — and the first</span>
 <span class="sd">    two said the same thing twice, so `finger_scoop=True, finger_cut=SCOOP`</span>
 <span class="sd">    was the way to ask for one scoop.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">no_rotate</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Prevent the layout algorithm from rotating this compartment (e.g. directional card slots).&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Prevent the layout algorithm from rotating this compartment (e.g. directional card slots)."""</span>
     <span class="n">shape_file</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Path to an SVG file defining the custom shape of the compartment cutout.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Path to an SVG file defining the custom shape of the compartment cutout."""</span>
     <span class="n">position</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Manual coordinate override (x, y) in mm within the interior frame.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Manual coordinate override (x, y) in mm within the interior frame."""</span>
     <span class="n">elements</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">CompartmentElement</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Physical game components nested inside this compartment (FR-004b).</span>
+<span class="w">    </span><span class="sd">"""Physical game components nested inside this compartment (FR-004b).</span>
 
 <span class="sd">    A compartment carrying elements is an *element pack*: the elements are laid</span>
-<span class="sd">    out in the compartment&#39;s local frame and the pack&#39;s bounding box is what the</span>
-<span class="sd">    box-level layout engine sees, so it packs like any other rectangle.&quot;&quot;&quot;</span>
+<span class="sd">    out in the compartment's local frame and the pack's bounding box is what the</span>
+<span class="sd">    box-level layout engine sees, so it packs like any other rectangle."""</span>
     <span class="n">element_margin</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Clearance added around an element pack&#39;s bounding box when `size` is</span>
-<span class="sd">    derived from the elements.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Clearance added around an element pack's bounding box when `size` is</span>
+<span class="sd">    derived from the elements."""</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="p">[(</span><span class="s2">&quot;width_ratio&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">width_ratio</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;length_ratio&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">length_ratio</span><span class="p">)]:</span>
+        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="p">[(</span><span class="s2">"width_ratio"</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">width_ratio</span><span class="p">),</span> <span class="p">(</span><span class="s2">"length_ratio"</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">length_ratio</span><span class="p">)]:</span>
             <span class="k">if</span> <span class="n">val</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="p">(</span><span class="mf">0.0</span> <span class="o">&lt;</span> <span class="n">val</span> <span class="o">&lt;=</span> <span class="mf">1.0</span><span class="p">):</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">&quot;Compartment &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="si">}</span><span class="s2">&#39; </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">=</span><span class="si">{</span><span class="n">val</span><span class="si">}</span><span class="s2"> &quot;</span>
-                    <span class="sa">f</span><span class="s2">&quot;must be in range (0.0, 1.0].&quot;</span>
+                    <span class="sa">f</span><span class="s2">"Compartment '</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="si">}</span><span class="s2">' </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">=</span><span class="si">{</span><span class="n">val</span><span class="si">}</span><span class="s2"> "</span>
+                    <span class="sa">f</span><span class="s2">"must be in range (0.0, 1.0]."</span>
                 <span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">fills_interior</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;True when this well takes whatever footprint the box has left.</span>
+<span class="w">        </span><span class="sd">"""True when this well takes whatever footprint the box has left.</span>
 
 <span class="sd">        A well with no size, no ratio and no elements is one the user did not</span>
-<span class="sd">        want to measure — the common case of &quot;one well, the whole box&quot;.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        want to measure — the common case of "one well, the whole box".</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">size</span> <span class="ow">is</span> <span class="kc">None</span>
             <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">width_ratio</span> <span class="ow">is</span> <span class="kc">None</span>
@@ -395,12 +395,12 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">derives_size</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;True when this well&#39;s footprint comes from the box, not the caller.</span>
+<span class="w">        </span><span class="sd">"""True when this well's footprint comes from the box, not the caller.</span>
 
-<span class="sd">        A ratio or a bare fill is measured on the interior&#39;s own axes, so the</span>
+<span class="sd">        A ratio or a bare fill is measured on the interior's own axes, so the</span>
 <span class="sd">        layout must not rotate it afterwards — that would ask the length to</span>
 <span class="sd">        hold a number worked out for the width.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">fills_interior</span>
             <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">width_ratio</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
@@ -410,13 +410,13 @@
 <div class="viewcode-block" id="CompartmentBuilder.min_footprint">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.compartments.builder.CompartmentBuilder.html#pyboxbuilder.compartments.builder.CompartmentBuilder.min_footprint">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">min_footprint</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;What this compartment demands of a box that has no size yet.</span>
+<span class="w">        </span><span class="sd">"""What this compartment demands of a box that has no size yet.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            ``(label, width, length, depth)`` in mm, or ``None`` when the well</span>
 <span class="sd">            fills whatever it is given and so demands nothing — a box whose</span>
 <span class="sd">            wells all fill needs an explicit size, and says so.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">fills_interior</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">size</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">None</span>
         <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">depth</span> <span class="ow">or</span> <span class="mf">0.0</span><span class="p">)</span></div>
@@ -428,20 +428,20 @@
         <span class="bp">self</span><span class="p">,</span> <span class="n">interior_w</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">interior_l</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">interior_h</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
         <span class="n">siblings</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;This compartment as the layout engine takes it.</span>
+<span class="w">        </span><span class="sd">"""This compartment as the layout engine takes it.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            interior_w: Box interior width in mm.</span>
 <span class="sd">            interior_l: Box interior length in mm.</span>
 <span class="sd">            interior_h: Box interior height in mm, used when ``depth`` is</span>
-<span class="sd">                ``None`` — the well then runs to the box&#39;s floor.</span>
+<span class="sd">                ``None`` — the well then runs to the box's floor.</span>
 <span class="sd">            siblings: How many compartments share the interior, so a ratio can</span>
 <span class="sd">                be read against the room left once the dividing walls are taken</span>
 <span class="sd">                out (see :meth:`resolve_size`).</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            ``(label, width, length, depth, shape_file, position, elements)``.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">width</span><span class="p">,</span> <span class="n">length</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">resolve_size</span><span class="p">(</span><span class="n">interior_w</span><span class="p">,</span> <span class="n">interior_l</span><span class="p">,</span> <span class="n">siblings</span><span class="p">)</span>
         <span class="k">return</span> <span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">resolve_depth</span><span class="p">(</span><span class="n">interior_h</span><span class="p">),</span>
@@ -452,15 +452,15 @@
 <div class="viewcode-block" id="CompartmentBuilder.resolve_depth">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.compartments.builder.CompartmentBuilder.html#pyboxbuilder.compartments.builder.CompartmentBuilder.resolve_depth">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">resolve_depth</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">interior_h</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;How deep this well is cut.</span>
+<span class="w">        </span><span class="sd">"""How deep this well is cut.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            interior_h: The box interior&#39;s height in mm.</span>
+<span class="sd">            interior_h: The box interior's height in mm.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            The declared depth, or the full interior height when none was</span>
 <span class="sd">            given — a well with nothing said about it goes to the floor.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">depth</span><span class="p">)</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">depth</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="nb">float</span><span class="p">(</span><span class="n">interior_h</span><span class="p">)</span></div>
 
 
@@ -469,14 +469,14 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">resolve_size</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">interior_w</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">interior_l</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">siblings</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Resolve absolute size from ratios and/or absolute dimensions.</span>
+<span class="w">        </span><span class="sd">"""Resolve absolute size from ratios and/or absolute dimensions.</span>
 
 <span class="sd">        A **ratio is a share of the room compartments actually have**, not of</span>
-<span class="sd">        the raw interior: the auto-layout puts a wall&#39;s worth of spacing before,</span>
+<span class="sd">        the raw interior: the auto-layout puts a wall's worth of spacing before,</span>
 <span class="sd">        between and after them, so two wells asking for half each have to share</span>
 <span class="sd">        `interior - 3 × spacing`. Read against the raw interior instead, ratios</span>
 <span class="sd">        summing to exactly 1.0 — which FR-003a explicitly permits — overflowed</span>
-<span class="sd">        every time, and the only way to make them fit was to guess the layout&#39;s</span>
+<span class="sd">        every time, and the only way to make them fit was to guess the layout's</span>
 <span class="sd">        spacing at the call site (FR-000b).</span>
 
 <span class="sd">        Args:</span>
@@ -488,7 +488,7 @@
 
 <span class="sd">        Returns:</span>
 <span class="sd">            (width, length) in mm.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.compartments.layout</span><span class="w"> </span><span class="kn">import</span> <span class="n">WALL_SPACING_MM</span>
 
         <span class="c1"># The layout runs compartments along the width, so that axis carries a</span>

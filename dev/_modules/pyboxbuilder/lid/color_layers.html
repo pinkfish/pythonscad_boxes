@@ -297,14 +297,14 @@
 
 <h1>Source code for pyboxbuilder.lid.color_layers</h1><div class="highlight"><pre>
 <span></span><code><span class="c1"># SPDX-License-Identifier: Apache-2.0</span>
-<span class="sd">&quot;&quot;&quot;Accent colours for multi-material lids (FR-022).</span>
+<span class="sd">"""Accent colours for multi-material lids (FR-022).</span>
 
-<span class="sd">Three colours are settable independently — the label text, the frame&#39;s top</span>
-<span class="sd">layer and the pattern&#39;s top layer — and each has a default derived from the</span>
+<span class="sd">Three colours are settable independently — the label text, the frame's top</span>
+<span class="sd">layer and the pattern's top layer — and each has a default derived from the</span>
 <span class="sd">body colour rather than left unset. That matters: an unset accent is not a</span>
 <span class="sd">subtle default, it is *no colour*, so the feature only worked for a caller who</span>
 <span class="sd">already knew to set all three (FR-000a).</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
@@ -317,16 +317,16 @@
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.lid.color_layers.ColorLayerAssignment.html#pyboxbuilder.lid.color_layers.ColorLayerAssignment">[docs]</a>
 <span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">ColorLayerAssignment</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Maps geometry components to their accent colors.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Maps geometry components to their accent colors."""</span>
 
     <span class="n">body_color</span><span class="p">:</span> <span class="n">Color</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;The base box body color.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""The base box body color."""</span>
     <span class="n">text_color</span><span class="p">:</span> <span class="n">Color</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Label text color (None = no label).&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Label text color (None = no label)."""</span>
     <span class="n">frame_color</span><span class="p">:</span> <span class="n">Color</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Frame top layer color (None = no frame).&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Frame top layer color (None = no frame)."""</span>
     <span class="n">pattern_color</span><span class="p">:</span> <span class="n">Color</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Pattern top layer color (None = no pattern).&quot;&quot;&quot;</span></div>
+<span class="w">    </span><span class="sd">"""Pattern top layer color (None = no pattern)."""</span></div>
 
 
 
@@ -340,19 +340,19 @@
     <span class="n">frame_color</span><span class="p">:</span> <span class="n">Color</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">pattern_color</span><span class="p">:</span> <span class="n">Color</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ColorLayerAssignment</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Resolve accent colors with sensible defaults.</span>
+<span class="w">    </span><span class="sd">"""Resolve accent colors with sensible defaults.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        body_color: The base box body color.</span>
-<span class="sd">        text_color: Label text color. Defaults to Color(&quot;white&quot;).</span>
+<span class="sd">        text_color: Label text color. Defaults to Color("white").</span>
 <span class="sd">        frame_color: Frame top layer color. Defaults to a contrasting hue.</span>
 <span class="sd">        pattern_color: Pattern top layer color. Defaults to a third hue.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        ColorLayerAssignment with all colors resolved.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="n">text_color</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">text_color</span> <span class="o">=</span> <span class="n">Color</span><span class="p">(</span><span class="s2">&quot;white&quot;</span><span class="p">)</span>
+        <span class="n">text_color</span> <span class="o">=</span> <span class="n">Color</span><span class="p">(</span><span class="s2">"white"</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">frame_color</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="c1"># Contrasting hue: shift by 120 degrees</span>
@@ -372,7 +372,7 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_contrast_hue</span><span class="p">(</span><span class="n">base</span><span class="p">:</span> <span class="n">Color</span><span class="p">,</span> <span class="n">shift</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Color</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Shift the hue of a color for contrast.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Shift the hue of a color for contrast."""</span>
     <span class="kn">import</span><span class="w"> </span><span class="nn">colorsys</span>
     <span class="n">r</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">base</span><span class="o">.</span><span class="n">rgba</span>
     <span class="n">h</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">s</span> <span class="o">=</span> <span class="n">colorsys</span><span class="o">.</span><span class="n">rgb_to_hls</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>

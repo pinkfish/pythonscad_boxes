@@ -297,7 +297,7 @@
 
 <h1>Source code for pyboxbuilder.builders.sliding</h1><div class="highlight"><pre>
 <span></span><code><span class="c1"># SPDX-License-Identifier: Apache-2.0</span>
-<span class="sd">&quot;&quot;&quot;SlidingBoxBuilder — typed builder for sliding lid boxes.&quot;&quot;&quot;</span>
+<span class="sd">"""SlidingBoxBuilder — typed builder for sliding lid boxes."""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
@@ -312,18 +312,18 @@
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.builders.sliding.SlidingBoxBuilder.html#pyboxbuilder.builders.sliding.SlidingBoxBuilder">[docs]</a>
 <span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">SlidingBoxBuilder</span><span class="p">(</span><span class="n">BoxBuilder</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Builder for sliding-lid box type.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Builder for sliding-lid box type."""</span>
 
     <span class="n">box_type</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="n">BoxType</span><span class="p">]</span> <span class="o">=</span> <span class="n">BoxType</span><span class="o">.</span><span class="n">SLIDING</span>
 
     <span class="n">catch_radius</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Bump-catch radius, or `None` for a plain sliding lid (FR-002e3).</span>
+<span class="w">    </span><span class="sd">"""Bump-catch radius, or `None` for a plain sliding lid (FR-002e3).</span>
 
 <span class="sd">    A sliding box has no catch by default — the dovetail already stops the lid</span>
 <span class="sd">    lifting out, and it can only leave by being slid. Set this to add the</span>
 <span class="sd">    bump-and-dimple detent at the outlet (never a wedge at the stop end); a</span>
 <span class="sd">    box that wants one as standard is a `SLIDING_CATCH` instead.</span>
-<span class="sd">    &quot;&quot;&quot;</span></div>
+<span class="sd">    """</span></div>
 
 </code></pre></div>
 

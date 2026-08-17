@@ -297,7 +297,7 @@
 
 <h1>Source code for pyboxbuilder.compartments.labels</h1><div class="highlight"><pre>
 <span></span><code><span class="c1"># SPDX-License-Identifier: Apache-2.0</span>
-<span class="sd">&quot;&quot;&quot;Labeled compartment floors — mode-aware label generation.&quot;&quot;&quot;</span>
+<span class="sd">"""Labeled compartment floors — mode-aware label generation."""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
@@ -313,11 +313,11 @@
     <span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
-    <span class="n">mode</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;mmu&quot;</span><span class="p">,</span>
+    <span class="n">mode</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"mmu"</span><span class="p">,</span>
     <span class="n">height</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.2</span><span class="p">,</span>
     <span class="n">font_size</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Bosl2Solid | None&quot;</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Build a label for a compartment floor.</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Bosl2Solid | None"</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Build a label for a compartment floor.</span>
 
 <span class="sd">    In MMU mode, text is extruded 0.2mm above the floor for second-color</span>
 <span class="sd">    printing. In single mode, text is recessed (engraved cutout) for</span>
@@ -327,13 +327,13 @@
 <span class="sd">        text: The label text (e.g., animal name).</span>
 <span class="sd">        width: Compartment interior width.</span>
 <span class="sd">        length: Compartment interior length.</span>
-<span class="sd">        mode: &#39;mmu&#39; for raised second-color text, &#39;single&#39; for engraved cutout.</span>
+<span class="sd">        mode: 'mmu' for raised second-color text, 'single' for engraved cutout.</span>
 <span class="sd">        height: Extrude/cutout depth (0.2mm default).</span>
 <span class="sd">        font_size: Auto-calculated from compartment size if None.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        Bosl2Solid for the floor label, or None if bosl2 unavailable.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="n">font_size</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">max_size</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">width</span> <span class="o">*</span> <span class="mf">0.8</span> <span class="o">/</span> <span class="nb">max</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">text</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mf">1.5</span><span class="p">,</span> <span class="n">length</span> <span class="o">*</span> <span class="mf">0.5</span><span class="p">)</span>
         <span class="n">font_size</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">max_size</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">)</span>
@@ -346,11 +346,11 @@
     <span class="n">text_solid</span> <span class="o">=</span> <span class="n">bosl2_text</span><span class="p">(</span>
         <span class="n">text</span><span class="o">=</span><span class="n">text</span><span class="p">,</span>
         <span class="n">size</span><span class="o">=</span><span class="n">font_size</span><span class="p">,</span>
-        <span class="n">font</span><span class="o">=</span><span class="s2">&quot;Arial:style=Bold&quot;</span><span class="p">,</span>
+        <span class="n">font</span><span class="o">=</span><span class="s2">"Arial:style=Bold"</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">text_solid</span> <span class="o">=</span> <span class="n">text_solid</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">width</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">length</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
 
-    <span class="k">if</span> <span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;single&quot;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">mode</span> <span class="o">==</span> <span class="s2">"single"</span><span class="p">:</span>
         <span class="c1"># Extrude for engraving: positive solid to subtract from floor</span>
         <span class="n">text_solid</span> <span class="o">=</span> <span class="n">text_solid</span><span class="o">.</span><span class="n">linear_extrude</span><span class="p">(</span><span class="n">height</span><span class="o">=</span><span class="n">height</span> <span class="o">+</span> <span class="mf">0.1</span><span class="p">)</span>
     <span class="c1"># MMU mode: 2D text sits on floor, color contrast handles visibility</span>
@@ -365,21 +365,21 @@
     <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">comp_width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">comp_length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
-    <span class="n">mode</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;mmu&quot;</span><span class="p">,</span>
+    <span class="n">mode</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"mmu"</span><span class="p">,</span>
     <span class="n">floor_z</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Bosl2Solid | None&quot;</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convenience wrapper for building a compartment floor label.</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Bosl2Solid | None"</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Convenience wrapper for building a compartment floor label.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        name: Animal/compartment name.</span>
 <span class="sd">        comp_width: Compartment width including spacing.</span>
 <span class="sd">        comp_length: Compartment length including spacing.</span>
-<span class="sd">        mode: &#39;mmu&#39; or &#39;single&#39;.</span>
+<span class="sd">        mode: 'mmu' or 'single'.</span>
 <span class="sd">        floor_z: Z position of the compartment floor.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        Bosl2Solid positioned at the floor level, or None.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">label</span> <span class="o">=</span> <span class="n">build_floor_label</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">comp_width</span> <span class="o">-</span> <span class="mi">2</span><span class="p">,</span> <span class="n">comp_length</span> <span class="o">-</span> <span class="mi">2</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="n">mode</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">label</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">label</span> <span class="o">=</span> <span class="n">label</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">floor_z</span> <span class="o">+</span> <span class="mf">0.1</span><span class="p">])</span>

@@ -297,7 +297,7 @@
 
 <h1>Source code for pyboxbuilder.box.types.no_lid</h1><div class="highlight"><pre>
 <span></span><code><span class="c1"># SPDX-License-Identifier: Apache-2.0</span>
-<span class="sd">&quot;&quot;&quot;NoLidBox — no-lid (open tray) box type with stackable rims and magnets.&quot;&quot;&quot;</span>
+<span class="sd">"""NoLidBox — no-lid (open tray) box type with stackable rims and magnets."""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
@@ -318,7 +318,7 @@
 <div class="viewcode-block" id="NoLidBox">
 <a class="viewcode-back" href="../../../../_autosummary/pyboxbuilder.box.types.no_lid.NoLidBox.html#pyboxbuilder.box.types.no_lid.NoLidBox">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">NoLidBox</span><span class="p">(</span><span class="n">BoxTypeBase</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;No-lid box type (open tray). Supports stackable rims and side magnets.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""No-lid box type (open tray). Supports stackable rims and side magnets."""</span>
 
 <div class="viewcode-block" id="NoLidBox.interior">
 <a class="viewcode-back" href="../../../../_autosummary/pyboxbuilder.box.types.no_lid.NoLidBox.html#pyboxbuilder.box.types.no_lid.NoLidBox.interior">[docs]</a>
@@ -333,7 +333,7 @@
         <span class="p">)</span></div>
 
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">_build_shell</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Bosl2Solid&quot;</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_build_shell</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Bosl2Solid"</span><span class="p">:</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.shell</span><span class="w"> </span><span class="kn">import</span> <span class="n">build_shell</span><span class="p">,</span> <span class="n">with_no_lid_finger_holes</span>
 
         <span class="c1"># A no-lid box has no lid band, whoever built the spec: `Project` sets</span>
@@ -345,12 +345,12 @@
         <span class="n">body</span> <span class="o">=</span> <span class="n">build_shell</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">body</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">_add_stackable_rim</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">body</span><span class="p">:</span> <span class="s2">&quot;Bosl2Solid&quot;</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Bosl2Solid&quot;</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add an interlocking ring for stackable boxes.</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_add_stackable_rim</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">body</span><span class="p">:</span> <span class="s2">"Bosl2Solid"</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Bosl2Solid"</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Add an interlocking ring for stackable boxes.</span>
 
 <span class="sd">        inside  → a recess carved into the top rim (box nests inside the box above)</span>
 <span class="sd">        outside → a ridge added around the outside (box fits around the box below)</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.shell</span><span class="w"> </span><span class="kn">import</span> <span class="n">block</span>
 
         <span class="n">wt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">wall_thickness</span>
@@ -371,7 +371,7 @@
                 <span class="p">),</span>
             <span class="p">)</span>
             <span class="k">return</span> <span class="n">body</span> <span class="o">-</span> <span class="n">recess</span>
-        <span class="k">elif</span> <span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;outside&quot;</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">mode</span> <span class="o">==</span> <span class="s2">"outside"</span><span class="p">:</span>
             <span class="c1"># Add a ridge around the bottom outside, so it grips the box below.</span>
             <span class="n">ridge_w</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">width</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">stack</span> <span class="o">-</span> <span class="n">fit</span><span class="p">)</span>
             <span class="n">ridge_l</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">stack</span> <span class="o">-</span> <span class="n">fit</span><span class="p">)</span>
@@ -386,17 +386,17 @@
             <span class="k">return</span> <span class="n">body</span> <span class="o">|</span> <span class="n">ridge</span>
         <span class="k">return</span> <span class="n">body</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">_add_magnet_slots</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">body</span><span class="p">:</span> <span class="s2">&quot;Bosl2Solid&quot;</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Bosl2Solid&quot;</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Carve magnet cavities into the opposing walls that carry no finger hole.</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_add_magnet_slots</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">body</span><span class="p">:</span> <span class="s2">"Bosl2Solid"</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Bosl2Solid"</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Carve magnet cavities into the opposing walls that carry no finger hole.</span>
 
 <span class="sd">        Which pair is not cosmetic (FR-039a). A pocket is cut at the middle of a</span>
-<span class="sd">        wall at mid-height, and FR-047&#39;s holes are cut at the middle of the two</span>
+<span class="sd">        wall at mid-height, and FR-047's holes are cut at the middle of the two</span>
 <span class="sd">        longer walls: pinned to one fixed pair, the two land in the same wall</span>
 <span class="sd">        whenever the footprint is the other way round, and the magnet ends up</span>
 <span class="sd">        inside the finger cut — a tray with a hole where a magnet should be, and</span>
 <span class="sd">        nothing in the geometry to say so. Both pairs are opposing, so taking</span>
 <span class="sd">        the free one costs the attraction FR-039 is about exactly nothing.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">cuboid</span><span class="p">,</span> <span class="n">cylinder</span>
 
         <span class="n">magnet_type</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">magnet_type</span>
@@ -410,7 +410,7 @@
         <span class="n">on_front_back</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_magnet_sides_front_back</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
 
         <span class="k">def</span><span class="w"> </span><span class="nf">slot</span><span class="p">():</span>
-<span class="w">            </span><span class="sd">&quot;&quot;&quot;A fresh solid per side — one handle must not span two branches.&quot;&quot;&quot;</span>
+<span class="w">            </span><span class="sd">"""A fresh solid per side — one handle must not span two branches."""</span>
             <span class="k">if</span> <span class="n">magnet_type</span> <span class="ow">is</span> <span class="n">MagnetType</span><span class="o">.</span><span class="n">ROUND</span><span class="p">:</span>
                 <span class="n">diameter</span> <span class="o">=</span> <span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="n">size</span> <span class="k">else</span> <span class="mf">6.0</span>
                 <span class="c1"># Lay the cylinder along the axis it sinks into the wall on.</span>
@@ -438,16 +438,16 @@
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">_magnet_sides_front_back</span><span class="p">(</span><span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;True when the magnets belong in the FRONT/BACK pair (FR-039a).</span>
+<span class="w">        </span><span class="sd">"""True when the magnets belong in the FRONT/BACK pair (FR-039a).</span>
 
 <span class="sd">        The free pair is whichever one the finger holes did not take. Holes are</span>
 <span class="sd">        read off the spec rather than recomputed, so an explicit `finger_hole()`</span>
 <span class="sd">        moves the magnets exactly as the automatic pair does; with holes on both</span>
 <span class="sd">        pairs (or none) the front/back default stands and FR-006c reports any</span>
 <span class="sd">        collision rather than this guessing.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">holes</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">finger_holes</span> <span class="ow">or</span> <span class="p">()</span>
-        <span class="n">sides</span> <span class="o">=</span> <span class="p">{</span><span class="nb">getattr</span><span class="p">(</span><span class="n">hole</span><span class="p">,</span> <span class="s2">&quot;side&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="k">for</span> <span class="n">hole</span> <span class="ow">in</span> <span class="n">holes</span><span class="p">}</span>
+        <span class="n">sides</span> <span class="o">=</span> <span class="p">{</span><span class="nb">getattr</span><span class="p">(</span><span class="n">hole</span><span class="p">,</span> <span class="s2">"side"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="k">for</span> <span class="n">hole</span> <span class="ow">in</span> <span class="n">holes</span><span class="p">}</span>
         <span class="n">front_back</span> <span class="o">=</span> <span class="p">{</span><span class="n">ScoopSide</span><span class="o">.</span><span class="n">FRONT</span><span class="p">,</span> <span class="n">ScoopSide</span><span class="o">.</span><span class="n">BACK</span><span class="p">}</span> <span class="o">&amp;</span> <span class="n">sides</span>
         <span class="n">left_right</span> <span class="o">=</span> <span class="p">{</span><span class="n">ScoopSide</span><span class="o">.</span><span class="n">LEFT</span><span class="p">,</span> <span class="n">ScoopSide</span><span class="o">.</span><span class="n">RIGHT</span><span class="p">}</span> <span class="o">&amp;</span> <span class="n">sides</span>
         <span class="k">if</span> <span class="n">front_back</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">left_right</span><span class="p">:</span>
@@ -456,7 +456,7 @@
 
 <div class="viewcode-block" id="NoLidBox.build_body">
 <a class="viewcode-back" href="../../../../_autosummary/pyboxbuilder.box.types.no_lid.NoLidBox.html#pyboxbuilder.box.types.no_lid.NoLidBox.build_body">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">build_body</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Bosl2Solid&quot;</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_body</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Bosl2Solid"</span><span class="p">:</span>
         <span class="n">body</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_build_shell</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">stackable</span><span class="p">:</span>
             <span class="n">body</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_add_stackable_rim</span><span class="p">(</span><span class="n">body</span><span class="p">,</span> <span class="n">spec</span><span class="p">)</span>
@@ -467,8 +467,8 @@
 
 <div class="viewcode-block" id="NoLidBox.build_lid">
 <a class="viewcode-back" href="../../../../_autosummary/pyboxbuilder.box.types.no_lid.NoLidBox.html#pyboxbuilder.box.types.no_lid.NoLidBox.build_lid">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">build_lid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">,</span> <span class="n">decoration</span><span class="p">:</span> <span class="nb">object</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Bosl2Solid&quot;</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;No-lid boxes have no lid.&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_lid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">,</span> <span class="n">decoration</span><span class="p">:</span> <span class="nb">object</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Bosl2Solid"</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""No-lid boxes have no lid."""</span>
         <span class="k">return</span> <span class="kc">None</span></div>
 </div>
 

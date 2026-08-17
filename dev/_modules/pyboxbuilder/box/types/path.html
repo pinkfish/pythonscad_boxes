@@ -297,7 +297,7 @@
 
 <h1>Source code for pyboxbuilder.box.types.path</h1><div class="highlight"><pre>
 <span></span><code><span class="c1"># SPDX-License-Identifier: Apache-2.0</span>
-<span class="sd">&quot;&quot;&quot;PathBox — lidless tray with an arbitrary polygon footprint.&quot;&quot;&quot;</span>
+<span class="sd">"""PathBox — lidless tray with an arbitrary polygon footprint."""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
@@ -315,11 +315,11 @@
 <div class="viewcode-block" id="PathBox">
 <a class="viewcode-back" href="../../../../_autosummary/pyboxbuilder.box.types.path.PathBox.html#pyboxbuilder.box.types.path.PathBox">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">PathBox</span><span class="p">(</span><span class="n">BoxTypeBase</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Open tray whose footprint is a 2D polygon path rather than a rectangle.</span>
+<span class="w">    </span><span class="sd">"""Open tray whose footprint is a 2D polygon path rather than a rectangle.</span>
 
 <span class="sd">    Produces a body only — a path box has no lid, so `build_lid` returns None</span>
 <span class="sd">    and the exporter writes no `_lid.3mf` for it.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
 <div class="viewcode-block" id="PathBox.interior">
 <a class="viewcode-back" href="../../../../_autosummary/pyboxbuilder.box.types.path.PathBox.html#pyboxbuilder.box.types.path.PathBox.interior">[docs]</a>
@@ -336,7 +336,7 @@
 
 <div class="viewcode-block" id="PathBox.build_body">
 <a class="viewcode-back" href="../../../../_autosummary/pyboxbuilder.box.types.path.PathBox.html#pyboxbuilder.box.types.path.PathBox.build_body">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">build_body</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Bosl2Solid&quot;</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_body</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Bosl2Solid"</span><span class="p">:</span>
         <span class="n">wt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">wall_thickness</span>
         <span class="n">ft</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">floor_thickness</span>
         <span class="n">path</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">path</span> <span class="ow">or</span> <span class="p">()</span>
@@ -364,12 +364,12 @@
 
 
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">_extrude</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">height</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Bosl2Solid&quot;</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Extrude a polygon outline with its base at z = 0.</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_extrude</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">height</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Bosl2Solid"</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Extrude a polygon outline with its base at z = 0.</span>
 
 <span class="sd">        `linear_extrude` is the one operation that is *not* centre-anchored in Z</span>
 <span class="sd">        — it already grows upward from the bed, which is what a tray wants.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path2D</span>
 
         <span class="n">profile</span> <span class="o">=</span> <span class="n">Path2D</span><span class="p">([(</span><span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="n">y</span><span class="p">))</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">path</span><span class="p">],</span> <span class="n">closed</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -378,7 +378,7 @@
 <div class="viewcode-block" id="PathBox.build_lid">
 <a class="viewcode-back" href="../../../../_autosummary/pyboxbuilder.box.types.path.PathBox.html#pyboxbuilder.box.types.path.PathBox.build_lid">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">build_lid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">,</span> <span class="n">decoration</span><span class="p">:</span> <span class="nb">object</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Path boxes have no lid.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Path boxes have no lid."""</span>
         <span class="k">return</span> <span class="kc">None</span></div>
 </div>
 
@@ -387,14 +387,14 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">_inset_path</span><span class="p">(</span>
     <span class="n">path</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="o">...</span><span class="p">],</span> <span class="n">distance</span><span class="p">:</span> <span class="nb">float</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="o">...</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Shrink a footprint by `distance` to get the tray&#39;s inner cavity.</span>
+<span class="w">    </span><span class="sd">"""Shrink a footprint by `distance` to get the tray's inner cavity.</span>
 
 <span class="sd">    Leftover regions from the packer are rectilinear, and those get an exact</span>
-<span class="sd">    edge-wise inset — a centroid scale would pull an L&#39;s reflex corner the wrong</span>
+<span class="sd">    edge-wise inset — a centroid scale would pull an L's reflex corner the wrong</span>
 <span class="sd">    way and thin one arm while fattening the other. Anything else falls back to</span>
 <span class="sd">    the centroid scale, which is fine for the convex outlines a caller is likely</span>
 <span class="sd">    to hand-write and never self-intersects.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.paths</span><span class="w"> </span><span class="kn">import</span> <span class="n">inset_rectilinear</span><span class="p">,</span> <span class="n">is_rectilinear</span>
 
     <span class="k">if</span> <span class="n">is_rectilinear</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>

@@ -297,7 +297,7 @@
 
 <h1>Source code for pyboxbuilder.packing.layout</h1><div class="highlight"><pre>
 <span></span><code><span class="c1"># SPDX-License-Identifier: Apache-2.0</span>
-<span class="sd">&quot;&quot;&quot;Box packing layout — skyline-based 3D box packing into game box interior.&quot;&quot;&quot;</span>
+<span class="sd">"""Box packing layout — skyline-based 3D box packing into game box interior."""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
@@ -307,11 +307,11 @@
 <div class="viewcode-block" id="PackingError">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.packing.layout.html#pyboxbuilder.packing.layout.PackingError">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">PackingError</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Raised when the sub-boxes cannot be arranged inside the game box.</span>
+<span class="w">    </span><span class="sd">"""Raised when the sub-boxes cannot be arranged inside the game box.</span>
 
 <span class="sd">    Note that the packer is a greedy heuristic, so this does not prove the</span>
 <span class="sd">    layout is impossible — only that this solver could not find it.</span>
-<span class="sd">    &quot;&quot;&quot;</span></div>
+<span class="sd">    """</span></div>
 
 
 
@@ -319,18 +319,18 @@
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.packing.layout.Placement.html#pyboxbuilder.packing.layout.Placement">[docs]</a>
 <span class="nd">@dataclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">Placement</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Position and size of one box in the nested layout.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Position and size of one box in the nested layout."""</span>
 
     <span class="n">label</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">position</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span>
     <span class="n">size</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span>
     <span class="n">rotation</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="n">path</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="o">...</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Footprint outline relative to `position`, when it is not a rectangle.</span>
+<span class="w">    </span><span class="sd">"""Footprint outline relative to `position`, when it is not a rectangle.</span>
 
 <span class="sd">    Set on spacers whose leftover region is L-, T- or U-shaped (FR-018); such a</span>
 <span class="sd">    spacer is built as a `PathBox` rather than a plain tray. None means the</span>
-<span class="sd">    footprint is just `size`.&quot;&quot;&quot;</span></div>
+<span class="sd">    footprint is just `size`."""</span></div>
 
 
 
@@ -338,7 +338,7 @@
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.packing.layout.BoxPacking.html#pyboxbuilder.packing.layout.BoxPacking">[docs]</a>
 <span class="nd">@dataclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">BoxPacking</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Computed nested layout of sub-boxes inside a container.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Computed nested layout of sub-boxes inside a container."""</span>
 
     <span class="n">container_size</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span>
     <span class="n">placements</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Placement</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span>
@@ -349,25 +349,25 @@
 
 
 <span class="n">HEIGHT_ABSORB_MM</span> <span class="o">=</span> <span class="mf">3.0</span>
-<span class="sd">&quot;&quot;&quot;A gap above an expandable box no deeper than this is absorbed into it (FR-012).</span>
+<span class="sd">"""A gap above an expandable box no deeper than this is absorbed into it (FR-012).</span>
 
 <span class="sd">Anything deeper is real space that a spacer should claim, not slack to grow into.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_pack_guillotine</span><span class="p">(</span>
     <span class="n">container_size</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="n">boxes</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Placement</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Try the guillotine solver, returning None if it finds nothing.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Try the guillotine solver, returning None if it finds nothing."""</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.packing.guillotine</span><span class="w"> </span><span class="kn">import</span> <span class="n">Item</span><span class="p">,</span> <span class="n">pack_guillotine</span>
 
     <span class="n">placed</span> <span class="o">=</span> <span class="n">pack_guillotine</span><span class="p">(</span>
         <span class="n">container_size</span><span class="p">,</span>
         <span class="p">[</span>
             <span class="n">Item</span><span class="p">(</span>
-                <span class="n">label</span><span class="o">=</span><span class="n">b</span><span class="p">[</span><span class="s2">&quot;label&quot;</span><span class="p">],</span>
-                <span class="n">size</span><span class="o">=</span><span class="nb">tuple</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">b</span><span class="p">[</span><span class="s2">&quot;size&quot;</span><span class="p">]),</span>  <span class="c1"># type: ignore[arg-type]</span>
-                <span class="n">no_rotate</span><span class="o">=</span><span class="nb">bool</span><span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;no_rotate&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)),</span>
+                <span class="n">label</span><span class="o">=</span><span class="n">b</span><span class="p">[</span><span class="s2">"label"</span><span class="p">],</span>
+                <span class="n">size</span><span class="o">=</span><span class="nb">tuple</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">b</span><span class="p">[</span><span class="s2">"size"</span><span class="p">]),</span>  <span class="c1"># type: ignore[arg-type]</span>
+                <span class="n">no_rotate</span><span class="o">=</span><span class="nb">bool</span><span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"no_rotate"</span><span class="p">,</span> <span class="kc">False</span><span class="p">)),</span>
             <span class="p">)</span>
             <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">boxes</span>
         <span class="p">],</span>
@@ -390,20 +390,20 @@
     <span class="n">container_size</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
     <span class="n">boxes</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">],</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Grow expandable boxes into the slack around them (FR-012).</span>
+<span class="w">    </span><span class="sd">"""Grow expandable boxes into the slack around them (FR-012).</span>
 
 <span class="sd">    Two independent passes, matching what the corner-point solver has always</span>
 <span class="sd">    done: close a shallow gap above a box, then run a box right up to whatever</span>
 <span class="sd">    is beside it. Height first, because growing a box taller can bring it</span>
 <span class="sd">    alongside a neighbour it did not previously touch.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">container_w</span><span class="p">,</span> <span class="n">_container_l</span><span class="p">,</span> <span class="n">container_h</span> <span class="o">=</span> <span class="n">container_size</span>
     <span class="n">axes</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">boxes</span><span class="p">:</span>
-        <span class="n">expandable</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;expandable&quot;</span><span class="p">))</span>
-        <span class="n">axes</span><span class="p">[</span><span class="n">b</span><span class="p">[</span><span class="s2">&quot;label&quot;</span><span class="p">]]</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">expandable</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"expandable"</span><span class="p">))</span>
+        <span class="n">axes</span><span class="p">[</span><span class="n">b</span><span class="p">[</span><span class="s2">"label"</span><span class="p">]]</span> <span class="o">=</span> <span class="p">(</span>
             <span class="n">expandable</span><span class="p">,</span>
-            <span class="n">expandable</span> <span class="ow">and</span> <span class="nb">bool</span><span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;expandable_width&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)),</span>
+            <span class="n">expandable</span> <span class="ow">and</span> <span class="nb">bool</span><span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"expandable_width"</span><span class="p">,</span> <span class="kc">True</span><span class="p">)),</span>
         <span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">sized</span><span class="p">(</span><span class="n">placement</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -459,7 +459,7 @@
     <span class="n">gap_threshold</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">10.0</span><span class="p">,</span>
     <span class="n">min_spacer_dim</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">15.0</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BoxPacking</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Pack sub-boxes into a container using a 3D First-Fit Decreasing solver.</span>
+<span class="w">    </span><span class="sd">"""Pack sub-boxes into a container using a 3D First-Fit Decreasing solver.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        container_size: (width, length, height) of the outer box interior.</span>
@@ -469,7 +469,7 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        BoxPacking with placements assigned.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">packing</span> <span class="o">=</span> <span class="n">BoxPacking</span><span class="p">(</span><span class="n">container_size</span><span class="o">=</span><span class="n">container_size</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="n">boxes</span><span class="p">:</span>
@@ -487,56 +487,56 @@
         <span class="k">return</span> <span class="n">packing</span>
 
     <span class="c1"># Only the fallback needs the legacy root-level module, so import it only</span>
-    <span class="c1"># when the fallback is actually reached — and treat its absence as &quot;no</span>
-    <span class="c1"># fallback available&quot; rather than letting an ImportError escape in place of</span>
+    <span class="c1"># when the fallback is actually reached — and treat its absence as "no</span>
+    <span class="c1"># fallback available" rather than letting an ImportError escape in place of</span>
     <span class="c1"># the PackingError callers handle.</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">compartments</span><span class="w"> </span><span class="kn">import</span> <span class="n">pack_3d_boxes</span>
     <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
         <span class="n">pack_3d_boxes</span> <span class="o">=</span> <span class="kc">None</span>
 
-    <span class="c1"># Prepare items for 3D packer. The axis codes it understands are &quot;w&quot; (grow</span>
-    <span class="c1"># right to the next neighbour) and &quot;h&quot; (close a sub-3mm gap above, FR-012);</span>
+    <span class="c1"># Prepare items for 3D packer. The axis codes it understands are "w" (grow</span>
+    <span class="c1"># right to the next neighbour) and "h" (close a sub-3mm gap above, FR-012);</span>
     <span class="c1"># a box that is not expandable at all gets neither and keeps its size.</span>
     <span class="n">items</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">boxes</span><span class="p">:</span>
         <span class="n">axes</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">if</span> <span class="n">b</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;expandable&quot;</span><span class="p">):</span>
-            <span class="n">axes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;h&quot;</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">b</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;expandable_width&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">):</span>
-                <span class="n">axes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;w&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">b</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"expandable"</span><span class="p">):</span>
+            <span class="n">axes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">"h"</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">b</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"expandable_width"</span><span class="p">,</span> <span class="kc">True</span><span class="p">):</span>
+                <span class="n">axes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">"w"</span><span class="p">)</span>
         <span class="n">items</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
-            <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">b</span><span class="p">[</span><span class="s2">&quot;label&quot;</span><span class="p">],</span>
-            <span class="s2">&quot;size&quot;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="s2">&quot;size&quot;</span><span class="p">]),</span>
-            <span class="s2">&quot;expandable&quot;</span><span class="p">:</span> <span class="n">axes</span><span class="p">,</span>
-            <span class="s2">&quot;no_rotate&quot;</span><span class="p">:</span> <span class="n">b</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;no_rotate&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span>
+            <span class="s2">"name"</span><span class="p">:</span> <span class="n">b</span><span class="p">[</span><span class="s2">"label"</span><span class="p">],</span>
+            <span class="s2">"size"</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="s2">"size"</span><span class="p">]),</span>
+            <span class="s2">"expandable"</span><span class="p">:</span> <span class="n">axes</span><span class="p">,</span>
+            <span class="s2">"no_rotate"</span><span class="p">:</span> <span class="n">b</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"no_rotate"</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span>
         <span class="p">})</span>
 
     <span class="c1"># Run 3D solver. A failure here used to be swallowed and returned as an</span>
-    <span class="c1"># empty packing, so the export &quot;succeeded&quot; while writing no boxes at all —</span>
+    <span class="c1"># empty packing, so the export "succeeded" while writing no boxes at all —</span>
     <span class="c1"># say what went wrong instead.</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">pack_3d_boxes</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">PackingError</span><span class="p">(</span><span class="s2">&quot;no fallback solver available&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">PackingError</span><span class="p">(</span><span class="s2">"no fallback solver available"</span><span class="p">)</span>
         <span class="n">packed</span> <span class="o">=</span> <span class="n">pack_3d_boxes</span><span class="p">(</span><span class="n">container_size</span><span class="p">,</span> <span class="n">items</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
-        <span class="n">box_volume</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="s2">&quot;size&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">b</span><span class="p">[</span><span class="s2">&quot;size&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">b</span><span class="p">[</span><span class="s2">&quot;size&quot;</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">boxes</span><span class="p">)</span>
+        <span class="n">box_volume</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="s2">"size"</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">b</span><span class="p">[</span><span class="s2">"size"</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">b</span><span class="p">[</span><span class="s2">"size"</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">boxes</span><span class="p">)</span>
         <span class="n">container_volume</span> <span class="o">=</span> <span class="n">container_size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">container_size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">container_size</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
         <span class="n">fill</span> <span class="o">=</span> <span class="mi">100</span> <span class="o">*</span> <span class="n">box_volume</span> <span class="o">/</span> <span class="n">container_volume</span> <span class="k">if</span> <span class="n">container_volume</span> <span class="k">else</span> <span class="mf">0.0</span>
         <span class="n">too_tall</span> <span class="o">=</span> <span class="p">[</span>
-            <span class="n">b</span><span class="p">[</span><span class="s2">&quot;label&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">boxes</span> <span class="k">if</span> <span class="n">b</span><span class="p">[</span><span class="s2">&quot;size&quot;</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">container_size</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="mf">1e-6</span>
+            <span class="n">b</span><span class="p">[</span><span class="s2">"label"</span><span class="p">]</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">boxes</span> <span class="k">if</span> <span class="n">b</span><span class="p">[</span><span class="s2">"size"</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">container_size</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="mf">1e-6</span>
         <span class="p">]</span>
         <span class="n">detail</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot; Boxes taller than the container: </span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">too_tall</span><span class="p">)</span><span class="si">}</span><span class="s2">.&quot;</span>
+            <span class="sa">f</span><span class="s2">" Boxes taller than the container: </span><span class="si">{</span><span class="s1">', '</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">too_tall</span><span class="p">)</span><span class="si">}</span><span class="s2">."</span>
             <span class="k">if</span> <span class="n">too_tall</span>
-            <span class="k">else</span> <span class="sa">f</span><span class="s2">&quot; At </span><span class="si">{</span><span class="n">fill</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">% fill the packer&#39;s greedy placement may simply &quot;</span>
-            <span class="sa">f</span><span class="s2">&quot;not find an arrangement even though one exists — give the boxes &quot;</span>
-            <span class="sa">f</span><span class="s2">&quot;explicit positions, or make them smaller or expandable.&quot;</span>
+            <span class="k">else</span> <span class="sa">f</span><span class="s2">" At </span><span class="si">{</span><span class="n">fill</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">% fill the packer's greedy placement may simply "</span>
+            <span class="sa">f</span><span class="s2">"not find an arrangement even though one exists — give the boxes "</span>
+            <span class="sa">f</span><span class="s2">"explicit positions, or make them smaller or expandable."</span>
         <span class="p">)</span>
         <span class="k">raise</span> <span class="n">PackingError</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;Could not pack </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">boxes</span><span class="p">)</span><span class="si">}</span><span class="s2"> boxes into &quot;</span>
-            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">container_size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> x </span><span class="si">{</span><span class="n">container_size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> x &quot;</span>
-            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">container_size</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> mm.</span><span class="si">{</span><span class="n">detail</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="sa">f</span><span class="s2">"Could not pack </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">boxes</span><span class="p">)</span><span class="si">}</span><span class="s2"> boxes into "</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">container_size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> x </span><span class="si">{</span><span class="n">container_size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> x "</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">container_size</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> mm.</span><span class="si">{</span><span class="n">detail</span><span class="si">}</span><span class="s2">"</span>
         <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">exc</span>
 
     <span class="c1"># Convert results to placements</span>
@@ -544,9 +544,9 @@
         <span class="n">packing</span><span class="o">.</span><span class="n">placements</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
             <span class="n">Placement</span><span class="p">(</span>
                 <span class="n">label</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
-                <span class="n">position</span><span class="o">=</span><span class="nb">tuple</span><span class="p">(</span><span class="n">info</span><span class="p">[</span><span class="s2">&quot;pos&quot;</span><span class="p">]),</span>
-                <span class="n">size</span><span class="o">=</span><span class="nb">tuple</span><span class="p">(</span><span class="n">info</span><span class="p">[</span><span class="s2">&quot;size&quot;</span><span class="p">]),</span>
-                <span class="n">rotation</span><span class="o">=</span><span class="n">info</span><span class="p">[</span><span class="s2">&quot;rotated&quot;</span><span class="p">],</span>
+                <span class="n">position</span><span class="o">=</span><span class="nb">tuple</span><span class="p">(</span><span class="n">info</span><span class="p">[</span><span class="s2">"pos"</span><span class="p">]),</span>
+                <span class="n">size</span><span class="o">=</span><span class="nb">tuple</span><span class="p">(</span><span class="n">info</span><span class="p">[</span><span class="s2">"size"</span><span class="p">]),</span>
+                <span class="n">rotation</span><span class="o">=</span><span class="n">info</span><span class="p">[</span><span class="s2">"rotated"</span><span class="p">],</span>
             <span class="p">)</span>
         <span class="p">)</span>
 

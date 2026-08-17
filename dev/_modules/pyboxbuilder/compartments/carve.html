@@ -297,7 +297,7 @@
 
 <h1>Source code for pyboxbuilder.compartments.carve</h1><div class="highlight"><pre>
 <span></span><code><span class="c1"># SPDX-License-Identifier: Apache-2.0</span>
-<span class="sd">&quot;&quot;&quot;Turn a laid-out set of compartments into the solid that gets cut from a body.</span>
+<span class="sd">"""Turn a laid-out set of compartments into the solid that gets cut from a body.</span>
 
 <span class="sd">`layout_compartments` decides *where* things go; this module builds *what* is</span>
 <span class="sd">removed. It handles three kinds of compartment:</span>
@@ -307,9 +307,9 @@
 <span class="sd">* an element pack — many individual silhouettes at their own offsets, rotations</span>
 <span class="sd">  and depths inside one bounding box (FR-004b).</span>
 
-<span class="sd">Everything is returned in the box&#39;s own coordinate frame, so a caller only has</span>
+<span class="sd">Everything is returned in the box's own coordinate frame, so a caller only has</span>
 <span class="sd">to subtract it from the body.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
@@ -333,13 +333,13 @@
 
 <div class="viewcode-block" id="compartment_floor_z">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.compartments.carve.compartment_floor_z.html#pyboxbuilder.compartments.carve.compartment_floor_z">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">compartment_floor_z</span><span class="p">(</span><span class="n">placement</span><span class="p">:</span> <span class="s2">&quot;CompartmentPlacement&quot;</span><span class="p">,</span> <span class="n">interior</span><span class="p">:</span> <span class="n">Interior</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Z of a compartment&#39;s floor.</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">compartment_floor_z</span><span class="p">(</span><span class="n">placement</span><span class="p">:</span> <span class="s2">"CompartmentPlacement"</span><span class="p">,</span> <span class="n">interior</span><span class="p">:</span> <span class="n">Interior</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Z of a compartment's floor.</span>
 
 <span class="sd">    Wells are cut from the top down: the floor sits `depth` below the interior</span>
 <span class="sd">    ceiling, so shallow compartments sit high in the box and their pieces stay</span>
-<span class="sd">    within reach, matching the original toolkit&#39;s `$inner_height - depth` idiom.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    within reach, matching the original toolkit's `$inner_height - depth` idiom.</span>
+<span class="sd">    """</span>
     <span class="n">depth</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">placement</span><span class="o">.</span><span class="n">depth</span><span class="p">,</span> <span class="n">interior</span><span class="o">.</span><span class="n">height</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">interior</span><span class="o">.</span><span class="n">origin_z</span> <span class="o">+</span> <span class="n">interior</span><span class="o">.</span><span class="n">height</span> <span class="o">-</span> <span class="n">depth</span></div>
 
@@ -348,26 +348,26 @@
 <div class="viewcode-block" id="build_compartment_well">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.compartments.carve.build_compartment_well.html#pyboxbuilder.compartments.carve.build_compartment_well">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">build_compartment_well</span><span class="p">(</span>
-    <span class="n">placement</span><span class="p">:</span> <span class="s2">&quot;CompartmentPlacement&quot;</span><span class="p">,</span>
+    <span class="n">placement</span><span class="p">:</span> <span class="s2">"CompartmentPlacement"</span><span class="p">,</span>
     <span class="n">interior</span><span class="p">:</span> <span class="n">Interior</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">rounded_corners</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
     <span class="n">bottom_rounding</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Bosl2Solid&quot;</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Build a compartment&#39;s well — the part that stays inside the walls.</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Bosl2Solid"</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Build a compartment's well — the part that stays inside the walls.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        placement: Where and how big the well is.</span>
 <span class="sd">        interior: The box interior it sits in.</span>
-<span class="sd">        rounded_corners: Radius for the well&#39;s vertical corners.</span>
-<span class="sd">        bottom_rounding: Radius where the well&#39;s walls meet its floor. A tray</span>
+<span class="sd">        rounded_corners: Radius for the well's vertical corners.</span>
+<span class="sd">        bottom_rounding: Radius where the well's walls meet its floor. A tray</span>
 <span class="sd">            wants this — pieces ride up the curve instead of having to be</span>
 <span class="sd">            picked out of a square corner — while a card slot wants ``0``, so</span>
 <span class="sd">            the stack sits flat on the floor.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        The cutout, positioned in the box frame.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">Anchor</span><span class="p">,</span> <span class="n">cuboid</span>
 
     <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.compartments.element</span><span class="w"> </span><span class="kn">import</span> <span class="n">build_element_pack</span><span class="p">,</span> <span class="n">svg_solid</span>
@@ -399,7 +399,7 @@
                 <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="n">width</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="n">length</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="n">depth</span> <span class="o">/</span> <span class="mi">2</span><span class="p">),</span>
             <span class="p">)</span>
 
-    <span class="c1"># pybosl2 primitives are centre-anchored; shift so the well&#39;s lower-left</span>
+    <span class="c1"># pybosl2 primitives are centre-anchored; shift so the well's lower-left</span>
     <span class="c1"># corner and floor land on the placement.</span>
     <span class="k">return</span> <span class="n">_place</span><span class="p">(</span><span class="n">well</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">width</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">length</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">depth</span> <span class="o">/</span> <span class="mi">2</span><span class="p">]),</span> <span class="n">placement</span><span class="p">,</span> <span class="n">interior</span><span class="p">)</span></div>
 
@@ -407,8 +407,8 @@
 
 <div class="viewcode-block" id="default_scoop_side">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.compartments.carve.default_scoop_side.html#pyboxbuilder.compartments.carve.default_scoop_side">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">default_scoop_side</span><span class="p">(</span><span class="n">placement</span><span class="p">:</span> <span class="s2">&quot;CompartmentPlacement&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ScoopSide</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Which wall a scoop goes in when the compartment does not say.</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">default_scoop_side</span><span class="p">(</span><span class="n">placement</span><span class="p">:</span> <span class="s2">"CompartmentPlacement"</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ScoopSide</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Which wall a scoop goes in when the compartment does not say.</span>
 
 <span class="sd">    The **shorter** wall. A card stack is lifted out across its narrow</span>
 <span class="sd">    dimension, so the cut belongs in the short face; put it in the long one and</span>
@@ -419,7 +419,7 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        `LEFT` when the footprint is wider than it is long, else `FRONT`.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">width</span><span class="p">,</span> <span class="n">length</span> <span class="o">=</span> <span class="n">placement</span><span class="o">.</span><span class="n">size</span>
     <span class="k">return</span> <span class="n">ScoopSide</span><span class="o">.</span><span class="n">LEFT</span> <span class="k">if</span> <span class="n">width</span> <span class="o">&gt;</span> <span class="n">length</span> <span class="k">else</span> <span class="n">ScoopSide</span><span class="o">.</span><span class="n">FRONT</span></div>
 
@@ -428,23 +428,23 @@
 <div class="viewcode-block" id="build_compartment_scoop">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.compartments.carve.build_compartment_scoop.html#pyboxbuilder.compartments.carve.build_compartment_scoop">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">build_compartment_scoop</span><span class="p">(</span>
-    <span class="n">placement</span><span class="p">:</span> <span class="s2">&quot;CompartmentPlacement&quot;</span><span class="p">,</span>
+    <span class="n">placement</span><span class="p">:</span> <span class="s2">"CompartmentPlacement"</span><span class="p">,</span>
     <span class="n">interior</span><span class="p">:</span> <span class="n">Interior</span><span class="p">,</span>
     <span class="n">scoop_side</span><span class="p">:</span> <span class="n">ScoopSide</span> <span class="o">=</span> <span class="n">ScoopSide</span><span class="o">.</span><span class="n">FRONT</span><span class="p">,</span>
     <span class="n">top_z</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">cut</span><span class="p">:</span> <span class="s2">&quot;Cut | None&quot;</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Bosl2Solid&quot;</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Build a compartment&#39;s finger scoop — the part that pierces a wall.</span>
+    <span class="n">cut</span><span class="p">:</span> <span class="s2">"Cut | None"</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Bosl2Solid"</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Build a compartment's finger scoop — the part that pierces a wall.</span>
 
 <span class="sd">    The wall thickness is read off the interior frame (its origin is inset by</span>
-<span class="sd">    exactly one wall), because the scoop&#39;s face fillets are produced by flaring</span>
-<span class="sd">    the sweep&#39;s ends and therefore need the sweep to match the wall it crosses.</span>
+<span class="sd">    exactly one wall), because the scoop's face fillets are produced by flaring</span>
+<span class="sd">    the sweep's ends and therefore need the sweep to match the wall it crosses.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        placement: The compartment the scoop belongs to.</span>
 <span class="sd">        interior: The box interior frame the compartment sits in.</span>
 <span class="sd">        scoop_side: Which wall the scoop pierces.</span>
-<span class="sd">        top_z: The box&#39;s top face. The cut reaches it so its roll merges into</span>
+<span class="sd">        top_z: The box's top face. The cut reaches it so its roll merges into</span>
 <span class="sd">            the rim; ``None`` falls back to the interior ceiling.</span>
 <span class="sd">        cut: What the compartment asked for (FR-006) — kind, side and any</span>
 <span class="sd">            measurement it wanted to name. Passed in rather than read off the</span>
@@ -453,7 +453,7 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        The scoop cutout, positioned in the box frame.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.builders._base</span><span class="w"> </span><span class="kn">import</span> <span class="n">Cut</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.compartments.finger_cuts</span><span class="w"> </span><span class="kn">import</span> <span class="n">build_cut</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.compartments.finger_outline</span><span class="w"> </span><span class="kn">import</span> <span class="n">CutProfile</span>
@@ -465,7 +465,7 @@
     <span class="c1"># to the interior ceiling. Stopping at the ceiling leaves the lid band</span>
     <span class="c1"># standing above the cut as a step, and buries the r1 roll inside the wall</span>
     <span class="c1"># where it can neither be seen nor felt — the roll is meant to merge the</span>
-    <span class="c1"># cut into the box&#39;s top edge.</span>
+    <span class="c1"># cut into the box's top edge.</span>
     <span class="n">top</span> <span class="o">=</span> <span class="n">top_z</span> <span class="k">if</span> <span class="n">top_z</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">interior</span><span class="o">.</span><span class="n">origin_z</span> <span class="o">+</span> <span class="n">interior</span><span class="o">.</span><span class="n">height</span>
     <span class="n">depth</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">top</span> <span class="o">-</span> <span class="n">floor_z</span><span class="p">)</span>
     <span class="n">wall_thickness</span> <span class="o">=</span> <span class="n">interior</span><span class="o">.</span><span class="n">origin_x</span> <span class="k">if</span> <span class="n">interior</span><span class="o">.</span><span class="n">origin_x</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mf">2.0</span>
@@ -473,8 +473,8 @@
     <span class="c1"># face is not coplanar with the well floor (which renders as speckle).</span>
     <span class="n">floor_thickness</span> <span class="o">=</span> <span class="n">interior</span><span class="o">.</span><span class="n">origin_z</span> <span class="k">if</span> <span class="n">interior</span><span class="o">.</span><span class="n">origin_z</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="kc">None</span>
     <span class="n">cut</span> <span class="o">=</span> <span class="n">cut</span> <span class="k">if</span> <span class="n">cut</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">Cut</span><span class="p">()</span>
-    <span class="c1"># Which of the three shapes this becomes is `build_cut`&#39;s call, not ours:</span>
-    <span class="c1"># the kind asked for and the well&#39;s depth are one decision, and splitting</span>
+    <span class="c1"># Which of the three shapes this becomes is `build_cut`'s call, not ours:</span>
+    <span class="c1"># the kind asked for and the well's depth are one decision, and splitting</span>
     <span class="c1"># it across two modules is how a card box ends up with a scoop (FR-060).</span>
     <span class="n">scoop</span> <span class="o">=</span> <span class="n">build_cut</span><span class="p">(</span>
         <span class="n">cut</span><span class="o">.</span><span class="n">kind</span><span class="p">,</span>
@@ -494,9 +494,9 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_place</span><span class="p">(</span>
-    <span class="n">solid</span><span class="p">:</span> <span class="s2">&quot;Bosl2Solid&quot;</span><span class="p">,</span> <span class="n">placement</span><span class="p">:</span> <span class="s2">&quot;CompartmentPlacement&quot;</span><span class="p">,</span> <span class="n">interior</span><span class="p">:</span> <span class="n">Interior</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Bosl2Solid&quot;</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Move a compartment-local solid into the box frame.&quot;&quot;&quot;</span>
+    <span class="n">solid</span><span class="p">:</span> <span class="s2">"Bosl2Solid"</span><span class="p">,</span> <span class="n">placement</span><span class="p">:</span> <span class="s2">"CompartmentPlacement"</span><span class="p">,</span> <span class="n">interior</span><span class="p">:</span> <span class="n">Interior</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Bosl2Solid"</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Move a compartment-local solid into the box frame."""</span>
     <span class="k">return</span> <span class="n">solid</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span>
         <span class="n">placement</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
         <span class="n">placement</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
@@ -505,18 +505,18 @@
 
 
 <span class="n">TRAY_ROUNDING_RATIO</span> <span class="o">=</span> <span class="mf">2.0</span> <span class="o">/</span> <span class="mf">3.0</span>
-<span class="sd">&quot;&quot;&quot;A tray well&#39;s default radius, as a fraction of its own depth.</span>
+<span class="sd">"""A tray well's default radius, as a fraction of its own depth.</span>
 
 <span class="sd">Sized off the *cutout*, not off the box: what makes a piece easy to get out is</span>
 <span class="sd">the curve your finger follows up the wall, so a deep well wants a big sweep and</span>
 <span class="sd">a shallow token tray a small one. A box-wide constant gets both wrong.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 
 <div class="viewcode-block" id="tray_rounding">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.compartments.carve.tray_rounding.html#pyboxbuilder.compartments.carve.tray_rounding">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">tray_rounding</span><span class="p">(</span><span class="n">placement</span><span class="p">:</span> <span class="s2">&quot;CompartmentPlacement&quot;</span><span class="p">,</span> <span class="n">builder</span><span class="p">:</span> <span class="nb">object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;The radius for a tray well&#39;s vertical corners and its floor.</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">tray_rounding</span><span class="p">(</span><span class="n">placement</span><span class="p">:</span> <span class="s2">"CompartmentPlacement"</span><span class="p">,</span> <span class="n">builder</span><span class="p">:</span> <span class="nb">object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""The radius for a tray well's vertical corners and its floor.</span>
 
 <span class="sd">    Rounding is **opt-in**: a well is square unless its builder says it holds</span>
 <span class="sd">    loose pieces. That is the right default because most wells are shaped by</span>
@@ -533,13 +533,13 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        The radius in mm: ``depth × 2/3``, capped so it can neither swallow the</span>
-<span class="sd">        well&#39;s footprint nor exceed its depth.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">explicit</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">builder</span><span class="p">,</span> <span class="s2">&quot;rounded_corners&quot;</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span> <span class="ow">or</span> <span class="mf">0.0</span>
+<span class="sd">        well's footprint nor exceed its depth.</span>
+<span class="sd">    """</span>
+    <span class="n">explicit</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">builder</span><span class="p">,</span> <span class="s2">"rounded_corners"</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span> <span class="ow">or</span> <span class="mf">0.0</span>
     <span class="k">if</span> <span class="n">explicit</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">builder</span><span class="p">,</span> <span class="s2">&quot;holds_pieces&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">builder</span><span class="p">,</span> <span class="s2">"holds_pieces"</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
             <span class="k">return</span> <span class="mf">0.0</span>  <span class="c1"># square unless the well is declared a piece tray</span>
-        <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">builder</span><span class="p">,</span> <span class="s2">&quot;shape_file&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">builder</span><span class="p">,</span> <span class="s2">&quot;elements&quot;</span><span class="p">,</span> <span class="p">()):</span>
+        <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">builder</span><span class="p">,</span> <span class="s2">"shape_file"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">builder</span><span class="p">,</span> <span class="s2">"elements"</span><span class="p">,</span> <span class="p">()):</span>
             <span class="k">return</span> <span class="mf">0.0</span>  <span class="c1"># the game dictates this shape; FR-045 keeps it exact</span>
 
     <span class="n">radius</span> <span class="o">=</span> <span class="n">explicit</span> <span class="k">if</span> <span class="n">explicit</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">placement</span><span class="o">.</span><span class="n">depth</span> <span class="o">*</span> <span class="n">TRAY_ROUNDING_RATIO</span>
@@ -554,16 +554,16 @@
 <div class="viewcode-block" id="build_contents">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.compartments.carve.build_contents.html#pyboxbuilder.compartments.carve.build_contents">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">build_contents</span><span class="p">(</span>
-    <span class="n">placements</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="s2">&quot;CompartmentPlacement&quot;</span><span class="p">],</span>
+    <span class="n">placements</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="s2">"CompartmentPlacement"</span><span class="p">],</span>
     <span class="n">interior</span><span class="p">:</span> <span class="n">Interior</span><span class="p">,</span>
     <span class="n">builders</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">clip</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="n">top_z</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">default_side</span><span class="p">:</span> <span class="n">ScoopSide</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">wall_tops</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">mask</span><span class="p">:</span> <span class="s2">&quot;Bosl2Solid | None&quot;</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Bosl2Solid | None&quot;</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Union the cutouts for every placed compartment. None when there are none.</span>
+    <span class="n">mask</span><span class="p">:</span> <span class="s2">"Bosl2Solid | None"</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Bosl2Solid | None"</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Union the cutouts for every placed compartment. None when there are none.</span>
 
 <span class="sd">    Wells and finger scoops are treated differently on purpose: a well must stay</span>
 <span class="sd">    inside the walls, while a scoop only works if it cuts through one. So the</span>
@@ -575,21 +575,21 @@
 <span class="sd">        builders: Optional {label: CompartmentBuilder} so per-compartment</span>
 <span class="sd">            options (rounded corners, finger scoops) are honoured.</span>
 <span class="sd">        clip: Trim the wells to the interior footprint so none can break through</span>
-<span class="sd">            a side wall (FR-018). Each well&#39;s own rounding comes from its depth</span>
+<span class="sd">            a side wall (FR-018). Each well's own rounding comes from its depth</span>
 <span class="sd">            and its builder — see :func:`tray_rounding`.</span>
-<span class="sd">        top_z: Fallback top for a scoop&#39;s roll when `wall_tops` has no entry</span>
+<span class="sd">        top_z: Fallback top for a scoop's roll when `wall_tops` has no entry</span>
 <span class="sd">            for the side it lands on.</span>
-<span class="sd">        wall_tops: ``{ScoopSide: z}`` giving each wall&#39;s top. The four walls do</span>
-<span class="sd">            not have to end level — a sliding box&#39;s exit wall stops a lid</span>
+<span class="sd">        wall_tops: ``{ScoopSide: z}`` giving each wall's top. The four walls do</span>
+<span class="sd">            not have to end level — a sliding box's exit wall stops a lid</span>
 <span class="sd">            thickness below the rest — so the roll aligns per side.</span>
 <span class="sd">        mask: The volume contents may occupy, when the box type has something</span>
-<span class="sd">            of its own standing in the interior. A hinge box&#39;s barrel is the</span>
+<span class="sd">            of its own standing in the interior. A hinge box's barrel is the</span>
 <span class="sd">            case: it sits inside the outline, so the wells are clipped clear</span>
 <span class="sd">            of it rather than left to collide.</span>
-<span class="sd">        default_side: The box type&#39;s preferred scoop wall, used when the</span>
+<span class="sd">        default_side: The box type's preferred scoop wall, used when the</span>
 <span class="sd">            compartment names none. A sliding box insists on the wall its lid</span>
 <span class="sd">            leaves by; most types have no opinion and leave it to the shape.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.compartments.element</span><span class="w"> </span><span class="kn">import</span> <span class="n">union_all</span>
 
     <span class="n">builders</span> <span class="o">=</span> <span class="n">builders</span> <span class="ow">or</span> <span class="p">{}</span>
@@ -603,7 +603,7 @@
                 <span class="n">placement</span><span class="p">,</span> <span class="n">interior</span><span class="p">,</span> <span class="n">rounded_corners</span><span class="o">=</span><span class="n">radius</span><span class="p">,</span> <span class="n">bottom_rounding</span><span class="o">=</span><span class="n">radius</span><span class="p">,</span>
             <span class="p">)</span>
         <span class="p">)</span>
-        <span class="n">cut</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">builder</span><span class="p">,</span> <span class="s2">&quot;cut&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">cut</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">builder</span><span class="p">,</span> <span class="s2">"cut"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">cut</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">side</span> <span class="o">=</span> <span class="n">cut</span><span class="o">.</span><span class="n">side</span> <span class="ow">or</span> <span class="n">default_side</span> <span class="ow">or</span> <span class="n">default_scoop_side</span><span class="p">(</span><span class="n">placement</span><span class="p">)</span>
             <span class="n">side_top</span> <span class="o">=</span> <span class="p">(</span><span class="n">wall_tops</span> <span class="ow">or</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">side</span><span class="p">,</span> <span class="n">top_z</span><span class="p">)</span>
@@ -617,7 +617,7 @@
     <span class="k">if</span> <span class="n">contents</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">clip</span><span class="p">:</span>
         <span class="n">contents</span> <span class="o">=</span> <span class="n">contents</span> <span class="o">&amp;</span> <span class="n">interior_column</span><span class="p">(</span><span class="n">interior</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">contents</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">mask</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="c1"># Wells only: a finger scoop&#39;s whole job is to breach a wall, so it is</span>
+        <span class="c1"># Wells only: a finger scoop's whole job is to breach a wall, so it is</span>
         <span class="c1"># added after this and is not masked.</span>
         <span class="n">contents</span> <span class="o">=</span> <span class="n">contents</span> <span class="o">&amp;</span> <span class="n">mask</span>
     <span class="k">if</span> <span class="n">contents</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -636,12 +636,12 @@
 
 <div class="viewcode-block" id="interior_mouth">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.compartments.carve.interior_mouth.html#pyboxbuilder.compartments.carve.interior_mouth">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">interior_mouth</span><span class="p">(</span><span class="n">interior</span><span class="p">:</span> <span class="n">Interior</span><span class="p">,</span> <span class="n">headroom</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1000.0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Bosl2Solid&quot;</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;The open volume above the interior ceiling — the box&#39;s mouth.</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">interior_mouth</span><span class="p">(</span><span class="n">interior</span><span class="p">:</span> <span class="n">Interior</span><span class="p">,</span> <span class="n">headroom</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1000.0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Bosl2Solid"</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""The open volume above the interior ceiling — the box's mouth.</span>
 
 <span class="sd">    Runs from the ceiling up past the top of any box, so whatever the type puts</span>
 <span class="sd">    between the interior and the rim is cleared away and the wells are reachable.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.shell</span><span class="w"> </span><span class="kn">import</span> <span class="n">block</span>
 
     <span class="k">return</span> <span class="n">block</span><span class="p">(</span>
@@ -657,15 +657,15 @@
 
 <div class="viewcode-block" id="interior_column">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.compartments.carve.interior_column.html#pyboxbuilder.compartments.carve.interior_column">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">interior_column</span><span class="p">(</span><span class="n">interior</span><span class="p">:</span> <span class="n">Interior</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Bosl2Solid&quot;</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;A tall prism over the interior footprint, used to clip compartments.</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">interior_column</span><span class="p">(</span><span class="n">interior</span><span class="p">:</span> <span class="n">Interior</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Bosl2Solid"</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""A tall prism over the interior footprint, used to clip compartments.</span>
 
 <span class="sd">    Clipping is in X/Y only: a cutout must never break through a side wall, but</span>
 <span class="sd">    it does have to run out through the top of the box, which is where pieces go</span>
 <span class="sd">    in. This is the same guard the original toolkit applies by hand when a</span>
 <span class="sd">    hexagon overhangs the interior — a hex laid out flat-to-flat is wider than</span>
 <span class="sd">    its nominal width across the points, so it can poke through a wall.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">cuboid</span>
 
     <span class="n">tall</span> <span class="o">=</span> <span class="n">interior</span><span class="o">.</span><span class="n">height</span> <span class="o">*</span> <span class="mi">4</span> <span class="o">+</span> <span class="mf">100.0</span>

@@ -297,12 +297,12 @@
 
 <h1>Source code for pyboxbuilder.run</h1><div class="highlight"><pre>
 <span></span><code><span class="c1"># SPDX-License-Identifier: Apache-2.0</span>
-<span class="sd">&quot;&quot;&quot;One entry point for an example script: preview it, or export it.</span>
+<span class="sd">"""One entry point for an example script: preview it, or export it.</span>
 
 <span class="sd">Every example under `boxes/` ended with the same twelve lines — read</span>
 <span class="sd">``FROM_MAKE``, branch, call ``export`` or ``show``, print the written files —</span>
-<span class="sd">copied verbatim seven times. That is the &quot;no extra steps between describe,</span>
-<span class="sd">build, preview and export&quot; rule (FR-000d) being met by repetition rather than</span>
+<span class="sd">copied verbatim seven times. That is the "no extra steps between describe,</span>
+<span class="sd">build, preview and export" rule (FR-000d) being met by repetition rather than</span>
 <span class="sd">by the library, and it drifted: some examples printed their piece bounds and</span>
 <span class="sd">some did not, some counted skipped files and some did not.</span>
 
@@ -311,7 +311,7 @@
 <span class="sd">    python3 boxes/emberleaf/emberleaf.py --box CommonBox --lids</span>
 <span class="sd">    python3 boxes/emberleaf/emberleaf.py --box CardBoxFavor --lids-only</span>
 <span class="sd">    python3 boxes/emberleaf/emberleaf.py --export --box CommonBox</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
@@ -324,49 +324,49 @@
 <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.project</span><span class="w"> </span><span class="kn">import</span> <span class="n">Project</span>
 
-<span class="n">FROM_MAKE_ENV</span> <span class="o">=</span> <span class="s2">&quot;FROM_MAKE&quot;</span>
-<span class="sd">&quot;&quot;&quot;Set to ``1`` by the build to ask for files rather than a preview.&quot;&quot;&quot;</span>
+<span class="n">FROM_MAKE_ENV</span> <span class="o">=</span> <span class="s2">"FROM_MAKE"</span>
+<span class="sd">"""Set to ``1`` by the build to ask for files rather than a preview."""</span>
 
-<span class="n">DEFAULT_OUT_DIR</span> <span class="o">=</span> <span class="s2">&quot;output/&quot;</span>
-<span class="sd">&quot;&quot;&quot;Where :func:`run` writes when the caller names no directory.&quot;&quot;&quot;</span>
+<span class="n">DEFAULT_OUT_DIR</span> <span class="o">=</span> <span class="s2">"output/"</span>
+<span class="sd">"""Where :func:`run` writes when the caller names no directory."""</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_parser</span><span class="p">(</span><span class="n">default_out</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;The arguments an example accepts.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""The arguments an example accepts."""</span>
     <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span>
-        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Preview this insert, or export its printable files.&quot;</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">"Preview this insert, or export its printable files."</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s2">&quot;--export&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;write files instead of previewing (implied by FROM_MAKE=1)&quot;</span><span class="p">,</span>
+        <span class="s2">"--export"</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">"store_true"</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">"write files instead of previewing (implied by FROM_MAKE=1)"</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s2">&quot;--out&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">default_out</span><span class="p">,</span> <span class="n">metavar</span><span class="o">=</span><span class="s2">&quot;DIR&quot;</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;where an export writes (default: </span><span class="si">{</span><span class="n">default_out</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">,</span>
+        <span class="s2">"--out"</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">default_out</span><span class="p">,</span> <span class="n">metavar</span><span class="o">=</span><span class="s2">"DIR"</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="sa">f</span><span class="s2">"where an export writes (default: </span><span class="si">{</span><span class="n">default_out</span><span class="si">}</span><span class="s2">)"</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s2">&quot;--box&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;append&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="p">[],</span> <span class="n">metavar</span><span class="o">=</span><span class="s2">&quot;LABEL&quot;</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;only this box; repeat for several&quot;</span><span class="p">,</span>
+        <span class="s2">"--box"</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">"append"</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="p">[],</span> <span class="n">metavar</span><span class="o">=</span><span class="s2">"LABEL"</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">"only this box; repeat for several"</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s2">&quot;--lids&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;show the lids as well as the bodies&quot;</span><span class="p">,</span>
+        <span class="s2">"--lids"</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">"store_true"</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">"show the lids as well as the bodies"</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s2">&quot;--lids-only&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;show the lids without their bodies — for checking a label&quot;</span><span class="p">,</span>
+        <span class="s2">"--lids-only"</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">"store_true"</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">"show the lids without their bodies — for checking a label"</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s2">&quot;--remove-layers&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">metavar</span><span class="o">=</span><span class="s2">&quot;N&quot;</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;omit the top N layers, to see underneath&quot;</span><span class="p">,</span>
+        <span class="s2">"--remove-layers"</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">metavar</span><span class="o">=</span><span class="s2">"N"</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">"omit the top N layers, to see underneath"</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s2">&quot;--force&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;on export, rebuild every piece even if nothing changed&quot;</span><span class="p">,</span>
+        <span class="s2">"--force"</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">"store_true"</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">"on export, rebuild every piece even if nothing changed"</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s2">&quot;--fn&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">metavar</span><span class="o">=</span><span class="s2">&quot;FACETS&quot;</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;facets per circle; export defaults to print quality (256)&quot;</span><span class="p">,</span>
+        <span class="s2">"--fn"</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">metavar</span><span class="o">=</span><span class="s2">"FACETS"</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">"facets per circle; export defaults to print quality (256)"</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="k">return</span> <span class="n">parser</span>
 
@@ -374,19 +374,19 @@
 <div class="viewcode-block" id="run">
 <a class="viewcode-back" href="../../_autosummary/pyboxbuilder.run.html#pyboxbuilder.run">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span>
-    <span class="n">project</span><span class="p">:</span> <span class="s2">&quot;Project&quot;</span><span class="p">,</span>
+    <span class="n">project</span><span class="p">:</span> <span class="s2">"Project"</span><span class="p">,</span>
     <span class="n">out_dir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span> <span class="o">=</span> <span class="n">DEFAULT_OUT_DIR</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">show_lids</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">argv</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Preview a project, or export it when asked for files.</span>
+<span class="w">    </span><span class="sd">"""Preview a project, or export it when asked for files.</span>
 
-<span class="sd">    Put this under an example&#39;s ``if __name__ == &quot;__main__&quot;:`` and the same</span>
+<span class="sd">    Put this under an example's ``if __name__ == "__main__":`` and the same</span>
 <span class="sd">    file does the right thing in the PythonSCAD GUI, in a notebook, under make,</span>
 <span class="sd">    and on the command line::</span>
 
-<span class="sd">        if __name__ == &quot;__main__&quot;:</span>
+<span class="sd">        if __name__ == "__main__":</span>
 <span class="sd">            run(project)</span>
 
 <span class="sd">    Args:</span>
@@ -400,11 +400,11 @@
 
 <span class="sd">    Raises:</span>
 <span class="sd">        SystemExit: If the arguments are malformed, as argparse does.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">args</span> <span class="o">=</span> <span class="n">_parser</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">out_dir</span><span class="p">))</span><span class="o">.</span><span class="n">parse_args</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="k">if</span> <span class="n">argv</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">argv</span><span class="p">)</span>
     <span class="n">only</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">box</span> <span class="ow">or</span> <span class="kc">None</span>
 
-    <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">export</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">FROM_MAKE_ENV</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;1&quot;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">export</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">FROM_MAKE_ENV</span><span class="p">)</span> <span class="o">==</span> <span class="s2">"1"</span><span class="p">:</span>
         <span class="n">result</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">export</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">out</span><span class="p">,</span> <span class="n">fn</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">fn</span><span class="p">,</span> <span class="n">only</span><span class="o">=</span><span class="n">only</span><span class="p">,</span> <span class="n">force</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">force</span><span class="p">)</span>
         <span class="n">_report</span><span class="p">(</span><span class="n">project</span><span class="p">,</span> <span class="n">result</span><span class="p">)</span>
         <span class="k">return</span>
@@ -419,16 +419,16 @@
 
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">_report</span><span class="p">(</span><span class="n">project</span><span class="p">:</span> <span class="s2">&quot;Project&quot;</span><span class="p">,</span> <span class="n">result</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Print what an export did.&quot;&quot;&quot;</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_report</span><span class="p">(</span><span class="n">project</span><span class="p">:</span> <span class="s2">"Project"</span><span class="p">,</span> <span class="n">result</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Print what an export did."""</span>
     <span class="nb">print</span><span class="p">(</span>
-        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">project</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">total_files</span><span class="si">}</span><span class="s2"> files &quot;</span>
-        <span class="sa">f</span><span class="s2">&quot;(</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">written</span><span class="p">)</span><span class="si">}</span><span class="s2"> written, </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">skipped</span><span class="p">)</span><span class="si">}</span><span class="s2"> unchanged)&quot;</span>
+        <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">project</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">total_files</span><span class="si">}</span><span class="s2"> files "</span>
+        <span class="sa">f</span><span class="s2">"(</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">written</span><span class="p">)</span><span class="si">}</span><span class="s2"> written, </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">skipped</span><span class="p">)</span><span class="si">}</span><span class="s2"> unchanged)"</span>
     <span class="p">)</span>
     <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">result</span><span class="o">.</span><span class="n">written</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  + </span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  + </span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">bounds</span> <span class="ow">in</span> <span class="n">project</span><span class="o">.</span><span class="n">piece_bounds</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;    </span><span class="si">{</span><span class="n">bounds</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"    </span><span class="si">{</span><span class="n">bounds</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </code></pre></div>
 
 

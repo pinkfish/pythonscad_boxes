@@ -297,11 +297,11 @@
 
 <h1>Source code for pyboxbuilder.lid.pattern</h1><div class="highlight"><pre>
 <span></span><code><span class="c1"># SPDX-License-Identifier: Apache-2.0</span>
-<span class="sd">&quot;&quot;&quot;Lid through-hole patterns — the shapes a lid is perforated with (FR-023).</span>
+<span class="sd">"""Lid through-hole patterns — the shapes a lid is perforated with (FR-023).</span>
 
 <span class="sd">Each member of :class:`~pyboxbuilder.enums.PatternType` draws the shape it is</span>
 <span class="sd">named after. That is worth stating because it was not true: the catalog listed</span>
-<span class="sd">47 members and three shapes, with a `_shape_grid_fill` that took the shape&#39;s</span>
+<span class="sd">47 members and three shapes, with a `_shape_grid_fill` that took the shape's</span>
 <span class="sd">name as an argument and ignored it, hexagons and triangles built from cuboids,</span>
 <span class="sd">and every tessellation wrapped in `except (ImportError, ..., Exception)` around</span>
 <span class="sd">an import of a package that is not in this repo — so a lid asking for LEAF, or</span>
@@ -312,7 +312,7 @@
 <span class="sd">missing: the user sees a plausible lid and never learns the request was</span>
 <span class="sd">dropped. So the catalog here is exactly what is implemented, and a member is</span>
 <span class="sd">added when the geometry to draw it is (FR-000c).</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
@@ -326,23 +326,23 @@
     <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2.shapes3d</span><span class="w"> </span><span class="kn">import</span> <span class="n">Bosl2Solid</span>
 
 <span class="n">HOLE_SHARE</span> <span class="o">=</span> <span class="mf">0.55</span>
-<span class="sd">&quot;&quot;&quot;How much of a pattern cell the hole itself takes.</span>
+<span class="sd">"""How much of a pattern cell the hole itself takes.</span>
 
 <span class="sd">The rest is the web between holes. Over about two thirds the webs get thinner</span>
 <span class="sd">than a couple of extrusion widths and the lid loses its stiffness; much under a</span>
 <span class="sd">half and the pattern stops saving filament, which is the point of it (FR-023).</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="n">DENSE_SPACING_SHARE</span> <span class="o">=</span> <span class="mf">0.6</span>
-<span class="sd">&quot;&quot;&quot;How much of the normal spacing a *dense* variant uses.&quot;&quot;&quot;</span>
+<span class="sd">"""How much of the normal spacing a *dense* variant uses."""</span>
 
 <span class="n">DEPTH_OVERSHOOT</span> <span class="o">=</span> <span class="mf">1.2</span>
-<span class="sd">&quot;&quot;&quot;How far a hole is over-extruded relative to the lid, so it breaks through.&quot;&quot;&quot;</span>
+<span class="sd">"""How far a hole is over-extruded relative to the lid, so it breaks through."""</span>
 
 <div class="viewcode-block" id="default_spacing">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.lid.pattern.default_spacing.html#pyboxbuilder.lid.pattern.default_spacing">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">default_spacing</span><span class="p">(</span><span class="n">width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">length</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;The cell size a pattern uses when the caller names none.</span>
+<span class="w">    </span><span class="sd">"""The cell size a pattern uses when the caller names none.</span>
 
 <span class="sd">    Derived from the lid rather than fixed, so the same pattern reads the same</span>
 <span class="sd">    on a 40mm token lid and a 200mm card lid (FR-000).</span>
@@ -353,7 +353,7 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        The spacing in mm — an eighth of the shorter side, never below 5mm.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">length</span><span class="p">)</span> <span class="o">/</span> <span class="mf">8.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">)</span></div>
 
 
@@ -366,8 +366,8 @@
     <span class="n">thickness</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">pattern_type</span><span class="p">:</span> <span class="n">PatternType</span><span class="p">,</span>
     <span class="n">spacing</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Bosl2Solid | None&quot;</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Build the through-hole cutouts for a lid.</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Bosl2Solid | None"</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Build the through-hole cutouts for a lid.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        width: Lid width in mm.</span>
@@ -384,16 +384,16 @@
 <span class="sd">    Raises:</span>
 <span class="sd">        ValueError: If the pattern has no fill registered — which cannot happen</span>
 <span class="sd">            for a catalog member, and is the check that keeps it that way.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="n">spacing</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">spacing</span> <span class="o">=</span> <span class="n">default_spacing</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">length</span><span class="p">)</span>
 
     <span class="n">fill</span> <span class="o">=</span> <span class="n">_PATTERN_FILLS</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">pattern_type</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">fill</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">available</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">_PATTERN_FILLS</span><span class="p">))</span>
+        <span class="n">available</span> <span class="o">=</span> <span class="s2">", "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">_PATTERN_FILLS</span><span class="p">))</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;No fill registered for PatternType.</span><span class="si">{</span><span class="n">pattern_type</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">. &quot;</span>
-            <span class="sa">f</span><span class="s2">&quot;Available: </span><span class="si">{</span><span class="n">available</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="sa">f</span><span class="s2">"No fill registered for PatternType.</span><span class="si">{</span><span class="n">pattern_type</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">. "</span>
+            <span class="sa">f</span><span class="s2">"Available: </span><span class="si">{</span><span class="n">available</span><span class="si">}</span><span class="s2">"</span>
         <span class="p">)</span>
     <span class="k">return</span> <span class="n">fill</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">thickness</span><span class="p">,</span> <span class="n">spacing</span><span class="p">)</span></div>
 
@@ -402,7 +402,7 @@
 <span class="c1"># ── Cell placement ────────────────────────────────────────────────────</span>
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_grid_cells</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">spacing</span><span class="p">,</span> <span class="n">stagger</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Centres of every cell whose hole fits whole inside the lid.</span>
+<span class="w">    </span><span class="sd">"""Centres of every cell whose hole fits whole inside the lid.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        width: Lid width in mm.</span>
@@ -413,7 +413,7 @@
 <span class="sd">    Yields:</span>
 <span class="sd">        ``(x, y)`` centres, inset so a hole of :data:`HOLE_SHARE` stays whole —</span>
 <span class="sd">        a pattern that runs off the edge leaves slivers, not holes.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">margin</span> <span class="o">=</span> <span class="n">spacing</span> <span class="o">*</span> <span class="n">HOLE_SHARE</span> <span class="o">/</span> <span class="mf">2.0</span>
     <span class="n">row_step</span> <span class="o">=</span> <span class="n">spacing</span> <span class="o">*</span> <span class="p">(</span><span class="mf">0.866</span> <span class="k">if</span> <span class="n">stagger</span> <span class="k">else</span> <span class="mf">1.0</span><span class="p">)</span>  <span class="c1"># sin(60°) for hex rows</span>
 
@@ -429,7 +429,7 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_punch</span><span class="p">(</span><span class="n">shape_at</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">spacing</span><span class="p">,</span> <span class="n">stagger</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Union one hole per cell.</span>
+<span class="w">    </span><span class="sd">"""Union one hole per cell.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        shape_at: Called with ``(x, y)``; returns one hole solid in place.</span>
@@ -440,7 +440,7 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        The union of every hole, or ``None`` when none fit.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">holes</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">_grid_cells</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">spacing</span><span class="p">,</span> <span class="n">stagger</span><span class="p">):</span>
         <span class="n">hole</span> <span class="o">=</span> <span class="n">shape_at</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
@@ -449,7 +449,7 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_prism</span><span class="p">(</span><span class="n">sides</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">across_flats</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">thickness</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">spin</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;One regular-polygon hole, tall enough to break through the lid.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""One regular-polygon hole, tall enough to break through the lid."""</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">regular_prism</span>
 
     <span class="c1"># `inner_radius` is the apothem, which is what sizes a hole: the web left</span>
@@ -467,7 +467,7 @@
 <span class="c1"># ── Fills ─────────────────────────────────────────────────────────────</span>
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_square_fill</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">thickness</span><span class="p">,</span> <span class="n">spacing</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Square holes on a square grid.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Square holes on a square grid."""</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">cuboid</span>
 
     <span class="n">size</span> <span class="o">=</span> <span class="n">spacing</span> <span class="o">*</span> <span class="n">HOLE_SHARE</span>
@@ -480,7 +480,7 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_circle_fill</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">thickness</span><span class="p">,</span> <span class="n">spacing</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Round holes on a square grid.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Round holes on a square grid."""</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">cylinder</span>
 
     <span class="k">return</span> <span class="n">_punch</span><span class="p">(</span>
@@ -494,7 +494,7 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_hex_fill</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">thickness</span><span class="p">,</span> <span class="n">spacing</span><span class="p">,</span> <span class="n">dense</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Hexagonal holes in staggered rows — a honeycomb.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Hexagonal holes in staggered rows — a honeycomb."""</span>
     <span class="n">step</span> <span class="o">=</span> <span class="n">spacing</span> <span class="o">*</span> <span class="p">(</span><span class="n">DENSE_SPACING_SHARE</span> <span class="k">if</span> <span class="n">dense</span> <span class="k">else</span> <span class="mf">1.0</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">_punch</span><span class="p">(</span>
         <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">_prism</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="n">step</span> <span class="o">*</span> <span class="n">HOLE_SHARE</span><span class="p">,</span> <span class="n">thickness</span><span class="p">)</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span>
@@ -505,7 +505,7 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_triangle_fill</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">thickness</span><span class="p">,</span> <span class="n">spacing</span><span class="p">,</span> <span class="n">dense</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Triangular holes, alternating point-up and point-down along each row.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Triangular holes, alternating point-up and point-down along each row."""</span>
     <span class="n">step</span> <span class="o">=</span> <span class="n">spacing</span> <span class="o">*</span> <span class="p">(</span><span class="n">DENSE_SPACING_SHARE</span> <span class="k">if</span> <span class="n">dense</span> <span class="k">else</span> <span class="mf">1.0</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">shape</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
@@ -520,7 +520,7 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_octagon_fill</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">thickness</span><span class="p">,</span> <span class="n">spacing</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Octagonal holes on a square grid, leaving small square webs.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Octagonal holes on a square grid, leaving small square webs."""</span>
     <span class="k">return</span> <span class="n">_punch</span><span class="p">(</span>
         <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">_prism</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="n">spacing</span> <span class="o">*</span> <span class="n">HOLE_SHARE</span><span class="p">,</span> <span class="n">thickness</span><span class="p">,</span> <span class="mf">22.5</span><span class="p">)</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span>
             <span class="p">[</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">thickness</span> <span class="o">/</span> <span class="mi">2</span><span class="p">]</span>
@@ -530,18 +530,18 @@
 
 
 <span class="n">VORONOI_SEED</span> <span class="o">=</span> <span class="mi">42</span>
-<span class="sd">&quot;&quot;&quot;Fixed seed, so a lid&#39;s pattern is the same on every build.</span>
+<span class="sd">"""Fixed seed, so a lid's pattern is the same on every build.</span>
 
 <span class="sd">The pattern is part of the exported geometry and is what the export fingerprint</span>
 <span class="sd">is taken over, so a fresh random layout each run would rewrite the file forever.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="n">VORONOI_JITTER</span> <span class="o">=</span> <span class="mf">0.28</span>
-<span class="sd">&quot;&quot;&quot;How far a cell may wander from its grid point, as a share of the spacing.&quot;&quot;&quot;</span>
+<span class="sd">"""How far a cell may wander from its grid point, as a share of the spacing."""</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_voronoi_fill</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">thickness</span><span class="p">,</span> <span class="n">spacing</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Round holes of varying size on a jittered grid — an organic scatter.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Round holes of varying size on a jittered grid — an organic scatter."""</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">cylinder</span>
 
     <span class="n">rng</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">Random</span><span class="p">(</span><span class="n">VORONOI_SEED</span><span class="p">)</span>
@@ -569,11 +569,11 @@
     <span class="n">PatternType</span><span class="o">.</span><span class="n">OCTAGON</span><span class="p">:</span> <span class="n">_octagon_fill</span><span class="p">,</span>
     <span class="n">PatternType</span><span class="o">.</span><span class="n">VORONOI</span><span class="p">:</span> <span class="n">_voronoi_fill</span><span class="p">,</span>
 <span class="p">}</span>
-<span class="sd">&quot;&quot;&quot;Every pattern the library can draw.</span>
+<span class="sd">"""Every pattern the library can draw.</span>
 
 <span class="sd">A member of :class:`PatternType` missing from here is a bug in one of the two,</span>
 <span class="sd">which is what :func:`build_pattern` checks rather than papering over.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 </code></pre></div>
 
 

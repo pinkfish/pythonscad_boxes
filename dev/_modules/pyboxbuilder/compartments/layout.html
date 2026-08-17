@@ -297,7 +297,7 @@
 
 <h1>Source code for pyboxbuilder.compartments.layout</h1><div class="highlight"><pre>
 <span></span><code><span class="c1"># SPDX-License-Identifier: Apache-2.0</span>
-<span class="sd">&quot;&quot;&quot;Compartment auto-layout — 2D shelf-based bin packing.&quot;&quot;&quot;</span>
+<span class="sd">"""Compartment auto-layout — 2D shelf-based bin packing."""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">field</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Sequence</span>
@@ -308,13 +308,13 @@
     <span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span>
     <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span>
 <span class="p">]</span>
-<span class="sd">&quot;&quot;&quot;One compartment as the layout takes it.</span>
+<span class="sd">"""One compartment as the layout takes it.</span>
 
 <span class="sd">``(label, width, length, depth, shape_file, position, elements)``. The short</span>
 <span class="sd">forms — a bare ``(label, width, length, depth)`` from `compute_min_box_size`,</span>
 <span class="sd">say — are padded by :func:`normalise_compartments` rather than being a second</span>
 <span class="sd">shape every reader has to allow for.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 
 <div class="viewcode-block" id="normalise_compartments">
@@ -322,7 +322,7 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">normalise_compartments</span><span class="p">(</span>
     <span class="n">compartments</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="n">Any</span><span class="p">]],</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">CompartmentSpec</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Pad every compartment tuple out to the full seven fields.</span>
+<span class="w">    </span><span class="sd">"""Pad every compartment tuple out to the full seven fields.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        compartments: Tuples of four to seven fields, in `CompartmentSpec`</span>
@@ -330,7 +330,7 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        The same compartments, all seven fields long.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">padding</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="p">())</span>
     <span class="k">return</span> <span class="p">[</span>
         <span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="o">+</span> <span class="n">padding</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="o">-</span> <span class="mi">4</span><span class="p">:])</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">7</span> <span class="k">else</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
@@ -339,18 +339,18 @@
 
 
 <span class="n">WALL_SPACING_MM</span> <span class="o">=</span> <span class="mf">2.0</span>
-<span class="sd">&quot;&quot;&quot;Wall left between adjacent compartments, and between one and the box wall.</span>
+<span class="sd">"""Wall left between adjacent compartments, and between one and the box wall.</span>
 
 <span class="sd">Declared here because two things have to agree on it: the layout that inserts</span>
 <span class="sd">the gutters, and the ratio sizing that has to leave room for them.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 
 <div class="viewcode-block" id="CompartmentPlacement">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.compartments.layout.CompartmentPlacement.html#pyboxbuilder.compartments.layout.CompartmentPlacement">[docs]</a>
 <span class="nd">@dataclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">CompartmentPlacement</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Position of a single compartment inside a box.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Position of a single compartment inside a box."""</span>
 
     <span class="n">label</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">size</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span>
@@ -365,7 +365,7 @@
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.compartments.layout.CompartmentLayout.html#pyboxbuilder.compartments.layout.CompartmentLayout">[docs]</a>
 <span class="nd">@dataclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">CompartmentLayout</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Result of laying out compartments inside a box interior.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Result of laying out compartments inside a box interior."""</span>
 
     <span class="n">placements</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">CompartmentPlacement</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span>
     <span class="n">overflow</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
@@ -373,7 +373,7 @@
 <div class="viewcode-block" id="CompartmentLayout.all_compartment_sizes">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.compartments.layout.CompartmentLayout.html#pyboxbuilder.compartments.layout.CompartmentLayout.all_compartment_sizes">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">all_compartment_sizes</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return (width, length) for each placement.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Return (width, length) for each placement."""</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">size</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">placements</span><span class="p">]</span></div>
 </div>
 
@@ -387,10 +387,10 @@
     <span class="n">wall_spacing</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">WALL_SPACING_MM</span><span class="p">,</span>
     <span class="n">no_rotate_labels</span><span class="p">:</span> <span class="nb">set</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CompartmentLayout</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Row-based layout of compartments inside the box interior with 90-degree rotation support.</span>
+<span class="w">    </span><span class="sd">"""Row-based layout of compartments inside the box interior with 90-degree rotation support.</span>
 
 <span class="sd">    Handles manual coordinates if position is specified in the compartment tuple.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">comps</span> <span class="o">=</span> <span class="n">normalise_compartments</span><span class="p">(</span><span class="n">compartments</span><span class="p">)</span>
 
     <span class="n">layout</span> <span class="o">=</span> <span class="n">CompartmentLayout</span><span class="p">()</span>
@@ -519,28 +519,28 @@
     <span class="n">max_w</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">max_l</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;The smallest box that holds these compartments.</span>
+<span class="w">    </span><span class="sd">"""The smallest box that holds these compartments.</span>
 
 <span class="sd">    With `max_w`/`max_l` given, lays the compartments out and measures the</span>
 <span class="sd">    result; otherwise estimates a square footprint.</span>
 
 <span class="sd">    The measurement **includes the gutters the layout puts around them**. It</span>
-<span class="sd">    used to measure only the placements&#39; own extent, so the size it returned was</span>
+<span class="sd">    used to measure only the placements' own extent, so the size it returned was</span>
 <span class="sd">    one gutter short on each axis — and a box sized from its compartments then</span>
 <span class="sd">    failed to fit those same compartments, which is a confusing error to get</span>
 <span class="sd">    from a box you never gave a size to.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        compartments: `(label, width, length, depth)` per compartment.</span>
-<span class="sd">        wall_thickness: The box&#39;s wall, in mm.</span>
-<span class="sd">        floor_thickness: The box&#39;s floor, in mm.</span>
-<span class="sd">        lid_thickness: The box&#39;s lid, in mm.</span>
+<span class="sd">        wall_thickness: The box's wall, in mm.</span>
+<span class="sd">        floor_thickness: The box's floor, in mm.</span>
+<span class="sd">        lid_thickness: The box's lid, in mm.</span>
 <span class="sd">        max_w: Interior width available, if the box sits in a container.</span>
 <span class="sd">        max_l: Interior length available.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        The box&#39;s outer `(width, length, height)` in mm.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">        The box's outer `(width, length, height)` in mm.</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">compartments</span><span class="p">:</span>
         <span class="k">return</span> <span class="p">(</span>
             <span class="n">wall_thickness</span> <span class="o">*</span> <span class="mi">4</span><span class="p">,</span>
@@ -560,7 +560,7 @@
             <span class="p">)</span>
             <span class="n">layout</span> <span class="o">=</span> <span class="n">layout_compartments</span><span class="p">(</span><span class="n">interior</span><span class="p">,</span> <span class="n">compartments</span><span class="p">)</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">layout</span><span class="o">.</span><span class="n">overflow</span> <span class="ow">and</span> <span class="n">layout</span><span class="o">.</span><span class="n">placements</span><span class="p">:</span>
-                <span class="c1"># From the interior&#39;s own origin, not from the first placement:</span>
+                <span class="c1"># From the interior's own origin, not from the first placement:</span>
                 <span class="c1"># the gutter before it is part of what the box has to hold, and</span>
                 <span class="c1"># so is the one after the last.</span>
                 <span class="n">gutter</span> <span class="o">=</span> <span class="mf">0.0</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">layout</span><span class="o">.</span><span class="n">placements</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">else</span> <span class="n">WALL_SPACING_MM</span>
@@ -617,7 +617,7 @@
     <span class="n">bin_sizes</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]],</span>
     <span class="n">wall_spacing</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">WALL_SPACING_MM</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Partitions compartments across multiple bin interior footprints using backtracking shelf packing.</span>
+<span class="w">    </span><span class="sd">"""Partitions compartments across multiple bin interior footprints using backtracking shelf packing.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        compartments: List of (label, width, length, depth) tuples.</span>
@@ -627,7 +627,7 @@
 <span class="sd">    Returns:</span>
 <span class="sd">        A list of lists containing the partitioned compartments for each bin,</span>
 <span class="sd">        or None if they cannot be successfully packed.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">sorted_items</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">compartments</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">bins_content</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[[]</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">bin_sizes</span><span class="p">]</span>
 

@@ -297,7 +297,7 @@
 
 <h1>Source code for pyboxbuilder.box.types.card_library</h1><div class="highlight"><pre>
 <span></span><code><span class="c1"># SPDX-License-Identifier: Apache-2.0</span>
-<span class="sd">&quot;&quot;&quot;CardLibraryBox — card-library box type.&quot;&quot;&quot;</span>
+<span class="sd">"""CardLibraryBox — card-library box type."""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
@@ -316,7 +316,7 @@
 <div class="viewcode-block" id="CardLibraryBox">
 <a class="viewcode-back" href="../../../../_autosummary/pyboxbuilder.box.types.card_library.CardLibraryBox.html#pyboxbuilder.box.types.card_library.CardLibraryBox">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">CardLibraryBox</span><span class="p">(</span><span class="n">BoxTypeBase</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Card-library box type.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Card-library box type."""</span>
 
 <div class="viewcode-block" id="CardLibraryBox.interior">
 <a class="viewcode-back" href="../../../../_autosummary/pyboxbuilder.box.types.card_library.CardLibraryBox.html#pyboxbuilder.box.types.card_library.CardLibraryBox.interior">[docs]</a>
@@ -335,11 +335,11 @@
 <div class="viewcode-block" id="CardLibraryBox.preferred_scoop_side">
 <a class="viewcode-back" href="../../../../_autosummary/pyboxbuilder.box.types.card_library.CardLibraryBox.html#pyboxbuilder.box.types.card_library.CardLibraryBox.preferred_scoop_side">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">preferred_scoop_side</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;A finger scoop belongs in the wall the lid leaves by.</span>
+<span class="w">        </span><span class="sd">"""A finger scoop belongs in the wall the lid leaves by.</span>
 
 <span class="sd">        The other three carry the lid — two hold its grooves — and a scoop cut</span>
 <span class="sd">        into a groove takes away the bearing that keeps the lid straight.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">ScoopSide</span>
 
         <span class="k">return</span> <span class="n">ScoopSide</span><span class="o">.</span><span class="n">RIGHT</span></div>
@@ -348,8 +348,8 @@
 <div class="viewcode-block" id="CardLibraryBox.lid_rounded_edges">
 <a class="viewcode-back" href="../../../../_autosummary/pyboxbuilder.box.types.card_library.CardLibraryBox.html#pyboxbuilder.box.types.card_library.CardLibraryBox.lid_rounded_edges">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">lid_rounded_edges</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Only the end that finishes outside the box: its top edge and the two</span>
-<span class="sd">        vertical corners there. The rest of the plate lives in the channel.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Only the end that finishes outside the box: its top edge and the two</span>
+<span class="sd">        vertical corners there. The rest of the plate lives in the channel."""</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">Anchor</span>
 
         <span class="k">return</span> <span class="p">[</span><span class="n">Anchor</span><span class="o">.</span><span class="n">TOP_RIGHT</span><span class="p">,</span> <span class="n">Anchor</span><span class="o">.</span><span class="n">FRONT_RIGHT</span><span class="p">,</span> <span class="n">Anchor</span><span class="o">.</span><span class="n">BACK_RIGHT</span><span class="p">]</span></div>
@@ -357,25 +357,25 @@
 
 <div class="viewcode-block" id="CardLibraryBox.build_body">
 <a class="viewcode-back" href="../../../../_autosummary/pyboxbuilder.box.types.card_library.CardLibraryBox.html#pyboxbuilder.box.types.card_library.CardLibraryBox.build_body">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">build_body</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Bosl2Solid&quot;</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;A sleeve-fed card box: sliding channel plus a latch dimple.&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_body</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Bosl2Solid"</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""A sleeve-fed card box: sliding channel plus a latch dimple."""</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.features</span><span class="w"> </span><span class="kn">import</span> <span class="n">sliding_catch</span><span class="p">,</span> <span class="n">sliding_track</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.shell</span><span class="w"> </span><span class="kn">import</span> <span class="n">build_shell</span><span class="p">,</span> <span class="n">sliding_rim_rounding</span>
 
         <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">rim_rounding</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">spec</span> <span class="o">=</span> <span class="n">replace</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="n">rim_rounding</span><span class="o">=</span><span class="n">sliding_rim_rounding</span><span class="p">(</span><span class="n">spec</span><span class="p">))</span>
         <span class="n">body</span> <span class="o">=</span> <span class="n">build_shell</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span> <span class="o">-</span> <span class="n">sliding_track</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span><span class="o">.</span><span class="n">body</span>
-        <span class="k">return</span> <span class="n">body</span> <span class="o">-</span> <span class="n">sliding_catch</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">latch_radius</span><span class="p">,</span> <span class="s2">&quot;x&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">body</span></div>
+        <span class="k">return</span> <span class="n">body</span> <span class="o">-</span> <span class="n">sliding_catch</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">latch_radius</span><span class="p">,</span> <span class="s2">"x"</span><span class="p">)</span><span class="o">.</span><span class="n">body</span></div>
 
 
 <div class="viewcode-block" id="CardLibraryBox.build_lid">
 <a class="viewcode-back" href="../../../../_autosummary/pyboxbuilder.box.types.card_library.CardLibraryBox.html#pyboxbuilder.box.types.card_library.CardLibraryBox.build_lid">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">build_lid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">,</span> <span class="n">decoration</span><span class="p">:</span> <span class="nb">object</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Bosl2Solid&quot;</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;The sliding face, latched shut so the cards cannot spill.&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_lid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">,</span> <span class="n">decoration</span><span class="p">:</span> <span class="nb">object</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Bosl2Solid"</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""The sliding face, latched shut so the cards cannot spill."""</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.features</span><span class="w"> </span><span class="kn">import</span> <span class="n">sliding_catch</span><span class="p">,</span> <span class="n">sliding_track</span>
 
         <span class="k">return</span> <span class="n">sliding_track</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span><span class="o">.</span><span class="n">require_lid</span><span class="p">()</span> <span class="o">|</span> <span class="n">sliding_catch</span><span class="p">(</span>
-            <span class="n">spec</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">latch_radius</span><span class="p">,</span> <span class="s2">&quot;x&quot;</span>
+            <span class="n">spec</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">latch_radius</span><span class="p">,</span> <span class="s2">"x"</span>
         <span class="p">)</span><span class="o">.</span><span class="n">require_lid</span><span class="p">()</span></div>
 </div>
 

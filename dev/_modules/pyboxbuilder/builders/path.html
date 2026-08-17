@@ -297,7 +297,7 @@
 
 <h1>Source code for pyboxbuilder.builders.path</h1><div class="highlight"><pre>
 <span></span><code><span class="c1"># SPDX-License-Identifier: Apache-2.0</span>
-<span class="sd">&quot;&quot;&quot;PathBoxBuilder — typed builder for the lidless polygon-path box type.&quot;&quot;&quot;</span>
+<span class="sd">"""PathBoxBuilder — typed builder for the lidless polygon-path box type."""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">ClassVar</span>
@@ -310,19 +310,19 @@
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.builders.path.PathBoxBuilder.html#pyboxbuilder.builders.path.PathBoxBuilder">[docs]</a>
 <span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">PathBoxBuilder</span><span class="p">(</span><span class="n">BoxBuilder</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Builder for the path box type — an open tray with a polygon footprint.</span>
+<span class="w">    </span><span class="sd">"""Builder for the path box type — an open tray with a polygon footprint.</span>
 
 <span class="sd">    Used for spacers and trays that have to fill a non-rectangular leftover</span>
 <span class="sd">    region (FR-018). Like the no-lid type, it produces a body file only.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="n">box_type</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="n">BoxType</span><span class="p">]</span> <span class="o">=</span> <span class="n">BoxType</span><span class="o">.</span><span class="n">PATH</span>
 
     <span class="n">path</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Closed 2D outline of the tray footprint, in mm, in the box&#39;s own frame.</span>
-<span class="sd">    Empty falls back to the rectangle implied by `size`.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Closed 2D outline of the tray footprint, in mm, in the box's own frame.</span>
+<span class="sd">    Empty falls back to the rectangle implied by `size`."""</span>
     <span class="n">hollow</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;False produces a solid block instead of a walled tray.&quot;&quot;&quot;</span></div>
+<span class="w">    </span><span class="sd">"""False produces a solid block instead of a walled tray."""</span></div>
 
 </code></pre></div>
 

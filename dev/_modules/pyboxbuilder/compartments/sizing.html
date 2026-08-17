@@ -297,34 +297,34 @@
 
 <h1>Source code for pyboxbuilder.compartments.sizing</h1><div class="highlight"><pre>
 <span></span><code><span class="c1"># SPDX-License-Identifier: Apache-2.0</span>
-<span class="sd">&quot;&quot;&quot;Compartment row-width distribution (T052a / FR-004).</span>
+<span class="sd">"""Compartment row-width distribution (T052a / FR-004).</span>
 
 <span class="sd">The shelf packer in `layout.py` places compartments at their requested size and</span>
 <span class="sd">leaves whatever is left over as dead space at the end of each row. This module</span>
 <span class="sd">takes a finished row and grows its members so the row fills the interior width</span>
 <span class="sd">exactly, which is what you want for card wells and token trays that should butt</span>
 <span class="sd">up against the box walls.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
 
 <span class="n">PRECISION</span> <span class="o">=</span> <span class="mi">1</span>
-<span class="sd">&quot;&quot;&quot;Dimensional output is held to 0.1 mm (FR-003) — never rounded to whole mm.&quot;&quot;&quot;</span>
+<span class="sd">"""Dimensional output is held to 0.1 mm (FR-003) — never rounded to whole mm."""</span>
 
 
 <div class="viewcode-block" id="RowItem">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.compartments.sizing.RowItem.html#pyboxbuilder.compartments.sizing.RowItem">[docs]</a>
 <span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">RowItem</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;One compartment in a row, as seen by the distributor.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""One compartment in a row, as seen by the distributor."""</span>
 
     <span class="n">label</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">width</span><span class="p">:</span> <span class="nb">float</span>
     <span class="n">length</span><span class="p">:</span> <span class="nb">float</span>
     <span class="n">growable</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;False pins the compartment at its requested width (e.g. a card slot).&quot;&quot;&quot;</span></div>
+<span class="w">    </span><span class="sd">"""False pins the compartment at its requested width (e.g. a card slot)."""</span></div>
 
 
 
@@ -335,9 +335,9 @@
     <span class="n">available_width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">gap</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">2.0</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Grow the growable items in a row so the row fills `available_width`.</span>
+<span class="w">    </span><span class="sd">"""Grow the growable items in a row so the row fills `available_width`.</span>
 
-<span class="sd">    Slack is shared in proportion to each growable item&#39;s current width, so a</span>
+<span class="sd">    Slack is shared in proportion to each growable item's current width, so a</span>
 <span class="sd">    wide well absorbs more of the leftover than a narrow one and the row keeps</span>
 <span class="sd">    its visual rhythm.</span>
 
@@ -351,7 +351,7 @@
 
 <span class="sd">    Raises:</span>
 <span class="sd">        ValueError: If the items cannot fit in `available_width` at all.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">items</span><span class="p">:</span>
         <span class="k">return</span> <span class="p">[]</span>
 
@@ -360,10 +360,10 @@
     <span class="n">slack</span> <span class="o">=</span> <span class="n">available_width</span> <span class="o">-</span> <span class="n">used</span> <span class="o">-</span> <span class="n">total_gap</span>
     <span class="k">if</span> <span class="n">slack</span> <span class="o">&lt;</span> <span class="o">-</span><span class="mf">0.05</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;Row of </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">items</span><span class="p">)</span><span class="si">}</span><span class="s2"> compartments needs &quot;</span>
-            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">used</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">total_gap</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">mm but only </span><span class="si">{</span><span class="n">available_width</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">mm is &quot;</span>
-            <span class="sa">f</span><span class="s2">&quot;available (over by </span><span class="si">{</span><span class="o">-</span><span class="n">slack</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">mm): &quot;</span>
-            <span class="o">+</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">i</span><span class="o">.</span><span class="n">label</span><span class="si">}</span><span class="s2">=</span><span class="si">{</span><span class="n">i</span><span class="o">.</span><span class="n">width</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">items</span><span class="p">)</span>
+            <span class="sa">f</span><span class="s2">"Row of </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">items</span><span class="p">)</span><span class="si">}</span><span class="s2"> compartments needs "</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">used</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">total_gap</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">mm but only </span><span class="si">{</span><span class="n">available_width</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">mm is "</span>
+            <span class="sa">f</span><span class="s2">"available (over by </span><span class="si">{</span><span class="o">-</span><span class="n">slack</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">mm): "</span>
+            <span class="o">+</span> <span class="s2">", "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">i</span><span class="o">.</span><span class="n">label</span><span class="si">}</span><span class="s2">=</span><span class="si">{</span><span class="n">i</span><span class="o">.</span><span class="n">width</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">"</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">items</span><span class="p">)</span>
         <span class="p">)</span>
 
     <span class="n">growable</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">items</span> <span class="k">if</span> <span class="n">i</span><span class="o">.</span><span class="n">growable</span><span class="p">]</span>
@@ -388,7 +388,7 @@
     <span class="n">available_width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">gap</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">2.0</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Apply `distribute_row_width` to every row of a shelf layout.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Apply `distribute_row_width` to every row of a shelf layout."""</span>
     <span class="k">return</span> <span class="p">[</span><span class="n">distribute_row_width</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">available_width</span><span class="p">,</span> <span class="n">gap</span><span class="p">)</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">]</span></div>
 
 
@@ -396,11 +396,11 @@
 <div class="viewcode-block" id="rows_from_placements">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.compartments.sizing.rows_from_placements.html#pyboxbuilder.compartments.sizing.rows_from_placements">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">rows_from_placements</span><span class="p">(</span><span class="n">placements</span><span class="p">,</span> <span class="n">gap</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">2.0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Group `CompartmentPlacement`s into rows by their y coordinate.</span>
+<span class="w">    </span><span class="sd">"""Group `CompartmentPlacement`s into rows by their y coordinate.</span>
 
 <span class="sd">    Two placements share a row when their y origins are within `gap` of each</span>
 <span class="sd">    other, which is how the shelf packer builds them.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">rows</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">placement</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">placements</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">p</span><span class="p">:</span> <span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">p</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">0</span><span class="p">])):</span>
         <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">:</span>

@@ -297,12 +297,12 @@
 
 <h1>Source code for pyboxbuilder.lid.label</h1><div class="highlight"><pre>
 <span></span><code><span class="c1"># SPDX-License-Identifier: Apache-2.0</span>
-<span class="sd">&quot;&quot;&quot;Label generation — framed, frameless, and diagonal text.</span>
+<span class="sd">"""Label generation — framed, frameless, and diagonal text.</span>
 
-<span class="sd">Everything here is built in the lid&#39;s own frame: (0, 0) is the lid&#39;s lower-left</span>
+<span class="sd">Everything here is built in the lid's own frame: (0, 0) is the lid's lower-left</span>
 <span class="sd">corner and z = 0 is the face the label sits on, so a caller only has to move the</span>
-<span class="sd">result onto the lid&#39;s top.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">result onto the lid's top.</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
@@ -316,48 +316,48 @@
     <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2.shapes3d</span><span class="w"> </span><span class="kn">import</span> <span class="n">Bosl2Solid</span>
 
 <span class="n">TEXT_HEIGHT_MM</span> <span class="o">=</span> <span class="mf">0.6</span>
-<span class="sd">&quot;&quot;&quot;How far the text stands off the face it is written on.&quot;&quot;&quot;</span>
+<span class="sd">"""How far the text stands off the face it is written on."""</span>
 
 <span class="n">BACKING_HEIGHT_MM</span> <span class="o">=</span> <span class="mf">0.4</span>
-<span class="sd">&quot;&quot;&quot;Thickness of the framed backing plate the text sits on.&quot;&quot;&quot;</span>
+<span class="sd">"""Thickness of the framed backing plate the text sits on."""</span>
 
 <span class="n">HATCH_WIDTH_MM</span> <span class="o">=</span> <span class="mf">0.6</span>
-<span class="sd">&quot;&quot;&quot;Width of a hatching line — thin enough to bridge without support.&quot;&quot;&quot;</span>
+<span class="sd">"""Width of a hatching line — thin enough to bridge without support."""</span>
 
 <span class="n">FRAME_PADDING_MM</span> <span class="o">=</span> <span class="mf">3.0</span>
-<span class="sd">&quot;&quot;&quot;How far a framed label&#39;s backing plate extends past its text.&quot;&quot;&quot;</span>
+<span class="sd">"""How far a framed label's backing plate extends past its text."""</span>
 
 
 <div class="viewcode-block" id="Label">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.lid.label.Label.html#pyboxbuilder.lid.label.Label">[docs]</a>
 <span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">Label</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;A built label, split by the colour it wants to print in.</span>
+<span class="w">    </span><span class="sd">"""A built label, split by the colour it wants to print in.</span>
 
 <span class="sd">    Keeping the parts separate is what lets the MMU pass assign each its own</span>
 <span class="sd">    material while the single-colour pass fuses them.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
-    <span class="n">text</span><span class="p">:</span> <span class="s2">&quot;Bosl2Solid&quot;</span>
-    <span class="n">backing</span><span class="p">:</span> <span class="s2">&quot;Bosl2Solid | None&quot;</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Framed mode only: the plate and hatching behind the text.&quot;&quot;&quot;</span>
+    <span class="n">text</span><span class="p">:</span> <span class="s2">"Bosl2Solid"</span>
+    <span class="n">backing</span><span class="p">:</span> <span class="s2">"Bosl2Solid | None"</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">"""Framed mode only: the plate and hatching behind the text."""</span>
 
 <div class="viewcode-block" id="Label.combined">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.lid.label.Label.html#pyboxbuilder.lid.label.Label.combined">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">combined</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Bosl2Solid&quot;</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">combined</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Bosl2Solid"</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">text</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">backing</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">backing</span> <span class="o">|</span> <span class="bp">self</span><span class="o">.</span><span class="n">text</span></div>
 </div>
 
 
 
 <span class="n">NOMINAL_SIZE_MM</span> <span class="o">=</span> <span class="mf">10.0</span>
-<span class="sd">&quot;&quot;&quot;Cap height the text is first set at, before being measured and scaled.&quot;&quot;&quot;</span>
+<span class="sd">"""Cap height the text is first set at, before being measured and scaled."""</span>
 
-<span class="n">FONT</span> <span class="o">=</span> <span class="s2">&quot;Liberation Sans:style=Bold&quot;</span>
+<span class="n">FONT</span> <span class="o">=</span> <span class="s2">"Liberation Sans:style=Bold"</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_set_text</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">diagonal</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span> <span class="n">width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">length</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Extrude the label text at the nominal size, rotated if diagonal.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Extrude the label text at the nominal size, rotated if diagonal."""</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">text</span> <span class="k">as</span> <span class="n">bosl2_text</span>
 
     <span class="n">solid</span> <span class="o">=</span> <span class="n">bosl2_text</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="n">text</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">NOMINAL_SIZE_MM</span><span class="p">,</span> <span class="n">font</span><span class="o">=</span><span class="n">FONT</span><span class="p">)</span><span class="o">.</span><span class="n">linear_extrude</span><span class="p">(</span>
@@ -377,13 +377,13 @@
     <span class="n">border_margin_mm</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">5.0</span><span class="p">,</span>
     <span class="n">diagonal</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Cap height the label text will be set at, in mm.</span>
+<span class="w">    </span><span class="sd">"""Cap height the label text will be set at, in mm.</span>
 
 <span class="sd">    Measured rather than estimated. Guessing the width from the character count</span>
-<span class="sd">    is off by enough to matter — &quot;Cards&quot; at the guessed size came out 102mm wide</span>
+<span class="sd">    is off by enough to matter — "Cards" at the guessed size came out 102mm wide</span>
 <span class="sd">    on a 100mm lid — because the advance per glyph depends on the font and on</span>
 <span class="sd">    which letters they are.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">label_w</span> <span class="o">=</span> <span class="n">width</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">border_margin_mm</span>
     <span class="n">label_l</span> <span class="o">=</span> <span class="n">length</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">border_margin_mm</span>
     <span class="k">if</span> <span class="n">label_w</span> <span class="o">&lt;=</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">label_l</span> <span class="o">&lt;=</span> <span class="mi">0</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">text</span><span class="p">:</span>
@@ -407,8 +407,8 @@
     <span class="n">diagonal</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">min_text_height_mm</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">4.0</span><span class="p">,</span>
     <span class="n">border_margin_mm</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">5.0</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Label | None&quot;</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Build a label for a lid face, or None if it would be illegible.</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Label | None"</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Build a label for a lid face, or None if it would be illegible.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        width: Lid width in mm.</span>
@@ -424,7 +424,7 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        A `Label`, or None when the text would come out under the minimum.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.shell</span><span class="w"> </span><span class="kn">import</span> <span class="n">block</span><span class="p">,</span> <span class="n">corner</span>
 
     <span class="n">label_w</span> <span class="o">=</span> <span class="n">width</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">border_margin_mm</span>
@@ -476,12 +476,12 @@
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_build_hatching</span><span class="p">(</span>
     <span class="n">width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">spacing</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">3.0</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Bosl2Solid&quot;</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Diagonal hatching lines, centred on the origin and clipped to the area.</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Bosl2Solid"</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Diagonal hatching lines, centred on the origin and clipped to the area.</span>
 
 <span class="sd">    The lines are cropped to the label rectangle so the hatching cannot spill</span>
 <span class="sd">    past the backing plate it decorates.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">cuboid</span>
 
     <span class="n">diagonal</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">hypot</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">length</span><span class="p">)</span>
