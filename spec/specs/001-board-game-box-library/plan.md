@@ -328,6 +328,75 @@ A lid that only needs to not slide out in a bag wants a **detent**, and a detent
 
 The catch is generated from the same slide-axis frame as the channel, so it lands on the correct pair of walls whichever way round the box is. It is **off by default** on a plain sliding box — the original toolkit's sliding box has no catch, and a dovetail on its own already holds a lid in — and always on for the sliding-catch and card-library types, which exist for it. Setting a catch radius on a plain sliding box turns it on.
 
+### Getting A Sliding Lid Started (FR-002e5)
+
+A seated sliding lid offers a hand almost nothing. It is a plate flush with the
+box's top, trapped in its grooves; the only exposed surfaces are its end face —
+one lid thickness tall, usually 2mm — and its top, which is flat. Every other
+closure in this library has something to pull on and this one had nothing, so
+it gets a **fingernail catch**: a shallow dish in the top face at the exit end.
+
+**Half a sphere: a bowl to get into, and a flat wall to pull on.** Those are two
+jobs and they want opposite surfaces. Getting *in* wants curvature — a nail
+meeting a surface that falls away in every direction finds the dish without
+being aimed at it, where a cylindrical pocket presents a rim for the nail to
+catch on instead of dropping in. Pulling wants flat: a whole dish curves away on
+the pull side too, so a nail loading it is riding up a slope, and what the dish
+does under load is eject the nail rather than move the lid. So the dish is the
+top of a sphere cut in half on a plane square to the slide axis — bowl one side,
+wall the other, split through the centre so the wall is the dish's full depth
+rather than a sliver of it.
+
+**The inboard half is the one removed**, and that is forced rather than chosen. A
+nail can push and cannot pull, so the surface it bears on has to have the lid's
+material behind it *in the direction of travel*: the wall between the dish and
+the exit edge. Keep the other half and the only wall available is one that can
+be pushed inboard, which drives the lid further into the box.
+
+**At the exit end, centred across the lid.** That end is the only one a hand can
+reach with the box closed, and centring it means the pull is straight down the
+grooves rather than a twist that binds the plate.
+
+**The wall stands on the border line.** That puts the band of plain lid at the
+edge behind the wall — which is exactly the material the nail is pressing on,
+and it wants to be whole — and puts the bowl inside it, where there is room for
+a nail to get in.
+
+**Never through the plate, and never surrounded by holes.** The depth is capped
+at half the lid's thickness, so there is always a plate's worth of material
+under the dish, and a 1mm ring of solid lid is kept around it clear of any
+pattern. Both are the same concern: the dish is a thinned spot that gets pulled
+on, so it needs whole material behind and beside it. A hole opening onto its rim
+is where the lid would tear.
+
+The sizes are derived from the lid — its narrow dimension and its thickness —
+so a small card box gets a small dish rather than one sized for a card lid, and
+every number is settable for the box that wants otherwise.
+
+**One declaration per type.** Three types slide, and none of them repeats any of
+the above. Each states the one thing only it knows:
+
+```python
+def slide_axis(self, spec) -> str: return "x"
+```
+
+and ends `build_lid` with `return self.cut_fingernail_catch(lid, spec)`. The
+dish, its position, its depth cap and the keep-out all follow from that answer
+in `BoxTypeBase`, and a lid that lifts off inherits a `slide_axis` of `None` and
+so takes no dish without saying anything. The three settings ride the same
+split: they are a `SlidingLidFields` mixin on the three sliding builders rather
+than fields on `BoxBuilder`, because on a cap box they would be knobs the
+geometry never reads (FR-000f).
+
+**The decoration is told, not left to guess.** The dish is cut by the type and
+the pattern is cut by the exporter, which would otherwise punch holes straight
+through the ring the dish is pulled against. So the type publishes it:
+`lid_keepouts()` returns `(x, y, radius)` circles, `Project` hands them to
+`decorate_lid(..., reserved=...)`, and the pattern subtracts a disc from its
+holes there. It is a general channel rather than a special case for this
+feature — any type with something of its own on its lid declares it the same
+way.
+
 ### Rounding a Lid Without Rounding Away Its Support (FR-044h, FR-044i)
 
 A lid's outer edges are rounded because they are the outside of the closed box — but a lid is thin, and its edges are also what hold it. Two limits keep the second from being sacrificed to the first:
@@ -360,9 +429,109 @@ The corollary is that a pattern must be **moved** into the area and never
 re-anchored to it by its bounding box: re-anchoring is exactly what discards
 the centring and pushes the whole overhang onto one side.
 
+#### Making The Leaves Interlock (FR-023)
+
+A honeycomb needs no thought about spacing, because a hexagon's neighbours are
+all the same distance away: one pitch, in all six directions. Nothing else in
+the catalog is like that, and the leaf is the case that shows what the lattice
+was quietly assuming.
+
+A leaf is the pointed oval two overlapping circles leave, twice as long as it is
+wide — at 1:1 it is a circle, and the taper is the whole of what reads as a
+leaf. Laid out on offset rows, it must **not** step a full leaf-width between
+them. Where one leaf is at its widest its neighbours above and below are near
+their tips, so the rows nest into one another; stepping the full width leaves a
+band of solid lid along every row, and the pattern reads as stripes rather than
+as foliage.
+
+How far they nest is a property of the outline, so it is solved rather than
+guessed. The rows are offset half a pitch, so the closest the two come is at the
+midpoint between the offset centres — by symmetry both leaves are the same
+height there — and the step is that height, doubled, plus the web. It comes out
+around a fifth of a leaf-width of overlap, and the web then measures the same
+between rows as it does tip-to-tip along one.
+
+So `_grid_cells` takes a **row step** rather than deriving one. `sin(60°)` stays
+the default, because it is right for the shape that lattice was written for, and
+a shape that is not as tall as it is wide states its own.
+
+The midrib is the other half of reading as a leaf: a bar of lid left along the
+spine, which also braces the widest part of the hole — where a perforated lid
+gives way. A leaf too narrow to keep a printable opening either side of it is
+cut whole instead, because two slits read as a crack.
+
+#### The Other Leaf: A Tile Rather Than A Shape (FR-023)
+
+`LEAF` above is a shape that is spaced out; `LEAF_TESSELLATION` is a **tile**.
+The difference is worth two members rather than an option, because it changes
+what a lid looks like: a tile covers the plane, so the material left over is
+exactly the web, and the lid reads as a net of leaf outlines rather than as a
+sheet with leaves punched out of it.
+
+The tile is seven-sided, and the useful thing about it is how its edges pair up.
+The two edges to the tip are equal and opposite to the two from the base, so
+each is another leaf's edge under translation. The base's single long edge is
+matched not by one edge but by the **two short notch edges of two different
+neighbours** — which is what lets the rows interlock. Those pairings give the
+lattice directly: a pitch of `2√3` sections across, rows every `2`, each row
+shifted half a pitch.
+
+That it tiles is checkable in one number, so it is checked: the leaf's area
+equals one lattice cell's. Gaps or overlaps both break that equality, and no
+amount of eyeballing a render is as good.
+
+Holes come from insetting the tile by half the web — the tile covers the plane,
+so half from each of two neighbours is the whole gap between them.
+
+**The veins are three strokes and a spine**, not the reference pattern's
+recursion. That pattern branches each vein twice more and rotates the
+sub-branches about the leaf's base; at a lid's scale the detail closes into a
+blur, and the strokes that produced it were placed by constants that only held
+at one leaf size. What survives the reduction is a midrib and a few branches
+running forward to the margin.
+
+Two constraints on where a vein may go, both structural:
+
+- **Every vein ends on the midrib or on the outline.** One floating in the
+  middle of a hole is an island, and the printer has nothing to start it on.
+- **None starts at the base.** Three leaves meet at each base, so veins
+  converging there compound into a six-pointed star across the whole lattice,
+  and what the eye picks out is the star rather than the leaf around it. Moving
+  the start a little way along the midrib costs nothing and fixes it.
+
+A tiling pattern also leans on the lid's border in a way the others do not. The
+material it leaves is a single connected net, so every piece of it reaches the
+edge of the patterned area and joins the border there. Cut the same pattern with
+no border and the pieces at the edge are islands.
+
 One border serves the lid — the pattern stops at it and the label sits 2mm
 inside it. Two margins measured from different edges read as a mistake, because
 what a viewer sees is a single band of plain lid with things arranged in it.
+
+Where the pattern meets the **lettering**, though, it stops at the glyphs and
+nothing more. A stand-off there puts a solid halo round every letter and the
+text stops reading as part of the lid. Support is not the reason to want one:
+the keep-out is the glyph outline, so each stroke sits on its own footprint of
+solid lid, and the label is inlaid into that lid rather than perched on it.
+It stays settable for a lid whose pattern is coarse enough that a stroke would
+otherwise finish on a hole's edge.
+
+### A Colour Has To Be Readable, Not Just Applied (FR-022b)
+
+A part that prints in its own material carries its colour **beside** its
+geometry, not only inside it. pybosl2 — like OpenSCAD — has no colour to read
+back off a solid: `.color` is the method that *sets* one. So code that asked a
+solid what colour it was got a bound method, decided it had none, and fell back
+to the parent's colour. Every lid label was drawn in exactly the colour of the
+lid it sat on; the label was there, and invisible.
+
+The export was fine throughout, which is why this survived: OpenSCAD's 3MF
+writer records a base material per colour and tags the triangles, so the file a
+slicer opens had the lettering on its own material all along. Only the preview
+was wrong — and the preview is what anyone looks at.
+
+The rule generalises past lids: **a fallback for "I could not read this" is a
+bug when the thing was never readable.** Carry the value.
 
 ### A Label Is An Inlay, Not An Embossing (FR-022, FR-022a)
 
@@ -1182,7 +1351,7 @@ One number, `Project.clearance_slack` (default 1.0mm, sane range 1–2mm), appli
 - *Framed*: a rectangular frame with diagonal hatching behind the text (bed adhesion for text islands, spaced so the text bridges without supports) plus a small outer border. The backing plate hugs the text rather than filling the label area, so a lid can carry a frame **and** a pattern (T200).
 - *Diagonal* is an orientation available in both modes: corner-to-corner at the lid's natural angle, which is 45° only when the lid is square.
 
-**Patterns cut through.** A pattern is a through-hole fill over the lid face — maximum filament saving — clipped twice: at the lid outline, and at the label area, which takes precedence (FR-023 note, and the reason a framed label does not lose its border). The catalogue is the full ported `ShapeType` set: dense/lattice shapes, `PENTAGON_R1`–`R15`, and the tessellation families; `build_pattern` dispatches every member with **no fallback to grid** (T116/T117).
+**Patterns cut through.** A pattern is a through-hole fill over the lid face — maximum filament saving — clipped twice: at the lid outline, and at the label area, which takes precedence (FR-023 note, and the reason a framed label does not lose its border). The catalogue is exactly what `_PATTERN_FILLS` draws — `NONE`, `SQUARE`, `CIRCLE`, `HEX`, `DENSE_HEX`, `TRIANGLE`, `DENSE_TRIANGLE`, `OCTAGON`, `VORONOI`, `LEAF` — and `build_pattern` **raises** for a member without a fill rather than falling back to a grid (T116/T117). The list grows by implementation: the ported `ShapeType` set named forty-seven and drew three.
 
 **Three accent colours, independently settable**: label text, frame top layer, pattern top layer — each defaulting to a value distinct from the body colour. Patterns may assign different colours to different elements (FR-024).
 

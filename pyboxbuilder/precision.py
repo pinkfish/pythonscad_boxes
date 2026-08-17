@@ -3,8 +3,8 @@
 
 Every curved feature the toolkit builds (cylinders, spheres, fillets and
 chamfers, finger scoops and holes, lid-pattern curves) takes its facet count
-from the precision in force, so one setting on :meth:`Project.export` or
-:meth:`Project.show` reaches all of them. No geometry call hardcodes a facet
+from the precision in force, so one setting on :meth:`~pyboxbuilder.project.Project.export` or
+:meth:`~pyboxbuilder.project.Project.show` reaches all of them. No geometry call hardcodes a facet
 count the caller cannot override.
 
 The setting travels in a :class:`~contextvars.ContextVar` rather than through
@@ -35,7 +35,7 @@ An export is the geometry that gets **printed**, so it is worth paying for:
 at 256 facets a curve is smooth well past the resolution of any FDM nozzle,
 and the cost is paid once per build rather than on every interaction.
 
-A preview deliberately does **not** use this. :meth:`Project.show` leaves
+A preview deliberately does **not** use this. :meth:`~pyboxbuilder.project.Project.show` leaves
 ``fn`` unset so ``fa``/``fs`` size the facets by how big the curve actually
 is, which is what keeps an interactive render responsive. Pass an explicit
 ``fn`` to either one to override.
@@ -50,7 +50,7 @@ seconds at the fa/fs default. **A CI pass is not a build** — it checks that th
 pipeline names, counts, caches and deletes the right files, and none of that
 depends on how finely a cylinder is tessellated — so CI sets this coarse and
 never produces printable output. Application code should pass ``fn`` to
-:meth:`Project.export` explicitly rather than set this.
+:meth:`~pyboxbuilder.project.Project.export` explicitly rather than set this.
 """
 
 

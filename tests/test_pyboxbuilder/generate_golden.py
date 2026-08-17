@@ -49,6 +49,21 @@ PATTERNS = {
         "from pyboxbuilder.lid.pattern import build_pattern\n"
         "build_pattern(100, 70, 3.0, PatternType.OCTAGON, spacing=10.0).show()\n"
     ),
+    "pattern_leaf": (
+        "from pyboxbuilder.enums import PatternType\n"
+        "from pyboxbuilder.lid.pattern import build_pattern\n"
+        "build_pattern(100, 70, 3.0, PatternType.LEAF, spacing=14.0).show()\n"
+    ),
+    "pattern_leaf_tessellation": (
+        "from pyboxbuilder.enums import PatternType\n"
+        "from pyboxbuilder.lid.pattern import build_pattern\n"
+        "build_pattern(100, 70, 3.0, PatternType.LEAF_TESSELLATION, spacing=22.0).show()\n"
+    ),
+    "pattern_leaf_veins": (
+        "from pyboxbuilder.enums import PatternType\n"
+        "from pyboxbuilder.lid.pattern import build_pattern\n"
+        "build_pattern(100, 70, 3.0, PatternType.LEAF_VEINS, spacing=22.0).show()\n"
+    ),
     "hex_grid_cutouts": (
         "from pyboxbuilder.compartments.hex_grid import HexGridSpec, build_hex_grid\n"
         "build_hex_grid(HexGridSpec(rows=3, cols=5, tile_width=40, height=10)).show()\n"

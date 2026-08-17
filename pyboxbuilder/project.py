@@ -2,8 +2,8 @@
 """Project class — top-level API entry point.
 
 **One build path.** :meth:`Project.build` resolves the layout and builds every
-body, lid and spacer. :meth:`Project.show` renders what it returns and
-:meth:`Project.export` writes what it returns; neither builds geometry of its
+body, lid and spacer. :meth:`~pyboxbuilder.project.Project.show` renders what it returns and
+:meth:`~pyboxbuilder.project.Project.export` writes what it returns; neither builds geometry of its
 own. That is the whole difference between the two — render or write — and it is
 structural rather than a convention, because the alternative was two copies of
 the build that drifted: the exported parts silently lost their rounding, their
@@ -37,7 +37,7 @@ if TYPE_CHECKING:
 class Piece:
     """One printable piece of a project.
 
-    Both :meth:`Project.show` and :meth:`Project.export` consume these, so a
+    Both :meth:`~pyboxbuilder.project.Project.show` and :meth:`~pyboxbuilder.project.Project.export` consume these, so a
     piece previewed and the same piece printed are the same solid.
 
     **The geometry is built on demand.** Everything that identifies a piece —
@@ -669,8 +669,8 @@ class Project:
             for insert in inserts or ():
                 out.append(
                     PreviewPiece(
-                        piece.label, insert.translate(list(piece.position)),
-                        _insert_color(insert, colour), "lid",
+                        piece.label, insert.solid.translate(list(piece.position)),
+                        insert.color if insert.color is not None else colour, "lid",
                     )
                 )
         return out
@@ -1071,10 +1071,33 @@ class Project:
                 piece.solid, builder.lid,
                 builder.lid_thickness or self.lid_thickness, mode,
                 body_color=builder.color,
+                reserved=self._lid_keepouts(builder),
             )
             return decorated.solid, decorated.inserts or None
         except ImportError:
             return piece.solid, None
+
+    def _lid_keepouts(self, builder: BoxBuilder) -> list[tuple[float, float, float]]:
+        """Patches of a box's lid its own type needs left solid.
+
+        A sliding lid's fingernail dish is the case (FR-002e5): the type cuts
+        it, and the decoration has to know so its pattern does not open a hole
+        onto the rim the dish is pulled against.
+
+        Args:
+            builder: The box whose lid is being decorated.
+
+        Returns:
+            ``(x, y, radius)`` circles in the lid's own frame.
+
+        """
+        from pyboxbuilder.box.registry import BOX_IMPL_REGISTRY
+        from pyboxbuilder.box.spec import build_spec
+
+        box_cls = BOX_IMPL_REGISTRY.get(builder.box_type)
+        if box_cls is None or builder.final_size is None:
+            return []
+        return box_cls().lid_keepouts(build_spec(self, builder, builder.final_size))
 
     # ----------------------------------------------------------------- export
 
@@ -1155,8 +1178,9 @@ class Project:
                         self._decorated_lid(piece, mode)
                         if piece.kind == "lid" else (piece.solid, None)
                     )
+                    parts = [x.solid for x in inserts] if inserts else None
                     exporter.write_piece(
-                        piece.label, part, mode, solid, inserts,
+                        piece.label, part, mode, solid, parts,
                         size=piece.size, fingerprint=fingerprint,
                     )
 
@@ -1283,25 +1307,6 @@ class Project:
     ) -> None:
         """Register a group of compartments to be dynamically partitioned across the given box labels."""
         self._shared_groups.append((boxes, compartments))
-
-
-def _insert_color(insert: Any, fallback: Color) -> Color:
-    """Return the colour a lid insert previews in.
-
-    A coloured insert carries its own — that is what makes it a separate
-    object — so the preview shows the material it will print in rather than
-    tinting it like the lid it sits on.
-
-    Args:
-        insert: The insert solid, which may already be coloured.
-        fallback: The lid's own preview colour, for an insert with none.
-
-    Returns:
-        The colour to draw it in.
-
-    """
-    own = getattr(insert, "color", None)
-    return own if own is not None and not callable(own) else fallback
 
 
 STANDALONE_GAP_MM = 10.0

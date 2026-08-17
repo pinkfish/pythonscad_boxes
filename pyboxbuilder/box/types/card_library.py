@@ -63,10 +63,15 @@ class CardLibraryBox(BoxTypeBase):
         body = build_shell(spec) - sliding_track(spec).body
         return body - sliding_catch(spec, spec.latch_radius, "x").body
 
+    def slide_axis(self, spec: BoxSpec) -> str:
+        """Return X — this type's lid always exits the right face."""
+        return "x"
+
     def build_lid(self, spec: BoxSpec, decoration: object = None) -> Bosl2Solid:
         """Return the sliding face, latched shut so the cards cannot spill."""
         from pyboxbuilder.box.features import sliding_catch, sliding_track
 
-        return sliding_track(spec).require_lid() | sliding_catch(
+        lid = sliding_track(spec).require_lid() | sliding_catch(
             spec, spec.latch_radius, "x"
         ).require_lid()
+        return self.cut_fingernail_catch(lid, spec)

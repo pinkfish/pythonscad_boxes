@@ -27,6 +27,7 @@ from pyboxbuilder.enums import PatternType
 from pyboxbuilder.precision import kwargs as precision_kwargs
 
 if TYPE_CHECKING:
+    from pybosl2.shapes2d.base import Bosl2Shape2D
     from pybosl2.shapes3d import Bosl2Solid
 
 DEFAULT_WEB_MM = 1.6
@@ -112,7 +113,7 @@ def build_pattern(
         width: Width of the area to fill, in mm — the lid less its border.
         length: Length of that area, in mm.
         thickness: Lid thickness; the holes are cut deeper so they break through.
-        pattern_type: Which pattern. :attr:`PatternType.NONE` returns ``None``.
+        pattern_type: Which pattern. ``PatternType.NONE`` returns ``None``.
         spacing: Centre-to-centre distance between holes. ``None`` derives it
             from the area (see :func:`default_spacing`).
         web: Material left between neighbouring holes. ``None`` uses
@@ -149,6 +150,7 @@ def _grid_cells(
     length: float,
     spacing: float,
     stagger: bool = False,
+    row_step: float | None = None,
 ) -> Iterator[tuple[float, float]]:
     """Centres of a lattice covering the whole area, overhanging every edge.
 
@@ -172,13 +174,19 @@ def _grid_cells(
         length: Its length, in mm.
         spacing: Centre-to-centre distance between holes.
         stagger: Offset alternate rows by half a cell, for a honeycomb.
+        row_step: Distance between rows. ``None`` uses the pitch itself, or
+            ``sin(60°)`` of it when staggered — right for a hexagon, whose
+            neighbours are the same distance away in all six directions. A
+            shape that is not as tall as it is wide states its own: a leaf's
+            rows interleave, so its step is well under its width.
 
     Yields:
         ``(x, y)`` centres, in the area's own frame. Many lie outside it: that
         is what puts a partial hole against each edge.
 
     """
-    row_step = spacing * (0.866 if stagger else 1.0)  # sin(60°) for hex rows
+    if row_step is None:
+        row_step = spacing * (0.866 if stagger else 1.0)  # sin(60°) for hex rows
     if spacing <= 0 or row_step <= 0:
         return
 
@@ -209,6 +217,7 @@ def _punch(
     spacing: float,
     hole: float,
     stagger: bool = False,
+    row_step: float | None = None,
 ) -> Bosl2Solid | None:
     """Union one hole per cell.
 
@@ -223,6 +232,7 @@ def _punch(
         spacing: Centre-to-centre distance between holes.
         hole: The hole's nominal size; ``0`` means none will fit.
         stagger: Offset alternate rows.
+        row_step: Distance between rows; ``None`` derives it from the pitch.
 
     Returns:
         The union of every hole, or ``None`` when none fit.
@@ -232,7 +242,7 @@ def _punch(
         return None
 
     holes = None
-    for x, y in _grid_cells(width, length, spacing, stagger):
+    for x, y in _grid_cells(width, length, spacing, stagger, row_step):
         cut = shape_at(x, y)
         holes = cut if holes is None else holes | cut
     return holes
@@ -403,6 +413,266 @@ def _voronoi_fill(
     return holes
 
 
+LEAF_ASPECT = 2.0
+"""How many times longer a leaf is than it is wide.
+
+Two-to-one is the ratio at which a pointed oval stops reading as an eye and
+starts reading as a leaf. It also sets how far the rows interleave, so it is one
+number rather than two: see ``_leaf_row_step``.
+"""
+
+LEAF_MIDRIB_MIN_HALF_MM = 1.5
+"""Narrowest half-leaf worth cutting either side of a midrib.
+
+Below this the rib has split one hole into two slits, which reads as a crack in
+the lid rather than as a leaf, so the leaf is cut whole instead.
+"""
+
+
+def _leaf_half_height(x: float, half_length: float, half_width: float) -> float:
+    """Half the leaf's height at `x` from its centre — its outline, as a curve.
+
+    The leaf is the lens where two equal circles overlap, so each side of it is
+    a circular arc. A circle of radius R whose arc spans ``half_length`` and
+    rises ``half_width`` is the same chord problem the fingernail dish solves:
+    ``R = (a² + b²) / 2b``.
+
+    Args:
+        x: Distance from the leaf's centre along its long axis.
+        half_length: Half the leaf's length — its tip, where the height is 0.
+        half_width: Half its width at the middle, where the height is greatest.
+
+    Returns:
+        Half the leaf's height there, or ``0`` beyond its tips.
+
+    """
+    if abs(x) >= half_length:
+        return 0.0
+    ball = (half_length ** 2 + half_width ** 2) / (2 * half_width)
+    return math.sqrt(ball ** 2 - x ** 2) - (ball - half_width)
+
+
+def _leaf_row_step(half_length: float, half_width: float, web: float) -> float:
+    """How far apart leaf rows sit, given that they interleave.
+
+    Offset rows do not need a full leaf-width between them. A row is shifted
+    half a pitch, so where one leaf is at its widest its neighbours above and
+    below are near their tips, and the rows nest into each other. Stepping by
+    the full width instead would leave a band of solid lid along every row —
+    the leaves would read as stripes rather than as foliage.
+
+    How far they nest is a property of the outline, so it is measured rather
+    than guessed: the closest the two rows come is at the midpoint between the
+    offset centres, where by symmetry both leaves are the same height.
+
+    Args:
+        half_length: Half a leaf's length.
+        half_width: Half its width.
+        web: Material to leave between the rows.
+
+    Returns:
+        The row-to-row distance that leaves exactly `web` between them.
+
+    """
+    # Half the pitch along the row, so the midpoint between a leaf and its
+    # neighbour in the row below is a quarter of the pitch from each.
+    quarter_pitch = (2 * half_length + web) / 4.0
+    return web + 2 * _leaf_half_height(quarter_pitch, half_length, half_width)
+
+
+def _leaf(length: float, width: float, thickness: float, rib: float) -> Bosl2Solid:
+    """One leaf-shaped hole, lying along X, tall enough to break through."""
+    from pybosl2 import cuboid, cylinder
+
+    half_length, half_width = length / 2.0, width / 2.0
+    ball = (half_length ** 2 + half_width ** 2) / (2 * half_width)
+    height = thickness * DEPTH_OVERSHOOT
+    # The lens two overlapping circles leave. Each is offset until its near
+    # edge reaches the leaf's midline plus half its width.
+    disc = cylinder(height=height, radius=ball, **precision_kwargs())
+    leaf = disc.translate([0, half_width - ball, 0]) & disc.translate(
+        [0, ball - half_width, 0]
+    )
+    if rib <= 0 or width / 2.0 - rib / 2.0 < LEAF_MIDRIB_MIN_HALF_MM:
+        return leaf
+    # The midrib: a bar of lid left along the leaf's spine. It is what tells a
+    # viewer this is a leaf rather than a pointed oval, and it braces the
+    # widest part of the hole, which is where a perforated lid gives way.
+    return leaf - cuboid([length, rib, height * 2])
+
+
+def _leaf_fill(
+    width: float, length: float, thickness: float, spacing: float,
+    web: float | None = None,
+) -> Bosl2Solid | None:
+    """Pointed-oval leaves with midribs, interlocking in offset rows.
+
+    The pitch names the leaf's **length**, as it names a hexagon's width: what
+    a caller sets is how far apart the holes are, and the shape fills that. A
+    leaf is half as wide as it is long, and the rows nest into one another by
+    the amount its taper allows, so the web is even across the lid rather than
+    only along the rows.
+    """
+    leaf_length = hole_size(spacing, web)
+    if leaf_length <= 0:
+        return None
+    leaf_width = leaf_length / LEAF_ASPECT
+    gap = DEFAULT_WEB_MM if web is None else max(web, MIN_WEB_MM)
+    rib = max(MIN_WEB_MM, gap / 2.0)
+
+    return _punch(
+        lambda x, y: _leaf(leaf_length, leaf_width, thickness, rib).translate(
+            [x, y, thickness / 2]
+        ),
+        width, length, spacing, leaf_length, stagger=True,
+        row_step=_leaf_row_step(leaf_length / 2.0, leaf_width / 2.0, gap),
+    )
+
+
+ROOT_THREE = math.sqrt(3.0)
+
+LEAF_VEIN_BRANCHES = ((-0.45, 0.05), (0.05, 0.45), (0.45, 0.80))
+"""Where each side vein leaves the midrib and where it lands, as fractions.
+
+The first number is how far along the leaf's half-width the vein leaves the
+midrib; the second is how far along the tip-side margin it lands. Both ends sit
+**on** other material — the midrib and the outline — because a vein floating
+loose in a hole is an island the printer has nothing to build on.
+
+None of them starts at the leaf's base. Three leaves meet at each base, so veins
+converging there compound into a six-pointed star across the lattice and the
+leaf stops being legible: what the eye picks out is the star, not the outline
+around it. Starting them along the midrib instead costs nothing and keeps each
+leaf reading as one.
+"""
+
+LEAF_VEIN_SHARE = 0.5
+"""How thick a vein is next to the web between leaves."""
+
+
+def tessellating_leaf_path(section: float) -> list[tuple[float, float]]:
+    """Return the outline of a leaf that tiles the plane, tip towards +X.
+
+    Seven points, of which the useful fact is how their edges pair up. The two
+    long edges to the tip are equal and opposite to the two from the base, so
+    each is another leaf's edge under translation; the base's single long edge
+    is matched by the *two* short notch edges of two different neighbours. That
+    is what makes this leaf a tile rather than a leaf-shaped blob: it meets its
+    neighbours edge to edge, with nothing left over between them.
+
+    Args:
+        section: The leaf's quarter-height — the module this is built from. The
+            leaf comes out ``4 × section`` from notch to notch and
+            ``2√3 × section`` from base to tip.
+
+    Returns:
+        The outline, anticlockwise, centred on the midrib's midpoint.
+
+    """
+    half_width = section * ROOT_THREE
+    return [
+        (half_width, 0.0),
+        (0.0, section),
+        (0.0, 2 * section),
+        (-half_width, section),
+        (-half_width, -section),
+        (0.0, -2 * section),
+        (0.0, -section),
+    ]
+
+
+def _leaf_veins(section: float, thickness: float) -> Bosl2Shape2D:
+    """Return a midrib and its branches, as material to leave inside a leaf.
+
+    A midrib from base to tip, and three pairs of side veins running forward
+    from it to the tip-side margin. Every one ends on the outline or on the
+    midrib, so nothing in here is an island for the printer to start in mid-air,
+    and the midrib braces the middle of the hole, which is where a perforated
+    lid gives way.
+
+    That is the whole of it. The pattern this is modelled on branches each vein
+    twice more and rotates the sub-branches about the base; drawn at a lid's
+    scale the detail closes up into a blur, and the strokes that produced it
+    were positioned by constants that only held at one leaf size.
+
+    Args:
+        section: The leaf's quarter-height, as :func:`tessellating_leaf_path`.
+        thickness: How wide to draw each vein.
+
+    Returns:
+        The veins, in the leaf's own frame.
+
+    """
+    from pybosl2 import shapes2d as s2
+
+    half_width = section * ROOT_THREE
+
+    def stroke(
+        start: tuple[float, float], end: tuple[float, float]
+    ) -> Bosl2Shape2D:
+        length = math.dist(start, end)
+        angle = math.degrees(math.atan2(end[1] - start[1], end[0] - start[0]))
+        return s2.rect([length, thickness]).rotate(angle).translate(
+            [(start[0] + end[0]) / 2, (start[1] + end[1]) / 2]
+        )
+
+    veins = stroke((-half_width, 0.0), (half_width, 0.0))
+    for sign in (1, -1):
+        for from_rib, to_margin in LEAF_VEIN_BRANCHES:
+            # The tip-side margin runs from the notch corner (0, section) to the
+            # tip (half_width, 0), so one fraction gives both of a point on it.
+            veins = veins | stroke(
+                (from_rib * half_width, 0.0),
+                (to_margin * half_width, sign * section * (1.0 - to_margin)),
+            )
+    return veins
+
+
+def _leaf_tessellation_fill(
+    width: float, length: float, thickness: float, spacing: float,
+    web: float | None = None, veins: bool = False,
+) -> Bosl2Solid | None:
+    """Leaves that tile the lid edge to edge, leaving their outlines and veins.
+
+    Unlike :func:`_leaf_fill`, which spaces pointed ovals out and solves for the
+    gap between them, these leaves **tessellate**: the tile covers the plane, so
+    the material left is exactly the web, and it comes out as a net of leaf
+    outlines rather than as a field with holes in it.
+
+    The pitch is what it is everywhere else — the distance from one hole to the
+    next — which for this tile is the leaf's own base-to-tip length, since a
+    leaf's tip lands on its neighbour's base.
+    """
+    if hole_size(spacing, web) <= 0:
+        return None
+    gap = DEFAULT_WEB_MM if web is None else max(web, MIN_WEB_MM)
+
+    from pybosl2 import shapes2d as s2
+
+    # `spacing` is the lattice pitch along a row, which for this tile is twice
+    # the leaf's half-width, so the leaf is built from the section that gives it.
+    section = spacing / (2 * ROOT_THREE)
+    outline = s2.polygon(
+        [[x, y] for x, y in tessellating_leaf_path(section)]
+    ).offset(delta=-gap / 2.0)
+    if veins:
+        outline = outline - _leaf_veins(section, max(MIN_WEB_MM, gap * LEAF_VEIN_SHARE))
+
+    height = thickness * DEPTH_OVERSHOOT
+    hole = outline.linear_extrude(height=height).translate(
+        [0, 0, -(height - thickness) / 2.0]
+    )
+
+    # Rows step half the leaf's height and shift half a pitch, which is the
+    # lattice the tile actually tessellates on: each leaf's notches take the
+    # neighbouring row's tips.
+    return _punch(
+        lambda x, y: hole.translate([x, y, 0]),
+        width, length, spacing, spacing,
+        stagger=True, row_step=2 * section,
+    )
+
+
 _PATTERN_FILLS: dict[
     PatternType,
     Callable[[float, float, float, float, float | None], Bosl2Solid | None],
@@ -418,6 +688,11 @@ _PATTERN_FILLS: dict[
     ),
     PatternType.OCTAGON: _octagon_fill,
     PatternType.VORONOI: _voronoi_fill,
+    PatternType.LEAF: _leaf_fill,
+    PatternType.LEAF_TESSELLATION: _leaf_tessellation_fill,
+    PatternType.LEAF_VEINS: lambda w, l, t, s, web: _leaf_tessellation_fill(
+        w, l, t, s, web, veins=True
+    ),
 }
 """Every pattern the library can draw.
 

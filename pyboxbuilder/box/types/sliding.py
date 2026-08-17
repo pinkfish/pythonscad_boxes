@@ -220,4 +220,8 @@ class SlidingBox(BoxTypeBase):
             from pyboxbuilder.box.features import sliding_catch
 
             lid = lid | sliding_catch(spec, radius, self._along_axis(spec)).lid
-        return lid
+        return self.cut_fingernail_catch(lid, spec)
+
+    def slide_axis(self, spec: BoxSpec) -> str:
+        """Return the axis this lid slides along — the long one (FR-002b)."""
+        return self._along_axis(spec)

@@ -58,10 +58,11 @@ project = Project(
 
 # ── Lid styles ────────────────────────────────────────────────────
 # Written once and worn by many boxes: only the text and the accent change.
-EARTH_LID = LidBuilder(label_mode=LabelMode.FRAMED, text_color=Color("white"),
-                       frame_color=Color("darkgreen"))
-GOLD_LID = LidBuilder(text_color=Color("white"), frame_color=Color("gold"))
-TEAL_LID = LidBuilder(text_color=Color("white"), frame_color=Color("teal"))
+# Only the accent each deck family is told apart by; the lettering takes the
+# library's own default, which is the colour that reads against any lid.
+EARTH_LID = LidBuilder(label_mode=LabelMode.FRAMED, frame_color=Color("darkgreen"))
+GOLD_LID = LidBuilder(frame_color=Color("gold"))
+TEAL_LID = LidBuilder(frame_color=Color("teal"))
 
 
 def card_box(label: str, count: int, lid: LidBuilder, text: str):
@@ -100,7 +101,7 @@ card_box("AbundanceOtherCardBox", 10, TEAL_LID, "Abundance")
 compost = project.box(
     BoxType.FILAMENT_HINGE, "CompostBox",
     size=(*FOOTPRINT, 36.8),
-    lid=LidBuilder(text_color=Color("white"), frame_color=Color("brown")).titled("Compost"),
+    lid=LidBuilder(frame_color=Color("brown")).titled("Compost"),
 )
 compost.compartment("Compost", holds_pieces=True, cut=FingerCut.SCOOP)
 
@@ -116,14 +117,14 @@ for colour in PLAYER_COLOURS:
     player = project.box(
         BoxType.SLIPOVER, f"PlayerBox{colour.capitalize()}",
         size=(*FOOTPRINT, 9.2),
-        lid=LidBuilder(text_color=Color("white")).titled("Player"),
+        lid=LidBuilder().titled("Player"),
     )
     player.compartment("PlayerComponents", holds_pieces=True, cut=FingerCut.SCOOP)
 
 # ── 4. Canopy, sprouts, score pad and seeds ───────────────────────
 canopy = project.box(
     BoxType.FILAMENT_HINGE, "CanopyBox", size=(168.0, 88.0, 55.2),
-    lid=LidBuilder(text_color=Color("white"), frame_color=Color("olive")).titled("Canopy"),
+    lid=LidBuilder(frame_color=Color("olive")).titled("Canopy"),
 )
 canopy.compartment("Canopies", holds_pieces=True, cut=FingerCut.SCOOP)
 
@@ -132,13 +133,13 @@ score_pad.compartment("Pad")
 
 sprout = project.box(
     BoxType.FILAMENT_HINGE, "SproutBox", size=(107.0, 88.0, 48.6),
-    lid=LidBuilder(text_color=Color("white"), frame_color=Color("green")).titled("Sprouts"),
+    lid=LidBuilder(frame_color=Color("green")).titled("Sprouts"),
 )
 sprout.compartment("Sprouts", holds_pieces=True, cut=FingerCut.SCOOP)
 
 seed = project.box(
     BoxType.FILAMENT_HINGE, "SeedBox", size=(12.0, 46.0, 72.0),
-    lid=LidBuilder(text_color=Color("white"), frame_color=Color("brown")).titled("Seeds"),
+    lid=LidBuilder(frame_color=Color("brown")).titled("Seeds"),
 )
 seed.compartment("Seeds", holds_pieces=True)
 

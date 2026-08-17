@@ -6,12 +6,12 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import ClassVar
 
-from pyboxbuilder.builders._base import BoxBuilder
+from pyboxbuilder.builders._base import BoxBuilder, SlidingLidFields
 from pyboxbuilder.enums import BoxType
 
 
 @dataclass(frozen=True)
-class SlidingBoxBuilder(BoxBuilder):
+class SlidingBoxBuilder(SlidingLidFields, BoxBuilder):
     """Builder for sliding-lid box type."""
 
     box_type: ClassVar[BoxType] = BoxType.SLIDING

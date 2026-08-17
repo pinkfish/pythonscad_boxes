@@ -45,9 +45,9 @@ class Label:
     text: Bosl2Solid
     """The lettering. Inlaid in the text colour, black by default."""
     hatching: Bosl2Solid | None = None
-    """Framed mode only: the striped grid behind the text, inlaid light grey."""
+    """Framed mode only — the striped grid behind the text, inlaid light grey."""
     plate: Bosl2Solid | None = None
-    """Framed mode only: the area the label occupies.
+    """Framed mode only — the area the label occupies.
 
     Not a coloured part — it stays lid material. Carried so the pattern knows
     what to keep clear of and the single-colour pass knows what to engrave.

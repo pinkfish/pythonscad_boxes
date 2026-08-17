@@ -98,6 +98,12 @@ All builders share: `size`, `position`, `expandable`, `expandable_width`,
 `lid_thickness`, `rounding`, `inner_rounding`, `lid`, `color`,
 `auto_finger_holes`.
 
+The sliding types — `SLIDING`, `SLIDING_CATCH`, `CARD_LIBRARY` — additionally
+share `fingernail_catch`, `fingernail_radius` and `fingernail_depth` (FR-002e5),
+all defaulting to derived. They are a mixin rather than base fields: on a lid
+that lifts off they would be three settings that do nothing, so a cap box
+rejects them like any other unknown kwarg.
+
 **A placed box is not the packer's.** Giving a box a `position` — directly or
 through `arrange()` — is what keeps the packer off it; `expandable` and
 `no_rotate` then have no effect and need not be set.
@@ -172,7 +178,8 @@ LidBuilder(
     pattern: PatternBuilder | None = None,
     pattern_color: Color | None = None,
     min_text_height_mm: float | None = None,  # None → 4.0
-    border_margin_mm: float | None = None,    # None → 5.0
+    border_margin_mm: float | None = None,    # None → border + 2mm inset
+    label_clearance_mm: float | None = None,  # margin round the glyphs; None → 0
     mmu_label: LidBuilder | None = None,      # override for MMU export
     single_label: LidBuilder | None = None,   # override for single-colour export
 )
@@ -203,6 +210,15 @@ passed through.
 
 A single-colour export has no second material to inlay, so it engraves the text
 instead (FR-036).
+
+`decorate_lid` returns `DecoratedLid(solid, inserts)`, where each insert is a
+`LidInsert(solid, color)` — the colour travels **beside** the geometry, because
+a pybosl2 solid has none to read back (`.color` is the method that sets one).
+`DecoratedLid.solids` is the geometry alone, for a caller that only writes it
+out.
+
+Where a pattern meets a frameless label, holes stop at the glyphs themselves;
+`label_clearance_mm` adds a margin round them and defaults to `0`.
 
 ## PatternBuilder (`pyboxbuilder/lid/builder.py`)
 
@@ -339,10 +355,26 @@ Assembled only by `build_spec(project, builder, size)`.
 ## BoxTypeBase (`pyboxbuilder/box/base.py`)
 
 Every box type inherits it. `build_body` is required; `build_lid`, `interior`,
-`preferred_scoop_side`, `lid_rounded_edges`, `wall_tops` and `interior_mask` have
-defaults a subclass overrides. These were discovered with `getattr` — a protocol
-no reader can see and no checker can verify, where a misspelled override is a
-method that never runs and never complains.
+`preferred_scoop_side`, `lid_rounded_edges`, `wall_tops`, `slide_axis`,
+`lid_keepouts` and `interior_mask` have defaults a subclass overrides. These were
+discovered with `getattr` — a protocol no reader can see and no checker can
+verify, where a misspelled override is a method that never runs and never
+complains.
+
+A sliding type states `slide_axis() -> "x" | "y"`, and everything that follows
+from sliding is derived rather than restated per type:
+
+```
+def slide_axis(self, spec) -> str: return "x"   # the whole declaration
+
+lid = self.cut_fingernail_catch(lid, spec)      # last line of build_lid
+```
+
+`cut_fingernail_catch` sinks the dish (FR-002e5) and `lid_keepouts` reports it as
+`(x, y, radius)` circles the decoration must leave solid. Both return nothing for
+a lid that lifts off, so a non-sliding type inherits them and says nothing.
+`Project` passes the keep-outs to `decorate_lid(..., reserved=...)`; a caller
+building a lid by hand passes `box.lid_keepouts(spec)` itself.
 
 ## Color (`pybosl2.Color`, re-exported from `pyboxbuilder`)
 

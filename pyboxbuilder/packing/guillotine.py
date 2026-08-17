@@ -35,7 +35,7 @@ from collections.abc import Iterator
 from dataclasses import dataclass
 
 Region = tuple[float, float, float, float, float, float, bool]
-"""One free region: ``(x, y, z, w, l, h, full)`` (see the region comment below)."""
+"""One free region — ``(x, y, z, w, l, h, full)`` (see the region comment below)."""
 
 EPS = 1e-9
 """Comparison tolerance in mm. Well under any printable dimension."""

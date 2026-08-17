@@ -20,6 +20,7 @@ if TYPE_CHECKING:
     from pybosl2 import Anchor
     from pybosl2.shapes3d import Bosl2Solid
 
+    from pyboxbuilder.box.features import FingernailCatch
     from pyboxbuilder.box.spec import BoxSpec
     from pyboxbuilder.enums import ScoopSide
 
@@ -126,6 +127,76 @@ class BoxTypeBase:
 
         """
         return {}
+
+    def slide_axis(self, spec: BoxSpec) -> str | None:
+        """Return which axis this type's lid slides along, if it slides at all.
+
+        Args:
+            spec: The box's resolved description.
+
+        Returns:
+            ``"x"`` or ``"y"``, or ``None`` for a lid that lifts off rather
+            than sliding. Everything that follows from sliding — the fingernail
+            catch below — asks this rather than each type answering it again.
+
+        """
+        return None
+
+    def cut_fingernail_catch(self, lid: Bosl2Solid, spec: BoxSpec) -> Bosl2Solid:
+        """Sink the dish a nail starts a sliding lid with (FR-002e5).
+
+        A seated sliding lid is a plate flush with the box's top: its only
+        exposed surfaces are an end face one lid thickness tall and a smooth
+        top, so there is nothing to grip. The dish is what gets it moving. A
+        lid that lifts off has its own way open and takes no dish.
+
+        Args:
+            lid: The lid to cut.
+            spec: The box's resolved description.
+
+        Returns:
+            The lid, dished — or unchanged for a non-sliding type, a box that
+            declines a catch, or a lid too small to carry one.
+
+        """
+        catch = self._fingernail_catch(spec)
+        if catch is None:
+            return lid
+
+        from pyboxbuilder.box.features import fingernail_dish
+
+        return lid - fingernail_dish(spec, catch)
+
+    def lid_keepouts(self, spec: BoxSpec) -> list[tuple[float, float, float]]:
+        """Return circles on the lid that decoration must leave solid.
+
+        A type declares these when its lid carries a feature of its own that a
+        pattern would otherwise cut into — a sliding lid's fingernail dish is
+        the case (FR-002e5): it is a thinned spot that gets pulled on, so it
+        needs whole material around it to pull against.
+
+        Args:
+            spec: The box's resolved description.
+
+        Returns:
+            ``(x, y, radius)`` in the lid's own frame; empty when the type's
+            lid is a plain plate.
+
+        """
+        catch = self._fingernail_catch(spec)
+        if catch is None:
+            return []
+        return [(catch.centre[0], catch.centre[1], catch.keepout_radius)]
+
+    def _fingernail_catch(self, spec: BoxSpec) -> FingernailCatch | None:
+        """Return this type's fingernail dish, or ``None`` if it has none."""
+        axis = self.slide_axis(spec)
+        if axis is None:
+            return None
+
+        from pyboxbuilder.box.features import fingernail_catch
+
+        return fingernail_catch(spec, axis)
 
     def interior_mask(self, spec: BoxSpec) -> Bosl2Solid | None:
         """Return the volume inside the box that contents may actually occupy.

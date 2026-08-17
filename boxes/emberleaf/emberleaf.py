@@ -172,7 +172,16 @@ project = Project(
     generate_spacers=True,
 )
 
-LEAF_PATTERN = PatternBuilder(type=PatternType.HEX, spacing=10.0)
+LEAF_PATTERN = PatternBuilder(type=PatternType.LEAF, spacing=14.0)
+"""Leaves, for the game they are named after.
+
+This said `LEAF` in the original toolkit and cut hexagons, because the catalog
+listed shapes it could not draw and fell back to squares — then to hexes when
+the catalog was cut back to what was real. The pattern draws leaves now, so the
+name is the shape again (FR-023).
+
+The pitch is a leaf's **length** and a leaf is half as long across, so 14mm here
+reads at about the size 10mm did as hexes."""
 
 EMBERLEAF_LID = LidBuilder(
     label_mode=LabelMode.FRAMELESS,

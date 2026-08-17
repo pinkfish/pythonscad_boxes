@@ -207,7 +207,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         argv: Arguments; ``None`` reads ``sys.argv``.
 
     Returns:
-        A process exit status: 0 when every insert built.
+        A process exit status — 0 when every insert built.
 
     """
     args = build_parser().parse_args(argv)

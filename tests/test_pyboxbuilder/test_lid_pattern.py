@@ -3,7 +3,7 @@
 
 import unittest
 
-from pyboxbuilder.enums import PatternType
+from pyboxbuilder.enums import LabelMode, PatternType
 from pyboxbuilder.lid.pattern import _PATTERN_FILLS, build_pattern
 
 
@@ -284,3 +284,372 @@ class PatternBorderTests(unittest.TestCase):
             lid, LidBuilder(pattern=PatternBuilder(border=20.0)), 2.0, "mmu"
         )
         self.assertEqual(repr(decorated.solid), repr(lid))
+
+
+class LabelClearanceTests(unittest.TestCase):
+    """FR-023: the holes stop at the lettering, with no margin by default.
+
+    A stand-off put a solid halo around every glyph, so the text read as
+    letters on a plaque rather than as letters on the lid. It is not needed:
+    the keep-out is the glyph outline, so each stroke keeps its own footprint
+    of solid lid, and the label is inlaid into that lid rather than perched on
+    it — the plastic goes all the way down.
+    """
+
+    def cut_area(self, clearance: float | None) -> float:
+        """How much material the pattern removes at a given stand-off."""
+        from mesh import volume
+
+        from pyboxbuilder.box.shell import block
+        from pyboxbuilder.lid.builder import LidBuilder, PatternBuilder
+        from pyboxbuilder.lid.decorate import decorate_lid
+
+        lid = block([96.0, 70.0, 2.0])
+        decorated = decorate_lid(
+            lid,
+            LidBuilder(
+                label_mode=LabelMode.FRAMELESS,
+                pattern=PatternBuilder(type=PatternType.HEX, spacing=10.0),
+                label_clearance_mm=clearance,
+            ).titled("Favors"),
+            2.0, "mmu",
+        )
+        return volume(lid - decorated.solid)
+
+    def test_the_default_is_no_margin(self) -> None:
+        from pyboxbuilder.lid.builder import LidBuilder
+        from pyboxbuilder.lid.decorate import LABEL_CLEARANCE_MM
+
+        self.assertEqual(LABEL_CLEARANCE_MM, 0.0)
+        self.assertEqual(LidBuilder().label_clearance, 0.0)
+
+    def test_a_margin_takes_holes_away_from_the_lettering(self) -> None:
+        """Settable for a lid whose pattern is coarse enough to want one.
+
+        Frameless, since a framed label's keep-out is its plate — the plate
+        already stands the pattern off the text by its own padding.
+        """
+        self.assertGreater(self.cut_area(0.0), self.cut_area(2.0))
+
+    def test_the_holes_never_undercut_a_glyph(self) -> None:
+        """Even at zero margin: the keep-out is the glyph outline itself."""
+        from mesh import volume
+
+        from pyboxbuilder.box.shell import block
+        from pyboxbuilder.lid.builder import LidBuilder, PatternBuilder
+        from pyboxbuilder.lid.decorate import _build_label, decorate_lid
+
+        lid = block([96.0, 70.0, 2.0])
+        builder = LidBuilder(
+            label_mode=LabelMode.FRAMELESS,
+            pattern=PatternBuilder(type=PatternType.HEX, spacing=10.0),
+        ).titled("Favors")
+        decorated = decorate_lid(lid, builder, 2.0, "mmu")
+
+        label = _build_label(builder.for_mode("mmu"), 96.0, 70.0, "mmu")
+        assert label is not None
+        # Under the lettering, at the layer below the inlay, the lid is solid:
+        # a hole there would leave the glyph printing onto air.
+        under = label.text.translate([0.0, 0.0, -1.0]).scale([1.0, 1.0, 0.5])
+        removed = lid - decorated.solid
+        self.assertAlmostEqual(volume(removed & under), 0.0, places=3)
+
+
+class LeafPatternTests(unittest.TestCase):
+    """PatternType.LEAF draws leaves, and they tessellate (FR-023).
+
+    This member is the reason the catalog rule exists: the original toolkit
+    listed LEAF among twenty tessellations it could not draw, so Emberleaf —
+    the insert named after them — cut squares, and then hexagons once the
+    catalog was trimmed to what was real.
+    """
+
+    SPACING = 14.0
+    WEB = 2.0
+
+    def leaf(self):
+        """One leaf, at the size this class's pitch and web give it."""
+        from pyboxbuilder.lid.pattern import LEAF_ASPECT, MIN_WEB_MM, _leaf, hole_size
+
+        length = hole_size(self.SPACING, self.WEB)
+        return _leaf(
+            length, length / LEAF_ASPECT, 3.0, max(MIN_WEB_MM, self.WEB / 2)
+        ), length
+
+    def test_a_leaf_lid_is_actually_cut(self) -> None:
+        self.assertIsNotNone(
+            build_pattern(100, 70, 3.0, PatternType.LEAF, spacing=self.SPACING)
+        )
+
+    def test_it_is_not_a_hexagon_in_disguise(self) -> None:
+        """The failure this whole catalog rule exists to catch."""
+        from mesh import volume
+
+        leaf = build_pattern(100, 70, 3.0, PatternType.LEAF, spacing=self.SPACING)
+        hexes = build_pattern(100, 70, 3.0, PatternType.HEX, spacing=self.SPACING)
+        self.assertGreater(abs(volume(leaf) - volume(hexes)), 1.0)
+
+    def test_a_leaf_is_longer_than_it_is_wide(self) -> None:
+        """A pointed oval at 1:1 is a circle; at 2:1 it reads as a leaf."""
+        from mesh import volume
+
+        from pyboxbuilder.box.shell import block
+
+        leaf, length = self.leaf()
+        width = length / 2
+        nominal = block([length, width, 12.0], at=(-length / 2, -width / 2, -6.0))
+        self.assertAlmostEqual(
+            volume(leaf - nominal), 0.0, places=6, msg="it overhangs its own cell"
+        )
+        # It fills that cell rather than rattling around inside it. Probed at
+        # four fifths out, not at the very tip: the arcs are drawn as polygons,
+        # so at the coarse facet count the tests run at the tip falls a tenth
+        # short of where the exact curve puts it.
+        reach = block([length, width, 12.0], at=(length / 2 * 0.8, -width / 2, -6.0))
+        self.assertGreater(volume(leaf & reach), 0.0, "it is stubbier than its cell")
+
+        square = block([width, width, 12.0], at=(-width / 2, -width / 2, -6.0))
+        self.assertGreater(
+            volume(leaf - square), 0.0, "it fits in a square: that is not a leaf"
+        )
+
+    def test_it_tapers_to_a_point(self) -> None:
+        """Not a rounded capsule: the tips are what interlock with the row
+        above and below, and a blunt one would not nest."""
+        from pyboxbuilder.lid.pattern import _leaf_half_height
+
+        half = _leaf_half_height(0.0, 6.0, 3.0)
+        self.assertAlmostEqual(half, 3.0, places=6)
+        self.assertGreater(half, _leaf_half_height(3.0, 6.0, 3.0))
+        self.assertGreater(_leaf_half_height(3.0, 6.0, 3.0),
+                           _leaf_half_height(5.5, 6.0, 3.0))
+        self.assertEqual(_leaf_half_height(6.0, 6.0, 3.0), 0.0)
+
+    def test_it_has_a_midrib(self) -> None:
+        """What tells a viewer it is a leaf and not a pointed oval — and it
+        braces the widest part of the hole, where a perforated lid gives way."""
+        from mesh import volume
+        from pyboxbuilder.lid.pattern import LEAF_ASPECT, _leaf, hole_size
+
+        length = hole_size(self.SPACING, self.WEB)
+        width = length / LEAF_ASPECT
+        ribbed = _leaf(length, width, 3.0, 1.0)
+        whole = _leaf(length, width, 3.0, 0.0)
+        self.assertLess(volume(ribbed), volume(whole))
+
+    def test_a_leaf_too_small_to_split_keeps_its_rib_out(self) -> None:
+        """Two slits read as a crack in the lid, not as a leaf."""
+        from mesh import volume
+        from pyboxbuilder.lid.pattern import _leaf
+
+        tiny = _leaf(5.0, 2.5, 3.0, 1.6)
+        self.assertAlmostEqual(volume(tiny), volume(_leaf(5.0, 2.5, 3.0, 0.0)),
+                               places=3)
+
+
+class LeafTessellationTests(unittest.TestCase):
+    """The leaves interlock, and the web is even in every direction.
+
+    Rows offset by half a pitch do not need a whole leaf-width between them:
+    where one leaf is at its widest its neighbours above and below are near
+    their tips. Stepping the full width would leave a band of solid lid along
+    every row and the pattern would read as stripes rather than as foliage.
+    """
+
+    SPACING = 14.0
+    WEB = 2.0
+
+    def geometry(self):
+        from pyboxbuilder.lid.pattern import (
+            LEAF_ASPECT, _leaf_row_step, hole_size,
+        )
+
+        length = hole_size(self.SPACING, self.WEB)
+        width = length / LEAF_ASPECT
+        step = _leaf_row_step(length / 2, width / 2, self.WEB)
+        return length, width, step
+
+    def test_neighbours_never_meet(self) -> None:
+        """Two holes that run into each other are one hole, and the web that
+        was meant to carry the lid is gone."""
+        from mesh import volume
+        from pyboxbuilder.lid.pattern import MIN_WEB_MM, _leaf
+
+        length, width, step = self.geometry()
+        leaf = _leaf(length, width, 3.0, max(MIN_WEB_MM, self.WEB / 2))
+        along = leaf.translate([self.SPACING, 0, 0])
+        across = leaf.translate([self.SPACING / 2, step, 0])
+        diagonal = leaf.translate([-self.SPACING / 2, step, 0])
+        for name, other in (
+            ("along the row", along),
+            ("the row above", across),
+            ("the row above, other way", diagonal),
+        ):
+            with self.subTest(neighbour=name):
+                self.assertAlmostEqual(volume(leaf & other), 0.0, places=6)
+
+    def test_the_web_is_the_same_in_both_directions(self) -> None:
+        """A honeycomb's web is even because a hexagon's neighbours are all the
+        same distance away. A leaf's are not, so the row step is solved for."""
+        from pyboxbuilder.lid.pattern import _leaf_half_height
+
+        length, width, step = self.geometry()
+        self.assertAlmostEqual(self.SPACING - length, self.WEB, places=6)
+
+        def gap(x: float) -> float:
+            return (
+                step
+                - _leaf_half_height(x, length / 2, width / 2)
+                - _leaf_half_height(x - self.SPACING / 2, length / 2, width / 2)
+            )
+
+        samples = [gap(-length + i * length / 500) for i in range(1001)]
+        self.assertAlmostEqual(min(samples), self.WEB, places=3)
+
+    def test_the_rows_interleave(self) -> None:
+        """The point of solving for the step rather than stacking the rows."""
+        length, width, step = self.geometry()
+        self.assertLess(step, width + self.WEB, "the rows do not nest at all")
+        self.assertGreater(step, width / 2, "the rows have collapsed together")
+
+    def test_it_fills_the_area_rather_than_striping_it(self) -> None:
+        """The whole point of the tessellation, measured: open area."""
+        from mesh import volume
+
+        holes = build_pattern(100, 70, 3.0, PatternType.LEAF, spacing=self.SPACING)
+        # Clipped to the area, as decorate_lid does before subtracting.
+        from pyboxbuilder.box.shell import block
+
+        inside = volume(holes & block([100, 70, 3.0]))
+        self.assertGreater(inside / (100 * 70 * 3.0), 0.35)
+
+
+class LeafTileTests(unittest.TestCase):
+    """LEAF_TESSELLATION and LEAF_VEINS tile the lid edge to edge (FR-023).
+
+    A different thing from `PatternType.LEAF`, which spaces pointed ovals out
+    and solves for the gap between them. This leaf is a **tile**: it covers the
+    plane, so the material left over is exactly the web, and what a lid shows is
+    a net of leaf outlines rather than a sheet with leaves punched out of it.
+    """
+
+    SPACING = 22.0
+    WEB = 1.6
+
+    def path(self, section: float = 1.0):
+        from pyboxbuilder.lid.pattern import tessellating_leaf_path
+
+        return tessellating_leaf_path(section)
+
+    def test_it_is_the_seven_sided_tile(self) -> None:
+        from pyboxbuilder.lid.pattern import ROOT_THREE
+
+        points = self.path()
+        self.assertEqual(len(points), 7)
+        # Base to tip is 2√3 sections; notch to notch is 4.
+        xs = [x for x, _ in points]
+        ys = [y for _, y in points]
+        self.assertAlmostEqual(max(xs) - min(xs), 2 * ROOT_THREE, places=6)
+        self.assertAlmostEqual(max(ys) - min(ys), 4.0, places=6)
+
+    def test_its_edges_pair_up(self) -> None:
+        """What makes it a tile rather than a leaf-shaped blob.
+
+        The two edges to the tip are equal and opposite to the two from the
+        base, so each is another leaf's edge under translation; the base's one
+        long edge is matched by the two short notch edges of two neighbours.
+        """
+        points = self.path()
+        edges = [
+            (points[(i + 1) % 7][0] - points[i][0], points[(i + 1) % 7][1] - points[i][1])
+            for i in range(7)
+        ]
+
+        def opposite(a, b) -> bool:
+            return abs(a[0] + b[0]) < 1e-9 and abs(a[1] + b[1]) < 1e-9
+
+        self.assertTrue(opposite(edges[0], edges[4]), "tip edges do not pair")
+        self.assertTrue(opposite(edges[2], edges[6]), "base edges do not pair")
+        # The long base edge against the two short notch edges together.
+        self.assertTrue(
+            opposite(edges[3], (edges[1][0] + edges[5][0], edges[1][1] + edges[5][1])),
+            "the base edge is not matched by the two notches",
+        )
+
+    def test_the_tile_covers_the_plane(self) -> None:
+        """Its area equals the area of one lattice cell: no gaps, no overlaps.
+
+        This is the whole claim of a tessellation, and it is one number.
+        """
+        from pyboxbuilder.lid.pattern import ROOT_THREE
+
+        points = self.path()
+        area = abs(
+            sum(
+                points[i][0] * points[(i + 1) % 7][1]
+                - points[(i + 1) % 7][0] * points[i][1]
+                for i in range(7)
+            )
+        ) / 2.0
+        # The lattice the fill lays it on: pitch 2√3 across, rows every 2, each
+        # row shifted half a pitch — so one cell is pitch × row step.
+        self.assertAlmostEqual(area, (2 * ROOT_THREE) * 2.0, places=6)
+
+    def test_both_members_cut_something(self) -> None:
+        for member in (PatternType.LEAF_TESSELLATION, PatternType.LEAF_VEINS):
+            with self.subTest(pattern=member.name):
+                self.assertIsNotNone(
+                    build_pattern(100, 70, 3.0, member, spacing=self.SPACING)
+                )
+
+    def test_the_veins_are_material_kept_not_removed(self) -> None:
+        """LEAF_VEINS is the same tiling with ribs left inside each leaf, so it
+        must open *less* of the lid than the plain outline does."""
+        from mesh import volume
+
+        plain = build_pattern(
+            100, 70, 3.0, PatternType.LEAF_TESSELLATION, spacing=self.SPACING
+        )
+        veined = build_pattern(
+            100, 70, 3.0, PatternType.LEAF_VEINS, spacing=self.SPACING
+        )
+        self.assertLess(volume(veined), volume(plain))
+
+    def test_no_vein_is_an_island(self) -> None:
+        """Every vein ends on the midrib or on the leaf's outline. One floating
+        in the middle of a hole is something the printer starts in mid-air.
+
+        Checked as reach rather than by tracing: a stroke that spans the leaf
+        touches its boundary at both ends.
+        """
+        from pyboxbuilder.lid.pattern import LEAF_VEIN_BRANCHES
+
+        for start, end in LEAF_VEIN_BRANCHES:
+            with self.subTest(branch=(start, end)):
+                self.assertLess(start, end, "the vein runs backwards from the midrib")
+                self.assertLessEqual(abs(start), 1.0, "it starts off the leaf")
+                self.assertLessEqual(0.0, end)
+                self.assertLessEqual(end, 1.0, "it lands past the tip")
+
+    def test_no_vein_starts_at_the_base(self) -> None:
+        """Three leaves meet at each base, so veins converging there compound
+        into a six-pointed star and the leaf stops being legible."""
+        from pyboxbuilder.lid.pattern import LEAF_VEIN_BRANCHES
+
+        for start, _ in LEAF_VEIN_BRANCHES:
+            with self.subTest(start=start):
+                self.assertGreater(start, -1.0)
+
+    def test_it_leaves_less_material_than_a_field_of_holes(self) -> None:
+        """The point of tiling: the leftover *is* the web, so the lid opens
+        further at the same pitch than a pattern that spaces its holes out."""
+        from mesh import volume
+
+        from pyboxbuilder.box.shell import block
+
+        area = block([100, 70, 3.0])
+        tiled = build_pattern(
+            100, 70, 3.0, PatternType.LEAF_TESSELLATION, spacing=self.SPACING
+        )
+        spaced = build_pattern(100, 70, 3.0, PatternType.LEAF, spacing=self.SPACING)
+        self.assertGreater(volume(tiled & area), volume(spaced & area))

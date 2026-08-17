@@ -225,7 +225,7 @@ def tray_rounding(placement: CompartmentPlacement, builder: object) -> float:
             bare placement) is square, like any well that has not opted in.
 
     Returns:
-        The radius in mm: ``depth × 2/3``, capped so it can neither swallow the
+        The radius in mm — ``depth × 2/3``, capped so it can neither swallow the
         well's footprint nor exceed its depth.
 
     """

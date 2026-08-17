@@ -153,6 +153,15 @@ class LidBuilder:
     border_margin_mm: float | None = None
     """Margin the auto-sized label keeps clear of the lid's edge; ``None`` uses
     :data:`BORDER_MARGIN_MM`."""
+    label_clearance_mm: float | None = None
+    """Solid margin kept around the **lettering** where a pattern meets it.
+
+    ``None`` uses :data:`~pyboxbuilder.lid.decorate.LABEL_CLEARANCE_MM`, which
+    is ``0``: the holes stop at the glyphs, so the letters read as letters and
+    not as letters on a plaque. They keep their support either way — the
+    keep-out is the glyph outline, and the label is inlaid into the lid rather
+    than perched on it. Raise it for a lid whose pattern is coarse enough that
+    a stroke would otherwise finish on the very edge of a hole."""
     mmu_label: LidBuilder | None = None
     """Fields to override for the multi-material export (see :meth:`for_mode`)."""
     single_label: LidBuilder | None = None
@@ -188,6 +197,16 @@ class LidBuilder:
         return (
             self.min_text_height_mm
             if self.min_text_height_mm is not None else MIN_TEXT_HEIGHT_MM
+        )
+
+    @property
+    def label_clearance(self) -> float:
+        """The margin kept around the lettering, resolved."""
+        from pyboxbuilder.lid.decorate import LABEL_CLEARANCE_MM
+
+        return (
+            self.label_clearance_mm
+            if self.label_clearance_mm is not None else LABEL_CLEARANCE_MM
         )
 
     @property

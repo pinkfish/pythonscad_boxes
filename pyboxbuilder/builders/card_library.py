@@ -4,12 +4,12 @@
 from dataclasses import dataclass
 from typing import ClassVar
 
-from pyboxbuilder.builders._base import BoxBuilder
+from pyboxbuilder.builders._base import BoxBuilder, SlidingLidFields
 from pyboxbuilder.enums import BoxType
 
 
 @dataclass(frozen=True)
-class CardLibraryBoxBuilder(BoxBuilder):
+class CardLibraryBoxBuilder(SlidingLidFields, BoxBuilder):
     """Builder for card-library box type."""
 
     box_type: ClassVar[BoxType] = BoxType.CARD_LIBRARY
