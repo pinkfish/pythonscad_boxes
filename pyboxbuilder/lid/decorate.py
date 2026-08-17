@@ -44,16 +44,38 @@ colour is a surface, and nothing about the label is structural.
 """
 
 
+@dataclass(frozen=True)
+class LidInsert:
+    """One part of a lid that prints in its own material.
+
+    Carries the colour **alongside** the solid rather than only baked into it.
+    A pybosl2 solid has no readable colour — `.color` is the method that sets
+    one — so a caller that wanted to know what an insert prints in had no way
+    to ask, and the preview drew every one of them in the lid's own colour.
+    The label was there; it was just the same colour as the lid.
+    """
+
+    solid: Bosl2Solid
+    """The geometry, already carrying its colour for export."""
+    color: Color | None = None
+    """What it prints in, for a caller that needs to know rather than render."""
+
+
 @dataclass
 class DecoratedLid:
     """A decorated lid, plus any parts that print in their own colour."""
 
     solid: Bosl2Solid
-    inserts: list[Bosl2Solid] = field(default_factory=list)
+    inserts: list[LidInsert] = field(default_factory=list)
     """Coloured positives, kept separate in mmu mode and fused in single mode."""
 
     skipped_label: bool = False
     """True when the label was dropped for being under the minimum text height."""
+
+    @property
+    def solids(self) -> list[Bosl2Solid]:
+        """Just the insert geometry, for a caller that only writes it out."""
+        return [insert.solid for insert in self.inserts]
 
 
 def decorate_lid(
@@ -102,6 +124,7 @@ def decorate_lid(
             result.solid, resolved, width, length,
             origin_x, origin_y, top_z, lid_thickness,
             keep_clear=label,
+            label_clearance=resolved.label_clearance,
         )
 
     if label is not None:
@@ -110,11 +133,18 @@ def decorate_lid(
     return result
 
 
-LABEL_CLEARANCE_MM = 1.5
-"""How far the pattern stands off the label, all round.
+LABEL_CLEARANCE_MM = 0.0
+"""How far the pattern stands off the lettering, all round.
 
-Enough that the lettering has a margin of solid lid to sit on rather than
-ending exactly at a hole's edge, which is where a thin stroke would break away.
+**Zero**, so the holes stop at the glyphs themselves and the letters read as
+letters rather than as letters on a plaque. The pattern still cannot undercut
+them: the keep-out is the glyph outline, so every stroke keeps its own footprint
+of solid lid, and the label is inlaid into that lid rather than perched on it —
+the plastic goes all the way down.
+
+A margin is settable per lid (`LidBuilder.label_clearance_mm`) for a lid whose
+pattern is coarse enough that a stroke would otherwise finish on the very edge
+of a hole.
 """
 
 
@@ -154,7 +184,9 @@ Minkowski sum over every letter.
 """
 
 
-def _label_keepout(label: Label | None, depth: float) -> Bosl2Solid | None:
+def _label_keepout(
+    label: Label | None, depth: float, clearance: float = LABEL_CLEARANCE_MM
+) -> Bosl2Solid | None:
     """Return the volume a label needs kept solid, in the face's own frame.
 
     Follows the label's **shape**, not its bounding box. A box is right for a
@@ -167,6 +199,8 @@ def _label_keepout(label: Label | None, depth: float) -> Bosl2Solid | None:
     Args:
         label: The built label, or ``None``.
         depth: How tall to make the keep-out, so it spans the holes it blocks.
+        clearance: Solid margin to keep around the lettering. ``0`` — the
+            default — stops the holes at the glyphs themselves.
 
     Returns:
         The solid to keep clear of, or ``None`` when there is no label.
@@ -180,7 +214,10 @@ def _label_keepout(label: Label | None, depth: float) -> Bosl2Solid | None:
     if label.plate is not None:
         return _as_depth(label.plate, depth)
 
-    return _as_depth(_grown(label.text, LABEL_CLEARANCE_MM), depth)
+    if clearance <= 0:
+        # The glyphs themselves: the holes stop where the letters do.
+        return _as_depth(label.text, depth)
+    return _as_depth(_grown(label.text, clearance), depth)
 
 
 def _grown(solid: Bosl2Solid, by: float) -> Bosl2Solid:
@@ -223,6 +260,7 @@ def _cut_pattern(
     top_z: float,
     lid_thickness: float,
     keep_clear: Label | None = None,
+    label_clearance: float = LABEL_CLEARANCE_MM,
 ) -> Bosl2Solid:
     """Cut the through-hole pattern into the lid, clear of its border.
 
@@ -237,6 +275,7 @@ def _cut_pattern(
         lid_thickness: How deep the holes must reach to break through.
         keep_clear: The label whose shape must stay solid. Holes under the
             lettering would leave it printing onto air (FR-023).
+        label_clearance: Solid margin kept around the lettering.
 
     Returns:
         The perforated lid.
@@ -280,7 +319,7 @@ def _cut_pattern(
     holes = holes.translate([base[0], base[1], base[2]])
     holes = holes & block([area_w, area_l, depth], at=base)
 
-    keepout = _label_keepout(keep_clear, depth)
+    keepout = _label_keepout(keep_clear, depth, label_clearance)
     if keepout is not None:
         holes = holes - keepout.translate([origin_x, origin_y, base[2]])
     return lid - holes
@@ -333,7 +372,7 @@ def _apply_label(
             continue
         inlay = onto_face(_to_depth(part))
         result.solid = result.solid - inlay
-        result.inserts.append(_coloured(inlay, colour))
+        result.inserts.append(LidInsert(_coloured(inlay, colour), colour))
 
 
 def _to_depth(part: Bosl2Solid) -> Bosl2Solid:

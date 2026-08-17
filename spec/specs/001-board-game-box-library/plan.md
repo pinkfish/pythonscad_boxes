@@ -364,6 +364,31 @@ One border serves the lid — the pattern stops at it and the label sits 2mm
 inside it. Two margins measured from different edges read as a mistake, because
 what a viewer sees is a single band of plain lid with things arranged in it.
 
+Where the pattern meets the **lettering**, though, it stops at the glyphs and
+nothing more. A stand-off there puts a solid halo round every letter and the
+text stops reading as part of the lid. Support is not the reason to want one:
+the keep-out is the glyph outline, so each stroke sits on its own footprint of
+solid lid, and the label is inlaid into that lid rather than perched on it.
+It stays settable for a lid whose pattern is coarse enough that a stroke would
+otherwise finish on a hole's edge.
+
+### A Colour Has To Be Readable, Not Just Applied (FR-022b)
+
+A part that prints in its own material carries its colour **beside** its
+geometry, not only inside it. pybosl2 — like OpenSCAD — has no colour to read
+back off a solid: `.color` is the method that *sets* one. So code that asked a
+solid what colour it was got a bound method, decided it had none, and fell back
+to the parent's colour. Every lid label was drawn in exactly the colour of the
+lid it sat on; the label was there, and invisible.
+
+The export was fine throughout, which is why this survived: OpenSCAD's 3MF
+writer records a base material per colour and tags the triangles, so the file a
+slicer opens had the lettering on its own material all along. Only the preview
+was wrong — and the preview is what anyone looks at.
+
+The rule generalises past lids: **a fallback for "I could not read this" is a
+bug when the thing was never readable.** Carry the value.
+
 ### A Label Is An Inlay, Not An Embossing (FR-022, FR-022a)
 
 A lid's label is cut **into** the lid and filled flush, so the only thing that

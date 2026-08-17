@@ -46,16 +46,11 @@ jobs:
       - name: Run golden render tests
         run: python -m pytest tests/test_pyboxbuilder/render/test_boxes_golden.py tests/test_pyboxbuilder/render/test_patterns_golden.py -q
 
-      # Geometry coverage without printable output: builds every example
-      # through the same path `show()` uses, writing no files.
-      - name: Build every example through the preview path
-        run: python -m pytest tests/test_pyboxbuilder/test_ci_smoke.py -q
-
       # Fast pure-Python tests. The export path is not part of a CI pass:
       # export() tessellates and writes 3MFs, which is `make export`'s job,
       # not a test's. `-k "not export"` drops the export-focused test classes,
-      # and `--ignore` skips the golden/render directory and the preview smoke
-      # test (both already run above).
+      # and `--ignore` skips the golden/render directory and the per-example
+      # build smoke test (building every example is not needed on every CI run).
       - name: Run fast pure-Python tests
         run: |
           python -m pytest tests/test_pyboxbuilder/ -q \

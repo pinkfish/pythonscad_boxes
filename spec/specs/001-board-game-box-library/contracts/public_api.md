@@ -172,7 +172,8 @@ LidBuilder(
     pattern: PatternBuilder | None = None,
     pattern_color: Color | None = None,
     min_text_height_mm: float | None = None,  # None → 4.0
-    border_margin_mm: float | None = None,    # None → 5.0
+    border_margin_mm: float | None = None,    # None → border + 2mm inset
+    label_clearance_mm: float | None = None,  # margin round the glyphs; None → 0
     mmu_label: LidBuilder | None = None,      # override for MMU export
     single_label: LidBuilder | None = None,   # override for single-colour export
 )
@@ -203,6 +204,15 @@ passed through.
 
 A single-colour export has no second material to inlay, so it engraves the text
 instead (FR-036).
+
+`decorate_lid` returns `DecoratedLid(solid, inserts)`, where each insert is a
+`LidInsert(solid, color)` — the colour travels **beside** the geometry, because
+a pybosl2 solid has none to read back (`.color` is the method that sets one).
+`DecoratedLid.solids` is the geometry alone, for a caller that only writes it
+out.
+
+Where a pattern meets a frameless label, holes stop at the glyphs themselves;
+`label_clearance_mm` adds a margin round them and defaults to `0`.
 
 ## PatternBuilder (`pyboxbuilder/lid/builder.py`)
 

@@ -3,7 +3,7 @@
 
 import unittest
 
-from pyboxbuilder.enums import PatternType
+from pyboxbuilder.enums import LabelMode, PatternType
 from pyboxbuilder.lid.pattern import _PATTERN_FILLS, build_pattern
 
 
@@ -284,3 +284,72 @@ class PatternBorderTests(unittest.TestCase):
             lid, LidBuilder(pattern=PatternBuilder(border=20.0)), 2.0, "mmu"
         )
         self.assertEqual(repr(decorated.solid), repr(lid))
+
+
+class LabelClearanceTests(unittest.TestCase):
+    """FR-023: the holes stop at the lettering, with no margin by default.
+
+    A stand-off put a solid halo around every glyph, so the text read as
+    letters on a plaque rather than as letters on the lid. It is not needed:
+    the keep-out is the glyph outline, so each stroke keeps its own footprint
+    of solid lid, and the label is inlaid into that lid rather than perched on
+    it — the plastic goes all the way down.
+    """
+
+    def cut_area(self, clearance: float | None) -> float:
+        """How much material the pattern removes at a given stand-off."""
+        from mesh import volume
+
+        from pyboxbuilder.box.shell import block
+        from pyboxbuilder.lid.builder import LidBuilder, PatternBuilder
+        from pyboxbuilder.lid.decorate import decorate_lid
+
+        lid = block([96.0, 70.0, 2.0])
+        decorated = decorate_lid(
+            lid,
+            LidBuilder(
+                label_mode=LabelMode.FRAMELESS,
+                pattern=PatternBuilder(type=PatternType.HEX, spacing=10.0),
+                label_clearance_mm=clearance,
+            ).titled("Favors"),
+            2.0, "mmu",
+        )
+        return volume(lid - decorated.solid)
+
+    def test_the_default_is_no_margin(self) -> None:
+        from pyboxbuilder.lid.builder import LidBuilder
+        from pyboxbuilder.lid.decorate import LABEL_CLEARANCE_MM
+
+        self.assertEqual(LABEL_CLEARANCE_MM, 0.0)
+        self.assertEqual(LidBuilder().label_clearance, 0.0)
+
+    def test_a_margin_takes_holes_away_from_the_lettering(self) -> None:
+        """Settable for a lid whose pattern is coarse enough to want one.
+
+        Frameless, since a framed label's keep-out is its plate — the plate
+        already stands the pattern off the text by its own padding.
+        """
+        self.assertGreater(self.cut_area(0.0), self.cut_area(2.0))
+
+    def test_the_holes_never_undercut_a_glyph(self) -> None:
+        """Even at zero margin: the keep-out is the glyph outline itself."""
+        from mesh import volume
+
+        from pyboxbuilder.box.shell import block
+        from pyboxbuilder.lid.builder import LidBuilder, PatternBuilder
+        from pyboxbuilder.lid.decorate import _build_label, decorate_lid
+
+        lid = block([96.0, 70.0, 2.0])
+        builder = LidBuilder(
+            label_mode=LabelMode.FRAMELESS,
+            pattern=PatternBuilder(type=PatternType.HEX, spacing=10.0),
+        ).titled("Favors")
+        decorated = decorate_lid(lid, builder, 2.0, "mmu")
+
+        label = _build_label(builder.for_mode("mmu"), 96.0, 70.0, "mmu")
+        assert label is not None
+        # Under the lettering, at the layer below the inlay, the lid is solid:
+        # a hole there would leave the glyph printing onto air.
+        under = label.text.translate([0.0, 0.0, -1.0]).scale([1.0, 1.0, 0.5])
+        removed = lid - decorated.solid
+        self.assertAlmostEqual(volume(removed & under), 0.0, places=3)

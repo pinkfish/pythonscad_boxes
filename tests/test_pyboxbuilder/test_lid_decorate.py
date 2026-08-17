@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import tempfile
 import unittest
+from pathlib import Path
 
 from mesh import volume  # the shared measurer; see tests/mesh.py
 
@@ -92,9 +93,9 @@ class DecorationTests(unittest.TestCase):
             lid, LidBuilder(text="Animals", label_mode=LabelMode.FRAMELESS), 2.0, "mmu"
         )
         self.assertEqual(len(decorated.inserts), 1)
-        self.assertGreater(volume(decorated.inserts[0]), 0.0)
+        self.assertGreater(volume(decorated.inserts[0].solid), 0.0)
         self.assertAlmostEqual(
-            volume(decorated.solid) + volume(decorated.inserts[0]),
+            volume(decorated.solid) + volume(decorated.inserts[0].solid),
             volume(lid), places=3,
             msg="the inlay should fill exactly the recess cut for it",
         )
@@ -240,13 +241,13 @@ class InlaidLabelTests(unittest.TestCase):
         result = self.decorated()
         self.assertAlmostEqual(self._top(result.solid), self._top(plain), places=6)
         for insert in result.inserts:
-            self.assertLessEqual(self._top(insert), self._top(plain) + 1e-6)
+            self.assertLessEqual(self._top(insert.solid), self._top(plain) + 1e-6)
 
     def test_each_inlay_is_exactly_the_recess_deep(self) -> None:
         from pyboxbuilder.lid.decorate import INLAY_DEPTH_MM
 
         for insert in self.decorated().inserts:
-            (_, _, _), (_, _, h) = insert.bounds()
+            (_, _, _), (_, _, h) = insert.solid.bounds()
             self.assertAlmostEqual(h, INLAY_DEPTH_MM, places=6)
 
     def test_the_recess_is_cut_out_of_the_lid(self) -> None:
@@ -344,3 +345,76 @@ class LabelColorTests(unittest.TestCase):
 
         colors = resolve_colors(Color("darkgreen"), text_color=Color("gold"))
         self.assertNotEqual(colors.text_color.rgba[:3], (0.0, 0.0, 0.0))
+
+
+class InsertColourTests(unittest.TestCase):
+    """An insert must be able to say what it prints in (FR-022).
+
+    A pybosl2 solid has no readable colour — `.color` is the *method* that sets
+    one — so asking a solid what colour it is returns a bound method, and code
+    that fell back when it could not read one drew every insert in the lid's
+    own colour. The label was there; it was the same colour as the lid.
+    """
+
+    def project(self, **lid_kwargs):
+        from pyboxbuilder import BoxType, LidBuilder, Project
+
+        p = Project("Ink", game_box_size=(300, 200, 80), generate_spacers=False)
+        box = p.box(
+            BoxType.SLIDING, "Deck", size=(90, 120, 40), position=(0, 0, 0),
+            lid=LidBuilder(**lid_kwargs).titled("Cards"),
+        )
+        box.compartment("W", size=(70, 100), depth=30)
+        return p
+
+    def test_an_insert_carries_the_colour_it_prints_in(self) -> None:
+        decorated = decorate_lid(
+            bare_lid(), LidBuilder(text="Cards", label_mode=LabelMode.FRAMED),
+            2.0, "mmu",
+        )
+        for insert in decorated.inserts:
+            self.assertIsNotNone(insert.color, "an insert with no colour of its own")
+
+    def test_the_preview_draws_the_label_in_its_own_colour(self) -> None:
+        """Not in the lid's, which is what made it invisible."""
+        pieces = self.project(label_mode=LabelMode.FRAMED).preview_pieces(
+            show_lids=True, only="Deck"
+        )
+        lids = [p for p in pieces if p.kind == "lid"]
+        self.assertEqual(len(lids), 3, "lid, lettering and striped grid")
+
+        colours = [tuple(round(v, 3) for v in p.color.rgba[:3]) for p in lids]
+        self.assertIn((0.0, 0.0, 0.0), colours, "the lettering should be black")
+        self.assertEqual(len(set(colours)), 3, "two parts came out the same colour")
+
+    def test_an_explicit_colour_reaches_the_preview(self) -> None:
+        from pybosl2 import Color
+
+        pieces = self.project(
+            label_mode=LabelMode.FRAMELESS, text_color=Color("red")
+        ).preview_pieces(show_lids=True, only="Deck")
+        colours = [tuple(round(v, 2) for v in p.color.rgba[:3]) for p in pieces]
+        self.assertIn((1.0, 0.0, 0.0), colours)
+
+    def test_the_exported_file_keeps_the_materials_apart(self) -> None:
+        """The 3MF must carry one base material per colour, or the slicer has
+        nothing to assign."""
+        import re
+        import zipfile
+
+        from pyboxbuilder.export.exporter import _export_3mf
+
+        decorated = decorate_lid(
+            bare_lid(), LidBuilder(text="Cards", label_mode=LabelMode.FRAMED),
+            2.0, "mmu",
+        )
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "lid.3mf"
+            if not _export_3mf([decorated.solid, *decorated.solids], path):
+                self.skipTest("no geometry backend")
+            model = zipfile.ZipFile(path).read("3D/3dmodel.model").decode()
+
+        self.assertGreaterEqual(
+            len(re.findall(r"<base ", model)), 3,
+            "the lid, the lettering and the grid should be three materials",
+        )
