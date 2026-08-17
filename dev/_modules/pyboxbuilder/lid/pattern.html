@@ -316,6 +316,7 @@
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
+<span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">random</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Iterator</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span>
@@ -326,12 +327,28 @@
 <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2.shapes3d</span><span class="w"> </span><span class="kn">import</span> <span class="n">Bosl2Solid</span>
 
-<span class="n">HOLE_SHARE</span> <span class="o">=</span> <span class="mf">0.55</span>
-<span class="sd">"""How much of a pattern cell the hole itself takes.</span>
+<span class="n">DEFAULT_WEB_MM</span> <span class="o">=</span> <span class="mf">1.6</span>
+<span class="sd">"""Material left **between** neighbouring holes, when nothing else says.</span>
 
-<span class="sd">The rest is the web between holes. Over about two thirds the webs get thinner</span>
-<span class="sd">than a couple of extrusion widths and the lid loses its stiffness; much under a</span>
-<span class="sd">half and the pattern stops saving filament, which is the point of it (FR-023).</span>
+<span class="sd">The web is the thing to state, not the hole: it is what has to print and what</span>
+<span class="sd">carries the lid, so it is the quantity with a right answer. Four extrusion</span>
+<span class="sd">widths at a 0.4mm nozzle, which is stiff enough to handle a large lid by.</span>
+
+<span class="sd">Sizing the hole as a *share of the cell* instead — the previous rule, 55% —</span>
+<span class="sd">made the web scale with the pitch, so a lid asking for 11mm cells got 6.2mm</span>
+<span class="sd">hexes separated by 5.1mm of plastic. That is not a honeycomb; it is a sheet</span>
+<span class="sd">with holes in it, and it saves almost no filament (FR-023).</span>
+<span class="sd">"""</span>
+
+<span class="n">MIN_WEB_MM</span> <span class="o">=</span> <span class="mf">0.8</span>
+<span class="sd">"""Thinnest web worth printing — two perimeters at a 0.4mm nozzle."""</span>
+
+<span class="n">MIN_HOLE_MM</span> <span class="o">=</span> <span class="mf">2.0</span>
+<span class="sd">"""Smallest hole worth cutting.</span>
+
+<span class="sd">Below this the pattern reads as a rough surface rather than as openings, and a</span>
+<span class="sd">lid whose pitch cannot hold it gets no pattern at all rather than a peppering</span>
+<span class="sd">of pinholes.</span>
 <span class="sd">"""</span>
 
 <span class="n">DENSE_SPACING_SHARE</span> <span class="o">=</span> <span class="mf">0.6</span>
@@ -339,6 +356,31 @@
 
 <span class="n">DEPTH_OVERSHOOT</span> <span class="o">=</span> <span class="mf">1.2</span>
 <span class="sd">"""How far a hole is over-extruded relative to the lid, so it breaks through."""</span>
+
+
+<div class="viewcode-block" id="hole_size">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.lid.pattern.hole_size.html#pyboxbuilder.lid.pattern.hole_size">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">hole_size</span><span class="p">(</span><span class="n">spacing</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">web</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Return how big a hole is, given the pitch and the web between them.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        spacing: Centre-to-centre distance between neighbouring holes, in mm.</span>
+<span class="sd">        web: Material to leave between them; ``None`` uses</span>
+<span class="sd">            :data:`DEFAULT_WEB_MM`.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        The hole's size across the flats, in mm. Zero when the pitch cannot</span>
+<span class="sd">        hold a usable hole and the thinnest printable web at once — the caller</span>
+<span class="sd">        then leaves the lid solid rather than perforating it uselessly.</span>
+
+<span class="sd">    """</span>
+    <span class="n">gap</span> <span class="o">=</span> <span class="n">DEFAULT_WEB_MM</span> <span class="k">if</span> <span class="n">web</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="nb">max</span><span class="p">(</span><span class="n">web</span><span class="p">,</span> <span class="n">MIN_WEB_MM</span><span class="p">)</span>
+    <span class="n">size</span> <span class="o">=</span> <span class="n">spacing</span> <span class="o">-</span> <span class="n">gap</span>
+    <span class="k">if</span> <span class="n">size</span> <span class="o">&lt;</span> <span class="n">MIN_HOLE_MM</span><span class="p">:</span>
+        <span class="c1"># Try again at the thinnest web that still prints before giving up.</span>
+        <span class="n">size</span> <span class="o">=</span> <span class="n">spacing</span> <span class="o">-</span> <span class="n">MIN_WEB_MM</span>
+    <span class="k">return</span> <span class="n">size</span> <span class="k">if</span> <span class="n">size</span> <span class="o">&gt;=</span> <span class="n">MIN_HOLE_MM</span> <span class="k">else</span> <span class="mf">0.0</span></div>
+
 
 <div class="viewcode-block" id="default_spacing">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.lid.pattern.default_spacing.html#pyboxbuilder.lid.pattern.default_spacing">[docs]</a>
@@ -368,20 +410,25 @@
     <span class="n">thickness</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">pattern_type</span><span class="p">:</span> <span class="n">PatternType</span><span class="p">,</span>
     <span class="n">spacing</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">web</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Build the through-hole cutouts for a lid.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        width: Lid width in mm.</span>
-<span class="sd">        length: Lid length in mm.</span>
+<span class="sd">        width: Width of the area to fill, in mm — the lid less its border.</span>
+<span class="sd">        length: Length of that area, in mm.</span>
 <span class="sd">        thickness: Lid thickness; the holes are cut deeper so they break through.</span>
 <span class="sd">        pattern_type: Which pattern. :attr:`PatternType.NONE` returns ``None``.</span>
-<span class="sd">        spacing: Distance between cell centres. ``None`` derives it from the</span>
-<span class="sd">            lid (see :func:`default_spacing`).</span>
+<span class="sd">        spacing: Centre-to-centre distance between holes. ``None`` derives it</span>
+<span class="sd">            from the area (see :func:`default_spacing`).</span>
+<span class="sd">        web: Material left between neighbouring holes. ``None`` uses</span>
+<span class="sd">            :data:`DEFAULT_WEB_MM`. This, rather than the hole size, is what a</span>
+<span class="sd">            pattern is really specified by: it is what prints.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        The solid to subtract from the lid, or ``None`` for no pattern and for</span>
-<span class="sd">        a lid too small to hold a single whole hole.</span>
+<span class="sd">        The solid to subtract from the lid, or ``None`` for no pattern, for an</span>
+<span class="sd">        area too small to hold a whole hole, or for a pitch too tight to hold a</span>
+<span class="sd">        hole and a printable web at once.</span>
 
 <span class="sd">    Raises:</span>
 <span class="sd">        ValueError: If the pattern has no fill registered — which cannot happen</span>
@@ -398,40 +445,68 @@
             <span class="sa">f</span><span class="s2">"No fill registered for PatternType.</span><span class="si">{</span><span class="n">pattern_type</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">. "</span>
             <span class="sa">f</span><span class="s2">"Available: </span><span class="si">{</span><span class="n">available</span><span class="si">}</span><span class="s2">"</span>
         <span class="p">)</span>
-    <span class="k">return</span> <span class="n">fill</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">thickness</span><span class="p">,</span> <span class="n">spacing</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">fill</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">thickness</span><span class="p">,</span> <span class="n">spacing</span><span class="p">,</span> <span class="n">web</span><span class="p">)</span></div>
 
 
 
 <span class="c1"># ── Cell placement ────────────────────────────────────────────────────</span>
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_grid_cells</span><span class="p">(</span>
-    <span class="n">width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">spacing</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">stagger</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">spacing</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">stagger</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
-<span class="w">    </span><span class="sd">"""Centres of every cell whose hole fits whole inside the lid.</span>
+<span class="w">    </span><span class="sd">"""Centres of a lattice covering the whole area, overhanging every edge.</span>
+
+<span class="sd">    The holes are **clipped to the area** by the caller, so the ones at the</span>
+<span class="sd">    boundary come out as partial hexes and the pattern reaches the border</span>
+<span class="sd">    exactly. Placing only whole holes instead — inset by a hole's reach — left</span>
+<span class="sd">    up to a cell's worth of unused margin inside the border, so a lid asking</span>
+<span class="sd">    for an 8mm border got 12mm or more of solid edge on two sides and the</span>
+<span class="sd">    pattern looked as though it had shrunk away from it.</span>
+
+<span class="sd">    **The lattice starts a full pitch before the area, not on it.** A staggered</span>
+<span class="sd">    row is shifted half a pitch, so a lattice that began at the area's own edge</span>
+<span class="sd">    began *inside* it on every other row: those rows left a strip of material</span>
+<span class="sd">    along the leading edge while the trailing edge was covered twice over. One</span>
+<span class="sd">    pitch of run-up is enough for any row's offset, whatever the stagger, and</span>
+<span class="sd">    the extra holes cost nothing — they fall outside the area and are clipped</span>
+<span class="sd">    away with the rest of the overhang.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        width: Lid width in mm.</span>
-<span class="sd">        length: Lid length in mm.</span>
-<span class="sd">        spacing: Distance between cell centres.</span>
+<span class="sd">        width: Width of the area to fill, in mm.</span>
+<span class="sd">        length: Its length, in mm.</span>
+<span class="sd">        spacing: Centre-to-centre distance between holes.</span>
 <span class="sd">        stagger: Offset alternate rows by half a cell, for a honeycomb.</span>
 
 <span class="sd">    Yields:</span>
-<span class="sd">        ``(x, y)`` centres, inset so a hole of :data:`HOLE_SHARE` stays whole —</span>
-<span class="sd">        a pattern that runs off the edge leaves slivers, not holes.</span>
+<span class="sd">        ``(x, y)`` centres, in the area's own frame. Many lie outside it: that</span>
+<span class="sd">        is what puts a partial hole against each edge.</span>
 
 <span class="sd">    """</span>
-    <span class="n">margin</span> <span class="o">=</span> <span class="n">spacing</span> <span class="o">*</span> <span class="n">HOLE_SHARE</span> <span class="o">/</span> <span class="mf">2.0</span>
     <span class="n">row_step</span> <span class="o">=</span> <span class="n">spacing</span> <span class="o">*</span> <span class="p">(</span><span class="mf">0.866</span> <span class="k">if</span> <span class="n">stagger</span> <span class="k">else</span> <span class="mf">1.0</span><span class="p">)</span>  <span class="c1"># sin(60°) for hex rows</span>
+    <span class="k">if</span> <span class="n">spacing</span> <span class="o">&lt;=</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">row_step</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span>
 
-    <span class="n">y</span> <span class="o">=</span> <span class="n">margin</span>
-    <span class="n">row</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="k">while</span> <span class="n">y</span> <span class="o">&lt;=</span> <span class="n">length</span> <span class="o">-</span> <span class="n">margin</span><span class="p">:</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="n">margin</span> <span class="o">+</span> <span class="p">(</span><span class="n">spacing</span> <span class="o">/</span> <span class="mf">2.0</span> <span class="k">if</span> <span class="n">stagger</span> <span class="ow">and</span> <span class="n">row</span> <span class="o">%</span> <span class="mi">2</span> <span class="k">else</span> <span class="mf">0.0</span><span class="p">)</span>
-        <span class="k">while</span> <span class="n">x</span> <span class="o">&lt;=</span> <span class="n">width</span> <span class="o">-</span> <span class="n">margin</span><span class="p">:</span>
-            <span class="k">yield</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span>
-            <span class="n">x</span> <span class="o">+=</span> <span class="n">spacing</span>
-        <span class="n">y</span> <span class="o">+=</span> <span class="n">row_step</span>
-        <span class="n">row</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="c1"># Anchor a hole on the area's centre and grow outwards, rather than</span>
+    <span class="c1"># starting at one edge and running to the other. Growing from an edge</span>
+    <span class="c1"># leaves the lattice wherever the arithmetic puts it: measured on a 96 x 70</span>
+    <span class="c1"># lid, the right edge lost 56mm³ of material to the border strip and the</span>
+    <span class="c1"># left only 33mm³, because one side was being cut through the hexes and the</span>
+    <span class="c1"># other through the webs between them. Anchored at the centre the two sides</span>
+    <span class="c1"># are mirror images, which is what makes the border look deliberate.</span>
+    <span class="c1">#</span>
+    <span class="c1"># One extra ring beyond each edge covers the half-pitch a staggered row is</span>
+    <span class="c1"># shifted by; the overhang is clipped away with the rest.</span>
+    <span class="n">half_columns</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">width</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">spacing</span><span class="p">))</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="n">half_rows</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">length</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">row_step</span><span class="p">))</span> <span class="o">+</span> <span class="mi">1</span>
+
+    <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="o">-</span><span class="n">half_rows</span><span class="p">,</span> <span class="n">half_rows</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">length</span> <span class="o">/</span> <span class="mf">2.0</span> <span class="o">+</span> <span class="n">row</span> <span class="o">*</span> <span class="n">row_step</span>
+        <span class="n">offset</span> <span class="o">=</span> <span class="n">spacing</span> <span class="o">/</span> <span class="mf">2.0</span> <span class="k">if</span> <span class="n">stagger</span> <span class="ow">and</span> <span class="n">row</span> <span class="o">%</span> <span class="mi">2</span> <span class="k">else</span> <span class="mf">0.0</span>
+        <span class="k">for</span> <span class="n">column</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="o">-</span><span class="n">half_columns</span><span class="p">,</span> <span class="n">half_columns</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="k">yield</span> <span class="n">width</span> <span class="o">/</span> <span class="mf">2.0</span> <span class="o">+</span> <span class="n">column</span> <span class="o">*</span> <span class="n">spacing</span> <span class="o">+</span> <span class="n">offset</span><span class="p">,</span> <span class="n">y</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_punch</span><span class="p">(</span>
@@ -439,25 +514,34 @@
     <span class="n">width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">spacing</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">hole</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">stagger</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Union one hole per cell.</span>
 
+<span class="sd">    Measures the shape rather than assuming its extent: each fill draws a</span>
+<span class="sd">    different polygon, at a different spin, and what decides whether a hole</span>
+<span class="sd">    stays inside the border is how far it actually reaches.</span>
+
 <span class="sd">    Args:</span>
 <span class="sd">        shape_at: Called with ``(x, y)``; returns one hole solid in place.</span>
-<span class="sd">        width: Lid width in mm.</span>
-<span class="sd">        length: Lid length in mm.</span>
-<span class="sd">        spacing: Cell size in mm.</span>
+<span class="sd">        width: Width of the area to fill, in mm.</span>
+<span class="sd">        length: Its length, in mm.</span>
+<span class="sd">        spacing: Centre-to-centre distance between holes.</span>
+<span class="sd">        hole: The hole's nominal size; ``0`` means none will fit.</span>
 <span class="sd">        stagger: Offset alternate rows.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        The union of every hole, or ``None`` when none fit.</span>
 
 <span class="sd">    """</span>
+    <span class="k">if</span> <span class="n">hole</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
     <span class="n">holes</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">_grid_cells</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">spacing</span><span class="p">,</span> <span class="n">stagger</span><span class="p">):</span>
-        <span class="n">hole</span> <span class="o">=</span> <span class="n">shape_at</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
-        <span class="n">holes</span> <span class="o">=</span> <span class="n">hole</span> <span class="k">if</span> <span class="n">holes</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">holes</span> <span class="o">|</span> <span class="n">hole</span>
+        <span class="n">cut</span> <span class="o">=</span> <span class="n">shape_at</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+        <span class="n">holes</span> <span class="o">=</span> <span class="n">cut</span> <span class="k">if</span> <span class="n">holes</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">holes</span> <span class="o">|</span> <span class="n">cut</span>
     <span class="k">return</span> <span class="n">holes</span>
 
 
@@ -482,75 +566,102 @@
 <span class="c1"># ── Fills ─────────────────────────────────────────────────────────────</span>
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_square_fill</span><span class="p">(</span>
-    <span class="n">width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">thickness</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">spacing</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">thickness</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">spacing</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">web</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Square holes on a square grid."""</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">cuboid</span>
 
-    <span class="n">size</span> <span class="o">=</span> <span class="n">spacing</span> <span class="o">*</span> <span class="n">HOLE_SHARE</span>
+    <span class="n">size</span> <span class="o">=</span> <span class="n">hole_size</span><span class="p">(</span><span class="n">spacing</span><span class="p">,</span> <span class="n">web</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">_punch</span><span class="p">(</span>
         <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">cuboid</span><span class="p">([</span><span class="n">size</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">thickness</span> <span class="o">*</span> <span class="n">DEPTH_OVERSHOOT</span><span class="p">])</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span>
             <span class="p">[</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">thickness</span> <span class="o">/</span> <span class="mi">2</span><span class="p">]</span>
         <span class="p">),</span>
-        <span class="n">width</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">spacing</span><span class="p">,</span>
+        <span class="n">width</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">spacing</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span>
     <span class="p">)</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_circle_fill</span><span class="p">(</span>
-    <span class="n">width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">thickness</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">spacing</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">thickness</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">spacing</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">web</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Round holes on a square grid."""</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">cylinder</span>
 
+    <span class="n">size</span> <span class="o">=</span> <span class="n">hole_size</span><span class="p">(</span><span class="n">spacing</span><span class="p">,</span> <span class="n">web</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">_punch</span><span class="p">(</span>
         <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">cylinder</span><span class="p">(</span>
             <span class="n">height</span><span class="o">=</span><span class="n">thickness</span> <span class="o">*</span> <span class="n">DEPTH_OVERSHOOT</span><span class="p">,</span>
-            <span class="n">radius</span><span class="o">=</span><span class="n">spacing</span> <span class="o">*</span> <span class="n">HOLE_SHARE</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span>
+            <span class="n">radius</span><span class="o">=</span><span class="n">size</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span>
             <span class="o">**</span><span class="n">precision_kwargs</span><span class="p">(),</span>
         <span class="p">)</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">thickness</span> <span class="o">/</span> <span class="mi">2</span><span class="p">]),</span>
-        <span class="n">width</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">spacing</span><span class="p">,</span>
+        <span class="n">width</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">spacing</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span>
     <span class="p">)</span>
 
 
+<span class="n">POINTY_TOP_SPIN</span> <span class="o">=</span> <span class="mf">30.0</span>
+<span class="sd">"""Rotation that stands a hexagon on a flat, with its flats left and right.</span>
+
+<span class="sd">`regular_prism` draws a hexagon with a vertex to the right — flats top and</span>
+<span class="sd">bottom — and the staggered lattice below needs the opposite: flats *left and</span>
+<span class="sd">right*, so a row's neighbours sit across-flats from each other and the next row</span>
+<span class="sd">nests into the notches between them. Without this the lattice was tiling one</span>
+<span class="sd">orientation with the spacing of the other, which left the rows barely clearing</span>
+<span class="sd">each other horizontally and floating apart vertically. It is not a honeycomb</span>
+<span class="sd">until the hexagon and the lattice agree.</span>
+<span class="sd">"""</span>
+
+
 <span class="k">def</span><span class="w"> </span><span class="nf">_hex_fill</span><span class="p">(</span>
-    <span class="n">width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">thickness</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">spacing</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">dense</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">thickness</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">spacing</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">web</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">dense</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""Hexagonal holes in staggered rows — a honeycomb."""</span>
+<span class="w">    </span><span class="sd">"""Hexagonal holes in staggered rows — a true honeycomb.</span>
+
+<span class="sd">    Every neighbour, in the row and in the rows either side, sits exactly one</span>
+<span class="sd">    pitch away: the horizontal pitch is the hole's width plus the web, and the</span>
+<span class="sd">    rows step ``sin(60°)`` of that while offsetting half a pitch. So the web is</span>
+<span class="sd">    the same in all six directions, which is what makes it a honeycomb rather</span>
+<span class="sd">    than rows of hexagons.</span>
+<span class="sd">    """</span>
     <span class="n">step</span> <span class="o">=</span> <span class="n">spacing</span> <span class="o">*</span> <span class="p">(</span><span class="n">DENSE_SPACING_SHARE</span> <span class="k">if</span> <span class="n">dense</span> <span class="k">else</span> <span class="mf">1.0</span><span class="p">)</span>
+    <span class="n">size</span> <span class="o">=</span> <span class="n">hole_size</span><span class="p">(</span><span class="n">step</span><span class="p">,</span> <span class="n">web</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">_punch</span><span class="p">(</span>
-        <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">_prism</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="n">step</span> <span class="o">*</span> <span class="n">HOLE_SHARE</span><span class="p">,</span> <span class="n">thickness</span><span class="p">)</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span>
+        <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">_prism</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">thickness</span><span class="p">,</span> <span class="n">POINTY_TOP_SPIN</span><span class="p">)</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span>
             <span class="p">[</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">thickness</span> <span class="o">/</span> <span class="mi">2</span><span class="p">]</span>
         <span class="p">),</span>
-        <span class="n">width</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">step</span><span class="p">,</span> <span class="n">stagger</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">width</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">step</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">stagger</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="p">)</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_triangle_fill</span><span class="p">(</span>
-    <span class="n">width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">thickness</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">spacing</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">dense</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">thickness</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">spacing</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">web</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">dense</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Triangular holes, alternating point-up and point-down along each row."""</span>
     <span class="n">step</span> <span class="o">=</span> <span class="n">spacing</span> <span class="o">*</span> <span class="p">(</span><span class="n">DENSE_SPACING_SHARE</span> <span class="k">if</span> <span class="n">dense</span> <span class="k">else</span> <span class="mf">1.0</span><span class="p">)</span>
+    <span class="n">size</span> <span class="o">=</span> <span class="n">hole_size</span><span class="p">(</span><span class="n">step</span><span class="p">,</span> <span class="n">web</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">shape</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
         <span class="c1"># Alternating spin is what makes a triangle grid read as one, rather</span>
         <span class="c1"># than as rows of identical wedges.</span>
         <span class="n">spin</span> <span class="o">=</span> <span class="mf">180.0</span> <span class="k">if</span> <span class="nb">round</span><span class="p">(</span><span class="n">x</span> <span class="o">/</span> <span class="n">step</span><span class="p">)</span> <span class="o">%</span> <span class="mi">2</span> <span class="k">else</span> <span class="mf">0.0</span>
-        <span class="k">return</span> <span class="n">_prism</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">step</span> <span class="o">*</span> <span class="n">HOLE_SHARE</span><span class="p">,</span> <span class="n">thickness</span><span class="p">,</span> <span class="n">spin</span><span class="p">)</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span>
-            <span class="p">[</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">thickness</span> <span class="o">/</span> <span class="mi">2</span><span class="p">]</span>
-        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">_prism</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">thickness</span><span class="p">,</span> <span class="n">spin</span><span class="p">)</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">thickness</span> <span class="o">/</span> <span class="mi">2</span><span class="p">])</span>
 
-    <span class="k">return</span> <span class="n">_punch</span><span class="p">(</span><span class="n">shape</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">step</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">_punch</span><span class="p">(</span><span class="n">shape</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">step</span><span class="p">,</span> <span class="n">size</span><span class="p">)</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_octagon_fill</span><span class="p">(</span>
-    <span class="n">width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">thickness</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">spacing</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">thickness</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">spacing</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">web</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Octagonal holes on a square grid, leaving small square webs."""</span>
+    <span class="n">size</span> <span class="o">=</span> <span class="n">hole_size</span><span class="p">(</span><span class="n">spacing</span><span class="p">,</span> <span class="n">web</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">_punch</span><span class="p">(</span>
-        <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">_prism</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="n">spacing</span> <span class="o">*</span> <span class="n">HOLE_SHARE</span><span class="p">,</span> <span class="n">thickness</span><span class="p">,</span> <span class="mf">22.5</span><span class="p">)</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span>
+        <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">_prism</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">thickness</span><span class="p">,</span> <span class="mf">22.5</span><span class="p">)</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span>
             <span class="p">[</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">thickness</span> <span class="o">/</span> <span class="mi">2</span><span class="p">]</span>
         <span class="p">),</span>
-        <span class="n">width</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">spacing</span><span class="p">,</span>
+        <span class="n">width</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">spacing</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span>
     <span class="p">)</span>
 
 
@@ -564,35 +675,54 @@
 <span class="n">VORONOI_JITTER</span> <span class="o">=</span> <span class="mf">0.28</span>
 <span class="sd">"""How far a cell may wander from its grid point, as a share of the spacing."""</span>
 
+<span class="n">VORONOI_MIN_SCALE</span> <span class="o">=</span> <span class="mf">0.7</span>
+<span class="n">VORONOI_MAX_SCALE</span> <span class="o">=</span> <span class="mf">1.15</span>
+<span class="sd">"""How much a hole's size varies about the nominal, low and high."""</span>
+
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_voronoi_fill</span><span class="p">(</span>
-    <span class="n">width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">thickness</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">spacing</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">thickness</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">spacing</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">web</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""Round holes of varying size on a jittered grid — an organic scatter."""</span>
+<span class="w">    </span><span class="sd">"""Round holes of varying size on a jittered grid — an organic scatter.</span>
+
+<span class="sd">    The jitter and the size variation both eat into the web, so the nominal</span>
+<span class="sd">    hole is taken at the *largest* it will be drawn and the rest come out</span>
+<span class="sd">    smaller — otherwise two neighbours that both wandered inwards would meet.</span>
+<span class="sd">    """</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">cylinder</span>
+
+    <span class="n">size</span> <span class="o">=</span> <span class="n">hole_size</span><span class="p">(</span><span class="n">spacing</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">spacing</span> <span class="o">*</span> <span class="n">VORONOI_JITTER</span><span class="p">,</span> <span class="n">web</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">size</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
 
     <span class="n">rng</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">Random</span><span class="p">(</span><span class="n">VORONOI_SEED</span><span class="p">)</span>
     <span class="n">holes</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">_grid_cells</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">spacing</span><span class="p">):</span>
         <span class="n">jitter</span> <span class="o">=</span> <span class="n">spacing</span> <span class="o">*</span> <span class="n">VORONOI_JITTER</span>
-        <span class="n">cx</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">rng</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="o">-</span><span class="n">jitter</span><span class="p">,</span> <span class="n">jitter</span><span class="p">),</span> <span class="mf">0.0</span><span class="p">),</span> <span class="n">width</span><span class="p">)</span>
-        <span class="n">cy</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">y</span> <span class="o">+</span> <span class="n">rng</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="o">-</span><span class="n">jitter</span><span class="p">,</span> <span class="n">jitter</span><span class="p">),</span> <span class="mf">0.0</span><span class="p">),</span> <span class="n">length</span><span class="p">)</span>
-        <span class="n">radius</span> <span class="o">=</span> <span class="n">spacing</span> <span class="o">*</span> <span class="n">HOLE_SHARE</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">rng</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mf">0.7</span><span class="p">,</span> <span class="mf">1.15</span><span class="p">)</span>
-        <span class="n">hole</span> <span class="o">=</span> <span class="n">cylinder</span><span class="p">(</span>
+        <span class="n">cx</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">rng</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="o">-</span><span class="n">jitter</span><span class="p">,</span> <span class="n">jitter</span><span class="p">)</span>
+        <span class="n">cy</span> <span class="o">=</span> <span class="n">y</span> <span class="o">+</span> <span class="n">rng</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="o">-</span><span class="n">jitter</span><span class="p">,</span> <span class="n">jitter</span><span class="p">)</span>
+        <span class="n">radius</span> <span class="o">=</span> <span class="n">size</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">rng</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">VORONOI_MIN_SCALE</span><span class="p">,</span> <span class="n">VORONOI_MAX_SCALE</span><span class="p">)</span>
+        <span class="n">cut</span> <span class="o">=</span> <span class="n">cylinder</span><span class="p">(</span>
             <span class="n">height</span><span class="o">=</span><span class="n">thickness</span> <span class="o">*</span> <span class="n">DEPTH_OVERSHOOT</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="n">radius</span><span class="p">,</span> <span class="o">**</span><span class="n">precision_kwargs</span><span class="p">()</span>
         <span class="p">)</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">cx</span><span class="p">,</span> <span class="n">cy</span><span class="p">,</span> <span class="n">thickness</span> <span class="o">/</span> <span class="mi">2</span><span class="p">])</span>
-        <span class="n">holes</span> <span class="o">=</span> <span class="n">hole</span> <span class="k">if</span> <span class="n">holes</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">holes</span> <span class="o">|</span> <span class="n">hole</span>
+        <span class="n">holes</span> <span class="o">=</span> <span class="n">cut</span> <span class="k">if</span> <span class="n">holes</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">holes</span> <span class="o">|</span> <span class="n">cut</span>
     <span class="k">return</span> <span class="n">holes</span>
 
 
-<span class="n">_PATTERN_FILLS</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="n">PatternType</span><span class="p">,</span> <span class="n">Callable</span><span class="p">[[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="n">Bosl2Solid</span> <span class="o">|</span> <span class="kc">None</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="n">PatternType</span><span class="o">.</span><span class="n">NONE</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">w</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">s</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+<span class="n">_PATTERN_FILLS</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span>
+    <span class="n">PatternType</span><span class="p">,</span>
+    <span class="n">Callable</span><span class="p">[[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span><span class="p">],</span> <span class="n">Bosl2Solid</span> <span class="o">|</span> <span class="kc">None</span><span class="p">],</span>
+<span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">PatternType</span><span class="o">.</span><span class="n">NONE</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">w</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">web</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">PatternType</span><span class="o">.</span><span class="n">SQUARE</span><span class="p">:</span> <span class="n">_square_fill</span><span class="p">,</span>
     <span class="n">PatternType</span><span class="o">.</span><span class="n">CIRCLE</span><span class="p">:</span> <span class="n">_circle_fill</span><span class="p">,</span>
     <span class="n">PatternType</span><span class="o">.</span><span class="n">HEX</span><span class="p">:</span> <span class="n">_hex_fill</span><span class="p">,</span>
-    <span class="n">PatternType</span><span class="o">.</span><span class="n">DENSE_HEX</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">w</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">s</span><span class="p">:</span> <span class="n">_hex_fill</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">dense</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+    <span class="n">PatternType</span><span class="o">.</span><span class="n">DENSE_HEX</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">w</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">web</span><span class="p">:</span> <span class="n">_hex_fill</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">web</span><span class="p">,</span> <span class="n">dense</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
     <span class="n">PatternType</span><span class="o">.</span><span class="n">TRIANGLE</span><span class="p">:</span> <span class="n">_triangle_fill</span><span class="p">,</span>
-    <span class="n">PatternType</span><span class="o">.</span><span class="n">DENSE_TRIANGLE</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">w</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">s</span><span class="p">:</span> <span class="n">_triangle_fill</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">dense</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+    <span class="n">PatternType</span><span class="o">.</span><span class="n">DENSE_TRIANGLE</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">w</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">web</span><span class="p">:</span> <span class="n">_triangle_fill</span><span class="p">(</span>
+        <span class="n">w</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">web</span><span class="p">,</span> <span class="n">dense</span><span class="o">=</span><span class="kc">True</span>
+    <span class="p">),</span>
     <span class="n">PatternType</span><span class="o">.</span><span class="n">OCTAGON</span><span class="p">:</span> <span class="n">_octagon_fill</span><span class="p">,</span>
     <span class="n">PatternType</span><span class="o">.</span><span class="n">VORONOI</span><span class="p">:</span> <span class="n">_voronoi_fill</span><span class="p">,</span>
 <span class="p">}</span>

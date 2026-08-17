@@ -972,10 +972,11 @@
             <span class="k">if</span> <span class="n">piece</span><span class="o">.</span><span class="n">solid</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="k">continue</span>
 
-            <span class="n">solid</span> <span class="o">=</span> <span class="n">piece</span><span class="o">.</span><span class="n">solid</span>
+            <span class="n">solid</span><span class="p">,</span> <span class="n">inserts</span> <span class="o">=</span> <span class="n">piece</span><span class="o">.</span><span class="n">solid</span><span class="p">,</span> <span class="kc">None</span>
             <span class="k">if</span> <span class="n">piece</span><span class="o">.</span><span class="n">kind</span> <span class="o">==</span> <span class="s2">"lid"</span><span class="p">:</span>
                 <span class="c1"># Show the lid as it prints, decoration and all.</span>
-                <span class="n">solid</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_decorated_lid</span><span class="p">(</span><span class="n">piece</span><span class="p">,</span> <span class="s2">"mmu"</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">or</span> <span class="n">solid</span>
+                <span class="n">decorated</span><span class="p">,</span> <span class="n">inserts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_decorated_lid</span><span class="p">(</span><span class="n">piece</span><span class="p">,</span> <span class="s2">"mmu"</span><span class="p">)</span>
+                <span class="n">solid</span> <span class="o">=</span> <span class="n">decorated</span> <span class="ow">or</span> <span class="n">solid</span>
 
             <span class="n">colour</span> <span class="o">=</span> <span class="n">colour_for</span><span class="p">(</span><span class="n">piece</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">piece</span><span class="o">.</span><span class="n">kind</span> <span class="o">==</span> <span class="s2">"lid"</span><span class="p">:</span>
@@ -983,6 +984,21 @@
             <span class="n">out</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
                 <span class="n">PreviewPiece</span><span class="p">(</span><span class="n">piece</span><span class="o">.</span><span class="n">label</span><span class="p">,</span> <span class="n">solid</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">piece</span><span class="o">.</span><span class="n">position</span><span class="p">)),</span> <span class="n">colour</span><span class="p">,</span> <span class="n">piece</span><span class="o">.</span><span class="n">kind</span><span class="p">)</span>
             <span class="p">)</span>
+
+            <span class="c1"># A lid's label and frame are *inserts* — separate solids, so the</span>
+            <span class="c1"># slicer can give each its own material (FR-025). Dropping them</span>
+            <span class="c1"># here left every previewed lid blank while the exported one</span>
+            <span class="c1"># carried its label, which is the divergence FR-046c exists to</span>
+            <span class="c1"># prevent: what is previewed must be what is printed. Each keeps</span>
+            <span class="c1"># its own colour rather than being fused into the lid's, since</span>
+            <span class="c1"># that is the whole reason it is a separate object.</span>
+            <span class="k">for</span> <span class="n">insert</span> <span class="ow">in</span> <span class="n">inserts</span> <span class="ow">or</span> <span class="p">():</span>
+                <span class="n">out</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="n">PreviewPiece</span><span class="p">(</span>
+                        <span class="n">piece</span><span class="o">.</span><span class="n">label</span><span class="p">,</span> <span class="n">insert</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">piece</span><span class="o">.</span><span class="n">position</span><span class="p">)),</span>
+                        <span class="n">_insert_color</span><span class="p">(</span><span class="n">insert</span><span class="p">,</span> <span class="n">colour</span><span class="p">),</span> <span class="s2">"lid"</span><span class="p">,</span>
+                    <span class="p">)</span>
+                <span class="p">)</span>
         <span class="k">return</span> <span class="n">out</span></div>
 
 
@@ -1604,6 +1620,25 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_shared_groups</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">boxes</span><span class="p">,</span> <span class="n">compartments</span><span class="p">))</span></div>
 </div>
 
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_insert_color</span><span class="p">(</span><span class="n">insert</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">fallback</span><span class="p">:</span> <span class="n">Color</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Color</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Return the colour a lid insert previews in.</span>
+
+<span class="sd">    A coloured insert carries its own — that is what makes it a separate</span>
+<span class="sd">    object — so the preview shows the material it will print in rather than</span>
+<span class="sd">    tinting it like the lid it sits on.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        insert: The insert solid, which may already be coloured.</span>
+<span class="sd">        fallback: The lid's own preview colour, for an insert with none.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        The colour to draw it in.</span>
+
+<span class="sd">    """</span>
+    <span class="n">own</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">insert</span><span class="p">,</span> <span class="s2">"color"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">own</span> <span class="k">if</span> <span class="n">own</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">callable</span><span class="p">(</span><span class="n">own</span><span class="p">)</span> <span class="k">else</span> <span class="n">fallback</span>
 
 
 <span class="n">STANDALONE_GAP_MM</span> <span class="o">=</span> <span class="mf">10.0</span>

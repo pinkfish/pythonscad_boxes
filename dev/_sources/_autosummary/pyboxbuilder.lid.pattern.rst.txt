@@ -21,5 +21,6 @@ pyboxbuilder.lid.pattern
    
       build_pattern
       default_spacing
+      hole_size
    
    

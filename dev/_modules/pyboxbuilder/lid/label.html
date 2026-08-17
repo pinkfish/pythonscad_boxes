@@ -332,21 +332,40 @@
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.lid.label.Label.html#pyboxbuilder.lid.label.Label">[docs]</a>
 <span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">Label</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""A built label, split by the colour it wants to print in.</span>
+<span class="w">    </span><span class="sd">"""A built label, split by the colour each part prints in.</span>
 
-<span class="sd">    Keeping the parts separate is what lets the MMU pass assign each its own</span>
-<span class="sd">    material while the single-colour pass fuses them.</span>
+<span class="sd">    Keeping the parts separate is what lets the multi-material pass inlay each</span>
+<span class="sd">    in its own colour while the single-colour pass fuses them.</span>
+
+<span class="sd">    Three parts, and only two of them are coloured. The **plate** is the box's</span>
+<span class="sd">    own material — it is never cut, so nothing is inlaid into it (FR-022) —</span>
+<span class="sd">    which is why it is here only to say where the label sits, not what to print.</span>
 <span class="sd">    """</span>
 
     <span class="n">text</span><span class="p">:</span> <span class="n">Bosl2Solid</span>
-    <span class="n">backing</span><span class="p">:</span> <span class="n">Bosl2Solid</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="w">    </span><span class="sd">"""Framed mode only: the plate and hatching behind the text."""</span>
+<span class="w">    </span><span class="sd">"""The lettering. Inlaid in the text colour, black by default."""</span>
+    <span class="n">hatching</span><span class="p">:</span> <span class="n">Bosl2Solid</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">"""Framed mode only: the striped grid behind the text, inlaid light grey."""</span>
+    <span class="n">plate</span><span class="p">:</span> <span class="n">Bosl2Solid</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">"""Framed mode only: the area the label occupies.</span>
+
+<span class="sd">    Not a coloured part — it stays lid material. Carried so the pattern knows</span>
+<span class="sd">    what to keep clear of and the single-colour pass knows what to engrave.</span>
+<span class="sd">    """</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">backing</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""The plate and its striped grid, as one solid."""</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">plate</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">hatching</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">plate</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">hatching</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">plate</span> <span class="o">|</span> <span class="bp">self</span><span class="o">.</span><span class="n">hatching</span>
 
 <div class="viewcode-block" id="Label.combined">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.lid.label.Label.html#pyboxbuilder.lid.label.Label.combined">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">combined</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">"""Return the text and, in framed mode, its backing plate, fused into one solid."""</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">text</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">backing</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">backing</span> <span class="o">|</span> <span class="bp">self</span><span class="o">.</span><span class="n">text</span></div>
+<span class="w">        </span><span class="sd">"""Return every part of the label fused into one solid."""</span>
+        <span class="n">backing</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">backing</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">text</span> <span class="k">if</span> <span class="n">backing</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">backing</span> <span class="o">|</span> <span class="bp">self</span><span class="o">.</span><span class="n">text</span></div>
 </div>
 
 
@@ -469,10 +488,10 @@
         <span class="p">[</span><span class="n">plate_w</span><span class="p">,</span> <span class="n">plate_l</span><span class="p">,</span> <span class="n">BACKING_HEIGHT_MM</span><span class="p">],</span>
         <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="n">plate_x</span><span class="p">,</span> <span class="n">plate_y</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span>
     <span class="p">)</span>
-    <span class="k">return</span> <span class="n">Label</span><span class="p">(</span>
-        <span class="n">text</span><span class="o">=</span><span class="n">solid</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">BACKING_HEIGHT_MM</span><span class="p">]),</span>
-        <span class="n">backing</span><span class="o">=</span><span class="n">plate</span> <span class="o">|</span> <span class="n">hatching</span><span class="p">,</span>
-    <span class="p">)</span></div>
+    <span class="c1"># The striped grid stops at the lettering: the two are inlaid side by side</span>
+    <span class="c1"># into one face, so a stripe running under a glyph would be competing with</span>
+    <span class="c1"># it for the same top layer.</span>
+    <span class="k">return</span> <span class="n">Label</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="n">solid</span><span class="p">,</span> <span class="n">hatching</span><span class="o">=</span><span class="n">hatching</span> <span class="o">-</span> <span class="n">solid</span><span class="p">,</span> <span class="n">plate</span><span class="o">=</span><span class="n">plate</span><span class="p">)</span></div>
 
 
 

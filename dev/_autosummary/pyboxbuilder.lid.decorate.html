@@ -1240,6 +1240,34 @@ contrast with when the caller names none (FR-022).</p>
 <dd><p>How deep a single-colour label is cut into the lid.</p>
 </dd></dl>
 
+<dl class="py data objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.lid.decorate.INLAY_DEPTH_MM">
+<span class="sig-prename descclassname"><span class="pre">pyboxbuilder.lid.decorate.</span></span><span class="sig-name descname"><span class="pre">INLAY_DEPTH_MM</span></span><span class="p"> <span class="pre">=</span> </span><code class="code python docutils literal highlight highlight-python"><span class="mf">0.6</span></code><a class="headerlink" href="#pyboxbuilder.lid.decorate.INLAY_DEPTH_MM" title="Link to this definition">¶</a></dt>
+<dd><p>How deep a multi-material label is inlaid into the lid (FR-022a).</p>
+<p>Three layers at the 0.2mm this library assumes, which is enough for the accent
+to cover the material under it. Deeper only costs filament and print time: the
+colour is a surface, and nothing about the label is structural.</p>
+</dd></dl>
+
+<dl class="py data objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.lid.decorate.KEEPOUT_DIRECTIONS">
+<span class="sig-prename descclassname"><span class="pre">pyboxbuilder.lid.decorate.</span></span><span class="sig-name descname"><span class="pre">KEEPOUT_DIRECTIONS</span></span><span class="p"> <span class="pre">=</span> </span><code class="code python docutils literal highlight highlight-python"><span class="mi">12</span></code><a class="headerlink" href="#pyboxbuilder.lid.decorate.KEEPOUT_DIRECTIONS" title="Link to this definition">¶</a></dt>
+<dd><p>How many directions the label is smeared in to grow its keep-out.</p>
+<p>A cheap stand-in for a true offset: the label is unioned with copies of itself
+shifted a clearance in a ring of directions, which grows its outline by that
+clearance to within the ring’s own resolution. Twelve is close enough at 1.5mm
+that no glyph shows a facet, and it costs a dozen unions rather than a
+Minkowski sum over every letter.</p>
+</dd></dl>
+
+<dl class="py data objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.lid.decorate.LABEL_CLEARANCE_MM">
+<span class="sig-prename descclassname"><span class="pre">pyboxbuilder.lid.decorate.</span></span><span class="sig-name descname"><span class="pre">LABEL_CLEARANCE_MM</span></span><span class="p"> <span class="pre">=</span> </span><code class="code python docutils literal highlight highlight-python"><span class="mf">1.5</span></code><a class="headerlink" href="#pyboxbuilder.lid.decorate.LABEL_CLEARANCE_MM" title="Link to this definition">¶</a></dt>
+<dd><p>How far the pattern stands off the label, all round.</p>
+<p>Enough that the lettering has a margin of solid lid to sit on rather than
+ending exactly at a hole’s edge, which is where a thin stroke would break away.</p>
+</dd></dl>
+
 
 
 

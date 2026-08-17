@@ -317,22 +317,73 @@
 <span class="sd">label comes out as a smudge; skipping it leaves a clean lid instead.</span>
 <span class="sd">"""</span>
 
-<span class="n">BORDER_MARGIN_MM</span> <span class="o">=</span> <span class="mf">5.0</span>
-<span class="sd">"""Margin an auto-sized label keeps clear of the lid's edge."""</span>
+<span class="n">LID_BORDER_MM</span> <span class="o">=</span> <span class="mf">8.0</span>
+<span class="sd">"""Solid margin around everything on a lid — its pattern and its label alike.</span>
+
+<span class="sd">The border is what the lid is picked up and located by, and on a sliding lid it</span>
+<span class="sd">is what rides in the grooves, so it has to survive whatever is put on the face.</span>
+<span class="sd">**One number** covers both: a label set to a different margin from the pattern</span>
+<span class="sd">reads as a mistake, because what a viewer sees is a single band of plain lid</span>
+<span class="sd">and one thing crossing it.</span>
+<span class="sd">"""</span>
+
+<span class="n">LABEL_INSET_MM</span> <span class="o">=</span> <span class="mf">2.0</span>
+<span class="sd">"""How far the label sits *inside* the lid's border, beyond the border itself.</span>
+
+<span class="sd">The border is a band of plain lid, and a label that runs to its inner edge</span>
+<span class="sd">reads as though it is touching the pattern rather than sitting in a space of</span>
+<span class="sd">its own. Two millimetres is enough to separate them without shrinking the text</span>
+<span class="sd">noticeably — on a card lid it costs about half a millimetre of cap height.</span>
+<span class="sd">"""</span>
+
+<span class="n">BORDER_MARGIN_MM</span> <span class="o">=</span> <span class="n">LID_BORDER_MM</span> <span class="o">+</span> <span class="n">LABEL_INSET_MM</span>
+<span class="sd">"""Margin an auto-sized label keeps clear of the lid's edge.</span>
+
+<span class="sd">The lid's border plus the label's own inset, so the text sits inside the band</span>
+<span class="sd">the pattern stops at rather than level with it."""</span>
+
+<span class="n">PATTERN_BORDER_MM</span> <span class="o">=</span> <span class="n">LID_BORDER_MM</span>
+<span class="sd">"""Solid margin left around a lid's pattern, when nothing else says."""</span>
 
 
 <div class="viewcode-block" id="PatternBuilder">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.lid.builder.PatternBuilder.html#pyboxbuilder.PatternBuilder">[docs]</a>
 <span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">PatternBuilder</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""Through-hole pattern configuration for a lid."""</span>
+<span class="w">    </span><span class="sd">"""Through-hole pattern configuration for a lid.</span>
+
+<span class="sd">    A pattern is specified by the **pitch** between holes and the **web** left</span>
+<span class="sd">    between them. The web is the one with a right answer — it is what prints,</span>
+<span class="sd">    and what carries the lid — so it is the one to state; the hole size follows</span>
+<span class="sd">    from the two.</span>
+<span class="sd">    """</span>
 
     <span class="nb">type</span><span class="p">:</span> <span class="n">PatternType</span> <span class="o">=</span> <span class="n">PatternType</span><span class="o">.</span><span class="n">HEX</span>
 <span class="w">    </span><span class="sd">"""Which pattern to cut. See :class:`~pyboxbuilder.enums.PatternType`."""</span>
     <span class="n">colors</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Color</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="p">()</span>
 <span class="w">    </span><span class="sd">"""Accent colours for the pattern's top layer, if any."""</span>
     <span class="n">spacing</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="w">    </span><span class="sd">"""Cell size in mm; ``None`` derives it from the lid's shorter side."""</span></div>
+<span class="w">    </span><span class="sd">"""Centre-to-centre distance between holes, in mm.</span>
+
+<span class="sd">    ``None`` derives it from the area being filled — an eighth of its shorter</span>
+<span class="sd">    side, never below 5mm — so the same pattern reads the same on a token lid</span>
+<span class="sd">    and a card lid."""</span>
+    <span class="n">web</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">"""Material left between neighbouring holes, in mm.</span>
+
+<span class="sd">    ``None`` uses :data:`~pyboxbuilder.lid.pattern.DEFAULT_WEB_MM`. Raising it</span>
+<span class="sd">    thickens the ribs without changing the pitch; the holes shrink to make</span>
+<span class="sd">    room."""</span>
+    <span class="n">border</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">"""Solid margin around the whole pattern, in mm.</span>
+
+<span class="sd">    ``None`` uses :data:`PATTERN_BORDER_MM`. ``0`` runs the pattern to the</span>
+<span class="sd">    lid's edge, which is rarely what a lid wants — see that constant."""</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">border_width</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""The border, resolved."""</span>
+        <span class="k">return</span> <span class="n">PATTERN_BORDER_MM</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">border</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">border</span><span class="p">)</span></div>
 
 
 
@@ -383,9 +434,17 @@
     <span class="n">diagonal</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="w">    </span><span class="sd">"""Run the text corner to corner rather than along the lid; ``None`` is no."""</span>
     <span class="n">text_color</span><span class="p">:</span> <span class="n">Color</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="w">    </span><span class="sd">"""Colour of the label text; ``None`` uses white."""</span>
+<span class="w">    </span><span class="sd">"""Colour the lettering is inlaid in; ``None`` uses black (FR-022).</span>
+
+<span class="sd">    A label is read against a lid whose colour is the game's choice, so the</span>
+<span class="sd">    default is the one colour that reads against all of them."""</span>
     <span class="n">frame_color</span><span class="p">:</span> <span class="n">Color</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="w">    </span><span class="sd">"""Colour of the frame's top layer; ``None`` contrasts with the body."""</span>
+<span class="w">    </span><span class="sd">"""Colour the framed label's **striped grid** is inlaid in; ``None`` uses</span>
+<span class="sd">    light grey.</span>
+
+<span class="sd">    The grid is a texture behind the lettering, not a second label. What sits</span>
+<span class="sd">    *behind* both is the box's own material — it is never cut, so it needs no</span>
+<span class="sd">    colour here (FR-022)."""</span>
     <span class="n">pattern</span><span class="p">:</span> <span class="n">PatternBuilder</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="w">    </span><span class="sd">"""Through-hole pattern, or ``None`` for a plain lid."""</span>
     <span class="n">pattern_color</span><span class="p">:</span> <span class="n">Color</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>

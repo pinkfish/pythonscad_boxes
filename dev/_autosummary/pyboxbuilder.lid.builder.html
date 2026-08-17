@@ -857,6 +857,22 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="pyboxbuilder.lid.builder.PatternBuilder">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pyboxbuilder.lid.builder.PatternBuilder.border_width" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span>border_<wbr>width</span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
     </ul>
@@ -1338,6 +1354,22 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="pyboxbuilder.lid.builder.PatternBuilder">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pyboxbuilder.lid.builder.PatternBuilder.border_width" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span>border_<wbr>width</span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
     </ul>
@@ -1473,7 +1505,11 @@ colour.</p>
 <dl class="py attribute objdesc">
 <dt class="sig sig-object highlight py" id="pyboxbuilder.lid.builder.LidBuilder.frame_color">
 <span class="sig-name descname"><span class="pre">frame_color</span></span><span class="p"> <span class="pre">:</span> </span><span class="desctype"><a class="reference internal" href="pyboxbuilder.html#pyboxbuilder.Color" title="pyboxbuilder.Color (Python class) — Bases: object"><span class="pre">Color</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="p"> <span class="pre">=</span> </span><code class="code python docutils literal highlight highlight-python"><span class="kc">None</span></code><a class="headerlink" href="#pyboxbuilder.lid.builder.LidBuilder.frame_color" title="Link to this definition">¶</a></dt>
-<dd><p>Colour of the frame’s top layer; <code class="docutils literal notranslate"><span class="pre">None</span></code> contrasts with the body.</p>
+<dd><p>Colour the framed label’s <strong>striped grid</strong> is inlaid in; <code class="docutils literal notranslate"><span class="pre">None</span></code> uses
+light grey.</p>
+<p>The grid is a texture behind the lettering, not a second label. What sits
+<em>behind</em> both is the box’s own material — it is never cut, so it needs no
+colour here (FR-022).</p>
 </dd></dl>
 
 <dl class="py property objdesc">
@@ -1544,16 +1580,36 @@ as <code class="docutils literal notranslate"><span class="pre">None</span></cod
 <dl class="py attribute objdesc">
 <dt class="sig sig-object highlight py" id="pyboxbuilder.lid.builder.LidBuilder.text_color">
 <span class="sig-name descname"><span class="pre">text_color</span></span><span class="p"> <span class="pre">:</span> </span><span class="desctype"><a class="reference internal" href="pyboxbuilder.html#pyboxbuilder.Color" title="pyboxbuilder.Color (Python class) — Bases: object"><span class="pre">Color</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="p"> <span class="pre">=</span> </span><code class="code python docutils literal highlight highlight-python"><span class="kc">None</span></code><a class="headerlink" href="#pyboxbuilder.lid.builder.LidBuilder.text_color" title="Link to this definition">¶</a></dt>
-<dd><p>Colour of the label text; <code class="docutils literal notranslate"><span class="pre">None</span></code> uses white.</p>
+<dd><p>Colour the lettering is inlaid in; <code class="docutils literal notranslate"><span class="pre">None</span></code> uses black (FR-022).</p>
+<p>A label is read against a lid whose colour is the game’s choice, so the
+default is the one colour that reads against all of them.</p>
 </dd></dl>
 
 </dd></dl>
 
 <dl class="py class objdesc">
 <dt class="sig sig-object highlight sig-wrap py" id="pyboxbuilder.lid.builder.PatternBuilder">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyboxbuilder.lid.builder.</span></span><span class="sig-name descname"><span class="pre">PatternBuilder</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="pyboxbuilder.lid.builder.PatternBuilder.html#pyboxbuilder.lid.builder.PatternBuilder" title="pyboxbuilder.lid.builder.PatternBuilder.__init__.type (Python parameter)"><span class="n"><span class="pre">type</span></span></a><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference internal" href="pyboxbuilder.html#pyboxbuilder.PatternType" title="pyboxbuilder.PatternType (Python class) — Bases: Enum"><span class="pre">PatternType</span></a></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><code class="code python default_value docutils literal highlight highlight-python"><span class="n">PatternType</span><span class="o">.</span><span class="n">HEX</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="pyboxbuilder.lid.builder.PatternBuilder.html#pyboxbuilder.lid.builder.PatternBuilder" title="pyboxbuilder.lid.builder.PatternBuilder.__init__.colors (Python parameter)"><span class="n"><span class="pre">colors</span></span></a><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.14)"><span class="pre">tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="pyboxbuilder.html#pyboxbuilder.Color" title="pyboxbuilder.Color (Python class) — Bases: object"><span class="pre">Color</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><code class="code python default_value docutils literal highlight highlight-python"><span class="p">()</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="pyboxbuilder.lid.builder.PatternBuilder.html#pyboxbuilder.lid.builder.PatternBuilder" title="pyboxbuilder.lid.builder.PatternBuilder.__init__.spacing (Python parameter)"><span class="n"><span class="pre">spacing</span></span></a><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em></span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyboxbuilder/lid/builder.html#PatternBuilder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyboxbuilder.lid.builder.PatternBuilder" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyboxbuilder.lid.builder.</span></span><span class="sig-name descname"><span class="pre">PatternBuilder</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="pyboxbuilder.lid.builder.PatternBuilder.html#pyboxbuilder.lid.builder.PatternBuilder" title="pyboxbuilder.lid.builder.PatternBuilder.__init__.type (Python parameter)"><span class="n"><span class="pre">type</span></span></a><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference internal" href="pyboxbuilder.html#pyboxbuilder.PatternType" title="pyboxbuilder.PatternType (Python class) — Bases: Enum"><span class="pre">PatternType</span></a></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><code class="code python default_value docutils literal highlight highlight-python"><span class="n">PatternType</span><span class="o">.</span><span class="n">HEX</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="pyboxbuilder.lid.builder.PatternBuilder.html#pyboxbuilder.lid.builder.PatternBuilder" title="pyboxbuilder.lid.builder.PatternBuilder.__init__.colors (Python parameter)"><span class="n"><span class="pre">colors</span></span></a><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.14)"><span class="pre">tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="pyboxbuilder.html#pyboxbuilder.Color" title="pyboxbuilder.Color (Python class) — Bases: object"><span class="pre">Color</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><code class="code python default_value docutils literal highlight highlight-python"><span class="p">()</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="pyboxbuilder.lid.builder.PatternBuilder.html#pyboxbuilder.lid.builder.PatternBuilder" title="pyboxbuilder.lid.builder.PatternBuilder.__init__.spacing (Python parameter)"><span class="n"><span class="pre">spacing</span></span></a><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="pyboxbuilder.lid.builder.PatternBuilder.html#pyboxbuilder.lid.builder.PatternBuilder" title="pyboxbuilder.lid.builder.PatternBuilder.__init__.web (Python parameter)"><span class="n"><span class="pre">web</span></span></a><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="pyboxbuilder.lid.builder.PatternBuilder.html#pyboxbuilder.lid.builder.PatternBuilder" title="pyboxbuilder.lid.builder.PatternBuilder.__init__.border (Python parameter)"><span class="n"><span class="pre">border</span></span></a><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em></span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyboxbuilder/lid/builder.html#PatternBuilder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyboxbuilder.lid.builder.PatternBuilder" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Through-hole pattern configuration for a lid.</p>
+<p>A pattern is specified by the <strong>pitch</strong> between holes and the <strong>web</strong> left
+between them. The web is the one with a right answer — it is what prints,
+and what carries the lid — so it is the one to state; the hole size follows
+from the two.</p>
+<dl class="py attribute objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.lid.builder.PatternBuilder.border">
+<span class="sig-name descname"><span class="pre">border</span></span><span class="p"> <span class="pre">:</span> </span><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="p"> <span class="pre">=</span> </span><code class="code python docutils literal highlight highlight-python"><span class="kc">None</span></code><a class="headerlink" href="#pyboxbuilder.lid.builder.PatternBuilder.border" title="Link to this definition">¶</a></dt>
+<dd><p>Solid margin around the whole pattern, in mm.</p>
+<p><code class="docutils literal notranslate"><span class="pre">None</span></code> uses <a class="reference internal" href="#pyboxbuilder.lid.builder.PATTERN_BORDER_MM" title="pyboxbuilder.lid.builder.PATTERN_BORDER_MM (Python data) — Solid margin left around a lid's pattern, when nothing else says."><code class="xref py py-data docutils literal notranslate"><span class="pre">PATTERN_BORDER_MM</span></code></a>. <code class="docutils literal notranslate"><span class="pre">0</span></code> runs the pattern to the
+lid’s edge, which is rarely what a lid wants — see that constant.</p>
+</dd></dl>
+
+<dl class="py property objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.lid.builder.PatternBuilder.border_width">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">border_width</span></span><span class="p"> <span class="pre">:</span> </span><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span><a class="headerlink" href="#pyboxbuilder.lid.builder.PatternBuilder.border_width" title="Link to this definition">¶</a></dt>
+<dd><p>The border, resolved.</p>
+</dd></dl>
+
 <dl class="py attribute objdesc">
 <dt class="sig sig-object highlight py" id="pyboxbuilder.lid.builder.PatternBuilder.colors">
 <span class="sig-name descname"><span class="pre">colors</span></span><span class="p"> <span class="pre">:</span> </span><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.14)"><span class="pre">tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="pyboxbuilder.html#pyboxbuilder.Color" title="pyboxbuilder.Color (Python class) — Bases: object"><span class="pre">Color</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span><span class="p"> <span class="pre">=</span> </span><code class="code python docutils literal highlight highlight-python"><span class="p">()</span></code><a class="headerlink" href="#pyboxbuilder.lid.builder.PatternBuilder.colors" title="Link to this definition">¶</a></dt>
@@ -1563,7 +1619,10 @@ as <code class="docutils literal notranslate"><span class="pre">None</span></cod
 <dl class="py attribute objdesc">
 <dt class="sig sig-object highlight py" id="pyboxbuilder.lid.builder.PatternBuilder.spacing">
 <span class="sig-name descname"><span class="pre">spacing</span></span><span class="p"> <span class="pre">:</span> </span><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="p"> <span class="pre">=</span> </span><code class="code python docutils literal highlight highlight-python"><span class="kc">None</span></code><a class="headerlink" href="#pyboxbuilder.lid.builder.PatternBuilder.spacing" title="Link to this definition">¶</a></dt>
-<dd><p>Cell size in mm; <code class="docutils literal notranslate"><span class="pre">None</span></code> derives it from the lid’s shorter side.</p>
+<dd><p>Centre-to-centre distance between holes, in mm.</p>
+<p><code class="docutils literal notranslate"><span class="pre">None</span></code> derives it from the area being filled — an eighth of its shorter
+side, never below 5mm — so the same pattern reads the same on a token lid
+and a card lid.</p>
 </dd></dl>
 
 <dl class="py attribute objdesc">
@@ -1572,12 +1631,44 @@ as <code class="docutils literal notranslate"><span class="pre">None</span></cod
 <dd><p>Which pattern to cut. See <a class="reference internal" href="pyboxbuilder.enums.PatternType.html#pyboxbuilder.enums.PatternType" title="pyboxbuilder.enums.PatternType (Python class) — Bases: Enum"><code class="xref py py-class docutils literal notranslate"><span class="pre">PatternType</span></code></a>.</p>
 </dd></dl>
 
+<dl class="py attribute objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.lid.builder.PatternBuilder.web">
+<span class="sig-name descname"><span class="pre">web</span></span><span class="p"> <span class="pre">:</span> </span><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="p"> <span class="pre">=</span> </span><code class="code python docutils literal highlight highlight-python"><span class="kc">None</span></code><a class="headerlink" href="#pyboxbuilder.lid.builder.PatternBuilder.web" title="Link to this definition">¶</a></dt>
+<dd><p>Material left between neighbouring holes, in mm.</p>
+<p><code class="docutils literal notranslate"><span class="pre">None</span></code> uses <a class="reference internal" href="pyboxbuilder.lid.pattern.html#pyboxbuilder.lid.pattern.DEFAULT_WEB_MM" title="pyboxbuilder.lid.pattern.DEFAULT_WEB_MM (Python data) — Material left between neighbouring holes, when nothing else says."><code class="xref py py-data docutils literal notranslate"><span class="pre">DEFAULT_WEB_MM</span></code></a>. Raising it
+thickens the ribs without changing the pitch; the holes shrink to make
+room.</p>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="py data objdesc">
 <dt class="sig sig-object highlight py" id="pyboxbuilder.lid.builder.BORDER_MARGIN_MM">
-<span class="sig-prename descclassname"><span class="pre">pyboxbuilder.lid.builder.</span></span><span class="sig-name descname"><span class="pre">BORDER_MARGIN_MM</span></span><span class="p"> <span class="pre">=</span> </span><code class="code python docutils literal highlight highlight-python"><span class="mf">5.0</span></code><a class="headerlink" href="#pyboxbuilder.lid.builder.BORDER_MARGIN_MM" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">pyboxbuilder.lid.builder.</span></span><span class="sig-name descname"><span class="pre">BORDER_MARGIN_MM</span></span><span class="p"> <span class="pre">=</span> </span><code class="code python docutils literal highlight highlight-python"><span class="mf">10.0</span></code><a class="headerlink" href="#pyboxbuilder.lid.builder.BORDER_MARGIN_MM" title="Link to this definition">¶</a></dt>
 <dd><p>Margin an auto-sized label keeps clear of the lid’s edge.</p>
+<p>The lid’s border plus the label’s own inset, so the text sits inside the band
+the pattern stops at rather than level with it.</p>
+</dd></dl>
+
+<dl class="py data objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.lid.builder.LABEL_INSET_MM">
+<span class="sig-prename descclassname"><span class="pre">pyboxbuilder.lid.builder.</span></span><span class="sig-name descname"><span class="pre">LABEL_INSET_MM</span></span><span class="p"> <span class="pre">=</span> </span><code class="code python docutils literal highlight highlight-python"><span class="mf">2.0</span></code><a class="headerlink" href="#pyboxbuilder.lid.builder.LABEL_INSET_MM" title="Link to this definition">¶</a></dt>
+<dd><p>How far the label sits <em>inside</em> the lid’s border, beyond the border itself.</p>
+<p>The border is a band of plain lid, and a label that runs to its inner edge
+reads as though it is touching the pattern rather than sitting in a space of
+its own. Two millimetres is enough to separate them without shrinking the text
+noticeably — on a card lid it costs about half a millimetre of cap height.</p>
+</dd></dl>
+
+<dl class="py data objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.lid.builder.LID_BORDER_MM">
+<span class="sig-prename descclassname"><span class="pre">pyboxbuilder.lid.builder.</span></span><span class="sig-name descname"><span class="pre">LID_BORDER_MM</span></span><span class="p"> <span class="pre">=</span> </span><code class="code python docutils literal highlight highlight-python"><span class="mf">8.0</span></code><a class="headerlink" href="#pyboxbuilder.lid.builder.LID_BORDER_MM" title="Link to this definition">¶</a></dt>
+<dd><p>Solid margin around everything on a lid — its pattern and its label alike.</p>
+<p>The border is what the lid is picked up and located by, and on a sliding lid it
+is what rides in the grooves, so it has to survive whatever is put on the face.
+<strong>One number</strong> covers both: a label set to a different margin from the pattern
+reads as a mistake, because what a viewer sees is a single band of plain lid
+and one thing crossing it.</p>
 </dd></dl>
 
 <dl class="py data objdesc">
@@ -1586,6 +1677,12 @@ as <code class="docutils literal notranslate"><span class="pre">None</span></cod
 <dd><p>Shortest a label may print before it is skipped instead (FR-020).</p>
 <p>Below this an FDM printer cannot hold the strokes of a letter apart, so the
 label comes out as a smudge; skipping it leaves a clean lid instead.</p>
+</dd></dl>
+
+<dl class="py data objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.lid.builder.PATTERN_BORDER_MM">
+<span class="sig-prename descclassname"><span class="pre">pyboxbuilder.lid.builder.</span></span><span class="sig-name descname"><span class="pre">PATTERN_BORDER_MM</span></span><span class="p"> <span class="pre">=</span> </span><code class="code python docutils literal highlight highlight-python"><span class="mf">8.0</span></code><a class="headerlink" href="#pyboxbuilder.lid.builder.PATTERN_BORDER_MM" title="Link to this definition">¶</a></dt>
+<dd><p>Solid margin left around a lid’s pattern, when nothing else says.</p>
 </dd></dl>
 
 

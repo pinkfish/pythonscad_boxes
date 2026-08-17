@@ -1,0 +1,6 @@
+pyboxbuilder.lid.pattern.hole\_size
+===================================
+
+.. currentmodule:: pyboxbuilder.lid.pattern
+
+.. autofunction:: hole_size

@@ -1440,7 +1440,11 @@ colour.</p>
 <dl class="py attribute objdesc">
 <dt class="sig sig-object highlight py" id="pyboxbuilder.lid.builder.LidBuilder.frame_color">
 <span class="sig-name descname"><span class="pre">frame_color</span></span><span class="p"> <span class="pre">:</span> </span><span class="desctype"><a class="reference internal" href="pyboxbuilder.html#pyboxbuilder.Color" title="pyboxbuilder.Color (Python class) — Bases: object"><span class="pre">Color</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="p"> <span class="pre">=</span> </span><code class="code python docutils literal highlight highlight-python"><span class="kc">None</span></code><a class="headerlink" href="#pyboxbuilder.lid.builder.LidBuilder.frame_color" title="Link to this definition">¶</a></dt>
-<dd><p>Colour of the frame’s top layer; <code class="docutils literal notranslate"><span class="pre">None</span></code> contrasts with the body.</p>
+<dd><p>Colour the framed label’s <strong>striped grid</strong> is inlaid in; <code class="docutils literal notranslate"><span class="pre">None</span></code> uses
+light grey.</p>
+<p>The grid is a texture behind the lettering, not a second label. What sits
+<em>behind</em> both is the box’s own material — it is never cut, so it needs no
+colour here (FR-022).</p>
 </dd></dl>
 
 <dl class="py property objdesc">
@@ -1511,7 +1515,9 @@ as <code class="docutils literal notranslate"><span class="pre">None</span></cod
 <dl class="py attribute objdesc">
 <dt class="sig sig-object highlight py" id="pyboxbuilder.lid.builder.LidBuilder.text_color">
 <span class="sig-name descname"><span class="pre">text_color</span></span><span class="p"> <span class="pre">:</span> </span><span class="desctype"><a class="reference internal" href="pyboxbuilder.html#pyboxbuilder.Color" title="pyboxbuilder.Color (Python class) — Bases: object"><span class="pre">Color</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="p"> <span class="pre">=</span> </span><code class="code python docutils literal highlight highlight-python"><span class="kc">None</span></code><a class="headerlink" href="#pyboxbuilder.lid.builder.LidBuilder.text_color" title="Link to this definition">¶</a></dt>
-<dd><p>Colour of the label text; <code class="docutils literal notranslate"><span class="pre">None</span></code> uses white.</p>
+<dd><p>Colour the lettering is inlaid in; <code class="docutils literal notranslate"><span class="pre">None</span></code> uses black (FR-022).</p>
+<p>A label is read against a lid whose colour is the game’s choice, so the
+default is the one colour that reads against all of them.</p>
 </dd></dl>
 
 </dd></dl>
