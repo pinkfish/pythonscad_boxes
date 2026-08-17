@@ -6,7 +6,11 @@ on:
 
 jobs:
   test:
-    runs-on: macos-latest
+    # Intel, not arm64: PythonSCAD's headless render (which the golden and
+    # measure tests shell out to) has known software-renderer issues on Apple
+    # Silicon — the app prints "Python Code globally trusted" and then reports
+    # no geometry. PythonSCAD's own CI runs its image tests on macos-15-intel.
+    runs-on: macos-15-intel
     steps:
       - uses: actions/checkout@v4
 
