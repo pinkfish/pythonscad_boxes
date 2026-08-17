@@ -18,6 +18,7 @@ pyboxbuilder.box.features
       CapFingerMetrics
       CapMetrics
       Closure
+      FingernailCatch
    
    
 
@@ -38,6 +39,8 @@ pyboxbuilder.box.features
       dovetail_track
       extrude_footprint
       filament_hinge
+      fingernail_catch
+      fingernail_dish
       hinge_intrusion
       lead_chamfer_size
       lid_corner_rounding

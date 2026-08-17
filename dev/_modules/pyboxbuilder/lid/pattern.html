@@ -325,6 +325,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.precision</span><span class="w"> </span><span class="kn">import</span> <span class="n">kwargs</span> <span class="k">as</span> <span class="n">precision_kwargs</span>
 
 <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2.shapes2d.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">Bosl2Shape2D</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2.shapes3d</span><span class="w"> </span><span class="kn">import</span> <span class="n">Bosl2Solid</span>
 
 <span class="n">DEFAULT_WEB_MM</span> <span class="o">=</span> <span class="mf">1.6</span>
@@ -418,7 +419,7 @@
 <span class="sd">        width: Width of the area to fill, in mm — the lid less its border.</span>
 <span class="sd">        length: Length of that area, in mm.</span>
 <span class="sd">        thickness: Lid thickness; the holes are cut deeper so they break through.</span>
-<span class="sd">        pattern_type: Which pattern. :attr:`PatternType.NONE` returns ``None``.</span>
+<span class="sd">        pattern_type: Which pattern. ``PatternType.NONE`` returns ``None``.</span>
 <span class="sd">        spacing: Centre-to-centre distance between holes. ``None`` derives it</span>
 <span class="sd">            from the area (see :func:`default_spacing`).</span>
 <span class="sd">        web: Material left between neighbouring holes. ``None`` uses</span>
@@ -456,6 +457,7 @@
     <span class="n">length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">spacing</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">stagger</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">row_step</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
 <span class="w">    </span><span class="sd">"""Centres of a lattice covering the whole area, overhanging every edge.</span>
 
@@ -479,13 +481,19 @@
 <span class="sd">        length: Its length, in mm.</span>
 <span class="sd">        spacing: Centre-to-centre distance between holes.</span>
 <span class="sd">        stagger: Offset alternate rows by half a cell, for a honeycomb.</span>
+<span class="sd">        row_step: Distance between rows. ``None`` uses the pitch itself, or</span>
+<span class="sd">            ``sin(60°)`` of it when staggered — right for a hexagon, whose</span>
+<span class="sd">            neighbours are the same distance away in all six directions. A</span>
+<span class="sd">            shape that is not as tall as it is wide states its own: a leaf's</span>
+<span class="sd">            rows interleave, so its step is well under its width.</span>
 
 <span class="sd">    Yields:</span>
 <span class="sd">        ``(x, y)`` centres, in the area's own frame. Many lie outside it: that</span>
 <span class="sd">        is what puts a partial hole against each edge.</span>
 
 <span class="sd">    """</span>
-    <span class="n">row_step</span> <span class="o">=</span> <span class="n">spacing</span> <span class="o">*</span> <span class="p">(</span><span class="mf">0.866</span> <span class="k">if</span> <span class="n">stagger</span> <span class="k">else</span> <span class="mf">1.0</span><span class="p">)</span>  <span class="c1"># sin(60°) for hex rows</span>
+    <span class="k">if</span> <span class="n">row_step</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">row_step</span> <span class="o">=</span> <span class="n">spacing</span> <span class="o">*</span> <span class="p">(</span><span class="mf">0.866</span> <span class="k">if</span> <span class="n">stagger</span> <span class="k">else</span> <span class="mf">1.0</span><span class="p">)</span>  <span class="c1"># sin(60°) for hex rows</span>
     <span class="k">if</span> <span class="n">spacing</span> <span class="o">&lt;=</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">row_step</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">return</span>
 
@@ -516,6 +524,7 @@
     <span class="n">spacing</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">hole</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">stagger</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">row_step</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Union one hole per cell.</span>
 
@@ -530,6 +539,7 @@
 <span class="sd">        spacing: Centre-to-centre distance between holes.</span>
 <span class="sd">        hole: The hole's nominal size; ``0`` means none will fit.</span>
 <span class="sd">        stagger: Offset alternate rows.</span>
+<span class="sd">        row_step: Distance between rows; ``None`` derives it from the pitch.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        The union of every hole, or ``None`` when none fit.</span>
@@ -539,7 +549,7 @@
         <span class="k">return</span> <span class="kc">None</span>
 
     <span class="n">holes</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">_grid_cells</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">spacing</span><span class="p">,</span> <span class="n">stagger</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">_grid_cells</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">spacing</span><span class="p">,</span> <span class="n">stagger</span><span class="p">,</span> <span class="n">row_step</span><span class="p">):</span>
         <span class="n">cut</span> <span class="o">=</span> <span class="n">shape_at</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
         <span class="n">holes</span> <span class="o">=</span> <span class="n">cut</span> <span class="k">if</span> <span class="n">holes</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">holes</span> <span class="o">|</span> <span class="n">cut</span>
     <span class="k">return</span> <span class="n">holes</span>
@@ -710,6 +720,269 @@
     <span class="k">return</span> <span class="n">holes</span>
 
 
+<span class="n">LEAF_ASPECT</span> <span class="o">=</span> <span class="mf">2.0</span>
+<span class="sd">"""How many times longer a leaf is than it is wide.</span>
+
+<span class="sd">Two-to-one is the ratio at which a pointed oval stops reading as an eye and</span>
+<span class="sd">starts reading as a leaf. It also sets how far the rows interleave, so it is one</span>
+<span class="sd">number rather than two: see ``_leaf_row_step``.</span>
+<span class="sd">"""</span>
+
+<span class="n">LEAF_MIDRIB_MIN_HALF_MM</span> <span class="o">=</span> <span class="mf">1.5</span>
+<span class="sd">"""Narrowest half-leaf worth cutting either side of a midrib.</span>
+
+<span class="sd">Below this the rib has split one hole into two slits, which reads as a crack in</span>
+<span class="sd">the lid rather than as a leaf, so the leaf is cut whole instead.</span>
+<span class="sd">"""</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_leaf_half_height</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">half_length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">half_width</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Half the leaf's height at `x` from its centre — its outline, as a curve.</span>
+
+<span class="sd">    The leaf is the lens where two equal circles overlap, so each side of it is</span>
+<span class="sd">    a circular arc. A circle of radius R whose arc spans ``half_length`` and</span>
+<span class="sd">    rises ``half_width`` is the same chord problem the fingernail dish solves:</span>
+<span class="sd">    ``R = (a² + b²) / 2b``.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        x: Distance from the leaf's centre along its long axis.</span>
+<span class="sd">        half_length: Half the leaf's length — its tip, where the height is 0.</span>
+<span class="sd">        half_width: Half its width at the middle, where the height is greatest.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Half the leaf's height there, or ``0`` beyond its tips.</span>
+
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">half_length</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mf">0.0</span>
+    <span class="n">ball</span> <span class="o">=</span> <span class="p">(</span><span class="n">half_length</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">half_width</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">half_width</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">ball</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">-</span> <span class="n">x</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">ball</span> <span class="o">-</span> <span class="n">half_width</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_leaf_row_step</span><span class="p">(</span><span class="n">half_length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">half_width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">web</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""How far apart leaf rows sit, given that they interleave.</span>
+
+<span class="sd">    Offset rows do not need a full leaf-width between them. A row is shifted</span>
+<span class="sd">    half a pitch, so where one leaf is at its widest its neighbours above and</span>
+<span class="sd">    below are near their tips, and the rows nest into each other. Stepping by</span>
+<span class="sd">    the full width instead would leave a band of solid lid along every row —</span>
+<span class="sd">    the leaves would read as stripes rather than as foliage.</span>
+
+<span class="sd">    How far they nest is a property of the outline, so it is measured rather</span>
+<span class="sd">    than guessed: the closest the two rows come is at the midpoint between the</span>
+<span class="sd">    offset centres, where by symmetry both leaves are the same height.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        half_length: Half a leaf's length.</span>
+<span class="sd">        half_width: Half its width.</span>
+<span class="sd">        web: Material to leave between the rows.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        The row-to-row distance that leaves exactly `web` between them.</span>
+
+<span class="sd">    """</span>
+    <span class="c1"># Half the pitch along the row, so the midpoint between a leaf and its</span>
+    <span class="c1"># neighbour in the row below is a quarter of the pitch from each.</span>
+    <span class="n">quarter_pitch</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">half_length</span> <span class="o">+</span> <span class="n">web</span><span class="p">)</span> <span class="o">/</span> <span class="mf">4.0</span>
+    <span class="k">return</span> <span class="n">web</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">_leaf_half_height</span><span class="p">(</span><span class="n">quarter_pitch</span><span class="p">,</span> <span class="n">half_length</span><span class="p">,</span> <span class="n">half_width</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_leaf</span><span class="p">(</span><span class="n">length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">thickness</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">rib</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""One leaf-shaped hole, lying along X, tall enough to break through."""</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">cuboid</span><span class="p">,</span> <span class="n">cylinder</span>
+
+    <span class="n">half_length</span><span class="p">,</span> <span class="n">half_width</span> <span class="o">=</span> <span class="n">length</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">width</span> <span class="o">/</span> <span class="mf">2.0</span>
+    <span class="n">ball</span> <span class="o">=</span> <span class="p">(</span><span class="n">half_length</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">half_width</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">half_width</span><span class="p">)</span>
+    <span class="n">height</span> <span class="o">=</span> <span class="n">thickness</span> <span class="o">*</span> <span class="n">DEPTH_OVERSHOOT</span>
+    <span class="c1"># The lens two overlapping circles leave. Each is offset until its near</span>
+    <span class="c1"># edge reaches the leaf's midline plus half its width.</span>
+    <span class="n">disc</span> <span class="o">=</span> <span class="n">cylinder</span><span class="p">(</span><span class="n">height</span><span class="o">=</span><span class="n">height</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="n">ball</span><span class="p">,</span> <span class="o">**</span><span class="n">precision_kwargs</span><span class="p">())</span>
+    <span class="n">leaf</span> <span class="o">=</span> <span class="n">disc</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">half_width</span> <span class="o">-</span> <span class="n">ball</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span> <span class="o">&amp;</span> <span class="n">disc</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span>
+        <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">ball</span> <span class="o">-</span> <span class="n">half_width</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="p">)</span>
+    <span class="k">if</span> <span class="n">rib</span> <span class="o">&lt;=</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">width</span> <span class="o">/</span> <span class="mf">2.0</span> <span class="o">-</span> <span class="n">rib</span> <span class="o">/</span> <span class="mf">2.0</span> <span class="o">&lt;</span> <span class="n">LEAF_MIDRIB_MIN_HALF_MM</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">leaf</span>
+    <span class="c1"># The midrib: a bar of lid left along the leaf's spine. It is what tells a</span>
+    <span class="c1"># viewer this is a leaf rather than a pointed oval, and it braces the</span>
+    <span class="c1"># widest part of the hole, which is where a perforated lid gives way.</span>
+    <span class="k">return</span> <span class="n">leaf</span> <span class="o">-</span> <span class="n">cuboid</span><span class="p">([</span><span class="n">length</span><span class="p">,</span> <span class="n">rib</span><span class="p">,</span> <span class="n">height</span> <span class="o">*</span> <span class="mi">2</span><span class="p">])</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_leaf_fill</span><span class="p">(</span>
+    <span class="n">width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">thickness</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">spacing</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">web</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Pointed-oval leaves with midribs, interlocking in offset rows.</span>
+
+<span class="sd">    The pitch names the leaf's **length**, as it names a hexagon's width: what</span>
+<span class="sd">    a caller sets is how far apart the holes are, and the shape fills that. A</span>
+<span class="sd">    leaf is half as wide as it is long, and the rows nest into one another by</span>
+<span class="sd">    the amount its taper allows, so the web is even across the lid rather than</span>
+<span class="sd">    only along the rows.</span>
+<span class="sd">    """</span>
+    <span class="n">leaf_length</span> <span class="o">=</span> <span class="n">hole_size</span><span class="p">(</span><span class="n">spacing</span><span class="p">,</span> <span class="n">web</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">leaf_length</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+    <span class="n">leaf_width</span> <span class="o">=</span> <span class="n">leaf_length</span> <span class="o">/</span> <span class="n">LEAF_ASPECT</span>
+    <span class="n">gap</span> <span class="o">=</span> <span class="n">DEFAULT_WEB_MM</span> <span class="k">if</span> <span class="n">web</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="nb">max</span><span class="p">(</span><span class="n">web</span><span class="p">,</span> <span class="n">MIN_WEB_MM</span><span class="p">)</span>
+    <span class="n">rib</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">MIN_WEB_MM</span><span class="p">,</span> <span class="n">gap</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">_punch</span><span class="p">(</span>
+        <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">_leaf</span><span class="p">(</span><span class="n">leaf_length</span><span class="p">,</span> <span class="n">leaf_width</span><span class="p">,</span> <span class="n">thickness</span><span class="p">,</span> <span class="n">rib</span><span class="p">)</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span>
+            <span class="p">[</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">thickness</span> <span class="o">/</span> <span class="mi">2</span><span class="p">]</span>
+        <span class="p">),</span>
+        <span class="n">width</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">spacing</span><span class="p">,</span> <span class="n">leaf_length</span><span class="p">,</span> <span class="n">stagger</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">row_step</span><span class="o">=</span><span class="n">_leaf_row_step</span><span class="p">(</span><span class="n">leaf_length</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">leaf_width</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">gap</span><span class="p">),</span>
+    <span class="p">)</span>
+
+
+<span class="n">ROOT_THREE</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">3.0</span><span class="p">)</span>
+
+<span class="n">LEAF_VEIN_BRANCHES</span> <span class="o">=</span> <span class="p">((</span><span class="o">-</span><span class="mf">0.45</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">),</span> <span class="p">(</span><span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.45</span><span class="p">),</span> <span class="p">(</span><span class="mf">0.45</span><span class="p">,</span> <span class="mf">0.80</span><span class="p">))</span>
+<span class="sd">"""Where each side vein leaves the midrib and where it lands, as fractions.</span>
+
+<span class="sd">The first number is how far along the leaf's half-width the vein leaves the</span>
+<span class="sd">midrib; the second is how far along the tip-side margin it lands. Both ends sit</span>
+<span class="sd">**on** other material — the midrib and the outline — because a vein floating</span>
+<span class="sd">loose in a hole is an island the printer has nothing to build on.</span>
+
+<span class="sd">None of them starts at the leaf's base. Three leaves meet at each base, so veins</span>
+<span class="sd">converging there compound into a six-pointed star across the lattice and the</span>
+<span class="sd">leaf stops being legible: what the eye picks out is the star, not the outline</span>
+<span class="sd">around it. Starting them along the midrib instead costs nothing and keeps each</span>
+<span class="sd">leaf reading as one.</span>
+<span class="sd">"""</span>
+
+<span class="n">LEAF_VEIN_SHARE</span> <span class="o">=</span> <span class="mf">0.5</span>
+<span class="sd">"""How thick a vein is next to the web between leaves."""</span>
+
+
+<div class="viewcode-block" id="tessellating_leaf_path">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.lid.pattern.tessellating_leaf_path.html#pyboxbuilder.lid.pattern.tessellating_leaf_path">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">tessellating_leaf_path</span><span class="p">(</span><span class="n">section</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sd">"""Return the outline of a leaf that tiles the plane, tip towards +X.</span>
+
+<span class="sd">    Seven points, of which the useful fact is how their edges pair up. The two</span>
+<span class="sd">    long edges to the tip are equal and opposite to the two from the base, so</span>
+<span class="sd">    each is another leaf's edge under translation; the base's single long edge</span>
+<span class="sd">    is matched by the *two* short notch edges of two different neighbours. That</span>
+<span class="sd">    is what makes this leaf a tile rather than a leaf-shaped blob: it meets its</span>
+<span class="sd">    neighbours edge to edge, with nothing left over between them.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        section: The leaf's quarter-height — the module this is built from. The</span>
+<span class="sd">            leaf comes out ``4 × section`` from notch to notch and</span>
+<span class="sd">            ``2√3 × section`` from base to tip.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        The outline, anticlockwise, centred on the midrib's midpoint.</span>
+
+<span class="sd">    """</span>
+    <span class="n">half_width</span> <span class="o">=</span> <span class="n">section</span> <span class="o">*</span> <span class="n">ROOT_THREE</span>
+    <span class="k">return</span> <span class="p">[</span>
+        <span class="p">(</span><span class="n">half_width</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span>
+        <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">section</span><span class="p">),</span>
+        <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">section</span><span class="p">),</span>
+        <span class="p">(</span><span class="o">-</span><span class="n">half_width</span><span class="p">,</span> <span class="n">section</span><span class="p">),</span>
+        <span class="p">(</span><span class="o">-</span><span class="n">half_width</span><span class="p">,</span> <span class="o">-</span><span class="n">section</span><span class="p">),</span>
+        <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span> <span class="o">*</span> <span class="n">section</span><span class="p">),</span>
+        <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="o">-</span><span class="n">section</span><span class="p">),</span>
+    <span class="p">]</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_leaf_veins</span><span class="p">(</span><span class="n">section</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">thickness</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Shape2D</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Return a midrib and its branches, as material to leave inside a leaf.</span>
+
+<span class="sd">    A midrib from base to tip, and three pairs of side veins running forward</span>
+<span class="sd">    from it to the tip-side margin. Every one ends on the outline or on the</span>
+<span class="sd">    midrib, so nothing in here is an island for the printer to start in mid-air,</span>
+<span class="sd">    and the midrib braces the middle of the hole, which is where a perforated</span>
+<span class="sd">    lid gives way.</span>
+
+<span class="sd">    That is the whole of it. The pattern this is modelled on branches each vein</span>
+<span class="sd">    twice more and rotates the sub-branches about the base; drawn at a lid's</span>
+<span class="sd">    scale the detail closes up into a blur, and the strokes that produced it</span>
+<span class="sd">    were positioned by constants that only held at one leaf size.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        section: The leaf's quarter-height, as :func:`tessellating_leaf_path`.</span>
+<span class="sd">        thickness: How wide to draw each vein.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        The veins, in the leaf's own frame.</span>
+
+<span class="sd">    """</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">shapes2d</span> <span class="k">as</span> <span class="n">s2</span>
+
+    <span class="n">half_width</span> <span class="o">=</span> <span class="n">section</span> <span class="o">*</span> <span class="n">ROOT_THREE</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">stroke</span><span class="p">(</span>
+        <span class="n">start</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="n">end</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Shape2D</span><span class="p">:</span>
+        <span class="n">length</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">dist</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">)</span>
+        <span class="n">angle</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">degrees</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">atan2</span><span class="p">(</span><span class="n">end</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">start</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">end</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">start</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+        <span class="k">return</span> <span class="n">s2</span><span class="o">.</span><span class="n">rect</span><span class="p">([</span><span class="n">length</span><span class="p">,</span> <span class="n">thickness</span><span class="p">])</span><span class="o">.</span><span class="n">rotate</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span>
+            <span class="p">[(</span><span class="n">start</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">end</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="p">(</span><span class="n">start</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">end</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">/</span> <span class="mi">2</span><span class="p">]</span>
+        <span class="p">)</span>
+
+    <span class="n">veins</span> <span class="o">=</span> <span class="n">stroke</span><span class="p">((</span><span class="o">-</span><span class="n">half_width</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span> <span class="p">(</span><span class="n">half_width</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">sign</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">from_rib</span><span class="p">,</span> <span class="n">to_margin</span> <span class="ow">in</span> <span class="n">LEAF_VEIN_BRANCHES</span><span class="p">:</span>
+            <span class="c1"># The tip-side margin runs from the notch corner (0, section) to the</span>
+            <span class="c1"># tip (half_width, 0), so one fraction gives both of a point on it.</span>
+            <span class="n">veins</span> <span class="o">=</span> <span class="n">veins</span> <span class="o">|</span> <span class="n">stroke</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">from_rib</span> <span class="o">*</span> <span class="n">half_width</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span>
+                <span class="p">(</span><span class="n">to_margin</span> <span class="o">*</span> <span class="n">half_width</span><span class="p">,</span> <span class="n">sign</span> <span class="o">*</span> <span class="n">section</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">to_margin</span><span class="p">)),</span>
+            <span class="p">)</span>
+    <span class="k">return</span> <span class="n">veins</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_leaf_tessellation_fill</span><span class="p">(</span>
+    <span class="n">width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">thickness</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">spacing</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">web</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">veins</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Leaves that tile the lid edge to edge, leaving their outlines and veins.</span>
+
+<span class="sd">    Unlike :func:`_leaf_fill`, which spaces pointed ovals out and solves for the</span>
+<span class="sd">    gap between them, these leaves **tessellate**: the tile covers the plane, so</span>
+<span class="sd">    the material left is exactly the web, and it comes out as a net of leaf</span>
+<span class="sd">    outlines rather than as a field with holes in it.</span>
+
+<span class="sd">    The pitch is what it is everywhere else — the distance from one hole to the</span>
+<span class="sd">    next — which for this tile is the leaf's own base-to-tip length, since a</span>
+<span class="sd">    leaf's tip lands on its neighbour's base.</span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="n">hole_size</span><span class="p">(</span><span class="n">spacing</span><span class="p">,</span> <span class="n">web</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+    <span class="n">gap</span> <span class="o">=</span> <span class="n">DEFAULT_WEB_MM</span> <span class="k">if</span> <span class="n">web</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="nb">max</span><span class="p">(</span><span class="n">web</span><span class="p">,</span> <span class="n">MIN_WEB_MM</span><span class="p">)</span>
+
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">shapes2d</span> <span class="k">as</span> <span class="n">s2</span>
+
+    <span class="c1"># `spacing` is the lattice pitch along a row, which for this tile is twice</span>
+    <span class="c1"># the leaf's half-width, so the leaf is built from the section that gives it.</span>
+    <span class="n">section</span> <span class="o">=</span> <span class="n">spacing</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">ROOT_THREE</span><span class="p">)</span>
+    <span class="n">outline</span> <span class="o">=</span> <span class="n">s2</span><span class="o">.</span><span class="n">polygon</span><span class="p">(</span>
+        <span class="p">[[</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">tessellating_leaf_path</span><span class="p">(</span><span class="n">section</span><span class="p">)]</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">offset</span><span class="p">(</span><span class="n">delta</span><span class="o">=-</span><span class="n">gap</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">veins</span><span class="p">:</span>
+        <span class="n">outline</span> <span class="o">=</span> <span class="n">outline</span> <span class="o">-</span> <span class="n">_leaf_veins</span><span class="p">(</span><span class="n">section</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="n">MIN_WEB_MM</span><span class="p">,</span> <span class="n">gap</span> <span class="o">*</span> <span class="n">LEAF_VEIN_SHARE</span><span class="p">))</span>
+
+    <span class="n">height</span> <span class="o">=</span> <span class="n">thickness</span> <span class="o">*</span> <span class="n">DEPTH_OVERSHOOT</span>
+    <span class="n">hole</span> <span class="o">=</span> <span class="n">outline</span><span class="o">.</span><span class="n">linear_extrude</span><span class="p">(</span><span class="n">height</span><span class="o">=</span><span class="n">height</span><span class="p">)</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span>
+        <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="p">(</span><span class="n">height</span> <span class="o">-</span> <span class="n">thickness</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">]</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Rows step half the leaf's height and shift half a pitch, which is the</span>
+    <span class="c1"># lattice the tile actually tessellates on: each leaf's notches take the</span>
+    <span class="c1"># neighbouring row's tips.</span>
+    <span class="k">return</span> <span class="n">_punch</span><span class="p">(</span>
+        <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">hole</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="mi">0</span><span class="p">]),</span>
+        <span class="n">width</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">spacing</span><span class="p">,</span> <span class="n">spacing</span><span class="p">,</span>
+        <span class="n">stagger</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">row_step</span><span class="o">=</span><span class="mi">2</span> <span class="o">*</span> <span class="n">section</span><span class="p">,</span>
+    <span class="p">)</span>
+
+
 <span class="n">_PATTERN_FILLS</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span>
     <span class="n">PatternType</span><span class="p">,</span>
     <span class="n">Callable</span><span class="p">[[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span><span class="p">],</span> <span class="n">Bosl2Solid</span> <span class="o">|</span> <span class="kc">None</span><span class="p">],</span>
@@ -725,6 +998,11 @@
     <span class="p">),</span>
     <span class="n">PatternType</span><span class="o">.</span><span class="n">OCTAGON</span><span class="p">:</span> <span class="n">_octagon_fill</span><span class="p">,</span>
     <span class="n">PatternType</span><span class="o">.</span><span class="n">VORONOI</span><span class="p">:</span> <span class="n">_voronoi_fill</span><span class="p">,</span>
+    <span class="n">PatternType</span><span class="o">.</span><span class="n">LEAF</span><span class="p">:</span> <span class="n">_leaf_fill</span><span class="p">,</span>
+    <span class="n">PatternType</span><span class="o">.</span><span class="n">LEAF_TESSELLATION</span><span class="p">:</span> <span class="n">_leaf_tessellation_fill</span><span class="p">,</span>
+    <span class="n">PatternType</span><span class="o">.</span><span class="n">LEAF_VEINS</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">w</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">web</span><span class="p">:</span> <span class="n">_leaf_tessellation_fill</span><span class="p">(</span>
+        <span class="n">w</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">web</span><span class="p">,</span> <span class="n">veins</span><span class="o">=</span><span class="kc">True</span>
+    <span class="p">),</span>
 <span class="p">}</span>
 <span class="sd">"""Every pattern the library can draw.</span>
 

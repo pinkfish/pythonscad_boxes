@@ -617,6 +617,33 @@
         <span class="k">return</span> <span class="n">hole</span>
 
 
+<span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">SlidingLidFields</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Fields every sliding-lid builder carries (FR-002e5).</span>
+
+<span class="sd">    Mixed into the sliding types rather than added to :class:`BoxBuilder`,</span>
+<span class="sd">    because on a lid that lifts off they would be three settings that do</span>
+<span class="sd">    nothing — and a field the geometry never reads is a defect, not a</span>
+<span class="sd">    placeholder (FR-000f).</span>
+<span class="sd">    """</span>
+
+    <span class="n">fingernail_catch</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">"""Cut the dish a nail starts the lid with; ``None`` means yes.</span>
+
+<span class="sd">    Set ``False`` for a lid opened some other way — one behind a latch, or one</span>
+<span class="sd">    whose face is given over to something the dish would interrupt."""</span>
+    <span class="n">fingernail_radius</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">"""Radius of the dish's opening, in mm.</span>
+
+<span class="sd">    ``None`` derives it from the lid — a sixth of its width across the slide —</span>
+<span class="sd">    so a token lid and a card lid both get a dish in proportion to them."""</span>
+    <span class="n">fingernail_depth</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">"""How deep the dish is sunk, in mm.</span>
+
+<span class="sd">    ``None`` uses half the lid's thickness, and anything deeper is clamped to</span>
+<span class="sd">    that: the lid has to keep a plate's worth of material under the dish."""</span>
+
+
 <div class="viewcode-block" id="Cut">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.html#pyboxbuilder.Cut">[docs]</a>
 <span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>

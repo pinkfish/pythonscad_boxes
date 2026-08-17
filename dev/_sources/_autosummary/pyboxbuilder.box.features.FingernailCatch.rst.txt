@@ -1,0 +1,9 @@
+pyboxbuilder.box.features.FingernailCatch
+=========================================
+
+.. currentmodule:: pyboxbuilder.box.features
+
+.. autoclass:: FingernailCatch
+   :members:
+   :undoc-members:
+   :show-inheritance:

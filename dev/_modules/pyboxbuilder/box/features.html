@@ -1625,6 +1625,166 @@
     <span class="p">)</span>
     <span class="k">return</span> <span class="n">outer</span> <span class="o">-</span> <span class="n">cavity</span></div>
 
+
+
+<span class="c1"># ------------------------------------------------------- fingernail catch</span>
+
+<span class="n">FINGERNAIL_RADIUS_MM</span> <span class="o">=</span> <span class="mf">4.0</span>
+<span class="sd">"""Opening radius of a sliding lid's fingernail dish, where the lid can spare it.</span>
+
+<span class="sd">Eight millimetres across, which takes a nail and the fingertip behind it</span>
+<span class="sd">without turning the lid into a bowl. Capped against the lid's own narrow</span>
+<span class="sd">dimension below, so a small card box gets a small dish rather than one sized</span>
+<span class="sd">for a card lid.</span>
+<span class="sd">"""</span>
+
+<span class="n">FINGERNAIL_MIN_RADIUS_MM</span> <span class="o">=</span> <span class="mf">2.0</span>
+<span class="sd">"""Smallest dish worth cutting; below this a nail has nothing to hook."""</span>
+
+<span class="n">FINGERNAIL_DEPTH_SHARE</span> <span class="o">=</span> <span class="mf">0.5</span>
+<span class="sd">"""How much of the lid's thickness the dish may take (FR-002e5).</span>
+
+<span class="sd">Half, so a plate's worth of material always remains under it. The dish is a</span>
+<span class="sd">thinned spot that gets pulled on — it is the depth that makes it a catch and</span>
+<span class="sd">the material under it that makes it hold.</span>
+<span class="sd">"""</span>
+
+<span class="n">FINGERNAIL_MARGIN_MM</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="sd">"""Solid lid kept around the dish, clear of any pattern (FR-002e5).</span>
+
+<span class="sd">The ring the dish is pulled against. A hole opening onto its rim is where the</span>
+<span class="sd">lid would tear.</span>
+<span class="sd">"""</span>
+
+
+<div class="viewcode-block" id="FingernailCatch">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.features.FingernailCatch.html#pyboxbuilder.box.features.FingernailCatch">[docs]</a>
+<span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">FingernailCatch</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""A sliding lid's fingernail dish: where it is, and how big."""</span>
+
+    <span class="n">centre</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span>
+<span class="w">    </span><span class="sd">"""Where the dish sits on the lid, in the box's frame.</span>
+
+<span class="sd">    The centre of the *whole* sphere the dish is half of, so it is also where</span>
+<span class="sd">    the flat wall stands — see :func:`fingernail_dish`."""</span>
+    <span class="n">radius</span><span class="p">:</span> <span class="nb">float</span>
+<span class="w">    </span><span class="sd">"""The opening's radius — what a nail sees on the surface."""</span>
+    <span class="n">depth</span><span class="p">:</span> <span class="nb">float</span>
+<span class="w">    </span><span class="sd">"""How far it sinks below the lid's top face."""</span>
+    <span class="n">axis</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"x"</span>
+<span class="w">    </span><span class="sd">"""The axis the lid slides along, which the flat wall stands square to."""</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">keepout_radius</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Radius a pattern must stay clear of, dish plus its margin."""</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">radius</span> <span class="o">+</span> <span class="n">FINGERNAIL_MARGIN_MM</span></div>
+
+
+
+<div class="viewcode-block" id="fingernail_catch">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.features.fingernail_catch.html#pyboxbuilder.box.features.fingernail_catch">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">fingernail_catch</span><span class="p">(</span><span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">,</span> <span class="n">along_axis</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">FingernailCatch</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Size and place the dish that starts a sliding lid moving (FR-002e5).</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        spec: Reads `width`, `length`, `lid_thickness` and the `fingernail_*`</span>
+<span class="sd">            overrides.</span>
+<span class="sd">        along_axis: ``"x"`` or ``"y"`` — the axis the lid slides along, so the</span>
+<span class="sd">            exit end is that axis's far end.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        The catch, or ``None`` when the box declines one or the lid is too</span>
+<span class="sd">        small to carry a dish a nail could use.</span>
+
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">spec</span><span class="o">.</span><span class="n">fingernail_catch</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="n">across</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span> <span class="k">if</span> <span class="n">along_axis</span> <span class="o">==</span> <span class="s2">"x"</span> <span class="k">else</span> <span class="n">spec</span><span class="o">.</span><span class="n">width</span>
+    <span class="n">radius</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">fingernail_radius</span>
+    <span class="k">if</span> <span class="n">radius</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># Sized from the lid it is cut into, so a small lid gets a small dish.</span>
+        <span class="n">radius</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">FINGERNAIL_RADIUS_MM</span><span class="p">,</span> <span class="n">across</span> <span class="o">/</span> <span class="mf">6.0</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">radius</span> <span class="o">&lt;</span> <span class="n">FINGERNAIL_MIN_RADIUS_MM</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="n">depth</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">fingernail_depth</span>
+    <span class="k">if</span> <span class="n">depth</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">depth</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">lid_thickness</span> <span class="o">*</span> <span class="n">FINGERNAIL_DEPTH_SHARE</span>
+    <span class="n">depth</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">depth</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">lid_thickness</span> <span class="o">*</span> <span class="n">FINGERNAIL_DEPTH_SHARE</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">depth</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="c1"># On the border line at the exit end: the wall stands on the line, with the</span>
+    <span class="c1"># band of plain lid outside it as the material a nail presses on, and the</span>
+    <span class="c1"># bowl inside it. The catch belongs where the fingers are.</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.lid.builder</span><span class="w"> </span><span class="kn">import</span> <span class="n">LID_BORDER_MM</span>
+
+    <span class="n">inset</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">LID_BORDER_MM</span><span class="p">,</span> <span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">width</span> <span class="k">if</span> <span class="n">along_axis</span> <span class="o">==</span> <span class="s2">"x"</span> <span class="k">else</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span><span class="p">)</span> <span class="o">/</span> <span class="mf">4.0</span><span class="p">)</span>
+    <span class="n">centre</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">width</span> <span class="o">-</span> <span class="n">inset</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">along_axis</span> <span class="o">==</span> <span class="s2">"x"</span>
+        <span class="k">else</span> <span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">width</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span> <span class="o">-</span> <span class="n">inset</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">FingernailCatch</span><span class="p">(</span>
+        <span class="n">centre</span><span class="o">=</span><span class="n">centre</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="n">radius</span><span class="p">,</span> <span class="n">depth</span><span class="o">=</span><span class="n">depth</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">along_axis</span>
+    <span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="fingernail_dish">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.features.fingernail_dish.html#pyboxbuilder.box.features.fingernail_dish">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">fingernail_dish</span><span class="p">(</span><span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">,</span> <span class="n">catch</span><span class="p">:</span> <span class="n">FingernailCatch</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Return the solid to subtract from a lid to leave the dish.</span>
+
+<span class="sd">    **Half** the top of a sphere, split on a plane square to the slide axis:</span>
+<span class="sd">    a bowl on the inboard side, and a flat wall standing across the pull on the</span>
+<span class="sd">    outboard side. The two halves do different jobs. The bowl is what a nail</span>
+<span class="sd">    goes into — a surface curving away in every direction, so the nail finds it</span>
+<span class="sd">    without being aimed. The wall is what the nail then pulls on, and it has to</span>
+<span class="sd">    be flat: a whole dish curves away on the pull side too, so a nail loading it</span>
+<span class="sd">    is riding up a slope and skids out of the dish instead of moving the lid.</span>
+
+<span class="sd">    Which half is kept is not a matter of taste. A nail can push and not pull,</span>
+<span class="sd">    so the surface it bears on must have the lid's material on the far side of</span>
+<span class="sd">    it *in the direction of travel* — the wall between the dish and the exit</span>
+<span class="sd">    edge. Keeping the other half would give a wall that can only be pushed</span>
+<span class="sd">    inboard, which drives the lid further into the box.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        spec: Needs `height`; reads `lid_thickness`.</span>
+<span class="sd">        catch: The dish to build.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        The half-sphere to subtract.</span>
+
+<span class="sd">    """</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">sphere</span>
+
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.shell</span><span class="w"> </span><span class="kn">import</span> <span class="n">block</span>
+
+    <span class="c1"># A cap of depth d showing an opening of radius r comes off a sphere of</span>
+    <span class="c1"># radius (r² + d²) / 2d — solve the chord, do not guess it.</span>
+    <span class="n">ball</span> <span class="o">=</span> <span class="p">(</span><span class="n">catch</span><span class="o">.</span><span class="n">radius</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">catch</span><span class="o">.</span><span class="n">depth</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">catch</span><span class="o">.</span><span class="n">depth</span><span class="p">)</span>
+    <span class="n">top</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">height</span>
+    <span class="n">dish</span> <span class="o">=</span> <span class="n">sphere</span><span class="p">(</span><span class="n">radius</span><span class="o">=</span><span class="n">ball</span><span class="p">,</span> <span class="o">**</span><span class="n">precision_kwargs</span><span class="p">())</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span>
+        <span class="p">[</span><span class="n">catch</span><span class="o">.</span><span class="n">centre</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">catch</span><span class="o">.</span><span class="n">centre</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">top</span> <span class="o">-</span> <span class="n">catch</span><span class="o">.</span><span class="n">depth</span> <span class="o">+</span> <span class="n">ball</span><span class="p">]</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Everything inboard of the wall. Sized off the ball rather than the</span>
+    <span class="c1"># opening, because the sphere is wider below the surface than at it.</span>
+    <span class="n">reach</span> <span class="o">=</span> <span class="n">ball</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="n">span</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">reach</span>
+    <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">catch</span><span class="o">.</span><span class="n">centre</span>
+    <span class="n">size</span> <span class="o">=</span> <span class="p">[</span><span class="n">span</span><span class="p">,</span> <span class="n">span</span><span class="p">,</span> <span class="n">span</span><span class="p">]</span>
+    <span class="n">at</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="o">-</span> <span class="n">reach</span><span class="p">,</span> <span class="n">y</span> <span class="o">-</span> <span class="n">reach</span><span class="p">,</span> <span class="n">top</span> <span class="o">-</span> <span class="n">reach</span><span class="p">]</span>
+    <span class="c1"># The wall stands on the centre line: the half kept runs from there back</span>
+    <span class="c1"># along the slide axis, and the other half of the sphere is left as lid.</span>
+    <span class="n">axis</span> <span class="o">=</span> <span class="mi">0</span> <span class="k">if</span> <span class="n">catch</span><span class="o">.</span><span class="n">axis</span> <span class="o">==</span> <span class="s2">"x"</span> <span class="k">else</span> <span class="mi">1</span>
+    <span class="n">size</span><span class="p">[</span><span class="n">axis</span><span class="p">]</span> <span class="o">=</span> <span class="n">reach</span>
+    <span class="k">return</span> <span class="n">dish</span> <span class="o">&amp;</span> <span class="n">block</span><span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="n">at</span><span class="o">=</span><span class="n">at</span><span class="p">)</span></div>
+
 </code></pre></div>
 
 

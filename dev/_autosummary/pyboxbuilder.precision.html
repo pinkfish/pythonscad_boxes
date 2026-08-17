@@ -1408,8 +1408,8 @@
 <p>Curve precision — the <code class="docutils literal notranslate"><span class="pre">fn</span></code> / <code class="docutils literal notranslate"><span class="pre">fa</span></code> / <code class="docutils literal notranslate"><span class="pre">fs</span></code> tessellation controls.</p>
 <p>Every curved feature the toolkit builds (cylinders, spheres, fillets and
 chamfers, finger scoops and holes, lid-pattern curves) takes its facet count
-from the precision in force, so one setting on <code class="xref py py-meth docutils literal notranslate"><span class="pre">Project.export()</span></code> or
-<code class="xref py py-meth docutils literal notranslate"><span class="pre">Project.show()</span></code> reaches all of them. No geometry call hardcodes a facet
+from the precision in force, so one setting on <a class="reference internal" href="pyboxbuilder.project.Project.html#pyboxbuilder.project.Project.export" title="pyboxbuilder.project.Project.export (Python method) — Write every piece of this project, and the layout PDF."><code class="xref py py-meth docutils literal notranslate"><span class="pre">export()</span></code></a> or
+<a class="reference internal" href="pyboxbuilder.project.Project.html#pyboxbuilder.project.Project.show" title="pyboxbuilder.project.Project.show (Python method) — Preview the packed box layout interactively."><code class="xref py py-meth docutils literal notranslate"><span class="pre">show()</span></code></a> reaches all of them. No geometry call hardcodes a facet
 count the caller cannot override.</p>
 <p>The setting travels in a <a class="reference external" href="https://docs.python.org/3/library/contextvars.html#contextvars.ContextVar" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ContextVar</span></code></a> rather than through
 every function signature: the geometry call sites are several layers below the
@@ -1578,7 +1578,7 @@ the facet count without disturbing fa/fs.</p>
 <p>An export is the geometry that gets <strong>printed</strong>, so it is worth paying for:
 at 256 facets a curve is smooth well past the resolution of any FDM nozzle,
 and the cost is paid once per build rather than on every interaction.</p>
-<p>A preview deliberately does <strong>not</strong> use this. <code class="xref py py-meth docutils literal notranslate"><span class="pre">Project.show()</span></code> leaves
+<p>A preview deliberately does <strong>not</strong> use this. <a class="reference internal" href="pyboxbuilder.project.Project.html#pyboxbuilder.project.Project.show" title="pyboxbuilder.project.Project.show (Python method) — Preview the packed box layout interactively."><code class="xref py py-meth docutils literal notranslate"><span class="pre">show()</span></code></a> leaves
 <code class="docutils literal notranslate"><span class="pre">fn</span></code> unset so <code class="docutils literal notranslate"><span class="pre">fa</span></code>/<code class="docutils literal notranslate"><span class="pre">fs</span></code> size the facets by how big the curve actually
 is, which is what keeps an interactive render responsive. Pass an explicit
 <code class="docutils literal notranslate"><span class="pre">fn</span></code> to either one to override.</p>
@@ -1594,7 +1594,7 @@ seconds at the fa/fs default. <strong>A CI pass is not a build</strong> — it c
 pipeline names, counts, caches and deletes the right files, and none of that
 depends on how finely a cylinder is tessellated — so CI sets this coarse and
 never produces printable output. Application code should pass <code class="docutils literal notranslate"><span class="pre">fn</span></code> to
-<code class="xref py py-meth docutils literal notranslate"><span class="pre">Project.export()</span></code> explicitly rather than set this.</p>
+<a class="reference internal" href="pyboxbuilder.project.Project.html#pyboxbuilder.project.Project.export" title="pyboxbuilder.project.Project.export (Python method) — Write every piece of this project, and the layout PDF."><code class="xref py py-meth docutils literal notranslate"><span class="pre">export()</span></code></a> explicitly rather than set this.</p>
 </dd></dl>
 
 

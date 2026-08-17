@@ -318,6 +318,7 @@
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Sequence</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">field</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span>
 
@@ -342,6 +343,26 @@
 <span class="sd">"""</span>
 
 
+<div class="viewcode-block" id="LidInsert">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.lid.decorate.LidInsert.html#pyboxbuilder.lid.decorate.LidInsert">[docs]</a>
+<span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">LidInsert</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""One part of a lid that prints in its own material.</span>
+
+<span class="sd">    Carries the colour **alongside** the solid rather than only baked into it.</span>
+<span class="sd">    A pybosl2 solid has no readable colour — `.color` is the method that sets</span>
+<span class="sd">    one — so a caller that wanted to know what an insert prints in had no way</span>
+<span class="sd">    to ask, and the preview drew every one of them in the lid's own colour.</span>
+<span class="sd">    The label was there; it was just the same colour as the lid.</span>
+<span class="sd">    """</span>
+
+    <span class="n">solid</span><span class="p">:</span> <span class="n">Bosl2Solid</span>
+<span class="w">    </span><span class="sd">"""The geometry, already carrying its colour for export."""</span>
+    <span class="n">color</span><span class="p">:</span> <span class="n">Color</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">"""What it prints in, for a caller that needs to know rather than render."""</span></div>
+
+
+
 <div class="viewcode-block" id="DecoratedLid">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.lid.decorate.DecoratedLid.html#pyboxbuilder.lid.decorate.DecoratedLid">[docs]</a>
 <span class="nd">@dataclass</span>
@@ -349,11 +370,16 @@
 <span class="w">    </span><span class="sd">"""A decorated lid, plus any parts that print in their own colour."""</span>
 
     <span class="n">solid</span><span class="p">:</span> <span class="n">Bosl2Solid</span>
-    <span class="n">inserts</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Bosl2Solid</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span>
+    <span class="n">inserts</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">LidInsert</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span>
 <span class="w">    </span><span class="sd">"""Coloured positives, kept separate in mmu mode and fused in single mode."""</span>
 
     <span class="n">skipped_label</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
-<span class="w">    </span><span class="sd">"""True when the label was dropped for being under the minimum text height."""</span></div>
+<span class="w">    </span><span class="sd">"""True when the label was dropped for being under the minimum text height."""</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">solids</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Bosl2Solid</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Just the insert geometry, for a caller that only writes it out."""</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">insert</span><span class="o">.</span><span class="n">solid</span> <span class="k">for</span> <span class="n">insert</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">inserts</span><span class="p">]</span></div>
 
 
 
@@ -365,6 +391,7 @@
     <span class="n">lid_thickness</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">mode</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"mmu"</span><span class="p">,</span>
     <span class="n">body_color</span><span class="p">:</span> <span class="n">Color</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">reserved</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="p">(),</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DecoratedLid</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Apply a lid's label, pattern and colours to its geometry.</span>
 
@@ -375,6 +402,9 @@
 <span class="sd">        mode: "mmu" or "single".</span>
 <span class="sd">        body_color: The box's own colour, which the accents are derived to</span>
 <span class="sd">            contrast with when the caller names none (FR-022).</span>
+<span class="sd">        reserved: ``(x, y, radius)`` circles on the lid that the pattern must</span>
+<span class="sd">            leave solid — a box type's own lid features, such as a sliding</span>
+<span class="sd">            lid's fingernail dish (FR-002e5).</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        The decorated lid and its coloured inserts.</span>
@@ -405,6 +435,8 @@
             <span class="n">result</span><span class="o">.</span><span class="n">solid</span><span class="p">,</span> <span class="n">resolved</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span>
             <span class="n">origin_x</span><span class="p">,</span> <span class="n">origin_y</span><span class="p">,</span> <span class="n">top_z</span><span class="p">,</span> <span class="n">lid_thickness</span><span class="p">,</span>
             <span class="n">keep_clear</span><span class="o">=</span><span class="n">label</span><span class="p">,</span>
+            <span class="n">label_clearance</span><span class="o">=</span><span class="n">resolved</span><span class="o">.</span><span class="n">label_clearance</span><span class="p">,</span>
+            <span class="n">reserved</span><span class="o">=</span><span class="n">reserved</span><span class="p">,</span>
         <span class="p">)</span>
 
     <span class="k">if</span> <span class="n">label</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -414,11 +446,18 @@
 
 
 
-<span class="n">LABEL_CLEARANCE_MM</span> <span class="o">=</span> <span class="mf">1.5</span>
-<span class="sd">"""How far the pattern stands off the label, all round.</span>
+<span class="n">LABEL_CLEARANCE_MM</span> <span class="o">=</span> <span class="mf">0.0</span>
+<span class="sd">"""How far the pattern stands off the lettering, all round.</span>
 
-<span class="sd">Enough that the lettering has a margin of solid lid to sit on rather than</span>
-<span class="sd">ending exactly at a hole's edge, which is where a thin stroke would break away.</span>
+<span class="sd">**Zero**, so the holes stop at the glyphs themselves and the letters read as</span>
+<span class="sd">letters rather than as letters on a plaque. The pattern still cannot undercut</span>
+<span class="sd">them: the keep-out is the glyph outline, so every stroke keeps its own footprint</span>
+<span class="sd">of solid lid, and the label is inlaid into that lid rather than perched on it —</span>
+<span class="sd">the plastic goes all the way down.</span>
+
+<span class="sd">A margin is settable per lid (`LidBuilder.label_clearance_mm`) for a lid whose</span>
+<span class="sd">pattern is coarse enough that a stroke would otherwise finish on the very edge</span>
+<span class="sd">of a hole.</span>
 <span class="sd">"""</span>
 
 
@@ -458,7 +497,9 @@
 <span class="sd">"""</span>
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">_label_keepout</span><span class="p">(</span><span class="n">label</span><span class="p">:</span> <span class="n">Label</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span> <span class="n">depth</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_label_keepout</span><span class="p">(</span>
+    <span class="n">label</span><span class="p">:</span> <span class="n">Label</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span> <span class="n">depth</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">clearance</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">LABEL_CLEARANCE_MM</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Return the volume a label needs kept solid, in the face's own frame.</span>
 
 <span class="sd">    Follows the label's **shape**, not its bounding box. A box is right for a</span>
@@ -471,6 +512,8 @@
 <span class="sd">    Args:</span>
 <span class="sd">        label: The built label, or ``None``.</span>
 <span class="sd">        depth: How tall to make the keep-out, so it spans the holes it blocks.</span>
+<span class="sd">        clearance: Solid margin to keep around the lettering. ``0`` — the</span>
+<span class="sd">            default — stops the holes at the glyphs themselves.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        The solid to keep clear of, or ``None`` when there is no label.</span>
@@ -484,7 +527,10 @@
     <span class="k">if</span> <span class="n">label</span><span class="o">.</span><span class="n">plate</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">_as_depth</span><span class="p">(</span><span class="n">label</span><span class="o">.</span><span class="n">plate</span><span class="p">,</span> <span class="n">depth</span><span class="p">)</span>
 
-    <span class="k">return</span> <span class="n">_as_depth</span><span class="p">(</span><span class="n">_grown</span><span class="p">(</span><span class="n">label</span><span class="o">.</span><span class="n">text</span><span class="p">,</span> <span class="n">LABEL_CLEARANCE_MM</span><span class="p">),</span> <span class="n">depth</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">clearance</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="c1"># The glyphs themselves: the holes stop where the letters do.</span>
+        <span class="k">return</span> <span class="n">_as_depth</span><span class="p">(</span><span class="n">label</span><span class="o">.</span><span class="n">text</span><span class="p">,</span> <span class="n">depth</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">_as_depth</span><span class="p">(</span><span class="n">_grown</span><span class="p">(</span><span class="n">label</span><span class="o">.</span><span class="n">text</span><span class="p">,</span> <span class="n">clearance</span><span class="p">),</span> <span class="n">depth</span><span class="p">)</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_grown</span><span class="p">(</span><span class="n">solid</span><span class="p">:</span> <span class="n">Bosl2Solid</span><span class="p">,</span> <span class="n">by</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
@@ -527,6 +573,8 @@
     <span class="n">top_z</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">lid_thickness</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">keep_clear</span><span class="p">:</span> <span class="n">Label</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">label_clearance</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">LABEL_CLEARANCE_MM</span><span class="p">,</span>
+    <span class="n">reserved</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="p">(),</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Cut the through-hole pattern into the lid, clear of its border.</span>
 
@@ -541,6 +589,8 @@
 <span class="sd">        lid_thickness: How deep the holes must reach to break through.</span>
 <span class="sd">        keep_clear: The label whose shape must stay solid. Holes under the</span>
 <span class="sd">            lettering would leave it printing onto air (FR-023).</span>
+<span class="sd">        label_clearance: Solid margin kept around the lettering.</span>
+<span class="sd">        reserved: ``(x, y, radius)`` circles the pattern must leave solid.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        The perforated lid.</span>
@@ -584,10 +634,28 @@
     <span class="n">holes</span> <span class="o">=</span> <span class="n">holes</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">base</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">base</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">base</span><span class="p">[</span><span class="mi">2</span><span class="p">]])</span>
     <span class="n">holes</span> <span class="o">=</span> <span class="n">holes</span> <span class="o">&amp;</span> <span class="n">block</span><span class="p">([</span><span class="n">area_w</span><span class="p">,</span> <span class="n">area_l</span><span class="p">,</span> <span class="n">depth</span><span class="p">],</span> <span class="n">at</span><span class="o">=</span><span class="n">base</span><span class="p">)</span>
 
-    <span class="n">keepout</span> <span class="o">=</span> <span class="n">_label_keepout</span><span class="p">(</span><span class="n">keep_clear</span><span class="p">,</span> <span class="n">depth</span><span class="p">)</span>
+    <span class="n">keepout</span> <span class="o">=</span> <span class="n">_label_keepout</span><span class="p">(</span><span class="n">keep_clear</span><span class="p">,</span> <span class="n">depth</span><span class="p">,</span> <span class="n">label_clearance</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">keepout</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">holes</span> <span class="o">=</span> <span class="n">holes</span> <span class="o">-</span> <span class="n">keepout</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">origin_x</span><span class="p">,</span> <span class="n">origin_y</span><span class="p">,</span> <span class="n">base</span><span class="p">[</span><span class="mi">2</span><span class="p">]])</span>
+
+    <span class="c1"># A box type's own lid features — a sliding lid's fingernail dish — are</span>
+    <span class="c1"># already cut into the plate. The pattern keeps off them and off the ring</span>
+    <span class="c1"># of material they are pulled against (FR-002e5); these arrive in the</span>
+    <span class="c1"># lid's own frame, not the face's.</span>
+    <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">radius</span> <span class="ow">in</span> <span class="n">reserved</span><span class="p">:</span>
+        <span class="n">holes</span> <span class="o">=</span> <span class="n">holes</span> <span class="o">-</span> <span class="n">_disc</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">base</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">radius</span><span class="p">,</span> <span class="n">depth</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">lid</span> <span class="o">-</span> <span class="n">holes</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_disc</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">z</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">radius</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">depth</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Return a cylinder at ``(x, y)``, for reserving a round patch of lid."""</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">cylinder</span>
+
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.precision</span><span class="w"> </span><span class="kn">import</span> <span class="n">kwargs</span> <span class="k">as</span> <span class="n">precision_kwargs</span>
+
+    <span class="k">return</span> <span class="n">cylinder</span><span class="p">(</span><span class="n">height</span><span class="o">=</span><span class="n">depth</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="n">radius</span><span class="p">,</span> <span class="o">**</span><span class="n">precision_kwargs</span><span class="p">())</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span>
+        <span class="p">[</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">+</span> <span class="n">depth</span> <span class="o">/</span> <span class="mi">2</span><span class="p">]</span>
+    <span class="p">)</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_apply_label</span><span class="p">(</span>
@@ -635,9 +703,14 @@
     <span class="p">):</span>
         <span class="k">if</span> <span class="n">part</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">continue</span>
-        <span class="n">inlay</span> <span class="o">=</span> <span class="n">onto_face</span><span class="p">(</span><span class="n">_to_depth</span><span class="p">(</span><span class="n">part</span><span class="p">))</span>
+        <span class="c1"># Clipped to the lid as it stands, so an inlay only ever fills material</span>
+        <span class="c1"># that was actually there. Where the label crosses something already</span>
+        <span class="c1"># cut — a pattern hole, or a sliding lid's fingernail dish — the</span>
+        <span class="c1"># unclipped inlay would hang in the gap with nothing under it, and the</span>
+        <span class="c1"># lid would no longer give up exactly the volume the insert fills.</span>
+        <span class="n">inlay</span> <span class="o">=</span> <span class="n">onto_face</span><span class="p">(</span><span class="n">_to_depth</span><span class="p">(</span><span class="n">part</span><span class="p">))</span> <span class="o">&amp;</span> <span class="n">result</span><span class="o">.</span><span class="n">solid</span>
         <span class="n">result</span><span class="o">.</span><span class="n">solid</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">solid</span> <span class="o">-</span> <span class="n">inlay</span>
-        <span class="n">result</span><span class="o">.</span><span class="n">inserts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_coloured</span><span class="p">(</span><span class="n">inlay</span><span class="p">,</span> <span class="n">colour</span><span class="p">))</span>
+        <span class="n">result</span><span class="o">.</span><span class="n">inserts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">LidInsert</span><span class="p">(</span><span class="n">_coloured</span><span class="p">(</span><span class="n">inlay</span><span class="p">,</span> <span class="n">colour</span><span class="p">),</span> <span class="n">colour</span><span class="p">))</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_to_depth</span><span class="p">(</span><span class="n">part</span><span class="p">:</span> <span class="n">Bosl2Solid</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>

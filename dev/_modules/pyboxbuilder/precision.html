@@ -301,8 +301,8 @@
 
 <span class="sd">Every curved feature the toolkit builds (cylinders, spheres, fillets and</span>
 <span class="sd">chamfers, finger scoops and holes, lid-pattern curves) takes its facet count</span>
-<span class="sd">from the precision in force, so one setting on :meth:`Project.export` or</span>
-<span class="sd">:meth:`Project.show` reaches all of them. No geometry call hardcodes a facet</span>
+<span class="sd">from the precision in force, so one setting on :meth:`~pyboxbuilder.project.Project.export` or</span>
+<span class="sd">:meth:`~pyboxbuilder.project.Project.show` reaches all of them. No geometry call hardcodes a facet</span>
 <span class="sd">count the caller cannot override.</span>
 
 <span class="sd">The setting travels in a :class:`~contextvars.ContextVar` rather than through</span>
@@ -333,7 +333,7 @@
 <span class="sd">at 256 facets a curve is smooth well past the resolution of any FDM nozzle,</span>
 <span class="sd">and the cost is paid once per build rather than on every interaction.</span>
 
-<span class="sd">A preview deliberately does **not** use this. :meth:`Project.show` leaves</span>
+<span class="sd">A preview deliberately does **not** use this. :meth:`~pyboxbuilder.project.Project.show` leaves</span>
 <span class="sd">``fn`` unset so ``fa``/``fs`` size the facets by how big the curve actually</span>
 <span class="sd">is, which is what keeps an interactive render responsive. Pass an explicit</span>
 <span class="sd">``fn`` to either one to override.</span>
@@ -348,7 +348,7 @@
 <span class="sd">pipeline names, counts, caches and deletes the right files, and none of that</span>
 <span class="sd">depends on how finely a cylinder is tessellated — so CI sets this coarse and</span>
 <span class="sd">never produces printable output. Application code should pass ``fn`` to</span>
-<span class="sd">:meth:`Project.export` explicitly rather than set this.</span>
+<span class="sd">:meth:`~pyboxbuilder.project.Project.export` explicitly rather than set this.</span>
 <span class="sd">"""</span>
 
 

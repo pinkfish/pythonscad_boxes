@@ -456,6 +456,15 @@
     <span class="n">border_margin_mm</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="w">    </span><span class="sd">"""Margin the auto-sized label keeps clear of the lid's edge; ``None`` uses</span>
 <span class="sd">    :data:`BORDER_MARGIN_MM`."""</span>
+    <span class="n">label_clearance_mm</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">"""Solid margin kept around the **lettering** where a pattern meets it.</span>
+
+<span class="sd">    ``None`` uses :data:`~pyboxbuilder.lid.decorate.LABEL_CLEARANCE_MM`, which</span>
+<span class="sd">    is ``0``: the holes stop at the glyphs, so the letters read as letters and</span>
+<span class="sd">    not as letters on a plaque. They keep their support either way — the</span>
+<span class="sd">    keep-out is the glyph outline, and the label is inlaid into the lid rather</span>
+<span class="sd">    than perched on it. Raise it for a lid whose pattern is coarse enough that</span>
+<span class="sd">    a stroke would otherwise finish on the very edge of a hole."""</span>
     <span class="n">mmu_label</span><span class="p">:</span> <span class="n">LidBuilder</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="w">    </span><span class="sd">"""Fields to override for the multi-material export (see :meth:`for_mode`)."""</span>
     <span class="n">single_label</span><span class="p">:</span> <span class="n">LidBuilder</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
@@ -494,6 +503,16 @@
         <span class="k">return</span> <span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">min_text_height_mm</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">min_text_height_mm</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">MIN_TEXT_HEIGHT_MM</span>
+        <span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">label_clearance</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""The margin kept around the lettering, resolved."""</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.lid.decorate</span><span class="w"> </span><span class="kn">import</span> <span class="n">LABEL_CLEARANCE_MM</span>
+
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">label_clearance_mm</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">label_clearance_mm</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">LABEL_CLEARANCE_MM</span>
         <span class="p">)</span>
 
     <span class="nd">@property</span>

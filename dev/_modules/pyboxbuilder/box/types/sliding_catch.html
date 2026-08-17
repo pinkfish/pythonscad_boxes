@@ -388,15 +388,23 @@
         <span class="k">return</span> <span class="n">body</span> <span class="o">-</span> <span class="n">sliding_catch</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_catch_radius</span><span class="p">(</span><span class="n">spec</span><span class="p">),</span> <span class="s2">"x"</span><span class="p">)</span><span class="o">.</span><span class="n">body</span></div>
 
 
+<div class="viewcode-block" id="SlidingCatchBox.slide_axis">
+<a class="viewcode-back" href="../../../../_autosummary/pyboxbuilder.box.types.sliding_catch.SlidingCatchBox.html#pyboxbuilder.box.types.sliding_catch.SlidingCatchBox.slide_axis">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">slide_axis</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Return X — this type's lid always exits the right face."""</span>
+        <span class="k">return</span> <span class="s2">"x"</span></div>
+
+
 <div class="viewcode-block" id="SlidingCatchBox.build_lid">
 <a class="viewcode-back" href="../../../../_autosummary/pyboxbuilder.box.types.sliding_catch.SlidingCatchBox.html#pyboxbuilder.box.types.sliding_catch.SlidingCatchBox.build_lid">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">build_lid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">,</span> <span class="n">decoration</span><span class="p">:</span> <span class="nb">object</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Return the sliding plate with a bump that clicks into the body's dimple."""</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.features</span><span class="w"> </span><span class="kn">import</span> <span class="n">sliding_catch</span><span class="p">,</span> <span class="n">sliding_track</span>
 
-        <span class="k">return</span> <span class="n">sliding_track</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span><span class="o">.</span><span class="n">require_lid</span><span class="p">()</span> <span class="o">|</span> <span class="n">sliding_catch</span><span class="p">(</span>
+        <span class="n">lid</span> <span class="o">=</span> <span class="n">sliding_track</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span><span class="o">.</span><span class="n">require_lid</span><span class="p">()</span> <span class="o">|</span> <span class="n">sliding_catch</span><span class="p">(</span>
             <span class="n">spec</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_catch_radius</span><span class="p">(</span><span class="n">spec</span><span class="p">),</span> <span class="s2">"x"</span>
-        <span class="p">)</span><span class="o">.</span><span class="n">require_lid</span><span class="p">()</span></div>
+        <span class="p">)</span><span class="o">.</span><span class="n">require_lid</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cut_fingernail_catch</span><span class="p">(</span><span class="n">lid</span><span class="p">,</span> <span class="n">spec</span><span class="p">)</span></div>
 </div>
 
 </code></pre></div>

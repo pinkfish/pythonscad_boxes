@@ -16,6 +16,7 @@ pyboxbuilder.lid.decorate
       :nosignatures:
    
       DecoratedLid
+      LidInsert
    
    
 

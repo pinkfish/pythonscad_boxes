@@ -318,6 +318,7 @@
     <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">Anchor</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2.shapes3d</span><span class="w"> </span><span class="kn">import</span> <span class="n">Bosl2Solid</span>
 
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.features</span><span class="w"> </span><span class="kn">import</span> <span class="n">FingernailCatch</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.spec</span><span class="w"> </span><span class="kn">import</span> <span class="n">BoxSpec</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">ScoopSide</span>
 
@@ -444,6 +445,85 @@
 <span class="sd">        """</span>
         <span class="k">return</span> <span class="p">{}</span></div>
 
+
+<div class="viewcode-block" id="BoxTypeBase.slide_axis">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.base.BoxTypeBase.html#pyboxbuilder.box.base.BoxTypeBase.slide_axis">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">slide_axis</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Return which axis this type's lid slides along, if it slides at all.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            spec: The box's resolved description.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            ``"x"`` or ``"y"``, or ``None`` for a lid that lifts off rather</span>
+<span class="sd">            than sliding. Everything that follows from sliding — the fingernail</span>
+<span class="sd">            catch below — asks this rather than each type answering it again.</span>
+
+<span class="sd">        """</span>
+        <span class="k">return</span> <span class="kc">None</span></div>
+
+
+<div class="viewcode-block" id="BoxTypeBase.cut_fingernail_catch">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.base.BoxTypeBase.html#pyboxbuilder.box.base.BoxTypeBase.cut_fingernail_catch">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">cut_fingernail_catch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lid</span><span class="p">:</span> <span class="n">Bosl2Solid</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Sink the dish a nail starts a sliding lid with (FR-002e5).</span>
+
+<span class="sd">        A seated sliding lid is a plate flush with the box's top: its only</span>
+<span class="sd">        exposed surfaces are an end face one lid thickness tall and a smooth</span>
+<span class="sd">        top, so there is nothing to grip. The dish is what gets it moving. A</span>
+<span class="sd">        lid that lifts off has its own way open and takes no dish.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            lid: The lid to cut.</span>
+<span class="sd">            spec: The box's resolved description.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            The lid, dished — or unchanged for a non-sliding type, a box that</span>
+<span class="sd">            declines a catch, or a lid too small to carry one.</span>
+
+<span class="sd">        """</span>
+        <span class="n">catch</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fingernail_catch</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">catch</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">lid</span>
+
+        <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.features</span><span class="w"> </span><span class="kn">import</span> <span class="n">fingernail_dish</span>
+
+        <span class="k">return</span> <span class="n">lid</span> <span class="o">-</span> <span class="n">fingernail_dish</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="n">catch</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="BoxTypeBase.lid_keepouts">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.base.BoxTypeBase.html#pyboxbuilder.box.base.BoxTypeBase.lid_keepouts">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">lid_keepouts</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">"""Return circles on the lid that decoration must leave solid.</span>
+
+<span class="sd">        A type declares these when its lid carries a feature of its own that a</span>
+<span class="sd">        pattern would otherwise cut into — a sliding lid's fingernail dish is</span>
+<span class="sd">        the case (FR-002e5): it is a thinned spot that gets pulled on, so it</span>
+<span class="sd">        needs whole material around it to pull against.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            spec: The box's resolved description.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            ``(x, y, radius)`` in the lid's own frame; empty when the type's</span>
+<span class="sd">            lid is a plain plate.</span>
+
+<span class="sd">        """</span>
+        <span class="n">catch</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fingernail_catch</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">catch</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[]</span>
+        <span class="k">return</span> <span class="p">[(</span><span class="n">catch</span><span class="o">.</span><span class="n">centre</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">catch</span><span class="o">.</span><span class="n">centre</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">catch</span><span class="o">.</span><span class="n">keepout_radius</span><span class="p">)]</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_fingernail_catch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">FingernailCatch</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Return this type's fingernail dish, or ``None`` if it has none."""</span>
+        <span class="n">axis</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">slide_axis</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">axis</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.features</span><span class="w"> </span><span class="kn">import</span> <span class="n">fingernail_catch</span>
+
+        <span class="k">return</span> <span class="n">fingernail_catch</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="n">axis</span><span class="p">)</span>
 
 <div class="viewcode-block" id="BoxTypeBase.interior_mask">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.base.BoxTypeBase.html#pyboxbuilder.box.base.BoxTypeBase.interior_mask">[docs]</a>

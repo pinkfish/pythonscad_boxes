@@ -415,6 +415,18 @@
 <span class="sd">    default (FR-002e3)."""</span>
     <span class="n">latch_radius</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.2</span>
 <span class="w">    </span><span class="sd">"""Catch radius for the card-library type, which always carries one."""</span>
+    <span class="n">fingernail_catch</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="w">    </span><span class="sd">"""Cut the dish a nail starts a sliding lid with (FR-002e5).</span>
+
+<span class="sd">    On by default: a seated sliding lid is a flush plate with nothing to grip,</span>
+<span class="sd">    so the dish is part of the type rather than an option. Only the sliding</span>
+<span class="sd">    family reads this."""</span>
+    <span class="n">fingernail_radius</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">"""Opening radius of that dish; ``None`` derives it from the lid's narrow</span>
+<span class="sd">    dimension."""</span>
+    <span class="n">fingernail_depth</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">"""How deep it sinks; ``None`` uses half the lid's thickness, which is also</span>
+<span class="sd">    the cap — the dish must never pierce the plate."""</span>
 
     <span class="c1"># ── Cap and slipover ─────────────────────────────────────────────────</span>
     <span class="n">cap_height</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>

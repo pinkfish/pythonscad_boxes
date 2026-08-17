@@ -543,7 +543,14 @@
             <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.features</span><span class="w"> </span><span class="kn">import</span> <span class="n">sliding_catch</span>
 
             <span class="n">lid</span> <span class="o">=</span> <span class="n">lid</span> <span class="o">|</span> <span class="n">sliding_catch</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="n">radius</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_along_axis</span><span class="p">(</span><span class="n">spec</span><span class="p">))</span><span class="o">.</span><span class="n">lid</span>
-        <span class="k">return</span> <span class="n">lid</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cut_fingernail_catch</span><span class="p">(</span><span class="n">lid</span><span class="p">,</span> <span class="n">spec</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SlidingBox.slide_axis">
+<a class="viewcode-back" href="../../../../_autosummary/pyboxbuilder.box.types.sliding.SlidingBox.html#pyboxbuilder.box.types.sliding.SlidingBox.slide_axis">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">slide_axis</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Return the axis this lid slides along — the long one (FR-002b)."""</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_along_axis</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span></div>
 </div>
 
 </code></pre></div>
