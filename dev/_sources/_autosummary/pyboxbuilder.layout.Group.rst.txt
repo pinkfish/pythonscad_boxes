@@ -1,0 +1,9 @@
+pyboxbuilder.layout.Group
+=========================
+
+.. currentmodule:: pyboxbuilder.layout
+
+.. autoclass:: Group
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -1,0 +1,6 @@
+pyboxbuilder.box.features.lead\_chamfer\_size
+=============================================
+
+.. currentmodule:: pyboxbuilder.box.features
+
+.. autofunction:: lead_chamfer_size

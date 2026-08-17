@@ -1,0 +1,33 @@
+pyboxbuilder.packing.guillotine
+===============================
+
+.. automodule:: pyboxbuilder.packing.guillotine
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+      :toctree:
+      :nosignatures:
+   
+      Item
+      Placed
+   
+   
+
+   
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+      :toctree:
+      :nosignatures:
+   
+      pack_guillotine
+   
+   

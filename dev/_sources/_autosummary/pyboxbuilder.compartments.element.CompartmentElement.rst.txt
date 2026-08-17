@@ -1,0 +1,9 @@
+pyboxbuilder.compartments.element.CompartmentElement
+====================================================
+
+.. currentmodule:: pyboxbuilder.compartments.element
+
+.. autoclass:: CompartmentElement
+   :members:
+   :undoc-members:
+   :show-inheritance:

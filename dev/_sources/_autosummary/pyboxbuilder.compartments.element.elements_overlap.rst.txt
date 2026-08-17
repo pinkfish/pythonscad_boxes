@@ -1,0 +1,6 @@
+pyboxbuilder.compartments.element.elements\_overlap
+===================================================
+
+.. currentmodule:: pyboxbuilder.compartments.element
+
+.. autofunction:: elements_overlap

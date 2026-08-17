@@ -1,0 +1,6 @@
+pyboxbuilder.compartments.sizing.rows\_from\_placements
+=======================================================
+
+.. currentmodule:: pyboxbuilder.compartments.sizing
+
+.. autofunction:: rows_from_placements

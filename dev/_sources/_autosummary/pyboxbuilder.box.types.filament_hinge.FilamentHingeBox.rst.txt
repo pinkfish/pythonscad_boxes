@@ -1,0 +1,9 @@
+pyboxbuilder.box.types.filament\_hinge.FilamentHingeBox
+=======================================================
+
+.. currentmodule:: pyboxbuilder.box.types.filament_hinge
+
+.. autoclass:: FilamentHingeBox
+   :members:
+   :undoc-members:
+   :show-inheritance:

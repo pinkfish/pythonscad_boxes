@@ -1,0 +1,36 @@
+pyboxbuilder.builders
+=====================
+
+.. automodule:: pyboxbuilder.builders
+
+   
+   
+   .. rubric:: Submodules
+
+   .. autosummary::
+      :toctree:
+      :recursive:
+   
+      cap
+      cap_path
+      card_library
+      filament_hinge
+      hinge
+      inset
+      magnetic
+      no_lid
+      path
+      sliding
+      sliding_catch
+      slipover
+      slipover_path
+   
+   
+
+   
+   
+   
+
+   
+   
+   

@@ -1,0 +1,6 @@
+pyboxbuilder.lid.pattern.default\_spacing
+=========================================
+
+.. currentmodule:: pyboxbuilder.lid.pattern
+
+.. autofunction:: default_spacing

@@ -1,0 +1,24 @@
+pyboxbuilder.compartments.builder
+=================================
+
+.. automodule:: pyboxbuilder.compartments.builder
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+      :toctree:
+      :nosignatures:
+   
+      CompartmentBuilder
+   
+   
+
+   
+   
+   

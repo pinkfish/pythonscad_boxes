@@ -1,0 +1,9 @@
+pyboxbuilder.project.Project
+============================
+
+.. currentmodule:: pyboxbuilder.project
+
+.. autoclass:: Project
+   :members:
+   :undoc-members:
+   :show-inheritance:

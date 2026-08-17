@@ -1,0 +1,9 @@
+pyboxbuilder.box.types.cap\_path.CapPathBox
+===========================================
+
+.. currentmodule:: pyboxbuilder.box.types.cap_path
+
+.. autoclass:: CapPathBox
+   :members:
+   :undoc-members:
+   :show-inheritance:

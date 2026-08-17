@@ -1,0 +1,9 @@
+pyboxbuilder.lid.label.Label
+============================
+
+.. currentmodule:: pyboxbuilder.lid.label
+
+.. autoclass:: Label
+   :members:
+   :undoc-members:
+   :show-inheritance:

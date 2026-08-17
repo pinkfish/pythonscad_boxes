@@ -1,0 +1,6 @@
+pyboxbuilder.rounding.vertical\_and\_bottom\_edges
+==================================================
+
+.. currentmodule:: pyboxbuilder.rounding
+
+.. autofunction:: vertical_and_bottom_edges

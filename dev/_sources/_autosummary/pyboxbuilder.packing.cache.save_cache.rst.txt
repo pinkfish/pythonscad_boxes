@@ -1,0 +1,6 @@
+pyboxbuilder.packing.cache.save\_cache
+======================================
+
+.. currentmodule:: pyboxbuilder.packing.cache
+
+.. autofunction:: save_cache

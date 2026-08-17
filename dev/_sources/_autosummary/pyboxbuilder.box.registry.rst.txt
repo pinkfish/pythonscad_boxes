@@ -1,0 +1,24 @@
+pyboxbuilder.box.registry
+=========================
+
+.. automodule:: pyboxbuilder.box.registry
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+      :toctree:
+      :nosignatures:
+   
+      register_box
+   
+   

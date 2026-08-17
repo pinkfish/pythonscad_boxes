@@ -1,0 +1,1673 @@
+
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+      
+      
+      <link rel="icon" href="">
+    
+    
+      
+        <title>pyboxbuilder.box.features - pyboxbuilder</title>
+      
+    
+    
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+    
+        <link rel="stylesheet" type="text/css" href="../../../_static/sphinx_immaterial_theme.6f0d2a77b1b821632.min.css?v=27a6e6bb" />
+        <link rel="stylesheet" type="text/css" href="../../../_static/stl_viewer.css?v=abc98148" />
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../index.html" title="pyboxbuilder" class="md-header__button md-logo" aria-label="pyboxbuilder" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            pyboxbuilder
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              pyboxbuilder.box.features
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/pinkfish/pythonscad_boxes" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    pinkfish/pythonscad_boxes
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../index.html" title="pyboxbuilder" class="md-nav__button md-logo" aria-label="pyboxbuilder" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+    </a>
+    pyboxbuilder
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/pinkfish/pythonscad_boxes" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    pinkfish/pythonscad_boxes
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    <span>Contents</span>
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            <span>Contents</span>
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../api.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>API Reference</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+<nav class="md-nav md-nav--secondary">
+  
+  
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset" role="main">
+                
+                
+                  
+
+
+<h1>Source code for pyboxbuilder.box.features</h1><div class="highlight"><pre>
+<span></span><code><span class="c1"># SPDX-License-Identifier: Apache-2.0</span>
+<span class="sd">&quot;&quot;&quot;Reusable closure features shared by the box types (T162).</span>
+
+<span class="sd">A lid only works if the body has the matching half of the same feature — a</span>
+<span class="sd">rabbet needs a ledge cut for it, a sliding lid needs grooves the right depth,</span>
+<span class="sd">a filament hinge needs knuckles that interleave and share a pin axis. Keeping</span>
+<span class="sd">both halves of each feature in one function is what stops them drifting apart.</span>
+
+<span class="sd">Everything is built in the box&#39;s own frame: (0, 0, 0) is its lower-left corner</span>
+<span class="sd">at the bed. pybosl2 primitives are centre-anchored, so placement goes through</span>
+<span class="sd">`shell.block` / `shell.corner`.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">replace</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.spec</span><span class="w"> </span><span class="kn">import</span> <span class="n">BoxSpec</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.precision</span><span class="w"> </span><span class="kn">import</span> <span class="n">kwargs</span> <span class="k">as</span> <span class="n">precision_kwargs</span>
+
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2.shapes3d</span><span class="w"> </span><span class="kn">import</span> <span class="n">Bosl2Solid</span>
+
+<span class="n">FIT_SLACK_MM</span> <span class="o">=</span> <span class="mf">0.2</span>
+<span class="sd">&quot;&quot;&quot;Clearance between a lid and the feature it seats into, per side.&quot;&quot;&quot;</span>
+
+<span class="n">PRINT_IN_PLACE_GAP_MM</span> <span class="o">=</span> <span class="mf">0.4</span>
+<span class="sd">&quot;&quot;&quot;Gap between two parts printed as one piece, so they separate.&quot;&quot;&quot;</span>
+
+<span class="n">_COINCIDENT_EPS_MM</span> <span class="o">=</span> <span class="mf">0.02</span>
+<span class="sd">&quot;&quot;&quot;How far a cutting solid is backed off a face it would otherwise touch exactly.</span>
+
+<span class="sd">Coincident surfaces are the one case CSG cannot decide: the difference keeps a</span>
+<span class="sd">zero-width sliver and the face survives, so a cut that is geometrically correct</span>
+<span class="sd">measures as if it never ran.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="n">WIGGLE_MM</span> <span class="o">=</span> <span class="mf">0.2</span>
+<span class="sd">&quot;&quot;&quot;Clearance between two printed parts that have to come apart again.</span>
+
+<span class="sd">`m_piece_wiggle_room` in the original toolkit, and used the same way here.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+<span class="c1"># --------------------------------------------------------- declared size</span>
+
+<span class="c1"># A box&#39;s declared size is the outside of the CLOSED box -- lid on. That is the</span>
+<span class="c1"># size the packer reserves space for, so a lid that adds to any dimension makes</span>
+<span class="c1"># every layout wrong: it is not the box that was planned for. Both closures</span>
+<span class="c1"># below therefore shrink the body to make room for the lid, rather than hanging</span>
+<span class="c1"># the lid off the outside of a full-size body.</span>
+
+
+<div class="viewcode-block" id="CapMetrics">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.features.CapMetrics.html#pyboxbuilder.box.features.CapMetrics">[docs]</a>
+<span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">CapMetrics</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The numbers a cap box&#39;s body and lid must agree on.</span>
+
+<span class="sd">    Derived once so the two halves cannot drift apart: the body&#39;s stepped-in top</span>
+<span class="sd">    band is exactly what the lid&#39;s skirt wraps, and the lid&#39;s outer face is</span>
+<span class="sd">    exactly the box&#39;s declared footprint.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">body_height</span><span class="p">:</span> <span class="nb">float</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Top of the body. The lid&#39;s plate sits above it, coming to `height`.&quot;&quot;&quot;</span>
+    <span class="n">cap_height</span><span class="p">:</span> <span class="nb">float</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;How far the lid&#39;s skirt reaches down the outside of the body.&quot;&quot;&quot;</span>
+    <span class="n">band_z</span><span class="p">:</span> <span class="nb">float</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Where the body steps in to make room for that skirt.&quot;&quot;&quot;</span>
+    <span class="n">band_width</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">band_length</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">inset</span><span class="p">:</span> <span class="nb">float</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;How far the band is set in from the declared footprint, per side.&quot;&quot;&quot;</span></div>
+
+
+
+<div class="viewcode-block" id="cap_metrics">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.features.cap_metrics.html#pyboxbuilder.box.features.cap_metrics">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">cap_metrics</span><span class="p">(</span><span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CapMetrics</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Work out a cap box&#39;s shared geometry from its declared size.&quot;&quot;&quot;</span>
+    <span class="n">wt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">wall_thickness</span>
+    <span class="n">lt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">lid_thickness</span>
+    <span class="n">wiggle</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">size_spacing</span>
+    <span class="c1"># The original&#39;s CapBoxDefaultCapHeight / CapBoxDefaultLidWallThickness,</span>
+    <span class="c1"># then capped so the corner finger cutout below it still has somewhere to</span>
+    <span class="c1"># go. Half the height is a fine skirt on a tall box and swallows a short one</span>
+    <span class="c1"># whole: at 11mm it would take 5.5, leaving 5.5 for a cut that needs 4 and a</span>
+    <span class="c1"># 2mm foot. The floor is the lid plate plus the shortest usable skirt, so</span>
+    <span class="c1"># the smallest cap box is exactly `lid + 3 + 4 + 2` (FR-002n).</span>
+    <span class="n">cap_h</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">cap_height</span>
+    <span class="k">if</span> <span class="n">cap_h</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">room</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">height</span> <span class="o">-</span> <span class="n">CAP_FINGER_CURVE_TOTAL_MM</span> <span class="o">-</span> <span class="n">CAP_FINGER_FOOT_MM</span>
+        <span class="n">cap_h</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span>
+            <span class="nb">min</span><span class="p">(</span><span class="mf">10.0</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">height</span> <span class="o">/</span> <span class="mi">2</span><span class="p">),</span>
+            <span class="nb">max</span><span class="p">(</span><span class="n">lt</span> <span class="o">+</span> <span class="n">CAP_FINGER_MIN_SKIRT_MM</span><span class="p">,</span> <span class="n">room</span><span class="p">),</span>
+        <span class="p">)</span>
+    <span class="n">lid_wall</span> <span class="o">=</span> <span class="n">wt</span> <span class="o">/</span> <span class="mi">2</span>
+
+    <span class="n">inset</span> <span class="o">=</span> <span class="n">lid_wall</span> <span class="o">+</span> <span class="mf">0.75</span> <span class="o">*</span> <span class="n">wiggle</span>
+    <span class="k">return</span> <span class="n">CapMetrics</span><span class="p">(</span>
+        <span class="n">body_height</span><span class="o">=</span><span class="n">spec</span><span class="o">.</span><span class="n">height</span> <span class="o">-</span> <span class="n">lt</span> <span class="o">-</span> <span class="n">wiggle</span><span class="p">,</span>
+        <span class="n">cap_height</span><span class="o">=</span><span class="n">cap_h</span><span class="p">,</span>
+        <span class="n">band_z</span><span class="o">=</span><span class="n">spec</span><span class="o">.</span><span class="n">height</span> <span class="o">-</span> <span class="n">cap_h</span><span class="p">,</span>
+        <span class="n">band_width</span><span class="o">=</span><span class="n">spec</span><span class="o">.</span><span class="n">width</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">inset</span><span class="p">,</span>
+        <span class="n">band_length</span><span class="o">=</span><span class="n">spec</span><span class="o">.</span><span class="n">length</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">inset</span><span class="p">,</span>
+        <span class="n">inset</span><span class="o">=</span><span class="n">inset</span><span class="p">,</span>
+    <span class="p">)</span></div>
+
+
+
+<span class="n">CAP_FINGER_MIN_RADIUS_MM</span> <span class="o">=</span> <span class="mf">2.0</span>
+<span class="sd">&quot;&quot;&quot;Smallest either profile radius may be on a cap box&#39;s corner cutout (FR-002k).</span>
+
+<span class="sd">The **pair** is the budget: 2mm rolling in at the top and 2mm rolling out at the</span>
+<span class="sd">bottom, :data:`CAP_FINGER_CURVE_TOTAL_MM` between them.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="n">CAP_FINGER_CURVE_TOTAL_MM</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">CAP_FINGER_MIN_RADIUS_MM</span>
+<span class="sd">&quot;&quot;&quot;Height the two rolls need between them, with no straight run at all (FR-002k).</span>
+
+<span class="sd">This is what sets the smallest cap box that can be built: a lid thickness, this,</span>
+<span class="sd">and a foot. Sized as a total rather than per-radius because it is the total that</span>
+<span class="sd">competes with the box&#39;s height — a 4mm budget fits boxes an 8mm one refuses.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="n">CAP_FINGER_CURVE_MAX_MM</span> <span class="o">=</span> <span class="mf">6.0</span>
+<span class="sd">&quot;&quot;&quot;Height the two rolls take when the box can spare it (FR-002k).</span>
+
+<span class="sd">4mm is the floor, not the target. Where there is room the pair opens out to 6mm</span>
+<span class="sd">— a 3mm roll each — which is a noticeably gentler curve for a fingertip. Growing</span>
+<span class="sd">it rather than fixing it is the point: the same cutout suits a 12mm box and a</span>
+<span class="sd">60mm one only if it can breathe on the taller one.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="n">CAP_FINGER_FOOT_MM</span> <span class="o">=</span> <span class="mf">2.0</span>
+<span class="sd">&quot;&quot;&quot;Full-thickness body left below the cutout (FR-002l).</span>
+
+<span class="sd">The cut is a recess in the side, not a through-slot; the corner it is cut into</span>
+<span class="sd">is the corner the box is stacked and dropped on.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="n">CAP_FINGER_MIN_SKIRT_MM</span> <span class="o">=</span> <span class="mf">3.0</span>
+<span class="sd">&quot;&quot;&quot;Shortest skirt a cap lid may have when the body is cut for finger holds.</span>
+
+<span class="sd">The skirt has to grip *something* at the corner being pushed at. Below 3mm there</span>
+<span class="sd">is not enough of it to hold the lid square, and the lid rocks off that corner</span>
+<span class="sd">rather than lifting.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="n">CAP_FINGER_MIN_LENGTH_MM</span> <span class="o">=</span> <span class="mf">10.0</span>
+<span class="sd">&quot;&quot;&quot;Shortest run along each side — a fingertip&#39;s width (FR-002m).&quot;&quot;&quot;</span>
+
+<span class="n">CAP_FINGER_MAX_LENGTH_SHARE</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="mi">6</span>
+<span class="sd">&quot;&quot;&quot;Longest run along each side, as a share of it (FR-002m).</span>
+
+<span class="sd">Two cutouts per side then leave two thirds of the band for the skirt to grip.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="n">CAP_FINGER_MIN_BAND_MM</span> <span class="o">=</span> <span class="mf">10.0</span>
+<span class="sd">&quot;&quot;&quot;Uncut band that must survive between the two cutouts on a side (FR-002m1).</span>
+
+<span class="sd">The two runs are what a finger needs; this is what the *lid* needs. Let the</span>
+<span class="sd">cutouts meet in the middle and the side is one continuous slot, with the skirt</span>
+<span class="sd">gripping nothing along that whole face — which the height check (FR-002n) does</span>
+<span class="sd">not catch, because a small box can be tall.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+<div class="viewcode-block" id="CapFingerMetrics">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.features.CapFingerMetrics.html#pyboxbuilder.box.features.CapFingerMetrics">[docs]</a>
+<span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">CapFingerMetrics</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The numbers a cap box&#39;s four corner cutouts are cut from.&quot;&quot;&quot;</span>
+
+    <span class="n">length_x</span><span class="p">:</span> <span class="nb">float</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;How far each cutout runs along the width.&quot;&quot;&quot;</span>
+    <span class="n">length_y</span><span class="p">:</span> <span class="nb">float</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;How far each cutout runs along the length.&quot;&quot;&quot;</span>
+    <span class="n">height</span><span class="p">:</span> <span class="nb">float</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;How far down from the skirt the cut reaches.&quot;&quot;&quot;</span>
+    <span class="n">radius</span><span class="p">:</span> <span class="nb">float</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Both profile radii — the first and second roll.&quot;&quot;&quot;</span>
+    <span class="n">base_z</span><span class="p">:</span> <span class="nb">float</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Where the cut bottoms out. A foot of body survives below it.&quot;&quot;&quot;</span></div>
+
+
+
+<div class="viewcode-block" id="cap_finger_metrics">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.features.cap_finger_metrics.html#pyboxbuilder.box.features.cap_finger_metrics">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">cap_finger_metrics</span><span class="p">(</span><span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CapFingerMetrics</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Size a cap box&#39;s corner finger cutouts, or explain why it cannot have any.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        spec: Needs `width`, `length`, `height`; reads `floor_thickness` and</span>
+<span class="sd">            optionally `cap_finger_length`, `cap_finger_height` and</span>
+<span class="sd">            `cap_finger_radius`.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        The cutout geometry (FR-002i–FR-002m).</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        ValueError: If the box cannot stack a lid, a 3mm skirt, both rolls and</span>
+<span class="sd">            the foot (FR-002n) — the smallest cap box is</span>
+<span class="sd">            ``lid + 3 + 4 + 2``. A cap box built without the cutouts has no way</span>
+<span class="sd">            to be opened, so this refuses rather than shrinking them.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="n">cap_metrics</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
+    <span class="n">lt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">lid_thickness</span>
+
+    <span class="c1"># The cut hangs below the skirt, so what it has to spend is everything from</span>
+    <span class="c1"># there down to the foot.</span>
+    <span class="n">available</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">band_z</span> <span class="o">-</span> <span class="n">CAP_FINGER_FOOT_MM</span>
+
+    <span class="n">explicit</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">cap_finger_radius</span>
+    <span class="k">if</span> <span class="n">explicit</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># 4mm is the floor, not the target: where the box can spare the height</span>
+        <span class="c1"># the pair opens out to 6mm, which is a gentler curve under a fingertip.</span>
+        <span class="n">curves</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span>
+            <span class="n">CAP_FINGER_CURVE_MAX_MM</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="n">CAP_FINGER_CURVE_TOTAL_MM</span><span class="p">,</span> <span class="n">available</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">radius</span> <span class="o">=</span> <span class="n">curves</span> <span class="o">/</span> <span class="mi">2</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">radius</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">explicit</span><span class="p">,</span> <span class="n">CAP_FINGER_MIN_RADIUS_MM</span><span class="p">)</span>
+        <span class="n">curves</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">radius</span>
+
+    <span class="c1"># Read down the box: the lid plate, then the skirt it grips by, then the two</span>
+    <span class="c1"># rolls at their *floor* size, then the foot. That stack is the smallest cap</span>
+    <span class="c1"># box there can be — growing the curve never raises the minimum.</span>
+    <span class="n">minimum</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">lt</span> <span class="o">+</span> <span class="n">CAP_FINGER_MIN_SKIRT_MM</span> <span class="o">+</span> <span class="n">CAP_FINGER_CURVE_TOTAL_MM</span>
+        <span class="o">+</span> <span class="n">CAP_FINGER_FOOT_MM</span>
+    <span class="p">)</span>
+    <span class="k">if</span> <span class="n">m</span><span class="o">.</span><span class="n">cap_height</span> <span class="o">-</span> <span class="n">lt</span> <span class="o">&lt;</span> <span class="n">CAP_FINGER_MIN_SKIRT_MM</span> <span class="ow">or</span> <span class="n">available</span> <span class="o">&lt;</span> <span class="n">curves</span> <span class="o">-</span> <span class="mf">1e-9</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;cap box </span><span class="si">{</span><span class="n">spec</span><span class="o">.</span><span class="n">label</span><span class="si">!r}</span><span class="s2"> is </span><span class="si">{</span><span class="n">spec</span><span class="o">.</span><span class="n">height</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">mm tall &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;and cannot carry a corner finger cutout: it needs at least &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">minimum</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">mm — a </span><span class="si">{</span><span class="n">lt</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">mm lid, a &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">CAP_FINGER_MIN_SKIRT_MM</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">mm skirt, </span><span class="si">{</span><span class="n">curves</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">mm of curve &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;(two </span><span class="si">{</span><span class="n">radius</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">mm rolls) and a </span><span class="si">{</span><span class="n">CAP_FINGER_FOOT_MM</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">mm foot &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;— and has a </span><span class="si">{</span><span class="n">m</span><span class="o">.</span><span class="n">cap_height</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">mm skirt with </span><span class="si">{</span><span class="n">available</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">mm &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;below it. Use a slipover box at this size: its corner notches &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;open a shallow box that a cap lid cannot.&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_run</span><span class="p">(</span><span class="n">dimension</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="c1"># A sixth of the side, but never less than a fingertip: 10mm is what a</span>
+        <span class="c1"># finger needs, a sixth is what the skirt would prefer.</span>
+        <span class="k">return</span> <span class="nb">max</span><span class="p">(</span>
+            <span class="n">CAP_FINGER_MIN_LENGTH_MM</span><span class="p">,</span> <span class="n">dimension</span> <span class="o">*</span> <span class="n">CAP_FINGER_MAX_LENGTH_SHARE</span>
+        <span class="p">)</span>
+
+    <span class="n">override</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">cap_finger_length</span>
+    <span class="n">length_x</span> <span class="o">=</span> <span class="n">override</span> <span class="k">if</span> <span class="n">override</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">_run</span><span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">width</span><span class="p">)</span>
+    <span class="n">length_y</span> <span class="o">=</span> <span class="n">override</span> <span class="k">if</span> <span class="n">override</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">_run</span><span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">length</span><span class="p">)</span>
+
+    <span class="c1"># A footprint too small for the cuts is refused exactly as a too-short box</span>
+    <span class="c1"># is (FR-002m1). Two cutouts meet at each corner of every side, so a side</span>
+    <span class="c1"># spends twice its run plus the band between them; let them meet and the</span>
+    <span class="c1"># corner cuts merge into one slot down the whole face, and the skirt loses</span>
+    <span class="c1"># its bearing there. The height check alone passes a 30 x 30mm box and</span>
+    <span class="c1"># produces precisely that.</span>
+    <span class="k">for</span> <span class="n">axis</span><span class="p">,</span> <span class="n">side</span><span class="p">,</span> <span class="n">run</span> <span class="ow">in</span> <span class="p">((</span><span class="s2">&quot;width&quot;</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="n">length_x</span><span class="p">),</span>
+                            <span class="p">(</span><span class="s2">&quot;length&quot;</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span><span class="p">,</span> <span class="n">length_y</span><span class="p">)):</span>
+        <span class="n">needed</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">run</span> <span class="o">+</span> <span class="n">CAP_FINGER_MIN_BAND_MM</span>
+        <span class="k">if</span> <span class="n">side</span> <span class="o">&lt;</span> <span class="n">needed</span> <span class="o">-</span> <span class="mf">1e-9</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;cap box </span><span class="si">{</span><span class="n">spec</span><span class="o">.</span><span class="n">label</span><span class="si">!r}</span><span class="s2"> is </span><span class="si">{</span><span class="n">side</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">mm across its &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">axis</span><span class="si">}</span><span class="s2"> and cannot carry corner finger cutouts: two &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">run</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">mm cutouts and the </span><span class="si">{</span><span class="n">CAP_FINGER_MIN_BAND_MM</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">mm &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;band between them need </span><span class="si">{</span><span class="n">needed</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">mm. Widen the box, set a &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;shorter `cap_finger_length`, or use a slipover box, whose &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;notches take two corners rather than four.&quot;</span>
+            <span class="p">)</span>
+
+    <span class="n">height</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">cap_finger_height</span>
+    <span class="k">if</span> <span class="n">height</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">height</span> <span class="o">=</span> <span class="n">curves</span>
+    <span class="n">height</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">height</span><span class="p">,</span> <span class="n">curves</span><span class="p">),</span> <span class="n">available</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">CapFingerMetrics</span><span class="p">(</span>
+        <span class="n">length_x</span><span class="o">=</span><span class="n">length_x</span><span class="p">,</span>
+        <span class="n">length_y</span><span class="o">=</span><span class="n">length_y</span><span class="p">,</span>
+        <span class="n">height</span><span class="o">=</span><span class="n">height</span><span class="p">,</span>
+        <span class="n">radius</span><span class="o">=</span><span class="n">radius</span><span class="p">,</span>
+        <span class="n">base_z</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">band_z</span> <span class="o">-</span> <span class="n">height</span><span class="p">,</span>
+    <span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="cap_finger_cutouts">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.features.cap_finger_cutouts.html#pyboxbuilder.box.features.cap_finger_cutouts">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">cap_finger_cutouts</span><span class="p">(</span><span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Bosl2Solid&quot;</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The four corner cutouts that let a cap lid be pushed off (FR-002i).</span>
+
+<span class="sd">    Two wall scoops meeting at each corner — the same :func:`corner_catch` a</span>
+<span class="sd">    slipover sleeve uses, and the original toolkit&#39;s ``CornerCatch`` before</span>
+<span class="sd">    that — so the cut arrives with the roll and the fillets already right.</span>
+
+<span class="sd">    Corners rather than side-centres: a finger pushing up in a corner recess</span>
+<span class="sd">    loads the skirt along **both** adjoining faces at once, so the lid lifts</span>
+<span class="sd">    square instead of cocking, and the bearing stays in the middle of each wall</span>
+<span class="sd">    where there is material behind it.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        spec: As :func:`cap_finger_metrics`.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        The solid to subtract from the body.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        ValueError: Via :func:`cap_finger_metrics`, when the box is too short.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.compartments.element</span><span class="w"> </span><span class="kn">import</span> <span class="n">union_all</span>
+
+    <span class="n">m</span> <span class="o">=</span> <span class="n">cap_metrics</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="n">cap_finger_metrics</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
+    <span class="n">width</span><span class="p">,</span> <span class="n">length</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span>
+
+    <span class="n">parts</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">at</span><span class="p">,</span> <span class="n">towards</span><span class="p">,</span> <span class="n">run</span> <span class="ow">in</span> <span class="p">(</span>
+        <span class="p">((</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">length_x</span><span class="p">,</span> <span class="n">f</span><span class="o">.</span><span class="n">length_y</span><span class="p">)),</span>
+        <span class="p">((</span><span class="n">width</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">length_x</span><span class="p">,</span> <span class="n">f</span><span class="o">.</span><span class="n">length_y</span><span class="p">)),</span>
+        <span class="p">((</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">length</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">length_x</span><span class="p">,</span> <span class="n">f</span><span class="o">.</span><span class="n">length_y</span><span class="p">)),</span>
+        <span class="p">((</span><span class="n">width</span><span class="p">,</span> <span class="n">length</span><span class="p">),</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">length_x</span><span class="p">,</span> <span class="n">f</span><span class="o">.</span><span class="n">length_y</span><span class="p">)),</span>
+    <span class="p">):</span>
+        <span class="c1"># `corner_catch` takes one half-width for both arms, so the shorter run</span>
+        <span class="c1"># governs: a cutout that overran its own side would eat into the next</span>
+        <span class="c1"># corner&#39;s.</span>
+        <span class="c1"># The indent is exactly as deep as the lid&#39;s own offset — the step the</span>
+        <span class="c1"># band above it is already set in by — so the recess and the skirt sit</span>
+        <span class="c1"># in the same plane and the finger meets one continuous surface.</span>
+        <span class="n">parts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="n">corner_catch</span><span class="p">(</span>
+                <span class="n">at</span><span class="p">,</span> <span class="n">towards</span><span class="p">,</span>
+                <span class="n">radius</span><span class="o">=</span><span class="nb">min</span><span class="p">(</span><span class="n">run</span><span class="p">),</span>
+                <span class="n">height</span><span class="o">=</span><span class="n">f</span><span class="o">.</span><span class="n">height</span><span class="p">,</span>
+                <span class="n">wall_thickness</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">inset</span><span class="p">,</span>
+                <span class="n">rounding_edge</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">inset</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span>
+                <span class="n">top_rounding</span><span class="o">=</span><span class="n">f</span><span class="o">.</span><span class="n">radius</span><span class="p">,</span>
+                <span class="n">bottom_rounding</span><span class="o">=</span><span class="n">f</span><span class="o">.</span><span class="n">radius</span><span class="p">,</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">f</span><span class="o">.</span><span class="n">base_z</span><span class="p">])</span>
+        <span class="p">)</span>
+    <span class="n">cutouts</span> <span class="o">=</span> <span class="n">union_all</span><span class="p">(</span><span class="n">parts</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">cutouts</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;four corners always produce a solid&quot;</span>
+    <span class="k">return</span> <span class="n">cutouts</span></div>
+
+
+
+<div class="viewcode-block" id="cap_body">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.features.cap_body.html#pyboxbuilder.box.features.cap_body">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">cap_body</span><span class="p">(</span><span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Bosl2Solid&quot;</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A cap box&#39;s body: full footprint below, stepped in for the skirt above.&quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.shell</span><span class="w"> </span><span class="kn">import</span> <span class="n">block</span><span class="p">,</span> <span class="n">build_shell</span>
+
+    <span class="n">m</span> <span class="o">=</span> <span class="n">cap_metrics</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
+    <span class="c1"># `interior_top`: the body is already shortened for the cap, so its own top</span>
+    <span class="c1"># is the top of the inside — subtracting a lid thickness again would push</span>
+    <span class="c1"># every finger hole a lid deeper than it belongs.</span>
+    <span class="n">shell</span> <span class="o">=</span> <span class="n">build_shell</span><span class="p">(</span>
+        <span class="n">replace</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">body_height</span><span class="p">,</span> <span class="n">interior_top</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">body_height</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="k">if</span> <span class="n">m</span><span class="o">.</span><span class="n">band_z</span> <span class="o">&gt;=</span> <span class="n">m</span><span class="o">.</span><span class="n">body_height</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">shell</span>  <span class="c1"># the cap is taller than the body; nothing to step in</span>
+
+    <span class="c1"># Keep everything below the band at full size, and only the band above it.</span>
+    <span class="c1"># The band is what the skirt grips, so its corners take the smaller mating</span>
+    <span class="c1"># radius — matched by the lid&#39;s cavity in `cap_lid` — while everything below</span>
+    <span class="c1"># it keeps the body&#39;s own outer rounding.</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.rounding</span><span class="w"> </span><span class="kn">import</span> <span class="n">mating_rounding</span><span class="p">,</span> <span class="n">rounded_block</span><span class="p">,</span> <span class="n">vertical_edges</span>
+
+    <span class="n">keep</span> <span class="o">=</span> <span class="n">block</span><span class="p">([</span><span class="n">spec</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span><span class="p">,</span> <span class="n">m</span><span class="o">.</span><span class="n">band_z</span><span class="p">])</span> <span class="o">|</span> <span class="n">rounded_block</span><span class="p">(</span>
+        <span class="p">[</span><span class="n">m</span><span class="o">.</span><span class="n">band_width</span><span class="p">,</span> <span class="n">m</span><span class="o">.</span><span class="n">band_length</span><span class="p">,</span> <span class="n">m</span><span class="o">.</span><span class="n">body_height</span> <span class="o">-</span> <span class="n">m</span><span class="o">.</span><span class="n">band_z</span><span class="p">],</span>
+        <span class="n">mating_rounding</span><span class="p">(</span><span class="n">spec</span><span class="p">),</span>
+        <span class="n">vertical_edges</span><span class="p">(),</span>
+        <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">inset</span><span class="p">,</span> <span class="n">m</span><span class="o">.</span><span class="n">inset</span><span class="p">,</span> <span class="n">m</span><span class="o">.</span><span class="n">band_z</span><span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">body</span> <span class="o">=</span> <span class="n">shell</span> <span class="o">&amp;</span> <span class="n">keep</span>
+    <span class="c1"># Somewhere to push the lid off from. Without this a cap box is a smooth</span>
+    <span class="c1"># friction fit with no purchase but the seam (FR-002i).</span>
+    <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">cap_finger_cutouts</span><span class="p">:</span>
+        <span class="n">body</span> <span class="o">=</span> <span class="n">body</span> <span class="o">-</span> <span class="n">cap_finger_cutouts</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">body</span></div>
+
+
+
+<div class="viewcode-block" id="cap_lid">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.features.cap_lid.html#pyboxbuilder.box.features.cap_lid">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">cap_lid</span><span class="p">(</span><span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Bosl2Solid&quot;</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A cap box&#39;s lid: a plate whose skirt grips the body&#39;s stepped-in band.</span>
+
+<span class="sd">    Its outer face is the declared footprint and its top is the declared height,</span>
+<span class="sd">    so a closed cap box measures exactly what it was asked for.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.shell</span><span class="w"> </span><span class="kn">import</span> <span class="n">block</span>
+
+    <span class="n">m</span> <span class="o">=</span> <span class="n">cap_metrics</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
+    <span class="n">lt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">lid_thickness</span>
+    <span class="n">slack</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">cap_slack</span>
+
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.rounding</span><span class="w"> </span><span class="kn">import</span> <span class="n">mating_rounding</span><span class="p">,</span> <span class="n">rounded_block</span><span class="p">,</span> <span class="n">vertical_edges</span>
+
+    <span class="n">outer</span> <span class="o">=</span> <span class="n">block</span><span class="p">(</span>
+        <span class="p">[</span><span class="n">spec</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span><span class="p">,</span> <span class="n">m</span><span class="o">.</span><span class="n">cap_height</span><span class="p">],</span> <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">m</span><span class="o">.</span><span class="n">band_z</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="c1"># The cavity&#39;s corners are rounded to the same radius as the band they slide</span>
+    <span class="c1"># over, so the two nest instead of meeting at a gap.</span>
+    <span class="n">cavity</span> <span class="o">=</span> <span class="n">rounded_block</span><span class="p">(</span>
+        <span class="p">[</span><span class="n">m</span><span class="o">.</span><span class="n">band_width</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">slack</span><span class="p">,</span> <span class="n">m</span><span class="o">.</span><span class="n">band_length</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">slack</span><span class="p">,</span> <span class="n">m</span><span class="o">.</span><span class="n">cap_height</span> <span class="o">-</span> <span class="n">lt</span><span class="p">],</span>
+        <span class="n">mating_rounding</span><span class="p">(</span><span class="n">spec</span><span class="p">),</span>
+        <span class="n">vertical_edges</span><span class="p">(),</span>
+        <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">inset</span> <span class="o">-</span> <span class="n">slack</span><span class="p">,</span> <span class="n">m</span><span class="o">.</span><span class="n">inset</span> <span class="o">-</span> <span class="n">slack</span><span class="p">,</span> <span class="n">m</span><span class="o">.</span><span class="n">band_z</span><span class="p">),</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">outer</span> <span class="o">-</span> <span class="n">cavity</span></div>
+
+
+
+<span class="n">SLIPOVER_SLEEVE_WALL_SHARE</span> <span class="o">=</span> <span class="mf">0.5</span>
+<span class="sd">&quot;&quot;&quot;How thick the sleeve&#39;s wall is, as a share of the box&#39;s wall (FR-002o).</span>
+
+<span class="sd">A **half** wall. The sleeve is a skin over a box that already has a full wall</span>
+<span class="sd">behind it everywhere the sleeve touches, so a full-thickness sleeve is a second</span>
+<span class="sd">wall carrying nothing — it costs the interior two full walls of width across</span>
+<span class="sd">every axis, and prints a part twice as heavy as the job needs. The same</span>
+<span class="sd">reasoning the cap box&#39;s skirt already uses.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+<span class="n">SLIPOVER_GAP_MIN_MM</span> <span class="o">=</span> <span class="mf">3.0</span>
+<span class="sd">&quot;&quot;&quot;Least body a slipover sleeve leaves showing above the foot (FR-002p).&quot;&quot;&quot;</span>
+
+<span class="n">SLIPOVER_GAP_MAX_MM</span> <span class="o">=</span> <span class="mf">6.0</span>
+<span class="sd">&quot;&quot;&quot;Most body a slipover sleeve leaves showing above the foot (FR-002p).</span>
+
+<span class="sd">The gap is where the fingers go, so a wider one takes a wider curve — but it is</span>
+<span class="sd">skirt the sleeve gives up to get it, so it stops at 6mm.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+<div class="viewcode-block" id="slipover_gap">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.features.slipover_gap.html#pyboxbuilder.box.features.slipover_gap">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">slipover_gap</span><span class="p">(</span><span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;How much body a sleeve leaves exposed above the foot (FR-002p).</span>
+
+<span class="sd">    A sleeve that runs all the way down to the foot meets it in a closed seam</span>
+<span class="sd">    with nothing to grip. Stopping short leaves a band of the body showing the</span>
+<span class="sd">    whole way round, which is what the fingers pull on.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        spec: Needs `height`; reads `foot` and `slipover_gap`.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        The gap in mm — a quarter of the covered height, held between</span>
+<span class="sd">        :data:`SLIPOVER_GAP_MIN_MM` and :data:`SLIPOVER_GAP_MAX_MM`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">explicit</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">slipover_gap</span>
+    <span class="k">if</span> <span class="n">explicit</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">explicit</span><span class="p">))</span>
+    <span class="n">covered</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">height</span> <span class="o">-</span> <span class="n">spec</span><span class="o">.</span><span class="n">foot</span>
+    <span class="k">return</span> <span class="nb">min</span><span class="p">(</span><span class="n">SLIPOVER_GAP_MAX_MM</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="n">SLIPOVER_GAP_MIN_MM</span><span class="p">,</span> <span class="n">covered</span> <span class="o">/</span> <span class="mi">4</span><span class="p">))</span></div>
+
+
+
+<div class="viewcode-block" id="slipover_metrics">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.features.slipover_metrics.html#pyboxbuilder.box.features.slipover_metrics">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">slipover_metrics</span><span class="p">(</span><span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;(inset per side, body height) for a slipover box.</span>
+
+<span class="sd">    The sleeve&#39;s outer face is the declared footprint, so the body is set in by</span>
+<span class="sd">    the sleeve&#39;s own wall thickness all round — **half** the box&#39;s wall</span>
+<span class="sd">    (FR-002o) — and stops a lid thickness short.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        spec: Needs `height`; reads `wall_thickness`, `lid_thickness` and</span>
+<span class="sd">            `size_spacing`.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        ``(inset per side, body height)``.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">wt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">wall_thickness</span>
+    <span class="n">lt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">lid_thickness</span>
+    <span class="n">wiggle</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">size_spacing</span>
+    <span class="k">return</span> <span class="n">wt</span> <span class="o">*</span> <span class="n">SLIPOVER_SLEEVE_WALL_SHARE</span> <span class="o">+</span> <span class="n">wiggle</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">height</span> <span class="o">-</span> <span class="n">lt</span> <span class="o">-</span> <span class="n">wiggle</span></div>
+
+
+
+<div class="viewcode-block" id="Closure">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.features.Closure.html#pyboxbuilder.box.features.Closure">[docs]</a>
+<span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Closure</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The two halves of a closure feature.</span>
+
+<span class="sd">    `body` is cut from or added to the box; `lid` likewise for the lid. Which</span>
+<span class="sd">    of the two applies is the caller&#39;s business — a rabbet subtracts its body</span>
+<span class="sd">    half and adds its lid half, a knuckle adds both.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">body</span><span class="p">:</span> <span class="s2">&quot;Bosl2Solid | None&quot;</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">lid</span><span class="p">:</span> <span class="s2">&quot;Bosl2Solid | None&quot;</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">body_cut</span><span class="p">:</span> <span class="s2">&quot;Bosl2Solid | None&quot;</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Volume the **body** must give up for the lid&#39;s half to move.&quot;&quot;&quot;</span>
+    <span class="n">lid_cut</span><span class="p">:</span> <span class="s2">&quot;Bosl2Solid | None&quot;</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Volume the **lid** must give up for the body&#39;s half.</span>
+
+<span class="sd">    Both directions are needed once a hinge sits inside the box: each half&#39;s</span>
+<span class="sd">    knuckles then stand in space the other half would otherwise fill. Relieving</span>
+<span class="sd">    only one side leaves the two fused just as surely as relieving neither.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="Closure.require_lid">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.features.Closure.html#pyboxbuilder.box.features.Closure.require_lid">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">require_lid</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Bosl2Solid&quot;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;The lid half, for a closure that is required to have one.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            None.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            The lid solid.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: If this closure produced no lid half. A caller</span>
+<span class="sd">                unioning two lid halves has no sensible answer without both,</span>
+<span class="sd">                and `None | solid` fails with a message about operand types</span>
+<span class="sd">                rather than about the geometry.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">lid</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;this closure has no lid half to union&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">lid</span></div>
+</div>
+
+
+
+<span class="c1"># ------------------------------------------------------------------- rabbet</span>
+
+
+<div class="viewcode-block" id="rabbet">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.features.rabbet.html#pyboxbuilder.box.features.rabbet">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">rabbet</span><span class="p">(</span><span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">,</span> <span class="n">inset</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Closure</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A ledge cut into the top rim, and the plate that drops into it.</span>
+
+<span class="sd">    The lid finishes flush with the rim rather than sitting on top of it, which</span>
+<span class="sd">    is what makes an inset box stackable.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        spec: Box dimensions; reads `wall_thickness` and `lid_thickness`.</span>
+<span class="sd">        inset: How far the ledge reaches in past the wall&#39;s inner face, so the</span>
+<span class="sd">            lid has something to rest on rather than falling through.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.shell</span><span class="w"> </span><span class="kn">import</span> <span class="n">block</span>
+
+    <span class="n">wt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">wall_thickness</span>
+    <span class="n">lt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">lid_thickness</span>
+    <span class="n">ledge</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">wt</span> <span class="o">-</span> <span class="n">inset</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+
+    <span class="n">recess_w</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">width</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">ledge</span>
+    <span class="n">recess_l</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">ledge</span>
+    <span class="n">top</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">height</span> <span class="o">-</span> <span class="n">lt</span>
+
+    <span class="k">return</span> <span class="n">Closure</span><span class="p">(</span>
+        <span class="n">body</span><span class="o">=</span><span class="n">block</span><span class="p">([</span><span class="n">recess_w</span><span class="p">,</span> <span class="n">recess_l</span><span class="p">,</span> <span class="n">lt</span> <span class="o">+</span> <span class="mf">0.1</span><span class="p">],</span> <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="n">ledge</span><span class="p">,</span> <span class="n">ledge</span><span class="p">,</span> <span class="n">top</span><span class="p">)),</span>
+        <span class="n">lid</span><span class="o">=</span><span class="n">block</span><span class="p">(</span>
+            <span class="p">[</span><span class="n">recess_w</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">FIT_SLACK_MM</span><span class="p">,</span> <span class="n">recess_l</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">FIT_SLACK_MM</span><span class="p">,</span> <span class="n">lt</span><span class="p">],</span>
+            <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="n">ledge</span> <span class="o">+</span> <span class="n">FIT_SLACK_MM</span><span class="p">,</span> <span class="n">ledge</span> <span class="o">+</span> <span class="n">FIT_SLACK_MM</span><span class="p">,</span> <span class="n">top</span><span class="p">),</span>
+        <span class="p">),</span>
+    <span class="p">)</span></div>
+
+
+
+<span class="c1"># ------------------------------------------------------------ sliding track</span>
+
+
+<div class="viewcode-block" id="sliding_dovetail">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.features.sliding_dovetail.html#pyboxbuilder.box.features.sliding_dovetail">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">sliding_dovetail</span><span class="p">(</span><span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The dovetail depths that hold a sliding lid in its grooves.</span>
+
+<span class="sd">    The lid&#39;s two long edges are angled — a dovetail — so the lid is trapped in</span>
+<span class="sd">    its grooves. In cross-section, perpendicular to the slide axis, the lid is a</span>
+<span class="sd">    trapezoid whose **top** face is the box interior (no key — the top sits</span>
+<span class="sd">    flush with the inner walls) and whose **bottom** face reaches **half** the</span>
+<span class="sd">    wall width into each wall. The groove never reaches the outer face, so</span>
+<span class="sd">    there is always wall material behind it to support the lid (FR-002c).</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        spec: Reads `wall_thickness`.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        ``(top, bottom)`` — how far the key reaches into each side wall at the</span>
+<span class="sd">        lid&#39;s top face and at its underside, in mm. The top is ``0`` (the lid&#39;s</span>
+<span class="sd">        top face is the interior width); the bottom is half the wall width.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">wt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">wall_thickness</span>
+    <span class="k">return</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">wt</span> <span class="o">/</span> <span class="mi">2</span></div>
+
+
+
+<div class="viewcode-block" id="lead_chamfer_size">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.features.lead_chamfer_size.html#pyboxbuilder.box.features.lead_chamfer_size">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">lead_chamfer_size</span><span class="p">(</span><span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The slight chamfer that lets a lid start into its grooves (FR-002d).</span>
+
+<span class="sd">    A **quarter** of the lid&#39;s thickness. It was half, which on a 2mm lid takes</span>
+<span class="sd">    the leading end down to a 1mm knife edge — enough of a taper to read as a</span>
+<span class="sd">    wedge, which is the shape a sliding lid should not have anywhere. A quarter</span>
+<span class="sd">    still keeps the lip off the groove floor while the leading face stays</span>
+<span class="sd">    recognisably a face.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        spec: Reads `lid_thickness`; an explicit `lead_chamfer` wins.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        The chamfer depth in mm.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">lead_chamfer</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">spec</span><span class="o">.</span><span class="n">lead_chamfer</span>
+    <span class="k">return</span> <span class="n">spec</span><span class="o">.</span><span class="n">lid_thickness</span> <span class="o">/</span> <span class="mi">4</span></div>
+
+
+
+<div class="viewcode-block" id="lid_corner_rounding">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.features.lid_corner_rounding.html#pyboxbuilder.box.features.lid_corner_rounding">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">lid_corner_rounding</span><span class="p">(</span><span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The radius on the sliding lid&#39;s leading corners (FR-002e4).</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        spec: Reads `wall_thickness`; an explicit `lid_corner_rounding` wins.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        The radius in mm — a quarter of the wall by default, capped at the</span>
+<span class="sd">        dovetail&#39;s depth so the rounding cannot eat the key that retains the</span>
+<span class="sd">        lid.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">wt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">wall_thickness</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">bottom_key</span> <span class="o">=</span> <span class="n">sliding_dovetail</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
+    <span class="n">radius</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">lid_corner_rounding</span>
+    <span class="k">if</span> <span class="n">radius</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">radius</span> <span class="o">=</span> <span class="n">wt</span> <span class="o">/</span> <span class="mi">4</span>
+    <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="n">radius</span><span class="p">,</span> <span class="n">bottom_key</span><span class="p">))</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_dovetail_solid</span><span class="p">(</span>
+    <span class="n">along_axis</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">bottom_along</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
+    <span class="n">top_along</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
+    <span class="n">across_center</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">bottom_across</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">top_across</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">height</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">z0</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">corner_rounding</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Bosl2Solid&quot;</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A prism dovetailed on its two flanks and, at the closed end, in depth.</span>
+
+<span class="sd">    Both faces are rectangles given by their **along**-axis span and their</span>
+<span class="sd">    **across**-axis width. The across width tapers between them — that is the</span>
+<span class="sd">    dovetail on the two side walls. The along span may also differ, and when it</span>
+<span class="sd">    does the difference is all at the *closed* end: the bottom face reaches</span>
+<span class="sd">    further under the stop wall than the top face does, which is the back seat</span>
+<span class="sd">    the lid&#39;s leading end slides into (FR-002e). The open end is the same at</span>
+<span class="sd">    both faces, so the lid finishes flush with the mouth.</span>
+
+<span class="sd">    ``corner_rounding`` rounds all four vertical corners, so the pair that goes</span>
+<span class="sd">    in first does not snag on the groove mouths (FR-002e4).</span>
+
+<span class="sd">    The rounding is uniform rather than per-corner because pybosl2 0.7.8&#39;s</span>
+<span class="sd">    per-corner ``rounding`` list **translates the whole solid**: a lid asked for</span>
+<span class="sd">    ``[0, 0, r, r]`` came out 23mm down the slide axis, its leading end 23mm</span>
+<span class="sd">    inside the box and its trailing end hanging that far outside. A scalar (or</span>
+<span class="sd">    four equal values) is correct. Rounding all four is no loss anyway — the</span>
+<span class="sd">    trailing pair is the exposed end, which the box type rounds again anyway.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2.shapes3d</span><span class="w"> </span><span class="kn">import</span> <span class="n">prismoid</span>
+
+    <span class="n">bottom_size</span> <span class="o">=</span> <span class="n">bottom_along</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">bottom_along</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">top_size</span> <span class="o">=</span> <span class="n">top_along</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">top_along</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">bottom_center</span> <span class="o">=</span> <span class="p">(</span><span class="n">bottom_along</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">bottom_along</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">/</span> <span class="mi">2</span>
+    <span class="n">shift_along</span> <span class="o">=</span> <span class="p">(</span><span class="n">top_along</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">top_along</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">-</span> <span class="n">bottom_center</span>
+
+    <span class="k">if</span> <span class="n">along_axis</span> <span class="o">==</span> <span class="s2">&quot;x&quot;</span><span class="p">:</span>
+        <span class="n">solid</span> <span class="o">=</span> <span class="n">prismoid</span><span class="p">(</span>
+            <span class="p">[</span><span class="n">bottom_size</span><span class="p">,</span> <span class="n">bottom_across</span><span class="p">],</span>
+            <span class="p">[</span><span class="n">top_size</span><span class="p">,</span> <span class="n">top_across</span><span class="p">],</span>
+            <span class="n">height</span><span class="o">=</span><span class="n">height</span><span class="p">,</span>
+            <span class="n">shift</span><span class="o">=</span><span class="p">[</span><span class="n">shift_along</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span>
+            <span class="n">rounding</span><span class="o">=</span><span class="n">corner_rounding</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">precision_kwargs</span><span class="p">(),</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">solid</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">bottom_center</span><span class="p">,</span> <span class="n">across_center</span><span class="p">,</span> <span class="n">z0</span><span class="p">])</span>
+    <span class="n">solid</span> <span class="o">=</span> <span class="n">prismoid</span><span class="p">(</span>
+        <span class="p">[</span><span class="n">bottom_across</span><span class="p">,</span> <span class="n">bottom_size</span><span class="p">],</span>
+        <span class="p">[</span><span class="n">top_across</span><span class="p">,</span> <span class="n">top_size</span><span class="p">],</span>
+        <span class="n">height</span><span class="o">=</span><span class="n">height</span><span class="p">,</span>
+        <span class="n">shift</span><span class="o">=</span><span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">shift_along</span><span class="p">],</span>
+        <span class="n">rounding</span><span class="o">=</span><span class="n">corner_rounding</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">precision_kwargs</span><span class="p">(),</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">solid</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">across_center</span><span class="p">,</span> <span class="n">bottom_center</span><span class="p">,</span> <span class="n">z0</span><span class="p">])</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_lead_chamfer</span><span class="p">(</span>
+    <span class="n">along_axis</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">lead</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">across_min</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">across_max</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">z_base</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">size</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">from_top</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">face_slope</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Bosl2Solid&quot;</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A 45° wedge beveling one of the lid&#39;s leading horizontal edges.</span>
+
+<span class="sd">    ``lead`` is the leading end&#39;s coordinate along the slide axis at the face</span>
+<span class="sd">    being cut — the end that enters the box first. The wedge is ``size`` deep at</span>
+<span class="sd">    that face and tapers to nothing ``size`` away from it, across the lid&#39;s full</span>
+<span class="sd">    width, so the lid starts into the grooves instead of catching on their</span>
+<span class="sd">    mouths.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        along_axis: ``&quot;x&quot;`` or ``&quot;y&quot;`` — the slide axis.</span>
+<span class="sd">        lead: The leading face&#39;s coordinate along that axis, at ``z_base``.</span>
+<span class="sd">        across_min: Low edge of the span to cut, across the slide axis.</span>
+<span class="sd">        across_max: High edge of that span.</span>
+<span class="sd">        z_base: The face to cut from — the lid&#39;s underside, or its top face</span>
+<span class="sd">            when ``from_top``.</span>
+<span class="sd">        size: The chamfer&#39;s depth.</span>
+<span class="sd">        from_top: Cut the leading **top** edge instead of the bottom one. The</span>
+<span class="sd">            underside chamfer keeps the thin leading lip off the groove floor;</span>
+<span class="sd">            the top one keeps the lid&#39;s top corner off the wall lip at the</span>
+<span class="sd">            mouth. Between them the leading end is eased both ways.</span>
+<span class="sd">        face_slope: How far the leading face advances along the slide axis per</span>
+<span class="sd">            unit of height — the back seat&#39;s taper. Only the ``from_top`` cut</span>
+<span class="sd">            needs it: that wedge&#39;s inner vertex has to sit **on** the sloped</span>
+<span class="sd">            face, because the face leans away from a vertical cut going down,</span>
+<span class="sd">            so a vertical one leaves a feather edge hanging off the face</span>
+<span class="sd">            instead of taking the corner off it. The underside cut leans the</span>
+<span class="sd">            other way and is already behind the face at every height.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        The wedge to subtract from the lid.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2.shapes3d</span><span class="w"> </span><span class="kn">import</span> <span class="n">prismoid</span>
+
+    <span class="n">span</span> <span class="o">=</span> <span class="n">across_max</span> <span class="o">-</span> <span class="n">across_min</span>
+    <span class="n">across_center</span> <span class="o">=</span> <span class="p">(</span><span class="n">across_min</span> <span class="o">+</span> <span class="n">across_max</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+    <span class="c1"># The full-width face is at `z_base` and the wedge shrinks to a line `size`</span>
+    <span class="c1"># away from it, so the prismoid&#39;s tapering end is whichever face is inside.</span>
+    <span class="n">lower</span><span class="p">,</span> <span class="n">upper</span> <span class="o">=</span> <span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">size</span><span class="p">]</span> <span class="k">if</span> <span class="n">from_top</span> <span class="k">else</span> <span class="p">[</span><span class="n">size</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">])</span>
+    <span class="n">shift</span> <span class="o">=</span> <span class="p">(</span><span class="n">size</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">size</span> <span class="o">*</span> <span class="n">face_slope</span><span class="p">)</span> <span class="k">if</span> <span class="n">from_top</span> <span class="k">else</span> <span class="o">-</span><span class="n">size</span> <span class="o">/</span> <span class="mi">2</span>
+    <span class="n">z0</span> <span class="o">=</span> <span class="n">z_base</span> <span class="o">-</span> <span class="n">size</span> <span class="k">if</span> <span class="n">from_top</span> <span class="k">else</span> <span class="n">z_base</span>
+    <span class="n">offset</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="n">size</span> <span class="o">*</span> <span class="n">face_slope</span><span class="p">)</span> <span class="k">if</span> <span class="n">from_top</span> <span class="k">else</span> <span class="n">size</span> <span class="o">/</span> <span class="mi">2</span>
+    <span class="c1"># Riding the sloped face exactly makes the cutter&#39;s near surface *coincident*</span>
+    <span class="c1"># with it, and a coincident subtraction leaves a zero-width sliver that keeps</span>
+    <span class="c1"># the original face in the mesh — the cut measured as if it had never</span>
+    <span class="c1"># happened. Backing the whole wedge off by a hair puts it clearly outside the</span>
+    <span class="c1"># solid, at the cost of that hair off the chamfer.</span>
+    <span class="n">offset</span> <span class="o">-=</span> <span class="n">_COINCIDENT_EPS_MM</span>
+    <span class="k">if</span> <span class="n">along_axis</span> <span class="o">==</span> <span class="s2">&quot;x&quot;</span><span class="p">:</span>
+        <span class="n">solid</span> <span class="o">=</span> <span class="n">prismoid</span><span class="p">(</span>
+            <span class="p">[</span><span class="n">lower</span><span class="p">,</span> <span class="n">span</span><span class="p">],</span> <span class="p">[</span><span class="n">upper</span><span class="p">,</span> <span class="n">span</span><span class="p">],</span> <span class="n">height</span><span class="o">=</span><span class="n">size</span><span class="p">,</span> <span class="n">shift</span><span class="o">=</span><span class="p">[</span><span class="n">shift</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span>
+            <span class="o">**</span><span class="n">precision_kwargs</span><span class="p">(),</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">solid</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">lead</span> <span class="o">+</span> <span class="n">offset</span><span class="p">,</span> <span class="n">across_center</span><span class="p">,</span> <span class="n">z0</span><span class="p">])</span>
+    <span class="n">solid</span> <span class="o">=</span> <span class="n">prismoid</span><span class="p">(</span>
+        <span class="p">[</span><span class="n">span</span><span class="p">,</span> <span class="n">lower</span><span class="p">],</span> <span class="p">[</span><span class="n">span</span><span class="p">,</span> <span class="n">upper</span><span class="p">],</span> <span class="n">height</span><span class="o">=</span><span class="n">size</span><span class="p">,</span> <span class="n">shift</span><span class="o">=</span><span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">shift</span><span class="p">],</span>
+        <span class="o">**</span><span class="n">precision_kwargs</span><span class="p">(),</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">solid</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">across_center</span><span class="p">,</span> <span class="n">lead</span> <span class="o">+</span> <span class="n">offset</span><span class="p">,</span> <span class="n">z0</span><span class="p">])</span>
+
+
+<div class="viewcode-block" id="dovetail_track">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.features.dovetail_track.html#pyboxbuilder.box.features.dovetail_track">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">dovetail_track</span><span class="p">(</span><span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">,</span> <span class="n">along_axis</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;x&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Closure</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The dovetailed channel a lid slides in, and the lid that fills it.</span>
+
+<span class="sd">    One slot does both halves of the job, because they are the same slot: it</span>
+<span class="sd">    leaves the interior clear at the top and bites half the wall width into</span>
+<span class="sd">    each side wall at the bottom, to make the dovetail grooves, and it runs out</span>
+<span class="sd">    through the far end wall so the lid has somewhere to enter. The groove is</span>
+<span class="sd">    therefore wider at its floor than at its opening, which is what traps the</span>
+<span class="sd">    lid: it can be slid along the axis but never lifted straight out. The</span>
+<span class="sd">    groove never reaches the outer face — half the wall always remains behind</span>
+<span class="sd">    it — so the walls still support the lid. Cutting only the grooves leaves a</span>
+<span class="sd">    box with a solid wall across the front of its own track — a lid that can be</span>
+<span class="sd">    dropped in but never slid.</span>
+
+<span class="sd">    **The stop wall carries a dovetail too** (FR-002e), cut to the same depth as</span>
+<span class="sd">    the sides: full thickness at the channel opening, half of it at the channel</span>
+<span class="sd">    floor. That is a *seat*, not a catch. The lid&#39;s leading end is tapered to</span>
+<span class="sd">    match, so the two faces stay parallel with the slide clearance between them</span>
+<span class="sd">    for the whole travel — the lid slides in freely and lands in the seat — but</span>
+<span class="sd">    once home, lifting the back of the lid drives its leading lip straight into</span>
+<span class="sd">    the stop wall. Without it the leading end rests on nothing and the lid sits</span>
+<span class="sd">    proud at the back.</span>
+
+<span class="sd">    What must *not* be here is a **wedge catch**: a taper the lid has to be</span>
+<span class="sd">    forced past to close and sprung back out to open. Nothing in this geometry</span>
+<span class="sd">    interferes at any point in the travel, which is the property to check — a</span>
+<span class="sd">    matched taper and a wedge look alike in a render and differ entirely in</span>
+<span class="sd">    the hand. Holding the closed lid shut is :func:`sliding_catch`&#39;s job, and</span>
+<span class="sd">    that is a bump and dimple.</span>
+
+<span class="sd">    The lid is the matching solid, cut short by `sliding_slack` on every mating</span>
+<span class="sd">    face so it slides freely, with its two leading corners rounded and its</span>
+<span class="sd">    leading edges chamfered so it starts into the grooves rather than snagging</span>
+<span class="sd">    on their mouths (FR-002c, FR-002d, FR-002e4). The lid fills the channel</span>
+<span class="sd">    flush with the open end.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        spec: Needs `width`, `length`, `height`; reads `wall_thickness`,</span>
+<span class="sd">            `lid_thickness`, and optionally `lead_chamfer`,</span>
+<span class="sd">            `lid_corner_rounding` and `sliding_slack` (per-side clearance,</span>
+<span class="sd">            default 0.1mm).</span>
+<span class="sd">        along_axis: ``&quot;x&quot;`` to slide along the width, ``&quot;y&quot;`` along the length.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        The channel to subtract from the body, and the lid that fills it.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">wt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">wall_thickness</span>
+    <span class="n">lt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">lid_thickness</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">sliding_slack</span>
+    <span class="n">chamfer</span> <span class="o">=</span> <span class="n">lead_chamfer_size</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
+    <span class="n">corner_rounding</span> <span class="o">=</span> <span class="n">lid_corner_rounding</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
+    <span class="n">top_key</span><span class="p">,</span> <span class="n">bottom_key</span> <span class="o">=</span> <span class="n">sliding_dovetail</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">along_axis</span> <span class="o">==</span> <span class="s2">&quot;x&quot;</span><span class="p">:</span>
+        <span class="n">along</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">width</span>
+        <span class="n">across</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">along</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span>
+        <span class="n">across</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">width</span>
+
+    <span class="n">z0</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">height</span> <span class="o">-</span> <span class="n">lt</span>
+    <span class="n">interior_across</span> <span class="o">=</span> <span class="n">across</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">wt</span>
+
+    <span class="c1"># The lid runs from under the stop wall out to the open face, so the closed</span>
+    <span class="c1"># box is flush. Its top face is the interior (no key) and its underside</span>
+    <span class="c1"># reaches `bottom_key` into each wall and under the stop wall, cut short by</span>
+    <span class="c1"># the clearance on every mating face. The leading end&#39;s taper matches the</span>
+    <span class="c1"># back seat&#39;s, so the two faces stay `s` apart for the whole travel.</span>
+    <span class="n">lid</span> <span class="o">=</span> <span class="n">_dovetail_solid</span><span class="p">(</span>
+        <span class="n">along_axis</span><span class="p">,</span>
+        <span class="p">(</span><span class="n">wt</span> <span class="o">-</span> <span class="n">bottom_key</span> <span class="o">+</span> <span class="n">s</span><span class="p">,</span> <span class="n">along</span><span class="p">),</span>
+        <span class="p">(</span><span class="n">wt</span> <span class="o">-</span> <span class="n">top_key</span> <span class="o">+</span> <span class="n">s</span><span class="p">,</span> <span class="n">along</span><span class="p">),</span>
+        <span class="n">across</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span>
+        <span class="n">interior_across</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">bottom_key</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">s</span><span class="p">,</span>
+        <span class="n">interior_across</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">top_key</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">s</span><span class="p">,</span>
+        <span class="n">lt</span><span class="p">,</span>
+        <span class="n">z0</span><span class="p">,</span>
+        <span class="n">corner_rounding</span><span class="o">=</span><span class="n">corner_rounding</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="c1"># The channel: the same solid, larger by the clearance and a hair. Its floor</span>
+    <span class="c1"># reaches `bottom_key` into each wall and into the stop wall, its opening</span>
+    <span class="c1"># `top_key`, and it runs out through the open end wall. Its corners stay</span>
+    <span class="c1"># square — the rounding is the lid&#39;s clearance, not a shape they share.</span>
+    <span class="n">channel</span> <span class="o">=</span> <span class="n">_dovetail_solid</span><span class="p">(</span>
+        <span class="n">along_axis</span><span class="p">,</span>
+        <span class="p">(</span><span class="n">wt</span> <span class="o">-</span> <span class="n">bottom_key</span> <span class="o">-</span> <span class="mf">0.05</span><span class="p">,</span> <span class="n">along</span> <span class="o">+</span> <span class="mf">0.05</span><span class="p">),</span>
+        <span class="p">(</span><span class="n">wt</span> <span class="o">-</span> <span class="n">top_key</span> <span class="o">-</span> <span class="mf">0.05</span><span class="p">,</span> <span class="n">along</span> <span class="o">+</span> <span class="mf">0.05</span><span class="p">),</span>
+        <span class="n">across</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span>
+        <span class="n">interior_across</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">bottom_key</span> <span class="o">+</span> <span class="mf">0.1</span><span class="p">,</span>
+        <span class="n">interior_across</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">top_key</span> <span class="o">+</span> <span class="mf">0.1</span><span class="p">,</span>
+        <span class="n">lt</span> <span class="o">+</span> <span class="mf">0.1</span><span class="p">,</span>
+        <span class="n">z0</span> <span class="o">-</span> <span class="mf">0.05</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Chamfers on the leading end&#39;s two horizontal edges ease the lid in: the</span>
+    <span class="c1"># underside one keeps the thin leading lip off the groove floor, the top one</span>
+    <span class="c1"># keeps the lid&#39;s top corner off the wall lip at the mouth.</span>
+    <span class="k">if</span> <span class="n">chamfer</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">flank_min</span> <span class="o">=</span> <span class="n">wt</span> <span class="o">-</span> <span class="n">bottom_key</span> <span class="o">+</span> <span class="n">s</span>
+        <span class="n">flank_max</span> <span class="o">=</span> <span class="n">across</span> <span class="o">-</span> <span class="n">wt</span> <span class="o">+</span> <span class="n">bottom_key</span> <span class="o">-</span> <span class="n">s</span>
+        <span class="n">lid</span> <span class="o">=</span> <span class="n">lid</span> <span class="o">-</span> <span class="n">_lead_chamfer</span><span class="p">(</span>
+            <span class="n">along_axis</span><span class="p">,</span> <span class="n">wt</span> <span class="o">-</span> <span class="n">bottom_key</span> <span class="o">+</span> <span class="n">s</span><span class="p">,</span> <span class="n">flank_min</span><span class="p">,</span> <span class="n">flank_max</span><span class="p">,</span> <span class="n">z0</span><span class="p">,</span> <span class="n">chamfer</span>
+        <span class="p">)</span>
+        <span class="n">lid</span> <span class="o">=</span> <span class="n">lid</span> <span class="o">-</span> <span class="n">_lead_chamfer</span><span class="p">(</span>
+            <span class="n">along_axis</span><span class="p">,</span> <span class="n">wt</span> <span class="o">-</span> <span class="n">top_key</span> <span class="o">+</span> <span class="n">s</span><span class="p">,</span> <span class="n">flank_min</span><span class="p">,</span> <span class="n">flank_max</span><span class="p">,</span> <span class="n">z0</span> <span class="o">+</span> <span class="n">lt</span><span class="p">,</span>
+            <span class="n">chamfer</span><span class="p">,</span> <span class="n">from_top</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">face_slope</span><span class="o">=</span><span class="p">(</span><span class="n">bottom_key</span> <span class="o">-</span> <span class="n">top_key</span><span class="p">)</span> <span class="o">/</span> <span class="n">lt</span> <span class="k">if</span> <span class="n">lt</span> <span class="k">else</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">Closure</span><span class="p">(</span><span class="n">body</span><span class="o">=</span><span class="n">channel</span><span class="p">,</span> <span class="n">lid</span><span class="o">=</span><span class="n">lid</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="sliding_track">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.features.sliding_track.html#pyboxbuilder.box.features.sliding_track">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">sliding_track</span><span class="p">(</span><span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Closure</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The sliding channel and lid, in the slide-along-X frame.</span>
+
+<span class="sd">    A thin wrapper over :func:`dovetail_track` for the types that always slide</span>
+<span class="sd">    along X (``SlidingCatchBox``, ``CardLibraryBox``).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">dovetail_track</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="s2">&quot;x&quot;</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="sliding_catch">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.features.sliding_catch.html#pyboxbuilder.box.features.sliding_catch">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">sliding_catch</span><span class="p">(</span>
+    <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">,</span> <span class="n">radius</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">along_axis</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;x&quot;</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Closure</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A bump-and-dimple detent that clicks the sliding lid shut (FR-002e1).</span>
+
+<span class="sd">    A pair of bumps on the lid drop into matching dimples in the two groove</span>
+<span class="sd">    walls. The dimple is cut a touch larger so the two are not an interference</span>
+<span class="sd">    fit — the lid should click, not jam. This is the *only* catch a sliding box</span>
+<span class="sd">    gets: a wedge at the stop end would close by driving the lid&#39;s thinnest</span>
+<span class="sd">    section under an overhang, whereas a bump deflects by its own height, across</span>
+<span class="sd">    the lid&#39;s thickness (see :func:`dovetail_track`).</span>
+
+<span class="sd">    **The catch sits at the outlet**, the mouth the lid enters and leaves by, so</span>
+<span class="sd">    it engages in the last few millimetres of travel (FR-002e2). At the closed</span>
+<span class="sd">    end instead, the bump would be dragged the whole length of the groove on</span>
+<span class="sd">    every open and close — wearing the groove, making a long lid stiff to start,</span>
+<span class="sd">    and telling the hand nothing about when the lid is home.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        spec: Needs `width`, `length`, `height`; reads `wall_thickness` and</span>
+<span class="sd">            `lid_thickness`.</span>
+<span class="sd">        radius: The bump&#39;s radius. The dimple is half a fit clearance larger.</span>
+<span class="sd">        along_axis: ``&quot;x&quot;`` to slide along the width, ``&quot;y&quot;`` along the length —</span>
+<span class="sd">            the same frame :func:`dovetail_track` was given, so the catch lands</span>
+<span class="sd">            on the two walls that actually carry the grooves.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        The dimples to subtract from the body, and the bumps to add to the lid.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">sphere</span>
+
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.shell</span><span class="w"> </span><span class="kn">import</span> <span class="n">block</span>
+
+    <span class="n">wt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">wall_thickness</span>
+    <span class="n">lt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">lid_thickness</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">sliding_slack</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">bottom_key</span> <span class="o">=</span> <span class="n">sliding_dovetail</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
+
+    <span class="n">along</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">width</span> <span class="k">if</span> <span class="n">along_axis</span> <span class="o">==</span> <span class="s2">&quot;x&quot;</span> <span class="k">else</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span>
+    <span class="n">across</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span> <span class="k">if</span> <span class="n">along_axis</span> <span class="o">==</span> <span class="s2">&quot;x&quot;</span> <span class="k">else</span> <span class="n">spec</span><span class="o">.</span><span class="n">width</span>
+
+    <span class="c1"># Just inside the outlet face, and on the lid&#39;s dovetail flank at</span>
+    <span class="c1"># mid-thickness — which is where the lid&#39;s own material is. Centring on the</span>
+    <span class="c1"># wall&#39;s inner face instead leaves the bump hanging beside the lid rather</span>
+    <span class="c1"># than on it, because the flank has already leaned in by then.</span>
+    <span class="n">at_along</span> <span class="o">=</span> <span class="n">along</span> <span class="o">-</span> <span class="n">wt</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">radius</span>
+    <span class="n">flank</span> <span class="o">=</span> <span class="n">wt</span> <span class="o">-</span> <span class="n">bottom_key</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">s</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">height</span> <span class="o">-</span> <span class="n">lt</span> <span class="o">/</span> <span class="mi">2</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_place</span><span class="p">(</span><span class="n">solid</span><span class="p">,</span> <span class="n">across_pos</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">along_axis</span> <span class="o">==</span> <span class="s2">&quot;x&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">solid</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">at_along</span><span class="p">,</span> <span class="n">across_pos</span><span class="p">,</span> <span class="n">z</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">solid</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">across_pos</span><span class="p">,</span> <span class="n">at_along</span><span class="p">,</span> <span class="n">z</span><span class="p">])</span>
+
+    <span class="n">dimple</span> <span class="o">=</span> <span class="n">sphere</span><span class="p">(</span><span class="n">radius</span><span class="o">=</span><span class="n">radius</span> <span class="o">+</span> <span class="n">FIT_SLACK_MM</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="o">**</span><span class="n">precision_kwargs</span><span class="p">())</span>
+    <span class="n">bump</span> <span class="o">=</span> <span class="n">sphere</span><span class="p">(</span><span class="n">radius</span><span class="o">=</span><span class="n">radius</span><span class="p">,</span> <span class="o">**</span><span class="n">precision_kwargs</span><span class="p">())</span>
+    <span class="n">bumps</span> <span class="o">=</span> <span class="n">_place</span><span class="p">(</span><span class="n">bump</span><span class="p">,</span> <span class="n">flank</span><span class="p">)</span> <span class="o">|</span> <span class="n">_place</span><span class="p">(</span><span class="n">bump</span><span class="p">,</span> <span class="n">across</span> <span class="o">-</span> <span class="n">flank</span><span class="p">)</span>
+    <span class="c1"># The bump engages sideways in the groove, so trimming its crown at the box&#39;s</span>
+    <span class="c1"># top face costs nothing — and leaving it proud would make the closed box</span>
+    <span class="c1"># taller than its declared height. The dimple is left untrimmed: it is cut</span>
+    <span class="c1"># from the body, and opening it slightly at the rim is harmless.</span>
+    <span class="n">envelope</span> <span class="o">=</span> <span class="n">block</span><span class="p">([</span><span class="n">spec</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">height</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">Closure</span><span class="p">(</span>
+        <span class="n">body</span><span class="o">=</span><span class="n">_place</span><span class="p">(</span><span class="n">dimple</span><span class="p">,</span> <span class="n">flank</span><span class="p">)</span> <span class="o">|</span> <span class="n">_place</span><span class="p">(</span><span class="n">dimple</span><span class="p">,</span> <span class="n">across</span> <span class="o">-</span> <span class="n">flank</span><span class="p">),</span>
+        <span class="n">lid</span><span class="o">=</span><span class="n">bumps</span> <span class="o">&amp;</span> <span class="n">envelope</span><span class="p">,</span>
+    <span class="p">)</span></div>
+
+
+
+<span class="c1"># ------------------------------------------------------------ filament hinge</span>
+
+
+<div class="viewcode-block" id="corner_catch">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.features.corner_catch.html#pyboxbuilder.box.features.corner_catch">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">corner_catch</span><span class="p">(</span>
+    <span class="n">at</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
+    <span class="n">towards</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
+    <span class="n">radius</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">height</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">wall_thickness</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">rounding_edge</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">top_rounding</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">bottom_rounding</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Bosl2Solid&quot;</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A finger notch wrapping a corner, as the original&#39;s ``CornerCatch``.</span>
+
+<span class="sd">    Not a new shape: the original builds it as **two `FingerHoleWall` scoops</span>
+<span class="sd">    meeting at the corner**, one through each of the two walls, and this does</span>
+<span class="sd">    the same with the same scoop builder. So the notch arrives with the roll,</span>
+<span class="sd">    the floor fillet and the face fillets already right, and it cannot drift</span>
+<span class="sd">    from the finger cuts elsewhere in the box.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        at: The corner, in the piece&#39;s own frame.</span>
+<span class="sd">        towards: Unit direction into the piece from that corner — ``(1, 1)``</span>
+<span class="sd">            for the origin corner, ``(-1, -1)`` for the far one.</span>
+<span class="sd">        radius: Half-width of each scoop.</span>
+<span class="sd">        height: How far down from the top of the piece the notch reaches.</span>
+<span class="sd">        wall_thickness: The wall each scoop cuts through.</span>
+<span class="sd">        rounding_edge: Fillet where the cut meets each face; ``None`` uses the</span>
+<span class="sd">            scoop default.</span>
+<span class="sd">        top_rounding: ``r1`` — how far the mouth rolls in at the top. ``None``</span>
+<span class="sd">            lets the scoop derive it from the half-width, which is what a</span>
+<span class="sd">            sleeve notch wants; a cap box sets it, because there the pair of</span>
+<span class="sd">            rolls is a fixed height budget rather than a proportion.</span>
+<span class="sd">        bottom_rounding: ``r2`` — the roll out at the bottom of the cut.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        The solid to subtract from the piece.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.compartments.element</span><span class="w"> </span><span class="kn">import</span> <span class="n">union_all</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.compartments.finger_cuts</span><span class="w"> </span><span class="kn">import</span> <span class="n">build_wall_scoop</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.compartments.finger_outline</span><span class="w"> </span><span class="kn">import</span> <span class="n">CutProfile</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.compartments.finger_sweep</span><span class="w"> </span><span class="kn">import</span> <span class="n">FaceTreatment</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">ScoopSide</span>
+
+    <span class="c1"># A span wide enough that the scoop is never capped by it; the scoop is</span>
+    <span class="c1"># then slid from that span&#39;s midpoint onto the corner.</span>
+    <span class="n">span</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">4</span> <span class="o">*</span> <span class="n">radius</span><span class="p">,</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">wall_thickness</span><span class="p">)</span>
+    <span class="n">parts</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">side</span> <span class="ow">in</span> <span class="p">(</span><span class="n">ScoopSide</span><span class="o">.</span><span class="n">FRONT</span><span class="p">,</span> <span class="n">ScoopSide</span><span class="o">.</span><span class="n">LEFT</span><span class="p">):</span>
+        <span class="n">scoop</span> <span class="o">=</span> <span class="n">build_wall_scoop</span><span class="p">(</span>
+            <span class="n">span</span><span class="p">,</span> <span class="n">span</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="n">side</span><span class="p">,</span>
+            <span class="n">radius</span><span class="o">=</span><span class="n">radius</span><span class="p">,</span>
+            <span class="n">wall_thickness</span><span class="o">=</span><span class="n">wall_thickness</span><span class="p">,</span>
+            <span class="n">profile</span><span class="o">=</span><span class="n">CutProfile</span><span class="p">(</span><span class="n">mouth_flare</span><span class="o">=</span><span class="n">top_rounding</span><span class="p">,</span> <span class="n">base_radius</span><span class="o">=</span><span class="n">bottom_rounding</span><span class="p">),</span>
+            <span class="n">faces</span><span class="o">=</span><span class="n">FaceTreatment</span><span class="p">(</span>
+                <span class="n">fillet</span><span class="o">=</span><span class="n">rounding_edge</span><span class="p">,</span>
+                <span class="n">breach_floor</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="c1"># There is material above a corner notch — the lid plate — so</span>
+                <span class="c1"># the outline&#39;s rim overshoot is trimmed off rather than</span>
+                <span class="c1"># carving through it.</span>
+                <span class="n">top_limit</span><span class="o">=</span><span class="n">height</span><span class="p">,</span>
+            <span class="p">),</span>
+        <span class="p">)</span>
+        <span class="c1"># `build_wall_scoop` puts its wall on the far side of the compartment</span>
+        <span class="c1"># origin, so each arm&#39;s slab lands at [-wall_thickness, 0] across the</span>
+        <span class="c1"># face rather than on the skin the notch is meant to cut. Moving it in</span>
+        <span class="c1"># by the wall it was given puts it exactly over that skin: measured, a</span>
+        <span class="c1"># cap box&#39;s indent was cutting 0.5mm of the 1.15mm it was asked for.</span>
+        <span class="k">if</span> <span class="n">side</span> <span class="ow">is</span> <span class="n">ScoopSide</span><span class="o">.</span><span class="n">FRONT</span><span class="p">:</span>
+            <span class="n">scoop</span> <span class="o">=</span> <span class="n">scoop</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="o">-</span><span class="n">span</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">wall_thickness</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">scoop</span> <span class="o">=</span> <span class="n">scoop</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">wall_thickness</span><span class="p">,</span> <span class="o">-</span><span class="n">span</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">towards</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">scoop</span> <span class="o">=</span> <span class="n">scoop</span><span class="o">.</span><span class="n">mirror</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">towards</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">scoop</span> <span class="o">=</span> <span class="n">scoop</span><span class="o">.</span><span class="n">mirror</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+        <span class="n">parts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">scoop</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">at</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">at</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mf">0.0</span><span class="p">]))</span>
+
+    <span class="k">return</span> <span class="n">union_all</span><span class="p">(</span><span class="n">parts</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="hinge_intrusion">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.features.hinge_intrusion.html#pyboxbuilder.box.features.hinge_intrusion">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">hinge_intrusion</span><span class="p">(</span><span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">,</span> <span class="n">filament_diameter</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.75</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Bosl2Solid&quot;</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The volume a hinge occupies inside the box, as a solid to subtract.</span>
+
+<span class="sd">    A hinge that sits inside the box&#39;s outline has to take that room from</span>
+<span class="sd">    somewhere, and it takes it from the interior: the barrel and the leaf webs</span>
+<span class="sd">    stand in the back of the box, right where a compartment would otherwise</span>
+<span class="sd">    go. Rather than leave a compartment to collide with them, a hinge box</span>
+<span class="sd">    subtracts this from its contents mask (following the original&#39;s</span>
+<span class="sd">    `FilamentBoxInsideMask`, which does the same for the filament hinge).</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        spec: Box dimensions; reads `wall_thickness` and `lid_thickness`.</span>
+<span class="sd">        filament_diameter: The pin stock, which sets the barrel radius.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        The solid the contents must keep clear of.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.shell</span><span class="w"> </span><span class="kn">import</span> <span class="n">block</span>
+
+    <span class="n">wt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">wall_thickness</span>
+    <span class="n">radius</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">wt</span><span class="p">,</span> <span class="n">filament_diameter</span><span class="p">)</span>
+    <span class="n">reach</span> <span class="o">=</span> <span class="n">radius</span> <span class="o">+</span> <span class="mf">0.5</span> <span class="o">+</span> <span class="n">PRINT_IN_PLACE_GAP_MM</span>
+
+    <span class="c1"># A full-height slab is deliberate rather than a tight fit to the barrel:</span>
+    <span class="c1"># a compartment that stops short of the hinge is what is wanted, and a</span>
+    <span class="c1"># cavity that noses under a barrel it cannot quite reach is a place for a</span>
+    <span class="c1"># piece to fall into and stay.</span>
+    <span class="k">return</span> <span class="n">block</span><span class="p">(</span>
+        <span class="p">[</span><span class="n">spec</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="n">reach</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">height</span> <span class="o">+</span> <span class="mf">1.0</span><span class="p">],</span>
+        <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span> <span class="o">-</span> <span class="n">reach</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">),</span>
+    <span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="filament_hinge">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.features.filament_hinge.html#pyboxbuilder.box.features.filament_hinge">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">filament_hinge</span><span class="p">(</span>
+    <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">,</span>
+    <span class="n">filament_diameter</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.75</span><span class="p">,</span>
+    <span class="n">knuckles</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span>
+    <span class="n">lid_thickness</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Closure</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Interleaved knuckles along the back edge, bored for a filament pin.</span>
+
+<span class="sd">    The &quot;hinge&quot; is a length of filament threaded through the knuckles after</span>
+<span class="sd">    printing, so the two halves stay separate parts. Both sets share one pin</span>
+<span class="sd">    axis and alternate along it, with a print gap between neighbours.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        spec: Box dimensions.</span>
+<span class="sd">        filament_diameter: Pin stock diameter; the bore is a little wider.</span>
+<span class="sd">        knuckles: Total knuckles across the hinge, alternating body and lid.</span>
+<span class="sd">        lid_thickness: Thickness of the leaf the lid&#39;s knuckles web into;</span>
+<span class="sd">            defaults to the spec&#39;s.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">cylinder</span>
+
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.shell</span><span class="w"> </span><span class="kn">import</span> <span class="n">block</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.compartments.element</span><span class="w"> </span><span class="kn">import</span> <span class="n">union_all</span>
+
+    <span class="n">wt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">wall_thickness</span>
+    <span class="n">radius</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">wt</span><span class="p">,</span> <span class="n">filament_diameter</span><span class="p">)</span>
+    <span class="n">bore</span> <span class="o">=</span> <span class="n">filament_diameter</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">+</span> <span class="mf">0.2</span>
+    <span class="n">gap</span> <span class="o">=</span> <span class="n">PRINT_IN_PLACE_GAP_MM</span>
+    <span class="n">leaf_thickness</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">spec</span><span class="o">.</span><span class="n">lid_thickness</span> <span class="k">if</span> <span class="n">lid_thickness</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">lid_thickness</span>
+    <span class="p">)</span>
+
+    <span class="c1"># The pin runs along X, level with the joint between body and lid and set</span>
+    <span class="c1"># **inside** the back wall: the barrel&#39;s outer face is flush with the box,</span>
+    <span class="c1"># so the closed box is exactly its declared size with nothing hanging off</span>
+    <span class="c1"># the back. The price is that the barrel intrudes into the interior, which</span>
+    <span class="c1"># is why a hinge box carves that volume out of its contents mask.</span>
+    <span class="n">axis_y</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span> <span class="o">-</span> <span class="n">radius</span>
+    <span class="c1"># Sunk far enough that the barrel&#39;s crown is flush with the *closed* box&#39;s</span>
+    <span class="c1"># top, not just inside its footprint. `spec.height` here is the body&#39;s</span>
+    <span class="c1"># height — the joint plane — and the lid adds its own thickness above it,</span>
+    <span class="c1"># so a barrel wider than that thickness has to drop by the difference.</span>
+    <span class="n">axis_z</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">height</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">height</span> <span class="o">+</span> <span class="n">leaf_thickness</span> <span class="o">-</span> <span class="n">radius</span><span class="p">)</span>
+
+    <span class="n">span</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">width</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">wt</span>
+    <span class="n">pitch</span> <span class="o">=</span> <span class="n">span</span> <span class="o">/</span> <span class="n">knuckles</span>
+    <span class="c1"># Each leaf webs inward from the barrel to its own half.</span>
+    <span class="n">web_y</span> <span class="o">=</span> <span class="n">axis_y</span>
+    <span class="n">web_depth</span> <span class="o">=</span> <span class="n">radius</span> <span class="o">+</span> <span class="mf">0.5</span>
+
+    <span class="n">body_parts</span><span class="p">,</span> <span class="n">lid_parts</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[]</span>
+    <span class="n">body_relief</span><span class="p">,</span> <span class="n">lid_relief</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">knuckles</span><span class="p">):</span>
+        <span class="n">length</span> <span class="o">=</span> <span class="n">pitch</span> <span class="o">-</span> <span class="n">gap</span>
+        <span class="k">if</span> <span class="n">length</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="n">centre_x</span> <span class="o">=</span> <span class="n">wt</span> <span class="o">+</span> <span class="n">pitch</span> <span class="o">*</span> <span class="p">(</span><span class="n">index</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">)</span>
+        <span class="n">knuckle</span> <span class="o">=</span> <span class="n">cylinder</span><span class="p">(</span><span class="n">height</span><span class="o">=</span><span class="n">length</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="n">radius</span><span class="p">,</span> <span class="o">**</span><span class="n">precision_kwargs</span><span class="p">())</span><span class="o">.</span><span class="n">rotate</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">90</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+        <span class="n">knuckle</span> <span class="o">=</span> <span class="n">knuckle</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">centre_x</span><span class="p">,</span> <span class="n">axis_y</span><span class="p">,</span> <span class="n">axis_z</span><span class="p">])</span>
+
+        <span class="c1"># Each leaf webs back to its own half — the body&#39;s below the joint, the</span>
+        <span class="c1"># lid&#39;s above it — so neither reaches across into the other.</span>
+        <span class="k">if</span> <span class="n">index</span> <span class="o">%</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="c1"># Sized to the lid&#39;s own thickness — a taller web would stand proud</span>
+            <span class="c1"># of the closed lid. It reaches *inward* now that the barrel is</span>
+            <span class="c1"># inside the box.</span>
+            <span class="n">web</span> <span class="o">=</span> <span class="n">block</span><span class="p">(</span>
+                <span class="p">[</span><span class="n">length</span><span class="p">,</span> <span class="n">web_depth</span><span class="p">,</span> <span class="n">leaf_thickness</span> <span class="o">-</span> <span class="n">gap</span> <span class="o">/</span> <span class="mi">2</span><span class="p">],</span>
+                <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="n">centre_x</span> <span class="o">-</span> <span class="n">length</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">web_y</span> <span class="o">-</span> <span class="n">web_depth</span><span class="p">,</span> <span class="n">axis_z</span> <span class="o">+</span> <span class="n">gap</span> <span class="o">/</span> <span class="mi">2</span><span class="p">),</span>
+            <span class="p">)</span>
+            <span class="n">lid_parts</span> <span class="o">+=</span> <span class="p">[</span><span class="n">knuckle</span><span class="p">,</span> <span class="n">web</span><span class="p">]</span>
+            <span class="c1"># The same knuckle and web, grown by the print gap: this is what</span>
+            <span class="c1"># the body has to give up so the lid&#39;s leaf is a separate part.</span>
+            <span class="n">relief</span> <span class="o">=</span> <span class="n">cylinder</span><span class="p">(</span>
+                <span class="n">height</span><span class="o">=</span><span class="n">length</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">gap</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="n">radius</span> <span class="o">+</span> <span class="n">gap</span><span class="p">,</span> <span class="o">**</span><span class="n">precision_kwargs</span><span class="p">()</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">rotate</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">90</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">centre_x</span><span class="p">,</span> <span class="n">axis_y</span><span class="p">,</span> <span class="n">axis_z</span><span class="p">])</span>
+            <span class="n">relief_web</span> <span class="o">=</span> <span class="n">block</span><span class="p">(</span>
+                <span class="p">[</span><span class="n">length</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">gap</span><span class="p">,</span> <span class="n">web_depth</span> <span class="o">+</span> <span class="n">gap</span><span class="p">,</span> <span class="n">leaf_thickness</span> <span class="o">+</span> <span class="n">gap</span><span class="p">],</span>
+                <span class="n">at</span><span class="o">=</span><span class="p">(</span>
+                    <span class="n">centre_x</span> <span class="o">-</span> <span class="n">length</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">-</span> <span class="n">gap</span><span class="p">,</span>
+                    <span class="n">web_y</span> <span class="o">-</span> <span class="n">web_depth</span> <span class="o">-</span> <span class="n">gap</span><span class="p">,</span>
+                    <span class="n">axis_z</span><span class="p">,</span>
+                <span class="p">),</span>
+            <span class="p">)</span>
+            <span class="n">body_relief</span> <span class="o">+=</span> <span class="p">[</span><span class="n">relief</span><span class="p">,</span> <span class="n">relief_web</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">web</span> <span class="o">=</span> <span class="n">block</span><span class="p">(</span>
+                <span class="p">[</span><span class="n">length</span><span class="p">,</span> <span class="n">web_depth</span><span class="p">,</span> <span class="n">radius</span><span class="p">],</span>
+                <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="n">centre_x</span> <span class="o">-</span> <span class="n">length</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">web_y</span> <span class="o">-</span> <span class="n">web_depth</span><span class="p">,</span> <span class="n">axis_z</span> <span class="o">-</span> <span class="n">radius</span> <span class="o">-</span> <span class="n">gap</span> <span class="o">/</span> <span class="mi">2</span><span class="p">),</span>
+            <span class="p">)</span>
+            <span class="n">body_parts</span> <span class="o">+=</span> <span class="p">[</span><span class="n">knuckle</span><span class="p">,</span> <span class="n">web</span><span class="p">]</span>
+            <span class="c1"># And the mirror image: what the lid gives up for this knuckle.</span>
+            <span class="n">lid_relief</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="n">cylinder</span><span class="p">(</span>
+                    <span class="n">height</span><span class="o">=</span><span class="n">length</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">gap</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="n">radius</span> <span class="o">+</span> <span class="n">gap</span><span class="p">,</span> <span class="o">**</span><span class="n">precision_kwargs</span><span class="p">()</span>
+                <span class="p">)</span><span class="o">.</span><span class="n">rotate</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">90</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">centre_x</span><span class="p">,</span> <span class="n">axis_y</span><span class="p">,</span> <span class="n">axis_z</span><span class="p">])</span>
+            <span class="p">)</span>
+
+    <span class="n">pin</span> <span class="o">=</span> <span class="n">cylinder</span><span class="p">(</span><span class="n">height</span><span class="o">=</span><span class="n">spec</span><span class="o">.</span><span class="n">width</span> <span class="o">+</span> <span class="mi">2</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="n">bore</span><span class="p">,</span> <span class="o">**</span><span class="n">precision_kwargs</span><span class="p">())</span><span class="o">.</span><span class="n">rotate</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">90</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+    <span class="n">pin</span> <span class="o">=</span> <span class="n">pin</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">spec</span><span class="o">.</span><span class="n">width</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">axis_y</span><span class="p">,</span> <span class="n">axis_z</span><span class="p">])</span>
+    <span class="c1"># Split the barrel at the joint line so the two leaves cannot touch.</span>
+    <span class="n">parting</span> <span class="o">=</span> <span class="n">block</span><span class="p">(</span>
+        <span class="p">[</span><span class="n">spec</span><span class="o">.</span><span class="n">width</span> <span class="o">+</span> <span class="mi">2</span><span class="p">,</span> <span class="n">web_depth</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">radius</span> <span class="o">+</span> <span class="mi">2</span><span class="p">,</span> <span class="n">gap</span><span class="p">],</span>
+        <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">web_y</span> <span class="o">-</span> <span class="n">web_depth</span> <span class="o">-</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">axis_z</span> <span class="o">-</span> <span class="n">gap</span> <span class="o">/</span> <span class="mi">2</span><span class="p">),</span>
+    <span class="p">)</span>
+
+    <span class="n">body</span> <span class="o">=</span> <span class="n">union_all</span><span class="p">(</span><span class="n">body_parts</span><span class="p">)</span>
+    <span class="n">lid</span> <span class="o">=</span> <span class="n">union_all</span><span class="p">(</span><span class="n">lid_parts</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">Closure</span><span class="p">(</span>
+        <span class="n">body</span><span class="o">=</span><span class="kc">None</span> <span class="k">if</span> <span class="n">body</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">body</span> <span class="o">-</span> <span class="n">pin</span> <span class="o">-</span> <span class="n">parting</span><span class="p">,</span>
+        <span class="n">lid</span><span class="o">=</span><span class="kc">None</span> <span class="k">if</span> <span class="n">lid</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">lid</span> <span class="o">-</span> <span class="n">pin</span> <span class="o">-</span> <span class="n">parting</span><span class="p">,</span>
+        <span class="n">body_cut</span><span class="o">=</span><span class="n">union_all</span><span class="p">(</span><span class="n">body_relief</span><span class="p">),</span>
+        <span class="n">lid_cut</span><span class="o">=</span><span class="n">union_all</span><span class="p">(</span><span class="n">lid_relief</span><span class="p">),</span>
+    <span class="p">)</span></div>
+
+
+
+<span class="c1"># --------------------------------------------------------------- path skirt</span>
+
+
+<div class="viewcode-block" id="offset_footprint">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.features.offset_footprint.html#pyboxbuilder.box.features.offset_footprint">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">offset_footprint</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">distance</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Grow or shrink a footprint outline by `distance` (positive shrinks).&quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.paths</span><span class="w"> </span><span class="kn">import</span> <span class="n">inset_rectilinear</span><span class="p">,</span> <span class="n">is_rectilinear</span>
+
+    <span class="k">if</span> <span class="n">is_rectilinear</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">inset_rectilinear</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">distance</span><span class="p">)</span>
+
+    <span class="n">cx</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">path</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+    <span class="n">cy</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">path</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">path</span><span class="p">:</span>
+        <span class="n">dx</span><span class="p">,</span> <span class="n">dy</span> <span class="o">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">cx</span><span class="p">,</span> <span class="n">y</span> <span class="o">-</span> <span class="n">cy</span>
+        <span class="n">span</span> <span class="o">=</span> <span class="nb">max</span><span class="p">((</span><span class="n">dx</span> <span class="o">*</span> <span class="n">dx</span> <span class="o">+</span> <span class="n">dy</span> <span class="o">*</span> <span class="n">dy</span><span class="p">)</span> <span class="o">**</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">1e-9</span><span class="p">)</span>
+        <span class="n">scale</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="p">(</span><span class="n">span</span> <span class="o">-</span> <span class="n">distance</span><span class="p">)</span> <span class="o">/</span> <span class="n">span</span><span class="p">)</span>
+        <span class="n">out</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">cx</span> <span class="o">+</span> <span class="n">dx</span> <span class="o">*</span> <span class="n">scale</span><span class="p">,</span> <span class="n">cy</span> <span class="o">+</span> <span class="n">dy</span> <span class="o">*</span> <span class="n">scale</span><span class="p">))</span>
+    <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">out</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="extrude_footprint">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.features.extrude_footprint.html#pyboxbuilder.box.features.extrude_footprint">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">extrude_footprint</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">height</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">base_z</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Bosl2Solid&quot;</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Extrude a footprint outline upward from `base_z`.</span>
+
+<span class="sd">    `linear_extrude` is the one operation that already grows from its base</span>
+<span class="sd">    rather than being centre-anchored, so this only has to lift it.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path2D</span>
+
+    <span class="n">profile</span> <span class="o">=</span> <span class="n">Path2D</span><span class="p">([(</span><span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="n">y</span><span class="p">))</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">path</span><span class="p">],</span> <span class="n">closed</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">solid</span> <span class="o">=</span> <span class="n">profile</span><span class="o">.</span><span class="n">linear_extrude</span><span class="p">(</span><span class="n">height</span><span class="o">=</span><span class="n">height</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">solid</span> <span class="k">if</span> <span class="n">base_z</span> <span class="o">==</span> <span class="mf">0.0</span> <span class="k">else</span> <span class="n">solid</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">base_z</span><span class="p">])</span></div>
+
+
+
+<div class="viewcode-block" id="path_body_metrics">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.features.path_body_metrics.html#pyboxbuilder.box.features.path_body_metrics">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">path_body_metrics</span><span class="p">(</span><span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;(inset per side, body height) for a polygon-footprint body.</span>
+
+<span class="sd">    Same rule as the rectangular closures: the declared outline and height are</span>
+<span class="sd">    the outside of the closed box, so the body is set in and stops short, and</span>
+<span class="sd">    the cap or sleeve fills the difference back out to the declared size.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">wt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">wall_thickness</span>
+    <span class="n">lt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">lid_thickness</span>
+    <span class="n">wiggle</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">size_spacing</span>
+    <span class="k">return</span> <span class="n">wt</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">wiggle</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">height</span> <span class="o">-</span> <span class="n">lt</span> <span class="o">-</span> <span class="n">wiggle</span></div>
+
+
+
+<div class="viewcode-block" id="path_cap">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.features.path_cap.html#pyboxbuilder.box.features.path_cap">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">path_cap</span><span class="p">(</span><span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">cap_height</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Bosl2Solid&quot;</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A cap whose skirt follows a polygon footprint instead of a rectangle.</span>
+
+<span class="sd">    Its outer face is the declared outline, so a closed box measures exactly</span>
+<span class="sd">    what it was asked for.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">lt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">lid_thickness</span>
+    <span class="n">slack</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">cap_slack</span>
+    <span class="n">inset</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">path_body_metrics</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
+
+    <span class="n">base</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">height</span> <span class="o">-</span> <span class="n">cap_height</span>
+    <span class="n">cap</span> <span class="o">=</span> <span class="n">extrude_footprint</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">cap_height</span><span class="p">,</span> <span class="n">base</span><span class="p">)</span>
+    <span class="n">cavity</span> <span class="o">=</span> <span class="n">extrude_footprint</span><span class="p">(</span>
+        <span class="n">offset_footprint</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">inset</span> <span class="o">-</span> <span class="n">slack</span><span class="p">),</span> <span class="n">cap_height</span> <span class="o">-</span> <span class="n">lt</span><span class="p">,</span> <span class="n">base</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">cap</span> <span class="o">-</span> <span class="n">cavity</span></div>
+
+
+
+<div class="viewcode-block" id="path_sleeve">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.features.path_sleeve.html#pyboxbuilder.box.features.path_sleeve">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">path_sleeve</span><span class="p">(</span><span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">slip</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">foot</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Bosl2Solid&quot;</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A sleeve that slips over a polygon-footprint body, stopping at the foot.&quot;&quot;&quot;</span>
+    <span class="n">lt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">lid_thickness</span>
+    <span class="n">slack</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">slip_slack</span>
+    <span class="n">inset</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">path_body_metrics</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
+    <span class="n">skirt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">height</span> <span class="o">-</span> <span class="n">foot</span>
+
+    <span class="n">outer</span> <span class="o">=</span> <span class="n">extrude_footprint</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">skirt</span><span class="p">,</span> <span class="n">foot</span><span class="p">)</span>
+    <span class="n">cavity</span> <span class="o">=</span> <span class="n">extrude_footprint</span><span class="p">(</span>
+        <span class="n">offset_footprint</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">inset</span> <span class="o">-</span> <span class="n">slack</span><span class="p">),</span> <span class="n">skirt</span> <span class="o">-</span> <span class="n">lt</span><span class="p">,</span> <span class="n">foot</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">outer</span> <span class="o">-</span> <span class="n">cavity</span></div>
+
+</code></pre></div>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  
+  
+  <div class="md-footer-meta md-typeset">
+    
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-footer-copyright__highlight">
+        &#169; Copyright pyboxbuilder contributors.
+        
+    </div>
+  
+    Created using
+    <a href="https://www.sphinx-doc.org/" target="_blank" rel="noopener">Sphinx</a>
+    8.2.3.
+     and
+    <a href="https://github.com/jbms/sphinx-immaterial/" target="_blank" rel="noopener">Sphinx-Immaterial</a>
+  
+</div>
+      
+    </div>
+    
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.top", "content.code.copy", "search.highlight", "toc.follow", "toc.sticky"], "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+      
+        <script src="../../../_static/sphinx_immaterial_theme.32136f45f91ae6956.min.js?v=a7a9472a"></script>
+        <script type="module" src="../../../_static/stl_viewer.js?v=0ab88475"></script>
+    
+  </body>
+</html>

@@ -1,0 +1,6 @@
+pyboxbuilder.box.features.path\_sleeve
+======================================
+
+.. currentmodule:: pyboxbuilder.box.features
+
+.. autofunction:: path_sleeve

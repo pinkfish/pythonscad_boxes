@@ -1,0 +1,6 @@
+pyboxbuilder.box.shell.finger\_cut\_conflicts
+=============================================
+
+.. currentmodule:: pyboxbuilder.box.shell
+
+.. autofunction:: finger_cut_conflicts

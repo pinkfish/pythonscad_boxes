@@ -1,0 +1,9 @@
+pyboxbuilder.lid.decorate.DecoratedLid
+======================================
+
+.. currentmodule:: pyboxbuilder.lid.decorate
+
+.. autoclass:: DecoratedLid
+   :members:
+   :undoc-members:
+   :show-inheritance:

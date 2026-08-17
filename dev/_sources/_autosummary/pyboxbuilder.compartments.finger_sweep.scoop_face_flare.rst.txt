@@ -1,0 +1,6 @@
+pyboxbuilder.compartments.finger\_sweep.scoop\_face\_flare
+==========================================================
+
+.. currentmodule:: pyboxbuilder.compartments.finger_sweep
+
+.. autofunction:: scoop_face_flare

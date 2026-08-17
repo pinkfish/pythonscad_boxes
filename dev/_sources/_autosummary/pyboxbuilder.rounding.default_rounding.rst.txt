@@ -1,0 +1,6 @@
+pyboxbuilder.rounding.default\_rounding
+=======================================
+
+.. currentmodule:: pyboxbuilder.rounding
+
+.. autofunction:: default_rounding

@@ -1,0 +1,850 @@
+
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+      
+      
+      <link rel="icon" href="">
+    
+    
+      
+        <title>pyboxbuilder.export.layout_pdf - pyboxbuilder</title>
+      
+    
+    
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+    
+        <link rel="stylesheet" type="text/css" href="../../../_static/sphinx_immaterial_theme.6f0d2a77b1b821632.min.css?v=27a6e6bb" />
+        <link rel="stylesheet" type="text/css" href="../../../_static/stl_viewer.css?v=abc98148" />
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../index.html" title="pyboxbuilder" class="md-header__button md-logo" aria-label="pyboxbuilder" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            pyboxbuilder
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              pyboxbuilder.export.layout_pdf
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/pinkfish/pythonscad_boxes" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    pinkfish/pythonscad_boxes
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../index.html" title="pyboxbuilder" class="md-nav__button md-logo" aria-label="pyboxbuilder" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+    </a>
+    pyboxbuilder
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/pinkfish/pythonscad_boxes" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    pinkfish/pythonscad_boxes
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    <span>Contents</span>
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            <span>Contents</span>
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../api.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>API Reference</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+<nav class="md-nav md-nav--secondary">
+  
+  
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset" role="main">
+                
+                
+                  
+
+
+<h1>Source code for pyboxbuilder.export.layout_pdf</h1><div class="highlight"><pre>
+<span></span><code><span class="c1"># SPDX-License-Identifier: Apache-2.0</span>
+<span class="sd">&quot;&quot;&quot;PDF packing guide — layered exploded breakdown with arrows.&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">hashlib</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.packing.layout</span><span class="w"> </span><span class="kn">import</span> <span class="n">Placement</span>
+
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.packing.layout</span><span class="w"> </span><span class="kn">import</span> <span class="n">BoxPacking</span>
+
+
+<div class="viewcode-block" id="LayerPage">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.export.layout_pdf.LayerPage.html#pyboxbuilder.export.layout_pdf.LayerPage">[docs]</a>
+<span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">LayerPage</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;One page of the packing guide: the layer it shows, and what is under it.</span>
+
+<span class="sd">    A record rather than a dict, so a typo in a key is an error at the line</span>
+<span class="sd">    that made it rather than a `KeyError` three hundred lines later — and so</span>
+<span class="sd">    the placements keep their type on the way through.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The layer&#39;s name, as printed on the page.&quot;&quot;&quot;</span>
+    <span class="n">active_placements</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Placement</span><span class="p">]</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Boxes belonging to this layer, drawn in full colour.&quot;&quot;&quot;</span>
+    <span class="n">lower_placements</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Placement</span><span class="p">]</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Boxes already packed beneath it, drawn in light grey for context.&quot;&quot;&quot;</span>
+    <span class="n">active_spacers</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Placement</span><span class="p">]</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Spacer trays belonging to this layer.&quot;&quot;&quot;</span>
+    <span class="n">lower_spacers</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Placement</span><span class="p">]</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Spacer trays beneath it.&quot;&quot;&quot;</span></div>
+
+
+
+<div class="viewcode-block" id="generate_layout_pdf">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.export.layout_pdf.generate_layout_pdf.html#pyboxbuilder.export.layout_pdf.generate_layout_pdf">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">generate_layout_pdf</span><span class="p">(</span>
+    <span class="n">packing</span><span class="p">:</span> <span class="n">BoxPacking</span><span class="p">,</span>
+    <span class="n">output_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span>
+    <span class="n">project_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">game_box_size</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
+    <span class="n">box_builders</span><span class="p">:</span> <span class="nb">list</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate a PDF packing guide with layered step-by-step breakdown.</span>
+
+<span class="sd">    Renders each layer (Base, Middle, Top) on a separate page.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        packing: The computed packed layout.</span>
+<span class="sd">        output_path: Path to write the PDF file (str or Path).</span>
+<span class="sd">        project_name: Game name for the title.</span>
+<span class="sd">        game_box_size: Outer game box dimensions (W, L, H).</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        The output path, or None if generation failed.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">output_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">output_path</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">fpdf</span><span class="w"> </span><span class="kn">import</span> <span class="n">FPDF</span>
+    <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="n">pdf</span> <span class="o">=</span> <span class="n">FPDF</span><span class="p">(</span><span class="n">orientation</span><span class="o">=</span><span class="s2">&quot;L&quot;</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s2">&quot;mm&quot;</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;A4&quot;</span><span class="p">)</span>
+    <span class="n">pdf</span><span class="o">.</span><span class="n">set_auto_page_break</span><span class="p">(</span><span class="n">auto</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="c1"># Build a lookup map for box configurations</span>
+    <span class="n">box_map</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">if</span> <span class="n">box_builders</span><span class="p">:</span>
+        <span class="n">box_map</span> <span class="o">=</span> <span class="p">{</span><span class="n">b</span><span class="o">.</span><span class="n">label</span><span class="p">:</span> <span class="n">b</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">box_builders</span><span class="p">}</span>
+
+    <span class="c1"># Page dimensions</span>
+    <span class="n">page_w</span> <span class="o">=</span> <span class="mi">297</span>  <span class="c1"># A4 landscape</span>
+    <span class="n">page_h</span> <span class="o">=</span> <span class="mi">210</span>
+
+    <span class="c1"># Projection settings (Cabinet Oblique)</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
+    <span class="n">angle_rad</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="mi">30</span><span class="p">)</span>
+    <span class="n">cos_a</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">angle_rad</span><span class="p">)</span>
+    <span class="n">sin_a</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">angle_rad</span><span class="p">)</span>
+    <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.45</span>  <span class="c1"># shortening factor for depth Y</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">project</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">):</span>
+        <span class="n">px</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span> <span class="o">*</span> <span class="n">cos_a</span> <span class="o">*</span> <span class="n">alpha</span>
+        <span class="n">py</span> <span class="o">=</span> <span class="o">-</span><span class="n">z</span> <span class="o">-</span> <span class="n">y</span> <span class="o">*</span> <span class="n">sin_a</span> <span class="o">*</span> <span class="n">alpha</span>
+        <span class="k">return</span> <span class="n">px</span><span class="p">,</span> <span class="n">py</span>
+
+    <span class="c1"># Bounding box of projected coordinates (no headroom exploded offset since pages are separate)</span>
+    <span class="n">corners</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+        <span class="p">(</span><span class="n">game_box_size</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+        <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">game_box_size</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">0</span><span class="p">),</span>
+        <span class="p">(</span><span class="n">game_box_size</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">game_box_size</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">0</span><span class="p">),</span>
+        <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">game_box_size</span><span class="p">[</span><span class="mi">2</span><span class="p">]),</span>
+        <span class="p">(</span><span class="n">game_box_size</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">0</span><span class="p">,</span> <span class="n">game_box_size</span><span class="p">[</span><span class="mi">2</span><span class="p">]),</span>
+        <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">game_box_size</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">game_box_size</span><span class="p">[</span><span class="mi">2</span><span class="p">]),</span>
+        <span class="p">(</span><span class="n">game_box_size</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">game_box_size</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">game_box_size</span><span class="p">[</span><span class="mi">2</span><span class="p">]),</span>
+    <span class="p">]</span>
+    <span class="n">projected</span> <span class="o">=</span> <span class="p">[</span><span class="n">project</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="ow">in</span> <span class="n">corners</span><span class="p">]</span>
+    <span class="n">min_px</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">projected</span><span class="p">)</span>
+    <span class="n">max_px</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">projected</span><span class="p">)</span>
+    <span class="n">min_py</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">projected</span><span class="p">)</span>
+    <span class="n">max_py</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">projected</span><span class="p">)</span>
+
+    <span class="n">proj_w</span> <span class="o">=</span> <span class="n">max_px</span> <span class="o">-</span> <span class="n">min_px</span>
+    <span class="n">proj_h</span> <span class="o">=</span> <span class="n">max_py</span> <span class="o">-</span> <span class="n">min_py</span>
+
+    <span class="n">margin</span> <span class="o">=</span> <span class="mi">15</span>
+    <span class="n">avail_w</span> <span class="o">=</span> <span class="n">page_w</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">margin</span>
+    <span class="n">avail_h</span> <span class="o">=</span> <span class="n">page_h</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">margin</span> <span class="o">-</span> <span class="mi">20</span>
+
+    <span class="n">scale</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">avail_w</span> <span class="o">/</span> <span class="n">proj_w</span><span class="p">,</span> <span class="n">avail_h</span> <span class="o">/</span> <span class="n">proj_h</span><span class="p">)</span>
+
+    <span class="c1"># Offsets to center the projection on the A4 page</span>
+    <span class="n">offset_x</span> <span class="o">=</span> <span class="n">margin</span> <span class="o">+</span> <span class="p">(</span><span class="n">avail_w</span> <span class="o">-</span> <span class="n">proj_w</span> <span class="o">*</span> <span class="n">scale</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">-</span> <span class="n">min_px</span> <span class="o">*</span> <span class="n">scale</span>
+    <span class="n">offset_y</span> <span class="o">=</span> <span class="n">margin</span> <span class="o">+</span> <span class="mi">15</span> <span class="o">-</span> <span class="n">min_py</span> <span class="o">*</span> <span class="n">scale</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_pdf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">):</span>
+        <span class="n">px</span><span class="p">,</span> <span class="n">py</span> <span class="o">=</span> <span class="n">project</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">offset_x</span> <span class="o">+</span> <span class="n">px</span> <span class="o">*</span> <span class="n">scale</span><span class="p">,</span> <span class="n">offset_y</span> <span class="o">+</span> <span class="n">py</span> <span class="o">*</span> <span class="n">scale</span>
+
+    <span class="c1"># Known box colors</span>
+    <span class="n">colors</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">(</span><span class="mi">70</span><span class="p">,</span> <span class="mi">130</span><span class="p">,</span> <span class="mi">180</span><span class="p">),</span> <span class="p">(</span><span class="mi">220</span><span class="p">,</span> <span class="mi">140</span><span class="p">,</span> <span class="mi">70</span><span class="p">),</span> <span class="p">(</span><span class="mi">60</span><span class="p">,</span> <span class="mi">160</span><span class="p">,</span> <span class="mi">80</span><span class="p">),</span>
+        <span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">150</span><span class="p">),</span> <span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">160</span><span class="p">,</span> <span class="mi">200</span><span class="p">),</span> <span class="p">(</span><span class="mi">180</span><span class="p">,</span> <span class="mi">180</span><span class="p">,</span> <span class="mi">60</span><span class="p">),</span>
+        <span class="p">(</span><span class="mi">160</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">80</span><span class="p">),</span> <span class="p">(</span><span class="mi">120</span><span class="p">,</span> <span class="mi">140</span><span class="p">,</span> <span class="mi">160</span><span class="p">),</span>
+    <span class="p">]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">draw_box_3d</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">bw</span><span class="p">,</span> <span class="n">bl</span><span class="p">,</span> <span class="n">bh</span><span class="p">,</span> <span class="n">color</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">index_str</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">visible_placements</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="c1"># Front face</span>
+        <span class="n">p_front</span> <span class="o">=</span> <span class="p">[</span><span class="n">to_pdf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">),</span> <span class="n">to_pdf</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">bw</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">),</span>
+                   <span class="n">to_pdf</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">bw</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">+</span> <span class="n">bh</span><span class="p">),</span> <span class="n">to_pdf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">+</span> <span class="n">bh</span><span class="p">)]</span>
+        <span class="c1"># Right face</span>
+        <span class="n">p_right</span> <span class="o">=</span> <span class="p">[</span><span class="n">to_pdf</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">bw</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">),</span> <span class="n">to_pdf</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">bw</span><span class="p">,</span> <span class="n">y</span> <span class="o">+</span> <span class="n">bl</span><span class="p">,</span> <span class="n">z</span><span class="p">),</span>
+                   <span class="n">to_pdf</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">bw</span><span class="p">,</span> <span class="n">y</span> <span class="o">+</span> <span class="n">bl</span><span class="p">,</span> <span class="n">z</span> <span class="o">+</span> <span class="n">bh</span><span class="p">),</span> <span class="n">to_pdf</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">bw</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">+</span> <span class="n">bh</span><span class="p">)]</span>
+        <span class="c1"># Top face</span>
+        <span class="n">p_top</span> <span class="o">=</span> <span class="p">[</span><span class="n">to_pdf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">+</span> <span class="n">bh</span><span class="p">),</span> <span class="n">to_pdf</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">bw</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">+</span> <span class="n">bh</span><span class="p">),</span>
+                 <span class="n">to_pdf</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">bw</span><span class="p">,</span> <span class="n">y</span> <span class="o">+</span> <span class="n">bl</span><span class="p">,</span> <span class="n">z</span> <span class="o">+</span> <span class="n">bh</span><span class="p">),</span> <span class="n">to_pdf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">+</span> <span class="n">bl</span><span class="p">,</span> <span class="n">z</span> <span class="o">+</span> <span class="n">bh</span><span class="p">)]</span>
+
+        <span class="c1"># Face colors for 3D shading</span>
+        <span class="n">c_top</span> <span class="o">=</span> <span class="n">color</span>
+        <span class="n">c_front</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">c</span> <span class="o">*</span> <span class="mf">0.85</span><span class="p">))</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">color</span><span class="p">)</span>
+        <span class="n">c_right</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">c</span> <span class="o">*</span> <span class="mf">0.70</span><span class="p">))</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">color</span><span class="p">)</span>
+
+        <span class="c1"># Top Face</span>
+        <span class="n">pdf</span><span class="o">.</span><span class="n">set_fill_color</span><span class="p">(</span><span class="o">*</span><span class="n">c_top</span><span class="p">)</span>
+        <span class="n">pdf</span><span class="o">.</span><span class="n">set_draw_color</span><span class="p">(</span><span class="mi">40</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">40</span><span class="p">)</span>
+        <span class="n">pdf</span><span class="o">.</span><span class="n">set_line_width</span><span class="p">(</span><span class="mf">0.15</span><span class="p">)</span>
+        <span class="n">pdf</span><span class="o">.</span><span class="n">polygon</span><span class="p">(</span><span class="n">p_top</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;DF&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Front Face</span>
+        <span class="n">pdf</span><span class="o">.</span><span class="n">set_fill_color</span><span class="p">(</span><span class="o">*</span><span class="n">c_front</span><span class="p">)</span>
+        <span class="n">pdf</span><span class="o">.</span><span class="n">polygon</span><span class="p">(</span><span class="n">p_front</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;DF&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Right Face</span>
+        <span class="n">pdf</span><span class="o">.</span><span class="n">set_fill_color</span><span class="p">(</span><span class="o">*</span><span class="n">c_right</span><span class="p">)</span>
+        <span class="n">pdf</span><span class="o">.</span><span class="n">polygon</span><span class="p">(</span><span class="n">p_right</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;DF&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Text labels</span>
+        <span class="k">if</span> <span class="n">label</span><span class="p">:</span>
+            <span class="n">lbl</span> <span class="o">=</span> <span class="n">label</span><span class="p">[:</span><span class="mi">16</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;..&quot;</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">label</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">16</span> <span class="k">else</span> <span class="n">label</span>
+            <span class="n">pdf</span><span class="o">.</span><span class="n">set_font</span><span class="p">(</span><span class="s2">&quot;Helvetica&quot;</span><span class="p">,</span> <span class="s2">&quot;B&quot;</span><span class="p">,</span> <span class="mf">7.5</span><span class="p">)</span>
+            <span class="n">tw</span> <span class="o">=</span> <span class="n">pdf</span><span class="o">.</span><span class="n">get_string_width</span><span class="p">(</span><span class="n">lbl</span><span class="p">)</span>
+            <span class="n">th</span> <span class="o">=</span> <span class="mf">4.0</span>
+            
+            <span class="n">cx</span><span class="p">,</span> <span class="n">cy</span> <span class="o">=</span> <span class="n">to_pdf</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">bw</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">y</span> <span class="o">+</span> <span class="n">bl</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">z</span> <span class="o">+</span> <span class="n">bh</span><span class="p">)</span>
+            
+            <span class="c1"># Determine if label is covered by other active/visible boxes on this page</span>
+            <span class="n">is_covered</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="n">z_top</span> <span class="o">=</span> <span class="n">z</span> <span class="o">+</span> <span class="n">bh</span>
+            <span class="n">check_list</span> <span class="o">=</span> <span class="n">visible_placements</span> <span class="ow">or</span> <span class="n">packing</span><span class="o">.</span><span class="n">placements</span>
+            <span class="k">for</span> <span class="n">other</span> <span class="ow">in</span> <span class="n">check_list</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">other</span><span class="o">.</span><span class="n">label</span> <span class="o">==</span> <span class="n">label</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="n">ox</span><span class="p">,</span> <span class="n">oy</span><span class="p">,</span> <span class="n">oz</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">position</span>
+                <span class="n">ow</span><span class="p">,</span> <span class="n">ol</span><span class="p">,</span> <span class="n">oh</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">size</span>
+                <span class="n">sits_above</span> <span class="o">=</span> <span class="n">oz</span> <span class="o">&gt;=</span> <span class="n">z_top</span> <span class="o">-</span> <span class="mf">0.5</span>
+                <span class="n">overlaps_x</span> <span class="o">=</span> <span class="n">ox</span> <span class="o">&lt;</span> <span class="n">x</span> <span class="o">+</span> <span class="n">bw</span> <span class="o">-</span> <span class="mf">1.0</span> <span class="ow">and</span> <span class="n">ox</span> <span class="o">+</span> <span class="n">ow</span> <span class="o">&gt;</span> <span class="n">x</span> <span class="o">+</span> <span class="mf">1.0</span>
+                <span class="n">overlaps_y</span> <span class="o">=</span> <span class="n">oy</span> <span class="o">&lt;</span> <span class="n">y</span> <span class="o">+</span> <span class="n">bl</span> <span class="o">-</span> <span class="mf">1.0</span> <span class="ow">and</span> <span class="n">oy</span> <span class="o">+</span> <span class="n">ol</span> <span class="o">&gt;</span> <span class="n">y</span> <span class="o">+</span> <span class="mf">1.0</span>
+                <span class="k">if</span> <span class="n">sits_above</span> <span class="ow">and</span> <span class="n">overlaps_x</span> <span class="ow">and</span> <span class="n">overlaps_y</span><span class="p">:</span>
+                    <span class="n">is_covered</span> <span class="o">=</span> <span class="kc">True</span>
+                    <span class="k">break</span>
+                    
+            <span class="k">if</span> <span class="n">is_covered</span><span class="p">:</span>
+                <span class="c1"># Shift label to the side to avoid stack occlusion</span>
+                <span class="n">shift_dir</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="k">if</span> <span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">bw</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">game_box_size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="mi">2</span> <span class="k">else</span> <span class="mi">1</span>
+                <span class="n">cx_shifted</span> <span class="o">=</span> <span class="n">cx</span> <span class="o">+</span> <span class="n">shift_dir</span> <span class="o">*</span> <span class="mi">25</span>
+                <span class="n">cy_shifted</span> <span class="o">=</span> <span class="n">cy</span> <span class="o">-</span> <span class="mi">5</span>
+                
+                <span class="c1"># Draw leader line</span>
+                <span class="n">pdf</span><span class="o">.</span><span class="n">set_draw_color</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
+                <span class="n">pdf</span><span class="o">.</span><span class="n">set_line_width</span><span class="p">(</span><span class="mf">0.2</span><span class="p">)</span>
+                <span class="n">pdf</span><span class="o">.</span><span class="n">set_dash_pattern</span><span class="p">(</span><span class="n">dash</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">gap</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+                <span class="n">pdf</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">cx</span><span class="p">,</span> <span class="n">cy</span><span class="p">,</span> <span class="n">cx_shifted</span><span class="p">,</span> <span class="n">cy_shifted</span><span class="p">)</span>
+                <span class="n">pdf</span><span class="o">.</span><span class="n">set_dash_pattern</span><span class="p">(</span><span class="n">dash</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">gap</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+                
+                <span class="c1"># Draw text badge at shifted position</span>
+                <span class="n">pdf</span><span class="o">.</span><span class="n">set_fill_color</span><span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">)</span>
+                <span class="n">pdf</span><span class="o">.</span><span class="n">set_draw_color</span><span class="p">(</span><span class="mi">40</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">40</span><span class="p">)</span>
+                <span class="n">pdf</span><span class="o">.</span><span class="n">set_line_width</span><span class="p">(</span><span class="mf">0.15</span><span class="p">)</span>
+                <span class="n">pdf</span><span class="o">.</span><span class="n">rect</span><span class="p">(</span><span class="n">cx_shifted</span> <span class="o">-</span> <span class="n">tw</span><span class="o">/</span><span class="mi">2</span> <span class="o">-</span> <span class="mf">1.5</span><span class="p">,</span> <span class="n">cy_shifted</span> <span class="o">-</span> <span class="n">th</span><span class="o">/</span><span class="mi">2</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">tw</span> <span class="o">+</span> <span class="mi">3</span><span class="p">,</span> <span class="n">th</span> <span class="o">+</span> <span class="mi">2</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;DF&quot;</span><span class="p">)</span>
+                
+                <span class="n">pdf</span><span class="o">.</span><span class="n">set_text_color</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+                <span class="n">pdf</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">cx_shifted</span> <span class="o">-</span> <span class="n">tw</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">cy_shifted</span> <span class="o">+</span> <span class="n">th</span><span class="o">/</span><span class="mi">2</span> <span class="o">-</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">lbl</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># Draw text badge at centered position</span>
+                <span class="n">pdf</span><span class="o">.</span><span class="n">set_fill_color</span><span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">)</span>
+                <span class="n">pdf</span><span class="o">.</span><span class="n">set_draw_color</span><span class="p">(</span><span class="mi">40</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">40</span><span class="p">)</span>
+                <span class="n">pdf</span><span class="o">.</span><span class="n">set_line_width</span><span class="p">(</span><span class="mf">0.15</span><span class="p">)</span>
+                <span class="n">pdf</span><span class="o">.</span><span class="n">rect</span><span class="p">(</span><span class="n">cx</span> <span class="o">-</span> <span class="n">tw</span><span class="o">/</span><span class="mi">2</span> <span class="o">-</span> <span class="mf">1.5</span><span class="p">,</span> <span class="n">cy</span> <span class="o">-</span> <span class="n">th</span><span class="o">/</span><span class="mi">2</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">tw</span> <span class="o">+</span> <span class="mi">3</span><span class="p">,</span> <span class="n">th</span> <span class="o">+</span> <span class="mi">2</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;DF&quot;</span><span class="p">)</span>
+                
+                <span class="n">pdf</span><span class="o">.</span><span class="n">set_text_color</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+                <span class="n">pdf</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">cx</span> <span class="o">-</span> <span class="n">tw</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">cy</span> <span class="o">+</span> <span class="n">th</span><span class="o">/</span><span class="mi">2</span> <span class="o">-</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">lbl</span><span class="p">)</span>
+                
+            <span class="c1"># If present, draw index number on the badge</span>
+            <span class="k">if</span> <span class="n">index_str</span><span class="p">:</span>
+                <span class="n">pdf</span><span class="o">.</span><span class="n">set_fill_color</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
+                <span class="n">pdf</span><span class="o">.</span><span class="n">set_draw_color</span><span class="p">(</span><span class="mi">40</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">40</span><span class="p">)</span>
+                <span class="n">label_x</span> <span class="o">=</span> <span class="n">cx_shifted</span> <span class="k">if</span> <span class="n">is_covered</span> <span class="k">else</span> <span class="n">cx</span>
+                <span class="n">label_y</span> <span class="o">=</span> <span class="n">cy_shifted</span> <span class="k">if</span> <span class="n">is_covered</span> <span class="k">else</span> <span class="n">cy</span>
+                <span class="n">pdf</span><span class="o">.</span><span class="n">rect</span><span class="p">(</span><span class="n">label_x</span> <span class="o">-</span> <span class="n">tw</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">-</span> <span class="mf">5.5</span><span class="p">,</span> <span class="n">label_y</span> <span class="o">-</span> <span class="n">th</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span>
+                         <span class="mf">4.5</span><span class="p">,</span> <span class="n">th</span> <span class="o">+</span> <span class="mi">2</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;DF&quot;</span><span class="p">)</span>
+                <span class="n">pdf</span><span class="o">.</span><span class="n">set_text_color</span><span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">)</span>
+                <span class="n">pdf</span><span class="o">.</span><span class="n">set_font</span><span class="p">(</span><span class="s2">&quot;Helvetica&quot;</span><span class="p">,</span> <span class="s2">&quot;B&quot;</span><span class="p">,</span> <span class="mi">7</span><span class="p">)</span>
+                <span class="n">pdf</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">label_x</span> <span class="o">-</span> <span class="n">tw</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">-</span> <span class="mf">4.5</span><span class="p">,</span> <span class="n">label_y</span> <span class="o">+</span> <span class="n">th</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">-</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">index_str</span><span class="p">)</span>
+
+    <span class="c1"># Group placements dynamically by Z coordinates into 3 logical layers</span>
+    <span class="n">H</span> <span class="o">=</span> <span class="n">game_box_size</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+    <span class="n">layer_defs</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">(</span><span class="s2">&quot;Base Layer&quot;</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">z</span><span class="p">:</span> <span class="n">z</span> <span class="o">&lt;</span> <span class="mf">0.1</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">z</span><span class="p">:</span> <span class="kc">False</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;Middle Layer&quot;</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">z</span><span class="p">:</span> <span class="mf">0.1</span> <span class="o">&lt;=</span> <span class="n">z</span> <span class="o">&lt;</span> <span class="n">H</span> <span class="o">*</span> <span class="mf">0.7</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">z</span><span class="p">:</span> <span class="n">z</span> <span class="o">&lt;</span> <span class="mf">0.1</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;Top Layer&quot;</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">z</span><span class="p">:</span> <span class="n">z</span> <span class="o">&gt;=</span> <span class="n">H</span> <span class="o">*</span> <span class="mf">0.7</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">z</span><span class="p">:</span> <span class="n">z</span> <span class="o">&lt;</span> <span class="n">H</span> <span class="o">*</span> <span class="mf">0.7</span><span class="p">),</span>
+    <span class="p">]</span>
+
+    <span class="n">active_pages</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">LayerPage</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">is_active</span><span class="p">,</span> <span class="n">is_lower</span> <span class="ow">in</span> <span class="n">layer_defs</span><span class="p">:</span>
+        <span class="n">page</span> <span class="o">=</span> <span class="n">LayerPage</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
+            <span class="n">active_placements</span><span class="o">=</span><span class="p">[</span><span class="n">p</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">packing</span><span class="o">.</span><span class="n">placements</span> <span class="k">if</span> <span class="n">is_active</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">2</span><span class="p">])],</span>
+            <span class="n">lower_placements</span><span class="o">=</span><span class="p">[</span><span class="n">p</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">packing</span><span class="o">.</span><span class="n">placements</span> <span class="k">if</span> <span class="n">is_lower</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">2</span><span class="p">])],</span>
+            <span class="n">active_spacers</span><span class="o">=</span><span class="p">[</span><span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">packing</span><span class="o">.</span><span class="n">spacer_placements</span> <span class="k">if</span> <span class="n">is_active</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">2</span><span class="p">])],</span>
+            <span class="n">lower_spacers</span><span class="o">=</span><span class="p">[</span><span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">packing</span><span class="o">.</span><span class="n">spacer_placements</span> <span class="k">if</span> <span class="n">is_lower</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">2</span><span class="p">])],</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">page</span><span class="o">.</span><span class="n">active_placements</span> <span class="ow">or</span> <span class="n">page</span><span class="o">.</span><span class="n">active_spacers</span><span class="p">:</span>
+            <span class="n">active_pages</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">page</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">step_idx</span><span class="p">,</span> <span class="n">page</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">active_pages</span><span class="p">):</span>
+        <span class="n">pdf</span><span class="o">.</span><span class="n">add_page</span><span class="p">()</span>
+
+        <span class="c1"># Page Header</span>
+        <span class="n">pdf</span><span class="o">.</span><span class="n">set_font</span><span class="p">(</span><span class="s2">&quot;Helvetica&quot;</span><span class="p">,</span> <span class="s2">&quot;B&quot;</span><span class="p">,</span> <span class="mi">14</span><span class="p">)</span>
+        <span class="n">heading</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Packing Guide: </span><span class="si">{</span><span class="n">project_name</span><span class="si">}</span><span class="s2"> - Step </span><span class="si">{</span><span class="n">step_idx</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">page</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="n">pdf</span><span class="o">.</span><span class="n">cell</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="n">heading</span><span class="p">,</span> <span class="n">align</span><span class="o">=</span><span class="s2">&quot;C&quot;</span><span class="p">,</span> <span class="n">new_x</span><span class="o">=</span><span class="s2">&quot;LMARGIN&quot;</span><span class="p">,</span> <span class="n">new_y</span><span class="o">=</span><span class="s2">&quot;NEXT&quot;</span><span class="p">)</span>
+        <span class="n">pdf</span><span class="o">.</span><span class="n">set_font</span><span class="p">(</span><span class="s2">&quot;Helvetica&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="mi">9</span><span class="p">)</span>
+        <span class="n">pdf</span><span class="o">.</span><span class="n">cell</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;Game box: </span><span class="si">{</span><span class="n">game_box_size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">x</span><span class="si">{</span><span class="n">game_box_size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">x</span><span class="si">{</span><span class="n">game_box_size</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">mm&quot;</span><span class="p">,</span>
+                 <span class="n">align</span><span class="o">=</span><span class="s2">&quot;C&quot;</span><span class="p">,</span> <span class="n">new_x</span><span class="o">=</span><span class="s2">&quot;LMARGIN&quot;</span><span class="p">,</span> <span class="n">new_y</span><span class="o">=</span><span class="s2">&quot;NEXT&quot;</span><span class="p">)</span>
+        <span class="n">pdf</span><span class="o">.</span><span class="n">ln</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+
+        <span class="c1"># Draw Game Box Outline</span>
+        <span class="n">pdf</span><span class="o">.</span><span class="n">set_draw_color</span><span class="p">(</span><span class="mi">150</span><span class="p">,</span> <span class="mi">150</span><span class="p">,</span> <span class="mi">150</span><span class="p">)</span>
+        <span class="n">pdf</span><span class="o">.</span><span class="n">set_line_width</span><span class="p">(</span><span class="mf">0.2</span><span class="p">)</span>
+        <span class="c1"># Bottom face</span>
+        <span class="n">p_base</span> <span class="o">=</span> <span class="p">[</span><span class="n">to_pdf</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">to_pdf</span><span class="p">(</span><span class="n">game_box_size</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+                  <span class="n">to_pdf</span><span class="p">(</span><span class="n">game_box_size</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">game_box_size</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">0</span><span class="p">),</span> <span class="n">to_pdf</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">game_box_size</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">0</span><span class="p">)]</span>
+        <span class="n">pdf</span><span class="o">.</span><span class="n">polygon</span><span class="p">(</span><span class="n">p_base</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;D&quot;</span><span class="p">)</span>
+        <span class="c1"># Corners</span>
+        <span class="k">for</span> <span class="n">cx</span><span class="p">,</span> <span class="n">cy</span> <span class="ow">in</span> <span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="n">game_box_size</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="n">game_box_size</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">game_box_size</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">game_box_size</span><span class="p">[</span><span class="mi">1</span><span class="p">])]:</span>
+            <span class="n">pdf</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="o">*</span><span class="n">to_pdf</span><span class="p">(</span><span class="n">cx</span><span class="p">,</span> <span class="n">cy</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="o">*</span><span class="n">to_pdf</span><span class="p">(</span><span class="n">cx</span><span class="p">,</span> <span class="n">cy</span><span class="p">,</span> <span class="n">game_box_size</span><span class="p">[</span><span class="mi">2</span><span class="p">]))</span>
+        <span class="c1"># Top face</span>
+        <span class="n">p_top</span> <span class="o">=</span> <span class="p">[</span><span class="n">to_pdf</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">game_box_size</span><span class="p">[</span><span class="mi">2</span><span class="p">]),</span> <span class="n">to_pdf</span><span class="p">(</span><span class="n">game_box_size</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">0</span><span class="p">,</span> <span class="n">game_box_size</span><span class="p">[</span><span class="mi">2</span><span class="p">]),</span>
+                 <span class="n">to_pdf</span><span class="p">(</span><span class="n">game_box_size</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">game_box_size</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">game_box_size</span><span class="p">[</span><span class="mi">2</span><span class="p">]),</span>
+                 <span class="n">to_pdf</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">game_box_size</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">game_box_size</span><span class="p">[</span><span class="mi">2</span><span class="p">])]</span>
+        <span class="n">pdf</span><span class="o">.</span><span class="n">polygon</span><span class="p">(</span><span class="n">p_top</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;D&quot;</span><span class="p">)</span>
+
+        <span class="c1"># 1. Draw Lower Layer Spacers (background - light gray)</span>
+        <span class="k">for</span> <span class="n">sp</span> <span class="ow">in</span> <span class="n">page</span><span class="o">.</span><span class="n">lower_spacers</span><span class="p">:</span>
+            <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">position</span>
+            <span class="n">sw</span><span class="p">,</span> <span class="n">sl</span><span class="p">,</span> <span class="n">sh</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">size</span>
+            <span class="n">draw_box_3d</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">sw</span><span class="p">,</span> <span class="n">sl</span><span class="p">,</span> <span class="n">sh</span><span class="p">,</span> <span class="p">(</span><span class="mi">240</span><span class="p">,</span> <span class="mi">240</span><span class="p">,</span> <span class="mi">240</span><span class="p">))</span>
+
+        <span class="c1"># 2. Draw Lower Layer Placements (background context - light gray)</span>
+        <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">page</span><span class="o">.</span><span class="n">lower_placements</span><span class="p">:</span>
+            <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">position</span>
+            <span class="n">bw</span><span class="p">,</span> <span class="n">bl</span><span class="p">,</span> <span class="n">bh</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">size</span>
+            <span class="n">draw_box_3d</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">bw</span><span class="p">,</span> <span class="n">bl</span><span class="p">,</span> <span class="n">bh</span><span class="p">,</span> <span class="p">(</span><span class="mi">220</span><span class="p">,</span> <span class="mi">220</span><span class="p">,</span> <span class="mi">220</span><span class="p">))</span>
+
+        <span class="c1"># 3. Draw Active Layer Spacers (full gray spacers)</span>
+        <span class="k">for</span> <span class="n">sp</span> <span class="ow">in</span> <span class="n">page</span><span class="o">.</span><span class="n">active_spacers</span><span class="p">:</span>
+            <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">position</span>
+            <span class="n">sw</span><span class="p">,</span> <span class="n">sl</span><span class="p">,</span> <span class="n">sh</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">size</span>
+            <span class="n">draw_box_3d</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">sw</span><span class="p">,</span> <span class="n">sl</span><span class="p">,</span> <span class="n">sh</span><span class="p">,</span> <span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">200</span><span class="p">),</span> <span class="s2">&quot;spacer&quot;</span><span class="p">)</span>
+
+        <span class="c1"># 4. Draw Active Layer Placements (colored)</span>
+        <span class="c1"># Sort placements by height Z to render bottom active ones first</span>
+        <span class="n">sorted_active</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">page</span><span class="o">.</span><span class="n">active_placements</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">p</span><span class="p">:</span> <span class="n">p</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+        <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">sorted_active</span><span class="p">:</span>
+            <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">position</span>
+            <span class="n">bw</span><span class="p">,</span> <span class="n">bl</span><span class="p">,</span> <span class="n">bh</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">size</span>
+            
+            <span class="c1"># Find original index for color mapping</span>
+            <span class="n">orig_idx</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">orig</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">packing</span><span class="o">.</span><span class="n">placements</span><span class="p">)</span> <span class="k">if</span> <span class="n">orig</span><span class="o">.</span><span class="n">label</span> <span class="o">==</span> <span class="n">p</span><span class="o">.</span><span class="n">label</span><span class="p">)</span>
+            <span class="n">color</span> <span class="o">=</span> <span class="n">colors</span><span class="p">[</span><span class="n">orig_idx</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">colors</span><span class="p">)]</span>
+            
+            <span class="n">draw_box_3d</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">bw</span><span class="p">,</span> <span class="n">bl</span><span class="p">,</span> <span class="n">bh</span><span class="p">,</span> <span class="n">color</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">label</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">orig_idx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="n">page</span><span class="o">.</span><span class="n">active_placements</span><span class="p">)</span>
+
+        <span class="c1"># 5. Draw 2D Blueprint inset for Box if it has compartments</span>
+        <span class="n">active_compartment_boxes</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">p</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">page</span><span class="o">.</span><span class="n">active_placements</span>
+            <span class="k">if</span> <span class="n">box_map</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">label</span><span class="p">)</span> <span class="ow">and</span> <span class="n">box_map</span><span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">label</span><span class="p">]</span><span class="o">.</span><span class="n">compartments</span>
+        <span class="p">]</span>
+        <span class="k">if</span> <span class="n">active_compartment_boxes</span><span class="p">:</span>
+            <span class="n">draw_box_blueprint</span><span class="p">(</span><span class="n">pdf</span><span class="p">,</span> <span class="n">box_map</span><span class="p">[</span><span class="n">active_compartment_boxes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">label</span><span class="p">],</span> <span class="mi">230</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">0.45</span><span class="p">)</span>
+
+    <span class="n">output_path</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">pdf</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">output_path</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">output_path</span></div>
+
+
+
+<div class="viewcode-block" id="draw_box_blueprint">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.export.layout_pdf.draw_box_blueprint.html#pyboxbuilder.export.layout_pdf.draw_box_blueprint">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">draw_box_blueprint</span><span class="p">(</span><span class="n">pdf</span><span class="p">,</span> <span class="n">builder</span><span class="p">,</span> <span class="n">x_bp</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">y_bp</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">scale</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.45</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Draw a detailed 2D blueprint of the box containing its compartments and shapes.&quot;&quot;&quot;</span>
+    <span class="n">wt</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">wall_thickness</span> <span class="ow">or</span> <span class="mf">3.0</span>
+    <span class="n">ft</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">floor_thickness</span> <span class="ow">or</span> <span class="mf">1.6</span>
+    <span class="n">lt</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">lid_thickness</span> <span class="ow">or</span> <span class="mf">2.0</span>
+    
+    <span class="c1"># Outer box boundary</span>
+    <span class="n">pdf</span><span class="o">.</span><span class="n">set_draw_color</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
+    <span class="n">pdf</span><span class="o">.</span><span class="n">set_line_width</span><span class="p">(</span><span class="mf">0.3</span><span class="p">)</span>
+    <span class="n">pdf</span><span class="o">.</span><span class="n">set_fill_color</span><span class="p">(</span><span class="mi">248</span><span class="p">,</span> <span class="mi">248</span><span class="p">,</span> <span class="mi">248</span><span class="p">)</span>
+    <span class="n">pdf</span><span class="o">.</span><span class="n">rect</span><span class="p">(</span><span class="n">x_bp</span><span class="p">,</span> <span class="n">y_bp</span><span class="p">,</span> <span class="n">builder</span><span class="o">.</span><span class="n">final_size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">scale</span><span class="p">,</span> <span class="n">builder</span><span class="o">.</span><span class="n">final_size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">scale</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;DF&quot;</span><span class="p">)</span>
+    
+    <span class="c1"># Interior border</span>
+    <span class="n">interior_w</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">final_size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">wt</span>
+    <span class="n">interior_l</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">final_size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">wt</span>
+    <span class="n">pdf</span><span class="o">.</span><span class="n">set_draw_color</span><span class="p">(</span><span class="mi">120</span><span class="p">,</span> <span class="mi">120</span><span class="p">,</span> <span class="mi">120</span><span class="p">)</span>
+    <span class="n">pdf</span><span class="o">.</span><span class="n">set_line_width</span><span class="p">(</span><span class="mf">0.15</span><span class="p">)</span>
+    <span class="n">pdf</span><span class="o">.</span><span class="n">rect</span><span class="p">(</span><span class="n">x_bp</span> <span class="o">+</span> <span class="n">wt</span> <span class="o">*</span> <span class="n">scale</span><span class="p">,</span> <span class="n">y_bp</span> <span class="o">+</span> <span class="n">wt</span> <span class="o">*</span> <span class="n">scale</span><span class="p">,</span> <span class="n">interior_w</span> <span class="o">*</span> <span class="n">scale</span><span class="p">,</span> <span class="n">interior_l</span> <span class="o">*</span> <span class="n">scale</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;D&quot;</span><span class="p">)</span>
+    
+    <span class="c1"># Title</span>
+    <span class="n">pdf</span><span class="o">.</span><span class="n">set_font</span><span class="p">(</span><span class="s2">&quot;Helvetica&quot;</span><span class="p">,</span> <span class="s2">&quot;B&quot;</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
+    <span class="n">pdf</span><span class="o">.</span><span class="n">set_text_color</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
+    <span class="n">pdf</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">x_bp</span> <span class="o">+</span> <span class="mf">4.0</span> <span class="o">*</span> <span class="n">scale</span><span class="p">,</span> <span class="n">y_bp</span> <span class="o">+</span> <span class="mf">10.0</span> <span class="o">*</span> <span class="n">scale</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">builder</span><span class="o">.</span><span class="n">label</span><span class="si">}</span><span class="s2"> Layout&quot;</span><span class="p">)</span>
+    
+    <span class="c1"># Draw compartments</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.interior</span><span class="w"> </span><span class="kn">import</span> <span class="n">Interior</span> <span class="k">as</span> <span class="n">BoxInterior</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.compartments.layout</span><span class="w"> </span><span class="kn">import</span> <span class="n">layout_compartments</span>
+    
+    <span class="n">interior</span> <span class="o">=</span> <span class="n">BoxInterior</span><span class="p">(</span>
+        <span class="n">width</span><span class="o">=</span><span class="n">interior_w</span><span class="p">,</span>
+        <span class="n">length</span><span class="o">=</span><span class="n">interior_l</span><span class="p">,</span>
+        <span class="n">height</span><span class="o">=</span><span class="n">builder</span><span class="o">.</span><span class="n">final_size</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="n">lt</span> <span class="o">-</span> <span class="n">ft</span><span class="p">,</span>
+        <span class="n">origin_x</span><span class="o">=</span><span class="n">wt</span><span class="p">,</span>
+        <span class="n">origin_y</span><span class="o">=</span><span class="n">wt</span><span class="p">,</span>
+        <span class="n">origin_z</span><span class="o">=</span><span class="n">ft</span><span class="p">,</span>
+    <span class="p">)</span>
+    
+    <span class="n">comp_data</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">cb</span> <span class="ow">in</span> <span class="n">builder</span><span class="o">.</span><span class="n">compartments</span><span class="p">:</span>
+        <span class="n">resolved</span> <span class="o">=</span> <span class="n">cb</span><span class="o">.</span><span class="n">resolve_size</span><span class="p">(</span><span class="n">interior_w</span><span class="p">,</span> <span class="n">interior_l</span><span class="p">)</span>
+        <span class="n">comp_data</span><span class="o">.</span><span class="n">append</span><span class="p">((</span>
+            <span class="n">cb</span><span class="o">.</span><span class="n">label</span><span class="p">,</span>
+            <span class="n">resolved</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+            <span class="n">resolved</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+            <span class="n">cb</span><span class="o">.</span><span class="n">depth</span> <span class="ow">or</span> <span class="mf">10.0</span><span class="p">,</span>
+            <span class="nb">getattr</span><span class="p">(</span><span class="n">cb</span><span class="p">,</span> <span class="s2">&quot;shape_file&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+            <span class="n">cb</span><span class="o">.</span><span class="n">position</span><span class="p">,</span>
+            <span class="nb">getattr</span><span class="p">(</span><span class="n">cb</span><span class="p">,</span> <span class="s2">&quot;elements&quot;</span><span class="p">,</span> <span class="p">()),</span>
+        <span class="p">))</span>
+        
+    <span class="n">no_rotate_labels</span> <span class="o">=</span> <span class="p">{</span><span class="n">cb</span><span class="o">.</span><span class="n">label</span> <span class="k">for</span> <span class="n">cb</span> <span class="ow">in</span> <span class="n">builder</span><span class="o">.</span><span class="n">compartments</span> <span class="k">if</span> <span class="n">cb</span><span class="o">.</span><span class="n">no_rotate</span><span class="p">}</span>
+    <span class="n">comp_layout</span> <span class="o">=</span> <span class="n">layout_compartments</span><span class="p">(</span><span class="n">interior</span><span class="p">,</span> <span class="n">comp_data</span><span class="p">,</span> <span class="n">no_rotate_labels</span><span class="o">=</span><span class="n">no_rotate_labels</span><span class="p">)</span>
+    
+    <span class="n">pdf</span><span class="o">.</span><span class="n">set_font</span><span class="p">(</span><span class="s2">&quot;Helvetica&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">placement</span> <span class="ow">in</span> <span class="n">comp_layout</span><span class="o">.</span><span class="n">placements</span><span class="p">:</span>
+        <span class="c1"># Coordinates relative to the blueprint origin</span>
+        <span class="n">cx</span> <span class="o">=</span> <span class="n">x_bp</span> <span class="o">+</span> <span class="n">placement</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">scale</span>
+        <span class="n">cy</span> <span class="o">=</span> <span class="n">y_bp</span> <span class="o">+</span> <span class="n">placement</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">scale</span>
+        <span class="n">cw</span> <span class="o">=</span> <span class="n">placement</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">scale</span>
+        <span class="n">ch</span> <span class="o">=</span> <span class="n">placement</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">scale</span>
+        
+        <span class="c1"># Draw compartment border</span>
+        <span class="n">pdf</span><span class="o">.</span><span class="n">set_draw_color</span><span class="p">(</span><span class="mi">180</span><span class="p">,</span> <span class="mi">180</span><span class="p">,</span> <span class="mi">180</span><span class="p">)</span>
+        <span class="n">pdf</span><span class="o">.</span><span class="n">rect</span><span class="p">(</span><span class="n">cx</span><span class="p">,</span> <span class="n">cy</span><span class="p">,</span> <span class="n">cw</span><span class="p">,</span> <span class="n">ch</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;D&quot;</span><span class="p">)</span>
+        
+        <span class="c1"># Draw label</span>
+        <span class="n">pdf</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">cx</span> <span class="o">+</span> <span class="mf">1.0</span> <span class="o">*</span> <span class="n">scale</span><span class="p">,</span> <span class="n">cy</span> <span class="o">+</span> <span class="mf">4.0</span> <span class="o">*</span> <span class="n">scale</span><span class="p">,</span> <span class="n">placement</span><span class="o">.</span><span class="n">label</span><span class="p">)</span>
+        
+        <span class="c1"># Draw shape/SVG if present</span>
+        <span class="k">if</span> <span class="n">placement</span><span class="o">.</span><span class="n">shape_file</span><span class="p">:</span>
+            <span class="n">svg_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">placement</span><span class="o">.</span><span class="n">shape_file</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">svg_path</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+                <span class="n">pdf</span><span class="o">.</span><span class="n">image</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">svg_path</span><span class="p">),</span> <span class="n">cx</span> <span class="o">+</span> <span class="mf">1.0</span> <span class="o">*</span> <span class="n">scale</span><span class="p">,</span> <span class="n">cy</span> <span class="o">+</span> <span class="mf">5.0</span> <span class="o">*</span> <span class="n">scale</span><span class="p">,</span> <span class="n">w</span><span class="o">=</span><span class="n">cw</span> <span class="o">-</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">scale</span><span class="p">,</span> <span class="n">h</span><span class="o">=</span><span class="n">ch</span> <span class="o">-</span> <span class="mf">6.0</span> <span class="o">*</span> <span class="n">scale</span><span class="p">)</span>
+
+        <span class="c1"># Draw nested elements if present</span>
+        <span class="k">if</span> <span class="n">placement</span><span class="o">.</span><span class="n">elements</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">elem</span> <span class="ow">in</span> <span class="n">placement</span><span class="o">.</span><span class="n">elements</span><span class="p">:</span>
+                <span class="n">elem_x</span> <span class="o">=</span> <span class="n">cx</span> <span class="o">+</span> <span class="n">elem</span><span class="o">.</span><span class="n">offset</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">scale</span>
+                <span class="n">elem_y</span> <span class="o">=</span> <span class="n">cy</span> <span class="o">+</span> <span class="n">elem</span><span class="o">.</span><span class="n">offset</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">scale</span>
+                <span class="n">ew</span> <span class="o">=</span> <span class="p">(</span><span class="n">elem</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="n">elem</span><span class="o">.</span><span class="n">size</span> <span class="k">else</span> <span class="mf">15.0</span><span class="p">)</span> <span class="o">*</span> <span class="n">scale</span>
+                <span class="n">eh</span> <span class="o">=</span> <span class="p">(</span><span class="n">elem</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">if</span> <span class="n">elem</span><span class="o">.</span><span class="n">size</span> <span class="k">else</span> <span class="mf">15.0</span><span class="p">)</span> <span class="o">*</span> <span class="n">scale</span>
+
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">elem</span><span class="o">.</span><span class="n">shape_file</span><span class="p">:</span>
+                    <span class="c1"># Parametric element (circle, hexagon, scoop) — outline only.</span>
+                    <span class="n">pdf</span><span class="o">.</span><span class="n">set_draw_color</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+                    <span class="n">pdf</span><span class="o">.</span><span class="n">rect</span><span class="p">(</span><span class="n">elem_x</span><span class="p">,</span> <span class="n">elem_y</span><span class="p">,</span> <span class="n">ew</span><span class="p">,</span> <span class="n">eh</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;D&quot;</span><span class="p">)</span>
+                    <span class="k">continue</span>
+
+                <span class="n">svg_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">elem</span><span class="o">.</span><span class="n">shape_file</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">svg_path</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+                    <span class="k">if</span> <span class="n">elem</span><span class="o">.</span><span class="n">rotation</span> <span class="o">!=</span> <span class="mf">0.0</span><span class="p">:</span>
+                        <span class="n">rot_cx</span> <span class="o">=</span> <span class="n">elem_x</span> <span class="o">+</span> <span class="n">ew</span> <span class="o">/</span> <span class="mi">2</span>
+                        <span class="n">rot_cy</span> <span class="o">=</span> <span class="n">elem_y</span> <span class="o">+</span> <span class="n">eh</span> <span class="o">/</span> <span class="mi">2</span>
+                        <span class="k">with</span> <span class="n">pdf</span><span class="o">.</span><span class="n">rotation</span><span class="p">(</span><span class="n">elem</span><span class="o">.</span><span class="n">rotation</span><span class="p">,</span> <span class="n">rot_cx</span><span class="p">,</span> <span class="n">rot_cy</span><span class="p">):</span>
+                            <span class="n">pdf</span><span class="o">.</span><span class="n">image</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">svg_path</span><span class="p">),</span> <span class="n">elem_x</span><span class="p">,</span> <span class="n">elem_y</span><span class="p">,</span> <span class="n">w</span><span class="o">=</span><span class="n">ew</span><span class="p">,</span> <span class="n">h</span><span class="o">=</span><span class="n">eh</span><span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">pdf</span><span class="o">.</span><span class="n">image</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">svg_path</span><span class="p">),</span> <span class="n">elem_x</span><span class="p">,</span> <span class="n">elem_y</span><span class="p">,</span> <span class="n">w</span><span class="o">=</span><span class="n">ew</span><span class="p">,</span> <span class="n">h</span><span class="o">=</span><span class="n">eh</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="should_regenerate_layout">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.export.layout_pdf.should_regenerate_layout.html#pyboxbuilder.export.layout_pdf.should_regenerate_layout">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">should_regenerate_layout</span><span class="p">(</span>
+    <span class="n">packing</span><span class="p">:</span> <span class="n">BoxPacking</span><span class="p">,</span>
+    <span class="n">pdf_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span>
+    <span class="n">library_version</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;1.0.0&quot;</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Check whether the PDF needs regeneration.</span>
+
+<span class="sd">    Uses SHA-256 hash of packing layout + library version.</span>
+<span class="sd">    If the PDF doesn&#39;t exist or the hash differs, regeneration is needed.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        packing: The current packing layout.</span>
+<span class="sd">        pdf_path: Path to the existing PDF file.</span>
+<span class="sd">        library_version: Version string for cache invalidation.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        True if PDF should be regenerated, False if existing is current.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">layout_data</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;placements&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;label&quot;</span><span class="p">:</span> <span class="n">p</span><span class="o">.</span><span class="n">label</span><span class="p">,</span>
+                <span class="s2">&quot;position&quot;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">position</span><span class="p">),</span>
+                <span class="s2">&quot;size&quot;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">size</span><span class="p">),</span>
+            <span class="p">}</span>
+            <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">packing</span><span class="o">.</span><span class="n">placements</span>
+        <span class="p">],</span>
+        <span class="s2">&quot;spacers&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">{</span><span class="s2">&quot;position&quot;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">position</span><span class="p">),</span> <span class="s2">&quot;size&quot;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">size</span><span class="p">)}</span>
+            <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">packing</span><span class="o">.</span><span class="n">spacer_placements</span>
+        <span class="p">],</span>
+        <span class="s2">&quot;version&quot;</span><span class="p">:</span> <span class="n">library_version</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="n">current_hash</span> <span class="o">=</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha256</span><span class="p">(</span>
+        <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">layout_data</span><span class="p">,</span> <span class="n">sort_keys</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="nb">str</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">()</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span>
+
+    <span class="n">hash_file</span> <span class="o">=</span> <span class="n">pdf_path</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="s2">&quot;.sha256&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="p">(</span>
+        <span class="n">pdf_path</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span>
+        <span class="ow">and</span> <span class="n">hash_file</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span>
+        <span class="ow">and</span> <span class="n">hash_file</span><span class="o">.</span><span class="n">read_text</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="o">==</span> <span class="n">current_hash</span>
+    <span class="p">):</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="c1"># Record the hash now, including on the first run — otherwise the very next</span>
+    <span class="c1"># export sees no stored hash and rebuilds an already-current PDF.</span>
+    <span class="n">hash_file</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">hash_file</span><span class="o">.</span><span class="n">write_text</span><span class="p">(</span><span class="n">current_hash</span><span class="p">)</span>
+    <span class="k">return</span> <span class="kc">True</span></div>
+
+</code></pre></div>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  
+  
+  <div class="md-footer-meta md-typeset">
+    
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-footer-copyright__highlight">
+        &#169; Copyright pyboxbuilder contributors.
+        
+    </div>
+  
+    Created using
+    <a href="https://www.sphinx-doc.org/" target="_blank" rel="noopener">Sphinx</a>
+    8.2.3.
+     and
+    <a href="https://github.com/jbms/sphinx-immaterial/" target="_blank" rel="noopener">Sphinx-Immaterial</a>
+  
+</div>
+      
+    </div>
+    
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.top", "content.code.copy", "search.highlight", "toc.follow", "toc.sticky"], "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+      
+        <script src="../../../_static/sphinx_immaterial_theme.32136f45f91ae6956.min.js?v=a7a9472a"></script>
+        <script type="module" src="../../../_static/stl_viewer.js?v=0ab88475"></script>
+    
+  </body>
+</html>

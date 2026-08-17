@@ -1,0 +1,9 @@
+pyboxbuilder.builders.inset.InsetBoxBuilder
+===========================================
+
+.. currentmodule:: pyboxbuilder.builders.inset
+
+.. autoclass:: InsetBoxBuilder
+   :members:
+   :undoc-members:
+   :show-inheritance:

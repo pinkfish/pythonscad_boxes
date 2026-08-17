@@ -1,0 +1,9 @@
+pyboxbuilder.enums.BoxType
+==========================
+
+.. currentmodule:: pyboxbuilder.enums
+
+.. autoclass:: BoxType
+   :members:
+   :undoc-members:
+   :show-inheritance:

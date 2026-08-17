@@ -1,0 +1,36 @@
+pyboxbuilder.precision
+======================
+
+.. automodule:: pyboxbuilder.precision
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+      :toctree:
+      :nosignatures:
+   
+      Precision
+   
+   
+
+   
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+      :toctree:
+      :nosignatures:
+   
+      describe
+      export_facets
+      kwargs
+      precision
+      use
+   
+   

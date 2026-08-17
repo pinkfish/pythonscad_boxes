@@ -1,0 +1,9 @@
+pyboxbuilder.enums.FingerCut
+============================
+
+.. currentmodule:: pyboxbuilder.enums
+
+.. autoclass:: FingerCut
+   :members:
+   :undoc-members:
+   :show-inheritance:

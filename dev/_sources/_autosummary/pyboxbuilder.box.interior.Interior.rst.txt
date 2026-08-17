@@ -1,0 +1,9 @@
+pyboxbuilder.box.interior.Interior
+==================================
+
+.. currentmodule:: pyboxbuilder.box.interior
+
+.. autoclass:: Interior
+   :members:
+   :undoc-members:
+   :show-inheritance:

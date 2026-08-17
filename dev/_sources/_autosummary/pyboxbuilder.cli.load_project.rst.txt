@@ -1,0 +1,6 @@
+pyboxbuilder.cli.load\_project
+==============================
+
+.. currentmodule:: pyboxbuilder.cli
+
+.. autofunction:: load_project

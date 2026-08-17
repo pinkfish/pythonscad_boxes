@@ -1,0 +1,38 @@
+pyboxbuilder.preview
+====================
+
+.. automodule:: pyboxbuilder.preview
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+      :toctree:
+      :nosignatures:
+   
+      PreviewPiece
+   
+   
+
+   
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+      :toctree:
+      :nosignatures:
+   
+      layer_heights
+      lid_color
+      lighten
+      remove_top_layers
+      spacer_color
+      stable_color
+      with_alpha
+   
+   

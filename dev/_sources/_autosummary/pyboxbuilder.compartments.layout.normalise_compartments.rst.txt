@@ -1,0 +1,6 @@
+pyboxbuilder.compartments.layout.normalise\_compartments
+========================================================
+
+.. currentmodule:: pyboxbuilder.compartments.layout
+
+.. autofunction:: normalise_compartments

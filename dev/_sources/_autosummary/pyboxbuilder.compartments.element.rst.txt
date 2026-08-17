@@ -1,0 +1,41 @@
+pyboxbuilder.compartments.element
+=================================
+
+.. automodule:: pyboxbuilder.compartments.element
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+      :toctree:
+      :nosignatures:
+   
+      CompartmentElement
+   
+   
+
+   
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+      :toctree:
+      :nosignatures:
+   
+      build_element
+      build_element_pack
+      build_pull_out
+      elements_bounding_box
+      elements_footprint
+      elements_overlap
+      grid_pack
+      normalize_elements
+      svg_solid
+      union_all
+   
+   

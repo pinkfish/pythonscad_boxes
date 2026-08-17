@@ -1,0 +1,6 @@
+pyboxbuilder.rounding.rounded\_block
+====================================
+
+.. currentmodule:: pyboxbuilder.rounding
+
+.. autofunction:: rounded_block

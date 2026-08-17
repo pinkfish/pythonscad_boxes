@@ -1,0 +1,6 @@
+pyboxbuilder.lid.label.text\_height\_for
+========================================
+
+.. currentmodule:: pyboxbuilder.lid.label
+
+.. autofunction:: text_height_for

@@ -1,0 +1,9 @@
+pyboxbuilder.packing.guillotine.Item
+====================================
+
+.. currentmodule:: pyboxbuilder.packing.guillotine
+
+.. autoclass:: Item
+   :members:
+   :undoc-members:
+   :show-inheritance:

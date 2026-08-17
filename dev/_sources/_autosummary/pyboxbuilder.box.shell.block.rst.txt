@@ -1,0 +1,6 @@
+pyboxbuilder.box.shell.block
+============================
+
+.. currentmodule:: pyboxbuilder.box.shell
+
+.. autofunction:: block

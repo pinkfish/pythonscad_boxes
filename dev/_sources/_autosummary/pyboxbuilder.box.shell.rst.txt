@@ -1,0 +1,35 @@
+pyboxbuilder.box.shell
+======================
+
+.. automodule:: pyboxbuilder.box.shell
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+      :toctree:
+      :nosignatures:
+   
+      apply_finger_holes
+      block
+      body_rounding
+      build_shell
+      corner
+      finger_cut_conflicts
+      interior_block
+      no_lid_finger_holes
+      round_inner_rim
+      sliding_rim_rounding
+      warn_about_finger_cuts
+      with_no_lid_finger_holes
+   
+   

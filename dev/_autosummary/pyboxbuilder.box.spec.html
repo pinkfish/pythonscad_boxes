@@ -1,0 +1,2097 @@
+
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="pyboxbuilder.box.shell.with_no_lid_finger_holes.html">
+      
+      
+        <link rel="next" href="pyboxbuilder.box.spec.BoxSpec.html">
+      
+      
+      <link rel="icon" href="">
+    
+    
+      
+        <title>pyboxbuilder.box.spec - pyboxbuilder</title>
+      
+    
+    
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+    
+        <link rel="stylesheet" type="text/css" href="../_static/sphinx_immaterial_theme.6f0d2a77b1b821632.min.css?v=27a6e6bb" />
+        <link rel="stylesheet" type="text/css" href="../_static/stl_viewer.css?v=abc98148" />
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#pyboxbuilder.box.spec.BoxSpec" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../index.html" title="pyboxbuilder" class="md-header__button md-logo" aria-label="pyboxbuilder" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            pyboxbuilder
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              pyboxbuilder.box.spec
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/pinkfish/pythonscad_boxes" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    pinkfish/pythonscad_boxes
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../index.html" title="pyboxbuilder" class="md-nav__button md-logo" aria-label="pyboxbuilder" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+    </a>
+    pyboxbuilder
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/pinkfish/pythonscad_boxes" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    pinkfish/pythonscad_boxes
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    <span>Contents</span>
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            <span>Contents</span>
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_1" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../api.html" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    <span>API Reference</span>
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_1_1" id="__nav_1_1_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_1_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_1_1">
+            <span class="md-nav__icon md-icon"></span>
+            <span>API Reference</span>
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_1_1" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="pyboxbuilder.html" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder</span>
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_1_1_1" id="__nav_1_1_1_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_1_1_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_1_1_1">
+            <span class="md-nav__icon md-icon"></span>
+            <span>pyboxbuilder</span>
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_1_1_1" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="pyboxbuilder.box.html" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>box</span>
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_1_1_1_1" id="__nav_1_1_1_1_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_1_1_1_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_1_1_1_1">
+            <span class="md-nav__icon md-icon"></span>
+            <span>pyboxbuilder.<wbr>box</span>
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pyboxbuilder.box.base.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>box.<wbr>base</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pyboxbuilder.box.features.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>box.<wbr>features</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pyboxbuilder.box.interior.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>box.<wbr>interior</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pyboxbuilder.box.registry.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>box.<wbr>registry</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pyboxbuilder.box.shell.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>box.<wbr>shell</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+    
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__current-nested md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_1_1_1_6" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="#" class="md-nav__link md-nav__link--active">
+              
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>box.<wbr>spec</span>
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link md-nav__link--active" for="__nav_1_1_1_1_6" id="__nav_1_1_1_1_6_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="5" aria-labelledby="__nav_1_1_1_1_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_1_1_1_1_6">
+            <span class="md-nav__icon md-icon"></span>
+            <span>pyboxbuilder.<wbr>box.<wbr>spec</span>
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pyboxbuilder.box.spec.BoxSpec.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>box.<wbr>spec.<wbr>Box<wbr>Spec</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pyboxbuilder.box.spec.build_spec.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>box.<wbr>spec.<wbr>build_<wbr>spec</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pyboxbuilder.box.spec.describe.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>box.<wbr>spec.<wbr>describe</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+  
+      
+    <li class="md-nav__item md-nav__item--active md-nav__current-toc">
+      
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>box.<wbr>spec</span>
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="#" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>box.<wbr>spec</span>
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+  
+
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      On this page
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="pyboxbuilder.box.spec.BoxSpec.html" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span>pyboxbuilder.<wbr>box.<wbr>spec.<wbr>Box<wbr>Spec</span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="pyboxbuilder.box.spec.build_spec.html" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span>pyboxbuilder.<wbr>box.<wbr>spec.<wbr>build_<wbr>spec</span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="pyboxbuilder.box.spec.describe.html" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span>pyboxbuilder.<wbr>box.<wbr>spec.<wbr>describe</span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pyboxbuilder.box.spec.BoxSpec" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span>pyboxbuilder.<wbr>box.<wbr>spec.<wbr>Box<wbr>Spec</span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="pyboxbuilder.box.spec.BoxSpec">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pyboxbuilder.box.spec.BoxSpec.default_wall_top" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span>default_<wbr>wall_<wbr>top</span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="default_wall_top">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pyboxbuilder.box.spec.BoxSpec.default_wall_top-returns" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span>Returns</span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pyboxbuilder.box.spec.BoxSpec.interior" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span>interior</span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="interior">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pyboxbuilder.box.spec.BoxSpec.interior-returns" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span>Returns</span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pyboxbuilder.box.spec.BoxSpec.wall_top" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span>wall_<wbr>top</span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="wall_top">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pyboxbuilder.box.spec.BoxSpec.wall_top-parameters" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span>Parameters</span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pyboxbuilder.box.spec.BoxSpec.wall_top-returns" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span>Returns</span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pyboxbuilder.box.spec.BoxSpec.with_wall_tops" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span>with_<wbr>wall_<wbr>tops</span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="with_wall_tops">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pyboxbuilder.box.spec.BoxSpec.with_wall_tops-parameters" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span>Parameters</span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pyboxbuilder.box.spec.BoxSpec.with_wall_tops-returns" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span>Returns</span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pyboxbuilder.box.spec.build_spec" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span>pyboxbuilder.<wbr>box.<wbr>spec.<wbr>build_<wbr>spec</span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="pyboxbuilder.box.spec.build_spec">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pyboxbuilder.box.spec.build_spec-parameters" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span>Parameters</span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pyboxbuilder.box.spec.build_spec-returns" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span>Returns</span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pyboxbuilder.box.spec.describe" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span>pyboxbuilder.<wbr>box.<wbr>spec.<wbr>describe</span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="pyboxbuilder.box.spec.describe">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pyboxbuilder.box.spec.describe-parameters" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span>Parameters</span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pyboxbuilder.box.spec.describe-returns" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span>Returns</span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pyboxbuilder.box.types.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>box.<wbr>types</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pyboxbuilder.builders.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>builders</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pyboxbuilder.cli.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>cli</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pyboxbuilder.compartments.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>compartments</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pyboxbuilder.enums.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>enums</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pyboxbuilder.export.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>export</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pyboxbuilder.layout.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>layout</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pyboxbuilder.lid.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>lid</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pyboxbuilder.packing.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>packing</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pyboxbuilder.paths.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>paths</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pyboxbuilder.precision.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>precision</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pyboxbuilder.preview.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>preview</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pyboxbuilder.project.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>project</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pyboxbuilder.rounding.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>rounding</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pyboxbuilder.run.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>run</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+<nav class="md-nav md-nav--secondary">
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      On this page
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#pyboxbuilder.box.spec.BoxSpec" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span>pyboxbuilder.<wbr>box.<wbr>spec.<wbr>Box<wbr>Spec</span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="pyboxbuilder.box.spec.BoxSpec">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pyboxbuilder.box.spec.BoxSpec.default_wall_top" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span>default_<wbr>wall_<wbr>top</span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="default_wall_top">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pyboxbuilder.box.spec.BoxSpec.default_wall_top-returns" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span>Returns</span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pyboxbuilder.box.spec.BoxSpec.interior" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span>interior</span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="interior">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pyboxbuilder.box.spec.BoxSpec.interior-returns" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span>Returns</span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pyboxbuilder.box.spec.BoxSpec.wall_top" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span>wall_<wbr>top</span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="wall_top">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pyboxbuilder.box.spec.BoxSpec.wall_top-parameters" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span>Parameters</span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pyboxbuilder.box.spec.BoxSpec.wall_top-returns" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span>Returns</span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pyboxbuilder.box.spec.BoxSpec.with_wall_tops" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span>with_<wbr>wall_<wbr>tops</span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="with_wall_tops">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pyboxbuilder.box.spec.BoxSpec.with_wall_tops-parameters" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span>Parameters</span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pyboxbuilder.box.spec.BoxSpec.with_wall_tops-returns" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span>Returns</span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pyboxbuilder.box.spec.build_spec" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span>pyboxbuilder.<wbr>box.<wbr>spec.<wbr>build_<wbr>spec</span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="pyboxbuilder.box.spec.build_spec">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pyboxbuilder.box.spec.build_spec-parameters" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span>Parameters</span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pyboxbuilder.box.spec.build_spec-returns" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span>Returns</span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pyboxbuilder.box.spec.describe" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span>pyboxbuilder.<wbr>box.<wbr>spec.<wbr>describe</span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="pyboxbuilder.box.spec.describe">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pyboxbuilder.box.spec.describe-parameters" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span>Parameters</span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pyboxbuilder.box.spec.describe-returns" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span>Returns</span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset" role="main">
+                
+                
+                  
+
+
+<h1 id="module-pyboxbuilder.box.spec"><span id="pyboxbuilder-box-spec"></span>pyboxbuilder.box.spec<a class="headerlink" href="#module-pyboxbuilder.box.spec" title="Link to this heading">¶</a></h1>
+<p>BoxSpec — the one description a box type is built from.</p>
+<p>Every geometric default in the library is declared <strong>once</strong>, here, as a field
+default. Nothing downstream restates one: a function that needs the wall
+thickness reads <code class="docutils literal notranslate"><span class="pre">spec.wall_thickness</span></code> and gets the default from this file,
+rather than carrying a fallback of its own — so there is no second copy to fall
+out of step with the first.</p>
+<p>This replaces a plain <code class="docutils literal notranslate"><span class="pre">dict</span></code> that was assembled in two places with two
+different exclusion lists, and whose defaults were restated at 170 call sites —
+<code class="docutils literal notranslate"><span class="pre">wall_thickness</span></code> alone at 36 of them. That is how a hinge came to be built
+with five knuckles by the geometry and three by the builder that configured it.</p>
+<p class="rubric">Classes</p>
+<table class="autosummary longtable docutils data align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="pyboxbuilder.box.spec.BoxSpec.html#pyboxbuilder.box.spec.BoxSpec" title="pyboxbuilder.box.spec.BoxSpec (Python class) — Bases: object"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BoxSpec</span></code></a></p></td>
+<td><p>Everything a box type needs to build its body and lid.</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Functions</p>
+<table class="autosummary longtable docutils data align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="pyboxbuilder.box.spec.build_spec.html#pyboxbuilder.box.spec.build_spec" title="pyboxbuilder.box.spec.build_spec (Python function) — Assemble the one description this box is built from."><code class="xref py py-obj docutils literal notranslate"><span class="pre">build_spec</span></code></a></p></td>
+<td><p>Assemble the one description this box is built from.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="pyboxbuilder.box.spec.describe.html#pyboxbuilder.box.spec.describe" title="pyboxbuilder.box.spec.describe (Python function) — A JSON-serialisable description of everything that shapes a box."><code class="xref py py-obj docutils literal notranslate"><span class="pre">describe</span></code></a></p></td>
+<td><p>A JSON-serialisable description of everything that shapes a box.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py class objdesc">
+<dt class="sig sig-object highlight sig-wrap py" id="pyboxbuilder.box.spec.BoxSpec">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyboxbuilder.box.spec.</span></span><span class="sig-name descname"><span class="pre">BoxSpec</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><span class="pre">width:</span> <span class="pre">float,</span> <span class="pre">length:</span> <span class="pre">float,</span> <span class="pre">height:</span> <span class="pre">float,</span> <span class="pre">label:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">'box',</span> <span class="pre">wall_thickness:</span> <span class="pre">float</span> <span class="pre">=</span> <span class="pre">2.0,</span> <span class="pre">floor_thickness:</span> <span class="pre">float</span> <span class="pre">=</span> <span class="pre">1.6,</span> <span class="pre">lid_thickness:</span> <span class="pre">float</span> <span class="pre">=</span> <span class="pre">2.0,</span> <span class="pre">hollow:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">True,</span> <span class="pre">path:</span> <span class="pre">tuple[tuple[float,</span> <span class="pre">float],</span> <span class="pre">...]</span> <span class="pre">=</span> <span class="pre">(),</span> <span class="pre">interior_top:</span> <span class="pre">float</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None,</span> <span class="pre">wall_tops:</span> <span class="pre">dict[~pyboxbuilder.enums.ScoopSide,</span> <span class="pre">float]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;,</span> <span class="pre">rounding:</span> <span class="pre">float</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None,</span> <span class="pre">inner_rounding:</span> <span class="pre">float</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None,</span> <span class="pre">rim_free:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False,</span> <span class="pre">rim_rounding:</span> <span class="pre">float</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None,</span> <span class="pre">lid_corner_rounding:</span> <span class="pre">float</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None,</span> <span class="pre">finger_holes:</span> <span class="pre">tuple[~typing.Any,</span> <span class="pre">...]</span> <span class="pre">=</span> <span class="pre">(),</span> <span class="pre">auto_finger_holes:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">True,</span> <span class="pre">size_spacing:</span> <span class="pre">float</span> <span class="pre">=</span> <span class="pre">0.2,</span> <span class="pre">sliding_slack:</span> <span class="pre">float</span> <span class="pre">=</span> <span class="pre">0.1,</span> <span class="pre">cap_slack:</span> <span class="pre">float</span> <span class="pre">=</span> <span class="pre">0.2,</span> <span class="pre">slip_slack:</span> <span class="pre">float</span> <span class="pre">=</span> <span class="pre">0.2,</span> <span class="pre">dovetail:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">True,</span> <span class="pre">lead_chamfer:</span> <span class="pre">float</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None,</span> <span class="pre">catch_radius:</span> <span class="pre">float</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None,</span> <span class="pre">latch_radius:</span> <span class="pre">float</span> <span class="pre">=</span> <span class="pre">1.2,</span> <span class="pre">cap_height:</span> <span class="pre">float</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None,</span> <span class="pre">cap_finger_cutouts:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">True,</span> <span class="pre">cap_finger_radius:</span> <span class="pre">float</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None,</span> <span class="pre">cap_finger_length:</span> <span class="pre">float</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None,</span> <span class="pre">cap_finger_height:</span> <span class="pre">float</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None,</span> <span class="pre">foot:</span> <span class="pre">float</span> <span class="pre">=</span> <span class="pre">0.0,</span> <span class="pre">slip:</span> <span class="pre">float</span> <span class="pre">=</span> <span class="pre">1.6,</span> <span class="pre">slipover_gap:</span> <span class="pre">float</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None,</span> <span class="pre">slipover_finger_height:</span> <span class="pre">float</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None,</span> <span class="pre">inset:</span> <span class="pre">float</span> <span class="pre">=</span> <span class="pre">1.0,</span> <span class="pre">hinge_count:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">5,</span> <span class="pre">hinge_pin_diameter:</span> <span class="pre">float</span> <span class="pre">=</span> <span class="pre">3.0,</span> <span class="pre">filament_diameter:</span> <span class="pre">float</span> <span class="pre">=</span> <span class="pre">1.75,</span> <span class="pre">magnet_type:</span> <span class="pre">~pyboxbuilder.enums.MagnetType</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None,</span> <span class="pre">magnet_size:</span> <span class="pre">tuple[float,</span> <span class="pre">float,</span> <span class="pre">float]</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None,</span> <span class="pre">magnet_diameter:</span> <span class="pre">float</span> <span class="pre">=</span> <span class="pre">6.0,</span> <span class="pre">magnet_height:</span> <span class="pre">float</span> <span class="pre">=</span> <span class="pre">3.0,</span> <span class="pre">magnet_count_width:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">2,</span> <span class="pre">magnet_count_length:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">2,</span> <span class="pre">stackable:</span> <span class="pre">~pyboxbuilder.enums.StackableMode</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None,</span> <span class="pre">stackable_thickness:</span> <span class="pre">float</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None,</span> <span class="pre">stackable_fit_offset:</span> <span class="pre">float</span> <span class="pre">=</span> <span class="pre">0.1</span></em></span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyboxbuilder/box/spec.html#BoxSpec"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyboxbuilder.box.spec.BoxSpec" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Everything a box type needs to build its body and lid.</p>
+<p>Frozen, so a type cannot reach back and change the description it was
+handed. Derive a variant with <a class="reference external" href="https://docs.python.org/3/library/dataclasses.html#dataclasses.replace" title="(in Python v3.14)"><code class="xref py py-func docutils literal notranslate"><span class="pre">dataclasses.replace()</span></code></a>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><code><span class="n">body_spec</span> <span class="o">=</span> <span class="n">replace</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">spec</span><span class="o">.</span><span class="n">height</span> <span class="o">-</span> <span class="n">spec</span><span class="o">.</span><span class="n">lid_thickness</span><span class="p">)</span>
+</code></pre></div>
+</div>
+<dl class="py method objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.box.spec.BoxSpec.default_wall_top">
+<span class="sig-name descname"><span class="pre">default_wall_top</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span></span></span><a class="reference internal" href="../_modules/pyboxbuilder/box/spec.html#BoxSpec.default_wall_top"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyboxbuilder.box.spec.BoxSpec.default_wall_top" title="Link to this definition">¶</a></dt>
+<dd><p>How high a wall stands when the box type says nothing about it.</p>
+<p>The box’s own top face, less any band a lid occupies — so a cut merges
+into the surface a hand actually touches rather than into a plane
+buried under the lid.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="pyboxbuilder.box.spec.BoxSpec.default_wall_top-returns">Returns<span class="colon">:</span><a class="headerlink" href="#pyboxbuilder.box.spec.BoxSpec.default_wall_top-returns" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><p>The z of the wall’s top.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.box.spec.BoxSpec.interior">
+<span class="sig-name descname"><span class="pre">interior</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="desctype"><a class="reference internal" href="pyboxbuilder.box.base.html#pyboxbuilder.box.base.Interior" title="pyboxbuilder.box.base.Interior (Python class) — Bases: object"><span class="pre">Interior</span></a></span></span></span><a class="reference internal" href="../_modules/pyboxbuilder/box/spec.html#BoxSpec.interior"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyboxbuilder.box.spec.BoxSpec.interior" title="Link to this definition">¶</a></dt>
+<dd><p>The usable volume inside this box.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="pyboxbuilder.box.spec.BoxSpec.interior-returns">Returns<span class="colon">:</span><a class="headerlink" href="#pyboxbuilder.box.spec.BoxSpec.interior-returns" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><p>An <a class="reference internal" href="pyboxbuilder.box.interior.Interior.html#pyboxbuilder.box.interior.Interior" title="pyboxbuilder.box.interior.Interior (Python class) — Bases: object"><code class="xref py py-class docutils literal notranslate"><span class="pre">Interior</span></code></a> in the box’s own
+frame, inset by the wall on the sides and the floor below.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.box.spec.BoxSpec.wall_top">
+<span class="sig-name descname"><span class="pre">wall_top</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="pyboxbuilder.box.spec.BoxSpec.html#pyboxbuilder.box.spec.BoxSpec.wall_top.side" title="pyboxbuilder.box.spec.BoxSpec.wall_top.side (Python parameter) — Which wall."><span class="n"><span class="pre">side</span></span></a><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference internal" href="pyboxbuilder.enums.ScoopSide.html#pyboxbuilder.enums.ScoopSide" title="pyboxbuilder.enums.ScoopSide (Python class) — Bases: Enum"><span class="pre">ScoopSide</span></a></span></span></em></span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span></span></span><a class="reference internal" href="../_modules/pyboxbuilder/box/spec.html#BoxSpec.wall_top"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyboxbuilder.box.spec.BoxSpec.wall_top" title="Link to this definition">¶</a></dt>
+<dd><p>One wall’s top z (FR-070).</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="pyboxbuilder.box.spec.BoxSpec.wall_top-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#pyboxbuilder.box.spec.BoxSpec.wall_top-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt id="pyboxbuilder.box.spec.BoxSpec.wall_top.side"><span class="n sig-name">side</span><span class="p">:</span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference internal" href="pyboxbuilder.enums.ScoopSide.html#pyboxbuilder.enums.ScoopSide" title="pyboxbuilder.enums.ScoopSide (Python class) — Bases: Enum">ScoopSide</a></span></span><a class="headerlink" href="#pyboxbuilder.box.spec.BoxSpec.wall_top.side" title="Permalink to this definition">¶</a></dt><dd><p>Which wall.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even" id="pyboxbuilder.box.spec.BoxSpec.wall_top-returns">Returns<span class="colon">:</span><a class="headerlink" href="#pyboxbuilder.box.spec.BoxSpec.wall_top-returns" title="Permalink to this headline">¶</a></dt>
+<dd class="field-even"><p>That wall’s top, or <a class="reference internal" href="pyboxbuilder.box.spec.BoxSpec.html#pyboxbuilder.box.spec.BoxSpec.default_wall_top" title="pyboxbuilder.box.spec.BoxSpec.default_wall_top (Python method) — How high a wall stands when the box type says nothing about it."><code class="xref py py-meth docutils literal notranslate"><span class="pre">default_wall_top()</span></code></a> if this spec carries
+no per-side map yet.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.box.spec.BoxSpec.with_wall_tops">
+<span class="sig-name descname"><span class="pre">with_wall_tops</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="pyboxbuilder.box.spec.BoxSpec.html#pyboxbuilder.box.spec.BoxSpec.with_wall_tops.box" title="pyboxbuilder.box.spec.BoxSpec.with_wall_tops.box (Python parameter) — The box type implementation, whose wall_tops hook may raise or lower individual sides."><span class="n"><span class="pre">box</span></span></a><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><span class="pre">object</span></a></span></span></em></span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="desctype"><a class="reference internal" href="pyboxbuilder.box.spec.BoxSpec.html#pyboxbuilder.box.spec.BoxSpec" title="pyboxbuilder.box.spec.BoxSpec (Python class) — Bases: object"><span class="pre">BoxSpec</span></a></span></span></span><a class="reference internal" href="../_modules/pyboxbuilder/box/spec.html#BoxSpec.with_wall_tops"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyboxbuilder.box.spec.BoxSpec.with_wall_tops" title="Link to this definition">¶</a></dt>
+<dd><p>This spec with each wall’s top resolved for a box type.</p>
+<p>The four walls of a box do <strong>not</strong> have to end at the same height, and
+assuming they do is how a scoop ends up hanging in space: a sliding
+box’s exit wall stops a lid thickness below the others, because that is
+where its channel runs out through it.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="pyboxbuilder.box.spec.BoxSpec.with_wall_tops-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#pyboxbuilder.box.spec.BoxSpec.with_wall_tops-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt id="pyboxbuilder.box.spec.BoxSpec.with_wall_tops.box"><span class="n sig-name">box</span><span class="p">:</span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)">object</a></span></span><a class="headerlink" href="#pyboxbuilder.box.spec.BoxSpec.with_wall_tops.box" title="Permalink to this definition">¶</a></dt><dd><p>The box type implementation, whose <code class="docutils literal notranslate"><span class="pre">wall_tops</span></code> hook may
+raise or lower individual sides.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even" id="pyboxbuilder.box.spec.BoxSpec.with_wall_tops-returns">Returns<span class="colon">:</span><a class="headerlink" href="#pyboxbuilder.box.spec.BoxSpec.with_wall_tops-returns" title="Permalink to this headline">¶</a></dt>
+<dd class="field-even"><p>A copy carrying a complete <code class="docutils literal notranslate"><span class="pre">wall_tops</span></code> map.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.box.spec.BoxSpec.auto_finger_holes">
+<span class="sig-name descname"><span class="pre">auto_finger_holes</span></span><span class="p"> <span class="pre">:</span> </span><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span><span class="p"> <span class="pre">=</span> </span><code class="code python docutils literal highlight highlight-python"><span class="kc">True</span></code><a class="headerlink" href="#pyboxbuilder.box.spec.BoxSpec.auto_finger_holes" title="Link to this definition">¶</a></dt>
+<dd><p>Let a lidless box cut its own default pair of grips (FR-047/FR-047b).</p>
+</dd></dl>
+
+<dl class="py attribute objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.box.spec.BoxSpec.cap_finger_cutouts">
+<span class="sig-name descname"><span class="pre">cap_finger_cutouts</span></span><span class="p"> <span class="pre">:</span> </span><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span><span class="p"> <span class="pre">=</span> </span><code class="code python docutils literal highlight highlight-python"><span class="kc">True</span></code><a class="headerlink" href="#pyboxbuilder.box.spec.BoxSpec.cap_finger_cutouts" title="Link to this definition">¶</a></dt>
+<dd><p>Cut the four corner finger recesses in a cap body (FR-002i).</p>
+</dd></dl>
+
+<dl class="py attribute objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.box.spec.BoxSpec.cap_finger_height">
+<span class="sig-name descname"><span class="pre">cap_finger_height</span></span><span class="p"> <span class="pre">:</span> </span><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="p"> <span class="pre">=</span> </span><code class="code python docutils literal highlight highlight-python"><span class="kc">None</span></code><a class="headerlink" href="#pyboxbuilder.box.spec.BoxSpec.cap_finger_height" title="Link to this definition">¶</a></dt>
+<dd><p>Height of a corner cutout; <code class="docutils literal notranslate"><span class="pre">None</span></code> derives it from the skirt.</p>
+</dd></dl>
+
+<dl class="py attribute objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.box.spec.BoxSpec.cap_finger_length">
+<span class="sig-name descname"><span class="pre">cap_finger_length</span></span><span class="p"> <span class="pre">:</span> </span><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="p"> <span class="pre">=</span> </span><code class="code python docutils literal highlight highlight-python"><span class="kc">None</span></code><a class="headerlink" href="#pyboxbuilder.box.spec.BoxSpec.cap_finger_length" title="Link to this definition">¶</a></dt>
+<dd><p>How far a corner cutout runs along each side; <code class="docutils literal notranslate"><span class="pre">None</span></code> derives it
+between 10mm and a sixth of the side (FR-002m).</p>
+</dd></dl>
+
+<dl class="py attribute objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.box.spec.BoxSpec.cap_finger_radius">
+<span class="sig-name descname"><span class="pre">cap_finger_radius</span></span><span class="p"> <span class="pre">:</span> </span><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="p"> <span class="pre">=</span> </span><code class="code python docutils literal highlight highlight-python"><span class="kc">None</span></code><a class="headerlink" href="#pyboxbuilder.box.spec.BoxSpec.cap_finger_radius" title="Link to this definition">¶</a></dt>
+<dd><p>Corner cutout radius; <code class="docutils literal notranslate"><span class="pre">None</span></code> derives it from the height available.</p>
+</dd></dl>
+
+<dl class="py attribute objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.box.spec.BoxSpec.cap_height">
+<span class="sig-name descname"><span class="pre">cap_height</span></span><span class="p"> <span class="pre">:</span> </span><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="p"> <span class="pre">=</span> </span><code class="code python docutils literal highlight highlight-python"><span class="kc">None</span></code><a class="headerlink" href="#pyboxbuilder.box.spec.BoxSpec.cap_height" title="Link to this definition">¶</a></dt>
+<dd><p>Skirt height of a cap lid; <code class="docutils literal notranslate"><span class="pre">None</span></code> derives it from the box height.</p>
+</dd></dl>
+
+<dl class="py attribute objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.box.spec.BoxSpec.cap_slack">
+<span class="sig-name descname"><span class="pre">cap_slack</span></span><span class="p"> <span class="pre">:</span> </span><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span><span class="p"> <span class="pre">=</span> </span><code class="code python docutils literal highlight highlight-python"><span class="mf">0.2</span></code><a class="headerlink" href="#pyboxbuilder.box.spec.BoxSpec.cap_slack" title="Link to this definition">¶</a></dt>
+<dd><p>Clearance between a cap lid’s skirt and the body band it grips.</p>
+</dd></dl>
+
+<dl class="py attribute objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.box.spec.BoxSpec.catch_radius">
+<span class="sig-name descname"><span class="pre">catch_radius</span></span><span class="p"> <span class="pre">:</span> </span><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="p"> <span class="pre">=</span> </span><code class="code python docutils literal highlight highlight-python"><span class="kc">None</span></code><a class="headerlink" href="#pyboxbuilder.box.spec.BoxSpec.catch_radius" title="Link to this definition">¶</a></dt>
+<dd><p>Bump-catch radius; <code class="docutils literal notranslate"><span class="pre">None</span></code> is no catch, which is a plain sliding box’s
+default (FR-002e3).</p>
+</dd></dl>
+
+<dl class="py attribute objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.box.spec.BoxSpec.dovetail">
+<span class="sig-name descname"><span class="pre">dovetail</span></span><span class="p"> <span class="pre">:</span> </span><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span><span class="p"> <span class="pre">=</span> </span><code class="code python docutils literal highlight highlight-python"><span class="kc">True</span></code><a class="headerlink" href="#pyboxbuilder.box.spec.BoxSpec.dovetail" title="Link to this definition">¶</a></dt>
+<dd><p>Cut the lid’s retaining dovetail; <code class="docutils literal notranslate"><span class="pre">False</span></code> leaves a plain channel.</p>
+</dd></dl>
+
+<dl class="py attribute objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.box.spec.BoxSpec.filament_diameter">
+<span class="sig-name descname"><span class="pre">filament_diameter</span></span><span class="p"> <span class="pre">:</span> </span><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span><span class="p"> <span class="pre">=</span> </span><code class="code python docutils literal highlight highlight-python"><span class="mf">1.75</span></code><a class="headerlink" href="#pyboxbuilder.box.spec.BoxSpec.filament_diameter" title="Link to this definition">¶</a></dt>
+<dd><p>Diameter of the filament a living hinge is printed around.</p>
+</dd></dl>
+
+<dl class="py attribute objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.box.spec.BoxSpec.finger_holes">
+<span class="sig-name descname"><span class="pre">finger_holes</span></span><span class="p"> <span class="pre">:</span> </span><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.14)"><span class="pre">tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><span class="pre">Any</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span><span class="p"> <span class="pre">=</span> </span><code class="code python docutils literal highlight highlight-python"><span class="p">()</span></code><a class="headerlink" href="#pyboxbuilder.box.spec.BoxSpec.finger_holes" title="Link to this definition">¶</a></dt>
+<dd><p>Explicit exterior finger holes on this box’s walls.</p>
+</dd></dl>
+
+<dl class="py attribute objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.box.spec.BoxSpec.floor_thickness">
+<span class="sig-name descname"><span class="pre">floor_thickness</span></span><span class="p"> <span class="pre">:</span> </span><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span><span class="p"> <span class="pre">=</span> </span><code class="code python docutils literal highlight highlight-python"><span class="mf">1.6</span></code><a class="headerlink" href="#pyboxbuilder.box.spec.BoxSpec.floor_thickness" title="Link to this definition">¶</a></dt>
+<dd><p>Base thickness in mm.</p>
+</dd></dl>
+
+<dl class="py attribute objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.box.spec.BoxSpec.foot">
+<span class="sig-name descname"><span class="pre">foot</span></span><span class="p"> <span class="pre">:</span> </span><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span><span class="p"> <span class="pre">=</span> </span><code class="code python docutils literal highlight highlight-python"><span class="mf">0.0</span></code><a class="headerlink" href="#pyboxbuilder.box.spec.BoxSpec.foot" title="Link to this definition">¶</a></dt>
+<dd><p>Height of exposed base a slipover sleeve stops above (FR-002p).</p>
+</dd></dl>
+
+<dl class="py attribute objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.box.spec.BoxSpec.height">
+<span class="sig-name descname"><span class="pre">height</span></span><span class="p"> <span class="pre">:</span> </span><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span><a class="headerlink" href="#pyboxbuilder.box.spec.BoxSpec.height" title="Link to this definition">¶</a></dt>
+<dd><p>Outer height (Z) in mm.</p>
+</dd></dl>
+
+<dl class="py attribute objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.box.spec.BoxSpec.hinge_count">
+<span class="sig-name descname"><span class="pre">hinge_count</span></span><span class="p"> <span class="pre">:</span> </span><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span><span class="p"> <span class="pre">=</span> </span><code class="code python docutils literal highlight highlight-python"><span class="mi">5</span></code><a class="headerlink" href="#pyboxbuilder.box.spec.BoxSpec.hinge_count" title="Link to this definition">¶</a></dt>
+<dd><p>Number of knuckles along the hinge.</p>
+</dd></dl>
+
+<dl class="py attribute objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.box.spec.BoxSpec.hinge_pin_diameter">
+<span class="sig-name descname"><span class="pre">hinge_pin_diameter</span></span><span class="p"> <span class="pre">:</span> </span><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span><span class="p"> <span class="pre">=</span> </span><code class="code python docutils literal highlight highlight-python"><span class="mf">3.0</span></code><a class="headerlink" href="#pyboxbuilder.box.spec.BoxSpec.hinge_pin_diameter" title="Link to this definition">¶</a></dt>
+<dd><p>Diameter of the hinge pin, in mm.</p>
+</dd></dl>
+
+<dl class="py attribute objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.box.spec.BoxSpec.hollow">
+<span class="sig-name descname"><span class="pre">hollow</span></span><span class="p"> <span class="pre">:</span> </span><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span><span class="p"> <span class="pre">=</span> </span><code class="code python docutils literal highlight highlight-python"><span class="kc">True</span></code><a class="headerlink" href="#pyboxbuilder.box.spec.BoxSpec.hollow" title="Link to this definition">¶</a></dt>
+<dd><p>Hollow the whole interior. <code class="docutils literal notranslate"><span class="pre">False</span></code> where compartments define the
+cavities instead, or for a solid block.</p>
+</dd></dl>
+
+<dl class="py attribute objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.box.spec.BoxSpec.inner_rounding">
+<span class="sig-name descname"><span class="pre">inner_rounding</span></span><span class="p"> <span class="pre">:</span> </span><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="p"> <span class="pre">=</span> </span><code class="code python docutils literal highlight highlight-python"><span class="kc">None</span></code><a class="headerlink" href="#pyboxbuilder.box.spec.BoxSpec.inner_rounding" title="Link to this definition">¶</a></dt>
+<dd><p>Radius where a partial lid grips the body; <code class="docutils literal notranslate"><span class="pre">None</span></code> uses half the
+outer radius (FR-044b).</p>
+</dd></dl>
+
+<dl class="py attribute objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.box.spec.BoxSpec.inset">
+<span class="sig-name descname"><span class="pre">inset</span></span><span class="p"> <span class="pre">:</span> </span><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span><span class="p"> <span class="pre">=</span> </span><code class="code python docutils literal highlight highlight-python"><span class="mf">1.0</span></code><a class="headerlink" href="#pyboxbuilder.box.spec.BoxSpec.inset" title="Link to this definition">¶</a></dt>
+<dd><p>Rabbet depth for an inset lid.</p>
+</dd></dl>
+
+<dl class="py attribute objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.box.spec.BoxSpec.interior_top">
+<span class="sig-name descname"><span class="pre">interior_top</span></span><span class="p"> <span class="pre">:</span> </span><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="p"> <span class="pre">=</span> </span><code class="code python docutils literal highlight highlight-python"><span class="kc">None</span></code><a class="headerlink" href="#pyboxbuilder.box.spec.BoxSpec.interior_top" title="Link to this definition">¶</a></dt>
+<dd><p>Explicit z of the interior’s ceiling; <code class="docutils literal notranslate"><span class="pre">None</span></code> derives it as the box top
+less any band the lid occupies (FR-064).</p>
+</dd></dl>
+
+<dl class="py attribute objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.box.spec.BoxSpec.label">
+<span class="sig-name descname"><span class="pre">label</span></span><span class="p"> <span class="pre">:</span> </span><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><span class="p"> <span class="pre">=</span> </span><code class="code python docutils literal highlight highlight-python"><span class="s1">&#39;box&#39;</span></code><a class="headerlink" href="#pyboxbuilder.box.spec.BoxSpec.label" title="Link to this definition">¶</a></dt>
+<dd><p>The box’s name, used for file naming and in error messages.</p>
+</dd></dl>
+
+<dl class="py attribute objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.box.spec.BoxSpec.latch_radius">
+<span class="sig-name descname"><span class="pre">latch_radius</span></span><span class="p"> <span class="pre">:</span> </span><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span><span class="p"> <span class="pre">=</span> </span><code class="code python docutils literal highlight highlight-python"><span class="mf">1.2</span></code><a class="headerlink" href="#pyboxbuilder.box.spec.BoxSpec.latch_radius" title="Link to this definition">¶</a></dt>
+<dd><p>Catch radius for the card-library type, which always carries one.</p>
+</dd></dl>
+
+<dl class="py attribute objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.box.spec.BoxSpec.lead_chamfer">
+<span class="sig-name descname"><span class="pre">lead_chamfer</span></span><span class="p"> <span class="pre">:</span> </span><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="p"> <span class="pre">=</span> </span><code class="code python docutils literal highlight highlight-python"><span class="kc">None</span></code><a class="headerlink" href="#pyboxbuilder.box.spec.BoxSpec.lead_chamfer" title="Link to this definition">¶</a></dt>
+<dd><p>Chamfer on the lid’s leading end; <code class="docutils literal notranslate"><span class="pre">None</span></code> uses a quarter of the lid
+thickness (FR-002d).</p>
+</dd></dl>
+
+<dl class="py attribute objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.box.spec.BoxSpec.length">
+<span class="sig-name descname"><span class="pre">length</span></span><span class="p"> <span class="pre">:</span> </span><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span><a class="headerlink" href="#pyboxbuilder.box.spec.BoxSpec.length" title="Link to this definition">¶</a></dt>
+<dd><p>Outer length (Y) in mm.</p>
+</dd></dl>
+
+<dl class="py attribute objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.box.spec.BoxSpec.lid_corner_rounding">
+<span class="sig-name descname"><span class="pre">lid_corner_rounding</span></span><span class="p"> <span class="pre">:</span> </span><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="p"> <span class="pre">=</span> </span><code class="code python docutils literal highlight highlight-python"><span class="kc">None</span></code><a class="headerlink" href="#pyboxbuilder.box.spec.BoxSpec.lid_corner_rounding" title="Link to this definition">¶</a></dt>
+<dd><p>Radius of a sliding lid’s vertical corners; <code class="docutils literal notranslate"><span class="pre">None</span></code> derives it from the
+wall, capped at the dovetail depth (FR-002e4).</p>
+</dd></dl>
+
+<dl class="py attribute objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.box.spec.BoxSpec.lid_thickness">
+<span class="sig-name descname"><span class="pre">lid_thickness</span></span><span class="p"> <span class="pre">:</span> </span><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span><span class="p"> <span class="pre">=</span> </span><code class="code python docutils literal highlight highlight-python"><span class="mf">2.0</span></code><a class="headerlink" href="#pyboxbuilder.box.spec.BoxSpec.lid_thickness" title="Link to this definition">¶</a></dt>
+<dd><p>Lid plate thickness in mm; <code class="docutils literal notranslate"><span class="pre">0</span></code> for a lidless type.</p>
+</dd></dl>
+
+<dl class="py attribute objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.box.spec.BoxSpec.magnet_count_length">
+<span class="sig-name descname"><span class="pre">magnet_count_length</span></span><span class="p"> <span class="pre">:</span> </span><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span><span class="p"> <span class="pre">=</span> </span><code class="code python docutils literal highlight highlight-python"><span class="mi">2</span></code><a class="headerlink" href="#pyboxbuilder.box.spec.BoxSpec.magnet_count_length" title="Link to this definition">¶</a></dt>
+<dd><p>Magnets per wall on the length axis.</p>
+</dd></dl>
+
+<dl class="py attribute objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.box.spec.BoxSpec.magnet_count_width">
+<span class="sig-name descname"><span class="pre">magnet_count_width</span></span><span class="p"> <span class="pre">:</span> </span><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span><span class="p"> <span class="pre">=</span> </span><code class="code python docutils literal highlight highlight-python"><span class="mi">2</span></code><a class="headerlink" href="#pyboxbuilder.box.spec.BoxSpec.magnet_count_width" title="Link to this definition">¶</a></dt>
+<dd><p>Magnets per wall on the width axis.</p>
+</dd></dl>
+
+<dl class="py attribute objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.box.spec.BoxSpec.magnet_diameter">
+<span class="sig-name descname"><span class="pre">magnet_diameter</span></span><span class="p"> <span class="pre">:</span> </span><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span><span class="p"> <span class="pre">=</span> </span><code class="code python docutils literal highlight highlight-python"><span class="mf">6.0</span></code><a class="headerlink" href="#pyboxbuilder.box.spec.BoxSpec.magnet_diameter" title="Link to this definition">¶</a></dt>
+<dd><p>Round magnet diameter, in mm.</p>
+</dd></dl>
+
+<dl class="py attribute objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.box.spec.BoxSpec.magnet_height">
+<span class="sig-name descname"><span class="pre">magnet_height</span></span><span class="p"> <span class="pre">:</span> </span><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span><span class="p"> <span class="pre">=</span> </span><code class="code python docutils literal highlight highlight-python"><span class="mf">3.0</span></code><a class="headerlink" href="#pyboxbuilder.box.spec.BoxSpec.magnet_height" title="Link to this definition">¶</a></dt>
+<dd><p>Round magnet slot depth, in mm.</p>
+</dd></dl>
+
+<dl class="py attribute objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.box.spec.BoxSpec.magnet_size">
+<span class="sig-name descname"><span class="pre">magnet_size</span></span><span class="p"> <span class="pre">:</span> </span><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.14)"><span class="pre">tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="p"> <span class="pre">=</span> </span><code class="code python docutils literal highlight highlight-python"><span class="kc">None</span></code><a class="headerlink" href="#pyboxbuilder.box.spec.BoxSpec.magnet_size" title="Link to this definition">¶</a></dt>
+<dd><p>Slot dimensions <code class="docutils literal notranslate"><span class="pre">(diameter_or_width,</span> <span class="pre">length,</span> <span class="pre">depth)</span></code>.</p>
+</dd></dl>
+
+<dl class="py attribute objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.box.spec.BoxSpec.magnet_type">
+<span class="sig-name descname"><span class="pre">magnet_type</span></span><span class="p"> <span class="pre">:</span> </span><span class="desctype"><a class="reference internal" href="pyboxbuilder.enums.MagnetType.html#pyboxbuilder.enums.MagnetType" title="pyboxbuilder.enums.MagnetType (Python class) — Bases: Enum"><span class="pre">MagnetType</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="p"> <span class="pre">=</span> </span><code class="code python docutils literal highlight highlight-python"><span class="kc">None</span></code><a class="headerlink" href="#pyboxbuilder.box.spec.BoxSpec.magnet_type" title="Link to this definition">¶</a></dt>
+<dd><p>Magnet slot shape; <code class="docutils literal notranslate"><span class="pre">None</span></code> means no magnets.</p>
+</dd></dl>
+
+<dl class="py attribute objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.box.spec.BoxSpec.path">
+<span class="sig-name descname"><span class="pre">path</span></span><span class="p"> <span class="pre">:</span> </span><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.14)"><span class="pre">tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.14)"><span class="pre">tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span><span class="p"> <span class="pre">=</span> </span><code class="code python docutils literal highlight highlight-python"><span class="p">()</span></code><a class="headerlink" href="#pyboxbuilder.box.spec.BoxSpec.path" title="Link to this definition">¶</a></dt>
+<dd><p>Closed polygon footprint for a path box; empty means the rectangle
+implied by <code class="docutils literal notranslate"><span class="pre">width</span></code> and <code class="docutils literal notranslate"><span class="pre">length</span></code> (FR-018).</p>
+</dd></dl>
+
+<dl class="py attribute objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.box.spec.BoxSpec.rim_free">
+<span class="sig-name descname"><span class="pre">rim_free</span></span><span class="p"> <span class="pre">:</span> </span><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span><span class="p"> <span class="pre">=</span> </span><code class="code python docutils literal highlight highlight-python"><span class="kc">False</span></code><a class="headerlink" href="#pyboxbuilder.box.spec.BoxSpec.rim_free" title="Link to this definition">¶</a></dt>
+<dd><p>True when nothing mates with the top rim, so the rim rounds too
+(FR-043f).</p>
+</dd></dl>
+
+<dl class="py attribute objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.box.spec.BoxSpec.rim_rounding">
+<span class="sig-name descname"><span class="pre">rim_rounding</span></span><span class="p"> <span class="pre">:</span> </span><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="p"> <span class="pre">=</span> </span><code class="code python docutils literal highlight highlight-python"><span class="kc">None</span></code><a class="headerlink" href="#pyboxbuilder.box.spec.BoxSpec.rim_rounding" title="Link to this definition">¶</a></dt>
+<dd><p>Radius for a top edge that stays exposed with the lid on — a sliding
+box’s rails (FR-043f1). <code class="docutils literal notranslate"><span class="pre">None</span></code> means none.</p>
+</dd></dl>
+
+<dl class="py attribute objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.box.spec.BoxSpec.rounding">
+<span class="sig-name descname"><span class="pre">rounding</span></span><span class="p"> <span class="pre">:</span> </span><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="p"> <span class="pre">=</span> </span><code class="code python docutils literal highlight highlight-python"><span class="kc">None</span></code><a class="headerlink" href="#pyboxbuilder.box.spec.BoxSpec.rounding" title="Link to this definition">¶</a></dt>
+<dd><p>Radius for this body’s exposed edges; <code class="docutils literal notranslate"><span class="pre">None</span></code> uses half the wall.</p>
+</dd></dl>
+
+<dl class="py attribute objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.box.spec.BoxSpec.size_spacing">
+<span class="sig-name descname"><span class="pre">size_spacing</span></span><span class="p"> <span class="pre">:</span> </span><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span><span class="p"> <span class="pre">=</span> </span><code class="code python docutils literal highlight highlight-python"><span class="mf">0.2</span></code><a class="headerlink" href="#pyboxbuilder.box.spec.BoxSpec.size_spacing" title="Link to this definition">¶</a></dt>
+<dd><p>General clearance between two mating printed parts, in mm.</p>
+</dd></dl>
+
+<dl class="py attribute objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.box.spec.BoxSpec.sliding_slack">
+<span class="sig-name descname"><span class="pre">sliding_slack</span></span><span class="p"> <span class="pre">:</span> </span><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span><span class="p"> <span class="pre">=</span> </span><code class="code python docutils literal highlight highlight-python"><span class="mf">0.1</span></code><a class="headerlink" href="#pyboxbuilder.box.spec.BoxSpec.sliding_slack" title="Link to this definition">¶</a></dt>
+<dd><p>Clearance per side between a sliding lid and its groove (FR-002f).</p>
+</dd></dl>
+
+<dl class="py attribute objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.box.spec.BoxSpec.slip">
+<span class="sig-name descname"><span class="pre">slip</span></span><span class="p"> <span class="pre">:</span> </span><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span><span class="p"> <span class="pre">=</span> </span><code class="code python docutils literal highlight highlight-python"><span class="mf">1.6</span></code><a class="headerlink" href="#pyboxbuilder.box.spec.BoxSpec.slip" title="Link to this definition">¶</a></dt>
+<dd><p>Slipover sleeve wall thickness.</p>
+</dd></dl>
+
+<dl class="py attribute objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.box.spec.BoxSpec.slip_slack">
+<span class="sig-name descname"><span class="pre">slip_slack</span></span><span class="p"> <span class="pre">:</span> </span><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span><span class="p"> <span class="pre">=</span> </span><code class="code python docutils literal highlight highlight-python"><span class="mf">0.2</span></code><a class="headerlink" href="#pyboxbuilder.box.spec.BoxSpec.slip_slack" title="Link to this definition">¶</a></dt>
+<dd><p>Clearance between a slipover sleeve and the body it wraps.</p>
+</dd></dl>
+
+<dl class="py attribute objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.box.spec.BoxSpec.slipover_finger_height">
+<span class="sig-name descname"><span class="pre">slipover_finger_height</span></span><span class="p"> <span class="pre">:</span> </span><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="p"> <span class="pre">=</span> </span><code class="code python docutils literal highlight highlight-python"><span class="kc">None</span></code><a class="headerlink" href="#pyboxbuilder.box.spec.BoxSpec.slipover_finger_height" title="Link to this definition">¶</a></dt>
+<dd><p>Height of the sleeve’s corner notches; <code class="docutils literal notranslate"><span class="pre">None</span></code> uses half the skirt,
+capped at 20mm (FR-002h).</p>
+</dd></dl>
+
+<dl class="py attribute objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.box.spec.BoxSpec.slipover_gap">
+<span class="sig-name descname"><span class="pre">slipover_gap</span></span><span class="p"> <span class="pre">:</span> </span><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="p"> <span class="pre">=</span> </span><code class="code python docutils literal highlight highlight-python"><span class="kc">None</span></code><a class="headerlink" href="#pyboxbuilder.box.spec.BoxSpec.slipover_gap" title="Link to this definition">¶</a></dt>
+<dd><p>Band of body left showing below the sleeve; <code class="docutils literal notranslate"><span class="pre">None</span></code> derives it as a
+quarter of the covered height, held between 3mm and 6mm (FR-002p).</p>
+</dd></dl>
+
+<dl class="py attribute objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.box.spec.BoxSpec.stackable">
+<span class="sig-name descname"><span class="pre">stackable</span></span><span class="p"> <span class="pre">:</span> </span><span class="desctype"><a class="reference internal" href="pyboxbuilder.enums.StackableMode.html#pyboxbuilder.enums.StackableMode" title="pyboxbuilder.enums.StackableMode (Python class) — Bases: Enum"><span class="pre">StackableMode</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="p"> <span class="pre">=</span> </span><code class="code python docutils literal highlight highlight-python"><span class="kc">None</span></code><a class="headerlink" href="#pyboxbuilder.box.spec.BoxSpec.stackable" title="Link to this definition">¶</a></dt>
+<dd><p>Interlocking rim mode; <code class="docutils literal notranslate"><span class="pre">None</span></code> means not stackable.</p>
+</dd></dl>
+
+<dl class="py attribute objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.box.spec.BoxSpec.stackable_fit_offset">
+<span class="sig-name descname"><span class="pre">stackable_fit_offset</span></span><span class="p"> <span class="pre">:</span> </span><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span><span class="p"> <span class="pre">=</span> </span><code class="code python docutils literal highlight highlight-python"><span class="mf">0.1</span></code><a class="headerlink" href="#pyboxbuilder.box.spec.BoxSpec.stackable_fit_offset" title="Link to this definition">¶</a></dt>
+<dd><p>Clearance between a stacked box’s rim and the one below it.</p>
+</dd></dl>
+
+<dl class="py attribute objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.box.spec.BoxSpec.stackable_thickness">
+<span class="sig-name descname"><span class="pre">stackable_thickness</span></span><span class="p"> <span class="pre">:</span> </span><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="p"> <span class="pre">=</span> </span><code class="code python docutils literal highlight highlight-python"><span class="kc">None</span></code><a class="headerlink" href="#pyboxbuilder.box.spec.BoxSpec.stackable_thickness" title="Link to this definition">¶</a></dt>
+<dd><p>Interlocking rim thickness; <code class="docutils literal notranslate"><span class="pre">None</span></code> derives it from the wall.</p>
+</dd></dl>
+
+<dl class="py attribute objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.box.spec.BoxSpec.wall_thickness">
+<span class="sig-name descname"><span class="pre">wall_thickness</span></span><span class="p"> <span class="pre">:</span> </span><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span><span class="p"> <span class="pre">=</span> </span><code class="code python docutils literal highlight highlight-python"><span class="mf">2.0</span></code><a class="headerlink" href="#pyboxbuilder.box.spec.BoxSpec.wall_thickness" title="Link to this definition">¶</a></dt>
+<dd><p>Side wall thickness in mm.</p>
+</dd></dl>
+
+<dl class="py attribute objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.box.spec.BoxSpec.wall_tops">
+<span class="sig-name descname"><span class="pre">wall_tops</span></span><span class="p"> <span class="pre">:</span> </span><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="pyboxbuilder.enums.ScoopSide.html#pyboxbuilder.enums.ScoopSide" title="pyboxbuilder.enums.ScoopSide (Python class) — Bases: Enum"><span class="pre">ScoopSide</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#pyboxbuilder.box.spec.BoxSpec.wall_tops" title="Link to this definition">¶</a></dt>
+<dd><p>The z of each wall’s top, per side (FR-070). Filled in by
+<a class="reference internal" href="pyboxbuilder.box.spec.BoxSpec.html#pyboxbuilder.box.spec.BoxSpec.with_wall_tops" title="pyboxbuilder.box.spec.BoxSpec.with_wall_tops (Python method) — This spec with each wall's top resolved for a box type."><code class="xref py py-meth docutils literal notranslate"><span class="pre">with_wall_tops()</span></code></a>; empty until then.</p>
+</dd></dl>
+
+<dl class="py attribute objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.box.spec.BoxSpec.width">
+<span class="sig-name descname"><span class="pre">width</span></span><span class="p"> <span class="pre">:</span> </span><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span><a class="headerlink" href="#pyboxbuilder.box.spec.BoxSpec.width" title="Link to this definition">¶</a></dt>
+<dd><p>Outer width (X) in mm.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function objdesc">
+<dt class="sig sig-object highlight sig-wrap py" id="pyboxbuilder.box.spec.build_spec">
+<span class="sig-prename descclassname"><span class="pre">pyboxbuilder.box.spec.</span></span><span class="sig-name descname"><span class="pre">build_spec</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="pyboxbuilder.box.spec.build_spec.html#pyboxbuilder.box.spec.build_spec.project" title="pyboxbuilder.box.spec.build_spec.project (Python parameter) — The owning Project, read for the thicknesses and rounding a box does not override."><span class="n"><span class="pre">project</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="pyboxbuilder.box.spec.build_spec.html#pyboxbuilder.box.spec.build_spec.builder" title="pyboxbuilder.box.spec.build_spec.builder (Python parameter) — The box's BoxBuilder."><span class="n"><span class="pre">builder</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="pyboxbuilder.box.spec.build_spec.html#pyboxbuilder.box.spec.build_spec.size" title="pyboxbuilder.box.spec.build_spec.size (Python parameter) — The box's resolved (width, length, height) in mm."><span class="n"><span class="pre">size</span></span></a><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.14)"><span class="pre">tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span></span></em></span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="desctype"><a class="reference internal" href="pyboxbuilder.box.spec.BoxSpec.html#pyboxbuilder.box.spec.BoxSpec" title="pyboxbuilder.box.spec.BoxSpec (Python class) — Bases: object"><span class="pre">BoxSpec</span></a></span></span></span><a class="reference internal" href="../_modules/pyboxbuilder/box/spec.html#build_spec"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyboxbuilder.box.spec.build_spec" title="Link to this definition">¶</a></dt>
+<dd><p>Assemble the one description this box is built from.</p>
+<p>The single place a <cite>BoxSpec</cite> is made, so a previewed box and an exported
+box cannot be built from different descriptions.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="pyboxbuilder.box.spec.build_spec-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#pyboxbuilder.box.spec.build_spec-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt id="pyboxbuilder.box.spec.build_spec.project"><span class="n sig-name">project</span><a class="headerlink" href="#pyboxbuilder.box.spec.build_spec.project" title="Permalink to this definition">¶</a></dt><dd><p>The owning <a class="reference internal" href="pyboxbuilder.project.Project.html#pyboxbuilder.project.Project" title="pyboxbuilder.project.Project (Python class) — Bases: object"><code class="xref py py-class docutils literal notranslate"><span class="pre">Project</span></code></a>, read for
+the thicknesses and rounding a box does not override.</p>
+</dd>
+<dt id="pyboxbuilder.box.spec.build_spec.builder"><span class="n sig-name">builder</span><a class="headerlink" href="#pyboxbuilder.box.spec.build_spec.builder" title="Permalink to this definition">¶</a></dt><dd><p>The box’s <code class="xref py py-class docutils literal notranslate"><span class="pre">BoxBuilder</span></code>.</p>
+</dd>
+<dt id="pyboxbuilder.box.spec.build_spec.size"><span class="n sig-name">size</span><span class="p">:</span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.14)">tuple</a><span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)">float</a><span class="p">,</span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)">float</a><span class="p">,</span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)">float</a><span class="p">]</span></span></span><a class="headerlink" href="#pyboxbuilder.box.spec.build_spec.size" title="Permalink to this definition">¶</a></dt><dd><p>The box’s resolved <code class="docutils literal notranslate"><span class="pre">(width,</span> <span class="pre">length,</span> <span class="pre">height)</span></code> in mm.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even" id="pyboxbuilder.box.spec.build_spec-returns">Returns<span class="colon">:</span><a class="headerlink" href="#pyboxbuilder.box.spec.build_spec-returns" title="Permalink to this headline">¶</a></dt>
+<dd class="field-even"><p>The assembled <a class="reference internal" href="pyboxbuilder.box.spec.BoxSpec.html#pyboxbuilder.box.spec.BoxSpec" title="pyboxbuilder.box.spec.BoxSpec (Python class) — Bases: object"><code class="xref py py-class docutils literal notranslate"><span class="pre">BoxSpec</span></code></a>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.box.spec.describe">
+<span class="sig-prename descclassname"><span class="pre">pyboxbuilder.box.spec.</span></span><span class="sig-name descname"><span class="pre">describe</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="pyboxbuilder.box.spec.describe.html#pyboxbuilder.box.spec.describe.builder" title="pyboxbuilder.box.spec.describe.builder (Python parameter) — The box builder to describe."><span class="n"><span class="pre">builder</span></span></a></em></span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><span class="pre">dict</span></a></span></span></span><a class="reference internal" href="../_modules/pyboxbuilder/box/spec.html#describe"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyboxbuilder.box.spec.describe" title="Link to this definition">¶</a></dt>
+<dd><p>A JSON-serialisable description of everything that shapes a box.</p>
+<p>Used to fingerprint an exported piece (FR-031): two runs of an unchanged
+project describe their boxes identically, so nothing is rewritten.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="pyboxbuilder.box.spec.describe-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#pyboxbuilder.box.spec.describe-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt id="pyboxbuilder.box.spec.describe.builder"><span class="n sig-name">builder</span><a class="headerlink" href="#pyboxbuilder.box.spec.describe.builder" title="Permalink to this definition">¶</a></dt><dd><p>The box builder to describe.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even" id="pyboxbuilder.box.spec.describe-returns">Returns<span class="colon">:</span><a class="headerlink" href="#pyboxbuilder.box.spec.describe-returns" title="Permalink to this headline">¶</a></dt>
+<dd class="field-even"><p>A dict of the builder’s geometry-bearing fields, its compartments and
+its lid decoration.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py data objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.box.spec.WIGGLE_MM">
+<span class="sig-prename descclassname"><span class="pre">pyboxbuilder.box.spec.</span></span><span class="sig-name descname"><span class="pre">WIGGLE_MM</span></span><span class="p"> <span class="pre">=</span> </span><code class="code python docutils literal highlight highlight-python"><span class="mf">0.2</span></code><a class="headerlink" href="#pyboxbuilder.box.spec.WIGGLE_MM" title="Link to this definition">¶</a></dt>
+<dd><p>Default clearance between two printed parts that have to fit together.</p>
+</dd></dl>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  
+  
+  <div class="md-footer-meta md-typeset">
+    
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-footer-copyright__highlight">
+        &#169; Copyright pyboxbuilder contributors.
+        
+    </div>
+  
+    Created using
+    <a href="https://www.sphinx-doc.org/" target="_blank" rel="noopener">Sphinx</a>
+    8.2.3.
+     and
+    <a href="https://github.com/jbms/sphinx-immaterial/" target="_blank" rel="noopener">Sphinx-Immaterial</a>
+  
+</div>
+      
+    </div>
+    
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.top", "content.code.copy", "search.highlight", "toc.follow", "toc.sticky"], "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+      
+        <script src="../_static/sphinx_immaterial_theme.32136f45f91ae6956.min.js?v=a7a9472a"></script>
+        <script type="module" src="../_static/stl_viewer.js?v=0ab88475"></script>
+    
+  </body>
+</html>

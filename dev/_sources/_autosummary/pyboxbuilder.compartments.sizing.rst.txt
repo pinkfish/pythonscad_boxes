@@ -1,0 +1,34 @@
+pyboxbuilder.compartments.sizing
+================================
+
+.. automodule:: pyboxbuilder.compartments.sizing
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+      :toctree:
+      :nosignatures:
+   
+      RowItem
+   
+   
+
+   
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+      :toctree:
+      :nosignatures:
+   
+      distribute_row_width
+      distribute_rows
+      rows_from_placements
+   
+   

@@ -1,0 +1,24 @@
+pyboxbuilder.box.types.slipover
+===============================
+
+.. automodule:: pyboxbuilder.box.types.slipover
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+      :toctree:
+      :nosignatures:
+   
+      SlipoverBox
+   
+   
+
+   
+   
+   

@@ -1,0 +1,841 @@
+
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+      
+      
+      <link rel="icon" href="">
+    
+    
+      
+        <title>pyboxbuilder.compartments.element - pyboxbuilder</title>
+      
+    
+    
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+    
+        <link rel="stylesheet" type="text/css" href="../../../_static/sphinx_immaterial_theme.6f0d2a77b1b821632.min.css?v=27a6e6bb" />
+        <link rel="stylesheet" type="text/css" href="../../../_static/stl_viewer.css?v=abc98148" />
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../index.html" title="pyboxbuilder" class="md-header__button md-logo" aria-label="pyboxbuilder" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            pyboxbuilder
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              pyboxbuilder.compartments.element
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/pinkfish/pythonscad_boxes" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    pinkfish/pythonscad_boxes
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../index.html" title="pyboxbuilder" class="md-nav__button md-logo" aria-label="pyboxbuilder" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+    </a>
+    pyboxbuilder
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/pinkfish/pythonscad_boxes" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    pinkfish/pythonscad_boxes
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    <span>Contents</span>
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            <span>Contents</span>
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../api.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>API Reference</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+<nav class="md-nav md-nav--secondary">
+  
+  
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset" role="main">
+                
+                
+                  
+
+
+<h1>Source code for pyboxbuilder.compartments.element</h1><div class="highlight"><pre>
+<span></span><code><span class="c1"># SPDX-License-Identifier: Apache-2.0</span>
+<span class="sd">&quot;&quot;&quot;Compartment elements — individual game components nested inside a compartment.</span>
+
+<span class="sd">A `CompartmentElement` is one physical piece (a worker meeple, a hero standee, a</span>
+<span class="sd">hex tile, a wooden marker) with its own silhouette, its own local (x, y) offset</span>
+<span class="sd">inside the owning compartment, its own rotation and its own depth. A compartment</span>
+<span class="sd">that carries elements is an *element pack*: the elements are positioned in a local</span>
+<span class="sd">frame and the pack&#39;s bounding box is what the box-level layout engine sees, so the</span>
+<span class="sd">pack behaves exactly like one ordinary rectangular compartment (FR-004b).</span>
+
+<span class="sd">Geometry generation delegates to pybosl2 and is only imported when a cutout is</span>
+<span class="sd">actually built, so the layout maths stays importable without PythonSCAD.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">replace</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Sequence</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">ElementShape</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.precision</span><span class="w"> </span><span class="kn">import</span> <span class="n">kwargs</span> <span class="k">as</span> <span class="n">precision_kwargs</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.rounding</span><span class="w"> </span><span class="kn">import</span> <span class="n">vertical_edges</span>
+
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2.shapes3d</span><span class="w"> </span><span class="kn">import</span> <span class="n">Bosl2Solid</span>
+
+
+<div class="viewcode-block" id="CompartmentElement">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.compartments.element.CompartmentElement.html#pyboxbuilder.CompartmentElement">[docs]</a>
+<span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">CompartmentElement</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A physical game component nested inside a compartment&#39;s bounding box.&quot;&quot;&quot;</span>
+
+    <span class="n">shape_file</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Path to the SVG outline representing the component (ElementShape.SVG only).&quot;&quot;&quot;</span>
+    <span class="n">offset</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;2D offset (x, y) in mm of the element&#39;s lower-left corner, relative to the</span>
+<span class="sd">    compartment&#39;s bottom-left origin.&quot;&quot;&quot;</span>
+    <span class="n">rotation</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Rotation of the component in degrees, about the centre of its footprint.&quot;&quot;&quot;</span>
+    <span class="n">size</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Bounding dimensions (width, length) of the component in mm.&quot;&quot;&quot;</span>
+    <span class="n">shape</span><span class="p">:</span> <span class="n">ElementShape</span> <span class="o">=</span> <span class="n">ElementShape</span><span class="o">.</span><span class="n">SVG</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Silhouette kind. Defaults to SVG, which requires `shape_file`.&quot;&quot;&quot;</span>
+    <span class="n">depth</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Cutout depth in mm. None inherits the owning compartment&#39;s depth.&quot;&quot;&quot;</span>
+    <span class="n">z_offset</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Extra lift of the cutout floor above the compartment floor, in mm.</span>
+<span class="sd">    Used for pieces that sit on top of other pieces (e.g. a tile over a token).&quot;&quot;&quot;</span>
+    <span class="n">corner_radius</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">2.0</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Corner radius for ElementShape.ROUNDED_RECT.&quot;&quot;&quot;</span>
+    <span class="n">label</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Optional identifier, handy for tests and layout diagnostics.&quot;&quot;&quot;</span>
+    <span class="n">pull_out</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Cut a finger pull-out over this slot so the piece can be lifted out.</span>
+
+<span class="sd">    A silhouette slot holds its piece snugly by design — that is the point of</span>
+<span class="sd">    cutting to the outline — which also means there is nowhere to get a</span>
+<span class="sd">    fingertip. The pull-out is a dish across the slot, curved in from the</span>
+<span class="sd">    surrounding floor so a finger slides down it and under the piece.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">pull_out_depth</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;How deep the pull-out dish goes below the slot&#39;s own floor.</span>
+
+<span class="sd">    ``None`` takes **half the piece&#39;s depth**, which is enough to get under a</span>
+<span class="sd">    piece without letting it drop into the dish and sit crooked.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">pull_out_width</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Width of the pull-out across the slot. ``None`` uses a fingertip width.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">shape</span> <span class="ow">is</span> <span class="n">ElementShape</span><span class="o">.</span><span class="n">SVG</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">shape_file</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;CompartmentElement with shape=SVG requires shape_file=&quot;</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">size</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;CompartmentElement </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="bp">self</span><span class="o">.</span><span class="n">shape_file</span><span class="si">!r}</span><span class="s2"> requires size=(w, l)&quot;</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">0</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;CompartmentElement </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="bp">self</span><span class="o">.</span><span class="n">shape_file</span><span class="si">!r}</span><span class="s2"> size must be positive&quot;</span>
+            <span class="p">)</span>
+
+    <span class="c1"># ---------------------------------------------------------------- geometry</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">base_footprint</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Axis-aligned (width, length) of the silhouette before rotation.</span>
+
+<span class="sd">        For most shapes this is just `size`. A hexagon is the exception: `size[0]`</span>
+<span class="sd">        is its flat-to-flat width, exactly as `RegularPolygon(width=...)` reads it</span>
+<span class="sd">        in the original toolkit, so it measures `width / cos(30°)` point-to-point</span>
+<span class="sd">        across the other axis.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">size</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+        <span class="n">w</span><span class="p">,</span> <span class="n">l</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">size</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">shape</span> <span class="ow">is</span> <span class="n">ElementShape</span><span class="o">.</span><span class="n">HEXAGON</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">(</span><span class="n">w</span> <span class="o">/</span> <span class="n">math</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="mi">30</span><span class="p">)),</span> <span class="n">w</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">shape</span> <span class="ow">in</span> <span class="p">(</span><span class="n">ElementShape</span><span class="o">.</span><span class="n">CIRCLE</span><span class="p">,</span> <span class="n">ElementShape</span><span class="o">.</span><span class="n">SPHERE_SCOOP</span><span class="p">):</span>
+            <span class="n">d</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">l</span><span class="p">)</span>
+            <span class="k">return</span> <span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">l</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">footprint</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Axis-aligned (width, length) after `rotation` is applied.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">shape</span> <span class="ow">in</span> <span class="p">(</span><span class="n">ElementShape</span><span class="o">.</span><span class="n">CIRCLE</span><span class="p">,</span> <span class="n">ElementShape</span><span class="o">.</span><span class="n">SPHERE_SCOOP</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_footprint</span>  <span class="c1"># rotating a disc changes nothing</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">shape</span> <span class="ow">is</span> <span class="n">ElementShape</span><span class="o">.</span><span class="n">HEXAGON</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">_hexagon_footprint</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">base_footprint</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">rotation</span><span class="p">)</span>
+
+        <span class="n">w</span><span class="p">,</span> <span class="n">l</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_footprint</span>
+        <span class="n">rad</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rotation</span><span class="p">)</span>
+        <span class="n">cos_r</span><span class="p">,</span> <span class="n">sin_r</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">rad</span><span class="p">)),</span> <span class="nb">abs</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">rad</span><span class="p">))</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">w</span> <span class="o">*</span> <span class="n">cos_r</span> <span class="o">+</span> <span class="n">l</span> <span class="o">*</span> <span class="n">sin_r</span><span class="p">,</span> <span class="n">w</span> <span class="o">*</span> <span class="n">sin_r</span> <span class="o">+</span> <span class="n">l</span> <span class="o">*</span> <span class="n">cos_r</span><span class="p">)</span>
+
+<div class="viewcode-block" id="CompartmentElement.bounds">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.compartments.element.CompartmentElement.html#pyboxbuilder.CompartmentElement.bounds">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">bounds</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Axis-aligned bounds (min_x, min_y, max_x, max_y) in the pack frame.&quot;&quot;&quot;</span>
+        <span class="n">fw</span><span class="p">,</span> <span class="n">fl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">footprint</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">offset</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">offset</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">offset</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">fw</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">offset</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">fl</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="CompartmentElement.translated">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.compartments.element.CompartmentElement.html#pyboxbuilder.CompartmentElement.translated">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">translated</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dx</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">dy</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;CompartmentElement&quot;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return a copy shifted by (dx, dy) in the pack frame.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">replace</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">offset</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">dx</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">offset</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">dy</span><span class="p">))</span></div>
+</div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_hexagon_footprint</span><span class="p">(</span><span class="n">circumradius</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">rotation</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Exact axis-aligned extent of a regular hexagon rotated by `rotation`.</span>
+
+<span class="sd">    A rect-bbox approximation overshoots badly here — at 30 degrees it claims</span>
+<span class="sd">    36% more width than the hexagon actually occupies.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">angles</span> <span class="o">=</span> <span class="p">[</span><span class="n">math</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">rotation</span> <span class="o">+</span> <span class="mi">60</span> <span class="o">*</span> <span class="n">k</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">)]</span>
+    <span class="n">xs</span> <span class="o">=</span> <span class="p">[</span><span class="n">circumradius</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">angles</span><span class="p">]</span>
+    <span class="n">ys</span> <span class="o">=</span> <span class="p">[</span><span class="n">circumradius</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">angles</span><span class="p">]</span>
+    <span class="k">return</span> <span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">xs</span><span class="p">)</span> <span class="o">-</span> <span class="nb">min</span><span class="p">(</span><span class="n">xs</span><span class="p">),</span> <span class="nb">max</span><span class="p">(</span><span class="n">ys</span><span class="p">)</span> <span class="o">-</span> <span class="nb">min</span><span class="p">(</span><span class="n">ys</span><span class="p">))</span>
+
+
+<div class="viewcode-block" id="elements_bounding_box">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.compartments.element.elements_bounding_box.html#pyboxbuilder.elements_bounding_box">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">elements_bounding_box</span><span class="p">(</span>
+    <span class="n">elements</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">CompartmentElement</span><span class="p">],</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return (min_x, min_y, max_x, max_y) covering every element in the pack.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">elements</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+    <span class="n">boxes</span> <span class="o">=</span> <span class="p">[</span><span class="n">e</span><span class="o">.</span><span class="n">bounds</span><span class="p">()</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">elements</span><span class="p">]</span>
+    <span class="k">return</span> <span class="p">(</span>
+        <span class="nb">min</span><span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">boxes</span><span class="p">),</span>
+        <span class="nb">min</span><span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">boxes</span><span class="p">),</span>
+        <span class="nb">max</span><span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">boxes</span><span class="p">),</span>
+        <span class="nb">max</span><span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">boxes</span><span class="p">),</span>
+    <span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="elements_footprint">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.compartments.element.elements_footprint.html#pyboxbuilder.elements_footprint">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">elements_footprint</span><span class="p">(</span>
+    <span class="n">elements</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">CompartmentElement</span><span class="p">],</span> <span class="n">margin</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Size of the rectangular compartment that holds this element pack (FR-004b).</span>
+
+<span class="sd">    Offsets are measured from the compartment&#39;s own lower-left corner, so the</span>
+<span class="sd">    footprint spans from that corner out to the furthest element — authored</span>
+<span class="sd">    offsets are preserved rather than collapsed against the origin. Use</span>
+<span class="sd">    `normalize_elements` first if you want the pack shrink-wrapped instead.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        elements: The elements in the pack, positioned in the compartment frame.</span>
+<span class="sd">        margin: Extra clearance added past the furthest element, in mm.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        (width, length) of the compartment needed to hold the pack, in mm.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">elements</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">max_x</span><span class="p">,</span> <span class="n">max_y</span> <span class="o">=</span> <span class="n">elements_bounding_box</span><span class="p">(</span><span class="n">elements</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">max_x</span> <span class="o">+</span> <span class="n">margin</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="nb">round</span><span class="p">(</span><span class="n">max_y</span> <span class="o">+</span> <span class="n">margin</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span></div>
+
+
+
+<div class="viewcode-block" id="normalize_elements">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.compartments.element.normalize_elements.html#pyboxbuilder.normalize_elements">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">normalize_elements</span><span class="p">(</span>
+    <span class="n">elements</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">CompartmentElement</span><span class="p">],</span> <span class="n">margin</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">CompartmentElement</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Shift a pack so its bounding box starts at (margin, margin).</span>
+
+<span class="sd">    Keeps hand-written offsets readable — you can lay elements out in whatever</span>
+<span class="sd">    coordinates suit the source drawing and let the pack normalise itself.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">min_x</span><span class="p">,</span> <span class="n">min_y</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">elements_bounding_box</span><span class="p">(</span><span class="n">elements</span><span class="p">)</span>
+    <span class="n">dx</span><span class="p">,</span> <span class="n">dy</span> <span class="o">=</span> <span class="n">margin</span> <span class="o">-</span> <span class="n">min_x</span><span class="p">,</span> <span class="n">margin</span> <span class="o">-</span> <span class="n">min_y</span>
+    <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">translated</span><span class="p">(</span><span class="n">dx</span><span class="p">,</span> <span class="n">dy</span><span class="p">)</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">elements</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="grid_pack">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.compartments.element.grid_pack.html#pyboxbuilder.grid_pack">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">grid_pack</span><span class="p">(</span>
+    <span class="n">prototype</span><span class="p">:</span> <span class="n">CompartmentElement</span><span class="p">,</span>
+    <span class="n">count</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">origin</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span>
+    <span class="n">pitch</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span>
+    <span class="n">alternate_rotation</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">CompartmentElement</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Repeat one element `count` times along a straight line (FR-004b).</span>
+
+<span class="sd">    This is the &quot;five owl workers stacked in a column&quot; case: the same silhouette</span>
+<span class="sd">    at a fixed pitch, optionally flipping every other copy so the pieces nest.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        prototype: The element to repeat; its `offset` is ignored.</span>
+<span class="sd">        count: How many copies to place.</span>
+<span class="sd">        origin: Position of the first copy.</span>
+<span class="sd">        pitch: (dx, dy) step between successive copies.</span>
+<span class="sd">        alternate_rotation: Extra rotation applied to every odd-indexed copy.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        The placed copies, in order.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">count</span><span class="p">):</span>
+        <span class="n">rotation</span> <span class="o">=</span> <span class="n">prototype</span><span class="o">.</span><span class="n">rotation</span> <span class="o">+</span> <span class="p">(</span><span class="n">alternate_rotation</span> <span class="k">if</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">2</span> <span class="k">else</span> <span class="mf">0.0</span><span class="p">)</span>
+        <span class="n">out</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="n">replace</span><span class="p">(</span>
+                <span class="n">prototype</span><span class="p">,</span>
+                <span class="n">offset</span><span class="o">=</span><span class="p">(</span><span class="n">origin</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">pitch</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">i</span><span class="p">,</span> <span class="n">origin</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">pitch</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">i</span><span class="p">),</span>
+                <span class="n">rotation</span><span class="o">=</span><span class="n">rotation</span><span class="p">,</span>
+                <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">prototype</span><span class="o">.</span><span class="n">label</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="n">prototype</span><span class="o">.</span><span class="n">label</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+    <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">out</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="elements_overlap">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.compartments.element.elements_overlap.html#pyboxbuilder.elements_overlap">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">elements_overlap</span><span class="p">(</span>
+    <span class="n">elements</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">CompartmentElement</span><span class="p">],</span> <span class="n">tolerance</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the pairs of elements whose bounding boxes intersect.</span>
+
+<span class="sd">    Bounding-box based, matching how the layout engine reasons about</span>
+<span class="sd">    non-rectangular shapes (FR-004a). `tolerance` shrinks each box before the</span>
+<span class="sd">    test, so silhouettes that only graze one another are not reported.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">hits</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">a</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">elements</span><span class="p">):</span>
+        <span class="n">ax0</span><span class="p">,</span> <span class="n">ay0</span><span class="p">,</span> <span class="n">ax1</span><span class="p">,</span> <span class="n">ay1</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">bounds</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">elements</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span> <span class="p">:]:</span>
+            <span class="n">bx0</span><span class="p">,</span> <span class="n">by0</span><span class="p">,</span> <span class="n">bx1</span><span class="p">,</span> <span class="n">by1</span> <span class="o">=</span> <span class="n">b</span><span class="o">.</span><span class="n">bounds</span><span class="p">()</span>
+            <span class="k">if</span> <span class="p">(</span>
+                <span class="n">ax0</span> <span class="o">+</span> <span class="n">tolerance</span> <span class="o">&lt;</span> <span class="n">bx1</span>
+                <span class="ow">and</span> <span class="n">bx0</span> <span class="o">+</span> <span class="n">tolerance</span> <span class="o">&lt;</span> <span class="n">ax1</span>
+                <span class="ow">and</span> <span class="n">ay0</span> <span class="o">+</span> <span class="n">tolerance</span> <span class="o">&lt;</span> <span class="n">by1</span>
+                <span class="ow">and</span> <span class="n">by0</span> <span class="o">+</span> <span class="n">tolerance</span> <span class="o">&lt;</span> <span class="n">ay1</span>
+            <span class="p">):</span>
+                <span class="n">hits</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">_name</span><span class="p">(</span><span class="n">a</span><span class="p">),</span> <span class="n">_name</span><span class="p">(</span><span class="n">b</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="n">hits</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_name</span><span class="p">(</span><span class="n">element</span><span class="p">:</span> <span class="n">CompartmentElement</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">element</span><span class="o">.</span><span class="n">label</span> <span class="ow">or</span> <span class="n">element</span><span class="o">.</span><span class="n">shape_file</span> <span class="ow">or</span> <span class="n">element</span><span class="o">.</span><span class="n">shape</span><span class="o">.</span><span class="n">value</span>
+
+
+<span class="c1"># ------------------------------------------------------------------ geometry</span>
+
+
+<div class="viewcode-block" id="build_element">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.compartments.element.build_element.html#pyboxbuilder.build_element">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">build_element</span><span class="p">(</span>
+    <span class="n">element</span><span class="p">:</span> <span class="n">CompartmentElement</span><span class="p">,</span> <span class="n">default_depth</span><span class="p">:</span> <span class="nb">float</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Bosl2Solid&quot;</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Build the cutout solid for one element, in the compartment&#39;s local frame.</span>
+
+<span class="sd">    pybosl2 primitives are centre-anchored, so each branch below builds its shape</span>
+<span class="sd">    around the origin, rotation spins it in place, and one final translate puts</span>
+<span class="sd">    the element&#39;s lower-left corner on its `offset` with its floor at</span>
+<span class="sd">    `z_offset`. The result can be subtracted from a box body once the compartment</span>
+<span class="sd">    has been moved into the interior frame.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">cuboid</span><span class="p">,</span> <span class="n">cylinder</span><span class="p">,</span> <span class="n">regular_prism</span><span class="p">,</span> <span class="n">sphere</span>
+
+    <span class="k">assert</span> <span class="n">element</span><span class="o">.</span><span class="n">size</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+    <span class="n">w</span><span class="p">,</span> <span class="n">l</span> <span class="o">=</span> <span class="n">element</span><span class="o">.</span><span class="n">size</span>
+    <span class="n">depth</span> <span class="o">=</span> <span class="n">element</span><span class="o">.</span><span class="n">depth</span> <span class="k">if</span> <span class="n">element</span><span class="o">.</span><span class="n">depth</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">default_depth</span>
+    <span class="n">base_w</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">element</span><span class="o">.</span><span class="n">base_footprint</span>
+
+    <span class="c1"># A scoop is a ball resting ON the floor, not a well sunk into it, so it</span>
+    <span class="c1"># lifts by its radius while every other shape lifts by half its depth.</span>
+    <span class="n">z_lift</span> <span class="o">=</span> <span class="n">base_w</span> <span class="o">/</span> <span class="mi">2</span> <span class="k">if</span> <span class="n">element</span><span class="o">.</span><span class="n">shape</span> <span class="ow">is</span> <span class="n">ElementShape</span><span class="o">.</span><span class="n">SPHERE_SCOOP</span> <span class="k">else</span> <span class="n">depth</span> <span class="o">/</span> <span class="mi">2</span>
+
+    <span class="k">if</span> <span class="n">element</span><span class="o">.</span><span class="n">shape</span> <span class="ow">is</span> <span class="n">ElementShape</span><span class="o">.</span><span class="n">SVG</span><span class="p">:</span>
+        <span class="k">assert</span> <span class="n">element</span><span class="o">.</span><span class="n">shape_file</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+        <span class="n">solid</span> <span class="o">=</span> <span class="n">svg_solid</span><span class="p">(</span><span class="n">element</span><span class="o">.</span><span class="n">shape_file</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">depth</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">element</span><span class="o">.</span><span class="n">shape</span> <span class="ow">is</span> <span class="n">ElementShape</span><span class="o">.</span><span class="n">CIRCLE</span><span class="p">:</span>
+        <span class="n">solid</span> <span class="o">=</span> <span class="n">cylinder</span><span class="p">(</span><span class="n">height</span><span class="o">=</span><span class="n">depth</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="n">base_w</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="o">**</span><span class="n">precision_kwargs</span><span class="p">())</span>
+    <span class="k">elif</span> <span class="n">element</span><span class="o">.</span><span class="n">shape</span> <span class="ow">is</span> <span class="n">ElementShape</span><span class="o">.</span><span class="n">HEXAGON</span><span class="p">:</span>
+        <span class="c1"># `w` is the flat-to-flat width, as `RegularPolygon(width=...)` reads it.</span>
+        <span class="n">solid</span> <span class="o">=</span> <span class="n">regular_prism</span><span class="p">(</span>
+            <span class="mi">6</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">depth</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="n">w</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">/</span> <span class="n">math</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="mi">30</span><span class="p">))</span>
+        <span class="p">)</span>
+    <span class="k">elif</span> <span class="n">element</span><span class="o">.</span><span class="n">shape</span> <span class="ow">is</span> <span class="n">ElementShape</span><span class="o">.</span><span class="n">SPHERE_SCOOP</span><span class="p">:</span>
+        <span class="n">solid</span> <span class="o">=</span> <span class="n">sphere</span><span class="p">(</span><span class="n">radius</span><span class="o">=</span><span class="n">base_w</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="o">**</span><span class="n">precision_kwargs</span><span class="p">())</span>
+    <span class="k">elif</span> <span class="n">element</span><span class="o">.</span><span class="n">shape</span> <span class="ow">is</span> <span class="n">ElementShape</span><span class="o">.</span><span class="n">ROUNDED_RECT</span><span class="p">:</span>
+        <span class="n">solid</span> <span class="o">=</span> <span class="n">cuboid</span><span class="p">([</span><span class="n">w</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">depth</span><span class="p">],</span> <span class="n">rounding</span><span class="o">=</span><span class="n">element</span><span class="o">.</span><span class="n">corner_radius</span><span class="p">,</span> <span class="n">edges</span><span class="o">=</span><span class="n">vertical_edges</span><span class="p">(),</span>
+                       <span class="o">**</span><span class="n">precision_kwargs</span><span class="p">())</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">solid</span> <span class="o">=</span> <span class="n">cuboid</span><span class="p">([</span><span class="n">w</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">depth</span><span class="p">])</span>
+
+    <span class="k">if</span> <span class="n">element</span><span class="o">.</span><span class="n">rotation</span><span class="p">:</span>
+        <span class="n">solid</span> <span class="o">=</span> <span class="n">solid</span><span class="o">.</span><span class="n">rotate</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">element</span><span class="o">.</span><span class="n">rotation</span><span class="p">])</span>
+
+    <span class="n">footprint_w</span><span class="p">,</span> <span class="n">footprint_l</span> <span class="o">=</span> <span class="n">element</span><span class="o">.</span><span class="n">footprint</span>
+    <span class="k">return</span> <span class="n">solid</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span>
+        <span class="n">element</span><span class="o">.</span><span class="n">offset</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">footprint_w</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span>
+        <span class="n">element</span><span class="o">.</span><span class="n">offset</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">footprint_l</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span>
+        <span class="n">element</span><span class="o">.</span><span class="n">z_offset</span> <span class="o">+</span> <span class="n">z_lift</span><span class="p">,</span>
+    <span class="p">])</span></div>
+
+
+
+<div class="viewcode-block" id="svg_solid">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.compartments.element.svg_solid.html#pyboxbuilder.svg_solid">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">svg_solid</span><span class="p">(</span><span class="n">shape_file</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">depth</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Bosl2Solid&quot;</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Extrude an SVG outline and scale it to fill `width` x `length` x `depth`.</span>
+
+<span class="sd">    Returned centred on the origin, matching every pybosl2 primitive, so callers</span>
+<span class="sd">    can place it the same way they place a cuboid.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">solid</span> <span class="o">=</span> <span class="n">_svg_region</span><span class="p">(</span><span class="n">shape_file</span><span class="p">)</span><span class="o">.</span><span class="n">linear_extrude</span><span class="p">(</span><span class="n">height</span><span class="o">=</span><span class="n">depth</span><span class="p">)</span>
+    <span class="p">(</span><span class="n">cx</span><span class="p">,</span> <span class="n">cy</span><span class="p">,</span> <span class="n">cz</span><span class="p">),</span> <span class="p">(</span><span class="n">span_x</span><span class="p">,</span> <span class="n">span_y</span><span class="p">,</span> <span class="n">_</span><span class="p">)</span> <span class="o">=</span> <span class="n">solid</span><span class="o">.</span><span class="n">bounds</span><span class="p">()</span>
+    <span class="n">solid</span> <span class="o">=</span> <span class="n">solid</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="o">-</span><span class="nb">float</span><span class="p">(</span><span class="n">cx</span><span class="p">),</span> <span class="o">-</span><span class="nb">float</span><span class="p">(</span><span class="n">cy</span><span class="p">),</span> <span class="o">-</span><span class="nb">float</span><span class="p">(</span><span class="n">cz</span><span class="p">)])</span>
+    <span class="k">return</span> <span class="n">solid</span><span class="o">.</span><span class="n">scale</span><span class="p">([</span>
+        <span class="n">width</span> <span class="o">/</span> <span class="nb">max</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">span_x</span><span class="p">),</span> <span class="mf">1e-9</span><span class="p">),</span>
+        <span class="n">length</span> <span class="o">/</span> <span class="nb">max</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">span_y</span><span class="p">),</span> <span class="mf">1e-9</span><span class="p">),</span>
+        <span class="mf">1.0</span><span class="p">,</span>
+    <span class="p">])</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_svg_region</span><span class="p">(</span><span class="n">shape_file</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Parse an SVG once and reuse it — a pack repeats the same file many times.&quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">Region</span>
+
+    <span class="n">region</span> <span class="o">=</span> <span class="n">_SVG_CACHE</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">shape_file</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">region</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">region</span> <span class="o">=</span> <span class="n">Region</span><span class="o">.</span><span class="n">from_svg</span><span class="p">(</span><span class="n">shape_file</span><span class="p">)</span>
+        <span class="n">_SVG_CACHE</span><span class="p">[</span><span class="n">shape_file</span><span class="p">]</span> <span class="o">=</span> <span class="n">region</span>
+    <span class="k">return</span> <span class="n">region</span>
+
+
+<span class="n">_SVG_CACHE</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{}</span>
+
+
+<span class="n">PULL_OUT_DEPTH_SHARE</span> <span class="o">=</span> <span class="mf">0.5</span>
+<span class="sd">&quot;&quot;&quot;How deep a pull-out goes, as a share of the piece&#39;s depth.</span>
+
+<span class="sd">Half gets a fingertip under the piece while leaving the slot deep enough that</span>
+<span class="sd">the piece still seats flat in it rather than tipping into the dish.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="n">DEFAULT_PULL_OUT_WIDTH_MM</span> <span class="o">=</span> <span class="mf">16.0</span>
+<span class="sd">&quot;&quot;&quot;Fingertip width for a pull-out dish, when the element names none.&quot;&quot;&quot;</span>
+
+
+<div class="viewcode-block" id="build_pull_out">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.compartments.element.build_pull_out.html#pyboxbuilder.build_pull_out">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">build_pull_out</span><span class="p">(</span>
+    <span class="n">element</span><span class="p">:</span> <span class="n">CompartmentElement</span><span class="p">,</span> <span class="n">default_depth</span><span class="p">:</span> <span class="nb">float</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Bosl2Solid | None&quot;</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The finger dish that lets a piece be lifted out of its slot.</span>
+
+<span class="sd">    Cut across the slot and **curved in from the surrounding floor** on both</span>
+<span class="sd">    sides, so a finger slides down into it rather than meeting a step. Without</span>
+<span class="sd">    it a silhouette slot has no purchase at all: it fits the piece exactly,</span>
+<span class="sd">    which is what makes it look right and what makes it impossible to empty.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        element: The slot to cut a pull-out for.</span>
+<span class="sd">        default_depth: The owning compartment&#39;s depth, used when the element</span>
+<span class="sd">            does not set its own.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        The dish to subtract, or ``None`` when the element declines one.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        ValueError: If the element has no resolved size.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">element</span><span class="o">.</span><span class="n">pull_out</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">cuboid</span>
+
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.rounding</span><span class="w"> </span><span class="kn">import</span> <span class="n">rounding_facets</span>
+
+    <span class="n">width</span><span class="p">,</span> <span class="n">length</span> <span class="o">=</span> <span class="n">element</span><span class="o">.</span><span class="n">footprint</span>
+    <span class="n">depth</span> <span class="o">=</span> <span class="n">element</span><span class="o">.</span><span class="n">depth</span> <span class="k">if</span> <span class="n">element</span><span class="o">.</span><span class="n">depth</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">default_depth</span>
+    <span class="n">drop</span> <span class="o">=</span> <span class="n">element</span><span class="o">.</span><span class="n">pull_out_depth</span>
+    <span class="k">if</span> <span class="n">drop</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">drop</span> <span class="o">=</span> <span class="n">depth</span> <span class="o">*</span> <span class="n">PULL_OUT_DEPTH_SHARE</span>
+    <span class="k">if</span> <span class="n">drop</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="n">across</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">element</span><span class="o">.</span><span class="n">pull_out_width</span> <span class="ow">or</span> <span class="n">DEFAULT_PULL_OUT_WIDTH_MM</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">length</span><span class="p">))</span>
+    <span class="c1"># The dish is rounded on every edge, so it curves in from the floor around</span>
+    <span class="c1"># it and out of the slot&#39;s own walls — no square step anywhere a finger</span>
+    <span class="c1"># travels. Its radius is capped by its own smallest dimension.</span>
+    <span class="n">radius</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">drop</span><span class="p">,</span> <span class="n">across</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">-</span> <span class="mf">0.01</span><span class="p">)</span>
+    <span class="n">centre_x</span> <span class="o">=</span> <span class="n">element</span><span class="o">.</span><span class="n">offset</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">width</span> <span class="o">/</span> <span class="mi">2</span>
+    <span class="n">centre_y</span> <span class="o">=</span> <span class="n">element</span><span class="o">.</span><span class="n">offset</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">length</span> <span class="o">/</span> <span class="mi">2</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="n">element</span><span class="o">.</span><span class="n">z_offset</span> <span class="o">+</span> <span class="n">depth</span> <span class="o">-</span> <span class="n">drop</span>
+
+    <span class="n">dish</span> <span class="o">=</span> <span class="n">cuboid</span><span class="p">(</span>
+        <span class="p">[</span><span class="n">across</span><span class="p">,</span> <span class="n">length</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">drop</span><span class="p">,</span> <span class="n">drop</span> <span class="o">*</span> <span class="mi">2</span><span class="p">],</span>
+        <span class="n">rounding</span><span class="o">=</span><span class="n">radius</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">rounding_facets</span><span class="p">(),</span>
+    <span class="p">)</span> <span class="k">if</span> <span class="n">radius</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">cuboid</span><span class="p">([</span><span class="n">across</span><span class="p">,</span> <span class="n">length</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">drop</span><span class="p">,</span> <span class="n">drop</span> <span class="o">*</span> <span class="mi">2</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">dish</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">centre_x</span><span class="p">,</span> <span class="n">centre_y</span><span class="p">,</span> <span class="n">z</span><span class="p">])</span></div>
+
+
+
+<div class="viewcode-block" id="build_element_pack">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.compartments.element.build_element_pack.html#pyboxbuilder.build_element_pack">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">build_element_pack</span><span class="p">(</span>
+    <span class="n">elements</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CompartmentElement</span><span class="p">],</span> <span class="n">default_depth</span><span class="p">:</span> <span class="nb">float</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Bosl2Solid | None&quot;</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Union every element cutout in a pack. Returns None for an empty pack.&quot;&quot;&quot;</span>
+    <span class="n">pieces</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="n">elements</span><span class="p">:</span>
+        <span class="n">pieces</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">build_element</span><span class="p">(</span><span class="n">element</span><span class="p">,</span> <span class="n">default_depth</span><span class="p">))</span>
+        <span class="n">pieces</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">build_pull_out</span><span class="p">(</span><span class="n">element</span><span class="p">,</span> <span class="n">default_depth</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">union_all</span><span class="p">([</span><span class="n">p</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">pieces</span> <span class="k">if</span> <span class="n">p</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">])</span></div>
+
+
+
+<div class="viewcode-block" id="union_all">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.compartments.element.union_all.html#pyboxbuilder.union_all">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">union_all</span><span class="p">(</span><span class="n">solids</span><span class="p">:</span> <span class="nb">list</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Bosl2Solid | None&quot;</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Union a list of solids with a balanced fold.</span>
+
+<span class="sd">    A left fold builds a chain as deep as the list, which the mesher pays for on</span>
+<span class="sd">    every cell of a big pack; halving keeps the tree logarithmic.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">solids</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+    <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">solids</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">solids</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">a</span> <span class="o">|</span> <span class="n">b</span> <span class="k">if</span> <span class="n">b</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">a</span>
+            <span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">solids</span><span class="p">[::</span><span class="mi">2</span><span class="p">],</span> <span class="nb">list</span><span class="p">(</span><span class="n">solids</span><span class="p">[</span><span class="mi">1</span><span class="p">::</span><span class="mi">2</span><span class="p">])</span> <span class="o">+</span> <span class="p">[</span><span class="kc">None</span><span class="p">])</span>
+        <span class="p">]</span>
+    <span class="k">return</span> <span class="n">solids</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span></div>
+
+</code></pre></div>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  
+  
+  <div class="md-footer-meta md-typeset">
+    
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-footer-copyright__highlight">
+        &#169; Copyright pyboxbuilder contributors.
+        
+    </div>
+  
+    Created using
+    <a href="https://www.sphinx-doc.org/" target="_blank" rel="noopener">Sphinx</a>
+    8.2.3.
+     and
+    <a href="https://github.com/jbms/sphinx-immaterial/" target="_blank" rel="noopener">Sphinx-Immaterial</a>
+  
+</div>
+      
+    </div>
+    
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.top", "content.code.copy", "search.highlight", "toc.follow", "toc.sticky"], "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+      
+        <script src="../../../_static/sphinx_immaterial_theme.32136f45f91ae6956.min.js?v=a7a9472a"></script>
+        <script type="module" src="../../../_static/stl_viewer.js?v=0ab88475"></script>
+    
+  </body>
+</html>
