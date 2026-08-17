@@ -189,9 +189,20 @@ comparing against a field's default instead — which `resolve_for_mode()` did �
 meant an override could not state `FRAMED`, could not turn `diagonal` off, and
 always imposed its own margins.
 
-Accent colours default from the body colour: text to white, frame and pattern to
-contrasting hues (FR-022). An unset accent is *no colour*, not a subtle default,
-so they are resolved rather than passed through.
+**A label is inlaid, not embossed** (FR-022a). The lettering and, in framed
+mode, the striped grid behind it are cut into the lid to a top-layer depth and
+filled flush, so the lid's top face stays flat and only the *colour* of the top
+layer changes. Only what changes colour is cut: the plate between them is left
+alone, which is what makes it the box's own material with no insert of its own.
+
+Accent defaults (FR-022): lettering **black**, striped grid **light grey**,
+backing the **box's material**. Fixed rather than derived from the body, because
+a hue shifted off the box's own colour is no more legible against it. An unset
+accent is *no colour*, not a subtle default, so they are resolved rather than
+passed through.
+
+A single-colour export has no second material to inlay, so it engraves the text
+instead (FR-036).
 
 ## PatternBuilder (`pyboxbuilder/lid/builder.py`)
 
@@ -199,9 +210,18 @@ so they are resolved rather than passed through.
 PatternBuilder(
     type: PatternType = PatternType.HEX,
     colors: tuple[Color, ...] = (),
-    spacing: float | None = None,      # None → lid's shorter side / 8, min 5mm
+    spacing: float | None = None,      # pitch; None → shorter side / 8, min 5mm
+    web: float | None = None,          # material between holes; None → 1.6mm
+    border: float | None = None,       # solid margin all round; None → 10mm
 )
 ```
+
+A pattern is specified by the **pitch** and the **web** between holes; the hole
+size follows. The web is the one with a right answer — it is what prints and
+what carries the lid. `border` is the pattern's own margin, separate from the
+label's `border_margin_mm`: one keeps text off the edge, the other keeps
+material at it — the band the lid is picked up by, and on a sliding lid the band
+that rides in the grooves. Holes also stop at the label's boundary (FR-023).
 
 `PatternType` contains only patterns the library draws: `NONE`, `SQUARE`,
 `CIRCLE`, `HEX`, `DENSE_HEX`, `TRIANGLE`, `DENSE_TRIANGLE`, `OCTAGON`,

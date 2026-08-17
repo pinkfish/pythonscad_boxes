@@ -14,6 +14,22 @@ from dataclasses import dataclass
 
 from pybosl2 import Color
 
+TEXT_COLOR = "black"
+"""Default colour of a lid's lettering (FR-022).
+
+A label is read against a lid whose colour is the game's choice, so the text
+needs the one colour that reads against all of them. The previous default was
+white, which vanishes on any pale box.
+"""
+
+STRIPED_GRID_COLOR = "lightgrey"
+"""Default colour of a framed label's striped grid (FR-022).
+
+It is a texture behind the lettering, not a second label: it has to separate
+the text from the lid without competing with it, which a light neutral does and
+a saturated accent does not.
+"""
+
 
 @dataclass(frozen=True)
 class ColorLayerAssignment:
@@ -37,27 +53,32 @@ def resolve_colors(
     frame_color: Color | None = None,
     pattern_color: Color | None = None,
 ) -> ColorLayerAssignment:
-    """Resolve accent colors with sensible defaults.
+    """Resolve accent colors with sensible defaults (FR-022).
+
+    The defaults are fixed rather than derived from the body, because what a
+    label has to do is be *read*, and a hue shifted off the box's own colour is
+    no more legible against it than the colour it came from.
 
     Args:
         body_color: The base box body color.
-        text_color: Label text color. Defaults to Color("white").
-        frame_color: Frame top layer color. Defaults to a contrasting hue.
-        pattern_color: Pattern top layer color. Defaults to a third hue.
+        text_color: Label text color. Defaults to :data:`TEXT_COLOR`.
+        frame_color: The striped grid's top layer. Defaults to
+            :data:`STRIPED_GRID_COLOR`.
+        pattern_color: Pattern top layer color. Defaults to a contrasting hue.
 
     Returns:
         ColorLayerAssignment with all colors resolved.
 
     """
     if text_color is None:
-        text_color = Color("white")
+        text_color = Color(TEXT_COLOR)
 
     if frame_color is None:
-        # Contrasting hue: shift by 120 degrees
-        frame_color = _contrast_hue(body_color, shift=0.33)
+        frame_color = Color(STRIPED_GRID_COLOR)
 
     if pattern_color is None:
-        # Third contrasting hue: shift by 240 degrees
+        # A through-hole pattern has no top layer of its own, so this only
+        # matters to a caller who has given the pattern something to colour.
         pattern_color = _contrast_hue(body_color, shift=0.67)
 
     return ColorLayerAssignment(

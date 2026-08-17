@@ -117,9 +117,17 @@ class LidBuilder:
     diagonal: bool | None = None
     """Run the text corner to corner rather than along the lid; ``None`` is no."""
     text_color: Color | None = None
-    """Colour of the label text; ``None`` uses white."""
+    """Colour the lettering is inlaid in; ``None`` uses black (FR-022).
+
+    A label is read against a lid whose colour is the game's choice, so the
+    default is the one colour that reads against all of them."""
     frame_color: Color | None = None
-    """Colour of the frame's top layer; ``None`` contrasts with the body."""
+    """Colour the framed label's **striped grid** is inlaid in; ``None`` uses
+    light grey.
+
+    The grid is a texture behind the lettering, not a second label. What sits
+    *behind* both is the box's own material — it is never cut, so it needs no
+    colour here (FR-022)."""
     pattern: PatternBuilder | None = None
     """Through-hole pattern, or ``None`` for a plain lid."""
     pattern_color: Color | None = None

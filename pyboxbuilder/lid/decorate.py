@@ -35,6 +35,14 @@ if TYPE_CHECKING:
 ENGRAVE_DEPTH_MM = 0.4
 """How deep a single-colour label is cut into the lid."""
 
+INLAY_DEPTH_MM = 0.6
+"""How deep a multi-material label is inlaid into the lid (FR-022a).
+
+Three layers at the 0.2mm this library assumes, which is enough for the accent
+to cover the material under it. Deeper only costs filament and print time: the
+colour is a surface, and nothing about the label is structural.
+"""
+
 
 @dataclass
 class DecoratedLid:
@@ -253,23 +261,65 @@ def _apply_label(
     top_z: float,
     mode: str,
 ) -> None:
-    """Add the label to `result`, raised for mmu or engraved for single."""
+    """Inlay the label into `result`, or engrave it for a single-colour print.
+
+    Args:
+        result: The lid being decorated; modified in place.
+        builder: The resolved lid configuration, read for its accent colours.
+        label: The built label.
+        origin_x: The face's minimum x, in the lid's frame.
+        origin_y: The face's minimum y.
+        top_z: The face's z.
+        mode: ``"mmu"`` or ``"single"``.
+
+    """
 
     def onto_face(solid: Bosl2Solid) -> Bosl2Solid:
-        return solid.translate([origin_x, origin_y, top_z])
+        """Place a label part so it fills the inlay recess, flush with the face."""
+        return solid.translate([origin_x, origin_y, top_z - INLAY_DEPTH_MM])
 
     if mode == "single":
-        # One material, so a raised label would not read — sink the *text*
-        # instead. Engraving the backing plate too would just cut a rectangular
-        # recess and take the lettering with it.
-        cut = onto_face(label.text).translate([0.0, 0.0, -ENGRAVE_DEPTH_MM])
+        # One material, so there is nothing to inlay — depth is the only thing
+        # that can make the label visible. Engraving the plate too would just
+        # cut a rectangular recess and take the lettering with it.
+        cut = onto_face(label.text).translate([0.0, 0.0, INLAY_DEPTH_MM - ENGRAVE_DEPTH_MM])
         result.solid = result.solid - cut
         return
 
-    text = onto_face(label.text)
-    result.inserts.append(_coloured(text, builder.text_color))
-    if label.backing is not None:
-        result.inserts.append(_coloured(onto_face(label.backing), builder.frame_color))
+    # Inlaid, not embossed (FR-022a): each coloured part is cut out of the lid
+    # and put back in its own colour, exactly as deep as the recess, so the
+    # lid's top face stays flat. Only the parts that change colour are cut —
+    # the plate between them is left alone, which is what makes it the box's
+    # own material without an insert of its own (FR-022).
+    for part, colour in (
+        (label.text, builder.text_color),
+        (label.hatching, builder.frame_color),
+    ):
+        if part is None:
+            continue
+        inlay = onto_face(_to_depth(part))
+        result.solid = result.solid - inlay
+        result.inserts.append(_coloured(inlay, colour))
+
+
+def _to_depth(part: Bosl2Solid) -> Bosl2Solid:
+    """Return a label part as a solid exactly :data:`INLAY_DEPTH_MM` tall.
+
+    The parts are built at their own heights — the lettering one thickness, the
+    striped grid another — because until now they sat on top of each other.
+    Inlaid they all occupy the same recess, so they are all cut to it.
+
+    Args:
+        part: One of the label's coloured parts.
+
+    Returns:
+        The part, scaled in z to the inlay depth with its base at z = 0.
+
+    """
+    (_, _, cz), (_, _, h) = part.bounds()
+    if h <= 0:
+        return part
+    return part.translate([0.0, 0.0, -(cz - h / 2)]).scale([1.0, 1.0, INLAY_DEPTH_MM / h])
 
 
 def _with_accent_colors(builder: LidBuilder, body_color: Color | None) -> LidBuilder:

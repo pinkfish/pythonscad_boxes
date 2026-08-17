@@ -335,6 +335,40 @@ A lid's outer edges are rounded because they are the outside of the closed box �
 - **The radius is capped at half the lid's thickness.** A body's radius is sized off the *wall*, which on a 2mm lid can be most of the plate; what it removes is exactly the material doing the bearing. Half leaves the other half square.
 - **Only the edges that finish outside get rounded**, decided by the type through a `lid_rounded_edges` hook. A cap or magnetic lid sits on top, so its four vertical corners and top face all qualify. A **sliding** lid does not: three of its four sides live inside the channel — two in the grooves, one against the stop — so only the end it slides out through is rounded, along with its top edge and the two vertical corners there (FR-044i).
 
+### A Label Is An Inlay, Not An Embossing (FR-022, FR-022a)
+
+A lid's label is cut **into** the lid and filled flush, so the only thing that
+changes at the label is the colour of the top layer.
+
+Three reasons it is not raised. Raised lettering is the first thing knocked off
+a lid that lives in a box with twenty other boxes; it stops the lid sitting
+flush under whatever is stacked on it, which on this library's inserts is
+usually a board; and on a sliding lid it fouls the mouth of the channel the lid
+has to enter. An inlay has none of those problems and prints no slower — the
+recess and the fill are the same layers either way.
+
+What that means for the geometry, and the reason it is simpler than it sounds:
+
+- **Only what changes colour is recessed.** The glyphs, and — in framed mode —
+  the striped grid behind them. Nothing else is cut.
+- **The plate between them is never touched**, so it is the box's own material
+  by construction. That is what FR-022 means by the backing being the material
+  colour: there is no insert to place and no colour to choose, because there is
+  nothing there but lid.
+- **The fill is flush.** Each coloured insert is exactly as deep as its recess,
+  so the closed lid's top face is flat.
+
+The three colours follow from what each part is for. The text is **black**,
+because it is read against a lid whose colour is the game's choice and black is
+the one that reads against all of them — white, the previous default, vanishes
+on any pale box. The striped grid is **light grey**, because it is a texture
+that has to separate the lettering from the lid without competing with it. The
+plate is the **box's material**, because it is the box.
+
+A single-colour export cannot inlay: there is no second material, so depth is
+the only thing that can make a label visible, and it keeps engraving the text
+(FR-036).
+
 ### Tray Wells, and Where Rounding Stops (FR-044f, FR-044g)
 
 **Rounding is off by default and opted into** (FR-044f). A well is square unless its builder sets `holds_pieces`, because most wells are shaped by what they hold — a card slot, a token silhouette, a board recess — and softening those changes a fit rather than improving it. The case that benefits is a tray of loose pieces you have to pick out, and it says so. This is the same principle as the mating surfaces: rounding is for geometry the toolkit invents, never for geometry the game dictates.
