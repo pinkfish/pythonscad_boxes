@@ -233,3 +233,17 @@ Two-level: in-memory dict + `pyboxbuilder/.layout_cache.json`. SHA-256 hash key 
 {out_dir}/{project.name}/single/{label}_lid_single.3mf
 {out_dir}/{project.name}/single/spacer_{N}_single.3mf
 ```
+
+## High-Level Project Presets (`pyboxbuilder/project/core.py`)
+
+The `Project` model provides factory methods to quickly instantiate standard board game insert elements:
+
+1. **`Project.card_box(...) -> BoxBuilder`**
+   - Configures a sub-box tailored to store a deck of cards.
+   - Sizing and card thickness are auto-computed from `SleeveType` properties and card count.
+2. **`Project.token_tray(...) -> BoxBuilder`**
+   - Divides a sub-box into a grid of compartments (`rows` x `cols`) with relative ratios.
+   - Automatically enables `holds_pieces` rounding and a finger scoop on the specified `scoop_side`.
+3. **`Project.hex_tile_box(...) -> BoxBuilder`**
+   - Configures a sub-box containing a compartment specifically sized for stacked hexagonal game tiles (`ElementShape.HEXAGON`).
+

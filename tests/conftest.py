@@ -14,6 +14,7 @@ FAST_FILES = {
     "test_project.py",
     "test_project_coverage.py",
     "test_outline_invariants.py",
+    "test_presets.py",
 }
 
 def pytest_collection_modifyitems(config, items):

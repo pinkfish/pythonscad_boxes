@@ -18,14 +18,15 @@ from functools import cache, partial
 from pathlib import Path
 from typing import TYPE_CHECKING, Any
 
-from pyboxbuilder.enums import BoxType
+from pyboxbuilder.enums import BoxType, FingerCut, ScoopSide
+from pyboxbuilder.helpers import CardSize, SleeveType
 from pyboxbuilder.project.piece import Build, Piece, ResolvedBox
 
 if TYPE_CHECKING:
     from pybosl2 import Color
     from pybosl2.shapes3d import Bosl2Solid
 
-    from pyboxbuilder.builders._base import BoxBuilder
+    from pyboxbuilder.builders._base import BoxBuilder, Cut
     from pyboxbuilder.export.exporter import BoxExporter, PieceBounds
     from pyboxbuilder.export.result import ExportResult
     from pyboxbuilder.layout import Arrangement, Node
@@ -1262,6 +1263,87 @@ class Project:
     ) -> None:
         """Register a group of compartments to be dynamically partitioned across the given box labels."""
         self._shared_groups.append((boxes, compartments))
+
+    def card_box(
+        self,
+        label: str,
+        *,
+        card_size: CardSize | tuple[float, float],
+        count: int,
+        sleeve: SleeveType = SleeveType.UNSLEEVED,
+        box_type: BoxType = BoxType.SLIDING,
+        cut: Cut | FingerCut | None = FingerCut.THROUGH_FLOOR,
+        **kwargs: Any,
+    ) -> BoxBuilder:
+        """Add a box pre-configured for a deck of cards."""
+        from pyboxbuilder.enums import FingerCut
+        from pyboxbuilder.helpers import CardSize, SleeveType
+
+        builder = self.box(box_type, label, **kwargs)
+        base_size = card_size.value if isinstance(card_size, CardSize) else card_size
+        sleeved_size = (base_size[0] + sleeve.footprint_margin, base_size[1] + sleeve.footprint_margin)
+        builder.cards(
+            "Cards",
+            count=count,
+            size=sleeved_size,
+            thickness=sleeve.card_thickness,
+            cut=cut,
+        )
+        return builder
+
+    def token_tray(
+        self,
+        label: str,
+        *,
+        rows: int,
+        cols: int,
+        scoop_side: ScoopSide = ScoopSide.FRONT,
+        box_type: BoxType = BoxType.FILAMENT_HINGE,
+        **kwargs: Any,
+    ) -> BoxBuilder:
+        """Add a tray subdivided into a grid of compartments for tokens, with finger scoops."""
+        from pyboxbuilder.builders._base import Cut
+        from pyboxbuilder.enums import ScoopSide
+
+        builder = self.box(box_type, label, **kwargs)
+        for r in range(rows):
+            for c in range(cols):
+                comp_label = f"{label}_{r}_{c}"
+                builder.compartment(
+                    comp_label,
+                    width_ratio=1.0 / cols,
+                    length_ratio=1.0 / rows,
+                    holds_pieces=True,
+                    cut=Cut.scoop(side=scoop_side),
+                )
+        return builder
+
+    def hex_tile_box(
+        self,
+        label: str,
+        *,
+        tile_width: float,
+        count: int,
+        box_type: BoxType = BoxType.SLIDING,
+        cut: Cut | FingerCut | None = FingerCut.THROUGH_FLOOR,
+        **kwargs: Any,
+    ) -> BoxBuilder:
+        """Add a box with a compartment for a stack of hexagonal tiles."""
+        from pyboxbuilder.compartments.element import CompartmentElement
+        from pyboxbuilder.enums import ElementShape, FingerCut
+
+        builder = self.box(box_type, label, **kwargs)
+        elem = CompartmentElement(
+            shape=ElementShape.HEXAGON,
+            size=(tile_width, tile_width),
+        )
+        builder.compartment(
+            "Tiles",
+            elements=(elem,),
+            holds_pieces=False,
+            cut=cut,
+        )
+        return builder
 
 
 STANDALONE_GAP_MM = 10.0
