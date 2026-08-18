@@ -65,7 +65,7 @@ class ResolvedBox:
 
     Split out so the checks run when the project is built and the CSG runs when
     something asks for it: a project that cannot be built must say so at
-    :meth:`Project.build`, not later, when a caller happens to touch a solid.
+    :meth:`~pyboxbuilder.project.Project.build`, not later, when a caller happens to touch a solid.
     """
 
     builder: BoxBuilder

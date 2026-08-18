@@ -132,6 +132,15 @@ intersphinx_mapping = {
     "numpy": ("https://numpy.org/doc/stable/", None),
 }
 
+# --- suppress warnings -----------------------------------------------------
+# Names re-exported at the package top level (``pyboxbuilder.ScoopSide``) and
+# at their defining module (``pyboxbuilder.enums.ScoopSide``) are documented
+# twice, so a short-name reference resolves to two targets. Sphinx picks one
+# and the doc is correct; the ambiguity is noise. Broken references are a
+# different warning type (``ref.class``/``ref.meth``/…), so they are still
+# caught by the build's "reference target not found" check.
+suppress_warnings = ["ref.python"]
+
 # --- linkcheck -------------------------------------------------------------
 # The ``pythonscad-example`` blocks emit relative ``_stl/<hash>.stl`` download
 # links to meshes generated at build time; those are assets, not links to
