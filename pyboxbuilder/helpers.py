@@ -67,6 +67,7 @@ class CardSpec:
             card_size: CardSize enum or custom (width, length) tuple in mm.
             count: Number of cards in the deck.
             sleeve: SleeveType selection.
+
         """
         self.card_size = card_size
         self.count = count

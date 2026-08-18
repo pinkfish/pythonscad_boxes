@@ -184,7 +184,7 @@ class BoxSpec:
     """Clearance between a stacked box's rim and the one below it."""
 
     # ── Extraction (Phase 3) ─────────────────────────────────────────────
-    tilt_to_lift: bool = True
+    tilt_to_lift: bool = False
     """Subtle bottom bevel to rock box up for easy extraction."""
     keystone: bool = False
     """Make this the first-out box with extra clearance and a finger scoop."""

@@ -93,12 +93,12 @@ clean:
 	rm -rf $(OUT)
 
 test:
-	PYBOXBUILDER_EXPORT_FN=12 $(PYTHON) -m pytest tests/test_pyboxbuilder/ -q
+	PYTHONPATH=. PYBOXBUILDER_EXPORT_FN=12 $(PYTHON) -m pytest tests/test_pyboxbuilder/ -q
 
 lint:
-	$(PYTHON) -m ruff check pyboxbuilder/ boxes/
+	PYTHONPATH=. $(PYTHON) -m ruff check pyboxbuilder/ boxes/
 
 types:
-	$(PYTHON) -m mypy pyboxbuilder/
+	PYTHONPATH=. $(PYTHON) -m mypy pyboxbuilder/
 
 check: test lint types

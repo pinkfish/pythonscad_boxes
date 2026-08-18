@@ -130,7 +130,7 @@ def block(size: Sequence[float], at: Sequence[float] = (0.0, 0.0, 0.0)) -> Bosl2
 
 def bottom_chamfer_slivers(size: Sequence[float], chamfer_val: float) -> Bosl2Solid:
     """Return chamfer slivers for the bottom edges of a block of size."""
-    from pybosl2 import cuboid, Anchor
+    from pybosl2 import Anchor, cuboid
     square = block(list(size))
     chamfered = corner(
         cuboid(list(size), chamfer=chamfer_val, edges=[Anchor.BOTTOM]),
@@ -368,7 +368,10 @@ def apply_finger_holes(body: Bosl2Solid, spec: BoxSpec) -> Bosl2Solid:
         span_interior = span - 2 * wt
         radius = min(17.0, span_interior / 4.0, spec.height - ft - MIN_WALL_BELOW_HOLE_MM)
         hole_height = min(radius, spec.height * MAX_FINGER_HOLE_HEIGHT_SHARE)
-        if hole_height >= MIN_FINGER_HOLE_REACH_MM and 2.0 * (radius + 3.0) <= span_interior * MAX_FINGER_HOLE_SPAN_SHARE:
+        if (
+            hole_height >= MIN_FINGER_HOLE_REACH_MM
+            and 2.0 * (radius + 3.0) <= span_interior * MAX_FINGER_HOLE_SPAN_SHARE
+        ):
             from pyboxbuilder.builders._base import FingerHoleBuilder
             keystone_hole = FingerHoleBuilder(
                 side=side,
@@ -404,7 +407,7 @@ def apply_finger_holes(body: Bosl2Solid, spec: BoxSpec) -> Bosl2Solid:
         # the wrong one either floats above its wall or cuts into a lid feature.
         interior_top = spec.wall_top(hole.side)
         interior_height = interior_top - ft
-        radius = getattr(hole, "radius", 17.0)
+        radius = getattr(hole, "radius", 14.0)
         # The cut's height follows the finger unless told otherwise, and never
         # reaches deeper than the interior.
         reach = min(getattr(hole, "depth", None) or radius, interior_height)
