@@ -376,6 +376,7 @@ for card_type, lid_text in CARD_BOXES:
         f"CardBox{card_type}",
         size=(CARD_BOX_WIDTH, CARD_BOX_LENGTH, CARD_BOX_HEIGHT),
         lid=EMBERLEAF_LID.titled(lid_text),
+        keystone=(card_type == "Solo"),
     )
     card_box.compartment(
         "Cards",
@@ -398,6 +399,7 @@ for colour in PLAYER_CARD_COLOURS:
         f"CardBoxPlayer{colour}",
         size=(PLAYER_CARD_BOX_WIDTH, PLAYER_CARD_BOX_LENGTH, PLAYER_CARD_BOX_HEIGHT),
         lid=EMBERLEAF_LID.titled("Player"),
+        keystone=(colour == "Red"),
     )
     player_card_box.compartment(
         "Cards",
