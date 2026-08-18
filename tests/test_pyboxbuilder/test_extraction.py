@@ -99,3 +99,32 @@ def test_deep_well_dual_opposing_scoops() -> None:
         assert scoop is not None
     except ImportError:
         pass
+
+
+def test_build_shell_ergonomic_features() -> None:
+    """Verify that build_shell generates geometry correctly with ergonomic options enabled."""
+    from pyboxbuilder.box.shell import build_shell
+
+    # Test tilt_to_lift and ribbon_channels
+    spec = build_spec(
+        Project("Test"),
+        Project("Test").box(BoxType.NO_LID, "TestBox", size=(50, 50, 20), tilt_to_lift=True, ribbon_channel=True),
+        (50.0, 50.0, 20.0)
+    )
+    try:
+        solid = build_shell(spec)
+        assert solid is not None
+    except ImportError:
+        pass
+
+    # Test keystone finger scoop injection
+    spec_key = build_spec(
+        Project("Test"),
+        Project("Test").box(BoxType.NO_LID, "KeyBox", size=(50, 50, 20), keystone=True),
+        (50.0, 50.0, 20.0)
+    )
+    try:
+        solid_key = build_shell(spec_key)
+        assert solid_key is not None
+    except ImportError:
+        pass

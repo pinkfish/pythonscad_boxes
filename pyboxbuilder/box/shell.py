@@ -366,7 +366,7 @@ def apply_finger_holes(body: Bosl2Solid, spec: BoxSpec) -> Bosl2Solid:
         ft = spec.floor_thickness
         span = spec.width if side == ScoopSide.FRONT else spec.length
         span_interior = span - 2 * wt
-        radius = min(14.0, span_interior / 4.0, spec.height - ft - MIN_WALL_BELOW_HOLE_MM)
+        radius = min(17.0, span_interior / 4.0, spec.height - ft - MIN_WALL_BELOW_HOLE_MM)
         hole_height = min(radius, spec.height * MAX_FINGER_HOLE_HEIGHT_SHARE)
         if hole_height >= MIN_FINGER_HOLE_REACH_MM and 2.0 * (radius + 3.0) <= span_interior * MAX_FINGER_HOLE_SPAN_SHARE:
             from pyboxbuilder.builders._base import FingerHoleBuilder
@@ -404,7 +404,7 @@ def apply_finger_holes(body: Bosl2Solid, spec: BoxSpec) -> Bosl2Solid:
         # the wrong one either floats above its wall or cuts into a lid feature.
         interior_top = spec.wall_top(hole.side)
         interior_height = interior_top - ft
-        radius = getattr(hole, "radius", 14.0)
+        radius = getattr(hole, "radius", 17.0)
         # The cut's height follows the finger unless told otherwise, and never
         # reaches deeper than the interior.
         reach = min(getattr(hole, "depth", None) or radius, interior_height)

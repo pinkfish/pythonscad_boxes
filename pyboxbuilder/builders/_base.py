@@ -22,7 +22,7 @@ CARD_THICKNESS_MM = 0.6
 CARD_SLACK_MM = 1.0
 """Clearance around a card stack, so it goes in and comes out freely."""
 
-DEFAULT_FINGER_WIDTH_MM = 28.0
+DEFAULT_FINGER_WIDTH_MM = 34.0
 """How wide a finger cut is when nothing says otherwise — a fingertip (FR-051)."""
 
 

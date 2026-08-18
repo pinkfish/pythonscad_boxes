@@ -489,7 +489,7 @@ def build_through_hole(
     comp_width: float,
     comp_length: float,
     side: ScoopSide,
-    radius: float = 14.0,
+    radius: float = 17.0,
     comp_depth: float = 20.0,
     wall_thickness: float = 2.0,
     floor_thickness: float = 2.0,
