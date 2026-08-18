@@ -4,6 +4,7 @@ venv
 examples/*.stl
 examples/*.3mf
 examples/output/*.deps
+output/
 
 __pycache__/
 *.pyc

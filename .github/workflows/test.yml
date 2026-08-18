@@ -46,14 +46,35 @@ jobs:
       - name: Run golden render tests
         run: python -m pytest tests/test_pyboxbuilder/render/test_boxes_golden.py tests/test_pyboxbuilder/render/test_patterns_golden.py -q
 
-      # Fast pure-Python tests. The export path is not part of a CI pass:
-      # export() tessellates and writes 3MFs, which is `make export`'s job,
-      # not a test's. `-k "not export"` drops the export-focused test classes,
-      # and `--ignore` skips the golden/render directory and the per-example
-      # build smoke test (building every example is not needed on every CI run).
+      # Fast pure-Python tests of the base library. The export path is not part
+      # of a CI pass: export() tessellates and writes 3MFs, which is `make
+      # export`'s job, not a test's. `-k "not export"` drops the export-focused
+      # test classes, and `--ignore` skips the golden/render directory and the
+      # example tests (built separately below).
       - name: Run fast pure-Python tests
         run: |
           python -m pytest tests/test_pyboxbuilder/ -q \
             --ignore=tests/test_pyboxbuilder/render \
             --ignore=tests/test_pyboxbuilder/test_ci_smoke.py \
+            --ignore=tests/test_pyboxbuilder/test_1835.py \
+            --ignore=tests/test_pyboxbuilder/test_earth_animal_kingdom.py \
+            --ignore=tests/test_pyboxbuilder/test_emberleaf.py \
+            --ignore=tests/test_pyboxbuilder/test_irish_gauge.py \
+            --ignore=tests/test_pyboxbuilder/test_quickstart.py \
             -k "not export"
+
+      # The examples are their own thing: build every one and check the fidelity
+      # of the ones that copy a published insert — separately from the base
+      # library validation above, because they exercise whole projects and are
+      # the slow path.
+      - name: Build every example
+        env:
+          PYBOXBUILDER_EXPORT_FN: "12"
+        run: |
+          python -m pytest \
+            tests/test_pyboxbuilder/test_ci_smoke.py \
+            tests/test_pyboxbuilder/test_1835.py \
+            tests/test_pyboxbuilder/test_earth_animal_kingdom.py \
+            tests/test_pyboxbuilder/test_emberleaf.py \
+            tests/test_pyboxbuilder/test_irish_gauge.py \
+            tests/test_pyboxbuilder/test_quickstart.py -q
