@@ -28,6 +28,7 @@ from pyboxbuilder.rounding import (
     default_rounding,
     round_edges,
     vertical_and_bottom_edges,
+    vertical_edges,
 )
 
 if TYPE_CHECKING:
@@ -110,14 +111,7 @@ def corner(
     size: Sequence[float],
     at: Sequence[float] = (0.0, 0.0, 0.0),
 ) -> Bosl2Solid:
-    """Place a centre-anchored solid so its minimum corner sits at `at`.
-
-    Args:
-        solid: A centre-anchored solid, as every pybosl2 primitive is.
-        size: The solid's (width, length, height).
-        at: Where its minimum corner should end up.
-
-    """
+    """Place a centre-anchored solid so its minimum corner sits at `at`."""
     return solid.translate(
         [
             at[0] + size[0] / 2,
@@ -134,6 +128,31 @@ def block(size: Sequence[float], at: Sequence[float] = (0.0, 0.0, 0.0)) -> Bosl2
     return corner(cuboid(list(size)), size, at)
 
 
+def bottom_chamfer_slivers(size: Sequence[float], chamfer_val: float) -> Bosl2Solid:
+    """Return chamfer slivers for the bottom edges of a block of size."""
+    from pybosl2 import cuboid, Anchor
+    square = block(list(size))
+    chamfered = corner(
+        cuboid(list(size), chamfer=chamfer_val, edges=[Anchor.BOTTOM]),
+        size,
+        (0.0, 0.0, 0.0),
+    )
+    return square - chamfered
+
+
+def apply_ribbon_channels(body: Bosl2Solid, spec: BoxSpec) -> Bosl2Solid:
+    """Carve ribbon pass-through channels if enabled."""
+    if not spec.ribbon_channel:
+        return body
+    center_x = spec.width / 2.0
+    center_y = spec.length / 2.0
+    depth = min(2.0, max(0.8, spec.floor_thickness - 0.8))
+
+    x_channel = block([spec.width + 10.0, 15.0, depth], at=[-5.0, center_y - 7.5, -0.01])
+    y_channel = block([15.0, spec.length + 10.0, depth], at=[center_x - 7.5, -5.0, -0.01])
+    return body - x_channel - y_channel
+
+
 def build_shell(spec: BoxSpec) -> Bosl2Solid:
     """Outer block, hollowed to the interior unless `spec.hollow` is False.
 
@@ -148,15 +167,23 @@ def build_shell(spec: BoxSpec) -> Bosl2Solid:
     size = [spec.width, spec.length, spec.height]
     outer = block(size)
 
+    if spec.tilt_to_lift:
+        outer = outer - bottom_chamfer_slivers(size, 3.0)
+
     # Round what a hand grips: the vertical corners and the base always, and the
     # top rim too when nothing has to mate with it. On a lidded box the rim is a
     # sealing surface, so its rounding lives on the lid instead — the closed box
     # still reads as rounded top, sides and bottom (FR-043/FR-044).
     radius = body_rounding(spec)
     if radius > 0:
-        edges = vertical_and_bottom_edges()
-        if spec.rim_free:
-            edges = [*edges, _top_anchor()]
+        if spec.tilt_to_lift:
+            edges = list(vertical_edges())
+            if spec.rim_free:
+                edges = [*edges, _top_anchor()]
+        else:
+            edges = vertical_and_bottom_edges()
+            if spec.rim_free:
+                edges = [*edges, _top_anchor()]
         outer = round_edges(outer, size, radius, edges)
 
     # A type whose top face is exposed *with the lid on* rounds that edge too,
@@ -170,7 +197,9 @@ def build_shell(spec: BoxSpec) -> Bosl2Solid:
     if spec.hollow:
         outer = outer - interior_block(spec)
         outer = round_inner_rim(outer, spec)
-    return apply_finger_holes(outer, spec)
+    outer = apply_finger_holes(outer, spec)
+    outer = apply_ribbon_channels(outer, spec)
+    return outer
 
 
 def body_rounding(spec: BoxSpec) -> float:
@@ -331,6 +360,24 @@ def apply_finger_holes(body: Bosl2Solid, spec: BoxSpec) -> Bosl2Solid:
         The body with every hole subtracted; unchanged when there are none.
 
     """
+    if spec.keystone and not spec.finger_holes:
+        side = ScoopSide.FRONT if spec.width <= spec.length else ScoopSide.LEFT
+        wt = spec.wall_thickness
+        ft = spec.floor_thickness
+        span = spec.width if side == ScoopSide.FRONT else spec.length
+        span_interior = span - 2 * wt
+        radius = min(14.0, span_interior / 4.0, spec.height - ft - MIN_WALL_BELOW_HOLE_MM)
+        hole_height = min(radius, spec.height * MAX_FINGER_HOLE_HEIGHT_SHARE)
+        if hole_height >= MIN_FINGER_HOLE_REACH_MM and 2.0 * (radius + 3.0) <= span_interior * MAX_FINGER_HOLE_SPAN_SHARE:
+            from pyboxbuilder.builders._base import FingerHoleBuilder
+            keystone_hole = FingerHoleBuilder(
+                side=side,
+                width=radius * 2.0,
+                depth=hole_height,
+                mouth_flare=3.0,
+            )
+            spec = replace(spec, finger_holes=(keystone_hole,))
+
     holes = spec.finger_holes or ()
     if not holes:
         return body

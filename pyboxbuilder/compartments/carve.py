@@ -169,9 +169,6 @@ def build_compartment_scoop(
     # face is not coplanar with the well floor (which renders as speckle).
     floor_thickness = interior.origin_z if interior.origin_z > 0 else None
     cut = cut if cut is not None else Cut()
-    # Which of the three shapes this becomes is `build_cut`'s call, not ours:
-    # the kind asked for and the well's depth are one decision, and splitting
-    # it across two modules is how a card box ends up with a scoop (FR-060).
     scoop = build_cut(
         cut.kind,
         width, length, cut.depth if cut.depth is not None else depth, scoop_side,
@@ -185,6 +182,30 @@ def build_compartment_scoop(
         ),
         faces=FaceTreatment(fillet=cut.face_fillet),
     )
+
+    if placement.depth > 35.0:
+        opposing = {
+            ScoopSide.FRONT: ScoopSide.BACK,
+            ScoopSide.BACK: ScoopSide.FRONT,
+            ScoopSide.LEFT: ScoopSide.RIGHT,
+            ScoopSide.RIGHT: ScoopSide.LEFT,
+        }
+        opp_side = opposing[scoop_side]
+        opp_scoop = build_cut(
+            cut.kind,
+            width, length, cut.depth if cut.depth is not None else depth, opp_side,
+            wall_thickness=wall_thickness,
+            floor_thickness=floor_thickness,
+            profile=CutProfile(
+                width=cut.width,
+                base_radius=cut.base_radius,
+                mouth_flare=cut.mouth_flare,
+                roll_rise=cut.roll_rise,
+            ),
+            faces=FaceTreatment(fillet=cut.face_fillet),
+        )
+        scoop = scoop | opp_scoop
+
     return _place(scoop, placement, interior)
 
 

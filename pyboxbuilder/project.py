@@ -171,13 +171,32 @@ class Project:
     """Minimum spacer width/length before absorption."""
     min_spacer_height: float = 5.0
     """A spacer tray thinner than this on any axis is dropped as unprintable (FR-014)."""
-    clearance_slack: float = 1.0
-    """Clearance slack on each side of the game box in the X/Y directions (mm)."""
+    clearance_slack: float | None = None
+    """Clearance slack on each side of the game box in the X/Y directions (mm).
+
+    If ``None`` (the default), it auto-scales from 1.0mm to 2.5mm based on the game box size."""
+    @property
+    def resolved_clearance_slack(self) -> float:
+        """Return the resolved clearance slack, scaling with game box size if None."""
+        if self.clearance_slack is not None:
+            return self.clearance_slack
+        if self.game_box_size is None:
+            return 1.0
+        max_dim = max(self.game_box_size[0], self.game_box_size[1])
+        if max_dim < 150.0:
+            return 1.0
+        elif max_dim <= 250.0:
+            return 1.5
+        else:
+            return min(2.5, 1.5 + (max_dim - 250.0) / 100.0 * 0.5)
+
     board_thickness: float = 0.0
     """Thickness of the game board (mm).
 
     Reserved at the TOP of the box: the board sits on top of the sub-boxes and
     is the first thing out, so this is not a spacer gap."""
+    ribbon_channels: bool = False
+    """Cut bottom groove for lifting ribbon on all sub-boxes by default."""
     generate_spacers: bool = True
     """Whether to automatically generate spacer boxes/trays to fill layout gaps."""
     box_defaults: dict[str, Any] | None = None
@@ -721,9 +740,12 @@ class Project:
                     Placement(label=builder.label, position=builder.position, size=size, rotation=False)
                 )
             else:
+                pack_size = size
+                if builder.keystone:
+                    pack_size = (size[0] + 3.0, size[1] + 3.0, size[2])
                 box_data.append({
                     "label": builder.label,
-                    "size": size,
+                    "size": pack_size,
                     # `expandable` is the master switch: off means the box keeps
                     # the size it was given. The per-axis flags only narrow it.
                     "expandable": builder.expandable,
@@ -734,7 +756,7 @@ class Project:
         # The board sits on top of the sub-boxes, so the packer only gets the
         # height below it — otherwise auto-placed boxes climb into the space
         # the board needs.
-        slack = self.clearance_slack
+        slack = self.resolved_clearance_slack
         container = self._container()
         packing_container = (
             container[0] - 2 * slack,
@@ -743,15 +765,25 @@ class Project:
         )
         packing = pack_boxes(packing_container, box_data)
 
-        shifted_placements = [
-            Placement(
-                label=p.label,
-                position=(p.position[0] + slack, p.position[1] + slack, p.position[2]),
-                size=p.size,
-                rotation=p.rotation,
+        shifted_placements = []
+        for p in packing.placements:
+            b = self._by_label(p.label)
+            is_keystone = b.keystone if b else False
+            p_size = p.size
+            pos_offset_x = 0.0
+            pos_offset_y = 0.0
+            if is_keystone:
+                p_size = (max(0.1, p.size[0] - 3.0), max(0.1, p.size[1] - 3.0), p.size[2])
+                pos_offset_x = 1.5
+                pos_offset_y = 1.5
+            shifted_placements.append(
+                Placement(
+                    label=p.label,
+                    position=(p.position[0] + slack + pos_offset_x, p.position[1] + slack + pos_offset_y, p.position[2]),
+                    size=p_size,
+                    rotation=p.rotation,
+                )
             )
-            for p in packing.placements
-        ]
         shifted_placements.extend(manual_placements)
         packing.placements = shifted_placements
 
@@ -1000,7 +1032,7 @@ class Project:
         return generate_spacer_placements(
             effective_container,
             packing.placements,
-            clearance=self.clearance_slack,
+            clearance=self.resolved_clearance_slack,
             min_dim=self.min_spacer_height,
         )
 

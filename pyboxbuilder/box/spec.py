@@ -183,6 +183,14 @@ class BoxSpec:
     stackable_fit_offset: float = 0.1
     """Clearance between a stacked box's rim and the one below it."""
 
+    # ── Extraction (Phase 3) ─────────────────────────────────────────────
+    tilt_to_lift: bool = True
+    """Subtle bottom bevel to rock box up for easy extraction."""
+    keystone: bool = False
+    """Make this the first-out box with extra clearance and a finger scoop."""
+    ribbon_channel: bool = False
+    """Cut bottom groove for lifting ribbon."""
+
     def interior(self) -> Interior:
         """Return the usable volume inside this box.
 
@@ -263,7 +271,7 @@ _NOT_GEOMETRY = frozenset({
     "lid", "compartments", "color",
     # Passed explicitly below, after falling back to the project's own.
     "wall_thickness", "floor_thickness", "lid_thickness",
-    "rounding", "inner_rounding",
+    "rounding", "inner_rounding", "ribbon_channel",
 })
 
 _SPEC_FIELDS = frozenset(f.name for f in fields(BoxSpec))
@@ -292,6 +300,7 @@ def build_spec(
     wt = builder.wall_thickness or project.wall_thickness
     ft = builder.floor_thickness or project.floor_thickness
     lt = builder.lid_thickness or project.lid_thickness
+    rc = builder.ribbon_channel if builder.ribbon_channel is not None else project.ribbon_channels
 
     overrides = {
         name: value
@@ -305,6 +314,7 @@ def build_spec(
         label=builder.label,
         width=size[0], length=size[1], height=size[2],
         wall_thickness=wt, floor_thickness=ft, lid_thickness=lt,
+        ribbon_channel=rc,
         # Hollow the whole interior only when nothing else defines the
         # cavities; with compartments, they are the cavities.
         hollow=not builder.compartments,
