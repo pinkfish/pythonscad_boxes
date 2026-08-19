@@ -9,6 +9,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import TYPE_CHECKING
 
+from pyboxbuilder.deps import require
 from pyboxbuilder.packing.layout import Placement
 
 if TYPE_CHECKING:
@@ -63,10 +64,7 @@ def generate_layout_pdf(
 
     """
     output_path = Path(output_path)
-    try:
-        from fpdf import FPDF
-    except ImportError:
-        return None
+    FPDF = require("fpdf", "draw the layout sheet").FPDF
 
     pdf = FPDF(orientation="L", unit="mm", format="A4")
     pdf.set_auto_page_break(auto=False)

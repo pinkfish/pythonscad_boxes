@@ -216,4 +216,9 @@ class CompartmentBuilder:
             # Sized by width alone: the length is whatever is left.
             l = room_l
 
-        return (round(w, 1), round(l, 1))
+        import math
+
+        return (
+            math.floor((w + 1e-9) * 10.0) / 10.0,
+            math.floor((l + 1e-9) * 10.0) / 10.0,
+        )

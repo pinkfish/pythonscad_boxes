@@ -19,6 +19,7 @@ from pyboxbuilder.enums import (
     StackableMode,
 )
 from pyboxbuilder.export.result import ExportResult
+from pyboxbuilder.helpers import CardSize, CardSpec, SleeveType
 from pyboxbuilder.layout import columns, rows, stack
 from pyboxbuilder.lid.builder import LidBuilder, PatternBuilder
 from pyboxbuilder.project import Project
@@ -31,6 +32,8 @@ except PackageNotFoundError:
 
 __all__ = [
     "BoxType",
+    "CardSize",
+    "CardSpec",
     "Color",
     "CompartmentElement",
     "Cut",
@@ -44,6 +47,7 @@ __all__ = [
     "PatternType",
     "Project",
     "ScoopSide",
+    "SleeveType",
     "StackableMode",
     "__version__",
     "columns",

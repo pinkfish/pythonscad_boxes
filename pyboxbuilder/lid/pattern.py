@@ -99,6 +99,22 @@ def default_spacing(width: float, length: float) -> float:
     return max(min(width, length) / 8.0, 5.0)
 
 
+MIN_DERIVED_SPACING_MM = {
+    PatternType.VORONOI: 8.0,
+}
+"""Patterns whose derived pitch needs a higher floor than the generic one.
+
+:func:`default_spacing` is calibrated for a hole **inscribed** in its cell, which
+is what most of the catalog cuts. A Voronoi cell *tiles*, so the cell is the
+hole, and the web is taken out of a cell rather than out of the gap around one.
+An eighth of a small lid's shorter side leaves a cell only a few times the web,
+which prints and reads as a peppering of pinholes rather than as a pattern.
+
+Only the derived pitch is floored. A caller who asks for 5mm cells gets 5mm
+cells: a named option does what it says (FR-000g).
+"""
+
+
 def build_pattern(
     width: float,
     length: float,
@@ -131,7 +147,10 @@ def build_pattern(
 
     """
     if spacing is None:
-        spacing = default_spacing(width, length)
+        spacing = max(
+            default_spacing(width, length),
+            MIN_DERIVED_SPACING_MM.get(pattern_type, 0.0),
+        )
 
     fill = _PATTERN_FILLS.get(pattern_type)
     if fill is None:
@@ -375,42 +394,143 @@ The pattern is part of the exported geometry and is what the export fingerprint
 is taken over, so a fresh random layout each run would rewrite the file forever.
 """
 
-VORONOI_JITTER = 0.28
-"""How far a cell may wander from its grid point, as a share of the spacing."""
+VORONOI_JITTER = 0.99
+"""How much of its cell a seed point may roam, as a share.
 
-VORONOI_MIN_SCALE = 0.7
-VORONOI_MAX_SCALE = 1.15
-"""How much a hole's size varies about the nominal, low and high."""
+Near 1, so the points are all but uniformly scattered and the cells come out
+genuinely irregular. Lower it and the cells converge on a square grid — which is
+the pattern this one exists *not* to be.
+"""
+
+VORONOI_CORNER_MM = 1.0
+"""Radius the cell corners are rounded by.
+
+A Voronoi cell is a polygon, and its corners are where three cells meet at a
+point. Left sharp, that point is a stress raiser in a lid whose whole job is to
+be thin. The rounding is done by cutting the cells back further and growing them
+returned after, so the web keeps its width along the edges and only opens out at
+the junctions.
+"""
+
+VORONOI_NEIGHBOUR_REACH = 2.1 * 1.4142135623730951
+"""How far a cell looks for the neighbours that bound it, in cell sizes.
+
+A Voronoi cell is bounded by its Delaunay neighbours, which on a jittered grid
+are near — but "near" has to be generous enough to cover a point that wandered
+into one corner of its cell and a neighbour that wandered to the far side of
+its own. Anything beyond this cannot cut the cell, so testing it is only cost.
+"""
+
+
+def _voronoi_points(
+    width: float, length: float, spacing: float
+) -> list[tuple[float, float]]:
+    """Seed points: one per cell of a grid, each scattered within its cell.
+
+    Args:
+        width: Width of the area to fill, in mm.
+        length: Its length, in mm.
+        spacing: The grid's cell size.
+
+    Returns:
+        The points, including the ones outside the area. A cell only comes out
+        the right shape if it has neighbours on every side, so the ring beyond
+        the edge is what makes the cells *at* the edge real rather than bounded
+        by nothing.
+
+    """
+    rng = random.Random(VORONOI_SEED)
+    roam = spacing * VORONOI_JITTER / 2.0
+    return [
+        (x + rng.uniform(-roam, roam), y + rng.uniform(-roam, roam))
+        for x, y in _grid_cells(width, length, spacing)
+    ]
+
+
+def _voronoi_cell(
+    point: tuple[float, float],
+    points: list[tuple[float, float]],
+    inset: float,
+    reach: float,
+) -> Bosl2Shape2D | None:
+    """Return the cell around `point`, pulled in by `inset` on every side.
+
+    A point's cell is everywhere closer to it than to any other point, which is
+    the intersection of one half-plane per neighbour: the side of their
+    perpendicular bisector that `point` is on. Insetting each half-plane rather
+    than the finished polygon is what makes the web an even width — every edge
+    moves in by the same amount, whatever angle it sits at.
+
+    Args:
+        point: The cell's seed.
+        points: Every seed, this one included.
+        inset: How far to pull each bounding edge back towards `point`.
+        reach: Ignore neighbours further off than this; they cannot bound it.
+
+    Returns:
+        The cell, or ``None`` when no neighbour was close enough to bound it.
+
+    """
+    from pybosl2 import shapes2d as s2
+
+    # Wide enough to stand in for a half-plane across the whole cell.
+    span = reach * 2.0
+    half_plane = s2.rect([span * 2, span]).translate([0.0, -span / 2.0])
+
+    cell = None
+    for other in points:
+        dx, dy = other[0] - point[0], other[1] - point[1]
+        distance = math.hypot(dx, dy)
+        if distance <= 1e-9 or distance > reach:
+            continue
+        # The bisector sits halfway between the two; step back towards `point`
+        # by the inset, and face the plane so `point` is on the kept side.
+        angle = 90.0 + math.degrees(math.atan2(-dy, -dx))
+        cut = half_plane.rotate(angle).translate([
+            (point[0] + other[0]) / 2.0 - dx / distance * inset,
+            (point[1] + other[1]) / 2.0 - dy / distance * inset,
+        ])
+        cell = cut if cell is None else cell & cut
+    return cell
 
 
 def _voronoi_fill(
     width: float, length: float, thickness: float, spacing: float,
     web: float | None = None,
 ) -> Bosl2Solid | None:
-    """Round holes of varying size on a jittered grid — an organic scatter.
+    """Irregular cells with an even web between them — a true Voronoi.
 
-    The jitter and the size variation both eat into the web, so the nominal
-    hole is taken at the *largest* it will be drawn and the rest come out
-    smaller — otherwise two neighbours that both wandered inwards would meet.
+    Each cell is the region closer to its own seed than to any other, so the
+    cells **tile**: the material left over is exactly the web, and the lid comes
+    out as a net rather than as a sheet with holes punched in it.
+
+    This was round holes on a jittered grid, which is a scatter of circles and
+    reads as one. What makes a Voronoi look like a Voronoi is that neighbouring
+    cells share a straight edge, and circles never do (FR-023).
     """
-    from pybosl2 import cylinder
+    if hole_size(spacing, web) <= 0:
+        return None
+    gap = DEFAULT_WEB_MM if web is None else max(web, MIN_WEB_MM)
+    corner = min(VORONOI_CORNER_MM, gap)
 
-    size = hole_size(spacing + 2 * spacing * VORONOI_JITTER, web)
-    if size <= 0:
+    points = _voronoi_points(width, length, spacing)
+    reach = spacing * VORONOI_NEIGHBOUR_REACH
+    # Cut back by the corner radius as well, then grow it all back at the end:
+    # that rounds the junctions without widening the web along the edges.
+    inset = gap / 2.0 + corner
+
+    cells = None
+    for point in points:
+        cell = _voronoi_cell(point, points, inset, reach)
+        if cell is not None:
+            cells = cell if cells is None else cells | cell
+    if cells is None:
         return None
 
-    rng = random.Random(VORONOI_SEED)
-    holes = None
-    for x, y in _grid_cells(width, length, spacing):
-        jitter = spacing * VORONOI_JITTER
-        cx = x + rng.uniform(-jitter, jitter)
-        cy = y + rng.uniform(-jitter, jitter)
-        radius = size / 2 * rng.uniform(VORONOI_MIN_SCALE, VORONOI_MAX_SCALE)
-        cut = cylinder(
-            height=thickness * DEPTH_OVERSHOOT, radius=radius, **precision_kwargs()
-        ).translate([cx, cy, thickness / 2])
-        holes = cut if holes is None else holes | cut
-    return holes
+    height = thickness * DEPTH_OVERSHOOT
+    return cells.offset(radius=corner).linear_extrude(height=height).translate(
+        [0.0, 0.0, -(height - thickness) / 2.0]
+    )
 
 
 LEAF_ASPECT = 2.0

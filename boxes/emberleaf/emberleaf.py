@@ -31,7 +31,6 @@ for _sp in REPO_ROOT.glob("venv/*/lib/*/site-packages"):
 from pyboxbuilder import (
     BoxType,
     Color,
-    FingerCut,
     LabelMode,
     LidBuilder,
     PatternBuilder,
@@ -172,16 +171,16 @@ project = Project(
     generate_spacers=True,
 )
 
-LEAF_PATTERN = PatternBuilder(type=PatternType.LEAF, spacing=14.0)
-"""Leaves, for the game they are named after.
+LEAF_PATTERN = PatternBuilder(type=PatternType.VORONOI)
+"""An organic scatter of cells, sized from each lid rather than fixed.
 
-This said `LEAF` in the original toolkit and cut hexagons, because the catalog
-listed shapes it could not draw and fell back to squares — then to hexes when
-the catalog was cut back to what was real. The pattern draws leaves now, so the
-name is the shape again (FR-023).
+The original toolkit asked for `LEAF` here and cut squares, because its catalog
+listed shapes it could not draw; trimming the catalog to what was real turned
+that into hexes. Both are drawn now, and this insert takes the Voronoi.
 
-The pitch is a leaf's **length** and a leaf is half as long across, so 14mm here
-reads at about the size 10mm did as hexes."""
+No pitch is given. The insert's lids run from a 98mm player box to a much
+narrower material box, and one number cannot suit both — the derived pitch is a
+share of each lid's own shorter side (FR-000)."""
 
 EMBERLEAF_LID = LidBuilder(
     label_mode=LabelMode.FRAMELESS,
@@ -342,28 +341,16 @@ MATERIAL_INNER_L = MATERIAL_BOX_LENGTH - 2 * WALL
 MATERIAL_INNER_H = MATERIAL_BOX_HEIGHT - LID - FLOOR
 
 for material, colour in MATERIAL_BOXES:
-    material_box = project.box(
-        BoxType.CAP,
+    project.token_tray(
         f"MaterialBox{material}",
+        box_type=BoxType.CAP,
         size=(MATERIAL_BOX_WIDTH, MATERIAL_BOX_LENGTH, MATERIAL_BOX_HEIGHT),
         lid=EMBERLEAF_LID.titled(material, text_color=Color(colour)),
-    )
-    # A single rounded well filling the interior (RoundedBoxAllSides).
-    material_box.compartment(
-        "Materials",
-        size=(MATERIAL_INNER_W, MATERIAL_INNER_L),
-        depth=MATERIAL_INNER_H,
-        position=(0.0, 0.0),
-        rounded_corners=MATERIAL_INNER_H - 2,
     )
 
 # ── 3. Card boxes ─────────────────────────────────────────────────────────
 # Declared in the layout frame: the original spins the printed box 90 degrees,
 # so its [73, 98] footprint sits in the box as [98, 73].
-CARD_INNER_W = CARD_BOX_WIDTH - 2 * WALL
-CARD_INNER_L = CARD_BOX_LENGTH - 2 * WALL
-CARD_INNER_H = CARD_BOX_HEIGHT - LID - FLOOR
-
 CARD_BOXES = [
     ("Favor", "Favors"),
     ("Hero", "Heros"),
@@ -371,40 +358,26 @@ CARD_BOXES = [
 ]
 
 for card_type, lid_text in CARD_BOXES:
-    card_box = project.box(
-        BoxType.SLIDING,
+    project.card_box(
         f"CardBox{card_type}",
+        card_size=(CARD_LENGTH, CARD_WIDTH),
+        box_type=BoxType.SLIDING,
         size=(CARD_BOX_WIDTH, CARD_BOX_LENGTH, CARD_BOX_HEIGHT),
         lid=EMBERLEAF_LID.titled(lid_text),
-    )
-    card_box.compartment(
-        "Cards",
-        size=(CARD_LENGTH + 1, CARD_WIDTH + 1),
-        depth=CARD_INNER_H,
-        position=(0.0, 0.0),
-        cut=FingerCut.THROUGH_FLOOR,
+        keystone=(card_type == "Solo"),
     )
 
 # ── 4. Player card boxes ──────────────────────────────────────────────────
-PLAYER_CARD_INNER_W = PLAYER_CARD_BOX_WIDTH - 2 * WALL
-PLAYER_CARD_INNER_L = PLAYER_CARD_BOX_LENGTH - 2 * WALL
-PLAYER_CARD_INNER_H = PLAYER_CARD_BOX_HEIGHT - LID - FLOOR
-
 PLAYER_CARD_COLOURS = ["Black", "Blue", "Yellow", "Grey", "Red"]
 
 for colour in PLAYER_CARD_COLOURS:
-    player_card_box = project.box(
-        BoxType.SLIDING,
+    project.card_box(
         f"CardBoxPlayer{colour}",
+        card_size=(CARD_WIDTH, CARD_LENGTH),
+        box_type=BoxType.SLIDING,
         size=(PLAYER_CARD_BOX_WIDTH, PLAYER_CARD_BOX_LENGTH, PLAYER_CARD_BOX_HEIGHT),
         lid=EMBERLEAF_LID.titled("Player"),
-    )
-    player_card_box.compartment(
-        "Cards",
-        size=(CARD_WIDTH + 1, CARD_LENGTH + 1),
-        depth=PLAYER_CARD_INNER_H,
-        position=((PLAYER_CARD_INNER_W - CARD_WIDTH) / 2, 0.0),
-        cut=FingerCut.THROUGH_FLOOR,
+        keystone=(colour == "Red"),
     )
 
 # ── 5. Common box ─────────────────────────────────────────────────────────

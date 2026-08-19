@@ -460,6 +460,52 @@ spine, which also braces the widest part of the hole — where a perforated lid
 gives way. A leaf too narrow to keep a printable opening either side of it is
 cut whole instead, because two slits read as a crack.
 
+#### Voronoi Means Voronoi (FR-023)
+
+This member was round holes of varying size on a jittered grid. That is a
+scatter of circles and reads as one — the thing that makes a Voronoi look like a
+Voronoi is that neighbouring cells **share a straight edge**, and circles never
+do. Between every pair of them the web fattens and thins, so what the lid shows
+is spots rather than a net.
+
+A real cell is the region closer to its own seed than to any other, which is the
+intersection of one half-plane per neighbour: the side of their perpendicular
+bisector the seed is on. Two details make it come out right:
+
+- **Inset the half-planes, not the finished polygon.** Every bounding edge moves
+  in by the same amount whatever angle it sits at, so the web is an even width
+  all the way round. Insetting the polygon afterwards would do the same thing
+  here, but only because these cells are convex; doing it per-edge is the reason
+  it is true rather than a coincidence.
+- **Cut back further, then grow it all back.** The cells are inset by half the
+  web *plus* the corner radius and then offset out by that radius, which rounds
+  the junctions — where three cells meet at a point — without widening the web
+  along the edges. A sharp junction is a stress raiser in a lid whose whole job
+  is to be thin.
+
+Neighbours further than about three cell sizes cannot bound a cell, so they are
+not tested. That is what keeps this cheap: the whole pattern for a 100 × 70 lid
+builds in under a second.
+
+The seeds overhang the area, like every other pattern's lattice — a cell is only
+the right shape if it has neighbours on every side, so the ring beyond the edge
+is what makes the cells *at* the edge real rather than bounded by nothing.
+
+**The default pitch needed its own floor**, and the reason is the tiling again.
+`default_spacing` gives an eighth of the shorter side, which is calibrated for a
+hole *inscribed* in its cell — a hexagon at pitch p is p across and the web comes
+out of the gap around it. A Voronoi cell **is** the hole, so the web comes out of
+the cell itself, and an eighth of a small lid leaves a cell only a few times the
+web: it prints and reads as a peppering of pinholes rather than as a pattern.
+
+The first attempt at this was a share applied inside the fill — cells cut at two
+thirds of the requested pitch. That was the wrong lever, because it double-counts
+with the derived default: on Emberleaf's material box it took a 6.9mm derived
+pitch down to 4.5mm cells, which is exactly the peppering it was meant to avoid.
+A floor on the derived pitch fixes the small lids without touching the large ones,
+and it leaves an explicit pitch alone — a caller who asks for 5mm cells gets 5mm
+cells (FR-000g).
+
 #### The Other Leaf: A Tile Rather Than A Shape (FR-023)
 
 `LEAF` above is a shape that is spaced out; `LEAF_TESSELLATION` is a **tile**.
@@ -1393,6 +1439,52 @@ Every exported piece's bounding box is measured (not computed from the declared 
 ## Silhouette Fidelity (FR-045)
 
 Smoothing and silhouette fidelity are in direct tension, so the rule is explicit: **the outline of a piece shape is never modified.** SVG silhouettes, animal outlines, token cutouts and engraved shapes are reproduced exactly as authored, even where the result is awkward to print — thin features, overhangs, sharp interior corners all stand. The fillets and chamfers of FR-043/FR-044 apply only to structural edges the toolkit itself creates: box rims and corners, compartment wall/floor junctions, finger scoops and finger holes. No global smoothing pass may run over element geometry, and the SVG parse cache stores the path as parsed.
+
+## Nothing Fails Quietly (FR-000h)
+
+The worst bug in this library was one that never raised. Every geometry builder
+answered a missing backend with `None`, the exporter turned that into `False`,
+and `write_piece` turned *that* into a `path.touch()` — so an export with no
+backend created the whole directory tree, wrote a **0-byte 3MF per piece**,
+recorded every one as written, and exited 0. A broken install and a successful
+run were the same output. You found out at the slicer.
+
+It was not one mistake, it was a habit, and the same habit had spread:
+
+- `except ImportError: pass` around the body build → a box with **no
+  compartments carved into it**.
+- `except ImportError: return piece.solid, None` in the lid path → **every lid
+  blank**, no label and no pattern.
+- `except Exception: return None` for a spacer → the spacer **missing from the
+  layout**, which is invisible because the layout still looks full.
+- `except Exception: return solid` around `.color()` → a **single-material
+  print** from a description asking for several.
+- `except Exception: pass` around the layout PDF, commented "best-effort".
+- `except Exception: pass` around the compartment layout, falling through to an
+  **estimated** box size — a wrong number wearing a measurement's clothes, and
+  the box then gets built to it.
+
+So the rule is now the plain one: **if the library cannot do what was asked, it
+raises**. `pyboxbuilder/deps.py` holds the one helper the dependency cases need,
+because "ImportError" is not an answer a user can act on — `require()` names the
+package, what it was needed for, and how to install it. That last part earns its
+keep twice over: `pip install fpdf` fetches a different, abandoned package, and
+the geometry backend is not on PyPI at all, so the honest hint is "run this
+through PythonSCAD".
+
+**None of these dependencies is optional**, which is why none of them may be
+answered by degrading. There is no mode of this library that works without
+geometry.
+
+The one exception is a **cache**. A corrupt fingerprint record, or one that
+cannot be written, is treated as a miss and regenerated. That loses no output
+and the next run is correct, which is exactly the property none of the cases
+above had.
+
+The exporter's placeholder had one real use — it let the layout, PDF and packing
+pipeline be tested with no app. That was worth less than it cost: those tests
+now pass real geometry, which is what they were meant to be testing against
+anyway, and the empty-piece path is an error instead.
 
 ## Validation, Errors and Warnings
 

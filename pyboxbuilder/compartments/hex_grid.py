@@ -11,6 +11,7 @@ import math
 from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
+from pyboxbuilder.deps import require
 from pyboxbuilder.precision import kwargs as precision_kwargs
 
 if TYPE_CHECKING:
@@ -143,10 +144,8 @@ def build_hex_grid(spec: HexGridSpec) -> Bosl2Solid:
         from the box floor), or None if pybosl2 is unavailable.
 
     """
-    try:
-        from pybosl2 import cylinder, regular_prism
-    except ImportError:
-        return None
+    pybosl2 = require("pybosl2", "cut a hex grid")
+    cylinder, regular_prism = pybosl2.cylinder, pybosl2.regular_prism
 
     cells = compute_hex_layout(spec)
     cutouts = None

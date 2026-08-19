@@ -165,7 +165,13 @@ project = Project(
     generate_spacers=False,
 )
 
-BIRD_LID = PatternBuilder(type=PatternType.VORONOI, spacing=20.0)
+BIRD_LID = PatternBuilder(type=PatternType.VORONOI)
+"""No pitch: the cells size themselves from each lid (FR-000).
+
+This box's lids run from a card box down to a token tray, and a fixed 20mm read
+as a handful of large cells on the small ones. The derived pitch is a share of
+the lid's own shorter side, so the pattern looks like the same pattern on all of
+them."""
 
 # ── 1. Animal cards box ───────────────────────────────────────────────────
 card_box = project.box(

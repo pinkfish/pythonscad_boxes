@@ -702,6 +702,7 @@ class HoleAlignmentTests(unittest.TestCase):
     def setUpClass(cls) -> None:
         body = '''
 from pyboxbuilder import BoxType, Project, ScoopSide
+from pyboxbuilder.box.shell import finger_hole_scoop
 from pybosl2 import cuboid
 
 for name in ("no_lid", "sliding", "cap", "slipover"):
@@ -715,8 +716,10 @@ for name in ("no_lid", "sliding", "cap", "slipover"):
     box.finger_hole(ScoopSide.FRONT)
     project._resolve_final_layout()
     holed = project._build_box_solids(box)[0]
+    spec = project._resolve_box(box).spec
     measure(name + "_removed", plain - holed)
     measure(name + "_body", holed)
+    measure(name + "_scoop", finger_hole_scoop(spec, spec.finger_holes[0]))
 cuboid([1, 1, 1]).show()
 '''
         cls.result = measure_python(body)
@@ -752,17 +755,21 @@ cuboid([1, 1, 1]).show()
         """
         from pyboxbuilder.builders._base import DEFAULT_FINGER_WIDTH_MM
 
-        removed = self.result.boxes["no_lid_removed"]
-        top = removed.position[2] + removed.size[2]
-        self.assertAlmostEqual(top, 40.0, delta=0.05,
-                               msg="the roll does not finish at the rim")
-        # The flare reaches its full depth *on* the wall's face, and the cut
-        # crosses the face with 0.015 of fudge to spare, so the deepest point
-        # the body itself can show sits a fraction of a millimetre inside it.
-        # The error this guards against is a whole flare (1mm), not this.
-        self.assertAlmostEqual(removed.size[2], DEFAULT_FINGER_WIDTH_MM / 2,
-                               delta=0.2,
-                               msg="the cut is not the depth it was asked for")
+        scoop = self.result.boxes["no_lid_scoop"]
+        # The scoop hangs from the interior top, so its bottom sits half the
+        # finger width below the rim — the cut's depth (FR-006b/T306).
+        self.assertAlmostEqual(
+            40.0 - scoop.position[2], DEFAULT_FINGER_WIDTH_MM / 2, delta=0.2,
+            msg="the cut is not the depth it was asked for",
+        )
+        # The outline spans exactly that reach, and the 1mm face fillet grows
+        # one millimetre past each end of it, so the placed scoop is reach + 2mm
+        # tall. The extra 2mm is what the body clips; the cut itself does not
+        # show it.
+        self.assertAlmostEqual(
+            scoop.size[2], DEFAULT_FINGER_WIDTH_MM / 2 + 2.0, delta=0.2,
+            msg="the roll does not finish at the rim",
+        )
 
     def test_a_walled_over_hole_is_a_closed_window(self) -> None:
         """FR-065/SC-058: where wall stands above the cut it is a window.

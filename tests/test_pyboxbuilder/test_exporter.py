@@ -16,6 +16,19 @@ from pyboxbuilder.export import fingerprint as fp
 from pyboxbuilder.export.exporter import BoxExporter, PieceBounds
 
 
+def a_solid(size: tuple[float, float, float] = (10.0, 10.0, 10.0)):
+    """Some real geometry to export.
+
+    These tests used to pass nothing and lean on the exporter writing a 0-byte
+    placeholder. That path is gone — an empty piece raises now (FR-000h) — so
+    they carry a solid, which is also what they meant: naming and stale
+    deletion are about files that actually got written.
+    """
+    from pyboxbuilder.box.shell import block
+
+    return block(list(size))
+
+
 class BoxExporterTests(unittest.TestCase):
     def test_file_names_follow_the_documented_scheme(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
@@ -30,7 +43,9 @@ class BoxExporterTests(unittest.TestCase):
     def test_write_box_produces_both_modes(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             exporter = BoxExporter(tmp, "MyGame")
-            written = exporter.write_box("Cards", size=(100.0, 70.0, 50.0))
+            written = exporter.write_box(
+                "Cards", body=a_solid(), lid=a_solid(), size=(100.0, 70.0, 50.0)
+            )
             self.assertEqual(written, [
                 "MyGame/mmu/Cards_body.3mf",
                 "MyGame/mmu/Cards_lid.3mf",
@@ -41,22 +56,34 @@ class BoxExporterTests(unittest.TestCase):
     def test_lidless_boxes_get_a_body_only(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             exporter = BoxExporter(tmp, "MyGame")
-            written = exporter.write_box("Tray", size=(50.0, 50.0, 20.0), has_lid=False)
+            written = exporter.write_box(
+                "Tray", body=a_solid(), size=(50.0, 50.0, 20.0), has_lid=False
+            )
             self.assertEqual(len(written), 2)
             self.assertTrue(all("_body" in path for path in written))
 
     def test_bounding_boxes_are_recorded_for_every_piece(self) -> None:
+        """And they are **measured**, not taken from the declared size (FR-027).
+
+        The declared size is what a box asked for; the bounds are what came out,
+        which is the number a user checks against their print bed.
+        """
         with tempfile.TemporaryDirectory() as tmp:
             exporter = BoxExporter(tmp, "MyGame")
-            exporter.write_box("Cards", size=(100.0, 70.0, 50.0), has_lid=False)
+            exporter.write_box(
+                "Cards", body=a_solid((100.0, 70.0, 50.0)),
+                size=(1.0, 1.0, 1.0), has_lid=False,
+            )
             self.assertEqual(len(exporter.state.bounds), 2)
             self.assertEqual(exporter.state.bounds[0].size, (100.0, 70.0, 50.0))
 
     def test_stale_files_are_deleted(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             exporter = BoxExporter(tmp, "MyGame")
-            exporter.write_box("spacer_1", size=(10.0, 10.0, 10.0), has_lid=False)
-            exporter.write_box("spacer_2", size=(10.0, 10.0, 10.0), has_lid=False)
+            for label in ("spacer_1", "spacer_2"):
+                exporter.write_box(
+                    label, body=a_solid(), size=(10.0, 10.0, 10.0), has_lid=False
+                )
 
             removed = exporter.delete_stale("spacer_", {"spacer_1"})
             self.assertEqual(len(removed), 2)  # both modes of spacer_2
@@ -163,7 +190,7 @@ class FingerprintGateTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             exporter = BoxExporter(tmp, "MyGame")
             exporter.write_piece(
-                "spacer_9", "body", "mmu", size=self.SIZE, fingerprint="abc"
+                "spacer_9", "body", "mmu", a_solid(), size=self.SIZE, fingerprint="abc"
             )
             path = exporter.path_for("spacer_9", "body", "mmu")
             exporter.delete_stale("spacer_", set())

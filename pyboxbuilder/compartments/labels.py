@@ -5,6 +5,8 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
+from pyboxbuilder.deps import require
+
 if TYPE_CHECKING:
     from pybosl2.shapes3d import Bosl2Solid
 
@@ -39,10 +41,7 @@ def build_floor_label(
         max_size = min(width * 0.8 / max(len(text), 1) * 1.5, length * 0.5)
         font_size = max(max_size, 2.0)
 
-    try:
-        from pybosl2 import text as bosl2_text
-    except ImportError:
-        return None
+    bosl2_text = require("pybosl2", f"engrave the label {text!r}").text
 
     text_solid = bosl2_text(
         text=text,
