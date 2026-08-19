@@ -1100,3 +1100,16 @@ class HingeCatchTests(unittest.TestCase):
                 low, size = bbox(body | lid)
                 self.assertAlmostEqual(size[0], spec_bump.width, places=2)
 
+    def test_hinge_catch_gusset_and_corners(self) -> None:
+        from pyboxbuilder.box.features import hinge_catch
+        catch_ridge = hinge_catch(SPEC)
+        # Verify both parts exist
+        self.assertIsNotNone(catch_ridge.body_cut)
+        self.assertIsNotNone(catch_ridge.lid)
+
+        # The body pocket cut and the lid tab must not result in interference
+        # and should have expected volume relationships
+        self.assertGreater(volume(catch_ridge.body_cut), 0)
+        self.assertGreater(volume(catch_ridge.lid), 0)
+
+

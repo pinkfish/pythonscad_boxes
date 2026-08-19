@@ -493,4 +493,4 @@ project.arrange(columns(
 
 
 if __name__ == "__main__":
-    run(project, show_lids=False)
+    run(project, show_lids=True)

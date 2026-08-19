@@ -1416,8 +1416,10 @@ def fingernail_dish(spec: BoxSpec, catch: FingernailCatch) -> Bosl2Solid:
 
 def hinge_catch(spec: BoxSpec) -> Closure:
     """Return the front snap-fit catch for a hinged box (FR-002v)."""
-    from pybosl2 import polygon, sphere
-    from pyboxbuilder.box.shell import block
+    from pybosl2 import Anchor
+    from pybosl2.shapes2d import polygon
+    from pybosl2.shapes3d import sphere
+    from pyboxbuilder.rounding import rounded_block
     from pyboxbuilder.compartments.element import union_all
     from pyboxbuilder.precision import kwargs as precision_kwargs
 
@@ -1429,20 +1431,83 @@ def hinge_catch(spec: BoxSpec) -> Closure:
     catch_height = min(spec.height / 2.0, 10.0)
     catch_width = min(spec.width * 0.4, 15.0)
     gap = 0.1
+    fillet_r = wt / 2.0  # default rounding is wall_thickness/2
 
     x_center = spec.width / 2.0
+    body_cut_at = (x_center - catch_width / 2.0 - gap, -0.1, body_height - catch_height - gap)
 
     # Body pocket cut (subtract from body front wall y=0..wt/2)
-    body_cut = block(
-        [catch_width + 2 * gap, wt / 2.0 + gap + 0.1, catch_height + gap],
-        at=(x_center - catch_width / 2.0 - gap, -0.1, body_height - catch_height - gap),
+    # Since wt/2 is thin (1.0mm), standard cuboid/rounded_block limits rounding to wt/4 (0.5mm) because of opposite edges.
+    # To get a true rounded corner front-face catch tab of width catch_width and fillet_r, we can build a 2D profile
+    # of a rectangle of size [catch_width, wt/2] with only the front-left and front-right corners rounded, and then extrude it.
+    from pybosl2.shapes2d import rect
+    from pybosl2.constants import BACK, FRONT
+    
+    # 2D shape for the lid tab (Y runs negative from 0 to -wt/2, which is outside the front face footprint)
+    # The front face is at Y=0. Lid tab hangs down from Y=0 in the direction of negative Y (frontwards) by wt/2.
+    # Therefore, the anchor is FRONT (meaning the front of the rectangle is at the local origin, so the rect extends back to Y > 0? No,
+    # anchor=FRONT means FRONT edge is placed at the origin, so it extends in Y+ direction.
+    # If anchor=BACK, BACK edge is at origin, so it extends in Y- direction).
+    # Since we want it to go from Y=0 to Y=-wt/2, we anchor at BACK.
+    # When Y goes negative (0 to -wt/2), the "front" of this tab is at Y=-wt/2.
+    # In local rect coordinates [width, wt/2], if anchor=BACK, the rectangle spans Y: -wt/2 to 0.
+    # The bottom-left/right are at Y=-wt/2, and top-left/right are at Y=0.
+    # So we want to round index 0 and 1 (bottom_left and bottom_right)!
+    # 2D shape for the lid tab (Y runs negative from 0 to -wt/2)
+    # 2D shape for the lid tab (Y runs positive from 0 to wt/2, which is inside the front face wall)
+    # The front face is at Y=0. Lid tab Y ranges from 0 to wt/2.
+    # Therefore, we anchor the FRONT edge at the origin (so the rect extends in Y+ direction).
+    # Since we anchor=FRONT, the front corners (at Y=0) correspond to index 0 and 1 (bottom_left and bottom_right).
+    tab_2d = rect([catch_width, wt / 2.0], rounding=[fillet_r, fillet_r, 0, 0], anchor=FRONT)
+    lid_tab = tab_2d.linear_extrude(height=catch_height).translate([x_center, 0.0, body_height - catch_height])
+
+    # 2D shape for the body cut with gap clearance
+    body_cut_width = catch_width + 2 * gap
+    body_cut_y = wt / 2.0 + gap
+    # Needs to cut from Y = -gap (for clearance) up to Y = wt/2.
+    # We anchor=FRONT, so rect spans Y: 0 to body_cut_y.
+    # We translate to Y = -gap, so it spans: -gap to wt/2.
+    body_cut_2d = rect([body_cut_width, body_cut_y], rounding=[fillet_r + gap, fillet_r + gap, 0, 0], anchor=FRONT)
+    body_cut = body_cut_2d.linear_extrude(height=catch_height + gap).translate([x_center, -gap, body_height - catch_height - gap])
+
+    # Angled strengthening piece (gusset/support) on the top/back of the lid tab
+    # The gusset goes from the top edge of the tab (y = wt/2, z = body_height)
+    # sloping up and back (y increasing, z increasing) to the bottom of the lid (z = body_height + lt).
+    # Since wt is the box wall thickness, the space behind the tab (y >= wt/2) inside the box can contain this.
+    # Let's make the gusset width match the catch_width, or a bit narrower for aesthetics (e.g., catch_width - 2*fillet_r).
+    # Gusset thickness in Y: we can go from y = wt/2 to y = wt.
+    # We define the 2D path at Z=0.0 to prevent rotation-induced Y translation offsets, then translate to body_height in Z.
+    gusset_poly = polygon(path=[
+        (0.0, wt / 2.0),
+        (0.0, wt - 0.2),  # stop slightly short of inner wall to prevent outer wall bleed/coincidence
+        (lt, wt / 2.0),
+    ])
+    gusset = (
+        gusset_poly.linear_extrude(height=catch_width - 2 * fillet_r)
+        .rotate([0, 90, 0])
+        .rotate([-90, 0, 0])
+        .scale([1, -1, -1])
+        .translate([x_center - catch_width / 2.0 + fillet_r, 0, body_height])
     )
 
-    # Lid tab (union with lid, hangs down from z=body_height)
-    lid_tab = block(
-        [catch_width, wt / 2.0, catch_height],
-        at=(x_center - catch_width / 2.0, 0.0, body_height - catch_height),
+    # Matching clearance pocket carve-out on the inside front wall of the body.
+    # The pocket needs clearance gap in all directions.
+    pocket_poly = polygon(path=[
+        (-gap, wt / 2.0 - gap),
+        (-gap, wt + 0.1),
+        (lt + gap, wt + 0.1),
+        (lt + gap, wt / 2.0 - gap),
+    ])
+    pocket_cut = (
+        pocket_poly.linear_extrude(height=catch_width + 2 * gap)
+        .rotate([0, 90, 0])
+        .rotate([-90, 0, 0])
+        .scale([1, -1, -1])
+        .translate([x_center - catch_width / 2.0 - gap, 0, body_height])
     )
+
+    body_cut = body_cut | pocket_cut
+    lid_tab = lid_tab | gusset
 
     bead_depth = 0.6
     z_peak = body_height - catch_height / 2.0
@@ -1450,32 +1515,32 @@ def hinge_catch(spec: BoxSpec) -> Closure:
 
     if spec.hinge_catch_type == "ridge":
         # Right-angled triangular ridge on lid tab (flat top, sloped bottom)
-        ridge_poly = polygon(points=[
-            (wt / 2.0, z_peak - slope_height),
-            (wt / 2.0 + bead_depth, z_peak),
-            (wt / 2.0, z_peak),
+        ridge_poly = polygon(path=[
+            (wt / 2.0, 0.0),
+            (wt / 2.0 + bead_depth, slope_height),
+            (wt / 2.0, slope_height),
         ])
         ridge = (
             ridge_poly.linear_extrude(height=catch_width)
             .rotate([0, 90, 0])
             .rotate([-90, 0, 0])
             .scale([1, -1, -1])
-            .translate([x_center - catch_width / 2.0, 0, 0])
+            .translate([x_center - catch_width / 2.0, 0, z_peak - slope_height])
         )
         lid_catch = lid_tab | ridge
 
         # Body cut pocket groove (triangular matching cut, slightly larger)
-        groove_poly = polygon(points=[
-            (wt / 2.0 - 0.1, z_peak - slope_height - 1.0),
-            (wt / 2.0 + bead_depth + gap, z_peak + gap),
-            (wt / 2.0 - 0.1, z_peak + gap),
+        groove_poly = polygon(path=[
+            (wt / 2.0 - 0.1, 0.0),
+            (wt / 2.0 + bead_depth + gap, slope_height + 1.0 + gap),
+            (wt / 2.0 - 0.1, slope_height + 1.0 + gap),
         ])
         groove = (
             groove_poly.linear_extrude(height=catch_width + 2 * gap)
             .rotate([0, 90, 0])
             .rotate([-90, 0, 0])
             .scale([1, -1, -1])
-            .translate([x_center - catch_width / 2.0 - gap, 0, 0])
+            .translate([x_center - catch_width / 2.0 - gap, 0, z_peak - slope_height - 1.0 - gap])
         )
         body_catch_cut = body_cut | groove
 
