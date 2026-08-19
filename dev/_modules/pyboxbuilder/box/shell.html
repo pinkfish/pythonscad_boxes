@@ -326,6 +326,7 @@
     <span class="n">default_rounding</span><span class="p">,</span>
     <span class="n">round_edges</span><span class="p">,</span>
     <span class="n">vertical_and_bottom_edges</span><span class="p">,</span>
+    <span class="n">vertical_edges</span><span class="p">,</span>
 <span class="p">)</span>
 
 <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
@@ -413,14 +414,7 @@
     <span class="n">size</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span>
     <span class="n">at</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""Place a centre-anchored solid so its minimum corner sits at `at`.</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">        solid: A centre-anchored solid, as every pybosl2 primitive is.</span>
-<span class="sd">        size: The solid's (width, length, height).</span>
-<span class="sd">        at: Where its minimum corner should end up.</span>
-
-<span class="sd">    """</span>
+<span class="w">    </span><span class="sd">"""Place a centre-anchored solid so its minimum corner sits at `at`."""</span>
     <span class="k">return</span> <span class="n">solid</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span>
         <span class="p">[</span>
             <span class="n">at</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span>
@@ -441,6 +435,37 @@
 
 
 
+<div class="viewcode-block" id="bottom_chamfer_slivers">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.shell.bottom_chamfer_slivers.html#pyboxbuilder.box.shell.bottom_chamfer_slivers">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">bottom_chamfer_slivers</span><span class="p">(</span><span class="n">size</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">chamfer_val</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Return chamfer slivers for the bottom edges of a block of size."""</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">Anchor</span><span class="p">,</span> <span class="n">cuboid</span>
+    <span class="n">square</span> <span class="o">=</span> <span class="n">block</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">size</span><span class="p">))</span>
+    <span class="n">chamfered</span> <span class="o">=</span> <span class="n">corner</span><span class="p">(</span>
+        <span class="n">cuboid</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">size</span><span class="p">),</span> <span class="n">chamfer</span><span class="o">=</span><span class="n">chamfer_val</span><span class="p">,</span> <span class="n">edges</span><span class="o">=</span><span class="p">[</span><span class="n">Anchor</span><span class="o">.</span><span class="n">BOTTOM</span><span class="p">]),</span>
+        <span class="n">size</span><span class="p">,</span>
+        <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">square</span> <span class="o">-</span> <span class="n">chamfered</span></div>
+
+
+
+<div class="viewcode-block" id="apply_ribbon_channels">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.shell.apply_ribbon_channels.html#pyboxbuilder.box.shell.apply_ribbon_channels">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">apply_ribbon_channels</span><span class="p">(</span><span class="n">body</span><span class="p">:</span> <span class="n">Bosl2Solid</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Carve ribbon pass-through channels if enabled."""</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">spec</span><span class="o">.</span><span class="n">ribbon_channel</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">body</span>
+    <span class="n">center_x</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">width</span> <span class="o">/</span> <span class="mf">2.0</span>
+    <span class="n">center_y</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span> <span class="o">/</span> <span class="mf">2.0</span>
+    <span class="n">depth</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mf">2.0</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">floor_thickness</span> <span class="o">-</span> <span class="mf">0.8</span><span class="p">))</span>
+
+    <span class="n">x_channel</span> <span class="o">=</span> <span class="n">block</span><span class="p">([</span><span class="n">spec</span><span class="o">.</span><span class="n">width</span> <span class="o">+</span> <span class="mf">10.0</span><span class="p">,</span> <span class="mf">15.0</span><span class="p">,</span> <span class="n">depth</span><span class="p">],</span> <span class="n">at</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mf">5.0</span><span class="p">,</span> <span class="n">center_y</span> <span class="o">-</span> <span class="mf">7.5</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.01</span><span class="p">])</span>
+    <span class="n">y_channel</span> <span class="o">=</span> <span class="n">block</span><span class="p">([</span><span class="mf">15.0</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span> <span class="o">+</span> <span class="mf">10.0</span><span class="p">,</span> <span class="n">depth</span><span class="p">],</span> <span class="n">at</span><span class="o">=</span><span class="p">[</span><span class="n">center_x</span> <span class="o">-</span> <span class="mf">7.5</span><span class="p">,</span> <span class="o">-</span><span class="mf">5.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.01</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">body</span> <span class="o">-</span> <span class="n">x_channel</span> <span class="o">-</span> <span class="n">y_channel</span></div>
+
+
+
 <div class="viewcode-block" id="build_shell">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.shell.build_shell.html#pyboxbuilder.box.shell.build_shell">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">build_shell</span><span class="p">(</span><span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
@@ -457,15 +482,23 @@
     <span class="n">size</span> <span class="o">=</span> <span class="p">[</span><span class="n">spec</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">height</span><span class="p">]</span>
     <span class="n">outer</span> <span class="o">=</span> <span class="n">block</span><span class="p">(</span><span class="n">size</span><span class="p">)</span>
 
+    <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">tilt_to_lift</span><span class="p">:</span>
+        <span class="n">outer</span> <span class="o">=</span> <span class="n">outer</span> <span class="o">-</span> <span class="n">bottom_chamfer_slivers</span><span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">)</span>
+
     <span class="c1"># Round what a hand grips: the vertical corners and the base always, and the</span>
     <span class="c1"># top rim too when nothing has to mate with it. On a lidded box the rim is a</span>
     <span class="c1"># sealing surface, so its rounding lives on the lid instead — the closed box</span>
     <span class="c1"># still reads as rounded top, sides and bottom (FR-043/FR-044).</span>
     <span class="n">radius</span> <span class="o">=</span> <span class="n">body_rounding</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">radius</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="n">edges</span> <span class="o">=</span> <span class="n">vertical_and_bottom_edges</span><span class="p">()</span>
-        <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">rim_free</span><span class="p">:</span>
-            <span class="n">edges</span> <span class="o">=</span> <span class="p">[</span><span class="o">*</span><span class="n">edges</span><span class="p">,</span> <span class="n">_top_anchor</span><span class="p">()]</span>
+        <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">tilt_to_lift</span><span class="p">:</span>
+            <span class="n">edges</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">vertical_edges</span><span class="p">())</span>
+            <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">rim_free</span><span class="p">:</span>
+                <span class="n">edges</span> <span class="o">=</span> <span class="p">[</span><span class="o">*</span><span class="n">edges</span><span class="p">,</span> <span class="n">_top_anchor</span><span class="p">()]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">edges</span> <span class="o">=</span> <span class="n">vertical_and_bottom_edges</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">rim_free</span><span class="p">:</span>
+                <span class="n">edges</span> <span class="o">=</span> <span class="p">[</span><span class="o">*</span><span class="n">edges</span><span class="p">,</span> <span class="n">_top_anchor</span><span class="p">()]</span>
         <span class="n">outer</span> <span class="o">=</span> <span class="n">round_edges</span><span class="p">(</span><span class="n">outer</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">radius</span><span class="p">,</span> <span class="n">edges</span><span class="p">)</span>
 
     <span class="c1"># A type whose top face is exposed *with the lid on* rounds that edge too,</span>
@@ -479,7 +512,9 @@
     <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">hollow</span><span class="p">:</span>
         <span class="n">outer</span> <span class="o">=</span> <span class="n">outer</span> <span class="o">-</span> <span class="n">interior_block</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
         <span class="n">outer</span> <span class="o">=</span> <span class="n">round_inner_rim</span><span class="p">(</span><span class="n">outer</span><span class="p">,</span> <span class="n">spec</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">apply_finger_holes</span><span class="p">(</span><span class="n">outer</span><span class="p">,</span> <span class="n">spec</span><span class="p">)</span></div>
+    <span class="n">outer</span> <span class="o">=</span> <span class="n">apply_finger_holes</span><span class="p">(</span><span class="n">outer</span><span class="p">,</span> <span class="n">spec</span><span class="p">)</span>
+    <span class="n">outer</span> <span class="o">=</span> <span class="n">apply_ribbon_channels</span><span class="p">(</span><span class="n">outer</span><span class="p">,</span> <span class="n">spec</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">outer</span></div>
 
 
 
@@ -652,12 +687,49 @@
 <span class="sd">        The body with every hole subtracted; unchanged when there are none.</span>
 
 <span class="sd">    """</span>
+    <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">keystone</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">spec</span><span class="o">.</span><span class="n">finger_holes</span><span class="p">:</span>
+        <span class="n">side</span> <span class="o">=</span> <span class="n">ScoopSide</span><span class="o">.</span><span class="n">FRONT</span> <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">width</span> <span class="o">&lt;=</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span> <span class="k">else</span> <span class="n">ScoopSide</span><span class="o">.</span><span class="n">LEFT</span>
+        <span class="n">wt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">wall_thickness</span>
+        <span class="n">ft</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">floor_thickness</span>
+        <span class="n">span</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">width</span> <span class="k">if</span> <span class="n">side</span> <span class="o">==</span> <span class="n">ScoopSide</span><span class="o">.</span><span class="n">FRONT</span> <span class="k">else</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span>
+        <span class="n">span_interior</span> <span class="o">=</span> <span class="n">span</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">wt</span>
+        <span class="n">radius</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mf">17.0</span><span class="p">,</span> <span class="n">span_interior</span> <span class="o">/</span> <span class="mf">4.0</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">height</span> <span class="o">-</span> <span class="n">ft</span> <span class="o">-</span> <span class="n">MIN_WALL_BELOW_HOLE_MM</span><span class="p">)</span>
+        <span class="n">hole_height</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">radius</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">height</span> <span class="o">*</span> <span class="n">MAX_FINGER_HOLE_HEIGHT_SHARE</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="n">hole_height</span> <span class="o">&gt;=</span> <span class="n">MIN_FINGER_HOLE_REACH_MM</span>
+            <span class="ow">and</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="p">(</span><span class="n">radius</span> <span class="o">+</span> <span class="mf">3.0</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">span_interior</span> <span class="o">*</span> <span class="n">MAX_FINGER_HOLE_SPAN_SHARE</span>
+        <span class="p">):</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.builders._base</span><span class="w"> </span><span class="kn">import</span> <span class="n">FingerHoleBuilder</span>
+            <span class="n">keystone_hole</span> <span class="o">=</span> <span class="n">FingerHoleBuilder</span><span class="p">(</span>
+                <span class="n">side</span><span class="o">=</span><span class="n">side</span><span class="p">,</span>
+                <span class="n">width</span><span class="o">=</span><span class="n">radius</span> <span class="o">*</span> <span class="mf">2.0</span><span class="p">,</span>
+                <span class="n">depth</span><span class="o">=</span><span class="n">hole_height</span><span class="p">,</span>
+                <span class="n">mouth_flare</span><span class="o">=</span><span class="mf">3.0</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">spec</span> <span class="o">=</span> <span class="n">replace</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="n">finger_holes</span><span class="o">=</span><span class="p">(</span><span class="n">keystone_hole</span><span class="p">,))</span>
+
     <span class="n">holes</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">finger_holes</span> <span class="ow">or</span> <span class="p">()</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">holes</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">body</span>
 
     <span class="n">warn_about_finger_cuts</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
 
+    <span class="k">for</span> <span class="n">hole</span> <span class="ow">in</span> <span class="n">holes</span><span class="p">:</span>
+        <span class="n">body</span> <span class="o">=</span> <span class="n">body</span> <span class="o">-</span> <span class="n">finger_hole_scoop</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="n">hole</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">body</span></div>
+
+
+
+<div class="viewcode-block" id="finger_hole_scoop">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.shell.finger_hole_scoop.html#pyboxbuilder.box.shell.finger_hole_scoop">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">finger_hole_scoop</span><span class="p">(</span><span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">,</span> <span class="n">hole</span><span class="p">:</span> <span class="n">FingerHoleBuilder</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Return the placed cutout for one finger hole (FR-006).</span>
+
+<span class="sd">    The exact scoop :func:`apply_finger_holes` subtracts, exposed so a test can</span>
+<span class="sd">    measure the cut directly: the boolean difference between a with-hole and a</span>
+<span class="sd">    without-hole body does not report a reliable tight bounding box.</span>
+<span class="sd">    """</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.compartments.finger_cuts</span><span class="w"> </span><span class="kn">import</span> <span class="n">build_wall_scoop</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.compartments.finger_outline</span><span class="w"> </span><span class="kn">import</span> <span class="n">CutProfile</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.compartments.finger_sweep</span><span class="w"> </span><span class="kn">import</span> <span class="n">DEFAULT_FLOOR_DIP_MM</span><span class="p">,</span> <span class="n">FaceTreatment</span>
@@ -672,85 +744,71 @@
     <span class="c1"># from the rim starts inside solid material and reads as a nick in the top</span>
     <span class="c1"># edge rather than as a cut into the well. A type whose body is already</span>
     <span class="c1"># shortened for its lid — cap, slipover — says so with `interior_top`.</span>
-
-    <span class="k">for</span> <span class="n">hole</span> <span class="ow">in</span> <span class="n">holes</span><span class="p">:</span>
-        <span class="c1"># Per side: the four walls need not end level, and a hole aligned to</span>
-        <span class="c1"># the wrong one either floats above its wall or cuts into a lid feature.</span>
-        <span class="n">interior_top</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">wall_top</span><span class="p">(</span><span class="n">hole</span><span class="o">.</span><span class="n">side</span><span class="p">)</span>
-        <span class="n">interior_height</span> <span class="o">=</span> <span class="n">interior_top</span> <span class="o">-</span> <span class="n">ft</span>
-        <span class="n">radius</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">hole</span><span class="p">,</span> <span class="s2">"radius"</span><span class="p">,</span> <span class="mf">14.0</span><span class="p">)</span>
-        <span class="c1"># The cut's height follows the finger unless told otherwise, and never</span>
-        <span class="c1"># reaches deeper than the interior.</span>
-        <span class="n">reach</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">hole</span><span class="p">,</span> <span class="s2">"depth"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">or</span> <span class="n">radius</span><span class="p">,</span> <span class="n">interior_height</span><span class="p">)</span>
-        <span class="c1"># Wall standing above the cut turns it into a different shape: with no</span>
-        <span class="c1"># surface for the mouth roll to roll onto, the cut is a closed window</span>
-        <span class="c1"># instead of a scoop, filleted the whole way round (FR-065). The</span>
-        <span class="c1"># window's top then needs the same allowance as its bottom, since the</span>
-        <span class="c1"># fillet grows past both — hence `ends`.</span>
-        <span class="n">walled_over</span> <span class="o">=</span> <span class="n">interior_top</span> <span class="o">&lt;</span> <span class="n">spec</span><span class="o">.</span><span class="n">height</span> <span class="o">-</span> <span class="mf">1e-9</span>
-        <span class="n">flare</span> <span class="o">=</span> <span class="n">_hole_flare</span><span class="p">(</span><span class="n">wt</span><span class="p">,</span> <span class="n">hole</span><span class="p">,</span> <span class="n">reach</span><span class="p">,</span> <span class="n">ends</span><span class="o">=</span><span class="mi">2</span> <span class="k">if</span> <span class="n">walled_over</span> <span class="k">else</span> <span class="mi">1</span><span class="p">)</span>
-        <span class="c1"># Both ends are set by the outline's height, not by shifting the solid:</span>
-        <span class="c1"># the cut runs a flare past each end of its outline, so an outline this</span>
-        <span class="c1"># much shorter puts the material removed exactly where the reach says</span>
-        <span class="c1"># (FR-006b/T306). Shifting instead moves one end for the other — which</span>
-        <span class="c1"># is how the mouth ended up finishing above the wall top.</span>
-        <span class="n">outline_height</span> <span class="o">=</span> <span class="n">reach</span> <span class="o">-</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">flare</span> <span class="k">if</span> <span class="n">walled_over</span> <span class="k">else</span> <span class="n">flare</span><span class="p">)</span>
-        <span class="c1"># A grip is never wider than it is deep (FR-056). The angle its flank</span>
-        <span class="c1"># arrives at the rim follows that aspect and nothing else — 45mm over</span>
-        <span class="c1"># 9mm can only come in at 34°, where the same width at 19mm deep comes</span>
-        <span class="c1"># in at 70° — so a shallow box gets a *smaller* grip rather than a</span>
-        <span class="c1"># stretched one, and the shape stays the one the rest of the library</span>
-        <span class="c1"># uses. Sizing the circles differently cannot fix it: a bigger base</span>
-        <span class="c1"># flattens the flank, a smaller one flattens it further.</span>
-        <span class="n">throat</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">radius</span><span class="p">,</span> <span class="n">outline_height</span><span class="p">)</span>
-        <span class="n">scoop</span> <span class="o">=</span> <span class="n">build_wall_scoop</span><span class="p">(</span>
-            <span class="n">inner_width</span><span class="p">,</span>
-            <span class="n">inner_length</span><span class="p">,</span>
-            <span class="n">outline_height</span><span class="p">,</span>
-            <span class="n">hole</span><span class="o">.</span><span class="n">side</span><span class="p">,</span>
-            <span class="n">radius</span><span class="o">=</span><span class="n">throat</span><span class="p">,</span>
-            <span class="n">wall_thickness</span><span class="o">=</span><span class="n">wt</span><span class="p">,</span>
-            <span class="n">profile</span><span class="o">=</span><span class="n">CutProfile</span><span class="p">(</span>
-                <span class="c1"># None lets the mouth derive from the throat rather than</span>
-                <span class="c1"># pinning 3mm, and lets the base grow as the cut shallows</span>
-                <span class="c1"># (FR-054/a7). Naming a value here reads as the same thing</span>
-                <span class="c1"># and is not: it counts as a *request*, which switches the</span>
-                <span class="c1"># derived rule off — that is how every shallow tray went back</span>
-                <span class="c1"># to a ramp either side without anything failing.</span>
-                <span class="n">mouth_flare</span><span class="o">=</span><span class="n">hole</span><span class="o">.</span><span class="n">mouth_flare</span><span class="p">,</span>
-                <span class="n">base_radius</span><span class="o">=</span><span class="n">hole</span><span class="o">.</span><span class="n">base_radius</span><span class="p">,</span>
-                <span class="n">roll_rise</span><span class="o">=</span><span class="n">hole</span><span class="o">.</span><span class="n">roll_rise</span><span class="p">,</span>
-            <span class="p">),</span>
-            <span class="n">faces</span><span class="o">=</span><span class="n">FaceTreatment</span><span class="p">(</span>
-                <span class="c1"># Pinned rather than derived, because the alignment above is</span>
-                <span class="c1"># measured off this exact flare.</span>
-                <span class="n">fillet</span><span class="o">=</span><span class="n">flare</span><span class="p">,</span>
-                <span class="c1"># A scoop's outline overshoots its rim, which is free on a</span>
-                <span class="c1"># lidless box and must not be on any other; the window has no</span>
-                <span class="c1"># overshoot to trim, and its top is already the plane below.</span>
-                <span class="n">top_limit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                <span class="c1"># There is wall below an exterior hole, not floor, so the face</span>
-                <span class="c1"># flare can finish instead of being sliced off at the outline's</span>
-                <span class="c1"># flat bottom — which is what leaves the wall's sawn</span>
-                <span class="c1"># cross-section showing at the base of the cut (FR-076).</span>
-                <span class="c1"># Compartment scoops keep the default clip: they bottom on the</span>
-                <span class="c1"># floor, and there the flare has nowhere to go but through it.</span>
-                <span class="n">floor_clearance</span><span class="o">=</span><span class="n">flare</span> <span class="o">+</span> <span class="n">DEFAULT_FLOOR_DIP_MM</span><span class="p">,</span>
-            <span class="p">),</span>
-            <span class="n">keep_flat_bottom</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-            <span class="n">closed_top</span><span class="o">=</span><span class="n">walled_over</span><span class="p">,</span>
-        <span class="p">)</span>
-        <span class="n">offset</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">hole</span><span class="p">,</span> <span class="s2">"offset"</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span> <span class="ow">or</span> <span class="mf">0.0</span>
-        <span class="n">along_x</span> <span class="o">=</span> <span class="n">hole</span><span class="o">.</span><span class="n">side</span> <span class="ow">in</span> <span class="p">(</span><span class="n">ScoopSide</span><span class="o">.</span><span class="n">FRONT</span><span class="p">,</span> <span class="n">ScoopSide</span><span class="o">.</span><span class="n">BACK</span><span class="p">)</span>
-        <span class="n">body</span> <span class="o">=</span> <span class="n">body</span> <span class="o">-</span> <span class="n">scoop</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span>
-            <span class="p">[</span>
-                <span class="n">wt</span> <span class="o">+</span> <span class="p">(</span><span class="n">offset</span> <span class="k">if</span> <span class="n">along_x</span> <span class="k">else</span> <span class="mf">0.0</span><span class="p">),</span>
-                <span class="n">wt</span> <span class="o">+</span> <span class="p">(</span><span class="mf">0.0</span> <span class="k">if</span> <span class="n">along_x</span> <span class="k">else</span> <span class="n">offset</span><span class="p">),</span>
-                <span class="n">interior_top</span> <span class="o">-</span> <span class="n">outline_height</span> <span class="o">-</span> <span class="p">(</span><span class="n">flare</span> <span class="k">if</span> <span class="n">walled_over</span> <span class="k">else</span> <span class="mf">0.0</span><span class="p">),</span>
-            <span class="p">]</span>
-        <span class="p">)</span>
-
-    <span class="k">return</span> <span class="n">body</span></div>
+    <span class="c1">#</span>
+    <span class="c1"># Per side: the four walls need not end level, and a hole aligned to the</span>
+    <span class="c1"># wrong one either floats above its wall or cuts into a lid feature.</span>
+    <span class="n">interior_top</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">wall_top</span><span class="p">(</span><span class="n">hole</span><span class="o">.</span><span class="n">side</span><span class="p">)</span>
+    <span class="n">interior_height</span> <span class="o">=</span> <span class="n">interior_top</span> <span class="o">-</span> <span class="n">ft</span>
+    <span class="n">radius</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">hole</span><span class="p">,</span> <span class="s2">"radius"</span><span class="p">,</span> <span class="mf">14.0</span><span class="p">)</span>
+    <span class="c1"># The cut's height follows the finger unless told otherwise, and never</span>
+    <span class="c1"># reaches deeper than the interior.</span>
+    <span class="n">reach</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">hole</span><span class="p">,</span> <span class="s2">"depth"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">or</span> <span class="n">radius</span><span class="p">,</span> <span class="n">interior_height</span><span class="p">)</span>
+    <span class="c1"># Wall standing above the cut turns it into a different shape: with no</span>
+    <span class="c1"># surface for the mouth roll to roll onto, the cut is a closed window</span>
+    <span class="c1"># instead of a scoop, filleted the whole way round (FR-065). The window's</span>
+    <span class="c1"># top then needs the same allowance as its bottom, since the fillet grows</span>
+    <span class="c1"># past both — hence `ends`.</span>
+    <span class="n">walled_over</span> <span class="o">=</span> <span class="n">interior_top</span> <span class="o">&lt;</span> <span class="n">spec</span><span class="o">.</span><span class="n">height</span> <span class="o">-</span> <span class="mf">1e-9</span>
+    <span class="n">flare</span> <span class="o">=</span> <span class="n">_hole_flare</span><span class="p">(</span><span class="n">wt</span><span class="p">,</span> <span class="n">hole</span><span class="p">,</span> <span class="n">reach</span><span class="p">,</span> <span class="n">ends</span><span class="o">=</span><span class="mi">2</span> <span class="k">if</span> <span class="n">walled_over</span> <span class="k">else</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="c1"># Both ends are set by the outline's height, not by shifting the solid: the</span>
+    <span class="c1"># cut runs a flare past each end of its outline, so an outline this much</span>
+    <span class="c1"># shorter puts the material removed exactly where the reach says</span>
+    <span class="c1"># (FR-006b/T306). Shifting instead moves one end for the other — which is</span>
+    <span class="c1"># how the mouth ended up finishing above the wall top.</span>
+    <span class="n">outline_height</span> <span class="o">=</span> <span class="n">reach</span> <span class="o">-</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">flare</span> <span class="k">if</span> <span class="n">walled_over</span> <span class="k">else</span> <span class="n">flare</span><span class="p">)</span>
+    <span class="c1"># A grip is never wider than it is deep (FR-056). The angle its flank</span>
+    <span class="c1"># arrives at the rim follows that aspect and nothing else, so a shallow box</span>
+    <span class="c1"># gets a *smaller* grip rather than a stretched one.</span>
+    <span class="n">throat</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">radius</span><span class="p">,</span> <span class="n">outline_height</span><span class="p">)</span>
+    <span class="n">scoop</span> <span class="o">=</span> <span class="n">build_wall_scoop</span><span class="p">(</span>
+        <span class="n">inner_width</span><span class="p">,</span>
+        <span class="n">inner_length</span><span class="p">,</span>
+        <span class="n">outline_height</span><span class="p">,</span>
+        <span class="n">hole</span><span class="o">.</span><span class="n">side</span><span class="p">,</span>
+        <span class="n">radius</span><span class="o">=</span><span class="n">throat</span><span class="p">,</span>
+        <span class="n">wall_thickness</span><span class="o">=</span><span class="n">wt</span><span class="p">,</span>
+        <span class="n">profile</span><span class="o">=</span><span class="n">CutProfile</span><span class="p">(</span>
+            <span class="c1"># None lets the mouth derive from the throat rather than pinning</span>
+            <span class="c1"># 3mm, and lets the base grow as the cut shallows (FR-054/a7).</span>
+            <span class="n">mouth_flare</span><span class="o">=</span><span class="n">hole</span><span class="o">.</span><span class="n">mouth_flare</span><span class="p">,</span>
+            <span class="n">base_radius</span><span class="o">=</span><span class="n">hole</span><span class="o">.</span><span class="n">base_radius</span><span class="p">,</span>
+            <span class="n">roll_rise</span><span class="o">=</span><span class="n">hole</span><span class="o">.</span><span class="n">roll_rise</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">faces</span><span class="o">=</span><span class="n">FaceTreatment</span><span class="p">(</span>
+            <span class="c1"># Pinned rather than derived, because the alignment above is</span>
+            <span class="c1"># measured off this exact flare.</span>
+            <span class="n">fillet</span><span class="o">=</span><span class="n">flare</span><span class="p">,</span>
+            <span class="c1"># A scoop's outline overshoots its rim, which is free on a lidless</span>
+            <span class="c1"># box and must not be on any other; the window has no overshoot to</span>
+            <span class="c1"># trim.</span>
+            <span class="n">top_limit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="c1"># There is wall below an exterior hole, not floor, so the face</span>
+            <span class="c1"># flare can finish instead of being sliced off at the outline's</span>
+            <span class="c1"># flat bottom (FR-076).</span>
+            <span class="n">floor_clearance</span><span class="o">=</span><span class="n">flare</span> <span class="o">+</span> <span class="n">DEFAULT_FLOOR_DIP_MM</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">keep_flat_bottom</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">closed_top</span><span class="o">=</span><span class="n">walled_over</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">offset</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">hole</span><span class="p">,</span> <span class="s2">"offset"</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span> <span class="ow">or</span> <span class="mf">0.0</span>
+    <span class="n">along_x</span> <span class="o">=</span> <span class="n">hole</span><span class="o">.</span><span class="n">side</span> <span class="ow">in</span> <span class="p">(</span><span class="n">ScoopSide</span><span class="o">.</span><span class="n">FRONT</span><span class="p">,</span> <span class="n">ScoopSide</span><span class="o">.</span><span class="n">BACK</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">scoop</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span>
+        <span class="p">[</span>
+            <span class="n">wt</span> <span class="o">+</span> <span class="p">(</span><span class="n">offset</span> <span class="k">if</span> <span class="n">along_x</span> <span class="k">else</span> <span class="mf">0.0</span><span class="p">),</span>
+            <span class="n">wt</span> <span class="o">+</span> <span class="p">(</span><span class="mf">0.0</span> <span class="k">if</span> <span class="n">along_x</span> <span class="k">else</span> <span class="n">offset</span><span class="p">),</span>
+            <span class="n">interior_top</span> <span class="o">-</span> <span class="n">outline_height</span> <span class="o">-</span> <span class="p">(</span><span class="n">flare</span> <span class="k">if</span> <span class="n">walled_over</span> <span class="k">else</span> <span class="mf">0.0</span><span class="p">),</span>
+        <span class="p">]</span>
+    <span class="p">)</span></div>
 
 
 

@@ -301,12 +301,16 @@
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Sequence</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">field</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Any</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.interior</span><span class="w"> </span><span class="kn">import</span> <span class="n">Interior</span>
 
-<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
-    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.compartments.element</span><span class="w"> </span><span class="kn">import</span> <span class="n">CompartmentElement</span>
+<span class="c1"># Imported for real rather than under TYPE_CHECKING: `CompartmentPlacement`</span>
+<span class="c1"># annotates a field with it, and Sphinx resolves annotations through</span>
+<span class="c1"># `get_type_hints`, which needs the name in this module's namespace. Deferring</span>
+<span class="c1"># it made the docs build die with a NameError instead of documenting the class.</span>
+<span class="c1"># There is no cycle to avoid here — `element` does not import this module.</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.compartments.element</span><span class="w"> </span><span class="kn">import</span> <span class="n">CompartmentElement</span>
 
 <span class="n">CompartmentSpec</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">[</span>
     <span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span>
@@ -351,6 +355,8 @@
 <span class="sd">"""</span>
 
 
+<div class="viewcode-block" id="CompartmentPlacement">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.compartments.layout.CompartmentPlacement.html#pyboxbuilder.compartments.layout.CompartmentPlacement">[docs]</a>
 <span class="nd">@dataclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">CompartmentPlacement</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Position of a single compartment inside a box."""</span>
@@ -360,7 +366,8 @@
     <span class="n">depth</span><span class="p">:</span> <span class="nb">float</span>
     <span class="n">position</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span>  <span class="c1"># (x, y) in interior frame</span>
     <span class="n">shape_file</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">elements</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">CompartmentElement</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="p">()</span>
+    <span class="n">elements</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">CompartmentElement</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="p">()</span></div>
+
 
 
 <div class="viewcode-block" id="CompartmentLayout">
@@ -553,29 +560,31 @@
 
     <span class="c1"># If max dimensions are provided, try laying out the compartments</span>
     <span class="k">if</span> <span class="n">max_w</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">max_l</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="n">interior</span> <span class="o">=</span> <span class="n">Interior</span><span class="p">(</span>
-                <span class="n">width</span><span class="o">=</span><span class="n">max_w</span><span class="p">,</span>
-                <span class="n">length</span><span class="o">=</span><span class="n">max_l</span><span class="p">,</span>
-                <span class="n">origin_x</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
-                <span class="n">origin_y</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
-                <span class="n">height</span><span class="o">=</span><span class="nb">max</span><span class="p">(</span><span class="n">d</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">compartments</span><span class="p">)</span> <span class="o">+</span> <span class="mf">1.0</span><span class="p">,</span>
-            <span class="p">)</span>
-            <span class="n">layout</span> <span class="o">=</span> <span class="n">layout_compartments</span><span class="p">(</span><span class="n">interior</span><span class="p">,</span> <span class="n">compartments</span><span class="p">)</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">layout</span><span class="o">.</span><span class="n">overflow</span> <span class="ow">and</span> <span class="n">layout</span><span class="o">.</span><span class="n">placements</span><span class="p">:</span>
-                <span class="c1"># From the interior's own origin, not from the first placement:</span>
-                <span class="c1"># the gutter before it is part of what the box has to hold, and</span>
-                <span class="c1"># so is the one after the last.</span>
-                <span class="n">gutter</span> <span class="o">=</span> <span class="mf">0.0</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">layout</span><span class="o">.</span><span class="n">placements</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">else</span> <span class="n">WALL_SPACING_MM</span>
-                <span class="n">min_x</span> <span class="o">=</span> <span class="n">min_y</span> <span class="o">=</span> <span class="mf">0.0</span>
-                <span class="n">max_x</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">p</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">layout</span><span class="o">.</span><span class="n">placements</span><span class="p">)</span> <span class="o">+</span> <span class="n">gutter</span>
-                <span class="n">max_y</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">p</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">layout</span><span class="o">.</span><span class="n">placements</span><span class="p">)</span> <span class="o">+</span> <span class="n">gutter</span>
-                <span class="n">w</span> <span class="o">=</span> <span class="p">(</span><span class="n">max_x</span> <span class="o">-</span> <span class="n">min_x</span><span class="p">)</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">wall_thickness</span> <span class="o">+</span> <span class="mf">0.5</span>
-                <span class="n">l</span> <span class="o">=</span> <span class="p">(</span><span class="n">max_y</span> <span class="o">-</span> <span class="n">min_y</span><span class="p">)</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">wall_thickness</span> <span class="o">+</span> <span class="mf">0.5</span>
-                <span class="n">h</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">depth</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">layout</span><span class="o">.</span><span class="n">placements</span><span class="p">)</span> <span class="o">+</span> <span class="n">floor_thickness</span> <span class="o">+</span> <span class="n">lid_thickness</span> <span class="o">+</span> <span class="mf">0.5</span>
-                <span class="k">return</span> <span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">h</span><span class="p">)</span>
-        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
-            <span class="k">pass</span>
+        <span class="c1"># No try/except. A failure in the real layout used to fall through to</span>
+        <span class="c1"># the estimate below, so a box came out sized by a guess and nothing</span>
+        <span class="c1"># said the measurement had failed — a wrong answer being quieter than</span>
+        <span class="c1"># no answer (FR-000h). Overflow and an empty layout are still handled,</span>
+        <span class="c1"># because those are outcomes rather than failures.</span>
+        <span class="n">interior</span> <span class="o">=</span> <span class="n">Interior</span><span class="p">(</span>
+            <span class="n">width</span><span class="o">=</span><span class="n">max_w</span><span class="p">,</span>
+            <span class="n">length</span><span class="o">=</span><span class="n">max_l</span><span class="p">,</span>
+            <span class="n">origin_x</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+            <span class="n">origin_y</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+            <span class="n">height</span><span class="o">=</span><span class="nb">max</span><span class="p">(</span><span class="n">d</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">compartments</span><span class="p">)</span> <span class="o">+</span> <span class="mf">1.0</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">layout</span> <span class="o">=</span> <span class="n">layout_compartments</span><span class="p">(</span><span class="n">interior</span><span class="p">,</span> <span class="n">compartments</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">layout</span><span class="o">.</span><span class="n">overflow</span> <span class="ow">and</span> <span class="n">layout</span><span class="o">.</span><span class="n">placements</span><span class="p">:</span>
+            <span class="c1"># From the interior's own origin, not from the first placement:</span>
+            <span class="c1"># the gutter before it is part of what the box has to hold, and</span>
+            <span class="c1"># so is the one after the last.</span>
+            <span class="n">gutter</span> <span class="o">=</span> <span class="mf">0.0</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">layout</span><span class="o">.</span><span class="n">placements</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">else</span> <span class="n">WALL_SPACING_MM</span>
+            <span class="n">min_x</span> <span class="o">=</span> <span class="n">min_y</span> <span class="o">=</span> <span class="mf">0.0</span>
+            <span class="n">max_x</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">p</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">layout</span><span class="o">.</span><span class="n">placements</span><span class="p">)</span> <span class="o">+</span> <span class="n">gutter</span>
+            <span class="n">max_y</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">p</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">layout</span><span class="o">.</span><span class="n">placements</span><span class="p">)</span> <span class="o">+</span> <span class="n">gutter</span>
+            <span class="n">w</span> <span class="o">=</span> <span class="p">(</span><span class="n">max_x</span> <span class="o">-</span> <span class="n">min_x</span><span class="p">)</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">wall_thickness</span> <span class="o">+</span> <span class="mf">0.5</span>
+            <span class="n">l</span> <span class="o">=</span> <span class="p">(</span><span class="n">max_y</span> <span class="o">-</span> <span class="n">min_y</span><span class="p">)</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">wall_thickness</span> <span class="o">+</span> <span class="mf">0.5</span>
+            <span class="n">h</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">depth</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">layout</span><span class="o">.</span><span class="n">placements</span><span class="p">)</span> <span class="o">+</span> <span class="n">floor_thickness</span> <span class="o">+</span> <span class="n">lid_thickness</span> <span class="o">+</span> <span class="mf">0.5</span>
+            <span class="k">return</span> <span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">h</span><span class="p">)</span>
 
     <span class="c1"># Fallback to estimating a square layout</span>
     <span class="n">max_w_comp</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">w</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">compartments</span><span class="p">)</span>

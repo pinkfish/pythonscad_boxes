@@ -1,0 +1,9 @@
+pyboxbuilder.helpers.CardSpec
+=============================
+
+.. currentmodule:: pyboxbuilder.helpers
+
+.. autoclass:: CardSpec
+   :members:
+   :undoc-members:
+   :show-inheritance:

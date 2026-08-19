@@ -527,7 +527,12 @@
             <span class="c1"># Sized by width alone: the length is whatever is left.</span>
             <span class="n">l</span> <span class="o">=</span> <span class="n">room_l</span>
 
-        <span class="k">return</span> <span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="nb">round</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span></div>
+        <span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
+
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="n">math</span><span class="o">.</span><span class="n">floor</span><span class="p">((</span><span class="n">w</span> <span class="o">+</span> <span class="mf">1e-9</span><span class="p">)</span> <span class="o">*</span> <span class="mf">10.0</span><span class="p">)</span> <span class="o">/</span> <span class="mf">10.0</span><span class="p">,</span>
+            <span class="n">math</span><span class="o">.</span><span class="n">floor</span><span class="p">((</span><span class="n">l</span> <span class="o">+</span> <span class="mf">1e-9</span><span class="p">)</span> <span class="o">*</span> <span class="mf">10.0</span><span class="p">)</span> <span class="o">/</span> <span class="mf">10.0</span><span class="p">,</span>
+        <span class="p">)</span></div>
 </div>
 
 </code></pre></div>

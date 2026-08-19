@@ -478,9 +478,6 @@
     <span class="c1"># face is not coplanar with the well floor (which renders as speckle).</span>
     <span class="n">floor_thickness</span> <span class="o">=</span> <span class="n">interior</span><span class="o">.</span><span class="n">origin_z</span> <span class="k">if</span> <span class="n">interior</span><span class="o">.</span><span class="n">origin_z</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="kc">None</span>
     <span class="n">cut</span> <span class="o">=</span> <span class="n">cut</span> <span class="k">if</span> <span class="n">cut</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">Cut</span><span class="p">()</span>
-    <span class="c1"># Which of the three shapes this becomes is `build_cut`'s call, not ours:</span>
-    <span class="c1"># the kind asked for and the well's depth are one decision, and splitting</span>
-    <span class="c1"># it across two modules is how a card box ends up with a scoop (FR-060).</span>
     <span class="n">scoop</span> <span class="o">=</span> <span class="n">build_cut</span><span class="p">(</span>
         <span class="n">cut</span><span class="o">.</span><span class="n">kind</span><span class="p">,</span>
         <span class="n">width</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">cut</span><span class="o">.</span><span class="n">depth</span> <span class="k">if</span> <span class="n">cut</span><span class="o">.</span><span class="n">depth</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">depth</span><span class="p">,</span> <span class="n">scoop_side</span><span class="p">,</span>
@@ -494,6 +491,30 @@
         <span class="p">),</span>
         <span class="n">faces</span><span class="o">=</span><span class="n">FaceTreatment</span><span class="p">(</span><span class="n">fillet</span><span class="o">=</span><span class="n">cut</span><span class="o">.</span><span class="n">face_fillet</span><span class="p">),</span>
     <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">placement</span><span class="o">.</span><span class="n">depth</span> <span class="o">&gt;</span> <span class="mf">35.0</span><span class="p">:</span>
+        <span class="n">opposing</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="n">ScoopSide</span><span class="o">.</span><span class="n">FRONT</span><span class="p">:</span> <span class="n">ScoopSide</span><span class="o">.</span><span class="n">BACK</span><span class="p">,</span>
+            <span class="n">ScoopSide</span><span class="o">.</span><span class="n">BACK</span><span class="p">:</span> <span class="n">ScoopSide</span><span class="o">.</span><span class="n">FRONT</span><span class="p">,</span>
+            <span class="n">ScoopSide</span><span class="o">.</span><span class="n">LEFT</span><span class="p">:</span> <span class="n">ScoopSide</span><span class="o">.</span><span class="n">RIGHT</span><span class="p">,</span>
+            <span class="n">ScoopSide</span><span class="o">.</span><span class="n">RIGHT</span><span class="p">:</span> <span class="n">ScoopSide</span><span class="o">.</span><span class="n">LEFT</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="n">opp_side</span> <span class="o">=</span> <span class="n">opposing</span><span class="p">[</span><span class="n">scoop_side</span><span class="p">]</span>
+        <span class="n">opp_scoop</span> <span class="o">=</span> <span class="n">build_cut</span><span class="p">(</span>
+            <span class="n">cut</span><span class="o">.</span><span class="n">kind</span><span class="p">,</span>
+            <span class="n">width</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">cut</span><span class="o">.</span><span class="n">depth</span> <span class="k">if</span> <span class="n">cut</span><span class="o">.</span><span class="n">depth</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">depth</span><span class="p">,</span> <span class="n">opp_side</span><span class="p">,</span>
+            <span class="n">wall_thickness</span><span class="o">=</span><span class="n">wall_thickness</span><span class="p">,</span>
+            <span class="n">floor_thickness</span><span class="o">=</span><span class="n">floor_thickness</span><span class="p">,</span>
+            <span class="n">profile</span><span class="o">=</span><span class="n">CutProfile</span><span class="p">(</span>
+                <span class="n">width</span><span class="o">=</span><span class="n">cut</span><span class="o">.</span><span class="n">width</span><span class="p">,</span>
+                <span class="n">base_radius</span><span class="o">=</span><span class="n">cut</span><span class="o">.</span><span class="n">base_radius</span><span class="p">,</span>
+                <span class="n">mouth_flare</span><span class="o">=</span><span class="n">cut</span><span class="o">.</span><span class="n">mouth_flare</span><span class="p">,</span>
+                <span class="n">roll_rise</span><span class="o">=</span><span class="n">cut</span><span class="o">.</span><span class="n">roll_rise</span><span class="p">,</span>
+            <span class="p">),</span>
+            <span class="n">faces</span><span class="o">=</span><span class="n">FaceTreatment</span><span class="p">(</span><span class="n">fillet</span><span class="o">=</span><span class="n">cut</span><span class="o">.</span><span class="n">face_fillet</span><span class="p">),</span>
+        <span class="p">)</span>
+        <span class="n">scoop</span> <span class="o">=</span> <span class="n">scoop</span> <span class="o">|</span> <span class="n">opp_scoop</span>
+
     <span class="k">return</span> <span class="n">_place</span><span class="p">(</span><span class="n">scoop</span><span class="p">,</span> <span class="n">placement</span><span class="p">,</span> <span class="n">interior</span><span class="p">)</span></div>
 
 

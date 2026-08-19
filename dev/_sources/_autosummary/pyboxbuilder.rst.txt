@@ -15,8 +15,10 @@
       builders
       cli
       compartments
+      deps
       enums
       export
+      helpers
       layout
       lid
       packing

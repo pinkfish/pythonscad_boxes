@@ -403,6 +403,22 @@
 
 
 
+<span class="n">MIN_DERIVED_SPACING_MM</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">PatternType</span><span class="o">.</span><span class="n">VORONOI</span><span class="p">:</span> <span class="mf">8.0</span><span class="p">,</span>
+<span class="p">}</span>
+<span class="sd">"""Patterns whose derived pitch needs a higher floor than the generic one.</span>
+
+<span class="sd">:func:`default_spacing` is calibrated for a hole **inscribed** in its cell, which</span>
+<span class="sd">is what most of the catalog cuts. A Voronoi cell *tiles*, so the cell is the</span>
+<span class="sd">hole, and the web is taken out of a cell rather than out of the gap around one.</span>
+<span class="sd">An eighth of a small lid's shorter side leaves a cell only a few times the web,</span>
+<span class="sd">which prints and reads as a peppering of pinholes rather than as a pattern.</span>
+
+<span class="sd">Only the derived pitch is floored. A caller who asks for 5mm cells gets 5mm</span>
+<span class="sd">cells: a named option does what it says (FR-000g).</span>
+<span class="sd">"""</span>
+
+
 <div class="viewcode-block" id="build_pattern">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.lid.pattern.build_pattern.html#pyboxbuilder.lid.pattern.build_pattern">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">build_pattern</span><span class="p">(</span>
@@ -437,7 +453,10 @@
 
 <span class="sd">    """</span>
     <span class="k">if</span> <span class="n">spacing</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">spacing</span> <span class="o">=</span> <span class="n">default_spacing</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">length</span><span class="p">)</span>
+        <span class="n">spacing</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span>
+            <span class="n">default_spacing</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">length</span><span class="p">),</span>
+            <span class="n">MIN_DERIVED_SPACING_MM</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">pattern_type</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span>
+        <span class="p">)</span>
 
     <span class="n">fill</span> <span class="o">=</span> <span class="n">_PATTERN_FILLS</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">pattern_type</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">fill</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -682,42 +701,143 @@
 <span class="sd">is taken over, so a fresh random layout each run would rewrite the file forever.</span>
 <span class="sd">"""</span>
 
-<span class="n">VORONOI_JITTER</span> <span class="o">=</span> <span class="mf">0.28</span>
-<span class="sd">"""How far a cell may wander from its grid point, as a share of the spacing."""</span>
+<span class="n">VORONOI_JITTER</span> <span class="o">=</span> <span class="mf">0.99</span>
+<span class="sd">"""How much of its cell a seed point may roam, as a share.</span>
 
-<span class="n">VORONOI_MIN_SCALE</span> <span class="o">=</span> <span class="mf">0.7</span>
-<span class="n">VORONOI_MAX_SCALE</span> <span class="o">=</span> <span class="mf">1.15</span>
-<span class="sd">"""How much a hole's size varies about the nominal, low and high."""</span>
+<span class="sd">Near 1, so the points are all but uniformly scattered and the cells come out</span>
+<span class="sd">genuinely irregular. Lower it and the cells converge on a square grid — which is</span>
+<span class="sd">the pattern this one exists *not* to be.</span>
+<span class="sd">"""</span>
+
+<span class="n">VORONOI_CORNER_MM</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="sd">"""Radius the cell corners are rounded by.</span>
+
+<span class="sd">A Voronoi cell is a polygon, and its corners are where three cells meet at a</span>
+<span class="sd">point. Left sharp, that point is a stress raiser in a lid whose whole job is to</span>
+<span class="sd">be thin. The rounding is done by cutting the cells back further and growing them</span>
+<span class="sd">returned after, so the web keeps its width along the edges and only opens out at</span>
+<span class="sd">the junctions.</span>
+<span class="sd">"""</span>
+
+<span class="n">VORONOI_NEIGHBOUR_REACH</span> <span class="o">=</span> <span class="mf">2.1</span> <span class="o">*</span> <span class="mf">1.4142135623730951</span>
+<span class="sd">"""How far a cell looks for the neighbours that bound it, in cell sizes.</span>
+
+<span class="sd">A Voronoi cell is bounded by its Delaunay neighbours, which on a jittered grid</span>
+<span class="sd">are near — but "near" has to be generous enough to cover a point that wandered</span>
+<span class="sd">into one corner of its cell and a neighbour that wandered to the far side of</span>
+<span class="sd">its own. Anything beyond this cannot cut the cell, so testing it is only cost.</span>
+<span class="sd">"""</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_voronoi_points</span><span class="p">(</span>
+    <span class="n">width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">spacing</span><span class="p">:</span> <span class="nb">float</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sd">"""Seed points: one per cell of a grid, each scattered within its cell.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        width: Width of the area to fill, in mm.</span>
+<span class="sd">        length: Its length, in mm.</span>
+<span class="sd">        spacing: The grid's cell size.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        The points, including the ones outside the area. A cell only comes out</span>
+<span class="sd">        the right shape if it has neighbours on every side, so the ring beyond</span>
+<span class="sd">        the edge is what makes the cells *at* the edge real rather than bounded</span>
+<span class="sd">        by nothing.</span>
+
+<span class="sd">    """</span>
+    <span class="n">rng</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">Random</span><span class="p">(</span><span class="n">VORONOI_SEED</span><span class="p">)</span>
+    <span class="n">roam</span> <span class="o">=</span> <span class="n">spacing</span> <span class="o">*</span> <span class="n">VORONOI_JITTER</span> <span class="o">/</span> <span class="mf">2.0</span>
+    <span class="k">return</span> <span class="p">[</span>
+        <span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">rng</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="o">-</span><span class="n">roam</span><span class="p">,</span> <span class="n">roam</span><span class="p">),</span> <span class="n">y</span> <span class="o">+</span> <span class="n">rng</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="o">-</span><span class="n">roam</span><span class="p">,</span> <span class="n">roam</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">_grid_cells</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">spacing</span><span class="p">)</span>
+    <span class="p">]</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_voronoi_cell</span><span class="p">(</span>
+    <span class="n">point</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
+    <span class="n">points</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]],</span>
+    <span class="n">inset</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">reach</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Shape2D</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Return the cell around `point`, pulled in by `inset` on every side.</span>
+
+<span class="sd">    A point's cell is everywhere closer to it than to any other point, which is</span>
+<span class="sd">    the intersection of one half-plane per neighbour: the side of their</span>
+<span class="sd">    perpendicular bisector that `point` is on. Insetting each half-plane rather</span>
+<span class="sd">    than the finished polygon is what makes the web an even width — every edge</span>
+<span class="sd">    moves in by the same amount, whatever angle it sits at.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        point: The cell's seed.</span>
+<span class="sd">        points: Every seed, this one included.</span>
+<span class="sd">        inset: How far to pull each bounding edge back towards `point`.</span>
+<span class="sd">        reach: Ignore neighbours further off than this; they cannot bound it.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        The cell, or ``None`` when no neighbour was close enough to bound it.</span>
+
+<span class="sd">    """</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">shapes2d</span> <span class="k">as</span> <span class="n">s2</span>
+
+    <span class="c1"># Wide enough to stand in for a half-plane across the whole cell.</span>
+    <span class="n">span</span> <span class="o">=</span> <span class="n">reach</span> <span class="o">*</span> <span class="mf">2.0</span>
+    <span class="n">half_plane</span> <span class="o">=</span> <span class="n">s2</span><span class="o">.</span><span class="n">rect</span><span class="p">([</span><span class="n">span</span> <span class="o">*</span> <span class="mi">2</span><span class="p">,</span> <span class="n">span</span><span class="p">])</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="o">-</span><span class="n">span</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">])</span>
+
+    <span class="n">cell</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">for</span> <span class="n">other</span> <span class="ow">in</span> <span class="n">points</span><span class="p">:</span>
+        <span class="n">dx</span><span class="p">,</span> <span class="n">dy</span> <span class="o">=</span> <span class="n">other</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">point</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">other</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">point</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">distance</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">hypot</span><span class="p">(</span><span class="n">dx</span><span class="p">,</span> <span class="n">dy</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">distance</span> <span class="o">&lt;=</span> <span class="mf">1e-9</span> <span class="ow">or</span> <span class="n">distance</span> <span class="o">&gt;</span> <span class="n">reach</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="c1"># The bisector sits halfway between the two; step back towards `point`</span>
+        <span class="c1"># by the inset, and face the plane so `point` is on the kept side.</span>
+        <span class="n">angle</span> <span class="o">=</span> <span class="mf">90.0</span> <span class="o">+</span> <span class="n">math</span><span class="o">.</span><span class="n">degrees</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">atan2</span><span class="p">(</span><span class="o">-</span><span class="n">dy</span><span class="p">,</span> <span class="o">-</span><span class="n">dx</span><span class="p">))</span>
+        <span class="n">cut</span> <span class="o">=</span> <span class="n">half_plane</span><span class="o">.</span><span class="n">rotate</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span>
+            <span class="p">(</span><span class="n">point</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">other</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">/</span> <span class="mf">2.0</span> <span class="o">-</span> <span class="n">dx</span> <span class="o">/</span> <span class="n">distance</span> <span class="o">*</span> <span class="n">inset</span><span class="p">,</span>
+            <span class="p">(</span><span class="n">point</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">other</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">/</span> <span class="mf">2.0</span> <span class="o">-</span> <span class="n">dy</span> <span class="o">/</span> <span class="n">distance</span> <span class="o">*</span> <span class="n">inset</span><span class="p">,</span>
+        <span class="p">])</span>
+        <span class="n">cell</span> <span class="o">=</span> <span class="n">cut</span> <span class="k">if</span> <span class="n">cell</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">cell</span> <span class="o">&amp;</span> <span class="n">cut</span>
+    <span class="k">return</span> <span class="n">cell</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_voronoi_fill</span><span class="p">(</span>
     <span class="n">width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">thickness</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">spacing</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">web</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""Round holes of varying size on a jittered grid — an organic scatter.</span>
+<span class="w">    </span><span class="sd">"""Irregular cells with an even web between them — a true Voronoi.</span>
 
-<span class="sd">    The jitter and the size variation both eat into the web, so the nominal</span>
-<span class="sd">    hole is taken at the *largest* it will be drawn and the rest come out</span>
-<span class="sd">    smaller — otherwise two neighbours that both wandered inwards would meet.</span>
+<span class="sd">    Each cell is the region closer to its own seed than to any other, so the</span>
+<span class="sd">    cells **tile**: the material left over is exactly the web, and the lid comes</span>
+<span class="sd">    out as a net rather than as a sheet with holes punched in it.</span>
+
+<span class="sd">    This was round holes on a jittered grid, which is a scatter of circles and</span>
+<span class="sd">    reads as one. What makes a Voronoi look like a Voronoi is that neighbouring</span>
+<span class="sd">    cells share a straight edge, and circles never do (FR-023).</span>
 <span class="sd">    """</span>
-    <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">cylinder</span>
+    <span class="k">if</span> <span class="n">hole_size</span><span class="p">(</span><span class="n">spacing</span><span class="p">,</span> <span class="n">web</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+    <span class="n">gap</span> <span class="o">=</span> <span class="n">DEFAULT_WEB_MM</span> <span class="k">if</span> <span class="n">web</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="nb">max</span><span class="p">(</span><span class="n">web</span><span class="p">,</span> <span class="n">MIN_WEB_MM</span><span class="p">)</span>
+    <span class="n">corner</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">VORONOI_CORNER_MM</span><span class="p">,</span> <span class="n">gap</span><span class="p">)</span>
 
-    <span class="n">size</span> <span class="o">=</span> <span class="n">hole_size</span><span class="p">(</span><span class="n">spacing</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">spacing</span> <span class="o">*</span> <span class="n">VORONOI_JITTER</span><span class="p">,</span> <span class="n">web</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">size</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="n">points</span> <span class="o">=</span> <span class="n">_voronoi_points</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">spacing</span><span class="p">)</span>
+    <span class="n">reach</span> <span class="o">=</span> <span class="n">spacing</span> <span class="o">*</span> <span class="n">VORONOI_NEIGHBOUR_REACH</span>
+    <span class="c1"># Cut back by the corner radius as well, then grow it all back at the end:</span>
+    <span class="c1"># that rounds the junctions without widening the web along the edges.</span>
+    <span class="n">inset</span> <span class="o">=</span> <span class="n">gap</span> <span class="o">/</span> <span class="mf">2.0</span> <span class="o">+</span> <span class="n">corner</span>
+
+    <span class="n">cells</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">for</span> <span class="n">point</span> <span class="ow">in</span> <span class="n">points</span><span class="p">:</span>
+        <span class="n">cell</span> <span class="o">=</span> <span class="n">_voronoi_cell</span><span class="p">(</span><span class="n">point</span><span class="p">,</span> <span class="n">points</span><span class="p">,</span> <span class="n">inset</span><span class="p">,</span> <span class="n">reach</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">cell</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">cells</span> <span class="o">=</span> <span class="n">cell</span> <span class="k">if</span> <span class="n">cells</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">cells</span> <span class="o">|</span> <span class="n">cell</span>
+    <span class="k">if</span> <span class="n">cells</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">None</span>
 
-    <span class="n">rng</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">Random</span><span class="p">(</span><span class="n">VORONOI_SEED</span><span class="p">)</span>
-    <span class="n">holes</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">_grid_cells</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">spacing</span><span class="p">):</span>
-        <span class="n">jitter</span> <span class="o">=</span> <span class="n">spacing</span> <span class="o">*</span> <span class="n">VORONOI_JITTER</span>
-        <span class="n">cx</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">rng</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="o">-</span><span class="n">jitter</span><span class="p">,</span> <span class="n">jitter</span><span class="p">)</span>
-        <span class="n">cy</span> <span class="o">=</span> <span class="n">y</span> <span class="o">+</span> <span class="n">rng</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="o">-</span><span class="n">jitter</span><span class="p">,</span> <span class="n">jitter</span><span class="p">)</span>
-        <span class="n">radius</span> <span class="o">=</span> <span class="n">size</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">rng</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">VORONOI_MIN_SCALE</span><span class="p">,</span> <span class="n">VORONOI_MAX_SCALE</span><span class="p">)</span>
-        <span class="n">cut</span> <span class="o">=</span> <span class="n">cylinder</span><span class="p">(</span>
-            <span class="n">height</span><span class="o">=</span><span class="n">thickness</span> <span class="o">*</span> <span class="n">DEPTH_OVERSHOOT</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="n">radius</span><span class="p">,</span> <span class="o">**</span><span class="n">precision_kwargs</span><span class="p">()</span>
-        <span class="p">)</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">cx</span><span class="p">,</span> <span class="n">cy</span><span class="p">,</span> <span class="n">thickness</span> <span class="o">/</span> <span class="mi">2</span><span class="p">])</span>
-        <span class="n">holes</span> <span class="o">=</span> <span class="n">cut</span> <span class="k">if</span> <span class="n">holes</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">holes</span> <span class="o">|</span> <span class="n">cut</span>
-    <span class="k">return</span> <span class="n">holes</span>
+    <span class="n">height</span> <span class="o">=</span> <span class="n">thickness</span> <span class="o">*</span> <span class="n">DEPTH_OVERSHOOT</span>
+    <span class="k">return</span> <span class="n">cells</span><span class="o">.</span><span class="n">offset</span><span class="p">(</span><span class="n">radius</span><span class="o">=</span><span class="n">corner</span><span class="p">)</span><span class="o">.</span><span class="n">linear_extrude</span><span class="p">(</span><span class="n">height</span><span class="o">=</span><span class="n">height</span><span class="p">)</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span>
+        <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="o">-</span><span class="p">(</span><span class="n">height</span> <span class="o">-</span> <span class="n">thickness</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">]</span>
+    <span class="p">)</span>
 
 
 <span class="n">LEAF_ASPECT</span> <span class="o">=</span> <span class="mf">2.0</span>

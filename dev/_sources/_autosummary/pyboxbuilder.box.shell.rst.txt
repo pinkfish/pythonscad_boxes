@@ -20,11 +20,14 @@ pyboxbuilder.box.shell
       :nosignatures:
    
       apply_finger_holes
+      apply_ribbon_channels
       block
       body_rounding
+      bottom_chamfer_slivers
       build_shell
       corner
       finger_cut_conflicts
+      finger_hole_scoop
       interior_block
       no_lid_finger_holes
       round_inner_rim

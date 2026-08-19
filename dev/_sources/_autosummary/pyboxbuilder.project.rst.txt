@@ -5,20 +5,18 @@ pyboxbuilder.project
 
    
    
-   
-
-   
-   
-   .. rubric:: Classes
+   .. rubric:: Submodules
 
    .. autosummary::
       :toctree:
-      :nosignatures:
+      :recursive:
    
-      Build
-      Piece
-      Project
-      ResolvedBox
+      core
+      piece
+   
+   
+
+   
    
    
 

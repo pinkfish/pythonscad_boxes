@@ -1,0 +1,9 @@
+pyboxbuilder.helpers.SleeveType
+===============================
+
+.. currentmodule:: pyboxbuilder.helpers
+
+.. autoclass:: SleeveType
+   :members:
+   :undoc-members:
+   :show-inheritance:

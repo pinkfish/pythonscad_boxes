@@ -312,10 +312,10 @@
 <span class="sd">description it was built from — so re-exporting an unchanged project rewrites</span>
 <span class="sd">nothing (see `pyboxbuilder.export.fingerprint`).</span>
 
-<span class="sd">Geometry export runs through PythonSCAD, which is not importable from plain</span>
-<span class="sd">CPython. When it is unavailable the exporter still creates the file tree and</span>
-<span class="sd">records the piece's bounding box, so the layout, PDF and packing pipeline stay</span>
-<span class="sd">testable off-app.</span>
+<span class="sd">Geometry export runs through PythonSCAD. When it is unavailable this **raises**:</span>
+<span class="sd">it used to create the file tree anyway, writing a 0-byte 3MF per piece and</span>
+<span class="sd">reporting every one as written, so a broken install looked exactly like a</span>
+<span class="sd">successful export until the files reached a slicer (FR-000h).</span>
 <span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
@@ -324,6 +324,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span>
 
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.deps</span><span class="w"> </span><span class="kn">import</span> <span class="n">require</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.export</span><span class="w"> </span><span class="kn">import</span> <span class="n">fingerprint</span> <span class="k">as</span> <span class="n">fp</span>
 
 <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
@@ -473,7 +474,7 @@
 <span class="sd">            label: Box label.</span>
 <span class="sd">            part: "body" or "lid".</span>
 <span class="sd">            mode: "mmu" or "single".</span>
-<span class="sd">            solid: The main geometry. None writes a placeholder (no app available).</span>
+<span class="sd">            solid: The main geometry. There must be some: see Raises.</span>
 <span class="sd">            inserts: Positive coloured inserts. Kept as separate objects in mmu</span>
 <span class="sd">                mode and unioned into `solid` in single mode (T068a).</span>
 <span class="sd">            size: Bounding box to record when it cannot be measured from `solid`.</span>
@@ -482,6 +483,11 @@
 
 <span class="sd">        Returns:</span>
 <span class="sd">            The relative path if written, None if skipped.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            RuntimeError: If the piece has no geometry to write, or if the</span>
+<span class="sd">                backend accepts it and produces no file.</span>
+<span class="sd">            MissingDependencyError: If the geometry backend is not installed.</span>
 
 <span class="sd">        Note:</span>
 <span class="sd">            Whether a write is *needed* is :meth:`is_current`'s decision, taken</span>
@@ -504,16 +510,17 @@
         <span class="n">wrote_candidate</span> <span class="o">=</span> <span class="n">_export_3mf</span><span class="p">(</span><span class="n">payload</span><span class="p">,</span> <span class="n">candidate</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="n">wrote_candidate</span><span class="p">:</span>
-            <span class="c1"># No geometry backend: create the file if it is missing, otherwise</span>
-            <span class="c1"># leave the previous export in place rather than truncating it.</span>
-            <span class="k">if</span> <span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
-                <span class="n">fp</span><span class="o">.</span><span class="n">record</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">fingerprint</span><span class="p">)</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">skipped</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">relative</span><span class="p">(</span><span class="n">path</span><span class="p">))</span>
-                <span class="k">return</span> <span class="kc">None</span>
-            <span class="n">path</span><span class="o">.</span><span class="n">touch</span><span class="p">()</span>
-            <span class="n">fp</span><span class="o">.</span><span class="n">record</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">fingerprint</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">written</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">relative</span><span class="p">(</span><span class="n">path</span><span class="p">))</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">relative</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+            <span class="c1"># Nothing to write. This used to touch an empty file and report it</span>
+            <span class="c1"># as exported, which is the failure mode a user cannot see: a tree</span>
+            <span class="c1"># full of 0-byte 3MFs and an export that said it succeeded</span>
+            <span class="c1"># (FR-000h). A lidless box never gets here — `write_box` guards the</span>
+            <span class="c1"># lid on `has_lid` — so an empty piece is a box that failed to build.</span>
+            <span class="n">candidate</span><span class="o">.</span><span class="n">unlink</span><span class="p">(</span><span class="n">missing_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">label</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">part</span><span class="si">}</span><span class="s2"> built no geometry, so </span><span class="si">{</span><span class="n">path</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> would be an "</span>
+                <span class="s2">"empty file. A box that cannot be built must say so rather than "</span>
+                <span class="s2">"exporting nothing."</span>
+            <span class="p">)</span>
 
         <span class="n">candidate</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
         <span class="n">fp</span><span class="o">.</span><span class="n">record</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">fingerprint</span><span class="p">)</span>
@@ -619,52 +626,70 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_solid_bounds</span><span class="p">(</span><span class="n">solid</span><span class="p">:</span> <span class="n">Bosl2Solid</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="o">...</span><span class="p">]]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""(origin, size) of one solid's AABB, or None if it exposes no usable one.</span>
+<span class="w">    </span><span class="sd">"""(origin, size) of one solid's AABB, or None if it exposes neither.</span>
 
 <span class="sd">    `Bosl2Solid.bounds()` already answers in (position, size) form and is the</span>
 <span class="sd">    reliable source; the raw `.position` / `.size` attributes are only meaningful</span>
 <span class="sd">    on native objects — on a pybosl2 wrapper they are bound methods, not triples.</span>
+
+<span class="sd">    A solid that *has* one of those and cannot produce a number from it raises,</span>
+<span class="sd">    rather than measuring as ``None``: the bounds are what a user checks a piece</span>
+<span class="sd">    against their print bed with, and a piece silently missing from that report</span>
+<span class="sd">    reads as a piece that fits (FR-000h).</span>
 <span class="sd">    """</span>
     <span class="n">bounds</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">solid</span><span class="p">,</span> <span class="s2">"bounds"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
     <span class="k">if</span> <span class="nb">callable</span><span class="p">(</span><span class="n">bounds</span><span class="p">):</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="n">origin</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="n">bounds</span><span class="p">()</span>
-            <span class="k">return</span> <span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">origin</span><span class="p">),</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">size</span><span class="p">))</span>
-        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
-            <span class="k">return</span> <span class="kc">None</span>
+        <span class="n">origin</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="n">bounds</span><span class="p">()</span>
+        <span class="k">return</span> <span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">origin</span><span class="p">),</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">size</span><span class="p">))</span>
 
     <span class="n">position</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">solid</span><span class="p">,</span> <span class="s2">"position"</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">solid</span><span class="p">,</span> <span class="s2">"size"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">position</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">size</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">None</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="k">return</span> <span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">position</span><span class="p">),</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">size</span><span class="p">))</span>
-    <span class="k">except</span> <span class="p">(</span><span class="ne">TypeError</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">):</span>
-        <span class="k">return</span> <span class="kc">None</span>
+    <span class="k">return</span> <span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">position</span><span class="p">),</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">size</span><span class="p">))</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_export_3mf</span><span class="p">(</span><span class="n">payload</span><span class="p">:</span> <span class="n">Bosl2Solid</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="n">Bosl2Solid</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""Write a 3MF, returning False when no geometry backend is available."""</span>
+<span class="w">    </span><span class="sd">"""Write a 3MF file.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        payload: The solid, or the list of them that make up one piece.</span>
+<span class="sd">        path: Where to write it.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        ``False`` when there was **nothing to write** — a lidless type's lid,</span>
+<span class="sd">        or a piece whose geometry came back empty. That is the only false this</span>
+<span class="sd">        returns: a backend that is missing, or a write that fails, raises.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        MissingDependencyError: If the geometry backend is not installed.</span>
+<span class="sd">        RuntimeError: If the write is attempted and produces no file.</span>
+
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="n">payload</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">return</span> <span class="kc">False</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="kn">from</span><span class="w"> </span><span class="nn">openscad</span><span class="w"> </span><span class="kn">import</span> <span class="n">export</span>
-    <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">False</span>
 
     <span class="n">solids</span> <span class="o">=</span> <span class="n">payload</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">payload</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="k">else</span> <span class="p">[</span><span class="n">payload</span><span class="p">]</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">solids</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">False</span>
 
+    <span class="c1"># Not imported at module scope: the FFI is only needed once there is</span>
+    <span class="c1"># something to write, and a project that builds but never exports should</span>
+    <span class="c1"># not require it. Missing at this point is fatal, though — the caller asked</span>
+    <span class="c1"># for a file, and the alternative was reporting success having written none.</span>
+    <span class="n">export</span> <span class="o">=</span> <span class="n">require</span><span class="p">(</span><span class="s2">"openscad"</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"write </span><span class="si">{</span><span class="n">path</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span><span class="o">.</span><span class="n">export</span>
+
     <span class="n">combined</span> <span class="o">=</span> <span class="n">solids</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     <span class="k">for</span> <span class="n">solid</span> <span class="ow">in</span> <span class="n">solids</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
         <span class="n">combined</span> <span class="o">=</span> <span class="n">combined</span> <span class="o">|</span> <span class="n">solid</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="c1"># `export` only takes native PyOpenSCAD objects; `.shape` is how a</span>
-        <span class="c1"># pybosl2 wrapper crosses that boundary.</span>
-        <span class="n">export</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">combined</span><span class="p">,</span> <span class="s2">"shape"</span><span class="p">,</span> <span class="n">combined</span><span class="p">),</span> <span class="nb">str</span><span class="p">(</span><span class="n">path</span><span class="p">))</span>
-    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
-        <span class="k">return</span> <span class="kc">False</span>
-    <span class="k">return</span> <span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span>
+    <span class="c1"># `export` only takes native PyOpenSCAD objects; `.shape` is how a</span>
+    <span class="c1"># pybosl2 wrapper crosses that boundary.</span>
+    <span class="n">export</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">combined</span><span class="p">,</span> <span class="s2">"shape"</span><span class="p">,</span> <span class="n">combined</span><span class="p">),</span> <span class="nb">str</span><span class="p">(</span><span class="n">path</span><span class="p">))</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">"exporting </span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2"> reported success but wrote no file. "</span>
+            <span class="s2">"The geometry backend accepted the solid and produced nothing."</span>
+        <span class="p">)</span>
+    <span class="k">return</span> <span class="kc">True</span>
 </code></pre></div>
 
 

@@ -435,6 +435,30 @@
   
   
     <li class="md-nav__item">
+      <a href="pyboxbuilder.deps.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>deps</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="pyboxbuilder.enums.html" class="md-nav__link">
         
   
@@ -465,6 +489,30 @@
   
   <span class="md-ellipsis">
     <span>pyboxbuilder.<wbr>export</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pyboxbuilder.helpers.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>helpers</span>
     
   </span>
   
@@ -514,7 +562,7 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_1_1_8" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_1_1_10" checked>
         
           
           <div class="md-nav__link md-nav__container">
@@ -531,14 +579,14 @@
             </a>
             
               
-              <label class="md-nav__link " for="__nav_1_1_1_8" id="__nav_1_1_1_8_label" tabindex="0">
+              <label class="md-nav__link " for="__nav_1_1_1_10" id="__nav_1_1_1_10_label" tabindex="0">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
           </div>
         
-        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_1_1_1_8_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_1_1_1_8">
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_1_1_1_10_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_1_1_1_10">
             <span class="md-nav__icon md-icon"></span>
             <span>pyboxbuilder.<wbr>lid</span>
           </label>
@@ -656,7 +704,7 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_1_1_8_5" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_1_1_10_5" checked>
         
           
           <div class="md-nav__link md-nav__container">
@@ -673,14 +721,14 @@
             </a>
             
               
-              <label class="md-nav__link md-nav__link--active" for="__nav_1_1_1_8_5" id="__nav_1_1_1_8_5_label" tabindex="0">
+              <label class="md-nav__link md-nav__link--active" for="__nav_1_1_1_10_5" id="__nav_1_1_1_10_5_label" tabindex="0">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
           </div>
         
-        <nav class="md-nav" data-md-level="5" aria-labelledby="__nav_1_1_1_8_5_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_1_1_1_8_5">
+        <nav class="md-nav" data-md-level="5" aria-labelledby="__nav_1_1_1_10_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_1_1_1_10_5">
             <span class="md-nav__icon md-icon"></span>
             <span>pyboxbuilder.<wbr>lid.<wbr>pattern</span>
           </label>
@@ -1033,6 +1081,30 @@
   
 </nav>
       
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pyboxbuilder.lid.tilings.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>lid.<wbr>tilings</span>
+    
+  </span>
+  
+
+      </a>
     </li>
   
 
@@ -1635,6 +1707,19 @@ leaf reading as one.</p>
 </dd></dl>
 
 <dl class="py data objdesc">
+<dt class="sig sig-object highlight sig-wrap py" id="pyboxbuilder.lid.pattern.MIN_DERIVED_SPACING_MM">
+<span class="sig-prename descclassname"><span class="pre">pyboxbuilder.lid.pattern.</span></span><span class="sig-name descname"><span class="pre">MIN_DERIVED_SPACING_MM</span></span><span class="p"> <span class="pre">=</span> </span><code class="code python docutils literal highlight highlight-python"><span class="p">{</span><span class="n">PatternType</span><span class="o">.</span><span class="n">VORONOI</span><span class="p">:</span> <span class="mf">8.0</span><span class="p">}</span></code><a class="headerlink" href="#pyboxbuilder.lid.pattern.MIN_DERIVED_SPACING_MM" title="Link to this definition">¶</a></dt>
+<dd><p>Patterns whose derived pitch needs a higher floor than the generic one.</p>
+<p><a class="reference internal" href="pyboxbuilder.lid.pattern.default_spacing.html#pyboxbuilder.lid.pattern.default_spacing" title="pyboxbuilder.lid.pattern.default_spacing (Python function) — Return the cell size a pattern uses when the caller names none."><code class="xref py py-func docutils literal notranslate"><span class="pre">default_spacing()</span></code></a> is calibrated for a hole <strong>inscribed</strong> in its cell, which
+is what most of the catalog cuts. A Voronoi cell <em>tiles</em>, so the cell is the
+hole, and the web is taken out of a cell rather than out of the gap around one.
+An eighth of a small lid’s shorter side leaves a cell only a few times the web,
+which prints and reads as a peppering of pinholes rather than as a pattern.</p>
+<p>Only the derived pitch is floored. A caller who asks for 5mm cells gets 5mm
+cells: a named option does what it says (FR-000g).</p>
+</dd></dl>
+
+<dl class="py data objdesc">
 <dt class="sig sig-object highlight py" id="pyboxbuilder.lid.pattern.MIN_HOLE_MM">
 <span class="sig-prename descclassname"><span class="pre">pyboxbuilder.lid.pattern.</span></span><span class="sig-name descname"><span class="pre">MIN_HOLE_MM</span></span><span class="p"> <span class="pre">=</span> </span><code class="code python docutils literal highlight highlight-python"><span class="mf">2.0</span></code><a class="headerlink" href="#pyboxbuilder.lid.pattern.MIN_HOLE_MM" title="Link to this definition">¶</a></dt>
 <dd><p>Smallest hole worth cutting.</p>
@@ -1663,15 +1748,33 @@ until the hexagon and the lattice agree.</p>
 </dd></dl>
 
 <dl class="py data objdesc">
-<dt class="sig sig-object highlight py" id="pyboxbuilder.lid.pattern.VORONOI_JITTER">
-<span class="sig-prename descclassname"><span class="pre">pyboxbuilder.lid.pattern.</span></span><span class="sig-name descname"><span class="pre">VORONOI_JITTER</span></span><span class="p"> <span class="pre">=</span> </span><code class="code python docutils literal highlight highlight-python"><span class="mf">0.28</span></code><a class="headerlink" href="#pyboxbuilder.lid.pattern.VORONOI_JITTER" title="Link to this definition">¶</a></dt>
-<dd><p>How far a cell may wander from its grid point, as a share of the spacing.</p>
+<dt class="sig sig-object highlight py" id="pyboxbuilder.lid.pattern.VORONOI_CORNER_MM">
+<span class="sig-prename descclassname"><span class="pre">pyboxbuilder.lid.pattern.</span></span><span class="sig-name descname"><span class="pre">VORONOI_CORNER_MM</span></span><span class="p"> <span class="pre">=</span> </span><code class="code python docutils literal highlight highlight-python"><span class="mf">1.0</span></code><a class="headerlink" href="#pyboxbuilder.lid.pattern.VORONOI_CORNER_MM" title="Link to this definition">¶</a></dt>
+<dd><p>Radius the cell corners are rounded by.</p>
+<p>A Voronoi cell is a polygon, and its corners are where three cells meet at a
+point. Left sharp, that point is a stress raiser in a lid whose whole job is to
+be thin. The rounding is done by cutting the cells back further and growing them
+returned after, so the web keeps its width along the edges and only opens out at
+the junctions.</p>
 </dd></dl>
 
 <dl class="py data objdesc">
-<dt class="sig sig-object highlight py" id="pyboxbuilder.lid.pattern.VORONOI_MAX_SCALE">
-<span class="sig-prename descclassname"><span class="pre">pyboxbuilder.lid.pattern.</span></span><span class="sig-name descname"><span class="pre">VORONOI_MAX_SCALE</span></span><span class="p"> <span class="pre">=</span> </span><code class="code python docutils literal highlight highlight-python"><span class="mf">1.15</span></code><a class="headerlink" href="#pyboxbuilder.lid.pattern.VORONOI_MAX_SCALE" title="Link to this definition">¶</a></dt>
-<dd><p>How much a hole’s size varies about the nominal, low and high.</p>
+<dt class="sig sig-object highlight py" id="pyboxbuilder.lid.pattern.VORONOI_JITTER">
+<span class="sig-prename descclassname"><span class="pre">pyboxbuilder.lid.pattern.</span></span><span class="sig-name descname"><span class="pre">VORONOI_JITTER</span></span><span class="p"> <span class="pre">=</span> </span><code class="code python docutils literal highlight highlight-python"><span class="mf">0.99</span></code><a class="headerlink" href="#pyboxbuilder.lid.pattern.VORONOI_JITTER" title="Link to this definition">¶</a></dt>
+<dd><p>How much of its cell a seed point may roam, as a share.</p>
+<p>Near 1, so the points are all but uniformly scattered and the cells come out
+genuinely irregular. Lower it and the cells converge on a square grid — which is
+the pattern this one exists <em>not</em> to be.</p>
+</dd></dl>
+
+<dl class="py data objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.lid.pattern.VORONOI_NEIGHBOUR_REACH">
+<span class="sig-prename descclassname"><span class="pre">pyboxbuilder.lid.pattern.</span></span><span class="sig-name descname"><span class="pre">VORONOI_NEIGHBOUR_REACH</span></span><span class="p"> <span class="pre">=</span> </span><code class="code python docutils literal highlight highlight-python"><span class="mf">2.9698484809835</span></code><a class="headerlink" href="#pyboxbuilder.lid.pattern.VORONOI_NEIGHBOUR_REACH" title="Link to this definition">¶</a></dt>
+<dd><p>How far a cell looks for the neighbours that bound it, in cell sizes.</p>
+<p>A Voronoi cell is bounded by its Delaunay neighbours, which on a jittered grid
+are near — but “near” has to be generous enough to cover a point that wandered
+into one corner of its cell and a neighbour that wandered to the far side of
+its own. Anything beyond this cannot cut the cell, so testing it is only cost.</p>
 </dd></dl>
 
 <dl class="py data objdesc">

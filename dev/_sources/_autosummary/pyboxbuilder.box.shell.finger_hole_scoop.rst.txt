@@ -1,0 +1,6 @@
+pyboxbuilder.box.shell.finger\_hole\_scoop
+==========================================
+
+.. currentmodule:: pyboxbuilder.box.shell
+
+.. autofunction:: finger_hole_scoop

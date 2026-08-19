@@ -553,11 +553,13 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_top_face</span><span class="p">(</span><span class="n">lid</span><span class="p">:</span> <span class="n">Bosl2Solid</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""(width, length, origin_x, origin_y, top_z) of the lid's upper surface."""</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="p">(</span><span class="n">cx</span><span class="p">,</span> <span class="n">cy</span><span class="p">,</span> <span class="n">cz</span><span class="p">),</span> <span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">h</span><span class="p">)</span> <span class="o">=</span> <span class="n">lid</span><span class="o">.</span><span class="n">bounds</span><span class="p">()</span>
-    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
-        <span class="k">return</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">"""(width, length, origin_x, origin_y, top_z) of the lid's upper surface.</span>
+
+<span class="sd">    A lid that cannot be measured raises rather than measuring as ``None``:</span>
+<span class="sd">    ``None`` meant the caller skipped the whole decoration, so a lid came out</span>
+<span class="sd">    with no label and no pattern and nothing said why (FR-000h).</span>
+<span class="sd">    """</span>
+    <span class="p">(</span><span class="n">cx</span><span class="p">,</span> <span class="n">cy</span><span class="p">,</span> <span class="n">cz</span><span class="p">),</span> <span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">h</span><span class="p">)</span> <span class="o">=</span> <span class="n">lid</span><span class="o">.</span><span class="n">bounds</span><span class="p">()</span>
     <span class="k">if</span> <span class="n">w</span> <span class="o">&lt;=</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">l</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">None</span>
     <span class="k">return</span> <span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">w</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="n">l</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="n">cx</span> <span class="o">-</span> <span class="n">w</span> <span class="o">/</span> <span class="mi">2</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="n">cy</span> <span class="o">-</span> <span class="n">l</span> <span class="o">/</span> <span class="mi">2</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="n">cz</span> <span class="o">+</span> <span class="n">h</span> <span class="o">/</span> <span class="mi">2</span><span class="p">))</span>
@@ -767,13 +769,15 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_coloured</span><span class="p">(</span><span class="n">solid</span><span class="p">:</span> <span class="n">Bosl2Solid</span><span class="p">,</span> <span class="n">colour</span><span class="p">:</span> <span class="n">Color</span> <span class="o">|</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""Tint a solid when a colour is set; pybosl2 wrappers carry their own."""</span>
+<span class="w">    </span><span class="sd">"""Tint a solid when a colour is set; pybosl2 wrappers carry their own.</span>
+
+<span class="sd">    An uncolourable solid raises. Returning it untinted instead produced a</span>
+<span class="sd">    single-material print from a description that asked for several, which is</span>
+<span class="sd">    exactly the failure a user does not see until it comes off the bed.</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="n">colour</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">solid</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">solid</span><span class="o">.</span><span class="n">color</span><span class="p">(</span><span class="n">colour</span><span class="p">)</span>
-    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">solid</span>
+    <span class="k">return</span> <span class="n">solid</span><span class="o">.</span><span class="n">color</span><span class="p">(</span><span class="n">colour</span><span class="p">)</span>
 </code></pre></div>
 
 

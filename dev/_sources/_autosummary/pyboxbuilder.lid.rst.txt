@@ -16,6 +16,7 @@ pyboxbuilder.lid
       decorate
       label
       pattern
+      tilings
    
    
 

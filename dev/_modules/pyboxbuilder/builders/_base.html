@@ -392,6 +392,12 @@
 <span class="sd">    """</span>
     <span class="n">compartments</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">CompartmentBuilder</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="p">()</span>
 <span class="w">    </span><span class="sd">"""Interior compartments."""</span>
+    <span class="n">tilt_to_lift</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="w">    </span><span class="sd">"""Subtle bottom bevel to rock box up for easy extraction."""</span>
+    <span class="n">keystone</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="w">    </span><span class="sd">"""Make this the first-out box with extra clearance and a finger scoop."""</span>
+    <span class="n">ribbon_channel</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">"""Cut bottom groove for lifting ribbon."""</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Reject bare strings where the API takes an enum.</span>
@@ -486,7 +492,7 @@
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">label</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="o">*</span><span class="p">,</span>
-        <span class="n">count</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">count</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">size</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
         <span class="n">thickness</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">CARD_THICKNESS_MM</span><span class="p">,</span>
         <span class="n">slack</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">CARD_SLACK_MM</span><span class="p">,</span>
@@ -509,7 +515,9 @@
 
 <span class="sd">        Args:</span>
 <span class="sd">            label: The well's name.</span>
-<span class="sd">            count: How many cards the well holds.</span>
+<span class="sd">            count: How many cards the well holds. ``None`` fills the whole</span>
+<span class="sd">                interior depth — the common case of one deck in a box that</span>
+<span class="sd">                holds nothing else (FR-000).</span>
 <span class="sd">            size: The card's ``(width, length)`` in mm.</span>
 <span class="sd">            thickness: One card's thickness in mm. The default suits a standard</span>
 <span class="sd">                board game card; sleeved cards run nearer 0.8mm.</span>
@@ -527,12 +535,13 @@
 <span class="sd">            ValueError: If ``count`` is not positive.</span>
 
 <span class="sd">        """</span>
-        <span class="k">if</span> <span class="n">count</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">count</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">count</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"card count must be &gt; 0; got </span><span class="si">{</span><span class="n">count</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="n">depth</span> <span class="o">=</span> <span class="kc">None</span> <span class="k">if</span> <span class="n">count</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">count</span> <span class="o">*</span> <span class="n">thickness</span> <span class="o">+</span> <span class="n">slack</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">compartment</span><span class="p">(</span>
             <span class="n">label</span><span class="p">,</span>
             <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">slack</span><span class="p">,</span> <span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">slack</span><span class="p">),</span>
-            <span class="n">depth</span><span class="o">=</span><span class="n">count</span> <span class="o">*</span> <span class="n">thickness</span> <span class="o">+</span> <span class="n">slack</span><span class="p">,</span>
+            <span class="n">depth</span><span class="o">=</span><span class="n">depth</span><span class="p">,</span>
             <span class="n">cut</span><span class="o">=</span><span class="n">cut</span><span class="p">,</span>
             <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
         <span class="p">)</span>

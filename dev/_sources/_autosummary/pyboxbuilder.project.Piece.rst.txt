@@ -1,9 +1,26 @@
-pyboxbuilder.project.Piece
+pyboxbuilder.project.piece
 ==========================
 
-.. currentmodule:: pyboxbuilder.project
+.. automodule:: pyboxbuilder.project.piece
 
-.. autoclass:: Piece
-   :members:
-   :undoc-members:
-   :show-inheritance:
+   
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+      :toctree:
+      :nosignatures:
+   
+      Build
+      Piece
+      ResolvedBox
+   
+   
+
+   
+   
+   
