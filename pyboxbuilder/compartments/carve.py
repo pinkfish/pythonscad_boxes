@@ -19,7 +19,7 @@ from collections.abc import Sequence
 from typing import TYPE_CHECKING
 
 from pyboxbuilder.box.interior import Interior
-from pyboxbuilder.enums import ScoopSide
+from pyboxbuilder.enums import FingerCut, ScoopSide
 from pyboxbuilder.rounding import (
     max_radius,
     round_edges,
@@ -165,10 +165,11 @@ def build_compartment_scoop(
     top = top_z if top_z is not None else interior.origin_z + interior.height
     depth = max(0.1, top - floor_z)
     wall_thickness = interior.origin_x if interior.origin_x > 0 else 2.0
-    # origin_z is the box floor: the scoop dips a fraction of it so its bottom
-    # face is not coplanar with the well floor (which renders as speckle).
-    floor_thickness = interior.origin_z if interior.origin_z > 0 else None
     cut = cut if cut is not None else Cut()
+    if cut.kind is FingerCut.THROUGH_FLOOR:
+        floor_thickness = floor_z
+    else:
+        floor_thickness = interior.origin_z if interior.origin_z > 0 else None
     scoop = build_cut(
         cut.kind,
         width, length, cut.depth if cut.depth is not None else depth, scoop_side,
@@ -274,6 +275,7 @@ def build_contents(
     default_side: ScoopSide | None = None,
     wall_tops: dict[ScoopSide, float] | None = None,
     mask: Bosl2Solid | None = None,
+    hinge_intrusion: Bosl2Solid | None = None,
 ) -> Bosl2Solid | None:
     """Union the cutouts for every placed compartment. None when there are none.
 
@@ -338,7 +340,10 @@ def build_contents(
         # without this the material above the interior ceiling — the lid recess
         # on a cap box, the groove band on a sliding one — stays put and seals
         # every well under a lid of its own.
-        contents = contents | interior_mouth(interior)
+        mouth = interior_mouth(interior)
+        if hinge_intrusion is not None:
+            mouth = mouth - hinge_intrusion
+        contents = contents | mouth
 
     scoop = union_all(scoops)
     if scoop is None:

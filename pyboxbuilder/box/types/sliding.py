@@ -85,10 +85,9 @@ class SlidingBox(BoxTypeBase):
         """Where each wall ends, which is not the same height all round.
 
         The channel is cut out of the top band across the whole box and runs
-        out through the exit wall, so **every** wall effectively stops a lid
-        thickness below the box's top: the exit wall because its material is
-        gone, the other three because anything cut above that line breaks into
-        the channel the lid slides in.
+        out through the exit wall, so the entry side wall stops a lid
+        thickness below the box's top (its material is gone). The other three
+        sides go all the way to the top of the box itself.
 
         Args:
             spec: Needs `height`; reads `lid_thickness`.
@@ -99,8 +98,9 @@ class SlidingBox(BoxTypeBase):
         """
         from pyboxbuilder.enums import ScoopSide
 
+        open_side = self.open_end_side(spec)
         top = spec.height - (spec.lid_thickness or 0.0)
-        return dict.fromkeys(ScoopSide, top)
+        return {side: (top if side == open_side else spec.height) for side in ScoopSide}
 
     def preferred_scoop_side(self, spec: BoxSpec) -> ScoopSide:
         """Put a finger scoop in the wall the lid comes out of.

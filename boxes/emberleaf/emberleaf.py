@@ -343,7 +343,6 @@ MATERIAL_INNER_H = MATERIAL_BOX_HEIGHT - LID - FLOOR
 for material, colour in MATERIAL_BOXES:
     project.token_tray(
         f"MaterialBox{material}",
-        box_type=BoxType.CAP,
         size=(MATERIAL_BOX_WIDTH, MATERIAL_BOX_LENGTH, MATERIAL_BOX_HEIGHT),
         lid=EMBERLEAF_LID.titled(material, text_color=Color(colour)),
     )
@@ -494,4 +493,4 @@ project.arrange(columns(
 
 
 if __name__ == "__main__":
-    run(project, show_lids=True)
+    run(project, show_lids=False)

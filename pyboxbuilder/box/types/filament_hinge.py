@@ -84,7 +84,10 @@ class FilamentHingeBox(BoxTypeBase):
         # cut cannot eat into them.
         if closure.body_cut is not None:
             body = body - closure.body_cut
-        return body if closure.body is None else body | closure.body
+        body = body if closure.body is None else body | closure.body
+        if closure.pin is not None:
+            body = body - closure.pin
+        return body
 
     def build_lid(self, spec: BoxSpec, decoration: object = None) -> Bosl2Solid:
         """Return a plate carrying the interleaving knuckles, on the same pin axis.
@@ -107,4 +110,7 @@ class FilamentHingeBox(BoxTypeBase):
         )
         if closure.lid_cut is not None:
             lid = lid - closure.lid_cut
-        return lid if closure.lid is None else lid | closure.lid
+        lid = lid if closure.lid is None else lid | closure.lid
+        if closure.pin is not None:
+            lid = lid - closure.pin
+        return lid

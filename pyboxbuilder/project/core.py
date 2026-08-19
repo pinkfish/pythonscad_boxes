@@ -897,6 +897,14 @@ class Project:
 
         if resolved.compartments is not None and body is not None:
             from pyboxbuilder.compartments.carve import build_contents
+            from pyboxbuilder.box.types.hinge import HingeBox
+            from pyboxbuilder.box.types.filament_hinge import FilamentHingeBox
+            from pyboxbuilder.box.features import hinge_intrusion
+
+            hinge_solid = None
+            if isinstance(box, (HingeBox, FilamentHingeBox)):
+                fd = spec.hinge_pin_diameter if isinstance(box, HingeBox) else spec.filament_diameter
+                hinge_solid = hinge_intrusion(self._resolve_box(builder).spec, fd)
 
             contents = build_contents(
                 resolved.compartments.placements, resolved.interior,
@@ -905,6 +913,7 @@ class Project:
                 default_side=box.preferred_scoop_side(spec),
                 wall_tops=spec.wall_tops,
                 mask=box.interior_mask(spec),
+                hinge_intrusion=hinge_solid,
             )
             if contents is not None:
                 body = body - contents

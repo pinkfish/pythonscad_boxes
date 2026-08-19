@@ -482,6 +482,7 @@ class Closure:
     knuckles then stand in space the other half would otherwise fill. Relieving
     only one side leaves the two fused just as surely as relieving neither.
     """
+    pin: Bosl2Solid | None = None
 
     def require_lid(self) -> Bosl2Solid:
         """Return the lid half, for a closure that is required to have one.
@@ -1028,20 +1029,30 @@ def hinge_intrusion(spec: BoxSpec, filament_diameter: float = 1.75) -> Bosl2Soli
         The solid the contents must keep clear of.
 
     """
-    from pyboxbuilder.box.shell import block
+    from pybosl2 import cylinder, polygon
 
     wt = spec.wall_thickness
     radius = max(wt, filament_diameter)
-    reach = radius + 0.5 + PRINT_IN_PLACE_GAP_MM
+    gap = PRINT_IN_PLACE_GAP_MM
+    r_c = radius + gap
+    leaf_thickness = spec.lid_thickness
+    axis_y = spec.length - radius
+    axis_z = min(spec.height, spec.height + leaf_thickness - radius)
 
-    # A full-height slab is deliberate rather than a tight fit to the barrel:
-    # a compartment that stops short of the hinge is what is wanted, and a
-    # cavity that noses under a barrel it cannot quite reach is a place for a
-    # piece to fall into and stay.
-    return block(
-        [spec.width, reach, spec.height + 1.0],
-        at=(0.0, spec.length - reach, -0.5),
-    )
+    total_depth = radius + r_c
+
+    # The barrel cylinder
+    cyl = cylinder(height=spec.width, radius=r_c, **precision_kwargs()).rotate([0, 90, 0]).translate([spec.width / 2, axis_y, axis_z])
+
+    # The chamfered support web/wedge angling back to the back wall
+    poly = polygon(points=[
+        (spec.length, axis_z + total_depth),
+        (spec.length - total_depth, axis_z),
+        (spec.length, axis_z - total_depth),
+    ])
+    wedge = poly.linear_extrude(height=spec.width).rotate([0, 90, 0]).rotate([-90, 0, 0]).scale([1, -1, -1])
+
+    return cyl | wedge
 
 
 def filament_hinge(
@@ -1154,10 +1165,11 @@ def filament_hinge(
     body = union_all(body_parts)
     lid = union_all(lid_parts)
     return Closure(
-        body=None if body is None else body - pin - parting,
-        lid=None if lid is None else lid - pin - parting,
+        body=None if body is None else body - parting,
+        lid=None if lid is None else lid - parting,
         body_cut=union_all(body_relief),
         lid_cut=union_all(lid_relief),
+        pin=pin,
     )
 
 
