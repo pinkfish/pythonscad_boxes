@@ -31,7 +31,6 @@ for _sp in REPO_ROOT.glob("venv/*/lib/*/site-packages"):
 from pyboxbuilder import (
     BoxType,
     Color,
-    FingerCut,
     LabelMode,
     LidBuilder,
     PatternBuilder,
@@ -344,8 +343,6 @@ MATERIAL_INNER_H = MATERIAL_BOX_HEIGHT - LID - FLOOR
 for material, colour in MATERIAL_BOXES:
     project.token_tray(
         f"MaterialBox{material}",
-        rows=1,
-        cols=1,
         box_type=BoxType.CAP,
         size=(MATERIAL_BOX_WIDTH, MATERIAL_BOX_LENGTH, MATERIAL_BOX_HEIGHT),
         lid=EMBERLEAF_LID.titled(material, text_color=Color(colour)),
@@ -364,7 +361,6 @@ for card_type, lid_text in CARD_BOXES:
     project.card_box(
         f"CardBox{card_type}",
         card_size=(CARD_LENGTH, CARD_WIDTH),
-        count=79,
         box_type=BoxType.SLIDING,
         size=(CARD_BOX_WIDTH, CARD_BOX_LENGTH, CARD_BOX_HEIGHT),
         lid=EMBERLEAF_LID.titled(lid_text),
@@ -378,7 +374,6 @@ for colour in PLAYER_CARD_COLOURS:
     project.card_box(
         f"CardBoxPlayer{colour}",
         card_size=(CARD_WIDTH, CARD_LENGTH),
-        count=9,
         box_type=BoxType.SLIDING,
         size=(PLAYER_CARD_BOX_WIDTH, PLAYER_CARD_BOX_LENGTH, PLAYER_CARD_BOX_HEIGHT),
         lid=EMBERLEAF_LID.titled("Player"),

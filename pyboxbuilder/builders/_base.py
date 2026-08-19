@@ -194,7 +194,7 @@ class BoxBuilder:
         self,
         label: str,
         *,
-        count: int,
+        count: int | None = None,
         size: tuple[float, float],
         thickness: float = CARD_THICKNESS_MM,
         slack: float = CARD_SLACK_MM,
@@ -217,7 +217,9 @@ class BoxBuilder:
 
         Args:
             label: The well's name.
-            count: How many cards the well holds.
+            count: How many cards the well holds. ``None`` fills the whole
+                interior depth — the common case of one deck in a box that
+                holds nothing else (FR-000).
             size: The card's ``(width, length)`` in mm.
             thickness: One card's thickness in mm. The default suits a standard
                 board game card; sleeved cards run nearer 0.8mm.
@@ -235,12 +237,13 @@ class BoxBuilder:
             ValueError: If ``count`` is not positive.
 
         """
-        if count <= 0:
+        if count is not None and count <= 0:
             raise ValueError(f"card count must be > 0; got {count}")
+        depth = None if count is None else count * thickness + slack
         return self.compartment(
             label,
             size=(size[0] + slack, size[1] + slack),
-            depth=count * thickness + slack,
+            depth=depth,
             cut=cut,
             **kwargs,
         )

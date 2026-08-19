@@ -1269,15 +1269,30 @@ class Project:
         label: str,
         *,
         card_size: CardSize | tuple[float, float],
-        count: int,
+        count: int | None = None,
         sleeve: SleeveType = SleeveType.UNSLEEVED,
         box_type: BoxType = BoxType.SLIDING,
         cut: Cut | FingerCut | None = FingerCut.THROUGH_FLOOR,
         **kwargs: Any,
     ) -> BoxBuilder:
-        """Add a box pre-configured for a deck of cards."""
-        from pyboxbuilder.enums import FingerCut
-        from pyboxbuilder.helpers import CardSize, SleeveType
+        """Add a box pre-configured for a deck of cards.
+
+        Args:
+            label: The box's name.
+            card_size: The card's ``(width, length)`` in mm, or a named size.
+            count: How many cards the deck holds. ``None`` fills the whole
+                interior depth — the common case of one deck in a box that
+                holds nothing else (FR-000).
+            sleeve: How the cards are sleeved, for their thickness and margin.
+            box_type: Which box type the deck lives in.
+            cut: How the deck is got out of its well.
+            **kwargs: Any other :meth:`box` keyword.
+
+        Returns:
+            The :class:`BoxBuilder` that was added.
+
+        """
+        from pyboxbuilder.helpers import CardSize
 
         builder = self.box(box_type, label, **kwargs)
         base_size = card_size.value if isinstance(card_size, CardSize) else card_size
@@ -1295,15 +1310,29 @@ class Project:
         self,
         label: str,
         *,
-        rows: int,
-        cols: int,
+        rows: int = 1,
+        cols: int = 1,
         scoop_side: ScoopSide = ScoopSide.FRONT,
         box_type: BoxType = BoxType.FILAMENT_HINGE,
         **kwargs: Any,
     ) -> BoxBuilder:
-        """Add a tray subdivided into a grid of compartments for tokens, with finger scoops."""
+        """Add a tray subdivided into a grid of compartments for tokens, with finger scoops.
+
+        Args:
+            label: The box's name.
+            rows: How many compartments run along the box's length. Defaults to
+                one, so a tray with a single compartment needs no grid said.
+            cols: How many compartments run across the box's width. Defaults to
+                one.
+            scoop_side: Which wall the finger scoop is cut into.
+            box_type: Which box type the tray is.
+            **kwargs: Any other :meth:`box` keyword.
+
+        Returns:
+            The :class:`BoxBuilder` that was added.
+
+        """
         from pyboxbuilder.builders._base import Cut
-        from pyboxbuilder.enums import ScoopSide
 
         builder = self.box(box_type, label, **kwargs)
         for r in range(rows):
@@ -1330,7 +1359,7 @@ class Project:
     ) -> BoxBuilder:
         """Add a box with a compartment for a stack of hexagonal tiles."""
         from pyboxbuilder.compartments.element import CompartmentElement
-        from pyboxbuilder.enums import ElementShape, FingerCut
+        from pyboxbuilder.enums import ElementShape
 
         builder = self.box(box_type, label, **kwargs)
         elem = CompartmentElement(

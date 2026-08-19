@@ -22,6 +22,22 @@ class PresetTests(unittest.TestCase):
         comp = builder.compartments[0]
         self.assertEqual(comp.label, "Cards")
 
+    def test_card_box_fills_the_well_without_a_count(self) -> None:
+        """No count means the deck fills the whole interior depth (FR-000)."""
+        p = Project("PresetCardTest", game_box_size=(300, 300, 80))
+        builder = p.card_box("MyDeck", card_size=CardSize.STANDARD_GAME)
+        self.assertEqual(len(builder.compartments), 1)
+        self.assertIsNone(builder.compartments[0].depth)
+
+    def test_token_tray_defaults_to_a_single_compartment(self) -> None:
+        """One compartment means no rows/cols grid needs saying."""
+        p = Project("PresetTokenTest", game_box_size=(300, 300, 80))
+        builder = p.token_tray("MyTokens")
+        self.assertEqual(len(builder.compartments), 1)
+        comp = builder.compartments[0]
+        self.assertAlmostEqual(comp.width_ratio, 1.0)
+        self.assertAlmostEqual(comp.length_ratio, 1.0)
+
     def test_token_tray_preset_default(self) -> None:
         p = Project("PresetTokenTest", game_box_size=(300, 300, 80))
         builder = p.token_tray(
