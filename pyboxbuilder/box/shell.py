@@ -387,6 +387,19 @@ def apply_finger_holes(body: Bosl2Solid, spec: BoxSpec) -> Bosl2Solid:
 
     warn_about_finger_cuts(spec)
 
+    for hole in holes:
+        body = body - finger_hole_scoop(spec, hole)
+
+    return body
+
+
+def finger_hole_scoop(spec: BoxSpec, hole: FingerHoleBuilder) -> Bosl2Solid:
+    """Return the placed cutout for one finger hole (FR-006).
+
+    The exact scoop :func:`apply_finger_holes` subtracts, exposed so a test can
+    measure the cut directly: the boolean difference between a with-hole and a
+    without-hole body does not report a reliable tight bounding box.
+    """
     from pyboxbuilder.compartments.finger_cuts import build_wall_scoop
     from pyboxbuilder.compartments.finger_outline import CutProfile
     from pyboxbuilder.compartments.finger_sweep import DEFAULT_FLOOR_DIP_MM, FaceTreatment
@@ -401,85 +414,71 @@ def apply_finger_holes(body: Bosl2Solid, spec: BoxSpec) -> Bosl2Solid:
     # from the rim starts inside solid material and reads as a nick in the top
     # edge rather than as a cut into the well. A type whose body is already
     # shortened for its lid — cap, slipover — says so with `interior_top`.
-
-    for hole in holes:
-        # Per side: the four walls need not end level, and a hole aligned to
-        # the wrong one either floats above its wall or cuts into a lid feature.
-        interior_top = spec.wall_top(hole.side)
-        interior_height = interior_top - ft
-        radius = getattr(hole, "radius", 14.0)
-        # The cut's height follows the finger unless told otherwise, and never
-        # reaches deeper than the interior.
-        reach = min(getattr(hole, "depth", None) or radius, interior_height)
-        # Wall standing above the cut turns it into a different shape: with no
-        # surface for the mouth roll to roll onto, the cut is a closed window
-        # instead of a scoop, filleted the whole way round (FR-065). The
-        # window's top then needs the same allowance as its bottom, since the
-        # fillet grows past both — hence `ends`.
-        walled_over = interior_top < spec.height - 1e-9
-        flare = _hole_flare(wt, hole, reach, ends=2 if walled_over else 1)
-        # Both ends are set by the outline's height, not by shifting the solid:
-        # the cut runs a flare past each end of its outline, so an outline this
-        # much shorter puts the material removed exactly where the reach says
-        # (FR-006b/T306). Shifting instead moves one end for the other — which
-        # is how the mouth ended up finishing above the wall top.
-        outline_height = reach - (2 * flare if walled_over else flare)
-        # A grip is never wider than it is deep (FR-056). The angle its flank
-        # arrives at the rim follows that aspect and nothing else — 45mm over
-        # 9mm can only come in at 34°, where the same width at 19mm deep comes
-        # in at 70° — so a shallow box gets a *smaller* grip rather than a
-        # stretched one, and the shape stays the one the rest of the library
-        # uses. Sizing the circles differently cannot fix it: a bigger base
-        # flattens the flank, a smaller one flattens it further.
-        throat = min(radius, outline_height)
-        scoop = build_wall_scoop(
-            inner_width,
-            inner_length,
-            outline_height,
-            hole.side,
-            radius=throat,
-            wall_thickness=wt,
-            profile=CutProfile(
-                # None lets the mouth derive from the throat rather than
-                # pinning 3mm, and lets the base grow as the cut shallows
-                # (FR-054/a7). Naming a value here reads as the same thing
-                # and is not: it counts as a *request*, which switches the
-                # derived rule off — that is how every shallow tray went back
-                # to a ramp either side without anything failing.
-                mouth_flare=hole.mouth_flare,
-                base_radius=hole.base_radius,
-                roll_rise=hole.roll_rise,
-            ),
-            faces=FaceTreatment(
-                # Pinned rather than derived, because the alignment above is
-                # measured off this exact flare.
-                fillet=flare,
-                # A scoop's outline overshoots its rim, which is free on a
-                # lidless box and must not be on any other; the window has no
-                # overshoot to trim, and its top is already the plane below.
-                top_limit=None,
-                # There is wall below an exterior hole, not floor, so the face
-                # flare can finish instead of being sliced off at the outline's
-                # flat bottom — which is what leaves the wall's sawn
-                # cross-section showing at the base of the cut (FR-076).
-                # Compartment scoops keep the default clip: they bottom on the
-                # floor, and there the flare has nowhere to go but through it.
-                floor_clearance=flare + DEFAULT_FLOOR_DIP_MM,
-            ),
-            keep_flat_bottom=False,
-            closed_top=walled_over,
-        )
-        offset = getattr(hole, "offset", 0.0) or 0.0
-        along_x = hole.side in (ScoopSide.FRONT, ScoopSide.BACK)
-        body = body - scoop.translate(
-            [
-                wt + (offset if along_x else 0.0),
-                wt + (0.0 if along_x else offset),
-                interior_top - outline_height - (flare if walled_over else 0.0),
-            ]
-        )
-
-    return body
+    #
+    # Per side: the four walls need not end level, and a hole aligned to the
+    # wrong one either floats above its wall or cuts into a lid feature.
+    interior_top = spec.wall_top(hole.side)
+    interior_height = interior_top - ft
+    radius = getattr(hole, "radius", 14.0)
+    # The cut's height follows the finger unless told otherwise, and never
+    # reaches deeper than the interior.
+    reach = min(getattr(hole, "depth", None) or radius, interior_height)
+    # Wall standing above the cut turns it into a different shape: with no
+    # surface for the mouth roll to roll onto, the cut is a closed window
+    # instead of a scoop, filleted the whole way round (FR-065). The window's
+    # top then needs the same allowance as its bottom, since the fillet grows
+    # past both — hence `ends`.
+    walled_over = interior_top < spec.height - 1e-9
+    flare = _hole_flare(wt, hole, reach, ends=2 if walled_over else 1)
+    # Both ends are set by the outline's height, not by shifting the solid: the
+    # cut runs a flare past each end of its outline, so an outline this much
+    # shorter puts the material removed exactly where the reach says
+    # (FR-006b/T306). Shifting instead moves one end for the other — which is
+    # how the mouth ended up finishing above the wall top.
+    outline_height = reach - (2 * flare if walled_over else flare)
+    # A grip is never wider than it is deep (FR-056). The angle its flank
+    # arrives at the rim follows that aspect and nothing else, so a shallow box
+    # gets a *smaller* grip rather than a stretched one.
+    throat = min(radius, outline_height)
+    scoop = build_wall_scoop(
+        inner_width,
+        inner_length,
+        outline_height,
+        hole.side,
+        radius=throat,
+        wall_thickness=wt,
+        profile=CutProfile(
+            # None lets the mouth derive from the throat rather than pinning
+            # 3mm, and lets the base grow as the cut shallows (FR-054/a7).
+            mouth_flare=hole.mouth_flare,
+            base_radius=hole.base_radius,
+            roll_rise=hole.roll_rise,
+        ),
+        faces=FaceTreatment(
+            # Pinned rather than derived, because the alignment above is
+            # measured off this exact flare.
+            fillet=flare,
+            # A scoop's outline overshoots its rim, which is free on a lidless
+            # box and must not be on any other; the window has no overshoot to
+            # trim.
+            top_limit=None,
+            # There is wall below an exterior hole, not floor, so the face
+            # flare can finish instead of being sliced off at the outline's
+            # flat bottom (FR-076).
+            floor_clearance=flare + DEFAULT_FLOOR_DIP_MM,
+        ),
+        keep_flat_bottom=False,
+        closed_top=walled_over,
+    )
+    offset = getattr(hole, "offset", 0.0) or 0.0
+    along_x = hole.side in (ScoopSide.FRONT, ScoopSide.BACK)
+    return scoop.translate(
+        [
+            wt + (offset if along_x else 0.0),
+            wt + (0.0 if along_x else offset),
+            interior_top - outline_height - (flare if walled_over else 0.0),
+        ]
+    )
 
 
 def no_lid_finger_holes(spec: BoxSpec) -> tuple[FingerHoleBuilder, ...]:

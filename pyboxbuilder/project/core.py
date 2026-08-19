@@ -1281,12 +1281,12 @@ class Project:
 
         builder = self.box(box_type, label, **kwargs)
         base_size = card_size.value if isinstance(card_size, CardSize) else card_size
-        sleeved_size = (base_size[0] + sleeve.footprint_margin, base_size[1] + sleeve.footprint_margin)
         builder.cards(
             "Cards",
             count=count,
-            size=sleeved_size,
+            size=base_size,
             thickness=sleeve.card_thickness,
+            slack=sleeve.footprint_margin,
             cut=cut,
         )
         return builder
