@@ -88,6 +88,11 @@ class FilamentHingeBox(BoxTypeBase):
         if closure.pin is not None:
             body = body - closure.pin
 
+        from pyboxbuilder.box.features import hinge_catch
+        catch = hinge_catch(spec)
+        if catch.body_cut is not None:
+            body = body - catch.body_cut
+
         from pyboxbuilder.box.shell import body_rounding
         from pyboxbuilder.rounding import round_edges, vertical_edges
         radius = body_rounding(spec)
@@ -124,4 +129,9 @@ class FilamentHingeBox(BoxTypeBase):
         lid = lid if closure.lid is None else lid | closure.lid
         if closure.pin is not None:
             lid = lid - closure.pin
+
+        from pyboxbuilder.box.features import hinge_catch
+        catch = hinge_catch(spec)
+        if catch.lid is not None:
+            lid = lid | catch.lid
         return lid

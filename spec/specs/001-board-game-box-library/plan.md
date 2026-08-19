@@ -273,6 +273,15 @@ Two consequences follow, and neither is optional:
 - **Each half must be relieved out of the other (FR-002t).** Inside the box, the lid's knuckles occupy space the body's wall fills, and the body's knuckles occupy space the lid's plate fills. `Closure` carries `body_cut` and `lid_cut` for this. Relieving one side only is worse than a trap — it looks fixed, because the obvious symptom (the lid fused to the wall) disappears while the other half stays welded.
 - **The interior loses that room, so the contents mask has to know (FR-002s).** The barrel and webs stand in the back of the interior, right where a compartment would go. `interior_mask` is a per-type hook — `None` for every type whose interior is simply its interior — and the hinge types return the interior less the hinge's intrusion. `build_contents` clips the **wells** to it and leaves the finger scoops alone, since breaching a wall is a scoop's whole job. This is what the original does through `FilamentBoxInsideMask`, which subtracts the barrel's clearance cylinder and a chamfered support web from the interior cuboid.
 
+### A Hinged Box Needs A Front Snap-Fit Catch (FR-002v)
+
+To hold the hinged lid closed, the box must carry a snap-fit catch on the front wall.
+- **The catch is a tab and pocket**: The lid carries a tab extending down by at most half the box height into a pocket cut into the body's front wall.
+- **Wall thickness limit**: The pocket cut into the body front wall must not exceed `wall_thickness / 2`, leaving the rest of the wall for structural support.
+- **Triangular Ridge snap (Default)**: The tab carries a right-angled triangular snap ridge (sloped bottom, flat top) pointing inward (+Y). The pocket has a matching right-angled triangular groove to catch it.
+- **Hemispherical Bumps snap (Alternative)**: Alternately, a bump catch consisting of two side-by-side round bumps on the lid tab that click into two matching hemispherical indents inside the pocket on the box body.
+
+
 ### A Sliding Box Needs Somewhere For The Lid To Go In (FR-002a)
 
 **The lid leaves through the shorter face (FR-002b)** — it slides along the longer horizontal axis. This applies to `SlidingBox`; `SlidingCatchBox` and `CardLibraryBox` share the `sliding_track` feature, which currently always slides along X. Their channel was opened at the same time (they had the same blocked-end defect, so FR-002a was only half implemented) but the axis choice has not been carried across — a known limitation, not a decision. That puts the grooves in the long walls, which have the most material to carry them, and the opening at the narrow end, which is the end a card box is opened from. The channel geometry is computed once as though the slide were along X and the two axes swapped when it is not, so there is one set of numbers rather than two chances to get them wrong.

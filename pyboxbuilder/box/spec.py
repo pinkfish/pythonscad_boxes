@@ -160,6 +160,8 @@ class BoxSpec:
     """Diameter of the hinge pin, in mm."""
     filament_diameter: float = 1.75
     """Diameter of the filament a living hinge is printed around."""
+    hinge_catch_type: str = "ridge"
+    """Catch type for hinged boxes; 'ridge' or 'bump'."""
 
     # ── Magnets (FR-039) ─────────────────────────────────────────────────
     magnet_type: MagnetType | None = None

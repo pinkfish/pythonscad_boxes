@@ -276,6 +276,7 @@ def build_contents(
     wall_tops: dict[ScoopSide, float] | None = None,
     mask: Bosl2Solid | None = None,
     hinge_intrusion: Bosl2Solid | None = None,
+    suppress_scoops: bool = False,
 ) -> Bosl2Solid | None:
     """Union the cutouts for every placed compartment. None when there are none.
 
@@ -303,6 +304,7 @@ def build_contents(
         default_side: The box type's preferred scoop wall, used when the
             compartment names none. A sliding box insists on the wall its lid
             leaves by; most types have no opinion and leave it to the shape.
+        suppress_scoops: Skip generating finger scoops (e.g. for lids/closures that conflict).
 
     """
     from pyboxbuilder.compartments.element import union_all
@@ -319,7 +321,7 @@ def build_contents(
             )
         )
         cut = getattr(builder, "cut", None)
-        if cut is not None:
+        if cut is not None and not suppress_scoops:
             side = cut.side or default_side or default_scoop_side(placement)
             side_top = (wall_tops or {}).get(side, top_z)
             scoops.append(

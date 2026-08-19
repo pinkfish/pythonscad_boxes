@@ -17,3 +17,5 @@ class HingeBoxBuilder(BoxBuilder):
     """Knuckles across the hinge; ``None`` uses the geometry's own default."""
     hinge_pin_diameter: float | None = None
     """Pin stock diameter in mm; ``None`` uses the geometry's own default."""
+    hinge_catch_type: str = "ridge"
+    """Catch type for hinged boxes; 'ridge' or 'bump'."""

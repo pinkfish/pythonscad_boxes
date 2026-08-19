@@ -1068,3 +1068,35 @@ class CapFootprintTooSmallTests(unittest.TestCase):
         self.assertIsNotNone(cap_finger_metrics(self.spec(smallest, 100)))
         with self.assertRaises(ValueError):
             cap_finger_metrics(self.spec(smallest - 0.5, 100))
+
+
+class HingeCatchTests(unittest.TestCase):
+    def test_hinge_catch_ridge(self) -> None:
+        from pyboxbuilder.box.features import hinge_catch
+        from pyboxbuilder.box.registry import BOX_IMPL_REGISTRY
+
+        # HINGE and FILAMENT_HINGE should build with a front catch
+        for box_type in (BoxType.HINGE, BoxType.FILAMENT_HINGE):
+            with self.subTest(box_type=box_type):
+                impl = BOX_IMPL_REGISTRY[box_type]()
+                body = impl.build_body(SPEC)
+                lid = impl.build_lid(SPEC)
+                # Confirm we can build them and bounds are correct
+                low, size = bbox(body | lid)
+                self.assertAlmostEqual(size[0], SPEC.width, places=2)
+                self.assertAlmostEqual(size[1], SPEC.length, places=2)
+                self.assertAlmostEqual(size[2], SPEC.height, places=2)
+
+    def test_hinge_catch_bump(self) -> None:
+        from pyboxbuilder.box.features import hinge_catch
+        from pyboxbuilder.box.registry import BOX_IMPL_REGISTRY
+
+        spec_bump = replace(SPEC, hinge_catch_type="bump")
+        for box_type in (BoxType.HINGE, BoxType.FILAMENT_HINGE):
+            with self.subTest(box_type=box_type):
+                impl = BOX_IMPL_REGISTRY[box_type]()
+                body = impl.build_body(spec_bump)
+                lid = impl.build_lid(spec_bump)
+                low, size = bbox(body | lid)
+                self.assertAlmostEqual(size[0], spec_bump.width, places=2)
+

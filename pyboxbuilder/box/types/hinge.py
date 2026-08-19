@@ -91,6 +91,11 @@ class HingeBox(BoxTypeBase):
         if closure.pin is not None:
             body = body - closure.pin
 
+        from pyboxbuilder.box.features import hinge_catch
+        catch = hinge_catch(spec)
+        if catch.body_cut is not None:
+            body = body - catch.body_cut
+
         radius = body_rounding(spec)
         if radius > 0:
             body = round_edges(
@@ -121,4 +126,9 @@ class HingeBox(BoxTypeBase):
         lid = lid if closure.lid is None else lid | closure.lid
         if closure.pin is not None:
             lid = lid - closure.pin
+
+        from pyboxbuilder.box.features import hinge_catch
+        catch = hinge_catch(spec)
+        if catch.lid is not None:
+            lid = lid | catch.lid
         return lid

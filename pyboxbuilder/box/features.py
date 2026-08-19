@@ -1412,3 +1412,86 @@ def fingernail_dish(spec: BoxSpec, catch: FingernailCatch) -> Bosl2Solid:
     axis = 0 if catch.axis == "x" else 1
     size[axis] = reach
     return dish & block(size, at=at)
+
+
+def hinge_catch(spec: BoxSpec) -> Closure:
+    """Return the front snap-fit catch for a hinged box (FR-002v)."""
+    from pybosl2 import polygon, sphere
+    from pyboxbuilder.box.shell import block
+    from pyboxbuilder.compartments.element import union_all
+    from pyboxbuilder.precision import kwargs as precision_kwargs
+
+    wt = spec.wall_thickness
+    lt = spec.lid_thickness
+    body_height = spec.height - lt
+
+    # Catch dimensions
+    catch_height = min(spec.height / 2.0, 10.0)
+    catch_width = min(spec.width * 0.4, 15.0)
+    gap = 0.1
+
+    x_center = spec.width / 2.0
+
+    # Body pocket cut (subtract from body front wall y=0..wt/2)
+    body_cut = block(
+        [catch_width + 2 * gap, wt / 2.0 + gap + 0.1, catch_height + gap],
+        at=(x_center - catch_width / 2.0 - gap, -0.1, body_height - catch_height - gap),
+    )
+
+    # Lid tab (union with lid, hangs down from z=body_height)
+    lid_tab = block(
+        [catch_width, wt / 2.0, catch_height],
+        at=(x_center - catch_width / 2.0, 0.0, body_height - catch_height),
+    )
+
+    bead_depth = 0.6
+    z_peak = body_height - catch_height / 2.0
+    slope_height = 2.0
+
+    if spec.hinge_catch_type == "ridge":
+        # Right-angled triangular ridge on lid tab (flat top, sloped bottom)
+        ridge_poly = polygon(points=[
+            (wt / 2.0, z_peak - slope_height),
+            (wt / 2.0 + bead_depth, z_peak),
+            (wt / 2.0, z_peak),
+        ])
+        ridge = (
+            ridge_poly.linear_extrude(height=catch_width)
+            .rotate([0, 90, 0])
+            .rotate([-90, 0, 0])
+            .scale([1, -1, -1])
+            .translate([x_center - catch_width / 2.0, 0, 0])
+        )
+        lid_catch = lid_tab | ridge
+
+        # Body cut pocket groove (triangular matching cut, slightly larger)
+        groove_poly = polygon(points=[
+            (wt / 2.0 - 0.1, z_peak - slope_height - 1.0),
+            (wt / 2.0 + bead_depth + gap, z_peak + gap),
+            (wt / 2.0 - 0.1, z_peak + gap),
+        ])
+        groove = (
+            groove_poly.linear_extrude(height=catch_width + 2 * gap)
+            .rotate([0, 90, 0])
+            .rotate([-90, 0, 0])
+            .scale([1, -1, -1])
+            .translate([x_center - catch_width / 2.0 - gap, 0, 0])
+        )
+        body_catch_cut = body_cut | groove
+
+    else:
+        # Bump catch (two side-by-side bumps)
+        x1 = x_center - catch_width / 4.0
+        x2 = x_center + catch_width / 4.0
+        r_bump = 1.2
+
+        bump1 = sphere(radius=r_bump, **precision_kwargs()).translate([x1, wt / 2.0, z_peak])
+        bump2 = sphere(radius=r_bump, **precision_kwargs()).translate([x2, wt / 2.0, z_peak])
+        lid_catch = union_all([lid_tab, bump1, bump2])
+
+        indent1 = sphere(radius=r_bump + gap, **precision_kwargs()).translate([x1, wt / 2.0, z_peak])
+        indent2 = sphere(radius=r_bump + gap, **precision_kwargs()).translate([x2, wt / 2.0, z_peak])
+        body_catch_cut = union_all([body_cut, indent1, indent2])
+
+    return Closure(body_cut=body_catch_cut, lid=lid_catch)
+

@@ -899,12 +899,23 @@ class Project:
             from pyboxbuilder.compartments.carve import build_contents
             from pyboxbuilder.box.types.hinge import HingeBox
             from pyboxbuilder.box.types.filament_hinge import FilamentHingeBox
+            from pyboxbuilder.box.types.cap import CapBox
+            from pyboxbuilder.box.types.cap_path import CapPathBox
+            from pyboxbuilder.box.types.slipover import SlipoverBox
+            from pyboxbuilder.box.types.slipover_path import SlipoverPathBox
+            from pyboxbuilder.box.types.sliding_catch import SlidingCatchBox
             from pyboxbuilder.box.features import hinge_intrusion
 
             hinge_solid = None
             if isinstance(box, (HingeBox, FilamentHingeBox)):
                 fd = spec.hinge_pin_diameter if isinstance(box, HingeBox) else spec.filament_diameter
                 hinge_solid = hinge_intrusion(self._resolve_box(builder).spec, fd)
+
+            suppress_scoops = False
+            if isinstance(box, (CapBox, CapPathBox, SlipoverBox, SlipoverPathBox, SlidingCatchBox)):
+                suppress_scoops = True
+            elif isinstance(box, (HingeBox, FilamentHingeBox)) and spec.hinge_catch_type not in (None, "none"):
+                suppress_scoops = True
 
             contents = build_contents(
                 resolved.compartments.placements, resolved.interior,
@@ -914,6 +925,7 @@ class Project:
                 wall_tops=spec.wall_tops,
                 mask=box.interior_mask(spec),
                 hinge_intrusion=hinge_solid,
+                suppress_scoops=suppress_scoops,
             )
             if contents is not None:
                 body = body - contents
