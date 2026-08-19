@@ -87,6 +87,17 @@ class FilamentHingeBox(BoxTypeBase):
         body = body if closure.body is None else body | closure.body
         if closure.pin is not None:
             body = body - closure.pin
+
+        from pyboxbuilder.box.shell import body_rounding
+        from pyboxbuilder.rounding import round_edges, vertical_edges
+        radius = body_rounding(spec)
+        if radius > 0:
+            body = round_edges(
+                body,
+                [spec.width, spec.length, spec.height],
+                radius,
+                list(vertical_edges()),
+            )
         return body
 
     def build_lid(self, spec: BoxSpec, decoration: object = None) -> Bosl2Solid:
