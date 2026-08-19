@@ -1100,7 +1100,7 @@ def filament_hinge(
     # so a barrel wider than that thickness has to drop by the difference.
     axis_z = min(spec.height, spec.height + leaf_thickness - radius)
 
-    span = spec.width - 2 * wt
+    span = spec.width
     pitch = span / knuckles
     # Each leaf webs inward from the barrel to its own half.
     web_y = axis_y
@@ -1112,7 +1112,7 @@ def filament_hinge(
         length = pitch - gap
         if length <= 0:
             continue
-        centre_x = wt + pitch * (index + 0.5)
+        centre_x = pitch * (index + 0.5)
         knuckle = cylinder(height=length, radius=radius, **precision_kwargs()).rotate([0, 90, 0])
         knuckle = knuckle.translate([centre_x, axis_y, axis_z])
 
