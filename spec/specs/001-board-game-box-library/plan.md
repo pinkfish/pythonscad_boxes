@@ -240,7 +240,25 @@ The two radii come to **4mm between them** — 2mm rolling in at the top, 2mm ro
 
 Making it exact took capping the skirt as well as checking it. The skirt defaults to half the box height (up to 10mm), which is a good skirt on a tall box and swallows a short one whole: at 11mm it takes 5.5mm and leaves the cut 5.5mm to fit 4mm of curve and a 2mm foot into, so the real floor came out at 12mm while the stack says 11mm. The default is now additionally capped so the cutout below it still fits, floored at the lid plus the 3mm minimum. **A tall box's skirt is untouched** — the cap only bites under about 16mm, which is the only place it was wrong.
 
-**Below that minimum the library raises**, naming the box's height, the minimum, each term of it, and recommending a **slipover** of the same size, which opens by its own corner notches. The alternative — quietly shrinking the radii until they fit — produces a cap box whose lid cannot be removed, and a part that looks finished and cannot be used is worse than one that refused to build.
+**Below that minimum the library raises**, naming the box's height, the minimum, each term of it, and recommending a **slipover** of the same size, which opens by its own corner notches. The alternative — quietly shrinking the radii until they fit — produces a cap box whose lid cannot be got off, and a part that looks finished and cannot be used is worse than one that refused to build.
+
+### Bump Catches for Cap and Slipover Boxes (FR-002q2, FR-002q3)
+
+To ensure the lid/sleeve of a cap box or slipover box stays securely closed, we implement a bump catch along each of the two long walls of the box (where the length axis is longer than the width, or vice versa).
+
+- **Mating Geometry**:
+  - The catch uses small spherical dimples cut into the box body's stepped band (for cap boxes) or the outer wall (for slipover boxes).
+  - The lid/sleeve has matching small spherical bumps protruding from its inner mating surface.
+  - The bump radius defaults to `1.0mm`. The dimple's radius is cut slightly larger by a fit clearance (`0.1mm` extra radius) to ensure it clicks rather than jamming.
+
+- **Catch Count & Spacing Logic**:
+  - Let $L$ be the box's long dimension: $L = \max(\text{width}, \text{length})$.
+  - Let the margin from the outer edge of the box along this dimension be $M = \min(20, L / 4)$ to avoid conflicting with corner finger cutouts or sleeve notches.
+  - The available length for placing catches is $L_{avail} = L - 2M$.
+  - We place $N$ dimples/bumps on each long wall, where $N \in \{2, 3, 4\}$.
+  - We choose the maximum $N \le 4$ such that the spacing between adjacent catches $S = L_{avail} / (N - 1) \ge 40\text{ mm}$. If $L_{avail} / 2 < 40\text{ mm}$ (or $L$ is too small), we fall back to $N = 2$ and place them at $x = M$ and $x = L - M$ along the axis.
+  - The coordinates along the long axis are:
+    $$x_i = M + i \cdot S \quad \text{for } i \in [0, N-1]$$
 
 ### A Sliding Box's Rim Is Exposed Too (FR-043f1)
 

@@ -928,6 +928,90 @@ def sliding_catch(
     )
 
 
+def cap_slipover_catch(spec: BoxSpec, is_slipover: bool = False) -> Closure:
+    """Return a bump-and-dimple catch for cap boxes or slipover boxes (FR-002q2, FR-002q3).
+
+    Bumps reside on the inside mating surface of the lid/sleeve, and dimples cut
+    into the box body's mating surface (the stepped band of the cap box body,
+    or the outer wall of the slipover box body).
+    """
+    from pybosl2 import sphere
+    from pyboxbuilder.compartments.element import union_all
+
+    radius = spec.catch_radius if spec.catch_radius is not None else 1.0
+    dimple_r = radius + FIT_SLACK_MM / 2
+
+    # Determine long axis and dimensions
+    if spec.width >= spec.length:
+        long_axis = "x"
+        L = spec.width
+        across_val = spec.length
+    else:
+        long_axis = "y"
+        L = spec.length
+        across_val = spec.width
+
+    if is_slipover:
+        from pyboxbuilder.box.features import slipover_metrics, slipover_gap
+        inset, _ = slipover_metrics(spec)
+        slack = spec.slip_slack
+        foot = spec.foot
+        lt = spec.lid_thickness
+        gap = min(slipover_gap(spec), spec.height - foot - lt)
+        # Center of catch along Z
+        z = (foot + gap + spec.height - lt) / 2.0
+    else:
+        from pyboxbuilder.box.features import cap_metrics
+        m = cap_metrics(spec)
+        inset = m.inset
+        slack = spec.cap_slack
+        # Center of catch along Z
+        z = (m.band_z + m.body_height) / 2.0
+
+    # Spacing calculations
+    margin = min(20.0, L / 4.0)
+    avail = L - 2.0 * margin
+    if avail / 3.0 >= 40.0:
+        N = 4
+    elif avail / 2.0 >= 40.0:
+        N = 3
+    else:
+        N = 2
+
+    spacing = avail / (N - 1) if N > 1 else 0.0
+
+    body_solids = []
+    lid_solids = []
+
+    dimple = sphere(radius=dimple_r, **precision_kwargs())
+    bump = sphere(radius=radius, **precision_kwargs())
+
+    for i in range(N):
+        pos_long = margin + i * spacing
+        for face in ("low", "high"):
+            if face == "low":
+                pos_body = inset
+                pos_lid = inset - slack
+            else:
+                pos_body = across_val - inset
+                pos_lid = across_val - (inset - slack)
+
+            if long_axis == "x":
+                b_pt = [pos_long, pos_body, z]
+                l_pt = [pos_long, pos_lid, z]
+            else:
+                b_pt = [pos_body, pos_long, z]
+                l_pt = [pos_lid, pos_long, z]
+
+            body_solids.append(dimple.translate(b_pt))
+            lid_solids.append(bump.translate(l_pt))
+
+    return Closure(
+        body=union_all(body_solids),
+        lid=union_all(lid_solids),
+    )
+
+
 # ------------------------------------------------------------ filament hinge
 
 
