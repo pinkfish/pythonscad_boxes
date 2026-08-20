@@ -936,6 +936,7 @@ def cap_slipover_catch(spec: BoxSpec, is_slipover: bool = False) -> Closure:
     or the outer wall of the slipover box body).
     """
     from pybosl2 import sphere
+
     from pyboxbuilder.compartments.element import union_all
 
     radius = spec.catch_radius if spec.catch_radius is not None else 1.0
@@ -952,7 +953,7 @@ def cap_slipover_catch(spec: BoxSpec, is_slipover: bool = False) -> Closure:
         across_val = spec.width
 
     if is_slipover:
-        from pyboxbuilder.box.features import slipover_metrics, slipover_gap
+        from pyboxbuilder.box.features import slipover_gap, slipover_metrics
         inset, _ = slipover_metrics(spec)
         slack = spec.slip_slack
         foot = spec.foot
@@ -1113,7 +1114,8 @@ def hinge_intrusion(spec: BoxSpec, filament_diameter: float = 1.75) -> Bosl2Soli
         The solid the contents must keep clear of.
 
     """
-    from pybosl2 import cylinder, polygon
+    from pybosl2 import cylinder
+    from pybosl2.shapes2d import polygon
 
     wt = spec.wall_thickness
     radius = max(wt, filament_diameter)
@@ -1126,10 +1128,12 @@ def hinge_intrusion(spec: BoxSpec, filament_diameter: float = 1.75) -> Bosl2Soli
     total_depth = radius + r_c
 
     # The barrel cylinder
-    cyl = cylinder(height=spec.width, radius=r_c, **precision_kwargs()).rotate([0, 90, 0]).translate([spec.width / 2, axis_y, axis_z])
+    cyl = cylinder(
+        height=spec.width, radius=r_c, **precision_kwargs()
+    ).rotate([0, 90, 0]).translate([spec.width / 2, axis_y, axis_z])
 
     # The chamfered support web/wedge angling back to the back wall
-    poly = polygon(points=[
+    poly = polygon(path=[
         (spec.length, axis_z + total_depth),
         (spec.length - total_depth, axis_z),
         (spec.length, axis_z - total_depth),
@@ -1500,10 +1504,9 @@ def fingernail_dish(spec: BoxSpec, catch: FingernailCatch) -> Bosl2Solid:
 
 def hinge_catch(spec: BoxSpec) -> Closure:
     """Return the front snap-fit catch for a hinged box (FR-002v)."""
-    from pybosl2 import Anchor
     from pybosl2.shapes2d import polygon
     from pybosl2.shapes3d import sphere
-    from pyboxbuilder.rounding import rounded_block
+
     from pyboxbuilder.compartments.element import union_all
     from pyboxbuilder.precision import kwargs as precision_kwargs
 
@@ -1518,18 +1521,20 @@ def hinge_catch(spec: BoxSpec) -> Closure:
     fillet_r = wt / 2.0  # default rounding is wall_thickness/2
 
     x_center = spec.width / 2.0
-    body_cut_at = (x_center - catch_width / 2.0 - gap, -0.1, body_height - catch_height - gap)
 
     # Body pocket cut (subtract from body front wall y=0..wt/2)
-    # Since wt/2 is thin (1.0mm), standard cuboid/rounded_block limits rounding to wt/4 (0.5mm) because of opposite edges.
+    # Since wt/2 is thin (1.0mm), standard cuboid/rounded_block limits rounding to wt/4 (0.5mm)
+    # because of opposite edges.
     # To get a true rounded corner front-face catch tab of width catch_width and fillet_r, we can build a 2D profile
-    # of a rectangle of size [catch_width, wt/2] with only the front-left and front-right corners rounded, and then extrude it.
+    # of a rectangle of size [catch_width, wt/2] with only the front-left and front-right corners rounded,
+    # and then extrude it.
+    from pybosl2.constants import FRONT
     from pybosl2.shapes2d import rect
-    from pybosl2.constants import BACK, FRONT
-    
+
     # 2D shape for the lid tab (Y runs negative from 0 to -wt/2, which is outside the front face footprint)
     # The front face is at Y=0. Lid tab hangs down from Y=0 in the direction of negative Y (frontwards) by wt/2.
-    # Therefore, the anchor is FRONT (meaning the front of the rectangle is at the local origin, so the rect extends back to Y > 0? No,
+    # Therefore, the anchor is FRONT (meaning the front of the rectangle is at the local origin,
+    # so the rect extends back to Y > 0? No,
     # anchor=FRONT means FRONT edge is placed at the origin, so it extends in Y+ direction.
     # If anchor=BACK, BACK edge is at origin, so it extends in Y- direction).
     # Since we want it to go from Y=0 to Y=-wt/2, we anchor at BACK.
@@ -1551,16 +1556,25 @@ def hinge_catch(spec: BoxSpec) -> Closure:
     # Needs to cut from Y = -gap (for clearance) up to Y = wt/2.
     # We anchor=FRONT, so rect spans Y: 0 to body_cut_y.
     # We translate to Y = -gap, so it spans: -gap to wt/2.
-    body_cut_2d = rect([body_cut_width, body_cut_y], rounding=[fillet_r + gap, fillet_r + gap, 0, 0], anchor=FRONT)
-    body_cut = body_cut_2d.linear_extrude(height=catch_height + gap).translate([x_center, -gap, body_height - catch_height - gap])
+    body_cut_2d = rect(
+        [body_cut_width, body_cut_y],
+        rounding=[fillet_r + gap, fillet_r + gap, 0, 0],
+        anchor=FRONT,
+    )
+    body_cut = body_cut_2d.linear_extrude(height=catch_height + gap).translate(
+        [x_center, -gap, body_height - catch_height - gap]
+    )
 
     # Angled strengthening piece (gusset/support) on the top/back of the lid tab
     # The gusset goes from the top edge of the tab (y = wt/2, z = body_height)
     # sloping up and back (y increasing, z increasing) to the bottom of the lid (z = body_height + lt).
-    # Since wt is the box wall thickness, the space behind the tab (y >= wt/2) inside the box can contain this.
-    # Let's make the gusset width match the catch_width, or a bit narrower for aesthetics (e.g., catch_width - 2*fillet_r).
+    # Since wt is the box wall thickness, the space behind the tab (y >= wt/2) inside
+    # the box can contain this.
+    # Let's make the gusset width match the catch_width, or a bit narrower for aesthetics
+    # (e.g., catch_width - 2*fillet_r).
     # Gusset thickness in Y: we can go from y = wt/2 to y = wt.
-    # We define the 2D path at Z=0.0 to prevent rotation-induced Y translation offsets, then translate to body_height in Z.
+    # We define the 2D path at Z=0.0 to prevent rotation-induced Y translation offsets,
+    # then translate to body_height in Z.
     gusset_poly = polygon(path=[
         (0.0, wt / 2.0),
         (0.0, wt - 0.2),  # stop slightly short of inner wall to prevent outer wall bleed/coincidence

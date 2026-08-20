@@ -166,10 +166,10 @@ def build_compartment_scoop(
     depth = max(0.1, top - floor_z)
     wall_thickness = interior.origin_x if interior.origin_x > 0 else 2.0
     cut = cut if cut is not None else Cut()
-    if cut.kind is FingerCut.THROUGH_FLOOR:
-        floor_thickness = floor_z
-    else:
-        floor_thickness = interior.origin_z if interior.origin_z > 0 else None
+    floor_thickness: float | None = (
+        floor_z if cut.kind is FingerCut.THROUGH_FLOOR
+        else (interior.origin_z if interior.origin_z > 0 else None)
+    )
     scoop = build_cut(
         cut.kind,
         width, length, cut.depth if cut.depth is not None else depth, scoop_side,
@@ -304,6 +304,7 @@ def build_contents(
         default_side: The box type's preferred scoop wall, used when the
             compartment names none. A sliding box insists on the wall its lid
             leaves by; most types have no opinion and leave it to the shape.
+        hinge_intrusion: Volume containing the hinge mechanism that compartments must not intersect.
         suppress_scoops: Skip generating finger scoops (e.g. for lids/closures that conflict).
 
     """

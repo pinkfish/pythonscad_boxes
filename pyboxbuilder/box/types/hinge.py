@@ -78,7 +78,7 @@ class HingeBox(BoxTypeBase):
 
     def build_body(self, spec: BoxSpec) -> Bosl2Solid:
         """Return the shell carrying every other knuckle of the hinge."""
-        from pyboxbuilder.box.shell import build_shell, body_rounding
+        from pyboxbuilder.box.shell import body_rounding, build_shell
         from pyboxbuilder.rounding import round_edges, vertical_edges
 
         body = build_shell(self._body_spec(spec))

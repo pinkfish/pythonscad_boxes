@@ -1113,3 +1113,42 @@ class HingeCatchTests(unittest.TestCase):
         self.assertGreater(volume(catch_ridge.lid), 0)
 
 
+class CapSlipoverBumpCatchTests(unittest.TestCase):
+    def test_cap_slipover_catch_count_and_spacing(self) -> None:
+        from pyboxbuilder.box.features import cap_slipover_catch
+        from pyboxbuilder.box.spec import BoxSpec
+
+        # Box 1: short box (width=50, length=50) -> L = 50. Margin M = 12.5. avail = 25. Spacing < 40 -> N = 2.
+        spec1 = BoxSpec(width=50.0, length=50.0, height=20.0)
+        catch1 = cap_slipover_catch(spec1, is_slipover=False)
+        self.assertIsNotNone(catch1.body)
+        self.assertIsNotNone(catch1.lid)
+
+        # Box 2: long box (width=150, length=50) -> L = 150. Margin M = 20. avail = 110.
+        # Spacing = 110/2 = 55 >= 40 -> N = 3.
+        spec2 = BoxSpec(width=150.0, length=50.0, height=20.0)
+        catch2 = cap_slipover_catch(spec2, is_slipover=False)
+        self.assertIsNotNone(catch2.body)
+        self.assertIsNotNone(catch2.lid)
+
+        # Box 3: very long box (width=220, length=50) -> L = 220. Margin M = 20. avail = 180.
+        # Spacing = 180/3 = 60 >= 40 -> N = 4.
+        spec3 = BoxSpec(width=220.0, length=50.0, height=20.0)
+        catch3 = cap_slipover_catch(spec3, is_slipover=False)
+        self.assertIsNotNone(catch3.body)
+        self.assertIsNotNone(catch3.lid)
+
+    def test_cap_slipover_body_and_lid_integration(self) -> None:
+        from pyboxbuilder.box.registry import BOX_IMPL_REGISTRY
+
+        for box_type in (BoxType.CAP, BoxType.SLIPOVER):
+            with self.subTest(box_type=box_type):
+                impl = BOX_IMPL_REGISTRY[box_type]()
+                body = impl.build_body(SPEC)
+                lid = impl.build_lid(SPEC)
+                _, size = bbox(body | lid)
+                self.assertAlmostEqual(size[0], SPEC.width, places=2)
+                self.assertAlmostEqual(size[1], SPEC.length, places=2)
+
+
+
