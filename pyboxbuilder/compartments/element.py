@@ -384,7 +384,10 @@ DEFAULT_PULL_OUT_WIDTH_MM = 16.0
 
 
 def build_pull_out(
-    element: CompartmentElement, default_depth: float
+    element: CompartmentElement,
+    default_depth: float,
+    comp_size: tuple[float, float] = (1000.0, 1000.0),
+    force_axis: str | None = None,
 ) -> Bosl2Solid | None:
     """Return the finger dish that lets a piece be lifted out of its slot.
 
@@ -393,54 +396,85 @@ def build_pull_out(
     it a silhouette slot has no purchase at all: it fits the piece exactly,
     which is what makes it look right and what makes it impossible to empty.
 
-    Args:
-        element: The slot to cut a pull-out for.
-        default_depth: The owning compartment's depth, used when the element
-            does not set its own.
-
-    Returns:
-        The dish to subtract, or ``None`` when the element declines one.
-
-    Raises:
-        ValueError: If the element has no resolved size.
-
     """
     if not element.pull_out:
         return None
 
     from pybosl2 import cuboid
-
     from pyboxbuilder.rounding import rounding_facets
 
-    width, length = element.footprint
-    depth = element.depth if element.depth is not None else default_depth
+    width, length = element.size
+    depth = element.depth or default_depth
     actual_z_offset = element.z_offset if element.z_offset is not None else (default_depth - depth)
-    drop = element.pull_out_depth
-    if drop is None:
-        drop = depth * PULL_OUT_DEPTH_SHARE
-    if drop <= 0:
-        return None
-
+    drop = depth * PULL_OUT_DEPTH_SHARE
     across = min(element.pull_out_width or DEFAULT_PULL_OUT_WIDTH_MM, max(width, length))
-    # The dish is rounded on every edge, so it curves in from the floor around
-    # it and out of the slot's own walls — no square step anywhere a finger
-    # travels. Its radius is capped by its own smallest dimension.
-    radius = min(drop, across / 2 - 0.01)
-    centre_x = element.offset[0] + width / 2
-    centre_y = element.offset[1] + length / 2
-    z = actual_z_offset + depth - drop
 
-    dish = cuboid(
-        [across, length + 2 * drop, drop * 2],
-        rounding=radius,
-        **rounding_facets(),
-    ) if radius > 0 else cuboid([across, length + 2 * drop, drop * 2])
-    dish = dish.translate([centre_x, centre_y, z])
+    # Calculate clearances to compartment boundaries to automatically pick the direction with most room
+    comp_w, comp_l = comp_size
+    clearance_x_left = element.offset[0]
+    clearance_x_right = comp_w - (element.offset[0] + width)
+    clearance_y_front = element.offset[1]
+    clearance_y_back = comp_l - (element.offset[1] + length)
 
-    # Extend the pull-out upwards to cut through the box rim/tracks
-    block = cuboid([across, length + 2 * drop, 100.0])
-    block = block.translate([centre_x, centre_y, actual_z_offset + depth + 50.0])
-    return union_all([dish, block])
+    clearance_x = min(clearance_x_left, clearance_x_right)
+    clearance_y = min(clearance_y_front, clearance_y_back)
+
+    use_y = force_axis == "y" if force_axis is not None else clearance_y >= clearance_x
+
+    if use_y:
+        # Orient along Y (lengthwise)
+        drop_front = max(0.0, min(drop, clearance_y_front))
+        drop_back = max(0.0, min(drop, clearance_y_back))
+        actual_drop = max(0.1, max(drop_front, drop_back))
+        radius = min(actual_drop, across / 2 - 0.01)
+        centre_x = element.offset[0] + width / 2
+        centre_y = element.offset[1] + length / 2 + (drop_back - drop_front) / 2
+        z = actual_z_offset + depth - actual_drop
+
+        total_len = length + drop_front + drop_back
+        dish = cuboid(
+            [across, total_len, actual_drop * 2],
+            rounding=radius,
+            **rounding_facets(),
+        ) if radius > 0 else cuboid([across, total_len, actual_drop * 2])
+        dish = dish.translate([centre_x, centre_y, z])
+
+        # Extend the pull-out upwards from its center to prevent top tapering, keeping the sides rounded
+        block = cuboid(
+            [across, total_len, 100.0],
+            rounding=radius,
+            edges=vertical_edges(),
+            **rounding_facets(),
+        ) if radius > 0 else cuboid([across, total_len, 100.0])
+        block = block.translate([centre_x, centre_y, z + 50.0])
+        return union_all([dish, block])
+    else:
+        # Orient along X (widthwise)
+        drop_left = max(0.0, min(drop, clearance_x_left))
+        drop_right = max(0.0, min(drop, clearance_x_right))
+        actual_drop = max(0.1, max(drop_left, drop_right))
+        radius = min(actual_drop, across / 2 - 0.01)
+        centre_x = element.offset[0] + width / 2 + (drop_right - drop_left) / 2
+        centre_y = element.offset[1] + length / 2
+        z = actual_z_offset + depth - actual_drop
+
+        total_w = width + drop_left + drop_right
+        dish = cuboid(
+            [total_w, across, actual_drop * 2],
+            rounding=radius,
+            **rounding_facets(),
+        ) if radius > 0 else cuboid([total_w, across, actual_drop * 2])
+        dish = dish.translate([centre_x, centre_y, z])
+
+        # Extend the pull-out upwards from its center to prevent top tapering, keeping the sides rounded
+        block = cuboid(
+            [total_w, across, 100.0],
+            rounding=radius,
+            edges=vertical_edges(),
+            **rounding_facets(),
+        ) if radius > 0 else cuboid([total_w, across, 100.0])
+        block = block.translate([centre_x, centre_y, z + 50.0])
+        return union_all([dish, block])
 
 
 def build_element_pack(
@@ -454,12 +488,29 @@ def build_element_pack(
 
 
 def build_element_pack_pull_outs(
-    elements: Iterable[CompartmentElement], default_depth: float
+    elements: Iterable[CompartmentElement], default_depth: float, comp_size: tuple[float, float]
 ) -> Bosl2Solid | None:
     """Union every pull-out scoop in a pack. Returns None if there are none."""
+    elements_list = list(elements)
+    if not elements_list:
+        return None
+
+    comp_w, comp_l = comp_size
+    sum_clearance_x = 0.0
+    sum_clearance_y = 0.0
+    for element in elements_list:
+        if not element.pull_out:
+            continue
+        width, length = element.size
+        sum_clearance_x += min(element.offset[0], comp_w - (element.offset[0] + width))
+        sum_clearance_y += min(element.offset[1], comp_l - (element.offset[1] + length))
+
+    # Align all scoops in the compartment along the overall best axis
+    use_y = sum_clearance_y >= sum_clearance_x
+
     pieces = []
-    for element in elements:
-        pieces.append(build_pull_out(element, default_depth))
+    for element in elements_list:
+        pieces.append(build_pull_out(element, default_depth, comp_size, force_axis="y" if use_y else "x"))
     return union_all([p for p in pieces if p is not None])
 
 

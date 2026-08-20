@@ -311,7 +311,7 @@ def build_contents(
         )
         if placement.elements:
             from pyboxbuilder.compartments.element import build_element_pack_pull_outs
-            pull_outs = build_element_pack_pull_outs(placement.elements, placement.depth)
+            pull_outs = build_element_pack_pull_outs(placement.elements, placement.depth, placement.size)
             if pull_outs is not None:
                 scoops.append(_place(pull_outs, placement, interior))
         cut = getattr(builder, "cut", None)
