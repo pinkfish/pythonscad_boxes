@@ -164,7 +164,18 @@ def build_compartment_scoop(
     # cut into the box's top edge.
     top = top_z if top_z is not None else interior.origin_z + interior.height
     depth = max(0.1, top - floor_z)
-    wall_thickness = interior.origin_x if interior.origin_x > 0 else 2.0
+    base_wt = interior.origin_x if interior.origin_x > 0 else 2.0
+    if scoop_side == ScoopSide.FRONT:
+        gap = placement.position[1] - interior.origin_y
+    elif scoop_side == ScoopSide.BACK:
+        gap = (interior.origin_y + interior.length) - (placement.position[1] + length)
+    elif scoop_side == ScoopSide.LEFT:
+        gap = placement.position[0] - interior.origin_x
+    elif scoop_side == ScoopSide.RIGHT:
+        gap = (interior.origin_x + interior.width) - (placement.position[0] + width)
+    else:
+        gap = 0.0
+    wall_thickness = base_wt + max(0.0, gap)
     cut = cut if cut is not None else Cut()
     floor_thickness: float | None = (
         floor_z if cut.kind is FingerCut.THROUGH_FLOOR
@@ -183,29 +194,6 @@ def build_compartment_scoop(
         ),
         faces=FaceTreatment(fillet=cut.face_fillet),
     )
-
-    if placement.depth > 35.0:
-        opposing = {
-            ScoopSide.FRONT: ScoopSide.BACK,
-            ScoopSide.BACK: ScoopSide.FRONT,
-            ScoopSide.LEFT: ScoopSide.RIGHT,
-            ScoopSide.RIGHT: ScoopSide.LEFT,
-        }
-        opp_side = opposing[scoop_side]
-        opp_scoop = build_cut(
-            cut.kind,
-            width, length, cut.depth if cut.depth is not None else depth, opp_side,
-            wall_thickness=wall_thickness,
-            floor_thickness=floor_thickness,
-            profile=CutProfile(
-                width=cut.width,
-                base_radius=cut.base_radius,
-                mouth_flare=cut.mouth_flare,
-                roll_rise=cut.roll_rise,
-            ),
-            faces=FaceTreatment(fillet=cut.face_fillet),
-        )
-        scoop = scoop | opp_scoop
 
     return _place(scoop, placement, interior)
 
@@ -335,6 +323,20 @@ def build_contents(
                     placement, interior, side, top_z=side_top, cut=cut,
                 )
             )
+            if placement.depth >= 30.0:
+                opposing = {
+                    ScoopSide.FRONT: ScoopSide.BACK,
+                    ScoopSide.BACK: ScoopSide.FRONT,
+                    ScoopSide.LEFT: ScoopSide.RIGHT,
+                    ScoopSide.RIGHT: ScoopSide.LEFT,
+                }
+                opp_side = opposing[side]
+                opp_side_top = (wall_tops or {}).get(opp_side, top_z)
+                scoops.append(
+                    build_compartment_scoop(
+                        placement, interior, opp_side, top_z=opp_side_top, cut=cut,
+                    )
+                )
 
     contents = union_all(wells)
     if contents is not None and clip:
