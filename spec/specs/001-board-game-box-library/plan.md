@@ -353,7 +353,7 @@ A lid that only needs to not slide out in a bag wants a **detent**, and a detent
 
 **The catch belongs at the outlet, not at the stop.** The bump rides on the lid's trailing end and the dimple sits in the wall beside the mouth, so the two meet only in the last few millimetres of travel. Put the catch at the closed end instead and the bump is dragged the whole length of the groove on every open and close — it wears the groove, it makes a long lid stiff to start, and it gives no clue to the hand about when the lid is home. At the mouth, the click happens exactly when the lid is closed.
 
-The catch is generated from the same slide-axis frame as the channel, so it lands on the correct pair of walls whichever way round the box is. It is **off by default** on a plain sliding box — the original toolkit's sliding box has no catch, and a dovetail on its own already holds a lid in — and always on for the sliding-catch and card-library types, which exist for it. Setting a catch radius on a plain sliding box turns it on.
+The catch is generated from the same slide-axis frame as the channel, so it lands on the correct pair of walls whichever way round the box is. Both sliding box and sliding-catch box carry this catch by default, with a default radius of 1.0mm, so the lid does not fall out of the box on its own and needs a little pressure to start sliding. Setting a catch radius on a box adjusts its size, and setting it to 0 turns it off.
 
 ### Getting A Sliding Lid Started (FR-002e5)
 

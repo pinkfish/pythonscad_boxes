@@ -1125,6 +1125,17 @@ stop the class of mistake from being expressible.
 
 ---
 
+## Phase 36: Bump Catches for Cap, Slipover, and Sliding Boxes
+
+**Goal**: Implement bump catches on cap/slipover boxes along their long walls with configurable/dynamic count (2 to 4) based on length, and make sliding lid bump catches enabled by default (1.0mm) to prevent them from sliding out.
+
+- [x] T344 [US2] Implement `cap_slipover_catch` in `features.py` to generate catch geometry (dimples/bumps) with N=2, 3, or 4 catches spaced at least 40mm apart along the long axis.
+- [x] T345 [US2] Integrate `cap_slipover_catch` into `CapBox` body and lid construction.
+- [x] T346 [US2] Integrate `cap_slipover_catch` into `SlipoverBox` body and lid construction.
+- [x] T347 [US2] Delegate `CapPathBox` methods to `CapBox` when the path is empty to ensure they inherit catches properly.
+- [x] T348 [US2] Change sliding lid bump catch default from 0.0mm (disabled) to 1.0mm (enabled by default), allowing users to explicitly turn it off by setting `catch_radius=0.0`.
+- [x] T349 [US2] Write tests in `test_closures.py` to verify cap/slipover catches and updated sliding catch defaults, and ensure all tests pass.
+
 ## Notes
 
 - [P] tasks = different files, no dependencies

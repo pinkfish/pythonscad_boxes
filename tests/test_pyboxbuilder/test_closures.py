@@ -305,7 +305,7 @@ class SlidingTests(unittest.TestCase):
         from pyboxbuilder.box.types.sliding import SlidingBox
 
         box = SlidingBox()
-        spec = replace(SPEC, hollow=True)
+        spec = replace(SPEC, hollow=True, catch_radius=0.0)
         body = box.build_body(spec)
         lid = box.build_lid(spec)
         for step in (0.0, 1.0, 5.0, 25.0, 60.0, SPEC.width):
@@ -430,16 +430,21 @@ class SlidingBumpCatchTests(unittest.TestCase):
         self.assertGreater(inside, 0.35, "the bump must be solidly on the lid")
         self.assertLess(inside, 0.65, "the bump must stand proud enough to catch")
 
-    def test_a_plain_sliding_box_has_no_catch(self) -> None:
-        """FR-002e3: SLIDING and SLIDING_CATCH must not be the same type."""
+    def test_a_plain_sliding_box_has_catch_by_default(self) -> None:
+        """FR-002e3: both sliding box and sliding-catch box carry a catch by default."""
         from pyboxbuilder.box.types.sliding import SlidingBox
 
         box = SlidingBox()
         spec = replace(SPEC, hollow=True)
         self.assertAlmostEqual(
             volume(box.build_lid(spec)),
-            volume(box.build_lid(replace(spec, catch_radius=0.0))),
+            volume(box.build_lid(replace(spec, catch_radius=1.0))),
             delta=0.01,
+        )
+        self.assertGreater(
+            volume(box.build_lid(spec)),
+            volume(box.build_lid(replace(spec, catch_radius=0.0))),
+            "disabling catch must remove material from the lid",
         )
 
     def test_asking_a_sliding_box_for_a_catch_adds_one(self) -> None:
@@ -447,12 +452,12 @@ class SlidingBumpCatchTests(unittest.TestCase):
 
         box = SlidingBox()
         spec = replace(SPEC, hollow=True)
-        plain = volume(box.build_lid(spec))
-        caught = volume(box.build_lid(replace(spec, catch_radius=1.0)))
+        plain = volume(box.build_lid(replace(spec, catch_radius=0.0)))
+        caught = volume(box.build_lid(spec))
         self.assertGreater(caught, plain, "the bumps must add material to the lid")
         self.assertLess(
-            volume(box.build_body(replace(spec, catch_radius=1.0))),
             volume(box.build_body(spec)),
+            volume(box.build_body(replace(spec, catch_radius=0.0))),
             "the dimples must take material out of the body",
         )
 
