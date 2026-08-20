@@ -323,7 +323,7 @@ def build_contents(
                     placement, interior, side, top_z=side_top, cut=cut,
                 )
             )
-            if placement.depth >= 30.0:
+            if placement.depth > 35.0:
                 opposing = {
                     ScoopSide.FRONT: ScoopSide.BACK,
                     ScoopSide.BACK: ScoopSide.FRONT,
