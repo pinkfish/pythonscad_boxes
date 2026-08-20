@@ -640,6 +640,10 @@ A single-colour export cannot inlay: there is no second material, so depth is
 the only thing that can make a label visible, and it keeps engraving the text
 (FR-036).
 
+### Custom Lid Logos (FR-022c)
+
+To support custom branding on boxes (such as the Root faction logos), the library supports placing a custom SVG logo on the lid. The logo is loaded, scaled to fit the lid face (respecting border margins), centered, and inlaid/engraved exactly like label text. Through-hole patterns are automatically kept clear of the logo's shape by translating the logo keep-out and subtracting it from the pattern holes.
+
 ### Tray Wells, and Where Rounding Stops (FR-044f, FR-044g)
 
 **Rounding is off by default and opted into** (FR-044f). A well is square unless its builder sets `holds_pieces`, because most wells are shaped by what they hold — a card slot, a token silhouette, a board recess — and softening those changes a fit rather than improving it. The case that benefits is a tray of loose pieces you have to pick out, and it says so. This is the same principle as the mating surfaces: rounding is for geometry the toolkit invents, never for geometry the game dictates.

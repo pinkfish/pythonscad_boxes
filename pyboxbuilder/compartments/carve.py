@@ -321,6 +321,11 @@ def build_contents(
                 placement, interior, rounded_corners=radius, bottom_rounding=radius,
             )
         )
+        if placement.elements:
+            from pyboxbuilder.compartments.element import build_element_pack_pull_outs
+            pull_outs = build_element_pack_pull_outs(placement.elements, placement.depth)
+            if pull_outs is not None:
+                scoops.append(_place(pull_outs, placement, interior))
         cut = getattr(builder, "cut", None)
         if cut is not None and not suppress_scoops:
             side = cut.side or default_side or default_scoop_side(placement)

@@ -45,8 +45,9 @@ class CompartmentElement:
     """Silhouette kind. Defaults to SVG, which requires `shape_file`."""
     depth: float | None = None
     """Cutout depth in mm. None inherits the owning compartment's depth."""
-    z_offset: float = 0.0
+    z_offset: float | None = None
     """Extra lift of the cutout floor above the compartment floor, in mm.
+    If None, the pocket automatically aligns flush with the top of the box.
     Used for pieces that sit on top of other pieces (e.g. a tile over a token)."""
     corner_radius: float = 2.0
     """Corner radius for ElementShape.ROUNDED_RECT."""
@@ -283,6 +284,7 @@ def build_element(
     assert element.size is not None
     w, l = element.size
     depth = element.depth if element.depth is not None else default_depth
+    actual_z_offset = element.z_offset if element.z_offset is not None else (default_depth - depth)
     base_w, _ = element.base_footprint
 
     # A scoop is a ball resting ON the floor, not a well sunk into it, so it
@@ -336,7 +338,7 @@ def build_element(
     return solid.translate([
         element.offset[0] + footprint_w / 2,
         element.offset[1] + footprint_l / 2,
-        element.z_offset + z_lift,
+        actual_z_offset + z_lift,
     ])
 
 
@@ -412,6 +414,7 @@ def build_pull_out(
 
     width, length = element.footprint
     depth = element.depth if element.depth is not None else default_depth
+    actual_z_offset = element.z_offset if element.z_offset is not None else (default_depth - depth)
     drop = element.pull_out_depth
     if drop is None:
         drop = depth * PULL_OUT_DEPTH_SHARE
@@ -425,14 +428,19 @@ def build_pull_out(
     radius = min(drop, across / 2 - 0.01)
     centre_x = element.offset[0] + width / 2
     centre_y = element.offset[1] + length / 2
-    z = element.z_offset + depth - drop
+    z = actual_z_offset + depth - drop
 
     dish = cuboid(
         [across, length + 2 * drop, drop * 2],
         rounding=radius,
         **rounding_facets(),
     ) if radius > 0 else cuboid([across, length + 2 * drop, drop * 2])
-    return dish.translate([centre_x, centre_y, z])
+    dish = dish.translate([centre_x, centre_y, z])
+
+    # Extend the pull-out upwards to cut through the box rim/tracks
+    block = cuboid([across, length + 2 * drop, 100.0])
+    block = block.translate([centre_x, centre_y, actual_z_offset + depth + 50.0])
+    return union_all([dish, block])
 
 
 def build_element_pack(
@@ -442,6 +450,15 @@ def build_element_pack(
     pieces = []
     for element in elements:
         pieces.append(build_element(element, default_depth))
+    return union_all([p for p in pieces if p is not None])
+
+
+def build_element_pack_pull_outs(
+    elements: Iterable[CompartmentElement], default_depth: float
+) -> Bosl2Solid | None:
+    """Union every pull-out scoop in a pack. Returns None if there are none."""
+    pieces = []
+    for element in elements:
         pieces.append(build_pull_out(element, default_depth))
     return union_all([p for p in pieces if p is not None])
 

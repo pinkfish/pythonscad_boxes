@@ -124,17 +124,23 @@ def decorate_lid(
     if resolved.text and label is None:
         result.skipped_label = True
 
+    logo_solid = _build_logo(resolved, width, length, mode) if resolved.logo else None
+
     if resolved.pattern is not None:
         result.solid = _cut_pattern(
             result.solid, resolved, width, length,
             origin_x, origin_y, top_z, lid_thickness,
             keep_clear=label,
+            logo_keepout=logo_solid,
             label_clearance=resolved.label_clearance,
             reserved=reserved,
         )
 
     if label is not None:
         _apply_label(result, resolved, label, origin_x, origin_y, top_z, mode)
+
+    if logo_solid is not None:
+        _apply_logo(result, resolved, logo_solid, origin_x, origin_y, top_z, mode)
 
     return result
 
@@ -177,6 +183,62 @@ def _build_label(
         min_text_height_mm=builder.min_text_height,
         border_margin_mm=builder.border_margin,
     )
+
+
+def _build_logo(
+    builder: LidBuilder, width: float, length: float, mode: str
+) -> Bosl2Solid | None:
+    """Build the logo solid, centered on the lid face."""
+    if not builder.logo:
+        return None
+    from pyboxbuilder.compartments.element import svg_solid
+
+    margin = builder.border_margin_mm or 10.0
+    logo_w = width - 2 * margin
+    logo_l = length - 2 * margin
+    if logo_w <= 0 or logo_l <= 0:
+        return None
+
+    depth = INLAY_DEPTH_MM
+    if isinstance(builder.logo, str):
+        solid = svg_solid(builder.logo, logo_w, logo_l, depth)
+    elif callable(builder.logo):
+        solid = builder.logo(logo_w, logo_l, depth)
+    else:
+        solid = builder.logo
+        (cx, cy, cz), (w, l, h) = solid.bounds()
+        if w > 0 and l > 0 and h > 0:
+            scale_x = logo_w / w
+            scale_y = logo_l / l
+            scale_z = depth / h
+            solid = solid.translate([-cx, -cy, -cz + h/2]).scale([scale_x, scale_y, scale_z])
+
+    offset_x = margin
+    offset_y = (length - logo_l) / 2
+    return solid.translate([offset_x, offset_y, 0.0])
+
+
+def _apply_logo(
+    result: DecoratedLid,
+    builder: LidBuilder,
+    logo_solid: Bosl2Solid,
+    origin_x: float,
+    origin_y: float,
+    top_z: float,
+    mode: str,
+) -> None:
+    """Inlay or engrave the logo into the lid."""
+    def onto_face(solid: Bosl2Solid) -> Bosl2Solid:
+        return solid.translate([origin_x, origin_y, top_z - INLAY_DEPTH_MM])
+
+    if mode == "single":
+        cut = onto_face(logo_solid).translate([0.0, 0.0, INLAY_DEPTH_MM - ENGRAVE_DEPTH_MM])
+        result.solid = result.solid - cut
+        return
+
+    inlay = onto_face(logo_solid) & result.solid
+    result.solid = result.solid - inlay
+    result.inserts.append(LidInsert(_coloured(inlay, builder.logo_color), builder.logo_color))
 
 
 KEEPOUT_DIRECTIONS = 12
@@ -268,6 +330,7 @@ def _cut_pattern(
     top_z: float,
     lid_thickness: float,
     keep_clear: Label | None = None,
+    logo_keepout: Bosl2Solid | None = None,
     label_clearance: float = LABEL_CLEARANCE_MM,
     reserved: Sequence[tuple[float, float, float]] = (),
 ) -> Bosl2Solid:
@@ -284,6 +347,7 @@ def _cut_pattern(
         lid_thickness: How deep the holes must reach to break through.
         keep_clear: The label whose shape must stay solid. Holes under the
             lettering would leave it printing onto air (FR-023).
+        logo_keepout: The logo solid whose shape must stay solid.
         label_clearance: Solid margin kept around the lettering.
         reserved: ``(x, y, radius)`` circles the pattern must leave solid.
 
@@ -332,6 +396,11 @@ def _cut_pattern(
     keepout = _label_keepout(keep_clear, depth, label_clearance)
     if keepout is not None:
         holes = holes - keepout.translate([origin_x, origin_y, base[2]])
+
+    if logo_keepout is not None:
+        # Stretch the logo keepout in z and subtract it
+        stretched_logo = _as_depth(logo_keepout, depth)
+        holes = holes - stretched_logo.translate([origin_x, origin_y, base[2]])
 
     # A box type's own lid features — a sliding lid's fingernail dish — are
     # already cut into the plate. The pattern keeps off them and off the ring
@@ -453,11 +522,16 @@ def _with_accent_colors(builder: LidBuilder, body_color: Color | None) -> LidBui
         body_color if body_color is not None else Color("gray"),
         builder.text_color, builder.frame_color, builder.pattern_color,
     )
+    logo_color = builder.logo_color
+    if logo_color is None:
+        logo_color = colors.text_color
+
     return replace(
         builder,
         text_color=colors.text_color,
         frame_color=colors.frame_color,
         pattern_color=colors.pattern_color,
+        logo_color=logo_color,
     )
 
 
