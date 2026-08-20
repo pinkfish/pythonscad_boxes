@@ -490,8 +490,8 @@ def build_element_pack(
 def build_element_pack_pull_outs(
     elements: Iterable[CompartmentElement], default_depth: float, comp_size: tuple[float, float]
 ) -> Bosl2Solid | None:
-    """Union every pull-out scoop in a pack. Returns None if there are none."""
-    elements_list = list(elements)
+    """Union every pull-out scoop in a pack, hulling overlapping scoops to avoid sharp edges."""
+    elements_list = [el for el in elements if el.pull_out]
     if not elements_list:
         return None
 
@@ -499,8 +499,6 @@ def build_element_pack_pull_outs(
     sum_clearance_x = 0.0
     sum_clearance_y = 0.0
     for element in elements_list:
-        if not element.pull_out:
-            continue
         width, length = element.size
         sum_clearance_x += min(element.offset[0], comp_w - (element.offset[0] + width))
         sum_clearance_y += min(element.offset[1], comp_l - (element.offset[1] + length))
@@ -508,10 +506,87 @@ def build_element_pack_pull_outs(
     # Align all scoops in the compartment along the overall best axis
     use_y = sum_clearance_y >= sum_clearance_x
 
-    pieces = []
+    # Map each element to its individual pull_out solid and its footprint bounds
+    built_pieces = []
     for element in elements_list:
-        pieces.append(build_pull_out(element, default_depth, comp_size, force_axis="y" if use_y else "x"))
-    return union_all([p for p in pieces if p is not None])
+        solid = build_pull_out(element, default_depth, comp_size, force_axis="y" if use_y else "x")
+        if solid is None:
+            continue
+
+        width, length = element.size
+        depth = element.depth or default_depth
+        drop = depth * PULL_OUT_DEPTH_SHARE
+
+        if use_y:
+            clearance_y_front = element.offset[1]
+            clearance_y_back = comp_l - (element.offset[1] + length)
+            drop_front = max(0.0, min(drop, clearance_y_front))
+            drop_back = max(0.0, min(drop, clearance_y_back))
+
+            min_x = element.offset[0]
+            max_x = element.offset[0] + width
+            min_y = element.offset[1] - drop_front
+            max_y = element.offset[1] + length + drop_back
+        else:
+            clearance_x_left = element.offset[0]
+            clearance_x_right = comp_w - (element.offset[0] + width)
+            drop_left = max(0.0, min(drop, clearance_x_left))
+            drop_right = max(0.0, min(drop, clearance_x_right))
+
+            min_x = element.offset[0] - drop_left
+            max_x = element.offset[0] + width + drop_right
+            min_y = element.offset[1]
+            max_y = element.offset[1] + length
+
+        built_pieces.append({
+            'solid': solid,
+            'min_x': min_x, 'max_x': max_x,
+            'min_y': min_y, 'max_y': max_y
+        })
+
+    # Group overlapping pieces
+    groups: list[list[dict[str, Any]]] = []
+    for p in built_pieces:
+        matched_indices = []
+        for idx, g in enumerate(groups):
+            overlaps = False
+            for other in g:
+                tol = 0.5
+                if use_y:
+                    x_match = abs(p['min_x'] - other['min_x']) < 1.0 and abs(p['max_x'] - other['max_x']) < 1.0
+                    y_overlap = p['min_y'] - tol < other['max_y'] and other['min_y'] - tol < p['max_y']
+                    overlaps = x_match and y_overlap
+                else:
+                    y_match = abs(p['min_y'] - other['min_y']) < 1.0 and abs(p['max_y'] - other['max_y']) < 1.0
+                    x_overlap = p['min_x'] - tol < other['max_x'] and other['min_x'] - tol < p['max_x']
+                    overlaps = y_match and x_overlap
+                if overlaps:
+                    break
+            if overlaps:
+                matched_indices.append(idx)
+
+        if not matched_indices:
+            groups.append([p])
+        else:
+            new_group = [p]
+            for idx in reversed(matched_indices):
+                new_group.extend(groups.pop(idx))
+            groups.append(new_group)
+
+    # Hull overlapping groups, union non-overlapping ones
+    final_solids = []
+    from pybosl2._native import native
+    from pybosl2.shapes3d.base import CsgSolid
+    hull_fn = native("hull")
+
+    for g in groups:
+        if len(g) == 1:
+            final_solids.append(g[0]['solid'])
+        else:
+            raw_shapes = [p['solid'].shape for p in g]
+            final_solids.append(CsgSolid(hull_fn(raw_shapes)))
+
+    return union_all([p for p in final_solids if p is not None])
 
 
 def union_all(solids: list[Bosl2Solid]) -> Bosl2Solid | None:
