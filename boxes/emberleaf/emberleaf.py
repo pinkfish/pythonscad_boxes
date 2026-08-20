@@ -126,6 +126,7 @@ def centered(
     shape: ElementShape = ElementShape.SVG,
     rotation: float = 0.0,
     label: str | None = None,
+    pull_out: bool = False,
     **pocket_kwargs,
 ) -> CompartmentElement:
     """An element positioned by its centre, the way the OpenSCAD modules are.
@@ -141,6 +142,7 @@ def centered(
         shape=shape,
         rotation=rotation,
         label=label,
+        pull_out=pull_out,
         **pocket_kwargs,
     )
     fw, fl = proto.footprint
@@ -151,6 +153,7 @@ def centered(
         shape=shape,
         rotation=rotation,
         label=label,
+        pull_out=pull_out,
         **pocket_kwargs,
     )
 
@@ -242,7 +245,7 @@ def player_box_elements(colour: str) -> tuple[CompartmentElement, ...]:
         markers.extend(
             centered(
                 None, (cx + gx, cy + gy), (13.0, 13.0),
-                shape=ElementShape.CIRCLE, label="grip", **depth,
+                shape=ElementShape.CIRCLE, label="grip", bottom_rounding=3.0, **depth,
             )
             for gx, gy in grips
         )
@@ -284,12 +287,12 @@ def player_box_elements(colour: str) -> tuple[CompartmentElement, ...]:
     scoops = [
         CompartmentElement(
             offset=(0.0, 0.0), size=(PLAYER_INNER_W, 80.0), shape=ElementShape.ROUNDED_RECT,
-            corner_radius=5.0, label="pull_out_wide",
+            corner_radius=5.0, bottom_rounding=TOKEN_THICKNESS / 2, label="pull_out_wide", pull_out=False,
             **pocket(PLAYER_INNER_H, TOKEN_THICKNESS / 2),
         ),
         CompartmentElement(
             offset=(0.0, 0.0), size=(50.0, 96.0), shape=ElementShape.ROUNDED_RECT,
-            corner_radius=5.0, label="pull_out_tall",
+            corner_radius=5.0, bottom_rounding=TOKEN_THICKNESS / 2, label="pull_out_tall", pull_out=False,
             **pocket(PLAYER_INNER_H, TOKEN_THICKNESS / 2),
         ),
     ]
@@ -493,4 +496,4 @@ project.arrange(columns(
 
 
 if __name__ == "__main__":
-    run(project, show_lids=False, remove_layers=1)
+    run(project, show_lids=False, remove_layers=2)

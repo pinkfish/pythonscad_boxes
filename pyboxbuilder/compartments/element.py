@@ -50,6 +50,8 @@ class CompartmentElement:
     Used for pieces that sit on top of other pieces (e.g. a tile over a token)."""
     corner_radius: float = 2.0
     """Corner radius for ElementShape.ROUNDED_RECT."""
+    bottom_rounding: float = 0.0
+    """Bottom corner fillet radius in mm."""
     label: str | None = None
     """Optional identifier, handy for tests and layout diagnostics."""
     pull_out: bool = True
@@ -291,7 +293,13 @@ def build_element(
         assert element.shape_file is not None
         solid = svg_solid(element.shape_file, w, l, depth)
     elif element.shape is ElementShape.CIRCLE:
-        solid = cylinder(height=depth, radius=base_w / 2, **precision_kwargs())
+        if element.bottom_rounding > 0:
+            solid = cylinder(
+                height=depth, radius=base_w / 2, rounding1=element.bottom_rounding,
+                **precision_kwargs()
+            )
+        else:
+            solid = cylinder(height=depth, radius=base_w / 2, **precision_kwargs())
     elif element.shape is ElementShape.HEXAGON:
         # `w` is the flat-to-flat width, as `RegularPolygon(width=...)` reads it.
         solid = regular_prism(
@@ -302,8 +310,24 @@ def build_element(
     elif element.shape is ElementShape.ROUNDED_RECT:
         solid = cuboid([w, l, depth], rounding=element.corner_radius, edges=vertical_edges(),
                        **precision_kwargs())
+        if element.bottom_rounding > 0:
+            from pybosl2 import Anchor
+
+            from pyboxbuilder.rounding import round_edges
+            solid = round_edges(
+                solid, [w, l, depth], element.bottom_rounding, [Anchor.BOTTOM],
+                at=(-w / 2, -l / 2, -depth / 2),
+            )
     else:
         solid = cuboid([w, l, depth])
+        if element.bottom_rounding > 0:
+            from pybosl2 import Anchor
+
+            from pyboxbuilder.rounding import round_edges
+            solid = round_edges(
+                solid, [w, l, depth], element.bottom_rounding, [Anchor.BOTTOM],
+                at=(-w / 2, -l / 2, -depth / 2),
+            )
 
     if element.rotation:
         solid = solid.rotate([0.0, 0.0, element.rotation])
