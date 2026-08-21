@@ -401,6 +401,7 @@ def build_pull_out(
         return None
 
     from pybosl2 import cuboid
+
     from pyboxbuilder.rounding import rounding_facets
 
     width, length = element.size
