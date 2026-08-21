@@ -51,6 +51,8 @@ class CompartmentElement:
     Used for pieces that sit on top of other pieces (e.g. a tile over a token)."""
     corner_radius: float = 2.0
     """Corner radius for ElementShape.ROUNDED_RECT."""
+    corner_rounding: float = 0.5
+    """Corner rounding radius for ElementShape.RECT (default 0.5mm, 0 for sharp)."""
     bottom_rounding: float = 0.0
     """Bottom corner fillet radius in mm."""
     label: str | None = None
@@ -321,7 +323,11 @@ def build_element(
                 at=(-w / 2, -l / 2, -depth / 2),
             )
     else:
-        solid = cuboid([w, l, depth])
+        if element.corner_rounding > 0:
+            solid = cuboid([w, l, depth], rounding=element.corner_rounding, edges=vertical_edges(),
+                           **precision_kwargs())
+        else:
+            solid = cuboid([w, l, depth])
         if element.bottom_rounding > 0:
             from pybosl2 import Anchor
 
@@ -432,10 +438,13 @@ def build_pull_out(
         centre_y = element.offset[1] + length / 2 + (drop_back - drop_front) / 2
         z = actual_z_offset + depth - actual_drop
 
+        from pybosl2 import Anchor
+        dish_edges = [Anchor.BOTTOM_LEFT, Anchor.BOTTOM_RIGHT] + vertical_edges()
         total_len = length + drop_front + drop_back
         dish = cuboid(
             [across, total_len, actual_drop * 2],
             rounding=radius,
+            edges=dish_edges,
             **rounding_facets(),
         ) if radius > 0 else cuboid([across, total_len, actual_drop * 2])
         dish = dish.translate([centre_x, centre_y, z])
@@ -459,10 +468,13 @@ def build_pull_out(
         centre_y = element.offset[1] + length / 2
         z = actual_z_offset + depth - actual_drop
 
+        from pybosl2 import Anchor
+        dish_edges = [Anchor.BOTTOM_FRONT, Anchor.BOTTOM_BACK] + vertical_edges()
         total_w = width + drop_left + drop_right
         dish = cuboid(
             [total_w, across, actual_drop * 2],
             rounding=radius,
+            edges=dish_edges,
             **rounding_facets(),
         ) if radius > 0 else cuboid([total_w, across, actual_drop * 2])
         dish = dish.translate([centre_x, centre_y, z])
@@ -497,6 +509,8 @@ def build_element_pack_pull_outs(
         return None
 
     comp_w, comp_l = comp_size
+    # Align all scoops in the compartment along the overall best axis.
+    comp_w, comp_l = comp_size
     sum_clearance_x = 0.0
     sum_clearance_y = 0.0
     for element in elements_list:
@@ -504,7 +518,6 @@ def build_element_pack_pull_outs(
         sum_clearance_x += min(element.offset[0], comp_w - (element.offset[0] + width))
         sum_clearance_y += min(element.offset[1], comp_l - (element.offset[1] + length))
 
-    # Align all scoops in the compartment along the overall best axis
     use_y = sum_clearance_y >= sum_clearance_x
 
     # Map each element to its individual pull_out solid and its footprint bounds
