@@ -1159,7 +1159,7 @@ class Project:
                     parts = [x.solid for x in inserts] if inserts else None
                     exporter.write_piece(
                         piece.label, part, mode, solid, parts,
-                        size=piece.size, fingerprint=fingerprint,
+                        size=piece.size, fingerprint=fingerprint, force=force,
                     )
 
             if build.packing is not None and wanted is None:
