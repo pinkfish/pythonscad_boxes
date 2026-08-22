@@ -4,17 +4,19 @@
 A two-layer insert for the shallow card-game box. The main card box (the 45
 large playing and reminder cards) is the full height of the box, so it fills a
 whole corner by itself. Beside it, the 96 small task cards sit in two sliding
-boxes split into 48-card stacks, and the accessory tray — the 86 mm-tall diver
-standee, its 58 mm-wide base, the five sonar tokens and the distress token —
-sits on top of them. Opening the box lifts the tray out and the cards are
-underneath.
+boxes split into 48-card stacks, and the lidded accessory box — the 86 mm-tall
+diver standee, its 58 mm-wide base, the five sonar tokens and the distress
+token — sits on top of them. Sliding its lid off reveals the pieces, and
+lifting the boxes out reveals the cards underneath.
 
-The diver and base SVGs are the Illustrator files the pieces were cut from, so
-the silhouettes are the pieces themselves scaled to their real sizes — the
-diver's height drives one axis and its width follows the drawing, and the same
-for the base's width. The five sonar tokens are round and 2.05 mm thick, so
-they stack two to a well rather than all five — a full stack would be taller
-than the tray. Everything else (wall, floor, lid, card thickness,
+The accessory box is not a recessed tray: each piece sits in its own hole cut
+to its silhouette, with a finger pull curved into each hole so the piece can be
+lifted out. The diver and base SVGs are the Illustrator files the pieces were
+cut from, so the silhouettes are the pieces themselves scaled to their real
+sizes — the diver's height drives one axis and its width follows the drawing,
+and the same for the base's width. The five sonar tokens are round and 2.05 mm
+thick, so they stack two to a well rather than all five — a full stack would be
+taller than the box. Everything else (wall, floor, lid, card thickness,
 the clearance around a card stack) is a default the library already knows, so
 the file states only what the game is: the box, the cards, the tokens and the
 two shapes.
@@ -48,9 +50,9 @@ from pyboxbuilder import (
 )
 from pyboxbuilder.compartments import CompartmentElement
 
-#: SVG silhouettes live beside this example (boxes/the_crew/svg), so the
-#: example is self-contained and builds the same from any directory.
-SVG = str(REPO_ROOT / "boxes" / "the_crew" / "svg")
+#: SVG silhouettes live beside this example (boxes/the_crew_deep_sea/svg), so
+#: the example is self-contained and builds the same from any directory.
+SVG = str(REPO_ROOT / "boxes" / "the_crew_deep_sea" / "svg")
 
 # ── Game box — the retail box's inside dimensions ───────────────────────────
 BOX_WIDTH = 172.0
@@ -95,14 +97,15 @@ TOP_SLACK = 0.5
 """Extra depth on top of a piece, so a fingertip can get under its edge."""
 
 # ── First-player standee, scaled from the source drawings ───────────────────
-# The diver SVG's viewBox is 186.14 x 255.12; it is 86 mm tall in the box, and
-# its width follows the drawing. The base's viewBox is 171.83 x 70.95; it is
-# 58 mm wide and its depth follows the drawing.
-DIVER_VIEWBOX = (186.14, 255.12)
+# The silhouettes are single clean outlines — the Illustrator art's internal
+# details (eyes, goggle lenses, tank seams) were filled in, so the viewBox is
+# the outline's own extent. The diver is 86 mm tall in the box and its width
+# follows the drawing; the base is 58 mm wide and its depth follows the drawing.
+DIVER_VIEWBOX = (176.013, 240.880)
 DIVER_HEIGHT = 86.0
 DIVER_WIDTH = DIVER_VIEWBOX[0] * DIVER_HEIGHT / DIVER_VIEWBOX[1]
 
-BASE_VIEWBOX = (171.83, 70.95)
+BASE_VIEWBOX = (161.530, 60.160)
 BASE_WIDTH = 58.0
 BASE_HEIGHT = BASE_VIEWBOX[1] * BASE_WIDTH / BASE_VIEWBOX[0]
 
@@ -131,11 +134,11 @@ ACCESSORY_HEIGHT = 11.0                        # the 26 mm left over above the t
 
 ACCESSORY_INNER_W = ACCESSORY_WIDTH - 2 * WALL
 ACCESSORY_INNER_L = ACCESSORY_LENGTH - 2 * WALL
-ACCESSORY_INNER_H = ACCESSORY_HEIGHT - FLOOR   # a tray has no lid
+ACCESSORY_INNER_H = ACCESSORY_HEIGHT - FLOOR - LID   # the lid sits above the pieces
 
 # ── Project ─────────────────────────────────────────────────────────────────
 project = Project(
-    "TheCrewMissionDeepSea",
+    "TheCrewDeepSea",
     game_box_size=(BOX_WIDTH, BOX_LENGTH, BOX_HEIGHT),
     wall_thickness=WALL,
     floor_thickness=FLOOR,
@@ -167,15 +170,16 @@ for i in range(2):
     )
     task_box.cards("Tasks", count=SMALL_COUNT // 2, size=SMALL_CARD, thickness=CARD_THICKNESS, slack=CARD_SLACK)
 
-# ── 4. Accessories tray — diver, base and tokens ────────────────────────────
+# ── 4. Accessories box — diver, base and tokens ─────────────────────────────
 accessories = project.box(
-    BoxType.NO_LID,
+    BoxType.SLIDING,
     "Accessories",
     size=(ACCESSORY_WIDTH, ACCESSORY_LENGTH, ACCESSORY_HEIGHT),
+    lid=CREW_LID.titled("Captain"),
 )
 
 OVERSHOOT = 0.5
-"""Extra height on every cutout so it breaks cleanly through the tray's rim."""
+"""Extra height on every cutout so it breaks cleanly through the box's rim."""
 
 
 def pocket(depth_from_top: float) -> dict:
@@ -266,9 +270,8 @@ def accessory_elements() -> tuple[CompartmentElement, ...]:
         )
     )
 
-    # The five sonar tokens stack in two wells — three in the top one, two in the
-    # one below — and the distress token sits under them, all in the strip to
-    # the right of the diver.
+    # The five sonar tokens stack in two wells — three above and two below the
+    # distress token, all in the strip to the right of the diver.
     elements.append(
         centered(
             None,
@@ -282,22 +285,22 @@ def accessory_elements() -> tuple[CompartmentElement, ...]:
     elements.append(
         centered(
             None,
-            (79.0, 47.0),
-            (SONAR_SLOT, SONAR_SLOT),
-            shape=ElementShape.CIRCLE,
-            label="sonar_2",
-            **SONAR_TWO,
-        )
-    )
-    elements.append(
-        centered(
-            None,
-            (85.0, 80.5),
+            (85.0, 46.5),
             DISTRESS_SLOT,
             shape=ElementShape.ROUNDED_RECT,
             corner_radius=DISTRESS_SLOT[1] / 2 - 1.0,
             label="distress",
             **SLOT,
+        )
+    )
+    elements.append(
+        centered(
+            None,
+            (79.0, 78.0),
+            (SONAR_SLOT, SONAR_SLOT),
+            shape=ElementShape.CIRCLE,
+            label="sonar_2",
+            **SONAR_TWO,
         )
     )
 
@@ -314,8 +317,8 @@ accessories.compartment(
 
 # ── Arrangement ─────────────────────────────────────────────────────────────
 # The deck fills a whole corner at full height; the two task boxes sit beside
-# it with the accessory tray stacked on top, so lifting the tray out reveals
-# the cards underneath. The leftover space becomes spacer trays.
+# it with the lidded accessory box stacked on top, so sliding the lid off
+# reveals the pieces and lifting the boxes out reveals the cards underneath.
 project.arrange(
     columns(
         "Deck",

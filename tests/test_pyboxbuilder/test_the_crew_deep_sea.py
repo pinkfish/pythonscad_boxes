@@ -16,7 +16,7 @@ from pyboxbuilder.compartments.element import elements_bounding_box, elements_ov
 from pyboxbuilder.enums import BoxType, ElementShape
 
 REPO_ROOT = Path(__file__).resolve().parent.parent.parent
-EXAMPLE = REPO_ROOT / "boxes" / "the_crew" / "the_crew.py"
+EXAMPLE = REPO_ROOT / "boxes" / "the_crew_deep_sea" / "the_crew_deep_sea.py"
 
 
 def load_example() -> dict:
@@ -75,7 +75,7 @@ class CardBoxTests(unittest.TestCase):
 
 
 class AccessoryTests(unittest.TestCase):
-    """The top tray holds the diver, its base, the sonar stack and the distress token."""
+    """The lidded accessory box holds the diver, its base, the sonar stack and the distress token."""
 
     @classmethod
     def setUpClass(cls) -> None:
@@ -87,8 +87,13 @@ class AccessoryTests(unittest.TestCase):
     def labels(self) -> list[str]:
         return [e.label or "" for e in self.elements]
 
-    def test_accessory_tray_is_lidless(self) -> None:
-        self.assertEqual(self.boxes["Accessories"].box_type, BoxType.NO_LID)
+    def test_accessory_box_has_a_lid(self) -> None:
+        self.assertEqual(self.boxes["Accessories"].box_type, BoxType.SLIDING)
+
+    def test_every_piece_hole_has_a_finger_pull(self) -> None:
+        """Each silhouette hole gets a finger pull so the piece can be lifted out."""
+        for element in self.elements:
+            self.assertTrue(element.pull_out, element.label)
 
     def test_diver_and_base_use_their_svgs(self) -> None:
         diver = next(e for e in self.elements if e.label == "diver")
@@ -218,7 +223,7 @@ class ExportTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             result = project.export(tmp)
 
-            root = Path(tmp) / "TheCrewMissionDeepSea"
+            root = Path(tmp) / "TheCrewDeepSea"
             self.assertTrue((root / "layout.pdf").exists())
             for builder in project._boxes:
                 self.assertTrue((root / "mmu" / f"{builder.label}_body.3mf").exists())
