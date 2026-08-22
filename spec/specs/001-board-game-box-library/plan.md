@@ -1160,6 +1160,7 @@ It has a ceiling. Emberleaf's 18 boxes fill **77%** of the usable volume, and th
 
 The practical rules:
 
+* **A new or ported box defaults to autolayout and bin-packing.** Hand the boxes to `pack_3d_boxes` and the compartments to `layout_compartments`, and let them place everything. Fall back to explicit positions — or a hand-written `arrange()`/`columns`/`rows`/`stack` tree — only when the layout is very complicated and load-bearing: a near-full box, or boxes whose sizes were designed to tile exactly (Emberleaf's three columns).
 * Below roughly 70% fill, hand the boxes to the packer and let it place them.
 * Above that, the arrangement is load-bearing and needs to be expressed, not searched for. Give the boxes explicit positions, or make them expandable so the solver has slack to work with.
 * A failure is reported as `PackingError` with the fill ratio and any oversized boxes named — never as an empty layout, which is how it used to surface and made an export silently write nothing.
