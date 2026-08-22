@@ -4,7 +4,11 @@ venv
 examples/*.stl
 examples/*.3mf
 examples/output/*.deps
-output/
+
+# Generated inserts (3MF + layout.pdf) are committed. The export only rewrites
+# a piece when its description changed (FR-031 fingerprint), so re-exporting is
+# a no-op; Make's own build stamps stay out of git.
+output/.stamp-*
 
 __pycache__/
 *.pyc

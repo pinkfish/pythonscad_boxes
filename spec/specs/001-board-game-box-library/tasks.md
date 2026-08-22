@@ -785,6 +785,7 @@ Measured against the original, the player box still carries 72,813mm³ of materi
 - [x] T247be Trim the notch at the lid plate. The scoop outline overshoots its rim by design — that is what stops a cut leaving a skin — but here there *is* material above it, so the overshoot was carving 1.5mm into the plate.
 - [x] T247bf Fix `slipover_finger_height=0` being read as "unset". `spec.get(...) or default` treats zero as missing, so asking for no notch produced the default one — which also made the first version of the test compare a notched sleeve against itself and pass nothing.
 - [x] T247bg [P] Write test: the notches remove material, leave the declared footprint alone, sit at the two diagonal corners and **not** at the other two, stay below the lid plate, survive a shallow sleeve, and follow the settable height — in `tests/test_pyboxbuilder/test_closures.py`
+- [ ] T247bh Implement snap-fit front catch on `HingeBox` and `FilamentHingeBox` (FR-002v) including options for triangular ridge (right-angle triangle profile) and dual hemispherical bumps.
 - [x] T247ba [P] Write test: a hinged box is its declared size in every axis with the halves still separate; both reliefs exist; the mask is smaller than the whole interior for hinged types and `None` for the rest; and a well in a hinged box comes out smaller than the same well unmasked — in `tests/test_pyboxbuilder/test_closures.py`. The old tests asserting the barrel *must* protrude were rewritten rather than deleted, since the property they guarded (the hinge is at the back, the lid reaches the pin) still matters.
 - [x] T247as [P] Write test: per-side tops for lidless/sliding/cap and the spec-carried map; the sliding scoop's exit-wall rule beating the shape rule; a sliding lid rounding 3 edges against a cap lid's 8; the lid radius capped by thickness; and the pull-out roll filling the cut's height — in `tests/test_pyboxbuilder/test_finger_smoothing.py`
 - [ ] T247at Blend a compartment scoop into a **flat neighbour**. Where a scoop's mouth opens onto an adjacent compartment's floor or the top of a divider rather than onto a wall, it should continue its roll across that surface instead of stopping at an edge. Needs the carve pass to know what is beside each compartment — wells are built independently today — so the work is: give the layout a notion of neighbours, then let a scoop opening onto a flat area carry its roll into it.
@@ -1123,6 +1124,17 @@ stop the class of mistake from being expressible.
 **Checkpoint**: the three defects that reached a render are each covered by a test that fails when they are put back, and the two API shapes that let them through — parallel fields that must agree, and two names for one dimension — no longer type-check.
 
 ---
+
+## Phase 36: Bump Catches for Cap, Slipover, and Sliding Boxes
+
+**Goal**: Implement bump catches on cap/slipover boxes along their long walls with configurable/dynamic count (2 to 4) based on length, and make sliding lid bump catches enabled by default (1.0mm) to prevent them from sliding out.
+
+- [x] T344 [US2] Implement `cap_slipover_catch` in `features.py` to generate catch geometry (dimples/bumps) with N=2, 3, or 4 catches spaced at least 40mm apart along the long axis.
+- [x] T345 [US2] Integrate `cap_slipover_catch` into `CapBox` body and lid construction.
+- [x] T346 [US2] Integrate `cap_slipover_catch` into `SlipoverBox` body and lid construction.
+- [x] T347 [US2] Delegate `CapPathBox` methods to `CapBox` when the path is empty to ensure they inherit catches properly.
+- [x] T348 [US2] Change sliding lid bump catch default from 0.0mm (disabled) to 1.0mm (enabled by default), allowing users to explicitly turn it off by setting `catch_radius=0.0`.
+- [x] T349 [US2] Write tests in `test_closures.py` to verify cap/slipover catches and updated sliding catch defaults, and ensure all tests pass.
 
 ## Notes
 

@@ -54,6 +54,39 @@ function getRenderer() {
   return renderer;
 }
 
+// --------------------------------------------------------------------------
+// context lifecycle — one page, one context, but never more than one at a time
+// --------------------------------------------------------------------------
+//
+// Browsers cap the number of live WebGL contexts (~16). This page already
+// shares one context between every viewer on it, but each *tab* still holds
+// its own, and a browser full of docs tabs exhausts the cap — new pages then
+// throw in `new THREE.WebGLRenderer` and every viewer reports "WebGL is
+// unavailable". A hidden or unloaded tab must hand its context back so the
+// page the user is actually looking at can have one.
+
+function disposeRenderer() {
+  if (!renderer) return;
+  renderer.dispose();
+  renderer.forceContextLoss();
+  renderer = null;
+  rendererFailed = false;
+  for (const v of viewers) v.dirty = true;
+}
+
+document.addEventListener("visibilitychange", () => {
+  if (document.visibilityState === "hidden") {
+    disposeRenderer();
+  } else {
+    // A transient failure (the cap was briefly hit) can now succeed; the next
+    // blit re-creates the context lazily.
+    rendererFailed = false;
+    for (const v of viewers) v.dirty = true;
+  }
+});
+
+window.addEventListener("pagehide", disposeRenderer);
+
 function blit(v) {
   const r = getRenderer();
   if (!r) return;

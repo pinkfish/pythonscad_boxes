@@ -38,12 +38,17 @@ class CapBox(BoxTypeBase):
         by the lid's wall thickness: the declared size is the outside of the
         *closed* box, which is the size the packer reserved for it.
         """
-        from pyboxbuilder.box.features import cap_body
+        from pyboxbuilder.box.features import cap_body, cap_slipover_catch
 
-        return cap_body(spec)
+        body = cap_body(spec)
+        catch = cap_slipover_catch(spec, is_slipover=False)
+        return body - catch.body
 
     def build_lid(self, spec: BoxSpec, decoration: object = None) -> Bosl2Solid:
         """Return a cap: a top plate with a skirt that grips the body's stepped-in band."""
-        from pyboxbuilder.box.features import cap_lid
+        from pyboxbuilder.box.features import cap_lid, cap_slipover_catch
 
-        return cap_lid(spec)
+        lid = cap_lid(spec)
+        catch = cap_slipover_catch(spec, is_slipover=False)
+        return lid | catch.lid
+

@@ -737,10 +737,10 @@ cuboid([1, 1, 1]).show()
         """On a lidded box the rim is above the interior; the hole follows the
         interior, so its top stops short of the box's own top."""
         lidless = self.result.boxes["no_lid_removed"]
-        sliding = self.result.boxes["sliding_removed"]
+        cap = self.result.boxes["cap_removed"]
         lidless_top = lidless.position[2] + lidless.size[2]
-        sliding_top = sliding.position[2] + sliding.size[2]
-        self.assertLess(sliding_top, lidless_top,
+        cap_top = cap.position[2] + cap.size[2]
+        self.assertLess(cap_top, lidless_top,
                         "the lidded box's hole was aligned to the rim")
 
     def test_the_cut_spans_exactly_the_depth_it_was_given(self) -> None:
@@ -1037,14 +1037,17 @@ class WallTopTests(unittest.TestCase):
                 self.assertAlmostEqual(z, 52.5)
 
     def test_a_sliding_box_stops_at_its_channel(self) -> None:
-        """Its exit wall's material ends there, and cutting the others above
-        that line would break into the channel the lid rides in."""
+        """Its exit wall's material ends there, and the other three sides
+        go all the way to the top of the box."""
         from pyboxbuilder.enums import BoxType
 
         tops = self.spec().with_wall_tops(self.box(BoxType.SLIDING)).wall_tops
-        for side, z in tops.items():
-            with self.subTest(side=side.value):
-                self.assertAlmostEqual(z, 50.5)
+        self.assertEqual(tops, {
+            ScoopSide.FRONT: 52.5,
+            ScoopSide.BACK: 52.5,
+            ScoopSide.LEFT: 52.5,
+            ScoopSide.RIGHT: 50.5,
+        })
 
     def test_every_side_is_covered(self) -> None:
         from pyboxbuilder.enums import BoxType

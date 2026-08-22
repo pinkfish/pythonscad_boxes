@@ -45,11 +45,16 @@ class CompartmentElement:
     """Silhouette kind. Defaults to SVG, which requires `shape_file`."""
     depth: float | None = None
     """Cutout depth in mm. None inherits the owning compartment's depth."""
-    z_offset: float = 0.0
+    z_offset: float | None = None
     """Extra lift of the cutout floor above the compartment floor, in mm.
+    If None, the pocket automatically aligns flush with the top of the box.
     Used for pieces that sit on top of other pieces (e.g. a tile over a token)."""
     corner_radius: float = 2.0
     """Corner radius for ElementShape.ROUNDED_RECT."""
+    corner_rounding: float = 0.5
+    """Corner rounding radius for ElementShape.RECT (default 0.5mm, 0 for sharp)."""
+    bottom_rounding: float = 0.0
+    """Bottom corner fillet radius in mm."""
     label: str | None = None
     """Optional identifier, handy for tests and layout diagnostics."""
     pull_out: bool = True
@@ -281,6 +286,7 @@ def build_element(
     assert element.size is not None
     w, l = element.size
     depth = element.depth if element.depth is not None else default_depth
+    actual_z_offset = element.z_offset if element.z_offset is not None else (default_depth - depth)
     base_w, _ = element.base_footprint
 
     # A scoop is a ball resting ON the floor, not a well sunk into it, so it
@@ -291,7 +297,13 @@ def build_element(
         assert element.shape_file is not None
         solid = svg_solid(element.shape_file, w, l, depth)
     elif element.shape is ElementShape.CIRCLE:
-        solid = cylinder(height=depth, radius=base_w / 2, **precision_kwargs())
+        if element.bottom_rounding > 0:
+            solid = cylinder(
+                height=depth, radius=base_w / 2, rounding1=element.bottom_rounding,
+                **precision_kwargs()
+            )
+        else:
+            solid = cylinder(height=depth, radius=base_w / 2, **precision_kwargs())
     elif element.shape is ElementShape.HEXAGON:
         # `w` is the flat-to-flat width, as `RegularPolygon(width=...)` reads it.
         solid = regular_prism(
@@ -302,8 +314,28 @@ def build_element(
     elif element.shape is ElementShape.ROUNDED_RECT:
         solid = cuboid([w, l, depth], rounding=element.corner_radius, edges=vertical_edges(),
                        **precision_kwargs())
+        if element.bottom_rounding > 0:
+            from pybosl2 import Anchor
+
+            from pyboxbuilder.rounding import round_edges
+            solid = round_edges(
+                solid, [w, l, depth], element.bottom_rounding, [Anchor.BOTTOM],
+                at=(-w / 2, -l / 2, -depth / 2),
+            )
     else:
-        solid = cuboid([w, l, depth])
+        if element.corner_rounding > 0:
+            solid = cuboid([w, l, depth], rounding=element.corner_rounding, edges=vertical_edges(),
+                           **precision_kwargs())
+        else:
+            solid = cuboid([w, l, depth])
+        if element.bottom_rounding > 0:
+            from pybosl2 import Anchor
+
+            from pyboxbuilder.rounding import round_edges
+            solid = round_edges(
+                solid, [w, l, depth], element.bottom_rounding, [Anchor.BOTTOM],
+                at=(-w / 2, -l / 2, -depth / 2),
+            )
 
     if element.rotation:
         solid = solid.rotate([0.0, 0.0, element.rotation])
@@ -312,7 +344,7 @@ def build_element(
     return solid.translate([
         element.offset[0] + footprint_w / 2,
         element.offset[1] + footprint_l / 2,
-        element.z_offset + z_lift,
+        actual_z_offset + z_lift,
     ])
 
 
@@ -358,7 +390,10 @@ DEFAULT_PULL_OUT_WIDTH_MM = 16.0
 
 
 def build_pull_out(
-    element: CompartmentElement, default_depth: float
+    element: CompartmentElement,
+    default_depth: float,
+    comp_size: tuple[float, float] = (1000.0, 1000.0),
+    force_axis: str | None = None,
 ) -> Bosl2Solid | None:
     """Return the finger dish that lets a piece be lifted out of its slot.
 
@@ -366,17 +401,6 @@ def build_pull_out(
     sides, so a finger slides down into it rather than meeting a step. Without
     it a silhouette slot has no purchase at all: it fits the piece exactly,
     which is what makes it look right and what makes it impossible to empty.
-
-    Args:
-        element: The slot to cut a pull-out for.
-        default_depth: The owning compartment's depth, used when the element
-            does not set its own.
-
-    Returns:
-        The dish to subtract, or ``None`` when the element declines one.
-
-    Raises:
-        ValueError: If the element has no resolved size.
 
     """
     if not element.pull_out:
@@ -386,29 +410,84 @@ def build_pull_out(
 
     from pyboxbuilder.rounding import rounding_facets
 
-    width, length = element.footprint
-    depth = element.depth if element.depth is not None else default_depth
-    drop = element.pull_out_depth
-    if drop is None:
-        drop = depth * PULL_OUT_DEPTH_SHARE
-    if drop <= 0:
-        return None
-
+    width, length = element.size
+    depth = element.depth or default_depth
+    actual_z_offset = element.z_offset if element.z_offset is not None else (default_depth - depth)
+    drop = depth * PULL_OUT_DEPTH_SHARE
     across = min(element.pull_out_width or DEFAULT_PULL_OUT_WIDTH_MM, max(width, length))
-    # The dish is rounded on every edge, so it curves in from the floor around
-    # it and out of the slot's own walls — no square step anywhere a finger
-    # travels. Its radius is capped by its own smallest dimension.
-    radius = min(drop, across / 2 - 0.01)
-    centre_x = element.offset[0] + width / 2
-    centre_y = element.offset[1] + length / 2
-    z = element.z_offset + depth - drop
 
-    dish = cuboid(
-        [across, length + 2 * drop, drop * 2],
-        rounding=radius,
-        **rounding_facets(),
-    ) if radius > 0 else cuboid([across, length + 2 * drop, drop * 2])
-    return dish.translate([centre_x, centre_y, z])
+    # Calculate clearances to compartment boundaries to automatically pick the direction with most room
+    comp_w, comp_l = comp_size
+    clearance_x_left = element.offset[0]
+    clearance_x_right = comp_w - (element.offset[0] + width)
+    clearance_y_front = element.offset[1]
+    clearance_y_back = comp_l - (element.offset[1] + length)
+
+    clearance_x = min(clearance_x_left, clearance_x_right)
+    clearance_y = min(clearance_y_front, clearance_y_back)
+
+    use_y = force_axis == "y" if force_axis is not None else clearance_y >= clearance_x
+
+    if use_y:
+        # Orient along Y (lengthwise)
+        drop_front = max(0.0, min(drop, clearance_y_front))
+        drop_back = max(0.0, min(drop, clearance_y_back))
+        actual_drop = max(0.1, max(drop_front, drop_back))
+        radius = min(actual_drop, across / 2 - 0.01)
+        centre_x = element.offset[0] + width / 2
+        centre_y = element.offset[1] + length / 2 + (drop_back - drop_front) / 2
+        z = actual_z_offset + depth - actual_drop
+
+        from pybosl2 import Anchor
+        dish_edges = [Anchor.BOTTOM_LEFT, Anchor.BOTTOM_RIGHT] + vertical_edges()
+        total_len = length + drop_front + drop_back
+        dish = cuboid(
+            [across, total_len, actual_drop * 2],
+            rounding=radius,
+            edges=dish_edges,
+            **rounding_facets(),
+        ) if radius > 0 else cuboid([across, total_len, actual_drop * 2])
+        dish = dish.translate([centre_x, centre_y, z])
+
+        # Extend the pull-out upwards from its center to prevent top tapering, keeping the sides rounded
+        block = cuboid(
+            [across, total_len, 100.0],
+            rounding=radius,
+            edges=vertical_edges(),
+            **rounding_facets(),
+        ) if radius > 0 else cuboid([across, total_len, 100.0])
+        block = block.translate([centre_x, centre_y, z + 50.0])
+        return union_all([dish, block])
+    else:
+        # Orient along X (widthwise)
+        drop_left = max(0.0, min(drop, clearance_x_left))
+        drop_right = max(0.0, min(drop, clearance_x_right))
+        actual_drop = max(0.1, max(drop_left, drop_right))
+        radius = min(actual_drop, across / 2 - 0.01)
+        centre_x = element.offset[0] + width / 2 + (drop_right - drop_left) / 2
+        centre_y = element.offset[1] + length / 2
+        z = actual_z_offset + depth - actual_drop
+
+        from pybosl2 import Anchor
+        dish_edges = [Anchor.BOTTOM_FRONT, Anchor.BOTTOM_BACK] + vertical_edges()
+        total_w = width + drop_left + drop_right
+        dish = cuboid(
+            [total_w, across, actual_drop * 2],
+            rounding=radius,
+            edges=dish_edges,
+            **rounding_facets(),
+        ) if radius > 0 else cuboid([total_w, across, actual_drop * 2])
+        dish = dish.translate([centre_x, centre_y, z])
+
+        # Extend the pull-out upwards from its center to prevent top tapering, keeping the sides rounded
+        block = cuboid(
+            [total_w, across, 100.0],
+            rounding=radius,
+            edges=vertical_edges(),
+            **rounding_facets(),
+        ) if radius > 0 else cuboid([total_w, across, 100.0])
+        block = block.translate([centre_x, centre_y, z + 50.0])
+        return union_all([dish, block])
 
 
 def build_element_pack(
@@ -418,8 +497,110 @@ def build_element_pack(
     pieces = []
     for element in elements:
         pieces.append(build_element(element, default_depth))
-        pieces.append(build_pull_out(element, default_depth))
     return union_all([p for p in pieces if p is not None])
+
+
+def build_element_pack_pull_outs(
+    elements: Iterable[CompartmentElement], default_depth: float, comp_size: tuple[float, float]
+) -> Bosl2Solid | None:
+    """Union every pull-out scoop in a pack, hulling overlapping scoops to avoid sharp edges."""
+    elements_list = [el for el in elements if el.pull_out]
+    if not elements_list:
+        return None
+
+    comp_w, comp_l = comp_size
+    # Align all scoops in the compartment along the overall best axis.
+    comp_w, comp_l = comp_size
+    sum_clearance_x = 0.0
+    sum_clearance_y = 0.0
+    for element in elements_list:
+        width, length = element.size
+        sum_clearance_x += min(element.offset[0], comp_w - (element.offset[0] + width))
+        sum_clearance_y += min(element.offset[1], comp_l - (element.offset[1] + length))
+
+    use_y = sum_clearance_y >= sum_clearance_x
+
+    # Map each element to its individual pull_out solid and its footprint bounds
+    built_pieces = []
+    for element in elements_list:
+        solid = build_pull_out(element, default_depth, comp_size, force_axis="y" if use_y else "x")
+        if solid is None:
+            continue
+
+        width, length = element.size
+        depth = element.depth or default_depth
+        drop = depth * PULL_OUT_DEPTH_SHARE
+
+        if use_y:
+            clearance_y_front = element.offset[1]
+            clearance_y_back = comp_l - (element.offset[1] + length)
+            drop_front = max(0.0, min(drop, clearance_y_front))
+            drop_back = max(0.0, min(drop, clearance_y_back))
+
+            min_x = element.offset[0]
+            max_x = element.offset[0] + width
+            min_y = element.offset[1] - drop_front
+            max_y = element.offset[1] + length + drop_back
+        else:
+            clearance_x_left = element.offset[0]
+            clearance_x_right = comp_w - (element.offset[0] + width)
+            drop_left = max(0.0, min(drop, clearance_x_left))
+            drop_right = max(0.0, min(drop, clearance_x_right))
+
+            min_x = element.offset[0] - drop_left
+            max_x = element.offset[0] + width + drop_right
+            min_y = element.offset[1]
+            max_y = element.offset[1] + length
+
+        built_pieces.append({
+            'solid': solid,
+            'min_x': min_x, 'max_x': max_x,
+            'min_y': min_y, 'max_y': max_y
+        })
+
+    # Group overlapping pieces
+    groups: list[list[dict[str, Any]]] = []
+    for p in built_pieces:
+        matched_indices = []
+        for idx, g in enumerate(groups):
+            overlaps = False
+            for other in g:
+                tol = 0.5
+                if use_y:
+                    x_match = abs(p['min_x'] - other['min_x']) < 1.0 and abs(p['max_x'] - other['max_x']) < 1.0
+                    y_overlap = p['min_y'] - tol < other['max_y'] and other['min_y'] - tol < p['max_y']
+                    overlaps = x_match and y_overlap
+                else:
+                    y_match = abs(p['min_y'] - other['min_y']) < 1.0 and abs(p['max_y'] - other['max_y']) < 1.0
+                    x_overlap = p['min_x'] - tol < other['max_x'] and other['min_x'] - tol < p['max_x']
+                    overlaps = y_match and x_overlap
+                if overlaps:
+                    break
+            if overlaps:
+                matched_indices.append(idx)
+
+        if not matched_indices:
+            groups.append([p])
+        else:
+            new_group = [p]
+            for idx in reversed(matched_indices):
+                new_group.extend(groups.pop(idx))
+            groups.append(new_group)
+
+    # Hull overlapping groups, union non-overlapping ones
+    final_solids = []
+    from pybosl2._native import native
+    from pybosl2.shapes3d.base import CsgSolid
+    hull_fn = native("hull")
+
+    for g in groups:
+        if len(g) == 1:
+            final_solids.append(g[0]['solid'])
+        else:
+            raw_shapes = [p['solid'].shape for p in g]
+            final_solids.append(CsgSolid(hull_fn(raw_shapes)))
+
+    return union_all([p for p in final_solids if p is not None])
 
 
 def union_all(solids: list[Bosl2Solid]) -> Bosl2Solid | None:

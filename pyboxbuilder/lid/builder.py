@@ -146,6 +146,10 @@ class LidBuilder:
     """Through-hole pattern, or ``None`` for a plain lid."""
     pattern_color: Color | None = None
     """Colour of the pattern's top layer; ``None`` contrasts with the body."""
+    logo: Any | None = None
+    """Path to the SVG logo, a Bosl2Solid, or a callable representing the custom lid logo."""
+    logo_color: Color | None = None
+    """Colour the logo is inlaid in; ``None`` uses black."""
     min_text_height_mm: float | None = None
     """Below this the label is skipped rather than printed illegibly (FR-020).
 

@@ -108,6 +108,30 @@ class DecorationTests(unittest.TestCase):
         )
         self.assertEqual(len(decorated.inserts), 2)
 
+    def test_logo_inlay_mmu(self) -> None:
+        import pybosl2
+        logo_solid = pybosl2.shapes3d.cube([10.0, 10.0, 10.0])
+        lid = bare_lid()
+        decorated = decorate_lid(
+            lid, LidBuilder(logo=logo_solid), 2.0, "mmu"
+        )
+        self.assertEqual(len(decorated.inserts), 1)
+        self.assertGreater(volume(decorated.inserts[0].solid), 0.0)
+        self.assertAlmostEqual(
+            volume(decorated.solid) + volume(decorated.inserts[0].solid),
+            volume(lid), places=3,
+        )
+
+    def test_logo_engrave_single(self) -> None:
+        import pybosl2
+        logo_solid = pybosl2.shapes3d.cube([10.0, 10.0, 10.0])
+        lid = bare_lid()
+        decorated = decorate_lid(
+            lid, LidBuilder(logo=logo_solid), 2.0, "single"
+        )
+        self.assertEqual(decorated.inserts, [])
+        self.assertLess(volume(decorated.solid), volume(lid))
+
     def test_single_engraves_the_label_into_the_lid(self) -> None:
         """One material, so the text is sunk rather than raised."""
         lid = bare_lid()

@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import runpy
 import unittest
+from itertools import pairwise
 from pathlib import Path
 
 from pyboxbuilder.compartments.element import elements_bounding_box, elements_overlap
@@ -88,7 +89,7 @@ class LayoutTests(unittest.TestCase):
 
     def test_box_types_match_the_original_modules(self) -> None:
         self.assertEqual(self.boxes["PlayerBoxBlack"].box_type, BoxType.CAP)
-        self.assertEqual(self.boxes["MaterialBoxFood"].box_type, BoxType.CAP)
+        self.assertEqual(self.boxes["MaterialBoxFood"].box_type, BoxType.FILAMENT_HINGE)
         self.assertEqual(self.boxes["CommonBox"].box_type, BoxType.CAP)
         self.assertEqual(self.boxes["CardBoxFavor"].box_type, BoxType.SLIDING)
         self.assertEqual(self.boxes["CardBoxPlayerRed"].box_type, BoxType.SLIDING)
@@ -204,7 +205,7 @@ class PlayerBoxContentsTests(unittest.TestCase):
 
         ordered = sorted(bands.items(), key=lambda kv: kv[1][0])
         self.assertEqual([name for name, _ in ordered], ["owl", "rabbit", "frog", "rat"])
-        for (name_a, (_, hi_a)), (name_b, (lo_b, _)) in zip(ordered, ordered[1:]):
+        for (name_a, (_, hi_a)), (name_b, (lo_b, _)) in pairwise(ordered):
             self.assertLessEqual(hi_a, lo_b, f"{name_a} column runs into {name_b}")
 
     def test_each_player_gets_their_own_hero(self) -> None:
@@ -339,10 +340,10 @@ class SpacerTests(unittest.TestCase):
             ((98.5, 219.5, 0.0), (97.0, 67.0)),
             ((196.5, 98.5, 25.0), (90.0, 188.0)),
         ]
-        for spacer, (origin, footprint) in zip(self.spacers, expected):
-            for got, want in zip(spacer.position, origin):
+        for spacer, (origin, footprint) in zip(self.spacers, expected, strict=True):
+            for got, want in zip(spacer.position, origin, strict=True):
                 self.assertAlmostEqual(got, want, places=3, msg=spacer.label)
-            for got, want in zip(spacer.size[:2], footprint):
+            for got, want in zip(spacer.size[:2], footprint, strict=True):
                 self.assertAlmostEqual(got, want, places=3, msg=spacer.label)
         self.assertGreater(slack, 0.0, "spacers need slack to be liftable")
 

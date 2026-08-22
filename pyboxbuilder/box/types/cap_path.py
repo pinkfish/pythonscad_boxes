@@ -40,9 +40,9 @@ class CapPathBox(BoxTypeBase):
 
         path = spec.path or ()
         if not path:
-            from pyboxbuilder.box.features import cap_body
+            from pyboxbuilder.box.types.cap import CapBox
 
-            return cap_body(spec)
+            return CapBox().build_body(spec)
 
         # A polygon body is set in all round and stops short, so the cap that
         # wraps it comes back out to the declared footprint and height.
@@ -61,9 +61,11 @@ class CapPathBox(BoxTypeBase):
 
     def build_lid(self, spec: BoxSpec, decoration: object = None) -> Bosl2Solid:
         """Return a cap whose skirt follows the same outline as the body."""
-        from pyboxbuilder.box.features import cap_lid, path_cap
+        from pyboxbuilder.box.features import path_cap
 
         path = spec.path or ()
         if not path:
-            return cap_lid(spec)
+            from pyboxbuilder.box.types.cap import CapBox
+
+            return CapBox().build_lid(spec)
         return path_cap(spec, path, spec.cap_height or min(10.0, spec.height / 2))

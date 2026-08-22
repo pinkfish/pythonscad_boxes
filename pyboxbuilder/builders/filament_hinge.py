@@ -13,3 +13,5 @@ class FilamentHingeBoxBuilder(BoxBuilder):
     """Builder for filament (living) hinge lid box type."""
 
     box_type: ClassVar[BoxType] = BoxType.FILAMENT_HINGE
+    hinge_catch_type: str = "ridge"
+    """Catch type for hinged boxes; 'ridge' or 'bump'."""

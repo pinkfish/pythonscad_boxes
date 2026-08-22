@@ -80,6 +80,9 @@ def run(
     out_dir: str | Path = DEFAULT_OUT_DIR,
     *,
     show_lids: bool = False,
+    lids_only: bool = False,
+    remove_layers: int = 0,
+    only: str | Sequence[str] | None = None,
     argv: Sequence[str] | None = None,
 ) -> None:
     """Preview a project, or export it when asked for files.
@@ -98,6 +101,9 @@ def run(
         show_lids: Show lids by default in a preview. Off by default, since a
             lid covers the compartments a packing preview exists to show;
             ``--lids`` turns it on for one run.
+        lids_only: Show the lids without their bodies.
+        remove_layers: Omit the top N layers in the preview to see underneath.
+        only: Only preview/export this box label (or list of labels).
         argv: Command-line arguments; ``None`` reads ``sys.argv``.
 
     Raises:
@@ -105,18 +111,21 @@ def run(
 
     """
     args = _parser(str(out_dir)).parse_args(sys.argv[1:] if argv is None else argv)
-    only = args.box or None
+
+    selected_only = only
+    if selected_only is None and args.box:
+        selected_only = args.box
 
     if args.export or os.environ.get(FROM_MAKE_ENV) == "1":
-        result = project.export(args.out, fn=args.fn, only=only, force=args.force)
+        result = project.export(args.out, fn=args.fn, only=selected_only, force=args.force)
         _report(project, result)
         return
 
     project.show(
         show_lids=show_lids or args.lids,
-        lids_only=args.lids_only,
-        remove_layers=args.remove_layers,
-        only=only,
+        lids_only=lids_only or args.lids_only,
+        remove_layers=remove_layers or args.remove_layers,
+        only=selected_only,
         fn=args.fn,
     )
 

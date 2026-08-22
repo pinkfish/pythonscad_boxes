@@ -85,10 +85,9 @@ class SlidingBox(BoxTypeBase):
         """Where each wall ends, which is not the same height all round.
 
         The channel is cut out of the top band across the whole box and runs
-        out through the exit wall, so **every** wall effectively stops a lid
-        thickness below the box's top: the exit wall because its material is
-        gone, the other three because anything cut above that line breaks into
-        the channel the lid slides in.
+        out through the exit wall, so the entry side wall stops a lid
+        thickness below the box's top (its material is gone). The other three
+        sides go all the way to the top of the box itself.
 
         Args:
             spec: Needs `height`; reads `lid_thickness`.
@@ -99,8 +98,9 @@ class SlidingBox(BoxTypeBase):
         """
         from pyboxbuilder.enums import ScoopSide
 
+        open_side = self.open_end_side(spec)
         top = spec.height - (spec.lid_thickness or 0.0)
-        return dict.fromkeys(ScoopSide, top)
+        return {side: (top if side == open_side else spec.height) for side in ScoopSide}
 
     def preferred_scoop_side(self, spec: BoxSpec) -> ScoopSide:
         """Put a finger scoop in the wall the lid comes out of.
@@ -180,12 +180,11 @@ class SlidingBox(BoxTypeBase):
         return body - dovetail_track(spec, self._along_axis(spec)).body
 
     def _catch_radius(self, spec: BoxSpec) -> float:
-        """Return the bump catch's radius, or 0 for a plain sliding lid (FR-002e3).
+        """Return the bump catch's radius, or 0 for no catch (FR-002e3).
 
-        A plain sliding box has **no** catch by default, as the original
-        toolkit's does: the dovetail already stops the lid lifting out, and
-        defaulting a catch on here would leave nothing to tell `SLIDING` and
-        `SLIDING_CATCH` apart. Setting `catch_radius` turns one on.
+        Both sliding box and sliding-catch box carry this catch by default,
+        with a default radius of 1.0mm, so the lid does not fall out on its own.
+        Setting `catch_radius` to 0 turns it off.
 
         Args:
             spec: Reads `catch_radius`.
@@ -194,7 +193,7 @@ class SlidingBox(BoxTypeBase):
             The bump radius in mm; ``0`` for no catch.
 
         """
-        return spec.catch_radius or 0.0
+        return 1.0 if spec.catch_radius is None else spec.catch_radius
 
     def build_body(self, spec: BoxSpec) -> Bosl2Solid:
         """Build the complete box body with dovetail grooves."""
