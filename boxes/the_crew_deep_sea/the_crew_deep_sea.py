@@ -133,9 +133,9 @@ def card_box_size(card: tuple[float, float]) -> tuple[float, float]:
 DECK_SIZE = card_box_size(LARGE_CARD)          # (61.0, 93.0)
 TASK_SIZE = card_box_size(SMALL_CARD)          # (49.0, 73.0)
 
-# The task boxes' height follows from their card count (the library derives it);
-# the accessory tray takes the rest of the box's height, so the two together
-# stack exactly inside the 26 mm interior.
+# The task boxes must stay tall enough for their 48-card stack while leaving
+# room for the accessory tray above — the two together stack inside the 26 mm
+# interior. The card wells themselves run full height, like the deck's.
 TASK_CARDS_PER_BOX = SMALL_COUNT // 2          # 48
 TASK_DEPTH = TASK_CARDS_PER_BOX * CARD_THICKNESS + CARD_SLACK
 TASK_HEIGHT = TASK_DEPTH + FLOOR + LID + 0.5   # 14.7
@@ -177,10 +177,10 @@ for i in range(2):
     task_box = project.box(
         BoxType.SLIDING,
         f"Tasks{i + 1}",
-        size=(*TASK_SIZE, None),  # height follows from the card count
+        size=(*TASK_SIZE, TASK_HEIGHT),  # tall enough for a 48-card stack
         lid=CREW_LID.titled("Tasks"),
     )
-    task_box.cards("Tasks", count=SMALL_COUNT // 2, size=SMALL_CARD, thickness=CARD_THICKNESS, slack=CARD_SLACK)
+    task_box.cards("Tasks", count=None, size=SMALL_CARD, slack=CARD_SLACK)
 
 # ── 4. Accessories box — diver, base and tokens ─────────────────────────────
 accessories = project.box(

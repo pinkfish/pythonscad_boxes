@@ -65,7 +65,7 @@ class CardBoxTests(unittest.TestCase):
     def test_task_cards_split_into_two_48_card_stacks(self) -> None:
         for label in ("Tasks1", "Tasks2"):
             (well,) = self.boxes[label].compartments
-            self.assertEqual(well.depth, 48 * self.mod["CARD_THICKNESS"] + self.mod["CARD_SLACK"])
+            self.assertIsNone(well.depth)  # the well runs the full height
             self.assertEqual(self.mod["TASK_SIZE"], (49.0, 73.0))
 
     def test_task_heights_follow_the_cards(self) -> None:
