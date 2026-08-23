@@ -57,9 +57,10 @@ class CardBoxTests(unittest.TestCase):
         self.assertEqual(self.mod["DECK_SIZE"], (61.0, 93.0))
         self.assertEqual(self.boxes["Deck"].final_size[2], self.mod["BOX_HEIGHT"])
 
-    def test_deck_holds_45_cards(self) -> None:
+    def test_deck_well_is_full_depth(self) -> None:
+        """The deck's card well runs the full height of the box, not just the stack."""
         (well,) = self.boxes["Deck"].compartments
-        self.assertEqual(well.depth, 45 * self.mod["CARD_THICKNESS"] + self.mod["CARD_SLACK"])
+        self.assertIsNone(well.depth)
 
     def test_task_cards_split_into_two_48_card_stacks(self) -> None:
         for label in ("Tasks1", "Tasks2"):

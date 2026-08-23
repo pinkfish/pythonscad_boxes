@@ -170,7 +170,7 @@ deck = project.box(
     size=(*DECK_SIZE, BOX_HEIGHT),
     lid=CREW_LID.titled("Deck"),
 )
-deck.cards("Deck", count=LARGE_COUNT, size=LARGE_CARD, thickness=CARD_THICKNESS, slack=CARD_SLACK)
+deck.cards("Deck", count=None, size=LARGE_CARD, slack=CARD_SLACK)
 
 # ── 2 & 3. Task cards — 96 cards split into two 48-card stacks ──────────────
 for i in range(2):
