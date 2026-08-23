@@ -356,7 +356,8 @@ class Project:
 
         pieces = [
             Piece(label=builder.label, kind="body", size=size, position=at,
-                  builder=builder, _build=lambda: build_once()[0])
+                  builder=builder, _build=lambda: build_once()[0],
+                  _build_inserts=lambda: build_once()[3])
         ]
         if self._has_lid(builder):
             pieces.append(
@@ -608,6 +609,15 @@ class Project:
                     PreviewPiece(
                         piece.label, insert.solid.translate(list(piece.position)),
                         insert.color if insert.color is not None else colour, "lid",
+                    )
+                )
+
+            # A body's coloured icons (sonar, distress…) print as their own
+            # material, so the preview keeps them separate and in their colour.
+            for solid, color in piece.inserts:
+                out.append(
+                    PreviewPiece(
+                        piece.label, solid.translate(list(piece.position)), color, "body",
                     )
                 )
         return out
@@ -864,18 +874,19 @@ class Project:
 
     def _build_box_solids(
         self, builder: BoxBuilder
-    ) -> tuple[Bosl2Solid | None, Bosl2Solid | None, tuple[float, float, float]]:
+    ) -> tuple[Bosl2Solid | None, Bosl2Solid | None, tuple[float, float, float], list[tuple[Any, Any]]]:
         """Build a box's body and lid geometry.
 
-        Returns ``(body, lid, size)``; ``body``/``lid`` are ``None`` when the
-        box type produced no geometry (or pybosl2 is unavailable).
+        Returns ``(body, lid, size, inserts)``; ``body``/``lid`` are ``None``
+        when the box type produced no geometry (or pybosl2 is unavailable), and
+        ``inserts`` are the body's coloured positive icons.
         """
         resolved = self._resolve_box(builder)
         size = builder.final_size
         assert size is not None
         box, spec = resolved.box, resolved.spec
         if box is None:
-            return None, None, size
+            return None, None, size, []
 
         # No try/except around any of this. It used to swallow ImportError,
         # which meant a missing geometry backend produced a box with no
@@ -904,7 +915,7 @@ class Project:
             from pyboxbuilder.box.types.sliding_catch import SlidingCatchBox
             from pyboxbuilder.box.types.slipover import SlipoverBox
             from pyboxbuilder.box.types.slipover_path import SlipoverPathBox
-            from pyboxbuilder.compartments.carve import build_contents
+            from pyboxbuilder.compartments.carve import build_contents, build_inserts
 
             hinge_solid = None
             if isinstance(box, (HingeBox, FilamentHingeBox)):
@@ -930,7 +941,11 @@ class Project:
             if contents is not None:
                 body = body - contents
 
-        return body, lid, size
+            inserts = build_inserts(resolved.compartments.placements, resolved.interior)
+        else:
+            inserts = []
+
+        return body, lid, size, inserts
 
     def _check_ratios(self, builder: BoxBuilder) -> None:
         """Reject compartment ratios that overflow the interior (FR-003a).
@@ -1157,9 +1172,20 @@ class Project:
                         if piece.kind == "lid" else (piece.solid, None)
                     )
                     parts = [x.solid for x in inserts] if inserts else None
+                    if piece.kind != "lid":
+                        body_inserts = piece.inserts
+                        parts = [s.color(c) for s, c in body_inserts] if body_inserts else None
+                    # A piece with no recorded fingerprint has never been
+                    # exported here, so a same-shaped file is kept rather than
+                    # rewritten with different bytes; a changed description is
+                    # always written.
+                    geometry_check = not force and not exporter.recorded(
+                        piece.label, part, mode
+                    )
                     exporter.write_piece(
                         piece.label, part, mode, solid, parts,
                         size=piece.size, fingerprint=fingerprint, force=force,
+                        geometry_check=geometry_check,
                     )
 
             if build.packing is not None and wanted is None:

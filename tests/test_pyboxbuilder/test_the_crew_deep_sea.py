@@ -167,7 +167,50 @@ class AccessoryTests(unittest.TestCase):
         self.assertLessEqual(max_y, self.mod["ACCESSORY_INNER_L"])
 
     def test_no_two_slots_collide(self) -> None:
-        self.assertEqual(elements_overlap(self.elements, tolerance=0.5), [])
+        # The icons sit inside their own wells, so only the piece slots (the
+        # uncoloured elements) must not overlap one another.
+        cutouts = [e for e in self.elements if e.color is None]
+        self.assertEqual(elements_overlap(cutouts, tolerance=0.5), [])
+
+    def test_icons_are_coloured_inserts(self) -> None:
+        """The sonar wells and distress slot carry a second-colour icon."""
+        icons = {e.label: e for e in self.elements if e.color is not None}
+        self.assertEqual(set(icons), {"sonar_icon_3", "sonar_icon_2", "distress_icon"})
+        self.assertEqual(icons["sonar_icon_3"].color, "green")
+        self.assertEqual(icons["sonar_icon_2"].color, "green")
+        self.assertEqual(icons["distress_icon"].color, "blue")
+
+    def test_icons_sit_inside_their_wells(self) -> None:
+        """Each icon's footprint is centred on, and no bigger than, its well."""
+        for icon_label, well_label in (
+            ("sonar_icon_3", "sonar_3"),
+            ("sonar_icon_2", "sonar_2"),
+            ("distress_icon", "distress"),
+        ):
+            icon = next(e for e in self.elements if e.label == icon_label)
+            well = next(e for e in self.elements if e.label == well_label)
+            iw, il = icon.footprint
+            ww, wl = well.footprint
+            self.assertLessEqual(iw, ww, icon_label)
+            self.assertLessEqual(il, wl, icon_label)
+
+    def test_icons_sit_flush_with_their_well_floor(self) -> None:
+        """An icon is recessed, so its top face is the well floor — not a bump.
+
+        A hair of clearance (``ICON_LIFT``) keeps the inlay's top face from being
+        exactly coplanar with the floor, which the renderer z-fights."""
+        for icon_label, well_label in (
+            ("sonar_icon_3", "sonar_3"),
+            ("sonar_icon_2", "sonar_2"),
+            ("distress_icon", "distress"),
+        ):
+            icon = next(e for e in self.elements if e.label == icon_label)
+            well = next(e for e in self.elements if e.label == well_label)
+            self.assertAlmostEqual(
+                icon.z_offset + icon.depth,
+                well.z_offset + self.mod["ICON_LIFT"],
+                places=6,
+            )
 
     def test_no_slot_pokes_out_of_the_tray_depth(self) -> None:
         for element in self.elements:

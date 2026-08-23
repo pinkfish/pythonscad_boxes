@@ -63,6 +63,19 @@ def matches(path: Path, fingerprint: str) -> bool:
     return _load(path).get(path.name) == fingerprint
 
 
+def recorded(path: Path) -> bool:
+    """Return True when ``path`` has *some* recorded fingerprint.
+
+    Distinct from :func:`matches`, which also requires the fingerprint to equal
+    the one given. A caller deciding between "description changed" and "never
+    exported here before" needs this: the former should write, the latter may
+    fall back to comparing geometry.
+    """
+    if not path.exists():
+        return False
+    return path.name in _load(path)
+
+
 def record(path: Path, fingerprint: str) -> None:
     """Note what ``path`` was built from, for the next run to compare against.
 

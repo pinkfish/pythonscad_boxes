@@ -28,6 +28,7 @@ from pyboxbuilder.rounding import (
 )
 
 if TYPE_CHECKING:
+    from pybosl2 import Color
     from pybosl2.shapes3d import Bosl2Solid
 
     from pyboxbuilder.builders._base import Cut
@@ -396,3 +397,25 @@ def interior_column(interior: Interior) -> Bosl2Solid:
         interior.origin_y + interior.length / 2,
         interior.origin_z + interior.height / 2,
     ])
+
+
+def build_inserts(
+    placements: Sequence[CompartmentPlacement],
+    interior: Interior,
+) -> list[tuple[Bosl2Solid, Color]]:
+    """Build every coloured positive insert across the placed compartments.
+
+    These are the *added* counterpart of :func:`build_contents`: a coloured
+    element is a thin icon pressed into the bottom of its well, not a cutout, so
+    it is returned as a separate solid (in the box frame) with its colour rather
+    than subtracted from the body.
+    """
+    from pyboxbuilder.compartments.element import build_element_pack_inserts
+
+    inserts: list[tuple[Bosl2Solid, Color]] = []
+    for placement in placements:
+        if not placement.elements:
+            continue
+        for solid, color in build_element_pack_inserts(placement.elements, placement.depth):
+            inserts.append((_place(solid, placement, interior), color))
+    return inserts

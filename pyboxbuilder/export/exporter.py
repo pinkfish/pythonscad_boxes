@@ -118,6 +118,15 @@ class BoxExporter:
         """
         return fp.matches(self.path_for(label, part, mode), fingerprint)
 
+    def recorded(self, label: str, part: str, mode: str) -> bool:
+        """Return True when this piece has *some* recorded fingerprint.
+
+        A piece whose description changed must be rewritten; a piece that has
+        simply never been exported here before (a fresh clone) may fall back to
+        comparing geometry instead.
+        """
+        return fp.recorded(self.path_for(label, part, mode))
+
     def note_unchanged(
         self, label: str, part: str, mode: str,
         size: tuple[float, float, float] | None = None,
@@ -150,6 +159,7 @@ class BoxExporter:
         size: tuple[float, float, float] | None = None,
         fingerprint: str = "",
         force: bool = False,
+        geometry_check: bool = False,
     ) -> str | None:
         """Export one piece, skipping the write when nothing about it changed.
 
@@ -164,6 +174,10 @@ class BoxExporter:
             fingerprint: Digest of the description this piece was built from,
                 recorded beside the file for the next run to compare against.
             force: Rewrite even when the geometry on disk already matches.
+            geometry_check: Compare the shape (bounding box + volume) against the
+                file already on disk and skip when they agree. Only the caller's
+                fallback for a piece with **no** recorded fingerprint — a
+                changed description must always be written.
 
         Returns:
             The relative path if written, None if skipped.
@@ -195,7 +209,7 @@ class BoxExporter:
         # bounding box and volume — against the file already on disk and leave
         # it alone when they agree.
         if (
-            not force
+            geometry_check
             and path.exists()
             and same_geometry(mesh_geometry(payload), read_3mf_geometry(path))
         ):
@@ -281,7 +295,7 @@ class BoxExporter:
             return ([solid] if solid is not None else []) + list(inserts)
         merged = solid
         for insert in inserts:
-            merged = insert if merged is None else merged + insert
+            merged = insert if merged is None else merged | insert
         return merged
 
 

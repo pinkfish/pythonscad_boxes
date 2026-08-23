@@ -24,7 +24,7 @@ from pyboxbuilder.precision import kwargs as precision_kwargs
 from pyboxbuilder.rounding import vertical_edges
 
 if TYPE_CHECKING:
-    from pybosl2 import Region
+    from pybosl2 import Color, Region
     from pybosl2.shapes3d import Bosl2Solid
 
 
@@ -73,6 +73,10 @@ class CompartmentElement:
     """
     pull_out_width: float | None = None
     """Width of the pull-out across the slot. ``None`` uses a fingertip width."""
+    color: str | None = None
+    """When set, this element is a **positive coloured insert** — a thin icon
+    pressed into the bottom of its well — instead of a cutout. The value is a
+    web colour name, applied as the insert's own material in mmu mode."""
 
     def __post_init__(self) -> None:
         """Validate the element's shape and size."""
@@ -365,12 +369,19 @@ def svg_solid(shape_file: str, width: float, length: float, depth: float) -> Bos
 
 
 def _svg_region(shape_file: str) -> Region:
-    """Parse an SVG once and reuse it — a pack repeats the same file many times."""
-    from pybosl2 import Region
+    """Parse an SVG once and reuse it — a pack repeats the same file many times.
+
+    ``clip_to_viewbox=False`` is deliberate: pybosl2's default viewport clip
+    flattens nested subpaths through a ``unary_union`` before clipping, which
+    destroys the holes (windows, ring gaps) a silhouette draws with the
+    even-odd rule. Box SVGs size their viewBox to the drawing, so skipping the
+    clip loses nothing and keeps the cutouts.
+    """
+    from pybosl2.svg import region_from_svg
 
     region = _SVG_CACHE.get(shape_file)
     if region is None:
-        region = Region.from_svg(shape_file)
+        region = region_from_svg(shape_file, clip_to_viewbox=False)
         _SVG_CACHE[shape_file] = region
     return region
 
@@ -493,18 +504,47 @@ def build_pull_out(
 def build_element_pack(
     elements: Iterable[CompartmentElement], default_depth: float
 ) -> Bosl2Solid | None:
-    """Union every element cutout in a pack. Returns None for an empty pack."""
+    """Union every element cutout in a pack. Returns None for an empty pack.
+
+    A coloured element is carved *and* filled: it is included here so its
+    silhouette is recessed into the well floor, and
+    :func:`build_element_pack_inserts` supplies the coloured solid that fills
+    that recess — together they make an inlay flush with the floor rather than
+    a bump proud of it.
+    """
     pieces = []
     for element in elements:
         pieces.append(build_element(element, default_depth))
     return union_all([p for p in pieces if p is not None])
 
 
+def build_element_pack_inserts(
+    elements: Iterable[CompartmentElement], default_depth: float
+) -> list[tuple[Bosl2Solid, Color]]:
+    """Build the coloured positive inserts of a pack, one per coloured element.
+
+    Each insert is the element's own silhouette at its own depth and offset,
+    returned uncoloured alongside its colour so the caller can print it as a
+    separate material (mmu) or draw it in the right colour (preview). A pack
+    with no coloured elements yields an empty list.
+    """
+    from pybosl2 import Color
+
+    inserts: list[tuple[Bosl2Solid, Color]] = []
+    for element in elements:
+        if element.color is None:
+            continue
+        solid = build_element(element, default_depth)
+        if solid is not None:
+            inserts.append((solid, Color(element.color)))
+    return inserts
+
+
 def build_element_pack_pull_outs(
     elements: Iterable[CompartmentElement], default_depth: float, comp_size: tuple[float, float]
 ) -> Bosl2Solid | None:
     """Union every pull-out scoop in a pack, hulling overlapping scoops to avoid sharp edges."""
-    elements_list = [el for el in elements if el.pull_out]
+    elements_list = [el for el in elements if el.pull_out and el.color is None]
     if not elements_list:
         return None
 

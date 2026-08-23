@@ -109,6 +109,18 @@ BASE_VIEWBOX = (161.530, 60.160)
 BASE_WIDTH = 58.0
 BASE_HEIGHT = BASE_VIEWBOX[1] * BASE_WIDTH / BASE_VIEWBOX[0]
 
+# ── Token icons, scaled from the game's own art ─────────────────────────────
+# Each icon's width is fixed and its length follows the drawing, so the art is
+# never stretched. The tower is rotated 90° so it lies across the oval distress
+# token rather than standing on it.
+SONAR_VIEWBOX = (110.359, 95.127)
+SONAR_ICON_W = 24.0
+SONAR_ICON_L = SONAR_ICON_W * SONAR_VIEWBOX[1] / SONAR_VIEWBOX[0]
+
+DISTRESS_VIEWBOX = (81.630, 164.802)
+DISTRESS_ICON_W = 16.0
+DISTRESS_ICON_L = DISTRESS_ICON_W * DISTRESS_VIEWBOX[1] / DISTRESS_VIEWBOX[0]
+
 # ── Box sizes ───────────────────────────────────────────────────────────────
 def card_box_size(card: tuple[float, float]) -> tuple[float, float]:
     """Outer (width, length) of a sliding box holding one card stack."""
@@ -194,6 +206,7 @@ def centered(
     size: tuple[float, float],
     *,
     shape: ElementShape = ElementShape.SVG,
+    rotation: float = 0.0,
     label: str | None = None,
     corner_radius: float = 2.0,
     **pocket_kwargs,
@@ -208,6 +221,7 @@ def centered(
         offset=(0.0, 0.0),
         size=size,
         shape=shape,
+        rotation=rotation,
         label=label,
         corner_radius=corner_radius,
         **pocket_kwargs,
@@ -218,6 +232,7 @@ def centered(
         offset=(center[0] - fw / 2, center[1] - fl / 2),
         size=size,
         shape=shape,
+        rotation=rotation,
         label=label,
         corner_radius=corner_radius,
         **pocket_kwargs,
@@ -244,6 +259,28 @@ SONAR_SLOT = SONAR_DIAMETER + 0.5
 DISTRESS_SLOT = (DISTRESS[0], DISTRESS[1])
 """The distress token's slot. The tray's right column is only a fraction wider
 than the token, so it is cut to the token's own size."""
+
+ICON_DEPTH = 0.2
+"""How thick a coloured icon is. Kept to one layer (0.2 mm) so the recess does
+not eat through the deep sonar well's thin floor — three stacked tokens leave
+only 0.75 mm of material under that well, and a thicker inlay would slice it
+down to a paper-thin skin."""
+
+ICON_LIFT = 0.001
+"""A hair of extra height on the inlay. Its top face would otherwise sit exactly
+coplanar with the well floor, and a renderer z-fights two coincident surfaces —
+the icon looks broken in the one deep well. A micron of clearance is invisible
+to the printer but stops the two faces overlapping."""
+
+
+def icon_pocket(well: dict) -> dict:
+    """A coloured icon's recess: sunk so its top sits flush with the well floor.
+
+    The icon is carved into the material below the well floor and the coloured
+    solid fills that recess, so the floor the piece rests on stays smooth and
+    the icon is not a bump proud of it.
+    """
+    return {"depth": ICON_DEPTH, "z_offset": well["z_offset"] - ICON_DEPTH + ICON_LIFT}
 
 
 def accessory_elements() -> tuple[CompartmentElement, ...]:
@@ -301,6 +338,45 @@ def accessory_elements() -> tuple[CompartmentElement, ...]:
             shape=ElementShape.CIRCLE,
             label="sonar_2",
             **SONAR_TWO,
+        )
+    )
+
+    # Each sonar well and the distress slot carry their icon pressed into the
+    # bottom as a second colour (green sonar, blue distress tower).
+    elements.append(
+        centered(
+            f"{SVG}/the crew - sonar.svg",
+            (79.0, 15.0),
+            (SONAR_ICON_W, SONAR_ICON_L),
+            shape=ElementShape.SVG,
+            rotation=90.0,
+            label="sonar_icon_3",
+            color="green",
+            **icon_pocket(SONAR_THREE),
+        )
+    )
+    elements.append(
+        centered(
+            f"{SVG}/the crew - sonar.svg",
+            (79.0, 78.0),
+            (SONAR_ICON_W, SONAR_ICON_L),
+            shape=ElementShape.SVG,
+            rotation=90.0,
+            label="sonar_icon_2",
+            color="green",
+            **icon_pocket(SONAR_TWO),
+        )
+    )
+    elements.append(
+        centered(
+            f"{SVG}/the crew - distress.svg",
+            (85.0, 46.5),
+            (DISTRESS_ICON_W, DISTRESS_ICON_L),
+            shape=ElementShape.SVG,
+            rotation=90.0,
+            label="distress_icon",
+            color="blue",
+            **icon_pocket(SLOT),
         )
     )
 

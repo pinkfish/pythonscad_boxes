@@ -105,7 +105,8 @@ class GeometryGateTests(unittest.TestCase):
             (exporter.root / "mmu" / ".fingerprints.json").unlink()
 
             written = exporter.write_piece(
-                "Cube", "body", "mmu", a_cube(), size=(10.0, 20.0, 30.0), fingerprint="abc"
+                "Cube", "body", "mmu", a_cube(), size=(10.0, 20.0, 30.0),
+                fingerprint="abc", geometry_check=True,
             )
             self.assertIsNone(written)
             self.assertEqual(exporter.state.skipped, ["MyGame/mmu/Cube_body.3mf"])
@@ -119,10 +120,48 @@ class GeometryGateTests(unittest.TestCase):
             )
             written = exporter.write_piece(
                 "Cube", "body", "mmu", a_cube((12.0, 20.0, 30.0)),
-                size=(12.0, 20.0, 30.0), fingerprint="abc",
+                size=(12.0, 20.0, 30.0), fingerprint="abc", geometry_check=True,
             )
             self.assertIsNotNone(written)
             self.assertEqual(exporter.state.skipped, [])
+
+    def test_geometry_check_off_always_writes(self) -> None:
+        """Without the geometry-check flag the piece is written, even when the
+        shape already matches — that is the caller's "description changed" case."""
+        with tempfile.TemporaryDirectory() as tmp:
+            exporter = BoxExporter(tmp, "MyGame")
+            exporter.write_piece(
+                "Cube", "body", "mmu", a_cube(), size=(10.0, 20.0, 30.0),
+                fingerprint="abc",
+            )
+            written = exporter.write_piece(
+                "Cube", "body", "mmu", a_cube(), size=(10.0, 20.0, 30.0),
+                fingerprint="xyz",
+            )
+            self.assertIsNotNone(written)
+            self.assertEqual(exporter.state.skipped, [])
+
+
+class SvgHoleTests(unittest.TestCase):
+    """The SVG import keeps a silhouette's nested holes (windows, ring gaps)."""
+
+    def test_a_nested_subpath_survives_as_a_hole(self) -> None:
+        from pyboxbuilder.compartments.element import _svg_region
+
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "donut.svg"
+            # A 100x100 plate with a 50x50 window cut out, in one path element.
+            path.write_text(
+                '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">'
+                '<path d="M0,0 L100,0 L100,100 L0,100 Z '
+                'M25,25 L75,25 L75,75 L25,75 Z"/></svg>'
+            )
+            region = _svg_region(str(path))
+            shp = region.to_shapely()
+            geoms = [shp] if shp.geom_type == "Polygon" else list(shp.geoms)
+            holes = sum(len(g.interiors) for g in geoms)
+            self.assertEqual(holes, 1)
+            self.assertAlmostEqual(shp.area, 7500.0, delta=1.0)
 
 
 if __name__ == "__main__":
