@@ -49,7 +49,7 @@ class CardSize(Enum):
     MINI_AMERICAN = (41.0, 63.0)
     MINI_EUROPEAN = (44.0, 68.0)
     SQUARE_MEDIUM = (70.0, 70.0)
-    OVERSIZED = (79.0, 120.0)
+    OVERSIZED = (80.0, 120.0)
 
 
 class CardSpec:

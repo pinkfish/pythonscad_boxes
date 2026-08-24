@@ -24,6 +24,7 @@ from pyboxbuilder.layout import columns, rows, stack
 from pyboxbuilder.lid.builder import LidBuilder, PatternBuilder
 from pyboxbuilder.project import Project
 from pyboxbuilder.run import run
+from pyboxbuilder.sleeves import BRANDS, SLEEVE_CATALOG, Sleeve, sleeve_by_sku, sleeves_for_card
 
 try:
     __version__ = _distribution_version("pyboxbuilder")
@@ -31,6 +32,8 @@ except PackageNotFoundError:
     __version__ = "0.0.0"
 
 __all__ = [
+    "BRANDS",
+    "SLEEVE_CATALOG",
     "BoxType",
     "CardSize",
     "CardSpec",
@@ -47,6 +50,7 @@ __all__ = [
     "PatternType",
     "Project",
     "ScoopSide",
+    "Sleeve",
     "SleeveType",
     "StackableMode",
     "__version__",
@@ -54,5 +58,7 @@ __all__ = [
     "grid_pack",
     "rows",
     "run",
+    "sleeve_by_sku",
+    "sleeves_for_card",
     "stack",
 ]
