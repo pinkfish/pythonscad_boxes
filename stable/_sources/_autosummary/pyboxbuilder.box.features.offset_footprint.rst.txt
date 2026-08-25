@@ -1,0 +1,6 @@
+pyboxbuilder.box.features.offset\_footprint
+===========================================
+
+.. currentmodule:: pyboxbuilder.box.features
+
+.. autofunction:: offset_footprint

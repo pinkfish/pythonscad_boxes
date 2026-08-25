@@ -1,0 +1,27 @@
+pyboxbuilder.packing
+====================
+
+.. automodule:: pyboxbuilder.packing
+
+   
+   
+   .. rubric:: Submodules
+
+   .. autosummary::
+      :toctree:
+      :recursive:
+   
+      cache
+      guillotine
+      layout
+      spacer
+   
+   
+
+   
+   
+   
+
+   
+   
+   

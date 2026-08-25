@@ -1,0 +1,6 @@
+pyboxbuilder.layout.arrange
+===========================
+
+.. currentmodule:: pyboxbuilder.layout
+
+.. autofunction:: arrange

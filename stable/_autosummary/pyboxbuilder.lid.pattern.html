@@ -1,0 +1,1857 @@
+
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="pyboxbuilder.lid.label.text_height_for.html">
+      
+      
+        <link rel="next" href="pyboxbuilder.lid.pattern.build_pattern.html">
+      
+      
+      <link rel="icon" href="">
+    
+    
+      
+        <title>pyboxbuilder.lid.pattern - pyboxbuilder</title>
+      
+    
+    
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+    
+        <link rel="stylesheet" type="text/css" href="../_static/sphinx_immaterial_theme.6f0d2a77b1b821632.min.css?v=27a6e6bb" />
+        <link rel="stylesheet" type="text/css" href="../_static/stl_viewer.css?v=abc98148" />
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#pyboxbuilder.lid.pattern.build_pattern" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../index.html" title="pyboxbuilder" class="md-header__button md-logo" aria-label="pyboxbuilder" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            pyboxbuilder
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              pyboxbuilder.lid.pattern
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/pinkfish/pythonscad_boxes" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    pinkfish/pythonscad_boxes
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../index.html" title="pyboxbuilder" class="md-nav__button md-logo" aria-label="pyboxbuilder" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+    </a>
+    pyboxbuilder
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/pinkfish/pythonscad_boxes" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    pinkfish/pythonscad_boxes
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    <span>Contents</span>
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            <span>Contents</span>
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_1" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../api.html" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    <span>API Reference</span>
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_1_1" id="__nav_1_1_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_1_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_1_1">
+            <span class="md-nav__icon md-icon"></span>
+            <span>API Reference</span>
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_1_1" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="pyboxbuilder.html" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder</span>
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_1_1_1" id="__nav_1_1_1_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_1_1_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_1_1_1">
+            <span class="md-nav__icon md-icon"></span>
+            <span>pyboxbuilder</span>
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pyboxbuilder.box.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>box</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pyboxbuilder.builders.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>builders</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pyboxbuilder.cli.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>cli</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pyboxbuilder.compartments.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>compartments</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pyboxbuilder.deps.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>deps</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pyboxbuilder.enums.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>enums</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pyboxbuilder.export.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>export</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pyboxbuilder.helpers.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>helpers</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pyboxbuilder.layout.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>layout</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_1_1_10" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="pyboxbuilder.lid.html" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>lid</span>
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_1_1_1_10" id="__nav_1_1_1_10_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_1_1_1_10_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_1_1_1_10">
+            <span class="md-nav__icon md-icon"></span>
+            <span>pyboxbuilder.<wbr>lid</span>
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pyboxbuilder.lid.builder.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>lid.<wbr>builder</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pyboxbuilder.lid.color_layers.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>lid.<wbr>color_<wbr>layers</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pyboxbuilder.lid.decorate.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>lid.<wbr>decorate</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pyboxbuilder.lid.label.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>lid.<wbr>label</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+    
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__current-nested md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_1_1_10_5" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="#" class="md-nav__link md-nav__link--active">
+              
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>lid.<wbr>pattern</span>
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link md-nav__link--active" for="__nav_1_1_1_10_5" id="__nav_1_1_1_10_5_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="5" aria-labelledby="__nav_1_1_1_10_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_1_1_1_10_5">
+            <span class="md-nav__icon md-icon"></span>
+            <span>pyboxbuilder.<wbr>lid.<wbr>pattern</span>
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pyboxbuilder.lid.pattern.build_pattern.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>lid.<wbr>pattern.<wbr>build_<wbr>pattern</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pyboxbuilder.lid.pattern.default_spacing.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>lid.<wbr>pattern.<wbr>default_<wbr>spacing</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pyboxbuilder.lid.pattern.hole_size.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>lid.<wbr>pattern.<wbr>hole_<wbr>size</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pyboxbuilder.lid.pattern.tessellating_leaf_path.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>lid.<wbr>pattern.<wbr>tessellating_<wbr>leaf_<wbr>path</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+  
+      
+    <li class="md-nav__item md-nav__item--active md-nav__current-toc">
+      
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>lid.<wbr>pattern</span>
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="#" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>lid.<wbr>pattern</span>
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+  
+
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      On this page
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="pyboxbuilder.lid.pattern.build_pattern.html" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span>pyboxbuilder.<wbr>lid.<wbr>pattern.<wbr>build_<wbr>pattern</span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="pyboxbuilder.lid.pattern.default_spacing.html" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span>pyboxbuilder.<wbr>lid.<wbr>pattern.<wbr>default_<wbr>spacing</span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="pyboxbuilder.lid.pattern.hole_size.html" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span>pyboxbuilder.<wbr>lid.<wbr>pattern.<wbr>hole_<wbr>size</span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="pyboxbuilder.lid.pattern.tessellating_leaf_path.html" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span>pyboxbuilder.<wbr>lid.<wbr>pattern.<wbr>tessellating_<wbr>leaf_<wbr>path</span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pyboxbuilder.lid.pattern.build_pattern" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span>pyboxbuilder.<wbr>lid.<wbr>pattern.<wbr>build_<wbr>pattern</span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="pyboxbuilder.lid.pattern.build_pattern">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pyboxbuilder.lid.pattern.build_pattern-parameters" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span>Parameters</span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pyboxbuilder.lid.pattern.build_pattern-returns" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span>Returns</span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pyboxbuilder.lid.pattern.build_pattern-raises" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span>Raises</span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pyboxbuilder.lid.pattern.default_spacing" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span>pyboxbuilder.<wbr>lid.<wbr>pattern.<wbr>default_<wbr>spacing</span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="pyboxbuilder.lid.pattern.default_spacing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pyboxbuilder.lid.pattern.default_spacing-parameters" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span>Parameters</span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pyboxbuilder.lid.pattern.default_spacing-returns" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span>Returns</span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pyboxbuilder.lid.pattern.hole_size" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span>pyboxbuilder.<wbr>lid.<wbr>pattern.<wbr>hole_<wbr>size</span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="pyboxbuilder.lid.pattern.hole_size">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pyboxbuilder.lid.pattern.hole_size-parameters" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span>Parameters</span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pyboxbuilder.lid.pattern.hole_size-returns" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span>Returns</span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pyboxbuilder.lid.pattern.tessellating_leaf_path" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span>pyboxbuilder.<wbr>lid.<wbr>pattern.<wbr>tessellating_<wbr>leaf_<wbr>path</span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="pyboxbuilder.lid.pattern.tessellating_leaf_path">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pyboxbuilder.lid.pattern.tessellating_leaf_path-parameters" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span>Parameters</span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pyboxbuilder.lid.pattern.tessellating_leaf_path-returns" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span>Returns</span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pyboxbuilder.lid.tilings.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>lid.<wbr>tilings</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pyboxbuilder.packing.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>packing</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pyboxbuilder.paths.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>paths</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pyboxbuilder.precision.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>precision</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pyboxbuilder.preview.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>preview</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pyboxbuilder.project.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>project</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pyboxbuilder.rounding.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>rounding</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pyboxbuilder.run.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>run</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+<nav class="md-nav md-nav--secondary">
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      On this page
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#pyboxbuilder.lid.pattern.build_pattern" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span>pyboxbuilder.<wbr>lid.<wbr>pattern.<wbr>build_<wbr>pattern</span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="pyboxbuilder.lid.pattern.build_pattern">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pyboxbuilder.lid.pattern.build_pattern-parameters" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span>Parameters</span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pyboxbuilder.lid.pattern.build_pattern-returns" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span>Returns</span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pyboxbuilder.lid.pattern.build_pattern-raises" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span>Raises</span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pyboxbuilder.lid.pattern.default_spacing" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span>pyboxbuilder.<wbr>lid.<wbr>pattern.<wbr>default_<wbr>spacing</span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="pyboxbuilder.lid.pattern.default_spacing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pyboxbuilder.lid.pattern.default_spacing-parameters" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span>Parameters</span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pyboxbuilder.lid.pattern.default_spacing-returns" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span>Returns</span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pyboxbuilder.lid.pattern.hole_size" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span>pyboxbuilder.<wbr>lid.<wbr>pattern.<wbr>hole_<wbr>size</span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="pyboxbuilder.lid.pattern.hole_size">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pyboxbuilder.lid.pattern.hole_size-parameters" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span>Parameters</span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pyboxbuilder.lid.pattern.hole_size-returns" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span>Returns</span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pyboxbuilder.lid.pattern.tessellating_leaf_path" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span>pyboxbuilder.<wbr>lid.<wbr>pattern.<wbr>tessellating_<wbr>leaf_<wbr>path</span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="pyboxbuilder.lid.pattern.tessellating_leaf_path">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pyboxbuilder.lid.pattern.tessellating_leaf_path-parameters" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span>Parameters</span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pyboxbuilder.lid.pattern.tessellating_leaf_path-returns" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span>Returns</span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset" role="main">
+                
+                
+                  
+
+
+<h1 id="module-pyboxbuilder.lid.pattern"><span id="pyboxbuilder-lid-pattern"></span>pyboxbuilder.lid.pattern<a class="headerlink" href="#module-pyboxbuilder.lid.pattern" title="Link to this heading">¶</a></h1>
+<p>Lid through-hole patterns — the shapes a lid is perforated with (FR-023).</p>
+<p>Each member of <a class="reference internal" href="pyboxbuilder.enums.PatternType.html#pyboxbuilder.enums.PatternType" title="pyboxbuilder.enums.PatternType (Python class) — Bases: Enum"><code class="xref py py-class docutils literal notranslate"><span class="pre">PatternType</span></code></a> draws the shape it is
+named after. That is worth stating because it was not true: the catalog listed
+47 members and three shapes, with a <cite>_shape_grid_fill</cite> that took the shape’s
+name as an argument and ignored it, hexagons and triangles built from cuboids,
+and every tessellation wrapped in <cite>except (ImportError, …, Exception)</cite> around
+an import of a package that is not in this repo — so a lid asking for LEAF, or
+PENROSE_TILING_5, or any of the fifteen pentagon tilings, silently came out with
+square holes.</p>
+<p>A pattern that quietly becomes a different pattern is worse than one that is
+missing: the user sees a plausible lid and never learns the request was
+dropped. So the catalog here is exactly what is implemented, and a member is
+added when the geometry to draw it is (FR-000c).</p>
+<p class="rubric">Functions</p>
+<table class="autosummary longtable docutils data align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="pyboxbuilder.lid.pattern.build_pattern.html#pyboxbuilder.lid.pattern.build_pattern" title="pyboxbuilder.lid.pattern.build_pattern (Python function) — Build the through-hole cutouts for a lid."><code class="xref py py-obj docutils literal notranslate"><span class="pre">build_pattern</span></code></a></p></td>
+<td><p>Build the through-hole cutouts for a lid.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="pyboxbuilder.lid.pattern.default_spacing.html#pyboxbuilder.lid.pattern.default_spacing" title="pyboxbuilder.lid.pattern.default_spacing (Python function) — Return the cell size a pattern uses when the caller names none."><code class="xref py py-obj docutils literal notranslate"><span class="pre">default_spacing</span></code></a></p></td>
+<td><p>Return the cell size a pattern uses when the caller names none.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="pyboxbuilder.lid.pattern.hole_size.html#pyboxbuilder.lid.pattern.hole_size" title="pyboxbuilder.lid.pattern.hole_size (Python function) — Return how big a hole is, given the pitch and the web between them."><code class="xref py py-obj docutils literal notranslate"><span class="pre">hole_size</span></code></a></p></td>
+<td><p>Return how big a hole is, given the pitch and the web between them.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="pyboxbuilder.lid.pattern.tessellating_leaf_path.html#pyboxbuilder.lid.pattern.tessellating_leaf_path" title="pyboxbuilder.lid.pattern.tessellating_leaf_path (Python function) — Return the outline of a leaf that tiles the plane, tip towards +X."><code class="xref py py-obj docutils literal notranslate"><span class="pre">tessellating_leaf_path</span></code></a></p></td>
+<td><p>Return the outline of a leaf that tiles the plane, tip towards +X.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py function objdesc">
+<dt class="sig sig-object highlight sig-wrap py" id="pyboxbuilder.lid.pattern.build_pattern">
+<span class="sig-prename descclassname"><span class="pre">pyboxbuilder.lid.pattern.</span></span><span class="sig-name descname"><span class="pre">build_pattern</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="pyboxbuilder.lid.pattern.build_pattern.html#pyboxbuilder.lid.pattern.build_pattern.width" title="pyboxbuilder.lid.pattern.build_pattern.width (Python parameter) — Width of the area to fill, in mm — the lid less its border."><span class="n"><span class="pre">width</span></span></a><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span></span></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="pyboxbuilder.lid.pattern.build_pattern.html#pyboxbuilder.lid.pattern.build_pattern.length" title="pyboxbuilder.lid.pattern.build_pattern.length (Python parameter) — Length of that area, in mm."><span class="n"><span class="pre">length</span></span></a><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span></span></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="pyboxbuilder.lid.pattern.build_pattern.html#pyboxbuilder.lid.pattern.build_pattern.thickness" title="pyboxbuilder.lid.pattern.build_pattern.thickness (Python parameter) — Lid thickness; the holes are cut deeper so they break through."><span class="n"><span class="pre">thickness</span></span></a><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span></span></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="pyboxbuilder.lid.pattern.build_pattern.html#pyboxbuilder.lid.pattern.build_pattern.pattern_type" title="pyboxbuilder.lid.pattern.build_pattern.pattern_type (Python parameter) — Which pattern."><span class="n"><span class="pre">pattern_type</span></span></a><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference internal" href="pyboxbuilder.html#pyboxbuilder.PatternType" title="pyboxbuilder.PatternType (Python class) — Bases: Enum"><span class="pre">PatternType</span></a></span></span></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="pyboxbuilder.lid.pattern.build_pattern.html#pyboxbuilder.lid.pattern.build_pattern.spacing" title="pyboxbuilder.lid.pattern.build_pattern.spacing (Python parameter) — Centre-to-centre distance between holes."><span class="n"><span class="pre">spacing</span></span></a><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="pyboxbuilder.lid.pattern.build_pattern.html#pyboxbuilder.lid.pattern.build_pattern.web" title="pyboxbuilder.lid.pattern.build_pattern.web (Python parameter) — Material left between neighbouring holes."><span class="n"><span class="pre">web</span></span></a><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em></span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="desctype"><span class="pre">Bosl2Solid</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span></span><a class="reference internal" href="../_modules/pyboxbuilder/lid/pattern.html#build_pattern"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyboxbuilder.lid.pattern.build_pattern" title="Link to this definition">¶</a></dt>
+<dd><p>Build the through-hole cutouts for a lid.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="pyboxbuilder.lid.pattern.build_pattern-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#pyboxbuilder.lid.pattern.build_pattern-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt id="pyboxbuilder.lid.pattern.build_pattern.width"><span class="n sig-name">width</span><span class="p">:</span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)">float</a></span></span><a class="headerlink" href="#pyboxbuilder.lid.pattern.build_pattern.width" title="Permalink to this definition">¶</a></dt><dd><p>Width of the area to fill, in mm — the lid less its border.</p>
+</dd>
+<dt id="pyboxbuilder.lid.pattern.build_pattern.length"><span class="n sig-name">length</span><span class="p">:</span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)">float</a></span></span><a class="headerlink" href="#pyboxbuilder.lid.pattern.build_pattern.length" title="Permalink to this definition">¶</a></dt><dd><p>Length of that area, in mm.</p>
+</dd>
+<dt id="pyboxbuilder.lid.pattern.build_pattern.thickness"><span class="n sig-name">thickness</span><span class="p">:</span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)">float</a></span></span><a class="headerlink" href="#pyboxbuilder.lid.pattern.build_pattern.thickness" title="Permalink to this definition">¶</a></dt><dd><p>Lid thickness; the holes are cut deeper so they break through.</p>
+</dd>
+<dt id="pyboxbuilder.lid.pattern.build_pattern.pattern_type"><span class="n sig-name">pattern_type</span><span class="p">:</span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference internal" href="pyboxbuilder.html#pyboxbuilder.PatternType" title="pyboxbuilder.PatternType (Python class) — Bases: Enum">PatternType</a></span></span><a class="headerlink" href="#pyboxbuilder.lid.pattern.build_pattern.pattern_type" title="Permalink to this definition">¶</a></dt><dd><p>Which pattern. <code class="docutils literal notranslate"><span class="pre">PatternType.NONE</span></code> returns <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p>
+</dd>
+<dt id="pyboxbuilder.lid.pattern.build_pattern.spacing"><span class="n sig-name">spacing</span><span class="p">:</span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)">float</a><span class="w"> </span><span class="p">|</span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)">None</a></span></span><span class="w"> </span><span class="o">=</span><span class="w"> </span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code><a class="headerlink" href="#pyboxbuilder.lid.pattern.build_pattern.spacing" title="Permalink to this definition">¶</a></dt><dd><p>Centre-to-centre distance between holes. <code class="docutils literal notranslate"><span class="pre">None</span></code> derives it
+from the area (see <a class="reference internal" href="pyboxbuilder.lid.pattern.default_spacing.html#pyboxbuilder.lid.pattern.default_spacing" title="pyboxbuilder.lid.pattern.default_spacing (Python function) — Return the cell size a pattern uses when the caller names none."><code class="xref py py-func docutils literal notranslate"><span class="pre">default_spacing()</span></code></a>).</p>
+</dd>
+<dt id="pyboxbuilder.lid.pattern.build_pattern.web"><span class="n sig-name">web</span><span class="p">:</span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)">float</a><span class="w"> </span><span class="p">|</span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)">None</a></span></span><span class="w"> </span><span class="o">=</span><span class="w"> </span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code><a class="headerlink" href="#pyboxbuilder.lid.pattern.build_pattern.web" title="Permalink to this definition">¶</a></dt><dd><p>Material left between neighbouring holes. <code class="docutils literal notranslate"><span class="pre">None</span></code> uses
+<a class="reference internal" href="#pyboxbuilder.lid.pattern.DEFAULT_WEB_MM" title="pyboxbuilder.lid.pattern.DEFAULT_WEB_MM (Python data) — Material left between neighbouring holes, when nothing else says."><code class="xref py py-data docutils literal notranslate"><span class="pre">DEFAULT_WEB_MM</span></code></a>. This, rather than the hole size, is what a
+pattern is really specified by: it is what prints.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even" id="pyboxbuilder.lid.pattern.build_pattern-returns">Returns<span class="colon">:</span><a class="headerlink" href="#pyboxbuilder.lid.pattern.build_pattern-returns" title="Permalink to this headline">¶</a></dt>
+<dd class="field-even"><p>The solid to subtract from the lid, or <code class="docutils literal notranslate"><span class="pre">None</span></code> for no pattern, for an
+area too small to hold a whole hole, or for a pitch too tight to hold a
+hole and a printable web at once.</p>
+</dd>
+<dt class="field-odd" id="pyboxbuilder.lid.pattern.build_pattern-raises">Raises<span class="colon">:</span><a class="headerlink" href="#pyboxbuilder.lid.pattern.build_pattern-raises" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.14)"><strong>ValueError</strong></a> – If the pattern has no fill registered — which cannot happen
+    for a catalog member, and is the check that keeps it that way.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function objdesc">
+<dt class="sig sig-object highlight sig-wrap py" id="pyboxbuilder.lid.pattern.default_spacing">
+<span class="sig-prename descclassname"><span class="pre">pyboxbuilder.lid.pattern.</span></span><span class="sig-name descname"><span class="pre">default_spacing</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="pyboxbuilder.lid.pattern.default_spacing.html#pyboxbuilder.lid.pattern.default_spacing.width" title="pyboxbuilder.lid.pattern.default_spacing.width (Python parameter) — Lid width in mm."><span class="n"><span class="pre">width</span></span></a><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span></span></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="pyboxbuilder.lid.pattern.default_spacing.html#pyboxbuilder.lid.pattern.default_spacing.length" title="pyboxbuilder.lid.pattern.default_spacing.length (Python parameter) — Lid length in mm."><span class="n"><span class="pre">length</span></span></a><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span></span></em></span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span></span></span><a class="reference internal" href="../_modules/pyboxbuilder/lid/pattern.html#default_spacing"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyboxbuilder.lid.pattern.default_spacing" title="Link to this definition">¶</a></dt>
+<dd><p>Return the cell size a pattern uses when the caller names none.</p>
+<p>Derived from the lid rather than fixed, so the same pattern reads the same
+on a 40mm token lid and a 200mm card lid (FR-000).</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="pyboxbuilder.lid.pattern.default_spacing-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#pyboxbuilder.lid.pattern.default_spacing-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt id="pyboxbuilder.lid.pattern.default_spacing.width"><span class="n sig-name">width</span><span class="p">:</span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)">float</a></span></span><a class="headerlink" href="#pyboxbuilder.lid.pattern.default_spacing.width" title="Permalink to this definition">¶</a></dt><dd><p>Lid width in mm.</p>
+</dd>
+<dt id="pyboxbuilder.lid.pattern.default_spacing.length"><span class="n sig-name">length</span><span class="p">:</span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)">float</a></span></span><a class="headerlink" href="#pyboxbuilder.lid.pattern.default_spacing.length" title="Permalink to this definition">¶</a></dt><dd><p>Lid length in mm.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even" id="pyboxbuilder.lid.pattern.default_spacing-returns">Returns<span class="colon">:</span><a class="headerlink" href="#pyboxbuilder.lid.pattern.default_spacing-returns" title="Permalink to this headline">¶</a></dt>
+<dd class="field-even"><p>The spacing in mm — an eighth of the shorter side, never below 5mm.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function objdesc">
+<dt class="sig sig-object highlight sig-wrap py" id="pyboxbuilder.lid.pattern.hole_size">
+<span class="sig-prename descclassname"><span class="pre">pyboxbuilder.lid.pattern.</span></span><span class="sig-name descname"><span class="pre">hole_size</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="pyboxbuilder.lid.pattern.hole_size.html#pyboxbuilder.lid.pattern.hole_size.spacing" title="pyboxbuilder.lid.pattern.hole_size.spacing (Python parameter) — Centre-to-centre distance between neighbouring holes, in mm."><span class="n"><span class="pre">spacing</span></span></a><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span></span></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="pyboxbuilder.lid.pattern.hole_size.html#pyboxbuilder.lid.pattern.hole_size.web" title="pyboxbuilder.lid.pattern.hole_size.web (Python parameter) — Material to leave between them; None uses DEFAULT_WEB_MM."><span class="n"><span class="pre">web</span></span></a><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span></em></span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span></span></span><a class="reference internal" href="../_modules/pyboxbuilder/lid/pattern.html#hole_size"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyboxbuilder.lid.pattern.hole_size" title="Link to this definition">¶</a></dt>
+<dd><p>Return how big a hole is, given the pitch and the web between them.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="pyboxbuilder.lid.pattern.hole_size-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#pyboxbuilder.lid.pattern.hole_size-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt id="pyboxbuilder.lid.pattern.hole_size.spacing"><span class="n sig-name">spacing</span><span class="p">:</span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)">float</a></span></span><a class="headerlink" href="#pyboxbuilder.lid.pattern.hole_size.spacing" title="Permalink to this definition">¶</a></dt><dd><p>Centre-to-centre distance between neighbouring holes, in mm.</p>
+</dd>
+<dt id="pyboxbuilder.lid.pattern.hole_size.web"><span class="n sig-name">web</span><span class="p">:</span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)">float</a><span class="w"> </span><span class="p">|</span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)">None</a></span></span><a class="headerlink" href="#pyboxbuilder.lid.pattern.hole_size.web" title="Permalink to this definition">¶</a></dt><dd><p>Material to leave between them; <code class="docutils literal notranslate"><span class="pre">None</span></code> uses
+<a class="reference internal" href="#pyboxbuilder.lid.pattern.DEFAULT_WEB_MM" title="pyboxbuilder.lid.pattern.DEFAULT_WEB_MM (Python data) — Material left between neighbouring holes, when nothing else says."><code class="xref py py-data docutils literal notranslate"><span class="pre">DEFAULT_WEB_MM</span></code></a>.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even" id="pyboxbuilder.lid.pattern.hole_size-returns">Returns<span class="colon">:</span><a class="headerlink" href="#pyboxbuilder.lid.pattern.hole_size-returns" title="Permalink to this headline">¶</a></dt>
+<dd class="field-even"><p>The hole’s size across the flats, in mm. Zero when the pitch cannot
+hold a usable hole and the thinnest printable web at once — the caller
+then leaves the lid solid rather than perforating it uselessly.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function objdesc">
+<dt class="sig sig-object highlight sig-wrap py" id="pyboxbuilder.lid.pattern.tessellating_leaf_path">
+<span class="sig-prename descclassname"><span class="pre">pyboxbuilder.lid.pattern.</span></span><span class="sig-name descname"><span class="pre">tessellating_leaf_path</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="pyboxbuilder.lid.pattern.tessellating_leaf_path.html#pyboxbuilder.lid.pattern.tessellating_leaf_path.section" title="pyboxbuilder.lid.pattern.tessellating_leaf_path.section (Python parameter) — The leaf's quarter-height — the module this is built from."><span class="n"><span class="pre">section</span></span></a><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span></span></em></span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.14)"><span class="pre">tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span></span><a class="reference internal" href="../_modules/pyboxbuilder/lid/pattern.html#tessellating_leaf_path"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyboxbuilder.lid.pattern.tessellating_leaf_path" title="Link to this definition">¶</a></dt>
+<dd><p>Return the outline of a leaf that tiles the plane, tip towards +X.</p>
+<p>Seven points, of which the useful fact is how their edges pair up. The two
+long edges to the tip are equal and opposite to the two from the base, so
+each is another leaf’s edge under translation; the base’s single long edge
+is matched by the <em>two</em> short notch edges of two different neighbours. That
+is what makes this leaf a tile rather than a leaf-shaped blob: it meets its
+neighbours edge to edge, with nothing left over between them.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="pyboxbuilder.lid.pattern.tessellating_leaf_path-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#pyboxbuilder.lid.pattern.tessellating_leaf_path-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt id="pyboxbuilder.lid.pattern.tessellating_leaf_path.section"><span class="n sig-name">section</span><span class="p">:</span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)">float</a></span></span><a class="headerlink" href="#pyboxbuilder.lid.pattern.tessellating_leaf_path.section" title="Permalink to this definition">¶</a></dt><dd><p>The leaf’s quarter-height — the module this is built from. The
+leaf comes out <code class="docutils literal notranslate"><span class="pre">4</span> <span class="pre">×</span> <span class="pre">section</span></code> from notch to notch and
+<code class="docutils literal notranslate"><span class="pre">2√3</span> <span class="pre">×</span> <span class="pre">section</span></code> from base to tip.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even" id="pyboxbuilder.lid.pattern.tessellating_leaf_path-returns">Returns<span class="colon">:</span><a class="headerlink" href="#pyboxbuilder.lid.pattern.tessellating_leaf_path-returns" title="Permalink to this headline">¶</a></dt>
+<dd class="field-even"><p>The outline, anticlockwise, centred on the midrib’s midpoint.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py data objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.lid.pattern.DEFAULT_WEB_MM">
+<span class="sig-prename descclassname"><span class="pre">pyboxbuilder.lid.pattern.</span></span><span class="sig-name descname"><span class="pre">DEFAULT_WEB_MM</span></span><span class="p"> <span class="pre">=</span> </span><code class="code python docutils literal highlight highlight-python"><span class="mf">1.6</span></code><a class="headerlink" href="#pyboxbuilder.lid.pattern.DEFAULT_WEB_MM" title="Link to this definition">¶</a></dt>
+<dd><p>Material left <strong>between</strong> neighbouring holes, when nothing else says.</p>
+<p>The web is the thing to state, not the hole: it is what has to print and what
+carries the lid, so it is the quantity with a right answer. Four extrusion
+widths at a 0.4mm nozzle, which is stiff enough to handle a large lid by.</p>
+<p>Sizing the hole as a <em>share of the cell</em> instead — the previous rule, 55% —
+made the web scale with the pitch, so a lid asking for 11mm cells got 6.2mm
+hexes separated by 5.1mm of plastic. That is not a honeycomb; it is a sheet
+with holes in it, and it saves almost no filament (FR-023).</p>
+</dd></dl>
+
+<dl class="py data objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.lid.pattern.DENSE_SPACING_SHARE">
+<span class="sig-prename descclassname"><span class="pre">pyboxbuilder.lid.pattern.</span></span><span class="sig-name descname"><span class="pre">DENSE_SPACING_SHARE</span></span><span class="p"> <span class="pre">=</span> </span><code class="code python docutils literal highlight highlight-python"><span class="mf">0.6</span></code><a class="headerlink" href="#pyboxbuilder.lid.pattern.DENSE_SPACING_SHARE" title="Link to this definition">¶</a></dt>
+<dd><p>How much of the normal spacing a <em>dense</em> variant uses.</p>
+</dd></dl>
+
+<dl class="py data objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.lid.pattern.DEPTH_OVERSHOOT">
+<span class="sig-prename descclassname"><span class="pre">pyboxbuilder.lid.pattern.</span></span><span class="sig-name descname"><span class="pre">DEPTH_OVERSHOOT</span></span><span class="p"> <span class="pre">=</span> </span><code class="code python docutils literal highlight highlight-python"><span class="mf">1.2</span></code><a class="headerlink" href="#pyboxbuilder.lid.pattern.DEPTH_OVERSHOOT" title="Link to this definition">¶</a></dt>
+<dd><p>How far a hole is over-extruded relative to the lid, so it breaks through.</p>
+</dd></dl>
+
+<dl class="py data objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.lid.pattern.LEAF_ASPECT">
+<span class="sig-prename descclassname"><span class="pre">pyboxbuilder.lid.pattern.</span></span><span class="sig-name descname"><span class="pre">LEAF_ASPECT</span></span><span class="p"> <span class="pre">=</span> </span><code class="code python docutils literal highlight highlight-python"><span class="mf">2.0</span></code><a class="headerlink" href="#pyboxbuilder.lid.pattern.LEAF_ASPECT" title="Link to this definition">¶</a></dt>
+<dd><p>How many times longer a leaf is than it is wide.</p>
+<p>Two-to-one is the ratio at which a pointed oval stops reading as an eye and
+starts reading as a leaf. It also sets how far the rows interleave, so it is one
+number rather than two: see <code class="docutils literal notranslate"><span class="pre">_leaf_row_step</span></code>.</p>
+</dd></dl>
+
+<dl class="py data objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.lid.pattern.LEAF_MIDRIB_MIN_HALF_MM">
+<span class="sig-prename descclassname"><span class="pre">pyboxbuilder.lid.pattern.</span></span><span class="sig-name descname"><span class="pre">LEAF_MIDRIB_MIN_HALF_MM</span></span><span class="p"> <span class="pre">=</span> </span><code class="code python docutils literal highlight highlight-python"><span class="mf">1.5</span></code><a class="headerlink" href="#pyboxbuilder.lid.pattern.LEAF_MIDRIB_MIN_HALF_MM" title="Link to this definition">¶</a></dt>
+<dd><p>Narrowest half-leaf worth cutting either side of a midrib.</p>
+<p>Below this the rib has split one hole into two slits, which reads as a crack in
+the lid rather than as a leaf, so the leaf is cut whole instead.</p>
+</dd></dl>
+
+<dl class="py data objdesc">
+<dt class="sig sig-object highlight sig-wrap py" id="pyboxbuilder.lid.pattern.LEAF_VEIN_BRANCHES">
+<span class="sig-prename descclassname"><span class="pre">pyboxbuilder.lid.pattern.</span></span><span class="sig-name descname"><span class="pre">LEAF_VEIN_BRANCHES</span></span><span class="p"> <span class="pre">=</span> </span><code class="code python docutils literal highlight highlight-python"><span class="p">((</span><span class="o">-</span><span class="mf">0.45</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">),</span> <span class="p">(</span><span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.45</span><span class="p">),</span> <span class="p">(</span><span class="mf">0.45</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">))</span></code><a class="headerlink" href="#pyboxbuilder.lid.pattern.LEAF_VEIN_BRANCHES" title="Link to this definition">¶</a></dt>
+<dd><p>Where each side vein leaves the midrib and where it lands, as fractions.</p>
+<p>The first number is how far along the leaf’s half-width the vein leaves the
+midrib; the second is how far along the tip-side margin it lands. Both ends sit
+<strong>on</strong> other material — the midrib and the outline — because a vein floating
+loose in a hole is an island the printer has nothing to build on.</p>
+<p>None of them starts at the leaf’s base. Three leaves meet at each base, so veins
+converging there compound into a six-pointed star across the lattice and the
+leaf stops being legible: what the eye picks out is the star, not the outline
+around it. Starting them along the midrib instead costs nothing and keeps each
+leaf reading as one.</p>
+</dd></dl>
+
+<dl class="py data objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.lid.pattern.LEAF_VEIN_SHARE">
+<span class="sig-prename descclassname"><span class="pre">pyboxbuilder.lid.pattern.</span></span><span class="sig-name descname"><span class="pre">LEAF_VEIN_SHARE</span></span><span class="p"> <span class="pre">=</span> </span><code class="code python docutils literal highlight highlight-python"><span class="mf">0.5</span></code><a class="headerlink" href="#pyboxbuilder.lid.pattern.LEAF_VEIN_SHARE" title="Link to this definition">¶</a></dt>
+<dd><p>How thick a vein is next to the web between leaves.</p>
+</dd></dl>
+
+<dl class="py data objdesc">
+<dt class="sig sig-object highlight sig-wrap py" id="pyboxbuilder.lid.pattern.MIN_DERIVED_SPACING_MM">
+<span class="sig-prename descclassname"><span class="pre">pyboxbuilder.lid.pattern.</span></span><span class="sig-name descname"><span class="pre">MIN_DERIVED_SPACING_MM</span></span><span class="p"> <span class="pre">=</span> </span><code class="code python docutils literal highlight highlight-python"><span class="p">{</span><span class="n">PatternType</span><span class="o">.</span><span class="n">VORONOI</span><span class="p">:</span> <span class="mf">8.0</span><span class="p">}</span></code><a class="headerlink" href="#pyboxbuilder.lid.pattern.MIN_DERIVED_SPACING_MM" title="Link to this definition">¶</a></dt>
+<dd><p>Patterns whose derived pitch needs a higher floor than the generic one.</p>
+<p><a class="reference internal" href="pyboxbuilder.lid.pattern.default_spacing.html#pyboxbuilder.lid.pattern.default_spacing" title="pyboxbuilder.lid.pattern.default_spacing (Python function) — Return the cell size a pattern uses when the caller names none."><code class="xref py py-func docutils literal notranslate"><span class="pre">default_spacing()</span></code></a> is calibrated for a hole <strong>inscribed</strong> in its cell, which
+is what most of the catalog cuts. A Voronoi cell <em>tiles</em>, so the cell is the
+hole, and the web is taken out of a cell rather than out of the gap around one.
+An eighth of a small lid’s shorter side leaves a cell only a few times the web,
+which prints and reads as a peppering of pinholes rather than as a pattern.</p>
+<p>Only the derived pitch is floored. A caller who asks for 5mm cells gets 5mm
+cells: a named option does what it says (FR-000g).</p>
+</dd></dl>
+
+<dl class="py data objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.lid.pattern.MIN_HOLE_MM">
+<span class="sig-prename descclassname"><span class="pre">pyboxbuilder.lid.pattern.</span></span><span class="sig-name descname"><span class="pre">MIN_HOLE_MM</span></span><span class="p"> <span class="pre">=</span> </span><code class="code python docutils literal highlight highlight-python"><span class="mf">2.0</span></code><a class="headerlink" href="#pyboxbuilder.lid.pattern.MIN_HOLE_MM" title="Link to this definition">¶</a></dt>
+<dd><p>Smallest hole worth cutting.</p>
+<p>Below this the pattern reads as a rough surface rather than as openings, and a
+lid whose pitch cannot hold it gets no pattern at all rather than a peppering
+of pinholes.</p>
+</dd></dl>
+
+<dl class="py data objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.lid.pattern.MIN_WEB_MM">
+<span class="sig-prename descclassname"><span class="pre">pyboxbuilder.lid.pattern.</span></span><span class="sig-name descname"><span class="pre">MIN_WEB_MM</span></span><span class="p"> <span class="pre">=</span> </span><code class="code python docutils literal highlight highlight-python"><span class="mf">0.8</span></code><a class="headerlink" href="#pyboxbuilder.lid.pattern.MIN_WEB_MM" title="Link to this definition">¶</a></dt>
+<dd><p>Thinnest web worth printing — two perimeters at a 0.4mm nozzle.</p>
+</dd></dl>
+
+<dl class="py data objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.lid.pattern.POINTY_TOP_SPIN">
+<span class="sig-prename descclassname"><span class="pre">pyboxbuilder.lid.pattern.</span></span><span class="sig-name descname"><span class="pre">POINTY_TOP_SPIN</span></span><span class="p"> <span class="pre">=</span> </span><code class="code python docutils literal highlight highlight-python"><span class="mf">30.0</span></code><a class="headerlink" href="#pyboxbuilder.lid.pattern.POINTY_TOP_SPIN" title="Link to this definition">¶</a></dt>
+<dd><p>Rotation that stands a hexagon on a flat, with its flats left and right.</p>
+<p><cite>regular_prism</cite> draws a hexagon with a vertex to the right — flats top and
+bottom — and the staggered lattice below needs the opposite: flats <em>left and
+right</em>, so a row’s neighbours sit across-flats from each other and the next row
+nests into the notches between them. Without this the lattice was tiling one
+orientation with the spacing of the other, which left the rows barely clearing
+each other horizontally and floating apart vertically. It is not a honeycomb
+until the hexagon and the lattice agree.</p>
+</dd></dl>
+
+<dl class="py data objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.lid.pattern.VORONOI_CORNER_MM">
+<span class="sig-prename descclassname"><span class="pre">pyboxbuilder.lid.pattern.</span></span><span class="sig-name descname"><span class="pre">VORONOI_CORNER_MM</span></span><span class="p"> <span class="pre">=</span> </span><code class="code python docutils literal highlight highlight-python"><span class="mf">1.0</span></code><a class="headerlink" href="#pyboxbuilder.lid.pattern.VORONOI_CORNER_MM" title="Link to this definition">¶</a></dt>
+<dd><p>Radius the cell corners are rounded by.</p>
+<p>A Voronoi cell is a polygon, and its corners are where three cells meet at a
+point. Left sharp, that point is a stress raiser in a lid whose whole job is to
+be thin. The rounding is done by cutting the cells back further and growing them
+returned after, so the web keeps its width along the edges and only opens out at
+the junctions.</p>
+</dd></dl>
+
+<dl class="py data objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.lid.pattern.VORONOI_JITTER">
+<span class="sig-prename descclassname"><span class="pre">pyboxbuilder.lid.pattern.</span></span><span class="sig-name descname"><span class="pre">VORONOI_JITTER</span></span><span class="p"> <span class="pre">=</span> </span><code class="code python docutils literal highlight highlight-python"><span class="mf">0.99</span></code><a class="headerlink" href="#pyboxbuilder.lid.pattern.VORONOI_JITTER" title="Link to this definition">¶</a></dt>
+<dd><p>How much of its cell a seed point may roam, as a share.</p>
+<p>Near 1, so the points are all but uniformly scattered and the cells come out
+genuinely irregular. Lower it and the cells converge on a square grid — which is
+the pattern this one exists <em>not</em> to be.</p>
+</dd></dl>
+
+<dl class="py data objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.lid.pattern.VORONOI_NEIGHBOUR_REACH">
+<span class="sig-prename descclassname"><span class="pre">pyboxbuilder.lid.pattern.</span></span><span class="sig-name descname"><span class="pre">VORONOI_NEIGHBOUR_REACH</span></span><span class="p"> <span class="pre">=</span> </span><code class="code python docutils literal highlight highlight-python"><span class="mf">2.9698484809835</span></code><a class="headerlink" href="#pyboxbuilder.lid.pattern.VORONOI_NEIGHBOUR_REACH" title="Link to this definition">¶</a></dt>
+<dd><p>How far a cell looks for the neighbours that bound it, in cell sizes.</p>
+<p>A Voronoi cell is bounded by its Delaunay neighbours, which on a jittered grid
+are near — but “near” has to be generous enough to cover a point that wandered
+into one corner of its cell and a neighbour that wandered to the far side of
+its own. Anything beyond this cannot cut the cell, so testing it is only cost.</p>
+</dd></dl>
+
+<dl class="py data objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.lid.pattern.VORONOI_SEED">
+<span class="sig-prename descclassname"><span class="pre">pyboxbuilder.lid.pattern.</span></span><span class="sig-name descname"><span class="pre">VORONOI_SEED</span></span><span class="p"> <span class="pre">=</span> </span><code class="code python docutils literal highlight highlight-python"><span class="mi">42</span></code><a class="headerlink" href="#pyboxbuilder.lid.pattern.VORONOI_SEED" title="Link to this definition">¶</a></dt>
+<dd><p>Fixed seed, so a lid’s pattern is the same on every build.</p>
+<p>The pattern is part of the exported geometry and is what the export fingerprint
+is taken over, so a fresh random layout each run would rewrite the file forever.</p>
+</dd></dl>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  
+  
+  <div class="md-footer-meta md-typeset">
+    
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-footer-copyright__highlight">
+        &#169; Copyright pyboxbuilder contributors.
+        
+    </div>
+  
+    Created using
+    <a href="https://www.sphinx-doc.org/" target="_blank" rel="noopener">Sphinx</a>
+    8.2.3.
+     and
+    <a href="https://github.com/jbms/sphinx-immaterial/" target="_blank" rel="noopener">Sphinx-Immaterial</a>
+  
+</div>
+      
+    </div>
+    
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.top", "content.code.copy", "search.highlight", "toc.follow", "toc.sticky"], "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+      
+        <script src="../_static/sphinx_immaterial_theme.32136f45f91ae6956.min.js?v=a7a9472a"></script>
+        <script type="module" src="../_static/stl_viewer.js?v=0ab88475"></script>
+    
+  </body>
+</html>

@@ -1,0 +1,9 @@
+pyboxbuilder.box.types.magnetic.MagneticBox
+===========================================
+
+.. currentmodule:: pyboxbuilder.box.types.magnetic
+
+.. autoclass:: MagneticBox
+   :members:
+   :undoc-members:
+   :show-inheritance:

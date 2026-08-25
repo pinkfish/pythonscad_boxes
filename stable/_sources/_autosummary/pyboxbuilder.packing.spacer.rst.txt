@@ -1,0 +1,40 @@
+pyboxbuilder.packing.spacer
+===========================
+
+.. automodule:: pyboxbuilder.packing.spacer
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+      :toctree:
+      :nosignatures:
+   
+      SpacerSpec
+      Void
+   
+   
+
+   
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+      :toctree:
+      :nosignatures:
+   
+      apply_clearance
+      generate_spacer_placements
+      generate_spacer_voids
+      generate_spacers
+      merge_rectilinear
+      merge_voids
+      sweep_free_space
+      union_outline
+   
+   

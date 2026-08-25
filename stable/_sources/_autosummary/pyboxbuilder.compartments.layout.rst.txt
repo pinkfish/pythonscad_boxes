@@ -1,0 +1,36 @@
+pyboxbuilder.compartments.layout
+================================
+
+.. automodule:: pyboxbuilder.compartments.layout
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+      :toctree:
+      :nosignatures:
+   
+      CompartmentLayout
+      CompartmentPlacement
+   
+   
+
+   
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+      :toctree:
+      :nosignatures:
+   
+      compute_min_box_size
+      layout_compartments
+      normalise_compartments
+      pack_compartments_across_bins
+   
+   

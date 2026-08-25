@@ -1,0 +1,26 @@
+pyboxbuilder.project.piece
+==========================
+
+.. automodule:: pyboxbuilder.project.piece
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+      :toctree:
+      :nosignatures:
+   
+      Build
+      Piece
+      ResolvedBox
+   
+   
+
+   
+   
+   

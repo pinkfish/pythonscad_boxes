@@ -1,0 +1,9 @@
+pyboxbuilder.builders.hinge.HingeBoxBuilder
+===========================================
+
+.. currentmodule:: pyboxbuilder.builders.hinge
+
+.. autoclass:: HingeBoxBuilder
+   :members:
+   :undoc-members:
+   :show-inheritance:

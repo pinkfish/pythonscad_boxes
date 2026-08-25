@@ -1,0 +1,9 @@
+pyboxbuilder.compartments.hex\_grid.HexGridSpec
+===============================================
+
+.. currentmodule:: pyboxbuilder.compartments.hex_grid
+
+.. autoclass:: HexGridSpec
+   :members:
+   :undoc-members:
+   :show-inheritance:

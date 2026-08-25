@@ -1,0 +1,6 @@
+pyboxbuilder.cli.main
+=====================
+
+.. currentmodule:: pyboxbuilder.cli
+
+.. autofunction:: main

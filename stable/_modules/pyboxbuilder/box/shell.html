@@ -1,0 +1,1125 @@
+
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+      
+      
+      <link rel="icon" href="">
+    
+    
+      
+        <title>pyboxbuilder.box.shell - pyboxbuilder</title>
+      
+    
+    
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+    
+        <link rel="stylesheet" type="text/css" href="../../../_static/sphinx_immaterial_theme.6f0d2a77b1b821632.min.css?v=27a6e6bb" />
+        <link rel="stylesheet" type="text/css" href="../../../_static/stl_viewer.css?v=abc98148" />
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../index.html" title="pyboxbuilder" class="md-header__button md-logo" aria-label="pyboxbuilder" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            pyboxbuilder
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              pyboxbuilder.box.shell
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/pinkfish/pythonscad_boxes" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    pinkfish/pythonscad_boxes
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../index.html" title="pyboxbuilder" class="md-nav__button md-logo" aria-label="pyboxbuilder" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+    </a>
+    pyboxbuilder
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/pinkfish/pythonscad_boxes" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    pinkfish/pythonscad_boxes
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    <span>Contents</span>
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            <span>Contents</span>
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../api.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>API Reference</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+<nav class="md-nav md-nav--secondary">
+  
+  
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset" role="main">
+                
+                
+                  
+
+
+<h1>Source code for pyboxbuilder.box.shell</h1><div class="highlight"><pre>
+<span></span><code><span class="c1"># SPDX-License-Identifier: Apache-2.0</span>
+<span class="sd">"""The walled shell every box type starts from, and how solids get placed.</span>
+
+<span class="sd">Each box type used to carry its own copy of `outer - inner`, which meant the</span>
+<span class="sd">hollowing rule lived in thirteen places. It lives here instead, and it takes one</span>
+<span class="sd">decision with it: a box is only hollowed out wholesale when nothing else is</span>
+<span class="sd">going to define its cavities. As soon as a box has compartments, the interior</span>
+<span class="sd">stays solid and the compartments are what get carved out of it — otherwise the</span>
+<span class="sd">individual wells (a slot per worker, say) would be lost inside one big void.</span>
+
+<span class="sd">`block` and `corner` live here too. Every pybosl2 primitive is **centre**-</span>
+<span class="sd">anchored — `cuboid([10, 20, 5])` spans -5..5 by -10..10 by -2.5..2.5 — while box</span>
+<span class="sd">geometry is naturally written in corner coordinates ("the floor is `ft` thick,</span>
+<span class="sd">so the interior starts at z = ft"). These two helpers do that conversion once,</span>
+<span class="sd">so no caller has to remember to add half a size.</span>
+<span class="sd">"""</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Sequence</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">replace</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.spec</span><span class="w"> </span><span class="kn">import</span> <span class="n">BoxSpec</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">ScoopSide</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.precision</span><span class="w"> </span><span class="kn">import</span> <span class="n">kwargs</span> <span class="k">as</span> <span class="n">precision_kwargs</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.rounding</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">default_rounding</span><span class="p">,</span>
+    <span class="n">round_edges</span><span class="p">,</span>
+    <span class="n">vertical_and_bottom_edges</span><span class="p">,</span>
+    <span class="n">vertical_edges</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">Anchor</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2.shapes3d</span><span class="w"> </span><span class="kn">import</span> <span class="n">Bosl2Solid</span>
+
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.builders._base</span><span class="w"> </span><span class="kn">import</span> <span class="n">FingerHoleBuilder</span>
+
+
+<span class="n">MIN_FINGER_HOLE_REACH_MM</span> <span class="o">=</span> <span class="mf">2.0</span>
+<span class="sd">"""The shallowest an automatic finger hole may be (FR-047).</span>
+
+<span class="sd">Shallower than this is not a cut a finger can use, so a tray with no room for</span>
+<span class="sd">it *and* the strip below (:data:`MIN_WALL_BELOW_HOLE_MM`) ships plain rather</span>
+<span class="sd">than spending the strip on a token dip. This used to be a floor on the reach</span>
+<span class="sd">instead of a threshold, which bought exactly that dip out of the wall the rule</span>
+<span class="sd">protects.</span>
+<span class="sd">"""</span>
+
+<span class="n">MIN_WALL_BELOW_HOLE_MM</span> <span class="o">=</span> <span class="mf">5.0</span>
+<span class="sd">"""Tray wall that must survive **below** an automatic finger hole (FR-047).</span>
+
+<span class="sd">The strip under the cut is what carries the tray: fingers hook into the hole</span>
+<span class="sd">and the whole load runs through the wall beneath it. This was a wall thickness</span>
+<span class="sd">plus a millimetre, which on the usual 2mm wall is a 3mm ribbon — it prints, and</span>
+<span class="sd">it flexes. 5mm is stiff enough to lift a full tray by.</span>
+<span class="sd">"""</span>
+
+<span class="n">MAX_FINGER_HOLE_HEIGHT_SHARE</span> <span class="o">=</span> <span class="mf">0.5</span>
+<span class="sd">"""How deep an automatic finger hole may go, as a share of the box (FR-047).</span>
+
+<span class="sd">A fingertip's radius is 20mm and a tray is often 25mm tall, so the radius on its</span>
+<span class="sd">own takes four fifths of the wall: what is left reads as two posts and a bridge.</span>
+<span class="sd">Half is where the wall still behaves like a wall — and it is a cap, not a</span>
+<span class="sd">target, so a deep box's cut is still sized by the finger.</span>
+<span class="sd">"""</span>
+
+<span class="n">SLIDING_RIM_ROUNDING_SHARE</span> <span class="o">=</span> <span class="mf">0.25</span>
+<span class="sd">"""How much of the wall a sliding box's top edge rounds over (FR-043f1).</span>
+
+<span class="sd">A lidded box's rim is usually left square because the lid seals against it and</span>
+<span class="sd">carries the rounding itself (FR-043d). A **sliding** box is the exception: its</span>
+<span class="sd">lid lies down in the channel, so what stands at the box's top is the rails'</span>
+<span class="sd">own outer edges — that edge is on the outside of the closed box and a hand</span>
+<span class="sd">runs along it.</span>
+
+<span class="sd">A quarter of the wall rather than the usual half, because the rail is what is</span>
+<span class="sd">left of the wall once the groove is cut into it: half a wall off its top edge</span>
+<span class="sd">is most of the bearing the lid rides on.</span>
+<span class="sd">"""</span>
+
+
+<div class="viewcode-block" id="sliding_rim_rounding">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.shell.sliding_rim_rounding.html#pyboxbuilder.box.shell.sliding_rim_rounding">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">sliding_rim_rounding</span><span class="p">(</span><span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Return the radius for a sliding box's exposed top edge (FR-043f1).</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        spec: Reads `wall_thickness`.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        A quarter of the wall, in mm.</span>
+
+<span class="sd">    """</span>
+    <span class="k">return</span> <span class="n">spec</span><span class="o">.</span><span class="n">wall_thickness</span> <span class="o">*</span> <span class="n">SLIDING_RIM_ROUNDING_SHARE</span></div>
+
+
+
+<span class="n">DEFAULT_MOUTH_FLARE_MM</span> <span class="o">=</span> <span class="mf">3.0</span>
+<span class="sd">"""How far a finger cut's mouth rolls out at the rim when none is given."""</span>
+
+<span class="n">MAX_FINGER_HOLE_SPAN_SHARE</span> <span class="o">=</span> <span class="mf">0.75</span>
+<span class="sd">"""How much of a wall an automatic hole's mouth may take (FR-047a).</span>
+
+<span class="sd">Merely fitting is not the test. A mouth spanning the whole wall leaves two</span>
+<span class="sd">corner posts holding the rim, which is a slot rather than a grip; a quarter of</span>
+<span class="sd">the wall left uncut keeps something either side of the finger.</span>
+<span class="sd">"""</span>
+
+
+<div class="viewcode-block" id="corner">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.shell.corner.html#pyboxbuilder.box.shell.corner">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">corner</span><span class="p">(</span>
+    <span class="n">solid</span><span class="p">:</span> <span class="n">Bosl2Solid</span><span class="p">,</span>
+    <span class="n">size</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span>
+    <span class="n">at</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Place a centre-anchored solid so its minimum corner sits at `at`."""</span>
+    <span class="k">return</span> <span class="n">solid</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span>
+        <span class="p">[</span>
+            <span class="n">at</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span>
+            <span class="n">at</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span>
+            <span class="n">at</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="n">size</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span>
+        <span class="p">]</span>
+    <span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="block">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.shell.block.html#pyboxbuilder.box.shell.block">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">block</span><span class="p">(</span><span class="n">size</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">at</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">))</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Return a cuboid of `size` whose minimum corner sits at `at`."""</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">cuboid</span>
+
+    <span class="k">return</span> <span class="n">corner</span><span class="p">(</span><span class="n">cuboid</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">size</span><span class="p">)),</span> <span class="n">size</span><span class="p">,</span> <span class="n">at</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="bottom_chamfer_slivers">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.shell.bottom_chamfer_slivers.html#pyboxbuilder.box.shell.bottom_chamfer_slivers">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">bottom_chamfer_slivers</span><span class="p">(</span><span class="n">size</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">chamfer_val</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Return chamfer slivers for the bottom edges of a block of size."""</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">Anchor</span><span class="p">,</span> <span class="n">cuboid</span>
+    <span class="n">square</span> <span class="o">=</span> <span class="n">block</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">size</span><span class="p">))</span>
+    <span class="n">chamfered</span> <span class="o">=</span> <span class="n">corner</span><span class="p">(</span>
+        <span class="n">cuboid</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">size</span><span class="p">),</span> <span class="n">chamfer</span><span class="o">=</span><span class="n">chamfer_val</span><span class="p">,</span> <span class="n">edges</span><span class="o">=</span><span class="p">[</span><span class="n">Anchor</span><span class="o">.</span><span class="n">BOTTOM</span><span class="p">]),</span>
+        <span class="n">size</span><span class="p">,</span>
+        <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">square</span> <span class="o">-</span> <span class="n">chamfered</span></div>
+
+
+
+<div class="viewcode-block" id="apply_ribbon_channels">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.shell.apply_ribbon_channels.html#pyboxbuilder.box.shell.apply_ribbon_channels">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">apply_ribbon_channels</span><span class="p">(</span><span class="n">body</span><span class="p">:</span> <span class="n">Bosl2Solid</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Carve ribbon pass-through channels if enabled."""</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">spec</span><span class="o">.</span><span class="n">ribbon_channel</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">body</span>
+    <span class="n">center_x</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">width</span> <span class="o">/</span> <span class="mf">2.0</span>
+    <span class="n">center_y</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span> <span class="o">/</span> <span class="mf">2.0</span>
+    <span class="n">depth</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mf">2.0</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">floor_thickness</span> <span class="o">-</span> <span class="mf">0.8</span><span class="p">))</span>
+
+    <span class="n">x_channel</span> <span class="o">=</span> <span class="n">block</span><span class="p">([</span><span class="n">spec</span><span class="o">.</span><span class="n">width</span> <span class="o">+</span> <span class="mf">10.0</span><span class="p">,</span> <span class="mf">15.0</span><span class="p">,</span> <span class="n">depth</span><span class="p">],</span> <span class="n">at</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mf">5.0</span><span class="p">,</span> <span class="n">center_y</span> <span class="o">-</span> <span class="mf">7.5</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.01</span><span class="p">])</span>
+    <span class="n">y_channel</span> <span class="o">=</span> <span class="n">block</span><span class="p">([</span><span class="mf">15.0</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span> <span class="o">+</span> <span class="mf">10.0</span><span class="p">,</span> <span class="n">depth</span><span class="p">],</span> <span class="n">at</span><span class="o">=</span><span class="p">[</span><span class="n">center_x</span> <span class="o">-</span> <span class="mf">7.5</span><span class="p">,</span> <span class="o">-</span><span class="mf">5.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.01</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">body</span> <span class="o">-</span> <span class="n">x_channel</span> <span class="o">-</span> <span class="n">y_channel</span></div>
+
+
+
+<div class="viewcode-block" id="build_shell">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.shell.build_shell.html#pyboxbuilder.box.shell.build_shell">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">build_shell</span><span class="p">(</span><span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Outer block, hollowed to the interior unless `spec.hollow` is False.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        spec: Needs `width`, `length`, `height`; reads `wall_thickness`,</span>
+<span class="sd">            `floor_thickness` and `hollow` (default True).</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        The box body before any type-specific lid features are added.</span>
+
+<span class="sd">    """</span>
+    <span class="n">size</span> <span class="o">=</span> <span class="p">[</span><span class="n">spec</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">height</span><span class="p">]</span>
+    <span class="n">outer</span> <span class="o">=</span> <span class="n">block</span><span class="p">(</span><span class="n">size</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">tilt_to_lift</span><span class="p">:</span>
+        <span class="n">outer</span> <span class="o">=</span> <span class="n">outer</span> <span class="o">-</span> <span class="n">bottom_chamfer_slivers</span><span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">)</span>
+
+    <span class="c1"># Round what a hand grips: the vertical corners and the base always, and the</span>
+    <span class="c1"># top rim too when nothing has to mate with it. On a lidded box the rim is a</span>
+    <span class="c1"># sealing surface, so its rounding lives on the lid instead — the closed box</span>
+    <span class="c1"># still reads as rounded top, sides and bottom (FR-043/FR-044).</span>
+    <span class="n">radius</span> <span class="o">=</span> <span class="n">body_rounding</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">radius</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">tilt_to_lift</span><span class="p">:</span>
+            <span class="n">edges</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">vertical_edges</span><span class="p">())</span>
+            <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">rim_free</span><span class="p">:</span>
+                <span class="n">edges</span> <span class="o">=</span> <span class="p">[</span><span class="o">*</span><span class="n">edges</span><span class="p">,</span> <span class="n">_top_anchor</span><span class="p">()]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">edges</span> <span class="o">=</span> <span class="n">vertical_and_bottom_edges</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">rim_free</span><span class="p">:</span>
+                <span class="n">edges</span> <span class="o">=</span> <span class="p">[</span><span class="o">*</span><span class="n">edges</span><span class="p">,</span> <span class="n">_top_anchor</span><span class="p">()]</span>
+        <span class="n">outer</span> <span class="o">=</span> <span class="n">round_edges</span><span class="p">(</span><span class="n">outer</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">radius</span><span class="p">,</span> <span class="n">edges</span><span class="p">)</span>
+
+    <span class="c1"># A type whose top face is exposed *with the lid on* rounds that edge too,</span>
+    <span class="c1"># at its own radius — a sliding box, whose lid lies down in the channel so</span>
+    <span class="c1"># the rails' outer edges are what a hand meets (FR-043f1). A lidless box</span>
+    <span class="c1"># has already rounded its rim above, at the body radius.</span>
+    <span class="n">rim</span> <span class="o">=</span> <span class="mf">0.0</span> <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">rim_free</span> <span class="k">else</span> <span class="nb">float</span><span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">rim_rounding</span> <span class="ow">or</span> <span class="mf">0.0</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">rim</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">outer</span> <span class="o">=</span> <span class="n">round_edges</span><span class="p">(</span><span class="n">outer</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">rim</span><span class="p">,</span> <span class="p">[</span><span class="n">_top_anchor</span><span class="p">()])</span>
+
+    <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">hollow</span><span class="p">:</span>
+        <span class="n">outer</span> <span class="o">=</span> <span class="n">outer</span> <span class="o">-</span> <span class="n">interior_block</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
+        <span class="n">outer</span> <span class="o">=</span> <span class="n">round_inner_rim</span><span class="p">(</span><span class="n">outer</span><span class="p">,</span> <span class="n">spec</span><span class="p">)</span>
+    <span class="n">outer</span> <span class="o">=</span> <span class="n">apply_finger_holes</span><span class="p">(</span><span class="n">outer</span><span class="p">,</span> <span class="n">spec</span><span class="p">)</span>
+    <span class="n">outer</span> <span class="o">=</span> <span class="n">apply_ribbon_channels</span><span class="p">(</span><span class="n">outer</span><span class="p">,</span> <span class="n">spec</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">outer</span></div>
+
+
+
+<div class="viewcode-block" id="body_rounding">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.shell.body_rounding.html#pyboxbuilder.box.shell.body_rounding">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">body_rounding</span><span class="p">(</span><span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Return the edge radius for this box body.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        spec: Reads `rounding`; falls back to half the wall thickness.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        The radius in mm. ``0`` disables rounding entirely.</span>
+
+<span class="sd">    """</span>
+    <span class="n">explicit</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">rounding</span>
+    <span class="k">if</span> <span class="n">explicit</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">explicit</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">default_rounding</span><span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">wall_thickness</span><span class="p">)</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_top_anchor</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Anchor</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Return the TOP anchor, imported lazily so this module has no import-time pybosl2."""</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">Anchor</span>
+
+    <span class="k">return</span> <span class="n">Anchor</span><span class="o">.</span><span class="n">TOP</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_hole_flare</span><span class="p">(</span>
+    <span class="n">wall_thickness</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">hole</span><span class="p">:</span> <span class="n">FingerHoleBuilder</span><span class="p">,</span> <span class="n">reach</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">ends</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Return the face fillet an exterior finger hole's cut is built with.</span>
+
+<span class="sd">    The fillet is made by flaring the sweep's ends, and the flare is isotropic</span>
+<span class="sd">    in the profile plane — it grows down past the outline's flat bottom exactly</span>
+<span class="sd">    as readily as it grows sideways. So this is also how far the cut reaches</span>
+<span class="sd">    *below* its outline, which is what the placement has to allow for (T306).</span>
+
+<span class="sd">    Capped at half the reach, and at a quarter of it where the cut is a closed</span>
+<span class="sd">    window and so runs a flare past *both* ends (``ends=2``): on a cut shallower</span>
+<span class="sd">    than that the flare would swallow the outline whole, leaving no straight run</span>
+<span class="sd">    between the two curves — and no outline at all for `build_wall_scoop`.</span>
+<span class="sd">    """</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.compartments.finger_sweep</span><span class="w"> </span><span class="kn">import</span> <span class="n">scoop_face_flare</span>
+
+    <span class="n">flare</span> <span class="o">=</span> <span class="n">scoop_face_flare</span><span class="p">(</span><span class="n">wall_thickness</span><span class="p">,</span> <span class="n">hole</span><span class="o">.</span><span class="n">face_fillet</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">min</span><span class="p">(</span><span class="n">flare</span><span class="p">,</span> <span class="n">reach</span> <span class="o">/</span> <span class="p">(</span><span class="mf">2.0</span> <span class="o">*</span> <span class="nb">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">ends</span><span class="p">)))</span>
+
+
+<div class="viewcode-block" id="finger_cut_conflicts">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.shell.finger_cut_conflicts.html#pyboxbuilder.box.shell.finger_cut_conflicts">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">finger_cut_conflicts</span><span class="p">(</span><span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">"""Finger cuts that overlap something, described one per line (FR-006c).</span>
+
+<span class="sd">    Two cuts that overlap do not make two grips: they make one opening of a</span>
+<span class="sd">    shape nobody asked for, and the geometry gives no sign of which two cuts</span>
+<span class="sd">    made it — the merged solid looks deliberate. So the overlap is reported</span>
+<span class="sd">    rather than left for a render to reveal.</span>
+
+<span class="sd">    What is checked, and what is not: two holes on one wall are checked against</span>
+<span class="sd">    each other, and a hole is checked against the magnet pocket that wall would</span>
+<span class="sd">    carry. A lid track needs no check — every exterior hole is bounded by the</span>
+<span class="sd">    interior top (FR-064) and the track lives above it, so the two cannot</span>
+<span class="sd">    reach each other.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        spec: Reads `finger_holes`, `width`, `length`, `height`,</span>
+<span class="sd">            `wall_thickness`, `magnet_type` and `magnet_size`.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        One message per conflict, naming both features and where they are.</span>
+<span class="sd">        Empty when the cuts are clear of each other.</span>
+
+<span class="sd">    """</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">MagnetType</span>
+
+    <span class="n">holes</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">FingerHoleBuilder</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">finger_holes</span> <span class="ow">or</span> <span class="p">()</span>
+    <span class="n">messages</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">mouth</span><span class="p">(</span><span class="n">hole</span><span class="p">:</span> <span class="n">FingerHoleBuilder</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Half the opening's width: the throat plus the flare it rolls out."""</span>
+        <span class="n">flare</span> <span class="o">=</span> <span class="n">hole</span><span class="o">.</span><span class="n">mouth_flare</span>
+        <span class="k">return</span> <span class="n">hole</span><span class="o">.</span><span class="n">radius</span> <span class="o">+</span> <span class="p">(</span><span class="n">DEFAULT_MOUTH_FLARE_MM</span> <span class="k">if</span> <span class="n">flare</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">flare</span><span class="p">)</span>
+
+    <span class="n">by_side</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="n">ScoopSide</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="n">FingerHoleBuilder</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">hole</span> <span class="ow">in</span> <span class="n">holes</span><span class="p">:</span>
+        <span class="n">by_side</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">hole</span><span class="o">.</span><span class="n">side</span><span class="p">,</span> <span class="p">[])</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">hole</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">side</span><span class="p">,</span> <span class="n">side_holes</span> <span class="ow">in</span> <span class="n">by_side</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">first</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">side_holes</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">second</span> <span class="ow">in</span> <span class="n">side_holes</span><span class="p">[</span><span class="n">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:]:</span>
+                <span class="n">gap</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">first</span><span class="o">.</span><span class="n">offset</span> <span class="o">-</span> <span class="n">second</span><span class="o">.</span><span class="n">offset</span><span class="p">)</span>
+                <span class="n">overlap</span> <span class="o">=</span> <span class="n">mouth</span><span class="p">(</span><span class="n">first</span><span class="p">)</span> <span class="o">+</span> <span class="n">mouth</span><span class="p">(</span><span class="n">second</span><span class="p">)</span> <span class="o">-</span> <span class="n">gap</span>
+                <span class="k">if</span> <span class="n">overlap</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">messages</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                        <span class="sa">f</span><span class="s2">"finger holes on </span><span class="si">{</span><span class="n">side</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2"> overlap by "</span>
+                        <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">overlap</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">mm (offsets </span><span class="si">{</span><span class="n">first</span><span class="o">.</span><span class="n">offset</span><span class="si">}</span><span class="s2"> and "</span>
+                        <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">second</span><span class="o">.</span><span class="n">offset</span><span class="si">}</span><span class="s2">): they will cut as one opening"</span>
+                    <span class="p">)</span>
+
+    <span class="n">magnet_type</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">magnet_type</span>
+    <span class="k">if</span> <span class="n">magnet_type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">MagnetType</span><span class="o">.</span><span class="n">NONE</span><span class="p">)</span> <span class="ow">and</span> <span class="n">holes</span><span class="p">:</span>
+        <span class="n">size</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">magnet_size</span>
+        <span class="n">half</span> <span class="o">=</span> <span class="p">(</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="n">size</span> <span class="k">else</span> <span class="mf">6.0</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.types.no_lid</span><span class="w"> </span><span class="kn">import</span> <span class="n">NoLidBox</span>
+
+        <span class="n">magnet_sides</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="p">(</span><span class="n">ScoopSide</span><span class="o">.</span><span class="n">FRONT</span><span class="p">,</span> <span class="n">ScoopSide</span><span class="o">.</span><span class="n">BACK</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">NoLidBox</span><span class="o">.</span><span class="n">_magnet_sides_front_back</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
+            <span class="k">else</span> <span class="p">(</span><span class="n">ScoopSide</span><span class="o">.</span><span class="n">LEFT</span><span class="p">,</span> <span class="n">ScoopSide</span><span class="o">.</span><span class="n">RIGHT</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">mid_height</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">height</span> <span class="o">/</span> <span class="mf">2.0</span>
+        <span class="k">for</span> <span class="n">hole</span> <span class="ow">in</span> <span class="n">holes</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">hole</span><span class="o">.</span><span class="n">side</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">magnet_sides</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="c1"># The pocket sits at the middle of the wall at mid-height; the cut</span>
+            <span class="c1"># hangs from the interior top. They clash when both ranges do.</span>
+            <span class="n">interior_top</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">wall_top</span><span class="p">(</span><span class="n">hole</span><span class="o">.</span><span class="n">side</span><span class="p">)</span>
+            <span class="n">reach</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">hole</span><span class="o">.</span><span class="n">depth</span> <span class="k">if</span> <span class="n">hole</span><span class="o">.</span><span class="n">depth</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">hole</span><span class="o">.</span><span class="n">radius</span><span class="p">,</span>
+                        <span class="n">interior_top</span> <span class="o">-</span> <span class="n">spec</span><span class="o">.</span><span class="n">floor_thickness</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">interior_top</span> <span class="o">-</span> <span class="n">reach</span> <span class="o">&gt;</span> <span class="n">mid_height</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">hole</span><span class="o">.</span><span class="n">offset</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">mouth</span><span class="p">(</span><span class="n">hole</span><span class="p">)</span> <span class="o">+</span> <span class="n">half</span><span class="p">:</span>
+                <span class="n">messages</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">"the finger hole on </span><span class="si">{</span><span class="n">hole</span><span class="o">.</span><span class="n">side</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2"> "</span>
+                    <span class="sa">f</span><span class="s2">"overlaps the magnet pocket in that wall: the pocket is cut "</span>
+                    <span class="sa">f</span><span class="s2">"inside the hole"</span>
+                <span class="p">)</span>
+    <span class="k">return</span> <span class="n">messages</span></div>
+
+
+
+<div class="viewcode-block" id="warn_about_finger_cuts">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.shell.warn_about_finger_cuts.html#pyboxbuilder.box.shell.warn_about_finger_cuts">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">warn_about_finger_cuts</span><span class="p">(</span><span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Emit :func:`finger_cut_conflicts` as warnings, and build anyway (FR-006c).</span>
+
+<span class="sd">    A warning rather than an error: the merged cut is still a box, and a user</span>
+<span class="sd">    who meant it (two holes side by side making one long grip) is not wrong —</span>
+<span class="sd">    they just have to be told that is what they are getting.</span>
+<span class="sd">    """</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+
+    <span class="k">for</span> <span class="n">message</span> <span class="ow">in</span> <span class="n">finger_cut_conflicts</span><span class="p">(</span><span class="n">spec</span><span class="p">):</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">spec</span><span class="o">.</span><span class="n">label</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">message</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="apply_finger_holes">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.shell.apply_finger_holes.html#pyboxbuilder.box.shell.apply_finger_holes">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">apply_finger_holes</span><span class="p">(</span><span class="n">body</span><span class="p">:</span> <span class="n">Bosl2Solid</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Cut any exterior finger holes out of a box body (FR-006).</span>
+
+<span class="sd">    A hole on the outside of a box is the same cut as a compartment's wall</span>
+<span class="sd">    scoop — a bore with a mouth flared into the rim and a fillet where it</span>
+<span class="sd">    emerges on each face — so it goes through the same builder rather than a</span>
+<span class="sd">    second implementation that could drift from it.</span>
+
+<span class="sd">    Following the original (``no_lid.scad``), each hole hangs from the top of</span>
+<span class="sd">    the **interior** rather than rising from the floor, and its height is</span>
+<span class="sd">    capped at the interior depth so the cut cannot reach the box's base.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        body: The box body to cut.</span>
+<span class="sd">        spec: Reads `finger_holes` (a sequence of finger-hole builders), plus</span>
+<span class="sd">              `width`, `length`, `height`, `wall_thickness`, `floor_thickness`.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        The body with every hole subtracted; unchanged when there are none.</span>
+
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">keystone</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">spec</span><span class="o">.</span><span class="n">finger_holes</span><span class="p">:</span>
+        <span class="n">side</span> <span class="o">=</span> <span class="n">ScoopSide</span><span class="o">.</span><span class="n">FRONT</span> <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">width</span> <span class="o">&lt;=</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span> <span class="k">else</span> <span class="n">ScoopSide</span><span class="o">.</span><span class="n">LEFT</span>
+        <span class="n">wt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">wall_thickness</span>
+        <span class="n">ft</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">floor_thickness</span>
+        <span class="n">span</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">width</span> <span class="k">if</span> <span class="n">side</span> <span class="o">==</span> <span class="n">ScoopSide</span><span class="o">.</span><span class="n">FRONT</span> <span class="k">else</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span>
+        <span class="n">span_interior</span> <span class="o">=</span> <span class="n">span</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">wt</span>
+        <span class="n">radius</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mf">17.0</span><span class="p">,</span> <span class="n">span_interior</span> <span class="o">/</span> <span class="mf">4.0</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">height</span> <span class="o">-</span> <span class="n">ft</span> <span class="o">-</span> <span class="n">MIN_WALL_BELOW_HOLE_MM</span><span class="p">)</span>
+        <span class="n">hole_height</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">radius</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">height</span> <span class="o">*</span> <span class="n">MAX_FINGER_HOLE_HEIGHT_SHARE</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="n">hole_height</span> <span class="o">&gt;=</span> <span class="n">MIN_FINGER_HOLE_REACH_MM</span>
+            <span class="ow">and</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="p">(</span><span class="n">radius</span> <span class="o">+</span> <span class="mf">3.0</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">span_interior</span> <span class="o">*</span> <span class="n">MAX_FINGER_HOLE_SPAN_SHARE</span>
+        <span class="p">):</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.builders._base</span><span class="w"> </span><span class="kn">import</span> <span class="n">FingerHoleBuilder</span>
+            <span class="n">keystone_hole</span> <span class="o">=</span> <span class="n">FingerHoleBuilder</span><span class="p">(</span>
+                <span class="n">side</span><span class="o">=</span><span class="n">side</span><span class="p">,</span>
+                <span class="n">width</span><span class="o">=</span><span class="n">radius</span> <span class="o">*</span> <span class="mf">2.0</span><span class="p">,</span>
+                <span class="n">depth</span><span class="o">=</span><span class="n">hole_height</span><span class="p">,</span>
+                <span class="n">mouth_flare</span><span class="o">=</span><span class="mf">3.0</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">spec</span> <span class="o">=</span> <span class="n">replace</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="n">finger_holes</span><span class="o">=</span><span class="p">(</span><span class="n">keystone_hole</span><span class="p">,))</span>
+
+    <span class="n">holes</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">finger_holes</span> <span class="ow">or</span> <span class="p">()</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">holes</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">body</span>
+
+    <span class="n">warn_about_finger_cuts</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">hole</span> <span class="ow">in</span> <span class="n">holes</span><span class="p">:</span>
+        <span class="n">body</span> <span class="o">=</span> <span class="n">body</span> <span class="o">-</span> <span class="n">finger_hole_scoop</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="n">hole</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">body</span></div>
+
+
+
+<div class="viewcode-block" id="finger_hole_scoop">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.shell.finger_hole_scoop.html#pyboxbuilder.box.shell.finger_hole_scoop">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">finger_hole_scoop</span><span class="p">(</span><span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">,</span> <span class="n">hole</span><span class="p">:</span> <span class="n">FingerHoleBuilder</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Return the placed cutout for one finger hole (FR-006).</span>
+
+<span class="sd">    The exact scoop :func:`apply_finger_holes` subtracts, exposed so a test can</span>
+<span class="sd">    measure the cut directly: the boolean difference between a with-hole and a</span>
+<span class="sd">    without-hole body does not report a reliable tight bounding box.</span>
+<span class="sd">    """</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.compartments.finger_cuts</span><span class="w"> </span><span class="kn">import</span> <span class="n">build_wall_scoop</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.compartments.finger_outline</span><span class="w"> </span><span class="kn">import</span> <span class="n">CutProfile</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.compartments.finger_sweep</span><span class="w"> </span><span class="kn">import</span> <span class="n">DEFAULT_FLOOR_DIP_MM</span><span class="p">,</span> <span class="n">FaceTreatment</span>
+
+    <span class="n">wt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">wall_thickness</span>
+    <span class="n">ft</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">floor_thickness</span>
+    <span class="n">inner_width</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">width</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">wt</span>
+    <span class="n">inner_length</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">wt</span>
+
+    <span class="c1"># Align to the top of the *inside*, not the outer rim. On a lidded box the</span>
+    <span class="c1"># lid (or its track) occupies the band above the interior, so a hole hung</span>
+    <span class="c1"># from the rim starts inside solid material and reads as a nick in the top</span>
+    <span class="c1"># edge rather than as a cut into the well. A type whose body is already</span>
+    <span class="c1"># shortened for its lid — cap, slipover — says so with `interior_top`.</span>
+    <span class="c1">#</span>
+    <span class="c1"># Per side: the four walls need not end level, and a hole aligned to the</span>
+    <span class="c1"># wrong one either floats above its wall or cuts into a lid feature.</span>
+    <span class="n">interior_top</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">wall_top</span><span class="p">(</span><span class="n">hole</span><span class="o">.</span><span class="n">side</span><span class="p">)</span>
+    <span class="n">interior_height</span> <span class="o">=</span> <span class="n">interior_top</span> <span class="o">-</span> <span class="n">ft</span>
+    <span class="n">radius</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">hole</span><span class="p">,</span> <span class="s2">"radius"</span><span class="p">,</span> <span class="mf">14.0</span><span class="p">)</span>
+    <span class="c1"># The cut's height follows the finger unless told otherwise, and never</span>
+    <span class="c1"># reaches deeper than the interior.</span>
+    <span class="n">reach</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">hole</span><span class="p">,</span> <span class="s2">"depth"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">or</span> <span class="n">radius</span><span class="p">,</span> <span class="n">interior_height</span><span class="p">)</span>
+    <span class="c1"># Wall standing above the cut turns it into a different shape: with no</span>
+    <span class="c1"># surface for the mouth roll to roll onto, the cut is a closed window</span>
+    <span class="c1"># instead of a scoop, filleted the whole way round (FR-065). The window's</span>
+    <span class="c1"># top then needs the same allowance as its bottom, since the fillet grows</span>
+    <span class="c1"># past both — hence `ends`.</span>
+    <span class="n">walled_over</span> <span class="o">=</span> <span class="n">interior_top</span> <span class="o">&lt;</span> <span class="n">spec</span><span class="o">.</span><span class="n">height</span> <span class="o">-</span> <span class="mf">1e-9</span>
+    <span class="n">flare</span> <span class="o">=</span> <span class="n">_hole_flare</span><span class="p">(</span><span class="n">wt</span><span class="p">,</span> <span class="n">hole</span><span class="p">,</span> <span class="n">reach</span><span class="p">,</span> <span class="n">ends</span><span class="o">=</span><span class="mi">2</span> <span class="k">if</span> <span class="n">walled_over</span> <span class="k">else</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="c1"># Both ends are set by the outline's height, not by shifting the solid: the</span>
+    <span class="c1"># cut runs a flare past each end of its outline, so an outline this much</span>
+    <span class="c1"># shorter puts the material removed exactly where the reach says</span>
+    <span class="c1"># (FR-006b/T306). Shifting instead moves one end for the other — which is</span>
+    <span class="c1"># how the mouth ended up finishing above the wall top.</span>
+    <span class="n">outline_height</span> <span class="o">=</span> <span class="n">reach</span> <span class="o">-</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">flare</span> <span class="k">if</span> <span class="n">walled_over</span> <span class="k">else</span> <span class="n">flare</span><span class="p">)</span>
+    <span class="c1"># A grip is never wider than it is deep (FR-056). The angle its flank</span>
+    <span class="c1"># arrives at the rim follows that aspect and nothing else, so a shallow box</span>
+    <span class="c1"># gets a *smaller* grip rather than a stretched one.</span>
+    <span class="n">throat</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">radius</span><span class="p">,</span> <span class="n">outline_height</span><span class="p">)</span>
+    <span class="n">scoop</span> <span class="o">=</span> <span class="n">build_wall_scoop</span><span class="p">(</span>
+        <span class="n">inner_width</span><span class="p">,</span>
+        <span class="n">inner_length</span><span class="p">,</span>
+        <span class="n">outline_height</span><span class="p">,</span>
+        <span class="n">hole</span><span class="o">.</span><span class="n">side</span><span class="p">,</span>
+        <span class="n">radius</span><span class="o">=</span><span class="n">throat</span><span class="p">,</span>
+        <span class="n">wall_thickness</span><span class="o">=</span><span class="n">wt</span><span class="p">,</span>
+        <span class="n">profile</span><span class="o">=</span><span class="n">CutProfile</span><span class="p">(</span>
+            <span class="c1"># None lets the mouth derive from the throat rather than pinning</span>
+            <span class="c1"># 3mm, and lets the base grow as the cut shallows (FR-054/a7).</span>
+            <span class="n">mouth_flare</span><span class="o">=</span><span class="n">hole</span><span class="o">.</span><span class="n">mouth_flare</span><span class="p">,</span>
+            <span class="n">base_radius</span><span class="o">=</span><span class="n">hole</span><span class="o">.</span><span class="n">base_radius</span><span class="p">,</span>
+            <span class="n">roll_rise</span><span class="o">=</span><span class="n">hole</span><span class="o">.</span><span class="n">roll_rise</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">faces</span><span class="o">=</span><span class="n">FaceTreatment</span><span class="p">(</span>
+            <span class="c1"># Pinned rather than derived, because the alignment above is</span>
+            <span class="c1"># measured off this exact flare.</span>
+            <span class="n">fillet</span><span class="o">=</span><span class="n">flare</span><span class="p">,</span>
+            <span class="c1"># A scoop's outline overshoots its rim, which is free on a lidless</span>
+            <span class="c1"># box and must not be on any other; the window has no overshoot to</span>
+            <span class="c1"># trim.</span>
+            <span class="n">top_limit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="c1"># There is wall below an exterior hole, not floor, so the face</span>
+            <span class="c1"># flare can finish instead of being sliced off at the outline's</span>
+            <span class="c1"># flat bottom (FR-076).</span>
+            <span class="n">floor_clearance</span><span class="o">=</span><span class="n">flare</span> <span class="o">+</span> <span class="n">DEFAULT_FLOOR_DIP_MM</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">keep_flat_bottom</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">closed_top</span><span class="o">=</span><span class="n">walled_over</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">offset</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">hole</span><span class="p">,</span> <span class="s2">"offset"</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span> <span class="ow">or</span> <span class="mf">0.0</span>
+    <span class="n">along_x</span> <span class="o">=</span> <span class="n">hole</span><span class="o">.</span><span class="n">side</span> <span class="ow">in</span> <span class="p">(</span><span class="n">ScoopSide</span><span class="o">.</span><span class="n">FRONT</span><span class="p">,</span> <span class="n">ScoopSide</span><span class="o">.</span><span class="n">BACK</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">scoop</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span>
+        <span class="p">[</span>
+            <span class="n">wt</span> <span class="o">+</span> <span class="p">(</span><span class="n">offset</span> <span class="k">if</span> <span class="n">along_x</span> <span class="k">else</span> <span class="mf">0.0</span><span class="p">),</span>
+            <span class="n">wt</span> <span class="o">+</span> <span class="p">(</span><span class="mf">0.0</span> <span class="k">if</span> <span class="n">along_x</span> <span class="k">else</span> <span class="n">offset</span><span class="p">),</span>
+            <span class="n">interior_top</span> <span class="o">-</span> <span class="n">outline_height</span> <span class="o">-</span> <span class="p">(</span><span class="n">flare</span> <span class="k">if</span> <span class="n">walled_over</span> <span class="k">else</span> <span class="mf">0.0</span><span class="p">),</span>
+        <span class="p">]</span>
+    <span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="no_lid_finger_holes">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.shell.no_lid_finger_holes.html#pyboxbuilder.box.shell.no_lid_finger_holes">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">no_lid_finger_holes</span><span class="p">(</span><span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">FingerHoleBuilder</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">"""Return the finger holes a no-lid box cuts into its longer walls (FR-047).</span>
+
+<span class="sd">    An open tray is lifted by the rim, so the original (`no_lid.scad`) puts a</span>
+<span class="sd">    finger dip into each wall of the longer dimension. The sizing is a formula</span>
+<span class="sd">    on the spec, not a constant:</span>
+
+<span class="sd">    - throat radius = `min(20, min(length, width) / 4, height - floor_thickness + 1)`</span>
+<span class="sd">      — a fingertip, capped at 20mm and at a quarter of the smaller *outer*</span>
+<span class="sd">      footprint dimension;</span>
+<span class="sd">    - reach = the radius, never past **half the box's height**, and **stopping</span>
+<span class="sd">      5mm above the tray's floor**;</span>
+<span class="sd">    - mouth flare = 3mm.</span>
+
+<span class="sd">    The reach's last term is a structural rule, not arithmetic: the strip of</span>
+<span class="sd">    wall under the cut is what the tray is lifted by, so the cut stops 5mm short</span>
+<span class="sd">    of the floor. Written inline as `height - ft - 5` it reads like a fudge and</span>
+<span class="sd">    the older form has twice been "corrected" back to `height - 2 + 1`, which</span>
+<span class="sd">    runs the cut into the floor of a shallow tray. A tray with no room for the</span>
+<span class="sd">    strip and a usable cut gets **no** holes (FR-047a) rather than a token dip</span>
+<span class="sd">    taken out of the strip.</span>
+
+<span class="sd">    A wall too short for the hole's mouth is skipped: a finger hole wider than</span>
+<span class="sd">    the wall it is cut through breaks into the adjoining walls, so the tray goes</span>
+<span class="sd">    out with **no** hole rather than a broken one. The mouth must leave a</span>
+<span class="sd">    quarter of the wall uncut, not merely fit inside it — a cut running wall to</span>
+<span class="sd">    wall is a slot, and what is left at each end is too little to grip</span>
+<span class="sd">    (FR-047a). That is what keeps a path box with a short side sound.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        spec: Needs `width`, `length`, `height`; reads `wall_thickness` and</span>
+<span class="sd">            `floor_thickness`.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        A tuple of `FingerHoleBuilder`s — one per longer wall — or an empty</span>
+<span class="sd">        tuple when the holes would not fit.</span>
+
+<span class="sd">    """</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.builders._base</span><span class="w"> </span><span class="kn">import</span> <span class="n">FingerHoleBuilder</span>
+
+    <span class="n">wt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">wall_thickness</span>
+    <span class="n">ft</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">floor_thickness</span>
+    <span class="n">width</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">width</span>
+    <span class="n">length</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span>
+    <span class="n">height</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">height</span>
+
+    <span class="n">radius</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mf">20.0</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="n">length</span><span class="p">,</span> <span class="n">width</span><span class="p">)</span> <span class="o">/</span> <span class="mf">4.0</span><span class="p">,</span> <span class="n">height</span> <span class="o">-</span> <span class="n">ft</span> <span class="o">+</span> <span class="mf">1.0</span><span class="p">)</span>
+    <span class="c1"># The strip of wall the tray is picked up by: the cut stops this far above</span>
+    <span class="c1"># the tray's floor, so what is left under it keeps the wall's own section.</span>
+    <span class="n">deepest</span> <span class="o">=</span> <span class="n">height</span> <span class="o">-</span> <span class="n">ft</span> <span class="o">-</span> <span class="n">MIN_WALL_BELOW_HOLE_MM</span>
+    <span class="c1"># And never past half the box, whatever the floor leaves: a fingertip's</span>
+    <span class="c1"># radius is 20mm and a tray is often 25mm tall, so the radius alone would</span>
+    <span class="c1"># take four fifths of the wall and leave two posts with a bridge between.</span>
+    <span class="n">hole_height</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">radius</span><span class="p">,</span> <span class="n">height</span> <span class="o">*</span> <span class="n">MAX_FINGER_HOLE_HEIGHT_SHARE</span><span class="p">,</span> <span class="n">deepest</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">hole_height</span> <span class="o">&lt;</span> <span class="n">MIN_FINGER_HOLE_REACH_MM</span><span class="p">:</span>
+        <span class="c1"># No room for both. The strip wins: a tray this short is liftable by</span>
+        <span class="c1"># its walls, and a grip cut out of what holds it is not a grip.</span>
+        <span class="k">return</span> <span class="p">()</span>
+    <span class="n">rounding_radius</span> <span class="o">=</span> <span class="mf">3.0</span>
+
+    <span class="k">if</span> <span class="n">length</span> <span class="o">&gt;=</span> <span class="n">width</span><span class="p">:</span>
+        <span class="n">sides</span> <span class="o">=</span> <span class="p">(</span><span class="n">ScoopSide</span><span class="o">.</span><span class="n">LEFT</span><span class="p">,</span> <span class="n">ScoopSide</span><span class="o">.</span><span class="n">RIGHT</span><span class="p">)</span>
+        <span class="n">span</span> <span class="o">=</span> <span class="n">length</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">wt</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">sides</span> <span class="o">=</span> <span class="p">(</span><span class="n">ScoopSide</span><span class="o">.</span><span class="n">FRONT</span><span class="p">,</span> <span class="n">ScoopSide</span><span class="o">.</span><span class="n">BACK</span><span class="p">)</span>
+        <span class="n">span</span> <span class="o">=</span> <span class="n">width</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">wt</span>
+
+    <span class="c1"># The mouth is `radius + rounding_radius` wide on each side of centre, and</span>
+    <span class="c1"># has to leave a quarter of the wall uncut — fitting is not enough, since a</span>
+    <span class="c1"># cut running wall to wall is a slot with nothing left at either end to grip.</span>
+    <span class="k">if</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="p">(</span><span class="n">radius</span> <span class="o">+</span> <span class="n">rounding_radius</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">span</span> <span class="o">*</span> <span class="n">MAX_FINGER_HOLE_SPAN_SHARE</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">()</span>
+
+    <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span>
+        <span class="n">FingerHoleBuilder</span><span class="p">(</span>
+            <span class="n">side</span><span class="o">=</span><span class="n">side</span><span class="p">,</span>
+            <span class="n">width</span><span class="o">=</span><span class="n">radius</span> <span class="o">*</span> <span class="mf">2.0</span><span class="p">,</span>
+            <span class="n">depth</span><span class="o">=</span><span class="n">hole_height</span><span class="p">,</span>
+            <span class="n">mouth_flare</span><span class="o">=</span><span class="n">rounding_radius</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">for</span> <span class="n">side</span> <span class="ow">in</span> <span class="n">sides</span>
+    <span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="with_no_lid_finger_holes">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.shell.with_no_lid_finger_holes.html#pyboxbuilder.box.shell.with_no_lid_finger_holes">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">with_no_lid_finger_holes</span><span class="p">(</span><span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BoxSpec</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Return a no-lid spec with its default finger holes, unless it already has some.</span>
+
+<span class="sd">    Idempotent: an explicit ``finger_hole(side)`` call on the builder wins, and</span>
+<span class="sd">    a second call to this changes nothing. A spec that sets</span>
+<span class="sd">    ``auto_finger_holes`` to ``False`` opts out entirely (FR-047b).</span>
+
+<span class="sd">    A **polygon** footprint gets none either (FR-047c). The rule names four</span>
+<span class="sd">    walls and a longer side, and a polygon has neither — `no_lid_finger_holes`</span>
+<span class="sd">    would read the bounding box and place a cut on a wall that need not exist.</span>
+<span class="sd">    The test is the footprint rather than the box type, because that is what</span>
+<span class="sd">    the rule is actually about; an explicit `finger_hole(side)` still works,</span>
+<span class="sd">    since the caller can see the outline.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        spec: The box's resolved description.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        The spec, or a copy carrying the automatic pair.</span>
+
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">auto_finger_holes</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">spec</span><span class="o">.</span><span class="n">finger_holes</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">spec</span><span class="o">.</span><span class="n">path</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">replace</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="n">finger_holes</span><span class="o">=</span><span class="n">no_lid_finger_holes</span><span class="p">(</span><span class="n">spec</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">spec</span></div>
+
+
+
+<div class="viewcode-block" id="interior_block">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.shell.interior_block.html#pyboxbuilder.box.shell.interior_block">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">interior_block</span><span class="p">(</span><span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Return the solid that `build_shell` removes — the box's full interior volume.</span>
+
+<span class="sd">    The void's **bottom edges are rounded**, which is what leaves a fillet</span>
+<span class="sd">    inside the box: a void slightly smaller where it meets the floor means the</span>
+<span class="sd">    wall rises from the floor on a curve rather than a right angle, so nothing</span>
+<span class="sd">    snags and nothing has to be dug out of a square internal corner (FR-043).</span>
+
+<span class="sd">    The void's vertical corners deliberately stay square. Rounding them too is</span>
+<span class="sd">    tempting — it is one more `edges=` entry — but the resulting fillets run the</span>
+<span class="sd">    **full height** of the box, including the band where a sliding lid seats,</span>
+<span class="sd">    and they add material exactly where the plate needs to pass: measured, it</span>
+<span class="sd">    put 0.59mm³ of body into the lid on all three sliding types, which is a lid</span>
+<span class="sd">    that jams. The top likewise stays square: it is the opening.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        spec: Needs `width`, `length`, `height`; reads `wall_thickness`,</span>
+<span class="sd">            `floor_thickness` and `rounding`.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        The interior volume, positioned in the box frame.</span>
+
+<span class="sd">    """</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">Anchor</span><span class="p">,</span> <span class="n">cuboid</span>
+
+    <span class="n">wt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">wall_thickness</span>
+    <span class="n">ft</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">floor_thickness</span>
+    <span class="n">size</span> <span class="o">=</span> <span class="p">[</span><span class="n">spec</span><span class="o">.</span><span class="n">width</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">wt</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">wt</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">height</span> <span class="o">-</span> <span class="n">ft</span><span class="p">]</span>
+
+    <span class="n">radius</span> <span class="o">=</span> <span class="n">body_rounding</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">radius</span> <span class="o">&lt;=</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">radius</span> <span class="o">&gt;=</span> <span class="nb">min</span><span class="p">(</span><span class="n">size</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">block</span><span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="n">wt</span><span class="p">,</span> <span class="n">wt</span><span class="p">,</span> <span class="n">ft</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">corner</span><span class="p">(</span>
+        <span class="n">cuboid</span><span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="n">rounding</span><span class="o">=</span><span class="n">radius</span><span class="p">,</span> <span class="n">edges</span><span class="o">=</span><span class="n">Anchor</span><span class="o">.</span><span class="n">BOTTOM</span><span class="p">,</span> <span class="o">**</span><span class="n">precision_kwargs</span><span class="p">()),</span>
+        <span class="n">size</span><span class="p">,</span>
+        <span class="p">(</span><span class="n">wt</span><span class="p">,</span> <span class="n">wt</span><span class="p">,</span> <span class="n">ft</span><span class="p">),</span>
+    <span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="round_inner_rim">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.shell.round_inner_rim.html#pyboxbuilder.box.shell.round_inner_rim">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">round_inner_rim</span><span class="p">(</span><span class="n">body</span><span class="p">:</span> <span class="n">Bosl2Solid</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Round the **inner** top edge of a lidless box's rim (FR-043f).</span>
+
+<span class="sd">    An open tray's rim is exposed on both faces — it is the edge a hand runs</span>
+<span class="sd">    along when lifting the tray — so both of its edges carry the wall's fillet.</span>
+<span class="sd">    The outer one comes free with `build_shell`'s envelope rounding; the inner</span>
+<span class="sd">    one cannot come from there, and not for want of trying: `round_edges`</span>
+<span class="sd">    subtracts the sliver between an envelope and its rounded twin, and for the</span>
+<span class="sd">    *interior* envelope that sliver lands in the hollow rather than in the wall</span>
+<span class="sd">    (T303, measured: the wall at the rim went 7.2mm³ → 7.17mm³, i.e. nothing).</span>
+
+<span class="sd">    The inner rim is a convex edge **of the wall**, so what it takes is a</span>
+<span class="sd">    fillet ring subtracted at the interior's top perimeter: the interior prism,</span>
+<span class="sd">    flared outward by the radius over the last radius of its height, tangent to</span>
+<span class="sd">    the inner face where the flare starts and to the top face where it ends.</span>
+<span class="sd">    Everything below the flare is the interior itself, which is already void,</span>
+<span class="sd">    so the ring only ever removes the rim's inner corner.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        body: The hollowed box body.</span>
+<span class="sd">        spec: Reads `rim_free` (a lidded box's rim is a sealing surface and</span>
+<span class="sd">            keeps its square inner edge), `hollow`, `width`, `length`,</span>
+<span class="sd">            `height`, `wall_thickness`, `floor_thickness` and `rounding`.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        The body with its inner rim rounded, or unchanged when the box is</span>
+<span class="sd">        lidded, solid, or too small to carry the fillet.</span>
+
+<span class="sd">    """</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2.path2d</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path2D</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2.shapes3d.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">CsgSolid</span>
+
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.rounding</span><span class="w"> </span><span class="kn">import</span> <span class="n">rounding_facets</span><span class="p">,</span> <span class="n">roundover_profile</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">spec</span><span class="o">.</span><span class="n">rim_free</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">spec</span><span class="o">.</span><span class="n">hollow</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">body</span>
+
+    <span class="n">wt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">wall_thickness</span>
+    <span class="n">ft</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">floor_thickness</span>
+    <span class="n">inner_width</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">width</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">wt</span>
+    <span class="n">inner_length</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">wt</span>
+    <span class="n">interior_height</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">height</span> <span class="o">-</span> <span class="n">ft</span>
+    <span class="c1"># Half the wall is all a rim can give up on this side and still be a rim:</span>
+    <span class="c1"># the outer edge is taking the same fillet from the other side (FR-043f).</span>
+    <span class="n">radius</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">body_rounding</span><span class="p">(</span><span class="n">spec</span><span class="p">),</span> <span class="n">wt</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">radius</span> <span class="o">&lt;=</span> <span class="mi">0</span> <span class="ow">or</span> <span class="nb">min</span><span class="p">(</span><span class="n">inner_width</span><span class="p">,</span> <span class="n">inner_length</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">body</span>
+    <span class="k">if</span> <span class="n">interior_height</span> <span class="o">&lt;=</span> <span class="n">radius</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">body</span>
+
+    <span class="n">steps</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="n">rounding_facets</span><span class="p">()[</span><span class="s2">"fn"</span><span class="p">]</span> <span class="o">//</span> <span class="mi">4</span><span class="p">)</span>
+    <span class="c1"># The widened perimeter: the sweep's flared end is the path itself, and the</span>
+    <span class="c1"># roundover brings it back to the interior a radius along (that is the</span>
+    <span class="c1"># profile's convention — see `roundover_profile`).</span>
+    <span class="n">rect</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">[</span><span class="n">wt</span> <span class="o">-</span> <span class="n">radius</span><span class="p">,</span> <span class="n">wt</span> <span class="o">-</span> <span class="n">radius</span><span class="p">],</span>
+        <span class="p">[</span><span class="n">wt</span> <span class="o">+</span> <span class="n">inner_width</span> <span class="o">+</span> <span class="n">radius</span><span class="p">,</span> <span class="n">wt</span> <span class="o">-</span> <span class="n">radius</span><span class="p">],</span>
+        <span class="p">[</span><span class="n">wt</span> <span class="o">+</span> <span class="n">inner_width</span> <span class="o">+</span> <span class="n">radius</span><span class="p">,</span> <span class="n">wt</span> <span class="o">+</span> <span class="n">inner_length</span> <span class="o">+</span> <span class="n">radius</span><span class="p">],</span>
+        <span class="p">[</span><span class="n">wt</span> <span class="o">-</span> <span class="n">radius</span><span class="p">,</span> <span class="n">wt</span> <span class="o">+</span> <span class="n">inner_length</span> <span class="o">+</span> <span class="n">radius</span><span class="p">],</span>
+    <span class="p">]</span>
+    <span class="c1"># Swept mouth-down and flipped, because the flare has to be the sweep's</span>
+    <span class="c1"># *first* rim: `offset_sweep` carries the last offset a rim reached along</span>
+    <span class="c1"># its straight middle, so a flare asked for at the far end leaves the whole</span>
+    <span class="c1"># run at the widened size — a radius of wall gone from top to bottom.</span>
+    <span class="n">swept</span> <span class="o">=</span> <span class="n">Path2D</span><span class="p">(</span><span class="n">rect</span><span class="p">,</span> <span class="n">closed</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">offset_sweep</span><span class="p">(</span>
+        <span class="n">height</span><span class="o">=</span><span class="mi">2</span> <span class="o">*</span> <span class="n">radius</span><span class="p">,</span> <span class="n">bottom</span><span class="o">=</span><span class="n">roundover_profile</span><span class="p">(</span><span class="n">radius</span><span class="p">,</span> <span class="n">steps</span><span class="p">),</span> <span class="n">steps</span><span class="o">=</span><span class="n">steps</span>
+    <span class="p">)</span>
+    <span class="c1"># Only the flare itself is wanted. What follows it is a prism of the plain</span>
+    <span class="c1"># interior — which is already void, so it removes nothing — carrying the</span>
+    <span class="c1"># sweep's far end, where a zero-height flange back out to the widened path</span>
+    <span class="c1"># would otherwise be left inside the wall.</span>
+    <span class="n">keep</span> <span class="o">=</span> <span class="n">block</span><span class="p">(</span>
+        <span class="p">[</span><span class="n">spec</span><span class="o">.</span><span class="n">width</span> <span class="o">+</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">radius</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span> <span class="o">+</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">radius</span><span class="p">,</span> <span class="n">radius</span> <span class="o">+</span> <span class="mf">1.0</span><span class="p">],</span>
+        <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span> <span class="o">*</span> <span class="n">radius</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span> <span class="o">*</span> <span class="n">radius</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">ring</span> <span class="o">=</span> <span class="p">(</span><span class="n">CsgSolid</span><span class="p">(</span><span class="n">swept</span><span class="o">.</span><span class="n">polyhedron</span><span class="p">())</span> <span class="o">&amp;</span> <span class="n">keep</span><span class="p">)</span><span class="o">.</span><span class="n">mirror</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">body</span> <span class="o">-</span> <span class="n">ring</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">height</span><span class="p">])</span></div>
+
+</code></pre></div>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  
+  
+  <div class="md-footer-meta md-typeset">
+    
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-footer-copyright__highlight">
+        &#169; Copyright pyboxbuilder contributors.
+        
+    </div>
+  
+    Created using
+    <a href="https://www.sphinx-doc.org/" target="_blank" rel="noopener">Sphinx</a>
+    8.2.3.
+     and
+    <a href="https://github.com/jbms/sphinx-immaterial/" target="_blank" rel="noopener">Sphinx-Immaterial</a>
+  
+</div>
+      
+    </div>
+    
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.top", "content.code.copy", "search.highlight", "toc.follow", "toc.sticky"], "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+      
+        <script src="../../../_static/sphinx_immaterial_theme.32136f45f91ae6956.min.js?v=a7a9472a"></script>
+        <script type="module" src="../../../_static/stl_viewer.js?v=0ab88475"></script>
+    
+  </body>
+</html>

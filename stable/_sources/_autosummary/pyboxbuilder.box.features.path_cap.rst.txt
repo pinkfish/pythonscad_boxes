@@ -1,0 +1,6 @@
+pyboxbuilder.box.features.path\_cap
+===================================
+
+.. currentmodule:: pyboxbuilder.box.features
+
+.. autofunction:: path_cap

@@ -1,0 +1,6 @@
+pyboxbuilder.box.features.rabbet
+================================
+
+.. currentmodule:: pyboxbuilder.box.features
+
+.. autofunction:: rabbet

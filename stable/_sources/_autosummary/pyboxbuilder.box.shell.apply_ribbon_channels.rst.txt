@@ -1,0 +1,6 @@
+pyboxbuilder.box.shell.apply\_ribbon\_channels
+==============================================
+
+.. currentmodule:: pyboxbuilder.box.shell
+
+.. autofunction:: apply_ribbon_channels

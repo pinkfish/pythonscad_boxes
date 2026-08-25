@@ -1,0 +1,40 @@
+﻿pyboxbuilder
+============
+
+.. automodule:: pyboxbuilder
+
+   
+   
+   .. rubric:: Submodules
+
+   .. autosummary::
+      :toctree:
+      :recursive:
+   
+      box
+      builders
+      cli
+      compartments
+      deps
+      enums
+      export
+      helpers
+      layout
+      lid
+      packing
+      paths
+      precision
+      preview
+      project
+      rounding
+      run
+   
+   
+
+   
+   
+   
+
+   
+   
+   

@@ -1,0 +1,6 @@
+pyboxbuilder.box.shell.bottom\_chamfer\_slivers
+===============================================
+
+.. currentmodule:: pyboxbuilder.box.shell
+
+.. autofunction:: bottom_chamfer_slivers

@@ -1,0 +1,9 @@
+pyboxbuilder.box.types.no\_lid.NoLidBox
+=======================================
+
+.. currentmodule:: pyboxbuilder.box.types.no_lid
+
+.. autoclass:: NoLidBox
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -1,0 +1,6 @@
+pyboxbuilder.compartments.finger\_cuts.build\_cut
+=================================================
+
+.. currentmodule:: pyboxbuilder.compartments.finger_cuts
+
+.. autofunction:: build_cut

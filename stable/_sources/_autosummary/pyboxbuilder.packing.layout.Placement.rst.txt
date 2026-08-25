@@ -1,0 +1,9 @@
+pyboxbuilder.packing.layout.Placement
+=====================================
+
+.. currentmodule:: pyboxbuilder.packing.layout
+
+.. autoclass:: Placement
+   :members:
+   :undoc-members:
+   :show-inheritance:

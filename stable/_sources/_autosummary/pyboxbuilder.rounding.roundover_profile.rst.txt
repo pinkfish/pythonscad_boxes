@@ -1,0 +1,6 @@
+pyboxbuilder.rounding.roundover\_profile
+========================================
+
+.. currentmodule:: pyboxbuilder.rounding
+
+.. autofunction:: roundover_profile

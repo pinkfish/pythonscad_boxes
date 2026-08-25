@@ -1,0 +1,9 @@
+pyboxbuilder.lid.color\_layers.ColorLayerAssignment
+===================================================
+
+.. currentmodule:: pyboxbuilder.lid.color_layers
+
+.. autoclass:: ColorLayerAssignment
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -1,0 +1,35 @@
+pyboxbuilder.rounding
+=====================
+
+.. automodule:: pyboxbuilder.rounding
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+      :toctree:
+      :nosignatures:
+   
+      default_rounding
+      edge_slivers
+      lid_rounding
+      mating_rounding
+      max_radius
+      round_edges
+      rounded_block
+      rounding_facets
+      roundover_profile
+      vertical_and_bottom_edges
+      vertical_and_top_edges
+      vertical_edges
+   
+   

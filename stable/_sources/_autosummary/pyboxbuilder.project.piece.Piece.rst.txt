@@ -1,0 +1,9 @@
+pyboxbuilder.project.piece.Piece
+================================
+
+.. currentmodule:: pyboxbuilder.project.piece
+
+.. autoclass:: Piece
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -1,0 +1,6 @@
+pyboxbuilder.packing.guillotine.pack\_guillotine
+================================================
+
+.. currentmodule:: pyboxbuilder.packing.guillotine
+
+.. autofunction:: pack_guillotine

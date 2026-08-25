@@ -1,0 +1,6 @@
+pyboxbuilder.paths.polygon\_area
+================================
+
+.. currentmodule:: pyboxbuilder.paths
+
+.. autofunction:: polygon_area

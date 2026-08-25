@@ -1,0 +1,6 @@
+pyboxbuilder.preview.lighten
+============================
+
+.. currentmodule:: pyboxbuilder.preview
+
+.. autofunction:: lighten

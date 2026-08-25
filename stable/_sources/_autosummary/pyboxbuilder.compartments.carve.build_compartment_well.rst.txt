@@ -1,0 +1,6 @@
+pyboxbuilder.compartments.carve.build\_compartment\_well
+========================================================
+
+.. currentmodule:: pyboxbuilder.compartments.carve
+
+.. autofunction:: build_compartment_well

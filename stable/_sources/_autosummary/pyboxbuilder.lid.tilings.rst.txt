@@ -1,0 +1,33 @@
+pyboxbuilder.lid.tilings
+========================
+
+.. automodule:: pyboxbuilder.lid.tilings
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+      :toctree:
+      :nosignatures:
+   
+      Tile
+   
+   
+
+   
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+      :toctree:
+      :nosignatures:
+   
+      multigrid_tiling
+      polygon_area
+   
+   

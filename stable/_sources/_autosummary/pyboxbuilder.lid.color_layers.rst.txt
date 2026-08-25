@@ -1,0 +1,32 @@
+pyboxbuilder.lid.color\_layers
+==============================
+
+.. automodule:: pyboxbuilder.lid.color_layers
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+      :toctree:
+      :nosignatures:
+   
+      ColorLayerAssignment
+   
+   
+
+   
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+      :toctree:
+      :nosignatures:
+   
+      resolve_colors
+   
+   

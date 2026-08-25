@@ -1,0 +1,6 @@
+pyboxbuilder.packing.layout.pack\_boxes
+=======================================
+
+.. currentmodule:: pyboxbuilder.packing.layout
+
+.. autofunction:: pack_boxes

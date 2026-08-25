@@ -1,0 +1,6 @@
+pyboxbuilder.export.layout\_pdf.draw\_box\_blueprint
+====================================================
+
+.. currentmodule:: pyboxbuilder.export.layout_pdf
+
+.. autofunction:: draw_box_blueprint

@@ -1,0 +1,6 @@
+pyboxbuilder.compartments.layout.compute\_min\_box\_size
+========================================================
+
+.. currentmodule:: pyboxbuilder.compartments.layout
+
+.. autofunction:: compute_min_box_size

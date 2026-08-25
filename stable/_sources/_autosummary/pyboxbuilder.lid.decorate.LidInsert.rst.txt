@@ -1,0 +1,9 @@
+pyboxbuilder.lid.decorate.LidInsert
+===================================
+
+.. currentmodule:: pyboxbuilder.lid.decorate
+
+.. autoclass:: LidInsert
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -1,0 +1,6 @@
+pyboxbuilder.layout.stack
+=========================
+
+.. currentmodule:: pyboxbuilder.layout
+
+.. autofunction:: stack

@@ -1,0 +1,6 @@
+pyboxbuilder.rounding.rounding\_facets
+======================================
+
+.. currentmodule:: pyboxbuilder.rounding
+
+.. autofunction:: rounding_facets

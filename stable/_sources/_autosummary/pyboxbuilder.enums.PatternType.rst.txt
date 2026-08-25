@@ -1,0 +1,9 @@
+pyboxbuilder.enums.PatternType
+==============================
+
+.. currentmodule:: pyboxbuilder.enums
+
+.. autoclass:: PatternType
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -1,0 +1,9 @@
+pyboxbuilder.enums.StackableMode
+================================
+
+.. currentmodule:: pyboxbuilder.enums
+
+.. autoclass:: StackableMode
+   :members:
+   :undoc-members:
+   :show-inheritance:

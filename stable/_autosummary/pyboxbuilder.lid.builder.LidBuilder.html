@@ -1,0 +1,1708 @@
+
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="pyboxbuilder.lid.builder.html">
+      
+      
+        <link rel="next" href="pyboxbuilder.lid.builder.PatternBuilder.html">
+      
+      
+      <link rel="icon" href="">
+    
+    
+      
+        <title>pyboxbuilder.lid.builder.LidBuilder - pyboxbuilder</title>
+      
+    
+    
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+    
+        <link rel="stylesheet" type="text/css" href="../_static/sphinx_immaterial_theme.6f0d2a77b1b821632.min.css?v=27a6e6bb" />
+        <link rel="stylesheet" type="text/css" href="../_static/stl_viewer.css?v=abc98148" />
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#pyboxbuilder.lid.builder.LidBuilder" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../index.html" title="pyboxbuilder" class="md-header__button md-logo" aria-label="pyboxbuilder" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            pyboxbuilder
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              pyboxbuilder.lid.builder.LidBuilder
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/pinkfish/pythonscad_boxes" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    pinkfish/pythonscad_boxes
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../index.html" title="pyboxbuilder" class="md-nav__button md-logo" aria-label="pyboxbuilder" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+    </a>
+    pyboxbuilder
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/pinkfish/pythonscad_boxes" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    pinkfish/pythonscad_boxes
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    <span>Contents</span>
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            <span>Contents</span>
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_1" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../api.html" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    <span>API Reference</span>
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_1_1" id="__nav_1_1_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_1_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_1_1">
+            <span class="md-nav__icon md-icon"></span>
+            <span>API Reference</span>
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_1_1" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="pyboxbuilder.html" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder</span>
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_1_1_1" id="__nav_1_1_1_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_1_1_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_1_1_1">
+            <span class="md-nav__icon md-icon"></span>
+            <span>pyboxbuilder</span>
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pyboxbuilder.box.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>box</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pyboxbuilder.builders.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>builders</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pyboxbuilder.cli.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>cli</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pyboxbuilder.compartments.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>compartments</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pyboxbuilder.deps.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>deps</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pyboxbuilder.enums.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>enums</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pyboxbuilder.export.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>export</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pyboxbuilder.helpers.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>helpers</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pyboxbuilder.layout.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>layout</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_1_1_10" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="pyboxbuilder.lid.html" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>lid</span>
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_1_1_1_10" id="__nav_1_1_1_10_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_1_1_1_10_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_1_1_1_10">
+            <span class="md-nav__icon md-icon"></span>
+            <span>pyboxbuilder.<wbr>lid</span>
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_1_1_10_1" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="pyboxbuilder.lid.builder.html" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>lid.<wbr>builder</span>
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_1_1_1_10_1" id="__nav_1_1_1_10_1_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="5" aria-labelledby="__nav_1_1_1_10_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_1_1_1_10_1">
+            <span class="md-nav__icon md-icon"></span>
+            <span>pyboxbuilder.<wbr>lid.<wbr>builder</span>
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>lid.<wbr>builder.<wbr>Lid<wbr>Builder</span>
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="#" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>lid.<wbr>builder.<wbr>Lid<wbr>Builder</span>
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+  
+
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      On this page
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#pyboxbuilder.lid.builder.LidBuilder" class="md-nav__link">
+    
+      <span aria-label="Python class" class="objinfo-icon objinfo-icon__data" title="Python class">C</span>
+    
+    <span class="md-ellipsis">
+      <span title="pyboxbuilder.lid.builder.LidBuilder (Python class) — Bases: object"><span>pyboxbuilder.<wbr>lid.<wbr>builder.<wbr>Lid<wbr>Builder</span></span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="pyboxbuilder.lid.builder.LidBuilder">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pyboxbuilder.lid.builder.LidBuilder.for_mode" class="md-nav__link">
+    
+      <span aria-label="Python method" class="objinfo-icon objinfo-icon__procedure" title="Python method">M</span>
+    
+    <span class="md-ellipsis">
+      <span title="pyboxbuilder.lid.builder.LidBuilder.for_mode (Python method) — Return this lid as it prints in one colour mode."><span>for_<wbr>mode</span></span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="for_mode">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pyboxbuilder.lid.builder.LidBuilder.for_mode-parameters" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span>Parameters</span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pyboxbuilder.lid.builder.LidBuilder.for_mode-returns" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span>Returns</span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pyboxbuilder.lid.builder.LidBuilder.resolve_for_mode" class="md-nav__link">
+    
+      <span aria-label="Python method" class="objinfo-icon objinfo-icon__procedure" title="Python method">M</span>
+    
+    <span class="md-ellipsis">
+      <span title="pyboxbuilder.lid.builder.LidBuilder.resolve_for_mode (Python method) — Return the deprecated alias for for_mode()."><span>resolve_<wbr>for_<wbr>mode</span></span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pyboxbuilder.lid.builder.LidBuilder.titled" class="md-nav__link">
+    
+      <span aria-label="Python method" class="objinfo-icon objinfo-icon__procedure" title="Python method">M</span>
+    
+    <span class="md-ellipsis">
+      <span title="pyboxbuilder.lid.builder.LidBuilder.titled (Python method) — Return this lid style, carrying a particular box&#39;s text."><span>titled</span></span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="titled">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pyboxbuilder.lid.builder.LidBuilder.titled-parameters" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span>Parameters</span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pyboxbuilder.lid.builder.LidBuilder.titled-returns" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span>Returns</span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pyboxbuilder.lid.builder.LidBuilder.border_margin" class="md-nav__link">
+    
+      <span aria-label="Python property" class="objinfo-icon objinfo-icon__alias" title="Python property">P</span>
+    
+    <span class="md-ellipsis">
+      <span title="pyboxbuilder.lid.builder.LidBuilder.border_margin (Python property) — The margin kept clear at the lid&#39;s edge, resolved."><span>border_<wbr>margin</span></span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pyboxbuilder.lid.builder.LidBuilder.is_diagonal" class="md-nav__link">
+    
+      <span aria-label="Python property" class="objinfo-icon objinfo-icon__alias" title="Python property">P</span>
+    
+    <span class="md-ellipsis">
+      <span title="pyboxbuilder.lid.builder.LidBuilder.is_diagonal (Python property) — Whether the text runs corner to corner, resolved."><span>is_<wbr>diagonal</span></span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pyboxbuilder.lid.builder.LidBuilder.label_clearance" class="md-nav__link">
+    
+      <span aria-label="Python property" class="objinfo-icon objinfo-icon__alias" title="Python property">P</span>
+    
+    <span class="md-ellipsis">
+      <span title="pyboxbuilder.lid.builder.LidBuilder.label_clearance (Python property) — The margin kept around the lettering, resolved."><span>label_<wbr>clearance</span></span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pyboxbuilder.lid.builder.LidBuilder.min_text_height" class="md-nav__link">
+    
+      <span aria-label="Python property" class="objinfo-icon objinfo-icon__alias" title="Python property">P</span>
+    
+    <span class="md-ellipsis">
+      <span title="pyboxbuilder.lid.builder.LidBuilder.min_text_height (Python property) — The shortest printable label, resolved."><span>min_<wbr>text_<wbr>height</span></span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pyboxbuilder.lid.builder.LidBuilder.mode" class="md-nav__link">
+    
+      <span aria-label="Python property" class="objinfo-icon objinfo-icon__alias" title="Python property">P</span>
+    
+    <span class="md-ellipsis">
+      <span title="pyboxbuilder.lid.builder.LidBuilder.mode (Python property) — The label style, resolved."><span>mode</span></span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pyboxbuilder.lid.builder.PatternBuilder.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>lid.<wbr>builder.<wbr>Pattern<wbr>Builder</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pyboxbuilder.lid.color_layers.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>lid.<wbr>color_<wbr>layers</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pyboxbuilder.lid.decorate.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>lid.<wbr>decorate</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pyboxbuilder.lid.label.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>lid.<wbr>label</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pyboxbuilder.lid.pattern.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>lid.<wbr>pattern</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pyboxbuilder.lid.tilings.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>lid.<wbr>tilings</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pyboxbuilder.packing.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>packing</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pyboxbuilder.paths.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>paths</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pyboxbuilder.precision.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>precision</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pyboxbuilder.preview.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>preview</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pyboxbuilder.project.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>project</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pyboxbuilder.rounding.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>rounding</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pyboxbuilder.run.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>run</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+<nav class="md-nav md-nav--secondary">
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      On this page
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#pyboxbuilder.lid.builder.LidBuilder" class="md-nav__link">
+    
+      <span aria-label="Python class" class="objinfo-icon objinfo-icon__data" title="Python class">C</span>
+    
+    <span class="md-ellipsis">
+      <span title="pyboxbuilder.lid.builder.LidBuilder (Python class) — Bases: object"><span>pyboxbuilder.<wbr>lid.<wbr>builder.<wbr>Lid<wbr>Builder</span></span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="pyboxbuilder.lid.builder.LidBuilder">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pyboxbuilder.lid.builder.LidBuilder.for_mode" class="md-nav__link">
+    
+      <span aria-label="Python method" class="objinfo-icon objinfo-icon__procedure" title="Python method">M</span>
+    
+    <span class="md-ellipsis">
+      <span title="pyboxbuilder.lid.builder.LidBuilder.for_mode (Python method) — Return this lid as it prints in one colour mode."><span>for_<wbr>mode</span></span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="for_mode">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pyboxbuilder.lid.builder.LidBuilder.for_mode-parameters" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span>Parameters</span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pyboxbuilder.lid.builder.LidBuilder.for_mode-returns" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span>Returns</span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pyboxbuilder.lid.builder.LidBuilder.resolve_for_mode" class="md-nav__link">
+    
+      <span aria-label="Python method" class="objinfo-icon objinfo-icon__procedure" title="Python method">M</span>
+    
+    <span class="md-ellipsis">
+      <span title="pyboxbuilder.lid.builder.LidBuilder.resolve_for_mode (Python method) — Return the deprecated alias for for_mode()."><span>resolve_<wbr>for_<wbr>mode</span></span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pyboxbuilder.lid.builder.LidBuilder.titled" class="md-nav__link">
+    
+      <span aria-label="Python method" class="objinfo-icon objinfo-icon__procedure" title="Python method">M</span>
+    
+    <span class="md-ellipsis">
+      <span title="pyboxbuilder.lid.builder.LidBuilder.titled (Python method) — Return this lid style, carrying a particular box&#39;s text."><span>titled</span></span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="titled">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pyboxbuilder.lid.builder.LidBuilder.titled-parameters" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span>Parameters</span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pyboxbuilder.lid.builder.LidBuilder.titled-returns" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span>Returns</span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pyboxbuilder.lid.builder.LidBuilder.border_margin" class="md-nav__link">
+    
+      <span aria-label="Python property" class="objinfo-icon objinfo-icon__alias" title="Python property">P</span>
+    
+    <span class="md-ellipsis">
+      <span title="pyboxbuilder.lid.builder.LidBuilder.border_margin (Python property) — The margin kept clear at the lid&#39;s edge, resolved."><span>border_<wbr>margin</span></span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pyboxbuilder.lid.builder.LidBuilder.is_diagonal" class="md-nav__link">
+    
+      <span aria-label="Python property" class="objinfo-icon objinfo-icon__alias" title="Python property">P</span>
+    
+    <span class="md-ellipsis">
+      <span title="pyboxbuilder.lid.builder.LidBuilder.is_diagonal (Python property) — Whether the text runs corner to corner, resolved."><span>is_<wbr>diagonal</span></span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pyboxbuilder.lid.builder.LidBuilder.label_clearance" class="md-nav__link">
+    
+      <span aria-label="Python property" class="objinfo-icon objinfo-icon__alias" title="Python property">P</span>
+    
+    <span class="md-ellipsis">
+      <span title="pyboxbuilder.lid.builder.LidBuilder.label_clearance (Python property) — The margin kept around the lettering, resolved."><span>label_<wbr>clearance</span></span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pyboxbuilder.lid.builder.LidBuilder.min_text_height" class="md-nav__link">
+    
+      <span aria-label="Python property" class="objinfo-icon objinfo-icon__alias" title="Python property">P</span>
+    
+    <span class="md-ellipsis">
+      <span title="pyboxbuilder.lid.builder.LidBuilder.min_text_height (Python property) — The shortest printable label, resolved."><span>min_<wbr>text_<wbr>height</span></span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pyboxbuilder.lid.builder.LidBuilder.mode" class="md-nav__link">
+    
+      <span aria-label="Python property" class="objinfo-icon objinfo-icon__alias" title="Python property">P</span>
+    
+    <span class="md-ellipsis">
+      <span title="pyboxbuilder.lid.builder.LidBuilder.mode (Python property) — The label style, resolved."><span>mode</span></span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset" role="main">
+                
+                
+                  
+
+
+<h1 id="pyboxbuilder-lid-builder-lidbuilder">pyboxbuilder.lid.builder.LidBuilder<a class="headerlink" href="#pyboxbuilder-lid-builder-lidbuilder" title="Link to this heading">¶</a></h1>
+<dl class="py class objdesc">
+<dt class="sig sig-object highlight sig-wrap py" id="pyboxbuilder.lid.builder.LidBuilder">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyboxbuilder.lid.builder.</span></span><span class="sig-name descname"><span class="pre">LidBuilder</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#pyboxbuilder.lid.builder.LidBuilder" title="pyboxbuilder.lid.builder.LidBuilder.__init__.text (Python parameter)"><span class="n"><span class="pre">text</span></span></a><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#pyboxbuilder.lid.builder.LidBuilder" title="pyboxbuilder.lid.builder.LidBuilder.__init__.label_mode (Python parameter)"><span class="n"><span class="pre">label_mode</span></span></a><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference internal" href="pyboxbuilder.html#pyboxbuilder.LabelMode" title="pyboxbuilder.LabelMode (Python class) — Bases: Enum"><span class="pre">LabelMode</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#pyboxbuilder.lid.builder.LidBuilder" title="pyboxbuilder.lid.builder.LidBuilder.__init__.diagonal (Python parameter)"><span class="n"><span class="pre">diagonal</span></span></a><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#pyboxbuilder.lid.builder.LidBuilder" title="pyboxbuilder.lid.builder.LidBuilder.__init__.text_color (Python parameter)"><span class="n"><span class="pre">text_color</span></span></a><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference internal" href="pyboxbuilder.html#pyboxbuilder.Color" title="pyboxbuilder.Color (Python class) — Bases: object"><span class="pre">Color</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#pyboxbuilder.lid.builder.LidBuilder" title="pyboxbuilder.lid.builder.LidBuilder.__init__.frame_color (Python parameter)"><span class="n"><span class="pre">frame_color</span></span></a><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference internal" href="pyboxbuilder.html#pyboxbuilder.Color" title="pyboxbuilder.Color (Python class) — Bases: object"><span class="pre">Color</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#pyboxbuilder.lid.builder.LidBuilder" title="pyboxbuilder.lid.builder.LidBuilder.__init__.pattern (Python parameter)"><span class="n"><span class="pre">pattern</span></span></a><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference internal" href="pyboxbuilder.lid.builder.PatternBuilder.html#pyboxbuilder.lid.builder.PatternBuilder" title="pyboxbuilder.lid.builder.PatternBuilder (Python class) — Bases: object"><span class="pre">PatternBuilder</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#pyboxbuilder.lid.builder.LidBuilder" title="pyboxbuilder.lid.builder.LidBuilder.__init__.pattern_color (Python parameter)"><span class="n"><span class="pre">pattern_color</span></span></a><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference internal" href="pyboxbuilder.html#pyboxbuilder.Color" title="pyboxbuilder.Color (Python class) — Bases: object"><span class="pre">Color</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#pyboxbuilder.lid.builder.LidBuilder" title="pyboxbuilder.lid.builder.LidBuilder.__init__.min_text_height_mm (Python parameter)"><span class="n"><span class="pre">min_text_height_mm</span></span></a><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#pyboxbuilder.lid.builder.LidBuilder" title="pyboxbuilder.lid.builder.LidBuilder.__init__.border_margin_mm (Python parameter)"><span class="n"><span class="pre">border_margin_mm</span></span></a><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#pyboxbuilder.lid.builder.LidBuilder" title="pyboxbuilder.lid.builder.LidBuilder.__init__.label_clearance_mm (Python parameter)"><span class="n"><span class="pre">label_clearance_mm</span></span></a><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#pyboxbuilder.lid.builder.LidBuilder" title="pyboxbuilder.lid.builder.LidBuilder.__init__.mmu_label (Python parameter)"><span class="n"><span class="pre">mmu_label</span></span></a><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference internal" href="#pyboxbuilder.lid.builder.LidBuilder" title="pyboxbuilder.lid.builder.LidBuilder (Python class) — Bases: object"><span class="pre">LidBuilder</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#pyboxbuilder.lid.builder.LidBuilder" title="pyboxbuilder.lid.builder.LidBuilder.__init__.single_label (Python parameter)"><span class="n"><span class="pre">single_label</span></span></a><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference internal" href="#pyboxbuilder.lid.builder.LidBuilder" title="pyboxbuilder.lid.builder.LidBuilder (Python class) — Bases: object"><span class="pre">LidBuilder</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em></span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyboxbuilder/lid/builder.html#LidBuilder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyboxbuilder.lid.builder.LidBuilder" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Lid decoration configuration.</p>
+<p>One of these usually describes a <em>style</em> rather than a single lid — the
+same frame, pattern and colours across a whole insert — so
+<a class="reference internal" href="#pyboxbuilder.lid.builder.LidBuilder.titled" title="pyboxbuilder.lid.builder.LidBuilder.titled (Python method) — Return this lid style, carrying a particular box's text."><code class="xref py py-meth docutils literal notranslate"><span class="pre">titled()</span></code></a> makes a copy carrying one box’s text instead of repeating
+the style at every box (FR-000b):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><code><span class="n">LEAF</span> <span class="o">=</span> <span class="n">LidBuilder</span><span class="p">(</span><span class="n">label_mode</span><span class="o">=</span><span class="n">LabelMode</span><span class="o">.</span><span class="n">FRAMELESS</span><span class="p">,</span> <span class="n">diagonal</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                  <span class="n">pattern</span><span class="o">=</span><span class="n">PatternBuilder</span><span class="p">(</span><span class="n">PatternType</span><span class="o">.</span><span class="n">HEX</span><span class="p">))</span>
+<span class="o">...</span>
+<span class="n">project</span><span class="o">.</span><span class="n">box</span><span class="p">(</span><span class="n">BoxType</span><span class="o">.</span><span class="n">SLIDING</span><span class="p">,</span> <span class="s2">"Favor"</span><span class="p">,</span> <span class="n">lid</span><span class="o">=</span><span class="n">LEAF</span><span class="o">.</span><span class="n">titled</span><span class="p">(</span><span class="s2">"Favors"</span><span class="p">))</span>
+</code></pre></div>
+</div>
+<div class="example admonition">
+<p class="admonition-title">Examples</p>
+<p>A frameless diagonal label on a hex-patterned lid:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="n">project</span> <span class="o">=</span> <span class="n">Project</span><span class="p">(</span><span class="s2">"FancyGame"</span><span class="p">,</span> <span class="n">game_box_size</span><span class="o">=</span><span class="p">(</span><span class="mi">300</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">80</span><span class="p">))</span>
+<span class="n">STYLE</span> <span class="o">=</span> <span class="n">LidBuilder</span><span class="p">(</span>
+    <span class="n">label_mode</span><span class="o">=</span><span class="n">LabelMode</span><span class="o">.</span><span class="n">FRAMELESS</span><span class="p">,</span>
+    <span class="n">diagonal</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">pattern</span><span class="o">=</span><span class="n">PatternBuilder</span><span class="p">(</span><span class="n">PatternType</span><span class="o">.</span><span class="n">HEX</span><span class="p">,</span> <span class="n">spacing</span><span class="o">=</span><span class="mf">10.0</span><span class="p">),</span>
+<span class="p">)</span>
+<span class="n">project</span><span class="o">.</span><span class="n">box</span><span class="p">(</span>
+    <span class="n">BoxType</span><span class="o">.</span><span class="n">SLIDING</span><span class="p">,</span> <span class="s2">"Treasure"</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">90</span><span class="p">,</span> <span class="mi">70</span><span class="p">,</span> <span class="mi">40</span><span class="p">),</span>
+    <span class="n">lid</span><span class="o">=</span><span class="n">STYLE</span><span class="o">.</span><span class="n">titled</span><span class="p">(</span><span class="s2">"Treasure"</span><span class="p">,</span> <span class="n">text_color</span><span class="o">=</span><span class="n">Color</span><span class="p">(</span><span class="s2">"gold"</span><span class="p">)),</span>
+<span class="p">)</span>
+<span class="n">project</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">only</span><span class="o">=</span><span class="s2">"Treasure"</span><span class="p">)</span>
+</code></pre></div>
+</div>
+<div class="stl-viewer" data-stl-uri="_stl/e89ef1270901753c.stl" data-stl-color="#6f9ac9" style="width:100%;height:360px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a class="reference external" href="_stl/e89ef1270901753c.stl">⬇ Download STL mesh</a></p>
+</div>
+<dl class="py method objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.lid.builder.LidBuilder.for_mode">
+<span class="sig-name descname"><span class="pre">for_mode</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#pyboxbuilder.lid.builder.LidBuilder.for_mode.mode" title="pyboxbuilder.lid.builder.LidBuilder.for_mode.mode (Python parameter) — &quot;mmu&quot; or &quot;single&quot;."><span class="n"><span class="pre">mode</span></span></a><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></span></em></span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="desctype"><a class="reference internal" href="#pyboxbuilder.lid.builder.LidBuilder" title="pyboxbuilder.lid.builder.LidBuilder (Python class) — Bases: object"><span class="pre">LidBuilder</span></a></span></span></span><a class="reference internal" href="../_modules/pyboxbuilder/lid/builder.html#LidBuilder.for_mode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyboxbuilder.lid.builder.LidBuilder.for_mode" title="Link to this definition">¶</a></dt>
+<dd><p>Return this lid as it prints in one colour mode.</p>
+<p>A per-mode override carries <strong>only the fields it sets</strong>. That has to be
+decided by what the caller passed rather than by comparing against the
+field’s default, which is what this used to do: a <cite>single_label</cite> asking
+for <cite>LabelMode.FRAMED</cite> was indistinguishable from one that said nothing,
+<cite>diagonal=False</cite> could not turn off a diagonal, and the margins were
+taken from the override whether it mentioned them or not.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="pyboxbuilder.lid.builder.LidBuilder.for_mode-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#pyboxbuilder.lid.builder.LidBuilder.for_mode-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt id="pyboxbuilder.lid.builder.LidBuilder.for_mode.mode"><span class="n sig-name">mode</span><span class="p">:</span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a></span></span><a class="headerlink" href="#pyboxbuilder.lid.builder.LidBuilder.for_mode.mode" title="Permalink to this definition">¶</a></dt><dd><p><code class="docutils literal notranslate"><span class="pre">&quot;mmu&quot;</span></code> or <code class="docutils literal notranslate"><span class="pre">&quot;single&quot;</span></code>.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even" id="pyboxbuilder.lid.builder.LidBuilder.for_mode-returns">Returns<span class="colon">:</span><a class="headerlink" href="#pyboxbuilder.lid.builder.LidBuilder.for_mode-returns" title="Permalink to this headline">¶</a></dt>
+<dd class="field-even"><p>The effective configuration; <code class="docutils literal notranslate"><span class="pre">self</span></code> when that mode sets nothing.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.lid.builder.LidBuilder.resolve_for_mode">
+<span class="sig-name descname"><span class="pre">resolve_for_mode</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#pyboxbuilder.lid.builder.LidBuilder.resolve_for_mode" title="pyboxbuilder.lid.builder.LidBuilder.resolve_for_mode.mode (Python parameter)"><span class="n"><span class="pre">mode</span></span></a><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></span></em></span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="desctype"><a class="reference internal" href="#pyboxbuilder.lid.builder.LidBuilder" title="pyboxbuilder.lid.builder.LidBuilder (Python class) — Bases: object"><span class="pre">LidBuilder</span></a></span></span></span><a class="reference internal" href="../_modules/pyboxbuilder/lid/builder.html#LidBuilder.resolve_for_mode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyboxbuilder.lid.builder.LidBuilder.resolve_for_mode" title="Link to this definition">¶</a></dt>
+<dd><p>Return the deprecated alias for <a class="reference internal" href="#pyboxbuilder.lid.builder.LidBuilder.for_mode" title="pyboxbuilder.lid.builder.LidBuilder.for_mode (Python method) — Return this lid as it prints in one colour mode."><code class="xref py py-meth docutils literal notranslate"><span class="pre">for_mode()</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py method objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.lid.builder.LidBuilder.titled">
+<span class="sig-name descname"><span class="pre">titled</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#pyboxbuilder.lid.builder.LidBuilder.titled.text" title="pyboxbuilder.lid.builder.LidBuilder.titled.text (Python parameter) — The label for this box."><span class="n"><span class="pre">text</span></span></a><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></span></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">**</span></span><a class="n reference internal" href="#pyboxbuilder.lid.builder.LidBuilder.titled.overrides" title="pyboxbuilder.lid.builder.LidBuilder.titled.overrides (Python parameter) — Any other field to change for this box — usually a colour."><span class="n"><span class="pre">overrides</span></span></a><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><span class="pre">Any</span></a></span></span></em></span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="desctype"><a class="reference internal" href="#pyboxbuilder.lid.builder.LidBuilder" title="pyboxbuilder.lid.builder.LidBuilder (Python class) — Bases: object"><span class="pre">LidBuilder</span></a></span></span></span><a class="reference internal" href="../_modules/pyboxbuilder/lid/builder.html#LidBuilder.titled"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyboxbuilder.lid.builder.LidBuilder.titled" title="Link to this definition">¶</a></dt>
+<dd><p>Return this lid style, carrying a particular box’s text.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="pyboxbuilder.lid.builder.LidBuilder.titled-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#pyboxbuilder.lid.builder.LidBuilder.titled-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt id="pyboxbuilder.lid.builder.LidBuilder.titled.text"><span class="n sig-name">text</span><span class="p">:</span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a></span></span><a class="headerlink" href="#pyboxbuilder.lid.builder.LidBuilder.titled.text" title="Permalink to this definition">¶</a></dt><dd><p>The label for this box.</p>
+</dd>
+<dt id="pyboxbuilder.lid.builder.LidBuilder.titled.overrides"><span class="o">**</span><span class="n sig-name">overrides</span><span class="p">:</span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)">Any</a></span></span><a class="headerlink" href="#pyboxbuilder.lid.builder.LidBuilder.titled.overrides" title="Permalink to this definition">¶</a></dt><dd><p>Any other field to change for this box — usually a
+colour.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even" id="pyboxbuilder.lid.builder.LidBuilder.titled-returns">Returns<span class="colon">:</span><a class="headerlink" href="#pyboxbuilder.lid.builder.LidBuilder.titled-returns" title="Permalink to this headline">¶</a></dt>
+<dd class="field-even"><p>A copy; the style it was made from is unchanged.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.lid.builder.LidBuilder.border_margin">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">border_margin</span></span><span class="p"> <span class="pre">:</span> </span><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span><a class="headerlink" href="#pyboxbuilder.lid.builder.LidBuilder.border_margin" title="Link to this definition">¶</a></dt>
+<dd><p>The margin kept clear at the lid’s edge, resolved.</p>
+</dd></dl>
+
+<dl class="py attribute objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.lid.builder.LidBuilder.border_margin_mm">
+<span class="sig-name descname"><span class="pre">border_margin_mm</span></span><span class="p"> <span class="pre">:</span> </span><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="p"> <span class="pre">=</span> </span><code class="code python docutils literal highlight highlight-python"><span class="kc">None</span></code><a class="headerlink" href="#pyboxbuilder.lid.builder.LidBuilder.border_margin_mm" title="Link to this definition">¶</a></dt>
+<dd><p>Margin the auto-sized label keeps clear of the lid’s edge; <code class="docutils literal notranslate"><span class="pre">None</span></code> uses
+<a class="reference internal" href="pyboxbuilder.lid.builder.html#pyboxbuilder.lid.builder.BORDER_MARGIN_MM" title="pyboxbuilder.lid.builder.BORDER_MARGIN_MM (Python data) — Margin an auto-sized label keeps clear of the lid's edge."><code class="xref py py-data docutils literal notranslate"><span class="pre">BORDER_MARGIN_MM</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py attribute objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.lid.builder.LidBuilder.diagonal">
+<span class="sig-name descname"><span class="pre">diagonal</span></span><span class="p"> <span class="pre">:</span> </span><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="p"> <span class="pre">=</span> </span><code class="code python docutils literal highlight highlight-python"><span class="kc">None</span></code><a class="headerlink" href="#pyboxbuilder.lid.builder.LidBuilder.diagonal" title="Link to this definition">¶</a></dt>
+<dd><p>Run the text corner to corner rather than along the lid; <code class="docutils literal notranslate"><span class="pre">None</span></code> is no.</p>
+</dd></dl>
+
+<dl class="py attribute objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.lid.builder.LidBuilder.frame_color">
+<span class="sig-name descname"><span class="pre">frame_color</span></span><span class="p"> <span class="pre">:</span> </span><span class="desctype"><a class="reference internal" href="pyboxbuilder.html#pyboxbuilder.Color" title="pyboxbuilder.Color (Python class) — Bases: object"><span class="pre">Color</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="p"> <span class="pre">=</span> </span><code class="code python docutils literal highlight highlight-python"><span class="kc">None</span></code><a class="headerlink" href="#pyboxbuilder.lid.builder.LidBuilder.frame_color" title="Link to this definition">¶</a></dt>
+<dd><p>Colour the framed label’s <strong>striped grid</strong> is inlaid in; <code class="docutils literal notranslate"><span class="pre">None</span></code> uses
+light grey.</p>
+<p>The grid is a texture behind the lettering, not a second label. What sits
+<em>behind</em> both is the box’s own material — it is never cut, so it needs no
+colour here (FR-022).</p>
+</dd></dl>
+
+<dl class="py property objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.lid.builder.LidBuilder.is_diagonal">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">is_diagonal</span></span><span class="p"> <span class="pre">:</span> </span><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span><a class="headerlink" href="#pyboxbuilder.lid.builder.LidBuilder.is_diagonal" title="Link to this definition">¶</a></dt>
+<dd><p>Whether the text runs corner to corner, resolved.</p>
+</dd></dl>
+
+<dl class="py property objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.lid.builder.LidBuilder.label_clearance">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">label_clearance</span></span><span class="p"> <span class="pre">:</span> </span><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span><a class="headerlink" href="#pyboxbuilder.lid.builder.LidBuilder.label_clearance" title="Link to this definition">¶</a></dt>
+<dd><p>The margin kept around the lettering, resolved.</p>
+</dd></dl>
+
+<dl class="py attribute objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.lid.builder.LidBuilder.label_clearance_mm">
+<span class="sig-name descname"><span class="pre">label_clearance_mm</span></span><span class="p"> <span class="pre">:</span> </span><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="p"> <span class="pre">=</span> </span><code class="code python docutils literal highlight highlight-python"><span class="kc">None</span></code><a class="headerlink" href="#pyboxbuilder.lid.builder.LidBuilder.label_clearance_mm" title="Link to this definition">¶</a></dt>
+<dd><p>Solid margin kept around the <strong>lettering</strong> where a pattern meets it.</p>
+<p><code class="docutils literal notranslate"><span class="pre">None</span></code> uses <a class="reference internal" href="pyboxbuilder.lid.decorate.html#pyboxbuilder.lid.decorate.LABEL_CLEARANCE_MM" title="pyboxbuilder.lid.decorate.LABEL_CLEARANCE_MM (Python data) — How far the pattern stands off the lettering, all round."><code class="xref py py-data docutils literal notranslate"><span class="pre">LABEL_CLEARANCE_MM</span></code></a>, which
+is <code class="docutils literal notranslate"><span class="pre">0</span></code>: the holes stop at the glyphs, so the letters read as letters and
+not as letters on a plaque. They keep their support either way — the
+keep-out is the glyph outline, and the label is inlaid into the lid rather
+than perched on it. Raise it for a lid whose pattern is coarse enough that
+a stroke would otherwise finish on the very edge of a hole.</p>
+</dd></dl>
+
+<dl class="py attribute objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.lid.builder.LidBuilder.label_mode">
+<span class="sig-name descname"><span class="pre">label_mode</span></span><span class="p"> <span class="pre">:</span> </span><span class="desctype"><a class="reference internal" href="pyboxbuilder.html#pyboxbuilder.LabelMode" title="pyboxbuilder.LabelMode (Python class) — Bases: Enum"><span class="pre">LabelMode</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="p"> <span class="pre">=</span> </span><code class="code python docutils literal highlight highlight-python"><span class="kc">None</span></code><a class="headerlink" href="#pyboxbuilder.lid.builder.LidBuilder.label_mode" title="Link to this definition">¶</a></dt>
+<dd><p>Framed (border + hatching behind the text) or frameless (text only).</p>
+<p><code class="docutils literal notranslate"><span class="pre">None</span></code> means <a class="reference internal" href="pyboxbuilder.enums.LabelMode.html#pyboxbuilder.enums.LabelMode.FRAMED" title="pyboxbuilder.enums.LabelMode.FRAMED (Python attribute)"><code class="xref py py-attr docutils literal notranslate"><span class="pre">FRAMED</span></code></a>. It is spelled
+as <code class="docutils literal notranslate"><span class="pre">None</span></code> rather than defaulted directly so a per-mode override can tell
+“I want framed” from “I said nothing about the frame” — see
+<a class="reference internal" href="#pyboxbuilder.lid.builder.LidBuilder.for_mode" title="pyboxbuilder.lid.builder.LidBuilder.for_mode (Python method) — Return this lid as it prints in one colour mode."><code class="xref py py-meth docutils literal notranslate"><span class="pre">for_mode()</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py property objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.lid.builder.LidBuilder.min_text_height">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">min_text_height</span></span><span class="p"> <span class="pre">:</span> </span><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span><a class="headerlink" href="#pyboxbuilder.lid.builder.LidBuilder.min_text_height" title="Link to this definition">¶</a></dt>
+<dd><p>The shortest printable label, resolved.</p>
+</dd></dl>
+
+<dl class="py attribute objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.lid.builder.LidBuilder.min_text_height_mm">
+<span class="sig-name descname"><span class="pre">min_text_height_mm</span></span><span class="p"> <span class="pre">:</span> </span><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="p"> <span class="pre">=</span> </span><code class="code python docutils literal highlight highlight-python"><span class="kc">None</span></code><a class="headerlink" href="#pyboxbuilder.lid.builder.LidBuilder.min_text_height_mm" title="Link to this definition">¶</a></dt>
+<dd><p>Below this the label is skipped rather than printed illegibly (FR-020).</p>
+<p><code class="docutils literal notranslate"><span class="pre">None</span></code> uses <a class="reference internal" href="pyboxbuilder.lid.builder.html#pyboxbuilder.lid.builder.MIN_TEXT_HEIGHT_MM" title="pyboxbuilder.lid.builder.MIN_TEXT_HEIGHT_MM (Python data) — Shortest a label may print before it is skipped instead (FR-020)."><code class="xref py py-data docutils literal notranslate"><span class="pre">MIN_TEXT_HEIGHT_MM</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py attribute objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.lid.builder.LidBuilder.mmu_label">
+<span class="sig-name descname"><span class="pre">mmu_label</span></span><span class="p"> <span class="pre">:</span> </span><span class="desctype"><a class="reference internal" href="#pyboxbuilder.lid.builder.LidBuilder" title="pyboxbuilder.lid.builder.LidBuilder (Python class) — Bases: object"><span class="pre">LidBuilder</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="p"> <span class="pre">=</span> </span><code class="code python docutils literal highlight highlight-python"><span class="kc">None</span></code><a class="headerlink" href="#pyboxbuilder.lid.builder.LidBuilder.mmu_label" title="Link to this definition">¶</a></dt>
+<dd><p>Fields to override for the multi-material export (see <a class="reference internal" href="#pyboxbuilder.lid.builder.LidBuilder.for_mode" title="pyboxbuilder.lid.builder.LidBuilder.for_mode (Python method) — Return this lid as it prints in one colour mode."><code class="xref py py-meth docutils literal notranslate"><span class="pre">for_mode()</span></code></a>).</p>
+</dd></dl>
+
+<dl class="py property objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.lid.builder.LidBuilder.mode">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">mode</span></span><span class="p"> <span class="pre">:</span> </span><span class="desctype"><a class="reference internal" href="pyboxbuilder.enums.LabelMode.html#pyboxbuilder.enums.LabelMode" title="pyboxbuilder.enums.LabelMode (Python class) — Bases: Enum"><span class="pre">LabelMode</span></a></span><a class="headerlink" href="#pyboxbuilder.lid.builder.LidBuilder.mode" title="Link to this definition">¶</a></dt>
+<dd><p>The label style, resolved.</p>
+</dd></dl>
+
+<dl class="py attribute objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.lid.builder.LidBuilder.pattern">
+<span class="sig-name descname"><span class="pre">pattern</span></span><span class="p"> <span class="pre">:</span> </span><span class="desctype"><a class="reference internal" href="pyboxbuilder.lid.builder.PatternBuilder.html#pyboxbuilder.lid.builder.PatternBuilder" title="pyboxbuilder.lid.builder.PatternBuilder (Python class) — Bases: object"><span class="pre">PatternBuilder</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="p"> <span class="pre">=</span> </span><code class="code python docutils literal highlight highlight-python"><span class="kc">None</span></code><a class="headerlink" href="#pyboxbuilder.lid.builder.LidBuilder.pattern" title="Link to this definition">¶</a></dt>
+<dd><p>Through-hole pattern, or <code class="docutils literal notranslate"><span class="pre">None</span></code> for a plain lid.</p>
+</dd></dl>
+
+<dl class="py attribute objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.lid.builder.LidBuilder.pattern_color">
+<span class="sig-name descname"><span class="pre">pattern_color</span></span><span class="p"> <span class="pre">:</span> </span><span class="desctype"><a class="reference internal" href="pyboxbuilder.html#pyboxbuilder.Color" title="pyboxbuilder.Color (Python class) — Bases: object"><span class="pre">Color</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="p"> <span class="pre">=</span> </span><code class="code python docutils literal highlight highlight-python"><span class="kc">None</span></code><a class="headerlink" href="#pyboxbuilder.lid.builder.LidBuilder.pattern_color" title="Link to this definition">¶</a></dt>
+<dd><p>Colour of the pattern’s top layer; <code class="docutils literal notranslate"><span class="pre">None</span></code> contrasts with the body.</p>
+</dd></dl>
+
+<dl class="py attribute objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.lid.builder.LidBuilder.single_label">
+<span class="sig-name descname"><span class="pre">single_label</span></span><span class="p"> <span class="pre">:</span> </span><span class="desctype"><a class="reference internal" href="#pyboxbuilder.lid.builder.LidBuilder" title="pyboxbuilder.lid.builder.LidBuilder (Python class) — Bases: object"><span class="pre">LidBuilder</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="p"> <span class="pre">=</span> </span><code class="code python docutils literal highlight highlight-python"><span class="kc">None</span></code><a class="headerlink" href="#pyboxbuilder.lid.builder.LidBuilder.single_label" title="Link to this definition">¶</a></dt>
+<dd><p>Fields to override for the single-colour export.</p>
+</dd></dl>
+
+<dl class="py attribute objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.lid.builder.LidBuilder.text">
+<span class="sig-name descname"><span class="pre">text</span></span><span class="p"> <span class="pre">:</span> </span><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="p"> <span class="pre">=</span> </span><code class="code python docutils literal highlight highlight-python"><span class="kc">None</span></code><a class="headerlink" href="#pyboxbuilder.lid.builder.LidBuilder.text" title="Link to this definition">¶</a></dt>
+<dd><p>Label text; <code class="docutils literal notranslate"><span class="pre">None</span></code> leaves the lid unlabelled.</p>
+</dd></dl>
+
+<dl class="py attribute objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.lid.builder.LidBuilder.text_color">
+<span class="sig-name descname"><span class="pre">text_color</span></span><span class="p"> <span class="pre">:</span> </span><span class="desctype"><a class="reference internal" href="pyboxbuilder.html#pyboxbuilder.Color" title="pyboxbuilder.Color (Python class) — Bases: object"><span class="pre">Color</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="p"> <span class="pre">=</span> </span><code class="code python docutils literal highlight highlight-python"><span class="kc">None</span></code><a class="headerlink" href="#pyboxbuilder.lid.builder.LidBuilder.text_color" title="Link to this definition">¶</a></dt>
+<dd><p>Colour the lettering is inlaid in; <code class="docutils literal notranslate"><span class="pre">None</span></code> uses black (FR-022).</p>
+<p>A label is read against a lid whose colour is the game’s choice, so the
+default is the one colour that reads against all of them.</p>
+</dd></dl>
+
+</dd></dl>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  
+  
+  <div class="md-footer-meta md-typeset">
+    
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-footer-copyright__highlight">
+        &#169; Copyright pyboxbuilder contributors.
+        
+    </div>
+  
+    Created using
+    <a href="https://www.sphinx-doc.org/" target="_blank" rel="noopener">Sphinx</a>
+    8.2.3.
+     and
+    <a href="https://github.com/jbms/sphinx-immaterial/" target="_blank" rel="noopener">Sphinx-Immaterial</a>
+  
+</div>
+      
+    </div>
+    
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.top", "content.code.copy", "search.highlight", "toc.follow", "toc.sticky"], "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+      
+        <script src="../_static/sphinx_immaterial_theme.32136f45f91ae6956.min.js?v=a7a9472a"></script>
+        <script type="module" src="../_static/stl_viewer.js?v=0ab88475"></script>
+    
+  </body>
+</html>

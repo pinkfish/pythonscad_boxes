@@ -1,0 +1,6 @@
+pyboxbuilder.rounding.max\_radius
+=================================
+
+.. currentmodule:: pyboxbuilder.rounding
+
+.. autofunction:: max_radius

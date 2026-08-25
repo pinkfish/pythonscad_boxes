@@ -1,0 +1,32 @@
+pyboxbuilder.compartments.finger\_sweep
+=======================================
+
+.. automodule:: pyboxbuilder.compartments.finger_sweep
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+      :toctree:
+      :nosignatures:
+   
+      FaceTreatment
+   
+   
+
+   
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+      :toctree:
+      :nosignatures:
+   
+      scoop_face_flare
+   
+   

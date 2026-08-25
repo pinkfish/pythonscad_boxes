@@ -1,0 +1,24 @@
+pyboxbuilder.box.types.cap\_path
+================================
+
+.. automodule:: pyboxbuilder.box.types.cap_path
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+      :toctree:
+      :nosignatures:
+   
+      CapPathBox
+   
+   
+
+   
+   
+   

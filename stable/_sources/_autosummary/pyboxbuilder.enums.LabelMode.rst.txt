@@ -1,0 +1,9 @@
+pyboxbuilder.enums.LabelMode
+============================
+
+.. currentmodule:: pyboxbuilder.enums
+
+.. autoclass:: LabelMode
+   :members:
+   :undoc-members:
+   :show-inheritance:

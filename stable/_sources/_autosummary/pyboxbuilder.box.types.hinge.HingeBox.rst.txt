@@ -1,0 +1,9 @@
+pyboxbuilder.box.types.hinge.HingeBox
+=====================================
+
+.. currentmodule:: pyboxbuilder.box.types.hinge
+
+.. autoclass:: HingeBox
+   :members:
+   :undoc-members:
+   :show-inheritance:

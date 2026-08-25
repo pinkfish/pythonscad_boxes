@@ -1,0 +1,9 @@
+pyboxbuilder.box.features.CapFingerMetrics
+==========================================
+
+.. currentmodule:: pyboxbuilder.box.features
+
+.. autoclass:: CapFingerMetrics
+   :members:
+   :undoc-members:
+   :show-inheritance:

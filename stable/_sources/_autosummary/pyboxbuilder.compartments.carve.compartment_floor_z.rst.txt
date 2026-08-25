@@ -1,0 +1,6 @@
+pyboxbuilder.compartments.carve.compartment\_floor\_z
+=====================================================
+
+.. currentmodule:: pyboxbuilder.compartments.carve
+
+.. autofunction:: compartment_floor_z

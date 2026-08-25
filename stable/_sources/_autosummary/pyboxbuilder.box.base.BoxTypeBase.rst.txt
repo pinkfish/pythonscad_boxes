@@ -1,0 +1,9 @@
+pyboxbuilder.box.base.BoxTypeBase
+=================================
+
+.. currentmodule:: pyboxbuilder.box.base
+
+.. autoclass:: BoxTypeBase
+   :members:
+   :undoc-members:
+   :show-inheritance:

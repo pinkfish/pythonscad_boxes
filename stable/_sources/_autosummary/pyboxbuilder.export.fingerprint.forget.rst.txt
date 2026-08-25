@@ -1,0 +1,6 @@
+pyboxbuilder.export.fingerprint.forget
+======================================
+
+.. currentmodule:: pyboxbuilder.export.fingerprint
+
+.. autofunction:: forget

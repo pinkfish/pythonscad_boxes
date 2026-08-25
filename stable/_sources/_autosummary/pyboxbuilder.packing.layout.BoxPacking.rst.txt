@@ -1,0 +1,9 @@
+pyboxbuilder.packing.layout.BoxPacking
+======================================
+
+.. currentmodule:: pyboxbuilder.packing.layout
+
+.. autoclass:: BoxPacking
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -1,0 +1,6 @@
+pyboxbuilder.precision.export\_facets
+=====================================
+
+.. currentmodule:: pyboxbuilder.precision
+
+.. autofunction:: export_facets

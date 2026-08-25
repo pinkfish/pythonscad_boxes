@@ -1,0 +1,9 @@
+pyboxbuilder.box.types.cap.CapBox
+=================================
+
+.. currentmodule:: pyboxbuilder.box.types.cap
+
+.. autoclass:: CapBox
+   :members:
+   :undoc-members:
+   :show-inheritance:
