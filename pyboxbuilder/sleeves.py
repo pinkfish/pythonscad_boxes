@@ -34,6 +34,7 @@ Data notes (gathered 2026-08 from the manufacturers' sites):
 from __future__ import annotations
 
 from dataclasses import dataclass
+from typing import Any
 
 #: A typical playing card is ~0.30 mm thick; a sleeve adds its film thickness.
 BASE_CARD_THICKNESS = 0.30
@@ -115,7 +116,7 @@ _SK = "Sleeve Kings"
 _GG = "Gamegenic"
 _MD = "Mayday Games"
 
-_ROWS: tuple[tuple, ...] = (
+_ROWS: tuple[tuple[Any, ...], ...] = (
     # ── Sleeve Kings ─────────────────────────────────────────────────────────
     (_SK, "Mini American", 41.0, 63.0, 44.0, 66.0, 60, 110, "SKS-8801", "Standard"),
     (_SK, "Mini American", 41.0, 63.0, 44.0, 66.0, 100, 55, "SKS-9901", "Premium"),

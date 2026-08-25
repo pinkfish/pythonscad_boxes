@@ -17,7 +17,7 @@ from __future__ import annotations
 import math
 from collections.abc import Iterable, Sequence
 from dataclasses import dataclass, replace
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 from pyboxbuilder.enums import ElementShape
 from pyboxbuilder.precision import kwargs as precision_kwargs
@@ -421,6 +421,7 @@ def build_pull_out(
 
     from pyboxbuilder.rounding import rounding_facets
 
+    assert element.size is not None
     width, length = element.size
     depth = element.depth or default_depth
     actual_z_offset = element.z_offset if element.z_offset is not None else (default_depth - depth)
@@ -554,6 +555,7 @@ def build_element_pack_pull_outs(
     sum_clearance_x = 0.0
     sum_clearance_y = 0.0
     for element in elements_list:
+        assert element.size is not None
         width, length = element.size
         sum_clearance_x += min(element.offset[0], comp_w - (element.offset[0] + width))
         sum_clearance_y += min(element.offset[1], comp_l - (element.offset[1] + length))
@@ -567,6 +569,7 @@ def build_element_pack_pull_outs(
         if solid is None:
             continue
 
+        assert element.size is not None
         width, length = element.size
         depth = element.depth or default_depth
         drop = depth * PULL_OUT_DEPTH_SHARE
