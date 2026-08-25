@@ -52,7 +52,7 @@ jobs:
           gh release create "$GITHUB_REF_NAME" \
             --title "$GITHUB_REF_NAME" \
             --generate-notes \
-            dist/*
+            dist/* --clobber
       - name: Publish package
         uses: pypa/gh-action-pypi-publish@release/v1
         
