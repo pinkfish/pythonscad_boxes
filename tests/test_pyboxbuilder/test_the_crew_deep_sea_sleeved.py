@@ -1,8 +1,8 @@
 # SPDX-License-Identifier: Apache-2.0
 """The Crew: Mission Deep Sea (sleeved) — insert fidelity tests.
 
-The sleeved variant's card boxes are bigger and the sonar tokens lie flat, so
-these pin those differences against the unsleeved design.
+The sleeved variant sizes its wells to specific Gamegenic sleeves and keeps the
+sonar tokens flat, so these pin those differences against the unsleeved design.
 """
 
 from __future__ import annotations
@@ -38,13 +38,28 @@ class SleevedCardTests(unittest.TestCase):
             {"Deck", "Tasks1", "Tasks2", "Accessories"},
         )
 
-    def test_card_boxes_are_larger_for_the_sleeve(self) -> None:
-        """A sleeve adds 2.5 mm around a card, so the wells are 3.5 mm larger."""
-        sleeve_margin = self.mod["SLEEVE"].footprint_margin + self.mod["CARD_SLACK"]
-        (well,) = self.boxes["Deck"].compartments
-        self.assertEqual(well.size, (56.0 + sleeve_margin, 88.0 + sleeve_margin))
+    def test_uses_gamegenic_sleeves(self) -> None:
+        """The card boxes are sized to the specific Gamegenic sleeves."""
+        large = self.mod["LARGE_SLEEVE"]
+        self.assertEqual((large.brand, large.name, large.sleeve_size), ("Gamegenic", "Standard American", (59.0, 91.0)))
+        small = self.mod["SMALL_SLEEVE"]
+        self.assertEqual((small.brand, small.name, small.sleeve_size), ("Gamegenic", "Mini European", (46.0, 71.0)))
+
+    def test_card_wells_are_sized_to_the_sleeves(self) -> None:
+        """A well is the sleeve's outer size plus the card slack."""
+        slack = self.mod["CARD_SLACK"]
+        (deck,) = self.boxes["Deck"].compartments
+        lw, ll = self.mod["LARGE_SLEEVE"].sleeve_size
+        self.assertEqual(deck.size, (lw + slack, ll + slack))
         (task,) = self.boxes["Tasks1"].compartments
-        self.assertEqual(task.size, (44.0 + sleeve_margin, 68.0 + sleeve_margin))
+        sl = self.mod["SMALL_SLEEVE"].sleeve_size[1]
+        self.assertEqual(task.size, (self.mod["TASK_BOX_WIDTH"] - 2 * self.mod["WALL"], sl + slack))
+
+    def test_card_boxes_fill_the_box_width(self) -> None:
+        """Deck plus the two widened task boxes fill the box width — no spacer."""
+        deck_w = self.boxes["Deck"].final_size[0]
+        task_w = self.boxes["Tasks1"].final_size[0]
+        self.assertAlmostEqual(deck_w + 2 * task_w, self.mod["BOX_WIDTH"])
 
     def test_card_wells_run_full_height(self) -> None:
         for label in ("Deck", "Tasks1", "Tasks2"):
@@ -53,9 +68,10 @@ class SleevedCardTests(unittest.TestCase):
 
     def test_sleeved_stacks_fit_their_boxes(self) -> None:
         """The thickest stack — 48 sleeved cards — fits the card box interior."""
-        thickness = self.mod["SLEEVE"].card_thickness
+        thickness = self.mod["CARD_THICKNESS"]
         interior = self.mod["CARD_BOX_HEIGHT"] - self.mod["FLOOR"] - self.mod["LID"]
         self.assertLess(48 * thickness, interior)
+        self.assertLess(45 * thickness, interior)
 
     def test_accessory_tray_is_shallow(self) -> None:
         """Flat sonar tokens keep the tray shorter than the card boxes."""
@@ -106,8 +122,8 @@ class LayoutTests(unittest.TestCase):
 
     def test_tray_sits_on_top_of_the_cards(self) -> None:
         self.assertEqual(self.boxes["Deck"].position, (0.0, 0.0, 0.0))
-        self.assertEqual(self.boxes["Tasks1"].position, (64.5, 0.0, 0.0))
-        self.assertEqual(self.boxes["Accessories"].position, (0.0, 0.0, 20.0))
+        self.assertEqual(self.boxes["Tasks1"].position, (64.0, 0.0, 0.0))
+        self.assertAlmostEqual(self.boxes["Accessories"].position[2], self.mod["CARD_BOX_HEIGHT"])
 
     def test_everything_fits_the_game_box(self) -> None:
         w, l, h = self.mod["project"].game_box_size

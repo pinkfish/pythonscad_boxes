@@ -9,6 +9,7 @@ from pyboxbuilder.sleeves import (
     BRANDS,
     SLEEVE_CATALOG,
     Sleeve,
+    find_sleeve,
     sleeve_by_sku,
     sleeves_for_card,
 )
@@ -104,6 +105,22 @@ def test_card_thickness_derivation() -> None:
 
 def test_sleeve_by_sku_missing_returns_none() -> None:
     assert sleeve_by_sku("NOPE") is None
+
+
+def test_find_sleeve_looks_up_a_specific_sleeve() -> None:
+    sleeve = find_sleeve("Gamegenic", "Standard American")
+    assert sleeve is not None
+    assert sleeve.sleeve_size == (59.0, 91.0)
+    assert sleeve.grade == "Prime / Matte"
+    assert find_sleeve("Gamegenic", "Nope") is None
+
+
+def test_find_sleeve_disambiguates_by_grade() -> None:
+    standard = find_sleeve("Mayday Games", "Mini European", grade="Standard")
+    premium = find_sleeve("Mayday Games", "Mini European", grade="Premium")
+    assert standard is not None and premium is not None
+    assert standard.thickness_microns == 40
+    assert premium.thickness_microns == 90
 
 
 def test_sleeve_is_frozen() -> None:

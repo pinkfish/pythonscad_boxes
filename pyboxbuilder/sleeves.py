@@ -240,3 +240,19 @@ def sleeve_by_sku(sku: str) -> Sleeve | None:
         if sleeve.sku == sku:
             return sleeve
     return None
+
+
+def find_sleeve(brand: str, name: str, grade: str | None = None) -> Sleeve | None:
+    """Return the first sleeve matching ``brand``, ``name`` and ``grade``.
+
+    ``grade`` is optional because a brand usually sells one size under one grade
+    per product line; pass it to disambiguate when a size exists in several
+    thicknesses (e.g. Mayday "Standard" vs "Premium").
+
+    Returns ``None`` when no sleeve matches, so callers can fall back or raise
+    as they see fit.
+    """
+    for sleeve in SLEEVE_CATALOG:
+        if sleeve.brand == brand and sleeve.name == name and (grade is None or sleeve.grade == grade):
+            return sleeve
+    return None

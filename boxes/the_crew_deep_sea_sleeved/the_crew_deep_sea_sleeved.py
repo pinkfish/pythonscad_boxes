@@ -2,18 +2,16 @@
 """The Crew: Mission Deep Sea — box insert for sleeved cards.
 
 A variant of :file:`boxes/the_crew_deep_sea/the_crew_deep_sea.py` for sleeved
-cards. A 100-micron premium sleeve adds 3.5 mm around every card and thickens
-each one to 0.32 mm, so the card boxes grow in both footprint and height — the
-96 sleeved small cards are a 31 mm stack, too tall for one box, so they still
-split into two 48-card stacks, and the deck plus those two boxes fill the whole
-footprint.
+cards. The large cards take Gamegenic "Standard American" sleeves (59 x 91 mm)
+and the small cards Gamegenic "Mini European" sleeves (46 x 71 mm); both are
+100-micron Prime/Matte, sized at 0.32 mm per sleeved card. The 96 sleeved small
+cards are a 31 mm stack, too tall for one box, so they split into two 48-card
+stacks.
 
-That leaves no room to stack the accessory tray beside a full-height deck, so
-this variant returns to the two-layer layout: the three card boxes on the
-bottom, the accessory tray across the full box on top. The sonar tokens lie flat
-in a row rather than stacked in a deep well, and the tray is an open lidless
-tray — together those keep it a shallow 5 mm, which is what leaves 20 mm for
-the card boxes and still fits the same 26 mm.
+The deck stands full height in its own corner; the two task boxes sit beside it
+with the accessory box stacked on top — the same arrangement as the unsleeved
+variant, with bigger card wells for the sleeves. The sonar tokens stack in two
+deep wells, as the unsleeved variant does.
 
 The game's pieces are unchanged, so the diver, base, sonar and distress art is
 shared with the unsleeved variant.
@@ -35,13 +33,14 @@ for _sp in REPO_ROOT.glob("venv/*/lib/*/site-packages"):
 from pyboxbuilder import (
     BoxType,
     ElementShape,
+    FingerCut,
     LabelMode,
     LidBuilder,
     PatternBuilder,
     PatternType,
     Project,
-    SleeveType,
     columns,
+    find_sleeve,
     run,
     stack,
 )
@@ -53,24 +52,16 @@ SVG = str(REPO_ROOT / "boxes" / "the_crew_deep_sea" / "svg")
 # ── Game box — the retail box's inside dimensions ───────────────────────────
 BOX_WIDTH = 172.0
 BOX_LENGTH = 122.0
-BOX_HEIGHT = 26.0
+BOX_HEIGHT = 36.0
 
 # ── Material defaults ───────────────────────────────────────────────────────
 WALL = 2.0
 FLOOR = 1.6
 LID = 2.0
 
-# ── Cards — sleeved ─────────────────────────────────────────────────────────
-SLEEVE = SleeveType.PREMIUM_100MY
-"""A 100-micron premium sleeve: 0.32 mm per sleeved card, 3.5 mm around the edge.
-
-The thinnest sleeve (STANDARD_60MY, 0.26 mm) understates a real sleeved card —
-a board game card is ~0.3 mm before the sleeve — so this uses the premium value,
-which is the thickest a single sleeve reaches while the 96 small cards still
-split into two 48-card stacks that fit the box."""
-
+# ── Cards — sleeved in Gamegenic Prime sleeves ───────────────────────────────
 CARD_SLACK = 1.0
-"""Extra clearance beyond the sleeve, so the deck still slips in and out."""
+"""Extra clearance around a sleeve, so the deck still slips in and out."""
 
 LARGE_CARD = (56.0, 88.0)
 """The 40 playing cards and the 5 same-sized reminder cards."""
@@ -80,9 +71,26 @@ SMALL_CARD = (44.0, 68.0)
 """The 96 small task cards."""
 SMALL_COUNT = 96
 
-CARD_BOX_HEIGHT = 20.0
-"""Tall enough for the thickest stack: 48 sleeved cards are 15.4 mm, plus slack
-for a fingertip, inside a 16.4 mm interior."""
+# The Gamegenic sleeves from the catalog. "Standard American" takes a 57x89 card
+# in a 59x91 sleeve; "Mini European" a 44x69 card in a 46x71 sleeve. Both are
+# 100-micron Prime/Matte.
+LARGE_SLEEVE = find_sleeve("Gamegenic", "Standard American")
+SMALL_SLEEVE = find_sleeve("Gamegenic", "Mini European")
+
+# Gamegenic's own 100-micron rating would model a sleeved card at 0.40 mm; this
+# insert sizes depth with the library's 0.32 mm premium value instead.
+CARD_THICKNESS = 0.32
+
+CARD_BOX_HEIGHT = (
+    SMALL_COUNT // 2 * CARD_THICKNESS + CARD_SLACK + FLOOR + LID
+)
+"""Tall enough for the thickest stack: 48 sleeved small cards are 15.4 mm, plus
+slack, floor and lid."""
+
+# The deck box is as wide as its sleeve; the two task boxes widen to take up
+# whatever the deck leaves, so no spacer is left along the width.
+DECK_BOX_WIDTH = LARGE_SLEEVE.sleeve_size[0] + CARD_SLACK + 2 * WALL
+TASK_BOX_WIDTH = (BOX_WIDTH - DECK_BOX_WIDTH) / 2
 
 # ── Tokens ──────────────────────────────────────────────────────────────────
 SONAR_DIAMETER = 29.5
@@ -117,12 +125,12 @@ DISTRESS_ICON_W = 16.0
 DISTRESS_ICON_L = DISTRESS_ICON_W * DISTRESS_VIEWBOX[1] / DISTRESS_VIEWBOX[0]
 
 # ── Accessory tray ──────────────────────────────────────────────────────────
-ACCESSORY_WIDTH = BOX_WIDTH - 4.0    # 168.0
-ACCESSORY_LENGTH = BOX_LENGTH - 4.0   # 118.0
-ACCESSORY_HEIGHT = 5.0
+ACCESSORY_WIDTH = BOX_WIDTH - DECK_BOX_WIDTH   # 108.0 — the column beside the deck
+ACCESSORY_LENGTH = BOX_LENGTH - 4.0            # 118.0
+ACCESSORY_HEIGHT = 11.0
 ACCESSORY_INNER_W = ACCESSORY_WIDTH - 2 * WALL
 ACCESSORY_INNER_L = ACCESSORY_LENGTH - 2 * WALL
-ACCESSORY_INNER_H = ACCESSORY_HEIGHT - FLOOR   # 3.4 — the pieces lie flat
+ACCESSORY_INNER_H = ACCESSORY_HEIGHT - FLOOR - LID   # 7.4 — the lid sits above the pieces
 
 ICON_DEPTH = 0.2
 ICON_LIFT = 0.001
@@ -141,38 +149,46 @@ BUBBLES = PatternBuilder(type=PatternType.VORONOI)
 CREW_LID = LidBuilder(label_mode=LabelMode.FRAMELESS, diagonal=True, pattern=BUBBLES)
 
 
-# ── Card boxes — full-height wells, sized for sleeved cards ─────────────────
-def sleeved_card_box(label: str, card_size: tuple[float, float]) -> None:
-    """Add a sliding card box whose well is sized for a sleeved deck."""
-    margin = SLEEVE.footprint_margin + CARD_SLACK
+# ── Card boxes — full-height wells, sized for the sleeved deck ──────────────
+def sleeved_card_box(
+    label: str,
+    sleeve,
+    *,
+    box_width: float | None = None,
+    box_height: float = CARD_BOX_HEIGHT,
+) -> None:
+    """Add a sliding card box whose well fits a deck in ``sleeve``.
+
+    ``box_width`` overrides the width derived from the sleeve, so a box can be
+    widened to fill the game box; ``box_height`` overrides the height, so the
+    deck can run the full height of the box.
+    """
+    well_w = sleeve.sleeve_size[0] + CARD_SLACK if box_width is None else box_width - 2 * WALL
+    well_l = sleeve.sleeve_size[1] + CARD_SLACK
     box = project.box(
         BoxType.SLIDING,
         label,
-        size=(
-            card_size[0] + margin + 2 * WALL,
-            card_size[1] + margin + 2 * WALL,
-            CARD_BOX_HEIGHT,
-        ),
+        size=(well_w + 2 * WALL, well_l + 2 * WALL, box_height),
         lid=CREW_LID.titled(label),
     )
-    box.cards(
+    box.compartment(
         label,
-        count=None,  # the well runs the full height of the box
-        size=card_size,
-        thickness=SLEEVE.card_thickness,
-        slack=margin,
+        size=(well_w, well_l),
+        depth=None,  # the well runs the full height of the box
+        cut=FingerCut.THROUGH_FLOOR,
     )
 
 
-sleeved_card_box("Deck", LARGE_CARD)
+sleeved_card_box("Deck", LARGE_SLEEVE, box_height=BOX_HEIGHT)
 for i in range(2):
-    sleeved_card_box(f"Tasks{i + 1}", SMALL_CARD)
+    sleeved_card_box(f"Tasks{i + 1}", SMALL_SLEEVE, box_width=TASK_BOX_WIDTH)
 
-# ── Accessory tray — diver, base, tokens, all flat, lidless ─────────────────
+# ── Accessory box — diver, base, tokens, lidded like the unsleeved variant ───
 accessories = project.box(
-    BoxType.NO_LID,
+    BoxType.SLIDING,
     "Accessories",
     size=(ACCESSORY_WIDTH, ACCESSORY_LENGTH, ACCESSORY_HEIGHT),
+    lid=CREW_LID.titled("Captain"),
 )
 
 OVERSHOOT = 0.5
@@ -217,12 +233,18 @@ def centered(
     )
 
 
-DIVER_SLOT = pocket(DIVER_THICKNESS + TOP_SLACK)      # 3.0 — the standee lies flat
-SONAR_SLOT = pocket(TOKEN_THICKNESS + TOP_SLACK)      # 2.55 — a flat token
-DISTRESS_SLOT = pocket(TOKEN_THICKNESS + TOP_SLACK)   # 2.55 — a flat token
+def stack_depth(count: int, thickness: float) -> float:
+    """How deep a well must be to hold `count` stacked pieces plus the top slack."""
+    return count * thickness + TOP_SLACK
+
+
+DIVER_SLOT = pocket(stack_depth(1, DIVER_THICKNESS))   # 3.0 — one standee piece
+SLOT = pocket(stack_depth(1, TOKEN_THICKNESS))         # 2.55 — one flat token
+SONAR_THREE = pocket(stack_depth(3, TOKEN_THICKNESS))  # 6.65 — three stacked sonar
+SONAR_TWO = pocket(stack_depth(2, TOKEN_THICKNESS))    # 4.6 — two stacked sonar
 
 SONAR_WELL = SONAR_DIAMETER + 0.5
-DISTRESS_WELL = (DISTRESS[0] + 1.0, DISTRESS[1] + 1.0)
+DISTRESS_WELL = (DISTRESS[0], DISTRESS[1])
 
 
 def icon_pocket(well: dict) -> dict:
@@ -232,7 +254,7 @@ def icon_pocket(well: dict) -> dict:
 def accessory_elements() -> tuple[CompartmentElement, ...]:
     elements: list[CompartmentElement] = []
 
-    # Diver on the left, base tucked beneath it.
+    # Diver on the left, base tucked beneath it — both aligned to the left edge.
     elements.append(
         centered(
             f"{SVG}/the crew - diver.svg",
@@ -252,58 +274,76 @@ def accessory_elements() -> tuple[CompartmentElement, ...]:
         )
     )
 
-    # The sonar tokens lie flat — three across the top of the right half, two
-    # beneath — so the tray stays shallow instead of needing a deep stack well.
-    sonar_centres = (
-        (81.0, 15.0), (113.0, 15.0), (145.0, 15.0),
-        (81.0, 47.0), (113.0, 47.0),
-    )
-    for i, (x, y) in enumerate(sonar_centres):
-        elements.append(
-            centered(
-                None,
-                (x, y),
-                (SONAR_WELL, SONAR_WELL),
-                shape=ElementShape.CIRCLE,
-                label=f"sonar_{i}",
-                **SONAR_SLOT,
-            )
-        )
-        elements.append(
-            centered(
-                f"{SVG}/the crew - sonar.svg",
-                (x, y),
-                (SONAR_ICON_W, SONAR_ICON_L),
-                shape=ElementShape.SVG,
-                rotation=90.0,
-                label=f"sonar_icon_{i}",
-                color="green",
-                **icon_pocket(SONAR_SLOT),
-            )
-        )
-
-    # The distress token and its blue tower icon, below the sonar rows.
+    # The five sonar tokens stack in two wells in the strip to the right of the
+    # diver — three above and two below the rotated distress token.
     elements.append(
         centered(
             None,
-            (88.0, 78.5),
+            (79.0, 15.0),
+            (SONAR_WELL, SONAR_WELL),
+            shape=ElementShape.CIRCLE,
+            label="sonar_3",
+            **SONAR_THREE,
+        )
+    )
+    elements.append(
+        centered(
+            None,
+            (79.0, 47.0),
+            (SONAR_WELL, SONAR_WELL),
+            shape=ElementShape.CIRCLE,
+            label="sonar_2",
+            **SONAR_TWO,
+        )
+    )
+    elements.append(
+        centered(
+            None,
+            (78.5, 86.0),
             DISTRESS_WELL,
             shape=ElementShape.ROUNDED_RECT,
             corner_radius=DISTRESS_WELL[1] / 2 - 1.0,
+            rotation=90.0,
             label="distress",
-            **DISTRESS_SLOT,
+            **SLOT,
+        )
+    )
+
+    # Each well carries its icon pressed into the bottom as a second colour.
+    elements.append(
+        centered(
+            f"{SVG}/the crew - sonar.svg",
+            (79.0, 15.0),
+            (SONAR_ICON_W, SONAR_ICON_L),
+            shape=ElementShape.SVG,
+            rotation=90.0,
+            label="sonar_icon_3",
+            color="green",
+            **icon_pocket(SONAR_THREE),
+        )
+    )
+    elements.append(
+        centered(
+            f"{SVG}/the crew - sonar.svg",
+            (79.0, 47.0),
+            (SONAR_ICON_W, SONAR_ICON_L),
+            shape=ElementShape.SVG,
+            rotation=90.0,
+            label="sonar_icon_2",
+            color="green",
+            **icon_pocket(SONAR_TWO),
         )
     )
     elements.append(
         centered(
             f"{SVG}/the crew - distress.svg",
-            (88.0, 78.5),
+            (78.5, 86.0),
             (DISTRESS_ICON_W, DISTRESS_ICON_L),
             shape=ElementShape.SVG,
             rotation=90.0,
             label="distress_icon",
             color="blue",
-            **icon_pocket(DISTRESS_SLOT),
+            **icon_pocket(SLOT),
         )
     )
 
