@@ -1,0 +1,6 @@
+pyboxbuilder.compartments.element.elements\_footprint
+=====================================================
+
+.. currentmodule:: pyboxbuilder.compartments.element
+
+.. autofunction:: elements_footprint

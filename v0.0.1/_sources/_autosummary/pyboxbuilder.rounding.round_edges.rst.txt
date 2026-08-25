@@ -1,0 +1,6 @@
+pyboxbuilder.rounding.round\_edges
+==================================
+
+.. currentmodule:: pyboxbuilder.rounding
+
+.. autofunction:: round_edges

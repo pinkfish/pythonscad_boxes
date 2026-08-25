@@ -1,0 +1,9 @@
+pyboxbuilder.compartments.hex\_grid.HexCell
+===========================================
+
+.. currentmodule:: pyboxbuilder.compartments.hex_grid
+
+.. autoclass:: HexCell
+   :members:
+   :undoc-members:
+   :show-inheritance:

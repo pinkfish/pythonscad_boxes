@@ -1,0 +1,9 @@
+pyboxbuilder.box.types.path.PathBox
+===================================
+
+.. currentmodule:: pyboxbuilder.box.types.path
+
+.. autoclass:: PathBox
+   :members:
+   :undoc-members:
+   :show-inheritance:

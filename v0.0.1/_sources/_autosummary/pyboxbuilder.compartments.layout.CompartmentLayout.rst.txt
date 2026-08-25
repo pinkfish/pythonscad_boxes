@@ -1,0 +1,9 @@
+pyboxbuilder.compartments.layout.CompartmentLayout
+==================================================
+
+.. currentmodule:: pyboxbuilder.compartments.layout
+
+.. autoclass:: CompartmentLayout
+   :members:
+   :undoc-members:
+   :show-inheritance:

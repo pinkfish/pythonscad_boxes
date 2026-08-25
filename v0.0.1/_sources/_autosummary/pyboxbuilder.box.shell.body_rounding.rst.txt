@@ -1,0 +1,6 @@
+pyboxbuilder.box.shell.body\_rounding
+=====================================
+
+.. currentmodule:: pyboxbuilder.box.shell
+
+.. autofunction:: body_rounding

@@ -1,0 +1,34 @@
+pyboxbuilder.compartments
+=========================
+
+.. automodule:: pyboxbuilder.compartments
+
+   
+   
+   .. rubric:: Submodules
+
+   .. autosummary::
+      :toctree:
+      :recursive:
+   
+      builder
+      carve
+      element
+      finger_cuts
+      finger_hole
+      finger_outline
+      finger_sweep
+      hex_grid
+      labels
+      layout
+      sizing
+   
+   
+
+   
+   
+   
+
+   
+   
+   

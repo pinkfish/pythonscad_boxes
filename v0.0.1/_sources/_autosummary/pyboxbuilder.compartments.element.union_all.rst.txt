@@ -1,0 +1,6 @@
+pyboxbuilder.compartments.element.union\_all
+============================================
+
+.. currentmodule:: pyboxbuilder.compartments.element
+
+.. autofunction:: union_all

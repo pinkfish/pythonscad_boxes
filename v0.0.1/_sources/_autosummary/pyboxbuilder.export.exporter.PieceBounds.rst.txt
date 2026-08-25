@@ -1,0 +1,9 @@
+pyboxbuilder.export.exporter.PieceBounds
+========================================
+
+.. currentmodule:: pyboxbuilder.export.exporter
+
+.. autoclass:: PieceBounds
+   :members:
+   :undoc-members:
+   :show-inheritance:

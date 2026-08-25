@@ -1,0 +1,16 @@
+pyboxbuilder.compartments.finger\_hole
+======================================
+
+.. automodule:: pyboxbuilder.compartments.finger_hole
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   

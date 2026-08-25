@@ -1,0 +1,9 @@
+pyboxbuilder.enums.MagnetType
+=============================
+
+.. currentmodule:: pyboxbuilder.enums
+
+.. autoclass:: MagnetType
+   :members:
+   :undoc-members:
+   :show-inheritance:

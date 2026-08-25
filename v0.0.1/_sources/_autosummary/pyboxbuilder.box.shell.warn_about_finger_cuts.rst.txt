@@ -1,0 +1,6 @@
+pyboxbuilder.box.shell.warn\_about\_finger\_cuts
+================================================
+
+.. currentmodule:: pyboxbuilder.box.shell
+
+.. autofunction:: warn_about_finger_cuts

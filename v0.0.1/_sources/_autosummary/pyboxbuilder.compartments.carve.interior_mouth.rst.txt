@@ -1,0 +1,6 @@
+pyboxbuilder.compartments.carve.interior\_mouth
+===============================================
+
+.. currentmodule:: pyboxbuilder.compartments.carve
+
+.. autofunction:: interior_mouth

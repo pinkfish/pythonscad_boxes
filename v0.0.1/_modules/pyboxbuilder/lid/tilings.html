@@ -1,0 +1,557 @@
+
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+      
+      
+      <link rel="icon" href="">
+    
+    
+      
+        <title>pyboxbuilder.lid.tilings - pyboxbuilder</title>
+      
+    
+    
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+    
+        <link rel="stylesheet" type="text/css" href="../../../_static/sphinx_immaterial_theme.6f0d2a77b1b821632.min.css?v=27a6e6bb" />
+        <link rel="stylesheet" type="text/css" href="../../../_static/stl_viewer.css?v=abc98148" />
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../index.html" title="pyboxbuilder" class="md-header__button md-logo" aria-label="pyboxbuilder" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            pyboxbuilder
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              pyboxbuilder.lid.tilings
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/pinkfish/pythonscad_boxes" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    pinkfish/pythonscad_boxes
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../index.html" title="pyboxbuilder" class="md-nav__button md-logo" aria-label="pyboxbuilder" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+    </a>
+    pyboxbuilder
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/pinkfish/pythonscad_boxes" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    pinkfish/pythonscad_boxes
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    <span>Contents</span>
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            <span>Contents</span>
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../api.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>API Reference</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+<nav class="md-nav md-nav--secondary">
+  
+  
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset" role="main">
+                
+                
+                  
+
+
+<h1>Source code for pyboxbuilder.lid.tilings</h1><div class="highlight"><pre>
+<span></span><code><span class="c1"># SPDX-License-Identifier: Apache-2.0</span>
+<span class="sd">"""Tile geometry for the lid patterns that tessellate (FR-023).</span>
+
+<span class="sd">This module answers one question — *what shapes cover this area, and where* —</span>
+<span class="sd">and answers it in plain coordinates. It builds no solids and knows nothing about</span>
+<span class="sd">lids, webs or thickness; :mod:`pyboxbuilder.lid.pattern` takes the polygons from</span>
+<span class="sd">here and cuts them.</span>
+
+<span class="sd">That split is what makes the tilings checkable. "It tiles" is a statement about</span>
+<span class="sd">polygons, and it is testable as arithmetic: the tiles' areas sum to the area</span>
+<span class="sd">they cover, and no two of them overlap. A tiling that is only ever seen as a</span>
+<span class="sd">rendered lid can be wrong in ways nobody notices until it prints.</span>
+<span class="sd">"""</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">"Tile"</span><span class="p">,</span>
+    <span class="s2">"multigrid_tiling"</span><span class="p">,</span>
+    <span class="s2">"polygon_area"</span><span class="p">,</span>
+<span class="p">]</span>
+
+<span class="n">Point</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span>
+
+
+<div class="viewcode-block" id="Tile">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.lid.tilings.Tile.html#pyboxbuilder.lid.tilings.Tile">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Tile</span><span class="p">(</span><span class="nb">tuple</span><span class="p">[</span><span class="n">Point</span><span class="p">,</span> <span class="o">...</span><span class="p">]):</span>
+<span class="w">    </span><span class="sd">"""One tile: its vertices, anticlockwise, in the tiling's own frame."""</span>
+
+    <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">()</span></div>
+
+
+
+<div class="viewcode-block" id="polygon_area">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.lid.tilings.polygon_area.html#pyboxbuilder.lid.tilings.polygon_area">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">polygon_area</span><span class="p">(</span><span class="n">points</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Point</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Return a polygon's area by the shoelace formula.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        points: Its vertices in order, either winding.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        The area, always positive.</span>
+
+<span class="sd">    """</span>
+    <span class="n">total</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">points</span><span class="p">):</span>
+        <span class="n">nx</span><span class="p">,</span> <span class="n">ny</span> <span class="o">=</span> <span class="n">points</span><span class="p">[(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">points</span><span class="p">)]</span>
+        <span class="n">total</span> <span class="o">+=</span> <span class="n">x</span> <span class="o">*</span> <span class="n">ny</span> <span class="o">-</span> <span class="n">nx</span> <span class="o">*</span> <span class="n">y</span>
+    <span class="k">return</span> <span class="nb">abs</span><span class="p">(</span><span class="n">total</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span></div>
+
+
+
+<span class="c1"># ── de Bruijn's multigrid ─────────────────────────────────────────────</span>
+
+<span class="n">MULTIGRID_OFFSETS</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.19</span><span class="p">,</span> <span class="mf">0.23</span><span class="p">,</span> <span class="mf">0.17</span><span class="p">,</span> <span class="mf">0.29</span><span class="p">,</span> <span class="mf">0.12</span><span class="p">,</span> <span class="mf">0.27</span><span class="p">,</span> <span class="mf">0.14</span><span class="p">,</span> <span class="mf">0.21</span><span class="p">,</span> <span class="mf">0.26</span><span class="p">,</span> <span class="mf">0.15</span><span class="p">,</span>
+                     <span class="mf">0.11</span><span class="p">,</span> <span class="mf">0.24</span><span class="p">)</span>
+<span class="sd">"""Where each grid family sits, as a fraction of a line spacing.</span>
+
+<span class="sd">Fixed, because the pattern is part of the exported geometry and the export</span>
+<span class="sd">fingerprint is taken over it — a fresh offset each run would rewrite the file</span>
+<span class="sd">forever (SC-012). They are deliberately **unequal**: equal offsets put every</span>
+<span class="sd">line of every family through one point, and the tiling degenerates there into a</span>
+<span class="sd">rosette of overlapping tiles rather than a tiling at all.</span>
+<span class="sd">"""</span>
+
+
+<div class="viewcode-block" id="multigrid_tiling">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.lid.tilings.multigrid_tiling.html#pyboxbuilder.lid.tilings.multigrid_tiling">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">multigrid_tiling</span><span class="p">(</span>
+    <span class="n">width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">symmetry</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">edge</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="n">Point</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sd">"""Tile an area with rhombi, by de Bruijn's multigrid method.</span>
+
+<span class="sd">    Take `symmetry` families of equally spaced parallel lines, each family</span>
+<span class="sd">    turned by ``180° / symmetry`` from the last. Every crossing of a line from</span>
+<span class="sd">    one family with a line from another is a rhombus of the tiling, and which</span>
+<span class="sd">    rhombus is decided by counting how many lines of every *other* family the</span>
+<span class="sd">    crossing lies past. The rhombus's edges are the two families' normals, so</span>
+<span class="sd">    its shape comes from the angle between them and nothing else.</span>
+
+<span class="sd">    This is the whole family in one function. Five-fold with offsets summing to</span>
+<span class="sd">    a whole number is the Penrose rhombus tiling — the thin-and-thick one people</span>
+<span class="sd">    mean by "Penrose". Eight-fold is Ammann–Beenker. Seven- and twelve-fold are</span>
+<span class="sd">    the same construction at their own symmetries, and none of them repeats.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        width: Width of the area to cover, in mm.</span>
+<span class="sd">        length: Its length, in mm.</span>
+<span class="sd">        symmetry: How many line families. The tiling's rotational symmetry is</span>
+<span class="sd">            twice this for an even count and equal to it for an odd one, so 4</span>
+<span class="sd">            gives the eight-fold Ammann–Beenker, 5 the ten-fold Penrose, 6 the</span>
+<span class="sd">            twelve-fold, and 7 the fourteen-fold. Four is the floor: with three</span>
+<span class="sd">            families the crossings give a plain lattice, not a quasicrystal.</span>
+<span class="sd">        edge: Edge length of every rhombus, in mm. All tiles share it: that is</span>
+<span class="sd">            what a rhombus tiling is.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        One list of four vertices per tile, anticlockwise, covering the area</span>
+<span class="sd">        and overhanging it — the caller clips, as it does for every lattice.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        ValueError: If `symmetry` is below 4 or `edge` is not positive.</span>
+
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="n">symmetry</span> <span class="o">&lt;</span> <span class="mi">4</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">"a multigrid tiling needs at least 4 line families, got </span><span class="si">{</span><span class="n">symmetry</span><span class="si">}</span><span class="s2">: "</span>
+            <span class="s2">"with three the crossings give a plain lattice, not a quasicrystal"</span>
+        <span class="p">)</span>
+    <span class="k">if</span> <span class="n">edge</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"edge must be positive, got </span><span class="si">{</span><span class="n">edge</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+    <span class="n">normals</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">j</span> <span class="o">/</span> <span class="n">symmetry</span><span class="p">),</span> <span class="n">math</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">j</span> <span class="o">/</span> <span class="n">symmetry</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">symmetry</span><span class="p">)</span>
+    <span class="p">]</span>
+    <span class="n">offsets</span> <span class="o">=</span> <span class="p">[</span><span class="n">MULTIGRID_OFFSETS</span><span class="p">[</span><span class="n">j</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">MULTIGRID_OFFSETS</span><span class="p">)]</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">symmetry</span><span class="p">)]</span>
+
+    <span class="c1"># The tiling is generated in units where the line spacing is 1, then scaled</span>
+    <span class="c1"># by `edge`. Cover the area's diagonal, plus a tile, so the clip has</span>
+    <span class="c1"># something to cut on every side.</span>
+    <span class="n">reach</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">hypot</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">length</span><span class="p">)</span> <span class="o">/</span> <span class="n">edge</span> <span class="o">/</span> <span class="mf">2.0</span> <span class="o">+</span> <span class="mf">2.0</span>
+    <span class="n">centre</span> <span class="o">=</span> <span class="p">(</span><span class="n">width</span> <span class="o">/</span> <span class="p">(</span><span class="mf">2.0</span> <span class="o">*</span> <span class="n">edge</span><span class="p">),</span> <span class="n">length</span> <span class="o">/</span> <span class="p">(</span><span class="mf">2.0</span> <span class="o">*</span> <span class="n">edge</span><span class="p">))</span>
+
+    <span class="n">tiles</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="n">Point</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">symmetry</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">symmetry</span><span class="p">):</span>
+            <span class="n">tiles</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span>
+                <span class="n">_multigrid_cell</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">normals</span><span class="p">,</span> <span class="n">offsets</span><span class="p">,</span> <span class="n">centre</span><span class="p">,</span> <span class="n">reach</span><span class="p">,</span> <span class="n">edge</span><span class="p">)</span>
+            <span class="p">)</span>
+    <span class="k">return</span> <span class="n">tiles</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_multigrid_cell</span><span class="p">(</span>
+    <span class="n">j</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">k</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">normals</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Point</span><span class="p">],</span>
+    <span class="n">offsets</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span>
+    <span class="n">centre</span><span class="p">:</span> <span class="n">Point</span><span class="p">,</span>
+    <span class="n">reach</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">edge</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="n">Point</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sd">"""Every rhombus formed where family `j` crosses family `k`."""</span>
+    <span class="n">ej</span><span class="p">,</span> <span class="n">ek</span> <span class="o">=</span> <span class="n">normals</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="n">normals</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+    <span class="c1"># Two families are parallel only if the caller asked for a degenerate</span>
+    <span class="c1"># symmetry, which the public function has already refused.</span>
+    <span class="n">det</span> <span class="o">=</span> <span class="n">ej</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">ek</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">ej</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">ek</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="c1"># Which lines of each family can reach the area at all.</span>
+    <span class="n">mid_j</span> <span class="o">=</span> <span class="n">centre</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">ej</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">centre</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">ej</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">offsets</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+    <span class="n">mid_k</span> <span class="o">=</span> <span class="n">centre</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">ek</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">centre</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">ek</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">offsets</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+
+    <span class="n">out</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="n">Point</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="n">mid_j</span> <span class="o">-</span> <span class="n">reach</span><span class="p">),</span> <span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">mid_j</span> <span class="o">+</span> <span class="n">reach</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="n">mid_k</span> <span class="o">-</span> <span class="n">reach</span><span class="p">),</span> <span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">mid_k</span> <span class="o">+</span> <span class="n">reach</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="c1"># Where the two lines cross.</span>
+            <span class="n">pj</span><span class="p">,</span> <span class="n">pk</span> <span class="o">=</span> <span class="n">a</span> <span class="o">+</span> <span class="n">offsets</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="n">b</span> <span class="o">+</span> <span class="n">offsets</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="p">(</span><span class="n">pj</span> <span class="o">*</span> <span class="n">ek</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">pk</span> <span class="o">*</span> <span class="n">ej</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">/</span> <span class="n">det</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="p">(</span><span class="n">pk</span> <span class="o">*</span> <span class="n">ej</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">pj</span> <span class="o">*</span> <span class="n">ek</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">/</span> <span class="n">det</span>
+            <span class="k">if</span> <span class="n">math</span><span class="o">.</span><span class="n">hypot</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">centre</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">y</span> <span class="o">-</span> <span class="n">centre</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">&gt;</span> <span class="n">reach</span><span class="p">:</span>
+                <span class="k">continue</span>
+
+            <span class="c1"># The tile's position is the sum of how far past every family's</span>
+            <span class="c1"># lines the crossing sits. This is the step that makes the tiling</span>
+            <span class="c1"># quasiperiodic rather than a lattice of rhombi.</span>
+            <span class="n">base_x</span> <span class="o">=</span> <span class="n">base_y</span> <span class="o">=</span> <span class="mf">0.0</span>
+            <span class="k">for</span> <span class="n">m</span><span class="p">,</span> <span class="p">(</span><span class="n">ex</span><span class="p">,</span> <span class="n">ey</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">normals</span><span class="p">):</span>
+                <span class="n">index</span> <span class="o">=</span> <span class="n">a</span> <span class="k">if</span> <span class="n">m</span> <span class="o">==</span> <span class="n">j</span> <span class="k">else</span> <span class="n">b</span> <span class="k">if</span> <span class="n">m</span> <span class="o">==</span> <span class="n">k</span> <span class="k">else</span> <span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span>
+                    <span class="n">x</span> <span class="o">*</span> <span class="n">ex</span> <span class="o">+</span> <span class="n">y</span> <span class="o">*</span> <span class="n">ey</span> <span class="o">-</span> <span class="n">offsets</span><span class="p">[</span><span class="n">m</span><span class="p">]</span>
+                <span class="p">)</span>
+                <span class="n">base_x</span> <span class="o">+=</span> <span class="n">index</span> <span class="o">*</span> <span class="n">ex</span>
+                <span class="n">base_y</span> <span class="o">+=</span> <span class="n">index</span> <span class="o">*</span> <span class="n">ey</span>
+
+            <span class="n">out</span><span class="o">.</span><span class="n">append</span><span class="p">([</span>
+                <span class="p">((</span><span class="n">base_x</span> <span class="o">+</span> <span class="n">da</span> <span class="o">*</span> <span class="n">ej</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">db</span> <span class="o">*</span> <span class="n">ek</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">*</span> <span class="n">edge</span><span class="p">,</span>
+                 <span class="p">(</span><span class="n">base_y</span> <span class="o">+</span> <span class="n">da</span> <span class="o">*</span> <span class="n">ej</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">db</span> <span class="o">*</span> <span class="n">ek</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">*</span> <span class="n">edge</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">da</span><span class="p">,</span> <span class="n">db</span> <span class="ow">in</span> <span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+            <span class="p">])</span>
+    <span class="k">return</span> <span class="n">out</span>
+</code></pre></div>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  
+  
+  <div class="md-footer-meta md-typeset">
+    
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-footer-copyright__highlight">
+        &#169; Copyright pyboxbuilder contributors.
+        
+    </div>
+  
+    Created using
+    <a href="https://www.sphinx-doc.org/" target="_blank" rel="noopener">Sphinx</a>
+    8.2.3.
+     and
+    <a href="https://github.com/jbms/sphinx-immaterial/" target="_blank" rel="noopener">Sphinx-Immaterial</a>
+  
+</div>
+      
+    </div>
+    
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.top", "content.code.copy", "search.highlight", "toc.follow", "toc.sticky"], "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+      
+        <script src="../../../_static/sphinx_immaterial_theme.32136f45f91ae6956.min.js?v=a7a9472a"></script>
+        <script type="module" src="../../../_static/stl_viewer.js?v=0ab88475"></script>
+    
+  </body>
+</html>

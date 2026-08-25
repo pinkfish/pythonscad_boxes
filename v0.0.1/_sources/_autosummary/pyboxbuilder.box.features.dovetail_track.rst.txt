@@ -1,0 +1,6 @@
+pyboxbuilder.box.features.dovetail\_track
+=========================================
+
+.. currentmodule:: pyboxbuilder.box.features
+
+.. autofunction:: dovetail_track

@@ -1,0 +1,9 @@
+pyboxbuilder.layout.Arrangement
+===============================
+
+.. currentmodule:: pyboxbuilder.layout
+
+.. autoclass:: Arrangement
+   :members:
+   :undoc-members:
+   :show-inheritance:

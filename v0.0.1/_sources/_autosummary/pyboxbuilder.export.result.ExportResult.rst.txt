@@ -1,0 +1,9 @@
+pyboxbuilder.export.result.ExportResult
+=======================================
+
+.. currentmodule:: pyboxbuilder.export.result
+
+.. autoclass:: ExportResult
+   :members:
+   :undoc-members:
+   :show-inheritance:

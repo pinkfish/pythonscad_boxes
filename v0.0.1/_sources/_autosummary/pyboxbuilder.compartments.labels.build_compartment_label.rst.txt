@@ -1,0 +1,6 @@
+pyboxbuilder.compartments.labels.build\_compartment\_label
+==========================================================
+
+.. currentmodule:: pyboxbuilder.compartments.labels
+
+.. autofunction:: build_compartment_label

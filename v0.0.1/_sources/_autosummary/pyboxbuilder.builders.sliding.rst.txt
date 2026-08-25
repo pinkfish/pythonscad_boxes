@@ -1,0 +1,24 @@
+pyboxbuilder.builders.sliding
+=============================
+
+.. automodule:: pyboxbuilder.builders.sliding
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+      :toctree:
+      :nosignatures:
+   
+      SlidingBoxBuilder
+   
+   
+
+   
+   
+   

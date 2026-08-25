@@ -1,0 +1,6 @@
+pyboxbuilder.packing.cache.set\_cached
+======================================
+
+.. currentmodule:: pyboxbuilder.packing.cache
+
+.. autofunction:: set_cached

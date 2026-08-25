@@ -1,0 +1,9 @@
+pyboxbuilder.builders.sliding.SlidingBoxBuilder
+===============================================
+
+.. currentmodule:: pyboxbuilder.builders.sliding
+
+.. autoclass:: SlidingBoxBuilder
+   :members:
+   :undoc-members:
+   :show-inheritance:

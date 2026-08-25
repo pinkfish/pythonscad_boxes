@@ -1,0 +1,6 @@
+pyboxbuilder.export.layout\_pdf.should\_regenerate\_layout
+==========================================================
+
+.. currentmodule:: pyboxbuilder.export.layout_pdf
+
+.. autofunction:: should_regenerate_layout

@@ -1,0 +1,25 @@
+pyboxbuilder.project
+====================
+
+.. automodule:: pyboxbuilder.project
+
+   
+   
+   .. rubric:: Submodules
+
+   .. autosummary::
+      :toctree:
+      :recursive:
+   
+      core
+      piece
+   
+   
+
+   
+   
+   
+
+   
+   
+   

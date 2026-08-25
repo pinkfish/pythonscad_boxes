@@ -1,0 +1,6 @@
+pyboxbuilder.compartments.finger\_cuts.build\_scoop
+===================================================
+
+.. currentmodule:: pyboxbuilder.compartments.finger_cuts
+
+.. autofunction:: build_scoop

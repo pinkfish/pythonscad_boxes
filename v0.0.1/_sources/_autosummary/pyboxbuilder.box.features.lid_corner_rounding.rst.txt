@@ -1,0 +1,6 @@
+pyboxbuilder.box.features.lid\_corner\_rounding
+===============================================
+
+.. currentmodule:: pyboxbuilder.box.features
+
+.. autofunction:: lid_corner_rounding

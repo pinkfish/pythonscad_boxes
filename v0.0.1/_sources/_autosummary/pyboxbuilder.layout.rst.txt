@@ -1,0 +1,38 @@
+pyboxbuilder.layout
+===================
+
+.. automodule:: pyboxbuilder.layout
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+      :toctree:
+      :nosignatures:
+   
+      Arrangement
+      Group
+   
+   
+
+   
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+      :toctree:
+      :nosignatures:
+   
+      arrange
+      check_complete
+      columns
+      measure
+      rows
+      stack
+   
+   

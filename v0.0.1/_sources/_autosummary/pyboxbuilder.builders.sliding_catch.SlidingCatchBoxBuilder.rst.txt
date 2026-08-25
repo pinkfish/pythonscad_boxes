@@ -1,0 +1,9 @@
+pyboxbuilder.builders.sliding\_catch.SlidingCatchBoxBuilder
+===========================================================
+
+.. currentmodule:: pyboxbuilder.builders.sliding_catch
+
+.. autoclass:: SlidingCatchBoxBuilder
+   :members:
+   :undoc-members:
+   :show-inheritance:

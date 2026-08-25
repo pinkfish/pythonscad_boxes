@@ -1,0 +1,24 @@
+pyboxbuilder.builders.magnetic
+==============================
+
+.. automodule:: pyboxbuilder.builders.magnetic
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+      :toctree:
+      :nosignatures:
+   
+      MagneticBoxBuilder
+   
+   
+
+   
+   
+   

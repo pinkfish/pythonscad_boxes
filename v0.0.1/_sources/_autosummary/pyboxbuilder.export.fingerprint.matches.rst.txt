@@ -1,0 +1,6 @@
+pyboxbuilder.export.fingerprint.matches
+=======================================
+
+.. currentmodule:: pyboxbuilder.export.fingerprint
+
+.. autofunction:: matches

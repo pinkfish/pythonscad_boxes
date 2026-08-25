@@ -1,0 +1,6 @@
+pyboxbuilder.compartments.hex\_grid.compute\_hex\_layout
+========================================================
+
+.. currentmodule:: pyboxbuilder.compartments.hex_grid
+
+.. autofunction:: compute_hex_layout

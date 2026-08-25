@@ -1,0 +1,31 @@
+pyboxbuilder.compartments.carve
+===============================
+
+.. automodule:: pyboxbuilder.compartments.carve
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+      :toctree:
+      :nosignatures:
+   
+      build_compartment_scoop
+      build_compartment_well
+      build_contents
+      compartment_floor_z
+      default_scoop_side
+      interior_column
+      interior_mouth
+      tray_rounding
+   
+   

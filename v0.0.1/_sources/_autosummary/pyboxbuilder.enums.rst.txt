@@ -1,0 +1,31 @@
+pyboxbuilder.enums
+==================
+
+.. automodule:: pyboxbuilder.enums
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+      :toctree:
+      :nosignatures:
+   
+      BoxType
+      ElementShape
+      FingerCut
+      LabelMode
+      MagnetType
+      PatternType
+      ScoopSide
+      StackableMode
+   
+   
+
+   
+   
+   

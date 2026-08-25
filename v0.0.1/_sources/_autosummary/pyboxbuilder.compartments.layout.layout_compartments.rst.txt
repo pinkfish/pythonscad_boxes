@@ -1,0 +1,6 @@
+pyboxbuilder.compartments.layout.layout\_compartments
+=====================================================
+
+.. currentmodule:: pyboxbuilder.compartments.layout
+
+.. autofunction:: layout_compartments

@@ -1,0 +1,9 @@
+pyboxbuilder.builders.card\_library.CardLibraryBoxBuilder
+=========================================================
+
+.. currentmodule:: pyboxbuilder.builders.card_library
+
+.. autoclass:: CardLibraryBoxBuilder
+   :members:
+   :undoc-members:
+   :show-inheritance:

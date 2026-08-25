@@ -1,0 +1,1430 @@
+
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="pyboxbuilder.packing.guillotine.pack_guillotine.html">
+      
+      
+        <link rel="next" href="pyboxbuilder.packing.layout.BoxPacking.html">
+      
+      
+      <link rel="icon" href="">
+    
+    
+      
+        <title>pyboxbuilder.packing.layout - pyboxbuilder</title>
+      
+    
+    
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+    
+        <link rel="stylesheet" type="text/css" href="../_static/sphinx_immaterial_theme.6f0d2a77b1b821632.min.css?v=27a6e6bb" />
+        <link rel="stylesheet" type="text/css" href="../_static/stl_viewer.css?v=abc98148" />
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#pyboxbuilder.packing.layout.BoxPacking" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../index.html" title="pyboxbuilder" class="md-header__button md-logo" aria-label="pyboxbuilder" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            pyboxbuilder
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              pyboxbuilder.packing.layout
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/pinkfish/pythonscad_boxes" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    pinkfish/pythonscad_boxes
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../index.html" title="pyboxbuilder" class="md-nav__button md-logo" aria-label="pyboxbuilder" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+    </a>
+    pyboxbuilder
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/pinkfish/pythonscad_boxes" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    pinkfish/pythonscad_boxes
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    <span>Contents</span>
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            <span>Contents</span>
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_1" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../api.html" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    <span>API Reference</span>
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_1_1" id="__nav_1_1_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_1_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_1_1">
+            <span class="md-nav__icon md-icon"></span>
+            <span>API Reference</span>
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_1_1" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="pyboxbuilder.html" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder</span>
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_1_1_1" id="__nav_1_1_1_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_1_1_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_1_1_1">
+            <span class="md-nav__icon md-icon"></span>
+            <span>pyboxbuilder</span>
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pyboxbuilder.box.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>box</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pyboxbuilder.builders.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>builders</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pyboxbuilder.cli.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>cli</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pyboxbuilder.compartments.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>compartments</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pyboxbuilder.deps.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>deps</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pyboxbuilder.enums.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>enums</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pyboxbuilder.export.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>export</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pyboxbuilder.helpers.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>helpers</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pyboxbuilder.layout.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>layout</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pyboxbuilder.lid.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>lid</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_1_1_11" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="pyboxbuilder.packing.html" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>packing</span>
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_1_1_1_11" id="__nav_1_1_1_11_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_1_1_1_11_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_1_1_1_11">
+            <span class="md-nav__icon md-icon"></span>
+            <span>pyboxbuilder.<wbr>packing</span>
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pyboxbuilder.packing.cache.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>packing.<wbr>cache</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pyboxbuilder.packing.guillotine.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>packing.<wbr>guillotine</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+    
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__current-nested md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_1_1_11_3" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="#" class="md-nav__link md-nav__link--active">
+              
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>packing.<wbr>layout</span>
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link md-nav__link--active" for="__nav_1_1_1_11_3" id="__nav_1_1_1_11_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="5" aria-labelledby="__nav_1_1_1_11_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_1_1_1_11_3">
+            <span class="md-nav__icon md-icon"></span>
+            <span>pyboxbuilder.<wbr>packing.<wbr>layout</span>
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pyboxbuilder.packing.layout.BoxPacking.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>packing.<wbr>layout.<wbr>Box<wbr>Packing</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pyboxbuilder.packing.layout.Placement.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>packing.<wbr>layout.<wbr>Placement</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pyboxbuilder.packing.layout.pack_boxes.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>packing.<wbr>layout.<wbr>pack_<wbr>boxes</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+  
+      
+    <li class="md-nav__item md-nav__item--active md-nav__current-toc">
+      
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>packing.<wbr>layout</span>
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="#" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>packing.<wbr>layout</span>
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+  
+
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      On this page
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="pyboxbuilder.packing.layout.BoxPacking.html" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span>pyboxbuilder.<wbr>packing.<wbr>layout.<wbr>Box<wbr>Packing</span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="pyboxbuilder.packing.layout.Placement.html" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span>pyboxbuilder.<wbr>packing.<wbr>layout.<wbr>Placement</span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="pyboxbuilder.packing.layout.pack_boxes.html" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span>pyboxbuilder.<wbr>packing.<wbr>layout.<wbr>pack_<wbr>boxes</span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pyboxbuilder.packing.layout.BoxPacking" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span>pyboxbuilder.<wbr>packing.<wbr>layout.<wbr>Box<wbr>Packing</span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pyboxbuilder.packing.layout.Placement" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span>pyboxbuilder.<wbr>packing.<wbr>layout.<wbr>Placement</span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pyboxbuilder.packing.layout.pack_boxes" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span>pyboxbuilder.<wbr>packing.<wbr>layout.<wbr>pack_<wbr>boxes</span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="pyboxbuilder.packing.layout.pack_boxes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pyboxbuilder.packing.layout.pack_boxes-parameters" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span>Parameters</span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pyboxbuilder.packing.layout.pack_boxes-returns" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span>Returns</span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pyboxbuilder.packing.spacer.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>packing.<wbr>spacer</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pyboxbuilder.paths.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>paths</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pyboxbuilder.precision.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>precision</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pyboxbuilder.preview.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>preview</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pyboxbuilder.project.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>project</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pyboxbuilder.rounding.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>rounding</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pyboxbuilder.run.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>run</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+<nav class="md-nav md-nav--secondary">
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      On this page
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#pyboxbuilder.packing.layout.BoxPacking" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span>pyboxbuilder.<wbr>packing.<wbr>layout.<wbr>Box<wbr>Packing</span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pyboxbuilder.packing.layout.Placement" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span>pyboxbuilder.<wbr>packing.<wbr>layout.<wbr>Placement</span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pyboxbuilder.packing.layout.pack_boxes" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span>pyboxbuilder.<wbr>packing.<wbr>layout.<wbr>pack_<wbr>boxes</span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="pyboxbuilder.packing.layout.pack_boxes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pyboxbuilder.packing.layout.pack_boxes-parameters" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span>Parameters</span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pyboxbuilder.packing.layout.pack_boxes-returns" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span>Returns</span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset" role="main">
+                
+                
+                  
+
+
+<h1 id="module-pyboxbuilder.packing.layout"><span id="pyboxbuilder-packing-layout"></span>pyboxbuilder.packing.layout<a class="headerlink" href="#module-pyboxbuilder.packing.layout" title="Link to this heading">¶</a></h1>
+<p>Box packing layout — skyline-based 3D box packing into game box interior.</p>
+<p class="rubric">Classes</p>
+<table class="autosummary longtable docutils data align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="pyboxbuilder.packing.layout.BoxPacking.html#pyboxbuilder.packing.layout.BoxPacking" title="pyboxbuilder.packing.layout.BoxPacking (Python class) — Bases: object"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BoxPacking</span></code></a></p></td>
+<td><p>Computed nested layout of sub-boxes inside a container.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="pyboxbuilder.packing.layout.Placement.html#pyboxbuilder.packing.layout.Placement" title="pyboxbuilder.packing.layout.Placement (Python class) — Bases: object"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Placement</span></code></a></p></td>
+<td><p>Position and size of one box in the nested layout.</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Functions</p>
+<table class="autosummary longtable docutils data align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="pyboxbuilder.packing.layout.pack_boxes.html#pyboxbuilder.packing.layout.pack_boxes" title="pyboxbuilder.packing.layout.pack_boxes (Python function) — Pack sub-boxes into a container using a 3D First-Fit Decreasing solver."><code class="xref py py-obj docutils literal notranslate"><span class="pre">pack_boxes</span></code></a></p></td>
+<td><p>Pack sub-boxes into a container using a 3D First-Fit Decreasing solver.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py exception objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.packing.layout.PackingError">
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyboxbuilder.packing.layout.</span></span><span class="sig-name descname"><span class="pre">PackingError</span></span><a class="reference internal" href="../_modules/pyboxbuilder/packing/layout.html#PackingError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyboxbuilder.packing.layout.PackingError" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ValueError</span></code></a></p>
+<p>Raised when the sub-boxes cannot be arranged inside the game box.</p>
+<p>Note that the packer is a greedy heuristic, so this does not prove the
+layout is impossible — only that this solver could not find it.</p>
+</dd></dl>
+
+<dl class="py class objdesc">
+<dt class="sig sig-object highlight sig-wrap py" id="pyboxbuilder.packing.layout.BoxPacking">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyboxbuilder.packing.layout.</span></span><span class="sig-name descname"><span class="pre">BoxPacking</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><span class="pre">container_size:</span> <span class="pre">tuple[float,</span> <span class="pre">float,</span> <span class="pre">float],</span> <span class="pre">placements:</span> <span class="pre">list[~pyboxbuilder.packing.layout.Placement]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;,</span> <span class="pre">row_lengths:</span> <span class="pre">list[float]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;,</span> <span class="pre">row_widths:</span> <span class="pre">list[float]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;,</span> <span class="pre">spacer_placements:</span> <span class="pre">list[~pyboxbuilder.packing.layout.Placement]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></em></span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyboxbuilder/packing/layout.html#BoxPacking"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyboxbuilder.packing.layout.BoxPacking" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Computed nested layout of sub-boxes inside a container.</p>
+<dl class="py attribute objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.packing.layout.BoxPacking.container_size">
+<span class="sig-name descname"><span class="pre">container_size</span></span><span class="p"> <span class="pre">:</span> </span><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.14)"><span class="pre">tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#pyboxbuilder.packing.layout.BoxPacking.container_size" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.packing.layout.BoxPacking.placements">
+<span class="sig-name descname"><span class="pre">placements</span></span><span class="p"> <span class="pre">:</span> </span><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="pyboxbuilder.packing.layout.Placement.html#pyboxbuilder.packing.layout.Placement" title="pyboxbuilder.packing.layout.Placement (Python class) — Bases: object"><span class="pre">Placement</span></a><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#pyboxbuilder.packing.layout.BoxPacking.placements" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.packing.layout.BoxPacking.row_lengths">
+<span class="sig-name descname"><span class="pre">row_lengths</span></span><span class="p"> <span class="pre">:</span> </span><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#pyboxbuilder.packing.layout.BoxPacking.row_lengths" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.packing.layout.BoxPacking.row_widths">
+<span class="sig-name descname"><span class="pre">row_widths</span></span><span class="p"> <span class="pre">:</span> </span><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#pyboxbuilder.packing.layout.BoxPacking.row_widths" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.packing.layout.BoxPacking.spacer_placements">
+<span class="sig-name descname"><span class="pre">spacer_placements</span></span><span class="p"> <span class="pre">:</span> </span><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="pyboxbuilder.packing.layout.Placement.html#pyboxbuilder.packing.layout.Placement" title="pyboxbuilder.packing.layout.Placement (Python class) — Bases: object"><span class="pre">Placement</span></a><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#pyboxbuilder.packing.layout.BoxPacking.spacer_placements" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class objdesc">
+<dt class="sig sig-object highlight sig-wrap py" id="pyboxbuilder.packing.layout.Placement">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyboxbuilder.packing.layout.</span></span><span class="sig-name descname"><span class="pre">Placement</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="pyboxbuilder.packing.layout.Placement.html#pyboxbuilder.packing.layout.Placement" title="pyboxbuilder.packing.layout.Placement.__init__.label (Python parameter)"><span class="n"><span class="pre">label</span></span></a><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></span></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="pyboxbuilder.packing.layout.Placement.html#pyboxbuilder.packing.layout.Placement" title="pyboxbuilder.packing.layout.Placement.__init__.position (Python parameter)"><span class="n"><span class="pre">position</span></span></a><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.14)"><span class="pre">tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span></span></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="pyboxbuilder.packing.layout.Placement.html#pyboxbuilder.packing.layout.Placement" title="pyboxbuilder.packing.layout.Placement.__init__.size (Python parameter)"><span class="n"><span class="pre">size</span></span></a><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.14)"><span class="pre">tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span></span></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="pyboxbuilder.packing.layout.Placement.html#pyboxbuilder.packing.layout.Placement" title="pyboxbuilder.packing.layout.Placement.__init__.rotation (Python parameter)"><span class="n"><span class="pre">rotation</span></span></a><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">False</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="pyboxbuilder.packing.layout.Placement.html#pyboxbuilder.packing.layout.Placement" title="pyboxbuilder.packing.layout.Placement.__init__.path (Python parameter)"><span class="n"><span class="pre">path</span></span></a><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.14)"><span class="pre">tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.14)"><span class="pre">tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em></span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyboxbuilder/packing/layout.html#Placement"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyboxbuilder.packing.layout.Placement" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Position and size of one box in the nested layout.</p>
+<dl class="py attribute objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.packing.layout.Placement.label">
+<span class="sig-name descname"><span class="pre">label</span></span><span class="p"> <span class="pre">:</span> </span><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><a class="headerlink" href="#pyboxbuilder.packing.layout.Placement.label" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.packing.layout.Placement.path">
+<span class="sig-name descname"><span class="pre">path</span></span><span class="p"> <span class="pre">:</span> </span><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.14)"><span class="pre">tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.14)"><span class="pre">tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="p"> <span class="pre">=</span> </span><code class="code python docutils literal highlight highlight-python"><span class="kc">None</span></code><a class="headerlink" href="#pyboxbuilder.packing.layout.Placement.path" title="Link to this definition">¶</a></dt>
+<dd><p>Footprint outline relative to <cite>position</cite>, when it is not a rectangle.</p>
+<p>Set on spacers whose leftover region is L-, T- or U-shaped (FR-018); such a
+spacer is built as a <cite>PathBox</cite> rather than a plain tray. None means the
+footprint is just <cite>size</cite>.</p>
+</dd></dl>
+
+<dl class="py attribute objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.packing.layout.Placement.position">
+<span class="sig-name descname"><span class="pre">position</span></span><span class="p"> <span class="pre">:</span> </span><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.14)"><span class="pre">tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#pyboxbuilder.packing.layout.Placement.position" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.packing.layout.Placement.rotation">
+<span class="sig-name descname"><span class="pre">rotation</span></span><span class="p"> <span class="pre">:</span> </span><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span><span class="p"> <span class="pre">=</span> </span><code class="code python docutils literal highlight highlight-python"><span class="kc">False</span></code><a class="headerlink" href="#pyboxbuilder.packing.layout.Placement.rotation" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.packing.layout.Placement.size">
+<span class="sig-name descname"><span class="pre">size</span></span><span class="p"> <span class="pre">:</span> </span><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.14)"><span class="pre">tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#pyboxbuilder.packing.layout.Placement.size" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function objdesc">
+<dt class="sig sig-object highlight sig-wrap py" id="pyboxbuilder.packing.layout.pack_boxes">
+<span class="sig-prename descclassname"><span class="pre">pyboxbuilder.packing.layout.</span></span><span class="sig-name descname"><span class="pre">pack_boxes</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="pyboxbuilder.packing.layout.pack_boxes.html#pyboxbuilder.packing.layout.pack_boxes.container_size" title="pyboxbuilder.packing.layout.pack_boxes.container_size (Python parameter) — (width, length, height) of the outer box interior."><span class="n"><span class="pre">container_size</span></span></a><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.14)"><span class="pre">tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span></span></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="pyboxbuilder.packing.layout.pack_boxes.html#pyboxbuilder.packing.layout.pack_boxes.boxes" title="pyboxbuilder.packing.layout.pack_boxes.boxes (Python parameter) — List of dicts with keys: label, size (w, l, h), expandable."><span class="n"><span class="pre">boxes</span></span></a><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="pyboxbuilder.packing.layout.pack_boxes.html#pyboxbuilder.packing.layout.pack_boxes.gap_threshold" title="pyboxbuilder.packing.layout.pack_boxes.gap_threshold (Python parameter) — Gaps &lt;= this are absorbed."><span class="n"><span class="pre">gap_threshold</span></span></a><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><code class="code python default_value docutils literal highlight highlight-python"><span class="mf">10.0</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="pyboxbuilder.packing.layout.pack_boxes.html#pyboxbuilder.packing.layout.pack_boxes.min_spacer_dim" title="pyboxbuilder.packing.layout.pack_boxes.min_spacer_dim (Python parameter) — Minimum spacer dimension before absorption."><span class="n"><span class="pre">min_spacer_dim</span></span></a><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><code class="code python default_value docutils literal highlight highlight-python"><span class="mf">15.0</span></code></em></span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="desctype"><a class="reference internal" href="pyboxbuilder.packing.layout.BoxPacking.html#pyboxbuilder.packing.layout.BoxPacking" title="pyboxbuilder.packing.layout.BoxPacking (Python class) — Bases: object"><span class="pre">BoxPacking</span></a></span></span></span><a class="reference internal" href="../_modules/pyboxbuilder/packing/layout.html#pack_boxes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyboxbuilder.packing.layout.pack_boxes" title="Link to this definition">¶</a></dt>
+<dd><p>Pack sub-boxes into a container using a 3D First-Fit Decreasing solver.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="pyboxbuilder.packing.layout.pack_boxes-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#pyboxbuilder.packing.layout.pack_boxes-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt id="pyboxbuilder.packing.layout.pack_boxes.container_size"><span class="n sig-name">container_size</span><span class="p">:</span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.14)">tuple</a><span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)">float</a><span class="p">,</span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)">float</a><span class="p">,</span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)">float</a><span class="p">]</span></span></span><a class="headerlink" href="#pyboxbuilder.packing.layout.pack_boxes.container_size" title="Permalink to this definition">¶</a></dt><dd><p>(width, length, height) of the outer box interior.</p>
+</dd>
+<dt id="pyboxbuilder.packing.layout.pack_boxes.boxes"><span class="n sig-name">boxes</span><span class="p">:</span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)">list</a><span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)">dict</a><span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a><span class="p">,</span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)">Any</a><span class="p">]</span><span class="p">]</span></span></span><a class="headerlink" href="#pyboxbuilder.packing.layout.pack_boxes.boxes" title="Permalink to this definition">¶</a></dt><dd><p>List of dicts with keys: label, size (w, l, h), expandable.</p>
+</dd>
+<dt id="pyboxbuilder.packing.layout.pack_boxes.gap_threshold"><span class="n sig-name">gap_threshold</span><span class="p">:</span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)">float</a></span></span><span class="w"> </span><span class="o">=</span><span class="w"> </span><code class="code python default_value docutils literal highlight highlight-python"><span class="mf">10.0</span></code><a class="headerlink" href="#pyboxbuilder.packing.layout.pack_boxes.gap_threshold" title="Permalink to this definition">¶</a></dt><dd><p>Gaps &lt;= this are absorbed.</p>
+</dd>
+<dt id="pyboxbuilder.packing.layout.pack_boxes.min_spacer_dim"><span class="n sig-name">min_spacer_dim</span><span class="p">:</span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)">float</a></span></span><span class="w"> </span><span class="o">=</span><span class="w"> </span><code class="code python default_value docutils literal highlight highlight-python"><span class="mf">15.0</span></code><a class="headerlink" href="#pyboxbuilder.packing.layout.pack_boxes.min_spacer_dim" title="Permalink to this definition">¶</a></dt><dd><p>Minimum spacer dimension before absorption.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even" id="pyboxbuilder.packing.layout.pack_boxes-returns">Returns<span class="colon">:</span><a class="headerlink" href="#pyboxbuilder.packing.layout.pack_boxes-returns" title="Permalink to this headline">¶</a></dt>
+<dd class="field-even"><p>BoxPacking with placements assigned.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py data objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.packing.layout.HEIGHT_ABSORB_MM">
+<span class="sig-prename descclassname"><span class="pre">pyboxbuilder.packing.layout.</span></span><span class="sig-name descname"><span class="pre">HEIGHT_ABSORB_MM</span></span><span class="p"> <span class="pre">=</span> </span><code class="code python docutils literal highlight highlight-python"><span class="mf">3.0</span></code><a class="headerlink" href="#pyboxbuilder.packing.layout.HEIGHT_ABSORB_MM" title="Link to this definition">¶</a></dt>
+<dd><p>A gap above an expandable box no deeper than this is absorbed into it (FR-012).</p>
+<p>Anything deeper is real space that a spacer should claim, not slack to grow into.</p>
+</dd></dl>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  
+  
+  <div class="md-footer-meta md-typeset">
+    
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-footer-copyright__highlight">
+        &#169; Copyright pyboxbuilder contributors.
+        
+    </div>
+  
+    Created using
+    <a href="https://www.sphinx-doc.org/" target="_blank" rel="noopener">Sphinx</a>
+    8.2.3.
+     and
+    <a href="https://github.com/jbms/sphinx-immaterial/" target="_blank" rel="noopener">Sphinx-Immaterial</a>
+  
+</div>
+      
+    </div>
+    
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.top", "content.code.copy", "search.highlight", "toc.follow", "toc.sticky"], "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+      
+        <script src="../_static/sphinx_immaterial_theme.32136f45f91ae6956.min.js?v=a7a9472a"></script>
+        <script type="module" src="../_static/stl_viewer.js?v=0ab88475"></script>
+    
+  </body>
+</html>

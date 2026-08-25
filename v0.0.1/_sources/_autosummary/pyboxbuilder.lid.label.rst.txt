@@ -1,0 +1,33 @@
+pyboxbuilder.lid.label
+======================
+
+.. automodule:: pyboxbuilder.lid.label
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+      :toctree:
+      :nosignatures:
+   
+      Label
+   
+   
+
+   
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+      :toctree:
+      :nosignatures:
+   
+      build_label
+      text_height_for
+   
+   

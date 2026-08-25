@@ -1,0 +1,6 @@
+pyboxbuilder.box.registry.register\_box
+=======================================
+
+.. currentmodule:: pyboxbuilder.box.registry
+
+.. autofunction:: register_box

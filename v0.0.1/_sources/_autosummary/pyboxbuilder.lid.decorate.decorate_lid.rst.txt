@@ -1,0 +1,6 @@
+pyboxbuilder.lid.decorate.decorate\_lid
+=======================================
+
+.. currentmodule:: pyboxbuilder.lid.decorate
+
+.. autofunction:: decorate_lid

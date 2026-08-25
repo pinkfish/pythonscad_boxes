@@ -1,0 +1,9 @@
+pyboxbuilder.helpers.CardSize
+=============================
+
+.. currentmodule:: pyboxbuilder.helpers
+
+.. autoclass:: CardSize
+   :members:
+   :undoc-members:
+   :show-inheritance:

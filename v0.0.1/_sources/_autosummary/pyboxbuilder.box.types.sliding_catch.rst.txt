@@ -1,0 +1,24 @@
+pyboxbuilder.box.types.sliding\_catch
+=====================================
+
+.. automodule:: pyboxbuilder.box.types.sliding_catch
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+      :toctree:
+      :nosignatures:
+   
+      SlidingCatchBox
+   
+   
+
+   
+   
+   

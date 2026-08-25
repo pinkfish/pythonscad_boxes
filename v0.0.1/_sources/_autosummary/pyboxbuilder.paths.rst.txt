@@ -1,0 +1,28 @@
+pyboxbuilder.paths
+==================
+
+.. automodule:: pyboxbuilder.paths
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+      :toctree:
+      :nosignatures:
+   
+      bounds
+      inset_rectilinear
+      is_rectilinear
+      polygon_area
+      signed_area
+   
+   

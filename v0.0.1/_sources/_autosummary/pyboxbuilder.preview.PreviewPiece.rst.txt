@@ -1,0 +1,9 @@
+pyboxbuilder.preview.PreviewPiece
+=================================
+
+.. currentmodule:: pyboxbuilder.preview
+
+.. autoclass:: PreviewPiece
+   :members:
+   :undoc-members:
+   :show-inheritance:
