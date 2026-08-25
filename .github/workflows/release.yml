@@ -53,3 +53,6 @@ jobs:
             --title "$GITHUB_REF_NAME" \
             --generate-notes \
             dist/*
+      - name: Publish package
+        uses: pypa/gh-action-pypi-publish@release/v1
+        
