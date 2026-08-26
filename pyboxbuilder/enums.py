@@ -132,3 +132,4 @@ class ElementShape(Enum):
     CIRCLE = "circle"
     HEXAGON = "hexagon"
     SPHERE_SCOOP = "sphere_scoop"
+    TEXT = "text"

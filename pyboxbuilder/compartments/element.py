@@ -300,6 +300,17 @@ def build_element(
     if element.shape is ElementShape.SVG:
         assert element.shape_file is not None
         solid = svg_solid(element.shape_file, w, l, depth)
+    elif element.shape is ElementShape.TEXT:
+        from pybosl2.shapes2d.ops import text
+        assert element.shape_file is not None
+        font_size = min(w / len(element.shape_file) * 1.5, l * 0.7)
+        solid = text(
+            element.shape_file,
+            font="Liberation Sans:style=Bold",
+            size=font_size,
+            halign="center",
+            valign="center"
+        ).linear_extrude(height=depth)
     elif element.shape is ElementShape.CIRCLE:
         if element.bottom_rounding > 0:
             solid = cylinder(
@@ -422,7 +433,8 @@ def build_pull_out(
     from pyboxbuilder.rounding import rounding_facets
 
     assert element.size is not None
-    width, length = element.size
+    w, l = element.size
+    width, length = (l, w) if abs(element.rotation) == 90 else (w, l)
     depth = element.depth or default_depth
     actual_z_offset = element.z_offset if element.z_offset is not None else (default_depth - depth)
     drop = depth * PULL_OUT_DEPTH_SHARE
