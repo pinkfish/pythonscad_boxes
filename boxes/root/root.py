@@ -153,10 +153,18 @@ class MultiColorSolid(CsgSolid):
         return self
 
 def make_lizard_mmu_logo(w, l, depth):
-    from pyboxbuilder.compartments.element import svg_solid
-    outer = svg_solid(str(SVG_DIR / "lizard_faction.svg"), w, l, depth).translate([0.0, 0.0, depth / 2]).color("black")
-    inner = svg_solid(str(SVG_DIR / "lizard_faction.svg"), w * 0.92, l * 0.92, depth).translate([0.0, 0.0, depth / 2]).color("#f5d033")
-    return MultiColorSolid((outer | inner).shape)
+    from pyboxbuilder.compartments.element import _svg_region
+    black_raw = _svg_region(str(SVG_DIR / "lizard_multicolor_black.svg")).linear_extrude(height=depth)
+    yellow_raw = _svg_region(str(SVG_DIR / "lizard_multicolor_yellow.svg")).linear_extrude(height=depth)
+    (cx, cy, cz), (span_x, span_y, _) = (black_raw | yellow_raw).bounds()
+    black_centered = black_raw.translate([-cx, -cy, -cz])
+    yellow_centered = yellow_raw.translate([-cx, -cy, -cz])
+    yellow_non_overlap = (yellow_centered - black_centered).color("#f2e45f")
+    black_non_overlap = black_centered.color("black")
+    logo_solid = black_non_overlap | yellow_non_overlap
+    logo_solid = logo_solid.translate([0.0, 0.0, depth / 2])
+    logo_scaled = logo_solid.scale([w / max(float(span_x), 1e-9), l / max(float(span_y), 1e-9), 1.0])
+    return MultiColorSolid(logo_scaled.shape)
 
 LID_LIZARD = LidBuilder(
     logo=make_lizard_mmu_logo, logo_color=Color("#f5d033")
