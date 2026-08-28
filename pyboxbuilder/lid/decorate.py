@@ -213,8 +213,8 @@ def _build_logo(
             scale_z = depth / h
             solid = solid.translate([-cx, -cy, -cz + h/2]).scale([scale_x, scale_y, scale_z])
 
-    offset_x = margin
-    offset_y = (length - logo_l) / 2
+    offset_x = width / 2
+    offset_y = length / 2
     return solid.translate([offset_x, offset_y, 0.0])
 
 

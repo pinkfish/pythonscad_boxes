@@ -194,8 +194,20 @@ LID_ERIE = LidBuilder(logo=str(SVG_DIR / "erie_eyes.svg"), logo_color=Color("bla
 LID_ALLIANCE = LidBuilder(
     logo=str(SVG_DIR / "alliance_eyes.svg"), logo_color=Color("black")
 )
+from pybosl2.shapes3d.base import CsgSolid
+
+class MultiColorSolid(CsgSolid):
+    def color(self, color_val):
+        return self
+
+def make_lizard_mmu_logo(w, l, depth):
+    from pyboxbuilder.compartments.element import svg_solid
+    outer = svg_solid(str(SVG_DIR / "lizard_faction.svg"), w, l, depth).translate([0.0, 0.0, depth / 2]).color("black")
+    inner = svg_solid(str(SVG_DIR / "lizard_faction.svg"), w * 0.92, l * 0.92, depth).translate([0.0, 0.0, depth / 2]).color("#f5d033")
+    return MultiColorSolid((outer | inner).shape)
+
 LID_LIZARD = LidBuilder(
-    logo=str(SVG_DIR / "lizard_faction.svg"), logo_color=Color("#f5d033")
+    logo=make_lizard_mmu_logo, logo_color=Color("#f5d033")
 )
 LID_RIVERFOLK = LidBuilder(
     logo=str(SVG_DIR / "riverfolk_eyes.svg"), logo_color=Color("black")
