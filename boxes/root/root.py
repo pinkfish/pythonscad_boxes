@@ -714,6 +714,11 @@ project.box(
         centered(None, (10.0, 27.916), (16.0, 46.0), depth=18.0, pull_out=True),
         centered(None, (24.625, 27.916), (16.0, 46.0), depth=18.0, pull_out=True),
         centered(None, (39.25, 27.916), (16.0, 46.0), depth=18.0, pull_out=True),
+
+        # Stamps/Inlays at the bottom of the channels (depth=0.6, z_offset = comp_depth - depth = 20.9 - 18.0 = 2.9)
+        centered(str(SVG_DIR / "riverfolk_warrior.svg"), (10.0, 27.916), (12.0, 15.0), depth=0.6, z_offset=2.9, color="black", pull_out=False),
+        centered(str(SVG_DIR / "riverfolk_warrior.svg"), (24.625, 27.916), (12.0, 15.0), depth=0.6, z_offset=2.9, color="black", pull_out=False),
+        centered(str(SVG_DIR / "riverfolk_warrior.svg"), (39.25, 27.916), (12.0, 15.0), depth=0.6, z_offset=2.9, color="black", pull_out=False),
     ],
 )
 
@@ -729,16 +734,29 @@ project.box(
 ).compartment(
     "TradePostsAndGems",
     elements=[
-        # Score marker
-        centered(str(SVG_DIR / "laurel_wreath.svg"), (9.25, 9.25), (18.5, 18.5), depth=3.0, pull_out=True),
-        # 3 Trading Posts (Signs)
-        centered(str(SVG_DIR / "sign.svg"), (90.5, 12.0), (20.0, 20.0), depth=10.5, pull_out=True),
-        centered(str(SVG_DIR / "sign.svg"), (68.5, 12.0), (20.0, 20.0), depth=10.5, pull_out=True),
-        centered(str(SVG_DIR / "sign.svg"), (46.5, 12.0), (20.0, 20.0), depth=10.5, pull_out=True),
-        # 3 Glass gems
-        centered(str(SVG_DIR / "fist.svg"), (21.25, 45.333), (17.0, 17.0), depth=10.0, pull_out=True),
-        centered(str(SVG_DIR / "fist.svg"), (48.25, 45.333), (17.0, 17.0), depth=10.0, pull_out=True),
-        centered(str(SVG_DIR / "fist.svg"), (75.25, 45.333), (17.0, 17.0), depth=10.0, pull_out=True),
+        # Pockets (wells)
+        # Score marker (rectangular well)
+        centered(None, (9.25, 9.25), (18.5, 18.5), shape=ElementShape.RECT, depth=3.0, pull_out=True),
+        # 3 Trading Posts (circular wells)
+        centered(None, (90.5, 12.0), (20.0, 20.0), shape=ElementShape.CIRCLE, depth=10.5, pull_out=True),
+        centered(None, (68.5, 12.0), (20.0, 20.0), shape=ElementShape.CIRCLE, depth=10.5, pull_out=True),
+        centered(None, (46.5, 12.0), (20.0, 20.0), shape=ElementShape.CIRCLE, depth=10.5, pull_out=True),
+        # 3 Glass gems (circular wells)
+        centered(None, (21.25, 45.333), (17.0, 17.0), shape=ElementShape.CIRCLE, depth=10.0, pull_out=True),
+        centered(None, (48.25, 45.333), (17.0, 17.0), shape=ElementShape.CIRCLE, depth=10.0, pull_out=True),
+        centered(None, (75.25, 45.333), (17.0, 17.0), shape=ElementShape.CIRCLE, depth=10.0, pull_out=True),
+
+        # Stamps/Inlays at the bottom of the pockets (depth=0.6, comp_depth = 10.9)
+        # Score marker (z_offset = 10.9 - 3.0 = 7.9)
+        centered(str(SVG_DIR / "laurel_wreath.svg"), (9.25, 9.25), (12.0, 12.0), depth=0.6, z_offset=7.9, color="black", pull_out=False),
+        # 3 Trading Posts (z_offset = 10.9 - 10.5 = 0.4)
+        centered(str(SVG_DIR / "sign.svg"), (90.5, 12.0), (12.0, 12.0), depth=0.6, z_offset=0.4, color="black", pull_out=False),
+        centered(str(SVG_DIR / "sign.svg"), (68.5, 12.0), (12.0, 12.0), depth=0.6, z_offset=0.4, color="black", pull_out=False),
+        centered(str(SVG_DIR / "sign.svg"), (46.5, 12.0), (12.0, 12.0), depth=0.6, z_offset=0.4, color="black", pull_out=False),
+        # 3 Glass gems (z_offset = 10.9 - 10.0 = 0.9)
+        centered(str(SVG_DIR / "gem.svg"), (21.25, 45.333), (11.0, 11.0), depth=0.6, z_offset=0.9, color="black", pull_out=False),
+        centered(str(SVG_DIR / "gem.svg"), (48.25, 45.333), (11.0, 11.0), depth=0.6, z_offset=0.9, color="black", pull_out=False),
+        centered(str(SVG_DIR / "gem.svg"), (75.25, 45.333), (11.0, 11.0), depth=0.6, z_offset=0.9, color="black", pull_out=False),
     ],
 )
 
