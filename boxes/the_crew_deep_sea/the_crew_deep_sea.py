@@ -47,6 +47,7 @@ from pyboxbuilder import (
     columns,
     run,
     stack,
+    centered,
 )
 from pyboxbuilder.compartments import CompartmentElement
 
@@ -200,45 +201,7 @@ def pocket(depth_from_top: float) -> dict:
     return {"z_offset": z, "depth": ACCESSORY_INNER_H - z + OVERSHOOT}
 
 
-def centered(
-    shape_file: str | None,
-    center: tuple[float, float],
-    size: tuple[float, float],
-    *,
-    shape: ElementShape = ElementShape.SVG,
-    rotation: float = 0.0,
-    label: str | None = None,
-    corner_radius: float = 2.0,
-    **pocket_kwargs,
-) -> CompartmentElement:
-    """An element positioned by its centre, the way the pieces are laid out.
-
-    `CompartmentElement.offset` is a lower-left corner, so convert here once
-    instead of at each call site.
-    """
-    proto = CompartmentElement(
-        shape_file=shape_file,
-        offset=(0.0, 0.0),
-        size=size,
-        shape=shape,
-        rotation=rotation,
-        label=label,
-        corner_radius=corner_radius,
-        **pocket_kwargs,
-    )
-    fw, fl = proto.footprint
-    return CompartmentElement(
-        shape_file=shape_file,
-        offset=(center[0] - fw / 2, center[1] - fl / 2),
-        size=size,
-        shape=shape,
-        rotation=rotation,
-        label=label,
-        corner_radius=corner_radius,
-        **pocket_kwargs,
-    )
-
-
+# ── Layout ──────────────────────────────────────────────────────────────────
 # Every well is its piece (or stack of pieces) plus a little slack on top, so a
 # fingertip can get under the top edge. The diver and base are thicker than the
 # tokens, so they get their own deeper well; the sonar tokens stack, split

@@ -40,6 +40,7 @@ from pyboxbuilder import (
     rows,
     run,
     stack,
+    centered,
 )
 from pyboxbuilder.compartments import CompartmentElement, grid_pack
 from pyboxbuilder.enums import ElementShape
@@ -116,46 +117,6 @@ def pocket(inner_height: float, depth_from_top: float) -> dict:
     """
     z = max(0.0, inner_height - depth_from_top)
     return {"z_offset": z, "depth": inner_height - z + OVERSHOOT}
-
-
-def centered(
-    shape_file: str | None,
-    center: tuple[float, float],
-    size: tuple[float, float],
-    *,
-    shape: ElementShape = ElementShape.SVG,
-    rotation: float = 0.0,
-    label: str | None = None,
-    pull_out: bool = False,
-    **pocket_kwargs,
-) -> CompartmentElement:
-    """An element positioned by its centre, the way the OpenSCAD modules are.
-
-    Every shape in `examples/lib/emberleaf.scad` self-centres on its translate
-    point; `CompartmentElement.offset` is a lower-left corner, so convert here
-    once instead of at each of the fifty call sites.
-    """
-    proto = CompartmentElement(
-        shape_file=shape_file,
-        offset=(0.0, 0.0),
-        size=size,
-        shape=shape,
-        rotation=rotation,
-        label=label,
-        pull_out=pull_out,
-        **pocket_kwargs,
-    )
-    fw, fl = proto.footprint
-    return CompartmentElement(
-        shape_file=shape_file,
-        offset=(center[0] - fw / 2, center[1] - fl / 2),
-        size=size,
-        shape=shape,
-        rotation=rotation,
-        label=label,
-        pull_out=pull_out,
-        **pocket_kwargs,
-    )
 
 
 # ── Project ───────────────────────────────────────────────────────────────

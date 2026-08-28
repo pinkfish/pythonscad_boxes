@@ -43,6 +43,7 @@ from pyboxbuilder import (
     find_sleeve,
     run,
     stack,
+    centered,
 )
 from pyboxbuilder.compartments import CompartmentElement
 
@@ -197,40 +198,6 @@ OVERSHOOT = 0.5
 def pocket(depth_from_top: float) -> dict:
     z = max(0.0, ACCESSORY_INNER_H - depth_from_top)
     return {"z_offset": z, "depth": ACCESSORY_INNER_H - z + OVERSHOOT}
-
-
-def centered(
-    shape_file: str | None,
-    center: tuple[float, float],
-    size: tuple[float, float],
-    *,
-    shape: ElementShape = ElementShape.SVG,
-    rotation: float = 0.0,
-    label: str | None = None,
-    corner_radius: float = 2.0,
-    **pocket_kwargs,
-) -> CompartmentElement:
-    proto = CompartmentElement(
-        shape_file=shape_file,
-        offset=(0.0, 0.0),
-        size=size,
-        shape=shape,
-        rotation=rotation,
-        label=label,
-        corner_radius=corner_radius,
-        **pocket_kwargs,
-    )
-    fw, fl = proto.footprint
-    return CompartmentElement(
-        shape_file=shape_file,
-        offset=(center[0] - fw / 2, center[1] - fl / 2),
-        size=size,
-        shape=shape,
-        rotation=rotation,
-        label=label,
-        corner_radius=corner_radius,
-        **pocket_kwargs,
-    )
 
 
 def stack_depth(count: int, thickness: float) -> float:
