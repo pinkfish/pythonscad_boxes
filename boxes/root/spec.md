@@ -82,6 +82,20 @@ This document details the layout, component counts, compartment dimensions, and 
   * Slots 2-3: Rabbit suit stamp [`rabbit_suit.svg`](file:///Volumes/ExternalDocs/Documents/GitHub/pythonscad_boxes/boxes/root/svg/rabbit_suit.svg)
   * Slots 4-5: Mouse suit stamp [`mouse_suit.svg`](file:///Volumes/ExternalDocs/Documents/GitHub/pythonscad_boxes/boxes/root/svg/mouse_suit.svg)
 
+### 2.6 Riverfolk Company
+* **Color Scheme**: Teal (`#008080`)
+* **Warriors**: 15 meeples (stored in Riverfolk Box Bottom channels with engraved warrior icons).
+* **Trade Posts**: 9 Trade Posts (3 Fox, 3 Rabbit, 3 Mouse, circular cardboard tokens, diameter `18.5` mm, thickness `2.0` mm, stacked up to 5-high in 3 circular wells of depth `10.5` mm).
+* **Glass Gems**: 3 Glass Gems (diameter `17.0` mm, thickness `9.0` mm, stored in 3 circular wells of depth `10.0` mm).
+* **Score Marker**: 1 score marker (square cardboard wreath token, `18.5 x 18.5 x 2.0 mm`, stored in a rectangular well of depth `3.0` mm).
+* **Faction Token**: 1 custom faction token (square cardboard, `18.5 x 18.5 x 2.0 mm`, stored in a rectangular well of depth `4.0` mm).
+* *Pocket style*: Faction and token floor icons:
+  - Warrior: [`riverfolk_warrior.svg`](file:///Volumes/ExternalDocs/Documents/GitHub/pythonscad_boxes/boxes/root/svg/riverfolk_warrior.svg)
+  - Trade Posts: [`sign.svg`](file:///Volumes/ExternalDocs/Documents/GitHub/pythonscad_boxes/boxes/root/svg/sign.svg)
+  - Glass Gems: [`gem.svg`](file:///Volumes/ExternalDocs/Documents/GitHub/pythonscad_boxes/boxes/root/svg/gem.svg)
+  - Score Marker: [`laurel_wreath.svg`](file:///Volumes/ExternalDocs/Documents/GitHub/pythonscad_boxes/boxes/root/svg/laurel_wreath.svg)
+  - Faction Token: [`riverfolk_eyes.svg`](file:///Volumes/ExternalDocs/Documents/GitHub/pythonscad_boxes/boxes/root/svg/riverfolk_eyes.svg)
+
 ---
 
 ## 3. Sub-Box Specifications
