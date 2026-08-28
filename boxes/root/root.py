@@ -627,11 +627,19 @@ project.box(
 ).compartment(
     "BasesAndSympathy",
     elements=[
-        # Alliance Camp (Bases)
-        centered(str(SVG_DIR / "camp.svg"), (15.0, 15.0), (18.5, 18.5), pull_out=True),
-        # Sympathy (Fist)
-        centered(str(SVG_DIR / "fist.svg"), (35.0, 15.0), (18.5, 18.5), pull_out=True),
-        centered(str(SVG_DIR / "fist.svg"), (25.0, 40.0), (18.5, 18.5), pull_out=True),
+        # Pockets (wells)
+        # Alliance Camp / Bases (rectangular well, depth 6.0 for 3-high stack)
+        centered(None, (15.0, 15.0), (18.5, 18.5), shape=ElementShape.RECT, depth=6.0, pull_out=True),
+        # Sympathy / Fist (circular wells, depth 9.5 for 5-high stack)
+        centered(None, (35.0, 15.0), (18.5, 18.5), shape=ElementShape.CIRCLE, depth=9.5, pull_out=True),
+        centered(None, (25.0, 40.0), (18.5, 18.5), shape=ElementShape.CIRCLE, depth=9.5, pull_out=True),
+
+        # Stamps/Inlays at the bottom of the pockets (depth=0.6, comp_depth = 9.9)
+        # Bases (z_offset = 9.9 - 6.0 = 3.9)
+        centered(str(SVG_DIR / "camp.svg"), (15.0, 15.0), (12.0, 12.0), depth=0.6, z_offset=3.9, color="black", pull_out=False),
+        # Sympathy (z_offset = 9.9 - 9.5 = 0.4)
+        centered(str(SVG_DIR / "fist.svg"), (35.0, 15.0), (12.0, 12.0), depth=0.6, z_offset=0.4, color="black", pull_out=False),
+        centered(str(SVG_DIR / "fist.svg"), (25.0, 40.0), (12.0, 12.0), depth=0.6, z_offset=0.4, color="black", pull_out=False),
     ],
 )
 
@@ -776,12 +784,10 @@ project.box(
             str(SVG_DIR / "vagabond_warrior.svg"), (15.0, 20.0), (21.0, 22.0), depth=9.0
         ),
         # Relations
-        centered(
-            str(SVG_DIR / "laurel_wreath.svg"),
-            (35.0, 20.0),
-            (18.5, 18.5),
-            pull_out=True,
-        ),
+        # Pocket (well, depth 4.0)
+        centered(None, (35.0, 20.0), (18.5, 18.5), shape=ElementShape.RECT, depth=4.0, pull_out=True),
+        # Stamp/Inlay at the bottom (z_offset = 12.4 - 4.0 = 8.4)
+        centered(str(SVG_DIR / "laurel_wreath.svg"), (35.0, 20.0), (12.0, 12.0), depth=0.6, z_offset=8.4, color="black", pull_out=False),
     ],
 )
 

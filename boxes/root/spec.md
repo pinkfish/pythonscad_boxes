@@ -142,3 +142,4 @@ graph TD
 2. **Default Corner Rounding**: Square/rectangular pockets (`ElementShape.RECT`) automatically apply a configurable `0.5mm` vertical corner rounding.
 3. **Engraved Inlays**: Colored floor inserts are carved 0.6mm deep into the pocket floor and printed flush in a secondary material (e.g. black PLA).
 4. **Scoop Width Bounds**: Horizontal finger scoops along X must have their widths (`across`) restricted near boundary walls (less than 15mm clearance) to avoid piercing the outer `2.0mm` box walls.
+5. **Floor Icons**: All token pockets must have their respective token icons engraved in the bottom of the pockets (depth=0.6mm, flush in secondary color) to aid in component sorting and setup.
