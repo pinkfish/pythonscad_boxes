@@ -336,7 +336,7 @@ project.box(
             # 2 slots for Fox (4 tokens)
             {
                 "svg": str(SVG_DIR / "winter_token.svg"),
-                "insert_svg": str(SVG_DIR / "fox_suit.svg"),
+                "insert_svg": str(SVG_DIR / "fox.svg"),
                 "shape": ElementShape.SVG,
                 "depth": 5.0,
                 "size": (15.5, 29.5),
@@ -347,7 +347,7 @@ project.box(
             },
             {
                 "svg": str(SVG_DIR / "winter_token.svg"),
-                "insert_svg": str(SVG_DIR / "fox_suit.svg"),
+                "insert_svg": str(SVG_DIR / "fox.svg"),
                 "shape": ElementShape.SVG,
                 "depth": 5.0,
                 "size": (15.5, 29.5),
@@ -358,7 +358,7 @@ project.box(
             # 2 slots for Rabbit (4 tokens)
             {
                 "svg": str(SVG_DIR / "winter_token.svg"),
-                "insert_svg": str(SVG_DIR / "rabbit_suit.svg"),
+                "insert_svg": str(SVG_DIR / "rabbit.svg"),
                 "shape": ElementShape.SVG,
                 "depth": 5.0,
                 "size": (15.5, 29.5),
@@ -368,7 +368,7 @@ project.box(
             },
             {
                 "svg": str(SVG_DIR / "winter_token.svg"),
-                "insert_svg": str(SVG_DIR / "rabbit_suit.svg"),
+                "insert_svg": str(SVG_DIR / "rabbit.svg"),
                 "shape": ElementShape.SVG,
                 "depth": 5.0,
                 "size": (15.5, 29.5),
@@ -379,7 +379,7 @@ project.box(
             # 2 slots for Mouse (4 tokens)
             {
                 "svg": str(SVG_DIR / "winter_token.svg"),
-                "insert_svg": str(SVG_DIR / "mouse_suit.svg"),
+                "insert_svg": str(SVG_DIR / "mouse.svg"),
                 "shape": ElementShape.SVG,
                 "depth": 5.0,
                 "size": (15.5, 29.5),
@@ -389,7 +389,7 @@ project.box(
             },
             {
                 "svg": str(SVG_DIR / "winter_token.svg"),
-                "insert_svg": str(SVG_DIR / "mouse_suit.svg"),
+                "insert_svg": str(SVG_DIR / "mouse.svg"),
                 "shape": ElementShape.SVG,
                 "depth": 5.0,
                 "size": (15.5, 29.5),
