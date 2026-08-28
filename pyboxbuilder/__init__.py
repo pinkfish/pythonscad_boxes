@@ -7,7 +7,7 @@ from importlib.metadata import version as _distribution_version
 from pybosl2 import Color
 
 from pyboxbuilder.builders._base import Cut
-from pyboxbuilder.compartments.element import CompartmentElement, grid_pack
+from pyboxbuilder.compartments.element import CompartmentElement, centered, centered_in_box, grid_pack
 from pyboxbuilder.enums import (
     BoxType,
     ElementShape,
@@ -61,6 +61,8 @@ __all__ = [
     "SleeveType",
     "StackableMode",
     "__version__",
+    "centered",
+    "centered_in_box",
     "columns",
     "find_sleeve",
     "grid_pack",

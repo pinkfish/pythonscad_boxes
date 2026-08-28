@@ -672,3 +672,57 @@ def union_all(solids: list[Bosl2Solid]) -> Bosl2Solid | None:
             for a, b in zip(solids[::2], [*list(solids[1::2]), None], strict=False)
         ]
     return solids[0]
+
+
+def centered(
+    shape_file: str | None,
+    center: tuple[float, float],
+    size: tuple[float, float],
+    *,
+    shape: ElementShape = ElementShape.SVG,
+    rotation: float = 0.0,
+    label: str | None = None,
+    pull_out: bool = False,
+    **pocket_kwargs,
+) -> CompartmentElement:
+    """Return a CompartmentElement centered at the given coordinate."""
+    from pyboxbuilder.enums import ElementShape
+
+    if shape_file is None and shape == ElementShape.SVG:
+        shape = ElementShape.RECT
+    proto = CompartmentElement(
+        shape_file=shape_file,
+        offset=(0.0, 0.0),
+        size=size,
+        shape=shape,
+        rotation=rotation,
+        label=label,
+        pull_out=pull_out,
+        **pocket_kwargs,
+    )
+    fw, fl = proto.footprint
+    return CompartmentElement(
+        shape_file=shape_file,
+        offset=(center[0] - fw / 2, center[1] - fl / 2),
+        size=size,
+        shape=shape,
+        rotation=rotation,
+        label=label,
+        pull_out=pull_out,
+        **pocket_kwargs,
+    )
+
+
+def centered_in_box(
+    shape_file: str | None,
+    box_size: tuple[float, float, float],
+    element_size: tuple[float, float],
+    wall_thickness: float = 2.0,
+    **kwargs,
+) -> CompartmentElement:
+    """Return a CompartmentElement centered exactly in a box's interior frame."""
+    interior_w = box_size[0] - 2 * wall_thickness
+    interior_l = box_size[1] - 2 * wall_thickness
+    return centered(
+        shape_file, (interior_w / 2, interior_l / 2), element_size, **kwargs
+    )

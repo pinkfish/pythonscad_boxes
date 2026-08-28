@@ -22,59 +22,11 @@ from pyboxbuilder import (
     LidBuilder,
     Project,
     run,
+    centered,
+    centered_in_box,
 )
 from pyboxbuilder.compartments import CompartmentElement
 from pyboxbuilder.enums import ElementShape
-
-
-def centered(
-    shape_file: str | None,
-    center: tuple[float, float],
-    size: tuple[float, float],
-    *,
-    shape: ElementShape = ElementShape.SVG,
-    rotation: float = 0.0,
-    label: str | None = None,
-    pull_out: bool = False,
-    **pocket_kwargs,
-) -> CompartmentElement:
-    if shape_file is None and shape == ElementShape.SVG:
-        shape = ElementShape.RECT
-    proto = CompartmentElement(
-        shape_file=shape_file,
-        offset=(0.0, 0.0),
-        size=size,
-        shape=shape,
-        rotation=rotation,
-        label=label,
-        pull_out=pull_out,
-        **pocket_kwargs,
-    )
-    fw, fl = proto.footprint
-    return CompartmentElement(
-        shape_file=shape_file,
-        offset=(center[0] - fw / 2, center[1] - fl / 2),
-        size=size,
-        shape=shape,
-        rotation=rotation,
-        label=label,
-        pull_out=pull_out,
-        **pocket_kwargs,
-    )
-
-
-def centered_in_box(
-    shape_file: str | None,
-    box_size: tuple[float, float, float],
-    element_size: tuple[float, float],
-    wall_thickness: float = 2.0,
-    **kwargs,
-) -> CompartmentElement:
-    interior_w = box_size[0] - 2 * wall_thickness
-    interior_l = box_size[1] - 2 * wall_thickness
-    return centered(
-        shape_file, (interior_w / 2, interior_l / 2), element_size, **kwargs
-    )
 
 
 def pack_in_columns(
