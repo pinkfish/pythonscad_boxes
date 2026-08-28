@@ -636,7 +636,7 @@ project.box(
 )
 
 # Lizard Box Bottom
-lizard_bottom_size = (106.5, 59.833, 26.5)
+lizard_bottom_size = (106.5, 59.833, 24.5)
 project.box(
     BoxType.CAP,
     "LizardBoxBottom",
@@ -667,23 +667,38 @@ project.box(
 project.box(
     BoxType.SLIDING,
     "LizardBoxTop",
-    size=(106.5, 59.833, 12.5),
+    size=(106.5, 59.833, 14.5),
     lid=LID_LIZARD,
     color=Color("yellow"),
-    position=(0.0, 218.166, 28.0 + 26.5),
+    position=(0.0, 218.166, 28.0 + 24.5),
     no_rotate=True,
 ).compartment(
     "Gardens",
     elements=[
-        # Outcast markers & gardens
-        centered(str(SVG_DIR / "camp.svg"), (20.0, 20.0), (18.5, 18.5), pull_out=True),
-        centered(str(SVG_DIR / "camp.svg"), (50.0, 20.0), (18.5, 18.5), pull_out=True),
-        centered(str(SVG_DIR / "camp.svg"), (80.0, 20.0), (18.5, 18.5), pull_out=True),
+        # Rectangular Pockets
+        centered(None, (12.25, 9.25), (18.5, 18.5), shape=ElementShape.RECT, depth=10.0, pull_out=True),
+        centered(None, (40.75, 9.25), (18.5, 18.5), shape=ElementShape.RECT, depth=10.0, pull_out=True),
+        centered(None, (40.75, 46.583), (18.5, 18.5), shape=ElementShape.RECT, depth=10.0, pull_out=True),
+        centered(None, (93.25, 46.583), (18.5, 18.5), shape=ElementShape.RECT, depth=2.0, pull_out=True),
+        centered(None, (93.25, 9.25), (18.5, 18.5), shape=ElementShape.RECT, depth=4.0, pull_out=True),
+        centered(None, (12.25, 46.583), (18.5, 18.5), shape=ElementShape.RECT, depth=2.0, pull_out=True),
+
+        # Stamps/Inlays at the bottom of the pockets (depth=0.6)
+        # Gardens (comp_depth - depth = 10.9 - 10.0 = 0.9)
+        centered(str(SVG_DIR / "fox.svg"), (12.25, 9.25), (10.0, 10.0), depth=0.6, z_offset=0.9, color="black", pull_out=False),
+        centered(str(SVG_DIR / "rabbit.svg"), (40.75, 9.25), (10.0, 10.0), depth=0.6, z_offset=0.9, color="black", pull_out=False),
+        centered(str(SVG_DIR / "mouse.svg"), (40.75, 46.583), (10.0, 10.0), depth=0.6, z_offset=0.9, color="black", pull_out=False),
+        # Outcast (comp_depth - depth = 10.9 - 2.0 = 8.9)
+        centered(str(SVG_DIR / "outcast.svg"), (93.25, 46.583), (10.0, 10.0), depth=0.6, z_offset=8.9, color="black", pull_out=False),
+        # Faction (comp_depth - depth = 10.9 - 4.0 = 6.9)
+        centered(str(SVG_DIR / "lizard_eyes.svg"), (93.25, 9.25), (10.0, 10.0), depth=0.6, z_offset=6.9, color="black", pull_out=False),
+        # Score (comp_depth - depth = 10.9 - 2.0 = 8.9)
+        centered(str(SVG_DIR / "laurel_wreath.svg"), (12.25, 46.583), (12.0, 12.0), depth=0.6, z_offset=8.9, color="black", pull_out=False),
     ],
 )
 
 # Riverfolk Box Bottom
-riverfolk_bottom_size = (53.25, 59.833, 26.5)
+riverfolk_bottom_size = (53.25, 59.833, 24.5)
 project.box(
     BoxType.CAP,
     "RiverfolkBoxBottom",
@@ -706,19 +721,24 @@ project.box(
 project.box(
     BoxType.SLIDING,
     "RiverfolkBoxTop",
-    size=(106.5, 59.833, 12.5),
+    size=(106.5, 59.833, 14.5),
     lid=LID_RIVERFOLK,
     color=Color("teal"),
-    position=(106.5, 218.166, 28.0 + 26.5),
+    position=(106.5, 218.166, 28.0 + 24.5),
     no_rotate=True,
 ).compartment(
-    "TradePosts",
+    "TradePostsAndGems",
     elements=[
-        # Trade Posts (Signs)
-        centered(str(SVG_DIR / "sign.svg"), (20.0, 20.0), (18.5, 18.5), pull_out=True),
-        centered(str(SVG_DIR / "sign.svg"), (50.0, 20.0), (18.5, 18.5), pull_out=True),
-        # Glass gems (Egg shapes)
-        centered(str(SVG_DIR / "fist.svg"), (80.0, 20.0), (18.5, 18.5), pull_out=True),
+        # Score marker
+        centered(str(SVG_DIR / "laurel_wreath.svg"), (9.25, 9.25), (18.5, 18.5), depth=3.0, pull_out=True),
+        # 3 Trading Posts (Signs)
+        centered(str(SVG_DIR / "sign.svg"), (90.5, 12.0), (20.0, 20.0), depth=10.5, pull_out=True),
+        centered(str(SVG_DIR / "sign.svg"), (68.5, 12.0), (20.0, 20.0), depth=10.5, pull_out=True),
+        centered(str(SVG_DIR / "sign.svg"), (46.5, 12.0), (20.0, 20.0), depth=10.5, pull_out=True),
+        # 3 Glass gems
+        centered(str(SVG_DIR / "fist.svg"), (21.25, 45.333), (17.0, 17.0), depth=10.0, pull_out=True),
+        centered(str(SVG_DIR / "fist.svg"), (48.25, 45.333), (17.0, 17.0), depth=10.0, pull_out=True),
+        centered(str(SVG_DIR / "fist.svg"), (75.25, 45.333), (17.0, 17.0), depth=10.0, pull_out=True),
     ],
 )
 
