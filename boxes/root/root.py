@@ -691,7 +691,7 @@ project.box(
         # Outcast (comp_depth - depth = 10.9 - 2.0 = 8.9)
         centered(str(SVG_DIR / "outcast.svg"), (93.25, 46.583), (10.0, 10.0), depth=0.6, z_offset=8.9, color="black", pull_out=False),
         # Faction (comp_depth - depth = 10.9 - 4.0 = 6.9)
-        centered(str(SVG_DIR / "lizard_eyes.svg"), (93.25, 9.25), (10.0, 10.0), depth=0.6, z_offset=6.9, color="black", pull_out=False),
+        centered(str(SVG_DIR / "lizard_faction.svg"), (93.25, 9.25), (10.0, 10.0), depth=0.6, z_offset=6.9, color="black", pull_out=False),
         # Score (comp_depth - depth = 10.9 - 2.0 = 8.9)
         centered(str(SVG_DIR / "laurel_wreath.svg"), (12.25, 46.583), (12.0, 12.0), depth=0.6, z_offset=8.9, color="black", pull_out=False),
     ],
