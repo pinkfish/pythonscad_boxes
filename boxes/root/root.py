@@ -16,6 +16,7 @@ for _sp in REPO_ROOT.glob(".venv/lib/*/site-packages"):
 for _sp in REPO_ROOT.glob("venv/*/lib/*/site-packages"):
     sys.path.insert(0, str(_sp))
 
+from dataclasses import replace
 from pyboxbuilder import (
     BoxType,
     Color,
@@ -24,6 +25,8 @@ from pyboxbuilder import (
     run,
     centered,
     centered_in_box,
+    PatternBuilder,
+    PatternType,
 )
 from pyboxbuilder.compartments import CompartmentElement
 from pyboxbuilder.enums import ElementShape
@@ -138,19 +141,28 @@ SVG_DIR = REPO_ROOT / "boxes" / "root" / "svg"
 # Project Setup
 project = Project("Root", game_box_size=(214.0, 278.0, 67.0))
 
-# Faction Lid configurations using static SVG files
-LID_MARQUIS = LidBuilder(
-    logo=str(SVG_DIR / "marquis_eyes.svg"), logo_color=Color("black")
-)
-LID_ERIE = LidBuilder(logo=str(SVG_DIR / "erie_eyes.svg"), logo_color=Color("black"))
-LID_ALLIANCE = LidBuilder(
-    logo=str(SVG_DIR / "alliance_eyes.svg"), logo_color=Color("black")
-)
 from pybosl2.shapes3d.base import CsgSolid
 
 class MultiColorSolid(CsgSolid):
     def color(self, color_val):
         return self
+
+def make_marquis_mmu_logo(w, l, depth):
+    from pyboxbuilder.compartments.element import _svg_region
+    black_raw = _svg_region(str(SVG_DIR / "marquis_multicolor_black.svg")).linear_extrude(height=depth)
+    orange_raw = _svg_region(str(SVG_DIR / "marquis_multicolor_orange.svg")).linear_extrude(height=depth)
+    white_raw = _svg_region(str(SVG_DIR / "marquis_multicolor_white.svg")).linear_extrude(height=depth)
+    (cx, cy, cz), (span_x, span_y, _) = (black_raw | orange_raw | white_raw).bounds()
+    black_centered = black_raw.translate([-cx, -cy, -cz])
+    orange_centered = orange_raw.translate([-cx, -cy, -cz])
+    white_centered = white_raw.translate([-cx, -cy, -cz])
+    orange_non_overlap = (orange_centered - black_centered - white_centered).color("#ea7d27")
+    white_non_overlap = (white_centered - black_centered).color("white")
+    black_non_overlap = black_centered.color("black")
+    logo_solid = black_non_overlap | orange_non_overlap | white_non_overlap
+    logo_solid = logo_solid.translate([0.0, 0.0, depth / 2])
+    logo_scaled = logo_solid.scale([w / max(float(span_x), 1e-9), l / max(float(span_y), 1e-9), 1.0])
+    return MultiColorSolid(logo_scaled.shape)
 
 def make_lizard_mmu_logo(w, l, depth):
     from pyboxbuilder.compartments.element import _svg_region
@@ -166,14 +178,79 @@ def make_lizard_mmu_logo(w, l, depth):
     logo_scaled = logo_solid.scale([w / max(float(span_x), 1e-9), l / max(float(span_y), 1e-9), 1.0])
     return MultiColorSolid(logo_scaled.shape)
 
-LID_LIZARD = LidBuilder(
-    logo=make_lizard_mmu_logo, logo_color=Color("#f5d033")
+def make_riverfolk_mmu_logo(w, l, depth):
+    from pyboxbuilder.compartments.element import _svg_region
+    black_raw = _svg_region(str(SVG_DIR / "riverfolk_multicolor_black.svg")).linear_extrude(height=depth)
+    green_raw = _svg_region(str(SVG_DIR / "riverfolk_multicolor_green.svg")).linear_extrude(height=depth)
+    white_raw = _svg_region(str(SVG_DIR / "riverfolk_multicolor_white.svg")).linear_extrude(height=depth)
+    (cx, cy, cz), (span_x, span_y, _) = (black_raw | green_raw | white_raw).bounds()
+    black_centered = black_raw.translate([-cx, -cy, -cz])
+    green_centered = green_raw.translate([-cx, -cy, -cz])
+    white_centered = white_raw.translate([-cx, -cy, -cz])
+    green_non_overlap = (green_centered - black_centered - white_centered).color("#4db6af")
+    white_non_overlap = (white_centered - black_centered).color("white")
+    black_non_overlap = black_centered.color("black")
+    logo_solid = black_non_overlap | green_non_overlap | white_non_overlap
+    logo_solid = logo_solid.translate([0.0, 0.0, depth / 2])
+    logo_scaled = logo_solid.scale([w / max(float(span_x), 1e-9), l / max(float(span_y), 1e-9), 1.0])
+    return MultiColorSolid(logo_scaled.shape)
+
+def make_erie_mmu_logo(w, l, depth):
+    from pyboxbuilder.compartments.element import _svg_region
+    black_raw = _svg_region(str(SVG_DIR / "erie_multicolor_black.svg")).linear_extrude(height=depth)
+    blue_raw = _svg_region(str(SVG_DIR / "erie_multicolor_blue.svg")).linear_extrude(height=depth)
+    lightblue_raw = _svg_region(str(SVG_DIR / "erie_multicolor_lightblue.svg")).linear_extrude(height=depth)
+    white_raw = _svg_region(str(SVG_DIR / "erie_multicolor_white.svg")).linear_extrude(height=depth)
+    (cx, cy, cz), (span_x, span_y, _) = (black_raw | blue_raw | lightblue_raw | white_raw).bounds()
+    black_centered = black_raw.translate([-cx, -cy, -cz])
+    blue_centered = blue_raw.translate([-cx, -cy, -cz])
+    lightblue_centered = lightblue_raw.translate([-cx, -cy, -cz])
+    white_centered = white_raw.translate([-cx, -cy, -cz])
+    blue_non_overlap = (blue_centered - black_centered - lightblue_centered - white_centered).color("#5690c7")
+    lightblue_non_overlap = (lightblue_centered - black_centered - white_centered).color("#8ab3d5")
+    white_non_overlap = (white_centered - black_centered).color("white")
+    black_non_overlap = black_centered.color("black")
+    logo_solid = black_non_overlap | blue_non_overlap | lightblue_non_overlap | white_non_overlap
+    logo_solid = logo_solid.translate([0.0, 0.0, depth / 2])
+    logo_scaled = logo_solid.scale([w / max(float(span_x), 1e-9), l / max(float(span_y), 1e-9), 1.0])
+    return MultiColorSolid(logo_scaled.shape)
+
+def make_vagabond_mmu_logo(w, l, depth):
+    from pyboxbuilder.compartments.element import _svg_region
+    black_raw = _svg_region(str(SVG_DIR / "vagabond_multicolor_black.svg")).linear_extrude(height=depth)
+    grey_raw = _svg_region(str(SVG_DIR / "vagabond_multicolor_grey.svg")).linear_extrude(height=depth)
+    white_raw = _svg_region(str(SVG_DIR / "vagabond_multicolor_white.svg")).linear_extrude(height=depth)
+    (cx, cy, cz), (span_x, span_y, _) = (black_raw | grey_raw | white_raw).bounds()
+    black_centered = black_raw.translate([-cx, -cy, -cz])
+    grey_centered = grey_raw.translate([-cx, -cy, -cz])
+    white_centered = white_raw.translate([-cx, -cy, -cz])
+    grey_non_overlap = (grey_centered - black_centered - white_centered).color("#9b9b9b")
+    white_non_overlap = (white_centered - black_centered).color("white")
+    black_non_overlap = black_centered.color("black")
+    logo_solid = black_non_overlap | grey_non_overlap | white_non_overlap
+    logo_solid = logo_solid.translate([0.0, 0.0, depth / 2])
+    logo_scaled = logo_solid.scale([w / max(float(span_x), 1e-9), l / max(float(span_y), 1e-9), 1.0])
+    return MultiColorSolid(logo_scaled.shape)
+
+# Base Lid configuration using SQUARE pattern matching original SCAD lids
+LID_BASE = LidBuilder(pattern=PatternBuilder(PatternType.DENSE_HEX))
+
+LID_MARQUIS = replace(
+    LID_BASE, logo=make_marquis_mmu_logo, logo_color=Color("#ea7d27")
 )
-LID_RIVERFOLK = LidBuilder(
-    logo=str(SVG_DIR / "riverfolk_eyes.svg"), logo_color=Color("black")
+LID_ERIE = replace(LID_BASE, logo=make_erie_mmu_logo, logo_color=Color("#5690c7"))
+LID_ALLIANCE = replace(
+    LID_BASE, logo=str(SVG_DIR / "alliance_eyes.svg"), logo_color=Color("black")
 )
-LID_VAGABOND = LidBuilder(
-    logo=str(SVG_DIR / "vagabond_eyes.svg"), logo_color=Color("black")
+
+LID_LIZARD = replace(
+    LID_BASE, logo=make_lizard_mmu_logo, logo_color=Color("#f5d033")
+)
+LID_RIVERFOLK = replace(
+    LID_BASE, logo=make_riverfolk_mmu_logo, logo_color=Color("#4db6af")
+)
+LID_VAGABOND = replace(
+    LID_BASE, logo=make_vagabond_mmu_logo, logo_color=Color("grey")
 )
 
 # ── Boxes ─────────────────────────────────────────────────────────────────
@@ -184,7 +261,7 @@ project.card_box(
     "BaseCardBox",
     card_size=(74.875, 93.5),
     size=card_size,
-    lid=LidBuilder(text="Shared"),
+    lid=LID_BASE.titled("Shared"),
     position=(0.0, 0.0, 28.0),
     no_rotate=True,
 )
@@ -194,7 +271,7 @@ project.card_box(
     "ErieCardBox",
     card_size=(74.875, 93.5),
     size=card_erie_size,
-    lid=LidBuilder(text="Erie"),
+    lid=LID_BASE.titled("Erie"),
     position=(79.875, 0.0, 28.0),
     no_rotate=True,
 )
@@ -204,7 +281,7 @@ project.card_box(
     "VagabondCardBox",
     card_size=(74.875, 93.5),
     size=card_vagabond_size,
-    lid=LidBuilder(text="Vagabond"),
+    lid=LID_BASE.titled("Vagabond"),
     position=(79.875, 0.0, 28.0 + 8.6),
     no_rotate=True,
 )
@@ -214,7 +291,7 @@ project.card_box(
     "OverviewCardBox",
     card_size=(74.875, 93.5),
     size=card_overview_size,
-    lid=LidBuilder(text="Overview"),
+    lid=LID_BASE.titled("Overview"),
     position=(79.875, 0.0, 28.0 + 8.6 + 19.4),
     no_rotate=True,
 )
@@ -228,7 +305,7 @@ project.box(
     BoxType.SLIDING,
     "ItemsBoxBottom",
     size=(53.25, item_box_length, 10.0),
-    lid=LidBuilder(text="Items Bot"),
+    lid=LID_BASE.titled("Items Bot"),
     position=(159.75, 0.0, 28.0),
     no_rotate=True,
 ).compartment(
@@ -264,7 +341,7 @@ project.box(
     BoxType.SLIDING,
     "ItemsBoxMiddle",
     size=(53.25, item_box_length, 9.0),
-    lid=LidBuilder(text="Items Mid"),
+    lid=LID_BASE.titled("Items Mid"),
     position=(159.75, 0.0, 28.0 + 10.0),
     no_rotate=True,
 ).compartment(
@@ -299,7 +376,7 @@ project.box(
     BoxType.SLIDING,
     "ItemsBoxWinter",
     size=(53.25, item_box_length, 9.0),
-    lid=LidBuilder(text="Winter"),
+    lid=LID_BASE.titled("Winter"),
     position=(159.75, 0.0, 28.0 + 10.0 + 9.0),
     no_rotate=True,
 ).compartment(
@@ -386,7 +463,7 @@ project.box(
     BoxType.SLIDING,
     "ItemsBoxExtras",
     size=(53.25, item_box_length, 11.0),
-    lid=LidBuilder(text="Extras"),
+    lid=LID_BASE.titled("Extras"),
     position=(159.75, 0.0, 28.0 + 10.0 + 9.0 + 9.0),
     no_rotate=True,
 ).compartment(
@@ -1253,7 +1330,7 @@ project.box(
     BoxType.SLIDING,
     "DiceBox",
     size=(53.25, 59.833, 26.0),
-    lid=LidBuilder(text="Dice"),
+    lid=LID_BASE.titled("Dice"),
     position=(106.5, 158.333, 28.0 + 16.0),
     no_rotate=True,
 ).compartment(

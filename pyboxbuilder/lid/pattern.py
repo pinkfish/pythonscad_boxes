@@ -54,7 +54,7 @@ lid whose pitch cannot hold it gets no pattern at all rather than a peppering
 of pinholes.
 """
 
-DENSE_SPACING_SHARE = 0.6
+DENSE_SPACING_SHARE = 1.6
 """How much of the normal spacing a *dense* variant uses."""
 
 DEPTH_OVERSHOOT = 1.2
