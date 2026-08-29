@@ -105,6 +105,8 @@ class BoxSpec:
     """Clearance between a slipover sleeve and the body it wraps."""
 
     # ── Sliding family ───────────────────────────────────────────────────
+    lid_slide_axis: str | None = None
+    """Override sliding axis: 'x' to slide along width, 'y' to slide along length, None for default."""
     dovetail: bool = True
     """Cut the lid's retaining dovetail; ``False`` leaves a plain channel."""
     lead_chamfer: float | None = None

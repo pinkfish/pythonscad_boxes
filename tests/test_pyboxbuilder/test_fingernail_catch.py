@@ -25,6 +25,7 @@ LIFT_OFF = (BoxType.CAP, BoxType.INSET, BoxType.SLIPOVER, BoxType.HINGE)
 SPEC = BoxSpec(
     label="T", width=96.0, length=70.0, height=40.0,
     wall_thickness=3.0, lid_thickness=2.0, floor_thickness=2.0,
+    lid_slide_axis="x",
 )
 
 
@@ -136,7 +137,7 @@ class WhereItSitsTests(unittest.TestCase):
         self.assertGreater(wide.centre[0], SPEC.width * 0.75)
         self.assertAlmostEqual(wide.centre[1], SPEC.length / 2, places=3)
 
-        tall = replace(SPEC, width=70.0, length=120.0)        # exits +y
+        tall = replace(SPEC, width=70.0, length=120.0, lid_slide_axis="y")        # exits +y
         catch = self.catch(tall)
         self.assertAlmostEqual(catch.centre[0], tall.width / 2, places=3)
         self.assertGreater(catch.centre[1], tall.length * 0.75)
@@ -161,7 +162,7 @@ class WhereItSitsTests(unittest.TestCase):
     def test_a_small_lid_gets_a_small_dish(self) -> None:
         """Derived from the lid, not fixed (FR-000)."""
         big = self.catch()
-        small = self.catch(replace(SPEC, width=40.0, length=18.0))
+        small = self.catch(replace(SPEC, width=40.0, length=18.0, lid_slide_axis="x"))
         self.assertLess(small.radius, big.radius)
 
     def test_the_size_is_settable(self) -> None:
@@ -233,7 +234,7 @@ class TheWallTests(unittest.TestCase):
 
     def test_the_wall_stands_across_the_pull(self) -> None:
         """Whichever way the lid slides — the flat has to face the hand."""
-        tall = replace(SPEC, width=70.0, length=120.0)          # exits +y
+        tall = replace(SPEC, width=70.0, length=120.0, lid_slide_axis="y")          # exits +y
         catch = catch_for(tall)
         self.assertEqual(catch.axis, "y")
         self.assertGreater(removed_at(catch, -0.3, tall), 0.0)

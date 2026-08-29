@@ -344,8 +344,11 @@ def _solid_bounds(solid: Bosl2Solid) -> tuple[tuple[float, ...], tuple[float, ..
     """
     bounds = getattr(solid, "bounds", None)
     if callable(bounds):
-        origin, size = bounds()
-        return (tuple(float(v) for v in origin), tuple(float(v) for v in size))
+        try:
+            origin, size = bounds()
+            return (tuple(float(v) for v in origin), tuple(float(v) for v in size))
+        except ValueError:
+            pass
 
     position, size = getattr(solid, "position", None), getattr(solid, "size", None)
     if position is None or size is None:

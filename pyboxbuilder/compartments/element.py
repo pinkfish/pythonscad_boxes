@@ -682,7 +682,7 @@ def centered(
     shape: ElementShape = ElementShape.SVG,
     rotation: float = 0.0,
     label: str | None = None,
-    pull_out: bool = False,
+    pull_out: bool = True,
     **pocket_kwargs,
 ) -> CompartmentElement:
     """Return a CompartmentElement centered at the given coordinate."""

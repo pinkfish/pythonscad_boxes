@@ -49,23 +49,12 @@ class SlidingBox(BoxTypeBase):
         return build_shell(spec)
 
     def slides_along_length(self, spec: BoxSpec) -> bool:
-        """Whether the lid slides along Y rather than X.
-
-        The lid leaves through the **shorter** face, which means sliding along
-        the longer axis. That is what a card box wants: the opening is the
-        narrow end, the lid is supported along its long run by the grooves, and
-        the box reads the right way round. Sliding along the short axis instead
-        puts the opening on the wide face and the grooves on the short walls,
-        where they have least material to bite into.
-
-        Args:
-            spec: Needs `width` and `length`.
-
-        Returns:
-            True when the box is longer than it is wide.
-
-        """
-        return spec.length > spec.width
+        """Whether the lid slides along Y rather than X."""
+        if spec.lid_slide_axis == "x":
+            return False
+        if spec.lid_slide_axis == "y":
+            return True
+        return True
 
     def open_end_side(self, spec: BoxSpec) -> ScoopSide:
         """Return the wall the lid slides out through.

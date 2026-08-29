@@ -201,17 +201,21 @@ def _build_logo(
 
     depth = INLAY_DEPTH_MM
     if isinstance(builder.logo, str):
-        solid = svg_solid(builder.logo, logo_w, logo_l, depth)
+        from pyboxbuilder.compartments.element import _svg_region
+        raw = _svg_region(builder.logo).linear_extrude(height=depth)
+        (cx, cy, cz), (span_x, span_y, _) = raw.bounds()
+        raw = raw.translate([-float(cx), -float(cy), -float(cz) + depth / 2])
+        scale_val = min(logo_w / max(float(span_x), 1e-9), logo_l / max(float(span_y), 1e-9))
+        solid = raw.scale([scale_val, scale_val, 1.0])
     elif callable(builder.logo):
         solid = builder.logo(logo_w, logo_l, depth)
     else:
         solid = builder.logo
         (cx, cy, cz), (w, l, h) = solid.bounds()
         if w > 0 and l > 0 and h > 0:
-            scale_x = logo_w / w
-            scale_y = logo_l / l
+            scale_val = min(logo_w / w, logo_l / l)
             scale_z = depth / h
-            solid = solid.translate([-cx, -cy, -cz + h/2]).scale([scale_x, scale_y, scale_z])
+            solid = solid.translate([-cx, -cy, -cz + h/2]).scale([scale_val, scale_val, scale_z])
 
     offset_x = width / 2
     offset_y = length / 2
@@ -456,6 +460,13 @@ def _apply_label(
         result.solid = result.solid - cut
         return
 
+    # If frame_color is None, hatching is cut as a through-hole.
+    # Otherwise, it is inlaid as a second color.
+    if builder.frame_color is None and label.hatching is not None:
+        hatching_cut = _as_depth(label.hatching, lid_thickness + 2.0)
+        hatching_cut = hatching_cut.translate([origin_x, origin_y, top_z - lid_thickness - 1.0])
+        result.solid = result.solid - hatching_cut
+
     # Inlaid, not embossed (FR-022a): each coloured part is cut out of the lid
     # and put back in its own colour, exactly as deep as the recess, so the
     # lid's top face stays flat. Only the parts that change colour are cut —
@@ -465,7 +476,7 @@ def _apply_label(
         (label.text, builder.text_color),
         (label.hatching, builder.frame_color),
     ):
-        if part is None:
+        if part is None or colour is None:
             continue
         # Clipped to the lid as it stands, so an inlay only ever fills material
         # that was actually there. Where the label crosses something already

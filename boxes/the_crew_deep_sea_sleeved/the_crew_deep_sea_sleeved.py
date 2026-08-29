@@ -329,9 +329,9 @@ accessories.compartment(
 # Sleeved cards fill the whole footprint, so the accessory tray sits on top of
 # the three card boxes: lift the tray out and the cards are underneath.
 project.arrange(
-    stack(
-        columns("Deck", columns("Tasks1", "Tasks2")),
-        "Accessories",
+    columns(
+        "Deck",
+        stack(columns("Tasks1", "Tasks2"), "Accessories"),
     )
 )
 

@@ -308,10 +308,10 @@ class SlidingTests(unittest.TestCase):
         spec = replace(SPEC, hollow=True, catch_radius=0.0)
         body = box.build_body(spec)
         lid = box.build_lid(spec)
-        for step in (0.0, 1.0, 5.0, 25.0, 60.0, SPEC.width):
+        for step in (0.0, 1.0, 5.0, 25.0, 60.0, SPEC.length):
             with self.subTest(slid=step):
                 self.assertLess(
-                    volume(body & lid.translate([step, 0, 0])), 0.01,
+                    volume(body & lid.translate([0, step, 0])), 0.01,
                     "the lid must slide out freely, deforming nothing",
                 )
 

@@ -161,7 +161,8 @@ def make_marquis_mmu_logo(w, l, depth):
     black_non_overlap = black_centered.color("black")
     logo_solid = black_non_overlap | orange_non_overlap | white_non_overlap
     logo_solid = logo_solid.translate([0.0, 0.0, depth / 2])
-    logo_scaled = logo_solid.scale([w / max(float(span_x), 1e-9), l / max(float(span_y), 1e-9), 1.0])
+    scale_val = min(w / max(float(span_x), 1e-9), l / max(float(span_y), 1e-9))
+    logo_scaled = logo_solid.scale([scale_val, scale_val, 1.0])
     return MultiColorSolid(logo_scaled.shape)
 
 def make_lizard_mmu_logo(w, l, depth):
@@ -175,7 +176,8 @@ def make_lizard_mmu_logo(w, l, depth):
     black_non_overlap = black_centered.color("black")
     logo_solid = black_non_overlap | yellow_non_overlap
     logo_solid = logo_solid.translate([0.0, 0.0, depth / 2])
-    logo_scaled = logo_solid.scale([w / max(float(span_x), 1e-9), l / max(float(span_y), 1e-9), 1.0])
+    scale_val = min(w / max(float(span_x), 1e-9), l / max(float(span_y), 1e-9))
+    logo_scaled = logo_solid.scale([scale_val, scale_val, 1.0])
     return MultiColorSolid(logo_scaled.shape)
 
 def make_riverfolk_mmu_logo(w, l, depth):
@@ -192,7 +194,8 @@ def make_riverfolk_mmu_logo(w, l, depth):
     black_non_overlap = black_centered.color("black")
     logo_solid = black_non_overlap | green_non_overlap | white_non_overlap
     logo_solid = logo_solid.translate([0.0, 0.0, depth / 2])
-    logo_scaled = logo_solid.scale([w / max(float(span_x), 1e-9), l / max(float(span_y), 1e-9), 1.0])
+    scale_val = min(w / max(float(span_x), 1e-9), l / max(float(span_y), 1e-9))
+    logo_scaled = logo_solid.scale([scale_val, scale_val, 1.0])
     return MultiColorSolid(logo_scaled.shape)
 
 def make_erie_mmu_logo(w, l, depth):
@@ -212,7 +215,8 @@ def make_erie_mmu_logo(w, l, depth):
     black_non_overlap = black_centered.color("black")
     logo_solid = black_non_overlap | blue_non_overlap | lightblue_non_overlap | white_non_overlap
     logo_solid = logo_solid.translate([0.0, 0.0, depth / 2])
-    logo_scaled = logo_solid.scale([w / max(float(span_x), 1e-9), l / max(float(span_y), 1e-9), 1.0])
+    scale_val = min(w / max(float(span_x), 1e-9), l / max(float(span_y), 1e-9))
+    logo_scaled = logo_solid.scale([scale_val, scale_val, 1.0])
     return MultiColorSolid(logo_scaled.shape)
 
 def make_vagabond_mmu_logo(w, l, depth):
@@ -229,7 +233,8 @@ def make_vagabond_mmu_logo(w, l, depth):
     black_non_overlap = black_centered.color("black")
     logo_solid = black_non_overlap | grey_non_overlap | white_non_overlap
     logo_solid = logo_solid.translate([0.0, 0.0, depth / 2])
-    logo_scaled = logo_solid.scale([w / max(float(span_x), 1e-9), l / max(float(span_y), 1e-9), 1.0])
+    scale_val = min(w / max(float(span_x), 1e-9), l / max(float(span_y), 1e-9))
+    logo_scaled = logo_solid.scale([scale_val, scale_val, 1.0])
     return MultiColorSolid(logo_scaled.shape)
 
 # Base Lid configuration using SQUARE pattern matching original SCAD lids
@@ -250,7 +255,7 @@ LID_RIVERFOLK = replace(
     LID_BASE, logo=make_riverfolk_mmu_logo, logo_color=Color("#4db6af")
 )
 LID_VAGABOND = replace(
-    LID_BASE, logo=make_vagabond_mmu_logo, logo_color=Color("grey")
+    LID_BASE, logo=make_vagabond_mmu_logo, logo_color=Color("black")
 )
 
 # ── Boxes ─────────────────────────────────────────────────────────────────
@@ -261,7 +266,7 @@ project.card_box(
     "BaseCardBox",
     card_size=(74.875, 93.5),
     size=card_size,
-    lid=LID_BASE.titled("Shared"),
+    lid=replace(LID_MARQUIS, text="Shared"),
     position=(0.0, 0.0, 28.0),
     no_rotate=True,
 )
@@ -271,7 +276,7 @@ project.card_box(
     "ErieCardBox",
     card_size=(74.875, 93.5),
     size=card_erie_size,
-    lid=LID_BASE.titled("Erie"),
+    lid=replace(LID_ERIE, text="Erie"),
     position=(79.875, 0.0, 28.0),
     no_rotate=True,
 )
@@ -281,7 +286,7 @@ project.card_box(
     "VagabondCardBox",
     card_size=(74.875, 93.5),
     size=card_vagabond_size,
-    lid=LID_BASE.titled("Vagabond"),
+    lid=replace(LID_VAGABOND, text="Vagabond"),
     position=(79.875, 0.0, 28.0 + 8.6),
     no_rotate=True,
 )

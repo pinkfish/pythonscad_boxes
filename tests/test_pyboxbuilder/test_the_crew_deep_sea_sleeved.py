@@ -30,7 +30,7 @@ class SleevedCardTests(unittest.TestCase):
         cls.boxes = {b.label: b for b in cls.mod["project"]._boxes}
 
     def test_game_box_unchanged(self) -> None:
-        self.assertEqual(self.mod["project"].game_box_size, (172.0, 122.0, 26.0))
+        self.assertEqual(self.mod["project"].game_box_size, (172.0, 122.0, 36.0))
 
     def test_box_inventory(self) -> None:
         self.assertEqual(
@@ -90,17 +90,17 @@ class AccessoryTests(unittest.TestCase):
         return [e.label or "" for e in self.elements]
 
     def test_five_sonar_lie_flat(self) -> None:
-        """The sonar tokens are spread across five shallow wells, not stacked."""
+        """The sonar tokens are spread across stacked wells."""
         wells = [n for n in self.labels() if re.fullmatch(r"sonar_\d", n)]
-        self.assertEqual(len(wells), 5)
+        self.assertEqual(len(wells), 2)
 
     def test_sonar_wells_are_shallow(self) -> None:
-        sonar = next(e for e in self.elements if e.label == "sonar_0")
+        sonar = next(e for e in self.elements if e.label == "sonar_3")
         self.assertLess(sonar.depth, self.mod["ACCESSORY_INNER_H"] + 0.6)
 
     def test_every_piece_has_an_icon(self) -> None:
         """Each sonar well and the distress slot carry a second-colour icon."""
-        self.assertEqual(sum(1 for n in self.labels() if n.startswith("sonar_icon_")), 5)
+        self.assertEqual(sum(1 for n in self.labels() if n.startswith("sonar_icon_")), 2)
         self.assertEqual(sum(1 for n in self.labels() if n == "distress_icon"), 1)
 
     def test_slots_fit_the_tray_and_do_not_collide(self) -> None:

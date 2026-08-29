@@ -23,8 +23,8 @@ TEXT_HEIGHT_MM = 0.6
 BACKING_HEIGHT_MM = 0.4
 """Thickness of the framed backing plate the text sits on."""
 
-HATCH_WIDTH_MM = 0.6
-"""Width of a hatching line — thin enough to bridge without support."""
+HATCH_WIDTH_MM = 2.0
+"""Width of a hatching line."""
 
 FRAME_PADDING_MM = 3.0
 """How far a framed label's backing plate extends past its text."""
@@ -103,10 +103,14 @@ def text_height_for(
     if label_w <= 0 or label_l <= 0 or not text:
         return 0.0
 
+    is_vertical = (length > width) and not diagonal
+    target_w = label_l if is_vertical else label_w
+    target_l = label_w if is_vertical else label_l
+
     (_, _, _), (set_w, set_l, _) = _set_text(text, diagonal, width, length).bounds()
     if set_w <= 0 or set_l <= 0:
         return 0.0
-    return NOMINAL_SIZE_MM * min(label_w / set_w, label_l / set_l)
+    return NOMINAL_SIZE_MM * min(target_w / set_w, target_l / set_l)
 
 
 def build_label(
@@ -151,6 +155,9 @@ def build_label(
     # Set at the nominal size and scale to fit, so the result is exactly as
     # large as the label area allows whatever the font does.
     solid = _set_text(text, diagonal, width, length)
+    is_vertical = (length > width) and not diagonal
+    if is_vertical:
+        solid = solid.rotate([0.0, 0.0, 90.0])
     scale = size / NOMINAL_SIZE_MM
     solid = solid.scale([scale, scale, 1.0])
 
@@ -173,7 +180,10 @@ def build_label(
     plate_x = tcx - plate_w / 2
     plate_y = tcy - plate_l / 2
 
-    plate = block([plate_w, plate_l, BACKING_HEIGHT_MM], at=(plate_x, plate_y, 0.0))
+    from pyboxbuilder.rounding import vertical_edges
+    from pybosl2 import cuboid
+    plate_solid = cuboid([plate_w, plate_l, BACKING_HEIGHT_MM], rounding=5.0, edges=vertical_edges())
+    plate = corner(plate_solid, [plate_w, plate_l, BACKING_HEIGHT_MM], at=(plate_x, plate_y, 0.0))
     hatching = corner(
         _build_hatching(plate_w, plate_l),
         [plate_w, plate_l, BACKING_HEIGHT_MM],
@@ -186,7 +196,7 @@ def build_label(
 
 
 def _build_hatching(
-    width: float, length: float, spacing: float = 3.0
+    width: float, length: float, spacing: float = 4.0
 ) -> Bosl2Solid:
     """Diagonal hatching lines, centred on the origin and clipped to the area.
 
@@ -196,18 +206,22 @@ def _build_hatching(
     from pybosl2 import cuboid
 
     diagonal = math.hypot(width, length)
-    angle = math.degrees(math.atan2(length, width))
+    angle = 45.0
     count = max(int(diagonal / spacing), 1)
 
     lines = []
     for i in range(count + 1):
         offset = i * spacing - diagonal / 2
         line = cuboid([diagonal, HATCH_WIDTH_MM, BACKING_HEIGHT_MM])
-        line = line.rotate([0.0, 0.0, angle])
-        lines.append(line.translate([0.0, offset, 0.0]))
+        lines.append(line.translate([0.0, offset, 0.0]).rotate([0.0, 0.0, angle]))
 
     from pyboxbuilder.compartments.element import union_all
 
     hatching = union_all(lines)
     assert hatching is not None
-    return hatching & cuboid([width, length, BACKING_HEIGHT_MM])
+    border = 1.5
+    clip_w = max(width - 2 * border, 0.0)
+    clip_l = max(length - 2 * border, 0.0)
+    from pyboxbuilder.rounding import vertical_edges
+    clip_solid = cuboid([clip_w, clip_l, BACKING_HEIGHT_MM], rounding=3.5, edges=vertical_edges())
+    return hatching & clip_solid

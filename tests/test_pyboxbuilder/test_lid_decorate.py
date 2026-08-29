@@ -90,7 +90,7 @@ class DecorationTests(unittest.TestCase):
         volume the insert fills (FR-022a)."""
         lid = bare_lid()
         decorated = decorate_lid(
-            lid, LidBuilder(text="Animals", label_mode=LabelMode.FRAMELESS), 2.0, "mmu"
+            lid, LidBuilder(text="Animals", label_mode=LabelMode.FRAMELESS, pattern=None), 2.0, "mmu"
         )
         self.assertEqual(len(decorated.inserts), 1)
         self.assertGreater(volume(decorated.inserts[0].solid), 0.0)
@@ -103,7 +103,7 @@ class DecorationTests(unittest.TestCase):
     def test_framed_mmu_yields_text_and_backing_separately(self) -> None:
         decorated = decorate_lid(
             bare_lid(),
-            LidBuilder(text="Animals", label_mode=LabelMode.FRAMED),
+            LidBuilder(text="Animals", label_mode=LabelMode.FRAMED, pattern=None),
             2.0, "mmu",
         )
         self.assertEqual(len(decorated.inserts), 2)
@@ -113,7 +113,7 @@ class DecorationTests(unittest.TestCase):
         logo_solid = pybosl2.shapes3d.cube([10.0, 10.0, 10.0])
         lid = bare_lid()
         decorated = decorate_lid(
-            lid, LidBuilder(logo=logo_solid), 2.0, "mmu"
+            lid, LidBuilder(logo=logo_solid, pattern=None), 2.0, "mmu"
         )
         self.assertEqual(len(decorated.inserts), 1)
         self.assertGreater(volume(decorated.inserts[0].solid), 0.0)
@@ -249,8 +249,10 @@ class InlaidLabelTests(unittest.TestCase):
         from pyboxbuilder.lid.builder import LidBuilder
         from pyboxbuilder.lid.decorate import decorate_lid
 
+        kwargs = {"pattern": None}
+        kwargs.update(lid_kwargs)
         return decorate_lid(
-            self.lid(), LidBuilder(**lid_kwargs).titled("Tokens"), 2.0, mode
+            self.lid(), LidBuilder(**kwargs).titled("Tokens"), 2.0, mode
         )
 
     @staticmethod

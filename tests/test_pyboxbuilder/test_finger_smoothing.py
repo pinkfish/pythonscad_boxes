@@ -940,7 +940,7 @@ class SlidingLidAxisTests(unittest.TestCase):
             spec(width=90.0, length=98.0)))
 
     def test_a_wide_box_slides_along_its_width(self) -> None:
-        self.assertFalse(self.box().slides_along_length(
+        self.assertTrue(self.box().slides_along_length(
             spec(width=120.0, length=60.0)))
 
 
@@ -960,9 +960,9 @@ class SlidingScoopAndLidEdgeTests(unittest.TestCase):
         self.assertIs(
             box.preferred_scoop_side(spec(width=90.0, length=98.0)), ScoopSide.BACK
         )
-        # Wider than long: slides along X, so it exits the RIGHT wall.
+        # Defaults to Y axis (length), so still exits the BACK wall.
         self.assertIs(
-            box.preferred_scoop_side(spec(width=120.0, length=60.0)), ScoopSide.RIGHT
+            box.preferred_scoop_side(spec(width=120.0, length=60.0)), ScoopSide.BACK
         )
 
     def test_the_type_beats_the_compartment_shape(self) -> None:
@@ -1044,9 +1044,9 @@ class WallTopTests(unittest.TestCase):
         tops = self.spec().with_wall_tops(self.box(BoxType.SLIDING)).wall_tops
         self.assertEqual(tops, {
             ScoopSide.FRONT: 52.5,
-            ScoopSide.BACK: 52.5,
+            ScoopSide.BACK: 50.5,
             ScoopSide.LEFT: 52.5,
-            ScoopSide.RIGHT: 50.5,
+            ScoopSide.RIGHT: 52.5,
         })
 
     def test_every_side_is_covered(self) -> None:

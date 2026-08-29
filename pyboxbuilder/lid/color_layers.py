@@ -73,8 +73,7 @@ def resolve_colors(
     if text_color is None:
         text_color = Color(TEXT_COLOR)
 
-    if frame_color is None:
-        frame_color = Color(STRIPED_GRID_COLOR)
+
 
     if pattern_color is None:
         # A through-hole pattern has no top layer of its own, so this only
