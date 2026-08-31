@@ -1420,11 +1420,20 @@ def fingernail_catch(spec: BoxSpec, along_axis: str) -> FingernailCatch | None:
     if not spec.fingernail_catch:
         return None
 
+    label_margin = 10.0
+    if spec.lid_border_margin_mm is not None:
+        label_margin = spec.lid_border_margin_mm
+
     across = spec.length if along_axis == "x" else spec.width
     radius = spec.fingernail_radius
     if radius is None:
         # Sized from the lid it is cut into, so a small lid gets a small dish.
         radius = min(FINGERNAIL_RADIUS_MM, across / 6.0)
+
+    # Ensure we can fit the radius with the 2.5mm edge gap and 1.0mm label gap
+    if radius > label_margin - 3.5:
+        radius = label_margin - 3.5
+
     if radius < FINGERNAIL_MIN_RADIUS_MM:
         return None
 
@@ -1435,12 +1444,9 @@ def fingernail_catch(spec: BoxSpec, along_axis: str) -> FingernailCatch | None:
     if depth <= 0:
         return None
 
-    # On the border line at the exit end: the wall stands on the line, with the
-    # band of plain lid outside it as the material a nail presses on, and the
-    # bowl inside it. The catch belongs where the fingers are.
-    from pyboxbuilder.lid.builder import LID_BORDER_MM
+    # Move the finger catch back 1mm from the edge of the lid (so 2.5mm)
+    inset = 2.5
 
-    inset = min(LID_BORDER_MM, (spec.width if along_axis == "x" else spec.length) / 4.0)
     centre = (
         (spec.width - inset, spec.length / 2.0)
         if along_axis == "x"

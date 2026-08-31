@@ -137,7 +137,7 @@ def decorate_lid(
         )
 
     if label is not None:
-        _apply_label(result, resolved, label, origin_x, origin_y, top_z, mode)
+        _apply_label(result, resolved, label, origin_x, origin_y, top_z, mode, lid_thickness)
 
     if logo_solid is not None:
         _apply_logo(result, resolved, logo_solid, origin_x, origin_y, top_z, mode)
@@ -182,6 +182,9 @@ def _build_label(
         diagonal=builder.is_diagonal,
         min_text_height_mm=builder.min_text_height,
         border_margin_mm=builder.border_margin,
+        label_border_mm=builder.label_border_mm,
+        label_text_gap_mm=builder.label_text_gap_mm,
+        label_rounding_mm=builder.label_rounding_mm,
     )
 
 
@@ -434,6 +437,7 @@ def _apply_label(
     origin_y: float,
     top_z: float,
     mode: str,
+    lid_thickness: float,
 ) -> None:
     """Inlay the label into `result`, or engrave it for a single-colour print.
 

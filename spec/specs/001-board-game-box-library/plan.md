@@ -384,10 +384,7 @@ be pushed inboard, which drives the lid further into the box.
 reach with the box closed, and centring it means the pull is straight down the
 grooves rather than a twist that binds the plate.
 
-**The wall stands on the border line.** That puts the band of plain lid at the
-edge behind the wall — which is exactly the material the nail is pressing on,
-and it wants to be whole — and puts the bowl inside it, where there is room for
-a nail to get in.
+**The wall stands on the border line, keeping clear of the label/logo.** The fingernail cutout/dish must not overlap the label/logo. It must reside completely within the lid border at the exit end, maintaining at least a 1.0mm gap from the label/logo border and a minimum of 2.5mm gap from the edge of the lid slab altogether.
 
 **Never through the plate, and never surrounded by holes.** The depth is capped
 at half the lid's thickness, so there is always a plate's worth of material
@@ -1433,7 +1430,7 @@ One number, `Project.clearance_slack` (default 1.0mm, sane range 1–2mm), appli
 
 **Two layout modes, one orientation switch.**
 - *Frameless*: text only.
-- *Framed*: a rectangular frame with diagonal hatching behind the text (bed adhesion for text islands, spaced so the text bridges without supports) plus a small outer border. The backing plate hugs the text rather than filling the label area, so a lid can carry a frame **and** a pattern (T200). The backing plate uses a standard 5.0mm corner rounding. The hatching/striping runs at a standard 45-degree angle with a default 1.5mm outer border, 2.0mm stripe width, and 2.0mm gaps (4.0mm spacing).
+- *Framed*: a rectangular frame with diagonal hatching behind the text (bed adhesion for text islands, spaced so the text bridges without supports) plus a small outer border. The backing plate hugs the text rather than filling the label area, so a lid can carry a frame **and** a pattern (T200). The backing plate uses a standard 5.0mm corner rounding. The hatching/striping runs at a standard 45-degree angle with a default 1.5mm outer border, 2.0mm stripe width, and 2.0mm gaps (4.0mm spacing). The text inside the label is sized to fit within the interior of the backing plate, leaving a standard 0.5mm gap from the inside of the border (making a default padding of 2.0mm). These dimensions (backing plate border, text-to-border gap, and backing plate corner rounding) are configurable.
 - *Diagonal* is an orientation available in both modes: corner-to-corner at the lid's natural angle, which is 45° only when the lid is square.
 
 **Patterns cut through.** A pattern is a through-hole fill over the lid face — maximum filament saving — clipped twice: at the lid outline, and at the label area, which takes precedence (FR-023 note, and the reason a framed label does not lose its border). The catalogue is exactly what `_PATTERN_FILLS` draws — `NONE`, `SQUARE`, `CIRCLE`, `HEX`, `DENSE_HEX`, `TRIANGLE`, `DENSE_TRIANGLE`, `OCTAGON`, `VORONOI`, `LEAF` — and `build_pattern` **raises** for a member without a fill rather than falling back to a grid (T116/T117). The list grows by implementation: the ported `ShapeType` set named forty-seven and drew three.

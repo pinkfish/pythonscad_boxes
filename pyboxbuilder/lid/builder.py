@@ -157,6 +157,12 @@ class LidBuilder:
     border_margin_mm: float | None = None
     """Margin the auto-sized label keeps clear of the lid's edge; ``None`` uses
     :data:`BORDER_MARGIN_MM`."""
+    label_border_mm: float | None = None
+    """Solid outer border width of the label backing plate; ``None`` uses defaults."""
+    label_text_gap_mm: float | None = None
+    """Gap between label text and inside of the border; ``None`` uses defaults."""
+    label_rounding_mm: float | None = None
+    """Corner rounding radius of the label backing plate; ``None`` uses defaults."""
     label_clearance_mm: float | None = None
     """Solid margin kept around the **lettering** where a pattern meets it.
 

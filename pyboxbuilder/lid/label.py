@@ -26,8 +26,11 @@ BACKING_HEIGHT_MM = 0.4
 HATCH_WIDTH_MM = 2.0
 """Width of a hatching line."""
 
-FRAME_PADDING_MM = 3.0
-"""How far a framed label's backing plate extends past its text."""
+LABEL_BORDER_MM = 1.5
+"""Default outer border width of the label backing plate."""
+
+LABEL_TEXT_GAP_MM = 0.5
+"""Default gap between label text and the inside of the border."""
 
 
 @dataclass(frozen=True)
@@ -90,6 +93,9 @@ def text_height_for(
     text: str,
     border_margin_mm: float = 5.0,
     diagonal: bool = False,
+    label_mode: LabelMode = LabelMode.FRAMED,
+    label_border_mm: float = LABEL_BORDER_MM,
+    label_text_gap_mm: float = LABEL_TEXT_GAP_MM,
 ) -> float:
     """Cap height the label text will be set at, in mm.
 
@@ -100,6 +106,11 @@ def text_height_for(
     """
     label_w = width - 2 * border_margin_mm
     label_l = length - 2 * border_margin_mm
+    if label_mode is LabelMode.FRAMED:
+        pad = label_border_mm + label_text_gap_mm
+        label_w = max(label_w - 2 * pad, 0.0)
+        label_l = max(label_l - 2 * pad, 0.0)
+
     if label_w <= 0 or label_l <= 0 or not text:
         return 0.0
 
@@ -122,6 +133,9 @@ def build_label(
     diagonal: bool = False,
     min_text_height_mm: float = 4.0,
     border_margin_mm: float = 5.0,
+    label_border_mm: float | None = None,
+    label_text_gap_mm: float | None = None,
+    label_rounding_mm: float | None = None,
 ) -> Label | None:
     """Build a label for a lid face, or None if it would be illegible.
 
@@ -136,6 +150,8 @@ def build_label(
         diagonal: Run the text corner to corner instead of along the width.
         min_text_height_mm: Skip the label below this cap height (FR-023).
         border_margin_mm: Margin kept clear at the lid edges.
+        label_border_mm: Solid outer border width of the backing plate.
+        label_text_gap_mm: Gap between text and inside of the border.
 
     Returns:
         A `Label`, or None when the text would come out under the minimum.
@@ -143,12 +159,19 @@ def build_label(
     """
     from pyboxbuilder.box.shell import block, corner
 
+    border = label_border_mm if label_border_mm is not None else LABEL_BORDER_MM
+    gap = label_text_gap_mm if label_text_gap_mm is not None else LABEL_TEXT_GAP_MM
+    pad = border + gap
+
     label_w = width - 2 * border_margin_mm
     label_l = length - 2 * border_margin_mm
     if label_w <= 0 or label_l <= 0 or not text:
         return None
 
-    size = text_height_for(width, length, text, border_margin_mm, diagonal)
+    size = text_height_for(
+        width, length, text, border_margin_mm, diagonal,
+        label_mode, border, gap
+    )
     if size < min_text_height_mm:
         return None
 
@@ -174,18 +197,19 @@ def build_label(
     # through-hole pattern — a plate the size of the whole area would simply
     # cover the pattern up.
     (tcx, tcy, _), (tw, tl, _) = solid.bounds()
-    pad = FRAME_PADDING_MM
     plate_w = min(tw + 2 * pad, label_w)
     plate_l = min(tl + 2 * pad, label_l)
     plate_x = tcx - plate_w / 2
     plate_y = tcy - plate_l / 2
 
+    rounding_val = label_rounding_mm if label_rounding_mm is not None else 5.0
+
     from pyboxbuilder.rounding import vertical_edges
     from pybosl2 import cuboid
-    plate_solid = cuboid([plate_w, plate_l, BACKING_HEIGHT_MM], rounding=5.0, edges=vertical_edges())
+    plate_solid = cuboid([plate_w, plate_l, BACKING_HEIGHT_MM], rounding=rounding_val, edges=vertical_edges())
     plate = corner(plate_solid, [plate_w, plate_l, BACKING_HEIGHT_MM], at=(plate_x, plate_y, 0.0))
     hatching = corner(
-        _build_hatching(plate_w, plate_l),
+        _build_hatching(plate_w, plate_l, border=border, rounding=rounding_val),
         [plate_w, plate_l, BACKING_HEIGHT_MM],
         at=(plate_x, plate_y, 0.0),
     )
@@ -196,7 +220,11 @@ def build_label(
 
 
 def _build_hatching(
-    width: float, length: float, spacing: float = 4.0
+    width: float,
+    length: float,
+    spacing: float = 4.0,
+    border: float = 1.5,
+    rounding: float = 5.0,
 ) -> Bosl2Solid:
     """Diagonal hatching lines, centred on the origin and clipped to the area.
 
@@ -219,9 +247,9 @@ def _build_hatching(
 
     hatching = union_all(lines)
     assert hatching is not None
-    border = 1.5
     clip_w = max(width - 2 * border, 0.0)
     clip_l = max(length - 2 * border, 0.0)
     from pyboxbuilder.rounding import vertical_edges
-    clip_solid = cuboid([clip_w, clip_l, BACKING_HEIGHT_MM], rounding=3.5, edges=vertical_edges())
+    clip_rounding = max(rounding - border, 0.0)
+    clip_solid = cuboid([clip_w, clip_l, BACKING_HEIGHT_MM], rounding=clip_rounding, edges=vertical_edges())
     return hatching & clip_solid

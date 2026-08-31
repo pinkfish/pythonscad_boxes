@@ -388,11 +388,18 @@ def _svg_region(shape_file: str) -> Region:
     even-odd rule. Box SVGs size their viewBox to the drawing, so skipping the
     clip loses nothing and keeps the cutouts.
     """
+    from pathlib import Path
     from pybosl2.svg import region_from_svg
 
     region = _SVG_CACHE.get(shape_file)
     if region is None:
-        region = region_from_svg(shape_file, clip_to_viewbox=False)
+        path = Path(shape_file)
+        if not path.is_absolute() and not path.exists():
+            repo_root = Path(__file__).resolve().parents[2]
+            resolved = repo_root / path
+            if resolved.exists():
+                path = resolved
+        region = region_from_svg(str(path), clip_to_viewbox=False)
         _SVG_CACHE[shape_file] = region
     return region
 

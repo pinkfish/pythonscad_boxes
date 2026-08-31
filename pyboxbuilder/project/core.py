@@ -1031,9 +1031,9 @@ class Project:
             path=tuple(spacer.path or ()),
             rounding=self.rounding,
             rim_free=True,
-            # A spacer is dead fill: it has no contents to reach into, so
-            # it takes none of the automatic grips a tray gets.
-            auto_finger_holes=False,
+            # A spacer is dead fill but we want it to carry the automatic grips
+            # a tray gets so it can be easily removed.
+            auto_finger_holes=True,
         )
         # Errors propagate. Returning None here dropped the spacer from the
         # export without a word, and a missing spacer is invisible in a layout

@@ -7,9 +7,16 @@ from pathlib import Path
 from typing import Any
 
 # Repo root on sys.path
-REPO_ROOT = (
-    Path(__file__).resolve().parents[2] if "__file__" in globals() else Path.cwd()
-)
+def _find_repo_root() -> Path:
+    if "__file__" in globals():
+        return Path(__file__).resolve().parents[2]
+    curr = Path.cwd().resolve()
+    for parent in [curr] + list(curr.parents):
+        if (parent / "pyproject.toml").exists() or (parent / "boxes" / "root" / "svg").exists():
+            return parent
+    return curr
+
+REPO_ROOT = _find_repo_root()
 sys.path.insert(0, str(REPO_ROOT))
 for _sp in REPO_ROOT.glob(".venv/lib/*/site-packages"):
     sys.path.insert(0, str(_sp))
@@ -135,8 +142,8 @@ def pack_in_columns(
     return elements
 
 
-# SVG Assets directory path
-SVG_DIR = REPO_ROOT / "boxes" / "root" / "svg"
+# SVG Assets directory path (relative to project root for sandbox compatibility)
+SVG_DIR = Path("boxes/root/svg")
 
 # Project Setup
 project = Project("Root", game_box_size=(214.0, 278.0, 67.0))
@@ -237,6 +244,24 @@ def make_vagabond_mmu_logo(w, l, depth):
     logo_scaled = logo_solid.scale([scale_val, scale_val, 1.0])
     return MultiColorSolid(logo_scaled.shape)
 
+def make_alliance_mmu_logo(w, l, depth):
+    from pyboxbuilder.compartments.element import _svg_region
+    black_raw = _svg_region(str(SVG_DIR / "alliance_multicolor_black.svg")).linear_extrude(height=depth)
+    green_raw = _svg_region(str(SVG_DIR / "alliance_multicolor_green.svg")).linear_extrude(height=depth)
+    white_raw = _svg_region(str(SVG_DIR / "alliance_multicolor_white.svg")).linear_extrude(height=depth)
+    (cx, cy, cz), (span_x, span_y, _) = (black_raw | green_raw | white_raw).bounds()
+    black_centered = black_raw.translate([-cx, -cy, -cz])
+    green_centered = green_raw.translate([-cx, -cy, -cz])
+    white_centered = white_raw.translate([-cx, -cy, -cz])
+    green_non_overlap = (green_centered - black_centered - white_centered).color("#1da85e")
+    white_non_overlap = (white_centered - black_centered).color("white")
+    black_non_overlap = black_centered.color("black")
+    logo_solid = black_non_overlap | green_non_overlap | white_non_overlap
+    logo_solid = logo_solid.translate([0.0, 0.0, depth / 2])
+    scale_val = min(w / max(float(span_x), 1e-9), l / max(float(span_y), 1e-9))
+    logo_scaled = logo_solid.scale([scale_val, scale_val, 1.0])
+    return MultiColorSolid(logo_scaled.shape)
+
 # Base Lid configuration using SQUARE pattern matching original SCAD lids
 LID_BASE = LidBuilder(pattern=PatternBuilder(PatternType.DENSE_HEX))
 
@@ -245,7 +270,7 @@ LID_MARQUIS = replace(
 )
 LID_ERIE = replace(LID_BASE, logo=make_erie_mmu_logo, logo_color=Color("#5690c7"))
 LID_ALLIANCE = replace(
-    LID_BASE, logo=str(SVG_DIR / "alliance_eyes.svg"), logo_color=Color("black")
+    LID_BASE, logo=make_alliance_mmu_logo, logo_color=Color("#1da85e")
 )
 
 LID_LIZARD = replace(
@@ -266,7 +291,7 @@ project.card_box(
     "BaseCardBox",
     card_size=(74.875, 93.5),
     size=card_size,
-    lid=replace(LID_MARQUIS, text="Shared"),
+    lid=replace(LID_BASE, text="Shared"),
     position=(0.0, 0.0, 28.0),
     no_rotate=True,
 )
@@ -287,6 +312,7 @@ project.card_box(
     card_size=(74.875, 93.5),
     size=card_vagabond_size,
     lid=replace(LID_VAGABOND, text="Vagabond"),
+    color=Color("green"),
     position=(79.875, 0.0, 28.0 + 8.6),
     no_rotate=True,
 )
@@ -1289,7 +1315,7 @@ project.box(
     "VagabondBox",
     size=(53.25, 59.833, 16.0),
     lid=LID_VAGABOND,
-    color=Color("grey"),
+    color=Color("green"),
     position=(106.5, 158.333, 28.0),
     no_rotate=True,
 ).compartment(
@@ -1321,14 +1347,7 @@ project.box(
     ],
 )
 
-# Spacer Box (actual size of remaining box area, acting as the placeholder/boards spacer)
-project.box(
-    BoxType.NO_LID,
-    "SpacerBox",
-    size=(53.25, 172.5, 39.0),
-    position=(159.75, 103.5, 28.0),
-    no_rotate=True,
-)
+
 
 # Dice Box
 project.box(

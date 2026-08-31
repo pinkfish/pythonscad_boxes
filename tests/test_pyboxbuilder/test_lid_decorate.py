@@ -101,9 +101,10 @@ class DecorationTests(unittest.TestCase):
         )
 
     def test_framed_mmu_yields_text_and_backing_separately(self) -> None:
+        from pybosl2 import Color
         decorated = decorate_lid(
             bare_lid(),
-            LidBuilder(text="Animals", label_mode=LabelMode.FRAMED, pattern=None),
+            LidBuilder(text="Animals", label_mode=LabelMode.FRAMED, pattern=None, frame_color=Color("white")),
             2.0, "mmu",
         )
         self.assertEqual(len(decorated.inserts), 2)
@@ -190,6 +191,7 @@ class DecorationTests(unittest.TestCase):
             self.assertAlmostEqual(got, want, places=3)
 
     def test_pattern_and_label_coexist(self) -> None:
+        from pybosl2 import Color
         lid = bare_lid()
         decorated = decorate_lid(
             lid,
@@ -197,6 +199,7 @@ class DecorationTests(unittest.TestCase):
                 text="Animals",
                 label_mode=LabelMode.FRAMED,
                 pattern=PatternBuilder(type=PatternType.HEX, spacing=9.0),
+                frame_color=Color("white"),
             ),
             2.0, "mmu",
         )
@@ -282,9 +285,10 @@ class InlaidLabelTests(unittest.TestCase):
         self.assertNotEqual(repr(result.solid), repr(self.lid()))
 
     def test_a_framed_label_inlays_its_text_and_its_striped_grid(self) -> None:
+        from pybosl2 import Color
         from pyboxbuilder.enums import LabelMode
 
-        result = self.decorated(label_mode=LabelMode.FRAMED)
+        result = self.decorated(label_mode=LabelMode.FRAMED, frame_color=Color("white"))
         self.assertEqual(len(result.inserts), 2)
 
     def test_a_frameless_label_inlays_only_its_text(self) -> None:
@@ -343,15 +347,12 @@ class LabelColorTests(unittest.TestCase):
             resolve_colors(Color("darkgreen")).text_color.rgba[:3], (0.0, 0.0, 0.0)
         )
 
-    def test_the_striped_grid_defaults_to_light_grey(self) -> None:
+    def test_the_striped_grid_defaults_to_none_as_hole(self) -> None:
         from pybosl2 import Color
 
         from pyboxbuilder.lid.color_layers import resolve_colors
 
-        red, green, blue, _ = resolve_colors(Color("darkgreen")).frame_color.rgba
-        self.assertEqual(round(red, 3), round(green, 3))
-        self.assertEqual(round(green, 3), round(blue, 3))
-        self.assertGreater(red, 0.7, "a light neutral, not a saturated accent")
+        self.assertIsNone(resolve_colors(Color("darkgreen")).frame_color)
 
     def test_the_defaults_do_not_follow_the_body(self) -> None:
         """A hue shifted off the box's colour is no more legible against it."""
@@ -403,7 +404,8 @@ class InsertColourTests(unittest.TestCase):
 
     def test_the_preview_draws_the_label_in_its_own_colour(self) -> None:
         """Not in the lid's, which is what made it invisible."""
-        pieces = self.project(label_mode=LabelMode.FRAMED).preview_pieces(
+        from pybosl2 import Color
+        pieces = self.project(label_mode=LabelMode.FRAMED, frame_color=Color("white")).preview_pieces(
             show_lids=True, only="Deck"
         )
         lids = [p for p in pieces if p.kind == "lid"]

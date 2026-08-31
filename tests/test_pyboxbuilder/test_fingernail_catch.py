@@ -143,21 +143,17 @@ class WhereItSitsTests(unittest.TestCase):
         self.assertGreater(catch.centre[1], tall.length * 0.75)
 
     def test_the_wall_stands_on_the_border_line(self) -> None:
-        """SC-050c: the catch belongs where the fingers are, at the edge.
-
-        The wall on the border line puts the band of plain lid outside it — the
-        material a nail presses on — and the bowl inside it.
+        """SC-050c: the catch belongs where the fingers are, keeping clear of the label/logo.
         """
-        from pyboxbuilder.lid.builder import LID_BORDER_MM
-
         catch = self.catch()
-        self.assertAlmostEqual(
-            SPEC.width - catch.centre[0], LID_BORDER_MM, places=3
-        )
-        self.assertLess(
-            SPEC.width - (catch.centre[0] - catch.radius), 2 * LID_BORDER_MM,
-            "the bowl reaches well past the border, into the middle of the lid",
-        )
+        # Outboard edge gap from lid edge must be >= 2.5mm
+        self.assertGreaterEqual(SPEC.width - catch.centre[0], 2.5)
+        # Inboard edge gap from label border must be >= 1.0mm
+        # Default label margin is 10.0mm. Inboard edge is at catch.centre[0] - catch.radius.
+        label_margin = 10.0
+        inboard_edge = catch.centre[0] - catch.radius
+        label_gap = label_margin - (SPEC.width - inboard_edge)
+        self.assertGreaterEqual(label_gap, 1.0 - 1e-6)
 
     def test_a_small_lid_gets_a_small_dish(self) -> None:
         """Derived from the lid, not fixed (FR-000)."""
