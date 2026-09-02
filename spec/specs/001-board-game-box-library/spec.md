@@ -742,3 +742,29 @@ The `project.py` module is split into a directory-based package `pyboxbuilder/pr
 - `core.py`: Layout packing, export orchestration, and presets.
 - `__init__.py`: Clean public API exposures.
 
+### Railways of the World Example Specification
+
+The `boxes/railways_of_the_world/` example ports `examples/railways_of_the_world.scad` to the PythonSCAD Project API. This represents an advanced multi-tier organizer supporting multiple expansions, three distinct card sizes, plastic miniatures, dual-tier stacking, and automatic 3D spacer generation:
+
+* **Game Box Dimensions**: `310.0mm (W) x 385.0mm (L) x 100.0mm (H)` with `22.0mm` board reserve.
+* **Card Storage** (`all_boxes_height = 73.0mm`, `card_box_width = 97.0mm`):
+  * `CardBoxEasternUS` (`53.6 x 97.0 x 73.0mm`): Dual-compartment holding 51 operations cards (`30.6 x 93.0 x 68.0mm`) and debt/bond cards (`17.0 x 78.0 x 59.0mm`) with internal divider wall.
+  * `CardBoxAustralia` (`54.4 x 97.0 x 73.0mm`): 84 cards with side finger scoop.
+  * `CardBoxSweden` (`37.0 x 97.0 x 73.0mm`): 55 cards with side finger scoop.
+  * `CardBoxMexico` (`39.4 x 97.0 x 73.0mm`): 59 cards with side finger scoop.
+  * `CardBoxPortugal` (`32.8 x 97.0 x 73.0mm`): 48 cards with side finger scoop.
+* **Empty City Dispenser Boxes**:
+  * Two sliding-lid boxes (`47.0 x 142.5 x 56.0mm`) along the Y axis.
+* **6-Color Player Boxes**:
+  * 6 `PlayerBoxTrains_<color>` sliding-lid boxes (`70.0 x 95.33 x 28.0mm`) stacked 3-wide x 2-high for plastic train miniatures.
+  * 6 `PlayerBox_<color>` cap-lid boxes (`69.4 x 95.33 x 18.67mm`) stacked 3-high in 2 columns for locomotive cards and player score markers.
+* **Component Storage**:
+  * 2 `HexBox` track tile boxes (`139.5 x 149.0 x 19.5mm`, 4x5 hex grids).
+  * 1 `MoneyBox` (`69.75 x 149.0 x 17.0mm`) for bank notes.
+  * 1 `NewCityBox` (`69.75 x 149.0 x 17.0mm`) for New City hex tiles and markers.
+* **Upper Tier Expansions** (`Z = 78.0mm`):
+  * `AustraliaBox` (`47.0 x 142.0 x 17.0mm`) and `SwedenBox` (`47.0 x 142.5 x 17.0mm`) with custom tile and token wells.
+* **Automatic Spacers**:
+  * All leftover volume is automatically voxelized and converted into hollow spacer boxes with finger scoops on longer walls (FR-014, FR-014f).
+
+

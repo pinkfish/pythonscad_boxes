@@ -1563,6 +1563,7 @@ Twelve projects live under `boxes/`. The five documented in detail above are the
 | `emberleaf` | element packs (per-worker silhouette slots), 21 boxes at 77% fill, derived spacers |
 | `irish_gauge` | mixed lid types in one game box, shared-footprint company boxes, polygon spacers |
 | `1835` | hex-grid compartments, push blocks, floor finger holes, `BoxLayout` ported as manual positions |
+| `railways_of_the_world` | multi-expansion organizer, 3 distinct card sizes, dual-tier stacking, miniature storage, automatic 3D spacers |
 | `stackable_hexes` | standalone boxes, stackable rims, round/rect magnets, hex divisions |
 | `earth` | the FR-013a fixed 68 × 99 footprint and 55.2mm column rules |
 | `arkham_horror`, `dominion`, `first_class`, `magical_athlete`, `nippon` | additional ports; each must satisfy the dual-run rule below |

@@ -138,13 +138,13 @@ def layout_compartments(
         can_rotate = label not in no_rotate_labels
         # Check both normal and rotated orientations
         fits_normal = (
-            (x_cursor + comp_w + wall_spacing <= interior_w)
-            and (y_cursor + comp_l + wall_spacing <= interior_l)
+            (x_cursor + comp_w + wall_spacing <= interior_w + 1e-6)
+            and (y_cursor + comp_l + wall_spacing <= interior_l + 1e-6)
         )
         fits_rotated = (
             can_rotate
-            and (x_cursor + comp_l + wall_spacing <= interior_w)
-            and (y_cursor + comp_w + wall_spacing <= interior_l)
+            and (x_cursor + comp_l + wall_spacing <= interior_w + 1e-6)
+            and (y_cursor + comp_w + wall_spacing <= interior_l + 1e-6)
         )
 
         w, l = comp_w, comp_l
@@ -163,13 +163,13 @@ def layout_compartments(
 
             # Re-evaluate fit in new row
             fits_normal_new = (
-                (x_cursor + comp_w + wall_spacing <= interior_w)
-                and (y_cursor + comp_l + wall_spacing <= interior_l)
+                (x_cursor + comp_w + wall_spacing <= interior_w + 1e-6)
+                and (y_cursor + comp_l + wall_spacing <= interior_l + 1e-6)
             )
             fits_rotated_new = (
                 can_rotate
-                and (x_cursor + comp_l + wall_spacing <= interior_w)
-                and (y_cursor + comp_w + wall_spacing <= interior_l)
+                and (x_cursor + comp_l + wall_spacing <= interior_w + 1e-6)
+                and (y_cursor + comp_w + wall_spacing <= interior_l + 1e-6)
             )
 
             if fits_normal_new or fits_rotated_new:
@@ -182,7 +182,7 @@ def layout_compartments(
                 layout.overflow = True
                 break
 
-        if w > interior_w or l > interior_l:
+        if w > interior_w + 1e-6 or l > interior_l + 1e-6:
             layout.overflow = True
             break
 
