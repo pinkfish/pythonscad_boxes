@@ -19,7 +19,7 @@ This document details the layout, component counts, compartment dimensions, and 
 
 ### 2.1 Marquis de Cat
 * **Color Scheme**: Orange (`#ff8c00`)
-* **Warriors**: 25 meeples (stored laying flat in Marquis Box Bottom horizontal channels).
+* **Warriors**: 25 meeples (stored in Marquis Box Bottom across 3 horizontal channels of length 73mm, 73mm, and 82mm, holding 8, 8, and 9 meeples with engraved warrior floor stamps and finger pull-outs).
 * **Buildings & Tokens** (stored in Marquis Box Top):
   * 1 Keep token (round base, `18.5 x 18.5 x 2.0 mm` cardboard, centered keep tower icon).
   * 6 Sawmills (square cardboard buildings, `18.5 x 18.5 x 2.0 mm` each).
@@ -37,7 +37,7 @@ This document details the layout, component counts, compartment dimensions, and 
 
 ### 2.2 Eyrie Dynasties
 * **Color Scheme**: Blue (`#1e90ff`)
-* **Warriors**: 20 Warriors meeples (stored in Erie Box Bottom channels).
+* **Warriors**: 20 Warriors meeples (stored in Erie Box Bottom across 2 horizontal channels of length 91mm holding 10 meeples each, with engraved warrior floor stamps and finger pull-outs).
 * **Buildings**:
   * 7 Roosts (square cardboard roost icons, `18.5 x 18.5 x 2.0 mm` each, stacked up to 4-high in a `8.0 mm` deep well).
 * **Tokens**: None
@@ -50,14 +50,25 @@ This document details the layout, component counts, compartment dimensions, and 
 
 ### 2.3 Woodland Alliance
 * **Color Scheme**: Green (`#228b22`)
-* **Warriors**: 10 meeples (size: `18.5 x 18.5 x 10.0 mm` each).
+* **Warriors**: 10 meeples (stored in Alliance Box Bottom across 2 horizontal channels of length 46mm holding 5 meeples each, with engraved warrior floor stamps and finger pull-outs).
 * **Bases**: 3 cardboard base tokens (Fox, Rabbit, Mouse, size: `18.5 x 18.5 x 2.0 mm` each).
 * **Sympathy Tokens**: 10 circular cardboard tokens (diameter `18.5 mm`, thickness `2.0 mm`).
 * *Pocket style*: Faction icon engravings:
     * Alliance Eyes: [`alliance_eyes.svg`](file:///Volumes/ExternalDocs/Documents/GitHub/pythonscad_boxes/boxes/root/svg/alliance_eyes.svg)
     * Sympathy Fist: [`fist.svg`](file:///Volumes/ExternalDocs/Documents/GitHub/pythonscad_boxes/boxes/root/svg/fist.svg)
+    * Warrior: [`alliance_warrior.svg`](file:///Volumes/ExternalDocs/Documents/GitHub/pythonscad_boxes/boxes/root/svg/alliance_warrior.svg)
 
-### 2.4 Vagabond
+### 2.4 Lizard Cult
+* **Color Scheme**: Yellow (`#ffd700`)
+* **Warriors**: 25 meeples (stored in Lizard Box Bottom in a 5x5 grid of 25 individual standing warrior slots of size 18.0mm x 9.0mm, depth 20.0mm, with finger pull-outs).
+* **Garden Buildings & Outcast Markers** (stored in Lizard Box Top):
+  * 15 Garden buildings (5 Fox, 5 Rabbit, 5 Mouse square cardboard tiles, `18.5 x 18.5 x 2.0 mm`).
+  * 1 Outcast marker, 1 Lost Souls marker.
+* *Pocket style*:
+  * Warrior: [`lizard_warrior.svg`](file:///Volumes/ExternalDocs/Documents/GitHub/pythonscad_boxes/boxes/root/svg/lizard_warrior.svg)
+  * Lizard Eyes: [`lizard_eyes.svg`](file:///Volumes/ExternalDocs/Documents/GitHub/pythonscad_boxes/boxes/root/svg/lizard_eyes.svg)
+
+### 2.5 Vagabond
 * **Color Scheme**: Grey/Brown (`#808080`)
 * **Meeples**: 1–2 meeples (size: `18.5 x 18.5 x 10.0 mm` each).
 * **Items**:
@@ -72,7 +83,7 @@ This document details the layout, component counts, compartment dimensions, and 
     * Hammer/Workshop: [`anvil.svg`](file:///Volumes/ExternalDocs/Documents/GitHub/pythonscad_boxes/boxes/root/svg/anvil.svg)
     * Torch: [`torch.svg`](file:///Volumes/ExternalDocs/Documents/GitHub/pythonscad_boxes/boxes/root/svg/torch.svg)
 
-### 2.5 Winter Clearing Markers
+### 2.6 Winter Clearing Markers
 * **Total**: 12 cardboard tokens (4 Fox, 4 Rabbit, 4 Mouse).
 * **Dimensions**: Crescent/C-shaped tiles measuring `15.5mm x 29.5mm x 2.0mm`.
 * **Arrangement**: Stood vertically in 6 slots (2 tokens stacked per slot, pocket depth: `5.0 mm`).
@@ -82,9 +93,9 @@ This document details the layout, component counts, compartment dimensions, and 
   * Slots 2-3: Rabbit suit stamp [`rabbit_suit.svg`](file:///Volumes/ExternalDocs/Documents/GitHub/pythonscad_boxes/boxes/root/svg/rabbit_suit.svg)
   * Slots 4-5: Mouse suit stamp [`mouse_suit.svg`](file:///Volumes/ExternalDocs/Documents/GitHub/pythonscad_boxes/boxes/root/svg/mouse_suit.svg)
 
-### 2.6 Riverfolk Company
+### 2.7 Riverfolk Company
 * **Color Scheme**: Teal (`#008080`)
-* **Warriors**: 15 meeples (stored in Riverfolk Box Bottom channels with engraved warrior icons).
+* **Warriors**: 15 meeples (stored in Riverfolk Box Bottom across 3 horizontal channels of length 46mm holding 5 meeples each, with engraved warrior floor stamps and finger pull-outs).
 * **Trade Posts**: 9 Trade Posts (3 Fox, 3 Rabbit, 3 Mouse, circular cardboard tokens, diameter `18.5` mm, thickness `2.0` mm, stacked up to 5-high in 3 circular wells of depth `10.5` mm).
 * **Glass Gems**: 3 Glass Gems (diameter `17.0` mm, thickness `9.0` mm, stored in 3 circular wells of depth `10.0` mm).
 * **Score Marker**: 1 score marker (square cardboard wreath token, `18.5 x 18.5 x 2.0 mm`, stored in a rectangular well of depth `3.0` mm).
@@ -147,6 +158,45 @@ graph TD
     * Row 2: [`sword.svg`](file:///Volumes/ExternalDocs/Documents/GitHub/pythonscad_boxes/boxes/root/svg/sword.svg) (depth `4.0mm`), [`teapot.svg`](file:///Volumes/ExternalDocs/Documents/GitHub/pythonscad_boxes/boxes/root/svg/teapot.svg) (depth `4.0mm`)
     * Row 3: [`coins.svg`](file:///Volumes/ExternalDocs/Documents/GitHub/pythonscad_boxes/boxes/root/svg/coins.svg) (depth `4.0mm`), [`ruins.svg`](file:///Volumes/ExternalDocs/Documents/GitHub/pythonscad_boxes/boxes/root/svg/ruins.svg) (depth `4.0mm`)
     * Row 4: [`ruins.svg`](file:///Volumes/ExternalDocs/Documents/GitHub/pythonscad_boxes/boxes/root/svg/ruins.svg) (depth `4.0mm`), (empty slot)
+
+### 3.4 Marquis Box Bottom (`MarquisBoxBottom`)
+* **Box Dimensions**: `106.5mm x 59.833mm x 24.5mm`
+* **Lid Type**: Cap lid with multi-color Marquis de Cat faction logo.
+* **Warriors Grid**: 3 horizontal channels running along the X axis holding 25 cat meeples, separated by 3.9mm wide dividing walls with finger pull-outs spanning the long length of each channel:
+  * Channel 1 (`Y = 9.5mm`): size `73.0mm x 14.5mm`, depth `18.0mm` (holds 8 meeples) with [`marquis_warrior.svg`](file:///Volumes/ExternalDocs/Documents/GitHub/pythonscad_boxes/boxes/root/svg/marquis_warrior.svg) floor stamp and 65mm long finger pull-out.
+  * Channel 2 (`Y = 27.9mm`): size `73.0mm x 14.5mm`, depth `18.0mm` (holds 8 meeples) with [`marquis_warrior.svg`](file:///Volumes/ExternalDocs/Documents/GitHub/pythonscad_boxes/boxes/root/svg/marquis_warrior.svg) floor stamp and 65mm long finger pull-out.
+  * Channel 3 (`Y = 46.3mm`): size `82.0mm x 14.5mm`, depth `18.0mm` (holds 9 meeples) with [`marquis_warrior.svg`](file:///Volumes/ExternalDocs/Documents/GitHub/pythonscad_boxes/boxes/root/svg/marquis_warrior.svg) floor stamp and 75mm long finger pull-out.
+
+### 3.5 Eyrie Box Bottom (`ErieBoxBottom`)
+* **Box Dimensions**: `106.5mm x 59.833mm x 24.5mm`
+* **Lid Type**: Cap lid with multi-color Eyrie Dynasties faction logo.
+* **Warriors Grid**: 2 horizontal channels running along the X axis holding 20 bird meeples:
+  * Channel 1 (`Y = 16.0mm`): size `91.0mm x 22.0mm`, depth `18.0mm` (holds 10 meeples) with [`erie_warrior.svg`](file:///Volumes/ExternalDocs/Documents/GitHub/pythonscad_boxes/boxes/root/svg/erie_warrior.svg) floor stamp and finger pull-out.
+  * Channel 2 (`Y = 41.5mm`): size `91.0mm x 22.0mm`, depth `18.0mm` (holds 10 meeples) with [`erie_warrior.svg`](file:///Volumes/ExternalDocs/Documents/GitHub/pythonscad_boxes/boxes/root/svg/erie_warrior.svg) floor stamp and finger pull-out.
+
+### 3.6 Woodland Alliance Box Bottom (`AllianceBoxBottom`)
+* **Box Dimensions**: `53.25mm x 59.833mm x 25.5mm`
+* **Lid Type**: Cap lid with multi-color Woodland Alliance faction logo.
+* **Warriors Grid**: 2 horizontal channels running along the X axis holding 10 alliance meeples:
+  * Channel 1 (`Y = 16.0mm`): size `46.0mm x 19.5mm`, depth `18.0mm` (holds 5 meeples) with [`alliance_warrior.svg`](file:///Volumes/ExternalDocs/Documents/GitHub/pythonscad_boxes/boxes/root/svg/alliance_warrior.svg) floor stamp and finger pull-out.
+  * Channel 2 (`Y = 41.5mm`): size `46.0mm x 19.5mm`, depth `18.0mm` (holds 5 meeples) with [`alliance_warrior.svg`](file:///Volumes/ExternalDocs/Documents/GitHub/pythonscad_boxes/boxes/root/svg/alliance_warrior.svg) floor stamp and finger pull-out.
+
+### 3.7 Lizard Box Bottom (`LizardBoxBottom`)
+* **Box Dimensions**: `106.5mm x 59.833mm x 26.5mm`
+* **Lid Type**: Cap lid with multi-color Lizard Cult faction logo.
+* **Warriors Grid**: 5x5 grid of 25 individual standing warrior slots:
+  * **Slot Dimensions**: `18.0mm x 9.0mm`, depth `20.0mm`.
+  * **Columns along X**: X centers at `13.65mm`, `33.45mm`, `53.25mm`, `73.05mm`, `92.85mm` (pitch `19.8mm`).
+  * **Rows along Y**: Y centers at `9.916mm`, `19.916mm`, `29.916mm`, `39.916mm`, `49.916mm` (pitch `10.0mm`).
+  * **Grips**: Each slot includes a finger pull-out for simple retrieval of standing warriors.
+
+### 3.8 Riverfolk Box Bottom (`RiverfolkBoxBottom`)
+* **Box Dimensions**: `53.25mm x 59.833mm x 26.5mm`
+* **Lid Type**: Cap lid with multi-color Riverfolk Company faction logo.
+* **Warriors Grid**: 3 horizontal channels running along the X axis holding 15 otter meeples:
+  * Channel 1 (`Y = 12.0mm`): size `46.0mm x 15.0mm`, depth `18.0mm` (holds 5 meeples) with [`riverfolk_warrior.svg`](file:///Volumes/ExternalDocs/Documents/GitHub/pythonscad_boxes/boxes/root/svg/riverfolk_warrior.svg) floor stamp and finger pull-out.
+  * Channel 2 (`Y = 29.916mm`): size `46.0mm x 15.0mm`, depth `18.0mm` (holds 5 meeples) with [`riverfolk_warrior.svg`](file:///Volumes/ExternalDocs/Documents/GitHub/pythonscad_boxes/boxes/root/svg/riverfolk_warrior.svg) floor stamp and finger pull-out.
+  * Channel 3 (`Y = 47.8mm`): size `46.0mm x 15.0mm`, depth `18.0mm` (holds 5 meeples) with [`riverfolk_warrior.svg`](file:///Volumes/ExternalDocs/Documents/GitHub/pythonscad_boxes/boxes/root/svg/riverfolk_warrior.svg) floor stamp and finger pull-out.
 
 ---
 

@@ -311,7 +311,7 @@ project.card_box(
     "VagabondCardBox",
     card_size=(74.875, 93.5),
     size=card_vagabond_size,
-    lid=replace(LID_VAGABOND, text="Vagabond"),
+    lid=LID_VAGABOND,
     color=Color("green"),
     position=(79.875, 0.0, 28.0 + 8.6),
     no_rotate=True,
@@ -580,10 +580,62 @@ project.box(
 ).compartment(
     "Warriors",
     elements=[
-        # 3 horizontal channels for cat tokens
-        centered(None, (20.0, 27.916), (22.0, 46.0), depth=18.0, pull_out=True),
-        centered(None, (50.0, 27.916), (22.0, 46.0), depth=18.0, pull_out=True),
-        centered(None, (80.0, 27.916), (22.0, 46.0), depth=18.0, pull_out=True),
+        # 3 horizontal channels for 25 cat meeples (8 + 8 + 9) with wide divider walls and long finger pulls
+        centered(
+            None,
+            (51.25, 9.5),
+            (73.0, 14.5),
+            depth=18.0,
+            pull_out=True,
+            pull_out_width=65.0,
+            pull_out_depth=9.0,
+        ),
+        centered(
+            None,
+            (51.25, 27.9),
+            (73.0, 14.5),
+            depth=18.0,
+            pull_out=True,
+            pull_out_width=65.0,
+            pull_out_depth=9.0,
+        ),
+        centered(
+            None,
+            (51.25, 46.3),
+            (82.0, 14.5),
+            depth=18.0,
+            pull_out=True,
+            pull_out_width=75.0,
+            pull_out_depth=9.0,
+        ),
+        # Stamps/Inlays at the bottom of the channels
+        centered(
+            str(SVG_DIR / "marquis_warrior.svg"),
+            (51.25, 9.5),
+            (12.0, 12.0),
+            depth=0.6,
+            z_offset=3.9,
+            color="black",
+            pull_out=False,
+        ),
+        centered(
+            str(SVG_DIR / "marquis_warrior.svg"),
+            (51.25, 27.9),
+            (12.0, 12.0),
+            depth=0.6,
+            z_offset=3.9,
+            color="black",
+            pull_out=False,
+        ),
+        centered(
+            str(SVG_DIR / "marquis_warrior.svg"),
+            (51.25, 46.3),
+            (12.0, 12.0),
+            depth=0.6,
+            z_offset=3.9,
+            color="black",
+            pull_out=False,
+        ),
     ],
 )
 
@@ -797,9 +849,44 @@ project.box(
 ).compartment(
     "Warriors",
     elements=[
-        # 2 horizontal channels for bird tokens
-        centered(None, (30.0, 27.916), (22.0, 46.0), depth=18.0, pull_out=True),
-        centered(None, (70.0, 27.916), (22.0, 46.0), depth=18.0, pull_out=True),
+        # 2 horizontal channels for 20 bird meeples (10 + 10)
+        centered(
+            None,
+            (51.25, 15.0),
+            (91.0, 21.0),
+            depth=18.0,
+            pull_out=True,
+            pull_out_width=80.0,
+            pull_out_depth=9.0,
+        ),
+        centered(
+            None,
+            (51.25, 40.8),
+            (91.0, 21.0),
+            depth=18.0,
+            pull_out=True,
+            pull_out_width=80.0,
+            pull_out_depth=9.0,
+        ),
+        # Stamps/Inlays at the bottom of the channels
+        centered(
+            str(SVG_DIR / "erie_warrior.svg"),
+            (51.25, 15.0),
+            (12.0, 12.0),
+            depth=0.6,
+            z_offset=3.9,
+            color="black",
+            pull_out=False,
+        ),
+        centered(
+            str(SVG_DIR / "erie_warrior.svg"),
+            (51.25, 40.8),
+            (12.0, 12.0),
+            depth=0.6,
+            z_offset=3.9,
+            color="black",
+            pull_out=False,
+        ),
     ],
 )
 
@@ -885,25 +972,41 @@ project.box(
 ).compartment(
     "Warriors",
     elements=[
-        # 2 horizontal channels for alliance tokens
-        centered(None, (15.0, 27.916), (19.5, 46.0), depth=18.0, pull_out=True),
-        centered(None, (34.25, 27.916), (19.5, 46.0), depth=18.0, pull_out=True),
-        # Stamps/Inlays at the bottom of the channels (depth=0.6, z_offset = comp_depth - depth = 21.9 - 18.0 = 3.9)
+        # 2 horizontal channels for 10 alliance meeples (5 + 5)
+        centered(
+            None,
+            (24.625, 15.0),
+            (46.0, 19.5),
+            depth=18.0,
+            pull_out=True,
+            pull_out_width=40.0,
+            pull_out_depth=9.0,
+        ),
+        centered(
+            None,
+            (24.625, 39.8),
+            (46.0, 19.5),
+            depth=18.0,
+            pull_out=True,
+            pull_out_width=40.0,
+            pull_out_depth=9.0,
+        ),
+        # Stamps/Inlays at the bottom of the channels
         centered(
             str(SVG_DIR / "alliance_warrior.svg"),
-            (15.0, 27.916),
+            (24.625, 15.0),
             (12.0, 12.0),
             depth=0.6,
-            z_offset=3.9,
+            z_offset=4.9,
             color="black",
             pull_out=False,
         ),
         centered(
             str(SVG_DIR / "alliance_warrior.svg"),
-            (34.25, 27.916),
+            (24.625, 39.8),
             (12.0, 12.0),
             depth=0.6,
-            z_offset=3.9,
+            z_offset=4.9,
             color="black",
             pull_out=False,
         ),
@@ -995,14 +1098,15 @@ project.box(
 ).compartment(
     "Warriors",
     elements=[
-        # 5 rows of 5 individual lizard warrior slots
+        # 5 rows of 5 individual lizard warrior slots (25 total)
         *[
             centered(
                 None,
-                (10.0 + 19.8 * i, 7.0 + 10.0 * j),
+                (11.65 + 19.8 * i, 7.916 + 10.0 * j),
                 (18.0, 9.0),
                 depth=20.0,
                 pull_out=True,
+                pull_out_depth=10.0,
             )
             for i in range(5)
             for j in range(5)
@@ -1146,15 +1250,39 @@ project.box(
 ).compartment(
     "Warriors",
     elements=[
-        # 3 horizontal channels
-        centered(None, (10.0, 27.916), (16.0, 46.0), depth=18.0, pull_out=True),
-        centered(None, (24.625, 27.916), (16.0, 46.0), depth=18.0, pull_out=True),
-        centered(None, (39.25, 27.916), (16.0, 46.0), depth=18.0, pull_out=True),
-        # Stamps/Inlays at the bottom of the channels (depth=0.6, z_offset = comp_depth - depth = 22.9 - 18.0 = 4.9)
+        # 3 horizontal channels for 15 otter meeples (5 + 5 + 5)
+        centered(
+            None,
+            (24.625, 11.5),
+            (46.0, 15.0),
+            depth=18.0,
+            pull_out=True,
+            pull_out_width=40.0,
+            pull_out_depth=9.0,
+        ),
+        centered(
+            None,
+            (24.625, 27.9),
+            (46.0, 15.0),
+            depth=18.0,
+            pull_out=True,
+            pull_out_width=40.0,
+            pull_out_depth=9.0,
+        ),
+        centered(
+            None,
+            (24.625, 44.3),
+            (46.0, 15.0),
+            depth=18.0,
+            pull_out=True,
+            pull_out_width=40.0,
+            pull_out_depth=9.0,
+        ),
+        # Stamps/Inlays at the bottom of the channels
         centered(
             str(SVG_DIR / "riverfolk_warrior.svg"),
-            (10.0, 27.916),
-            (12.0, 15.0),
+            (24.625, 11.5),
+            (12.0, 12.0),
             depth=0.6,
             z_offset=4.9,
             color="black",
@@ -1162,8 +1290,8 @@ project.box(
         ),
         centered(
             str(SVG_DIR / "riverfolk_warrior.svg"),
-            (24.625, 27.916),
-            (12.0, 15.0),
+            (24.625, 27.9),
+            (12.0, 12.0),
             depth=0.6,
             z_offset=4.9,
             color="black",
@@ -1171,8 +1299,8 @@ project.box(
         ),
         centered(
             str(SVG_DIR / "riverfolk_warrior.svg"),
-            (39.25, 27.916),
-            (12.0, 15.0),
+            (24.625, 44.3),
+            (12.0, 12.0),
             depth=0.6,
             z_offset=4.9,
             color="black",
@@ -1380,4 +1508,4 @@ project.box(
 )
 
 if __name__ == "__main__":
-    run(project, show_lids=True, remove_layers=0)
+    run(project, show_lids=False, remove_layers=1)

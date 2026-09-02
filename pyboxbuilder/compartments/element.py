@@ -444,7 +444,7 @@ def build_pull_out(
     width, length = (l, w) if abs(element.rotation) == 90 else (w, l)
     depth = element.depth or default_depth
     actual_z_offset = element.z_offset if element.z_offset is not None else (default_depth - depth)
-    drop = depth * PULL_OUT_DEPTH_SHARE
+    drop = (element.pull_out_depth / 2.0) if element.pull_out_depth is not None else (depth * PULL_OUT_DEPTH_SHARE)
     across = min(element.pull_out_width or DEFAULT_PULL_OUT_WIDTH_MM, max(width, length))
 
     # Calculate clearances to compartment boundaries to automatically pick the direction with most room
@@ -591,7 +591,7 @@ def build_element_pack_pull_outs(
         assert element.size is not None
         width, length = element.size
         depth = element.depth or default_depth
-        drop = depth * PULL_OUT_DEPTH_SHARE
+        drop = (element.pull_out_depth / 2.0) if element.pull_out_depth is not None else (depth * PULL_OUT_DEPTH_SHARE)
 
         if use_y:
             clearance_y_front = element.offset[1]
