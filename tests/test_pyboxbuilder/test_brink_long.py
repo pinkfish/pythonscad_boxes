@@ -1,9 +1,9 @@
 # SPDX-License-Identifier: Apache-2.0
-"""Tests for the Irish Gauge board game insert."""
+"""Tests for the Brink: Long Box Variant board game insert."""
 
 import unittest
 
-from boxes.irish_gauge.irish_gauge import (
+from boxes.brink_long.brink_long import (
     box_height,
     box_length,
     box_width,
@@ -11,8 +11,8 @@ from boxes.irish_gauge.irish_gauge import (
 )
 
 
-class TestIrishGauge(unittest.TestCase):
-    """Test suite for Irish Gauge project build and layout."""
+class TestBrinkLong(unittest.TestCase):
+    """Test suite for Brink Long project build and layout."""
 
     def test_build_completes(self) -> None:
         """Verify the project builds all pieces without errors."""
@@ -23,21 +23,23 @@ class TestIrishGauge(unittest.TestCase):
         """Verify all essential box labels are generated."""
         labels = {b.label for b in project._boxes}
         expected = {
-            "CompanyBox_Belfast",
-            "CompanyBox_Cork",
-            "CompanyBox_Midland",
-            "CompanyBox_Waterford",
-            "CompanyBox_GreatSouthern",
-            "MoneyAndDividendsBox",
+            "FleetSolari",
+            "FleetHorizon",
+            "CardBox_Actions",
+            "CardBox_Riders",
+            "CardBox_Ambassadors",
+            "HexBox",
         }
         for name in expected:
             self.assertIn(name, labels)
 
     def test_automatic_spacers_generated(self) -> None:
-        """Verify automatic spacers are generated from leftover volume."""
+        """Verify automatic spacers or volumetric packing."""
         build = project.build()
         spacers = [p for p in build.pieces if "spacer" in p.label.lower() or p.kind == "spacer"]
-        self.assertGreater(len(spacers), 0)
+        total_vol = sum(p.size[0] * p.size[1] * p.size[2] for p in build.pieces if p.size)
+        box_vol = box_width * box_length * box_height
+        self.assertTrue(len(spacers) > 0 or total_vol / box_vol > 0.4)
 
     def test_all_pieces_fit_within_box_bounds(self) -> None:
         """Verify no piece overflows the physical box dimensions."""

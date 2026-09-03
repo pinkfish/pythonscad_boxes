@@ -1,9 +1,9 @@
 # SPDX-License-Identifier: Apache-2.0
-"""Tests for the Irish Gauge board game insert."""
+"""Tests for the Moonrakers board game insert."""
 
 import unittest
 
-from boxes.irish_gauge.irish_gauge import (
+from boxes.moonrakers.moonrakers import (
     box_height,
     box_length,
     box_width,
@@ -11,24 +11,28 @@ from boxes.irish_gauge.irish_gauge import (
 )
 
 
-class TestIrishGauge(unittest.TestCase):
-    """Test suite for Irish Gauge project build and layout."""
+class TestMoonrakers(unittest.TestCase):
+    """Test suite for Moonrakers project build and layout."""
 
     def test_build_completes(self) -> None:
         """Verify the project builds all pieces without errors."""
         build = project.build()
-        self.assertGreater(len(build.pieces), 5)
+        self.assertGreater(len(build.pieces), 8)
 
     def test_box_labels_present(self) -> None:
         """Verify all essential box labels are generated."""
         labels = {b.label for b in project._boxes}
         expected = {
-            "CompanyBox_Belfast",
-            "CompanyBox_Cork",
-            "CompanyBox_Midland",
-            "CompanyBox_Waterford",
-            "CompanyBox_GreatSouthern",
-            "MoneyAndDividendsBox",
+            "CardBox_Thrusters",
+            "CardBox_Damage",
+            "CardBox_Reactor",
+            "CardBox_Shield",
+            "CardBox_Miss",
+            "CardBox_Crew",
+            "CardBox_Contracts",
+            "CardBox_Ships",
+            "CardBox_Objectives",
+            "DiceAndTokensBox",
         }
         for name in expected:
             self.assertIn(name, labels)

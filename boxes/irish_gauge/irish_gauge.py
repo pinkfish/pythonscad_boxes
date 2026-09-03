@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 # SPDX-License-Identifier: Apache-2.0
-"""Irish Gauge board game insert.
+"""Irish Gauge board game organizer.
 
 Ports examples/irish_gauge.scad to the pyboxbuilder Project API.
-Box sizes are derived from game box dimensions; spacer boxes are
-auto-generated from leftover space.
+Organizes 5 railway companies (Belfast, Cork, Midland, Waterford, Great Southern)
+with trains & share cards, banknotes, and dividend cubes with automated spacers.
 """
 
 import sys
@@ -12,9 +12,6 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2] if "__file__" in globals() else Path.cwd()
 sys.path.insert(0, str(ROOT))
-# Venv site-packages (any Python version) so compiled extensions like shapely
-# and pybosl2 load inside the PythonSCAD UI's embedded Python — relative to
-# ROOT, no absolute paths, no hardcoded version.
 for _sp in ROOT.glob(".venv/lib/*/site-packages"):
     sys.path.insert(0, str(_sp))
 for _sp in ROOT.glob("venv/*/lib/*/site-packages"):
@@ -22,103 +19,104 @@ for _sp in ROOT.glob("venv/*/lib/*/site-packages"):
 
 from pybosl2 import Color
 
-from pyboxbuilder import BoxType, FingerCut, LabelMode, LidBuilder, Project, run
+from pyboxbuilder import (
+    BoxType,
+    FingerCut,
+    LabelMode,
+    LidBuilder,
+    PatternBuilder,
+    PatternType,
+    Project,
+    run,
+)
 
-# ── Game Box Dimensions ───────────────────────────────────────────
-box_width = 214
-box_length = 302
-box_height = 39
+# ── Box & Board Dimensions ────────────────────────────────────────
+box_width = 214.0
+box_length = 302.0
+box_height = 39.0
+
 board_thickness = 10.5
-wall_thickness = 3
-lid_thickness = 3
+usable_height = box_height - board_thickness  # 28.5mm
 
-card_width = 49
-card_length = 71
-card_20_thickness = 14
-single_card_thickness = card_20_thickness / 20  # 0.7mm per card
+wall_thickness = 3.0
+floor_thickness = 2.0
+lid_thickness = 2.0
 
-train_width = 7.75
-train_length = 5.5
-train_height = 8
-num_trains_per_company = 19
+card_width = 49.0
+card_length = 71.0
 
-dividend_marker_diameter = 7.5
-dividend_marker_thickness = 3
+company_box_width = box_width / 4.0  # 53.5mm
+company_box_length = card_length * 1.8 + wall_thickness * 2.0  # 133.8mm
+company_box_height = usable_height / 2.0                       # 14.25mm
 
-# ── Companies ──────────────────────────────────────────────────────
-companies = [
-    {"shares": 2, "color": "orange", "name": ["Belfast and", "County Down", "Railway"], "lid": "Belfast"},
-    {"shares": 3, "color": "yellow", "name": ["Cork Bandon", "& South Coast", "Railway"], "lid": "Cork"},
-    {"shares": 3, "color": "red",    "name": ["Midland", "Great Western", "Railway"], "lid": "Midland"},
-    {"shares": 4, "color": "purple", "name": ["Waterford", "Limerick", "& Western", "Railway"], "lid": "Waterford"},
-    {"shares": 4, "color": "blue",   "name": ["Great Southern", "& Western", "Railway"], "lid": "Great Southern"},
-]
-
-# ── Derived Box Sizes (pulled from the original layout) ────────────
-company_box_width = box_width / 4                    # 53.5
-company_box_length = card_length * 1.8 + wall_thickness * 2  # 133.8
-company_box_height = (box_height - board_thickness) / 2       # 14.25
-
-money_box_width = box_width                            # 214
-money_box_length = card_length + wall_thickness * 2    # 77
-money_box_height = box_height - board_thickness        # 28.5
+money_box_width = box_width                                    # 214.0mm
+money_box_length = card_length + wall_thickness * 2.0          # 77.0mm
+money_box_height = usable_height                               # 28.5mm
 
 project = Project(
     "IrishGauge",
     game_box_size=(box_width, box_length, box_height),
     wall_thickness=wall_thickness,
+    floor_thickness=floor_thickness,
     lid_thickness=lid_thickness,
+    clearance_slack=0.0,
+    board_thickness=board_thickness,
+    generate_spacers=True,
 )
 
-# ── Money Box (filament hinge, 3 card slots) ──────────────────────
-money = project.box(
-    BoxType.FILAMENT_HINGE,
-    "MoneyBox",
-    size=(money_box_width, money_box_length, money_box_height),
-    no_rotate=True,  # card slots are directional (3 across the width)
-    position=(0, 0, 0),
-    lid=LidBuilder(text="Bank", label_mode=LabelMode.FRAMED, text_color=Color("white")),
-)
-for _i, denomination in enumerate(["1", "5", "10"]):
-    money.compartment(
-        denomination, size=(card_width, card_length - 4), depth=money_box_height,
-        cut=FingerCut.SCOOP, no_rotate=True,
-    )
+IRISH_PATTERN = PatternBuilder(PatternType.DENSE_HEX)
 
-# ── Company Boxes (5, shared footprint, distinct contents) ────────
-for i, company in enumerate(companies):
-    lid_text = company["lid"]
-    # Manual positions matching the original BoxLayout:
-    #   Companies 0-2 in a row at y=money_box_length, x = company_box_width * i
-    #   Companies 3-4 stacked above companies 0-1 (z = company_box_height)
-    if i < 3:
-        position = (company_box_width * i, money_box_length, 0)
-    else:
-        position = (company_box_width * (i - 3), money_box_length, company_box_height)
+# ── 1. Railway Company Boxes (4 columns across X, 2 tiers) ────────
+companies = [
+    ("Belfast", "Belfast", "darkorange"),
+    ("Cork", "Cork", "gold"),
+    ("Midland", "Midland", "darkred"),
+    ("Waterford", "Waterford", "purple"),
+    ("GreatSouthern", "Great Southern", "navy"),
+]
 
-    box = project.box(
+for idx, (company_id, title, color_name) in enumerate(companies):
+    col = idx % 4
+    tier = idx // 4
+    c_box = project.box(
         BoxType.SLIDING,
-        f"CompanyBox{i}",
+        f"CompanyBox_{company_id}",
         size=(company_box_width, company_box_length, company_box_height),
+        lid=LidBuilder(
+            text=title,
+            label_mode=LabelMode.FRAMED,
+            pattern=IRISH_PATTERN,
+            text_color=Color("black" if color_name == "gold" else "white"),
+            frame_color=Color(color_name),
+        ),
+        position=(col * company_box_width, 0.0, tier * company_box_height),
         no_rotate=True,
-        position=position,
-        lid=LidBuilder(text=lid_text, label_mode=LabelMode.FRAMED, text_color=Color("white")),
     )
-    # Share cards stacked per company's share count (sized to fit 47.5mm interior width)
-    share_depth = single_card_thickness * company["shares"] + 1
-    box.compartment(
-        "Shares", size=(43, card_length), depth=share_depth,
-        cut=FingerCut.THROUGH_FLOOR,
-    )
-    # Trains well (19 trains, ~6x4 grid)
-    box.compartment(
-        "Trains", size=(train_length * 6, train_width * 4), depth=train_height,
-        cut=FingerCut.THROUGH_FLOOR,
-    )
-    # Dividend marker slot
-    box.compartment(
-        "Dividend", size=(dividend_marker_diameter, dividend_marker_diameter),
-        depth=dividend_marker_thickness,
+    c_box.compartment("SharesAndLocos", depth=company_box_height - lid_thickness, cut=FingerCut.SCOOP)
+
+# ── 2. Bank Money & Dividend Cubes Box (Y = company_box_length) ───
+y_money = company_box_length
+
+m_box = project.box(
+    BoxType.SLIDING,
+    "MoneyAndDividendsBox",
+    size=(money_box_width, money_box_length, money_box_height),
+    lid=LidBuilder(
+        text="Bank & Dividends",
+        label_mode=LabelMode.FRAMED,
+        pattern=IRISH_PATTERN,
+        text_color=Color("white"),
+        frame_color=Color("forestgreen"),
+    ),
+    position=(0.0, y_money, 0.0),
+    no_rotate=True,
+)
+for slot, name in enumerate(["Money_1", "Money_5", "Money_10", "DividendCubes"]):
+    m_box.compartment(
+        name,
+        width_ratio=0.25,
+        depth=money_box_height - lid_thickness,
+        cut=FingerCut.SCOOP,
     )
 
 # ── Export ────────────────────────────────────────────────────────
