@@ -1,0 +1,143 @@
+/**
+Licensed to the Apache Software Foundation (ASF) under one
+or more contributor license agreements.  See the NOTICE file
+distributed with this work for additional information
+regarding copyright ownership.  The ASF licenses this file
+to you under the Apache License, Version 2.0 (the
+"License"); you may not use this file except in compliance
+with the License.  You may obtain a copy of the License at
+  http://www.apache.org/licenses/LICENSE-2.0
+Unless required by applicable law or agreed to in writing,
+software distributed under the License is distributed on an
+"AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+KIND, either express or implied.  See the License for the
+specific language governing permissions and limitations
+under the License.
+ */
+
+include <BOSL2/std.scad>
+include <boardgame_toolkit.scad>
+
+box_length = 304;
+box_width = 212;
+box_height = 40;
+lid_thickness = 3;
+wall_thickness = 2;
+
+default_label_type = MAKE_MMU == 1 ? LABEL_TYPE_FRAMED_SOLID : LABEL_TYPE_FRAMED;
+default_lid_shape_type = SHAPE_TYPE_DENSE_HEX;
+
+side_width = 2;
+gap = 2;
+
+boards_height = 10;
+
+section_height = box_height - boards_height - 4;
+player_width = (box_width - gap) / 2;
+player_length = player_width;
+player_section_width = 40;
+lid_boundary = 7;
+
+top_width = ( (box_width - gap) - 40) / 2;
+top_length = top_width;
+herald_width = 40;
+
+first_width = 40;
+radius = 10;
+
+module SealsBox() // `make` me
+{
+  MakeBoxWithSlidingLid(size=[top_width, top_length, section_height]) {
+    RoundedBoxAllSides(
+      [
+        top_width - wall_thickness * 2,
+        top_length - wall_thickness * 2,
+        section_height,
+      ], radius=15
+    );
+  }
+}
+module SealsBoxLid() // `make` me
+{
+  SlidingBoxLidWithLabel(
+      size=[top_width, top_length, section_height], lid_thickness=lid_thickness,
+      text_str="Seals",
+      label_options=MakeLabelOptions(label_colour="blue", radius=5)
+    );
+}
+
+module FarmerBox() // `make` me
+{
+  MakeBoxWithSlidingLid(size=[top_width, top_length, section_height]) {
+    RoundedBoxAllSides(
+      [
+        top_width - wall_thickness * 2,
+        top_length - wall_thickness * 2,
+        section_height,
+      ], radius=15
+    );
+  }
+}
+
+module FarmerBoxLid() // `make` me
+{
+  SlidingBoxLidWithLabel(
+    size=[top_width, top_length, section_height], lid_thickness=lid_thickness,
+    text_str="Farmer", label_options=MakeLabelOptions(label_colour="blue")
+  );
+}
+
+module HeraldBox() // `make` me
+{
+  MakeBoxWithSlidingLid(size=[herald_width, top_length, section_height]) {
+    RoundedBoxAllSides(
+      [
+        herald_width - wall_thickness * 2,
+        top_length - wall_thickness * 2,
+        section_height,
+      ], radius=15
+    );
+  }
+}
+module HeraldBoxLid() // `make` me
+{
+  SlidingBoxLidWithLabel(
+      size=[herald_width, top_length, section_height], lid_thickness=lid_thickness, text_str="Herald",
+      label_options=MakeLabelOptions(label_colour="blue")
+    );
+}
+
+module PlayerBox() // `make` me
+{
+  MakeBoxWithSlidingLid(size=[player_width, player_length, section_height]) {
+
+    RoundedBoxGrid(
+      [$inner_width, first_width, section_height], radius=radius, rows=2,
+      cols=1, all_sides=true
+    );
+    translate([0, first_width + wall_thickness, 0]) RoundedBoxAllSides(
+        [$inner_width, $inner_length - first_width, section_height], radius=radius
+      );
+  }
+}
+
+module PlayerBoxLid() // `make` me
+{
+  SlidingBoxLidWithLabel(
+    size=[player_width, player_length, section_height], lid_thickness=lid_thickness,
+    text_str="Player",
+    label_options=MakeLabelOptions(label_colour="blue", radius=5)
+  );
+}
+
+if (FROM_MAKE != 1) {
+  //    BoxLayout();
+
+  SealsBox();
+
+  translate([0, 100, 0]) FarmerBox();
+
+  translate([0, 200, 0]) HeraldBox();
+
+  translate([0, 300, 0]) PlayerBox();
+}

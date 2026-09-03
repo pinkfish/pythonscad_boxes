@@ -1,0 +1,88 @@
+/**
+Licensed to the Apache Software Foundation (ASF) under one
+or more contributor license agreements.  See the NOTICE file
+distributed with this work for additional information
+regarding copyright ownership.  The ASF licenses this file
+to you under the Apache License, Version 2.0 (the
+"License"); you may not use this file except in compliance
+with the License.  You may obtain a copy of the License at
+  http://www.apache.org/licenses/LICENSE-2.0
+Unless required by applicable law or agreed to in writing,
+software distributed under the License is distributed on an
+"AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+KIND, either express or implied.  See the License for the
+specific language governing permissions and limitations
+under the License.
+ */
+
+include <BOSL2/std.scad>
+include <boardgame_toolkit.scad>
+
+box_length = 208;
+box_width = 154;
+box_height = 44;
+board_thickness = 6;
+
+default_lid_thickness = 2;
+default_floor_thickness = 2;
+default_wall_thickness = 3;
+default_lid_shape_type = SHAPE_TYPE_PENROSE_TILING_5;
+default_lid_shape_width = 25;
+default_lid_shape_thickness = 0.75;
+default_label_type = MAKE_MMU == 1 ? LABEL_TYPE_FRAMED_SOLID : LABEL_TYPE_FRAMED;
+
+card_width = 61;
+card_length = 93;
+
+card_box_width = default_wall_thickness * 2 + card_length;
+card_box_length = box_width - 3;
+card_box_height = box_height - board_thickness;
+
+token_box_width = box_length - card_box_width - 3;
+token_box_length = box_width - 3;
+token_box_height = card_box_height;
+
+module CardBox() // `make` me
+{
+  MakeBoxWithCapLid(size=[card_box_width, card_box_length, card_box_height]) {
+    cube([card_length, card_width, card_box_height]);
+    translate([0, $inner_length - card_width, 0]) cube([card_length, card_width, card_box_height]);
+    translate([0, card_width / 2, -default_floor_thickness - 0.5])
+      FingerHoleBase(radius=15, height=card_box_height);
+    translate([0, $inner_length - card_width / 2, -default_floor_thickness - 0.5])
+      FingerHoleBase(radius=15, height=card_box_height);
+  }
+}
+
+module CardBoxLid() // `make` me
+{
+  CapBoxLidWithLabel(
+    size=[card_box_width, card_box_length, card_box_height],
+    text_str="Tokens"
+  );
+}
+
+module TokensBox() // `make` me
+{
+  MakeBoxWithCapLid(size=[token_box_width, token_box_length, token_box_height]) {
+    RoundedBoxAllSides([$inner_width, $inner_length, token_box_height], radius=15);
+  }
+}
+
+module TokensBoxLid() // `make` me
+{
+  CapBoxLidWithLabel(
+    size=[token_box_width, token_box_length, token_box_height],
+    text_str="Modern Art", font="Marker Felt:style=Regular"
+  );
+}
+
+if (FROM_MAKE != 1) {
+  TokensBoxLid();
+  //TriangleTesselationRepeat(rows=4, cols=4, size=20)
+  // HalfRegularHexagon(20);
+  //HexagonTesselationRepeat(rows=4, cols=4, size=20)
+  //    RhombiTriHexagonal(40);
+  // linear_extrude(height = 5) 
+  // PenroseTiling(100,  divisions=1, thickness=1);
+}

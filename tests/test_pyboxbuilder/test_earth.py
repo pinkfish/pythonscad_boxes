@@ -1,9 +1,9 @@
 # SPDX-License-Identifier: Apache-2.0
-"""Tests for the Emberleaf board game insert."""
+"""Tests for the Earth board game insert."""
 
 import unittest
 
-from boxes.emberleaf.emberleaf import (
+from boxes.earth.earth import (
     box_height,
     box_length,
     box_width,
@@ -11,8 +11,8 @@ from boxes.emberleaf.emberleaf import (
 )
 
 
-class TestEmberleaf(unittest.TestCase):
-    """Test suite for Emberleaf project build and layout."""
+class TestEarth(unittest.TestCase):
+    """Test suite for Earth project build and layout."""
 
     def test_build_completes(self) -> None:
         """Verify the project builds all pieces without errors."""
@@ -23,16 +23,18 @@ class TestEmberleaf(unittest.TestCase):
         """Verify all essential box labels are generated."""
         labels = {b.label for b in project._boxes}
         expected = {
-            "PlayerBoxBlack",
-            "PlayerBoxRed",
-            "PlayerBoxYellow",
-            "PlayerBoxBlue",
-            "PlayerBoxGrey",
-            "CardBoxFavor",
-            "CardBoxHero",
-            "CardBoxSolo",
-            "CardBoxPlayerBlack",
-            "CommonBox",
+            "CardBox_Flora",
+            "CardBox_Terrain",
+            "CardBox_Events",
+            "CardBox_Abundance",
+            "CanopyBox",
+            "SproutBox",
+            "PlayerBox_Red",
+            "PlayerBox_Green",
+            "PlayerBox_Yellow",
+            "PlayerBox_Blue",
+            "PlayerBox_Purple",
+            "PlayerBox_Pink",
         }
         for name in expected:
             self.assertIn(name, labels)

@@ -1,38 +1,38 @@
 # SPDX-License-Identifier: Apache-2.0
-"""Tests for the Emberleaf board game insert."""
+"""Tests for the 18Cuba board game insert."""
 
+import importlib.util
+from pathlib import Path
 import unittest
 
-from boxes.emberleaf.emberleaf import (
-    box_height,
-    box_length,
-    box_width,
-    project,
-)
+_PATH = Path(__file__).resolve().parents[2] / "boxes" / "18_cuba" / "18_cuba.py"
+_SPEC = importlib.util.spec_from_file_location("cuba_mod", _PATH)
+cuba_mod = importlib.util.module_from_spec(_SPEC)
+_SPEC.loader.exec_module(cuba_mod)
+
+project = cuba_mod.project
+box_width = cuba_mod.box_width
+box_length = cuba_mod.box_length
+box_height = cuba_mod.box_height
 
 
-class TestEmberleaf(unittest.TestCase):
-    """Test suite for Emberleaf project build and layout."""
+class Test18Cuba(unittest.TestCase):
+    """Test suite for 18Cuba project build and layout."""
 
     def test_build_completes(self) -> None:
         """Verify the project builds all pieces without errors."""
         build = project.build()
-        self.assertGreater(len(build.pieces), 10)
+        self.assertGreater(len(build.pieces), 5)
 
     def test_box_labels_present(self) -> None:
         """Verify all essential box labels are generated."""
         labels = {b.label for b in project._boxes}
         expected = {
-            "PlayerBoxBlack",
-            "PlayerBoxRed",
-            "PlayerBoxYellow",
-            "PlayerBoxBlue",
-            "PlayerBoxGrey",
-            "CardBoxFavor",
-            "CardBoxHero",
-            "CardBoxSolo",
-            "CardBoxPlayerBlack",
-            "CommonBox",
+            "MoneyBox_1",
+            "MoneyBox_2",
+            "TrainBox",
+            "SharesBox_1",
+            "SharesBox_2",
         }
         for name in expected:
             self.assertIn(name, labels)
