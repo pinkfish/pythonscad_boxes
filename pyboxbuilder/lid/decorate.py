@@ -466,6 +466,7 @@ def _apply_label(
         origin_y: The face's minimum y.
         top_z: The face's z.
         mode: ``"mmu"`` or ``"single"``.
+        lid_thickness: Overall lid thickness in mm.
 
     """
 

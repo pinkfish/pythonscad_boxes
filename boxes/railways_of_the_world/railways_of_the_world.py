@@ -19,6 +19,7 @@ for _sp in ROOT.glob("venv/*/lib/*/site-packages"):
     sys.path.insert(0, str(_sp))
 
 from pybosl2 import Color
+
 from pyboxbuilder import (
     BoxType,
     ElementShape,
@@ -131,7 +132,9 @@ empty_city_height = player_box_height * 2.0                       # 56.0
 
 player_box_trains_length = box_width - empty_city_width - player_box_plastic_extra_length - 2.0  # 70.0
 
-expansion_area_box_width = box_width - card_box_width_calc(portugal_cards) - money_section_width - 1.0 - new_city_extra_length  # 47.0
+expansion_area_box_width = (
+    box_width - card_box_width_calc(portugal_cards) - money_section_width - 1.0 - new_city_extra_length
+)  # 47.0
 
 sweden_box_width = empty_city_width                              # 47.0
 sweden_box_length = empty_city_length                            # 142.5

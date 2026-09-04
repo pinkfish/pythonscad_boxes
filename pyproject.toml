@@ -37,6 +37,7 @@ dev = [
     "fpdf2",
     "pillow",
     "shapely",
+    "pre-commit",
 ]
 docs = [
     # sphinx<9: sphinx-immaterial 0.13.x is not yet compatible with Sphinx 9

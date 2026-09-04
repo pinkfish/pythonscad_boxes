@@ -395,6 +395,7 @@ def _svg_region(shape_file: str) -> Region:
     clip loses nothing and keeps the cutouts.
     """
     from pathlib import Path
+
     from pybosl2.svg import region_from_svg
 
     region = _SVG_CACHE.get(shape_file)
@@ -476,7 +477,7 @@ def build_pull_out(
         z = actual_z_offset + depth - actual_drop
 
         from pybosl2 import Anchor
-        dish_edges = [Anchor.BOTTOM_LEFT, Anchor.BOTTOM_RIGHT] + vertical_edges()
+        dish_edges = [Anchor.BOTTOM_LEFT, Anchor.BOTTOM_RIGHT, *vertical_edges()]
         total_len = length + drop_front + drop_back
         dish = cuboid(
             [across, total_len, actual_drop * 2],
@@ -506,7 +507,7 @@ def build_pull_out(
         z = actual_z_offset + depth - actual_drop
 
         from pybosl2 import Anchor
-        dish_edges = [Anchor.BOTTOM_FRONT, Anchor.BOTTOM_BACK] + vertical_edges()
+        dish_edges = [Anchor.BOTTOM_FRONT, Anchor.BOTTOM_BACK, *vertical_edges()]
         total_w = width + drop_left + drop_right
         dish = cuboid(
             [total_w, across, actual_drop * 2],
@@ -696,7 +697,7 @@ def centered(
     rotation: float = 0.0,
     label: str | None = None,
     pull_out: bool = True,
-    **pocket_kwargs,
+    **pocket_kwargs: Any,
 ) -> CompartmentElement:
     """Return a CompartmentElement centered at the given coordinate."""
     from pyboxbuilder.enums import ElementShape
@@ -731,7 +732,7 @@ def centered_in_box(
     box_size: tuple[float, float, float],
     element_size: tuple[float, float],
     wall_thickness: float = 2.0,
-    **kwargs,
+    **kwargs: Any,
 ) -> CompartmentElement:
     """Return a CompartmentElement centered exactly in a box's interior frame."""
     interior_w = box_size[0] - 2 * wall_thickness

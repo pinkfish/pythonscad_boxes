@@ -154,12 +154,13 @@ def build_label(
         border_margin_mm: Margin kept clear at the lid edges.
         label_border_mm: Solid outer border width of the backing plate.
         label_text_gap_mm: Gap between text and inside of the border.
+        label_rounding_mm: Corner rounding radius of the backing plate in mm.
 
     Returns:
         A `Label`, or None when the text would come out under the minimum.
 
     """
-    from pyboxbuilder.box.shell import block, corner
+    from pyboxbuilder.box.shell import corner
 
     border = label_border_mm if label_border_mm is not None else LABEL_BORDER_MM
     gap = label_text_gap_mm if label_text_gap_mm is not None else LABEL_TEXT_GAP_MM
@@ -210,8 +211,9 @@ def build_label(
 
     rounding_val = label_rounding_mm if label_rounding_mm is not None else 5.0
 
-    from pyboxbuilder.rounding import vertical_edges
     from pybosl2 import cuboid
+
+    from pyboxbuilder.rounding import vertical_edges
     plate_solid = cuboid([plate_w, plate_l, BACKING_HEIGHT_MM], rounding=rounding_val, edges=vertical_edges())
     plate = corner(plate_solid, [plate_w, plate_l, BACKING_HEIGHT_MM], at=(plate_x, plate_y, 0.0))
     hatching = corner(

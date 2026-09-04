@@ -6,12 +6,13 @@ import sys
 from pathlib import Path
 from typing import Any
 
+
 # Repo root on sys.path
 def _find_repo_root() -> Path:
     if "__file__" in globals():
         return Path(__file__).resolve().parents[2]
     curr = Path.cwd().resolve()
-    for parent in [curr] + list(curr.parents):
+    for parent in [curr, *list(curr.parents)]:
         if (parent / "pyproject.toml").exists() or (parent / "boxes" / "root" / "svg").exists():
             return parent
     return curr
@@ -24,16 +25,16 @@ for _sp in REPO_ROOT.glob("venv/*/lib/*/site-packages"):
     sys.path.insert(0, str(_sp))
 
 from dataclasses import replace
+
 from pyboxbuilder import (
     BoxType,
     Color,
     LidBuilder,
-    Project,
-    run,
-    centered,
-    centered_in_box,
     PatternBuilder,
     PatternType,
+    Project,
+    centered,
+    run,
 )
 from pyboxbuilder.compartments import CompartmentElement
 from pyboxbuilder.enums import ElementShape
@@ -150,13 +151,17 @@ project = Project("Root", game_box_size=(214.0, 278.0, 67.0), generate_spacers=T
 
 from pybosl2.shapes3d.base import CsgSolid
 
+
 class MultiColorSolid(CsgSolid):
     def color(self, color_val):
         return self
 
 def _measure_logo(solid):
     b = solid.bounds()
-    cx, cy, cz = (float(b.center[0]), float(b.center[1]), float(b.center[2])) if hasattr(b, "center") else (float(b[0][0]), float(b[0][1]), float(b[0][2]))
+    if hasattr(b, "center"):
+        cx, cy, cz = (float(b.center[0]), float(b.center[1]), float(b.center[2]))
+    else:
+        cx, cy, cz = (float(b[0][0]), float(b[0][1]), float(b[0][2]))
     span_x, span_y = (float(b.size[0]), float(b.size[1])) if hasattr(b, "size") else (float(b[1][0]), float(b[1][1]))
     return (cx, cy, cz), (span_x, span_y)
 
