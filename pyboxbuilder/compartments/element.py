@@ -534,7 +534,7 @@ def build_element_pack(
 
     A coloured element is carved *and* filled: it is included here so its
     silhouette is recessed into the well floor, and
-    :func:`build_element_pack_inserts` supplies the coloured solid that fills
+    :func:`~pyboxbuilder.compartments.element.build_element_pack_inserts` supplies the coloured solid that fills
     that recess — together they make an inlay flush with the floor rather than
     a bump proud of it.
     """

@@ -487,9 +487,6 @@ class Closure:
     def require_lid(self) -> Bosl2Solid:
         """Return the lid half, for a closure that is required to have one.
 
-        Args:
-            None.
-
         Returns:
             The lid solid.
 

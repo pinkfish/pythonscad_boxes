@@ -7,7 +7,7 @@ but have to be recomputed by hand whenever a box changes size. Real inserts sit
 in that gap: they are densely packed *and* highly structured — three columns of
 stacked trays, not an arbitrary arrangement.
 
-This module lets the structure be written down and the coordinates derived:
+This module lets the structure be written down and the coordinates derived::
 
     project.arrange(columns(
         rows(                                        # left column

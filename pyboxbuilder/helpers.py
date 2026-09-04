@@ -53,7 +53,14 @@ class CardSize(Enum):
 
 
 class CardSpec:
-    """Calculates width, length, and depth for a deck of cards based on sleeve type."""
+    """Calculates width, length, and depth for a deck of cards based on sleeve type.
+
+    Args:
+        card_size: CardSize enum or custom (width, length) tuple in mm.
+        count: Number of cards in the deck.
+        sleeve: SleeveType selection.
+
+    """
 
     def __init__(
         self,
@@ -61,14 +68,6 @@ class CardSpec:
         count: int,
         sleeve: SleeveType = SleeveType.UNSLEEVED,
     ) -> None:
-        """Initialize CardSpec.
-
-        Args:
-            card_size: CardSize enum or custom (width, length) tuple in mm.
-            count: Number of cards in the deck.
-            sleeve: SleeveType selection.
-
-        """
         self.card_size = card_size
         self.count = count
         self.sleeve = sleeve

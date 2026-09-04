@@ -106,7 +106,7 @@ class BoxSpec:
 
     # ── Sliding family ───────────────────────────────────────────────────
     lid_slide_axis: str | None = None
-    """Override sliding axis: 'x' to slide along width, 'y' to slide along length, None for default."""
+    """Sliding axis ('x' along width, 'y' along length, or None for default)."""
     dovetail: bool = True
     """Cut the lid's retaining dovetail; ``False`` leaves a plain channel."""
     lead_chamfer: float | None = None

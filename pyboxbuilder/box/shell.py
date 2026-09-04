@@ -515,7 +515,7 @@ def no_lid_finger_holes(spec: BoxSpec) -> tuple[FingerHoleBuilder, ...]:
             `floor_thickness`.
 
     Returns:
-        A tuple of `FingerHoleBuilder`s — one per longer wall — or an empty
+        A tuple of ``FingerHoleBuilder`` instances — one per longer wall — or an empty
         tuple when the holes would not fit.
 
     """

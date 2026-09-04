@@ -104,7 +104,7 @@ class Sleeve:
 
     @property
     def card_thickness(self) -> float:
-        """Thickness of one sleeved card (mm): the card plus the sleeve film."""
+        """Thickness of one sleeved card, in mm (the card plus the sleeve film)."""
         microns = self.thickness_microns if self.thickness_microns is not None else _DEFAULT_MICRONS
         return BASE_CARD_THICKNESS + microns / 1000.0
 
