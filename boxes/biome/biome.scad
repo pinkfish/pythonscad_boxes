@@ -1,0 +1,475 @@
+/**
+Licensed to the Apache Software Foundation (ASF) under one
+or more contributor license agreements.  See the NOTICE file
+distributed with this work for additional information
+regarding copyright ownership.  The ASF licenses this file
+to you under the Apache License, Version 2.0 (the
+"License"); you may not use this file except in compliance
+with the License.  You may obtain a copy of the License at
+  http://www.apache.org/licenses/LICENSE-2.0
+Unless required by applicable law or agreed to in writing,
+software distributed under the License is distributed on an
+"AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+KIND, either express or implied.  See the License for the
+specific language governing permissions and limitations
+under the License.
+ */
+
+include <BOSL2/std.scad>
+include <boardgame_toolkit.scad>
+
+box_length = 285;
+box_width = 285;
+box_height = 73;
+
+default_lid_shape_type = SHAPE_TYPE_LIZARD;
+default_lid_shape_thickness = 1;
+default_lid_shape_width = 15;
+default_label_font = "Impact";
+default_lid_catch_type = CATCH_BUMPS_LONG;
+
+board_thickness = 20;
+board_width = 255;
+
+default_wall_thickness = 3;
+default_lid_thickness = 3;
+default_label_type = MAKE_MMU == 1 ? LABEL_TYPE_FRAMED_SOLID : LABEL_TYPE_FRAMED;
+
+tile_thickness = 2;
+
+spinner = 133;
+spinner_base = 26;
+spinner_thickness = 9;
+
+card_width = 66;
+card_length = 91;
+ten_cards_thickness = 6;
+single_card_thickness = ten_cards_thickness / 10;
+
+nest_width = 45;
+nest_total_length = 180;
+
+player_cube = 9;
+player_token_diameter = 10;
+
+other_token_thickness = 6.5;
+cresent_diameter = 16;
+leaf_width = 9;
+leaf_length = 29;
+leaf_stem = 5;
+leaf_stem_width = 2;
+die_size = 17;
+coin_diamter = 26;
+coin_thickness = 3;
+
+player_box_width = default_wall_thickness * 4 + nest_width;
+player_box_length = (box_length - 2) / 4;
+player_box_height = (box_height - board_thickness - 1) / 3;
+
+resource_box_width = player_box_width;
+resource_box_length = player_box_length;
+resource_box_height = player_box_height;
+
+nest_box_length = box_length - 2;
+nest_box_width = nest_width + default_floor_thickness + default_lid_thickness + 2;
+nest_box_height = box_height - board_thickness - 1;
+
+spinner_box_height = spinner_thickness + default_floor_thickness;
+
+card_box_length = card_length + 1 + default_wall_thickness * 2;
+card_box_width = card_width + 1 + default_wall_thickness * 2;
+card_box_height = box_height - spinner_box_height - board_thickness - 1;
+
+spinner_box_width = box_width - player_box_width - nest_box_width - 2;
+spinner_box_length = box_length - 2 - card_box_length;
+
+starting_card_box_height = single_card_thickness * 14 + default_lid_thickness + default_floor_thickness + 1;
+achievment_card_box_height = single_card_thickness * 13 + default_lid_thickness + default_floor_thickness + 1;
+changing_condition_card_box_height = single_card_thickness * 11 + default_lid_thickness + default_floor_thickness + 1;
+legend_card_box_height = single_card_thickness * 9 + default_lid_thickness + default_floor_thickness + 1;
+plant_animal_extra_card_box_height = card_box_height - legend_card_box_height;
+big_card_box_height = box_height - board_thickness - 1;
+
+extra_bits_box_height = card_box_height;
+extra_bits_box_width = box_width - board_width - 1;
+extra_bits_box_length = box_length - 1;
+
+spacer_side_width = box_width - nest_box_width - player_box_width - 2 - card_box_length - extra_bits_box_width;
+spacer_side_length = box_length - card_box_length * 2 - 2;
+spacer_side_height = box_height - board_thickness - 1;
+
+spacer_front_width = box_width - nest_box_width - player_box_width - card_box_width * 2;
+spacer_front_length = box_length - 1;
+spacer_front_height = board_thickness;
+
+module PlayerBox() // `make` me
+{
+  MakeBoxWithCapLid(size=[player_box_width, player_box_length, player_box_height]) {
+    RoundedBoxAllSides([$inner_width, $inner_length, player_box_height], radius=5);
+  }
+}
+
+module PlayerBoxLid() // `make` me
+{
+  CapBoxLidWithLabel(size=[player_box_width, player_box_length, player_box_height], text_str="Player");
+}
+
+module ResourceBox() // `make` me
+{
+  MakeBoxWithCapLid(size=[resource_box_width, resource_box_length, resource_box_height]) {
+    RoundedBoxAllSides([$inner_width, $inner_length, resource_box_height], radius=5);
+  }
+}
+
+module ResourceBoxMouseLid() // `make` me
+{
+  CapBoxLidWithLabel(size=[resource_box_width, resource_box_length, resource_box_height], text_str="Mouse");
+}
+
+module ResourceBoxSunLid() // `make` me
+{
+  CapBoxLidWithLabel(size=[resource_box_width, resource_box_length, resource_box_height], text_str="Sun");
+}
+
+module ResourceBoxFishLid() // `make` me
+{
+  CapBoxLidWithLabel(size=[resource_box_width, resource_box_length, resource_box_height], text_str="Fish");
+}
+
+module ResourceBoxLeafLid() // `make` me
+{
+  CapBoxLidWithLabel(size=[resource_box_width, resource_box_length, resource_box_height], text_str="Leaf");
+}
+module ResourceBoxSpiderLid() // `make` me
+{
+  CapBoxLidWithLabel(size=[resource_box_width, resource_box_length, resource_box_height], text_str="Spider");
+}
+
+module ResourceBoxFruitLid() // `make` me
+{
+  CapBoxLidWithLabel(size=[resource_box_width, resource_box_length, resource_box_height], text_str="Berry");
+}
+
+module ResourceBoxChicksLid() // `make` me
+{
+  CapBoxLidWithLabel(size=[resource_box_width, resource_box_length, resource_box_height], text_str="Chicks");
+}
+
+module ResourceBoxRabbitsLid() // `make` me
+{
+  CapBoxLidWithLabel(size=[resource_box_width, resource_box_length, resource_box_height], text_str="Rabbita");
+}
+
+module NestBox() // `make` me
+{
+  MakeBoxWithCapLid(size=[nest_box_width, nest_box_length, nest_box_height]) {
+    RoundedBoxAllSides([$inner_width, $inner_length, nest_box_height], radius=5);
+  }
+}
+
+module NestBoxLid() // `make` me
+{
+  CapBoxLidWithLabel(size=[nest_box_width, nest_box_length, nest_box_height], text_str="Nests");
+}
+
+module ExtraBitsBox() // `make` me
+{
+  MakeBoxWithCapLid(
+    size=[extra_bits_box_width, extra_bits_box_length, extra_bits_box_height],
+    positive_negative_children=[1]
+  ) {
+    union() {
+      // Phase and year token.
+      translate([$inner_width / 2, 15, $inner_height - player_cube - 0.5]) {
+        cuboid([player_cube, player_cube, extra_bits_box_height], anchor=BOTTOM);
+        translate([0, 7.5, 4]) ycyl(d=30, h=40, rounding=10, anchor=BOTTOM);
+      }
+      translate([$inner_width / 2, 30, $inner_height - player_cube - 0.5]) {
+        cuboid([player_cube, player_cube, extra_bits_box_height], anchor=BOTTOM);
+      }
+
+      // Coin.
+      translate([$inner_width / 2, $inner_length / 2, $inner_height - coin_thickness - 0.5]) {
+        cyl(d=coin_diamter, h=coin_thickness + 1, anchor=BOTTOM);
+        translate([0, coin_diamter / 2, 0]) sphere(d=30, anchor=BOTTOM);
+        translate([0, -coin_diamter / 2, 0]) sphere(d=30, anchor=BOTTOM);
+      }
+
+      // Die.
+      translate([$inner_width / 2, $inner_length - 30, $inner_height - die_size - 0.5]) {
+        cuboid([die_size, die_size, die_size + 4], anchor=BOTTOM, rounding=1);
+        translate([0, 0, die_size / 2]) ycyl(d=25, h=40, rounding=10, anchor=BOTTOM);
+      }
+
+      // Text.
+      translate([$inner_width / 2, $inner_length / 4 + 8, $inner_height - 0.4]) linear_extrude(height=0.21)
+          rotate(90) text("Biome", halign="center", valign="center", size=15);
+
+      
+      // season token
+      translate([$inner_width / 2, $inner_length / 2 + 35, 0]) {
+        translate([0, 0, $inner_height - other_token_thickness - 0.5]) {
+          difference() {
+            cyl(d=cresent_diameter, h=other_token_thickness + 2, anchor=BOTTOM);
+            translate([0, -7, 0]) cyl(d=cresent_diameter - 1, h=other_token_thickness + 2, anchor=BOTTOM);
+          }
+        }
+        translate([0, 20, $inner_height - other_token_thickness / 2])
+          ycyl(d=40, h=65, rounding=10, anchor=BOTTOM);
+
+        // start player token.
+        translate([0, 25, $inner_height - other_token_thickness - 0.5]) {
+          linear_extrude(height=other_token_thickness + 1) resize([leaf_width + 2, leaf_length - leaf_stem])
+              circle(d=leaf_length - leaf_stem);
+          translate([0, (leaf_length - leaf_stem) / 2 + leaf_stem / 2 - 0.5, 0]) rotate(-10)
+              cuboid([leaf_stem_width + 2, leaf_stem + 2, other_token_thickness + 1], anchor=BOTTOM);
+        }
+      }
+    }
+
+    if (default_label_type == LABEL_TYPE_FRAMED_SOLID) {
+      color("black") translate([$inner_width / 2, $inner_length / 4 + 8, $inner_height - 0.4])
+          linear_extrude(height=0.21) rotate(90) text("Biome", halign="center", valign="center", size=15);
+    }
+  }
+}
+
+module ExtraBitsBoxLid() // `make` me
+{
+  CapBoxLidWithLabel(size=[extra_bits_box_width, extra_bits_box_length, extra_bits_box_height], text_str="Biome");
+}
+
+module SpinnerHolder() // `make` me
+{
+  color(default_material_colour) {
+    difference() {
+      cuboid(
+        [spinner_box_width, spinner_box_length, spinner_box_height], rounding=2,
+        anchor=BOTTOM + FRONT + LEFT
+      );
+      translate([default_wall_thickness * 2, default_wall_thickness * 2, -1])
+        linear_extrude(spinner_box_height + 2) {
+          intersection() {
+            difference() {
+              square([spinner_box_width, spinner_box_length]);
+              Voronoi(spinner_box_width, spinner_box_length, thickness=2, cellsize=20);
+              translate([spinner_box_width / 2 - default_wall_thickness * 2, spinner_box_length / 2 - default_wall_thickness * 2])
+                circle(d=spinner + default_wall_thickness * 2, anchor=CENTER);
+            }
+            square([spinner_box_width - default_wall_thickness * 4, spinner_box_length - default_wall_thickness * 4]);
+          }
+        }
+      translate([spinner_box_width / 2, spinner_box_length / 2, default_floor_thickness + tile_thickness * 2]) {
+        cyl(d=spinner, h=spinner_thickness - tile_thickness * 2 + 0.1, anchor=BOTTOM);
+        translate([0, spinner / 2, 0])
+          sphere(d=20, anchor=BOTTOM);
+        translate([0, -spinner / 2, 0])
+          sphere(d=20, anchor=BOTTOM);
+      }
+      translate([spinner_box_width / 2, spinner_box_length / 2, default_floor_thickness])
+        cyl(d=spinner_base, h=spinner_thickness - tile_thickness * 2 + 0.1, anchor=BOTTOM);
+    }
+  }
+}
+module StartingCardBox() // `make` me
+{
+  MakeBoxWithSlidingLid(size=[card_box_width, card_box_length, starting_card_box_height]) {
+    cube([$inner_width, $inner_length, $inner_height + default_lid_thickness]);
+    translate([$inner_width / 2, 0, -default_floor_thickness - default_lid_thickness + 0.01])
+      FingerHoleBase(radius=15, height=starting_card_box_height);
+  }
+}
+
+module StartingCardBoxLid() // `make` me
+{
+  SlidingBoxLidWithLabel(size=[card_box_width, card_box_length, starting_card_box_height], text_str="Starting");
+}
+
+module AchievmentCardBox() // `make` me
+{
+  MakeBoxWithSlidingLid(size=[card_box_width, card_box_length, achievment_card_box_height]) {
+    cube([$inner_width, $inner_length, $inner_height + default_lid_thickness]);
+    translate([$inner_width / 2, 0, -default_floor_thickness - default_lid_thickness + 0.01])
+      FingerHoleBase(radius=15, height=achievment_card_box_height);
+  }
+}
+
+module AchievementCardBoxLid() // `make` me
+{
+  SlidingBoxLidWithLabel(size=[card_box_width, card_box_length, achievment_card_box_height], text_str="Achievement");
+}
+
+module ChangingConditionCardBox() // `make` me
+{
+  MakeBoxWithSlidingLid(size=[card_box_width, card_box_length, changing_condition_card_box_height]) {
+    cube([$inner_width, $inner_length, $inner_height + default_lid_thickness]);
+    translate([$inner_width / 2, 0, -default_floor_thickness - default_lid_thickness + 0.01])
+      FingerHoleBase(radius=15, height=changing_condition_card_box_height);
+  }
+}
+
+module ChangingConditionCardBoxLid() // `make` me
+{
+  SlidingBoxLidWithLabel(size=[card_box_width, card_box_length, changing_condition_card_box_height], text_str="Change");
+}
+
+module LegendCardBox() // `make` me
+{
+  MakeBoxWithSlidingLid(size=[card_box_width, card_box_length, legend_card_box_height]) {
+    cube([$inner_width, $inner_length, $inner_height + default_lid_thickness]);
+    translate([$inner_width / 2, 0, -default_floor_thickness - default_lid_thickness + 0.01])
+      FingerHoleBase(radius=15, height=legend_card_box_height);
+  }
+}
+
+module BigCardBox() // `make` me
+{
+  MakeBoxWithSlidingLid(
+    size=[
+      card_box_width,
+      card_box_length,
+      big_card_box_height,
+    ],
+    spin=90,
+    anchor=BACK + BOTTOM + LEFT,
+  ) {
+    cube([$inner_width, $inner_length, $inner_height + default_lid_thickness]);
+    translate([$inner_width / 2, 0, -default_floor_thickness - default_lid_thickness + 0.01])
+      FingerHoleBase(radius=15, height=big_card_box_height, spin=90);
+  }
+}
+
+module BigCardBoxLid() // `make` me
+{
+  SlidingBoxLidWithLabel(
+    size=[
+      card_box_width,
+      card_box_length,
+      big_card_box_height,
+    ],
+    text_str="Biome",
+  );
+}
+
+module LegendCardBoxLid() // `make` me
+{
+  SlidingBoxLidWithLabel(size=[card_box_width, card_box_length, legend_card_box_height], text_str="Legend");
+}
+
+module PlantAnimalCardBox() // `make` me
+{
+  MakeBoxWithSlidingLid(size=[card_box_width, card_box_length, card_box_height]) {
+    cube([$inner_width, $inner_length, $inner_height + default_lid_thickness]);
+    translate([$inner_width / 2, 0, -default_floor_thickness - default_lid_thickness + 0.01])
+      FingerHoleBase(radius=15, height=card_box_height);
+  }
+}
+
+module PlantAnimalCardBoxLid() // `make` me
+{
+  SlidingBoxLidWithLabel(size=[card_box_width, card_box_length, card_box_height], text_str="Play");
+}
+
+module PlantAnimalExtraCardBox() // `make` me
+{
+  MakeBoxWithSlidingLid(size=[card_box_width, card_box_length, plant_animal_extra_card_box_height]) {
+    cube([$inner_width, $inner_length, $inner_height + default_lid_thickness]);
+  }
+}
+
+module SpacerSide() // `make` me
+{
+  color(default_material_colour) {
+    difference() {
+      cuboid(
+        [spacer_side_width, spacer_side_length, spacer_side_height], anchor=BOTTOM + LEFT + FRONT,
+        rounding=2
+      );
+      translate([default_wall_thickness, default_wall_thickness, default_floor_thickness]) {
+        cube(
+          [
+            spacer_side_width - default_wall_thickness * 2,
+            spacer_side_length - default_wall_thickness * 2,
+            spacer_side_height,
+          ]
+        );
+      }
+    }
+  }
+}
+
+module SpacerFront() // `make` me
+{
+  color(default_material_colour) {
+    difference() {
+      cuboid(
+        [spacer_front_width, spacer_front_length, spacer_front_height], anchor=BOTTOM + LEFT + FRONT,
+        rounding=2
+      );
+      translate([default_wall_thickness, default_wall_thickness, default_floor_thickness]) {
+        cube(
+          [
+            spacer_front_width - default_wall_thickness * 2,
+            spacer_front_length - default_wall_thickness * 2,
+            spacer_front_height,
+          ]
+        );
+      }
+    }
+  }
+}
+
+module BoxLayout() {
+  //    cube([ box_width, box_length, board_thickness ]);
+  cube([1, box_length, box_height]);
+  //  translate([ 0, 0, board_thickness ])
+  {
+    PlayerBox();
+    translate([0, player_box_length, 0]) PlayerBox();
+    translate([0, player_box_length * 2, 0]) PlayerBox();
+    translate([0, player_box_length * 3, 0]) PlayerBox();
+    translate([0, 0, player_box_height]) ResourceBox();
+    translate([0, player_box_length, player_box_height]) ResourceBox();
+    translate([0, player_box_length * 2, player_box_height]) ResourceBox();
+    translate([0, player_box_length * 3, player_box_height]) ResourceBox();
+    translate([0, 0, player_box_height * 2]) ResourceBox();
+    translate([0, player_box_length, player_box_height * 2]) ResourceBox();
+    translate([0, player_box_length * 2, player_box_height * 2]) ResourceBox();
+    translate([0, player_box_length * 3, player_box_height * 2]) ResourceBox();
+    translate([player_box_width, 0, 0]) NestBox();
+    translate([player_box_width + nest_box_width, 0, card_box_height]) SpinnerHolder();
+    translate(
+      [
+        player_box_width + nest_box_width,
+        0,
+      ]
+    ) PlantAnimalCardBox();
+    translate(
+      [
+        player_box_width + nest_box_width + card_box_width,
+        0,
+      ]
+    ) PlantAnimalCardBox();
+    translate([player_box_width + nest_box_width, card_box_length, 0]) StartingCardBox();
+    translate([player_box_width + nest_box_width, card_box_length, starting_card_box_height]) AchievmentCardBox();
+    translate(
+      [
+        player_box_width + nest_box_width,
+        card_box_length,
+        starting_card_box_height + achievment_card_box_height,
+      ]
+    ) ChangingConditionCardBox();
+    translate([player_box_width + nest_box_width + card_box_width, card_box_length, 0]) LegendCardBox();
+    translate([player_box_width + nest_box_width + card_box_width, card_box_length, legend_card_box_height])
+      PlantAnimalExtraCardBox();
+    translate([player_box_width + nest_box_width, card_box_length * 2, 0]) BigCardBox();
+    translate([player_box_width + nest_box_width + card_box_length, card_box_length * 2, 0]) SpacerSide();
+    translate([player_box_width + nest_box_width + card_box_width * 2, 0, card_box_height + spinner_box_height]) SpacerFront();
+    translate([board_width, 0, 0]) ExtraBitsBox();
+  }
+  translate([0, 0, box_height - board_thickness - 1]) cube([board_width, box_length, board_thickness]);
+}
+
+if (FROM_MAKE != 1) {
+  BoxLayout();
+}

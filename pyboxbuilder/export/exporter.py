@@ -28,6 +28,11 @@ from typing import TYPE_CHECKING
 
 from pyboxbuilder.deps import require
 from pyboxbuilder.export import fingerprint as fp
+from pyboxbuilder.export.geometry import (
+    mesh_geometry,
+    read_3mf_geometry,
+    same_geometry,
+)
 
 if TYPE_CHECKING:
     from pybosl2.shapes3d import Bosl2Solid
@@ -113,6 +118,15 @@ class BoxExporter:
         """
         return fp.matches(self.path_for(label, part, mode), fingerprint)
 
+    def recorded(self, label: str, part: str, mode: str) -> bool:
+        """Return True when this piece has *some* recorded fingerprint.
+
+        A piece whose description changed must be rewritten; a piece that has
+        simply never been exported here before (a fresh clone) may fall back to
+        comparing geometry instead.
+        """
+        return fp.recorded(self.path_for(label, part, mode))
+
     def note_unchanged(
         self, label: str, part: str, mode: str,
         size: tuple[float, float, float] | None = None,
@@ -144,6 +158,8 @@ class BoxExporter:
         inserts: list[Bosl2Solid] | None = None,
         size: tuple[float, float, float] | None = None,
         fingerprint: str = "",
+        force: bool = False,
+        geometry_check: bool = False,
     ) -> str | None:
         """Export one piece, skipping the write when nothing about it changed.
 
@@ -157,6 +173,11 @@ class BoxExporter:
             size: Bounding box to record when it cannot be measured from `solid`.
             fingerprint: Digest of the description this piece was built from,
                 recorded beside the file for the next run to compare against.
+            force: Rewrite even when the geometry on disk already matches.
+            geometry_check: Compare the shape (bounding box + volume) against the
+                file already on disk and skip when they agree. Only the caller's
+                fallback for a piece with **no** recorded fingerprint — a
+                changed description must always be written.
 
         Returns:
             The relative path if written, None if skipped.
@@ -168,7 +189,9 @@ class BoxExporter:
 
         Note:
             Whether a write is *needed* is :meth:`is_current`'s decision, taken
-            before the geometry is built. This writes what it is given.
+            before the geometry is built. This writes what it is given — but it
+            also re-measures the geometry on disk first, so a piece whose bytes
+            changed without its shape changing is not rewritten.
 
         """
         path = self.path_for(label, part, mode)
@@ -180,6 +203,19 @@ class BoxExporter:
             self.state.bounds.append(
                 PieceBounds(label=f"{label}_{part}", size=measured, mode=mode)
             )
+
+        # The fingerprint is the fast path; this is the honest one. The bytes
+        # OpenSCAD writes are not deterministic, so compare the shape itself —
+        # bounding box and volume — against the file already on disk and leave
+        # it alone when they agree.
+        if (
+            geometry_check
+            and path.exists()
+            and same_geometry(mesh_geometry(payload), read_3mf_geometry(path))
+        ):
+            fp.record(path, fingerprint)
+            self.state.skipped.append(self.relative(path))
+            return None
 
         # Keep the .3mf suffix on the temp file — the exporter picks its format
         # from the extension and silently falls back to STL without it.
@@ -259,7 +295,7 @@ class BoxExporter:
             return ([solid] if solid is not None else []) + list(inserts)
         merged = solid
         for insert in inserts:
-            merged = insert if merged is None else merged + insert
+            merged = insert if merged is None else merged | insert
         return merged
 
 
@@ -308,8 +344,19 @@ def _solid_bounds(solid: Bosl2Solid) -> tuple[tuple[float, ...], tuple[float, ..
     """
     bounds = getattr(solid, "bounds", None)
     if callable(bounds):
-        origin, size = bounds()
-        return (tuple(float(v) for v in origin), tuple(float(v) for v in size))
+        try:
+            b = bounds()
+            if hasattr(b, "min") and hasattr(b, "size"):
+                return (tuple(float(v) for v in b.min), tuple(float(v) for v in b.size))
+            if hasattr(b, "min_x") and hasattr(b, "width"):
+                return (
+                    (float(b.min_x), float(b.min_y), float(getattr(b, "min_z", 0.0))),
+                    (float(b.width), float(b.length), float(getattr(b, "height", 0.0))),
+                )
+            origin, size = b
+            return (tuple(float(v) for v in origin), tuple(float(v) for v in size))
+        except (ValueError, TypeError):
+            pass
 
     position, size = getattr(solid, "position", None), getattr(solid, "size", None)
     if position is None or size is None:

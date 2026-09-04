@@ -240,7 +240,25 @@ The two radii come to **4mm between them** — 2mm rolling in at the top, 2mm ro
 
 Making it exact took capping the skirt as well as checking it. The skirt defaults to half the box height (up to 10mm), which is a good skirt on a tall box and swallows a short one whole: at 11mm it takes 5.5mm and leaves the cut 5.5mm to fit 4mm of curve and a 2mm foot into, so the real floor came out at 12mm while the stack says 11mm. The default is now additionally capped so the cutout below it still fits, floored at the lid plus the 3mm minimum. **A tall box's skirt is untouched** — the cap only bites under about 16mm, which is the only place it was wrong.
 
-**Below that minimum the library raises**, naming the box's height, the minimum, each term of it, and recommending a **slipover** of the same size, which opens by its own corner notches. The alternative — quietly shrinking the radii until they fit — produces a cap box whose lid cannot be removed, and a part that looks finished and cannot be used is worse than one that refused to build.
+**Below that minimum the library raises**, naming the box's height, the minimum, each term of it, and recommending a **slipover** of the same size, which opens by its own corner notches. The alternative — quietly shrinking the radii until they fit — produces a cap box whose lid cannot be got off, and a part that looks finished and cannot be used is worse than one that refused to build.
+
+### Bump Catches for Cap and Slipover Boxes (FR-002q2, FR-002q3)
+
+To ensure the lid/sleeve of a cap box or slipover box stays securely closed, we implement a bump catch along each of the two long walls of the box (where the length axis is longer than the width, or vice versa).
+
+- **Mating Geometry**:
+  - The catch uses small spherical dimples cut into the box body's stepped band (for cap boxes) or the outer wall (for slipover boxes).
+  - The lid/sleeve has matching small spherical bumps protruding from its inner mating surface.
+  - The bump radius defaults to `1.0mm`. The dimple's radius is cut slightly larger by a fit clearance (`0.1mm` extra radius) to ensure it clicks rather than jamming.
+
+- **Catch Count & Spacing Logic**:
+  - Let $L$ be the box's long dimension: $L = \max(\text{width}, \text{length})$.
+  - Let the margin from the outer edge of the box along this dimension be $M = \min(20, L / 4)$ to avoid conflicting with corner finger cutouts or sleeve notches.
+  - The available length for placing catches is $L_{avail} = L - 2M$.
+  - We place $N$ dimples/bumps on each long wall, where $N \in \{2, 3, 4\}$.
+  - We choose the maximum $N \le 4$ such that the spacing between adjacent catches $S = L_{avail} / (N - 1) \ge 40\text{ mm}$. If $L_{avail} / 2 < 40\text{ mm}$ (or $L$ is too small), we fall back to $N = 2$ and place them at $x = M$ and $x = L - M$ along the axis.
+  - The coordinates along the long axis are:
+    $$x_i = M + i \cdot S \quad \text{for } i \in [0, N-1]$$
 
 ### A Sliding Box's Rim Is Exposed Too (FR-043f1)
 
@@ -272,6 +290,15 @@ Two consequences follow, and neither is optional:
 
 - **Each half must be relieved out of the other (FR-002t).** Inside the box, the lid's knuckles occupy space the body's wall fills, and the body's knuckles occupy space the lid's plate fills. `Closure` carries `body_cut` and `lid_cut` for this. Relieving one side only is worse than a trap — it looks fixed, because the obvious symptom (the lid fused to the wall) disappears while the other half stays welded.
 - **The interior loses that room, so the contents mask has to know (FR-002s).** The barrel and webs stand in the back of the interior, right where a compartment would go. `interior_mask` is a per-type hook — `None` for every type whose interior is simply its interior — and the hinge types return the interior less the hinge's intrusion. `build_contents` clips the **wells** to it and leaves the finger scoops alone, since breaching a wall is a scoop's whole job. This is what the original does through `FilamentBoxInsideMask`, which subtracts the barrel's clearance cylinder and a chamfered support web from the interior cuboid.
+
+### A Hinged Box Needs A Front Snap-Fit Catch (FR-002v)
+
+To hold the hinged lid closed, the box must carry a snap-fit catch on the front wall.
+- **The catch is a tab and pocket**: The lid carries a tab extending down by at most half the box height into a pocket cut into the body's front wall.
+- **Wall thickness limit**: The pocket cut into the body front wall must not exceed `wall_thickness / 2`, leaving the rest of the wall for structural support.
+- **Triangular Ridge snap (Default)**: The tab carries a right-angled triangular snap ridge (sloped bottom, flat top) pointing inward (+Y). The pocket has a matching right-angled triangular groove to catch it.
+- **Hemispherical Bumps snap (Alternative)**: Alternately, a bump catch consisting of two side-by-side round bumps on the lid tab that click into two matching hemispherical indents inside the pocket on the box body.
+
 
 ### A Sliding Box Needs Somewhere For The Lid To Go In (FR-002a)
 
@@ -326,7 +353,7 @@ A lid that only needs to not slide out in a bag wants a **detent**, and a detent
 
 **The catch belongs at the outlet, not at the stop.** The bump rides on the lid's trailing end and the dimple sits in the wall beside the mouth, so the two meet only in the last few millimetres of travel. Put the catch at the closed end instead and the bump is dragged the whole length of the groove on every open and close — it wears the groove, it makes a long lid stiff to start, and it gives no clue to the hand about when the lid is home. At the mouth, the click happens exactly when the lid is closed.
 
-The catch is generated from the same slide-axis frame as the channel, so it lands on the correct pair of walls whichever way round the box is. It is **off by default** on a plain sliding box — the original toolkit's sliding box has no catch, and a dovetail on its own already holds a lid in — and always on for the sliding-catch and card-library types, which exist for it. Setting a catch radius on a plain sliding box turns it on.
+The catch is generated from the same slide-axis frame as the channel, so it lands on the correct pair of walls whichever way round the box is. Both sliding box and sliding-catch box carry this catch by default, with a default radius of 1.0mm, so the lid does not fall out of the box on its own and needs a little pressure to start sliding. Setting a catch radius on a box adjusts its size, and setting it to 0 turns it off.
 
 ### Getting A Sliding Lid Started (FR-002e5)
 
@@ -357,10 +384,7 @@ be pushed inboard, which drives the lid further into the box.
 reach with the box closed, and centring it means the pull is straight down the
 grooves rather than a twist that binds the plate.
 
-**The wall stands on the border line.** That puts the band of plain lid at the
-edge behind the wall — which is exactly the material the nail is pressing on,
-and it wants to be whole — and puts the bowl inside it, where there is room for
-a nail to get in.
+**The wall stands on the border line, keeping clear of the label/logo.** The fingernail cutout/dish must not overlap the label/logo. It must reside completely within the lid border at the exit end, maintaining at least a 1.0mm gap from the label/logo border and a minimum of 2.5mm gap from the edge of the lid slab altogether.
 
 **Never through the plate, and never surrounded by holes.** The depth is capped
 at half the lid's thickness, so there is always a plate's worth of material
@@ -613,6 +637,10 @@ A single-colour export cannot inlay: there is no second material, so depth is
 the only thing that can make a label visible, and it keeps engraving the text
 (FR-036).
 
+### Custom Lid Logos (FR-022c)
+
+To support custom branding on boxes (such as the Root faction logos), the library supports placing a custom SVG logo on the lid. The logo is loaded, scaled to fit the lid face (respecting border margins), centered, and inlaid/engraved exactly like label text. Through-hole patterns are automatically kept clear of the logo's shape by translating the logo keep-out and subtracting it from the pattern holes.
+
 ### Tray Wells, and Where Rounding Stops (FR-044f, FR-044g)
 
 **Rounding is off by default and opted into** (FR-044f). A well is square unless its builder sets `holds_pieces`, because most wells are shaped by what they hold — a card slot, a token silhouette, a board recess — and softening those changes a fit rather than improving it. The case that benefits is a tray of loose pieces you have to pick out, and it says so. This is the same principle as the mating surfaces: rounding is for geometry the toolkit invents, never for geometry the game dictates.
@@ -745,7 +773,14 @@ All cutouts and outer edges MUST be smooth — no sharp 90° corners that catch 
 
    The floor fillet is separately generous (0.65 of the throat half-width) because it lives *inside* the throat and so costs no width at all.
 
-1a10. **A silhouette slot needs a pull-out, and it is part of the slot (FR-078, FR-079).** Cutting a slot to a piece's outline is what makes it hold the piece — and what leaves nowhere to get a fingertip under it. So every element slot carries a finger dish by default, half the piece's depth: deep enough to reach under, shallow enough that the piece still seats flat instead of tipping into the dish. It is rounded on every edge, curving in from the floor around it, because a dish with a square step around it is worse than no dish — the step is what a fingernail catches on. Depth, width and opting out are per slot.
+1a10. **A silhouette slot needs a pull-out, and it is part of the slot (FR-078, FR-079, FR-081).** Cutting a slot to a piece's outline is what makes it hold the piece — and what leaves nowhere to get a fingertip under it. So every element slot carries a finger dish by default, half the piece's depth: deep enough to reach under, shallow enough that the piece still seats flat instead of tipping into the dish. It is rounded on every edge, curving in from the floor around it, because a dish with a square step around it is worse than no dish — the step is what a fingernail catches on. Depth, width and opting out are per slot.
+- **Top mouth alignment (FR-079)**: Element pockets automatically resolve `z_offset` as `compartment_depth - element_depth` if not explicitly specified. This ensures pocket mouths are flush with the top face of the compartment, preventing buried pockets under plastic ceilings.
+- **Compartment Scoop Axis Alignment (FR-081)**: To maintain layout consistency, the system evaluates all element clearances relative to the compartment boundaries on both X and Y axes. The orientation axis with the largest aggregate clearance across all elements is chosen for the entire pack, aligning all scoops in the compartment along the same direction.
+- **Asymmetric Wall Safety (FR-081)**: Element clearances are evaluated asymmetrically (front/back and left/right). Scoop extensions (overshoots) towards a compartment boundary are capped by the distance to that boundary to prevent them from slicing through the outer box walls, while extensions toward the interior remain at full finger dish depth.
+- **Non-Tapering Upward Projection (FR-081)**: Finger dishes are extruded vertically from their horizontal center plane to the top of the box body. The projection block uses vertical edge rounding matching the horizontal cylinder's fillet radius. This prevents the upper half of the cylinder from tapering/narrowing back inwards near the top face of the pocket and maintains a clean, rounded notch through the box rim and lid tracks.
+- **Wall-Bypass/No Clipping (FR-081)**: Pull-out scoops are built separately from well cavities and processed after the main interior boundary mask clipping. This permits finger notches that reach an open wall face to cleanly pierce it instead of being cut off by the `interior_column` frame mask.
+- **Group-Hulling Overlaps (FR-081)**: When adjacent slots are placed side-by-side (such as in a grid columns or rows), their finger scoops will overlap. Merely unioning these intersecting rounded dishes creates a sharp V-shaped cusp or ridge in the thin plastic partition between the slots. The system detects overlapping scoops in 2D and groups them, passing the group through a native `hull()` operation. This blends the intersections into a single, beautifully smoothed continuous trench with no sharp intermediate edges.
+- **Rectangular Corner Rounding (FR-082)**: To prevent sharp 90-degree internal vertical edges in rectangular token pockets (`ElementShape.RECT`), the system automatically applies a default `0.5mm` rounding radius (`corner_rounding`). This default ensures pockets print cleanly without trapping dust or token debris, and is fully configurable down to `0` for users who explicitly require sharp corners.
 
 1a12. **A grip is two circles and the tangent between them (FR-052).** One construction, whatever the proportions::
 
@@ -1086,7 +1121,7 @@ To satisfy the layout guide requirements, `layout_pdf.py` renders the game box a
     * Boxes belonging to upper layers are hidden.
   * Each box is drawn as a 3D-shaded block, complete with a label and packing order index.
   * The text labels on the boxes in the layout PDF must be visible, larger, and highly readable. If a label is blocked/hidden because another box is stacked on top of it, the label text must be shifted to the side. The text label must only display the box's label, and not display its size/dimensions.
-  * Hollow spacer boxes (which can be non-rectangular using 2D polygon paths) are generated to fill all open spaces/gaps, making the insert layout complete to the full extent of the game box. Spacer boxes/trays cannot be thinner than 5mm in any dimension (width, length, or height) to prevent printing extremely fragile slivers. For vertical gaps along the Z-axis, a spacer box is generated if the gap height is >= 3mm (subject to the 5mm minimum thickness rule). If the gap height is < 3mm, the adjacent box's height expands to absorb the gap, prioritizing expansion on the X and Y axes over the Z-axis.
+  * Hollow spacer boxes (which can be non-rectangular using 2D polygon paths) are generated to fill all open spaces/gaps, making the insert layout complete to the full extent of the game box. Spacer boxes/trays cannot be thinner than 5mm in any dimension (width, length, or height) to prevent printing extremely fragile slivers. Spacer boxes/trays automatically carry standard finger scoops (grips) cut into their longer walls (length) to facilitate easy lifting and removal from the game box. For vertical gaps along the Z-axis, a spacer box is generated if the gap height is >= 3mm (subject to the 5mm minimum thickness rule). If the gap height is < 3mm, the adjacent box's height expands to absorb the gap, prioritizing expansion on the X and Y axes over the Z-axis.
 
 ### Spacer Generation: Sweep, then Merge (FR-014a/b/c)
 
@@ -1122,6 +1157,7 @@ It has a ceiling. Emberleaf's 18 boxes fill **77%** of the usable volume, and th
 
 The practical rules:
 
+* **A new or ported box defaults to autolayout and bin-packing.** Hand the boxes to `pack_3d_boxes` and the compartments to `layout_compartments`, and let them place everything. Fall back to explicit positions — or a hand-written `arrange()`/`columns`/`rows`/`stack` tree — only when the layout is very complicated and load-bearing: a near-full box, or boxes whose sizes were designed to tile exactly (Emberleaf's three columns).
 * Below roughly 70% fill, hand the boxes to the packer and let it place them.
 * Above that, the arrangement is load-bearing and needs to be expressed, not searched for. Give the boxes explicit positions, or make them expandable so the solver has slack to work with.
 * A failure is reported as `PackingError` with the fill ratio and any oversized boxes named — never as an empty layout, which is how it used to surface and made an export silently write nothing.
@@ -1394,7 +1430,7 @@ One number, `Project.clearance_slack` (default 1.0mm, sane range 1–2mm), appli
 
 **Two layout modes, one orientation switch.**
 - *Frameless*: text only.
-- *Framed*: a rectangular frame with diagonal hatching behind the text (bed adhesion for text islands, spaced so the text bridges without supports) plus a small outer border. The backing plate hugs the text rather than filling the label area, so a lid can carry a frame **and** a pattern (T200).
+- *Framed*: a rectangular frame with diagonal hatching behind the text (bed adhesion for text islands, spaced so the text bridges without supports) plus a small outer border. The backing plate hugs the text rather than filling the label area, so a lid can carry a frame **and** a pattern (T200). The backing plate uses a standard 5.0mm corner rounding. The hatching/striping runs at a standard 45-degree angle with a default 1.5mm outer border, 2.0mm stripe width, and 2.0mm gaps (4.0mm spacing). The text inside the label is sized to fit within the interior of the backing plate, leaving a standard 0.5mm gap from the inside of the border (making a default padding of 2.0mm). These dimensions (backing plate border, text-to-border gap, and backing plate corner rounding) are configurable.
 - *Diagonal* is an orientation available in both modes: corner-to-corner at the lid's natural angle, which is 45° only when the lid is square.
 
 **Patterns cut through.** A pattern is a through-hole fill over the lid face — maximum filament saving — clipped twice: at the lid outline, and at the label area, which takes precedence (FR-023 note, and the reason a framed label does not lose its border). The catalogue is exactly what `_PATTERN_FILLS` draws — `NONE`, `SQUARE`, `CIRCLE`, `HEX`, `DENSE_HEX`, `TRIANGLE`, `DENSE_TRIANGLE`, `OCTAGON`, `VORONOI`, `LEAF` — and `build_pattern` **raises** for a member without a fill rather than falling back to a grid (T116/T117). The list grows by implementation: the ported `ShapeType` set named forty-seven and drew three.
@@ -1527,6 +1563,7 @@ Twelve projects live under `boxes/`. The five documented in detail above are the
 | `emberleaf` | element packs (per-worker silhouette slots), 21 boxes at 77% fill, derived spacers |
 | `irish_gauge` | mixed lid types in one game box, shared-footprint company boxes, polygon spacers |
 | `1835` | hex-grid compartments, push blocks, floor finger holes, `BoxLayout` ported as manual positions |
+| `railways_of_the_world` | multi-expansion organizer, 3 distinct card sizes, dual-tier stacking, miniature storage, automatic 3D spacers |
 | `stackable_hexes` | standalone boxes, stackable rims, round/rect magnets, hex divisions |
 | `earth` | the FR-013a fixed 68 × 99 footprint and 55.2mm column rules |
 | `arkham_horror`, `dominion`, `first_class`, `magical_athlete`, `nippon` | additional ports; each must satisfy the dual-run rule below |

@@ -9,7 +9,7 @@ actually has:
 * :mod:`pyboxbuilder.compartments.finger_sweep` — taking that outline
   **through a wall**, and what each end does when it emerges.
 * :mod:`pyboxbuilder.compartments.finger_cuts` — the three **cuts** built out
-  of those two, and :func:`build_cut`, which chooses between them.
+  of those two, and :func:`~pyboxbuilder.compartments.finger_cuts.build_cut`, which chooses between them.
 
 They were one 1,500-line file, which is a long way to read to find out whether
 a number is about the shape or about the wall — and the defects that reached a

@@ -105,6 +105,8 @@ class BoxSpec:
     """Clearance between a slipover sleeve and the body it wraps."""
 
     # ── Sliding family ───────────────────────────────────────────────────
+    lid_slide_axis: str | None = None
+    """Sliding axis ('x' along width, 'y' along length, or None for default)."""
     dovetail: bool = True
     """Cut the lid's retaining dovetail; ``False`` leaves a plain channel."""
     lead_chamfer: float | None = None
@@ -127,6 +129,8 @@ class BoxSpec:
     fingernail_depth: float | None = None
     """How deep it sinks; ``None`` uses half the lid's thickness, which is also
     the cap — the dish must never pierce the plate."""
+    lid_border_margin_mm: float | None = None
+    """Margin the label keeps clear of the lid edge; propagated from the lid builder."""
 
     # ── Cap and slipover ─────────────────────────────────────────────────
     cap_height: float | None = None
@@ -160,6 +164,8 @@ class BoxSpec:
     """Diameter of the hinge pin, in mm."""
     filament_diameter: float = 1.75
     """Diameter of the filament a living hinge is printed around."""
+    hinge_catch_type: str = "ridge"
+    """Catch type for hinged boxes; 'ridge' or 'bump'."""
 
     # ── Magnets (FR-039) ─────────────────────────────────────────────────
     magnet_type: MagnetType | None = None
@@ -310,11 +316,19 @@ def build_spec(
         if name in _SPEC_FIELDS and name not in _NOT_GEOMETRY and value is not None
     }
 
+    from pyboxbuilder.lid.builder import LidBuilder
+    lid_margin = (
+        builder.lid.border_margin_mm
+        if (isinstance(builder.lid, LidBuilder) and builder.lid.border_margin_mm is not None)
+        else None
+    )
+
     return BoxSpec(
         label=builder.label,
         width=size[0], length=size[1], height=size[2],
         wall_thickness=wt, floor_thickness=ft, lid_thickness=lt,
         ribbon_channel=rc,
+        lid_border_margin_mm=lid_margin,
         # Hollow the whole interior only when nothing else defines the
         # cavities; with compartments, they are the cavities.
         hollow=not builder.compartments,
@@ -382,7 +396,14 @@ def _file_digest(path: str) -> str:
     """
     import hashlib
 
+    p = Path(path)
+    if not p.is_absolute() and not p.exists():
+        repo_root = Path(__file__).resolve().parents[2]
+        resolved = repo_root / p
+        if resolved.exists():
+            p = resolved
+
     try:
-        return hashlib.sha256(Path(path).read_bytes()).hexdigest()
+        return hashlib.sha256(p.read_bytes()).hexdigest()
     except OSError as exc:
         return f"unreadable:{type(exc).__name__}"

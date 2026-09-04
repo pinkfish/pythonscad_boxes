@@ -515,7 +515,7 @@ def no_lid_finger_holes(spec: BoxSpec) -> tuple[FingerHoleBuilder, ...]:
             `floor_thickness`.
 
     Returns:
-        A tuple of `FingerHoleBuilder`s — one per longer wall — or an empty
+        A tuple of ``FingerHoleBuilder`` instances — one per longer wall — or an empty
         tuple when the holes would not fit.
 
     """
@@ -706,5 +706,6 @@ def round_inner_rim(body: Bosl2Solid, spec: BoxSpec) -> Bosl2Solid:
         [spec.width + 4 * radius, spec.length + 4 * radius, radius + 1.0],
         at=(-2 * radius, -2 * radius, -1.0),
     )
-    ring = (CsgSolid(swept.polyhedron()) & keep).mirror([0, 0, 1])
+    swept_solid = CsgSolid(swept.polyhedron()) if hasattr(swept, "polyhedron") else swept
+    ring = (swept_solid & keep).mirror([0, 0, 1])
     return body - ring.translate([0.0, 0.0, spec.height])

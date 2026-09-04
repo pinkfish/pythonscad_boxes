@@ -74,7 +74,9 @@ class SlipoverBox(BoxTypeBase):
                 body_rounding(spec),
                 vertical_edges(),
             )
-        return body
+        from pyboxbuilder.box.features import cap_slipover_catch
+        catch = cap_slipover_catch(spec, is_slipover=True)
+        return body - catch.body
 
     def build_lid(self, spec: BoxSpec, decoration: object = None) -> Bosl2Solid:
         """Return a sleeve that slips down over the body, stopping at the foot."""
@@ -111,7 +113,13 @@ class SlipoverBox(BoxTypeBase):
             at=(inset - slack, inset - slack, foot + gap),
         )
         sleeve = outer - cavity
-        return sleeve - self._finger_notches(spec)
+        from pyboxbuilder.box.features import cap_slipover_catch
+        catch = cap_slipover_catch(spec, is_slipover=True)
+        sleeve = sleeve | catch.lid
+        notches = self._finger_notches(spec)
+        if notches is not None:
+            sleeve = sleeve - notches
+        return sleeve
 
     def _finger_notches(self, spec: BoxSpec) -> Bosl2Solid:
         """Corner notches so the sleeve can be pulled off.

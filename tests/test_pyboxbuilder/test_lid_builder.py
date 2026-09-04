@@ -25,7 +25,7 @@ class LidBuilderTests(unittest.TestCase):
         self.assertFalse(lb.is_diagonal)
         self.assertIsNone(lb.text_color)
         self.assertIsNone(lb.frame_color)
-        self.assertIsNone(lb.pattern)
+        self.assertEqual(lb.pattern.type, PatternType.DENSE_HEX)
         self.assertIsNone(lb.pattern_color)
         self.assertEqual(lb.min_text_height, 4.0)
         # The lid's border, plus the label's own 2mm inset inside it (FR-023).

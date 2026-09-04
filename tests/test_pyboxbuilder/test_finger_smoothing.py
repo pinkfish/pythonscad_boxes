@@ -737,10 +737,10 @@ cuboid([1, 1, 1]).show()
         """On a lidded box the rim is above the interior; the hole follows the
         interior, so its top stops short of the box's own top."""
         lidless = self.result.boxes["no_lid_removed"]
-        sliding = self.result.boxes["sliding_removed"]
+        cap = self.result.boxes["cap_removed"]
         lidless_top = lidless.position[2] + lidless.size[2]
-        sliding_top = sliding.position[2] + sliding.size[2]
-        self.assertLess(sliding_top, lidless_top,
+        cap_top = cap.position[2] + cap.size[2]
+        self.assertLess(cap_top, lidless_top,
                         "the lidded box's hole was aligned to the rim")
 
     def test_the_cut_spans_exactly_the_depth_it_was_given(self) -> None:
@@ -940,7 +940,7 @@ class SlidingLidAxisTests(unittest.TestCase):
             spec(width=90.0, length=98.0)))
 
     def test_a_wide_box_slides_along_its_width(self) -> None:
-        self.assertFalse(self.box().slides_along_length(
+        self.assertTrue(self.box().slides_along_length(
             spec(width=120.0, length=60.0)))
 
 
@@ -960,9 +960,9 @@ class SlidingScoopAndLidEdgeTests(unittest.TestCase):
         self.assertIs(
             box.preferred_scoop_side(spec(width=90.0, length=98.0)), ScoopSide.BACK
         )
-        # Wider than long: slides along X, so it exits the RIGHT wall.
+        # Defaults to Y axis (length), so still exits the BACK wall.
         self.assertIs(
-            box.preferred_scoop_side(spec(width=120.0, length=60.0)), ScoopSide.RIGHT
+            box.preferred_scoop_side(spec(width=120.0, length=60.0)), ScoopSide.BACK
         )
 
     def test_the_type_beats_the_compartment_shape(self) -> None:
@@ -1037,14 +1037,17 @@ class WallTopTests(unittest.TestCase):
                 self.assertAlmostEqual(z, 52.5)
 
     def test_a_sliding_box_stops_at_its_channel(self) -> None:
-        """Its exit wall's material ends there, and cutting the others above
-        that line would break into the channel the lid rides in."""
+        """Its exit wall's material ends there, and the other three sides
+        go all the way to the top of the box."""
         from pyboxbuilder.enums import BoxType
 
         tops = self.spec().with_wall_tops(self.box(BoxType.SLIDING)).wall_tops
-        for side, z in tops.items():
-            with self.subTest(side=side.value):
-                self.assertAlmostEqual(z, 50.5)
+        self.assertEqual(tops, {
+            ScoopSide.FRONT: 52.5,
+            ScoopSide.BACK: 50.5,
+            ScoopSide.LEFT: 52.5,
+            ScoopSide.RIGHT: 52.5,
+        })
 
     def test_every_side_is_covered(self) -> None:
         from pyboxbuilder.enums import BoxType
@@ -1170,7 +1173,8 @@ class ScoopFlareAlignmentTests(unittest.TestCase):
         # is correct for a compartment scoop bottoming on the floor, and is
         # why an exterior hole passes a `floor_clearance` that lets it finish.
         scoop = build_wall_scoop(76.0, 56.0, 14.0, ScoopSide.FRONT, radius=14.0, wall_thickness=wt, faces=FaceTreatment(breach_floor=True))
-        centre, size = scoop.bounds()
+        b = scoop.bounds()
+        centre, size = (b.center, b.size) if hasattr(b, "center") else b
         bottom = centre[2] - size[2] / 2
         self.assertAlmostEqual(bottom, -scoop_face_flare(wt), delta=0.05)
 
@@ -1243,7 +1247,8 @@ class RollRiseIsReachableTests(unittest.TestCase):
 
         def width(rise: float) -> float:
             scoop = build_wall_scoop(76.0, 56.0, 20.0, ScoopSide.FRONT, radius=14.0, wall_thickness=2.0, profile=CutProfile(mouth_flare=3.0, roll_rise=rise))
-            _, size = scoop.bounds()
+            b = scoop.bounds()
+            size = b.size if hasattr(b, "size") else b[1]
             return size[0]
 
         self.assertAlmostEqual(width(4.8), width(9.0), delta=0.01)

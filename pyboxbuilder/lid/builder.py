@@ -142,10 +142,14 @@ class LidBuilder:
     The grid is a texture behind the lettering, not a second label. What sits
     *behind* both is the box's own material — it is never cut, so it needs no
     colour here (FR-022)."""
-    pattern: PatternBuilder | None = None
+    pattern: PatternBuilder | None = PatternBuilder(PatternType.DENSE_HEX)
     """Through-hole pattern, or ``None`` for a plain lid."""
     pattern_color: Color | None = None
     """Colour of the pattern's top layer; ``None`` contrasts with the body."""
+    logo: Any | None = None
+    """Path to the SVG logo, a Bosl2Solid, or a callable representing the custom lid logo."""
+    logo_color: Color | None = None
+    """Colour the logo is inlaid in; ``None`` uses black."""
     min_text_height_mm: float | None = None
     """Below this the label is skipped rather than printed illegibly (FR-020).
 
@@ -153,6 +157,12 @@ class LidBuilder:
     border_margin_mm: float | None = None
     """Margin the auto-sized label keeps clear of the lid's edge; ``None`` uses
     :data:`BORDER_MARGIN_MM`."""
+    label_border_mm: float | None = None
+    """Solid outer border width of the label backing plate; ``None`` uses defaults."""
+    label_text_gap_mm: float | None = None
+    """Gap between label text and inside of the border; ``None`` uses defaults."""
+    label_rounding_mm: float | None = None
+    """Corner rounding radius of the label backing plate; ``None`` uses defaults."""
     label_clearance_mm: float | None = None
     """Solid margin kept around the **lettering** where a pattern meets it.
 

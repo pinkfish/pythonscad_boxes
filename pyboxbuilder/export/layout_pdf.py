@@ -407,6 +407,11 @@ def draw_box_blueprint(
         # Draw shape/SVG if present
         if placement.shape_file:
             svg_path = Path(placement.shape_file)
+            if not svg_path.is_absolute() and not svg_path.exists():
+                repo_root = Path(__file__).resolve().parents[2]
+                svg_resolved = repo_root / svg_path
+                if svg_resolved.exists():
+                    svg_path = svg_resolved
             if svg_path.exists():
                 pdf.image(str(svg_path), cx + 1.0 * scale, cy + 5.0 * scale, w=cw - 2.0 * scale, h=ch - 6.0 * scale)
 
@@ -425,6 +430,11 @@ def draw_box_blueprint(
                     continue
 
                 svg_path = Path(elem.shape_file)
+                if not svg_path.is_absolute() and not svg_path.exists():
+                    repo_root = Path(__file__).resolve().parents[2]
+                    svg_resolved = repo_root / svg_path
+                    if svg_resolved.exists():
+                        svg_path = svg_resolved
                 if svg_path.exists():
                     if elem.rotation != 0.0:
                         rot_cx = elem_x + ew / 2

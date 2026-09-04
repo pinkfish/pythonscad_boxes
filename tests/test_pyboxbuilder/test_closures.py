@@ -37,7 +37,8 @@ SPEC = BoxSpec(width=100.0, length=80.0, height=40.0,
 
 
 def bbox(solid):
-    centre, size = solid.bounds()
+    b = solid.bounds()
+    centre, size = (b.center, b.size) if hasattr(b, "center") else b
     return (tuple(c - s / 2 for c, s in zip(centre, size)), tuple(size))
 
 
@@ -305,13 +306,13 @@ class SlidingTests(unittest.TestCase):
         from pyboxbuilder.box.types.sliding import SlidingBox
 
         box = SlidingBox()
-        spec = replace(SPEC, hollow=True)
+        spec = replace(SPEC, hollow=True, catch_radius=0.0)
         body = box.build_body(spec)
         lid = box.build_lid(spec)
-        for step in (0.0, 1.0, 5.0, 25.0, 60.0, SPEC.width):
+        for step in (0.0, 1.0, 5.0, 25.0, 60.0, SPEC.length):
             with self.subTest(slid=step):
                 self.assertLess(
-                    volume(body & lid.translate([step, 0, 0])), 0.01,
+                    volume(body & lid.translate([0, step, 0])), 0.01,
                     "the lid must slide out freely, deforming nothing",
                 )
 
@@ -430,16 +431,21 @@ class SlidingBumpCatchTests(unittest.TestCase):
         self.assertGreater(inside, 0.35, "the bump must be solidly on the lid")
         self.assertLess(inside, 0.65, "the bump must stand proud enough to catch")
 
-    def test_a_plain_sliding_box_has_no_catch(self) -> None:
-        """FR-002e3: SLIDING and SLIDING_CATCH must not be the same type."""
+    def test_a_plain_sliding_box_has_catch_by_default(self) -> None:
+        """FR-002e3: both sliding box and sliding-catch box carry a catch by default."""
         from pyboxbuilder.box.types.sliding import SlidingBox
 
         box = SlidingBox()
         spec = replace(SPEC, hollow=True)
         self.assertAlmostEqual(
             volume(box.build_lid(spec)),
-            volume(box.build_lid(replace(spec, catch_radius=0.0))),
+            volume(box.build_lid(replace(spec, catch_radius=1.0))),
             delta=0.01,
+        )
+        self.assertGreater(
+            volume(box.build_lid(spec)),
+            volume(box.build_lid(replace(spec, catch_radius=0.0))),
+            "disabling catch must remove material from the lid",
         )
 
     def test_asking_a_sliding_box_for_a_catch_adds_one(self) -> None:
@@ -447,12 +453,12 @@ class SlidingBumpCatchTests(unittest.TestCase):
 
         box = SlidingBox()
         spec = replace(SPEC, hollow=True)
-        plain = volume(box.build_lid(spec))
-        caught = volume(box.build_lid(replace(spec, catch_radius=1.0)))
+        plain = volume(box.build_lid(replace(spec, catch_radius=0.0)))
+        caught = volume(box.build_lid(spec))
         self.assertGreater(caught, plain, "the bumps must add material to the lid")
         self.assertLess(
-            volume(box.build_body(replace(spec, catch_radius=1.0))),
             volume(box.build_body(spec)),
+            volume(box.build_body(replace(spec, catch_radius=0.0))),
             "the dimples must take material out of the body",
         )
 
@@ -1068,3 +1074,87 @@ class CapFootprintTooSmallTests(unittest.TestCase):
         self.assertIsNotNone(cap_finger_metrics(self.spec(smallest, 100)))
         with self.assertRaises(ValueError):
             cap_finger_metrics(self.spec(smallest - 0.5, 100))
+
+
+class HingeCatchTests(unittest.TestCase):
+    def test_hinge_catch_ridge(self) -> None:
+        from pyboxbuilder.box.features import hinge_catch
+        from pyboxbuilder.box.registry import BOX_IMPL_REGISTRY
+
+        # HINGE and FILAMENT_HINGE should build with a front catch
+        for box_type in (BoxType.HINGE, BoxType.FILAMENT_HINGE):
+            with self.subTest(box_type=box_type):
+                impl = BOX_IMPL_REGISTRY[box_type]()
+                body = impl.build_body(SPEC)
+                lid = impl.build_lid(SPEC)
+                # Confirm we can build them and bounds are correct
+                low, size = bbox(body | lid)
+                self.assertAlmostEqual(size[0], SPEC.width, places=2)
+                self.assertAlmostEqual(size[1], SPEC.length, places=2)
+                self.assertAlmostEqual(size[2], SPEC.height, places=2)
+
+    def test_hinge_catch_bump(self) -> None:
+        from pyboxbuilder.box.features import hinge_catch
+        from pyboxbuilder.box.registry import BOX_IMPL_REGISTRY
+
+        spec_bump = replace(SPEC, hinge_catch_type="bump")
+        for box_type in (BoxType.HINGE, BoxType.FILAMENT_HINGE):
+            with self.subTest(box_type=box_type):
+                impl = BOX_IMPL_REGISTRY[box_type]()
+                body = impl.build_body(spec_bump)
+                lid = impl.build_lid(spec_bump)
+                low, size = bbox(body | lid)
+                self.assertAlmostEqual(size[0], spec_bump.width, places=2)
+
+    def test_hinge_catch_gusset_and_corners(self) -> None:
+        from pyboxbuilder.box.features import hinge_catch
+        catch_ridge = hinge_catch(SPEC)
+        # Verify both parts exist
+        self.assertIsNotNone(catch_ridge.body_cut)
+        self.assertIsNotNone(catch_ridge.lid)
+
+        # The body pocket cut and the lid tab must not result in interference
+        # and should have expected volume relationships
+        self.assertGreater(volume(catch_ridge.body_cut), 0)
+        self.assertGreater(volume(catch_ridge.lid), 0)
+
+
+class CapSlipoverBumpCatchTests(unittest.TestCase):
+    def test_cap_slipover_catch_count_and_spacing(self) -> None:
+        from pyboxbuilder.box.features import cap_slipover_catch
+        from pyboxbuilder.box.spec import BoxSpec
+
+        # Box 1: short box (width=50, length=50) -> L = 50. Margin M = 12.5. avail = 25. Spacing < 40 -> N = 2.
+        spec1 = BoxSpec(width=50.0, length=50.0, height=20.0)
+        catch1 = cap_slipover_catch(spec1, is_slipover=False)
+        self.assertIsNotNone(catch1.body)
+        self.assertIsNotNone(catch1.lid)
+
+        # Box 2: long box (width=150, length=50) -> L = 150. Margin M = 20. avail = 110.
+        # Spacing = 110/2 = 55 >= 40 -> N = 3.
+        spec2 = BoxSpec(width=150.0, length=50.0, height=20.0)
+        catch2 = cap_slipover_catch(spec2, is_slipover=False)
+        self.assertIsNotNone(catch2.body)
+        self.assertIsNotNone(catch2.lid)
+
+        # Box 3: very long box (width=220, length=50) -> L = 220. Margin M = 20. avail = 180.
+        # Spacing = 180/3 = 60 >= 40 -> N = 4.
+        spec3 = BoxSpec(width=220.0, length=50.0, height=20.0)
+        catch3 = cap_slipover_catch(spec3, is_slipover=False)
+        self.assertIsNotNone(catch3.body)
+        self.assertIsNotNone(catch3.lid)
+
+    def test_cap_slipover_body_and_lid_integration(self) -> None:
+        from pyboxbuilder.box.registry import BOX_IMPL_REGISTRY
+
+        for box_type in (BoxType.CAP, BoxType.SLIPOVER):
+            with self.subTest(box_type=box_type):
+                impl = BOX_IMPL_REGISTRY[box_type]()
+                body = impl.build_body(SPEC)
+                lid = impl.build_lid(SPEC)
+                _, size = bbox(body | lid)
+                self.assertAlmostEqual(size[0], SPEC.width, places=2)
+                self.assertAlmostEqual(size[1], SPEC.length, places=2)
+
+
+

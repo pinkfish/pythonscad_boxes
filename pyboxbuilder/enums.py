@@ -26,7 +26,9 @@ class LabelMode(Enum):
     """Label decoration style."""
 
     FRAMED = "framed"
+    """Raised frame border around label text."""
     FRAMELESS = "frameless"
+    """Direct label text without a raised frame."""
 
 
 class PatternType(Enum):
@@ -132,3 +134,4 @@ class ElementShape(Enum):
     CIRCLE = "circle"
     HEXAGON = "hexagon"
     SPHERE_SCOOP = "sphere_scoop"
+    TEXT = "text"

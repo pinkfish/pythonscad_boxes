@@ -1,80 +1,56 @@
 # SPDX-License-Identifier: Apache-2.0
-"""Tests for Irish Gauge box sizes and spacer auto-generation."""
+"""Tests for the Irish Gauge board game insert."""
 
 import unittest
 
-from pyboxbuilder import BoxType, LabelMode, LidBuilder, Project
+from boxes.irish_gauge.irish_gauge import (
+    box_height,
+    box_length,
+    box_width,
+    project,
+)
 
 
-class IrishGaugeTests(unittest.TestCase):
-    def _make_project(self):
-        box_width = 214
-        box_length = 302
-        box_height = 39
-        board_thickness = 10.5
-        wall = 3
-        card_length = 71
+class TestIrishGauge(unittest.TestCase):
+    """Test suite for Irish Gauge project build and layout."""
 
-        company_box_width = box_width / 4
-        company_box_length = card_length * 1.8 + wall * 2
-        company_box_height = (box_height - board_thickness) / 2
-        money_box_width = box_width
-        money_box_length = card_length + wall * 2
-        money_box_height = box_height - board_thickness
+    def test_build_completes(self) -> None:
+        """Verify the project builds all pieces without errors."""
+        build = project.build()
+        self.assertGreater(len(build.pieces), 5)
 
-        p = Project(
-            "IrishGauge",
-            game_box_size=(box_width, box_length, box_height),
-            wall_thickness=wall,
-            lid_thickness=3,
-        )
-        return p, {
-            "company_box_width": company_box_width,
-            "company_box_length": company_box_length,
-            "company_box_height": company_box_height,
-            "money_box_width": money_box_width,
-            "money_box_length": money_box_length,
-            "money_box_height": money_box_height,
+    def test_box_labels_present(self) -> None:
+        """Verify all essential box labels are generated."""
+        labels = {b.label for b in project._boxes}
+        expected = {
+            "CompanyBox_Belfast",
+            "CompanyBox_Cork",
+            "CompanyBox_Midland",
+            "CompanyBox_Waterford",
+            "CompanyBox_GreatSouthern",
+            "MoneyAndDividendsBox",
         }
+        for name in expected:
+            self.assertIn(name, labels)
 
-    def test_box_sizes_derived_from_game_box(self):
-        """Box sizes are computed from game box dimensions, not hardcoded."""
-        p, d = self._make_project()
+    def test_automatic_spacers_generated(self) -> None:
+        """Verify automatic spacers are generated from leftover volume."""
+        build = project.build()
+        spacers = [p for p in build.pieces if "spacer" in p.label.lower() or p.kind == "spacer"]
+        self.assertGreater(len(spacers), 0)
 
-        # Company box = box_width/4 wide, card_length*1.8+2*wall long
-        self.assertAlmostEqual(d["company_box_width"], 214 / 4)
-        self.assertAlmostEqual(d["company_box_length"], 71 * 1.8 + 6)
-        self.assertAlmostEqual(d["company_box_height"], (39 - 10.5) / 2)
-
-        # Money box = box_width wide, card_length+2*wall long
-        self.assertAlmostEqual(d["money_box_width"], 214)
-        self.assertAlmostEqual(d["money_box_length"], 71 + 6)
-        self.assertAlmostEqual(d["money_box_height"], 39 - 10.5)
-
-    def test_export_with_spacers(self):
-        """Export produces company boxes, money box, and auto-generated spacers."""
-        import tempfile
-        p, _ = self._make_project()
-
-        money = p.box(
-            BoxType.FILAMENT_HINGE, "MoneyBox",
-            size=(214, 77, 28.5), no_rotate=True, position=(0, 0, 0),
-            lid=LidBuilder(text="Bank"),
-        )
-        for denomination in ["1", "5", "10"]:
-            money.compartment(denomination, size=(49, 67), depth=28.5)
-
-        for i in range(5):
-            p.box(
-                BoxType.SLIDING, f"CompanyBox{i}",
-                size=(53.5, 133.8, 14.25), no_rotate=True,
-                position=((53.5 * i, 77, 0) if i < 3 else (53.5 * (i - 3), 77, 14.25)),
-                lid=LidBuilder(text=f"Company{i}"),
-            )
-
-        with tempfile.TemporaryDirectory() as tmpdir:
-            result = p.export(tmpdir)
-            spacer_files = [f for f in result.written if "spacer" in f]
-            self.assertGreater(len(spacer_files), 0, "Expected auto-generated spacers")
-            self.assertTrue(any("MoneyBox" in f for f in result.written))
-            self.assertTrue(any("CompanyBox0" in f for f in result.written))
+    def test_all_pieces_fit_within_box_bounds(self) -> None:
+        """Verify no piece overflows the physical box dimensions."""
+        build = project.build()
+        tol = 1e-3
+        for piece in build.pieces:
+            if piece.position is None or piece.size is None:
+                continue
+            x, y, z = piece.position
+            w, l, h = piece.size
+            self.assertGreaterEqual(x, -tol, f"{piece.label} X < 0")
+            self.assertGreaterEqual(y, -tol, f"{piece.label} Y < 0")
+            self.assertGreaterEqual(z, -tol, f"{piece.label} Z < 0")
+            self.assertLessEqual(x + w, box_width + tol, f"{piece.label} overflows box width ({x+w} > {box_width})")
+            self.assertLessEqual(y + l, box_length + tol, f"{piece.label} overflows box length ({y+l} > {box_length})")
+            self.assertLessEqual(z + h, box_height + tol, f"{piece.label} overflows box height ({z+h} > {box_height})")

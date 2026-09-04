@@ -124,17 +124,23 @@ def decorate_lid(
     if resolved.text and label is None:
         result.skipped_label = True
 
+    logo_solid = _build_logo(resolved, width, length, mode) if resolved.logo else None
+
     if resolved.pattern is not None:
         result.solid = _cut_pattern(
             result.solid, resolved, width, length,
             origin_x, origin_y, top_z, lid_thickness,
             keep_clear=label,
+            logo_keepout=logo_solid,
             label_clearance=resolved.label_clearance,
             reserved=reserved,
         )
 
     if label is not None:
-        _apply_label(result, resolved, label, origin_x, origin_y, top_z, mode)
+        _apply_label(result, resolved, label, origin_x, origin_y, top_z, mode, lid_thickness)
+
+    if logo_solid is not None:
+        _apply_logo(result, resolved, logo_solid, origin_x, origin_y, top_z, mode)
 
     return result
 
@@ -176,7 +182,85 @@ def _build_label(
         diagonal=builder.is_diagonal,
         min_text_height_mm=builder.min_text_height,
         border_margin_mm=builder.border_margin,
+        label_border_mm=builder.label_border_mm,
+        label_text_gap_mm=builder.label_text_gap_mm,
+        label_rounding_mm=builder.label_rounding_mm,
     )
+
+
+def _bounds_center_size(
+    solid: Bosl2Solid,
+) -> tuple[tuple[float, float, float], tuple[float, float, float]]:
+    b = solid.bounds()
+    if hasattr(b, "center") and hasattr(b, "size"):
+        cz_val = float(b.size[2]) if len(b.size) > 2 else 0.0
+        return (
+            (float(b.center[0]), float(b.center[1]), float(b.center[2])),
+            (float(b.size[0]), float(b.size[1]), cz_val),
+        )
+    return (
+        (float(b[0][0]), float(b[0][1]), float(b[0][2])),
+        (float(b[1][0]), float(b[1][1]), float(b[1][2]) if len(b[1]) > 2 else 0.0),
+    )
+
+
+def _build_logo(
+    builder: LidBuilder, width: float, length: float, mode: str
+) -> Bosl2Solid | None:
+    """Build the logo solid, centered on the lid face."""
+    if not builder.logo:
+        return None
+
+    margin = builder.border_margin_mm or 10.0
+    logo_w = width - 2 * margin
+    logo_l = length - 2 * margin
+    if logo_w <= 0 or logo_l <= 0:
+        return None
+
+    depth = INLAY_DEPTH_MM
+    if isinstance(builder.logo, str):
+        from pyboxbuilder.compartments.element import _svg_region
+        raw = _svg_region(builder.logo).linear_extrude(height=depth)
+        (cx, cy, cz), (span_x, span_y, _) = _bounds_center_size(raw)
+        raw = raw.translate([-float(cx), -float(cy), -float(cz) + depth / 2])
+        scale_val = min(logo_w / max(float(span_x), 1e-9), logo_l / max(float(span_y), 1e-9))
+        solid = raw.scale([scale_val, scale_val, 1.0])
+    elif callable(builder.logo):
+        solid = builder.logo(logo_w, logo_l, depth)
+    else:
+        solid = builder.logo
+        (cx, cy, cz), (w, l, h) = _bounds_center_size(solid)
+        if w > 0 and l > 0 and h > 0:
+            scale_val = min(logo_w / w, logo_l / l)
+            scale_z = depth / h
+            solid = solid.translate([-cx, -cy, -cz + h / 2]).scale([scale_val, scale_val, scale_z])
+
+    offset_x = width / 2
+    offset_y = length / 2
+    return solid.translate([offset_x, offset_y, 0.0])
+
+
+def _apply_logo(
+    result: DecoratedLid,
+    builder: LidBuilder,
+    logo_solid: Bosl2Solid,
+    origin_x: float,
+    origin_y: float,
+    top_z: float,
+    mode: str,
+) -> None:
+    """Inlay or engrave the logo into the lid."""
+    def onto_face(solid: Bosl2Solid) -> Bosl2Solid:
+        return solid.translate([origin_x, origin_y, top_z - INLAY_DEPTH_MM])
+
+    if mode == "single":
+        cut = onto_face(logo_solid).translate([0.0, 0.0, INLAY_DEPTH_MM - ENGRAVE_DEPTH_MM])
+        result.solid = result.solid - cut
+        return
+
+    inlay = onto_face(logo_solid) & result.solid
+    result.solid = result.solid - inlay
+    result.inserts.append(LidInsert(_coloured(inlay, builder.logo_color), builder.logo_color))
 
 
 KEEPOUT_DIRECTIONS = 12
@@ -239,7 +323,9 @@ def _grown(solid: Bosl2Solid, by: float) -> Bosl2Solid:
 
 def _as_depth(solid: Bosl2Solid, depth: float) -> Bosl2Solid:
     """Return `solid` stretched in z to `depth`, with its base at z = 0."""
-    (_, _, cz), (_, _, h) = solid.bounds()
+    b = solid.bounds()
+    cz = float(b.center[2]) if hasattr(b, "center") else float(b[0][2])
+    h = float(b.size[2]) if hasattr(b, "size") else float(b[1][2])
     if h <= 0:
         return solid
     return solid.translate([0.0, 0.0, -(cz - h / 2)]).scale([1.0, 1.0, depth / h])
@@ -252,7 +338,7 @@ def _top_face(lid: Bosl2Solid) -> tuple[float, float, float, float, float] | Non
     ``None`` meant the caller skipped the whole decoration, so a lid came out
     with no label and no pattern and nothing said why (FR-000h).
     """
-    (cx, cy, cz), (w, l, h) = lid.bounds()
+    (cx, cy, cz), (w, l, h) = _bounds_center_size(lid)
     if w <= 0 or l <= 0:
         return None
     return (float(w), float(l), float(cx - w / 2), float(cy - l / 2), float(cz + h / 2))
@@ -268,6 +354,7 @@ def _cut_pattern(
     top_z: float,
     lid_thickness: float,
     keep_clear: Label | None = None,
+    logo_keepout: Bosl2Solid | None = None,
     label_clearance: float = LABEL_CLEARANCE_MM,
     reserved: Sequence[tuple[float, float, float]] = (),
 ) -> Bosl2Solid:
@@ -284,6 +371,7 @@ def _cut_pattern(
         lid_thickness: How deep the holes must reach to break through.
         keep_clear: The label whose shape must stay solid. Holes under the
             lettering would leave it printing onto air (FR-023).
+        logo_keepout: The logo solid whose shape must stay solid.
         label_clearance: Solid margin kept around the lettering.
         reserved: ``(x, y, radius)`` circles the pattern must leave solid.
 
@@ -333,6 +421,11 @@ def _cut_pattern(
     if keepout is not None:
         holes = holes - keepout.translate([origin_x, origin_y, base[2]])
 
+    if logo_keepout is not None:
+        # Stretch the logo keepout in z and subtract it
+        stretched_logo = _as_depth(logo_keepout, depth)
+        holes = holes - stretched_logo.translate([origin_x, origin_y, base[2]])
+
     # A box type's own lid features — a sliding lid's fingernail dish — are
     # already cut into the plate. The pattern keeps off them and off the ring
     # of material they are pulled against (FR-002e5); these arrive in the
@@ -361,6 +454,7 @@ def _apply_label(
     origin_y: float,
     top_z: float,
     mode: str,
+    lid_thickness: float,
 ) -> None:
     """Inlay the label into `result`, or engrave it for a single-colour print.
 
@@ -372,6 +466,7 @@ def _apply_label(
         origin_y: The face's minimum y.
         top_z: The face's z.
         mode: ``"mmu"`` or ``"single"``.
+        lid_thickness: Overall lid thickness in mm.
 
     """
 
@@ -387,6 +482,13 @@ def _apply_label(
         result.solid = result.solid - cut
         return
 
+    # If frame_color is None, hatching is cut as a through-hole.
+    # Otherwise, it is inlaid as a second color.
+    if builder.frame_color is None and label.hatching is not None:
+        hatching_cut = _as_depth(label.hatching, lid_thickness + 2.0)
+        hatching_cut = hatching_cut.translate([origin_x, origin_y, top_z - lid_thickness - 1.0])
+        result.solid = result.solid - hatching_cut
+
     # Inlaid, not embossed (FR-022a): each coloured part is cut out of the lid
     # and put back in its own colour, exactly as deep as the recess, so the
     # lid's top face stays flat. Only the parts that change colour are cut —
@@ -396,7 +498,7 @@ def _apply_label(
         (label.text, builder.text_color),
         (label.hatching, builder.frame_color),
     ):
-        if part is None:
+        if part is None or colour is None:
             continue
         # Clipped to the lid as it stands, so an inlay only ever fills material
         # that was actually there. Where the label crosses something already
@@ -422,7 +524,9 @@ def _to_depth(part: Bosl2Solid) -> Bosl2Solid:
         The part, scaled in z to the inlay depth with its base at z = 0.
 
     """
-    (_, _, cz), (_, _, h) = part.bounds()
+    b = part.bounds()
+    cz = float(b.center[2]) if hasattr(b, "center") else float(b[0][2])
+    h = float(b.size[2]) if hasattr(b, "size") else float(b[1][2])
     if h <= 0:
         return part
     return part.translate([0.0, 0.0, -(cz - h / 2)]).scale([1.0, 1.0, INLAY_DEPTH_MM / h])
@@ -453,11 +557,16 @@ def _with_accent_colors(builder: LidBuilder, body_color: Color | None) -> LidBui
         body_color if body_color is not None else Color("gray"),
         builder.text_color, builder.frame_color, builder.pattern_color,
     )
+    logo_color = builder.logo_color
+    if logo_color is None:
+        logo_color = colors.text_color
+
     return replace(
         builder,
         text_color=colors.text_color,
         frame_color=colors.frame_color,
         pattern_color=colors.pattern_color,
+        logo_color=logo_color,
     )
 
 

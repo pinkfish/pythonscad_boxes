@@ -166,7 +166,7 @@ def sweep_free_space(
         placements: The boxes already placed in it.
 
     Returns:
-        Disjoint `Void`s covering all of the free space, in descending volume.
+        Disjoint ``Void`` instances covering all of the free space, in descending volume.
 
     """
     if not placements:

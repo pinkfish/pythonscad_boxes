@@ -259,7 +259,8 @@ class PathBoxTests(unittest.TestCase):
 
         spec = BoxSpec(label="Tray", width=60.0, length=40.0, height=20.0,
                        wall_thickness=2.0, floor_thickness=1.6)
-        _, size = box.build_body(spec).bounds()
+        b = box.build_body(spec).bounds()
+        size = b.size if hasattr(b, "size") else b[1]
         # Sizes carry the rounding's 0.002mm faceting tolerance: a fillet is
         # an inscribed polygon, so it pulls its faces in by the sagitta.
         self.assertAlmostEqual(size[0], 60.0, delta=0.01)
@@ -271,7 +272,8 @@ class PathBoxTests(unittest.TestCase):
         spec = BoxSpec(width=60.0, length=40.0, height=20.0,
             wall_thickness=2.0, floor_thickness=1.6,
             path=((0.0, 0.0), (60.0, 0.0), (60.0, 25.0), (30.0, 40.0), (0.0, 25.0)))
-        centre, size = box.build_body(spec).bounds()
+        b = box.build_body(spec).bounds()
+        centre, size = (b.center, b.size) if hasattr(b, "center") else b
         self.assertAlmostEqual(size[2], 20.0, places=3)
         self.assertAlmostEqual(centre[2] - size[2] / 2, 0.0, places=3)
 

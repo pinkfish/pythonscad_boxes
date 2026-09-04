@@ -8,12 +8,9 @@ dynamic = ["version"]
 description = "Board game box/insert design library for PythonSCAD"
 requires-python = ">=3.10"
 dependencies = [
-    # 0.7.7 or newer: path fixes, the Color class, Region.even_odd, and the SVG loader speed fix
-    # (shapes.py loads drawings via Region.from_svg; 0.7.6 takes 196s on one file). Path2D/Path3D default to
-    # closed=False there (so every outline meant as a polygon passes closed=True explicitly),
-    # Path.tangents returns one tangent per point, and smooth_path/round_corners match BOSL2.
-    # On 0.7.1 the box outlines silently lose their closing edge and the lids round wrong.
-    "pybosl2>=0.7.7",
+    # 0.7.13 or newer: Bounds3D/Bounds2D bounds contract, Path2D parameter enforcement,
+    # SVG viewBox hole preservation, Color class, Region.even_odd, and speed fixes.
+    "pybosl2>=0.7.13",
     "numpy",
 ]
 authors = [{ name = "pinkfish" }]
@@ -23,7 +20,7 @@ pybox = "pyboxbuilder.cli:main"
 
 [project.optional-dependencies]
 scripts = [
-    "pybosl2>=0.7.7",
+    "pybosl2>=0.7.13",
     "lark",
     "fpdf",
     "inkex",
@@ -40,6 +37,7 @@ dev = [
     "fpdf2",
     "pillow",
     "shapely",
+    "pre-commit",
 ]
 docs = [
     # sphinx<9: sphinx-immaterial 0.13.x is not yet compatible with Sphinx 9
@@ -133,14 +131,17 @@ ignore = [
     "D101",
 ]
 
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
 [tool.ruff.lint.per-file-ignores]
 # An example has to put the repo root on sys.path before it can import the
 # library, so its imports cannot come first. Examples are user-facing scripts,
 # not the library API, so the docstring rules do not apply to them either.
-"boxes/*" = ["E402", "D"]
+"boxes/**" = ["E402", "D"]
 # Tests and docs build tooling are not the library API either.
-"tests/*" = ["D"]
-"docs/*" = ["D"]
+"tests/**" = ["D"]
+"docs/**" = ["D"]
 
 [tool.ruff.format]
 quote-style = "double"

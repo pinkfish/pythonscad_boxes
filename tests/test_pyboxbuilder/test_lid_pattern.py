@@ -7,6 +7,13 @@ from pyboxbuilder.enums import LabelMode, PatternType
 from pyboxbuilder.lid.pattern import _PATTERN_FILLS, build_pattern
 
 
+def _bounds_cs(solid):
+    b = solid.bounds()
+    if hasattr(b, "center") and hasattr(b, "size"):
+        return (float(b.center[0]), float(b.center[1])), (float(b.size[0]), float(b.size[1]))
+    return (float(b[0][0]), float(b[0][1])), (float(b[1][0]), float(b[1][1]))
+
+
 class PatternCoverageTests(unittest.TestCase):
     def test_every_pattern_type_has_a_fill(self):
         """Every PatternType member (except aliases) has a registered fill."""
@@ -149,7 +156,7 @@ class PatternBorderTests(unittest.TestCase):
         """Solid millimetres between the lid's edge and the nearest hole."""
         width, length, _ = self.LID
         _, removed = self.cut(pattern_type, border)
-        (cx, cy, _), (w, l, _) = removed.bounds()
+        (cx, cy), (w, l) = _bounds_cs(removed)
         return (cx - w / 2, width - (cx + w / 2), cy - l / 2, length - (cy + l / 2))
 
     def test_every_pattern_keeps_the_border(self) -> None:
@@ -173,7 +180,7 @@ class PatternBorderTests(unittest.TestCase):
         """A hole straddling the border is drawn and clipped, which is what
         lets the pattern reach it."""
         _, removed = self.cut(PatternType.HEX, 8.0)
-        (cx, cy, _), (w, l, _) = removed.bounds()
+        (cx, cy), (w, l) = _bounds_cs(removed)
         width, length, _ = self.LID
         # A lattice that only placed whole hexes could not span this much.
         self.assertAlmostEqual(w, width - 16.0, places=2)
@@ -224,7 +231,7 @@ class PatternBorderTests(unittest.TestCase):
                     width, length, "mmu",
                 )
                 assert label is not None
-                (cx, cy, _), (w, l, _) = label.combined().bounds()
+                (cx, cy), (w, l) = _bounds_cs(label.combined())
                 inside = LID_BORDER_MM + LABEL_INSET_MM
                 self.assertGreaterEqual(round(cx - w / 2, 3), inside)
                 self.assertGreaterEqual(round(width - (cx + w / 2), 3), inside)

@@ -146,7 +146,7 @@ def build_wall_scoop(
 ) -> Bosl2Solid:
     """Build a finger notch through a compartment wall.
 
-    The **edge** profile from :func:`scoop_profile` — flat bottom, straight
+    The **edge** profile from :func:`~pyboxbuilder.compartments.finger_outline.scoop_profile` — flat bottom, straight
     throat, rolled rim — swept through the wall, with a
     concave rim on each end so the cut flows onto the wall's faces instead of
     ending in a sharp line (``FingerHoleWall``'s ``rounding_edge``).
@@ -172,43 +172,22 @@ def build_wall_scoop(
         radius: Notch radius in mm, capped so it cannot swallow the compartment.
         wall_thickness: Wall the cut passes through. Sets the sweep depth and,
             by default, the face fillet.
-        profile: The cut's edge profile — a ``CutProfile`` holding the shape
-            knobs below (mouth flare, base radius, roll rise).
-        faces: The cut's face treatment — a ``FaceTreatment`` holding the face
-            knobs below (fillet, which faces round, the floor clip).
-        rounding_radius: ``r1`` — how far the mouth rolls out at the rim.
-            ``None`` derives it as half the throat half-width, so the roll
-            stays in proportion to the scoop.
-        bottom_rounding: ``r2`` — the fillet from the throat into the flat
-            bottom. ``None`` derives it as half the throat width.
-        rounding_edge: Fillet where the cut emerges on a face. Defaults to
-            ``wall_thickness / 2``, the largest fillet the wall has room for
-            (and what the original uses). ``0`` squares the edge.
-        round_inner: Fillet the compartment-side face.
-        round_outer: Fillet the outward face — the visible outside of the box.
-        breach_floor: Let the cut run as deep as the flare naturally reaches,
-            with no clip at all. Off by default.
+        profile: The cut's edge profile — a ``CutProfile`` holding shape
+            settings (mouth flare, base radius, roll rise).
+        faces: The cut's face treatment — a ``FaceTreatment`` holding face
+            settings (fillet, which faces round, floor clip, breach floor, top limit).
         floor_thickness: The box floor under this compartment. Used to size the
             dip below the well floor (half the floor, at most 1mm), which is
             what keeps the cut's bottom face off the floor plane.
-        floor_clearance: Dip below the well floor, overriding the value derived
-            from ``floor_thickness``. ``0`` clips exactly at the floor, at the
-            cost of a coincident face.
-        top_limit: Height, in the cut's own frame, above which it is trimmed
-            away — the guard for material that must not be cut into.
-        keep_flat_bottom: Keep part of the base flat by capping the corner
-            radius (FR-050) — for a well something rests in. A grip passes
-            ``False`` and gets the radius it asked for, with a round base
-            (FR-054).
-        roll_rise: How far the mouth roll reaches down; ``None`` derives it
-            from the flare (FR-057). Width and gentleness are separate
-            settings, so a shallow wall can have a gentler curve without a
-            wider mouth.
-        closed_top: Build a **closed window** (:func:`window_outline`) instead
+        closed_top: Build a **closed window** (:func:`~pyboxbuilder.compartments.finger_outline.window_outline`) instead
             of a top-opening scoop. For a cut with wall standing above it,
             where there is no surface for the mouth roll to roll onto and a
             trimmed-off scoop would meet the faces at a square edge
             (FR-065).
+        keep_flat_bottom: Keep part of the base flat by capping the corner
+            radius (FR-050) — for a well something rests in. A grip passes
+            ``False`` and gets the radius it asked for, with a round base
+            (FR-054).
 
     Returns:
         Bosl2Solid cutout, positioned in the compartment frame.

@@ -40,6 +40,8 @@ class Piece:
     """Builds this piece's geometry. Call :attr:`solid` rather than this."""
     builder: BoxBuilder | None = None
     """The box builder this piece came from; ``None`` for a spacer tray."""
+    _build_inserts: Callable[[], list[tuple[Any, Any]]] | None = None
+    """Builds this piece's coloured positive inserts, or ``None`` for none."""
 
     @property
     def solid(self) -> Any | None:
@@ -52,6 +54,16 @@ class Piece:
         untyped from here on however it is declared.
         """
         return self._build()
+
+    @property
+    def inserts(self) -> list[tuple[Any, Any]]:
+        """The piece's coloured positive inserts, in its own local frame.
+
+        A lid's label and frame are inserts; a body can carry icons at the
+        bottom of its wells. Each entry is ``(solid, colour)``. Empty when the
+        piece has none.
+        """
+        return self._build_inserts() if self._build_inserts is not None else []
 
     @property
     def is_spacer(self) -> bool:

@@ -95,7 +95,7 @@ def distribute_rows(
 def rows_from_placements(
     placements: Sequence[CompartmentPlacement], gap: float = 2.0
 ) -> list[list[str]]:
-    """Group `CompartmentPlacement`s into rows by their y coordinate.
+    """Group ``CompartmentPlacement`` instances into rows by their y coordinate.
 
     Two placements share a row when their y origins are within `gap` of each
     other, which is how the shelf packer builds them.

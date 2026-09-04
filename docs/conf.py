@@ -82,6 +82,8 @@ html_theme_options = {
     "font": False,
 }
 
+autosectionlabel_prefix_document = True
+
 # Which autodoc objects appear in the right-hand "on this page" TOC. Methods,
 # functions and classes are the navigation the user asked for; parameters,
 # attributes, data and modules would only add noise.
@@ -102,10 +104,8 @@ object_description_options = [
 # kind (methods together) so the right-hand TOC reads naturally.
 autodoc_typehints = "signature"
 autodoc_member_order = "groupwise"
-autoclass_content = "both"
+autoclass_content = "class"
 autodoc_default_options = {
-    "members": True,
-    "undoc-members": True,
     "show-inheritance": True,
 }
 
@@ -114,6 +114,9 @@ autodoc_default_options = {
 # to each method.
 autosummary_generate = True
 autosummary_imported_members = False
+autosummary_filename_map = {
+    "pyboxbuilder.precision.precision": "pyboxbuilder.precision.precision_func",
+}
 
 # --- napoleon --------------------------------------------------------------
 # The codebase documents with Google-style Args:/Returns: sections.
@@ -139,7 +142,7 @@ intersphinx_mapping = {
 # and the doc is correct; the ambiguity is noise. Broken references are a
 # different warning type (``ref.class``/``ref.meth``/…), so they are still
 # caught by the build's "reference target not found" check.
-suppress_warnings = ["ref.python"]
+suppress_warnings = ["ref.python", "misc.highlighting_failure"]
 
 # --- linkcheck -------------------------------------------------------------
 # The ``pythonscad-example`` blocks emit relative ``_stl/<hash>.stl`` download
@@ -162,7 +165,9 @@ nitpick_ignore = [
     ("py:class", "Bosl2Shape2D"),
     ("py:class", "Anchor"),
     ("py:class", "OSProfile"),
+    ("py:class", "Color"),
     ("py:class", "pybosl2.Color"),
+    ("py:class", "pybosl2.color.Color"),
     ("py:meth", "Path2D.offset_sweep"),
     # External stdlib / third-party types.
     ("py:class", "Path"),
@@ -172,11 +177,33 @@ nitpick_ignore = [
     ("py:class", "pyboxbuilder.builders._base.BoxBuilder"),
     ("py:class", "FingerHoleBuilder"),
     ("py:class", "pyboxbuilder.builders._base.SlidingLidFields"),
+    ("py:class", "Cut"),
+    ("py:class", "pyboxbuilder.builders._base.Cut"),
+    # Exception types raised across module boundaries.
+    ("py:exc", "LayoutError"),
+    ("py:exc", "PackingError"),
+    ("py:exc", "MissingDependencyError"),
     # Module-level constants referenced by name, not part of the API reference.
     ("py:data", "DEFAULT_THROAT_RADIUS_MM"),
     ("py:data", "MIN_TEXT_HEIGHT_MM"),
     ("py:data", "BORDER_MARGIN_MM"),
     ("py:data", "PATTERN_BORDER_MM"),
+    ("py:data", "DEFAULT_WEB_MM"),
+    ("py:data", "pyboxbuilder.lid.pattern.DEFAULT_WEB_MM"),
+    ("py:data", "EXPORT_FN"),
+    ("py:data", "pyboxbuilder.precision.EXPORT_FN"),
+    ("py:data", "EXPORT_FN_ENV"),
+    ("py:data", "SLIPOVER_GAP_MAX_MM"),
+    ("py:data", "SLIPOVER_GAP_MIN_MM"),
+    ("py:data", "STRIPED_GRID_COLOR"),
+    ("py:data", "TEXT_COLOR"),
+    ("py:data", "pyboxbuilder.lid.decorate.LABEL_CLEARANCE_MM"),
+    # Project methods referenced without full submodule path.
+    ("py:class", "pyboxbuilder.project.Project"),
+    ("py:meth", "pyboxbuilder.Project.show"),
+    ("py:meth", "pyboxbuilder.project.Project.show"),
+    ("py:meth", "pyboxbuilder.project.Project.export"),
+    ("py:meth", "pyboxbuilder.project.Project.build"),
     # Short type-annotation names — classes imported under TYPE_CHECKING so
     # autodoc has no runtime name to link them to.
     ("py:class", "CompartmentPlacement"),

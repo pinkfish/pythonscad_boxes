@@ -19,7 +19,7 @@ from collections.abc import Sequence
 from typing import TYPE_CHECKING
 
 from pyboxbuilder.box.interior import Interior
-from pyboxbuilder.enums import ScoopSide
+from pyboxbuilder.enums import FingerCut, ScoopSide
 from pyboxbuilder.rounding import (
     max_radius,
     round_edges,
@@ -28,6 +28,7 @@ from pyboxbuilder.rounding import (
 )
 
 if TYPE_CHECKING:
+    from pybosl2 import Color
     from pybosl2.shapes3d import Bosl2Solid
 
     from pyboxbuilder.builders._base import Cut
@@ -164,11 +165,23 @@ def build_compartment_scoop(
     # cut into the box's top edge.
     top = top_z if top_z is not None else interior.origin_z + interior.height
     depth = max(0.1, top - floor_z)
-    wall_thickness = interior.origin_x if interior.origin_x > 0 else 2.0
-    # origin_z is the box floor: the scoop dips a fraction of it so its bottom
-    # face is not coplanar with the well floor (which renders as speckle).
-    floor_thickness = interior.origin_z if interior.origin_z > 0 else None
+    base_wt = interior.origin_x if interior.origin_x > 0 else 2.0
+    if scoop_side == ScoopSide.FRONT:
+        gap = placement.position[1] - interior.origin_y
+    elif scoop_side == ScoopSide.BACK:
+        gap = (interior.origin_y + interior.length) - (placement.position[1] + length)
+    elif scoop_side == ScoopSide.LEFT:
+        gap = placement.position[0] - interior.origin_x
+    elif scoop_side == ScoopSide.RIGHT:
+        gap = (interior.origin_x + interior.width) - (placement.position[0] + width)
+    else:
+        gap = 0.0
+    wall_thickness = base_wt + max(0.0, gap)
     cut = cut if cut is not None else Cut()
+    floor_thickness: float | None = (
+        floor_z if cut.kind is FingerCut.THROUGH_FLOOR
+        else (interior.origin_z if interior.origin_z > 0 else None)
+    )
     scoop = build_cut(
         cut.kind,
         width, length, cut.depth if cut.depth is not None else depth, scoop_side,
@@ -182,29 +195,6 @@ def build_compartment_scoop(
         ),
         faces=FaceTreatment(fillet=cut.face_fillet),
     )
-
-    if placement.depth > 35.0:
-        opposing = {
-            ScoopSide.FRONT: ScoopSide.BACK,
-            ScoopSide.BACK: ScoopSide.FRONT,
-            ScoopSide.LEFT: ScoopSide.RIGHT,
-            ScoopSide.RIGHT: ScoopSide.LEFT,
-        }
-        opp_side = opposing[scoop_side]
-        opp_scoop = build_cut(
-            cut.kind,
-            width, length, cut.depth if cut.depth is not None else depth, opp_side,
-            wall_thickness=wall_thickness,
-            floor_thickness=floor_thickness,
-            profile=CutProfile(
-                width=cut.width,
-                base_radius=cut.base_radius,
-                mouth_flare=cut.mouth_flare,
-                roll_rise=cut.roll_rise,
-            ),
-            faces=FaceTreatment(fillet=cut.face_fillet),
-        )
-        scoop = scoop | opp_scoop
 
     return _place(scoop, placement, interior)
 
@@ -274,6 +264,8 @@ def build_contents(
     default_side: ScoopSide | None = None,
     wall_tops: dict[ScoopSide, float] | None = None,
     mask: Bosl2Solid | None = None,
+    hinge_intrusion: Bosl2Solid | None = None,
+    suppress_scoops: bool = False,
 ) -> Bosl2Solid | None:
     """Union the cutouts for every placed compartment. None when there are none.
 
@@ -301,6 +293,8 @@ def build_contents(
         default_side: The box type's preferred scoop wall, used when the
             compartment names none. A sliding box insists on the wall its lid
             leaves by; most types have no opinion and leave it to the shape.
+        hinge_intrusion: Volume containing the hinge mechanism that compartments must not intersect.
+        suppress_scoops: Skip generating finger scoops (e.g. for lids/closures that conflict).
 
     """
     from pyboxbuilder.compartments.element import union_all
@@ -316,8 +310,13 @@ def build_contents(
                 placement, interior, rounded_corners=radius, bottom_rounding=radius,
             )
         )
+        if placement.elements:
+            from pyboxbuilder.compartments.element import build_element_pack_pull_outs
+            pull_outs = build_element_pack_pull_outs(placement.elements, placement.depth, placement.size)
+            if pull_outs is not None:
+                scoops.append(_place(pull_outs, placement, interior))
         cut = getattr(builder, "cut", None)
-        if cut is not None:
+        if cut is not None and not suppress_scoops:
             side = cut.side or default_side or default_scoop_side(placement)
             side_top = (wall_tops or {}).get(side, top_z)
             scoops.append(
@@ -325,6 +324,20 @@ def build_contents(
                     placement, interior, side, top_z=side_top, cut=cut,
                 )
             )
+            if placement.depth > 35.0:
+                opposing = {
+                    ScoopSide.FRONT: ScoopSide.BACK,
+                    ScoopSide.BACK: ScoopSide.FRONT,
+                    ScoopSide.LEFT: ScoopSide.RIGHT,
+                    ScoopSide.RIGHT: ScoopSide.LEFT,
+                }
+                opp_side = opposing[side]
+                opp_side_top = (wall_tops or {}).get(opp_side, top_z)
+                scoops.append(
+                    build_compartment_scoop(
+                        placement, interior, opp_side, top_z=opp_side_top, cut=cut,
+                    )
+                )
 
     contents = union_all(wells)
     if contents is not None and clip:
@@ -338,7 +351,10 @@ def build_contents(
         # without this the material above the interior ceiling — the lid recess
         # on a cap box, the groove band on a sliding one — stays put and seals
         # every well under a lid of its own.
-        contents = contents | interior_mouth(interior)
+        mouth = interior_mouth(interior)
+        if hinge_intrusion is not None:
+            mouth = mouth - hinge_intrusion
+        contents = contents | mouth
 
     scoop = union_all(scoops)
     if scoop is None:
@@ -381,3 +397,25 @@ def interior_column(interior: Interior) -> Bosl2Solid:
         interior.origin_y + interior.length / 2,
         interior.origin_z + interior.height / 2,
     ])
+
+
+def build_inserts(
+    placements: Sequence[CompartmentPlacement],
+    interior: Interior,
+) -> list[tuple[Bosl2Solid, Color]]:
+    """Build every coloured positive insert across the placed compartments.
+
+    These are the *added* counterpart of :func:`build_contents`: a coloured
+    element is a thin icon pressed into the bottom of its well, not a cutout, so
+    it is returned as a separate solid (in the box frame) with its colour rather
+    than subtracted from the body.
+    """
+    from pyboxbuilder.compartments.element import build_element_pack_inserts
+
+    inserts: list[tuple[Bosl2Solid, Color]] = []
+    for placement in placements:
+        if not placement.elements:
+            continue
+        for solid, color in build_element_pack_inserts(placement.elements, placement.depth):
+            inserts.append((_place(solid, placement, interior), color))
+    return inserts

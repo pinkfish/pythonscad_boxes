@@ -65,9 +65,12 @@ class ExampleBuildTests(unittest.TestCase):
 
     def test_building_writes_no_files(self) -> None:
         """The point of using the preview path in CI: no printable output."""
-        before = {p for p in REPO_ROOT.rglob("*.3mf")}
+        def _find_3mf():
+            return {p for p in REPO_ROOT.rglob("*.3mf") if ".render-tmp" not in p.parts}
+
+        before = _find_3mf()
         load_project(example_directories()[0]).preview_pieces()
-        self.assertEqual({p for p in REPO_ROOT.rglob("*.3mf")}, before)
+        self.assertEqual(_find_3mf(), before)
 
 
 if __name__ == "__main__":

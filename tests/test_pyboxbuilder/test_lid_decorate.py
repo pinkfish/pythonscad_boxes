@@ -24,6 +24,11 @@ def bare_lid():
     return BOX_IMPL_REGISTRY[BoxType.SLIDING]().build_lid(SPEC)
 
 
+def _bounds_cs(solid):
+    b = solid.bounds()
+    return (b.center, b.size) if hasattr(b, "center") else b
+
+
 
 
 class LabelSizingTests(unittest.TestCase):
@@ -56,8 +61,8 @@ class LabelSizingTests(unittest.TestCase):
         assert label is not None
         self.assertIsNotNone(label.backing)
 
-        (_, _, _), (text_w, text_l, _) = label.text.bounds()
-        (_, _, _), (back_w, back_l, _) = label.backing.bounds()
+        (_, _, _), (text_w, text_l, _) = _bounds_cs(label.text)
+        (_, _, _), (back_w, back_l, _) = _bounds_cs(label.backing)
         self.assertGreaterEqual(back_w, text_w)
         self.assertGreaterEqual(back_l, text_l)
         # "Cards" fills the width exactly, so only the length shows the hug.
@@ -70,7 +75,7 @@ class LabelSizingTests(unittest.TestCase):
         for text in ("Cards", "A", "Animal Cards", "Wood"):
             label = build_label(100.0, 70.0, 2.0, text, label_mode=LabelMode.FRAMELESS)
             assert label is not None, text
-            (cx, cy, _), (w, l, _) = label.text.bounds()
+            (cx, cy, _), (w, l, _) = _bounds_cs(label.text)
             self.assertLessEqual(round(w, 3), 90.0, f"{text} is too wide")
             self.assertLessEqual(round(l, 3), 60.0, f"{text} is too tall")
             self.assertAlmostEqual(cx, 50.0, places=3, msg=f"{text} off-centre")
@@ -90,7 +95,7 @@ class DecorationTests(unittest.TestCase):
         volume the insert fills (FR-022a)."""
         lid = bare_lid()
         decorated = decorate_lid(
-            lid, LidBuilder(text="Animals", label_mode=LabelMode.FRAMELESS), 2.0, "mmu"
+            lid, LidBuilder(text="Animals", label_mode=LabelMode.FRAMELESS, pattern=None), 2.0, "mmu"
         )
         self.assertEqual(len(decorated.inserts), 1)
         self.assertGreater(volume(decorated.inserts[0].solid), 0.0)
@@ -101,12 +106,37 @@ class DecorationTests(unittest.TestCase):
         )
 
     def test_framed_mmu_yields_text_and_backing_separately(self) -> None:
+        from pybosl2 import Color
         decorated = decorate_lid(
             bare_lid(),
-            LidBuilder(text="Animals", label_mode=LabelMode.FRAMED),
+            LidBuilder(text="Animals", label_mode=LabelMode.FRAMED, pattern=None, frame_color=Color("white")),
             2.0, "mmu",
         )
         self.assertEqual(len(decorated.inserts), 2)
+
+    def test_logo_inlay_mmu(self) -> None:
+        import pybosl2
+        logo_solid = pybosl2.shapes3d.cube([10.0, 10.0, 10.0])
+        lid = bare_lid()
+        decorated = decorate_lid(
+            lid, LidBuilder(logo=logo_solid, pattern=None), 2.0, "mmu"
+        )
+        self.assertEqual(len(decorated.inserts), 1)
+        self.assertGreater(volume(decorated.inserts[0].solid), 0.0)
+        self.assertAlmostEqual(
+            volume(decorated.solid) + volume(decorated.inserts[0].solid),
+            volume(lid), places=3,
+        )
+
+    def test_logo_engrave_single(self) -> None:
+        import pybosl2
+        logo_solid = pybosl2.shapes3d.cube([10.0, 10.0, 10.0])
+        lid = bare_lid()
+        decorated = decorate_lid(
+            lid, LidBuilder(logo=logo_solid), 2.0, "single"
+        )
+        self.assertEqual(decorated.inserts, [])
+        self.assertLess(volume(decorated.solid), volume(lid))
 
     def test_single_engraves_the_label_into_the_lid(self) -> None:
         """One material, so the text is sunk rather than raised."""
@@ -159,13 +189,14 @@ class DecorationTests(unittest.TestCase):
             ),
             2.0, "mmu",
         )
-        (bare_c, bare_s) = lid.bounds()
-        (deco_c, deco_s) = decorated.solid.bounds()
+        (bare_c, bare_s) = _bounds_cs(lid)
+        (deco_c, deco_s) = _bounds_cs(decorated.solid)
         # Cutting holes inside the border must not change the lid's outline.
         for got, want in zip(deco_s, bare_s):
             self.assertAlmostEqual(got, want, places=3)
 
     def test_pattern_and_label_coexist(self) -> None:
+        from pybosl2 import Color
         lid = bare_lid()
         decorated = decorate_lid(
             lid,
@@ -173,6 +204,7 @@ class DecorationTests(unittest.TestCase):
                 text="Animals",
                 label_mode=LabelMode.FRAMED,
                 pattern=PatternBuilder(type=PatternType.HEX, spacing=9.0),
+                frame_color=Color("white"),
             ),
             2.0, "mmu",
         )
@@ -225,13 +257,15 @@ class InlaidLabelTests(unittest.TestCase):
         from pyboxbuilder.lid.builder import LidBuilder
         from pyboxbuilder.lid.decorate import decorate_lid
 
+        kwargs = {"pattern": None}
+        kwargs.update(lid_kwargs)
         return decorate_lid(
-            self.lid(), LidBuilder(**lid_kwargs).titled("Tokens"), 2.0, mode
+            self.lid(), LidBuilder(**kwargs).titled("Tokens"), 2.0, mode
         )
 
     @staticmethod
     def _top(solid) -> float:
-        (_, _, cz), (_, _, h) = solid.bounds()
+        (_, _, cz), (_, _, h) = _bounds_cs(solid)
         return cz + h / 2
 
     def test_nothing_stands_above_the_lid_face(self) -> None:
@@ -247,7 +281,7 @@ class InlaidLabelTests(unittest.TestCase):
         from pyboxbuilder.lid.decorate import INLAY_DEPTH_MM
 
         for insert in self.decorated().inserts:
-            (_, _, _), (_, _, h) = insert.solid.bounds()
+            (_, _, _), (_, _, h) = _bounds_cs(insert.solid)
             self.assertAlmostEqual(h, INLAY_DEPTH_MM, places=6)
 
     def test_the_recess_is_cut_out_of_the_lid(self) -> None:
@@ -256,9 +290,10 @@ class InlaidLabelTests(unittest.TestCase):
         self.assertNotEqual(repr(result.solid), repr(self.lid()))
 
     def test_a_framed_label_inlays_its_text_and_its_striped_grid(self) -> None:
+        from pybosl2 import Color
         from pyboxbuilder.enums import LabelMode
 
-        result = self.decorated(label_mode=LabelMode.FRAMED)
+        result = self.decorated(label_mode=LabelMode.FRAMED, frame_color=Color("white"))
         self.assertEqual(len(result.inserts), 2)
 
     def test_a_frameless_label_inlays_only_its_text(self) -> None:
@@ -280,7 +315,7 @@ class InlaidLabelTests(unittest.TestCase):
 
         label = build_label(90.0, 60.0, 0.0, "Tokens", label_mode=LabelMode.FRAMED)
         assert label is not None and label.plate is not None
-        (px, py, _), (pw, pl, _) = label.plate.bounds()
+        (px, py, _), (pw, pl, _) = _bounds_cs(label.plate)
 
         from pyboxbuilder.box.shell import block
 
@@ -301,7 +336,7 @@ class InlaidLabelTests(unittest.TestCase):
         result = self.decorated(mode="single")
         self.assertEqual(result.inserts, [])
         cut = self.lid() - result.solid
-        (_, _, _), (_, _, h) = cut.bounds()
+        (_, _, _), (_, _, h) = _bounds_cs(cut)
         self.assertAlmostEqual(h, ENGRAVE_DEPTH_MM, places=6)
 
 
@@ -317,15 +352,12 @@ class LabelColorTests(unittest.TestCase):
             resolve_colors(Color("darkgreen")).text_color.rgba[:3], (0.0, 0.0, 0.0)
         )
 
-    def test_the_striped_grid_defaults_to_light_grey(self) -> None:
+    def test_the_striped_grid_defaults_to_none_as_hole(self) -> None:
         from pybosl2 import Color
 
         from pyboxbuilder.lid.color_layers import resolve_colors
 
-        red, green, blue, _ = resolve_colors(Color("darkgreen")).frame_color.rgba
-        self.assertEqual(round(red, 3), round(green, 3))
-        self.assertEqual(round(green, 3), round(blue, 3))
-        self.assertGreater(red, 0.7, "a light neutral, not a saturated accent")
+        self.assertIsNone(resolve_colors(Color("darkgreen")).frame_color)
 
     def test_the_defaults_do_not_follow_the_body(self) -> None:
         """A hue shifted off the box's colour is no more legible against it."""
@@ -377,7 +409,8 @@ class InsertColourTests(unittest.TestCase):
 
     def test_the_preview_draws_the_label_in_its_own_colour(self) -> None:
         """Not in the lid's, which is what made it invisible."""
-        pieces = self.project(label_mode=LabelMode.FRAMED).preview_pieces(
+        from pybosl2 import Color
+        pieces = self.project(label_mode=LabelMode.FRAMED, frame_color=Color("white")).preview_pieces(
             show_lids=True, only="Deck"
         )
         lids = [p for p in pieces if p.kind == "lid"]
