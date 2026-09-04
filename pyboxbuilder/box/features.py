@@ -1133,11 +1133,12 @@ def hinge_intrusion(spec: BoxSpec, filament_diameter: float = 1.75) -> Bosl2Soli
     ).rotate([0, 90, 0]).translate([spec.width / 2, axis_y, axis_z])
 
     # The chamfered support web/wedge angling back to the back wall
-    poly = polygon(path=[
+    from pybosl2 import Path2D
+    poly = polygon(path=Path2D([
         (spec.length, axis_z + total_depth),
         (spec.length - total_depth, axis_z),
         (spec.length, axis_z - total_depth),
-    ])
+    ]))
     wedge = poly.linear_extrude(height=spec.width).rotate([0, 90, 0]).rotate([-90, 0, 0]).scale([1, -1, -1])
 
     return cyl | wedge
@@ -1581,11 +1582,12 @@ def hinge_catch(spec: BoxSpec) -> Closure:
     # Gusset thickness in Y: we can go from y = wt/2 to y = wt.
     # We define the 2D path at Z=0.0 to prevent rotation-induced Y translation offsets,
     # then translate to body_height in Z.
-    gusset_poly = polygon(path=[
+    from pybosl2 import Path2D
+    gusset_poly = polygon(path=Path2D([
         (0.0, wt / 2.0),
         (0.0, wt - 0.2),  # stop slightly short of inner wall to prevent outer wall bleed/coincidence
         (lt, wt / 2.0),
-    ])
+    ]))
     gusset = (
         gusset_poly.linear_extrude(height=catch_width - 2 * fillet_r)
         .rotate([0, 90, 0])
@@ -1596,12 +1598,12 @@ def hinge_catch(spec: BoxSpec) -> Closure:
 
     # Matching clearance pocket carve-out on the inside front wall of the body.
     # The pocket needs clearance gap in all directions.
-    pocket_poly = polygon(path=[
+    pocket_poly = polygon(path=Path2D([
         (-gap, wt / 2.0 - gap),
         (-gap, wt + 0.1),
         (lt + gap, wt + 0.1),
         (lt + gap, wt / 2.0 - gap),
-    ])
+    ]))
     pocket_cut = (
         pocket_poly.linear_extrude(height=catch_width + 2 * gap)
         .rotate([0, 90, 0])
@@ -1619,11 +1621,11 @@ def hinge_catch(spec: BoxSpec) -> Closure:
 
     if spec.hinge_catch_type == "ridge":
         # Right-angled triangular ridge on lid tab (flat top, sloped bottom)
-        ridge_poly = polygon(path=[
+        ridge_poly = polygon(path=Path2D([
             (wt / 2.0, 0.0),
             (wt / 2.0 + bead_depth, slope_height),
             (wt / 2.0, slope_height),
-        ])
+        ]))
         ridge = (
             ridge_poly.linear_extrude(height=catch_width)
             .rotate([0, 90, 0])
@@ -1634,11 +1636,11 @@ def hinge_catch(spec: BoxSpec) -> Closure:
         lid_catch = lid_tab | ridge
 
         # Body cut pocket groove (triangular matching cut, slightly larger)
-        groove_poly = polygon(path=[
+        groove_poly = polygon(path=Path2D([
             (wt / 2.0 - 0.1, 0.0),
             (wt / 2.0 + bead_depth + gap, slope_height + 1.0 + gap),
             (wt / 2.0 - 0.1, slope_height + 1.0 + gap),
-        ])
+        ]))
         groove = (
             groove_poly.linear_extrude(height=catch_width + 2 * gap)
             .rotate([0, 90, 0])

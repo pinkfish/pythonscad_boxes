@@ -345,9 +345,17 @@ def _solid_bounds(solid: Bosl2Solid) -> tuple[tuple[float, ...], tuple[float, ..
     bounds = getattr(solid, "bounds", None)
     if callable(bounds):
         try:
-            origin, size = bounds()
+            b = bounds()
+            if hasattr(b, "min") and hasattr(b, "size"):
+                return (tuple(float(v) for v in b.min), tuple(float(v) for v in b.size))
+            if hasattr(b, "min_x") and hasattr(b, "width"):
+                return (
+                    (float(b.min_x), float(b.min_y), float(getattr(b, "min_z", 0.0))),
+                    (float(b.width), float(b.length), float(getattr(b, "height", 0.0))),
+                )
+            origin, size = b
             return (tuple(float(v) for v in origin), tuple(float(v) for v in size))
-        except ValueError:
+        except (ValueError, TypeError):
             pass
 
     position, size = getattr(solid, "position", None), getattr(solid, "size", None)

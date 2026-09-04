@@ -30,7 +30,8 @@ INTERIOR = Interior(
 
 def bbox(solid) -> tuple[tuple[float, ...], tuple[float, ...]]:
     """(min corner, size) of a solid, from pybosl2's (centre, size) bounds."""
-    centre, size = solid.bounds()
+    b = solid.bounds()
+    centre, size = (b.center, b.size) if hasattr(b, "center") else b
     return (tuple(c - s / 2 for c, s in zip(centre, size)), tuple(size))
 
 

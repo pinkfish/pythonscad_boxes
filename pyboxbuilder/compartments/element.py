@@ -370,7 +370,13 @@ def svg_solid(shape_file: str, width: float, length: float, depth: float) -> Bos
     can place it the same way they place a cuboid.
     """
     solid = _svg_region(shape_file).linear_extrude(height=depth)
-    (cx, cy, cz), (span_x, span_y, _) = solid.bounds()
+    b = solid.bounds()
+    if hasattr(b, "center") and hasattr(b, "size"):
+        cx, cy, cz = float(b.center[0]), float(b.center[1]), float(b.center[2])
+        span_x, span_y = float(b.size[0]), float(b.size[1])
+    else:
+        cx, cy, cz = float(b[0][0]), float(b[0][1]), float(b[0][2])
+        span_x, span_y = float(b[1][0]), float(b[1][1])
     solid = solid.translate([-float(cx), -float(cy), -float(cz)])
     return solid.scale([
         width / max(float(span_x), 1e-9),

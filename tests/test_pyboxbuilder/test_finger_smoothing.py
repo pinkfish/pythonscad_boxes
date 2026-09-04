@@ -1173,7 +1173,8 @@ class ScoopFlareAlignmentTests(unittest.TestCase):
         # is correct for a compartment scoop bottoming on the floor, and is
         # why an exterior hole passes a `floor_clearance` that lets it finish.
         scoop = build_wall_scoop(76.0, 56.0, 14.0, ScoopSide.FRONT, radius=14.0, wall_thickness=wt, faces=FaceTreatment(breach_floor=True))
-        centre, size = scoop.bounds()
+        b = scoop.bounds()
+        centre, size = (b.center, b.size) if hasattr(b, "center") else b
         bottom = centre[2] - size[2] / 2
         self.assertAlmostEqual(bottom, -scoop_face_flare(wt), delta=0.05)
 
@@ -1246,7 +1247,8 @@ class RollRiseIsReachableTests(unittest.TestCase):
 
         def width(rise: float) -> float:
             scoop = build_wall_scoop(76.0, 56.0, 20.0, ScoopSide.FRONT, radius=14.0, wall_thickness=2.0, profile=CutProfile(mouth_flare=3.0, roll_rise=rise))
-            _, size = scoop.bounds()
+            b = scoop.bounds()
+            size = b.size if hasattr(b, "size") else b[1]
             return size[0]
 
         self.assertAlmostEqual(width(4.8), width(9.0), delta=0.01)

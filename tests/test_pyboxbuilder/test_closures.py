@@ -37,7 +37,8 @@ SPEC = BoxSpec(width=100.0, length=80.0, height=40.0,
 
 
 def bbox(solid):
-    centre, size = solid.bounds()
+    b = solid.bounds()
+    centre, size = (b.center, b.size) if hasattr(b, "center") else b
     return (tuple(c - s / 2 for c, s in zip(centre, size)), tuple(size))
 
 

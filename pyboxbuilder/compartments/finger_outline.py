@@ -27,6 +27,8 @@ import math
 from dataclasses import dataclass, replace
 from typing import TYPE_CHECKING
 
+from pybosl2 import Path2D
+
 from pyboxbuilder.precision import kwargs as precision_kwargs
 
 if TYPE_CHECKING:
@@ -238,7 +240,7 @@ def scoop_profile(
     flare, rise, r2 = _fit_radii(radius, height, top_rounding, bottom_rounding)
 
     ring = scoop_outline(radius, height, flare, r2, rise)
-    return shapes2d.polygon([[float(x), float(y)] for x, y in ring])
+    return shapes2d.polygon(Path2D([[float(x), float(y)] for x, y in ring]))
 def dish_radius(radius: float, height: float, flare: float) -> float:
     """Return the radius of a **shallow** cut's base: one arc across its whole width.
 
@@ -752,7 +754,7 @@ def floor_bore_profile(
             (radius + top_rounding, throat_top), top_rounding, 180.0, 90.0
         )
         points.append((0.0, height))
-        mouth = shapes2d.polygon([[float(x), float(y)] for x, y in points])
+        mouth = shapes2d.polygon(Path2D([[float(x), float(y)] for x, y in points]))
         profile = profile | mouth | mouth.mirror([1, 0])
 
     return profile

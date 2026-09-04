@@ -146,7 +146,7 @@ def pack_in_columns(
 SVG_DIR = Path("boxes/root/svg")
 
 # Project Setup
-project = Project("Root", game_box_size=(214.0, 278.0, 67.0))
+project = Project("Root", game_box_size=(214.0, 278.0, 67.0), generate_spacers=True)
 
 from pybosl2.shapes3d.base import CsgSolid
 
@@ -154,12 +154,18 @@ class MultiColorSolid(CsgSolid):
     def color(self, color_val):
         return self
 
+def _measure_logo(solid):
+    b = solid.bounds()
+    cx, cy, cz = (float(b.center[0]), float(b.center[1]), float(b.center[2])) if hasattr(b, "center") else (float(b[0][0]), float(b[0][1]), float(b[0][2]))
+    span_x, span_y = (float(b.size[0]), float(b.size[1])) if hasattr(b, "size") else (float(b[1][0]), float(b[1][1]))
+    return (cx, cy, cz), (span_x, span_y)
+
 def make_marquis_mmu_logo(w, l, depth):
     from pyboxbuilder.compartments.element import _svg_region
     black_raw = _svg_region(str(SVG_DIR / "marquis_multicolor_black.svg")).linear_extrude(height=depth)
     orange_raw = _svg_region(str(SVG_DIR / "marquis_multicolor_orange.svg")).linear_extrude(height=depth)
     white_raw = _svg_region(str(SVG_DIR / "marquis_multicolor_white.svg")).linear_extrude(height=depth)
-    (cx, cy, cz), (span_x, span_y, _) = (black_raw | orange_raw | white_raw).bounds()
+    (cx, cy, cz), (span_x, span_y) = _measure_logo(black_raw | orange_raw | white_raw)
     black_centered = black_raw.translate([-cx, -cy, -cz])
     orange_centered = orange_raw.translate([-cx, -cy, -cz])
     white_centered = white_raw.translate([-cx, -cy, -cz])
@@ -176,7 +182,7 @@ def make_lizard_mmu_logo(w, l, depth):
     from pyboxbuilder.compartments.element import _svg_region
     black_raw = _svg_region(str(SVG_DIR / "lizard_multicolor_black.svg")).linear_extrude(height=depth)
     yellow_raw = _svg_region(str(SVG_DIR / "lizard_multicolor_yellow.svg")).linear_extrude(height=depth)
-    (cx, cy, cz), (span_x, span_y, _) = (black_raw | yellow_raw).bounds()
+    (cx, cy, cz), (span_x, span_y) = _measure_logo(black_raw | yellow_raw)
     black_centered = black_raw.translate([-cx, -cy, -cz])
     yellow_centered = yellow_raw.translate([-cx, -cy, -cz])
     yellow_non_overlap = (yellow_centered - black_centered).color("#f2e45f")
@@ -192,7 +198,7 @@ def make_riverfolk_mmu_logo(w, l, depth):
     black_raw = _svg_region(str(SVG_DIR / "riverfolk_multicolor_black.svg")).linear_extrude(height=depth)
     green_raw = _svg_region(str(SVG_DIR / "riverfolk_multicolor_green.svg")).linear_extrude(height=depth)
     white_raw = _svg_region(str(SVG_DIR / "riverfolk_multicolor_white.svg")).linear_extrude(height=depth)
-    (cx, cy, cz), (span_x, span_y, _) = (black_raw | green_raw | white_raw).bounds()
+    (cx, cy, cz), (span_x, span_y) = _measure_logo(black_raw | green_raw | white_raw)
     black_centered = black_raw.translate([-cx, -cy, -cz])
     green_centered = green_raw.translate([-cx, -cy, -cz])
     white_centered = white_raw.translate([-cx, -cy, -cz])
@@ -211,7 +217,7 @@ def make_erie_mmu_logo(w, l, depth):
     blue_raw = _svg_region(str(SVG_DIR / "erie_multicolor_blue.svg")).linear_extrude(height=depth)
     lightblue_raw = _svg_region(str(SVG_DIR / "erie_multicolor_lightblue.svg")).linear_extrude(height=depth)
     white_raw = _svg_region(str(SVG_DIR / "erie_multicolor_white.svg")).linear_extrude(height=depth)
-    (cx, cy, cz), (span_x, span_y, _) = (black_raw | blue_raw | lightblue_raw | white_raw).bounds()
+    (cx, cy, cz), (span_x, span_y) = _measure_logo(black_raw | blue_raw | lightblue_raw | white_raw)
     black_centered = black_raw.translate([-cx, -cy, -cz])
     blue_centered = blue_raw.translate([-cx, -cy, -cz])
     lightblue_centered = lightblue_raw.translate([-cx, -cy, -cz])
@@ -231,7 +237,7 @@ def make_vagabond_mmu_logo(w, l, depth):
     black_raw = _svg_region(str(SVG_DIR / "vagabond_multicolor_black.svg")).linear_extrude(height=depth)
     grey_raw = _svg_region(str(SVG_DIR / "vagabond_multicolor_grey.svg")).linear_extrude(height=depth)
     white_raw = _svg_region(str(SVG_DIR / "vagabond_multicolor_white.svg")).linear_extrude(height=depth)
-    (cx, cy, cz), (span_x, span_y, _) = (black_raw | grey_raw | white_raw).bounds()
+    (cx, cy, cz), (span_x, span_y) = _measure_logo(black_raw | grey_raw | white_raw)
     black_centered = black_raw.translate([-cx, -cy, -cz])
     grey_centered = grey_raw.translate([-cx, -cy, -cz])
     white_centered = white_raw.translate([-cx, -cy, -cz])
@@ -249,7 +255,7 @@ def make_alliance_mmu_logo(w, l, depth):
     black_raw = _svg_region(str(SVG_DIR / "alliance_multicolor_black.svg")).linear_extrude(height=depth)
     green_raw = _svg_region(str(SVG_DIR / "alliance_multicolor_green.svg")).linear_extrude(height=depth)
     white_raw = _svg_region(str(SVG_DIR / "alliance_multicolor_white.svg")).linear_extrude(height=depth)
-    (cx, cy, cz), (span_x, span_y, _) = (black_raw | green_raw | white_raw).bounds()
+    (cx, cy, cz), (span_x, span_y) = _measure_logo(black_raw | green_raw | white_raw)
     black_centered = black_raw.translate([-cx, -cy, -cz])
     green_centered = green_raw.translate([-cx, -cy, -cz])
     white_centered = white_raw.translate([-cx, -cy, -cz])
@@ -1481,7 +1487,7 @@ project.box(
 project.box(
     BoxType.SLIDING,
     "DiceBox",
-    size=(53.25, 59.833, 26.0),
+    size=(53.25, 59.833, 23.0),
     lid=LID_BASE.titled("Dice"),
     position=(106.5, 158.333, 28.0 + 16.0),
     no_rotate=True,

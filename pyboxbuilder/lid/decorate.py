@@ -188,13 +188,28 @@ def _build_label(
     )
 
 
+def _bounds_center_size(
+    solid: Bosl2Solid,
+) -> tuple[tuple[float, float, float], tuple[float, float, float]]:
+    b = solid.bounds()
+    if hasattr(b, "center") and hasattr(b, "size"):
+        cz_val = float(b.size[2]) if len(b.size) > 2 else 0.0
+        return (
+            (float(b.center[0]), float(b.center[1]), float(b.center[2])),
+            (float(b.size[0]), float(b.size[1]), cz_val),
+        )
+    return (
+        (float(b[0][0]), float(b[0][1]), float(b[0][2])),
+        (float(b[1][0]), float(b[1][1]), float(b[1][2]) if len(b[1]) > 2 else 0.0),
+    )
+
+
 def _build_logo(
     builder: LidBuilder, width: float, length: float, mode: str
 ) -> Bosl2Solid | None:
     """Build the logo solid, centered on the lid face."""
     if not builder.logo:
         return None
-    from pyboxbuilder.compartments.element import svg_solid
 
     margin = builder.border_margin_mm or 10.0
     logo_w = width - 2 * margin
@@ -206,7 +221,7 @@ def _build_logo(
     if isinstance(builder.logo, str):
         from pyboxbuilder.compartments.element import _svg_region
         raw = _svg_region(builder.logo).linear_extrude(height=depth)
-        (cx, cy, cz), (span_x, span_y, _) = raw.bounds()
+        (cx, cy, cz), (span_x, span_y, _) = _bounds_center_size(raw)
         raw = raw.translate([-float(cx), -float(cy), -float(cz) + depth / 2])
         scale_val = min(logo_w / max(float(span_x), 1e-9), logo_l / max(float(span_y), 1e-9))
         solid = raw.scale([scale_val, scale_val, 1.0])
@@ -214,11 +229,11 @@ def _build_logo(
         solid = builder.logo(logo_w, logo_l, depth)
     else:
         solid = builder.logo
-        (cx, cy, cz), (w, l, h) = solid.bounds()
+        (cx, cy, cz), (w, l, h) = _bounds_center_size(solid)
         if w > 0 and l > 0 and h > 0:
             scale_val = min(logo_w / w, logo_l / l)
             scale_z = depth / h
-            solid = solid.translate([-cx, -cy, -cz + h/2]).scale([scale_val, scale_val, scale_z])
+            solid = solid.translate([-cx, -cy, -cz + h / 2]).scale([scale_val, scale_val, scale_z])
 
     offset_x = width / 2
     offset_y = length / 2
@@ -308,7 +323,9 @@ def _grown(solid: Bosl2Solid, by: float) -> Bosl2Solid:
 
 def _as_depth(solid: Bosl2Solid, depth: float) -> Bosl2Solid:
     """Return `solid` stretched in z to `depth`, with its base at z = 0."""
-    (_, _, cz), (_, _, h) = solid.bounds()
+    b = solid.bounds()
+    cz = float(b.center[2]) if hasattr(b, "center") else float(b[0][2])
+    h = float(b.size[2]) if hasattr(b, "size") else float(b[1][2])
     if h <= 0:
         return solid
     return solid.translate([0.0, 0.0, -(cz - h / 2)]).scale([1.0, 1.0, depth / h])
@@ -321,7 +338,7 @@ def _top_face(lid: Bosl2Solid) -> tuple[float, float, float, float, float] | Non
     ``None`` meant the caller skipped the whole decoration, so a lid came out
     with no label and no pattern and nothing said why (FR-000h).
     """
-    (cx, cy, cz), (w, l, h) = lid.bounds()
+    (cx, cy, cz), (w, l, h) = _bounds_center_size(lid)
     if w <= 0 or l <= 0:
         return None
     return (float(w), float(l), float(cx - w / 2), float(cy - l / 2), float(cz + h / 2))
@@ -506,7 +523,9 @@ def _to_depth(part: Bosl2Solid) -> Bosl2Solid:
         The part, scaled in z to the inlay depth with its base at z = 0.
 
     """
-    (_, _, cz), (_, _, h) = part.bounds()
+    b = part.bounds()
+    cz = float(b.center[2]) if hasattr(b, "center") else float(b[0][2])
+    h = float(b.size[2]) if hasattr(b, "size") else float(b[1][2])
     if h <= 0:
         return part
     return part.translate([0.0, 0.0, -(cz - h / 2)]).scale([1.0, 1.0, INLAY_DEPTH_MM / h])

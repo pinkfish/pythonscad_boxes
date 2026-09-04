@@ -24,6 +24,11 @@ def bare_lid():
     return BOX_IMPL_REGISTRY[BoxType.SLIDING]().build_lid(SPEC)
 
 
+def _bounds_cs(solid):
+    b = solid.bounds()
+    return (b.center, b.size) if hasattr(b, "center") else b
+
+
 
 
 class LabelSizingTests(unittest.TestCase):
@@ -56,8 +61,8 @@ class LabelSizingTests(unittest.TestCase):
         assert label is not None
         self.assertIsNotNone(label.backing)
 
-        (_, _, _), (text_w, text_l, _) = label.text.bounds()
-        (_, _, _), (back_w, back_l, _) = label.backing.bounds()
+        (_, _, _), (text_w, text_l, _) = _bounds_cs(label.text)
+        (_, _, _), (back_w, back_l, _) = _bounds_cs(label.backing)
         self.assertGreaterEqual(back_w, text_w)
         self.assertGreaterEqual(back_l, text_l)
         # "Cards" fills the width exactly, so only the length shows the hug.
@@ -70,7 +75,7 @@ class LabelSizingTests(unittest.TestCase):
         for text in ("Cards", "A", "Animal Cards", "Wood"):
             label = build_label(100.0, 70.0, 2.0, text, label_mode=LabelMode.FRAMELESS)
             assert label is not None, text
-            (cx, cy, _), (w, l, _) = label.text.bounds()
+            (cx, cy, _), (w, l, _) = _bounds_cs(label.text)
             self.assertLessEqual(round(w, 3), 90.0, f"{text} is too wide")
             self.assertLessEqual(round(l, 3), 60.0, f"{text} is too tall")
             self.assertAlmostEqual(cx, 50.0, places=3, msg=f"{text} off-centre")
@@ -184,8 +189,8 @@ class DecorationTests(unittest.TestCase):
             ),
             2.0, "mmu",
         )
-        (bare_c, bare_s) = lid.bounds()
-        (deco_c, deco_s) = decorated.solid.bounds()
+        (bare_c, bare_s) = _bounds_cs(lid)
+        (deco_c, deco_s) = _bounds_cs(decorated.solid)
         # Cutting holes inside the border must not change the lid's outline.
         for got, want in zip(deco_s, bare_s):
             self.assertAlmostEqual(got, want, places=3)
@@ -260,7 +265,7 @@ class InlaidLabelTests(unittest.TestCase):
 
     @staticmethod
     def _top(solid) -> float:
-        (_, _, cz), (_, _, h) = solid.bounds()
+        (_, _, cz), (_, _, h) = _bounds_cs(solid)
         return cz + h / 2
 
     def test_nothing_stands_above_the_lid_face(self) -> None:
@@ -276,7 +281,7 @@ class InlaidLabelTests(unittest.TestCase):
         from pyboxbuilder.lid.decorate import INLAY_DEPTH_MM
 
         for insert in self.decorated().inserts:
-            (_, _, _), (_, _, h) = insert.solid.bounds()
+            (_, _, _), (_, _, h) = _bounds_cs(insert.solid)
             self.assertAlmostEqual(h, INLAY_DEPTH_MM, places=6)
 
     def test_the_recess_is_cut_out_of_the_lid(self) -> None:
@@ -310,7 +315,7 @@ class InlaidLabelTests(unittest.TestCase):
 
         label = build_label(90.0, 60.0, 0.0, "Tokens", label_mode=LabelMode.FRAMED)
         assert label is not None and label.plate is not None
-        (px, py, _), (pw, pl, _) = label.plate.bounds()
+        (px, py, _), (pw, pl, _) = _bounds_cs(label.plate)
 
         from pyboxbuilder.box.shell import block
 
@@ -331,7 +336,7 @@ class InlaidLabelTests(unittest.TestCase):
         result = self.decorated(mode="single")
         self.assertEqual(result.inserts, [])
         cut = self.lid() - result.solid
-        (_, _, _), (_, _, h) = cut.bounds()
+        (_, _, _), (_, _, h) = _bounds_cs(cut)
         self.assertAlmostEqual(h, ENGRAVE_DEPTH_MM, places=6)
 
 

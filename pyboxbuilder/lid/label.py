@@ -118,7 +118,9 @@ def text_height_for(
     target_w = label_l if is_vertical else label_w
     target_l = label_w if is_vertical else label_l
 
-    (_, _, _), (set_w, set_l, _) = _set_text(text, diagonal, width, length).bounds()
+    b = _set_text(text, diagonal, width, length).bounds()
+    set_w = float(b.size[0]) if hasattr(b, "size") else float(b[1][0])
+    set_l = float(b.size[1]) if hasattr(b, "size") else float(b[1][1])
     if set_w <= 0 or set_l <= 0:
         return 0.0
     return NOMINAL_SIZE_MM * min(target_w / set_w, target_l / set_l)
@@ -186,7 +188,9 @@ def build_label(
 
     # `text` sets its own origin from the baseline, so centre it by measurement
     # rather than assuming where it landed.
-    (cx, cy, _), (tw, tl, _) = solid.bounds()
+    b = solid.bounds()
+    cx, cy = (float(b.center[0]), float(b.center[1])) if hasattr(b, "center") else (float(b[0][0]), float(b[0][1]))
+    tw, tl = (float(b.size[0]), float(b.size[1])) if hasattr(b, "size") else (float(b[1][0]), float(b[1][1]))
     solid = solid.translate([width / 2 - cx, length / 2 - cy, 0.0])
 
     if label_mode is LabelMode.FRAMELESS:
@@ -196,7 +200,9 @@ def build_label(
     # than filling the label area, so a lid can carry both a frame and a
     # through-hole pattern — a plate the size of the whole area would simply
     # cover the pattern up.
-    (tcx, tcy, _), (tw, tl, _) = solid.bounds()
+    b = solid.bounds()
+    tcx, tcy = (float(b.center[0]), float(b.center[1])) if hasattr(b, "center") else (float(b[0][0]), float(b[0][1]))
+    tw, tl = (float(b.size[0]), float(b.size[1])) if hasattr(b, "size") else (float(b[1][0]), float(b[1][1]))
     plate_w = min(tw + 2 * pad, label_w)
     plate_l = min(tl + 2 * pad, label_l)
     plate_x = tcx - plate_w / 2

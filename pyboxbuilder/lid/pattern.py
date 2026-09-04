@@ -767,13 +767,14 @@ def _leaf_tessellation_fill(
         return None
     gap = DEFAULT_WEB_MM if web is None else max(web, MIN_WEB_MM)
 
+    from pybosl2 import Path2D
     from pybosl2 import shapes2d as s2
 
     # `spacing` is the lattice pitch along a row, which for this tile is twice
     # the leaf's half-width, so the leaf is built from the section that gives it.
     section = spacing / (2 * ROOT_THREE)
     outline = s2.polygon(
-        [[x, y] for x, y in tessellating_leaf_path(section)]
+        Path2D([[x, y] for x, y in tessellating_leaf_path(section)])
     ).offset(delta=-gap / 2.0)
     if veins:
         outline = outline - _leaf_veins(section, max(MIN_WEB_MM, gap * LEAF_VEIN_SHARE))

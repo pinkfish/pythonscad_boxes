@@ -209,11 +209,9 @@ def _sweep_through_wall(
         )
     else:
         swept = Path2D(ring, closed=True).offset_sweep(height=depth, steps=steps)
-    # offset_sweep hands back a VNF; realise it and wrap the native solid so
-    # the transforms and booleans below have something to work with.
-    from pybosl2.shapes3d.base import CsgSolid
-
-    swept = CsgSolid(swept.polyhedron())
+    if hasattr(swept, "polyhedron"):
+        from pybosl2.shapes3d.base import CsgSolid
+        swept = CsgSolid(swept.polyhedron())
 
     # The profile is built in X-Z and extruded along +Z. Stand it up so the
     # extrusion runs along -Y (into the wall), then shift it so it spans the

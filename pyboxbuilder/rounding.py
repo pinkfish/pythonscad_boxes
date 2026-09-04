@@ -336,13 +336,14 @@ def roundover_profile(radius: float, steps: int) -> OSProfile:
         inward offset and ``y`` the depth from the face.
 
     """
+    from pybosl2.path2d import Path2D
     from pybosl2.skin import os_profile
 
     points = []
     for index in range(steps + 1):
         angle = (math.pi / 2) * index / steps
         points.append([radius * math.sin(angle), radius * (1.0 - math.cos(angle))])
-    return os_profile(points)
+    return os_profile(Path2D(points))
 
 
 def round_edges(

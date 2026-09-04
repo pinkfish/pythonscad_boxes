@@ -116,7 +116,10 @@ class SlipoverBox(BoxTypeBase):
         from pyboxbuilder.box.features import cap_slipover_catch
         catch = cap_slipover_catch(spec, is_slipover=True)
         sleeve = sleeve | catch.lid
-        return sleeve - self._finger_notches(spec)
+        notches = self._finger_notches(spec)
+        if notches is not None:
+            sleeve = sleeve - notches
+        return sleeve
 
     def _finger_notches(self, spec: BoxSpec) -> Bosl2Solid:
         """Corner notches so the sleeve can be pulled off.

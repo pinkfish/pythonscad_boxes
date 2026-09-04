@@ -148,6 +148,7 @@ project = Project(
     lid_thickness=lid_thickness,
     clearance_slack=0.0,
     board_thickness=total_board_thickness,
+    generate_spacers=True,
 )
 
 # ── 1. Card Boxes ──────────────────────────────────────────────────
