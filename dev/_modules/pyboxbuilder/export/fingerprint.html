@@ -364,6 +364,22 @@
 
 
 
+<div class="viewcode-block" id="recorded">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.export.fingerprint.recorded.html#pyboxbuilder.export.fingerprint.recorded">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">recorded</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Return True when ``path`` has *some* recorded fingerprint.</span>
+
+<span class="sd">    Distinct from :func:`matches`, which also requires the fingerprint to equal</span>
+<span class="sd">    the one given. A caller deciding between "description changed" and "never</span>
+<span class="sd">    exported here before" needs this: the former should write, the latter may</span>
+<span class="sd">    fall back to comparing geometry.</span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">return</span> <span class="n">path</span><span class="o">.</span><span class="n">name</span> <span class="ow">in</span> <span class="n">_load</span><span class="p">(</span><span class="n">path</span><span class="p">)</span></div>
+
+
+
 <div class="viewcode-block" id="record">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.export.fingerprint.record.html#pyboxbuilder.export.fingerprint.record">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">record</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span> <span class="n">fingerprint</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -466,7 +482,7 @@
     
       
         <script src="../../../_static/sphinx_immaterial_theme.32136f45f91ae6956.min.js?v=a7a9472a"></script>
-        <script type="module" src="../../../_static/stl_viewer.js?v=0ab88475"></script>
+        <script type="module" src="../../../_static/stl_viewer.js?v=7bec9a74"></script>
     
   </body>
 </html>

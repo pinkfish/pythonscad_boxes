@@ -5,5 +5,4 @@ pyboxbuilder.packing.spacer.Void
 
 .. autoclass:: Void
    :members:
-   :undoc-members:
    :show-inheritance:

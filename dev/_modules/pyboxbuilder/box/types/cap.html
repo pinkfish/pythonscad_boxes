@@ -343,19 +343,24 @@
 <span class="sd">        by the lid's wall thickness: the declared size is the outside of the</span>
 <span class="sd">        *closed* box, which is the size the packer reserved for it.</span>
 <span class="sd">        """</span>
-        <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.features</span><span class="w"> </span><span class="kn">import</span> <span class="n">cap_body</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.features</span><span class="w"> </span><span class="kn">import</span> <span class="n">cap_body</span><span class="p">,</span> <span class="n">cap_slipover_catch</span>
 
-        <span class="k">return</span> <span class="n">cap_body</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span></div>
+        <span class="n">body</span> <span class="o">=</span> <span class="n">cap_body</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
+        <span class="n">catch</span> <span class="o">=</span> <span class="n">cap_slipover_catch</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="n">is_slipover</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">body</span> <span class="o">-</span> <span class="n">catch</span><span class="o">.</span><span class="n">body</span></div>
 
 
 <div class="viewcode-block" id="CapBox.build_lid">
 <a class="viewcode-back" href="../../../../_autosummary/pyboxbuilder.box.types.cap.CapBox.html#pyboxbuilder.box.types.cap.CapBox.build_lid">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">build_lid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">,</span> <span class="n">decoration</span><span class="p">:</span> <span class="nb">object</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Return a cap: a top plate with a skirt that grips the body's stepped-in band."""</span>
-        <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.features</span><span class="w"> </span><span class="kn">import</span> <span class="n">cap_lid</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.features</span><span class="w"> </span><span class="kn">import</span> <span class="n">cap_lid</span><span class="p">,</span> <span class="n">cap_slipover_catch</span>
 
-        <span class="k">return</span> <span class="n">cap_lid</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span></div>
+        <span class="n">lid</span> <span class="o">=</span> <span class="n">cap_lid</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
+        <span class="n">catch</span> <span class="o">=</span> <span class="n">cap_slipover_catch</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="n">is_slipover</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">lid</span> <span class="o">|</span> <span class="n">catch</span><span class="o">.</span><span class="n">lid</span></div>
 </div>
+
 
 </code></pre></div>
 
@@ -425,7 +430,7 @@
     
       
         <script src="../../../../_static/sphinx_immaterial_theme.32136f45f91ae6956.min.js?v=a7a9472a"></script>
-        <script type="module" src="../../../../_static/stl_viewer.js?v=0ab88475"></script>
+        <script type="module" src="../../../../_static/stl_viewer.js?v=7bec9a74"></script>
     
   </body>
 </html>

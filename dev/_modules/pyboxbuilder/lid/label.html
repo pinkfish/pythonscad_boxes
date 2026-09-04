@@ -321,11 +321,14 @@
 <span class="n">BACKING_HEIGHT_MM</span> <span class="o">=</span> <span class="mf">0.4</span>
 <span class="sd">"""Thickness of the framed backing plate the text sits on."""</span>
 
-<span class="n">HATCH_WIDTH_MM</span> <span class="o">=</span> <span class="mf">0.6</span>
-<span class="sd">"""Width of a hatching line — thin enough to bridge without support."""</span>
+<span class="n">HATCH_WIDTH_MM</span> <span class="o">=</span> <span class="mf">2.0</span>
+<span class="sd">"""Width of a hatching line."""</span>
 
-<span class="n">FRAME_PADDING_MM</span> <span class="o">=</span> <span class="mf">3.0</span>
-<span class="sd">"""How far a framed label's backing plate extends past its text."""</span>
+<span class="n">LABEL_BORDER_MM</span> <span class="o">=</span> <span class="mf">1.5</span>
+<span class="sd">"""Default outer border width of the label backing plate."""</span>
+
+<span class="n">LABEL_TEXT_GAP_MM</span> <span class="o">=</span> <span class="mf">0.5</span>
+<span class="sd">"""Default gap between label text and the inside of the border."""</span>
 
 
 <div class="viewcode-block" id="Label">
@@ -396,6 +399,9 @@
     <span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">border_margin_mm</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">5.0</span><span class="p">,</span>
     <span class="n">diagonal</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">label_mode</span><span class="p">:</span> <span class="n">LabelMode</span> <span class="o">=</span> <span class="n">LabelMode</span><span class="o">.</span><span class="n">FRAMED</span><span class="p">,</span>
+    <span class="n">label_border_mm</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">LABEL_BORDER_MM</span><span class="p">,</span>
+    <span class="n">label_text_gap_mm</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">LABEL_TEXT_GAP_MM</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Cap height the label text will be set at, in mm.</span>
 
@@ -406,13 +412,24 @@
 <span class="sd">    """</span>
     <span class="n">label_w</span> <span class="o">=</span> <span class="n">width</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">border_margin_mm</span>
     <span class="n">label_l</span> <span class="o">=</span> <span class="n">length</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">border_margin_mm</span>
+    <span class="k">if</span> <span class="n">label_mode</span> <span class="ow">is</span> <span class="n">LabelMode</span><span class="o">.</span><span class="n">FRAMED</span><span class="p">:</span>
+        <span class="n">pad</span> <span class="o">=</span> <span class="n">label_border_mm</span> <span class="o">+</span> <span class="n">label_text_gap_mm</span>
+        <span class="n">label_w</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">label_w</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">pad</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+        <span class="n">label_l</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">label_l</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">pad</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+
     <span class="k">if</span> <span class="n">label_w</span> <span class="o">&lt;=</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">label_l</span> <span class="o">&lt;=</span> <span class="mi">0</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">text</span><span class="p">:</span>
         <span class="k">return</span> <span class="mf">0.0</span>
 
-    <span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">),</span> <span class="p">(</span><span class="n">set_w</span><span class="p">,</span> <span class="n">set_l</span><span class="p">,</span> <span class="n">_</span><span class="p">)</span> <span class="o">=</span> <span class="n">_set_text</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">diagonal</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">length</span><span class="p">)</span><span class="o">.</span><span class="n">bounds</span><span class="p">()</span>
+    <span class="n">is_vertical</span> <span class="o">=</span> <span class="p">(</span><span class="n">length</span> <span class="o">&gt;</span> <span class="n">width</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">diagonal</span>
+    <span class="n">target_w</span> <span class="o">=</span> <span class="n">label_l</span> <span class="k">if</span> <span class="n">is_vertical</span> <span class="k">else</span> <span class="n">label_w</span>
+    <span class="n">target_l</span> <span class="o">=</span> <span class="n">label_w</span> <span class="k">if</span> <span class="n">is_vertical</span> <span class="k">else</span> <span class="n">label_l</span>
+
+    <span class="n">b</span> <span class="o">=</span> <span class="n">_set_text</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">diagonal</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">length</span><span class="p">)</span><span class="o">.</span><span class="n">bounds</span><span class="p">()</span>
+    <span class="n">set_w</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="s2">"size"</span><span class="p">)</span> <span class="k">else</span> <span class="nb">float</span><span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">set_l</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="s2">"size"</span><span class="p">)</span> <span class="k">else</span> <span class="nb">float</span><span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
     <span class="k">if</span> <span class="n">set_w</span> <span class="o">&lt;=</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">set_l</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">return</span> <span class="mf">0.0</span>
-    <span class="k">return</span> <span class="n">NOMINAL_SIZE_MM</span> <span class="o">*</span> <span class="nb">min</span><span class="p">(</span><span class="n">label_w</span> <span class="o">/</span> <span class="n">set_w</span><span class="p">,</span> <span class="n">label_l</span> <span class="o">/</span> <span class="n">set_l</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">NOMINAL_SIZE_MM</span> <span class="o">*</span> <span class="nb">min</span><span class="p">(</span><span class="n">target_w</span> <span class="o">/</span> <span class="n">set_w</span><span class="p">,</span> <span class="n">target_l</span> <span class="o">/</span> <span class="n">set_l</span><span class="p">)</span></div>
 
 
 
@@ -427,6 +444,9 @@
     <span class="n">diagonal</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">min_text_height_mm</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">4.0</span><span class="p">,</span>
     <span class="n">border_margin_mm</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">5.0</span><span class="p">,</span>
+    <span class="n">label_border_mm</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">label_text_gap_mm</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">label_rounding_mm</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Label</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Build a label for a lid face, or None if it would be illegible.</span>
 
@@ -441,31 +461,46 @@
 <span class="sd">        diagonal: Run the text corner to corner instead of along the width.</span>
 <span class="sd">        min_text_height_mm: Skip the label below this cap height (FR-023).</span>
 <span class="sd">        border_margin_mm: Margin kept clear at the lid edges.</span>
+<span class="sd">        label_border_mm: Solid outer border width of the backing plate.</span>
+<span class="sd">        label_text_gap_mm: Gap between text and inside of the border.</span>
+<span class="sd">        label_rounding_mm: Corner rounding radius of the backing plate in mm.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        A `Label`, or None when the text would come out under the minimum.</span>
 
 <span class="sd">    """</span>
-    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.shell</span><span class="w"> </span><span class="kn">import</span> <span class="n">block</span><span class="p">,</span> <span class="n">corner</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.shell</span><span class="w"> </span><span class="kn">import</span> <span class="n">corner</span>
+
+    <span class="n">border</span> <span class="o">=</span> <span class="n">label_border_mm</span> <span class="k">if</span> <span class="n">label_border_mm</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">LABEL_BORDER_MM</span>
+    <span class="n">gap</span> <span class="o">=</span> <span class="n">label_text_gap_mm</span> <span class="k">if</span> <span class="n">label_text_gap_mm</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">LABEL_TEXT_GAP_MM</span>
+    <span class="n">pad</span> <span class="o">=</span> <span class="n">border</span> <span class="o">+</span> <span class="n">gap</span>
 
     <span class="n">label_w</span> <span class="o">=</span> <span class="n">width</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">border_margin_mm</span>
     <span class="n">label_l</span> <span class="o">=</span> <span class="n">length</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">border_margin_mm</span>
     <span class="k">if</span> <span class="n">label_w</span> <span class="o">&lt;=</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">label_l</span> <span class="o">&lt;=</span> <span class="mi">0</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">text</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">None</span>
 
-    <span class="n">size</span> <span class="o">=</span> <span class="n">text_height_for</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">border_margin_mm</span><span class="p">,</span> <span class="n">diagonal</span><span class="p">)</span>
+    <span class="n">size</span> <span class="o">=</span> <span class="n">text_height_for</span><span class="p">(</span>
+        <span class="n">width</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">border_margin_mm</span><span class="p">,</span> <span class="n">diagonal</span><span class="p">,</span>
+        <span class="n">label_mode</span><span class="p">,</span> <span class="n">border</span><span class="p">,</span> <span class="n">gap</span>
+    <span class="p">)</span>
     <span class="k">if</span> <span class="n">size</span> <span class="o">&lt;</span> <span class="n">min_text_height_mm</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">None</span>
 
     <span class="c1"># Set at the nominal size and scale to fit, so the result is exactly as</span>
     <span class="c1"># large as the label area allows whatever the font does.</span>
     <span class="n">solid</span> <span class="o">=</span> <span class="n">_set_text</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">diagonal</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">length</span><span class="p">)</span>
+    <span class="n">is_vertical</span> <span class="o">=</span> <span class="p">(</span><span class="n">length</span> <span class="o">&gt;</span> <span class="n">width</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">diagonal</span>
+    <span class="k">if</span> <span class="n">is_vertical</span><span class="p">:</span>
+        <span class="n">solid</span> <span class="o">=</span> <span class="n">solid</span><span class="o">.</span><span class="n">rotate</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">90.0</span><span class="p">])</span>
     <span class="n">scale</span> <span class="o">=</span> <span class="n">size</span> <span class="o">/</span> <span class="n">NOMINAL_SIZE_MM</span>
     <span class="n">solid</span> <span class="o">=</span> <span class="n">solid</span><span class="o">.</span><span class="n">scale</span><span class="p">([</span><span class="n">scale</span><span class="p">,</span> <span class="n">scale</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">])</span>
 
     <span class="c1"># `text` sets its own origin from the baseline, so centre it by measurement</span>
     <span class="c1"># rather than assuming where it landed.</span>
-    <span class="p">(</span><span class="n">cx</span><span class="p">,</span> <span class="n">cy</span><span class="p">,</span> <span class="n">_</span><span class="p">),</span> <span class="p">(</span><span class="n">tw</span><span class="p">,</span> <span class="n">tl</span><span class="p">,</span> <span class="n">_</span><span class="p">)</span> <span class="o">=</span> <span class="n">solid</span><span class="o">.</span><span class="n">bounds</span><span class="p">()</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="n">solid</span><span class="o">.</span><span class="n">bounds</span><span class="p">()</span>
+    <span class="n">cx</span><span class="p">,</span> <span class="n">cy</span> <span class="o">=</span> <span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">center</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="nb">float</span><span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">center</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span> <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="s2">"center"</span><span class="p">)</span> <span class="k">else</span> <span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]),</span> <span class="nb">float</span><span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]))</span>
+    <span class="n">tw</span><span class="p">,</span> <span class="n">tl</span> <span class="o">=</span> <span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="nb">float</span><span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span> <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="s2">"size"</span><span class="p">)</span> <span class="k">else</span> <span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]),</span> <span class="nb">float</span><span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]))</span>
     <span class="n">solid</span> <span class="o">=</span> <span class="n">solid</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">width</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">-</span> <span class="n">cx</span><span class="p">,</span> <span class="n">length</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">-</span> <span class="n">cy</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">])</span>
 
     <span class="k">if</span> <span class="n">label_mode</span> <span class="ow">is</span> <span class="n">LabelMode</span><span class="o">.</span><span class="n">FRAMELESS</span><span class="p">:</span>
@@ -475,16 +510,23 @@
     <span class="c1"># than filling the label area, so a lid can carry both a frame and a</span>
     <span class="c1"># through-hole pattern — a plate the size of the whole area would simply</span>
     <span class="c1"># cover the pattern up.</span>
-    <span class="p">(</span><span class="n">tcx</span><span class="p">,</span> <span class="n">tcy</span><span class="p">,</span> <span class="n">_</span><span class="p">),</span> <span class="p">(</span><span class="n">tw</span><span class="p">,</span> <span class="n">tl</span><span class="p">,</span> <span class="n">_</span><span class="p">)</span> <span class="o">=</span> <span class="n">solid</span><span class="o">.</span><span class="n">bounds</span><span class="p">()</span>
-    <span class="n">pad</span> <span class="o">=</span> <span class="n">FRAME_PADDING_MM</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="n">solid</span><span class="o">.</span><span class="n">bounds</span><span class="p">()</span>
+    <span class="n">tcx</span><span class="p">,</span> <span class="n">tcy</span> <span class="o">=</span> <span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">center</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="nb">float</span><span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">center</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span> <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="s2">"center"</span><span class="p">)</span> <span class="k">else</span> <span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]),</span> <span class="nb">float</span><span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]))</span>
+    <span class="n">tw</span><span class="p">,</span> <span class="n">tl</span> <span class="o">=</span> <span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="nb">float</span><span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span> <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="s2">"size"</span><span class="p">)</span> <span class="k">else</span> <span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]),</span> <span class="nb">float</span><span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]))</span>
     <span class="n">plate_w</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">tw</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">pad</span><span class="p">,</span> <span class="n">label_w</span><span class="p">)</span>
     <span class="n">plate_l</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">tl</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">pad</span><span class="p">,</span> <span class="n">label_l</span><span class="p">)</span>
     <span class="n">plate_x</span> <span class="o">=</span> <span class="n">tcx</span> <span class="o">-</span> <span class="n">plate_w</span> <span class="o">/</span> <span class="mi">2</span>
     <span class="n">plate_y</span> <span class="o">=</span> <span class="n">tcy</span> <span class="o">-</span> <span class="n">plate_l</span> <span class="o">/</span> <span class="mi">2</span>
 
-    <span class="n">plate</span> <span class="o">=</span> <span class="n">block</span><span class="p">([</span><span class="n">plate_w</span><span class="p">,</span> <span class="n">plate_l</span><span class="p">,</span> <span class="n">BACKING_HEIGHT_MM</span><span class="p">],</span> <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="n">plate_x</span><span class="p">,</span> <span class="n">plate_y</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">))</span>
+    <span class="n">rounding_val</span> <span class="o">=</span> <span class="n">label_rounding_mm</span> <span class="k">if</span> <span class="n">label_rounding_mm</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="mf">5.0</span>
+
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">cuboid</span>
+
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.rounding</span><span class="w"> </span><span class="kn">import</span> <span class="n">vertical_edges</span>
+    <span class="n">plate_solid</span> <span class="o">=</span> <span class="n">cuboid</span><span class="p">([</span><span class="n">plate_w</span><span class="p">,</span> <span class="n">plate_l</span><span class="p">,</span> <span class="n">BACKING_HEIGHT_MM</span><span class="p">],</span> <span class="n">rounding</span><span class="o">=</span><span class="n">rounding_val</span><span class="p">,</span> <span class="n">edges</span><span class="o">=</span><span class="n">vertical_edges</span><span class="p">())</span>
+    <span class="n">plate</span> <span class="o">=</span> <span class="n">corner</span><span class="p">(</span><span class="n">plate_solid</span><span class="p">,</span> <span class="p">[</span><span class="n">plate_w</span><span class="p">,</span> <span class="n">plate_l</span><span class="p">,</span> <span class="n">BACKING_HEIGHT_MM</span><span class="p">],</span> <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="n">plate_x</span><span class="p">,</span> <span class="n">plate_y</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">))</span>
     <span class="n">hatching</span> <span class="o">=</span> <span class="n">corner</span><span class="p">(</span>
-        <span class="n">_build_hatching</span><span class="p">(</span><span class="n">plate_w</span><span class="p">,</span> <span class="n">plate_l</span><span class="p">),</span>
+        <span class="n">_build_hatching</span><span class="p">(</span><span class="n">plate_w</span><span class="p">,</span> <span class="n">plate_l</span><span class="p">,</span> <span class="n">border</span><span class="o">=</span><span class="n">border</span><span class="p">,</span> <span class="n">rounding</span><span class="o">=</span><span class="n">rounding_val</span><span class="p">),</span>
         <span class="p">[</span><span class="n">plate_w</span><span class="p">,</span> <span class="n">plate_l</span><span class="p">,</span> <span class="n">BACKING_HEIGHT_MM</span><span class="p">],</span>
         <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="n">plate_x</span><span class="p">,</span> <span class="n">plate_y</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span>
     <span class="p">)</span>
@@ -496,7 +538,11 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_build_hatching</span><span class="p">(</span>
-    <span class="n">width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">spacing</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">3.0</span>
+    <span class="n">width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">spacing</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">4.0</span><span class="p">,</span>
+    <span class="n">border</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.5</span><span class="p">,</span>
+    <span class="n">rounding</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">5.0</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Diagonal hatching lines, centred on the origin and clipped to the area.</span>
 
@@ -506,21 +552,25 @@
     <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">cuboid</span>
 
     <span class="n">diagonal</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">hypot</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">length</span><span class="p">)</span>
-    <span class="n">angle</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">degrees</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">atan2</span><span class="p">(</span><span class="n">length</span><span class="p">,</span> <span class="n">width</span><span class="p">))</span>
+    <span class="n">angle</span> <span class="o">=</span> <span class="mf">45.0</span>
     <span class="n">count</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">diagonal</span> <span class="o">/</span> <span class="n">spacing</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span>
 
     <span class="n">lines</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">count</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
         <span class="n">offset</span> <span class="o">=</span> <span class="n">i</span> <span class="o">*</span> <span class="n">spacing</span> <span class="o">-</span> <span class="n">diagonal</span> <span class="o">/</span> <span class="mi">2</span>
         <span class="n">line</span> <span class="o">=</span> <span class="n">cuboid</span><span class="p">([</span><span class="n">diagonal</span><span class="p">,</span> <span class="n">HATCH_WIDTH_MM</span><span class="p">,</span> <span class="n">BACKING_HEIGHT_MM</span><span class="p">])</span>
-        <span class="n">line</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">rotate</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">angle</span><span class="p">])</span>
-        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">offset</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]))</span>
+        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">offset</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">])</span><span class="o">.</span><span class="n">rotate</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">angle</span><span class="p">]))</span>
 
     <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.compartments.element</span><span class="w"> </span><span class="kn">import</span> <span class="n">union_all</span>
 
     <span class="n">hatching</span> <span class="o">=</span> <span class="n">union_all</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span>
     <span class="k">assert</span> <span class="n">hatching</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
-    <span class="k">return</span> <span class="n">hatching</span> <span class="o">&amp;</span> <span class="n">cuboid</span><span class="p">([</span><span class="n">width</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">BACKING_HEIGHT_MM</span><span class="p">])</span>
+    <span class="n">clip_w</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">width</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">border</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+    <span class="n">clip_l</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">length</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">border</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.rounding</span><span class="w"> </span><span class="kn">import</span> <span class="n">vertical_edges</span>
+    <span class="n">clip_rounding</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">rounding</span> <span class="o">-</span> <span class="n">border</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+    <span class="n">clip_solid</span> <span class="o">=</span> <span class="n">cuboid</span><span class="p">([</span><span class="n">clip_w</span><span class="p">,</span> <span class="n">clip_l</span><span class="p">,</span> <span class="n">BACKING_HEIGHT_MM</span><span class="p">],</span> <span class="n">rounding</span><span class="o">=</span><span class="n">clip_rounding</span><span class="p">,</span> <span class="n">edges</span><span class="o">=</span><span class="n">vertical_edges</span><span class="p">())</span>
+    <span class="k">return</span> <span class="n">hatching</span> <span class="o">&amp;</span> <span class="n">clip_solid</span>
 </code></pre></div>
 
 
@@ -589,7 +639,7 @@
     
       
         <script src="../../../_static/sphinx_immaterial_theme.32136f45f91ae6956.min.js?v=a7a9472a"></script>
-        <script type="module" src="../../../_static/stl_viewer.js?v=0ab88475"></script>
+        <script type="module" src="../../../_static/stl_viewer.js?v=7bec9a74"></script>
     
   </body>
 </html>

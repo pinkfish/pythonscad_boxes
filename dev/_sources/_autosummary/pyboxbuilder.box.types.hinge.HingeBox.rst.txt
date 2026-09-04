@@ -5,5 +5,4 @@ pyboxbuilder.box.types.hinge.HingeBox
 
 .. autoclass:: HingeBox
    :members:
-   :undoc-members:
    :show-inheritance:

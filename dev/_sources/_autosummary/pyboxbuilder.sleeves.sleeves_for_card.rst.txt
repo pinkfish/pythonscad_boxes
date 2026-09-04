@@ -1,0 +1,6 @@
+pyboxbuilder.sleeves.sleeves\_for\_card
+=======================================
+
+.. currentmodule:: pyboxbuilder.sleeves
+
+.. autofunction:: sleeves_for_card

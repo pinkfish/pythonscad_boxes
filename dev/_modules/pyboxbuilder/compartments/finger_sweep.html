@@ -359,7 +359,7 @@
 <span class="sd">the original passes and the largest fillet a wall has room for.</span>
 <span class="sd">"""</span>
 <div class="viewcode-block" id="FaceTreatment">
-<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.compartments.finger_sweep.FaceTreatment.html#pyboxbuilder.compartments.finger_cuts.FaceTreatment">[docs]</a>
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.compartments.finger_sweep.FaceTreatment.html#pyboxbuilder.compartments.finger_sweep.FaceTreatment">[docs]</a>
 <span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">FaceTreatment</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""What happens where a cut **meets the wall it passes through** (FR-073).</span>
@@ -391,7 +391,7 @@
 <span class="sd">    not be cut into."""</span></div>
 
 <div class="viewcode-block" id="scoop_face_flare">
-<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.compartments.finger_sweep.scoop_face_flare.html#pyboxbuilder.compartments.finger_cuts.scoop_face_flare">[docs]</a>
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.compartments.finger_sweep.scoop_face_flare.html#pyboxbuilder.compartments.finger_sweep.scoop_face_flare">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">scoop_face_flare</span><span class="p">(</span>
     <span class="n">wall_thickness</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">rounding_edge</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
@@ -513,11 +513,9 @@
         <span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">swept</span> <span class="o">=</span> <span class="n">Path2D</span><span class="p">(</span><span class="n">ring</span><span class="p">,</span> <span class="n">closed</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">offset_sweep</span><span class="p">(</span><span class="n">height</span><span class="o">=</span><span class="n">depth</span><span class="p">,</span> <span class="n">steps</span><span class="o">=</span><span class="n">steps</span><span class="p">)</span>
-    <span class="c1"># offset_sweep hands back a VNF; realise it and wrap the native solid so</span>
-    <span class="c1"># the transforms and booleans below have something to work with.</span>
-    <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2.shapes3d.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">CsgSolid</span>
-
-    <span class="n">swept</span> <span class="o">=</span> <span class="n">CsgSolid</span><span class="p">(</span><span class="n">swept</span><span class="o">.</span><span class="n">polyhedron</span><span class="p">())</span>
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">swept</span><span class="p">,</span> <span class="s2">"polyhedron"</span><span class="p">):</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2.shapes3d.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">CsgSolid</span>
+        <span class="n">swept</span> <span class="o">=</span> <span class="n">CsgSolid</span><span class="p">(</span><span class="n">swept</span><span class="o">.</span><span class="n">polyhedron</span><span class="p">())</span>
 
     <span class="c1"># The profile is built in X-Z and extruded along +Z. Stand it up so the</span>
     <span class="c1"># extrusion runs along -Y (into the wall), then shift it so it spans the</span>
@@ -629,7 +627,7 @@
     
       
         <script src="../../../_static/sphinx_immaterial_theme.32136f45f91ae6956.min.js?v=a7a9472a"></script>
-        <script type="module" src="../../../_static/stl_viewer.js?v=0ab88475"></script>
+        <script type="module" src="../../../_static/stl_viewer.js?v=7bec9a74"></script>
     
   </body>
 </html>

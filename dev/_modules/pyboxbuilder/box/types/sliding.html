@@ -354,23 +354,12 @@
 <div class="viewcode-block" id="SlidingBox.slides_along_length">
 <a class="viewcode-back" href="../../../../_autosummary/pyboxbuilder.box.types.sliding.SlidingBox.html#pyboxbuilder.box.types.sliding.SlidingBox.slides_along_length">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">slides_along_length</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">"""Whether the lid slides along Y rather than X.</span>
-
-<span class="sd">        The lid leaves through the **shorter** face, which means sliding along</span>
-<span class="sd">        the longer axis. That is what a card box wants: the opening is the</span>
-<span class="sd">        narrow end, the lid is supported along its long run by the grooves, and</span>
-<span class="sd">        the box reads the right way round. Sliding along the short axis instead</span>
-<span class="sd">        puts the opening on the wide face and the grooves on the short walls,</span>
-<span class="sd">        where they have least material to bite into.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            spec: Needs `width` and `length`.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            True when the box is longer than it is wide.</span>
-
-<span class="sd">        """</span>
-        <span class="k">return</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span> <span class="o">&gt;</span> <span class="n">spec</span><span class="o">.</span><span class="n">width</span></div>
+<span class="w">        </span><span class="sd">"""Whether the lid slides along Y rather than X."""</span>
+        <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">lid_slide_axis</span> <span class="o">==</span> <span class="s2">"x"</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">lid_slide_axis</span> <span class="o">==</span> <span class="s2">"y"</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="kc">True</span></div>
 
 
 <div class="viewcode-block" id="SlidingBox.open_end_side">
@@ -396,10 +385,9 @@
 <span class="w">        </span><span class="sd">"""Where each wall ends, which is not the same height all round.</span>
 
 <span class="sd">        The channel is cut out of the top band across the whole box and runs</span>
-<span class="sd">        out through the exit wall, so **every** wall effectively stops a lid</span>
-<span class="sd">        thickness below the box's top: the exit wall because its material is</span>
-<span class="sd">        gone, the other three because anything cut above that line breaks into</span>
-<span class="sd">        the channel the lid slides in.</span>
+<span class="sd">        out through the exit wall, so the entry side wall stops a lid</span>
+<span class="sd">        thickness below the box's top (its material is gone). The other three</span>
+<span class="sd">        sides go all the way to the top of the box itself.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            spec: Needs `height`; reads `lid_thickness`.</span>
@@ -410,8 +398,9 @@
 <span class="sd">        """</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">ScoopSide</span>
 
+        <span class="n">open_side</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">open_end_side</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
         <span class="n">top</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">height</span> <span class="o">-</span> <span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">lid_thickness</span> <span class="ow">or</span> <span class="mf">0.0</span><span class="p">)</span>
-        <span class="k">return</span> <span class="nb">dict</span><span class="o">.</span><span class="n">fromkeys</span><span class="p">(</span><span class="n">ScoopSide</span><span class="p">,</span> <span class="n">top</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="p">{</span><span class="n">side</span><span class="p">:</span> <span class="p">(</span><span class="n">top</span> <span class="k">if</span> <span class="n">side</span> <span class="o">==</span> <span class="n">open_side</span> <span class="k">else</span> <span class="n">spec</span><span class="o">.</span><span class="n">height</span><span class="p">)</span> <span class="k">for</span> <span class="n">side</span> <span class="ow">in</span> <span class="n">ScoopSide</span><span class="p">}</span></div>
 
 
 <div class="viewcode-block" id="SlidingBox.preferred_scoop_side">
@@ -498,12 +487,11 @@
         <span class="k">return</span> <span class="n">body</span> <span class="o">-</span> <span class="n">dovetail_track</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_along_axis</span><span class="p">(</span><span class="n">spec</span><span class="p">))</span><span class="o">.</span><span class="n">body</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_catch_radius</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">"""Return the bump catch's radius, or 0 for a plain sliding lid (FR-002e3).</span>
+<span class="w">        </span><span class="sd">"""Return the bump catch's radius, or 0 for no catch (FR-002e3).</span>
 
-<span class="sd">        A plain sliding box has **no** catch by default, as the original</span>
-<span class="sd">        toolkit's does: the dovetail already stops the lid lifting out, and</span>
-<span class="sd">        defaulting a catch on here would leave nothing to tell `SLIDING` and</span>
-<span class="sd">        `SLIDING_CATCH` apart. Setting `catch_radius` turns one on.</span>
+<span class="sd">        Both sliding box and sliding-catch box carry this catch by default,</span>
+<span class="sd">        with a default radius of 1.0mm, so the lid does not fall out on its own.</span>
+<span class="sd">        Setting `catch_radius` to 0 turns it off.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            spec: Reads `catch_radius`.</span>
@@ -512,7 +500,7 @@
 <span class="sd">            The bump radius in mm; ``0`` for no catch.</span>
 
 <span class="sd">        """</span>
-        <span class="k">return</span> <span class="n">spec</span><span class="o">.</span><span class="n">catch_radius</span> <span class="ow">or</span> <span class="mf">0.0</span>
+        <span class="k">return</span> <span class="mf">1.0</span> <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">catch_radius</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">spec</span><span class="o">.</span><span class="n">catch_radius</span>
 
 <div class="viewcode-block" id="SlidingBox.build_body">
 <a class="viewcode-back" href="../../../../_autosummary/pyboxbuilder.box.types.sliding.SlidingBox.html#pyboxbuilder.box.types.sliding.SlidingBox.build_body">[docs]</a>
@@ -621,7 +609,7 @@
     
       
         <script src="../../../../_static/sphinx_immaterial_theme.32136f45f91ae6956.min.js?v=a7a9472a"></script>
-        <script type="module" src="../../../../_static/stl_viewer.js?v=0ab88475"></script>
+        <script type="module" src="../../../../_static/stl_viewer.js?v=7bec9a74"></script>
     
   </body>
 </html>

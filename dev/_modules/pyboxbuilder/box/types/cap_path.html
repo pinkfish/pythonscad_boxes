@@ -345,9 +345,9 @@
 
         <span class="n">path</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">path</span> <span class="ow">or</span> <span class="p">()</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">path</span><span class="p">:</span>
-            <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.features</span><span class="w"> </span><span class="kn">import</span> <span class="n">cap_body</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.types.cap</span><span class="w"> </span><span class="kn">import</span> <span class="n">CapBox</span>
 
-            <span class="k">return</span> <span class="n">cap_body</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">CapBox</span><span class="p">()</span><span class="o">.</span><span class="n">build_body</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
 
         <span class="c1"># A polygon body is set in all round and stops short, so the cap that</span>
         <span class="c1"># wraps it comes back out to the declared footprint and height.</span>
@@ -369,11 +369,13 @@
 <a class="viewcode-back" href="../../../../_autosummary/pyboxbuilder.box.types.cap_path.CapPathBox.html#pyboxbuilder.box.types.cap_path.CapPathBox.build_lid">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">build_lid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">,</span> <span class="n">decoration</span><span class="p">:</span> <span class="nb">object</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Return a cap whose skirt follows the same outline as the body."""</span>
-        <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.features</span><span class="w"> </span><span class="kn">import</span> <span class="n">cap_lid</span><span class="p">,</span> <span class="n">path_cap</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.features</span><span class="w"> </span><span class="kn">import</span> <span class="n">path_cap</span>
 
         <span class="n">path</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">path</span> <span class="ow">or</span> <span class="p">()</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">path</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">cap_lid</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.types.cap</span><span class="w"> </span><span class="kn">import</span> <span class="n">CapBox</span>
+
+            <span class="k">return</span> <span class="n">CapBox</span><span class="p">()</span><span class="o">.</span><span class="n">build_lid</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">path_cap</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">cap_height</span> <span class="ow">or</span> <span class="nb">min</span><span class="p">(</span><span class="mf">10.0</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">height</span> <span class="o">/</span> <span class="mi">2</span><span class="p">))</span></div>
 </div>
 
@@ -445,7 +447,7 @@
     
       
         <script src="../../../../_static/sphinx_immaterial_theme.32136f45f91ae6956.min.js?v=a7a9472a"></script>
-        <script type="module" src="../../../../_static/stl_viewer.js?v=0ab88475"></script>
+        <script type="module" src="../../../../_static/stl_viewer.js?v=7bec9a74"></script>
     
   </body>
 </html>

@@ -312,7 +312,9 @@
 <span class="k">class</span><span class="w"> </span><span class="nc">FilamentHingeBoxBuilder</span><span class="p">(</span><span class="n">BoxBuilder</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""Builder for filament (living) hinge lid box type."""</span>
 
-    <span class="n">box_type</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="n">BoxType</span><span class="p">]</span> <span class="o">=</span> <span class="n">BoxType</span><span class="o">.</span><span class="n">FILAMENT_HINGE</span></div>
+    <span class="n">box_type</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="n">BoxType</span><span class="p">]</span> <span class="o">=</span> <span class="n">BoxType</span><span class="o">.</span><span class="n">FILAMENT_HINGE</span>
+    <span class="n">hinge_catch_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"ridge"</span>
+<span class="w">    </span><span class="sd">"""Catch type for hinged boxes; 'ridge' or 'bump'."""</span></div>
 
 </code></pre></div>
 
@@ -382,7 +384,7 @@
     
       
         <script src="../../../_static/sphinx_immaterial_theme.32136f45f91ae6956.min.js?v=a7a9472a"></script>
-        <script type="module" src="../../../_static/stl_viewer.js?v=0ab88475"></script>
+        <script type="module" src="../../../_static/stl_viewer.js?v=7bec9a74"></script>
     
   </body>
 </html>

@@ -676,6 +676,30 @@
   
   
     <li class="md-nav__item">
+      <a href="pyboxbuilder.compartments.carve.build_inserts.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>compartments.<wbr>carve.<wbr>build_<wbr>inserts</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="pyboxbuilder.compartments.carve.compartment_floor_z.html" class="md-nav__link">
         
   
@@ -1334,6 +1358,30 @@
 
               
             
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pyboxbuilder.sleeves.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>sleeves</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -1442,7 +1490,7 @@
 <h1 id="pyboxbuilder-compartments-carve-build-compartment-scoop">pyboxbuilder.compartments.carve.build_compartment_scoop<a class="headerlink" href="#pyboxbuilder-compartments-carve-build-compartment-scoop" title="Link to this heading">¶</a></h1>
 <dl class="py function objdesc">
 <dt class="sig sig-object highlight sig-wrap py" id="pyboxbuilder.compartments.carve.build_compartment_scoop">
-<span class="sig-prename descclassname"><span class="pre">pyboxbuilder.compartments.carve.</span></span><span class="sig-name descname"><span class="pre">build_compartment_scoop</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#pyboxbuilder.compartments.carve.build_compartment_scoop.placement" title="pyboxbuilder.compartments.carve.build_compartment_scoop.placement (Python parameter) — The compartment the scoop belongs to."><span class="n"><span class="pre">placement</span></span></a><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference internal" href="pyboxbuilder.compartments.layout.CompartmentPlacement.html#pyboxbuilder.compartments.layout.CompartmentPlacement" title="pyboxbuilder.compartments.layout.CompartmentPlacement (Python class) — Bases: object"><span class="pre">CompartmentPlacement</span></a></span></span></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#pyboxbuilder.compartments.carve.build_compartment_scoop.interior" title="pyboxbuilder.compartments.carve.build_compartment_scoop.interior (Python parameter) — The box interior frame the compartment sits in."><span class="n"><span class="pre">interior</span></span></a><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference internal" href="pyboxbuilder.box.base.html#pyboxbuilder.box.base.Interior" title="pyboxbuilder.box.base.Interior (Python class) — Bases: object"><span class="pre">Interior</span></a></span></span></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#pyboxbuilder.compartments.carve.build_compartment_scoop.scoop_side" title="pyboxbuilder.compartments.carve.build_compartment_scoop.scoop_side (Python parameter) — Which wall the scoop pierces."><span class="n"><span class="pre">scoop_side</span></span></a><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference internal" href="pyboxbuilder.html#pyboxbuilder.ScoopSide" title="pyboxbuilder.ScoopSide (Python class) — Bases: Enum"><span class="pre">ScoopSide</span></a></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><code class="code python default_value docutils literal highlight highlight-python"><span class="n">ScoopSide</span><span class="o">.</span><span class="n">FRONT</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#pyboxbuilder.compartments.carve.build_compartment_scoop.top_z" title="pyboxbuilder.compartments.carve.build_compartment_scoop.top_z (Python parameter) — The box's top face."><span class="n"><span class="pre">top_z</span></span></a><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#pyboxbuilder.compartments.carve.build_compartment_scoop.cut" title="pyboxbuilder.compartments.carve.build_compartment_scoop.cut (Python parameter) — What the compartment asked for (FR-006) — kind, side and any measurement it wanted to name."><span class="n"><span class="pre">cut</span></span></a><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference internal" href="pyboxbuilder.html#pyboxbuilder.Cut" title="pyboxbuilder.Cut (Python class) — Bases: object"><span class="pre">Cut</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em></span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="desctype"><span class="pre">Bosl2Solid</span></span></span></span><a class="reference internal" href="../_modules/pyboxbuilder/compartments/carve.html#build_compartment_scoop"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyboxbuilder.compartments.carve.build_compartment_scoop" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">pyboxbuilder.compartments.carve.</span></span><span class="sig-name descname"><span class="pre">build_compartment_scoop</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#pyboxbuilder.compartments.carve.build_compartment_scoop.placement" title="pyboxbuilder.compartments.carve.build_compartment_scoop.placement (Python parameter) — The compartment the scoop belongs to."><span class="n"><span class="pre">placement</span></span></a><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference internal" href="pyboxbuilder.compartments.layout.CompartmentPlacement.html#pyboxbuilder.compartments.layout.CompartmentPlacement" title="pyboxbuilder.compartments.layout.CompartmentPlacement (Python class) — Bases: object"><span class="pre">CompartmentPlacement</span></a></span></span></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#pyboxbuilder.compartments.carve.build_compartment_scoop.interior" title="pyboxbuilder.compartments.carve.build_compartment_scoop.interior (Python parameter) — The box interior frame the compartment sits in."><span class="n"><span class="pre">interior</span></span></a><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference internal" href="pyboxbuilder.box.interior.Interior.html#pyboxbuilder.box.interior.Interior" title="pyboxbuilder.box.interior.Interior (Python class) — Bases: object"><span class="pre">Interior</span></a></span></span></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#pyboxbuilder.compartments.carve.build_compartment_scoop.scoop_side" title="pyboxbuilder.compartments.carve.build_compartment_scoop.scoop_side (Python parameter) — Which wall the scoop pierces."><span class="n"><span class="pre">scoop_side</span></span></a><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference internal" href="pyboxbuilder.enums.ScoopSide.html#pyboxbuilder.enums.ScoopSide" title="pyboxbuilder.enums.ScoopSide (Python class) — Bases: Enum"><span class="pre">ScoopSide</span></a></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><code class="code python default_value docutils literal highlight highlight-python"><span class="n">ScoopSide</span><span class="o">.</span><span class="n">FRONT</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#pyboxbuilder.compartments.carve.build_compartment_scoop.top_z" title="pyboxbuilder.compartments.carve.build_compartment_scoop.top_z (Python parameter) — The box's top face."><span class="n"><span class="pre">top_z</span></span></a><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#pyboxbuilder.compartments.carve.build_compartment_scoop.cut" title="pyboxbuilder.compartments.carve.build_compartment_scoop.cut (Python parameter) — What the compartment asked for (FR-006) — kind, side and any measurement it wanted to name."><span class="n"><span class="pre">cut</span></span></a><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="desctype"><span class="pre">Cut</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em></span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="desctype"><span class="pre">Bosl2Solid</span></span></span></span><a class="reference internal" href="../_modules/pyboxbuilder/compartments/carve.html#build_compartment_scoop"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyboxbuilder.compartments.carve.build_compartment_scoop" title="Link to this definition">¶</a></dt>
 <dd><p>Build a compartment’s finger scoop — the part that pierces a wall.</p>
 <p>The wall thickness is read off the interior frame (its origin is inset by
 exactly one wall), because the scoop’s face fillets are produced by flaring
@@ -1452,14 +1500,14 @@ the sweep’s ends and therefore need the sweep to match the wall it crosses.</p
 <dd class="field-odd"><dl class="simple api-field highlight">
 <dt id="pyboxbuilder.compartments.carve.build_compartment_scoop.placement"><span class="n sig-name">placement</span><span class="p">:</span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference internal" href="pyboxbuilder.compartments.layout.CompartmentPlacement.html#pyboxbuilder.compartments.layout.CompartmentPlacement" title="pyboxbuilder.compartments.layout.CompartmentPlacement (Python class) — Bases: object">CompartmentPlacement</a></span></span><a class="headerlink" href="#pyboxbuilder.compartments.carve.build_compartment_scoop.placement" title="Permalink to this definition">¶</a></dt><dd><p>The compartment the scoop belongs to.</p>
 </dd>
-<dt id="pyboxbuilder.compartments.carve.build_compartment_scoop.interior"><span class="n sig-name">interior</span><span class="p">:</span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference internal" href="pyboxbuilder.box.base.html#pyboxbuilder.box.base.Interior" title="pyboxbuilder.box.base.Interior (Python class) — Bases: object">Interior</a></span></span><a class="headerlink" href="#pyboxbuilder.compartments.carve.build_compartment_scoop.interior" title="Permalink to this definition">¶</a></dt><dd><p>The box interior frame the compartment sits in.</p>
+<dt id="pyboxbuilder.compartments.carve.build_compartment_scoop.interior"><span class="n sig-name">interior</span><span class="p">:</span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference internal" href="pyboxbuilder.box.interior.Interior.html#pyboxbuilder.box.interior.Interior" title="pyboxbuilder.box.interior.Interior (Python class) — Bases: object">Interior</a></span></span><a class="headerlink" href="#pyboxbuilder.compartments.carve.build_compartment_scoop.interior" title="Permalink to this definition">¶</a></dt><dd><p>The box interior frame the compartment sits in.</p>
 </dd>
-<dt id="pyboxbuilder.compartments.carve.build_compartment_scoop.scoop_side"><span class="n sig-name">scoop_side</span><span class="p">:</span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference internal" href="pyboxbuilder.html#pyboxbuilder.ScoopSide" title="pyboxbuilder.ScoopSide (Python class) — Bases: Enum">ScoopSide</a></span></span><span class="w"> </span><span class="o">=</span><span class="w"> </span><code class="code python default_value docutils literal highlight highlight-python"><span class="n">ScoopSide</span><span class="o">.</span><span class="n">FRONT</span></code><a class="headerlink" href="#pyboxbuilder.compartments.carve.build_compartment_scoop.scoop_side" title="Permalink to this definition">¶</a></dt><dd><p>Which wall the scoop pierces.</p>
+<dt id="pyboxbuilder.compartments.carve.build_compartment_scoop.scoop_side"><span class="n sig-name">scoop_side</span><span class="p">:</span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference internal" href="pyboxbuilder.enums.ScoopSide.html#pyboxbuilder.enums.ScoopSide" title="pyboxbuilder.enums.ScoopSide (Python class) — Bases: Enum">ScoopSide</a></span></span><span class="w"> </span><span class="o">=</span><span class="w"> </span><code class="code python default_value docutils literal highlight highlight-python"><span class="n">ScoopSide</span><span class="o">.</span><span class="n">FRONT</span></code><a class="headerlink" href="#pyboxbuilder.compartments.carve.build_compartment_scoop.scoop_side" title="Permalink to this definition">¶</a></dt><dd><p>Which wall the scoop pierces.</p>
 </dd>
 <dt id="pyboxbuilder.compartments.carve.build_compartment_scoop.top_z"><span class="n sig-name">top_z</span><span class="p">:</span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)">float</a><span class="w"> </span><span class="p">|</span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)">None</a></span></span><span class="w"> </span><span class="o">=</span><span class="w"> </span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code><a class="headerlink" href="#pyboxbuilder.compartments.carve.build_compartment_scoop.top_z" title="Permalink to this definition">¶</a></dt><dd><p>The box’s top face. The cut reaches it so its roll merges into
 the rim; <code class="docutils literal notranslate"><span class="pre">None</span></code> falls back to the interior ceiling.</p>
 </dd>
-<dt id="pyboxbuilder.compartments.carve.build_compartment_scoop.cut"><span class="n sig-name">cut</span><span class="p">:</span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference internal" href="pyboxbuilder.html#pyboxbuilder.Cut" title="pyboxbuilder.Cut (Python class) — Bases: object">Cut</a><span class="w"> </span><span class="p">|</span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)">None</a></span></span><span class="w"> </span><span class="o">=</span><span class="w"> </span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code><a class="headerlink" href="#pyboxbuilder.compartments.carve.build_compartment_scoop.cut" title="Permalink to this definition">¶</a></dt><dd><p>What the compartment asked for (FR-006) — kind, side and any
+<dt id="pyboxbuilder.compartments.carve.build_compartment_scoop.cut"><span class="n sig-name">cut</span><span class="p">:</span><span class="w"> </span><span class="n"><span class="desctype">Cut<span class="w"> </span><span class="p">|</span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)">None</a></span></span><span class="w"> </span><span class="o">=</span><span class="w"> </span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code><a class="headerlink" href="#pyboxbuilder.compartments.carve.build_compartment_scoop.cut" title="Permalink to this definition">¶</a></dt><dd><p>What the compartment asked for (FR-006) — kind, side and any
 measurement it wanted to name. Passed in rather than read off the
 placement, which does not carry it: reaching for it there returned
 a default and looked like it worked.</p>
@@ -1538,7 +1586,7 @@ a default and looked like it worked.</p>
     
       
         <script src="../_static/sphinx_immaterial_theme.32136f45f91ae6956.min.js?v=a7a9472a"></script>
-        <script type="module" src="../_static/stl_viewer.js?v=0ab88475"></script>
+        <script type="module" src="../_static/stl_viewer.js?v=7bec9a74"></script>
     
   </body>
 </html>

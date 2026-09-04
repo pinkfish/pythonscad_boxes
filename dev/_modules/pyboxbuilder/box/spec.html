@@ -405,6 +405,8 @@
 <span class="w">    </span><span class="sd">"""Clearance between a slipover sleeve and the body it wraps."""</span>
 
     <span class="c1"># ── Sliding family ───────────────────────────────────────────────────</span>
+    <span class="n">lid_slide_axis</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">"""Sliding axis ('x' along width, 'y' along length, or None for default)."""</span>
     <span class="n">dovetail</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
 <span class="w">    </span><span class="sd">"""Cut the lid's retaining dovetail; ``False`` leaves a plain channel."""</span>
     <span class="n">lead_chamfer</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
@@ -427,6 +429,8 @@
     <span class="n">fingernail_depth</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="w">    </span><span class="sd">"""How deep it sinks; ``None`` uses half the lid's thickness, which is also</span>
 <span class="sd">    the cap — the dish must never pierce the plate."""</span>
+    <span class="n">lid_border_margin_mm</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">"""Margin the label keeps clear of the lid edge; propagated from the lid builder."""</span>
 
     <span class="c1"># ── Cap and slipover ─────────────────────────────────────────────────</span>
     <span class="n">cap_height</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
@@ -460,6 +464,8 @@
 <span class="w">    </span><span class="sd">"""Diameter of the hinge pin, in mm."""</span>
     <span class="n">filament_diameter</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.75</span>
 <span class="w">    </span><span class="sd">"""Diameter of the filament a living hinge is printed around."""</span>
+    <span class="n">hinge_catch_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"ridge"</span>
+<span class="w">    </span><span class="sd">"""Catch type for hinged boxes; 'ridge' or 'bump'."""</span>
 
     <span class="c1"># ── Magnets (FR-039) ─────────────────────────────────────────────────</span>
     <span class="n">magnet_type</span><span class="p">:</span> <span class="n">MagnetType</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
@@ -625,11 +631,19 @@
         <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">_SPEC_FIELDS</span> <span class="ow">and</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">_NOT_GEOMETRY</span> <span class="ow">and</span> <span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
     <span class="p">}</span>
 
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.lid.builder</span><span class="w"> </span><span class="kn">import</span> <span class="n">LidBuilder</span>
+    <span class="n">lid_margin</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">builder</span><span class="o">.</span><span class="n">lid</span><span class="o">.</span><span class="n">border_margin_mm</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">builder</span><span class="o">.</span><span class="n">lid</span><span class="p">,</span> <span class="n">LidBuilder</span><span class="p">)</span> <span class="ow">and</span> <span class="n">builder</span><span class="o">.</span><span class="n">lid</span><span class="o">.</span><span class="n">border_margin_mm</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">else</span> <span class="kc">None</span>
+    <span class="p">)</span>
+
     <span class="k">return</span> <span class="n">BoxSpec</span><span class="p">(</span>
         <span class="n">label</span><span class="o">=</span><span class="n">builder</span><span class="o">.</span><span class="n">label</span><span class="p">,</span>
         <span class="n">width</span><span class="o">=</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">length</span><span class="o">=</span><span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">height</span><span class="o">=</span><span class="n">size</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
         <span class="n">wall_thickness</span><span class="o">=</span><span class="n">wt</span><span class="p">,</span> <span class="n">floor_thickness</span><span class="o">=</span><span class="n">ft</span><span class="p">,</span> <span class="n">lid_thickness</span><span class="o">=</span><span class="n">lt</span><span class="p">,</span>
         <span class="n">ribbon_channel</span><span class="o">=</span><span class="n">rc</span><span class="p">,</span>
+        <span class="n">lid_border_margin_mm</span><span class="o">=</span><span class="n">lid_margin</span><span class="p">,</span>
         <span class="c1"># Hollow the whole interior only when nothing else defines the</span>
         <span class="c1"># cavities; with compartments, they are the cavities.</span>
         <span class="n">hollow</span><span class="o">=</span><span class="ow">not</span> <span class="n">builder</span><span class="o">.</span><span class="n">compartments</span><span class="p">,</span>
@@ -701,8 +715,15 @@
 <span class="sd">    """</span>
     <span class="kn">import</span><span class="w"> </span><span class="nn">hashlib</span>
 
+    <span class="n">p</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">p</span><span class="o">.</span><span class="n">is_absolute</span><span class="p">()</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">p</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+        <span class="n">repo_root</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span><span class="o">.</span><span class="n">parents</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+        <span class="n">resolved</span> <span class="o">=</span> <span class="n">repo_root</span> <span class="o">/</span> <span class="n">p</span>
+        <span class="k">if</span> <span class="n">resolved</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+            <span class="n">p</span> <span class="o">=</span> <span class="n">resolved</span>
+
     <span class="k">try</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha256</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="n">path</span><span class="p">)</span><span class="o">.</span><span class="n">read_bytes</span><span class="p">())</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha256</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">read_bytes</span><span class="p">())</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span>
     <span class="k">except</span> <span class="ne">OSError</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
         <span class="k">return</span> <span class="sa">f</span><span class="s2">"unreadable:</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">exc</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">"</span>
 </code></pre></div>
@@ -773,7 +794,7 @@
     
       
         <script src="../../../_static/sphinx_immaterial_theme.32136f45f91ae6956.min.js?v=a7a9472a"></script>
-        <script type="module" src="../../../_static/stl_viewer.js?v=0ab88475"></script>
+        <script type="module" src="../../../_static/stl_viewer.js?v=7bec9a74"></script>
     
   </body>
 </html>

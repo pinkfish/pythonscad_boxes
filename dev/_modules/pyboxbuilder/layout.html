@@ -305,7 +305,7 @@
 <span class="sd">in that gap: they are densely packed *and* highly structured — three columns of</span>
 <span class="sd">stacked trays, not an arbitrary arrangement.</span>
 
-<span class="sd">This module lets the structure be written down and the coordinates derived:</span>
+<span class="sd">This module lets the structure be written down and the coordinates derived::</span>
 
 <span class="sd">    project.arrange(columns(</span>
 <span class="sd">        rows(                                        # left column</span>
@@ -335,15 +335,12 @@
 <span class="n">Node</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="s2">"Group"</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span>
 
 
-<div class="viewcode-block" id="LayoutError">
-<a class="viewcode-back" href="../../_autosummary/pyboxbuilder.layout.html#pyboxbuilder.LayoutError">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">LayoutError</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">"""Raised when a layout tree cannot be resolved into positions."""</span></div>
-
+<span class="w">    </span><span class="sd">"""Raised when a layout tree cannot be resolved into positions."""</span>
 
 
 <div class="viewcode-block" id="Group">
-<a class="viewcode-back" href="../../_autosummary/pyboxbuilder.layout.Group.html#pyboxbuilder.Group">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/pyboxbuilder.layout.Group.html#pyboxbuilder.layout.Group">[docs]</a>
 <span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">Group</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""A run of boxes or sub-groups laid end to end along one axis."""</span>
@@ -354,7 +351,7 @@
 <span class="w">    </span><span class="sd">"""Clearance inserted between adjacent children, in mm."""</span>
 
 <div class="viewcode-block" id="Group.labels">
-<a class="viewcode-back" href="../../_autosummary/pyboxbuilder.layout.Group.html#pyboxbuilder.Group.labels">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/pyboxbuilder.layout.Group.html#pyboxbuilder.layout.Group.labels">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">labels</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">"""Every box label in this subtree, in layout order."""</span>
         <span class="n">found</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
@@ -370,7 +367,7 @@
 
 
 <div class="viewcode-block" id="columns">
-<a class="viewcode-back" href="../../_autosummary/pyboxbuilder.layout.columns.html#pyboxbuilder.columns">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/pyboxbuilder.layout.columns.html#pyboxbuilder.layout.columns">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">columns</span><span class="p">(</span><span class="o">*</span><span class="n">children</span><span class="p">:</span> <span class="n">Node</span><span class="p">,</span> <span class="n">gap</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Group</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Lay children out left to right along X."""</span>
     <span class="k">return</span> <span class="n">Group</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="n">X</span><span class="p">,</span> <span class="n">children</span><span class="o">=</span><span class="nb">tuple</span><span class="p">(</span><span class="n">children</span><span class="p">),</span> <span class="n">gap</span><span class="o">=</span><span class="n">gap</span><span class="p">)</span></div>
@@ -378,7 +375,7 @@
 
 
 <div class="viewcode-block" id="rows">
-<a class="viewcode-back" href="../../_autosummary/pyboxbuilder.layout.rows.html#pyboxbuilder.rows">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/pyboxbuilder.layout.rows.html#pyboxbuilder.layout.rows">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">rows</span><span class="p">(</span><span class="o">*</span><span class="n">children</span><span class="p">:</span> <span class="n">Node</span><span class="p">,</span> <span class="n">gap</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Group</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Lay children out front to back along Y."""</span>
     <span class="k">return</span> <span class="n">Group</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="n">Y</span><span class="p">,</span> <span class="n">children</span><span class="o">=</span><span class="nb">tuple</span><span class="p">(</span><span class="n">children</span><span class="p">),</span> <span class="n">gap</span><span class="o">=</span><span class="n">gap</span><span class="p">)</span></div>
@@ -386,7 +383,7 @@
 
 
 <div class="viewcode-block" id="stack">
-<a class="viewcode-back" href="../../_autosummary/pyboxbuilder.layout.stack.html#pyboxbuilder.stack">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/pyboxbuilder.layout.stack.html#pyboxbuilder.layout.stack">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">stack</span><span class="p">(</span><span class="o">*</span><span class="n">children</span><span class="p">:</span> <span class="n">Node</span><span class="p">,</span> <span class="n">gap</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Group</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Lay children out bottom to top along Z."""</span>
     <span class="k">return</span> <span class="n">Group</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="n">Z</span><span class="p">,</span> <span class="n">children</span><span class="o">=</span><span class="nb">tuple</span><span class="p">(</span><span class="n">children</span><span class="p">),</span> <span class="n">gap</span><span class="o">=</span><span class="n">gap</span><span class="p">)</span></div>
@@ -394,7 +391,7 @@
 
 
 <div class="viewcode-block" id="Arrangement">
-<a class="viewcode-back" href="../../_autosummary/pyboxbuilder.layout.Arrangement.html#pyboxbuilder.Arrangement">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/pyboxbuilder.layout.Arrangement.html#pyboxbuilder.layout.Arrangement">[docs]</a>
 <span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">Arrangement</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""The result of resolving a layout tree."""</span>
@@ -404,7 +401,7 @@
 <span class="w">    </span><span class="sd">"""Overall extent of the arranged boxes."""</span>
 
 <div class="viewcode-block" id="Arrangement.fits">
-<a class="viewcode-back" href="../../_autosummary/pyboxbuilder.layout.Arrangement.html#pyboxbuilder.Arrangement.fits">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/pyboxbuilder.layout.Arrangement.html#pyboxbuilder.layout.Arrangement.fits">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">fits</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">container</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">tolerance</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-6</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Whether this arrangement fits within a container, within tolerance."""</span>
         <span class="k">return</span> <span class="nb">all</span><span class="p">(</span><span class="n">s</span> <span class="o">&lt;=</span> <span class="n">c</span> <span class="o">+</span> <span class="n">tolerance</span> <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="n">container</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span></div>
@@ -413,7 +410,7 @@
 
 
 <div class="viewcode-block" id="measure">
-<a class="viewcode-back" href="../../_autosummary/pyboxbuilder.layout.measure.html#pyboxbuilder.measure">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/pyboxbuilder.layout.measure.html#pyboxbuilder.layout.measure">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">measure</span><span class="p">(</span><span class="n">node</span><span class="p">:</span> <span class="n">Node</span><span class="p">,</span> <span class="n">sizes</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">"""Extent of a node: children sum along its axis and max on the other two."""</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
@@ -435,7 +432,7 @@
 
 
 <div class="viewcode-block" id="arrange">
-<a class="viewcode-back" href="../../_autosummary/pyboxbuilder.layout.arrange.html#pyboxbuilder.arrange">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/pyboxbuilder.layout.arrange.html#pyboxbuilder.layout.arrange">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">arrange</span><span class="p">(</span>
     <span class="n">node</span><span class="p">:</span> <span class="n">Node</span><span class="p">,</span>
     <span class="n">sizes</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]],</span>
@@ -487,7 +484,7 @@
 
 
 <div class="viewcode-block" id="check_complete">
-<a class="viewcode-back" href="../../_autosummary/pyboxbuilder.layout.check_complete.html#pyboxbuilder.check_complete">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/pyboxbuilder.layout.check_complete.html#pyboxbuilder.layout.check_complete">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">check_complete</span><span class="p">(</span><span class="n">node</span><span class="p">:</span> <span class="n">Node</span><span class="p">,</span> <span class="n">builders</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">BoxBuilder</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">"""Return the labels of boxes the project has but the layout leaves out."""</span>
     <span class="n">named</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">labels</span><span class="p">()</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">Group</span><span class="p">)</span> <span class="k">else</span> <span class="p">[</span><span class="n">node</span><span class="p">])</span>
@@ -561,7 +558,7 @@
     
       
         <script src="../../_static/sphinx_immaterial_theme.32136f45f91ae6956.min.js?v=a7a9472a"></script>
-        <script type="module" src="../../_static/stl_viewer.js?v=0ab88475"></script>
+        <script type="module" src="../../_static/stl_viewer.js?v=7bec9a74"></script>
     
   </body>
 </html>

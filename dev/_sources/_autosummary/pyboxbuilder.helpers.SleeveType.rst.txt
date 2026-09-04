@@ -5,5 +5,4 @@ pyboxbuilder.helpers.SleeveType
 
 .. autoclass:: SleeveType
    :members:
-   :undoc-members:
    :show-inheritance:

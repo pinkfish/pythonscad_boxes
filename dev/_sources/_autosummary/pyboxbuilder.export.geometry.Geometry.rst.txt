@@ -1,0 +1,8 @@
+pyboxbuilder.export.geometry.Geometry
+=====================================
+
+.. currentmodule:: pyboxbuilder.export.geometry
+
+.. autoclass:: Geometry
+   :members:
+   :show-inheritance:

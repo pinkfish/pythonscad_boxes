@@ -5,5 +5,4 @@ pyboxbuilder.enums.StackableMode
 
 .. autoclass:: StackableMode
    :members:
-   :undoc-members:
    :show-inheritance:

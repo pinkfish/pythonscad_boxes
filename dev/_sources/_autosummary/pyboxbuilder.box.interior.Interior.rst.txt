@@ -5,5 +5,4 @@ pyboxbuilder.box.interior.Interior
 
 .. autoclass:: Interior
    :members:
-   :undoc-members:
    :show-inheritance:

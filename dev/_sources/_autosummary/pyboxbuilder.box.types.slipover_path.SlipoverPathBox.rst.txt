@@ -5,5 +5,4 @@ pyboxbuilder.box.types.slipover\_path.SlipoverPathBox
 
 .. autoclass:: SlipoverPathBox
    :members:
-   :undoc-members:
    :show-inheritance:

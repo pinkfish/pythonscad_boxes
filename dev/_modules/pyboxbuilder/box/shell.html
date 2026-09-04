@@ -848,7 +848,7 @@
 <span class="sd">            `floor_thickness`.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        A tuple of `FingerHoleBuilder`s — one per longer wall — or an empty</span>
+<span class="sd">        A tuple of ``FingerHoleBuilder`` instances — one per longer wall — or an empty</span>
 <span class="sd">        tuple when the holes would not fit.</span>
 
 <span class="sd">    """</span>
@@ -1048,7 +1048,8 @@
         <span class="p">[</span><span class="n">spec</span><span class="o">.</span><span class="n">width</span> <span class="o">+</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">radius</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span> <span class="o">+</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">radius</span><span class="p">,</span> <span class="n">radius</span> <span class="o">+</span> <span class="mf">1.0</span><span class="p">],</span>
         <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span> <span class="o">*</span> <span class="n">radius</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span> <span class="o">*</span> <span class="n">radius</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">),</span>
     <span class="p">)</span>
-    <span class="n">ring</span> <span class="o">=</span> <span class="p">(</span><span class="n">CsgSolid</span><span class="p">(</span><span class="n">swept</span><span class="o">.</span><span class="n">polyhedron</span><span class="p">())</span> <span class="o">&amp;</span> <span class="n">keep</span><span class="p">)</span><span class="o">.</span><span class="n">mirror</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+    <span class="n">swept_solid</span> <span class="o">=</span> <span class="n">CsgSolid</span><span class="p">(</span><span class="n">swept</span><span class="o">.</span><span class="n">polyhedron</span><span class="p">())</span> <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">swept</span><span class="p">,</span> <span class="s2">"polyhedron"</span><span class="p">)</span> <span class="k">else</span> <span class="n">swept</span>
+    <span class="n">ring</span> <span class="o">=</span> <span class="p">(</span><span class="n">swept_solid</span> <span class="o">&amp;</span> <span class="n">keep</span><span class="p">)</span><span class="o">.</span><span class="n">mirror</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
     <span class="k">return</span> <span class="n">body</span> <span class="o">-</span> <span class="n">ring</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">height</span><span class="p">])</span></div>
 
 </code></pre></div>
@@ -1119,7 +1120,7 @@
     
       
         <script src="../../../_static/sphinx_immaterial_theme.32136f45f91ae6956.min.js?v=a7a9472a"></script>
-        <script type="module" src="../../../_static/stl_viewer.js?v=0ab88475"></script>
+        <script type="module" src="../../../_static/stl_viewer.js?v=7bec9a74"></script>
     
   </body>
 </html>

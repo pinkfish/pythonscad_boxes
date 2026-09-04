@@ -1,0 +1,6 @@
+pyboxbuilder.export.geometry.mesh\_geometry
+===========================================
+
+.. currentmodule:: pyboxbuilder.export.geometry
+
+.. autofunction:: mesh_geometry

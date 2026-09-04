@@ -1,0 +1,6 @@
+pyboxbuilder.compartments.carve.build\_inserts
+==============================================
+
+.. currentmodule:: pyboxbuilder.compartments.carve
+
+.. autofunction:: build_inserts

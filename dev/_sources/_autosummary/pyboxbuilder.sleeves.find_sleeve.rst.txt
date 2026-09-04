@@ -1,0 +1,6 @@
+pyboxbuilder.sleeves.find\_sleeve
+=================================
+
+.. currentmodule:: pyboxbuilder.sleeves
+
+.. autofunction:: find_sleeve

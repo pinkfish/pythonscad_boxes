@@ -1050,6 +1050,30 @@
 
               
             
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pyboxbuilder.sleeves.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>sleeves</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -1168,14 +1192,14 @@
 <h1 id="pyboxbuilder-preview-remove-top-layers">pyboxbuilder.preview.remove_top_layers<a class="headerlink" href="#pyboxbuilder-preview-remove-top-layers" title="Link to this heading">¶</a></h1>
 <dl class="py function objdesc">
 <dt class="sig sig-object highlight sig-wrap py" id="pyboxbuilder.preview.remove_top_layers">
-<span class="sig-prename descclassname"><span class="pre">pyboxbuilder.preview.</span></span><span class="sig-name descname"><span class="pre">remove_top_layers</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#pyboxbuilder.preview.remove_top_layers.placements" title="pyboxbuilder.preview.remove_top_layers.placements (Python parameter) — Objects carrying position and size 3-tuples."><span class="n"><span class="pre">placements</span></span></a><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Sequence" title="(in Python v3.14)"><span class="pre">collections.abc.Sequence</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="pyboxbuilder.project.html#pyboxbuilder.project.Piece" title="pyboxbuilder.project.Piece (Python class) — Bases: object"><span class="pre">Piece</span></a><span class="p"><span class="pre">]</span></span></span></span></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#pyboxbuilder.preview.remove_top_layers.count" title="pyboxbuilder.preview.remove_top_layers.count (Python parameter) — How many layers to remove from the top."><span class="n"><span class="pre">count</span></span></a><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></span></em></span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="pyboxbuilder.project.html#pyboxbuilder.project.Piece" title="pyboxbuilder.project.Piece (Python class) — Bases: object"><span class="pre">Piece</span></a><span class="p"><span class="pre">]</span></span></span></span></span><a class="reference internal" href="../_modules/pyboxbuilder/preview.html#remove_top_layers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyboxbuilder.preview.remove_top_layers" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">pyboxbuilder.preview.</span></span><span class="sig-name descname"><span class="pre">remove_top_layers</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#pyboxbuilder.preview.remove_top_layers.placements" title="pyboxbuilder.preview.remove_top_layers.placements (Python parameter) — Objects carrying position and size 3-tuples."><span class="n"><span class="pre">placements</span></span></a><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Sequence" title="(in Python v3.14)"><span class="pre">collections.abc.Sequence</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="pyboxbuilder.project.piece.Piece.html#pyboxbuilder.project.piece.Piece" title="pyboxbuilder.project.piece.Piece (Python class) — Bases: object"><span class="pre">Piece</span></a><span class="p"><span class="pre">]</span></span></span></span></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#pyboxbuilder.preview.remove_top_layers.count" title="pyboxbuilder.preview.remove_top_layers.count (Python parameter) — How many layers to remove from the top."><span class="n"><span class="pre">count</span></span></a><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></span></em></span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="pyboxbuilder.project.piece.Piece.html#pyboxbuilder.project.piece.Piece" title="pyboxbuilder.project.piece.Piece (Python class) — Bases: object"><span class="pre">Piece</span></a><span class="p"><span class="pre">]</span></span></span></span></span><a class="reference internal" href="../_modules/pyboxbuilder/preview.html#remove_top_layers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyboxbuilder.preview.remove_top_layers" title="Link to this definition">¶</a></dt>
 <dd><p>Drop the top <code class="docutils literal notranslate"><span class="pre">count</span></code> vertical layers from a set of placements.</p>
 <p>A box is removed when its <strong>top surface</strong> rises above the cut, so a tall
 box spanning into a removed layer goes with it rather than being sliced.</p>
 <dl class="field-list simple">
 <dt class="field-odd" id="pyboxbuilder.preview.remove_top_layers-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#pyboxbuilder.preview.remove_top_layers-parameters" title="Permalink to this headline">¶</a></dt>
 <dd class="field-odd"><dl class="simple api-field highlight">
-<dt id="pyboxbuilder.preview.remove_top_layers.placements"><span class="n sig-name">placements</span><span class="p">:</span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Sequence" title="(in Python v3.14)">collections.abc.Sequence</a><span class="p">[</span><a class="reference internal" href="pyboxbuilder.project.html#pyboxbuilder.project.Piece" title="pyboxbuilder.project.Piece (Python class) — Bases: object">Piece</a><span class="p">]</span></span></span><a class="headerlink" href="#pyboxbuilder.preview.remove_top_layers.placements" title="Permalink to this definition">¶</a></dt><dd><p>Objects carrying <code class="docutils literal notranslate"><span class="pre">position</span></code> and <code class="docutils literal notranslate"><span class="pre">size</span></code> 3-tuples.</p>
+<dt id="pyboxbuilder.preview.remove_top_layers.placements"><span class="n sig-name">placements</span><span class="p">:</span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Sequence" title="(in Python v3.14)">collections.abc.Sequence</a><span class="p">[</span><a class="reference internal" href="pyboxbuilder.project.piece.Piece.html#pyboxbuilder.project.piece.Piece" title="pyboxbuilder.project.piece.Piece (Python class) — Bases: object">Piece</a><span class="p">]</span></span></span><a class="headerlink" href="#pyboxbuilder.preview.remove_top_layers.placements" title="Permalink to this definition">¶</a></dt><dd><p>Objects carrying <code class="docutils literal notranslate"><span class="pre">position</span></code> and <code class="docutils literal notranslate"><span class="pre">size</span></code> 3-tuples.</p>
 </dd>
 <dt id="pyboxbuilder.preview.remove_top_layers.count"><span class="n sig-name">count</span><span class="p">:</span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)">int</a></span></span><a class="headerlink" href="#pyboxbuilder.preview.remove_top_layers.count" title="Permalink to this definition">¶</a></dt><dd><p>How many layers to remove from the top. <code class="docutils literal notranslate"><span class="pre">0</span></code> keeps everything;
 a count at or above the number of layers removes everything.</p>
@@ -1257,7 +1281,7 @@ a count at or above the number of layers removes everything.</p>
     
       
         <script src="../_static/sphinx_immaterial_theme.32136f45f91ae6956.min.js?v=a7a9472a"></script>
-        <script type="module" src="../_static/stl_viewer.js?v=0ab88475"></script>
+        <script type="module" src="../_static/stl_viewer.js?v=7bec9a74"></script>
     
   </body>
 </html>

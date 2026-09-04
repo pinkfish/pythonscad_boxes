@@ -5,5 +5,4 @@ pyboxbuilder.builders.card\_library.CardLibraryBoxBuilder
 
 .. autoclass:: CardLibraryBoxBuilder
    :members:
-   :undoc-members:
    :show-inheritance:

@@ -5,5 +5,4 @@ pyboxbuilder.builders.cap.CapBoxBuilder
 
 .. autoclass:: CapBoxBuilder
    :members:
-   :undoc-members:
    :show-inheritance:

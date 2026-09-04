@@ -5,5 +5,4 @@ pyboxbuilder.packing.guillotine.Item
 
 .. autoclass:: Item
    :members:
-   :undoc-members:
    :show-inheritance:

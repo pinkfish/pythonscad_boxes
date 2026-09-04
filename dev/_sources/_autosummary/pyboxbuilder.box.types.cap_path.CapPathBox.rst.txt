@@ -5,5 +5,4 @@ pyboxbuilder.box.types.cap\_path.CapPathBox
 
 .. autoclass:: CapPathBox
    :members:
-   :undoc-members:
    :show-inheritance:

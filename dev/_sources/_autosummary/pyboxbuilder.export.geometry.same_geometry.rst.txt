@@ -1,0 +1,6 @@
+pyboxbuilder.export.geometry.same\_geometry
+===========================================
+
+.. currentmodule:: pyboxbuilder.export.geometry
+
+.. autofunction:: same_geometry

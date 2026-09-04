@@ -29,7 +29,11 @@ pyboxbuilder.compartments.element
    
       build_element
       build_element_pack
+      build_element_pack_inserts
+      build_element_pack_pull_outs
       build_pull_out
+      centered
+      centered_in_box
       elements_bounding_box
       elements_footprint
       elements_overlap

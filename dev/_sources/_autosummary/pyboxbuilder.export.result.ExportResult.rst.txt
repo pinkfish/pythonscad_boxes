@@ -5,5 +5,4 @@ pyboxbuilder.export.result.ExportResult
 
 .. autoclass:: ExportResult
    :members:
-   :undoc-members:
    :show-inheritance:

@@ -5,5 +5,4 @@ pyboxbuilder.box.features.CapFingerMetrics
 
 .. autoclass:: CapFingerMetrics
    :members:
-   :undoc-members:
    :show-inheritance:

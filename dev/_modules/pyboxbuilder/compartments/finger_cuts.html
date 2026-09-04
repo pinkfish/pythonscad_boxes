@@ -429,7 +429,7 @@
 
 
 <div class="viewcode-block" id="build_wall_scoop">
-<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.compartments.finger_hole.html#pyboxbuilder.compartments.finger_cuts.build_wall_scoop">[docs]</a>
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.compartments.finger_cuts.build_wall_scoop.html#pyboxbuilder.compartments.finger_cuts.build_wall_scoop">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">build_wall_scoop</span><span class="p">(</span>
     <span class="n">comp_width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">comp_length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
@@ -446,7 +446,7 @@
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Build a finger notch through a compartment wall.</span>
 
-<span class="sd">    The **edge** profile from :func:`scoop_profile` — flat bottom, straight</span>
+<span class="sd">    The **edge** profile from :func:`~pyboxbuilder.compartments.finger_outline.scoop_profile` — flat bottom, straight</span>
 <span class="sd">    throat, rolled rim — swept through the wall, with a</span>
 <span class="sd">    concave rim on each end so the cut flows onto the wall's faces instead of</span>
 <span class="sd">    ending in a sharp line (``FingerHoleWall``'s ``rounding_edge``).</span>
@@ -472,43 +472,22 @@
 <span class="sd">        radius: Notch radius in mm, capped so it cannot swallow the compartment.</span>
 <span class="sd">        wall_thickness: Wall the cut passes through. Sets the sweep depth and,</span>
 <span class="sd">            by default, the face fillet.</span>
-<span class="sd">        profile: The cut's edge profile — a ``CutProfile`` holding the shape</span>
-<span class="sd">            knobs below (mouth flare, base radius, roll rise).</span>
-<span class="sd">        faces: The cut's face treatment — a ``FaceTreatment`` holding the face</span>
-<span class="sd">            knobs below (fillet, which faces round, the floor clip).</span>
-<span class="sd">        rounding_radius: ``r1`` — how far the mouth rolls out at the rim.</span>
-<span class="sd">            ``None`` derives it as half the throat half-width, so the roll</span>
-<span class="sd">            stays in proportion to the scoop.</span>
-<span class="sd">        bottom_rounding: ``r2`` — the fillet from the throat into the flat</span>
-<span class="sd">            bottom. ``None`` derives it as half the throat width.</span>
-<span class="sd">        rounding_edge: Fillet where the cut emerges on a face. Defaults to</span>
-<span class="sd">            ``wall_thickness / 2``, the largest fillet the wall has room for</span>
-<span class="sd">            (and what the original uses). ``0`` squares the edge.</span>
-<span class="sd">        round_inner: Fillet the compartment-side face.</span>
-<span class="sd">        round_outer: Fillet the outward face — the visible outside of the box.</span>
-<span class="sd">        breach_floor: Let the cut run as deep as the flare naturally reaches,</span>
-<span class="sd">            with no clip at all. Off by default.</span>
+<span class="sd">        profile: The cut's edge profile — a ``CutProfile`` holding shape</span>
+<span class="sd">            settings (mouth flare, base radius, roll rise).</span>
+<span class="sd">        faces: The cut's face treatment — a ``FaceTreatment`` holding face</span>
+<span class="sd">            settings (fillet, which faces round, floor clip, breach floor, top limit).</span>
 <span class="sd">        floor_thickness: The box floor under this compartment. Used to size the</span>
 <span class="sd">            dip below the well floor (half the floor, at most 1mm), which is</span>
 <span class="sd">            what keeps the cut's bottom face off the floor plane.</span>
-<span class="sd">        floor_clearance: Dip below the well floor, overriding the value derived</span>
-<span class="sd">            from ``floor_thickness``. ``0`` clips exactly at the floor, at the</span>
-<span class="sd">            cost of a coincident face.</span>
-<span class="sd">        top_limit: Height, in the cut's own frame, above which it is trimmed</span>
-<span class="sd">            away — the guard for material that must not be cut into.</span>
-<span class="sd">        keep_flat_bottom: Keep part of the base flat by capping the corner</span>
-<span class="sd">            radius (FR-050) — for a well something rests in. A grip passes</span>
-<span class="sd">            ``False`` and gets the radius it asked for, with a round base</span>
-<span class="sd">            (FR-054).</span>
-<span class="sd">        roll_rise: How far the mouth roll reaches down; ``None`` derives it</span>
-<span class="sd">            from the flare (FR-057). Width and gentleness are separate</span>
-<span class="sd">            settings, so a shallow wall can have a gentler curve without a</span>
-<span class="sd">            wider mouth.</span>
-<span class="sd">        closed_top: Build a **closed window** (:func:`window_outline`) instead</span>
+<span class="sd">        closed_top: Build a **closed window** (:func:`~pyboxbuilder.compartments.finger_outline.window_outline`) instead</span>
 <span class="sd">            of a top-opening scoop. For a cut with wall standing above it,</span>
 <span class="sd">            where there is no surface for the mouth roll to roll onto and a</span>
 <span class="sd">            trimmed-off scoop would meet the faces at a square edge</span>
 <span class="sd">            (FR-065).</span>
+<span class="sd">        keep_flat_bottom: Keep part of the base flat by capping the corner</span>
+<span class="sd">            radius (FR-050) — for a well something rests in. A grip passes</span>
+<span class="sd">            ``False`` and gets the radius it asked for, with a round base</span>
+<span class="sd">            (FR-054).</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        Bosl2Solid cutout, positioned in the compartment frame.</span>
@@ -581,7 +560,7 @@
     <span class="p">)</span></div>
 
 <div class="viewcode-block" id="build_floor_scoop">
-<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.compartments.finger_hole.html#pyboxbuilder.compartments.finger_cuts.build_floor_scoop">[docs]</a>
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.compartments.finger_cuts.build_floor_scoop.html#pyboxbuilder.compartments.finger_cuts.build_floor_scoop">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">build_floor_scoop</span><span class="p">(</span>
     <span class="n">comp_width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">comp_length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
@@ -686,7 +665,7 @@
     <span class="k">return</span> <span class="n">cut</span></div>
 
 <div class="viewcode-block" id="build_cut">
-<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.compartments.finger_hole.html#pyboxbuilder.compartments.finger_cuts.build_cut">[docs]</a>
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.compartments.finger_cuts.build_cut.html#pyboxbuilder.compartments.finger_cuts.build_cut">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">build_cut</span><span class="p">(</span>
     <span class="n">kind</span><span class="p">:</span> <span class="n">FingerCut</span><span class="p">,</span>
     <span class="n">comp_width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
@@ -766,7 +745,7 @@
     <span class="p">)</span></div>
 
 <div class="viewcode-block" id="build_scoop">
-<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.compartments.finger_hole.html#pyboxbuilder.compartments.finger_cuts.build_scoop">[docs]</a>
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.compartments.finger_cuts.build_scoop.html#pyboxbuilder.compartments.finger_cuts.build_scoop">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">build_scoop</span><span class="p">(</span>
     <span class="n">comp_width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">comp_length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
@@ -796,7 +775,7 @@
     <span class="p">)</span></div>
 
 <div class="viewcode-block" id="build_through_hole">
-<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.compartments.finger_hole.html#pyboxbuilder.compartments.finger_cuts.build_through_hole">[docs]</a>
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.compartments.finger_cuts.build_through_hole.html#pyboxbuilder.compartments.finger_cuts.build_through_hole">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">build_through_hole</span><span class="p">(</span>
     <span class="n">comp_width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">comp_length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
@@ -1016,7 +995,7 @@
     
       
         <script src="../../../_static/sphinx_immaterial_theme.32136f45f91ae6956.min.js?v=a7a9472a"></script>
-        <script type="module" src="../../../_static/stl_viewer.js?v=0ab88475"></script>
+        <script type="module" src="../../../_static/stl_viewer.js?v=7bec9a74"></script>
     
   </body>
 </html>

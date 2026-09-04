@@ -5,5 +5,4 @@ pyboxbuilder.project.piece.ResolvedBox
 
 .. autoclass:: ResolvedBox
    :members:
-   :undoc-members:
    :show-inheritance:

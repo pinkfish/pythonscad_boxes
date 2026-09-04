@@ -305,7 +305,7 @@
 
 
 <div class="viewcode-block" id="SleeveType">
-<a class="viewcode-back" href="../../_autosummary/pyboxbuilder.helpers.SleeveType.html#pyboxbuilder.SleeveType">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/pyboxbuilder.helpers.SleeveType.html#pyboxbuilder.helpers.SleeveType">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">SleeveType</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""Sleeve weight and margin presets."""</span>
 
@@ -343,7 +343,7 @@
 
 
 <div class="viewcode-block" id="CardSize">
-<a class="viewcode-back" href="../../_autosummary/pyboxbuilder.helpers.CardSize.html#pyboxbuilder.CardSize">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/pyboxbuilder.helpers.CardSize.html#pyboxbuilder.helpers.CardSize">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">CardSize</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""Standard card sizes (width, length) in mm."""</span>
 
@@ -352,35 +352,31 @@
     <span class="n">MINI_AMERICAN</span> <span class="o">=</span> <span class="p">(</span><span class="mf">41.0</span><span class="p">,</span> <span class="mf">63.0</span><span class="p">)</span>
     <span class="n">MINI_EUROPEAN</span> <span class="o">=</span> <span class="p">(</span><span class="mf">44.0</span><span class="p">,</span> <span class="mf">68.0</span><span class="p">)</span>
     <span class="n">SQUARE_MEDIUM</span> <span class="o">=</span> <span class="p">(</span><span class="mf">70.0</span><span class="p">,</span> <span class="mf">70.0</span><span class="p">)</span>
-    <span class="n">OVERSIZED</span> <span class="o">=</span> <span class="p">(</span><span class="mf">79.0</span><span class="p">,</span> <span class="mf">120.0</span><span class="p">)</span></div>
+    <span class="n">OVERSIZED</span> <span class="o">=</span> <span class="p">(</span><span class="mf">80.0</span><span class="p">,</span> <span class="mf">120.0</span><span class="p">)</span></div>
 
 
 
 <div class="viewcode-block" id="CardSpec">
-<a class="viewcode-back" href="../../_autosummary/pyboxbuilder.helpers.CardSpec.html#pyboxbuilder.CardSpec">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/pyboxbuilder.helpers.CardSpec.html#pyboxbuilder.helpers.CardSpec">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">CardSpec</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""Calculates width, length, and depth for a deck of cards based on sleeve type."""</span>
+<span class="w">    </span><span class="sd">"""Calculates width, length, and depth for a deck of cards based on sleeve type.</span>
 
-<div class="viewcode-block" id="CardSpec.__init__">
-<a class="viewcode-back" href="../../_autosummary/pyboxbuilder.helpers.CardSpec.html#pyboxbuilder.CardSpec.__init__">[docs]</a>
+<span class="sd">    Args:</span>
+<span class="sd">        card_size: CardSize enum or custom (width, length) tuple in mm.</span>
+<span class="sd">        count: Number of cards in the deck.</span>
+<span class="sd">        sleeve: SleeveType selection.</span>
+
+<span class="sd">    """</span>
+
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">card_size</span><span class="p">:</span> <span class="n">CardSize</span> <span class="o">|</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
         <span class="n">count</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
         <span class="n">sleeve</span><span class="p">:</span> <span class="n">SleeveType</span> <span class="o">=</span> <span class="n">SleeveType</span><span class="o">.</span><span class="n">UNSLEEVED</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">"""Initialize CardSpec.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            card_size: CardSize enum or custom (width, length) tuple in mm.</span>
-<span class="sd">            count: Number of cards in the deck.</span>
-<span class="sd">            sleeve: SleeveType selection.</span>
-
-<span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">card_size</span> <span class="o">=</span> <span class="n">card_size</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">count</span> <span class="o">=</span> <span class="n">count</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">sleeve</span> <span class="o">=</span> <span class="n">sleeve</span></div>
-
+        <span class="bp">self</span><span class="o">.</span><span class="n">sleeve</span> <span class="o">=</span> <span class="n">sleeve</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">width</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
@@ -400,7 +396,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">count</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">sleeve</span><span class="o">.</span><span class="n">card_thickness</span>
 
 <div class="viewcode-block" id="CardSpec.as_tuple">
-<a class="viewcode-back" href="../../_autosummary/pyboxbuilder.helpers.CardSpec.html#pyboxbuilder.CardSpec.as_tuple">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/pyboxbuilder.helpers.CardSpec.html#pyboxbuilder.helpers.CardSpec.as_tuple">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">as_tuple</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">"""Return (width, length, depth) tuple."""</span>
         <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">length</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">depth</span><span class="p">)</span></div>
@@ -474,7 +470,7 @@
     
       
         <script src="../../_static/sphinx_immaterial_theme.32136f45f91ae6956.min.js?v=a7a9472a"></script>
-        <script type="module" src="../../_static/stl_viewer.js?v=0ab88475"></script>
+        <script type="module" src="../../_static/stl_viewer.js?v=7bec9a74"></script>
     
   </body>
 </html>

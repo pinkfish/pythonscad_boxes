@@ -35,12 +35,14 @@ pyboxbuilder.box.features
       cap_finger_metrics
       cap_lid
       cap_metrics
+      cap_slipover_catch
       corner_catch
       dovetail_track
       extrude_footprint
       filament_hinge
       fingernail_catch
       fingernail_dish
+      hinge_catch
       hinge_intrusion
       lead_chamfer_size
       lid_corner_rounding

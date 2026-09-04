@@ -5,5 +5,4 @@ pyboxbuilder.compartments.sizing.RowItem
 
 .. autoclass:: RowItem
    :members:
-   :undoc-members:
    :show-inheritance:

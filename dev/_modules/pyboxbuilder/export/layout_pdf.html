@@ -713,6 +713,11 @@
         <span class="c1"># Draw shape/SVG if present</span>
         <span class="k">if</span> <span class="n">placement</span><span class="o">.</span><span class="n">shape_file</span><span class="p">:</span>
             <span class="n">svg_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">placement</span><span class="o">.</span><span class="n">shape_file</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">svg_path</span><span class="o">.</span><span class="n">is_absolute</span><span class="p">()</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">svg_path</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+                <span class="n">repo_root</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span><span class="o">.</span><span class="n">parents</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+                <span class="n">svg_resolved</span> <span class="o">=</span> <span class="n">repo_root</span> <span class="o">/</span> <span class="n">svg_path</span>
+                <span class="k">if</span> <span class="n">svg_resolved</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+                    <span class="n">svg_path</span> <span class="o">=</span> <span class="n">svg_resolved</span>
             <span class="k">if</span> <span class="n">svg_path</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
                 <span class="n">pdf</span><span class="o">.</span><span class="n">image</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">svg_path</span><span class="p">),</span> <span class="n">cx</span> <span class="o">+</span> <span class="mf">1.0</span> <span class="o">*</span> <span class="n">scale</span><span class="p">,</span> <span class="n">cy</span> <span class="o">+</span> <span class="mf">5.0</span> <span class="o">*</span> <span class="n">scale</span><span class="p">,</span> <span class="n">w</span><span class="o">=</span><span class="n">cw</span> <span class="o">-</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">scale</span><span class="p">,</span> <span class="n">h</span><span class="o">=</span><span class="n">ch</span> <span class="o">-</span> <span class="mf">6.0</span> <span class="o">*</span> <span class="n">scale</span><span class="p">)</span>
 
@@ -731,6 +736,11 @@
                     <span class="k">continue</span>
 
                 <span class="n">svg_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">elem</span><span class="o">.</span><span class="n">shape_file</span><span class="p">)</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">svg_path</span><span class="o">.</span><span class="n">is_absolute</span><span class="p">()</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">svg_path</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+                    <span class="n">repo_root</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span><span class="o">.</span><span class="n">parents</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+                    <span class="n">svg_resolved</span> <span class="o">=</span> <span class="n">repo_root</span> <span class="o">/</span> <span class="n">svg_path</span>
+                    <span class="k">if</span> <span class="n">svg_resolved</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+                        <span class="n">svg_path</span> <span class="o">=</span> <span class="n">svg_resolved</span>
                 <span class="k">if</span> <span class="n">svg_path</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
                     <span class="k">if</span> <span class="n">elem</span><span class="o">.</span><span class="n">rotation</span> <span class="o">!=</span> <span class="mf">0.0</span><span class="p">:</span>
                         <span class="n">rot_cx</span> <span class="o">=</span> <span class="n">elem_x</span> <span class="o">+</span> <span class="n">ew</span> <span class="o">/</span> <span class="mi">2</span>
@@ -864,7 +874,7 @@
     
       
         <script src="../../../_static/sphinx_immaterial_theme.32136f45f91ae6956.min.js?v=a7a9472a"></script>
-        <script type="module" src="../../../_static/stl_viewer.js?v=0ab88475"></script>
+        <script type="module" src="../../../_static/stl_viewer.js?v=7bec9a74"></script>
     
   </body>
 </html>

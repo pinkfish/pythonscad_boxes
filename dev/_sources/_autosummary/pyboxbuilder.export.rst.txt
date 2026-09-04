@@ -13,6 +13,7 @@ pyboxbuilder.export
    
       exporter
       fingerprint
+      geometry
       layout_pdf
       result
    

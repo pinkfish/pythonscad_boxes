@@ -1,0 +1,34 @@
+pyboxbuilder.export.geometry
+============================
+
+.. automodule:: pyboxbuilder.export.geometry
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+      :toctree:
+      :nosignatures:
+   
+      Geometry
+   
+   
+
+   
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+      :toctree:
+      :nosignatures:
+   
+      mesh_geometry
+      read_3mf_geometry
+      same_geometry
+   
+   

@@ -5,5 +5,4 @@ pyboxbuilder.enums.MagnetType
 
 .. autoclass:: MagnetType
    :members:
-   :undoc-members:
    :show-inheritance:

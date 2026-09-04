@@ -5,5 +5,4 @@ pyboxbuilder.box.base.BoxTypeBase
 
 .. autoclass:: BoxTypeBase
    :members:
-   :undoc-members:
    :show-inheritance:

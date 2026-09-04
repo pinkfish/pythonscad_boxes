@@ -5,5 +5,4 @@ pyboxbuilder.helpers.CardSpec
 
 .. autoclass:: CardSpec
    :members:
-   :undoc-members:
    :show-inheritance:

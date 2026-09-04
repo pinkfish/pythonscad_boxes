@@ -5,5 +5,4 @@ pyboxbuilder.builders.magnetic.MagneticBoxBuilder
 
 .. autoclass:: MagneticBoxBuilder
    :members:
-   :undoc-members:
    :show-inheritance:

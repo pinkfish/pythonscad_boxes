@@ -326,6 +326,11 @@
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.deps</span><span class="w"> </span><span class="kn">import</span> <span class="n">require</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.export</span><span class="w"> </span><span class="kn">import</span> <span class="n">fingerprint</span> <span class="k">as</span> <span class="n">fp</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.export.geometry</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">mesh_geometry</span><span class="p">,</span>
+    <span class="n">read_3mf_geometry</span><span class="p">,</span>
+    <span class="n">same_geometry</span><span class="p">,</span>
+<span class="p">)</span>
 
 <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2.shapes3d</span><span class="w"> </span><span class="kn">import</span> <span class="n">Bosl2Solid</span>
@@ -431,6 +436,18 @@
         <span class="k">return</span> <span class="n">fp</span><span class="o">.</span><span class="n">matches</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path_for</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">part</span><span class="p">,</span> <span class="n">mode</span><span class="p">),</span> <span class="n">fingerprint</span><span class="p">)</span></div>
 
 
+<div class="viewcode-block" id="BoxExporter.recorded">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.export.exporter.BoxExporter.html#pyboxbuilder.export.exporter.BoxExporter.recorded">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">recorded</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">part</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">mode</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Return True when this piece has *some* recorded fingerprint.</span>
+
+<span class="sd">        A piece whose description changed must be rewritten; a piece that has</span>
+<span class="sd">        simply never been exported here before (a fresh clone) may fall back to</span>
+<span class="sd">        comparing geometry instead.</span>
+<span class="sd">        """</span>
+        <span class="k">return</span> <span class="n">fp</span><span class="o">.</span><span class="n">recorded</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path_for</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">part</span><span class="p">,</span> <span class="n">mode</span><span class="p">))</span></div>
+
+
 <div class="viewcode-block" id="BoxExporter.note_unchanged">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.export.exporter.BoxExporter.html#pyboxbuilder.export.exporter.BoxExporter.note_unchanged">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">note_unchanged</span><span class="p">(</span>
@@ -467,6 +484,8 @@
         <span class="n">inserts</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Bosl2Solid</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">size</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">fingerprint</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">,</span>
+        <span class="n">force</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">geometry_check</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Export one piece, skipping the write when nothing about it changed.</span>
 
@@ -480,6 +499,11 @@
 <span class="sd">            size: Bounding box to record when it cannot be measured from `solid`.</span>
 <span class="sd">            fingerprint: Digest of the description this piece was built from,</span>
 <span class="sd">                recorded beside the file for the next run to compare against.</span>
+<span class="sd">            force: Rewrite even when the geometry on disk already matches.</span>
+<span class="sd">            geometry_check: Compare the shape (bounding box + volume) against the</span>
+<span class="sd">                file already on disk and skip when they agree. Only the caller's</span>
+<span class="sd">                fallback for a piece with **no** recorded fingerprint — a</span>
+<span class="sd">                changed description must always be written.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            The relative path if written, None if skipped.</span>
@@ -491,7 +515,9 @@
 
 <span class="sd">        Note:</span>
 <span class="sd">            Whether a write is *needed* is :meth:`is_current`'s decision, taken</span>
-<span class="sd">            before the geometry is built. This writes what it is given.</span>
+<span class="sd">            before the geometry is built. This writes what it is given — but it</span>
+<span class="sd">            also re-measures the geometry on disk first, so a piece whose bytes</span>
+<span class="sd">            changed without its shape changing is not rewritten.</span>
 
 <span class="sd">        """</span>
         <span class="n">path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">path_for</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">part</span><span class="p">,</span> <span class="n">mode</span><span class="p">)</span>
@@ -503,6 +529,19 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">bounds</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
                 <span class="n">PieceBounds</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">label</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">part</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">measured</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="n">mode</span><span class="p">)</span>
             <span class="p">)</span>
+
+        <span class="c1"># The fingerprint is the fast path; this is the honest one. The bytes</span>
+        <span class="c1"># OpenSCAD writes are not deterministic, so compare the shape itself —</span>
+        <span class="c1"># bounding box and volume — against the file already on disk and leave</span>
+        <span class="c1"># it alone when they agree.</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="n">geometry_check</span>
+            <span class="ow">and</span> <span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span>
+            <span class="ow">and</span> <span class="n">same_geometry</span><span class="p">(</span><span class="n">mesh_geometry</span><span class="p">(</span><span class="n">payload</span><span class="p">),</span> <span class="n">read_3mf_geometry</span><span class="p">(</span><span class="n">path</span><span class="p">))</span>
+        <span class="p">):</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">record</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">fingerprint</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">skipped</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">relative</span><span class="p">(</span><span class="n">path</span><span class="p">))</span>
+            <span class="k">return</span> <span class="kc">None</span>
 
         <span class="c1"># Keep the .3mf suffix on the temp file — the exporter picks its format</span>
         <span class="c1"># from the extension and silently falls back to STL without it.</span>
@@ -589,7 +628,7 @@
             <span class="k">return</span> <span class="p">([</span><span class="n">solid</span><span class="p">]</span> <span class="k">if</span> <span class="n">solid</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="p">[])</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="n">inserts</span><span class="p">)</span>
         <span class="n">merged</span> <span class="o">=</span> <span class="n">solid</span>
         <span class="k">for</span> <span class="n">insert</span> <span class="ow">in</span> <span class="n">inserts</span><span class="p">:</span>
-            <span class="n">merged</span> <span class="o">=</span> <span class="n">insert</span> <span class="k">if</span> <span class="n">merged</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">merged</span> <span class="o">+</span> <span class="n">insert</span>
+            <span class="n">merged</span> <span class="o">=</span> <span class="n">insert</span> <span class="k">if</span> <span class="n">merged</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">merged</span> <span class="o">|</span> <span class="n">insert</span>
         <span class="k">return</span> <span class="n">merged</span></div>
 
 
@@ -639,8 +678,19 @@
 <span class="sd">    """</span>
     <span class="n">bounds</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">solid</span><span class="p">,</span> <span class="s2">"bounds"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
     <span class="k">if</span> <span class="nb">callable</span><span class="p">(</span><span class="n">bounds</span><span class="p">):</span>
-        <span class="n">origin</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="n">bounds</span><span class="p">()</span>
-        <span class="k">return</span> <span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">origin</span><span class="p">),</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">size</span><span class="p">))</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">b</span> <span class="o">=</span> <span class="n">bounds</span><span class="p">()</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="s2">"min"</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="s2">"size"</span><span class="p">):</span>
+                <span class="k">return</span> <span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">b</span><span class="o">.</span><span class="n">min</span><span class="p">),</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">b</span><span class="o">.</span><span class="n">size</span><span class="p">))</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="s2">"min_x"</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="s2">"width"</span><span class="p">):</span>
+                <span class="k">return</span> <span class="p">(</span>
+                    <span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">min_x</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">min_y</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="s2">"min_z"</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">))),</span>
+                    <span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">width</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">length</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="s2">"height"</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">))),</span>
+                <span class="p">)</span>
+            <span class="n">origin</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="n">b</span>
+            <span class="k">return</span> <span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">origin</span><span class="p">),</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">size</span><span class="p">))</span>
+        <span class="k">except</span> <span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="ne">TypeError</span><span class="p">):</span>
+            <span class="k">pass</span>
 
     <span class="n">position</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">solid</span><span class="p">,</span> <span class="s2">"position"</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">solid</span><span class="p">,</span> <span class="s2">"size"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">position</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">size</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -758,7 +808,7 @@
     
       
         <script src="../../../_static/sphinx_immaterial_theme.32136f45f91ae6956.min.js?v=a7a9472a"></script>
-        <script type="module" src="../../../_static/stl_viewer.js?v=0ab88475"></script>
+        <script type="module" src="../../../_static/stl_viewer.js?v=7bec9a74"></script>
     
   </body>
 </html>

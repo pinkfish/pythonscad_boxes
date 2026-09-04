@@ -735,6 +735,18 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#pyboxbuilder.export.exporter.BoxExporter.recorded" class="md-nav__link">
+    
+      <span aria-label="Python method" class="objinfo-icon objinfo-icon__procedure" title="Python method">M</span>
+    
+    <span class="md-ellipsis">
+      <span title="pyboxbuilder.export.exporter.BoxExporter.recorded (Python method) — Return True when this piece has some recorded fingerprint."><span>recorded</span></span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#pyboxbuilder.export.exporter.BoxExporter.relative" class="md-nav__link">
     
       <span aria-label="Python method" class="objinfo-icon objinfo-icon__procedure" title="Python method">M</span>
@@ -891,6 +903,30 @@
   
   <span class="md-ellipsis">
     <span>pyboxbuilder.<wbr>export.<wbr>fingerprint</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pyboxbuilder.export.geometry.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>export.<wbr>geometry</span>
     
   </span>
   
@@ -1198,6 +1234,30 @@
 
               
             
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pyboxbuilder.sleeves.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>sleeves</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -1357,6 +1417,18 @@
     
     <span class="md-ellipsis">
       <span title="pyboxbuilder.export.exporter.BoxExporter.path_for (Python method) — Path of one piece. part is &#34;body&#34; or &#34;lid&#34;."><span>path_<wbr>for</span></span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pyboxbuilder.export.exporter.BoxExporter.recorded" class="md-nav__link">
+    
+      <span aria-label="Python method" class="objinfo-icon objinfo-icon__procedure" title="Python method">M</span>
+    
+    <span class="md-ellipsis">
+      <span title="pyboxbuilder.export.exporter.BoxExporter.recorded (Python method) — Return True when this piece has some recorded fingerprint."><span>recorded</span></span>
     </span>
   </a>
   
@@ -1533,6 +1605,15 @@ measuring would mean building the thing this skipped (FR-027).</p>
 </dd></dl>
 
 <dl class="py method objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.export.exporter.BoxExporter.recorded">
+<span class="sig-name descname"><span class="pre">recorded</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#pyboxbuilder.export.exporter.BoxExporter.recorded" title="pyboxbuilder.export.exporter.BoxExporter.recorded.label (Python parameter)"><span class="n"><span class="pre">label</span></span></a><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></span></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#pyboxbuilder.export.exporter.BoxExporter.recorded" title="pyboxbuilder.export.exporter.BoxExporter.recorded.part (Python parameter)"><span class="n"><span class="pre">part</span></span></a><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></span></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#pyboxbuilder.export.exporter.BoxExporter.recorded" title="pyboxbuilder.export.exporter.BoxExporter.recorded.mode (Python parameter)"><span class="n"><span class="pre">mode</span></span></a><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></span></em></span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span></span></span><a class="reference internal" href="../_modules/pyboxbuilder/export/exporter.html#BoxExporter.recorded"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyboxbuilder.export.exporter.BoxExporter.recorded" title="Link to this definition">¶</a></dt>
+<dd><p>Return True when this piece has <em>some</em> recorded fingerprint.</p>
+<p>A piece whose description changed must be rewritten; a piece that has
+simply never been exported here before (a fresh clone) may fall back to
+comparing geometry instead.</p>
+</dd></dl>
+
+<dl class="py method objdesc">
 <dt class="sig sig-object highlight py" id="pyboxbuilder.export.exporter.BoxExporter.relative">
 <span class="sig-name descname"><span class="pre">relative</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#pyboxbuilder.export.exporter.BoxExporter.relative" title="pyboxbuilder.export.exporter.BoxExporter.relative.path (Python parameter)"><span class="n"><span class="pre">path</span></span></a><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.14)"><span class="pre">Path</span></a></span></span></em></span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></span></span><a class="reference internal" href="../_modules/pyboxbuilder/export/exporter.html#BoxExporter.relative"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyboxbuilder.export.exporter.BoxExporter.relative" title="Link to this definition">¶</a></dt>
 <dd><p>Path as recorded in <cite>ExportResult</cite>, relative to the output root.</p>
@@ -1546,7 +1627,7 @@ measuring would mean building the thing this skipped (FR-027).</p>
 
 <dl class="py method objdesc">
 <dt class="sig sig-object highlight sig-wrap py" id="pyboxbuilder.export.exporter.BoxExporter.write_piece">
-<span class="sig-name descname"><span class="pre">write_piece</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#pyboxbuilder.export.exporter.BoxExporter.write_piece.label" title="pyboxbuilder.export.exporter.BoxExporter.write_piece.label (Python parameter) — Box label."><span class="n"><span class="pre">label</span></span></a><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></span></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#pyboxbuilder.export.exporter.BoxExporter.write_piece.part" title="pyboxbuilder.export.exporter.BoxExporter.write_piece.part (Python parameter) — &quot;body&quot; or &quot;lid&quot;."><span class="n"><span class="pre">part</span></span></a><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></span></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#pyboxbuilder.export.exporter.BoxExporter.write_piece.mode" title="pyboxbuilder.export.exporter.BoxExporter.write_piece.mode (Python parameter) — &quot;mmu&quot; or &quot;single&quot;."><span class="n"><span class="pre">mode</span></span></a><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></span></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#pyboxbuilder.export.exporter.BoxExporter.write_piece.solid" title="pyboxbuilder.export.exporter.BoxExporter.write_piece.solid (Python parameter) — The main geometry."><span class="n"><span class="pre">solid</span></span></a><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="desctype"><span class="pre">Bosl2Solid</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#pyboxbuilder.export.exporter.BoxExporter.write_piece.inserts" title="pyboxbuilder.export.exporter.BoxExporter.write_piece.inserts (Python parameter) — Positive coloured inserts."><span class="n"><span class="pre">inserts</span></span></a><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><span class="pre">Bosl2Solid</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#pyboxbuilder.export.exporter.BoxExporter.write_piece.size" title="pyboxbuilder.export.exporter.BoxExporter.write_piece.size (Python parameter) — Bounding box to record when it cannot be measured from solid."><span class="n"><span class="pre">size</span></span></a><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.14)"><span class="pre">tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#pyboxbuilder.export.exporter.BoxExporter.write_piece.fingerprint" title="pyboxbuilder.export.exporter.BoxExporter.write_piece.fingerprint (Python parameter) — Digest of the description this piece was built from, recorded beside the file for the next run to compare against."><span class="n"><span class="pre">fingerprint</span></span></a><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><code class="code python default_value docutils literal highlight highlight-python"><span class="s1">''</span></code></em></span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span></span><a class="reference internal" href="../_modules/pyboxbuilder/export/exporter.html#BoxExporter.write_piece"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyboxbuilder.export.exporter.BoxExporter.write_piece" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">write_piece</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#pyboxbuilder.export.exporter.BoxExporter.write_piece.label" title="pyboxbuilder.export.exporter.BoxExporter.write_piece.label (Python parameter) — Box label."><span class="n"><span class="pre">label</span></span></a><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></span></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#pyboxbuilder.export.exporter.BoxExporter.write_piece.part" title="pyboxbuilder.export.exporter.BoxExporter.write_piece.part (Python parameter) — &quot;body&quot; or &quot;lid&quot;."><span class="n"><span class="pre">part</span></span></a><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></span></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#pyboxbuilder.export.exporter.BoxExporter.write_piece.mode" title="pyboxbuilder.export.exporter.BoxExporter.write_piece.mode (Python parameter) — &quot;mmu&quot; or &quot;single&quot;."><span class="n"><span class="pre">mode</span></span></a><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></span></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#pyboxbuilder.export.exporter.BoxExporter.write_piece.solid" title="pyboxbuilder.export.exporter.BoxExporter.write_piece.solid (Python parameter) — The main geometry."><span class="n"><span class="pre">solid</span></span></a><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="desctype"><span class="pre">Bosl2Solid</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#pyboxbuilder.export.exporter.BoxExporter.write_piece.inserts" title="pyboxbuilder.export.exporter.BoxExporter.write_piece.inserts (Python parameter) — Positive coloured inserts."><span class="n"><span class="pre">inserts</span></span></a><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><span class="pre">Bosl2Solid</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#pyboxbuilder.export.exporter.BoxExporter.write_piece.size" title="pyboxbuilder.export.exporter.BoxExporter.write_piece.size (Python parameter) — Bounding box to record when it cannot be measured from solid."><span class="n"><span class="pre">size</span></span></a><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.14)"><span class="pre">tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#pyboxbuilder.export.exporter.BoxExporter.write_piece.fingerprint" title="pyboxbuilder.export.exporter.BoxExporter.write_piece.fingerprint (Python parameter) — Digest of the description this piece was built from, recorded beside the file for the next run to compare against."><span class="n"><span class="pre">fingerprint</span></span></a><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><code class="code python default_value docutils literal highlight highlight-python"><span class="s1">''</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#pyboxbuilder.export.exporter.BoxExporter.write_piece.force" title="pyboxbuilder.export.exporter.BoxExporter.write_piece.force (Python parameter) — Rewrite even when the geometry on disk already matches."><span class="n"><span class="pre">force</span></span></a><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">False</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#pyboxbuilder.export.exporter.BoxExporter.write_piece.geometry_check" title="pyboxbuilder.export.exporter.BoxExporter.write_piece.geometry_check (Python parameter) — Compare the shape (bounding box + volume) against the file already on disk and skip when they agree."><span class="n"><span class="pre">geometry_check</span></span></a><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">False</span></code></em></span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span></span><a class="reference internal" href="../_modules/pyboxbuilder/export/exporter.html#BoxExporter.write_piece"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyboxbuilder.export.exporter.BoxExporter.write_piece" title="Link to this definition">¶</a></dt>
 <dd><p>Export one piece, skipping the write when nothing about it changed.</p>
 <dl class="field-list simple">
 <dt class="field-odd" id="pyboxbuilder.export.exporter.BoxExporter.write_piece-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#pyboxbuilder.export.exporter.BoxExporter.write_piece-parameters" title="Permalink to this headline">¶</a></dt>
@@ -1567,6 +1648,13 @@ mode and unioned into <cite>solid</cite> in single mode (T068a).</p>
 <dt id="pyboxbuilder.export.exporter.BoxExporter.write_piece.fingerprint"><span class="n sig-name">fingerprint</span><span class="p">:</span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a></span></span><span class="w"> </span><span class="o">=</span><span class="w"> </span><code class="code python default_value docutils literal highlight highlight-python"><span class="s1">''</span></code><a class="headerlink" href="#pyboxbuilder.export.exporter.BoxExporter.write_piece.fingerprint" title="Permalink to this definition">¶</a></dt><dd><p>Digest of the description this piece was built from,
 recorded beside the file for the next run to compare against.</p>
 </dd>
+<dt id="pyboxbuilder.export.exporter.BoxExporter.write_piece.force"><span class="n sig-name">force</span><span class="p">:</span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)">bool</a></span></span><span class="w"> </span><span class="o">=</span><span class="w"> </span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">False</span></code><a class="headerlink" href="#pyboxbuilder.export.exporter.BoxExporter.write_piece.force" title="Permalink to this definition">¶</a></dt><dd><p>Rewrite even when the geometry on disk already matches.</p>
+</dd>
+<dt id="pyboxbuilder.export.exporter.BoxExporter.write_piece.geometry_check"><span class="n sig-name">geometry_check</span><span class="p">:</span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)">bool</a></span></span><span class="w"> </span><span class="o">=</span><span class="w"> </span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">False</span></code><a class="headerlink" href="#pyboxbuilder.export.exporter.BoxExporter.write_piece.geometry_check" title="Permalink to this definition">¶</a></dt><dd><p>Compare the shape (bounding box + volume) against the
+file already on disk and skip when they agree. Only the caller’s
+fallback for a piece with <strong>no</strong> recorded fingerprint — a
+changed description must always be written.</p>
+</dd>
 </dl>
 </dd>
 <dt class="field-even" id="pyboxbuilder.export.exporter.BoxExporter.write_piece-returns">Returns<span class="colon">:</span><a class="headerlink" href="#pyboxbuilder.export.exporter.BoxExporter.write_piece-returns" title="Permalink to this headline">¶</a></dt>
@@ -1576,14 +1664,16 @@ recorded beside the file for the next run to compare against.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#RuntimeError" title="(in Python v3.14)"><strong>RuntimeError</strong></a> – If the piece has no geometry to write, or if the
     backend accepts it and produces no file.</p></li>
-<li><p><a class="reference internal" href="pyboxbuilder.deps.html#pyboxbuilder.deps.MissingDependencyError" title="pyboxbuilder.deps.MissingDependencyError (Python exception) — Bases: ImportError"><strong>MissingDependencyError</strong></a> – If the geometry backend is not installed.</p></li>
+<li><p><strong>MissingDependencyError</strong> – If the geometry backend is not installed.</p></li>
 </ul>
 </dd>
 </dl>
 <div class="note admonition">
 <p class="admonition-title">Note</p>
 <p>Whether a write is <em>needed</em> is <a class="reference internal" href="#pyboxbuilder.export.exporter.BoxExporter.is_current" title="pyboxbuilder.export.exporter.BoxExporter.is_current (Python method) — Return True when the file on disk was built from this exact description."><code class="xref py py-meth docutils literal notranslate"><span class="pre">is_current()</span></code></a>’s decision, taken
-before the geometry is built. This writes what it is given.</p>
+before the geometry is built. This writes what it is given — but it
+also re-measures the geometry on disk first, so a piece whose bytes
+changed without its shape changing is not rewritten.</p>
 </div>
 </dd></dl>
 
@@ -1655,7 +1745,7 @@ before the geometry is built. This writes what it is given.</p>
     
       
         <script src="../_static/sphinx_immaterial_theme.32136f45f91ae6956.min.js?v=a7a9472a"></script>
-        <script type="module" src="../_static/stl_viewer.js?v=0ab88475"></script>
+        <script type="module" src="../_static/stl_viewer.js?v=7bec9a74"></script>
     
   </body>
 </html>

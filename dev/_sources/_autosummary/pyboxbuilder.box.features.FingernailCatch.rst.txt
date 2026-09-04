@@ -5,5 +5,4 @@ pyboxbuilder.box.features.FingernailCatch
 
 .. autoclass:: FingernailCatch
    :members:
-   :undoc-members:
    :show-inheritance:

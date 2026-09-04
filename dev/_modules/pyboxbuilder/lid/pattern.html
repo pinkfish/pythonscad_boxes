@@ -352,7 +352,7 @@
 <span class="sd">of pinholes.</span>
 <span class="sd">"""</span>
 
-<span class="n">DENSE_SPACING_SHARE</span> <span class="o">=</span> <span class="mf">0.6</span>
+<span class="n">DENSE_SPACING_SHARE</span> <span class="o">=</span> <span class="mf">1.6</span>
 <span class="sd">"""How much of the normal spacing a *dense* variant uses."""</span>
 
 <span class="n">DEPTH_OVERSHOOT</span> <span class="o">=</span> <span class="mf">1.2</span>
@@ -1077,13 +1077,14 @@
         <span class="k">return</span> <span class="kc">None</span>
     <span class="n">gap</span> <span class="o">=</span> <span class="n">DEFAULT_WEB_MM</span> <span class="k">if</span> <span class="n">web</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="nb">max</span><span class="p">(</span><span class="n">web</span><span class="p">,</span> <span class="n">MIN_WEB_MM</span><span class="p">)</span>
 
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path2D</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">shapes2d</span> <span class="k">as</span> <span class="n">s2</span>
 
     <span class="c1"># `spacing` is the lattice pitch along a row, which for this tile is twice</span>
     <span class="c1"># the leaf's half-width, so the leaf is built from the section that gives it.</span>
     <span class="n">section</span> <span class="o">=</span> <span class="n">spacing</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">ROOT_THREE</span><span class="p">)</span>
     <span class="n">outline</span> <span class="o">=</span> <span class="n">s2</span><span class="o">.</span><span class="n">polygon</span><span class="p">(</span>
-        <span class="p">[[</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">tessellating_leaf_path</span><span class="p">(</span><span class="n">section</span><span class="p">)]</span>
+        <span class="n">Path2D</span><span class="p">([[</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">tessellating_leaf_path</span><span class="p">(</span><span class="n">section</span><span class="p">)])</span>
     <span class="p">)</span><span class="o">.</span><span class="n">offset</span><span class="p">(</span><span class="n">delta</span><span class="o">=-</span><span class="n">gap</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">veins</span><span class="p">:</span>
         <span class="n">outline</span> <span class="o">=</span> <span class="n">outline</span> <span class="o">-</span> <span class="n">_leaf_veins</span><span class="p">(</span><span class="n">section</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="n">MIN_WEB_MM</span><span class="p">,</span> <span class="n">gap</span> <span class="o">*</span> <span class="n">LEAF_VEIN_SHARE</span><span class="p">))</span>
@@ -1197,7 +1198,7 @@
     
       
         <script src="../../../_static/sphinx_immaterial_theme.32136f45f91ae6956.min.js?v=a7a9472a"></script>
-        <script type="module" src="../../../_static/stl_viewer.js?v=0ab88475"></script>
+        <script type="module" src="../../../_static/stl_viewer.js?v=7bec9a74"></script>
     
   </body>
 </html>

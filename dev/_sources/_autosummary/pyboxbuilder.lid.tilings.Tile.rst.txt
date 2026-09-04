@@ -5,5 +5,4 @@ pyboxbuilder.lid.tilings.Tile
 
 .. autoclass:: Tile
    :members:
-   :undoc-members:
    :show-inheritance:

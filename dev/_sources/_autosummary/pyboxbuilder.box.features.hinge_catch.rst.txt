@@ -1,0 +1,6 @@
+pyboxbuilder.box.features.hinge\_catch
+======================================
+
+.. currentmodule:: pyboxbuilder.box.features
+
+.. autofunction:: hinge_catch

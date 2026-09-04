@@ -5,5 +5,4 @@ pyboxbuilder.compartments.finger\_sweep.FaceTreatment
 
 .. autoclass:: FaceTreatment
    :members:
-   :undoc-members:
    :show-inheritance:

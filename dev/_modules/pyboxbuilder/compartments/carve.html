@@ -317,7 +317,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.interior</span><span class="w"> </span><span class="kn">import</span> <span class="n">Interior</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">ScoopSide</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">FingerCut</span><span class="p">,</span> <span class="n">ScoopSide</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.rounding</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">max_radius</span><span class="p">,</span>
     <span class="n">round_edges</span><span class="p">,</span>
@@ -326,6 +326,7 @@
 <span class="p">)</span>
 
 <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">Color</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2.shapes3d</span><span class="w"> </span><span class="kn">import</span> <span class="n">Bosl2Solid</span>
 
     <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.builders._base</span><span class="w"> </span><span class="kn">import</span> <span class="n">Cut</span>
@@ -473,11 +474,23 @@
     <span class="c1"># cut into the box's top edge.</span>
     <span class="n">top</span> <span class="o">=</span> <span class="n">top_z</span> <span class="k">if</span> <span class="n">top_z</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">interior</span><span class="o">.</span><span class="n">origin_z</span> <span class="o">+</span> <span class="n">interior</span><span class="o">.</span><span class="n">height</span>
     <span class="n">depth</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">top</span> <span class="o">-</span> <span class="n">floor_z</span><span class="p">)</span>
-    <span class="n">wall_thickness</span> <span class="o">=</span> <span class="n">interior</span><span class="o">.</span><span class="n">origin_x</span> <span class="k">if</span> <span class="n">interior</span><span class="o">.</span><span class="n">origin_x</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mf">2.0</span>
-    <span class="c1"># origin_z is the box floor: the scoop dips a fraction of it so its bottom</span>
-    <span class="c1"># face is not coplanar with the well floor (which renders as speckle).</span>
-    <span class="n">floor_thickness</span> <span class="o">=</span> <span class="n">interior</span><span class="o">.</span><span class="n">origin_z</span> <span class="k">if</span> <span class="n">interior</span><span class="o">.</span><span class="n">origin_z</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="kc">None</span>
+    <span class="n">base_wt</span> <span class="o">=</span> <span class="n">interior</span><span class="o">.</span><span class="n">origin_x</span> <span class="k">if</span> <span class="n">interior</span><span class="o">.</span><span class="n">origin_x</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mf">2.0</span>
+    <span class="k">if</span> <span class="n">scoop_side</span> <span class="o">==</span> <span class="n">ScoopSide</span><span class="o">.</span><span class="n">FRONT</span><span class="p">:</span>
+        <span class="n">gap</span> <span class="o">=</span> <span class="n">placement</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">interior</span><span class="o">.</span><span class="n">origin_y</span>
+    <span class="k">elif</span> <span class="n">scoop_side</span> <span class="o">==</span> <span class="n">ScoopSide</span><span class="o">.</span><span class="n">BACK</span><span class="p">:</span>
+        <span class="n">gap</span> <span class="o">=</span> <span class="p">(</span><span class="n">interior</span><span class="o">.</span><span class="n">origin_y</span> <span class="o">+</span> <span class="n">interior</span><span class="o">.</span><span class="n">length</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">placement</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">length</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">scoop_side</span> <span class="o">==</span> <span class="n">ScoopSide</span><span class="o">.</span><span class="n">LEFT</span><span class="p">:</span>
+        <span class="n">gap</span> <span class="o">=</span> <span class="n">placement</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">interior</span><span class="o">.</span><span class="n">origin_x</span>
+    <span class="k">elif</span> <span class="n">scoop_side</span> <span class="o">==</span> <span class="n">ScoopSide</span><span class="o">.</span><span class="n">RIGHT</span><span class="p">:</span>
+        <span class="n">gap</span> <span class="o">=</span> <span class="p">(</span><span class="n">interior</span><span class="o">.</span><span class="n">origin_x</span> <span class="o">+</span> <span class="n">interior</span><span class="o">.</span><span class="n">width</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">placement</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">width</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">gap</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="n">wall_thickness</span> <span class="o">=</span> <span class="n">base_wt</span> <span class="o">+</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">gap</span><span class="p">)</span>
     <span class="n">cut</span> <span class="o">=</span> <span class="n">cut</span> <span class="k">if</span> <span class="n">cut</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">Cut</span><span class="p">()</span>
+    <span class="n">floor_thickness</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">floor_z</span> <span class="k">if</span> <span class="n">cut</span><span class="o">.</span><span class="n">kind</span> <span class="ow">is</span> <span class="n">FingerCut</span><span class="o">.</span><span class="n">THROUGH_FLOOR</span>
+        <span class="k">else</span> <span class="p">(</span><span class="n">interior</span><span class="o">.</span><span class="n">origin_z</span> <span class="k">if</span> <span class="n">interior</span><span class="o">.</span><span class="n">origin_z</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="p">)</span>
     <span class="n">scoop</span> <span class="o">=</span> <span class="n">build_cut</span><span class="p">(</span>
         <span class="n">cut</span><span class="o">.</span><span class="n">kind</span><span class="p">,</span>
         <span class="n">width</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">cut</span><span class="o">.</span><span class="n">depth</span> <span class="k">if</span> <span class="n">cut</span><span class="o">.</span><span class="n">depth</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">depth</span><span class="p">,</span> <span class="n">scoop_side</span><span class="p">,</span>
@@ -491,29 +504,6 @@
         <span class="p">),</span>
         <span class="n">faces</span><span class="o">=</span><span class="n">FaceTreatment</span><span class="p">(</span><span class="n">fillet</span><span class="o">=</span><span class="n">cut</span><span class="o">.</span><span class="n">face_fillet</span><span class="p">),</span>
     <span class="p">)</span>
-
-    <span class="k">if</span> <span class="n">placement</span><span class="o">.</span><span class="n">depth</span> <span class="o">&gt;</span> <span class="mf">35.0</span><span class="p">:</span>
-        <span class="n">opposing</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="n">ScoopSide</span><span class="o">.</span><span class="n">FRONT</span><span class="p">:</span> <span class="n">ScoopSide</span><span class="o">.</span><span class="n">BACK</span><span class="p">,</span>
-            <span class="n">ScoopSide</span><span class="o">.</span><span class="n">BACK</span><span class="p">:</span> <span class="n">ScoopSide</span><span class="o">.</span><span class="n">FRONT</span><span class="p">,</span>
-            <span class="n">ScoopSide</span><span class="o">.</span><span class="n">LEFT</span><span class="p">:</span> <span class="n">ScoopSide</span><span class="o">.</span><span class="n">RIGHT</span><span class="p">,</span>
-            <span class="n">ScoopSide</span><span class="o">.</span><span class="n">RIGHT</span><span class="p">:</span> <span class="n">ScoopSide</span><span class="o">.</span><span class="n">LEFT</span><span class="p">,</span>
-        <span class="p">}</span>
-        <span class="n">opp_side</span> <span class="o">=</span> <span class="n">opposing</span><span class="p">[</span><span class="n">scoop_side</span><span class="p">]</span>
-        <span class="n">opp_scoop</span> <span class="o">=</span> <span class="n">build_cut</span><span class="p">(</span>
-            <span class="n">cut</span><span class="o">.</span><span class="n">kind</span><span class="p">,</span>
-            <span class="n">width</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">cut</span><span class="o">.</span><span class="n">depth</span> <span class="k">if</span> <span class="n">cut</span><span class="o">.</span><span class="n">depth</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">depth</span><span class="p">,</span> <span class="n">opp_side</span><span class="p">,</span>
-            <span class="n">wall_thickness</span><span class="o">=</span><span class="n">wall_thickness</span><span class="p">,</span>
-            <span class="n">floor_thickness</span><span class="o">=</span><span class="n">floor_thickness</span><span class="p">,</span>
-            <span class="n">profile</span><span class="o">=</span><span class="n">CutProfile</span><span class="p">(</span>
-                <span class="n">width</span><span class="o">=</span><span class="n">cut</span><span class="o">.</span><span class="n">width</span><span class="p">,</span>
-                <span class="n">base_radius</span><span class="o">=</span><span class="n">cut</span><span class="o">.</span><span class="n">base_radius</span><span class="p">,</span>
-                <span class="n">mouth_flare</span><span class="o">=</span><span class="n">cut</span><span class="o">.</span><span class="n">mouth_flare</span><span class="p">,</span>
-                <span class="n">roll_rise</span><span class="o">=</span><span class="n">cut</span><span class="o">.</span><span class="n">roll_rise</span><span class="p">,</span>
-            <span class="p">),</span>
-            <span class="n">faces</span><span class="o">=</span><span class="n">FaceTreatment</span><span class="p">(</span><span class="n">fillet</span><span class="o">=</span><span class="n">cut</span><span class="o">.</span><span class="n">face_fillet</span><span class="p">),</span>
-        <span class="p">)</span>
-        <span class="n">scoop</span> <span class="o">=</span> <span class="n">scoop</span> <span class="o">|</span> <span class="n">opp_scoop</span>
 
     <span class="k">return</span> <span class="n">_place</span><span class="p">(</span><span class="n">scoop</span><span class="p">,</span> <span class="n">placement</span><span class="p">,</span> <span class="n">interior</span><span class="p">)</span></div>
 
@@ -589,6 +579,8 @@
     <span class="n">default_side</span><span class="p">:</span> <span class="n">ScoopSide</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">wall_tops</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="n">ScoopSide</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">mask</span><span class="p">:</span> <span class="n">Bosl2Solid</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">hinge_intrusion</span><span class="p">:</span> <span class="n">Bosl2Solid</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">suppress_scoops</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Union the cutouts for every placed compartment. None when there are none.</span>
 
@@ -616,6 +608,8 @@
 <span class="sd">        default_side: The box type's preferred scoop wall, used when the</span>
 <span class="sd">            compartment names none. A sliding box insists on the wall its lid</span>
 <span class="sd">            leaves by; most types have no opinion and leave it to the shape.</span>
+<span class="sd">        hinge_intrusion: Volume containing the hinge mechanism that compartments must not intersect.</span>
+<span class="sd">        suppress_scoops: Skip generating finger scoops (e.g. for lids/closures that conflict).</span>
 
 <span class="sd">    """</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.compartments.element</span><span class="w"> </span><span class="kn">import</span> <span class="n">union_all</span>
@@ -631,8 +625,13 @@
                 <span class="n">placement</span><span class="p">,</span> <span class="n">interior</span><span class="p">,</span> <span class="n">rounded_corners</span><span class="o">=</span><span class="n">radius</span><span class="p">,</span> <span class="n">bottom_rounding</span><span class="o">=</span><span class="n">radius</span><span class="p">,</span>
             <span class="p">)</span>
         <span class="p">)</span>
+        <span class="k">if</span> <span class="n">placement</span><span class="o">.</span><span class="n">elements</span><span class="p">:</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.compartments.element</span><span class="w"> </span><span class="kn">import</span> <span class="n">build_element_pack_pull_outs</span>
+            <span class="n">pull_outs</span> <span class="o">=</span> <span class="n">build_element_pack_pull_outs</span><span class="p">(</span><span class="n">placement</span><span class="o">.</span><span class="n">elements</span><span class="p">,</span> <span class="n">placement</span><span class="o">.</span><span class="n">depth</span><span class="p">,</span> <span class="n">placement</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">pull_outs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">scoops</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_place</span><span class="p">(</span><span class="n">pull_outs</span><span class="p">,</span> <span class="n">placement</span><span class="p">,</span> <span class="n">interior</span><span class="p">))</span>
         <span class="n">cut</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">builder</span><span class="p">,</span> <span class="s2">"cut"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">cut</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">cut</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">suppress_scoops</span><span class="p">:</span>
             <span class="n">side</span> <span class="o">=</span> <span class="n">cut</span><span class="o">.</span><span class="n">side</span> <span class="ow">or</span> <span class="n">default_side</span> <span class="ow">or</span> <span class="n">default_scoop_side</span><span class="p">(</span><span class="n">placement</span><span class="p">)</span>
             <span class="n">side_top</span> <span class="o">=</span> <span class="p">(</span><span class="n">wall_tops</span> <span class="ow">or</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">side</span><span class="p">,</span> <span class="n">top_z</span><span class="p">)</span>
             <span class="n">scoops</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
@@ -640,6 +639,20 @@
                     <span class="n">placement</span><span class="p">,</span> <span class="n">interior</span><span class="p">,</span> <span class="n">side</span><span class="p">,</span> <span class="n">top_z</span><span class="o">=</span><span class="n">side_top</span><span class="p">,</span> <span class="n">cut</span><span class="o">=</span><span class="n">cut</span><span class="p">,</span>
                 <span class="p">)</span>
             <span class="p">)</span>
+            <span class="k">if</span> <span class="n">placement</span><span class="o">.</span><span class="n">depth</span> <span class="o">&gt;</span> <span class="mf">35.0</span><span class="p">:</span>
+                <span class="n">opposing</span> <span class="o">=</span> <span class="p">{</span>
+                    <span class="n">ScoopSide</span><span class="o">.</span><span class="n">FRONT</span><span class="p">:</span> <span class="n">ScoopSide</span><span class="o">.</span><span class="n">BACK</span><span class="p">,</span>
+                    <span class="n">ScoopSide</span><span class="o">.</span><span class="n">BACK</span><span class="p">:</span> <span class="n">ScoopSide</span><span class="o">.</span><span class="n">FRONT</span><span class="p">,</span>
+                    <span class="n">ScoopSide</span><span class="o">.</span><span class="n">LEFT</span><span class="p">:</span> <span class="n">ScoopSide</span><span class="o">.</span><span class="n">RIGHT</span><span class="p">,</span>
+                    <span class="n">ScoopSide</span><span class="o">.</span><span class="n">RIGHT</span><span class="p">:</span> <span class="n">ScoopSide</span><span class="o">.</span><span class="n">LEFT</span><span class="p">,</span>
+                <span class="p">}</span>
+                <span class="n">opp_side</span> <span class="o">=</span> <span class="n">opposing</span><span class="p">[</span><span class="n">side</span><span class="p">]</span>
+                <span class="n">opp_side_top</span> <span class="o">=</span> <span class="p">(</span><span class="n">wall_tops</span> <span class="ow">or</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">opp_side</span><span class="p">,</span> <span class="n">top_z</span><span class="p">)</span>
+                <span class="n">scoops</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="n">build_compartment_scoop</span><span class="p">(</span>
+                        <span class="n">placement</span><span class="p">,</span> <span class="n">interior</span><span class="p">,</span> <span class="n">opp_side</span><span class="p">,</span> <span class="n">top_z</span><span class="o">=</span><span class="n">opp_side_top</span><span class="p">,</span> <span class="n">cut</span><span class="o">=</span><span class="n">cut</span><span class="p">,</span>
+                    <span class="p">)</span>
+                <span class="p">)</span>
 
     <span class="n">contents</span> <span class="o">=</span> <span class="n">union_all</span><span class="p">(</span><span class="n">wells</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">contents</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">clip</span><span class="p">:</span>
@@ -653,7 +666,10 @@
         <span class="c1"># without this the material above the interior ceiling — the lid recess</span>
         <span class="c1"># on a cap box, the groove band on a sliding one — stays put and seals</span>
         <span class="c1"># every well under a lid of its own.</span>
-        <span class="n">contents</span> <span class="o">=</span> <span class="n">contents</span> <span class="o">|</span> <span class="n">interior_mouth</span><span class="p">(</span><span class="n">interior</span><span class="p">)</span>
+        <span class="n">mouth</span> <span class="o">=</span> <span class="n">interior_mouth</span><span class="p">(</span><span class="n">interior</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">hinge_intrusion</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">mouth</span> <span class="o">=</span> <span class="n">mouth</span> <span class="o">-</span> <span class="n">hinge_intrusion</span>
+        <span class="n">contents</span> <span class="o">=</span> <span class="n">contents</span> <span class="o">|</span> <span class="n">mouth</span>
 
     <span class="n">scoop</span> <span class="o">=</span> <span class="n">union_all</span><span class="p">(</span><span class="n">scoops</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">scoop</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -702,6 +718,31 @@
         <span class="n">interior</span><span class="o">.</span><span class="n">origin_y</span> <span class="o">+</span> <span class="n">interior</span><span class="o">.</span><span class="n">length</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span>
         <span class="n">interior</span><span class="o">.</span><span class="n">origin_z</span> <span class="o">+</span> <span class="n">interior</span><span class="o">.</span><span class="n">height</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span>
     <span class="p">])</span></div>
+
+
+
+<div class="viewcode-block" id="build_inserts">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.compartments.carve.build_inserts.html#pyboxbuilder.compartments.carve.build_inserts">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">build_inserts</span><span class="p">(</span>
+    <span class="n">placements</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">CompartmentPlacement</span><span class="p">],</span>
+    <span class="n">interior</span><span class="p">:</span> <span class="n">Interior</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="n">Bosl2Solid</span><span class="p">,</span> <span class="n">Color</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sd">"""Build every coloured positive insert across the placed compartments.</span>
+
+<span class="sd">    These are the *added* counterpart of :func:`build_contents`: a coloured</span>
+<span class="sd">    element is a thin icon pressed into the bottom of its well, not a cutout, so</span>
+<span class="sd">    it is returned as a separate solid (in the box frame) with its colour rather</span>
+<span class="sd">    than subtracted from the body.</span>
+<span class="sd">    """</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.compartments.element</span><span class="w"> </span><span class="kn">import</span> <span class="n">build_element_pack_inserts</span>
+
+    <span class="n">inserts</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="n">Bosl2Solid</span><span class="p">,</span> <span class="n">Color</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">placement</span> <span class="ow">in</span> <span class="n">placements</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">placement</span><span class="o">.</span><span class="n">elements</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="k">for</span> <span class="n">solid</span><span class="p">,</span> <span class="n">color</span> <span class="ow">in</span> <span class="n">build_element_pack_inserts</span><span class="p">(</span><span class="n">placement</span><span class="o">.</span><span class="n">elements</span><span class="p">,</span> <span class="n">placement</span><span class="o">.</span><span class="n">depth</span><span class="p">):</span>
+            <span class="n">inserts</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">_place</span><span class="p">(</span><span class="n">solid</span><span class="p">,</span> <span class="n">placement</span><span class="p">,</span> <span class="n">interior</span><span class="p">),</span> <span class="n">color</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">inserts</span></div>
 
 </code></pre></div>
 
@@ -771,7 +812,7 @@
     
       
         <script src="../../../_static/sphinx_immaterial_theme.32136f45f91ae6956.min.js?v=a7a9472a"></script>
-        <script type="module" src="../../../_static/stl_viewer.js?v=0ab88475"></script>
+        <script type="module" src="../../../_static/stl_viewer.js?v=7bec9a74"></script>
     
   </body>
 </html>

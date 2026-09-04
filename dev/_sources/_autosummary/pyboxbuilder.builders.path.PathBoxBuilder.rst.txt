@@ -5,5 +5,4 @@ pyboxbuilder.builders.path.PathBoxBuilder
 
 .. autoclass:: PathBoxBuilder
    :members:
-   :undoc-members:
    :show-inheritance:

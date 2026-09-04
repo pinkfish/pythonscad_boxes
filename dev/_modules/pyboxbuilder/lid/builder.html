@@ -347,7 +347,7 @@
 
 
 <div class="viewcode-block" id="PatternBuilder">
-<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.lid.builder.PatternBuilder.html#pyboxbuilder.PatternBuilder">[docs]</a>
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.lid.builder.PatternBuilder.html#pyboxbuilder.lid.builder.PatternBuilder">[docs]</a>
 <span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">PatternBuilder</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Through-hole pattern configuration for a lid.</span>
@@ -388,7 +388,7 @@
 
 
 <div class="viewcode-block" id="LidBuilder">
-<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.lid.builder.LidBuilder.html#pyboxbuilder.LidBuilder">[docs]</a>
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.lid.builder.LidBuilder.html#pyboxbuilder.lid.builder.LidBuilder">[docs]</a>
 <span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">LidBuilder</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Lid decoration configuration.</span>
@@ -445,10 +445,14 @@
 <span class="sd">    The grid is a texture behind the lettering, not a second label. What sits</span>
 <span class="sd">    *behind* both is the box's own material — it is never cut, so it needs no</span>
 <span class="sd">    colour here (FR-022)."""</span>
-    <span class="n">pattern</span><span class="p">:</span> <span class="n">PatternBuilder</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">pattern</span><span class="p">:</span> <span class="n">PatternBuilder</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">PatternBuilder</span><span class="p">(</span><span class="n">PatternType</span><span class="o">.</span><span class="n">DENSE_HEX</span><span class="p">)</span>
 <span class="w">    </span><span class="sd">"""Through-hole pattern, or ``None`` for a plain lid."""</span>
     <span class="n">pattern_color</span><span class="p">:</span> <span class="n">Color</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="w">    </span><span class="sd">"""Colour of the pattern's top layer; ``None`` contrasts with the body."""</span>
+    <span class="n">logo</span><span class="p">:</span> <span class="n">Any</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">"""Path to the SVG logo, a Bosl2Solid, or a callable representing the custom lid logo."""</span>
+    <span class="n">logo_color</span><span class="p">:</span> <span class="n">Color</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">"""Colour the logo is inlaid in; ``None`` uses black."""</span>
     <span class="n">min_text_height_mm</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="w">    </span><span class="sd">"""Below this the label is skipped rather than printed illegibly (FR-020).</span>
 
@@ -456,6 +460,12 @@
     <span class="n">border_margin_mm</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="w">    </span><span class="sd">"""Margin the auto-sized label keeps clear of the lid's edge; ``None`` uses</span>
 <span class="sd">    :data:`BORDER_MARGIN_MM`."""</span>
+    <span class="n">label_border_mm</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">"""Solid outer border width of the label backing plate; ``None`` uses defaults."""</span>
+    <span class="n">label_text_gap_mm</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">"""Gap between label text and inside of the border; ``None`` uses defaults."""</span>
+    <span class="n">label_rounding_mm</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">"""Corner rounding radius of the label backing plate; ``None`` uses defaults."""</span>
     <span class="n">label_clearance_mm</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="w">    </span><span class="sd">"""Solid margin kept around the **lettering** where a pattern meets it.</span>
 
@@ -471,7 +481,7 @@
 <span class="w">    </span><span class="sd">"""Fields to override for the single-colour export."""</span>
 
 <div class="viewcode-block" id="LidBuilder.titled">
-<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.lid.builder.LidBuilder.html#pyboxbuilder.LidBuilder.titled">[docs]</a>
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.lid.builder.LidBuilder.html#pyboxbuilder.lid.builder.LidBuilder.titled">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">titled</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">overrides</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LidBuilder</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Return this lid style, carrying a particular box's text.</span>
 
@@ -524,7 +534,7 @@
         <span class="p">)</span>
 
 <div class="viewcode-block" id="LidBuilder.for_mode">
-<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.lid.builder.LidBuilder.html#pyboxbuilder.LidBuilder.for_mode">[docs]</a>
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.lid.builder.LidBuilder.html#pyboxbuilder.lid.builder.LidBuilder.for_mode">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">for_mode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LidBuilder</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Return this lid as it prints in one colour mode.</span>
 
@@ -565,7 +575,7 @@
         <span class="p">}</span>
 
 <div class="viewcode-block" id="LidBuilder.resolve_for_mode">
-<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.lid.builder.LidBuilder.html#pyboxbuilder.LidBuilder.resolve_for_mode">[docs]</a>
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.lid.builder.LidBuilder.html#pyboxbuilder.lid.builder.LidBuilder.resolve_for_mode">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">resolve_for_mode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LidBuilder</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Return the deprecated alias for :meth:`for_mode`."""</span>
         <span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
@@ -645,7 +655,7 @@
     
       
         <script src="../../../_static/sphinx_immaterial_theme.32136f45f91ae6956.min.js?v=a7a9472a"></script>
-        <script type="module" src="../../../_static/stl_viewer.js?v=0ab88475"></script>
+        <script type="module" src="../../../_static/stl_viewer.js?v=7bec9a74"></script>
     
   </body>
 </html>
