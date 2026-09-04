@@ -21,17 +21,13 @@ from pybosl2 import Color
 
 from pyboxbuilder import (
     BoxType,
-    ElementShape,
     FingerCut,
     LabelMode,
     LidBuilder,
     PatternBuilder,
     PatternType,
     Project,
-    columns,
     run,
-    stack,
-    centered,
 )
 
 # ── Game Box Dimensions ───────────────────────────────────────────

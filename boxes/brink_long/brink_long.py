@@ -85,8 +85,12 @@ for tier, (label, title, color_name) in enumerate(player_fleets):
         position=(0.0, 0.0, tier * long_player_box_height),
         no_rotate=True,
     )
-    p_box.compartment("LongShips", length_ratio=0.5, depth=long_player_box_height - floor_thickness - 1.0, cut=FingerCut.SCOOP)
-    p_box.compartment("Upgrades", length_ratio=0.5, depth=long_player_box_height - floor_thickness - 1.0, cut=FingerCut.SCOOP)
+    p_box.compartment(
+        "LongShips", length_ratio=0.5, depth=long_player_box_height - floor_thickness - 1.0, cut=FingerCut.SCOOP
+    )
+    p_box.compartment(
+        "Upgrades", length_ratio=0.5, depth=long_player_box_height - floor_thickness - 1.0, cut=FingerCut.SCOOP
+    )
 
 # ── 2. Card Boxes (Column 1, X = long_player_box_width) ───────────
 x_col1 = long_player_box_width

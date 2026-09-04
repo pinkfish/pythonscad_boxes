@@ -94,13 +94,29 @@ project.box(
 # 4 columns along Y, stacked 3 high (12 boxes total: 4 player + 8 resources)
 resources = [
     # Col 0
-    [("PlayerBox_Red", "Red", "darkred"), ("Resource_Mouse", "Mouse", "gray"), ("Resource_Sun", "Sun", "gold")],
+    [
+        ("PlayerBox_Red", "Red", "darkred"),
+        ("Resource_Mouse", "Mouse", "gray"),
+        ("Resource_Sun", "Sun", "gold"),
+    ],
     # Col 1
-    [("PlayerBox_Blue", "Blue", "navy"), ("Resource_Fish", "Fish", "dodgerblue"), ("Resource_Leaf", "Leaf", "forestgreen")],
+    [
+        ("PlayerBox_Blue", "Blue", "navy"),
+        ("Resource_Fish", "Fish", "dodgerblue"),
+        ("Resource_Leaf", "Leaf", "forestgreen"),
+    ],
     # Col 2
-    [("PlayerBox_Green", "Green", "green"), ("Resource_Spider", "Spider", "black"), ("Resource_Berry", "Berry", "purple")],
+    [
+        ("PlayerBox_Green", "Green", "green"),
+        ("Resource_Spider", "Spider", "black"),
+        ("Resource_Berry", "Berry", "purple"),
+    ],
     # Col 3
-    [("PlayerBox_Yellow", "Yellow", "goldenrod"), ("Resource_Chicks", "Chicks", "khaki"), ("Resource_Rabbits", "Rabbits", "saddlebrown")],
+    [
+        ("PlayerBox_Yellow", "Yellow", "goldenrod"),
+        ("Resource_Chicks", "Chicks", "khaki"),
+        ("Resource_Rabbits", "Rabbits", "saddlebrown"),
+    ],
 ]
 
 for col_idx, col_items in enumerate(resources):

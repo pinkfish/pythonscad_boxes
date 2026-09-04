@@ -95,7 +95,7 @@ for idx, color_name in enumerate(player_colors):
         cut=FingerCut.SCOOP,
     )
 
-# ── 2. Herald, Farmer & Seal Boxes (Y = player_length * 2 = 210mm) 
+# ── 2. Herald, Farmer & Seal Boxes (Y = player_length * 2 = 210mm)
 y_utility = player_length * 2.0
 
 project.box(

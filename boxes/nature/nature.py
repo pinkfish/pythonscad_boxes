@@ -123,7 +123,7 @@ project.box(
     no_rotate=True,
 ).compartment("Cards", depth=hunter_card_box_height - lid_thickness, cut=FingerCut.SCOOP)
 
-# ── 3. Population Dials & Leopard Box (Row 1, Y = card_box_length) 
+# ── 3. Population Dials & Leopard Box (Row 1, Y = card_box_length)
 y_row1 = card_box_length
 
 project.box(

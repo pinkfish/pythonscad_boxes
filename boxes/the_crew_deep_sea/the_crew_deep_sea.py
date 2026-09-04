@@ -44,10 +44,10 @@ from pyboxbuilder import (
     PatternBuilder,
     PatternType,
     Project,
+    centered,
     columns,
     run,
     stack,
-    centered,
 )
 from pyboxbuilder.compartments import CompartmentElement
 

@@ -111,7 +111,7 @@ m_box = project.box(
     position=(0.0, y_money, 0.0),
     no_rotate=True,
 )
-for slot, name in enumerate(["Money_1", "Money_5", "Money_10", "DividendCubes"]):
+for name in ["Money_1", "Money_5", "Money_10", "DividendCubes"]:
     m_box.compartment(
         name,
         width_ratio=0.25,

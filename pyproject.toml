@@ -131,14 +131,17 @@ ignore = [
     "D101",
 ]
 
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
 [tool.ruff.lint.per-file-ignores]
 # An example has to put the repo root on sys.path before it can import the
 # library, so its imports cannot come first. Examples are user-facing scripts,
 # not the library API, so the docstring rules do not apply to them either.
-"boxes/*" = ["E402", "D"]
+"boxes/**" = ["E402", "D"]
 # Tests and docs build tooling are not the library API either.
-"tests/*" = ["D"]
-"docs/*" = ["D"]
+"tests/**" = ["D"]
+"docs/**" = ["D"]
 
 [tool.ruff.format]
 quote-style = "double"

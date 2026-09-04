@@ -99,8 +99,12 @@ for label, pos, color_name in player_configs:
         position=pos,
         no_rotate=True,
     )
-    p_box.compartment("Meeples", length_ratio=0.6, depth=PLAYER_BOX_HEIGHT - floor_thickness - 1.0, cut=FingerCut.SCOOP)
-    p_box.compartment("DiscsAndTrophies", length_ratio=0.4, depth=PLAYER_BOX_HEIGHT - floor_thickness - 1.0, cut=FingerCut.SCOOP)
+    p_box.compartment(
+        "Meeples", length_ratio=0.6, depth=PLAYER_BOX_HEIGHT - floor_thickness - 1.0, cut=FingerCut.SCOOP
+    )
+    p_box.compartment(
+        "DiscsAndTrophies", length_ratio=0.4, depth=PLAYER_BOX_HEIGHT - floor_thickness - 1.0, cut=FingerCut.SCOOP
+    )
 
 # ── 2. Card Boxes (Column 1, X = PLAYER_BOX_WIDTH) ────────────────
 card_configs = [

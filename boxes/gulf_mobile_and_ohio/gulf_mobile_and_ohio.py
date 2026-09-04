@@ -117,7 +117,7 @@ for i in range(2):
         cut=FingerCut.SCOOP,
     )
 
-# ── 3. Resource Cube Boxes (6 colors, stacked 2 high in 3 columns) 
+# ── 3. Resource Cube Boxes (6 colors, stacked 2 high in 3 columns)
 cube_colors = ["red", "yellow", "green", "blue", "black", "purple"]
 y_cubes = money_box_length + company_box_length  # 204.0mm
 

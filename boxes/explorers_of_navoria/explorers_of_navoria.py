@@ -77,7 +77,7 @@ NAVORIA_PATTERN = PatternBuilder(PatternType.DENSE_HEX)
 player_factions = ["Yellow", "Purple", "Black", "Green"]
 player_colors = ["gold", "purple", "black", "forestgreen"]
 
-for idx, (faction, color_name) in enumerate(zip(player_factions, player_colors)):
+for idx, (faction, color_name) in enumerate(zip(player_factions, player_colors, strict=True)):
     row = idx % 2
     tier = idx // 2
     p_box = project.box(

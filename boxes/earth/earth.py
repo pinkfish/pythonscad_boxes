@@ -100,7 +100,7 @@ for idx, (deck_id, title, color_name) in enumerate(decks):
         cut=FingerCut.SCOOP,
     )
 
-# ── 2. Canopies, Trunks & Sprout Cubes (Row 1, Y = card_box_length) 
+# ── 2. Canopies, Trunks & Sprout Cubes (Row 1, Y = card_box_length)
 y_row1 = card_box_length
 
 project.box(

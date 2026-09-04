@@ -39,11 +39,11 @@ from pyboxbuilder import (
     PatternBuilder,
     PatternType,
     Project,
+    centered,
     columns,
     find_sleeve,
     run,
     stack,
-    centered,
 )
 from pyboxbuilder.compartments import CompartmentElement
 

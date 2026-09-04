@@ -27,9 +27,7 @@ from pyboxbuilder import (
     PatternBuilder,
     PatternType,
     Project,
-    columns,
     run,
-    stack,
 )
 
 # ── Game Box Dimensions ───────────────────────────────────────────

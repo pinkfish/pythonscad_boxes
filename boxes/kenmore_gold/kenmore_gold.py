@@ -92,7 +92,7 @@ t_box.compartment(
     cut=FingerCut.SCOOP,
 )
 
-# ── 2. Start Cave & Loot Boxes (Row 1, Y = tile_box_length = 64mm) 
+# ── 2. Start Cave & Loot Boxes (Row 1, Y = tile_box_length = 64mm)
 y_cave = tile_box_length
 
 project.box(

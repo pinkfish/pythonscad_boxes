@@ -94,7 +94,7 @@ c_box.compartment(
 y_players = card_box_length
 
 player_names = ["Player_1", "Player_2", "Player_3", "Player_4", "Player_5", "Player_6"]
-for idx, name in enumerate(player_names):
+for idx, _name in enumerate(player_names):
     col = idx % 2
     row = (idx // 2) % 3
     tier = idx // 4  # or stack 2-high in 3 longitudinal slots
