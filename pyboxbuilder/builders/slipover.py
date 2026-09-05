@@ -10,7 +10,23 @@ from pyboxbuilder.enums import BoxType
 
 @dataclass(frozen=True)
 class SlipoverBoxBuilder(BoxBuilder):
-    """Builder for slipover lid box type."""
+    """Builder for slipover lid box type.
+
+    Example:
+        .. pythonscad-example::
+
+            project = Project("SlipoverDemo", game_box_size=(80.0, 80.0, 35.0))
+            project.box(
+                BoxType.SLIPOVER,
+                "MiniDeck",
+                size=(55.0, 70.0, 26.0),
+                lid=LidBuilder(
+                    pattern=PatternBuilder(PatternType.CIRCLE),
+                    text="CARDS",
+                ),
+            )
+            project.show(show_lids=True)
+    """
 
     box_type: ClassVar[BoxType] = BoxType.SLIPOVER
 

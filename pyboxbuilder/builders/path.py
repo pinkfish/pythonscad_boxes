@@ -14,6 +14,26 @@ class PathBoxBuilder(BoxBuilder):
 
     Used for spacers and trays that have to fill a non-rectangular leftover
     region (FR-018). Like the no-lid type, it produces a body file only.
+
+    Example:
+        .. pythonscad-example::
+
+            project = Project("PathDemo", game_box_size=(80.0, 80.0, 30.0))
+            l_path = (
+                (0.0, 0.0),
+                (55.0, 0.0),
+                (55.0, 25.0),
+                (25.0, 25.0),
+                (25.0, 55.0),
+                (0.0, 55.0),
+            )
+            project.box(
+                BoxType.PATH,
+                "CornerTray",
+                size=(55.0, 55.0, 20.0),
+                path=l_path,
+            )
+            project.show()
     """
 
     box_type: ClassVar[BoxType] = BoxType.PATH

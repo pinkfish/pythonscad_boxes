@@ -10,7 +10,20 @@ from pyboxbuilder.enums import BoxType
 
 @dataclass(frozen=True)
 class HingeBoxBuilder(BoxBuilder):
-    """Builder for pin-hinge lid box type."""
+    """Builder for pin-hinge lid box type.
+
+    Example:
+        .. pythonscad-example::
+
+            project = Project("HingeDemo", game_box_size=(80.0, 80.0, 30.0))
+            project.box(
+                BoxType.HINGE,
+                "Chest",
+                size=(60.0, 50.0, 22.0),
+                lid=LidBuilder(text="SUPPLIES"),
+            )
+            project.show(show_lids=True)
+    """
 
     box_type: ClassVar[BoxType] = BoxType.HINGE
     hinge_count: int | None = None
