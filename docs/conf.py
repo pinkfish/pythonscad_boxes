@@ -215,5 +215,7 @@ nitpick_ignore = [
     ("py:class", "CutProfile"),
     ("py:class", "CompartmentBuilder"),
     ("py:class", "BoxPacking"),
+    ("py:class", "pyboxbuilder.packing.layout.PackingError"),
+    ("py:exc", "pyboxbuilder.packing.layout.PackingError"),
     ("py:attr", "Piece.solid"),
 ]

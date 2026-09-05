@@ -10,6 +10,14 @@ that PythonSCAD renders and the 3MF files a slicer prints. It builds on
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents
+   :caption: User Guide
+
+   getting_started
+   box_types
+   layout_and_spacers
+
+.. toctree::
+   :maxdepth: 2
+   :caption: API Reference
 
    api

@@ -315,6 +315,11 @@ def build_spec(
         )
         if name in _SPEC_FIELDS and name not in _NOT_GEOMETRY and value is not None
     }
+    hollow = (
+        overrides.pop("hollow")
+        if "hollow" in overrides
+        else not builder.compartments
+    )
 
     from pyboxbuilder.lid.builder import LidBuilder
     lid_margin = (
@@ -331,7 +336,7 @@ def build_spec(
         lid_border_margin_mm=lid_margin,
         # Hollow the whole interior only when nothing else defines the
         # cavities; with compartments, they are the cavities.
-        hollow=not builder.compartments,
+        hollow=hollow,
         # Per-box override beats the project default, which in turn falls back
         # to half the wall (FR-044).
         rounding=(
