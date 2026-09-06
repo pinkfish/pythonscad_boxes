@@ -20,6 +20,23 @@ class BoxType(Enum):
     NO_LID = "no_lid"
     PATH = "path"
     CARD_LIBRARY = "card_library"
+    SNAP_FIT = "snap_fit"
+    BAYONET = "bayonet"
+    THREADED = "threaded"
+    DISPENSER = "dispenser"
+    CARD_SHOE = "card_shoe"
+    DICE_TRAY = "dice_tray"
+    SLEEVE_DRAWER = "sleeve_drawer"
+    CLAMSHELL = "clamshell"
+    MODULAR_INTERLOCK = "modular_interlock"
+    PRINT_IN_PLACE_HINGE = "print_in_place_hinge"
+
+
+class InterlockType(Enum):
+    """Interlocking joint type for modular play trays."""
+
+    DOVETAIL = "dovetail"
+    GRIDFINITY = "gridfinity"
 
 
 class LabelMode(Enum):
