@@ -1,0 +1,17 @@
+{
+  "CardBox_body.3mf": "sha256:885619ec5a9b5f236484aa66918f5cd84db9d3fae684d2ccb23c7e43e555d0d7",
+  "CardBox_lid.3mf": "sha256:410c108c39153d65ca4129bf55be55cab819bc588495eb73618b251e270c5f1d",
+  "PlayerBox_1_body.3mf": "sha256:ccc6645cd9ba5ceb86e035e7167249f80cb18203f37971d1d6abb94908cddddb",
+  "PlayerBox_1_lid.3mf": "sha256:8173be71e88ca4ed6e7a718e6f5d6d81b152efb673e45ebec2f0d5855ef1da3b",
+  "PlayerBox_2_body.3mf": "sha256:28b45acaf5926bc66e61e306bf869f3a7000885791447c21c5bb0d2e87ae23bb",
+  "PlayerBox_2_lid.3mf": "sha256:1d14244f69c64383bd3ffc490dd22d8ed20fb6a6c67391660369169a30a9a743",
+  "PlayerBox_3_body.3mf": "sha256:8825cb81c983c63ae97406537585d730e72cd321d3e83f7c32508eef15eb5d30",
+  "PlayerBox_3_lid.3mf": "sha256:b06c1f4723b1ba39491da8ee38d76b53b87853da0fd1196611521bff92b38085",
+  "PlayerBox_4_body.3mf": "sha256:e355b491be825db98a130a3e9b7cc4c64c18f7169cba4d7ac07e5cc51e964385",
+  "PlayerBox_4_lid.3mf": "sha256:02a3df048a63e431dd026fa433aee83053565d8703df78b9db05aff7bea286f5",
+  "PlayerBox_5_body.3mf": "sha256:ed20c6c5119e9c6855f4e9ed9afeb16fd36f7c39f4eb1696ef7f45f7617fe951",
+  "PlayerBox_5_lid.3mf": "sha256:3ab2d72063c356485fa5e9d58d66fd9b2019eb50cf793ae631590f654cb98aa8",
+  "PlayerBox_6_body.3mf": "sha256:5ea75a9b7e0b72c5d14226798b661f429e52cfd780e64f59f706bf6686666d7f",
+  "PlayerBox_6_lid.3mf": "sha256:fb0b6d545075604607a32966f2f50bbe3847a8222522c1bedd42979ca86d4127",
+  "spacer_1_body.3mf": "sha256:6040232dde36bda4305791f2b8bdd056acde7c63c17f056fde39bcf2b64ba823"
+}

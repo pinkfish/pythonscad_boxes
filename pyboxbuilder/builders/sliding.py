@@ -12,7 +12,23 @@ from pyboxbuilder.enums import BoxType
 
 @dataclass(frozen=True)
 class SlidingBoxBuilder(SlidingLidFields, BoxBuilder):
-    """Builder for sliding-lid box type."""
+    """Builder for sliding-lid box type.
+
+    Example:
+        .. pythonscad-example::
+
+            project = Project("SlidingDemo", game_box_size=(80.0, 80.0, 30.0))
+            project.box(
+                BoxType.SLIDING,
+                "Tokens",
+                size=(60.0, 60.0, 22.0),
+                lid=LidBuilder(
+                    pattern=PatternBuilder(PatternType.HEX),
+                    text="TOKENS",
+                ),
+            )
+            project.show(show_lids=True)
+    """
 
     box_type: ClassVar[BoxType] = BoxType.SLIDING
 

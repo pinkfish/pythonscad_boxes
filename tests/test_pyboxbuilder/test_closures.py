@@ -89,6 +89,10 @@ class DeclaredSizeTests(unittest.TestCase):
     does. That is outside the footprint, so it does not affect what the box
     needs on the shelf — but it is the only thing allowed out there."""
 
+    UNFOLDED_PRINT_TYPES = {BoxType.PRINT_IN_PLACE_HINGE}
+    """Monolithic 180° print-in-place boxes are printed flat unfolded on the bed;
+    their printable STL envelope is the unfolded bed footprint, not the closed box."""
+
     def parts(self, box_type: BoxType):
         box = BOX_IMPL_REGISTRY[box_type]()
         out = [box.build_body(SPEC)]
@@ -119,6 +123,8 @@ class DeclaredSizeTests(unittest.TestCase):
         axis_name = ("width", "length", "height")
         keep = self.footprint()
         for box_type in BoxType:
+            if box_type in self.UNFOLDED_PRINT_TYPES:
+                continue
             extent = self.extent([p & keep for p in self.parts(box_type)])
             for axis in range(3):
                 with self.subTest(box_type=box_type.value, axis=axis_name[axis]):
@@ -142,6 +148,8 @@ class DeclaredSizeTests(unittest.TestCase):
         """
         keep = self.footprint()
         for box_type in BoxType:
+            if box_type in self.UNFOLDED_PRINT_TYPES:
+                continue
             with self.subTest(box_type=box_type.value):
                 outside = sum(volume(p - keep) for p in self.parts(box_type))
                 self.assertLess(

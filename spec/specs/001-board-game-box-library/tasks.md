@@ -1136,6 +1136,29 @@ stop the class of mistake from being expressible.
 - [x] T348 [US2] Change sliding lid bump catch default from 0.0mm (disabled) to 1.0mm (enabled by default), allowing users to explicitly turn it off by setting `catch_radius=0.0`.
 - [x] T349 [US2] Write tests in `test_closures.py` to verify cap/slipover catches and updated sliding catch defaults, and ensure all tests pass.
 
+---
+
+## Phase 37: Extended Box Types & Tabletop Utilities (FR-081–FR-090)
+
+**Goal**: Implement the 10 extended box types and closure mechanisms, including monolithic print-in-place hinges, snap latches, bayonets, threads, dispensers, card shoes, dice arenas, matchbox drawers, bifold clamshells, and modular interlocking trays.
+
+- [x] T350 [P] Add 10 new enum members to `BoxType` in `pyboxbuilder/enums.py` (`SNAP_FIT`, `BAYONET`, `THREADED`, `DISPENSER`, `CARD_SHOE`, `DICE_TRAY`, `SLEEVE_DRAWER`, `CLAMSHELL`, `MODULAR_INTERLOCK`, `PRINT_IN_PLACE_HINGE`).
+- [x] T351 [P] Implement `SnapFitBoxBuilder` and `SnapFitBox` (FR-081: cantilever arms, 45° lead-in ramps, retention detents) in `pyboxbuilder/builders/snap_fit.py` and `pyboxbuilder/box/types/snap_fit.py`.
+- [x] T352 [P] Implement `BayonetBoxBuilder` and `BayonetBox` (FR-082: quarter-turn entry keyways, horizontal retention channels, tactile detents) in `pyboxbuilder/builders/bayonet.py` and `pyboxbuilder/box/types/bayonet.py`.
+- [x] T353 [P] Implement `ThreadedBoxBuilder` and `ThreadedBox` (FR-083: coarse 3mm pitch modified trapezoidal screw threads) in `pyboxbuilder/builders/threaded.py` and `pyboxbuilder/box/types/threaded.py`.
+- [x] T354 [P] Implement `DispenserBoxBuilder` and `DispenserBox` (FR-084: 40° gravity slide floor, single-token dispensing slot, vertical sight slot) in `pyboxbuilder/builders/dispenser.py` and `pyboxbuilder/box/types/dispenser.py`.
+- [x] T355 [P] Implement `CardShoeBoxBuilder` and `CardShoeBox` (FR-085: 20° angled draw well, low retaining lip, adjacent flat discard well) in `pyboxbuilder/builders/card_shoe.py` and `pyboxbuilder/box/types/card_shoe.py`.
+- [x] T356 [P] Implement `DiceTrayBoxBuilder` and `DiceTrayBox` (FR-086: 25mm+ rolling arena lid, 45° corner deflector fillets, recessed felt pad pocket) in `pyboxbuilder/builders/dice_tray.py` and `pyboxbuilder/box/types/dice_tray.py`.
+- [x] T357 [P] Implement `SleeveDrawerBoxBuilder` and `SleeveDrawerBox` (FR-087: hollow 4-sided outer sleeve, inner drawer tray with pull lip and rear push hole) in `pyboxbuilder/builders/sleeve_drawer.py` and `pyboxbuilder/box/types/sleeve_drawer.py`.
+- [x] T358 [P] Implement `ClamshellBoxBuilder` and `ClamshellBox` (FR-088: dual-tray 180° book fold, integrated spine hinge, perimeter closure catches) in `pyboxbuilder/builders/clamshell.py` and `pyboxbuilder/box/types/clamshell.py`.
+- [x] T359 [P] Implement `ModularInterlockBoxBuilder` and `ModularInterlockBox` (FR-089: perimeter dovetail interlocks and Gridfinity-compatible tiered base profiling) in `pyboxbuilder/builders/modular_interlock.py` and `pyboxbuilder/box/types/modular_interlock.py`.
+- [x] T360 [P] Implement `PrintInPlaceHingeBoxBuilder` and `PrintInPlaceHingeBox` (FR-090: monolithic 180° flat print-in-place captive cone-and-socket hinge joints with 0.35mm radial and 0.40mm axial clearance, front snap-fit catch) in `pyboxbuilder/builders/pip_hinge.py` and `pyboxbuilder/box/types/pip_hinge.py`.
+- [x] T361 Register all 10 new box types in `pyboxbuilder/box/registry.py`, `pyboxbuilder/builders/__init__.py`, and `pyboxbuilder/__init__.py`.
+- [x] T362 [P] Write unit tests for all 10 new builders and closure mechanisms in `tests/test_pyboxbuilder/test_extended_boxes.py`.
+- [x] T363 [P] Write geometric validation render tests in `tests/test_pyboxbuilder/render/test_extended_boxes_render.py`.
+- [x] T364 Add user guide documentation and `.. pythonscad-example::` snippets for all 10 new box types to `docs/box_types.rst`.
+- [x] T365 Pre-generate documentation STLs for the 10 new box examples via `scripts/generate_docs_stls.py`.
+
 ## Notes
 
 - [P] tasks = different files, no dependencies

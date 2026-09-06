@@ -21,7 +21,7 @@ jobs:
     # PythonSCAD binary (installed below), which has software-renderer issues on
     # arm64. Python 3.14 matches the Python the app bundles, so the rendered
     # snippets can import pybosl2/shapely from this interpreter's site-packages.
-    runs-on: macos-15-intel
+    runs-on: macos-13
     steps:
       - uses: actions/checkout@v4
         with:
@@ -43,9 +43,11 @@ jobs:
           curl -fsSL -o /tmp/PythonSCAD.dmg \
             "https://github.com/pythonscad/pythonscad/releases/download/v1.1.2/PythonSCAD-v1.1.2.dmg"
           hdiutil attach /tmp/PythonSCAD.dmg -nobrowse -mountpoint /tmp/PythonSCAD-mount
-          cp -R /tmp/PythonSCAD-mount/PythonSCAD.app /Applications/
+          sudo cp -R /tmp/PythonSCAD-mount/PythonSCAD.app /Applications/
           hdiutil detach /tmp/PythonSCAD-mount
+          sudo ln -sf /Applications/PythonSCAD.app/Contents/MacOS/PythonSCAD /usr/local/bin/pythonscad
           test -x /Applications/PythonSCAD.app/Contents/MacOS/PythonSCAD
+          test -x /usr/local/bin/pythonscad
 
       - name: Resolve version and destination
         id: target

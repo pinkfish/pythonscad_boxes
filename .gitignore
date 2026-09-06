@@ -17,7 +17,6 @@ build/
 dist/
 docs/_build/
 docs/_autosummary/
-docs/_extra/
 pysolidfive/build/
 pysolidfive/docs/_build/
 pysolidfive/docs/_generated/

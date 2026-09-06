@@ -1,0 +1,23 @@
+{
+  "CardBox_Actions_body_single.3mf": "sha256:53e1e04314732c440818e359f8b2fce9597f2a5d1cbc939764dfe4acb3b0b872",
+  "CardBox_Actions_lid_single.3mf": "sha256:7e7e10f72386dad0fb3213afc670dceba576e1c2f092e7de6e2275f78c1081af",
+  "CardBox_Ambassadors_body_single.3mf": "sha256:cf02e971bd7e6681b65aef2f1255d7f8788da11818310f6a11d9dc1352c02fe8",
+  "CardBox_Ambassadors_lid_single.3mf": "sha256:a0d2b2f12bf409ff5dc3466803b1e9b84f524fd45d008a8732910c8bec259e65",
+  "CardBox_Factions_body_single.3mf": "sha256:a3245849a99eb868444de513c46b2db181d25c30738607f93d068f669793253d",
+  "CardBox_Factions_lid_single.3mf": "sha256:b65e7d2eecdd93dc1178efc91115749425045e28ac939bea44090ba45a5fe2d5",
+  "CardBox_Riders_body_single.3mf": "sha256:523b88a78eda9f3a66579814adc507b8ae5e72d2e67cd973518a7eafd6336af2",
+  "CardBox_Riders_lid_single.3mf": "sha256:fa8f42ad82f3677c267cebb142343b86006e19950bbb27f24a6fc0a6fdfc2239",
+  "HexBox_body_single.3mf": "sha256:545c534ef8ab53c48203992fc08aa97328becbc767db41dda2dea10ba865b5d4",
+  "HexBox_lid_single.3mf": "sha256:195c83c18285dea6e3ebd2d16818d1fbc49c45820a782baf32ddca8ec18f5267",
+  "PlayerBox_Eclipse_body_single.3mf": "sha256:620177668fec9db50e04fb3da9f15eca5a5398675011019eb013d809af622e2c",
+  "PlayerBox_Eclipse_lid_single.3mf": "sha256:1af0d4b7d3680fe5df8d78f57cd9cb87502d9b88a4b570c0bfa83efc722b1fb7",
+  "PlayerBox_Horizon_body_single.3mf": "sha256:162a34d2a5e5ee609ebb23f07c9e9efa34d92b87a4cd76827c4e6d39ccb45a84",
+  "PlayerBox_Horizon_lid_single.3mf": "sha256:a2493eaabf9fb1aa3e79baf9c8a28f85634ed6356dd8a4f39f5c8f6508c92dab",
+  "PlayerBox_Solari_body_single.3mf": "sha256:61b5b9d5cfce019e33a9b37f504b1d564e22184f583da23127a54f1608f26d89",
+  "PlayerBox_Solari_lid_single.3mf": "sha256:ad16f0ad926292d445791eb733ad77dbd2b3d8410578eeb4f601a730fc315f6e",
+  "PlayerBox_Vanguard_body_single.3mf": "sha256:329fec2670e22658eecb2ac86300801b24a682df1ae9f573c3d7a22fedc71195",
+  "PlayerBox_Vanguard_lid_single.3mf": "sha256:71aa9ea9b656989566d714cd49b7b5b20a03ae747f4903c4387238f86a5016f1",
+  "spacer_1_body_single.3mf": "sha256:84db98015b533cf3199aed3fd68af449eeff4164f669e5f5fa347cf0036b712d",
+  "spacer_2_body_single.3mf": "sha256:1b0e6938a3c692f96a0489ce691d86fce9e0bb8640c993917ca8a644b1fe980e",
+  "spacer_3_body_single.3mf": "sha256:65c0d967f4d829ea74baad239b454bfe7746f881114794a415a688ccf4eccd38"
+}

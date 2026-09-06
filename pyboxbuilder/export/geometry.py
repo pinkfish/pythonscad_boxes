@@ -148,3 +148,49 @@ def _from_mesh(
                 + a[2] * (b[0] * c[1] - b[1] * c[0])
             ) / 6.0
     return Geometry(bbox=bbox, volume=abs(volume))
+
+
+def read_stl_geometry(path: Path) -> Geometry | None:
+    """Measure the geometry inside an existing STL, or None when unreadable."""
+    import struct
+
+    import numpy as np
+
+    try:
+        with open(path, "rb") as f:
+            header = f.read(80)
+            if len(header) < 80:
+                return None
+            count_bytes = f.read(4)
+            if len(count_bytes) < 4:
+                return None
+            (num_triangles,) = struct.unpack("<I", count_bytes)
+            if num_triangles == 0:
+                return None
+            record_dtype = np.dtype([
+                ("normal", "<f4", (3,)),
+                ("v1", "<f4", (3,)),
+                ("v2", "<f4", (3,)),
+                ("v3", "<f4", (3,)),
+                ("attr", "<u2"),
+            ])
+            data: np.ndarray = np.fromfile(f, dtype=record_dtype, count=num_triangles)
+            if len(data) != num_triangles:
+                return None
+            verts = np.concatenate([data["v1"], data["v2"], data["v3"]], axis=0)
+            min_xyz = verts.min(axis=0)
+            max_xyz = verts.max(axis=0)
+            bbox = (
+                float(max_xyz[0] - min_xyz[0]),
+                float(max_xyz[1] - min_xyz[1]),
+                float(max_xyz[2] - min_xyz[2]),
+            )
+            v1 = data["v1"]
+            v2 = data["v2"]
+            v3 = data["v3"]
+            cross = np.cross(v2, v3)
+            vols = np.einsum("ij,ij->i", v1, cross) / 6.0
+            volume = abs(float(vols.sum()))
+            return Geometry(bbox=bbox, volume=volume)
+    except (OSError, ValueError, TypeError):
+        return None

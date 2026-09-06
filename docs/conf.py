@@ -63,6 +63,7 @@ html_title = "pyboxbuilder"
 html_static_path = ["_static"]
 # The exported STL meshes live in _extra/_stl/; listing the parent copies the
 # whole _stl/ subdir verbatim to the output root, keeping `_stl/<hash>.stl` URIs valid.
+(_DOCS_DIR / "_extra" / "_stl").mkdir(parents=True, exist_ok=True)
 html_extra_path = ["_extra"]
 html_theme_options = {
     "features": [
@@ -215,5 +216,7 @@ nitpick_ignore = [
     ("py:class", "CutProfile"),
     ("py:class", "CompartmentBuilder"),
     ("py:class", "BoxPacking"),
+    ("py:class", "pyboxbuilder.packing.layout.PackingError"),
+    ("py:exc", "pyboxbuilder.packing.layout.PackingError"),
     ("py:attr", "Piece.solid"),
 ]

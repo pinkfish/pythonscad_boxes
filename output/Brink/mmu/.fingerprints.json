@@ -1,0 +1,23 @@
+{
+  "CardBox_Actions_body.3mf": "sha256:587a8e656f05d0102041c499426c71a7789711762b44275501ce66e40fe9d997",
+  "CardBox_Actions_lid.3mf": "sha256:4ea59252dce847a9a216b629250df344f99ead7df1135640679cd59ab3ea5415",
+  "CardBox_Ambassadors_body.3mf": "sha256:d47721ac2f4908dba41ae70fa87679d63f0e237ef15e2a87bef3004c5bbd1ec4",
+  "CardBox_Ambassadors_lid.3mf": "sha256:56d3516c93c5df897f83ac02fb7828c340596b27b051c5446f564c5c766862df",
+  "CardBox_Factions_body.3mf": "sha256:dc3fde943fd81799309db7a2407194848cf3135bcdd720590b1bf0dcdc6ce2ee",
+  "CardBox_Factions_lid.3mf": "sha256:ec440b856ee172afc9dc74022011d15f7c617ced0c3b11a26a239c2084b84ce9",
+  "CardBox_Riders_body.3mf": "sha256:0de5a09ff97c1b2f861ef8c94c933e80035541c2d47f48c2e89d9943505cd825",
+  "CardBox_Riders_lid.3mf": "sha256:4b6633c9fe855640bee2f8ed2d62073fcb298ea0684c5c474303dee43d338b14",
+  "HexBox_body.3mf": "sha256:0350dd761a708d9f5a303aadc67cd98ab50c3badd1f76ffd5eafaf3ff01f1a44",
+  "HexBox_lid.3mf": "sha256:4df6d46c1c5a584c1e781bda664abbb6790ed44de0789fd55be068f8a4863199",
+  "PlayerBox_Eclipse_body.3mf": "sha256:54b7aa247b00fe254a581d37eac97913771c67b5d1d165368c022562616178a7",
+  "PlayerBox_Eclipse_lid.3mf": "sha256:86bbefe041425f11f1820f5dd190ecd08115cee0a7fb7d84988c3cac0ccef824",
+  "PlayerBox_Horizon_body.3mf": "sha256:07e0aa4c6c99dd8a8b0d2c6a7b3f271f5dd67d826238642c299f038190371bba",
+  "PlayerBox_Horizon_lid.3mf": "sha256:2b0d9a9345f95208383490c64936d4377c4598ea8b58472ee69b1bf7a1a51145",
+  "PlayerBox_Solari_body.3mf": "sha256:aefa0105ce0ed7246b8844e8d7ac9427679e5a75792531d23b5b923ac9058484",
+  "PlayerBox_Solari_lid.3mf": "sha256:f54c9ebc49390e3bfe4526ece64f62b27824c0a263c8184ea594e34b153cc1bd",
+  "PlayerBox_Vanguard_body.3mf": "sha256:58e22efc1e6d18f8a62b93b0b9cb4c693eeb44213c4086b0f4657377254e88e8",
+  "PlayerBox_Vanguard_lid.3mf": "sha256:8d7dbec7ae7bbf97d8f7f24addcc79f9137e0bf8fda3cd4db27998d7c4f99caf",
+  "spacer_1_body.3mf": "sha256:b578739c53c26c86c51d597b4a028b2dbe4de1d8a01f160b36babbe2db1771c3",
+  "spacer_2_body.3mf": "sha256:57538a74ac9ac247571fa6f72eaf12b04b72b0c3f12d31857bee3214ccd98975",
+  "spacer_3_body.3mf": "sha256:eeea06334e9240bff2ee921db3b711bab80869d910e13df5b52b97c0ca405e00"
+}

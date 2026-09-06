@@ -29,7 +29,6 @@ from typing import TYPE_CHECKING
 from pyboxbuilder.deps import require
 from pyboxbuilder.export import fingerprint as fp
 from pyboxbuilder.export.geometry import (
-    mesh_geometry,
     read_3mf_geometry,
     same_geometry,
 )
@@ -159,7 +158,7 @@ class BoxExporter:
         size: tuple[float, float, float] | None = None,
         fingerprint: str = "",
         force: bool = False,
-        geometry_check: bool = False,
+        geometry_check: bool = True,
     ) -> str | None:
         """Export one piece, skipping the write when nothing about it changed.
 
@@ -175,9 +174,9 @@ class BoxExporter:
                 recorded beside the file for the next run to compare against.
             force: Rewrite even when the geometry on disk already matches.
             geometry_check: Compare the shape (bounding box + volume) against the
-                file already on disk and skip when they agree. Only the caller's
-                fallback for a piece with **no** recorded fingerprint — a
-                changed description must always be written.
+                file already on disk and skip when they agree. Defaults to True so
+                metadata or description changes with invariant geometry do not
+                rewrite 3MF files.
 
         Returns:
             The relative path if written, None if skipped.
@@ -204,19 +203,6 @@ class BoxExporter:
                 PieceBounds(label=f"{label}_{part}", size=measured, mode=mode)
             )
 
-        # The fingerprint is the fast path; this is the honest one. The bytes
-        # OpenSCAD writes are not deterministic, so compare the shape itself —
-        # bounding box and volume — against the file already on disk and leave
-        # it alone when they agree.
-        if (
-            geometry_check
-            and path.exists()
-            and same_geometry(mesh_geometry(payload), read_3mf_geometry(path))
-        ):
-            fp.record(path, fingerprint)
-            self.state.skipped.append(self.relative(path))
-            return None
-
         # Keep the .3mf suffix on the temp file — the exporter picks its format
         # from the extension and silently falls back to STL without it.
         candidate = path.with_name(f".{path.stem}.tmp.3mf")
@@ -234,6 +220,22 @@ class BoxExporter:
                 "empty file. A box that cannot be built must say so rather than "
                 "exporting nothing."
             )
+
+        # The fingerprint is the fast path; this is the honest one. The bytes
+        # OpenSCAD writes are not deterministic (e.g. CreationDate, UUIDs, zip
+        # headers, solver retriangulations), so compare the shape itself —
+        # bounding box and volume — against the file already on disk and leave
+        # it alone when they agree.
+        if (
+            geometry_check
+            and not force
+            and path.exists()
+            and same_geometry(read_3mf_geometry(candidate), read_3mf_geometry(path))
+        ):
+            candidate.unlink(missing_ok=True)
+            fp.record(path, fingerprint)
+            self.state.skipped.append(self.relative(path))
+            return None
 
         candidate.replace(path)
         fp.record(path, fingerprint)

@@ -19,7 +19,7 @@ from dataclasses import dataclass, field, fields, replace
 from pathlib import Path
 from typing import TYPE_CHECKING, Any
 
-from pyboxbuilder.enums import MagnetType, ScoopSide, StackableMode
+from pyboxbuilder.enums import InterlockType, MagnetType, ScoopSide, StackableMode
 
 if TYPE_CHECKING:
     from pyboxbuilder.box.interior import Interior
@@ -197,6 +197,68 @@ class BoxSpec:
     ribbon_channel: bool = False
     """Cut bottom groove for lifting ribbon."""
 
+    # ── Extended Box Types (FR-081–FR-090) ───────────────────────────────
+    # Snap-fit (FR-081)
+    cantilever_thickness: float = 1.6
+    cantilever_width: float = 12.0
+    deflection_clearance: float = 0.3
+    detent_height: float = 1.5
+    latch_axis: str = "x"
+
+    # Bayonet (FR-082)
+    lug_count: int = 4
+    turn_angle: float = 90.0
+    lug_height: float = 2.5
+    lug_depth: float = 1.2
+    bayonet_slack: float = 0.3
+    round_footprint: bool = False
+
+    # Threaded (FR-083)
+    thread_pitch: float = 3.0
+    thread_turns: float = 2.0
+    thread_clearance: float = 0.25
+    thread_depth: float = 1.0
+
+    # Dispenser (FR-084)
+    chute_angle: float = 40.0
+    token_thickness: float = 3.0
+    dispense_slot_clearance: float = 0.8
+    sight_slot_width: float = 8.0
+
+    # Card shoe (FR-085)
+    draw_angle: float = 20.0
+    retaining_lip_height: float = 10.0
+    discard_well: bool = True
+
+    # Dice tray (FR-086)
+    arena_wall_height: float = 28.0
+    felt_pocket_depth: float = 1.2
+    corner_deflectors: bool = True
+
+    # Sleeve drawer (FR-087)
+    push_hole_radius: float = 12.0
+    drawer_pull_lip: float = 4.0
+    sleeve_slack: float = 0.2
+
+    # Clamshell (FR-088)
+    spine_gap: float = 1.0
+    clamshell_hinge_radius: float = 2.5
+    closure_latch: bool = True
+
+    # Modular interlock (FR-089)
+    interlock_type: InterlockType = InterlockType.GRIDFINITY
+    dovetail_clearance: float = 0.15
+    gridfinity_pitch: float = 42.0
+
+    # Print-in-place hinge (FR-090)
+    pip_radial_clearance: float = 0.35
+    pip_axial_clearance: float = 0.40
+    pip_cone_angle: float = 45.0
+    pip_hinge_radius: float = 3.0
+    pip_snap_catch: bool = True
+    pip_snap_width: float = 12.0
+    pip_snap_diameter: float = 3.0
+
     def interior(self) -> Interior:
         """Return the usable volume inside this box.
 
@@ -315,6 +377,11 @@ def build_spec(
         )
         if name in _SPEC_FIELDS and name not in _NOT_GEOMETRY and value is not None
     }
+    hollow = (
+        overrides.pop("hollow")
+        if "hollow" in overrides
+        else not builder.compartments
+    )
 
     from pyboxbuilder.lid.builder import LidBuilder
     lid_margin = (
@@ -331,7 +398,7 @@ def build_spec(
         lid_border_margin_mm=lid_margin,
         # Hollow the whole interior only when nothing else defines the
         # cavities; with compartments, they are the cavities.
-        hollow=not builder.compartments,
+        hollow=hollow,
         # Per-box override beats the project default, which in turn falls back
         # to half the wall (FR-044).
         rounding=(

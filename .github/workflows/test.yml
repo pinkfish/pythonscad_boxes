@@ -9,8 +9,8 @@ jobs:
     # Intel, not arm64: PythonSCAD's headless render (which the golden and
     # measure tests shell out to) has known software-renderer issues on Apple
     # Silicon — the app prints "Python Code globally trusted" and then reports
-    # no geometry. PythonSCAD's own CI runs its image tests on macos-15-intel.
-    runs-on: macos-15-intel
+    # no geometry.
+    runs-on: macos-13
     steps:
       - uses: actions/checkout@v4
 
@@ -31,15 +31,17 @@ jobs:
       # geometry: the `pythonscad` pip wheel above supplies the `openscad` /
       # `pythonscad` modules, and this app bundle supplies the headless render
       # binary the golden-image tests shell out to. The DMG is a universal
-      # (x86_64 + arm64) bundle, so it runs on the arm64 runner natively.
+      # (x86_64 + arm64) bundle.
       - name: Install PythonSCAD
         run: |
           curl -fsSL -o /tmp/PythonSCAD.dmg \
             "https://github.com/pythonscad/pythonscad/releases/download/v1.1.2/PythonSCAD-v1.1.2.dmg"
           hdiutil attach /tmp/PythonSCAD.dmg -nobrowse -mountpoint /tmp/PythonSCAD-mount
-          cp -R /tmp/PythonSCAD-mount/PythonSCAD.app /Applications/
+          sudo cp -R /tmp/PythonSCAD-mount/PythonSCAD.app /Applications/
           hdiutil detach /tmp/PythonSCAD-mount
+          sudo ln -sf /Applications/PythonSCAD.app/Contents/MacOS/PythonSCAD /usr/local/bin/pythonscad
           test -x /Applications/PythonSCAD.app/Contents/MacOS/PythonSCAD
+          test -x /usr/local/bin/pythonscad
 
       # Golden-image render tests: render each box/pattern through the real
       # PythonSCAD binary and compare against the committed PNG.

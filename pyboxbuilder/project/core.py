@@ -203,6 +203,18 @@ class Project:
         self._boxes.append(builder)
         return builder
 
+    def add_box(self, builder: BoxBuilder) -> BoxBuilder:
+        """Register an already instantiated box builder with the project.
+
+        Args:
+            builder: The box builder to register.
+
+        Returns:
+            The added builder.
+        """
+        self._boxes.append(builder)
+        return builder
+
     def arrange(
         self, layout: Node, origin: tuple[float, float, float] = (0.0, 0.0, 0.0)
     ) -> Arrangement:
@@ -1175,13 +1187,10 @@ class Project:
                     if piece.kind != "lid":
                         body_inserts = piece.inserts
                         parts = [s.color(c) for s, c in body_inserts] if body_inserts else None
-                    # A piece with no recorded fingerprint has never been
-                    # exported here, so a same-shaped file is kept rather than
-                    # rewritten with different bytes; a changed description is
-                    # always written.
-                    geometry_check = not force and not exporter.recorded(
-                        piece.label, part, mode
-                    )
+                    # Only rewrite when the geometry actually changes;
+                    # metadata or description changes that produce the same
+                    # shape leave the existing file on disk untouched.
+                    geometry_check = not force
                     exporter.write_piece(
                         piece.label, part, mode, solid, parts,
                         size=piece.size, fingerprint=fingerprint, force=force,
@@ -1236,7 +1245,7 @@ class Project:
             box.pop("position", None)
             box.pop("lid" if piece.kind == "body" else "compartments", None)
 
-        return cache_key({
+        key = cache_key({
             "kind": piece.kind,
             "label": piece.label,
             "mode": mode,
@@ -1251,6 +1260,7 @@ class Project:
             },
             "box": box,
         })
+        return f"sha256:{key}"
 
     def _delete_stale_spacers(
         self, out_dir: str | Path, spacer_placements: list[Placement]

@@ -1,0 +1,19 @@
+{
+  "CardTray_body.3mf": "sha256:e2fa60c2dad0f0ee1b670eee8e6167cd9456f0f458b1e93f774452e312e3fb8a",
+  "CardTray_lid.3mf": "sha256:737708d1823c5bd4a4a487dc4d54c3f9e5aaf7a87bcfc96b3d00fe0c3f334c00",
+  "RibbonBox_Blue_body.3mf": "sha256:557a2040677a73177f5ae6d1ac4703cdc8615ee10249a3037d09ed2c1cd5fe64",
+  "RibbonBox_Blue_lid.3mf": "sha256:99c49492f860f3e02c19ade032944b4f5d498f795227b4a237522f2b718459e7",
+  "RibbonBox_Green_body.3mf": "sha256:3769bc72d9a4711add0652603a27b8b5067bcf9d8006c68ee2545946f78c88d3",
+  "RibbonBox_Green_lid.3mf": "sha256:65406f7f38eb5bec60efab25e246bf6ceef360eecdfbe05ffd0dba752d9a3f22",
+  "RibbonBox_Grey_body.3mf": "sha256:5301da2f0179dd02f46d198a7569504e804d3f71b699113e41316acb2ca6cec5",
+  "RibbonBox_Grey_lid.3mf": "sha256:5aa56ca03d9cadf9c1909786a0f71c7e17a38f573b0d42e9b5f6df5f1daa4b14",
+  "RibbonBox_Palette_body.3mf": "sha256:5c3ecb8a0922332b8c81ee1bd432bee1c0761af67617f1b7fea64e15daf123a7",
+  "RibbonBox_Palette_lid.3mf": "sha256:a9a269d7da6c61da11c61268933dffc2c1d09708b57856bedbee121d8787ef20",
+  "RibbonBox_Purple_body.3mf": "sha256:4a78f26c10fb89be348acd3cd2e19d39ba68369141935c807d6abea22a4bdbf6",
+  "RibbonBox_Purple_lid.3mf": "sha256:de31b959eb7509c85673d466bf6242a1f7af3cf62238459fa4b15ad62a95842c",
+  "RibbonBox_Red_body.3mf": "sha256:cf5ee6f53d5a13f82aebc224749c9779ccedd0686cd8be1a4175e76974cd04e7",
+  "RibbonBox_Red_lid.3mf": "sha256:5ec59e1db9c9d4d535eafdfff034110e62efe4004295cea9c99adc01b80c5157",
+  "spacer_1_body.3mf": "sha256:d094ae5d3b6006b0c50be923a2a29c0f866e41afc0eaf19718f84b2626865cab",
+  "spacer_2_body.3mf": "sha256:7c136f91b500a1a25d412d1d141ec25d25a2fa026b64dd5b1284868a1845e189",
+  "spacer_3_body.3mf": "sha256:eb693a5f9674aff2f5a7fcff9c593f32084217f73b997fe367391107720cef46"
+}
