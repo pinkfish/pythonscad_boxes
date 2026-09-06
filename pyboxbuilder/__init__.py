@@ -6,6 +6,21 @@ from importlib.metadata import version as _distribution_version
 
 from pybosl2 import Color
 
+from pyboxbuilder.builders import (
+    CapBoxBuilder,
+    CapPathBoxBuilder,
+    CardLibraryBoxBuilder,
+    FilamentHingeBoxBuilder,
+    HingeBoxBuilder,
+    InsetBoxBuilder,
+    MagneticBoxBuilder,
+    NoLidBoxBuilder,
+    PathBoxBuilder,
+    SlidingBoxBuilder,
+    SlidingCatchBoxBuilder,
+    SlipoverBoxBuilder,
+    SlipoverPathBoxBuilder,
+)
 from pyboxbuilder.builders._base import Cut
 from pyboxbuilder.compartments.element import CompartmentElement, centered, centered_in_box, grid_pack
 from pyboxbuilder.enums import (
@@ -42,6 +57,9 @@ __all__ = [
     "BRANDS",
     "SLEEVE_CATALOG",
     "BoxType",
+    "CapBoxBuilder",
+    "CapPathBoxBuilder",
+    "CardLibraryBoxBuilder",
     "CardSize",
     "CardSpec",
     "Color",
@@ -49,16 +67,26 @@ __all__ = [
     "Cut",
     "ElementShape",
     "ExportResult",
+    "FilamentHingeBoxBuilder",
     "FingerCut",
+    "HingeBoxBuilder",
+    "InsetBoxBuilder",
     "LabelMode",
     "LidBuilder",
     "MagnetType",
+    "MagneticBoxBuilder",
+    "NoLidBoxBuilder",
+    "PathBoxBuilder",
     "PatternBuilder",
     "PatternType",
     "Project",
     "ScoopSide",
     "Sleeve",
     "SleeveType",
+    "SlidingBoxBuilder",
+    "SlidingCatchBoxBuilder",
+    "SlipoverBoxBuilder",
+    "SlipoverPathBoxBuilder",
     "StackableMode",
     "__version__",
     "centered",

@@ -127,7 +127,7 @@ class GeometryGateTests(unittest.TestCase):
 
     def test_geometry_check_off_always_writes(self) -> None:
         """Without the geometry-check flag the piece is written, even when the
-        shape already matches — that is the caller's "description changed" case."""
+        shape already matches."""
         with tempfile.TemporaryDirectory() as tmp:
             exporter = BoxExporter(tmp, "MyGame")
             exporter.write_piece(
@@ -136,10 +136,29 @@ class GeometryGateTests(unittest.TestCase):
             )
             written = exporter.write_piece(
                 "Cube", "body", "mmu", a_cube(), size=(10.0, 20.0, 30.0),
-                fingerprint="xyz",
+                fingerprint="xyz", geometry_check=False,
             )
             self.assertIsNotNone(written)
             self.assertEqual(exporter.state.skipped, [])
+
+    def test_changed_fingerprint_with_same_geometry_is_skipped(self) -> None:
+        """When metadata changes the fingerprint, but the shape does not change,
+        the piece is not rewritten."""
+        with tempfile.TemporaryDirectory() as tmp:
+            exporter = BoxExporter(tmp, "MyGame")
+            exporter.write_piece(
+                "Cube", "body", "mmu", a_cube(), size=(10.0, 20.0, 30.0),
+                fingerprint="abc",
+            )
+            path = exporter.path_for("Cube", "body", "mmu")
+            mtime_before = path.stat().st_mtime_ns
+            written = exporter.write_piece(
+                "Cube", "body", "mmu", a_cube(), size=(10.0, 20.0, 30.0),
+                fingerprint="xyz",
+            )
+            self.assertIsNone(written)
+            self.assertEqual(exporter.state.skipped, ["MyGame/mmu/Cube_body.3mf"])
+            self.assertEqual(path.stat().st_mtime_ns, mtime_before)
 
 
 class SvgHoleTests(unittest.TestCase):
