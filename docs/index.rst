@@ -3,7 +3,7 @@ pyboxbuilder
 
 **High-Precision Board Game Inserts & Parametric 3D Printable Box Toolkit for PythonSCAD**
 
-``pyboxbuilder`` is a declarative 3D modeling and board game insert design framework. Built on top of `PythonSCAD <https://github.com/pythonscad/pythonscad>`_ and `pybosl2 <https://github.com/thewhodidthis/pybosl2>`_, it transforms high-level descriptions of games, boxes, and game pieces into production-ready CSG geometry, interactive 3D WebGL models, and printable 3MF files.
+``pyboxbuilder`` is a declarative 3D modeling and board game insert design framework. Built on top of `PythonSCAD <https://github.com/pythonscad/pythonscad>`_ and `pybosl2 <https://github.com/pinkfish/pybosl2>`_, it transforms high-level descriptions of games, boxes, and game pieces into production-ready CSG geometry, interactive 3D WebGL models, and printable 3MF files.
 
 .. pythonscad-example::
 
