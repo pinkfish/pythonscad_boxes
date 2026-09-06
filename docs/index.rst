@@ -74,6 +74,7 @@ Documentation Index
    :maxdepth: 2
    :caption: User Guide
 
+   quickstart
    getting_started
    box_types
    layout_and_spacers

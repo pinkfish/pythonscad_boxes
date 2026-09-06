@@ -47,9 +47,8 @@ cards.cards("Deck", count=120, size=(63.5, 88.0))
 project.export("output/")
 ```
 
-More runnable examples live in
-[`spec/specs/001-board-game-box-library/quickstart.md`](spec/specs/001-board-game-box-library/quickstart.md)
-and under [`boxes/`](boxes/).
+More runnable examples live in the Sphinx documentation
+([`docs/quickstart.rst`](docs/quickstart.rst)) and under [`boxes/`](boxes/).
 
 ## Install
 
