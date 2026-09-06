@@ -43,11 +43,22 @@ jobs:
           python -m pip install --upgrade pip
           pip install -e ".[docs]"
 
-      # No PythonSCAD binary on this runner, so the pythonscad-example blocks
-      # render source-only instead of exporting STLs — but the build still
-      # proves the directive runs, the docs extensions import, and the whole
-      # tree builds. Broken cross-references surface as "reference target not
-      # found" / "unknown document" warnings, which we treat as failures.
+      - name: Install PythonSCAD
+        run: |
+          curl -fsSL -o /tmp/pythonscad.AppImage \
+            "https://github.com/pythonscad/pythonscad/releases/download/v1.1.2/PythonSCAD-1.1.2-qt6-x86_64-x86_64.AppImage"
+          chmod +x /tmp/pythonscad.AppImage
+          cd /tmp && /tmp/pythonscad.AppImage --appimage-extract
+          sudo mv /tmp/squashfs-root /opt/pythonscad
+          sudo ln -sf /opt/pythonscad/AppRun /usr/local/bin/pythonscad
+          test -x /opt/pythonscad/AppRun
+          test -x /usr/local/bin/pythonscad
+
+      # STLs are pre-generated in docs/_extra/_stl/ and committed to git;
+      # the PythonSCAD binary is also installed above so any newly added or
+      # changed examples can be rendered. Broken cross-references surface as
+      # "reference target not found" / "unknown document" warnings, which we
+      # treat as failures.
       - name: Build docs
         run: |
           sphinx-build -b html docs docs/_build/html 2>&1 | tee /tmp/docs-build.log

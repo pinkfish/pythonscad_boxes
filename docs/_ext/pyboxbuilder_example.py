@@ -27,6 +27,8 @@ from render_stl import find_pythonscad_binary, host_site_packages, render_stl_sc
 from sphinx.util import logging
 from stl_viewer import stl_viewer_html
 
+from pyboxbuilder.export.geometry import read_stl_geometry, same_geometry
+
 _DOCS_DIR = Path(__file__).resolve().parent.parent
 # Exported meshes live under _extra/_stl/ so html_extra_path=["_extra"] copies the
 # whole _stl/ subdir to the output root, keeping the ``_stl/<hash>.stl`` URIs valid.
@@ -58,8 +60,15 @@ _PREAMBLE = (
     "            sp = os.path.join(host_sp, 'lib', entry, 'site-packages')\n"
     "            if os.path.isdir(sp) and sp not in sys.path:\n"
     "                sys.path.insert(0, sp)\n"
+    "from pathlib import Path\n"
     "import numpy as np\n"
     "import pyboxbuilder\n"
+    "from pyboxbuilder.builders import (\n"
+    "    CapBoxBuilder, CapPathBoxBuilder, CardLibraryBoxBuilder, FilamentHingeBoxBuilder,\n"
+    "    HingeBoxBuilder, InsetBoxBuilder, MagneticBoxBuilder, NoLidBoxBuilder,\n"
+    "    PathBoxBuilder, SlidingBoxBuilder, SlidingCatchBoxBuilder, SlipoverBoxBuilder,\n"
+    "    SlipoverPathBoxBuilder,\n"
+    ")\n"
     "from pyboxbuilder import (\n"
     "    BoxType, Color, CompartmentElement, Cut, ElementShape, FingerCut,\n"
     "    LabelMode, LidBuilder, MagnetType, PatternBuilder, PatternType,\n"
@@ -114,21 +123,25 @@ class PyboxbuilderExampleDirective(Directive):
             )
             return None
         _STL_DIR.mkdir(parents=True, exist_ok=True)
+        candidate = out_stl.with_name(f".{out_stl.stem}.tmp.stl")
         try:
             result = render_stl_script(
-                script, out_stl, timeout=300.0, export_format="binstl"
+                script, candidate, timeout=300.0, export_format="binstl"
             )
         except subprocess.TimeoutExpired:
+            candidate.unlink(missing_ok=True)
             _logger.warning(
                 f"pythonscad-example: STL export timed out after 300s for:\n{code[:200]}"
             )
             return None
         except Exception as exc:
+            candidate.unlink(missing_ok=True)
             _logger.error(
                 f"pythonscad-example: unexpected error rendering STL: {exc}"
             )
             return None
         if not result.ok:
+            candidate.unlink(missing_ok=True)
             _logger.warning(
                 f"pythonscad-example STL render FAILED: {result.error}\n"
                 f"--- code ---\n{code}\n"
@@ -136,6 +149,17 @@ class PyboxbuilderExampleDirective(Directive):
                 f"---"
             )
             return None
+
+        # Compare geometry against the file on disk if it already exists:
+        # if only metadata or non-geometric code changed, leave the existing
+        # STL untouched on disk.
+        if out_stl.exists() and same_geometry(
+            read_stl_geometry(candidate), read_stl_geometry(out_stl)
+        ):
+            candidate.unlink(missing_ok=True)
+            return f"_stl/{out_stl.name}"
+
+        candidate.replace(out_stl)
         return f"_stl/{out_stl.name}"
 
 
