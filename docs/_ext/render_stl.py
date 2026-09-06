@@ -11,6 +11,7 @@ tested on its own.
 from __future__ import annotations
 
 import os
+import shutil
 import subprocess
 import tempfile
 from dataclasses import dataclass
@@ -32,6 +33,9 @@ def find_pythonscad_binary() -> str | None:
     override = os.environ.get("PYTHONSCAD_BIN")
     if override:
         return override if Path(override).is_file() else None
+    which_bin = shutil.which("pythonscad")
+    if which_bin:
+        return which_bin
     for candidate in _CANDIDATE_BINARIES:
         if Path(candidate).is_file():
             return candidate
