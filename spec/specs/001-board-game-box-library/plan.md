@@ -927,7 +927,17 @@ pyboxbuilder/                    # NEW: Greenfield package
 │   ├── slipover_path.py        # SlipoverPathBoxBuilder
 │   ├── cap_path.py             # CapPathBoxBuilder
 │   ├── no_lid.py               # NoLidBoxBuilder, PathBoxBuilder
-│   └── card_library.py         # CardLibraryBoxBuilder
+│   ├── card_library.py         # CardLibraryBoxBuilder
+│   ├── snap_fit.py             # SnapFitBoxBuilder (FR-081)
+│   ├── bayonet.py              # BayonetBoxBuilder (FR-082)
+│   ├── threaded.py             # ThreadedBoxBuilder (FR-083)
+│   ├── dispenser.py            # DispenserBoxBuilder (FR-084)
+│   ├── card_shoe.py            # CardShoeBoxBuilder (FR-085)
+│   ├── dice_tray.py            # DiceTrayBoxBuilder (FR-086)
+│   ├── sleeve_drawer.py        # SleeveDrawerBoxBuilder (FR-087)
+│   ├── clamshell.py            # ClamshellBoxBuilder (FR-088)
+│   ├── modular_interlock.py    # ModularInterlockBoxBuilder (FR-089)
+│   └── pip_hinge.py            # PrintInPlaceHingeBoxBuilder (FR-090)
 ├── lid/                        # NEW: Fresh lid decoration pipeline
 │   ├── builder.py              # LidBuilder, PatternBuilder
 │   ├── label.py                # Label generation (framed, frameless, diagonal)
@@ -936,8 +946,8 @@ pyboxbuilder/                    # NEW: Greenfield package
 ├── box/                        # NEW: Fresh box construction pipeline
 │   ├── base.py                 # Abstract box type definition
 │   ├── registry.py             # BoxType enum → box class dispatch
-│   ├── types/                  # 14 box type implementations
-│   │   ├── sliding.py, cap.py, hinge.py, ...
+│   ├── types/                  # 24 box type implementations
+│   │   ├── sliding.py, cap.py, hinge.py, snap_fit.py, pip_hinge.py, ...
 │   └── interior.py             # Interior frame and hollowing
 ├── compartments/               # NEW: Fresh compartment layout
 │   ├── builder.py              # CompartmentBuilder
