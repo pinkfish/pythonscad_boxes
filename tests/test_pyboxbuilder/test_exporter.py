@@ -149,6 +149,22 @@ class FingerprintGateTests(unittest.TestCase):
             self._write(exporter, "abc")
             self.assertTrue(self._current(exporter, "abc"))
 
+    def test_prefixed_and_bare_fingerprints_match_seamlessly(self) -> None:
+        """Bare hex hashes and sha256:-prefixed hashes normalize identically so
+        existing output trees do not trigger rebuilds."""
+        with tempfile.TemporaryDirectory() as tmp:
+            exporter = BoxExporter(tmp, "MyGame")
+            # Write with bare hash
+            self._write(exporter, "0123456789abcdef")
+            # Matches with sha256: prefix
+            self.assertTrue(self._current(exporter, "sha256:0123456789abcdef"))
+            # And matches with bare hash
+            self.assertTrue(self._current(exporter, "0123456789abcdef"))
+
+            # Stored on disk must have the sha256: prefix to appease security scanners
+            path = exporter.path_for("Tray", "body", "mmu")
+            self.assertEqual(fp._load(path).get(path.name), "sha256:0123456789abcdef")
+
     def test_a_changed_description_is_stale(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             exporter = BoxExporter(tmp, "MyGame")

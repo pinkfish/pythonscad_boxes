@@ -45,6 +45,20 @@ def _load(path: Path) -> dict[str, str]:
         return {}
 
 
+def normalize(fingerprint: str) -> str:
+    """Normalize a fingerprint digest to prefixed 'sha256:<hex>' format.
+
+    Prefixing explicitly identifies the string as a cryptographic checksum,
+    preventing automated secret scanners from misidentifying bare high-entropy
+    hex strings as API tokens.
+    """
+    if not fingerprint:
+        return ""
+    if fingerprint.startswith("sha256:"):
+        return fingerprint
+    return f"sha256:{fingerprint}"
+
+
 def matches(path: Path, fingerprint: str) -> bool:
     """Return True when ``path`` on disk was built from this exact description.
 
@@ -54,13 +68,17 @@ def matches(path: Path, fingerprint: str) -> bool:
 
     Returns:
         True only when the file exists, is not empty, and its recorded
-        fingerprint is the one given. An unrecorded file is a miss, so a tree
-        exported by an older version rewrites once and then settles.
+        fingerprint is the one given (handling both bare and sha256:-prefixed
+        formats). An unrecorded file is a miss, so a tree exported by an older
+        version rewrites once and then settles.
 
     """
     if not fingerprint or not path.exists():
         return False
-    return _load(path).get(path.name) == fingerprint
+    stored = _load(path).get(path.name)
+    if not stored:
+        return False
+    return normalize(stored) == normalize(fingerprint)
 
 
 def recorded(path: Path) -> bool:
@@ -87,10 +105,10 @@ def record(path: Path, fingerprint: str) -> None:
     if not fingerprint:
         return
     data = _load(path)
-    data[path.name] = fingerprint
+    data[path.name] = normalize(fingerprint)
     # A cache that cannot be written is a cache miss next time.
     with contextlib.suppress(OSError):
-        _sidecar(path).write_text(json.dumps(data, indent=2, sort_keys=True))
+        _sidecar(path).write_text(json.dumps(data, indent=2, sort_keys=True) + "\n")
 
 
 def forget(path: Path) -> None:

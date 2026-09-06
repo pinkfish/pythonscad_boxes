@@ -1,10 +1,10 @@
 {
-  "LootBox_body_single.3mf": "b170aa0efdfadf52c93012633ae7354af39afac86f4d2e3cb6d74ee00b987825",
-  "LootBox_lid_single.3mf": "9a04bbdfdb023b5d5319bd97057c7347bbbd64e2d851cf5a85817615d7ae6ba4",
-  "SquareTileBox_body_single.3mf": "9ae8421a2d99b54f5eefde84de2cb67babbf059b2d303aff453ede4eedea1a27",
-  "SquareTileBox_lid_single.3mf": "18bfdf1608daef9a4e862d713b0466ba1ee9821fc5662448fdcbbf6da91280f2",
-  "StartCaveBox_body_single.3mf": "f1bacd934f3f46e3901d4db4ab150ab85aefae88403ed178091a32c07a6edddd",
-  "StartCaveBox_lid_single.3mf": "8cd996beae08f940b5c07aeab5bee1ae9e22e0633861fca19f8c77683b7c7cb4",
-  "spacer_1_body_single.3mf": "ffadb26877ebdada1acd3f495c27f875b73f5c7028ea4bf00f12e15f5406cc74",
-  "spacer_2_body_single.3mf": "74ce9feff248e538dd8775577031eaf529d9b718569ab3086a4265ce1b422226"
+  "LootBox_body_single.3mf": "sha256:b170aa0efdfadf52c93012633ae7354af39afac86f4d2e3cb6d74ee00b987825",
+  "LootBox_lid_single.3mf": "sha256:9a04bbdfdb023b5d5319bd97057c7347bbbd64e2d851cf5a85817615d7ae6ba4",
+  "SquareTileBox_body_single.3mf": "sha256:9ae8421a2d99b54f5eefde84de2cb67babbf059b2d303aff453ede4eedea1a27",
+  "SquareTileBox_lid_single.3mf": "sha256:18bfdf1608daef9a4e862d713b0466ba1ee9821fc5662448fdcbbf6da91280f2",
+  "StartCaveBox_body_single.3mf": "sha256:f1bacd934f3f46e3901d4db4ab150ab85aefae88403ed178091a32c07a6edddd",
+  "StartCaveBox_lid_single.3mf": "sha256:8cd996beae08f940b5c07aeab5bee1ae9e22e0633861fca19f8c77683b7c7cb4",
+  "spacer_1_body_single.3mf": "sha256:ffadb26877ebdada1acd3f495c27f875b73f5c7028ea4bf00f12e15f5406cc74",
+  "spacer_2_body_single.3mf": "sha256:74ce9feff248e538dd8775577031eaf529d9b718569ab3086a4265ce1b422226"
 }

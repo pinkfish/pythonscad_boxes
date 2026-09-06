@@ -1,13 +1,13 @@
 {
-  "ExpansionCardsBox_body_single.3mf": "995039ff3f170162a1cf3d0550c5e7a6adb5acedfba9109c533e85a8c731fc82",
-  "ExpansionCardsBox_lid_single.3mf": "6730fc61d535683991d6332f2a4a4c7b27a7b92ec484930e95e8628be3262160",
-  "ExplorationBitsBox_body_single.3mf": "93b56790e2c677eb0fa9e58510a5d06d10b552b9ada265daaa398877e69a17a0",
-  "ExplorationBitsBox_lid_single.3mf": "9729f6cda08d752fe79b70fdaf4161c93220a0a71975277ae43a1653e3eee5e1",
-  "FactionSkillBox_body_single.3mf": "9fd41a2b7a8b7259e5320ee66ba817477375d2b49ffbcf8192c05ba48ee56d01",
-  "FactionSkillBox_lid_single.3mf": "4a089343bc58c0c7468aeb6f9a6d53e2263935834175b2dfb3d05bc1542f7a0d",
-  "PlayerBox_White_body_single.3mf": "93da31ea0ac0274f50c7970508541e60620859a226677db12e31f157de5e1076",
-  "PlayerBox_White_lid_single.3mf": "ee7797132967343004968a4ab2c62c583aadfc60923ee9763037d272458ece91",
-  "SpeciesTokensBox_body_single.3mf": "3a1b89af46e17ab892727a875e1f6a8aa04668ea682bf3f738377be66682ec7e",
-  "SpeciesTokensBox_lid_single.3mf": "13dac371f22a1bbdae3ad161729a4588c54082edf5637b888043065d41396f37",
-  "spacer_1_body_single.3mf": "e01a92ed9363fd6600c7215f162355d6961f556c7f3afb5da6cf16930a010516"
+  "ExpansionCardsBox_body_single.3mf": "sha256:995039ff3f170162a1cf3d0550c5e7a6adb5acedfba9109c533e85a8c731fc82",
+  "ExpansionCardsBox_lid_single.3mf": "sha256:6730fc61d535683991d6332f2a4a4c7b27a7b92ec484930e95e8628be3262160",
+  "ExplorationBitsBox_body_single.3mf": "sha256:93b56790e2c677eb0fa9e58510a5d06d10b552b9ada265daaa398877e69a17a0",
+  "ExplorationBitsBox_lid_single.3mf": "sha256:9729f6cda08d752fe79b70fdaf4161c93220a0a71975277ae43a1653e3eee5e1",
+  "FactionSkillBox_body_single.3mf": "sha256:9fd41a2b7a8b7259e5320ee66ba817477375d2b49ffbcf8192c05ba48ee56d01",
+  "FactionSkillBox_lid_single.3mf": "sha256:4a089343bc58c0c7468aeb6f9a6d53e2263935834175b2dfb3d05bc1542f7a0d",
+  "PlayerBox_White_body_single.3mf": "sha256:93da31ea0ac0274f50c7970508541e60620859a226677db12e31f157de5e1076",
+  "PlayerBox_White_lid_single.3mf": "sha256:ee7797132967343004968a4ab2c62c583aadfc60923ee9763037d272458ece91",
+  "SpeciesTokensBox_body_single.3mf": "sha256:3a1b89af46e17ab892727a875e1f6a8aa04668ea682bf3f738377be66682ec7e",
+  "SpeciesTokensBox_lid_single.3mf": "sha256:13dac371f22a1bbdae3ad161729a4588c54082edf5637b888043065d41396f37",
+  "spacer_1_body_single.3mf": "sha256:e01a92ed9363fd6600c7215f162355d6961f556c7f3afb5da6cf16930a010516"
 }

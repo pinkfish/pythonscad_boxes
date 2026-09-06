@@ -1,14 +1,14 @@
 {
-  "MoneyBox_1_body_single.3mf": "08b2800d8105ef3f1fd36edaa3db8fd1f9d74908f729cc4fff71de51aec1ca7d",
-  "MoneyBox_1_lid_single.3mf": "f6f96d1038b3ac78793a23eafa149067a8d87056f43b114812e6fb30051d70d9",
-  "MoneyBox_2_body_single.3mf": "1f4323cac7f3fdc14a4bf277d59eeb85afb56fb9589c48cc44c27ceb87e8bb03",
-  "MoneyBox_2_lid_single.3mf": "8a04dd2f0f99705496fc01b36e129228e1ad1aa862c802f0cabca6c4a6676dfb",
-  "SharesBox_1_body_single.3mf": "b28cbe1ddc3cc89de2360043069657da56a6825375fae02af753a7cea66a70c0",
-  "SharesBox_1_lid_single.3mf": "d7655dd547bc12c870981aaf3a277608f9eb9c45c014fae65de456541b2d19a5",
-  "SharesBox_2_body_single.3mf": "4442ec54f81e51398d63b2981c0194ebf7f76b80ea6aee81835513ec053cf57a",
-  "SharesBox_2_lid_single.3mf": "be40c20c0d52efa849fd34fbf4cf51c0d9055f8e3876117d1d43cd9ea4b5e54f",
-  "TrainBox_body_single.3mf": "06c42d5d7309989b3942375042d39f850c5105dce0bb05eb224406f1977dd1fb",
-  "TrainBox_lid_single.3mf": "bdec80dd0ad7f0c46e3e5a7118159bf2555445f87728c98df84d5c295ea7bc6b",
-  "spacer_1_body_single.3mf": "3e13cbffae717a0d5fc19ee84b76d7f33e4c890a6bd79d66f416cceb88aff584",
-  "spacer_2_body_single.3mf": "bf1e3f86d558f0cd33ddd300bbfdb4b7b2b3a28c63bdd63fda455a9aa9131bf8"
+  "MoneyBox_1_body_single.3mf": "sha256:08b2800d8105ef3f1fd36edaa3db8fd1f9d74908f729cc4fff71de51aec1ca7d",
+  "MoneyBox_1_lid_single.3mf": "sha256:f6f96d1038b3ac78793a23eafa149067a8d87056f43b114812e6fb30051d70d9",
+  "MoneyBox_2_body_single.3mf": "sha256:1f4323cac7f3fdc14a4bf277d59eeb85afb56fb9589c48cc44c27ceb87e8bb03",
+  "MoneyBox_2_lid_single.3mf": "sha256:8a04dd2f0f99705496fc01b36e129228e1ad1aa862c802f0cabca6c4a6676dfb",
+  "SharesBox_1_body_single.3mf": "sha256:b28cbe1ddc3cc89de2360043069657da56a6825375fae02af753a7cea66a70c0",
+  "SharesBox_1_lid_single.3mf": "sha256:d7655dd547bc12c870981aaf3a277608f9eb9c45c014fae65de456541b2d19a5",
+  "SharesBox_2_body_single.3mf": "sha256:4442ec54f81e51398d63b2981c0194ebf7f76b80ea6aee81835513ec053cf57a",
+  "SharesBox_2_lid_single.3mf": "sha256:be40c20c0d52efa849fd34fbf4cf51c0d9055f8e3876117d1d43cd9ea4b5e54f",
+  "TrainBox_body_single.3mf": "sha256:06c42d5d7309989b3942375042d39f850c5105dce0bb05eb224406f1977dd1fb",
+  "TrainBox_lid_single.3mf": "sha256:bdec80dd0ad7f0c46e3e5a7118159bf2555445f87728c98df84d5c295ea7bc6b",
+  "spacer_1_body_single.3mf": "sha256:3e13cbffae717a0d5fc19ee84b76d7f33e4c890a6bd79d66f416cceb88aff584",
+  "spacer_2_body_single.3mf": "sha256:bf1e3f86d558f0cd33ddd300bbfdb4b7b2b3a28c63bdd63fda455a9aa9131bf8"
 }

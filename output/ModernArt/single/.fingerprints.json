@@ -1,6 +1,6 @@
 {
-  "CardBox_body_single.3mf": "f41919dc687cea71cd80e0e22191a38e995c89e1552953a62a17510910dbf13d",
-  "CardBox_lid_single.3mf": "daa29f54822f58dc3d7511d12e81d0603b70785d0b4f4e467f4480126a1dd70d",
-  "TokensBox_body_single.3mf": "fd5c5b49eceb99435e70f613951c7b6076c030419b0643c65fa54b04c12c42dd",
-  "TokensBox_lid_single.3mf": "f472799eb9a8df0f81dfea48faf6cf5d0c2776e4ece2673d1c32edbca670fc08"
+  "CardBox_body_single.3mf": "sha256:f41919dc687cea71cd80e0e22191a38e995c89e1552953a62a17510910dbf13d",
+  "CardBox_lid_single.3mf": "sha256:daa29f54822f58dc3d7511d12e81d0603b70785d0b4f4e467f4480126a1dd70d",
+  "TokensBox_body_single.3mf": "sha256:fd5c5b49eceb99435e70f613951c7b6076c030419b0643c65fa54b04c12c42dd",
+  "TokensBox_lid_single.3mf": "sha256:f472799eb9a8df0f81dfea48faf6cf5d0c2776e4ece2673d1c32edbca670fc08"
 }

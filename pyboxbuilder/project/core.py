@@ -1245,7 +1245,7 @@ class Project:
             box.pop("position", None)
             box.pop("lid" if piece.kind == "body" else "compartments", None)
 
-        return cache_key({
+        key = cache_key({
             "kind": piece.kind,
             "label": piece.label,
             "mode": mode,
@@ -1260,6 +1260,7 @@ class Project:
             },
             "box": box,
         })
+        return f"sha256:{key}"
 
     def _delete_stale_spacers(
         self, out_dir: str | Path, spacer_placements: list[Placement]
