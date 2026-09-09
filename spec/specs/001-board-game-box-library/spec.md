@@ -572,6 +572,10 @@ A finger cut is one shape swept through one wall, and these are its requirements
   - `GeometryPipeline`: Two-pass specification resolution, piece generation (`preview_pieces`), and CSG build orchestration.
   The public API of `Project` MUST remain 100% backward-compatible with all existing board game insert scripts.
 - **FR-094**: The library MUST support **Decoupled Box Type Registration via Decorators**. Box types and their builders MUST be registrable via an `@register_box(BoxType.<TYPE>, builder=<BuilderClass>)` decorator pattern with dynamic package auto-discovery, eliminating manual registration tables and top-level `# noqa: E402` circular import bypasses in `pyboxbuilder/box/registry.py`.
+- **FR-095**: The documentation example gallery across all 23 box types (`docs/box_types.rst`) and homepage showcases (`docs/index.rst`) MUST feature **Multi-Color Visual Separation & High-Fidelity Lid Inlays**. Each example snippet MUST declare explicit, harmonized material colors (`color=Color(...)`), contrasting framed lids (`label_mode=LabelMode.FRAMED`, `frame_color=Color(...)`, `text_color=Color(...)`), geometric or organic through-hole patterns (`PatternBuilder`), and realistic interior features (e.g. `holds_pieces=True` scooped token wells or card compartments), replacing plain, monochrome, or empty geometric placeholder solids.
+- **FR-096**: The documentation 3D mesh pre-generation toolchain (`scripts/generate_docs_stls.py`) MUST render multi-material CSG solids to binary STL files embedding **Materialise Magics 15-bit Color Attributes**. These attributes MUST be recognized and rendered by Three.js `STLLoader` with per-vertex color materials in the WebGL viewer. When code examples are updated, the script MUST generate new keyed STL meshes and prune unreferenced, obsolete orphaned meshes from `docs/_extra/_stl/`.
+- **FR-097**: Game insert projects and project templates under `boxes/` MUST leverage **Declarative Repetition Reduction** via `box_defaults={"no_rotate": True}` on `Project(...)`. Projects whose sub-boxes universally require directional alignment MUST NOT repeat `no_rotate=True` across individual `project.box(...)` declarations.
+
 
 - **BoxSpec**: The complete configuration of a single box -- outer dimensions (explicit or auto-computed from compartments), wall/floor/lid thicknesses, lid type, compartments, finger holes, labelling decorations, material colours, print positioning, auto-expand behaviour (expandable axes), and a `no_rotate` flag (default `False`) that prevents the 3D packer from rotating the box. Immutable once built. If `size` is omitted, dimensions are derived from compartment layout during packing.
 - **BoxType**: Abstracts the lid mechanism -- defines how the body is constructed (e.g., with dovetail grooves for sliding, with overhangs for caps, cantilever snap latches, bayonets, threads, dispensers, card shoes, sleeve drawers, clamshells, modular interlocks, or monolithic print-in-place hinges) and what lid geometry mates with it.
@@ -767,12 +771,15 @@ The project architecture undergoes structural hardening to eliminate God-objects
 - `pyboxbuilder/box/validation.py`: Enforces pre-CSG geometric sanity (`GeometryValidator`, `GeometryValidationError`).
 - `pyboxbuilder/box/registry.py`: Modernized decorator-based registration (`@register_box`).
 
-### Success Criteria: Architectural Modernization
+### Success Criteria: Architectural Modernization & Gallery Enhancement
 
 - **SC-091**: 100% of CSG geometry generation passes operate strictly on frozen, fully validated `ResolvedBoxSpec` instances without optional envelope dimensions.
 - **SC-092**: Physically impossible box configurations (e.g. wall thickness exceeding half the box envelope) fail fast with `GeometryValidationError` before invoking PythonSCAD.
 - **SC-093**: All 41 existing box examples in `boxes/` run, build, and export identically with zero regressions under the decomposed `Project` architecture.
 - **SC-094**: Box types and builders can be registered and extended using `@register_box` without editing core registry tables or introducing `# noqa: E402` circular import bypasses.
+- **SC-095**: 100% of the 23 box type gallery examples in `docs/box_types.rst` and feature showcase examples in `docs/index.rst` display vibrant multi-color 3D models with framed contrasting lids, surface patterns, and scooped interior compartments.
+- **SC-096**: `scripts/generate_docs_stls.py` runs with 0 failures, pre-generating all active documentation STL models with Materialise Magics 15-bit color attributes and leaving zero orphaned meshes.
+- **SC-097**: `boxes/_template/template.py` and repetitive game inserts (`adas_dream`, `dominion`, `russian_railroads`, `pioneer_rails`, `brink`, `emberleaf`) declare `box_defaults={"no_rotate": True}` on `Project(...)` with 0 duplicate `no_rotate=True` arguments and 100% test pass rate.
 
 ### Railways of the World Example Specification
 

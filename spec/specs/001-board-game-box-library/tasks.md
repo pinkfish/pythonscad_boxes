@@ -1178,6 +1178,21 @@ stop the class of mistake from being expressible.
 - [x] T376 [P] Write unit tests for decorator-based box registration and dynamic discovery in `tests/test_pyboxbuilder/test_registry.py` (SC-094).
 - [x] T377 Run the complete test suite, linting, type checks, and Sphinx build (`pytest`, `make lint`, `make types`, `sphinx-build -b html -W --keep-going docs docs/_build/html`) to verify all 41 game box inserts compile and build cleanly with zero regressions (SC-093).
 
+---
+
+## Phase 39: Gallery Multi-Color Enhancements & Game Insert Modernization (FR-095–FR-097)
+
+**Goal**: Upgrade the documentation gallery across all 23 box types and homepage showcase examples with high-fidelity multi-color models, framed contrasting lids, tactile surface patterns, and ergonomic scooped compartments; pre-generate Materialise Magics 15-bit color STLs; and modernize repetitive game inserts using `box_defaults={"no_rotate": True}`.
+
+- [x] T378 [P] Upgrade all 23 box type gallery examples in `docs/box_types.rst` with curated body colors, framed lids (`LabelMode.FRAMED`), text/frame contrasting colors, surface patterns (`PatternBuilder`), and scooped interior compartments (`holds_pieces=True`) (FR-095, SC-095).
+- [x] T379 [P] Upgrade homepage hero showcase and Examples 1–3 in `docs/index.rst` with multi-box arrangements, contrasting lids, and realistic compartments (FR-095, SC-095).
+- [x] T380 Pre-generate all active documentation 3D STL models via `scripts/generate_docs_stls.py` with Materialise Magics 15-bit color attributes (FR-096, SC-096).
+- [x] T381 Prune unreferenced orphaned STL meshes from `docs/_extra/_stl/` (FR-096, SC-096).
+- [x] T382 Modernize `boxes/_template/template.py` with `box_defaults={"no_rotate": True}`, `PatternBuilder`, `LabelMode.FRAMED`, multi-color palette, and clean declarative layout (FR-097, SC-097).
+- [x] T383 [P] Modernize repetitive game inserts (`adas_dream`, `dominion`, `russian_railroads`, `pioneer_rails`, `brink`, `emberleaf`) using `box_defaults={"no_rotate": True}` on `Project(...)` and eliminate repetitive `no_rotate=True` arguments (FR-097, SC-097).
+- [x] T384 Verify Sphinx documentation build with `-W --keep-going` to guarantee 0 warnings or errors across all interactive 3D examples (SC-095).
+- [x] T385 Run full test suite, linting, and type checking (`pytest`, `make lint`, `make types`) verifying 100% pass rate across all 1,028 tests and 0 regressions (SC-097).
+
 ## Notes
 
 - [P] tasks = different files, no dependencies

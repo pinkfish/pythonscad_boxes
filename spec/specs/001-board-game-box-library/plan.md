@@ -1675,6 +1675,9 @@ Where each requirement is designed, and where it is verified. Sections named bel
 | FR-092 | Pre-CSG Geometric Invariant Validation | `pyboxbuilder/box/validation.py` |
 | FR-093 | Decomposed Facade Architecture (`ProjectManifest`, `LayoutCompiler`, `GeometryPipeline`) | `pyboxbuilder/project/manifest.py`, `pyboxbuilder/project/compiler.py`, `pyboxbuilder/project/pipeline.py`, `pyboxbuilder/project/core.py` |
 | FR-094 | Decoupled Box Type Registration via Decorators | `pyboxbuilder/box/registry.py` |
+| FR-095 | Multi-Color Documentation Example Models & Inlay Aesthetics | `docs/box_types.rst`, `docs/index.rst` |
+| FR-096 | Materialise Magics 15-Bit STL Vertex Color Pre-generation Pipeline | `scripts/generate_docs_stls.py`, `docs/_ext/stl_viewer.py`, `docs/_static/stl_viewer.js` |
+| FR-097 | Declarative Insert Project Modernization (`box_defaults`) | `boxes/_template/template.py`, `boxes/*/*.py` |
 
 | SC | Verified by |
 |---|---|
@@ -1745,6 +1748,9 @@ Where each requirement is designed, and where it is verified. Sections named bel
 | SC-092 | `test_validation.py` — Pre-CSG boundary and geometric invariant enforcement |
 | SC-093 | `test_project.py`, `test_ci_smoke.py`, `test_project_coverage.py` — Full backward compatibility of decomposed Project facade |
 | SC-094 | `test_registry.py` — Decorator-based registration and zero circular imports |
+| SC-095 | `docs/box_types.rst`, `docs/index.rst`, `sphinx-build -b html -W --keep-going docs docs/_build/html` |
+| SC-096 | `scripts/generate_docs_stls.py` (27 written, 55 unchanged, 0 failed) |
+| SC-097 | `test_adas_dream.py`, `test_dominion.py`, `test_russian_railroads.py`, `test_pioneer_rails.py`, `test_brink.py`, `test_emberleaf.py` |
 
 ## Complexity Tracking
 
