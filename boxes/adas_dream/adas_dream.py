@@ -64,6 +64,7 @@ project = Project(
     clearance_slack=0.0,
     board_thickness=board_thickness,
     generate_spacers=True,
+    box_defaults={"no_rotate": True},
 )
 
 ADA_PATTERN = PatternBuilder(PatternType.DENSE_HEX)
@@ -82,7 +83,6 @@ project.box(
         frame_color=Color("darkred"),
     ),
     position=(0.0, 0.0, 0.0),
-    no_rotate=True,
 ).compartment("Bits", depth=player_box_height - lid_thickness, cut=FingerCut.SCOOP)
 
 project.box(
@@ -97,7 +97,6 @@ project.box(
         frame_color=Color("forestgreen"),
     ),
     position=(0.0, 0.0, player_box_height),
-    no_rotate=True,
 ).compartment("Bits", depth=player_box_height - lid_thickness, cut=FingerCut.SCOOP)
 
 project.box(
@@ -112,7 +111,6 @@ project.box(
         frame_color=Color("gold"),
     ),
     position=(0.0, 0.0, player_box_height * 2.0),
-    no_rotate=True,
 ).compartment("Bits", depth=player_box_height - lid_thickness, cut=FingerCut.SCOOP)
 
 # Right column (X = card_box_width = 72mm)
@@ -128,7 +126,6 @@ project.box(
         frame_color=Color("navy"),
     ),
     position=(card_box_width, 0.0, 0.0),
-    no_rotate=True,
 ).compartment("Bits", depth=player_box_height - lid_thickness, cut=FingerCut.SCOOP)
 
 project.box(
@@ -143,7 +140,6 @@ project.box(
         frame_color=Color("purple"),
     ),
     position=(card_box_width, 0.0, player_box_height),
-    no_rotate=True,
 ).compartment("Bits", depth=player_box_height - lid_thickness, cut=FingerCut.SCOOP)
 
 project.box(
@@ -158,7 +154,6 @@ project.box(
         frame_color=Color("silver"),
     ),
     position=(card_box_width, 0.0, player_box_height * 2.0),
-    no_rotate=True,
 ).compartment("Money", depth=player_box_height - lid_thickness, cut=FingerCut.SCOOP)
 
 # ── 2. Card Boxes (Row 2, Y = card_box_length = 97mm) ─────────────
@@ -176,7 +171,6 @@ project.box(
         frame_color=Color("royalblue"),
     ),
     position=(card_box_width, y_row2, 0.0),
-    no_rotate=True,
 ).compartment("Cards", depth=usable_height / 2.0 - lid_thickness, cut=FingerCut.SCOOP)
 
 project.box(
@@ -191,7 +185,6 @@ project.box(
         frame_color=Color("darkorange"),
     ),
     position=(card_box_width, y_row2, usable_height / 2.0),
-    no_rotate=True,
 ).compartment("Cards", depth=usable_height / 2.0 - lid_thickness, cut=FingerCut.SCOOP)
 
 # ── 3. Gear / Cog Boxes (Stacked 3 high at Y = 97 + 97 = 194mm) ───
@@ -211,7 +204,6 @@ for idx, label in enumerate(gear_labels):
             frame_color=Color("peru"),
         ),
         position=(card_box_width, y_row3, idx * gear_box_height),
-        no_rotate=True,
     )
     g_box.compartment(
         "Gears",
@@ -232,7 +224,6 @@ project.box(
         frame_color=Color("firebrick"),
     ),
     position=(0.0, y_row2, 0.0),
-    no_rotate=True,
 ).compartment("Dice", depth=usable_height / 2.0 - floor_thickness - 1.0, cut=FingerCut.SCOOP)
 
 project.box(
@@ -247,7 +238,6 @@ project.box(
         frame_color=Color("teal"),
     ),
     position=(0.0, y_row2 + card_box_length / 2.0, 0.0),
-    no_rotate=True,
 ).compartment("Books", depth=usable_height / 2.0 - floor_thickness - 1.0, cut=FingerCut.SCOOP)
 
 # ── Export ────────────────────────────────────────────────────────

@@ -62,6 +62,7 @@ project = Project(
     clearance_slack=0.0,
     board_thickness=board_thickness,
     generate_spacers=True,
+    box_defaults={"no_rotate": True},
 )
 
 PIONEER_PATTERN = PatternBuilder(PatternType.DENSE_HEX)
@@ -79,7 +80,6 @@ p_box = project.box(
         frame_color=Color("peru"),
     ),
     position=(0.0, 0.0, 0.0),
-    no_rotate=True,
 )
 p_box.compartment(
     "PencilsAndErasers",
@@ -108,7 +108,6 @@ for idx, (deck_id, title, color_name) in enumerate(decks):
             frame_color=Color(color_name),
         ),
         position=(pencil_box_width + idx * card_box_width, 0.0, 0.0),
-        no_rotate=True,
     )
     c_box.compartment(
         "Cards",

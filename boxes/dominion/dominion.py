@@ -58,6 +58,7 @@ project = Project(
     lid_thickness=lid_thickness,
     clearance_slack=0.0,
     generate_spacers=True,
+    box_defaults={"no_rotate": True},
 )
 
 DOMINION_PATTERN = PatternBuilder(PatternType.DENSE_HEX)
@@ -75,7 +76,6 @@ base_box = project.box(
         frame_color=Color("royalblue"),
     ),
     position=(0.0, 0.0, 0.0),
-    no_rotate=True,
 )
 base_box.compartment(
     "KingdomDecks",
@@ -96,7 +96,6 @@ treasure_box = project.box(
         frame_color=Color("gold"),
     ),
     position=(card_box_width, 0.0, 0.0),
-    no_rotate=True,
 )
 treasure_box.compartment(
     "TreasuresAndVictory",
@@ -117,7 +116,6 @@ alchemy_box = project.box(
         frame_color=Color("purple"),
     ),
     position=(card_box_width, money_victory_len, 0.0),
-    no_rotate=True,
 )
 alchemy_box.compartment(
     "AlchemyCards",
@@ -143,7 +141,6 @@ for idx, label in enumerate(["CoinAndDebtTokens", "MatsAndSpecialTokens"], start
             frame_color=Color("darkslategray"),
         ),
         position=(card_box_width * 2.0, (idx - 1) * token_tray_len, 0.0),
-        no_rotate=True,
     )
     tray.compartment(
         "Tokens_Left",

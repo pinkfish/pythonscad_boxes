@@ -70,6 +70,7 @@ project = Project(
     clearance_slack=0.0,
     board_thickness=board_thickness,
     generate_spacers=True,
+    box_defaults={"no_rotate": True},
 )
 
 BRINK_PATTERN = PatternBuilder(PatternType.DENSE_HEX)
@@ -87,7 +88,6 @@ hex_box = project.box(
         frame_color=Color("dimgray"),
     ),
     position=(0.0, 0.0, 0.0),
-    no_rotate=True,
 )
 for h in range(3):
     hex_box.compartment(
@@ -116,7 +116,6 @@ for idx, faction in enumerate(player_factions):
             frame_color=Color("royalblue"),
         ),
         position=(col * player_box_width, y_player, tier * player_box_height),
-        no_rotate=True,
     )
     p_box.compartment(
         "ShipsAndUpgrades",
@@ -149,7 +148,6 @@ for idx, (deck_id, title, color_name) in enumerate(card_types):
             frame_color=Color(color_name),
         ),
         position=(col * ambassador_box_width, y_cards, tier * (usable_height / 3.0)),
-        no_rotate=True,
     )
     c_box.compartment(
         "Cards",

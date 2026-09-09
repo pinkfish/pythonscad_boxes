@@ -22,15 +22,20 @@ It is ideal for token boxes, card decks, and trays where the lid should remain c
 .. pythonscad-example::
 
    project = Project("SlidingDemo", game_box_size=(80.0, 80.0, 30.0))
-   project.box(
+   box = project.box(
        BoxType.SLIDING,
        "Tokens",
        size=(60.0, 60.0, 22.0),
+       color=Color("darkslateblue"),
        lid=LidBuilder(
-           pattern=PatternBuilder(PatternType.HEX),
-           text="TOKENS",
-       ),
+           label_mode=LabelMode.FRAMED,
+           frame_color=Color("gold"),
+           text_color=Color("white"),
+           pattern=PatternBuilder(PatternType.HEX, spacing=8.0),
+       ).titled("TOKENS"),
    )
+   box.compartment("Gold", width_ratio=0.5, holds_pieces=True)
+   box.compartment("Silver", width_ratio=0.5, holds_pieces=True)
    project.show(show_lids=True)
 
 
@@ -44,12 +49,20 @@ A variant of the sliding dovetail box equipped with a detent bump and fingernail
 .. pythonscad-example::
 
    project = Project("CatchDemo", game_box_size=(80.0, 80.0, 30.0))
-   project.box(
+   box = project.box(
        BoxType.SLIDING_CATCH,
        "CatchBox",
        size=(60.0, 60.0, 22.0),
-       lid=LidBuilder(text="LOCKED"),
+       color=Color("crimson"),
+       lid=LidBuilder(
+           label_mode=LabelMode.FRAMED,
+           frame_color=Color("silver"),
+           text_color=Color("white"),
+           pattern=PatternBuilder(PatternType.TRIANGLE, spacing=9.0),
+       ).titled("LOCKED"),
    )
+   box.compartment("Gems", width_ratio=0.5, holds_pieces=True)
+   box.compartment("Crystals", width_ratio=0.5, holds_pieces=True)
    project.show(show_lids=True)
 
 
@@ -69,10 +82,16 @@ Cap boxes are well-suited for player trays, resource banks, and modular organize
        BoxType.CAP,
        "PlayerTray",
        size=(60.0, 60.0, 22.0),
-       lid=LidBuilder(text="PLAYER 1"),
+       color=Color("darkgreen"),
+       lid=LidBuilder(
+           label_mode=LabelMode.FRAMED,
+           frame_color=Color("gold"),
+           text_color=Color("white"),
+           pattern=PatternBuilder(PatternType.OCTAGON, spacing=8.0),
+       ).titled("PLAYER 1"),
    )
-   box.compartment("LeftWell", width_ratio=0.5)
-   box.compartment("RightWell", width_ratio=0.5)
+   box.compartment("LeftWell", width_ratio=0.5, holds_pieces=True)
+   box.compartment("RightWell", width_ratio=0.5, holds_pieces=True)
    project.show(show_lids=True)
 
 
@@ -99,6 +118,7 @@ Combines the drop-on friction cap lid with an arbitrary 2D polygon footprint. Th
        "CapPathTray",
        size=(55.0, 55.0, 20.0),
        path=l_path,
+       color=Color("teal"),
    )
    project.show(show_lids=True)
 
@@ -114,16 +134,20 @@ Slipover lids provide high structural rigidity and a clean exterior finish.
 
 .. pythonscad-example::
 
-   project = Project("SlipoverDemo", game_box_size=(80.0, 80.0, 35.0))
-   project.box(
+   project = Project("SlipoverDemo", game_box_size=(80.0, 90.0, 35.0))
+   box = project.box(
        BoxType.SLIPOVER,
        "MiniDeck",
        size=(55.0, 70.0, 26.0),
+       color=Color("midnightblue"),
        lid=LidBuilder(
-           pattern=PatternBuilder(PatternType.CIRCLE),
-           text="CARDS",
-       ),
+           label_mode=LabelMode.FRAMED,
+           frame_color=Color("cornflowerblue"),
+           text_color=Color("white"),
+           pattern=PatternBuilder(PatternType.CIRCLE, spacing=8.0),
+       ).titled("CARDS"),
    )
+   box.compartment("Deck", holds_pieces=True)
    project.show(show_lids=True)
 
 
@@ -150,6 +174,7 @@ A polygonal sleeve enclosure designed to slide over a custom 2D polygon body tra
        "SlipPathTray",
        size=(55.0, 55.0, 20.0),
        path=l_path,
+       color=Color("darkcyan"),
    )
    project.show(show_lids=True)
 
@@ -164,12 +189,20 @@ Features an integrated pin hinge printed in place alongside the body and lid. Th
 .. pythonscad-example::
 
    project = Project("HingeDemo", game_box_size=(80.0, 80.0, 30.0))
-   project.box(
+   box = project.box(
        BoxType.HINGE,
        "Chest",
        size=(60.0, 50.0, 22.0),
-       lid=LidBuilder(text="SUPPLIES"),
+       color=Color("saddlebrown"),
+       lid=LidBuilder(
+           label_mode=LabelMode.FRAMED,
+           frame_color=Color("gold"),
+           text_color=Color("white"),
+           pattern=PatternBuilder(PatternType.VORONOI, spacing=8.0),
+       ).titled("CHEST"),
    )
+   box.compartment("Coins", width_ratio=0.5, holds_pieces=True)
+   box.compartment("Loot", width_ratio=0.5, holds_pieces=True)
    project.show(show_lids=True)
 
 
@@ -183,12 +216,19 @@ A compact, durable hinge design whose hinge barrel accepts a short length of sta
 .. pythonscad-example::
 
    project = Project("FilamentHingeDemo", game_box_size=(80.0, 80.0, 30.0))
-   project.box(
+   box = project.box(
        BoxType.FILAMENT_HINGE,
        "PinBox",
        size=(60.0, 50.0, 22.0),
-       lid=LidBuilder(text="GEAR"),
+       color=Color("indigo"),
+       lid=LidBuilder(
+           label_mode=LabelMode.FRAMED,
+           frame_color=Color("mediumpurple"),
+           text_color=Color("white"),
+           pattern=PatternBuilder(PatternType.SQUARE, spacing=8.0),
+       ).titled("GEAR"),
    )
+   box.compartment("Dice", holds_pieces=True)
    project.show(show_lids=True)
 
 
@@ -202,15 +242,23 @@ Recesses precision magnet cavities (:class:`~pyboxbuilder.enums.MagnetType`) int
 .. pythonscad-example::
 
    project = Project("MagneticDemo", game_box_size=(80.0, 80.0, 30.0))
-   project.box(
+   box = project.box(
        BoxType.MAGNETIC,
        "Vault",
        size=(60.0, 60.0, 22.0),
+       color=Color("darkslategray"),
        magnet_type=MagnetType.ROUND,
        magnet_diameter=6.0,
        magnet_height=3.0,
-       lid=LidBuilder(text="VAULT"),
+       lid=LidBuilder(
+           label_mode=LabelMode.FRAMED,
+           frame_color=Color("coral"),
+           text_color=Color("white"),
+           pattern=PatternBuilder(PatternType.HEX, spacing=8.0),
+       ).titled("VAULT"),
    )
+   box.compartment("Relics", width_ratio=0.5, holds_pieces=True)
+   box.compartment("Keys", width_ratio=0.5, holds_pieces=True)
    project.show(show_lids=True)
 
 
@@ -226,12 +274,19 @@ Inset boxes maximize usable height in tight game boxes where external lid rims w
 .. pythonscad-example::
 
    project = Project("InsetDemo", game_box_size=(80.0, 80.0, 30.0))
-   project.box(
+   box = project.box(
        BoxType.INSET,
        "FlushTray",
        size=(60.0, 60.0, 22.0),
-       lid=LidBuilder(text="TILES"),
+       color=Color("maroon"),
+       lid=LidBuilder(
+           label_mode=LabelMode.FRAMED,
+           frame_color=Color("gold"),
+           text_color=Color("white"),
+           pattern=PatternBuilder(PatternType.TRIANGLE, spacing=8.0),
+       ).titled("TILES"),
    )
+   box.compartment("Tiles", holds_pieces=True)
    project.show(show_lids=True)
 
 
@@ -254,16 +309,21 @@ Stacked trays cannot slide off each other during play or transport.
        BoxType.NO_LID,
        "TrayLower",
        size=(60.0, 60.0, 16.0),
+       color=Color("darkcyan"),
        position=(0.0, 0.0, 0.0),
        stackable=StackableMode.INSIDE,
    )
+   b1.compartment("CubesA", width_ratio=0.5, holds_pieces=True)
+   b1.compartment("CubesB", width_ratio=0.5, holds_pieces=True)
    b2 = project.box(
        BoxType.NO_LID,
        "TrayUpper",
        size=(60.0, 60.0, 16.0),
+       color=Color("coral"),
        position=(0.0, 0.0, 16.0),
        stackable=StackableMode.INSIDE,
    )
+   b2.compartment("Tokens", holds_pieces=True)
    project.show()
 
 
@@ -281,6 +341,7 @@ A specialized card storage box optimized for card decks. It supports standard ca
        BoxType.CARD_LIBRARY,
        "Deck",
        size=(55.0, 80.0, 25.0),
+       color=Color("darkblue"),
    )
    project.show(show_lids=True)
 
@@ -308,6 +369,7 @@ When rectangular boxes cannot fit around game boards, player mats, or non-rectan
        "CornerTray",
        size=(55.0, 55.0, 20.0),
        path=l_path,
+       color=Color("forestgreen"),
    )
    project.show()
 
@@ -322,13 +384,21 @@ Features integrated downward-extending cantilever spring arms on opposing walls 
 .. pythonscad-example::
 
    project = Project("SnapFitDemo", game_box_size=(80.0, 80.0, 40.0))
-   project.box(
+   box = project.box(
        BoxType.SNAP_FIT,
        "SnapBox",
        size=(60.0, 50.0, 24.0),
+       color=Color("darkmagenta"),
        cantilever_thickness=1.6,
        cantilever_width=12.0,
+       lid=LidBuilder(
+           label_mode=LabelMode.FRAMED,
+           frame_color=Color("gold"),
+           text_color=Color("white"),
+           pattern=PatternBuilder(PatternType.HEX, spacing=8.0),
+       ).titled("SNAP"),
    )
+   box.compartment("PawnWell", holds_pieces=True)
    project.show(show_lids=True)
 
 
@@ -346,6 +416,7 @@ Designed for cylindrical or rounded footprints, the lid and body mate via a quar
        BoxType.BAYONET,
        "BayonetCanister",
        size=(55.0, 55.0, 35.0),
+       color=Color("teal"),
        lug_count=4,
        turn_angle=90.0,
    )
@@ -366,6 +437,7 @@ Container with helical male/female screw threads on a circular cylindrical profi
        BoxType.THREADED,
        "ThreadedJar",
        size=(50.0, 50.0, 32.0),
+       color=Color("darkolivegreen"),
        thread_pitch=3.0,
        thread_turns=2.0,
    )
@@ -386,6 +458,7 @@ Designed for cardboard tiles (e.g. Carcassonne, Catan), poker chips, or resource
        BoxType.DISPENSER,
        "TileChute",
        size=(55.0, 55.0, 70.0),
+       color=Color("darkred"),
        chute_angle=40.0,
        token_thickness=3.0,
    )
@@ -406,6 +479,7 @@ In-game tabletop utility tray with adjacent draw and discard wells. The draw wel
        BoxType.CARD_SHOE,
        "ShoeTray",
        size=(130.0, 85.0, 42.0),
+       color=Color("midnightblue"),
        draw_angle=20.0,
        retaining_lip_height=10.0,
        discard_well=True,
@@ -423,13 +497,15 @@ A dual-purpose container where the body stores dice or tokens and the deep nesti
 .. pythonscad-example::
 
    project = Project("DiceTrayDemo", game_box_size=(140.0, 110.0, 50.0))
-   project.box(
+   box = project.box(
        BoxType.DICE_TRAY,
        "ArenaBox",
        size=(120.0, 90.0, 36.0),
+       color=Color("purple"),
        arena_wall_height=28.0,
        felt_pocket_depth=1.2,
    )
+   box.compartment("DiceStorage", holds_pieces=True)
    project.show(show_lids=True)
 
 
@@ -443,13 +519,15 @@ A two-piece matchbox assembly consisting of a hollow 4-sided outer perimeter sle
 .. pythonscad-example::
 
    project = Project("SleeveDrawerDemo", game_box_size=(90.0, 80.0, 40.0))
-   project.box(
+   box = project.box(
        BoxType.SLEEVE_DRAWER,
        "DrawerBox",
        size=(70.0, 60.0, 28.0),
+       color=Color("sienna"),
        push_hole_radius=12.0,
        drawer_pull_lip=4.0,
    )
+   box.compartment("Cards", holds_pieces=True)
    project.show(show_lids=True)
 
 
@@ -467,7 +545,14 @@ Two symmetrical tray halves joined along a central spine hinge, unfolding 180° 
        BoxType.CLAMSHELL,
        "BookBox",
        size=(90.0, 65.0, 32.0),
+       color=Color("darkslateblue"),
        spine_gap=1.0,
+       lid=LidBuilder(
+           label_mode=LabelMode.FRAMED,
+           frame_color=Color("gold"),
+           text_color=Color("white"),
+           pattern=PatternBuilder(PatternType.HEX, spacing=8.0),
+       ).titled("TOME"),
    )
    project.show(show_lids=True)
 
@@ -482,12 +567,14 @@ Trays featuring perimeter interlocking joints on outer walls to lock multiple bo
 .. pythonscad-example::
 
    project = Project("ModularDemo", game_box_size=(80.0, 80.0, 40.0))
-   project.box(
+   box = project.box(
        BoxType.MODULAR_INTERLOCK,
        "ModularTray",
        size=(65.0, 65.0, 24.0),
+       color=Color("steelblue"),
        interlock_type=InterlockType.DOVETAIL,
    )
+   box.compartment("Items", holds_pieces=True)
    project.show(show_lids=True)
 
 
@@ -501,12 +588,21 @@ A single-piece, zero-assembly hinged box where body and lid are laid flat at 180
 .. pythonscad-example::
 
    project = Project("PIPHingeDemo", game_box_size=(80.0, 80.0, 35.0))
-   project.box(
+   box = project.box(
        BoxType.PRINT_IN_PLACE_HINGE,
        "HingedBox",
        size=(60.0, 45.0, 22.0),
+       color=Color("forestgreen"),
        pip_radial_clearance=0.35,
        pip_axial_clearance=0.40,
+       lid=LidBuilder(
+           label_mode=LabelMode.FRAMED,
+           frame_color=Color("gold"),
+           text_color=Color("white"),
+           pattern=PatternBuilder(PatternType.HEX, spacing=8.0),
+       ).titled("PIPKIT"),
    )
+   box.compartment("Tools", holds_pieces=True)
    project.show(show_lids=True)
+
 

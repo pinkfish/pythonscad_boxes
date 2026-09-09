@@ -20,16 +20,20 @@ The library's governing principle is **good defaults, not options**: you describ
        "Tokens",
        size=(46.0, 50.0, 20.0),
        position=(2.0, 2.0, 0.0),
+       color=Color("midnightblue"),
        lid=LidBuilder(
-           pattern=PatternBuilder(PatternType.HEX),
-           text="TOKENS",
-       ),
+           label_mode=LabelMode.FRAMED,
+           frame_color=Color("gold"),
+           text_color=Color("white"),
+           pattern=PatternBuilder(PatternType.HEX, spacing=8.0),
+       ).titled("TOKENS"),
    )
    tray = project.box(
        BoxType.NO_LID,
        "Dice",
        size=(46.0, 50.0, 20.0),
        position=(50.0, 2.0, 0.0),
+       color=Color("coral"),
    )
    tray.compartment("D6", width_ratio=0.5, holds_pieces=True)
    tray.compartment("D20", width_ratio=0.5, holds_pieces=True)
@@ -156,10 +160,13 @@ This example defines a sliding card box where the internal height and depth are 
        BoxType.SLIDING,
        "Cards",
        size=(75.0, 105.0, None),
+       color=Color("darkslateblue"),
        lid=LidBuilder(
            label_mode=LabelMode.FRAMED,
            frame_color=Color("gold"),
-       ).titled("Cards"),
+           text_color=Color("white"),
+           pattern=PatternBuilder(PatternType.DENSE_HEX),
+       ).titled("CARDS"),
    )
    cards.cards("Deck", count=100, size=(63.5, 88.0))
    project.show(show_lids=True)
@@ -172,7 +179,18 @@ This 4-compartment token organizer uses ratio-based dividers and rounded interio
 .. pythonscad-example::
 
    project = Project("TokenOrganizer", game_box_size=(160.0, 120.0, 40.0))
-   tokens = project.box(BoxType.CAP, "Tokens", size=(120.0, 70.0, 26.0))
+   tokens = project.box(
+       BoxType.CAP,
+       "Tokens",
+       size=(120.0, 70.0, 26.0),
+       color=Color("darkgreen"),
+       lid=LidBuilder(
+           label_mode=LabelMode.FRAMED,
+           frame_color=Color("gold"),
+           text_color=Color("white"),
+           pattern=PatternBuilder(PatternType.OCTAGON),
+       ).titled("RESOURCES"),
+   )
    tokens.compartment("Coins", width_ratio=0.25, holds_pieces=True)
    tokens.compartment("Gems", width_ratio=0.25, holds_pieces=True)
    tokens.compartment("Wood", width_ratio=0.25, holds_pieces=True)
@@ -187,12 +205,22 @@ This box prints flat in a single operation with zero assembly required. It lever
 .. pythonscad-example::
 
    project = Project("HingeCase", game_box_size=(120.0, 100.0, 40.0))
-   project.box(
+   box = project.box(
        BoxType.PRINT_IN_PLACE_HINGE,
        "Tools",
        size=(90.0, 60.0, 24.0),
-       lid=LidBuilder(pattern=PatternBuilder(PatternType.HEX), text="KIT"),
+       color=Color("teal"),
+       pip_radial_clearance=0.35,
+       pip_axial_clearance=0.40,
+       lid=LidBuilder(
+           label_mode=LabelMode.FRAMED,
+           frame_color=Color("goldenrod"),
+           text_color=Color("white"),
+           pattern=PatternBuilder(PatternType.HEX, spacing=8.0),
+       ).titled("KIT"),
    )
+   box.compartment("Bits", width_ratio=0.5, holds_pieces=True)
+   box.compartment("Drivers", width_ratio=0.5, holds_pieces=True)
    project.show(show_lids=True)
 
 Core System Architecture

@@ -70,6 +70,7 @@ project = Project(
     clearance_slack=0.0,
     board_thickness=board_thickness,
     generate_spacers=True,
+    box_defaults={"no_rotate": True},
 )
 
 EMBER_PATTERN = PatternBuilder(PatternType.DENSE_HEX)
@@ -97,7 +98,6 @@ for label, pos, color_name in player_configs:
             frame_color=Color(color_name),
         ),
         position=pos,
-        no_rotate=True,
     )
     p_box.compartment(
         "Meeples", length_ratio=0.6, depth=PLAYER_BOX_HEIGHT - floor_thickness - 1.0, cut=FingerCut.SCOOP
@@ -126,7 +126,6 @@ for label, pos, text, color_name in card_configs:
             frame_color=Color(color_name),
         ),
         position=pos,
-        no_rotate=True,
     )
     c_box.compartment("Cards", depth=CARD_BOX_HEIGHT - lid_thickness, cut=FingerCut.SCOOP)
 
@@ -146,7 +145,6 @@ h_box = project.box(
         frame_color=Color("purple"),
     ),
     position=(x_col2, 0.0, 0.0),
-    no_rotate=True,
 )
 h_box.compartment("Cards", depth=PLAYER_CARD_BOX_HEIGHT - floor_thickness - 1.0, cut=FingerCut.SCOOP)
 
@@ -163,7 +161,6 @@ com_box = project.box(
         frame_color=Color("saddlebrown"),
     ),
     position=(x_col2, PLAYER_CARD_BOX_LENGTH, 0.0),
-    no_rotate=True,
 )
 for slot in range(3):
     com_box.compartment(

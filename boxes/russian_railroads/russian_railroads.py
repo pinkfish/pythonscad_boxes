@@ -65,6 +65,7 @@ project = Project(
     clearance_slack=0.0,
     board_thickness=board_thickness,
     generate_spacers=True,
+    box_defaults={"no_rotate": True},
 )
 
 RR_PATTERN = PatternBuilder(PatternType.DENSE_HEX)
@@ -94,7 +95,6 @@ for name, title, color_name, col, tier in trays:
             frame_color=Color(color_name),
         ),
         position=(col * player_box_width, 0.0, tier * player_box_height),
-        no_rotate=True,
     )
     p_box.compartment(
         "Workers",
@@ -124,7 +124,6 @@ project.box(
         frame_color=Color("peru"),
     ),
     position=(train_box_width, y_trains, 0.0),
-    no_rotate=True,
 ).compartment(
     "Cards",
     depth=card_box_height - lid_thickness,
@@ -144,7 +143,6 @@ project.box(
         frame_color=Color("darkred"),
     ),
     position=(0.0, y_trains, 0.0),
-    no_rotate=True,
 ).compartment(
     "TrainTiles",
     depth=train_box_height - floor_thickness - 1.0,
@@ -163,7 +161,6 @@ project.box(
         frame_color=Color("darkslategray"),
     ),
     position=(0.0, y_trains, train_box_height),
-    no_rotate=True,
 ).compartment(
     "EngineerTiles",
     depth=engineer_box_height - floor_thickness - 1.0,
@@ -182,7 +179,6 @@ project.box(
         frame_color=Color("saddlebrown"),
     ),
     position=(0.0, y_trains, train_box_height + engineer_box_height),
-    no_rotate=True,
 ).compartment(
     "WoodenTracks",
     depth=track_box_height - floor_thickness - 1.0,
