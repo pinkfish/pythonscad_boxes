@@ -7,7 +7,10 @@ from dataclasses import replace
 from typing import TYPE_CHECKING
 
 from pyboxbuilder.box.base import BoxTypeBase, Interior
+from pyboxbuilder.box.registry import register_box
 from pyboxbuilder.box.spec import BoxSpec
+from pyboxbuilder.builders.slipover import SlipoverBoxBuilder
+from pyboxbuilder.enums import BoxType
 
 SLIPOVER_FINGER_MAX_MM = 20.0
 """Tallest a sleeve's corner notch gets, however deep the box."""
@@ -19,6 +22,7 @@ if TYPE_CHECKING:
     from pybosl2.shapes3d import Bosl2Solid
 
 
+@register_box(BoxType.SLIPOVER, builder=SlipoverBoxBuilder)
 class SlipoverBox(BoxTypeBase):
     """Slipover lid box type."""
 

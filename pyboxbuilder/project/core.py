@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: Apache-2.0
-"""Project class — top-level API entry point.
+"""Project class — top-level API entry point and facade (FR-093).
 
 **One build path.** :meth:`Project.build` resolves the layout and builds every
 body, lid and spacer. :meth:`~pyboxbuilder.project.Project.show` renders what it returns and
@@ -14,16 +14,17 @@ from __future__ import annotations
 
 from collections.abc import Iterable
 from dataclasses import dataclass, field
-from functools import cache, partial
 from pathlib import Path
 from typing import TYPE_CHECKING, Any
 
 from pyboxbuilder.enums import BoxType, FingerCut, ScoopSide
 from pyboxbuilder.helpers import CardSize, SleeveType
+from pyboxbuilder.project.compiler import LayoutCompiler
+from pyboxbuilder.project.manifest import ProjectManifest
 from pyboxbuilder.project.piece import Build, Piece, ResolvedBox
+from pyboxbuilder.project.pipeline import GeometryPipeline
 
 if TYPE_CHECKING:
-    from pybosl2 import Color
     from pybosl2.shapes3d import Bosl2Solid
 
     from pyboxbuilder.builders._base import BoxBuilder, Cut
@@ -39,6 +40,9 @@ class Project:
     """Top-level game insert description.
 
     The single-import entry point for defining a board game insert.
+    Delegates to :class:`~pyboxbuilder.project.manifest.ProjectManifest`,
+    :class:`~pyboxbuilder.project.compiler.LayoutCompiler`, and
+    :class:`~pyboxbuilder.project.pipeline.GeometryPipeline` (FR-093).
 
     Examples:
         A two-box insert previewed as separate solids:
@@ -95,21 +99,6 @@ class Project:
     """Clearance slack on each side of the game box in the X/Y directions (mm).
 
     If ``None`` (the default), it auto-scales from 1.0mm to 2.5mm based on the game box size."""
-    @property
-    def resolved_clearance_slack(self) -> float:
-        """Return the resolved clearance slack, scaling with game box size if None."""
-        if self.clearance_slack is not None:
-            return self.clearance_slack
-        if self.game_box_size is None:
-            return 1.0
-        max_dim = max(self.game_box_size[0], self.game_box_size[1])
-        if max_dim < 150.0:
-            return 1.0
-        elif max_dim <= 250.0:
-            return 1.5
-        else:
-            return min(2.5, 1.5 + (max_dim - 250.0) / 100.0 * 0.5)
-
     board_thickness: float = 0.0
     """Thickness of the game board (mm).
 
@@ -132,12 +121,75 @@ class Project:
     A value passed to :meth:`box` always wins over the default.
     """
 
-    _boxes: list[BoxBuilder] = field(default_factory=list, init=False)
+    _manifest: ProjectManifest = field(init=False, repr=False)
+    _compiler: LayoutCompiler = field(init=False, repr=False)
+    _pipeline: GeometryPipeline = field(init=False, repr=False)
+    _boxes: list[BoxBuilder] = field(init=False, repr=False)
     _shared_groups: list[tuple[list[str], list[tuple[str, float, float, float]]]] = (
-        field(default_factory=list, init=False)
+        field(init=False, repr=False)
     )
     piece_bounds: tuple[PieceBounds, ...] = field(default_factory=tuple, init=False)
     """Bounding box of every exported piece, populated by `export()` (FR-027)."""
+
+    def __post_init__(self) -> None:
+        """Initialize internal manifest, layout compiler, and geometry pipeline."""
+        self._manifest = ProjectManifest(
+            name=self.name,
+            game_box_size=self.game_box_size,
+            wall_thickness=self.wall_thickness,
+            floor_thickness=self.floor_thickness,
+            lid_thickness=self.lid_thickness,
+            rounding=self.rounding,
+            inner_rounding=self.inner_rounding,
+            gap_threshold=self.gap_threshold,
+            min_spacer_dim=self.min_spacer_dim,
+            min_spacer_height=self.min_spacer_height,
+            clearance_slack=self.clearance_slack,
+            board_thickness=self.board_thickness,
+            ribbon_channels=self.ribbon_channels,
+            generate_spacers=self.generate_spacers,
+            box_defaults=self.box_defaults,
+        )
+        self._compiler = LayoutCompiler()
+        self._pipeline = GeometryPipeline()
+        self._boxes = self._manifest.boxes
+        self._shared_groups = self._manifest.shared_groups
+
+    def __setattr__(self, name: str, value: Any) -> None:
+        """Set attribute and synchronize with underlying ProjectManifest."""
+        super().__setattr__(name, value)
+        if hasattr(self, "_manifest") and hasattr(self._manifest, name):
+            setattr(self._manifest, name, value)
+
+    @property
+    def resolved_clearance_slack(self) -> float:
+        """Return the resolved clearance slack, scaling with game box size if None."""
+        return self._manifest.resolved_clearance_slack
+
+    @property
+    def effective_game_box_size(self) -> tuple[float, float, float] | None:
+        """Dimensions available for sub-boxes, accounting for board thickness."""
+        return self._manifest.effective_game_box_size
+
+    @property
+    def manifest(self) -> ProjectManifest:
+        """The underlying ProjectManifest catalog."""
+        return self._manifest
+
+    @property
+    def compiler(self) -> LayoutCompiler:
+        """The underlying LayoutCompiler."""
+        return self._compiler
+
+    @property
+    def pipeline(self) -> GeometryPipeline:
+        """The underlying GeometryPipeline."""
+        return self._pipeline
+
+    @property
+    def boxes(self) -> list[BoxBuilder]:
+        """Registered sub-box builders."""
+        return self._manifest.boxes
 
     def box(
         self,
@@ -178,11 +230,11 @@ class Project:
                 p.show(only="Cards")
 
         """
+        from dataclasses import fields as dataclass_fields
+
         from pyboxbuilder.box.registry import BOX_TYPE_REGISTRY
 
         builder_cls = BOX_TYPE_REGISTRY[box_type]
-
-        from dataclasses import fields as dataclass_fields
 
         known = {f.name for f in dataclass_fields(builder_cls)}
         values: dict[str, Any] = {"size": size}
@@ -200,7 +252,7 @@ class Project:
             )
 
         builder = builder_cls(label=label, **values)
-        self._boxes.append(builder)
+        self._manifest.add_box(builder)
         return builder
 
     def add_box(self, builder: BoxBuilder) -> BoxBuilder:
@@ -212,8 +264,7 @@ class Project:
         Returns:
             The added builder.
         """
-        self._boxes.append(builder)
-        return builder
+        return self._manifest.add_box(builder)
 
     def arrange(
         self, layout: Node, origin: tuple[float, float, float] = (0.0, 0.0, 0.0)
@@ -258,32 +309,7 @@ class Project:
                 project.show()
 
         """
-        from pyboxbuilder.layout import LayoutError
-        from pyboxbuilder.layout import arrange as resolve
-
-        # Size every box first, including the ones sized from their contents.
-        # Those used to be skipped here, and the arrangement then reported them
-        # as "not in the project" — so a box described by what goes in it,
-        # which is how the library asks you to describe one, could not be
-        # arranged at all.
-        sizes = {b.label: self._min_size(b) for b in self._boxes}
-
-        arrangement = resolve(layout, sizes, origin)
-
-        if self.game_box_size is not None and not arrangement.fits(self.game_box_size):
-            raise LayoutError(
-                f"Arrangement is {arrangement.size[0]:.1f} x "
-                f"{arrangement.size[1]:.1f} x {arrangement.size[2]:.1f} mm, "
-                f"which does not fit the {self.game_box_size[0]:.1f} x "
-                f"{self.game_box_size[1]:.1f} x {self.game_box_size[2]:.1f} mm game box."
-            )
-
-        by_label = {b.label: b for b in self._boxes}
-        for label, position in arrangement.positions.items():
-            object.__setattr__(by_label[label], "position", position)
-        return arrangement
-
-    # ------------------------------------------------------------------ build
+        return self._compiler.arrange(self._manifest, layout, origin)
 
     def build(self) -> Build:
         """Resolve the layout and describe every piece of this project.
@@ -310,159 +336,11 @@ class Project:
             PackingError: If the boxes cannot be packed into the game box.
 
         """
-        self._resolve_shared_compartments()
-
-        pieces: list[Piece] = []
-
-        if self.game_box_size is None:
-            # Standalone: nothing is packed, so line the boxes up side by side
-            # for a preview. There are no layers and no spacers.
-            x = 0.0
-            for builder in self._boxes:
-                size = self._standalone_size(builder)
-                pieces.extend(self._box_pieces(builder, (x, 0.0, 0.0)))
-                x += size[0] + STANDALONE_GAP_MM
-            return Build(pieces=tuple(pieces))
-
-        packing = self._resolve_final_layout()
-        positions = {p.label: p.position for p in packing.placements}
-
-        for builder in self._boxes:
-            at = positions.get(builder.label, builder.position or (0.0, 0.0, 0.0))
-            pieces.extend(self._box_pieces(builder, at))
-
-        spacers = self._spacer_placements(packing) if self.generate_spacers else []
-        # The PDF draws the spacers alongside the boxes, so the packing carries
-        # them: it is the one description of what ends up in the game box.
-        packing.spacer_placements = spacers
-
-        for spacer in spacers:
-            pieces.append(
-                Piece(
-                    label=spacer.label,
-                    kind="spacer",
-                    size=spacer.size,
-                    position=spacer.position,
-                    _build=cache(partial(self._build_spacer_solid, spacer)),
-                )
-            )
-
-        return Build(pieces=tuple(pieces), packing=packing)
-
-    def _box_pieces(
-        self, builder: BoxBuilder, at: tuple[float, float, float]
-    ) -> list[Piece]:
-        """Return the body and lid pieces for one box, at the position it packs to.
-
-        The two share one build — a box type makes its body and its lid from
-        the same measurements, and doing it twice would let them disagree — so
-        the shared call is memoised and each piece takes its half of the result.
-        Neither runs until something asks for the geometry.
-        """
-        size = builder.final_size
-        assert size is not None
-        # Validate now, build later: a project that cannot be built says so
-        # when it is built, and only the CSG waits to be asked for.
-        self._resolve_box(builder)
-        build_once = cache(partial(self._build_box_solids, builder))
-
-        pieces = [
-            Piece(label=builder.label, kind="body", size=size, position=at,
-                  builder=builder, _build=lambda: build_once()[0],
-                  _build_inserts=lambda: build_once()[3])
-        ]
-        if self._has_lid(builder):
-            pieces.append(
-                Piece(label=builder.label, kind="lid", size=size, position=at,
-                      builder=builder, _build=lambda: build_once()[1])
-            )
-        return pieces
-
-    @staticmethod
-    def _has_lid(builder: BoxBuilder) -> bool:
-        """Return True when this box type produces a lid file at all."""
-        from pyboxbuilder.box.registry import LIDLESS_BOX_TYPES
-
-        return builder.box_type not in LIDLESS_BOX_TYPES
-
-    def _resolve_shared_compartments(self) -> None:
-        """Partition each shared compartment group across its boxes (FR-008a).
-
-        Runs before anything is sized, so a preview and an export see the same
-        compartments in the same boxes.
-
-        Raises:
-            ValueError: If a group cannot be partitioned across its boxes.
-
-        """
-        from pyboxbuilder.builders._base import Cut
-        from pyboxbuilder.compartments.builder import CompartmentBuilder
-        from pyboxbuilder.compartments.layout import pack_compartments_across_bins
-        from pyboxbuilder.enums import FingerCut, ScoopSide
-
-        for box_labels, comps in self._shared_groups:
-            builders = [b for b in (self._by_label(x) for x in box_labels) if b is not None]
-            if len(builders) < 2:
-                continue
-
-            bin_sizes = []
-            for b in builders:
-                wt = b.wall_thickness or self.wall_thickness
-                if b.size is not None and b.size[0] is not None and b.size[1] is not None:
-                    bin_sizes.append((b.size[0] - 2 * wt, b.size[1] - 2 * wt))
-                else:
-                    container = self.game_box_size or (0.0, 0.0, 0.0)
-                    bin_sizes.append((container[0] - 2 * wt, container[1] - 2 * wt))
-
-            packed_bins = pack_compartments_across_bins(comps, bin_sizes)
-            if not packed_bins:
-                raise ValueError(
-                    f"Failed to partition shared compartments across boxes: {box_labels}"
-                )
-
-            for b, bin_items in zip(builders, packed_bins, strict=False):
-                object.__setattr__(b, "compartments", tuple(
-                    CompartmentBuilder(
-                        label=name, size=(w, l), depth=d,
-                        cut=Cut(kind=FingerCut.THROUGH_FLOOR, side=ScoopSide.FRONT),
-                    )
-                    for name, w, l, d in bin_items
-                ))
-
-    def _by_label(self, label: str) -> BoxBuilder | None:
-        """Return the builder with this label, or ``None``."""
-        return next((b for b in self._boxes if b.label == label), None)
-
-    def _selected(self, only: str | Iterable[str] | None) -> set[str] | None:
-        """Which box labels a caller asked for, checked against the project.
-
-        Args:
-            only: One label, several, or ``None`` for all of them.
-
-        Returns:
-            The set of labels, or ``None`` when everything was asked for.
-
-        Raises:
-            ValueError: If a label is not in this project. A silent miss here
-                would look exactly like a box that failed to build — an empty
-                preview, or an export that wrote nothing — with nothing to say
-                which it was.
-
-        """
-        if only is None:
-            return None
-        wanted = {only} if isinstance(only, str) else set(only)
-
-        known = {b.label for b in self._boxes}
-        unknown = sorted(wanted - known)
-        if unknown:
-            raise ValueError(
-                f"Project '{self.name}' has no box(es) named "
-                f"{', '.join(unknown)}. It has: {', '.join(sorted(known))}"
-            )
-        return wanted
-
-    # ------------------------------------------------------------------- show
+        return self._pipeline.build(
+            self._manifest,
+            self._compiler,
+            build_box_solids_fn=self._build_box_solids,
+        )
 
     def show(
         self,
@@ -514,19 +392,17 @@ class Project:
                 range.
 
         """
-        from pyboxbuilder.precision import use
-
-        with use(fn=fn, fa=fa, fs=fs):
-            pieces = self.preview_pieces(
-                show_lids=show_lids, remove_layers=remove_layers,
-                only=only, lids_only=lids_only,
-            )
-
-        for piece in pieces:
-            solid = piece.solid
-            if piece.color is not None:
-                solid = solid.color(piece.color)
-            solid.show()
+        self._pipeline.show(
+            self._manifest,
+            compiler=self._compiler,
+            show_lids=show_lids,
+            remove_layers=remove_layers,
+            only=only,
+            lids_only=lids_only,
+            fn=fn,
+            fa=fa,
+            fs=fs,
+        )
 
     def preview_pieces(
         self,
@@ -558,553 +434,16 @@ class Project:
                 box this project does not have.
 
         """
-        from pyboxbuilder.preview import (
-            PreviewPiece,
-            lid_color,
-            remove_top_layers,
-            spacer_color,
-            stable_color,
+        return self._pipeline.preview_pieces(
+            self._manifest,
+            compiler=self._compiler,
+            show_lids=show_lids,
+            remove_layers=remove_layers,
+            only=only,
+            lids_only=lids_only,
+            build_box_solids_fn=self._build_box_solids,
+            decorated_lid_fn=self._decorated_lid,
         )
-
-        if remove_layers < 0:
-            raise ValueError(f"remove_layers must be >= 0; got {remove_layers}")
-
-        wanted = self._selected(only)
-        show_lids = show_lids or lids_only
-
-        build = self.build()
-        bodies_and_spacers = build.of_kind("body", "spacer")
-        kept = {p.label for p in remove_top_layers(bodies_and_spacers, remove_layers)}
-        if wanted is not None:
-            kept &= wanted
-
-        def colour_for(piece: Piece) -> Color:
-            """Return a box's own colour when it declares one, else a stable hue."""
-            if piece.is_spacer:
-                return spacer_color(piece.label)
-            declared = getattr(piece.builder, "color", None)
-            return declared if declared is not None else stable_color(piece.label)
-
-        out: list[PreviewPiece] = []
-        for piece in build.pieces:
-            if piece.label not in kept:
-                continue
-            if piece.kind == "lid" and not show_lids:
-                continue
-            if piece.kind != "lid" and lids_only:
-                continue
-            if piece.solid is None:
-                continue
-
-            solid, inserts = piece.solid, None
-            if piece.kind == "lid":
-                # Show the lid as it prints, decoration and all.
-                decorated, inserts = self._decorated_lid(piece, "mmu")
-                solid = decorated or solid
-
-            colour = colour_for(piece)
-            if piece.kind == "lid":
-                colour = lid_color(colour)
-            out.append(
-                PreviewPiece(piece.label, solid.translate(list(piece.position)), colour, piece.kind)
-            )
-
-            # A lid's label and frame are *inserts* — separate solids, so the
-            # slicer can give each its own material (FR-025). Dropping them
-            # here left every previewed lid blank while the exported one
-            # carried its label, which is the divergence FR-046c exists to
-            # prevent: what is previewed must be what is printed. Each keeps
-            # its own colour rather than being fused into the lid's, since
-            # that is the whole reason it is a separate object.
-            for insert in inserts or ():
-                out.append(
-                    PreviewPiece(
-                        piece.label, insert.solid.translate(list(piece.position)),
-                        insert.color if insert.color is not None else colour, "lid",
-                    )
-                )
-
-            # A body's coloured icons (sonar, distress…) print as their own
-            # material, so the preview keeps them separate and in their colour.
-            for solid, color in piece.inserts:
-                out.append(
-                    PreviewPiece(
-                        piece.label, solid.translate(list(piece.position)), color, "body",
-                    )
-                )
-        return out
-
-    # ------------------------------------------------------------------ sizing
-
-    def _container(self) -> tuple[float, float, float]:
-        """Return the game box's size, for the paths that require one.
-
-        Returns:
-            ``(width, length, height)`` in mm.
-
-        Raises:
-            ValueError: If this is a standalone project. Packing, spacers and
-                the layout guide all need a container; without one they were
-                indexing ``None`` and failing with a TypeError from three
-                different lines.
-
-        """
-        if self.game_box_size is None:
-            raise ValueError(
-                f"Project '{self.name}' has no game_box_size, so there is "
-                f"nothing to pack into. Standalone boxes export directly."
-            )
-        return self.game_box_size
-
-    def _resolve_final_layout(self) -> BoxPacking:
-        """Resolve each box's final size and packed position.
-
-        Computes minimum sizes (from an explicit size or the compartments),
-        runs the 3D packer, and sets ``final_size`` on every builder. Returns
-        the :class:`BoxPacking`, whose placements carry the final positions.
-        """
-        from pyboxbuilder.packing.layout import Placement, pack_boxes
-
-        box_data = []
-        resolved_min_sizes = {}
-        manual_placements = []
-        for builder in self._boxes:
-            size = self._min_size(builder)
-            resolved_min_sizes[builder.label] = size
-            if builder.position is not None:
-                # A box that has been placed — by hand or by `arrange()` — is
-                # not the packer's to move, grow or turn. Expanding it would
-                # push it into its neighbour, and rotating it would leave the
-                # arrangement's arithmetic describing a box that no longer
-                # exists. So placement decides both, and neither has to be
-                # switched off at every call site (FR-000b).
-                manual_placements.append(
-                    Placement(label=builder.label, position=builder.position, size=size, rotation=False)
-                )
-            else:
-                pack_size = size
-                if builder.keystone:
-                    pack_size = (size[0] + 3.0, size[1] + 3.0, size[2])
-                box_data.append({
-                    "label": builder.label,
-                    "size": pack_size,
-                    # `expandable` is the master switch: off means the box keeps
-                    # the size it was given. The per-axis flags only narrow it.
-                    "expandable": builder.expandable,
-                    "expandable_width": builder.expandable and builder.expandable_width,
-                    "no_rotate": builder.no_rotate,
-                })
-
-        # The board sits on top of the sub-boxes, so the packer only gets the
-        # height below it — otherwise auto-placed boxes climb into the space
-        # the board needs.
-        slack = self.resolved_clearance_slack
-        container = self._container()
-        packing_container = (
-            container[0] - 2 * slack,
-            container[1] - 2 * slack,
-            container[2] - self.board_thickness,
-        )
-        packing = pack_boxes(packing_container, box_data)
-
-        shifted_placements = []
-        for p in packing.placements:
-            b = self._by_label(p.label)
-            is_keystone = b.keystone if b else False
-            p_size = p.size
-            pos_offset_x = 0.0
-            pos_offset_y = 0.0
-            if is_keystone:
-                p_size = (max(0.1, p.size[0] - 3.0), max(0.1, p.size[1] - 3.0), p.size[2])
-                pos_offset_x = 1.5
-                pos_offset_y = 1.5
-            shifted_placements.append(
-                Placement(
-                    label=p.label,
-                    position=(
-                        p.position[0] + slack + pos_offset_x,
-                        p.position[1] + slack + pos_offset_y,
-                        p.position[2],
-                    ),
-                    size=p_size,
-                    rotation=p.rotation,
-                )
-            )
-        shifted_placements.extend(manual_placements)
-        packing.placements = shifted_placements
-
-        resolved_sizes = {p.label: p.size for p in packing.placements}
-        for builder in self._boxes:
-            val = resolved_sizes.get(builder.label) or resolved_min_sizes[builder.label]
-            object.__setattr__(builder, "final_size", val)
-
-        self._packing = packing
-        return packing
-
-    def _min_size(self, builder: BoxBuilder) -> tuple[float, float, float]:
-        """Return the smallest this box may be: its explicit size, or its contents.
-
-        Args:
-            builder: The box to size. An explicit ``size`` wins; any axis left
-                ``None`` there is filled in from the compartments.
-
-        Returns:
-            ``(width, length, height)`` in mm.
-
-        Raises:
-            ValueError: If the box has neither an explicit size nor
-                compartments to derive one from.
-
-        """
-        from pyboxbuilder.compartments.layout import compute_min_box_size
-
-        wt = builder.wall_thickness or self.wall_thickness
-        ft = builder.floor_thickness or self.floor_thickness
-        lt = builder.lid_thickness or self.lid_thickness
-
-        def from_compartments() -> tuple[float, float, float]:
-            measured = [
-                fp for fp in (cb.min_footprint() for cb in builder.compartments)
-                if fp is not None
-            ]
-            if not measured:
-                fills = ", ".join(cb.label for cb in builder.compartments)
-                raise ValueError(
-                    f"Box '{builder.label}' has no size, and its compartments "
-                    f"({fills}) all fill whatever they are given — so there is "
-                    f"nothing to derive one from. Give the box a size=(w, l, h), "
-                    f"or give a compartment a size=(w, l)."
-                )
-            bounds = {}
-            if self.game_box_size is not None:
-                bounds = {
-                    "max_w": self.game_box_size[0] - 2 * wt,
-                    "max_l": self.game_box_size[1] - 2 * wt,
-                }  # narrowed by the check above
-            return compute_min_box_size(measured, wt, ft, lt, **bounds)
-
-        if builder.size is not None:
-            size = list(builder.size)
-            if None in size:
-                derived = from_compartments()
-                size = [axis if axis is not None else derived[i] for i, axis in enumerate(size)]
-            return (size[0], size[1], size[2])
-        if builder.compartments:
-            return from_compartments()
-        raise ValueError(
-            f"Box '{builder.label}' has no explicit size and no "
-            f"compartments — at least one is required."
-        )
-
-    def _standalone_size(self, builder: BoxBuilder) -> tuple[float, float, float]:
-        """Resolve a standalone box's size and record it as its ``final_size``.
-
-        Standalone boxes are never packed, so nothing else would set
-        ``final_size``.
-
-        Args:
-            builder: The box builder to size.
-
-        Returns:
-            The resolved ``(width, length, height)`` in mm.
-
-        Raises:
-            ValueError: If the box has neither an explicit size nor
-                compartments to derive one from.
-
-        """
-        size = self._min_size(builder)
-        object.__setattr__(builder, "final_size", size)
-        return size
-
-    # -------------------------------------------------------------- geometry
-
-    def _resolve_box(self, builder: BoxBuilder) -> ResolvedBox:
-        """Everything about a box that is decided before any geometry is cut.
-
-        Kept separate from the geometry so it can run **eagerly**, during
-        :meth:`build`, while the CSG waits to be asked for. A project that
-        cannot be built has to say so when it is built, not later when
-        something happens to look at a solid — and the validation is what
-        decides that, not the geometry.
-
-        Args:
-            builder: The box to resolve, already carrying its ``final_size``.
-
-        Returns:
-            Its :class:`ResolvedBox`.
-
-        Raises:
-            ValueError: If the compartments overflow the interior, or their
-                ratios do.
-
-        """
-        from pyboxbuilder.box.registry import BOX_IMPL_REGISTRY
-        from pyboxbuilder.box.spec import build_spec
-        from pyboxbuilder.compartments.layout import layout_compartments
-
-        self._check_ratios(builder)
-
-        size = builder.final_size
-        assert size is not None
-        spec = build_spec(self, builder, size)
-        interior = spec.interior()
-
-        siblings = len(builder.compartments)
-        comp_data = [
-            cb.resolved(interior.width, interior.length, interior.height, siblings)
-            for cb in builder.compartments
-        ]
-
-        box_cls = BOX_IMPL_REGISTRY.get(builder.box_type)
-        box = box_cls() if box_cls is not None else None
-        if box is not None:
-            spec = spec.with_wall_tops(box)
-
-        comp_layout = None
-        if comp_data:
-            # A well sized *from* the interior must not then be turned against
-            # it: its width was derived on the box's width axis, so rotating it
-            # asks the length to hold a number computed for the width.
-            no_rotate_labels = {
-                cb.label for cb in builder.compartments
-                if cb.no_rotate or cb.derives_size
-            }
-            comp_layout = layout_compartments(
-                interior, comp_data, no_rotate_labels=no_rotate_labels
-            )
-            if comp_layout.overflow:
-                raise ValueError(
-                    f"Compartments do not fit in box '{builder.label}' "
-                    f"interior ({interior.width}x{interior.length})"
-                )
-
-        return ResolvedBox(
-            builder=builder, box=box, spec=spec, interior=interior,
-            compartments=comp_layout,
-        )
-
-    def _build_box_solids(
-        self, builder: BoxBuilder
-    ) -> tuple[Bosl2Solid | None, Bosl2Solid | None, tuple[float, float, float], list[tuple[Any, Any]]]:
-        """Build a box's body and lid geometry.
-
-        Returns ``(body, lid, size, inserts)``; ``body``/``lid`` are ``None``
-        when the box type produced no geometry (or pybosl2 is unavailable), and
-        ``inserts`` are the body's coloured positive icons.
-        """
-        resolved = self._resolve_box(builder)
-        size = builder.final_size
-        assert size is not None
-        box, spec = resolved.box, resolved.spec
-        if box is None:
-            return None, None, size, []
-
-        # No try/except around any of this. It used to swallow ImportError,
-        # which meant a missing geometry backend produced a box with no
-        # compartments carved into it and no word said (FR-000h).
-        body = box.build_body(spec)
-        lid = box.build_lid(spec)
-
-        # A lidded box leaves its rim square so the lid can seal against
-        # it; the lid carries the rounding for the closed box's top and
-        # upper corners instead (FR-043). Only the edges this type leaves
-        # on the outside, and never more than half the lid's thickness —
-        # the rest is what the lid is supported and located by.
-        if lid is not None:
-            from pyboxbuilder.rounding import lid_rounding, round_edges
-
-            lid = round_edges(
-                lid, list(size), lid_rounding(spec), box.lid_rounded_edges(spec)
-            )
-
-        if resolved.compartments is not None and body is not None:
-            from pyboxbuilder.box.features import hinge_intrusion
-            from pyboxbuilder.box.types.cap import CapBox
-            from pyboxbuilder.box.types.cap_path import CapPathBox
-            from pyboxbuilder.box.types.filament_hinge import FilamentHingeBox
-            from pyboxbuilder.box.types.hinge import HingeBox
-            from pyboxbuilder.box.types.sliding_catch import SlidingCatchBox
-            from pyboxbuilder.box.types.slipover import SlipoverBox
-            from pyboxbuilder.box.types.slipover_path import SlipoverPathBox
-            from pyboxbuilder.compartments.carve import build_contents, build_inserts
-
-            hinge_solid = None
-            if isinstance(box, (HingeBox, FilamentHingeBox)):
-                fd = spec.hinge_pin_diameter if isinstance(box, HingeBox) else spec.filament_diameter
-                hinge_solid = hinge_intrusion(self._resolve_box(builder).spec, fd)
-
-            suppress_scoops = False
-            if isinstance(box, (CapBox, CapPathBox, SlipoverBox, SlipoverPathBox, SlidingCatchBox)) or (
-                isinstance(box, (HingeBox, FilamentHingeBox)) and spec.hinge_catch_type not in (None, "none")
-            ):
-                suppress_scoops = True
-
-            contents = build_contents(
-                resolved.compartments.placements, resolved.interior,
-                {cb.label: cb for cb in builder.compartments},
-                top_z=size[2],
-                default_side=box.preferred_scoop_side(spec),
-                wall_tops=spec.wall_tops,
-                mask=box.interior_mask(spec),
-                hinge_intrusion=hinge_solid,
-                suppress_scoops=suppress_scoops,
-            )
-            if contents is not None:
-                body = body - contents
-
-            inserts = build_inserts(resolved.compartments.placements, resolved.interior)
-        else:
-            inserts = []
-
-        return body, lid, size, inserts
-
-    def _check_ratios(self, builder: BoxBuilder) -> None:
-        """Reject compartment ratios that overflow the interior (FR-003a).
-
-        Raises:
-            ValueError: If the width or length ratios sum above 1.0, naming
-                each compartment that contributed.
-
-        """
-        for axis, attr in (("width", "width_ratio"), ("length", "length_ratio")):
-            total = sum(getattr(cb, attr) or 0 for cb in builder.compartments)
-            if total > 1.0:
-                over = ", ".join(
-                    f"{cb.label}: {getattr(cb, attr)}"
-                    for cb in builder.compartments if getattr(cb, attr)
-                )
-                raise ValueError(
-                    f"Box '{builder.label}' compartment {axis} ratios sum to "
-                    f"{total:.2f} (> 1.0): {over}"
-                )
-
-    def _spacer_placements(self, packing: BoxPacking) -> list[Placement]:
-        """Derive the spacer trays that fill the gaps in a packed layout.
-
-        Args:
-            packing: The resolved :class:`BoxPacking` whose placements the
-                leftover space is measured around.
-
-        Returns:
-            The spacer placements, after the sweep → merge → shrink → filter
-            pass (FR-014a/b/c). Empty when no gap survives the minimums.
-
-        """
-        from pyboxbuilder.packing.spacer import generate_spacer_placements
-
-        # Effective container: subtract the board thickness from the height so
-        # the board area stays reserved rather than being filled with a spacer.
-        container = self._container()
-        effective_container = (
-            container[0],
-            container[1],
-            container[2] - self.board_thickness,
-        )
-        return generate_spacer_placements(
-            effective_container,
-            packing.placements,
-            clearance=self.resolved_clearance_slack,
-            min_dim=self.min_spacer_height,
-        )
-
-    def _build_spacer_solid(self, spacer: Placement) -> Bosl2Solid | None:
-        """Build one spacer tray's geometry in its own local frame.
-
-        Args:
-            spacer: A spacer placement carrying ``label``, ``size`` and an
-                optional rectilinear ``path`` footprint.
-
-        Returns:
-            The built solid, or ``None`` when the geometry could not be built
-            (pybosl2 unavailable, or a degenerate footprint).
-
-        """
-        from pyboxbuilder.box.registry import BOX_IMPL_REGISTRY
-        from pyboxbuilder.box.spec import BoxSpec
-
-        # An L/T/U-shaped leftover is a PathBox; a plain rectangle is a
-        # NoLidBox tray.
-        box_type = BoxType.PATH if spacer.path else BoxType.NO_LID
-        spacer_cls = BOX_IMPL_REGISTRY.get(box_type)
-        if spacer_cls is None:
-            raise LookupError(
-                f"spacer {spacer.label} needs a {box_type.value} box and the "
-                "registry has none, so it would be left out of the export."
-            )
-        spec = BoxSpec(
-            label=spacer.label,
-            width=spacer.size[0],
-            length=spacer.size[1],
-            height=spacer.size[2],
-            wall_thickness=self.wall_thickness,
-            floor_thickness=self.floor_thickness,
-            lid_thickness=0.0,
-            path=tuple(spacer.path or ()),
-            rounding=self.rounding,
-            rim_free=True,
-            # A spacer is dead fill but we want it to carry the automatic grips
-            # a tray gets so it can be easily removed.
-            auto_finger_holes=True,
-        )
-        # Errors propagate. Returning None here dropped the spacer from the
-        # export without a word, and a missing spacer is invisible in a layout
-        # that still looks complete (FR-000h).
-        return spacer_cls().build_body(spec)
-
-    def _decorated_lid(
-        self, piece: Piece, mode: str
-    ) -> tuple[Any | None, list[Bosl2Solid] | None]:
-        """One lid as it prints in a colour mode.
-
-        Args:
-            piece: The lid piece to decorate.
-            mode: ``"mmu"`` or ``"single"``.
-
-        Returns:
-            ``(solid, inserts)`` — the decorated lid and its coloured positive
-            inserts, or ``(piece.solid, None)`` when there is nothing to apply.
-
-        """
-        from pyboxbuilder.lid.decorate import decorate_lid
-
-        builder = piece.builder
-        if piece.solid is None or builder is None or builder.lid is None:
-            return piece.solid, None
-        # Not guarded. Swallowing ImportError here returned the *undecorated*
-        # lid, so a broken install printed every lid blank — no label, no
-        # pattern — and the export reported success (FR-000h).
-        decorated = decorate_lid(
-            piece.solid, builder.lid,
-            builder.lid_thickness or self.lid_thickness, mode,
-            body_color=builder.color,
-            reserved=self._lid_keepouts(builder),
-        )
-        return decorated.solid, decorated.inserts or None
-
-    def _lid_keepouts(self, builder: BoxBuilder) -> list[tuple[float, float, float]]:
-        """Patches of a box's lid its own type needs left solid.
-
-        A sliding lid's fingernail dish is the case (FR-002e5): the type cuts
-        it, and the decoration has to know so its pattern does not open a hole
-        onto the rim the dish is pulled against.
-
-        Args:
-            builder: The box whose lid is being decorated.
-
-        Returns:
-            ``(x, y, radius)`` circles in the lid's own frame.
-
-        """
-        from pyboxbuilder.box.registry import BOX_IMPL_REGISTRY
-        from pyboxbuilder.box.spec import build_spec
-
-        box_cls = BOX_IMPL_REGISTRY.get(builder.box_type)
-        if box_cls is None or builder.final_size is None:
-            return []
-        return box_cls().lid_keepouts(build_spec(self, builder, builder.final_size))
-
-    # ----------------------------------------------------------------- export
 
     def export(
         self,
@@ -1152,153 +491,122 @@ class Project:
             PackingError: If the boxes cannot be packed into the game box.
 
         """
-        from pyboxbuilder.export.exporter import BoxExporter
-        from pyboxbuilder.export.result import ExportResult
-        from pyboxbuilder.precision import export_facets, use
-
-        with use(fn=export_facets() if fn is None else fn, fa=fa, fs=fs):
-            build = self.build()
-            wanted = self._selected(only)
-
-            exporter = BoxExporter(out_dir, self.name)
-            if wanted is None:
-                # A partial export knows nothing about the pieces it was not
-                # asked for, so it must not conclude they are stale.
-                exporter.delete_stale(
-                    "spacer_", {p.label for p in build.of_kind("spacer")}
-                )
-
-            for piece in build.pieces:
-                if wanted is not None and piece.label not in wanted:
-                    continue
-                for mode in ("mmu", "single"):
-                    fingerprint = self._fingerprint(piece, mode)
-                    part = "body" if piece.is_spacer else piece.kind
-
-                    if not force and exporter.is_current(piece.label, part, mode, fingerprint):
-                        exporter.note_unchanged(piece.label, part, mode, piece.size)
-                        continue
-
-                    solid, inserts = (
-                        self._decorated_lid(piece, mode)
-                        if piece.kind == "lid" else (piece.solid, None)
-                    )
-                    parts = [x.solid for x in inserts] if inserts else None
-                    if piece.kind != "lid":
-                        body_inserts = piece.inserts
-                        parts = [s.color(c) for s, c in body_inserts] if body_inserts else None
-                    # Only rewrite when the geometry actually changes;
-                    # metadata or description changes that produce the same
-                    # shape leave the existing file on disk untouched.
-                    geometry_check = not force
-                    exporter.write_piece(
-                        piece.label, part, mode, solid, parts,
-                        size=piece.size, fingerprint=fingerprint, force=force,
-                        geometry_check=geometry_check,
-                    )
-
-            if build.packing is not None and wanted is None:
-                self._write_layout_pdf(build, out_dir, exporter)
-
-        self.piece_bounds = tuple(exporter.state.bounds)
-        return ExportResult(
-            written=tuple(exporter.state.written),
-            skipped=tuple(exporter.state.skipped),
-            total_files=len(exporter.state.written) + len(exporter.state.skipped),
+        result = self._pipeline.export(
+            self._manifest,
+            compiler=self._compiler,
+            out_dir=out_dir,
+            fn=fn,
+            fa=fa,
+            fs=fs,
+            only=only,
+            force=force,
+            build_box_solids_fn=self._build_box_solids,
+            decorated_lid_fn=self._decorated_lid,
+            fingerprint_fn=self._fingerprint,
         )
+        self.piece_bounds = self._manifest.piece_bounds
+        return result
+
+    # ------------------------------------------------------------------ sizing
+
+    def _container(self) -> tuple[float, float, float]:
+        """Return the game box's size, for the paths that require one."""
+        if self.game_box_size is None:
+            raise ValueError(
+                f"Project '{self.name}' has no game_box_size, so there is "
+                f"nothing to pack into. Standalone boxes export directly."
+            )
+        return self.game_box_size
+
+    def _resolve_final_layout(self) -> BoxPacking:
+        """Resolve each box's final size and packed position."""
+        return self._compiler.resolve_final_layout(self._manifest)
+
+    def _min_size(self, builder: BoxBuilder) -> tuple[float, float, float]:
+        """Return the smallest this box may be: its explicit size, or its contents."""
+        return self._compiler.min_size(self._manifest, builder)
+
+    def _standalone_size(self, builder: BoxBuilder) -> tuple[float, float, float]:
+        """Resolve a standalone box's size and record it as its final_size."""
+        return self._compiler.standalone_size(self._manifest, builder)
+
+    # -------------------------------------------------------------- geometry
+
+    def _resolve_box(self, builder: BoxBuilder) -> ResolvedBox:
+        """Everything about a box that is decided before any geometry is cut."""
+        return self._pipeline._resolve_box(self._manifest, builder)
+
+    def _build_box_solids(
+        self, builder: BoxBuilder
+    ) -> tuple[
+        Bosl2Solid | None,
+        Bosl2Solid | None,
+        tuple[float, float, float],
+        list[tuple[Any, Any]],
+    ]:
+        """Build a box's body and lid geometry."""
+        return self._pipeline._build_box_solids(self._manifest, builder)
+
+    def _check_ratios(self, builder: BoxBuilder) -> None:
+        """Reject compartment ratios that overflow the interior."""
+        self._compiler.check_ratios(builder)
+
+    def _spacer_placements(self, packing: BoxPacking) -> list[Placement]:
+        """Derive the spacer trays that fill the gaps in a packed layout."""
+        return self._compiler.spacer_placements(self._manifest, packing)
+
+    def _build_spacer_solid(self, spacer: Placement) -> Bosl2Solid | None:
+        """Build one spacer tray's geometry in its own local frame."""
+        return self._pipeline._build_spacer_solid(self._manifest, spacer)
+
+    def _box_pieces(
+        self, builder: BoxBuilder, at: tuple[float, float, float]
+    ) -> list[Piece]:
+        """Return the body and lid pieces for one box, at the position it packs to."""
+        return self._pipeline._box_pieces(self._manifest, builder, at)
+
+    @staticmethod
+    def _has_lid(builder: BoxBuilder) -> bool:
+        """Return True when this box type produces a lid file at all."""
+        return GeometryPipeline._has_lid(builder)
+
+    def _decorated_lid(
+        self, piece: Piece, mode: str
+    ) -> tuple[Any | None, list[Bosl2Solid] | None]:
+        """One lid as it prints in a colour mode."""
+        return self._pipeline._decorated_lid(self._manifest, piece, mode)
+
+    def _lid_keepouts(self, builder: BoxBuilder) -> list[tuple[float, float, float]]:
+        """Patches of a box's lid its own type needs left solid."""
+        return self._pipeline._lid_keepouts(self._manifest, builder)
+
+    def _selected(self, only: str | Iterable[str] | None) -> set[str] | None:
+        """Which box labels a caller asked for, checked against the project."""
+        return self._pipeline._selected(self._manifest, only)
 
     def _fingerprint(self, piece: Piece, mode: str) -> str:
-        """Return a hash of everything that decides this piece's geometry.
+        """Return a hash of everything that decides this piece's geometry."""
+        return self._pipeline._fingerprint(self._manifest, piece, mode)
 
-        What makes a file worth rewriting is a change in the description it was
-        built from, and that is knowable exactly — where comparing the meshes
-        is not. Two runs of an unchanged project produce identical fingerprints
-        and no writes; a boolean solver that retriangulates a complex mesh
-        differently between runs no longer reads as a change (FR-031).
+    def _by_label(self, label: str) -> BoxBuilder | None:
+        """Return the builder with this label, or None."""
+        return self._manifest.get_by_label(label)
 
-        It covers what shapes **this piece**, and no more. Two things are
-        deliberately left out, because including them rebuilds parts whose
-        geometry has not changed:
-
-        - **Where the piece sits.** A 3MF holds the piece in its own frame, so
-          moving a box in the game box does not alter the file. Without this,
-          shortening one box in a stack rebuilt every box above it.
-        - **The other half of the box.** A body does not change when its lid's
-          label does, so a body's fingerprint leaves the lid decoration out and
-          a lid's leaves the compartments out.
-
-        Args:
-            piece: The piece being written.
-            mode: ``"mmu"`` or ``"single"`` — the two differ in geometry, so
-                they fingerprint separately.
-
-        Returns:
-            A hex SHA-256 digest.
-
-        """
-        from pyboxbuilder.box.spec import describe
-        from pyboxbuilder.packing.cache import cache_key
-        from pyboxbuilder.precision import describe as describe_precision
-
-        box = describe(piece.builder) if piece.builder is not None else None
-        if box is not None:
-            box.pop("position", None)
-            box.pop("lid" if piece.kind == "body" else "compartments", None)
-
-        key = cache_key({
-            "kind": piece.kind,
-            "label": piece.label,
-            "mode": mode,
-            "size": list(piece.size),
-            "precision": describe_precision(),
-            "project": {
-                "wall_thickness": self.wall_thickness,
-                "floor_thickness": self.floor_thickness,
-                "lid_thickness": self.lid_thickness,
-                "rounding": self.rounding,
-                "inner_rounding": self.inner_rounding,
-            },
-            "box": box,
-        })
-        return f"sha256:{key}"
+    def _resolve_shared_compartments(self) -> None:
+        """Partition each shared compartment group across its boxes."""
+        self._compiler.resolve_shared_compartments(self._manifest)
 
     def _delete_stale_spacers(
         self, out_dir: str | Path, spacer_placements: list[Placement]
     ) -> None:
-        """Delete orphaned spacer 3MF files that no longer match a spacer.
-
-        Args:
-            out_dir: Root output directory.
-            spacer_placements: The current set of spacer placements.
-
-        """
-        from pyboxbuilder.export.exporter import BoxExporter
-
-        BoxExporter(out_dir, self.name).delete_stale(
-            "spacer_", {sp.label for sp in spacer_placements}
-        )
+        """Delete orphaned spacer 3MF files that no longer match a spacer."""
+        self._pipeline._delete_stale_spacers(self._manifest, out_dir, spacer_placements)
 
     def _write_layout_pdf(
         self, build: Build, out_dir: str | Path, exporter: BoxExporter
     ) -> None:
-        """Generate the packing guide PDF, if the layout changed (FR-034)."""
-        if not self._boxes or build.packing is None:
-            return
-        # The PDF used to be "best-effort", wrapped in `except Exception: pass`.
-        # A layout sheet that quietly is not there is the same class of failure
-        # as a box that quietly is not there (FR-000h).
-        from pyboxbuilder.export.layout_pdf import (
-            generate_layout_pdf,
-            should_regenerate_layout,
-        )
-
-        pdf_path = Path(out_dir) / self.name / "layout.pdf"
-        if should_regenerate_layout(build.packing, pdf_path):
-            generate_layout_pdf(
-                build.packing, pdf_path, self.name, self._container(),
-                box_builders=self._boxes,
-            )
-            exporter.state.written.append(f"{self.name}/layout.pdf")
+        """Generate the packing guide PDF, if the layout changed."""
+        self._pipeline._write_layout_pdf(self._manifest, build, out_dir, exporter)
 
     # ------------------------------------------------------------ compartments
 
@@ -1319,7 +627,7 @@ class Project:
         compartments: list[tuple[str, float, float, float]],
     ) -> None:
         """Register a group of compartments to be dynamically partitioned across the given box labels."""
-        self._shared_groups.append((boxes, compartments))
+        self._manifest.shared_groups.append((boxes, compartments))
 
     def card_box(
         self,
@@ -1332,23 +640,7 @@ class Project:
         cut: Cut | FingerCut | None = FingerCut.THROUGH_FLOOR,
         **kwargs: Any,
     ) -> BoxBuilder:
-        """Add a box pre-configured for a deck of cards.
-
-        Args:
-            label: The box's name.
-            card_size: The card's ``(width, length)`` in mm, or a named size.
-            count: How many cards the deck holds. ``None`` fills the whole
-                interior depth — the common case of one deck in a box that
-                holds nothing else (FR-000).
-            sleeve: How the cards are sleeved, for their thickness and margin.
-            box_type: Which box type the deck lives in.
-            cut: How the deck is got out of its well.
-            **kwargs: Any other :meth:`box` keyword.
-
-        Returns:
-            The :class:`BoxBuilder` that was added.
-
-        """
+        """Add a box pre-configured for a deck of cards."""
         from pyboxbuilder.helpers import CardSize
 
         builder = self.box(box_type, label, **kwargs)
@@ -1373,22 +665,7 @@ class Project:
         box_type: BoxType = BoxType.FILAMENT_HINGE,
         **kwargs: Any,
     ) -> BoxBuilder:
-        """Add a tray subdivided into a grid of compartments for tokens, with finger scoops.
-
-        Args:
-            label: The box's name.
-            rows: How many compartments run along the box's length. Defaults to
-                one, so a tray with a single compartment needs no grid said.
-            cols: How many compartments run across the box's width. Defaults to
-                one.
-            scoop_side: Which wall the finger scoop is cut into.
-            box_type: Which box type the tray is.
-            **kwargs: Any other :meth:`box` keyword.
-
-        Returns:
-            The :class:`BoxBuilder` that was added.
-
-        """
+        """Add a tray subdivided into a grid of compartments for tokens, with finger scoops."""
         from pyboxbuilder.builders._base import Cut
 
         builder = self.box(box_type, label, **kwargs)
@@ -1430,7 +707,3 @@ class Project:
             cut=cut,
         )
         return builder
-
-
-STANDALONE_GAP_MM = 10.0
-"""Gap left between standalone boxes when they are lined up for a preview."""

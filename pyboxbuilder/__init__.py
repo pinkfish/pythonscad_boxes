@@ -6,6 +6,9 @@ from importlib.metadata import version as _distribution_version
 
 from pybosl2 import Color
 
+from pyboxbuilder.box.registry import register_box
+from pyboxbuilder.box.spec import BoxSpec, ResolvedBoxSpec, UnresolvedBoxSpec
+from pyboxbuilder.box.validation import GeometryValidationError, GeometryValidator
 from pyboxbuilder.builders import (
     BayonetBoxBuilder,
     CapBoxBuilder,
@@ -48,7 +51,7 @@ from pyboxbuilder.export.result import ExportResult
 from pyboxbuilder.helpers import CardSize, CardSpec, SleeveType
 from pyboxbuilder.layout import columns, rows, stack
 from pyboxbuilder.lid.builder import LidBuilder, PatternBuilder
-from pyboxbuilder.project import Project
+from pyboxbuilder.project import GeometryPipeline, LayoutCompiler, Project, ProjectManifest
 from pyboxbuilder.run import run
 from pyboxbuilder.sleeves import (
     BRANDS,
@@ -68,6 +71,7 @@ __all__ = [
     "BRANDS",
     "SLEEVE_CATALOG",
     "BayonetBoxBuilder",
+    "BoxSpec",
     "BoxType",
     "CapBoxBuilder",
     "CapPathBoxBuilder",
@@ -85,10 +89,14 @@ __all__ = [
     "ExportResult",
     "FilamentHingeBoxBuilder",
     "FingerCut",
+    "GeometryPipeline",
+    "GeometryValidationError",
+    "GeometryValidator",
     "HingeBoxBuilder",
     "InsetBoxBuilder",
     "InterlockType",
     "LabelMode",
+    "LayoutCompiler",
     "LidBuilder",
     "MagnetType",
     "MagneticBoxBuilder",
@@ -99,6 +107,8 @@ __all__ = [
     "PatternType",
     "PrintInPlaceHingeBoxBuilder",
     "Project",
+    "ProjectManifest",
+    "ResolvedBoxSpec",
     "ScoopSide",
     "Sleeve",
     "SleeveDrawerBoxBuilder",
@@ -110,12 +120,14 @@ __all__ = [
     "SnapFitBoxBuilder",
     "StackableMode",
     "ThreadedBoxBuilder",
+    "UnresolvedBoxSpec",
     "__version__",
     "centered",
     "centered_in_box",
     "columns",
     "find_sleeve",
     "grid_pack",
+    "register_box",
     "rows",
     "run",
     "sleeve_by_sku",

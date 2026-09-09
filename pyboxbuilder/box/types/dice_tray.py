@@ -7,14 +7,18 @@ from dataclasses import replace
 from typing import TYPE_CHECKING
 
 from pyboxbuilder.box.base import BoxTypeBase, Interior
+from pyboxbuilder.box.registry import register_box
 from pyboxbuilder.box.shell import block, body_rounding, build_shell
 from pyboxbuilder.box.spec import BoxSpec
+from pyboxbuilder.builders.dice_tray import DiceTrayBoxBuilder
+from pyboxbuilder.enums import BoxType
 from pyboxbuilder.rounding import round_edges, vertical_edges
 
 if TYPE_CHECKING:
     from pybosl2.shapes3d import Bosl2Solid
 
 
+@register_box(BoxType.DICE_TRAY, builder=DiceTrayBoxBuilder)
 class DiceTrayBox(BoxTypeBase):
     """Dual-purpose storage box and active tabletop dice rolling arena (FR-086)."""
 

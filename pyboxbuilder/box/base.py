@@ -21,7 +21,7 @@ if TYPE_CHECKING:
     from pybosl2.shapes3d import Bosl2Solid
 
     from pyboxbuilder.box.features import FingernailCatch
-    from pyboxbuilder.box.spec import BoxSpec
+    from pyboxbuilder.box.spec import BoxSpec, ResolvedBoxSpec
     from pyboxbuilder.enums import ScoopSide
 
 __all__ = ["BoxTypeBase", "Interior"]
@@ -35,7 +35,7 @@ class BoxTypeBase:
     with a lid sitting on top of it.
     """
 
-    def build_body(self, spec: BoxSpec) -> Bosl2Solid:
+    def build_body(self, spec: ResolvedBoxSpec) -> Bosl2Solid:
         """Build the box body geometry.
 
         Args:

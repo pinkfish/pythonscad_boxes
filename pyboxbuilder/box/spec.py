@@ -24,7 +24,8 @@ from pyboxbuilder.enums import InterlockType, MagnetType, ScoopSide, StackableMo
 if TYPE_CHECKING:
     from pyboxbuilder.box.interior import Interior
     from pyboxbuilder.builders._base import BoxBuilder
-    from pyboxbuilder.project import Project
+    from pyboxbuilder.project.core import Project
+    from pyboxbuilder.project.manifest import ProjectManifest
 
 WIGGLE_MM = 0.2
 """Default clearance between two printed parts that have to fit together."""
@@ -330,6 +331,270 @@ class BoxSpec:
                 tops[side] = float(z)
         return replace(self, wall_tops=tops)
 
+    def to_unresolved(self) -> UnresolvedBoxSpec:
+        """Convert this resolved spec into a mutable declaration spec (FR-091)."""
+        data = {f.name: getattr(self, f.name) for f in fields(self)}
+        return UnresolvedBoxSpec(**data)
+
+
+ResolvedBoxSpec = BoxSpec
+"""Frozen, fully-resolved geometric contract for CSG solid generation (FR-091)."""
+
+
+@dataclass
+class UnresolvedBoxSpec:
+    """Declaration-phase box specification where dimensions may be deferred (FR-091).
+
+    Permits unassigned envelope dimensions (``width: float | None``,
+    ``length: float | None``, ``height: float | None``) for derivation during
+    card packing, compartment auto-sizing, and bin packing.
+    """
+
+    label: str = "box"
+    width: float | None = None
+    length: float | None = None
+    height: float | None = None
+
+    # Material thicknesses
+    wall_thickness: float = 2.0
+    floor_thickness: float = 1.6
+    lid_thickness: float = 2.0
+
+    # Interior
+    hollow: bool = True
+    path: tuple[tuple[float, float], ...] = ()
+    interior_top: float | None = None
+    wall_tops: dict[ScoopSide, float] = field(default_factory=dict)
+
+    # Rounding
+    rounding: float | None = None
+    inner_rounding: float | None = None
+    rim_free: bool = False
+    rim_rounding: float | None = None
+    lid_corner_rounding: float | None = None
+
+    # Finger cuts
+    finger_holes: tuple[Any, ...] = ()
+    auto_finger_holes: bool = True
+
+    # Fits
+    size_spacing: float = WIGGLE_MM
+    sliding_slack: float = 0.1
+    cap_slack: float = WIGGLE_MM
+    slip_slack: float = WIGGLE_MM
+
+    # Sliding family
+    lid_slide_axis: str | None = None
+    dovetail: bool = True
+    lead_chamfer: float | None = None
+    catch_radius: float | None = None
+    latch_radius: float = 1.2
+    fingernail_catch: bool = True
+    fingernail_radius: float | None = None
+    fingernail_depth: float | None = None
+    lid_border_margin_mm: float | None = None
+
+    # Cap and slipover
+    cap_height: float | None = None
+    cap_finger_cutouts: bool = True
+    cap_finger_radius: float | None = None
+    cap_finger_length: float | None = None
+    cap_finger_height: float | None = None
+    foot: float = 0.0
+    slip: float = 1.6
+    slipover_gap: float | None = None
+    slipover_finger_height: float | None = None
+    inset: float = 1.0
+
+    # Hinges
+    hinge_count: int = 5
+    hinge_pin_diameter: float = 3.0
+    filament_diameter: float = 1.75
+    hinge_catch_type: str = "ridge"
+
+    # Magnets
+    magnet_type: MagnetType | None = None
+    magnet_size: tuple[float, float, float] | None = None
+    magnet_diameter: float = 6.0
+    magnet_height: float = 3.0
+    magnet_count_width: int = 2
+    magnet_count_length: int = 2
+
+    # Stacking
+    stackable: StackableMode | None = None
+    stackable_thickness: float | None = None
+    stackable_fit_offset: float = 0.1
+
+    # Extraction
+    tilt_to_lift: bool = False
+    keystone: bool = False
+    ribbon_channel: bool = False
+
+    # Extended Box Types (FR-081–FR-090)
+    cantilever_thickness: float = 1.6
+    cantilever_width: float = 12.0
+    deflection_clearance: float = 0.3
+    detent_height: float = 1.5
+    latch_axis: str = "x"
+
+    lug_count: int = 4
+    turn_angle: float = 90.0
+    lug_height: float = 2.5
+    lug_depth: float = 1.2
+    bayonet_slack: float = 0.3
+    round_footprint: bool = False
+
+    thread_pitch: float = 3.0
+    thread_turns: float = 2.0
+    thread_clearance: float = 0.25
+    thread_depth: float = 1.0
+
+    chute_angle: float = 40.0
+    token_thickness: float = 3.0
+    dispense_slot_clearance: float = 0.8
+    sight_slot_width: float = 8.0
+
+    draw_angle: float = 20.0
+    retaining_lip_height: float = 10.0
+    discard_well: bool = True
+
+    arena_wall_height: float = 28.0
+    felt_pocket_depth: float = 1.2
+    corner_deflectors: bool = True
+
+    push_hole_radius: float = 12.0
+    drawer_pull_lip: float = 4.0
+    sleeve_slack: float = 0.2
+
+    spine_gap: float = 1.0
+    clamshell_hinge_radius: float = 2.5
+    closure_latch: bool = True
+
+    interlock_type: InterlockType = InterlockType.GRIDFINITY
+    dovetail_clearance: float = 0.15
+    gridfinity_pitch: float = 42.0
+
+    pip_radial_clearance: float = 0.35
+    pip_axial_clearance: float = 0.40
+    pip_cone_angle: float = 45.0
+    pip_hinge_radius: float = 3.0
+    pip_snap_catch: bool = True
+    pip_snap_width: float = 12.0
+    pip_snap_diameter: float = 3.0
+
+    def resolve(
+        self,
+        width: float | None = None,
+        length: float | None = None,
+        height: float | None = None,
+        **overrides: Any,
+    ) -> ResolvedBoxSpec:
+        """Resolve this declaration into an immutable ResolvedBoxSpec.
+
+        Args:
+            width: Explicit width override, or uses self.width if set.
+            length: Explicit length override, or uses self.length if set.
+            height: Explicit height override, or uses self.height if set.
+            **overrides: Additional field overrides.
+
+        Returns:
+            A frozen :class:`ResolvedBoxSpec` with validated non-null dimensions.
+
+        Raises:
+            ValueError: If width, length, or height cannot be resolved.
+        """
+        w = width if width is not None else self.width
+        length_val = length if length is not None else self.length
+        h = height if height is not None else self.height
+
+        if w is None or length_val is None or h is None:
+            raise ValueError(
+                f"Cannot resolve box '{self.label}': width, length, and height must all be non-null. "
+                f"Got width={w}, length={length_val}, height={h}."
+            )
+
+        spec_fields = frozenset(f.name for f in fields(ResolvedBoxSpec))
+        data = {
+            f.name: getattr(self, f.name)
+            for f in fields(self)
+            if f.name in spec_fields
+        }
+        data.update({k: v for k, v in overrides.items() if k in spec_fields})
+        data["width"] = float(w)
+        data["length"] = float(length_val)
+        data["height"] = float(h)
+        return ResolvedBoxSpec(**data)
+
+    @classmethod
+    def from_builder(
+        cls,
+        builder: BoxBuilder,
+        project: Project | ProjectManifest | None = None,
+    ) -> UnresolvedBoxSpec:
+        """Create an unresolved specification from a BoxBuilder and Project defaults."""
+        from pyboxbuilder.box.registry import LIDLESS_BOX_TYPES
+        from pyboxbuilder.lid.builder import LidBuilder
+
+        wt = builder.wall_thickness or (project.wall_thickness if project else 2.0)
+        ft = builder.floor_thickness or (project.floor_thickness if project else 1.6)
+        lt = builder.lid_thickness or (project.lid_thickness if project else 2.0)
+        rc = (
+            builder.ribbon_channel
+            if builder.ribbon_channel is not None
+            else (project.ribbon_channels if project else False)
+        )
+
+        unresolved_fields = frozenset(f.name for f in fields(cls))
+        overrides = {
+            name: value
+            for name, value in (
+                (f, getattr(builder, f)) for f in builder.__dataclass_fields__
+            )
+            if name in unresolved_fields and name not in _NOT_GEOMETRY and value is not None
+        }
+        hollow = (
+            overrides.pop("hollow")
+            if "hollow" in overrides
+            else not builder.compartments
+        )
+
+        lid_margin = (
+            builder.lid.border_margin_mm
+            if (isinstance(builder.lid, LidBuilder) and builder.lid.border_margin_mm is not None)
+            else None
+        )
+
+        w, l_dim, h = (None, None, None)
+        if builder.size is not None:
+            w, l_dim, h = builder.size[0], builder.size[1], builder.size[2]
+        elif builder.final_size is not None:
+            w, l_dim, h = builder.final_size[0], builder.final_size[1], builder.final_size[2]
+
+        return cls(
+            label=builder.label,
+            width=w,
+            length=l_dim,
+            height=h,
+            wall_thickness=wt,
+            floor_thickness=ft,
+            lid_thickness=lt,
+            ribbon_channel=rc,
+            lid_border_margin_mm=lid_margin,
+            hollow=hollow,
+            rounding=(
+                builder.rounding
+                if builder.rounding is not None
+                else (project.rounding if project else None)
+            ),
+            inner_rounding=(
+                builder.inner_rounding
+                if builder.inner_rounding is not None
+                else (project.inner_rounding if project else None)
+            ),
+            rim_free=builder.box_type in LIDLESS_BOX_TYPES,
+            **overrides,
+        )
+
 
 #: Fields on a `BoxBuilder` that describe the project or the packing rather
 #: than the geometry, so they never reach a `BoxSpec`.
@@ -346,11 +611,11 @@ _SPEC_FIELDS = frozenset(f.name for f in fields(BoxSpec))
 
 
 def build_spec(
-    project: Project, builder: BoxBuilder, size: tuple[float, float, float]
-) -> BoxSpec:
-    """Assemble the one description this box is built from.
+    project: Project | ProjectManifest | None, builder: BoxBuilder, size: tuple[float, float, float]
+) -> ResolvedBoxSpec:
+    """Assemble the one description this box is built from (FR-091).
 
-    The single place a `BoxSpec` is made, so a previewed box and an exported
+    The single place a `ResolvedBoxSpec` is made, so a previewed box and an exported
     box cannot be built from different descriptions.
 
     Args:
@@ -360,58 +625,11 @@ def build_spec(
         size: The box's resolved ``(width, length, height)`` in mm.
 
     Returns:
-        The assembled :class:`BoxSpec`.
+        The assembled and validated :class:`ResolvedBoxSpec`.
 
     """
-    from pyboxbuilder.box.registry import LIDLESS_BOX_TYPES
-
-    wt = builder.wall_thickness or project.wall_thickness
-    ft = builder.floor_thickness or project.floor_thickness
-    lt = builder.lid_thickness or project.lid_thickness
-    rc = builder.ribbon_channel if builder.ribbon_channel is not None else project.ribbon_channels
-
-    overrides = {
-        name: value
-        for name, value in (
-            (f, getattr(builder, f)) for f in builder.__dataclass_fields__
-        )
-        if name in _SPEC_FIELDS and name not in _NOT_GEOMETRY and value is not None
-    }
-    hollow = (
-        overrides.pop("hollow")
-        if "hollow" in overrides
-        else not builder.compartments
-    )
-
-    from pyboxbuilder.lid.builder import LidBuilder
-    lid_margin = (
-        builder.lid.border_margin_mm
-        if (isinstance(builder.lid, LidBuilder) and builder.lid.border_margin_mm is not None)
-        else None
-    )
-
-    return BoxSpec(
-        label=builder.label,
-        width=size[0], length=size[1], height=size[2],
-        wall_thickness=wt, floor_thickness=ft, lid_thickness=lt,
-        ribbon_channel=rc,
-        lid_border_margin_mm=lid_margin,
-        # Hollow the whole interior only when nothing else defines the
-        # cavities; with compartments, they are the cavities.
-        hollow=hollow,
-        # Per-box override beats the project default, which in turn falls back
-        # to half the wall (FR-044).
-        rounding=(
-            builder.rounding if builder.rounding is not None else project.rounding
-        ),
-        inner_rounding=(
-            builder.inner_rounding if builder.inner_rounding is not None
-            else project.inner_rounding
-        ),
-        # A lidless box's rim is exposed on both faces, so it rounds too.
-        rim_free=builder.box_type in LIDLESS_BOX_TYPES,
-        **overrides,
-    )
+    unresolved = UnresolvedBoxSpec.from_builder(builder, project)
+    return unresolved.resolve(size[0], size[1], size[2])
 
 
 def describe(builder: BoxBuilder) -> dict[str, object]:

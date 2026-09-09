@@ -16,6 +16,9 @@ if TYPE_CHECKING:
 
 
 from pyboxbuilder.box.base import BoxTypeBase, Interior
+from pyboxbuilder.box.registry import register_box
+from pyboxbuilder.builders.sliding_catch import SlidingCatchBoxBuilder
+from pyboxbuilder.enums import BoxType
 
 DEFAULT_CATCH_RADIUS_MM = 1.0
 """The bump a sliding-catch box clicks shut on, when none is given (FR-002e3).
@@ -26,6 +29,7 @@ that always carries one, so it supplies the size the spec leaves open.
 """
 
 
+@register_box(BoxType.SLIDING_CATCH, builder=SlidingCatchBoxBuilder)
 class SlidingCatchBox(BoxTypeBase):
     """Sliding-catch lid box type."""
 

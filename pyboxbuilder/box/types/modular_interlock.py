@@ -7,15 +7,18 @@ from dataclasses import replace
 from typing import TYPE_CHECKING
 
 from pyboxbuilder.box.base import BoxTypeBase, Interior
+from pyboxbuilder.box.registry import register_box
 from pyboxbuilder.box.shell import block, body_rounding, build_shell
 from pyboxbuilder.box.spec import BoxSpec
-from pyboxbuilder.enums import InterlockType
+from pyboxbuilder.builders.modular_interlock import ModularInterlockBoxBuilder
+from pyboxbuilder.enums import BoxType, InterlockType
 from pyboxbuilder.rounding import round_edges, vertical_edges
 
 if TYPE_CHECKING:
     from pybosl2.shapes3d import Bosl2Solid
 
 
+@register_box(BoxType.MODULAR_INTERLOCK, builder=ModularInterlockBoxBuilder)
 class ModularInterlockBox(BoxTypeBase):
     """Tabletop play tray with modular interlocking perimeter joints (FR-089)."""
 

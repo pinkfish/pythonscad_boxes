@@ -12,8 +12,12 @@ if TYPE_CHECKING:
     from pybosl2.shapes3d import Bosl2Solid
 
 from pyboxbuilder.box.base import BoxTypeBase, Interior
+from pyboxbuilder.box.registry import register_box
+from pyboxbuilder.builders.path import PathBoxBuilder
+from pyboxbuilder.enums import BoxType
 
 
+@register_box(BoxType.PATH, builder=PathBoxBuilder)
 class PathBox(BoxTypeBase):
     """Open tray whose footprint is a 2D polygon path rather than a rectangle.
 

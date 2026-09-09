@@ -14,8 +14,12 @@ if TYPE_CHECKING:
 
 
 from pyboxbuilder.box.base import BoxTypeBase, Interior
+from pyboxbuilder.box.registry import register_box
+from pyboxbuilder.builders.magnetic import MagneticBoxBuilder
+from pyboxbuilder.enums import BoxType
 
 
+@register_box(BoxType.MAGNETIC, builder=MagneticBoxBuilder)
 class MagneticBox(BoxTypeBase):
     """Magnetic-closure lid box type."""
 

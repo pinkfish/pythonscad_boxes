@@ -8,14 +8,18 @@ from typing import TYPE_CHECKING
 from pybosl2.parts.hinges import KnuckleHingePair, SnapLock, SnapSocket
 
 from pyboxbuilder.box.base import BoxTypeBase, Interior
+from pyboxbuilder.box.registry import register_box
 from pyboxbuilder.box.shell import block, body_rounding, build_shell
 from pyboxbuilder.box.spec import BoxSpec
+from pyboxbuilder.builders.pip_hinge import PrintInPlaceHingeBoxBuilder
+from pyboxbuilder.enums import BoxType
 from pyboxbuilder.rounding import round_edges, vertical_edges
 
 if TYPE_CHECKING:
     from pybosl2.shapes3d import Bosl2Solid
 
 
+@register_box(BoxType.PRINT_IN_PLACE_HINGE, builder=PrintInPlaceHingeBoxBuilder)
 class PrintInPlaceHingeBox(BoxTypeBase):
     """Monolithic 180° flat print-in-place captive hinge box (FR-090)."""
 

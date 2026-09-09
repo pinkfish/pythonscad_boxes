@@ -15,8 +15,12 @@ if TYPE_CHECKING:
     from pyboxbuilder.enums import ScoopSide
 
 from pyboxbuilder.box.base import BoxTypeBase, Interior
+from pyboxbuilder.box.registry import register_box
+from pyboxbuilder.builders.sliding import SlidingBoxBuilder
+from pyboxbuilder.enums import BoxType
 
 
+@register_box(BoxType.SLIDING, builder=SlidingBoxBuilder)
 class SlidingBox(BoxTypeBase):
     """Sliding lid box type.
 

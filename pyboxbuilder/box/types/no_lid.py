@@ -14,9 +14,12 @@ if TYPE_CHECKING:
 
 
 from pyboxbuilder.box.base import BoxTypeBase, Interior
-from pyboxbuilder.enums import MagnetType, ScoopSide, StackableMode
+from pyboxbuilder.box.registry import register_box
+from pyboxbuilder.builders.no_lid import NoLidBoxBuilder
+from pyboxbuilder.enums import BoxType, MagnetType, ScoopSide, StackableMode
 
 
+@register_box(BoxType.NO_LID, builder=NoLidBoxBuilder)
 class NoLidBox(BoxTypeBase):
     """No-lid box type (open tray). Supports stackable rims and side magnets."""
 

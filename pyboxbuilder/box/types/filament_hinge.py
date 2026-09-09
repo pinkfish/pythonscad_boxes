@@ -13,8 +13,12 @@ if TYPE_CHECKING:
 
 
 from pyboxbuilder.box.base import BoxTypeBase, Interior
+from pyboxbuilder.box.registry import register_box
+from pyboxbuilder.builders.filament_hinge import FilamentHingeBoxBuilder
+from pyboxbuilder.enums import BoxType
 
 
+@register_box(BoxType.FILAMENT_HINGE, builder=FilamentHingeBoxBuilder)
 class FilamentHingeBox(BoxTypeBase):
     """Filament (living) hinge lid box type."""
 

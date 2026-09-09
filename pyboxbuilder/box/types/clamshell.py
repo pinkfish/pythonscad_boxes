@@ -8,14 +8,18 @@ from typing import TYPE_CHECKING
 from pybosl2.shapes3d import cyl
 
 from pyboxbuilder.box.base import BoxTypeBase, Interior
+from pyboxbuilder.box.registry import register_box
 from pyboxbuilder.box.shell import block, body_rounding
 from pyboxbuilder.box.spec import BoxSpec
+from pyboxbuilder.builders.clamshell import ClamshellBoxBuilder
+from pyboxbuilder.enums import BoxType
 from pyboxbuilder.rounding import round_edges, vertical_edges
 
 if TYPE_CHECKING:
     from pybosl2.shapes3d import Bosl2Solid
 
 
+@register_box(BoxType.CLAMSHELL, builder=ClamshellBoxBuilder)
 class ClamshellBox(BoxTypeBase):
     """Bifold clamshell book box with active compartments in both halves (FR-088)."""
 

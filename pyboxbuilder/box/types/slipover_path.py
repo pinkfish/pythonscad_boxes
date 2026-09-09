@@ -12,8 +12,12 @@ if TYPE_CHECKING:
 
 
 from pyboxbuilder.box.base import BoxTypeBase, Interior
+from pyboxbuilder.box.registry import register_box
+from pyboxbuilder.builders.slipover_path import SlipoverPathBoxBuilder
+from pyboxbuilder.enums import BoxType
 
 
+@register_box(BoxType.SLIPOVER_PATH, builder=SlipoverPathBoxBuilder)
 class SlipoverPathBox(BoxTypeBase):
     """Slipover-path lid box type."""
 

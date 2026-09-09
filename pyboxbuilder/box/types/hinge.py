@@ -15,8 +15,12 @@ if TYPE_CHECKING:
 
 
 from pyboxbuilder.box.base import BoxTypeBase, Interior
+from pyboxbuilder.box.registry import register_box
+from pyboxbuilder.builders.hinge import HingeBoxBuilder
+from pyboxbuilder.enums import BoxType
 
 
+@register_box(BoxType.HINGE, builder=HingeBoxBuilder)
 class HingeBox(BoxTypeBase):
     """Pin-hinge lid box type."""
 

@@ -219,4 +219,16 @@ nitpick_ignore = [
     ("py:class", "pyboxbuilder.packing.layout.PackingError"),
     ("py:exc", "pyboxbuilder.packing.layout.PackingError"),
     ("py:attr", "Piece.solid"),
+    # Architecture modernization types and aliases
+    ("py:class", "ResolvedBoxSpec"),
+    ("py:class", "pyboxbuilder.box.spec.ResolvedBoxSpec"),
+    ("py:class", "UnresolvedBoxSpec"),
+    ("py:class", "pyboxbuilder.box.spec.UnresolvedBoxSpec"),
+    ("py:exc", "GeometryValidationError"),
+    ("py:class", "GeometryValidationError"),
+    ("py:class", "pyboxbuilder.box.validation.GeometryValidationError"),
+    ("py:class", "ProjectManifest"),
+    ("py:class", "LayoutCompiler"),
+    ("py:class", "GeometryPipeline"),
+    ("py:class", "GeometryValidator"),
 ]
