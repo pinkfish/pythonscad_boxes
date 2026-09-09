@@ -7,31 +7,54 @@
 ## Entity Relationship
 
 ```
-Project (1) ──> BoxBuilder (N)          # Per-box typed builders
-BoxBuilder (1) ──> LidBuilder (0..1)    # Lid decoration (fresh design)
-LidBuilder (1) ──> PatternBuilder (0..1)# Surface pattern fill
-BoxBuilder (1) ──> CompartmentBuilder (0..N) # Interior compartments
-Project.export() ──> ExportResult (1)   # Export outcome
+Project (Facade)
+  ├─> ProjectManifest (1) ──> BoxBuilder (N)         # Per-box typed builders
+  │                            ├─> LidBuilder (0..1) # Lid decoration
+  │                            └─> CompartmentBuilder (0..N) # Interior compartments
+  ├─> LayoutCompiler (1)   ──> 3D Packing & Layout Trees (columns, rows, stack)
+  └─> GeometryPipeline (1) ──> UnresolvedBoxSpec ──> ResolvedBoxSpec ──> BoxTypeBase
 ```
 
-Internal mapping (fresh, no legacy pipeline dependency):
+Internal mapping:
 ```
-Project.export()
-  └─> BoxBuilder → BoxSpec (internal)
-  └─> BoxSpec → BoxType → box class (registry dispatch)
-  └─> BoxPacking (auto-size + spacer)
-  └─> BoxExporter → 3MF files
+Project.export() / Project.show()
+  ├─> ProjectManifest: gathers BoxBuilders & project constraints
+  ├─> LayoutCompiler: compiles relative trees, resolves sizing, sweeps spacer voids
+  ├─> GeometryPipeline: converts UnresolvedBoxSpec → ResolvedBoxSpec
+  ├─> GeometryValidator: validates physical invariants before CSG
+  ├─> Registry dispatch: maps BoxType → BoxTypeBase implementation
+  └─> BoxExporter: generates multi-color / single-color 3MF & PDF guide
+```
+
+### Two-Phase Specification Lifecycle
+
+```
+┌────────────────────────┐
+│   BoxBuilder (DSL)     │ User sets size=(75, 105, None), cards(), compartments()
+└───────────┬────────────┘
+            │ produces
+┌───────────▼────────────┐
+│   UnresolvedBoxSpec    │ Dimensions may be None; holds pending layout & content rules
+└───────────┬────────────┘
+            │ LayoutCompiler & Sizing Pass
+┌───────────▼────────────┐
+│    ResolvedBoxSpec     │ Immutable, frozen; width, length, height are non-null floats
+└───────────┬────────────┘
+            │ GeometryValidator (pre-CSG checks)
+┌───────────▼────────────┐
+│   BoxTypeBase (CSG)    │ build_body(), build_lid() receive guaranteed valid geometry
+└────────────────────────┘
 ```
 
 ## Public Enums (`pyboxbuilder/enums.py`)
 
 | Enum | Members | Purpose |
 |------|---------|---------|
-| `BoxType` | SLIDING, CAP, HINGE, FILAMENT_HINGE, MAGNETIC, INSET, SLIDING_CATCH, SLIPOVER, SLIPOVER_PATH, CAP_PATH, NO_LID, CARD_LIBRARY | Box lid mechanism selection |
+| `BoxType` | SLIDING, SLIDING_CATCH, CAP, SLIPOVER, INSET, SLEEVE_DRAWER, PRINT_IN_PLACE_HINGE, CLAMSHELL, HINGE, FILAMENT_HINGE, SNAP_FIT, BAYONET, THREADED, MAGNETIC, DISPENSER, CARD_SHOE, DICE_TRAY, MODULAR_INTERLOCK, NO_LID, CARD_LIBRARY, PATH, CAP_PATH, SLIPOVER_PATH | Box closure mechanism selection (23 types) |
 | `LabelMode` | FRAMED, FRAMELESS | Label decoration style |
-| `PatternType` | HEX_GRID, GRID, VORONOI | Lid through-hole pattern |
+| `PatternType` | NONE, SQUARE, CIRCLE, HEX, DENSE_HEX, TRIANGLE, DENSE_TRIANGLE, OCTAGON, VORONOI, LEAF, LEAF_TESSELLATION, LEAF_VEINS | Lid through-hole surface patterns |
 | `ScoopSide` | FRONT, BACK, LEFT, RIGHT | Finger scoop placement |
-| `FingerCut` | THROUGH_FLOOR, SCOOP | Which cut empties a compartment (FR-060) |
+| `FingerCut` | THROUGH_FLOOR, SCOOP, U_SHAPED | Which cut empties a compartment (FR-060) |
 
 ## Color (`pybosl2.Color`, re-exported from `pyboxbuilder`)
 
@@ -168,16 +191,85 @@ Pattern fills are `Callable[[width, length, thickness], Bosl2Solid]` functions t
 | `total_files` | `int` |
 | `cached_from` | `str \| None` |
 
-## Box Protocol (`pyboxbuilder/box/base.py`) — Fresh Design
+## Box Protocol (`pyboxbuilder/box/base.py`)
 
 ```python
-class BoxProtocol(Protocol):
-    def build_body(self, spec: BoxSpec) -> Bosl2Solid: ...
-    def build_lid(self, spec: BoxSpec, decoration: LidDecoration) -> Bosl2Solid: ...
-    def interior(self, spec: BoxSpec) -> Interior: ...
+class BoxTypeBase:
+    def build_body(self, spec: ResolvedBoxSpec) -> Bosl2Solid: ...
+    def build_lid(self, spec: ResolvedBoxSpec, decoration: object = None) -> Bosl2Solid | None: ...
+    def interior(self, spec: ResolvedBoxSpec) -> Interior: ...
+    def wall_tops(self, spec: ResolvedBoxSpec) -> dict[ScoopSide, float]: ...
+    def slide_axis(self, spec: ResolvedBoxSpec) -> str | None: ...
 ```
 
-Simpler than legacy `BoxBaseType`. No `Body` return type with `hollowed`/`carved` flags. No `LidPlate` contract. Each type directly builds its geometry.
+A base class where all 23 box types receive a guaranteed valid, non-optional `ResolvedBoxSpec`.
+
+## Specification Lifecycle Models (`pyboxbuilder/box/spec.py`)
+
+### `UnresolvedBoxSpec` (Declaration Phase)
+Mutable/intermediate state populated by builders and card/compartment resolvers:
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `width` | `float \| None` | Explicit width or None (inferred from contents/packing) |
+| `length` | `float \| None` | Explicit length or None (inferred from contents/packing) |
+| `height` | `float \| None` | Explicit height or None (inferred from card stack / wells) |
+| `label` | `str` | Box identifier name |
+| `wall_thickness` | `float` | Default 2.0mm |
+| `floor_thickness` | `float` | Default 1.6mm |
+| `lid_thickness` | `float` | Default 2.0mm |
+| `size_spacing` | `float` | Clearance wiggle (default 0.2mm) |
+| `wall_tops` | `dict[ScoopSide, float]` | Side-specific wall heights |
+
+### `ResolvedBoxSpec` (Frozen Geometric State)
+Immutable value object handed to `BoxTypeBase` implementations:
+
+| Field | Type | Guarantee |
+|-------|------|-----------|
+| `width` | `float` | Guaranteed `> 2 * wall_thickness + 1.0` |
+| `length` | `float` | Guaranteed `> 2 * wall_thickness + 1.0` |
+| `height` | `float` | Guaranteed `> floor_thickness + lid_thickness` |
+| `label` | `str` | Non-empty string |
+| `wall_thickness` | `float` | Guaranteed `>= 0.8mm` |
+| `floor_thickness` | `float` | Guaranteed `>= 0.8mm` |
+| `lid_thickness` | `float` | Guaranteed `>= 0.0mm` |
+| `interior_top` | `float` | Explicit z of interior ceiling |
+| `wall_tops` | `dict[ScoopSide, float]` | Resolved wall top elevations |
+
+### `GeometryValidationError` (`pyboxbuilder/box/validation.py`)
+Exception raised when physical constraints are violated before CSG evaluation:
+
+```python
+class GeometryValidationError(ValueError):
+    box_label: str
+    parameter: str
+    actual_value: float
+    constraint: str
+    message: str
+```
+
+## Decomposed Project Subsystems (`pyboxbuilder/project/`)
+
+### `ProjectManifest` (`pyboxbuilder/project/manifest.py`)
+Encapsulates all registered entities and constraints for an insert project:
+- `game_box_size: tuple[float, float, float]`
+- `board_thickness: float`
+- `generate_spacers: bool`
+- `boxes: dict[str, BoxBuilder]`
+- `presets: list[CardDeckSpec, TokenTraySpec]`
+
+### `LayoutCompiler` (`pyboxbuilder/project/compiler.py`)
+Orchestrates relative layout trees and auto-sizing:
+- Compiles `columns()`, `rows()`, `stack()` trees into absolute coordinates.
+- Validates compartment ratio sums (sum <= 1.0 per row/column).
+- Dispatches guillotine 3D bin packing for unpositioned boxes.
+- Executes 3D void sweep to generate spacer tray geometries.
+
+### `GeometryPipeline` (`pyboxbuilder/project/pipeline.py`)
+Compiles resolved specifications into renderable pieces:
+- Converts `UnresolvedBoxSpec` → `ResolvedBoxSpec`.
+- Invokes `GeometryValidator` on all resolved specs.
+- Produces lazy `PreviewPiece` solid lists for GUI preview and export.
 
 ## Standalone Box (FR-037)
 

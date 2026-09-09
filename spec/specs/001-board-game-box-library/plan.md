@@ -1563,6 +1563,36 @@ Emitted as a **warning**, with the run continuing:
 
 Zero-thickness walls between adjacent compartments are **not** an error: the compartments merge into a single cavity, which is a legitimate way to express an L-shaped well.
 
+## Architectural Modernization: Project Decomposition, Two-Phase Spec Lifecycle, Decorator Registry, and Pre-CSG Validation (FR-091–FR-094)
+
+### 1. Project Facade Decomposition (FR-093)
+`pyboxbuilder/project/core.py` currently spans over 1,400 lines and combines container state, layout trees, guillotine packing, spec resolution, geometry pieces, and export orchestration. To enhance cohesion and testability:
+- **`ProjectManifest` (`pyboxbuilder/project/manifest.py`)**: Stores all declarative inputs (`game_box_size`, `board_thickness`, `generate_spacers`, `boxes`, and card/token presets). Provides clean lookup, iteration, and membership queries.
+- **`LayoutCompiler` (`pyboxbuilder/project/compiler.py`)**: Evaluates relative layout combinators (`columns()`, `rows()`, `stack()`), checks compartment ratio sums (sum <= 1.0), orchestrates guillotine 3D bin packing for unplaced boxes, and executes 3D void sweep to generate spacer tray bounding boxes.
+- **`GeometryPipeline` (`pyboxbuilder/project/pipeline.py`)**: Manages the two-pass spec resolution, transforms `UnresolvedBoxSpec` into validated `ResolvedBoxSpec`, builds lazy `PreviewPiece` representations, and interfaces with `BoxTypeBase` geometry builders.
+- **`Project` (`pyboxbuilder/project/core.py`)**: Maintained as a lightweight facade coordinating `ProjectManifest`, `LayoutCompiler`, and `GeometryPipeline`, guaranteeing 100% backward compatibility for all existing scripts and the 41+ box insert definitions in `boxes/`.
+
+### 2. Two-Phase Box Specification Lifecycle (FR-091)
+Eliminates defensive `None` checks and optional dimension handling in geometric solid generation:
+- **`UnresolvedBoxSpec` (`pyboxbuilder/box/spec.py`)**: Captures user declarations where dimensions may be unassigned (`width: float | None`, `length: float | None`, `height: float | None`). Used exclusively in builder configuration, card deck sizing, and layout compilation.
+- **`ResolvedBoxSpec` (`pyboxbuilder/box/spec.py`)**: Frozen dataclass where all dimensions (`width`, `length`, `height`, `interior_top`) are non-null, finite floats. `BoxTypeBase.build_body()`, `build_lid()`, and `interior()` accept strictly `ResolvedBoxSpec`.
+
+### 3. Pre-CSG Geometric Invariant Validation (FR-092)
+`pyboxbuilder/box/validation.py` introduces a formal validation pass before passing specs down to PythonSCAD / Manifold:
+- Checks:
+  - Envelope sanity: `width > 2 * wall_thickness + 1.0` and `length > 2 * wall_thickness + 1.0`.
+  - Height bounds: `height > floor_thickness + lid_thickness`.
+  - Minimum material thickness: `wall_thickness >= 0.8` and `floor_thickness >= 0.8`.
+  - Non-negative clearances: `size_spacing >= 0.0` and `sliding_slack >= 0.0`.
+  - Closure boundaries: catch radius and dovetail depths fit within wall thickness limits.
+- Violations raise `GeometryValidationError` detailing the exact failed invariant, box label, and recommended corrective action, avoiding kernel faults or degenerate geometries.
+
+### 4. Decoupled Box Type Registry with Decorators (FR-094)
+Replaces manual mapping lists and `# noqa: E402` late imports in `pyboxbuilder/box/registry.py`:
+- Implements `@register_box(BoxType.<TYPE>, builder=<BuilderClass>)` decorator.
+- Box type implementations register their builders and classes cleanly at definition time.
+- Supports dynamic plugin discovery and third-party box types without editing core files.
+
 ## Example Inventory
 
 Twelve projects live under `boxes/`. The five documented in detail above are the reference ports; the rest exercise the same API and are ported from their `examples/*.scad` originals.
@@ -1639,6 +1669,12 @@ Where each requirement is designed, and where it is verified. Sections named bel
 | FR-052 | Finger Holes §1a12 (two circles and the tangent between them) | `compartments/finger_outline.py` (`_tangent_join`) |
 | FR-047a, FR-047b | Finger Holes §3a (skip, opt-out) | `box/shell.py` |
 | FR-047c | Finger Holes §3a (a polygon path box gets none) | `box/types/path.py` |
+| FR-080 | Interactive 3D WebGL STL Docs & Architecture Overview | `docs/index.rst`, `docs/box_types.rst`, `scripts/generate_docs_stls.py` |
+| FR-081–FR-090 | Extended Box Types & Tabletop Utilities | `pyboxbuilder/box/types/*`, `pyboxbuilder/builders/*` |
+| FR-091 | Explicit Two-Phase Box Specification Lifecycle | `pyboxbuilder/box/spec.py`, `pyboxbuilder/project/pipeline.py` |
+| FR-092 | Pre-CSG Geometric Invariant Validation | `pyboxbuilder/box/validation.py` |
+| FR-093 | Decomposed Facade Architecture (`ProjectManifest`, `LayoutCompiler`, `GeometryPipeline`) | `pyboxbuilder/project/manifest.py`, `pyboxbuilder/project/compiler.py`, `pyboxbuilder/project/pipeline.py`, `pyboxbuilder/project/core.py` |
+| FR-094 | Decoupled Box Type Registration via Decorators | `pyboxbuilder/box/registry.py` |
 
 | SC | Verified by |
 |---|---|
@@ -1701,6 +1737,14 @@ Where each requirement is designed, and where it is verified. Sections named bel
 | SC-076 | `test_finger_smoothing.py` — `TheCutDoesNotBiteTheBaseTests`: the overshoot costs the base nothing |
 | SC-077 | `test_rounding.py` — `SlidingRimRoundingTests`: every sliding type rounds its top edge, a non-sliding lidded one does not |
 | SC-068 | `test_finger_smoothing.py` — `NoLidFingerHoleTests`: the half-height cap |
+| SC-078 | `test_closures.py` — Cap/slipover bump catches |
+| SC-079 | `test_lid_decorate.py` — Logo SVG inlay/engraving |
+| SC-080 | Sphinx documentation build and 3D STL viewer assets (`scripts/generate_docs_stls.py`, `docs/box_types.rst`) |
+| SC-081 | `test_extended_boxes.py`, `test_extended_boxes_render.py` — Extended box types |
+| SC-091 | `test_spec_lifecycle.py` — Frozen, non-null ResolvedBoxSpec contract |
+| SC-092 | `test_validation.py` — Pre-CSG boundary and geometric invariant enforcement |
+| SC-093 | `test_project.py`, `test_ci_smoke.py`, `test_project_coverage.py` — Full backward compatibility of decomposed Project facade |
+| SC-094 | `test_registry.py` — Decorator-based registration and zero circular imports |
 
 ## Complexity Tracking
 

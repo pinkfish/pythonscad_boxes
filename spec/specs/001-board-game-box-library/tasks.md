@@ -1159,6 +1159,25 @@ stop the class of mistake from being expressible.
 - [x] T364 Add user guide documentation and `.. pythonscad-example::` snippets for all 10 new box types to `docs/box_types.rst`.
 - [x] T365 Pre-generate documentation STLs for the 10 new box examples via `scripts/generate_docs_stls.py`.
 
+---
+
+## Phase 38: Architectural Modernization & Structural Hardening (FR-091–FR-094)
+
+**Goal**: Implement the architectural improvements recommended in the senior review: separate the box specification into declaration and resolved geometric contracts (FR-091), enforce pre-CSG geometric boundary invariant validation (FR-092), decompose the monolithic `Project` class into specialized subsystems (`ProjectManifest`, `LayoutCompiler`, `GeometryPipeline`) behind a backward-compatible facade (FR-093), and decouple the box registry via `@register_box` decorators (FR-094).
+
+- [ ] T366 [P] Implement `UnresolvedBoxSpec` and `ResolvedBoxSpec` dataclasses in `pyboxbuilder/box/spec.py` (FR-091). `UnresolvedBoxSpec` permits optional envelope dimensions for declaration/layout inference; `ResolvedBoxSpec` is a frozen dataclass with strictly non-null, positive float dimensions and derived geometric boundaries (`interior_top`).
+- [ ] T367 [P] Implement `GeometryValidator` and `GeometryValidationError` in `pyboxbuilder/box/validation.py` (FR-092) enforcing physical invariant checks (envelope limits `width/length > 2 * wall_thickness + 1.0`, `height > floor + lid`, minimum 0.8mm walls/floors, non-negative clearances, and closure fit within wall bounds) before invoking PythonSCAD.
+- [ ] T368 Update `BoxTypeBase` in `pyboxbuilder/box/base.py` and concrete box implementations across all 23 box types to consume `ResolvedBoxSpec` and eliminate defensive `None` checks (FR-091).
+- [ ] T369 [P] Implement decorator-based box registry `@register_box(box_type, builder=...)` in `pyboxbuilder/box/registry.py` and eliminate `# noqa: E402` late imports and hardcoded mapping dictionaries (FR-094).
+- [ ] T370 [P] Extract `ProjectManifest` into `pyboxbuilder/project/manifest.py` (FR-093) to encapsulate declarative catalog state (game box size, board thickness, presets, registered boxes, cards, compartments, and spacer requests).
+- [ ] T371 [P] Extract `LayoutCompiler` into `pyboxbuilder/project/compiler.py` (FR-093) to handle relative layout evaluation (`columns`, `rows`, `stack`), compartment ratio sum validation (<= 1.0), 3D guillotine bin packing dispatch, and spacer void sweep calculations.
+- [ ] T372 [P] Extract `GeometryPipeline` into `pyboxbuilder/project/pipeline.py` (FR-093) to coordinate two-pass specification resolution (`UnresolvedBoxSpec` -> `ResolvedBoxSpec`), invariant validation invocation, lazy piece generation (`PreviewPiece`), and CSG build orchestration.
+- [ ] T373 Refactor `Project` in `pyboxbuilder/project/core.py` into a lightweight facade delegating cleanly to `ProjectManifest`, `LayoutCompiler`, and `GeometryPipeline`, guaranteeing 100% backward compatibility for all existing scripts (FR-093).
+- [ ] T374 [P] Write unit tests for `GeometryValidator` and invariant checks in `tests/test_pyboxbuilder/test_validation.py` (SC-092) asserting that undersized envelopes, impossible heights, and negative clearances raise `GeometryValidationError`.
+- [ ] T375 [P] Write unit tests for the two-phase spec lifecycle in `tests/test_pyboxbuilder/test_spec_lifecycle.py` (SC-091) asserting that `ResolvedBoxSpec` is frozen, non-null, and validated before geometry construction.
+- [ ] T376 [P] Write unit tests for decorator-based box registration and dynamic discovery in `tests/test_pyboxbuilder/test_registry.py` (SC-094).
+- [ ] T377 Run the complete test suite, linting, type checks, and Sphinx build (`pytest`, `make lint`, `make types`, `sphinx-build -b html -W --keep-going docs docs/_build/html`) to verify all 41 game box inserts compile and build cleanly with zero regressions (SC-093).
+
 ## Notes
 
 - [P] tasks = different files, no dependencies

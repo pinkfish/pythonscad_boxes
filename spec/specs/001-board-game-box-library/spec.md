@@ -564,6 +564,14 @@ A finger cut is one shape swept through one wall, and these are its requirements
 - **FR-088**: The library MUST support a **Bifold / Clamshell Book Box** (`BoxType.CLAMSHELL`). Two symmetrical or proportional tray halves joined along a central spine by an integrated hinge, unfolding 180° flat onto the table so both halves serve as accessible token/card trays during play. The closing rims feature perimeter snap detents or corner magnet sockets to hold the book closed during vertical storage.
 - **FR-089**: The library MUST support **Modular Interlocking Play Trays** (`BoxType.MODULAR_INTERLOCK`). Trays featuring perimeter interlocking joints on outer walls to lock multiple boxes side-by-side into a unified player dashboard or shared bank on the table. Supports `DOVETAIL` sliding interlocks (with 0.15mm clearance) and `GRIDFINITY` tiered base profiles (42mm standard pitch with optional corner magnet pockets).
 - **FR-090**: The library MUST support a **Monolithic Print-In-Place Hinge Box** (`BoxType.PRINT_IN_PLACE_HINGE`). A single-piece, zero-assembly hinged box where body and lid are laid flat at 180° on the print bed in a single print job. Joined by captive cone-and-socket or knuckle joints along the shared top rim. Air gaps are calibrated to `0.35mm` radial and `0.40mm` axial clearances with 45° self-supporting overhang angles so the hinge breaks free smoothly on first flexion without welding. The front wall carries a snap-fit ridge catch (`FR-002v`).
+- **FR-091**: The library MUST implement an **Explicit Two-Phase Box Specification Lifecycle** separating declaration from geometric construction. During initial user configuration, boxes are represented as an `UnresolvedBoxSpec` permitting optional envelope dimensions (`width: float | None`, `length: float | None`, `height: float | None`) to accommodate dimension inference from cards, compartments, and packing. Prior to invoking geometric builders, the layout and sizing pipelines MUST resolve all dimensions into an immutable, frozen `ResolvedBoxSpec` guaranteeing that all physical dimensions, wall tops, and keepouts are non-null, finite values.
+- **FR-092**: The library MUST enforce **Pre-CSG Geometric Invariant Validation**. Prior to invoking CSG evaluation in PythonSCAD / Manifold, the system MUST validate physical invariants on every `ResolvedBoxSpec` (including: envelope sanity `width > 2 * wall_thickness + 1.0`, `length > 2 * wall_thickness + 1.0`, `height > floor_thickness + lid_thickness`, minimum material thickness `wall_thickness >= 0.8`, non-negative clearances `size_spacing >= 0.0`, and catch fit within wall bounds). Violations MUST raise a structured `GeometryValidationError` detailing the exact failed invariant, box label, and corrective guidance, preventing downstream kernel tracebacks or empty solids.
+- **FR-093**: The `Project` class MUST be refactored into a **Decomposed Facade Architecture** separating concerns across dedicated subsystems:
+  - `ProjectManifest`: Catalog of registered boxes, cards, compartments, spacers, and game box metadata.
+  - `LayoutCompiler`: Layout tree compilation (`columns`, `rows`, `stack`), compartment ratio checking, and 3D bin packing dispatch.
+  - `GeometryPipeline`: Two-pass specification resolution, piece generation (`preview_pieces`), and CSG build orchestration.
+  The public API of `Project` MUST remain 100% backward-compatible with all existing board game insert scripts.
+- **FR-094**: The library MUST support **Decoupled Box Type Registration via Decorators**. Box types and their builders MUST be registrable via an `@register_box(BoxType.<TYPE>, builder=<BuilderClass>)` decorator pattern with dynamic package auto-discovery, eliminating manual registration tables and top-level `# noqa: E402` circular import bypasses in `pyboxbuilder/box/registry.py`.
 
 - **BoxSpec**: The complete configuration of a single box -- outer dimensions (explicit or auto-computed from compartments), wall/floor/lid thicknesses, lid type, compartments, finger holes, labelling decorations, material colours, print positioning, auto-expand behaviour (expandable axes), and a `no_rotate` flag (default `False`) that prevents the 3D packer from rotating the box. Immutable once built. If `size` is omitted, dimensions are derived from compartment layout during packing.
 - **BoxType**: Abstracts the lid mechanism -- defines how the body is constructed (e.g., with dovetail grooves for sliding, with overhangs for caps, cantilever snap latches, bayonets, threads, dispensers, card shoes, sleeve drawers, clamshells, modular interlocks, or monolithic print-in-place hinges) and what lid geometry mates with it.
@@ -748,12 +756,23 @@ To streamline insert definition and eliminate boilerplate code, the `Project` cl
 - **`Project.token_tray(...)`**: Automatically instantiates a `BoxBuilder` and populates it with a grid of token compartments of relative ratios, each carrying a finger scoop on the specified `scoop_side` for easy piece retrieval.
 - **`Project.hex_tile_box(...)`**: Instantiates a `BoxBuilder` configured with a compartment holding hexagonal tiles (`ElementShape.HEXAGON`) scaled by tile width.
 
-### Architectural Modularization
+### Architectural Modularization (FR-091–FR-094)
 
-The `project.py` module is split into a directory-based package `pyboxbuilder/project/` containing:
-- `piece.py`: Lazy geometry piece representations (`Piece`, `ResolvedBox`, `Build`).
-- `core.py`: Layout packing, export orchestration, and presets.
-- `__init__.py`: Clean public API exposures.
+The project architecture undergoes structural hardening to eliminate God-objects, circular imports, and late CSG failure modes:
+- `pyboxbuilder/project/manifest.py`: Encapsulates `ProjectManifest` (tracking boxes, cards, compartments, and metadata).
+- `pyboxbuilder/project/compiler.py`: Encapsulates `LayoutCompiler` (layout tree evaluation, ratio checking, and 3D packing).
+- `pyboxbuilder/project/pipeline.py`: Encapsulates `GeometryPipeline` (two-pass spec resolution and piece generation).
+- `pyboxbuilder/project/core.py`: Acts as the unified facade, delegating to the subsystems above with 100% backward compatibility.
+- `pyboxbuilder/box/spec.py`: Defines `UnresolvedBoxSpec` (declaration phase) and `ResolvedBoxSpec` (validated frozen phase).
+- `pyboxbuilder/box/validation.py`: Enforces pre-CSG geometric sanity (`GeometryValidator`, `GeometryValidationError`).
+- `pyboxbuilder/box/registry.py`: Modernized decorator-based registration (`@register_box`).
+
+### Success Criteria: Architectural Modernization
+
+- **SC-091**: 100% of CSG geometry generation passes operate strictly on frozen, fully validated `ResolvedBoxSpec` instances without optional envelope dimensions.
+- **SC-092**: Physically impossible box configurations (e.g. wall thickness exceeding half the box envelope) fail fast with `GeometryValidationError` before invoking PythonSCAD.
+- **SC-093**: All 41 existing box examples in `boxes/` run, build, and export identically with zero regressions under the decomposed `Project` architecture.
+- **SC-094**: Box types and builders can be registered and extended using `@register_box` without editing core registry tables or introducing `# noqa: E402` circular import bypasses.
 
 ### Railways of the World Example Specification
 
