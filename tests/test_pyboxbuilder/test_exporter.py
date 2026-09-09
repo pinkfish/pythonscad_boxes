@@ -265,7 +265,10 @@ class PathBoxTests(unittest.TestCase):
         self.assertIn(BoxType.PATH, BOX_IMPL_REGISTRY)
 
     def test_path_boxes_are_lidless(self) -> None:
-        self.assertEqual(LIDLESS_BOX_TYPES, frozenset({BoxType.NO_LID, BoxType.PATH}))
+        self.assertEqual(
+            LIDLESS_BOX_TYPES,
+            frozenset({BoxType.NO_LID, BoxType.PATH, BoxType.PRINT_IN_PLACE_HINGE}),
+        )
         box = BOX_IMPL_REGISTRY[BoxType.PATH]()
         self.assertIsNone(box.build_lid(BoxSpec(width=50, length=50, height=20)))
 

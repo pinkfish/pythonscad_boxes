@@ -398,20 +398,25 @@ def _svg_region(shape_file: str) -> Region:
 
     from pybosl2.svg import region_from_svg
 
-    region = _SVG_CACHE.get(shape_file)
+    path = Path(shape_file)
+    if not path.is_absolute() and not path.exists():
+        repo_root = Path(__file__).resolve().parents[2]
+        resolved = repo_root / path
+        if resolved.exists():
+            path = resolved
+    mtime = path.stat().st_mtime_ns if path.exists() else 0
+    cache_key = (str(path), mtime)
+    region = _SVG_CACHE.get(cache_key)
     if region is None:
-        path = Path(shape_file)
-        if not path.is_absolute() and not path.exists():
-            repo_root = Path(__file__).resolve().parents[2]
-            resolved = repo_root / path
-            if resolved.exists():
-                path = resolved
-        region = region_from_svg(str(path), clip_to_viewbox=False)
-        _SVG_CACHE[shape_file] = region
+        try:
+            region = region_from_svg(str(path), **{"clip_to_viewbox": False})
+        except TypeError:
+            region = region_from_svg(str(path))
+        _SVG_CACHE[cache_key] = region
     return region
 
 
-_SVG_CACHE: dict[str, Region] = {}
+_SVG_CACHE: dict[tuple[str, int], Region] = {}
 
 
 PULL_OUT_DEPTH_SHARE = 0.5

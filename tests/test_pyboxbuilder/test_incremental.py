@@ -175,7 +175,7 @@ class IncrementalExportTests(unittest.TestCase):
 
             svg.write_text(
                 '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10">'
-                '<rect width="8" height="8"/></svg>'
+                '<polygon points="0,0 10,0 5,10"/></svg>'
             )
             self.assertTrue(with_silhouette().export(out).written)
 
