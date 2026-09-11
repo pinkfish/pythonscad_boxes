@@ -46,6 +46,11 @@ class SlipoverBox(BoxTypeBase):
         occupies the difference. A `foot` keeps its full footprint at the very
         bottom for the sleeve to seat against.
         """
+        if spec.path:
+            from pyboxbuilder.box.types.slipover_path import SlipoverPathBox
+
+            return SlipoverPathBox().build_body(spec)
+
         from pyboxbuilder.box.features import slipover_metrics
         from pyboxbuilder.box.shell import build_shell
 
@@ -84,6 +89,11 @@ class SlipoverBox(BoxTypeBase):
 
     def build_lid(self, spec: BoxSpec, decoration: object = None) -> Bosl2Solid:
         """Return a sleeve that slips down over the body, stopping at the foot."""
+        if spec.path:
+            from pyboxbuilder.box.types.slipover_path import SlipoverPathBox
+
+            return SlipoverPathBox().build_lid(spec, decoration)
+
         from pyboxbuilder.box.features import slipover_metrics
         from pyboxbuilder.box.shell import block
 

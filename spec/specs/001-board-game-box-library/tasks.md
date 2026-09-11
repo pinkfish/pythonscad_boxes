@@ -1241,6 +1241,17 @@ stop the class of mistake from being expressible.
 - [x] T408 [P] Add unit tests in `tests/test_pyboxbuilder/test_no_lid.py` covering polygon footprints, normalization, `hollow=False`, and stackable modes on `BoxType.NO_LID`.
 - [x] T409 Run test suite with `--base-only`, verify Sphinx documentation builds with 0 warnings, and push commits to `origin main` and `origin examples`.
 
+## Phase 44: Arbitrary Outside Edge Polygon Footprints on Cap and Slipover Boxes (FR-018b)
+
+**Goal**: Support arbitrary outside edge polygon footprints (`path`) on cap-top boxes (`BoxType.CAP` / `CapBoxBuilder`) and slipover boxes (`BoxType.SLIPOVER` / `SlipoverBoxBuilder`), delegating to polygon cap and sleeve geometry engines and supporting `hollow`.
+
+- [x] T410 [P] Add `path: tuple[tuple[float, float], ...] = ()` and `hollow: bool = True` to `CapBoxBuilder` and `SlipoverBoxBuilder` (and add `hollow` to `CapPathBoxBuilder` and `SlipoverPathBoxBuilder`) with `__post_init__` normalization.
+- [x] T411 [P] Update `CapBox` in `pyboxbuilder/box/types/cap.py` to delegate `build_body` and `build_lid` to `CapPathBox` when `spec.path` is present.
+- [x] T412 [P] Update `SlipoverBox` in `pyboxbuilder/box/types/slipover.py` to delegate `build_body` and `build_lid` to `SlipoverPathBox` when `spec.path` is present.
+- [x] T413 [P] Update `contracts/public_api.md`, `spec.md` (FR-018b), `plan.md`, and `docs/box_types.rst` to document `path` and `hollow` on both builders.
+- [x] T414 [P] Add unit tests in `tests/test_pyboxbuilder/test_cap_polygon.py` and `tests/test_pyboxbuilder/test_slipover_polygon.py` covering polygon footprints, normalization, body and lid geometry, and `hollow=False`.
+- [x] T415 Run test suite with `--base-only`, verify Sphinx documentation builds with 0 warnings, and push commits to `origin main` and `origin examples`.
+
 ## Notes
 
 - [P] tasks = different files, no dependencies

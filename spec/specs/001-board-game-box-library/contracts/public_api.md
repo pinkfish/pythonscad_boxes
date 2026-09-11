@@ -73,15 +73,15 @@ from the box's contents.
 | box_type | Returns | Type-specific fields |
 |----------|---------|---------------------|
 | `BoxType.SLIDING` | `SlidingBoxBuilder` | `catch_radius` |
-| `BoxType.CAP` | `CapBoxBuilder` | `cap_height` |
+| `BoxType.CAP` | `CapBoxBuilder` | `cap_height`, `path`, `hollow` |
 | `BoxType.HINGE` | `HingeBoxBuilder` | `hinge_count`, `hinge_pin_diameter` |
 | `BoxType.FILAMENT_HINGE` | `FilamentHingeBoxBuilder` | — |
 | `BoxType.MAGNETIC` | `MagneticBoxBuilder` | `magnet_diameter`, `magnet_height`, `magnet_count_width`, `magnet_count_length` |
 | `BoxType.INSET` | `InsetBoxBuilder` | — |
 | `BoxType.SLIDING_CATCH` | `SlidingCatchBoxBuilder` | — |
-| `BoxType.SLIPOVER` | `SlipoverBoxBuilder` | `foot`, `slip` |
-| `BoxType.SLIPOVER_PATH` | `SlipoverPathBoxBuilder` | — |
-| `BoxType.CAP_PATH` | `CapPathBoxBuilder` | — |
+| `BoxType.SLIPOVER` | `SlipoverBoxBuilder` | `foot`, `slip`, `path`, `hollow` |
+| `BoxType.SLIPOVER_PATH` | `SlipoverPathBoxBuilder` | `foot`, `slip`, `path`, `hollow` |
+| `BoxType.CAP_PATH` | `CapPathBoxBuilder` | `cap_height`, `path`, `hollow` |
 | `BoxType.NO_LID` | `NoLidBoxBuilder` | `path`, `hollow` |
 | `BoxType.PATH` | `PathBoxBuilder` | `path`, `hollow` |
 | `BoxType.CARD_LIBRARY` | `CardLibraryBoxBuilder` | — |

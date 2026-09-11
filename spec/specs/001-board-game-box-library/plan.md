@@ -1396,8 +1396,8 @@ A box type is nothing but a pair — how the body's rim is shaped, and what mate
 | `SLIDING` | `sliding_track` | slides out along the length | angled dovetail (top = interior width, bottom = half wall width), see *The Dovetail Profile*; asymmetric track walls — see the chamfer rule in *Finger Holes & Box Edge Smoothing* |
 | `SLIDING_CATCH` | `sliding_track` + `sliding_catch` | slides, clicks | bump on the lid drops into a slightly larger dimple |
 | `CARD_LIBRARY` | `sliding_track` + heavier latch | slides | catch bump trimmed to the box envelope (T234) |
-| `CAP` / `CAP_PATH` | `cap_metrics`/`cap_body`/`cap_lid` | friction-fit cap over the rim | body stops a lid thickness short; `_PATH` follows a polygon footprint |
-| `SLIPOVER` / `SLIPOVER_PATH` | `slipover_metrics` | sleeve down over the body | body inset all round, `foot` keeps the full footprint to seat on |
+| `CAP` / `CAP_PATH` | `cap_metrics`/`cap_body`/`cap_lid` | friction-fit cap over the rim | body stops a lid thickness short; supports rectangular footprints and arbitrary polygon paths (FR-018b) |
+| `SLIPOVER` / `SLIPOVER_PATH` | `slipover_metrics` | sleeve down over the body | body inset all round, `foot` keeps the full footprint to seat on; supports rectangular footprints and arbitrary polygon paths (FR-018b) |
 | `INSET` | `rabbet` | plate drops flush into a ledge in the rim | keeps stacking flat |
 | `HINGE` | `knuckle_hinge` (printed pin) | pivots at the back | barrel may stand proud **behind** the footprint, nothing else may |
 | `FILAMENT_HINGE` | `filament_hinge` | pivots on a filament pin | interleaved knuckles, each leaf webbed to its own half |
@@ -1640,7 +1640,7 @@ Where each requirement is designed, and where it is verified. Sections named bel
 | FR-013, FR-013a | Box Expansion; Main Earth Insert Sizing Rules | `packing/layout.py`, `boxes/earth/` |
 | FR-013b, FR-013c | Box Rotation Propagation to Compartments | `project.py`, `packing/layout.py` |
 | FR-014, FR-014a–e | Spacer Generation: Sweep, then Merge | `packing/spacer.py`, `paths.py` |
-| FR-018, FR-018a | Spacer Generation & Polygon Footprint No-Lid Trays | `paths.py`, `box/types/path.py`, `box/types/no_lid.py`, `builders/no_lid.py` |
+| FR-018, FR-018a, FR-018b | Spacer Generation & Polygon Footprints (No-Lid, Cap, Slipover) | `paths.py`, `box/types/path.py`, `box/types/no_lid.py`, `box/types/cap.py`, `box/types/slipover.py` |
 | FR-019 | Clearance and Fit Model | `packing/spacer.py`, `compartments/builder.py` |
 | FR-020–FR-024 | Lid Decoration Design | `lid/label.py`, `lid/pattern.py`, `lid/decorate.py`, `lid/color_layers.py` |
 | FR-025 | Material and Colour Model | `export/exporter.py` |

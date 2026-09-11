@@ -39,3 +39,15 @@ class CapPathBoxBuilder(BoxBuilder):
     """Closed 2D outline of the tray footprint, in mm, in the box's own frame."""
     cap_height: float | None = None
     """Skirt height in mm; None derives it from the box height."""
+    hollow: bool = True
+    """False produces a solid block instead of a walled tray."""
+
+    def __post_init__(self) -> None:
+        """Normalize path points to immutable tuples of floats."""
+        super().__post_init__()
+        if self.path:
+            object.__setattr__(
+                self,
+                "path",
+                tuple((float(pt[0]), float(pt[1])) for pt in self.path),
+            )
