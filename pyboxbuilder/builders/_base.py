@@ -199,6 +199,7 @@ class BoxBuilder:
         thickness: float = CARD_THICKNESS_MM,
         slack: float = CARD_SLACK_MM,
         cut: Cut | FingerCut | None = FingerCut.THROUGH_FLOOR,
+        no_rotate: bool = True,
         **kwargs: Any,
     ) -> CompartmentBuilder:
         """Add a well sized to hold a stack of cards.
@@ -228,6 +229,8 @@ class BoxBuilder:
             cut: How the stack is got out. A stack that fills its well leaves no
                 side for a finger, so the default is a hole through the base for
                 a thumb to push up through (FR-060).
+            no_rotate: Prevent compartment rotation so the cards' short and long
+                edges maintain their defined orientation (FR-068).
             **kwargs: Any other :meth:`compartment` keyword.
 
         Returns:
@@ -245,6 +248,7 @@ class BoxBuilder:
             size=(size[0] + slack, size[1] + slack),
             depth=depth,
             cut=cut,
+            no_rotate=no_rotate,
             **kwargs,
         )
 

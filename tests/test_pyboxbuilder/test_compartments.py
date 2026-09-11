@@ -173,6 +173,34 @@ class ContentSizingTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             box.cards("Cards", count=0, size=(62.0, 93.0))
 
+    def test_cards_defaults_no_rotate_true(self) -> None:
+        from pyboxbuilder.enums import BoxType
+
+        box = self.project().box(BoxType.SLIDING, "Deck", size=(70, 100, None))
+        well = box.cards("Cards", count=50, size=(62.0, 93.0))
+        self.assertTrue(well.no_rotate)
+
+    def test_card_cutout_lands_on_short_wall(self) -> None:
+        """Finger cutouts land on the short walls (FRONT/BACK) of the card box (FR-068)."""
+        from pyboxbuilder import Project, BoxType
+        from pyboxbuilder.enums import ScoopSide
+
+        p = Project("StandaloneCardDeck")
+        box = p.box(BoxType.SLIDING, "Cards", size=(75.0, 105.0, None))
+        box.cards("Deck", count=100, size=(63.5, 88.0))
+        build = p.build()
+        self.assertEqual(len(build.pieces), 2)  # body + lid, no spacers
+        body = [pc for pc in build.pieces if pc.kind == "body"][0]
+        self.assertEqual(body.size[0], 75.0)
+        self.assertEqual(body.size[1], 105.0)
+
+        resolved = p._pipeline._resolve_box(p._manifest, p._manifest.boxes[0])
+        self.assertIs(resolved.box.preferred_scoop_side(resolved.spec), ScoopSide.BACK)
+        # Placement is unrotated: width 64.5 < length 89.0
+        pl = resolved.compartments.placements[0]
+        self.assertAlmostEqual(pl.size[0], 64.5)
+        self.assertAlmostEqual(pl.size[1], 89.0)
+
 
 class BoxDefaultsTests(unittest.TestCase):
     """FR-000b: a value shared by every box is said once."""

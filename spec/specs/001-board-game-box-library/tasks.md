@@ -1204,6 +1204,17 @@ stop the class of mistake from being expressible.
 - [x] T388 [P] Update `.github/workflows/docs.yml`: migrate from `macos-13` to `ubuntu-latest`, install headless PythonSCAD AppImage, set `concurrency.cancel-in-progress: true`, and build and deploy docs.
 - [x] T389 [P] Write unit tests in `tests/test_pyboxbuilder/test_ci_isolation.py` verifying that `--base-only` flag correctly distinguishes core library test suites from game insert test suites.
 - [x] T390 Run local test suite, push commits to `main` and `examples`, and monitor GitHub Actions execution with `gh run watch` to verify that `checks`, `test`, and `docs` run immediately and pass without timeouts (SC-098).
+---
+
+## Phase 41: Card Box Finger Cutout Placement & Showcase Docs (FR-068, FR-069)
+
+**Goal**: Ensure finger cutouts in card boxes are always positioned on the short length of the box and card well. Fix Example 1 in `docs/index.rst` to define a standalone card box (`game_box_size=None`), update `cards()` to default `no_rotate=True`, regenerate documentation STLs, and rebuild Sphinx docs.
+
+- [x] T391 Update `BoxBuilder.cards` in `pyboxbuilder/builders/_base.py` to default `no_rotate=True` so card compartments never rotate sideways into the long wall.
+- [x] T392 Update Example 1 in `docs/index.rst` ("Deck Box Sized from Cards with Framed Accent Lid") to initialize standalone `project = Project("CardGame")` without outer `game_box_size`, keeping the box at 75x105mm and placing finger cutouts on the short wall.
+- [x] T393 Run `python3 scripts/generate_docs_stls.py` to regenerate the documentation STL mesh for Example 1 and prune stale meshes.
+- [x] T394 Build Sphinx HTML docs with `-W --keep-going` and run unit test suite with `--base-only`.
+- [x] T395 Commit and push changes to both `origin main` and `origin examples`.
 
 ## Notes
 
