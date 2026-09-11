@@ -808,7 +808,25 @@
                 <span class="n">scoops</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_place</span><span class="p">(</span><span class="n">pull_outs</span><span class="p">,</span> <span class="n">placement</span><span class="p">,</span> <span class="n">interior</span><span class="p">))</span>
         <span class="n">cut</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">builder</span><span class="p">,</span> <span class="s2">"cut"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">cut</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">suppress_scoops</span><span class="p">:</span>
-            <span class="n">side</span> <span class="o">=</span> <span class="n">cut</span><span class="o">.</span><span class="n">side</span> <span class="ow">or</span> <span class="n">default_side</span> <span class="ow">or</span> <span class="n">default_scoop_side</span><span class="p">(</span><span class="n">placement</span><span class="p">)</span>
+            <span class="n">is_card</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">builder</span><span class="p">,</span> <span class="s2">"is_card"</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">any</span><span class="p">(</span>
+                <span class="n">w</span> <span class="ow">in</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">builder</span><span class="p">,</span> <span class="s2">"label"</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"card"</span><span class="p">,</span> <span class="s2">"deck"</span><span class="p">)</span>
+            <span class="p">)</span>
+            <span class="k">if</span> <span class="n">cut</span><span class="o">.</span><span class="n">side</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">side</span> <span class="o">=</span> <span class="n">cut</span><span class="o">.</span><span class="n">side</span>
+            <span class="k">elif</span> <span class="n">is_card</span><span class="p">:</span>
+                <span class="n">width</span><span class="p">,</span> <span class="n">length</span> <span class="o">=</span> <span class="n">placement</span><span class="o">.</span><span class="n">size</span>
+                <span class="n">short_sides</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="p">{</span><span class="n">ScoopSide</span><span class="o">.</span><span class="n">FRONT</span><span class="p">,</span> <span class="n">ScoopSide</span><span class="o">.</span><span class="n">BACK</span><span class="p">}</span>
+                    <span class="k">if</span> <span class="n">width</span> <span class="o">&lt;=</span> <span class="n">length</span>
+                    <span class="k">else</span> <span class="p">{</span><span class="n">ScoopSide</span><span class="o">.</span><span class="n">LEFT</span><span class="p">,</span> <span class="n">ScoopSide</span><span class="o">.</span><span class="n">RIGHT</span><span class="p">}</span>
+                <span class="p">)</span>
+                <span class="n">side</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="n">default_side</span>
+                    <span class="k">if</span> <span class="n">default_side</span> <span class="ow">in</span> <span class="n">short_sides</span>
+                    <span class="k">else</span> <span class="n">default_scoop_side</span><span class="p">(</span><span class="n">placement</span><span class="p">)</span>
+                <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">side</span> <span class="o">=</span> <span class="n">default_side</span> <span class="ow">or</span> <span class="n">default_scoop_side</span><span class="p">(</span><span class="n">placement</span><span class="p">)</span>
             <span class="n">side_top</span> <span class="o">=</span> <span class="p">(</span><span class="n">wall_tops</span> <span class="ow">or</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">side</span><span class="p">,</span> <span class="n">top_z</span><span class="p">)</span>
             <span class="n">scoops</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
                 <span class="n">build_compartment_scoop</span><span class="p">(</span>
