@@ -215,7 +215,7 @@
   
   
   <span class="md-ellipsis">
-    <span>Contents</span>
+    <span>User Guide</span>
     
   </span>
   
@@ -226,7 +226,147 @@
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_1">
             <span class="md-nav__icon md-icon"></span>
-            <span>Contents</span>
+            <span>User Guide</span>
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quickstart.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Quickstart Guide</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../getting_started.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Getting Started</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../box_types.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Box Types Guide &amp; Gallery</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../layout_and_spacers.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Auto-<wbr>Layout &amp; Automatic Spacers</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    <span>API Reference</span>
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            <span>API Reference</span>
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -343,6 +483,23 @@
         <span class="k">return</span> <span class="p">{}</span>
 
 
+<div class="viewcode-block" id="normalize">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.export.fingerprint.normalize.html#pyboxbuilder.export.fingerprint.normalize">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">normalize</span><span class="p">(</span><span class="n">fingerprint</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Normalize a fingerprint digest to prefixed 'sha256:&lt;hex&gt;' format.</span>
+
+<span class="sd">    Prefixing explicitly identifies the string as a cryptographic checksum,</span>
+<span class="sd">    preventing automated secret scanners from misidentifying bare high-entropy</span>
+<span class="sd">    hex strings as API tokens.</span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">fingerprint</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">""</span>
+    <span class="k">if</span> <span class="n">fingerprint</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"sha256:"</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">fingerprint</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s2">"sha256:</span><span class="si">{</span><span class="n">fingerprint</span><span class="si">}</span><span class="s2">"</span></div>
+
+
+
 <div class="viewcode-block" id="matches">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.export.fingerprint.matches.html#pyboxbuilder.export.fingerprint.matches">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">matches</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span> <span class="n">fingerprint</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
@@ -354,13 +511,17 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        True only when the file exists, is not empty, and its recorded</span>
-<span class="sd">        fingerprint is the one given. An unrecorded file is a miss, so a tree</span>
-<span class="sd">        exported by an older version rewrites once and then settles.</span>
+<span class="sd">        fingerprint is the one given (handling both bare and sha256:-prefixed</span>
+<span class="sd">        formats). An unrecorded file is a miss, so a tree exported by an older</span>
+<span class="sd">        version rewrites once and then settles.</span>
 
 <span class="sd">    """</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">fingerprint</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
         <span class="k">return</span> <span class="kc">False</span>
-    <span class="k">return</span> <span class="n">_load</span><span class="p">(</span><span class="n">path</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">path</span><span class="o">.</span><span class="n">name</span><span class="p">)</span> <span class="o">==</span> <span class="n">fingerprint</span></div>
+    <span class="n">stored</span> <span class="o">=</span> <span class="n">_load</span><span class="p">(</span><span class="n">path</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">path</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">stored</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">return</span> <span class="n">normalize</span><span class="p">(</span><span class="n">stored</span><span class="p">)</span> <span class="o">==</span> <span class="n">normalize</span><span class="p">(</span><span class="n">fingerprint</span><span class="p">)</span></div>
 
 
 
@@ -393,10 +554,10 @@
     <span class="k">if</span> <span class="ow">not</span> <span class="n">fingerprint</span><span class="p">:</span>
         <span class="k">return</span>
     <span class="n">data</span> <span class="o">=</span> <span class="n">_load</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
-    <span class="n">data</span><span class="p">[</span><span class="n">path</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">fingerprint</span>
+    <span class="n">data</span><span class="p">[</span><span class="n">path</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">normalize</span><span class="p">(</span><span class="n">fingerprint</span><span class="p">)</span>
     <span class="c1"># A cache that cannot be written is a cache miss next time.</span>
     <span class="k">with</span> <span class="n">contextlib</span><span class="o">.</span><span class="n">suppress</span><span class="p">(</span><span class="ne">OSError</span><span class="p">):</span>
-        <span class="n">_sidecar</span><span class="p">(</span><span class="n">path</span><span class="p">)</span><span class="o">.</span><span class="n">write_text</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">sort_keys</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span></div>
+        <span class="n">_sidecar</span><span class="p">(</span><span class="n">path</span><span class="p">)</span><span class="o">.</span><span class="n">write_text</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">sort_keys</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">+</span> <span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span></div>
 
 
 
@@ -482,7 +643,7 @@
     
       
         <script src="../../../_static/sphinx_immaterial_theme.32136f45f91ae6956.min.js?v=a7a9472a"></script>
-        <script type="module" src="../../../_static/stl_viewer.js?v=7bec9a74"></script>
+        <script type="module" src="../../../_static/stl_viewer.js?v=33eae823"></script>
     
   </body>
 </html>

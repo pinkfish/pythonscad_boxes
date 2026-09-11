@@ -29,6 +29,7 @@ pyboxbuilder.export.geometry
    
       mesh_geometry
       read_3mf_geometry
+      read_stl_geometry
       same_geometry
    
    

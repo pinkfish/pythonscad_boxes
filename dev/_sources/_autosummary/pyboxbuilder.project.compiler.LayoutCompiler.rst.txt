@@ -1,0 +1,8 @@
+pyboxbuilder.project.compiler.LayoutCompiler
+============================================
+
+.. currentmodule:: pyboxbuilder.project.compiler
+
+.. autoclass:: LayoutCompiler
+   :members:
+   :show-inheritance:

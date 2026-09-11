@@ -215,7 +215,7 @@
   
   
   <span class="md-ellipsis">
-    <span>Contents</span>
+    <span>User Guide</span>
     
   </span>
   
@@ -226,7 +226,147 @@
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_1">
             <span class="md-nav__icon md-icon"></span>
-            <span>Contents</span>
+            <span>User Guide</span>
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quickstart.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Quickstart Guide</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../getting_started.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Getting Started</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../box_types.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Box Types Guide &amp; Gallery</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../layout_and_spacers.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Auto-<wbr>Layout &amp; Automatic Spacers</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    <span>API Reference</span>
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            <span>API Reference</span>
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -458,6 +598,55 @@
                 <span class="o">+</span> <span class="n">a</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">c</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">b</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">c</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
             <span class="p">)</span> <span class="o">/</span> <span class="mf">6.0</span>
     <span class="k">return</span> <span class="n">Geometry</span><span class="p">(</span><span class="n">bbox</span><span class="o">=</span><span class="n">bbox</span><span class="p">,</span> <span class="n">volume</span><span class="o">=</span><span class="nb">abs</span><span class="p">(</span><span class="n">volume</span><span class="p">))</span>
+
+
+<div class="viewcode-block" id="read_stl_geometry">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.export.geometry.read_stl_geometry.html#pyboxbuilder.export.geometry.read_stl_geometry">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">read_stl_geometry</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Geometry</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Measure the geometry inside an existing STL, or None when unreadable."""</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">struct</span>
+
+    <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s2">"rb"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">header</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">80</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">header</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">80</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">None</span>
+            <span class="n">count_bytes</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">count_bytes</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">4</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">None</span>
+            <span class="p">(</span><span class="n">num_triangles</span><span class="p">,)</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="s2">"&lt;I"</span><span class="p">,</span> <span class="n">count_bytes</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">num_triangles</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">None</span>
+            <span class="n">record_dtype</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">([</span>
+                <span class="p">(</span><span class="s2">"normal"</span><span class="p">,</span> <span class="s2">"&lt;f4"</span><span class="p">,</span> <span class="p">(</span><span class="mi">3</span><span class="p">,)),</span>
+                <span class="p">(</span><span class="s2">"v1"</span><span class="p">,</span> <span class="s2">"&lt;f4"</span><span class="p">,</span> <span class="p">(</span><span class="mi">3</span><span class="p">,)),</span>
+                <span class="p">(</span><span class="s2">"v2"</span><span class="p">,</span> <span class="s2">"&lt;f4"</span><span class="p">,</span> <span class="p">(</span><span class="mi">3</span><span class="p">,)),</span>
+                <span class="p">(</span><span class="s2">"v3"</span><span class="p">,</span> <span class="s2">"&lt;f4"</span><span class="p">,</span> <span class="p">(</span><span class="mi">3</span><span class="p">,)),</span>
+                <span class="p">(</span><span class="s2">"attr"</span><span class="p">,</span> <span class="s2">"&lt;u2"</span><span class="p">),</span>
+            <span class="p">])</span>
+            <span class="n">data</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromfile</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">record_dtype</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="n">num_triangles</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">!=</span> <span class="n">num_triangles</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">None</span>
+            <span class="n">verts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">data</span><span class="p">[</span><span class="s2">"v1"</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="s2">"v2"</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="s2">"v3"</span><span class="p">]],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+            <span class="n">min_xyz</span> <span class="o">=</span> <span class="n">verts</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+            <span class="n">max_xyz</span> <span class="o">=</span> <span class="n">verts</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+            <span class="n">bbox</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="nb">float</span><span class="p">(</span><span class="n">max_xyz</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">min_xyz</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span>
+                <span class="nb">float</span><span class="p">(</span><span class="n">max_xyz</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">min_xyz</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span>
+                <span class="nb">float</span><span class="p">(</span><span class="n">max_xyz</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="n">min_xyz</span><span class="p">[</span><span class="mi">2</span><span class="p">]),</span>
+            <span class="p">)</span>
+            <span class="n">v1</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">"v1"</span><span class="p">]</span>
+            <span class="n">v2</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">"v2"</span><span class="p">]</span>
+            <span class="n">v3</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">"v3"</span><span class="p">]</span>
+            <span class="n">cross</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cross</span><span class="p">(</span><span class="n">v2</span><span class="p">,</span> <span class="n">v3</span><span class="p">)</span>
+            <span class="n">vols</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s2">"ij,ij-&gt;i"</span><span class="p">,</span> <span class="n">v1</span><span class="p">,</span> <span class="n">cross</span><span class="p">)</span> <span class="o">/</span> <span class="mf">6.0</span>
+            <span class="n">volume</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">vols</span><span class="o">.</span><span class="n">sum</span><span class="p">()))</span>
+            <span class="k">return</span> <span class="n">Geometry</span><span class="p">(</span><span class="n">bbox</span><span class="o">=</span><span class="n">bbox</span><span class="p">,</span> <span class="n">volume</span><span class="o">=</span><span class="n">volume</span><span class="p">)</span>
+    <span class="k">except</span> <span class="p">(</span><span class="ne">OSError</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">,</span> <span class="ne">TypeError</span><span class="p">):</span>
+        <span class="k">return</span> <span class="kc">None</span></div>
+
 </code></pre></div>
 
 
@@ -526,7 +715,7 @@
     
       
         <script src="../../../_static/sphinx_immaterial_theme.32136f45f91ae6956.min.js?v=a7a9472a"></script>
-        <script type="module" src="../../../_static/stl_viewer.js?v=7bec9a74"></script>
+        <script type="module" src="../../../_static/stl_viewer.js?v=33eae823"></script>
     
   </body>
 </html>

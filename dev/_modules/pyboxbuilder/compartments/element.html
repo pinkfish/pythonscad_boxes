@@ -215,7 +215,7 @@
   
   
   <span class="md-ellipsis">
-    <span>Contents</span>
+    <span>User Guide</span>
     
   </span>
   
@@ -226,7 +226,147 @@
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_1">
             <span class="md-nav__icon md-icon"></span>
-            <span>Contents</span>
+            <span>User Guide</span>
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quickstart.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Quickstart Guide</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../getting_started.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Getting Started</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../box_types.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Box Types Guide &amp; Gallery</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../layout_and_spacers.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Auto-<wbr>Layout &amp; Automatic Spacers</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    <span>API Reference</span>
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            <span>API Reference</span>
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -726,20 +866,25 @@
 
     <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2.svg</span><span class="w"> </span><span class="kn">import</span> <span class="n">region_from_svg</span>
 
-    <span class="n">region</span> <span class="o">=</span> <span class="n">_SVG_CACHE</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">shape_file</span><span class="p">)</span>
+    <span class="n">path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">shape_file</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">path</span><span class="o">.</span><span class="n">is_absolute</span><span class="p">()</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+        <span class="n">repo_root</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span><span class="o">.</span><span class="n">parents</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+        <span class="n">resolved</span> <span class="o">=</span> <span class="n">repo_root</span> <span class="o">/</span> <span class="n">path</span>
+        <span class="k">if</span> <span class="n">resolved</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="n">resolved</span>
+    <span class="n">mtime</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">stat</span><span class="p">()</span><span class="o">.</span><span class="n">st_mtime_ns</span> <span class="k">if</span> <span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span> <span class="k">else</span> <span class="mi">0</span>
+    <span class="n">cache_key</span> <span class="o">=</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">path</span><span class="p">),</span> <span class="n">mtime</span><span class="p">)</span>
+    <span class="n">region</span> <span class="o">=</span> <span class="n">_SVG_CACHE</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">cache_key</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">region</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">shape_file</span><span class="p">)</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">path</span><span class="o">.</span><span class="n">is_absolute</span><span class="p">()</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
-            <span class="n">repo_root</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span><span class="o">.</span><span class="n">parents</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
-            <span class="n">resolved</span> <span class="o">=</span> <span class="n">repo_root</span> <span class="o">/</span> <span class="n">path</span>
-            <span class="k">if</span> <span class="n">resolved</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
-                <span class="n">path</span> <span class="o">=</span> <span class="n">resolved</span>
-        <span class="n">region</span> <span class="o">=</span> <span class="n">region_from_svg</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">path</span><span class="p">),</span> <span class="n">clip_to_viewbox</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-        <span class="n">_SVG_CACHE</span><span class="p">[</span><span class="n">shape_file</span><span class="p">]</span> <span class="o">=</span> <span class="n">region</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">region</span> <span class="o">=</span> <span class="n">region_from_svg</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">path</span><span class="p">),</span> <span class="o">**</span><span class="p">{</span><span class="s2">"clip_to_viewbox"</span><span class="p">:</span> <span class="kc">False</span><span class="p">})</span>
+        <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
+            <span class="n">region</span> <span class="o">=</span> <span class="n">region_from_svg</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">path</span><span class="p">))</span>
+        <span class="n">_SVG_CACHE</span><span class="p">[</span><span class="n">cache_key</span><span class="p">]</span> <span class="o">=</span> <span class="n">region</span>
     <span class="k">return</span> <span class="n">region</span>
 
 
-<span class="n">_SVG_CACHE</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Region</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">_SVG_CACHE</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="n">Region</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
 
 
 <span class="n">PULL_OUT_DEPTH_SHARE</span> <span class="o">=</span> <span class="mf">0.5</span>
@@ -1157,7 +1302,7 @@
     
       
         <script src="../../../_static/sphinx_immaterial_theme.32136f45f91ae6956.min.js?v=a7a9472a"></script>
-        <script type="module" src="../../../_static/stl_viewer.js?v=7bec9a74"></script>
+        <script type="module" src="../../../_static/stl_viewer.js?v=33eae823"></script>
     
   </body>
 </html>

@@ -1,0 +1,24 @@
+pyboxbuilder.box.types.dispenser
+================================
+
+.. automodule:: pyboxbuilder.box.types.dispenser
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+      :toctree:
+      :nosignatures:
+   
+      DispenserBox
+   
+   
+
+   
+   
+   

@@ -1,0 +1,8 @@
+pyboxbuilder.box.types.threaded.ThreadedBox
+===========================================
+
+.. currentmodule:: pyboxbuilder.box.types.threaded
+
+.. autoclass:: ThreadedBox
+   :members:
+   :show-inheritance:

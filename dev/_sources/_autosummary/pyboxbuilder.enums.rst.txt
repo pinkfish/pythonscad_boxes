@@ -18,6 +18,7 @@ pyboxbuilder.enums
       BoxType
       ElementShape
       FingerCut
+      InterlockType
       LabelMode
       MagnetType
       PatternType

@@ -1,0 +1,8 @@
+pyboxbuilder.box.types.card\_shoe.CardShoeBox
+=============================================
+
+.. currentmodule:: pyboxbuilder.box.types.card_shoe
+
+.. autoclass:: CardShoeBox
+   :members:
+   :show-inheritance:

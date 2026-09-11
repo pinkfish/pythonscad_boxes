@@ -1,0 +1,8 @@
+pyboxbuilder.builders.threaded.ThreadedBoxBuilder
+=================================================
+
+.. currentmodule:: pyboxbuilder.builders.threaded
+
+.. autoclass:: ThreadedBoxBuilder
+   :members:
+   :show-inheritance:

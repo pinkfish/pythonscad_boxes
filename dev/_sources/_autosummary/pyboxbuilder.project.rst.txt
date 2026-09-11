@@ -11,8 +11,11 @@ pyboxbuilder.project
       :toctree:
       :recursive:
    
+      compiler
       core
+      manifest
       piece
+      pipeline
    
    
 

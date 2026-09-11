@@ -215,7 +215,7 @@
   
   
   <span class="md-ellipsis">
-    <span>Contents</span>
+    <span>User Guide</span>
     
   </span>
   
@@ -226,7 +226,147 @@
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_1">
             <span class="md-nav__icon md-icon"></span>
-            <span>Contents</span>
+            <span>User Guide</span>
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quickstart.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Quickstart Guide</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../getting_started.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Getting Started</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../box_types.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Box Types Guide &amp; Gallery</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../layout_and_spacers.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Auto-<wbr>Layout &amp; Automatic Spacers</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    <span>API Reference</span>
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            <span>API Reference</span>
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -297,27 +437,77 @@
 
 <h1>Source code for pyboxbuilder.box.registry</h1><div class="highlight"><pre>
 <span></span><code><span class="c1"># SPDX-License-Identifier: Apache-2.0</span>
-<span class="sd">"""Box type registry — maps BoxType enum to implementation classes."""</span>
+<span class="sd">"""Box type registry — maps BoxType enum to implementation classes (FR-094)."""</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">importlib</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pkgutil</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Any</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">BoxType</span>
 
 <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">BoxTypeBase</span>
 
-
-<span class="nd">@dataclass</span>
-<span class="k">class</span><span class="w"> </span><span class="nc">_RegistryEntry</span><span class="p">:</span>
-    <span class="n">box_class</span><span class="p">:</span> <span class="nb">type</span><span class="p">[</span><span class="s2">"BoxTypeBase"</span><span class="p">]</span>
-    <span class="n">builder_class</span><span class="p">:</span> <span class="nb">type</span>
+<span class="n">_DISCOVERED</span> <span class="o">=</span> <span class="kc">False</span>
 
 
-<span class="n">BOX_TYPE_REGISTRY</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="n">BoxType</span><span class="p">,</span> <span class="nb">type</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+<div class="viewcode-block" id="ensure_registered">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.registry.ensure_registered.html#pyboxbuilder.box.registry.ensure_registered">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">ensure_registered</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Discover and register all box type implementations in pyboxbuilder.box.types."""</span>
+    <span class="k">global</span> <span class="n">_DISCOVERED</span>
+    <span class="k">if</span> <span class="n">_DISCOVERED</span><span class="p">:</span>
+        <span class="k">return</span>
+    <span class="n">_DISCOVERED</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">pyboxbuilder.box.types</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">types_pkg</span>
+
+    <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">module_name</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">pkgutil</span><span class="o">.</span><span class="n">iter_modules</span><span class="p">(</span><span class="n">types_pkg</span><span class="o">.</span><span class="n">__path__</span><span class="p">):</span>
+        <span class="n">importlib</span><span class="o">.</span><span class="n">import_module</span><span class="p">(</span><span class="sa">f</span><span class="s2">"pyboxbuilder.box.types.</span><span class="si">{</span><span class="n">module_name</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span></div>
+
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">_RegistryDict</span><span class="p">(</span><span class="nb">dict</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="n">Any</span><span class="p">]):</span>
+<span class="w">    </span><span class="sd">"""Dictionary that triggers package discovery on first lookup."""</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+        <span class="n">ensure_registered</span><span class="p">()</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__getitem__</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__contains__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="n">ensure_registered</span><span class="p">()</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__contains__</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">default</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+        <span class="n">ensure_registered</span><span class="p">()</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">default</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">items</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+        <span class="n">ensure_registered</span><span class="p">()</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">values</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+        <span class="n">ensure_registered</span><span class="p">()</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">keys</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+        <span class="n">ensure_registered</span><span class="p">()</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+        <span class="n">ensure_registered</span><span class="p">()</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__iter__</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="n">ensure_registered</span><span class="p">()</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__len__</span><span class="p">()</span>
+
+
+<span class="n">BOX_TYPE_REGISTRY</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="n">BoxType</span><span class="p">,</span> <span class="nb">type</span><span class="p">]</span> <span class="o">=</span> <span class="n">_RegistryDict</span><span class="p">()</span>
 <span class="sd">"""Maps BoxType enum members to their BoxBuilder subclass."""</span>
 
-<span class="n">BOX_IMPL_REGISTRY</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="n">BoxType</span><span class="p">,</span> <span class="nb">type</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">BOX_IMPL_REGISTRY</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="n">BoxType</span><span class="p">,</span> <span class="nb">type</span><span class="p">[</span><span class="n">BoxTypeBase</span><span class="p">]]</span> <span class="o">=</span> <span class="n">_RegistryDict</span><span class="p">()</span>
 <span class="sd">"""Maps BoxType enum members to their BoxTypeBase implementation."""</span>
 
 
@@ -325,67 +515,50 @@
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.registry.register_box.html#pyboxbuilder.box.registry.register_box">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">register_box</span><span class="p">(</span>
     <span class="n">box_type</span><span class="p">:</span> <span class="n">BoxType</span><span class="p">,</span>
-    <span class="n">builder_class</span><span class="p">:</span> <span class="nb">type</span><span class="p">,</span>
+    <span class="n">builder</span><span class="p">:</span> <span class="nb">type</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">box_class</span><span class="p">:</span> <span class="nb">type</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""Register a box type with its builder and optional implementation.</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Register a box type with its builder and implementation class (FR-094).</span>
+
+<span class="sd">    Supports decorator usage::</span>
+
+<span class="sd">        @register_box(BoxType.CAP, builder=CapBoxBuilder)</span>
+<span class="sd">        class CapBox(BoxTypeBase):</span>
+<span class="sd">            ...</span>
+
+<span class="sd">    Or direct invocation::</span>
+
+<span class="sd">        register_box(BoxType.CAP, builder=CapBoxBuilder, box_class=CapBox)</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        box_type: The BoxType enum member.</span>
-<span class="sd">        builder_class: The BoxBuilder subclass for this type.</span>
-<span class="sd">        box_class: The BoxTypeBase implementation (can be registered later).</span>
+<span class="sd">        box_type: The :class:`~pyboxbuilder.enums.BoxType` enum member.</span>
+<span class="sd">        builder: The :class:`~pyboxbuilder.builders._base.BoxBuilder` subclass.</span>
+<span class="sd">        box_class: The :class:`~pyboxbuilder.box.base.BoxTypeBase` implementation class.</span>
 
+<span class="sd">    Returns:</span>
+<span class="sd">        A class decorator if ``box_class`` is not provided, or None.</span>
 <span class="sd">    """</span>
-    <span class="n">BOX_TYPE_REGISTRY</span><span class="p">[</span><span class="n">box_type</span><span class="p">]</span> <span class="o">=</span> <span class="n">builder_class</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">decorator</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="nb">type</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">type</span><span class="p">:</span>
+        <span class="nb">dict</span><span class="o">.</span><span class="fm">__setitem__</span><span class="p">(</span><span class="n">BOX_IMPL_REGISTRY</span><span class="p">,</span> <span class="n">box_type</span><span class="p">,</span> <span class="bp">cls</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">builder</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="nb">dict</span><span class="o">.</span><span class="fm">__setitem__</span><span class="p">(</span><span class="n">BOX_TYPE_REGISTRY</span><span class="p">,</span> <span class="n">box_type</span><span class="p">,</span> <span class="n">builder</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">cls</span>
+
     <span class="k">if</span> <span class="n">box_class</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">BOX_IMPL_REGISTRY</span><span class="p">[</span><span class="n">box_type</span><span class="p">]</span> <span class="o">=</span> <span class="n">box_class</span></div>
+        <span class="nb">dict</span><span class="o">.</span><span class="fm">__setitem__</span><span class="p">(</span><span class="n">BOX_IMPL_REGISTRY</span><span class="p">,</span> <span class="n">box_type</span><span class="p">,</span> <span class="n">box_class</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">builder</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="nb">dict</span><span class="o">.</span><span class="fm">__setitem__</span><span class="p">(</span><span class="n">BOX_TYPE_REGISTRY</span><span class="p">,</span> <span class="n">box_type</span><span class="p">,</span> <span class="n">builder</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="k">return</span> <span class="n">decorator</span></div>
 
 
 
-<span class="c1"># Register available box types</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.types.cap</span><span class="w"> </span><span class="kn">import</span> <span class="n">CapBox</span>  <span class="c1"># noqa: E402</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.types.cap_path</span><span class="w"> </span><span class="kn">import</span> <span class="n">CapPathBox</span>  <span class="c1"># noqa: E402</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.types.card_library</span><span class="w"> </span><span class="kn">import</span> <span class="n">CardLibraryBox</span>  <span class="c1"># noqa: E402</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.types.filament_hinge</span><span class="w"> </span><span class="kn">import</span> <span class="n">FilamentHingeBox</span>  <span class="c1"># noqa: E402</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.types.hinge</span><span class="w"> </span><span class="kn">import</span> <span class="n">HingeBox</span>  <span class="c1"># noqa: E402</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.types.inset</span><span class="w"> </span><span class="kn">import</span> <span class="n">InsetBox</span>  <span class="c1"># noqa: E402</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.types.magnetic</span><span class="w"> </span><span class="kn">import</span> <span class="n">MagneticBox</span>  <span class="c1"># noqa: E402</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.types.no_lid</span><span class="w"> </span><span class="kn">import</span> <span class="n">NoLidBox</span>  <span class="c1"># noqa: E402</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.types.path</span><span class="w"> </span><span class="kn">import</span> <span class="n">PathBox</span>  <span class="c1"># noqa: E402</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.types.sliding</span><span class="w"> </span><span class="kn">import</span> <span class="n">SlidingBox</span>  <span class="c1"># noqa: E402</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.types.sliding_catch</span><span class="w"> </span><span class="kn">import</span> <span class="n">SlidingCatchBox</span>  <span class="c1"># noqa: E402</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.types.slipover</span><span class="w"> </span><span class="kn">import</span> <span class="n">SlipoverBox</span>  <span class="c1"># noqa: E402</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.types.slipover_path</span><span class="w"> </span><span class="kn">import</span> <span class="n">SlipoverPathBox</span>  <span class="c1"># noqa: E402</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.builders.cap</span><span class="w"> </span><span class="kn">import</span> <span class="n">CapBoxBuilder</span>  <span class="c1"># noqa: E402</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.builders.cap_path</span><span class="w"> </span><span class="kn">import</span> <span class="n">CapPathBoxBuilder</span>  <span class="c1"># noqa: E402</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.builders.card_library</span><span class="w"> </span><span class="kn">import</span> <span class="n">CardLibraryBoxBuilder</span>  <span class="c1"># noqa: E402</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.builders.filament_hinge</span><span class="w"> </span><span class="kn">import</span> <span class="n">FilamentHingeBoxBuilder</span>  <span class="c1"># noqa: E402</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.builders.hinge</span><span class="w"> </span><span class="kn">import</span> <span class="n">HingeBoxBuilder</span>  <span class="c1"># noqa: E402</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.builders.inset</span><span class="w"> </span><span class="kn">import</span> <span class="n">InsetBoxBuilder</span>  <span class="c1"># noqa: E402</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.builders.magnetic</span><span class="w"> </span><span class="kn">import</span> <span class="n">MagneticBoxBuilder</span>  <span class="c1"># noqa: E402</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.builders.no_lid</span><span class="w"> </span><span class="kn">import</span> <span class="n">NoLidBoxBuilder</span>  <span class="c1"># noqa: E402</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.builders.path</span><span class="w"> </span><span class="kn">import</span> <span class="n">PathBoxBuilder</span>  <span class="c1"># noqa: E402</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.builders.sliding</span><span class="w"> </span><span class="kn">import</span> <span class="n">SlidingBoxBuilder</span>  <span class="c1"># noqa: E402</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.builders.sliding_catch</span><span class="w"> </span><span class="kn">import</span> <span class="n">SlidingCatchBoxBuilder</span>  <span class="c1"># noqa: E402</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.builders.slipover</span><span class="w"> </span><span class="kn">import</span> <span class="n">SlipoverBoxBuilder</span>  <span class="c1"># noqa: E402</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.builders.slipover_path</span><span class="w"> </span><span class="kn">import</span> <span class="n">SlipoverPathBoxBuilder</span>  <span class="c1"># noqa: E402</span>
-
-<span class="n">register_box</span><span class="p">(</span><span class="n">BoxType</span><span class="o">.</span><span class="n">SLIDING</span><span class="p">,</span> <span class="n">SlidingBoxBuilder</span><span class="p">,</span> <span class="n">SlidingBox</span><span class="p">)</span>
-<span class="n">register_box</span><span class="p">(</span><span class="n">BoxType</span><span class="o">.</span><span class="n">CAP</span><span class="p">,</span> <span class="n">CapBoxBuilder</span><span class="p">,</span> <span class="n">CapBox</span><span class="p">)</span>
-<span class="n">register_box</span><span class="p">(</span><span class="n">BoxType</span><span class="o">.</span><span class="n">HINGE</span><span class="p">,</span> <span class="n">HingeBoxBuilder</span><span class="p">,</span> <span class="n">HingeBox</span><span class="p">)</span>
-<span class="n">register_box</span><span class="p">(</span><span class="n">BoxType</span><span class="o">.</span><span class="n">FILAMENT_HINGE</span><span class="p">,</span> <span class="n">FilamentHingeBoxBuilder</span><span class="p">,</span> <span class="n">FilamentHingeBox</span><span class="p">)</span>
-<span class="n">register_box</span><span class="p">(</span><span class="n">BoxType</span><span class="o">.</span><span class="n">MAGNETIC</span><span class="p">,</span> <span class="n">MagneticBoxBuilder</span><span class="p">,</span> <span class="n">MagneticBox</span><span class="p">)</span>
-<span class="n">register_box</span><span class="p">(</span><span class="n">BoxType</span><span class="o">.</span><span class="n">INSET</span><span class="p">,</span> <span class="n">InsetBoxBuilder</span><span class="p">,</span> <span class="n">InsetBox</span><span class="p">)</span>
-<span class="n">register_box</span><span class="p">(</span><span class="n">BoxType</span><span class="o">.</span><span class="n">SLIDING_CATCH</span><span class="p">,</span> <span class="n">SlidingCatchBoxBuilder</span><span class="p">,</span> <span class="n">SlidingCatchBox</span><span class="p">)</span>
-<span class="n">register_box</span><span class="p">(</span><span class="n">BoxType</span><span class="o">.</span><span class="n">SLIPOVER</span><span class="p">,</span> <span class="n">SlipoverBoxBuilder</span><span class="p">,</span> <span class="n">SlipoverBox</span><span class="p">)</span>
-<span class="n">register_box</span><span class="p">(</span><span class="n">BoxType</span><span class="o">.</span><span class="n">SLIPOVER_PATH</span><span class="p">,</span> <span class="n">SlipoverPathBoxBuilder</span><span class="p">,</span> <span class="n">SlipoverPathBox</span><span class="p">)</span>
-<span class="n">register_box</span><span class="p">(</span><span class="n">BoxType</span><span class="o">.</span><span class="n">CAP_PATH</span><span class="p">,</span> <span class="n">CapPathBoxBuilder</span><span class="p">,</span> <span class="n">CapPathBox</span><span class="p">)</span>
-<span class="n">register_box</span><span class="p">(</span><span class="n">BoxType</span><span class="o">.</span><span class="n">NO_LID</span><span class="p">,</span> <span class="n">NoLidBoxBuilder</span><span class="p">,</span> <span class="n">NoLidBox</span><span class="p">)</span>
-<span class="n">register_box</span><span class="p">(</span><span class="n">BoxType</span><span class="o">.</span><span class="n">PATH</span><span class="p">,</span> <span class="n">PathBoxBuilder</span><span class="p">,</span> <span class="n">PathBox</span><span class="p">)</span>
-<span class="n">register_box</span><span class="p">(</span><span class="n">BoxType</span><span class="o">.</span><span class="n">CARD_LIBRARY</span><span class="p">,</span> <span class="n">CardLibraryBoxBuilder</span><span class="p">,</span> <span class="n">CardLibraryBox</span><span class="p">)</span>
-
-
-<span class="n">LIDLESS_BOX_TYPES</span><span class="p">:</span> <span class="nb">frozenset</span><span class="p">[</span><span class="n">BoxType</span><span class="p">]</span> <span class="o">=</span> <span class="nb">frozenset</span><span class="p">({</span><span class="n">BoxType</span><span class="o">.</span><span class="n">NO_LID</span><span class="p">,</span> <span class="n">BoxType</span><span class="o">.</span><span class="n">PATH</span><span class="p">})</span>
+<span class="n">LIDLESS_BOX_TYPES</span><span class="p">:</span> <span class="nb">frozenset</span><span class="p">[</span><span class="n">BoxType</span><span class="p">]</span> <span class="o">=</span> <span class="nb">frozenset</span><span class="p">({</span>
+    <span class="n">BoxType</span><span class="o">.</span><span class="n">NO_LID</span><span class="p">,</span>
+    <span class="n">BoxType</span><span class="o">.</span><span class="n">PATH</span><span class="p">,</span>
+    <span class="n">BoxType</span><span class="o">.</span><span class="n">PRINT_IN_PLACE_HINGE</span><span class="p">,</span>
+<span class="p">})</span>
 <span class="sd">"""Box types that produce a body file only — no lid geometry, no `_lid.3mf`."""</span>
 </code></pre></div>
 
@@ -455,7 +628,7 @@
     
       
         <script src="../../../_static/sphinx_immaterial_theme.32136f45f91ae6956.min.js?v=a7a9472a"></script>
-        <script type="module" src="../../../_static/stl_viewer.js?v=7bec9a74"></script>
+        <script type="module" src="../../../_static/stl_viewer.js?v=33eae823"></script>
     
   </body>
 </html>

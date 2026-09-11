@@ -19,6 +19,7 @@ pyboxbuilder.box.registry
       :toctree:
       :nosignatures:
    
+      ensure_registered
       register_box
    
    

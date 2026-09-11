@@ -1,0 +1,8 @@
+pyboxbuilder.builders.dice\_tray.DiceTrayBoxBuilder
+===================================================
+
+.. currentmodule:: pyboxbuilder.builders.dice_tray
+
+.. autoclass:: DiceTrayBoxBuilder
+   :members:
+   :show-inheritance:

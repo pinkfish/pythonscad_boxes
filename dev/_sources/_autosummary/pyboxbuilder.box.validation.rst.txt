@@ -1,0 +1,24 @@
+pyboxbuilder.box.validation
+===========================
+
+.. automodule:: pyboxbuilder.box.validation
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+      :toctree:
+      :nosignatures:
+   
+      GeometryValidator
+   
+   
+
+   
+   
+   

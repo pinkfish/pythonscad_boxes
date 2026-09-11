@@ -215,7 +215,7 @@
   
   
   <span class="md-ellipsis">
-    <span>Contents</span>
+    <span>User Guide</span>
     
   </span>
   
@@ -226,7 +226,147 @@
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_1">
             <span class="md-nav__icon md-icon"></span>
-            <span>Contents</span>
+            <span>User Guide</span>
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quickstart.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Quickstart Guide</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../getting_started.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Getting Started</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../box_types.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Box Types Guide &amp; Gallery</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../layout_and_spacers.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Auto-<wbr>Layout &amp; Automatic Spacers</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    <span>API Reference</span>
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            <span>API Reference</span>
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -310,7 +450,23 @@
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.builders.magnetic.MagneticBoxBuilder.html#pyboxbuilder.builders.magnetic.MagneticBoxBuilder">[docs]</a>
 <span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">MagneticBoxBuilder</span><span class="p">(</span><span class="n">BoxBuilder</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">"""Builder for magnetic-closure lid box type."""</span>
+<span class="w">    </span><span class="sd">"""Builder for magnetic-closure lid box type.</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        .. pythonscad-example::</span>
+
+<span class="sd">            project = Project("MagneticDemo", game_box_size=(80.0, 80.0, 30.0))</span>
+<span class="sd">            project.box(</span>
+<span class="sd">                BoxType.MAGNETIC,</span>
+<span class="sd">                "Vault",</span>
+<span class="sd">                size=(60.0, 60.0, 22.0),</span>
+<span class="sd">                magnet_type=MagnetType.ROUND,</span>
+<span class="sd">                magnet_diameter=6.0,</span>
+<span class="sd">                magnet_height=3.0,</span>
+<span class="sd">                lid=LidBuilder(text="VAULT"),</span>
+<span class="sd">            )</span>
+<span class="sd">            project.show(show_lids=True)</span>
+<span class="sd">    """</span>
 
     <span class="n">box_type</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="n">BoxType</span><span class="p">]</span> <span class="o">=</span> <span class="n">BoxType</span><span class="o">.</span><span class="n">MAGNETIC</span>
     <span class="n">magnet_diameter</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">6.0</span>
@@ -386,7 +542,7 @@
     
       
         <script src="../../../_static/sphinx_immaterial_theme.32136f45f91ae6956.min.js?v=a7a9472a"></script>
-        <script type="module" src="../../../_static/stl_viewer.js?v=7bec9a74"></script>
+        <script type="module" src="../../../_static/stl_viewer.js?v=33eae823"></script>
     
   </body>
 </html>

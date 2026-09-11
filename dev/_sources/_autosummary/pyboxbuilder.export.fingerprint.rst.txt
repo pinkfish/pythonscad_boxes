@@ -21,6 +21,7 @@ pyboxbuilder.export.fingerprint
    
       forget
       matches
+      normalize
       record
       recorded
    

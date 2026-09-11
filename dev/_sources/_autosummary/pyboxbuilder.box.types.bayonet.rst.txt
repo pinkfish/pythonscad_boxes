@@ -1,0 +1,24 @@
+pyboxbuilder.box.types.bayonet
+==============================
+
+.. automodule:: pyboxbuilder.box.types.bayonet
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+      :toctree:
+      :nosignatures:
+   
+      BayonetBox
+   
+   
+
+   
+   
+   

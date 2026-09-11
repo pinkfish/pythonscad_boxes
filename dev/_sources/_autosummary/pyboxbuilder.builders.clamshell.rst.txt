@@ -1,0 +1,24 @@
+pyboxbuilder.builders.clamshell
+===============================
+
+.. automodule:: pyboxbuilder.builders.clamshell
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+      :toctree:
+      :nosignatures:
+   
+      ClamshellBoxBuilder
+   
+   
+
+   
+   
+   

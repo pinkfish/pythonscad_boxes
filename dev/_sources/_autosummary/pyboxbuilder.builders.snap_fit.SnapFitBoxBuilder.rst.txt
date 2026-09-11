@@ -1,0 +1,8 @@
+pyboxbuilder.builders.snap\_fit.SnapFitBoxBuilder
+=================================================
+
+.. currentmodule:: pyboxbuilder.builders.snap_fit
+
+.. autoclass:: SnapFitBoxBuilder
+   :members:
+   :show-inheritance:

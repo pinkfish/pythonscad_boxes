@@ -1,0 +1,8 @@
+pyboxbuilder.builders.dispenser.DispenserBoxBuilder
+===================================================
+
+.. currentmodule:: pyboxbuilder.builders.dispenser
+
+.. autoclass:: DispenserBoxBuilder
+   :members:
+   :show-inheritance:

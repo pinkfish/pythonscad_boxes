@@ -1,0 +1,8 @@
+pyboxbuilder.box.types.pip\_hinge.PrintInPlaceHingeBox
+======================================================
+
+.. currentmodule:: pyboxbuilder.box.types.pip_hinge
+
+.. autoclass:: PrintInPlaceHingeBox
+   :members:
+   :show-inheritance:

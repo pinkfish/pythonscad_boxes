@@ -1,0 +1,24 @@
+pyboxbuilder.box.types.card\_shoe
+=================================
+
+.. automodule:: pyboxbuilder.box.types.card_shoe
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+      :toctree:
+      :nosignatures:
+   
+      CardShoeBox
+   
+   
+
+   
+   
+   

@@ -17,6 +17,7 @@
 
 import * as THREE from "https://esm.sh/three@0.160.0";
 import { STLLoader } from "https://esm.sh/three@0.160.0/examples/jsm/loaders/STLLoader.js";
+import { ThreeMFLoader } from "https://esm.sh/three@0.160.0/examples/jsm/loaders/3MFLoader.js";
 import { OrbitControls } from "https://esm.sh/three@0.160.0/examples/jsm/controls/OrbitControls.js";
 
 const MAX_DPR = 2; // rendering a 3x retina buffer costs 2.25x the pixels for no visible gain
@@ -24,6 +25,7 @@ const VIEW_DIR = new THREE.Vector3(0.8, -1.1, 0.7).normalize();
 
 const viewers = [];
 const loader = new STLLoader();
+const threeMFLoader = new ThreeMFLoader();
 let renderer = null;
 let rendererFailed = false;
 let looping = false;
@@ -125,8 +127,10 @@ function tick() {
 class Viewer {
   constructor(el) {
     this.el = el;
-    this.uri = el.dataset.stlUri;
-    this.color = el.dataset.stlColor || "#6f9ac9";
+    this.uris = (el.dataset.stlUri || "").split(",").map((s) => s.trim()).filter(Boolean);
+    this.colors = (el.dataset.stlColor || "").split(",").map((s) => s.trim()).filter(Boolean);
+    this.uri = this.uris[0] || "";
+    this.color = this.colors[0] || "#6f9ac9";
     this.status = el.querySelector(".stl-viewer-status");
     this.mesh = null;
     this.corners = [];
@@ -203,8 +207,56 @@ class Viewer {
   }
 
   load() {
-    if (this.requested || !this.uri) return;
+    if (this.requested || !this.uris.length) return;
     this.requested = true;
+
+    if (this.uris.length === 1 && this.uris[0].endsWith(".3mf")) {
+      threeMFLoader.load(
+        this.uris[0],
+        (group) => this.onGroup(group),
+        undefined,
+        () => this.fail("Could not load 3MF (serve the docs over HTTP to view)."),
+      );
+      return;
+    }
+
+    if (this.uris.length > 1) {
+      const promises = this.uris.map(
+        (uri) =>
+          new Promise((resolve, reject) => {
+            loader.load(uri, resolve, undefined, reject);
+          }),
+      );
+      Promise.all(promises)
+        .then((geos) => {
+          const group = new THREE.Group();
+          const palette = this.colors.length > 0 ? this.colors : ["#4a90e2", "#e5a93b", "#50b878", "#d9534f", "#9c56b8"];
+          geos.forEach((geo, i) => {
+            geo.computeVertexNormals();
+            const col = palette[i % palette.length];
+            const mat = geo.hasColors
+              ? new THREE.MeshPhongMaterial({
+                  vertexColors: true,
+                  specular: 0x222222,
+                  shininess: 25,
+                  flatShading: false,
+                  transparent: geo.alpha !== undefined && geo.alpha < 1.0,
+                  opacity: geo.alpha !== undefined ? geo.alpha : 1.0,
+                })
+              : new THREE.MeshPhongMaterial({
+                  color: col,
+                  specular: 0x222222,
+                  shininess: 25,
+                  flatShading: false,
+                });
+            group.add(new THREE.Mesh(geo, mat));
+          });
+          this.onGroup(group);
+        })
+        .catch(() => this.fail("Could not load STLs (serve the docs over HTTP to view)."));
+      return;
+    }
+
     loader.load(
       this.uri,
       (geo) => this.onGeometry(geo),
@@ -228,15 +280,58 @@ class Viewer {
       }
     }
 
-    this.mesh = new THREE.Mesh(
-      geo,
-      new THREE.MeshPhongMaterial({
+    let material;
+    if (geo.hasColors) {
+      material = new THREE.MeshPhongMaterial({
+        vertexColors: true,
+        specular: 0x222222,
+        shininess: 25,
+        flatShading: false,
+        transparent: geo.alpha !== undefined && geo.alpha < 1.0,
+        opacity: geo.alpha !== undefined ? geo.alpha : 1.0,
+      });
+    } else if (geo.groups && geo.groups.length > 1) {
+      const palette = this.colors.length > 1 ? this.colors : ["#4a90e2", "#e5a93b", "#50b878", "#d9534f", "#9c56b8"];
+      material = geo.groups.map(
+        (_, i) =>
+          new THREE.MeshPhongMaterial({
+            color: palette[i % palette.length],
+            specular: 0x222222,
+            shininess: 25,
+            flatShading: false,
+          }),
+      );
+    } else {
+      material = new THREE.MeshPhongMaterial({
         color: this.color,
         specular: 0x222222,
         shininess: 25,
         flatShading: false,
-      }),
-    );
+      });
+    }
+
+    this.mesh = new THREE.Mesh(geo, material);
+    this.scene.add(this.mesh);
+    if (this.status) this.status.remove();
+    this.syncSize();
+    this.frame();
+  }
+
+  onGroup(group) {
+    const box = new THREE.Box3().setFromObject(group);
+    const center = new THREE.Vector3();
+    box.getCenter(center);
+    group.position.sub(center);
+
+    const b = new THREE.Box3().setFromObject(group);
+    this.corners = [];
+    for (const x of [b.min.x, b.max.x]) {
+      for (const y of [b.min.y, b.max.y]) {
+        for (const z of [b.min.z, b.max.z]) this.corners.push(new THREE.Vector3(x, y, z));
+      }
+    }
+
+    this.mesh = group;
     this.scene.add(this.mesh);
     if (this.status) this.status.remove();
     this.syncSize();
@@ -247,7 +342,7 @@ class Viewer {
     if (this.status) {
       if (this.uri) {
         this.status.innerHTML =
-          '<a href="' + this.uri + '" download>&#8681; Download STL mesh</a>'
+          '<a href="' + this.uri + '" download>&#8681; Download 3-D mesh</a>'
           + '<br><small style="opacity:0.65">WebGL is unavailable &mdash; <a href="https://support.google.com/chrome/answer/6138473">enable hardware acceleration</a> in Chrome, or try <a href="chrome://flags/#enable-webgl-swiftshader">SwiftShader</a> for software rendering.</small>';
         this.status.classList.add("stl-viewer-fallback");
       } else {

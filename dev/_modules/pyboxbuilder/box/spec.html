@@ -215,7 +215,7 @@
   
   
   <span class="md-ellipsis">
-    <span>Contents</span>
+    <span>User Guide</span>
     
   </span>
   
@@ -226,7 +226,147 @@
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_1">
             <span class="md-nav__icon md-icon"></span>
-            <span>Contents</span>
+            <span>User Guide</span>
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quickstart.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Quickstart Guide</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../getting_started.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Getting Started</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../box_types.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Box Types Guide &amp; Gallery</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../layout_and_spacers.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Auto-<wbr>Layout &amp; Automatic Spacers</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    <span>API Reference</span>
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            <span>API Reference</span>
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -317,12 +457,13 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Any</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">MagnetType</span><span class="p">,</span> <span class="n">ScoopSide</span><span class="p">,</span> <span class="n">StackableMode</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">InterlockType</span><span class="p">,</span> <span class="n">MagnetType</span><span class="p">,</span> <span class="n">ScoopSide</span><span class="p">,</span> <span class="n">StackableMode</span>
 
 <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.interior</span><span class="w"> </span><span class="kn">import</span> <span class="n">Interior</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.builders._base</span><span class="w"> </span><span class="kn">import</span> <span class="n">BoxBuilder</span>
-    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.project</span><span class="w"> </span><span class="kn">import</span> <span class="n">Project</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.project.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">Project</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.project.manifest</span><span class="w"> </span><span class="kn">import</span> <span class="n">ProjectManifest</span>
 
 <span class="n">WIGGLE_MM</span> <span class="o">=</span> <span class="mf">0.2</span>
 <span class="sd">"""Default clearance between two printed parts that have to fit together."""</span>
@@ -497,6 +638,68 @@
     <span class="n">ribbon_channel</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
 <span class="w">    </span><span class="sd">"""Cut bottom groove for lifting ribbon."""</span>
 
+    <span class="c1"># ── Extended Box Types (FR-081–FR-090) ───────────────────────────────</span>
+    <span class="c1"># Snap-fit (FR-081)</span>
+    <span class="n">cantilever_thickness</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.6</span>
+    <span class="n">cantilever_width</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">12.0</span>
+    <span class="n">deflection_clearance</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.3</span>
+    <span class="n">detent_height</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.5</span>
+    <span class="n">latch_axis</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"x"</span>
+
+    <span class="c1"># Bayonet (FR-082)</span>
+    <span class="n">lug_count</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4</span>
+    <span class="n">turn_angle</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">90.0</span>
+    <span class="n">lug_height</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">2.5</span>
+    <span class="n">lug_depth</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.2</span>
+    <span class="n">bayonet_slack</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.3</span>
+    <span class="n">round_footprint</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="c1"># Threaded (FR-083)</span>
+    <span class="n">thread_pitch</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">3.0</span>
+    <span class="n">thread_turns</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">2.0</span>
+    <span class="n">thread_clearance</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.25</span>
+    <span class="n">thread_depth</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span>
+
+    <span class="c1"># Dispenser (FR-084)</span>
+    <span class="n">chute_angle</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">40.0</span>
+    <span class="n">token_thickness</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">3.0</span>
+    <span class="n">dispense_slot_clearance</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.8</span>
+    <span class="n">sight_slot_width</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">8.0</span>
+
+    <span class="c1"># Card shoe (FR-085)</span>
+    <span class="n">draw_angle</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">20.0</span>
+    <span class="n">retaining_lip_height</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">10.0</span>
+    <span class="n">discard_well</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="c1"># Dice tray (FR-086)</span>
+    <span class="n">arena_wall_height</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">28.0</span>
+    <span class="n">felt_pocket_depth</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.2</span>
+    <span class="n">corner_deflectors</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="c1"># Sleeve drawer (FR-087)</span>
+    <span class="n">push_hole_radius</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">12.0</span>
+    <span class="n">drawer_pull_lip</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">4.0</span>
+    <span class="n">sleeve_slack</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.2</span>
+
+    <span class="c1"># Clamshell (FR-088)</span>
+    <span class="n">spine_gap</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="n">clamshell_hinge_radius</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">2.5</span>
+    <span class="n">closure_latch</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="c1"># Modular interlock (FR-089)</span>
+    <span class="n">interlock_type</span><span class="p">:</span> <span class="n">InterlockType</span> <span class="o">=</span> <span class="n">InterlockType</span><span class="o">.</span><span class="n">GRIDFINITY</span>
+    <span class="n">dovetail_clearance</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.15</span>
+    <span class="n">gridfinity_pitch</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">42.0</span>
+
+    <span class="c1"># Print-in-place hinge (FR-090)</span>
+    <span class="n">pip_radial_clearance</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.35</span>
+    <span class="n">pip_axial_clearance</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.40</span>
+    <span class="n">pip_cone_angle</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">45.0</span>
+    <span class="n">pip_hinge_radius</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">3.0</span>
+    <span class="n">pip_snap_catch</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">pip_snap_width</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">12.0</span>
+    <span class="n">pip_snap_diameter</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">3.0</span>
+
 <div class="viewcode-block" id="BoxSpec.interior">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.spec.BoxSpec.html#pyboxbuilder.box.spec.BoxSpec.interior">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">interior</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Interior</span><span class="p">:</span>
@@ -578,6 +781,282 @@
             <span class="k">for</span> <span class="n">side</span><span class="p">,</span> <span class="n">z</span> <span class="ow">in</span> <span class="p">(</span><span class="n">hook</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="ow">or</span> <span class="p">{})</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
                 <span class="n">tops</span><span class="p">[</span><span class="n">side</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">replace</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">wall_tops</span><span class="o">=</span><span class="n">tops</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="BoxSpec.to_unresolved">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.spec.BoxSpec.html#pyboxbuilder.box.spec.BoxSpec.to_unresolved">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_unresolved</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">UnresolvedBoxSpec</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Convert this resolved spec into a mutable declaration spec (FR-091)."""</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="n">f</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f</span><span class="o">.</span><span class="n">name</span><span class="p">)</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">fields</span><span class="p">(</span><span class="bp">self</span><span class="p">)}</span>
+        <span class="k">return</span> <span class="n">UnresolvedBoxSpec</span><span class="p">(</span><span class="o">**</span><span class="n">data</span><span class="p">)</span></div>
+</div>
+
+
+
+<span class="n">ResolvedBoxSpec</span> <span class="o">=</span> <span class="n">BoxSpec</span>
+<span class="sd">"""Frozen, fully-resolved geometric contract for CSG solid generation (FR-091)."""</span>
+
+
+<div class="viewcode-block" id="UnresolvedBoxSpec">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.spec.UnresolvedBoxSpec.html#pyboxbuilder.box.spec.UnresolvedBoxSpec">[docs]</a>
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">UnresolvedBoxSpec</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Declaration-phase box specification where dimensions may be deferred (FR-091).</span>
+
+<span class="sd">    Permits unassigned envelope dimensions (``width: float | None``,</span>
+<span class="sd">    ``length: float | None``, ``height: float | None``) for derivation during</span>
+<span class="sd">    card packing, compartment auto-sizing, and bin packing.</span>
+<span class="sd">    """</span>
+
+    <span class="n">label</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"box"</span>
+    <span class="n">width</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">length</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">height</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="c1"># Material thicknesses</span>
+    <span class="n">wall_thickness</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">2.0</span>
+    <span class="n">floor_thickness</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.6</span>
+    <span class="n">lid_thickness</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">2.0</span>
+
+    <span class="c1"># Interior</span>
+    <span class="n">hollow</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">path</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="p">()</span>
+    <span class="n">interior_top</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">wall_tops</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="n">ScoopSide</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">dict</span><span class="p">)</span>
+
+    <span class="c1"># Rounding</span>
+    <span class="n">rounding</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">inner_rounding</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">rim_free</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">rim_rounding</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">lid_corner_rounding</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="c1"># Finger cuts</span>
+    <span class="n">finger_holes</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="p">()</span>
+    <span class="n">auto_finger_holes</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="c1"># Fits</span>
+    <span class="n">size_spacing</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">WIGGLE_MM</span>
+    <span class="n">sliding_slack</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.1</span>
+    <span class="n">cap_slack</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">WIGGLE_MM</span>
+    <span class="n">slip_slack</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">WIGGLE_MM</span>
+
+    <span class="c1"># Sliding family</span>
+    <span class="n">lid_slide_axis</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">dovetail</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">lead_chamfer</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">catch_radius</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">latch_radius</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.2</span>
+    <span class="n">fingernail_catch</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">fingernail_radius</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">fingernail_depth</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">lid_border_margin_mm</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="c1"># Cap and slipover</span>
+    <span class="n">cap_height</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">cap_finger_cutouts</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">cap_finger_radius</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">cap_finger_length</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">cap_finger_height</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">foot</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="n">slip</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.6</span>
+    <span class="n">slipover_gap</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">slipover_finger_height</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">inset</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span>
+
+    <span class="c1"># Hinges</span>
+    <span class="n">hinge_count</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">5</span>
+    <span class="n">hinge_pin_diameter</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">3.0</span>
+    <span class="n">filament_diameter</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.75</span>
+    <span class="n">hinge_catch_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"ridge"</span>
+
+    <span class="c1"># Magnets</span>
+    <span class="n">magnet_type</span><span class="p">:</span> <span class="n">MagnetType</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">magnet_size</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">magnet_diameter</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">6.0</span>
+    <span class="n">magnet_height</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">3.0</span>
+    <span class="n">magnet_count_width</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">magnet_count_length</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2</span>
+
+    <span class="c1"># Stacking</span>
+    <span class="n">stackable</span><span class="p">:</span> <span class="n">StackableMode</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">stackable_thickness</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">stackable_fit_offset</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.1</span>
+
+    <span class="c1"># Extraction</span>
+    <span class="n">tilt_to_lift</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">keystone</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">ribbon_channel</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="c1"># Extended Box Types (FR-081–FR-090)</span>
+    <span class="n">cantilever_thickness</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.6</span>
+    <span class="n">cantilever_width</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">12.0</span>
+    <span class="n">deflection_clearance</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.3</span>
+    <span class="n">detent_height</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.5</span>
+    <span class="n">latch_axis</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"x"</span>
+
+    <span class="n">lug_count</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4</span>
+    <span class="n">turn_angle</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">90.0</span>
+    <span class="n">lug_height</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">2.5</span>
+    <span class="n">lug_depth</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.2</span>
+    <span class="n">bayonet_slack</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.3</span>
+    <span class="n">round_footprint</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="n">thread_pitch</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">3.0</span>
+    <span class="n">thread_turns</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">2.0</span>
+    <span class="n">thread_clearance</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.25</span>
+    <span class="n">thread_depth</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span>
+
+    <span class="n">chute_angle</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">40.0</span>
+    <span class="n">token_thickness</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">3.0</span>
+    <span class="n">dispense_slot_clearance</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.8</span>
+    <span class="n">sight_slot_width</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">8.0</span>
+
+    <span class="n">draw_angle</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">20.0</span>
+    <span class="n">retaining_lip_height</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">10.0</span>
+    <span class="n">discard_well</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="n">arena_wall_height</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">28.0</span>
+    <span class="n">felt_pocket_depth</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.2</span>
+    <span class="n">corner_deflectors</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="n">push_hole_radius</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">12.0</span>
+    <span class="n">drawer_pull_lip</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">4.0</span>
+    <span class="n">sleeve_slack</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.2</span>
+
+    <span class="n">spine_gap</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="n">clamshell_hinge_radius</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">2.5</span>
+    <span class="n">closure_latch</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="n">interlock_type</span><span class="p">:</span> <span class="n">InterlockType</span> <span class="o">=</span> <span class="n">InterlockType</span><span class="o">.</span><span class="n">GRIDFINITY</span>
+    <span class="n">dovetail_clearance</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.15</span>
+    <span class="n">gridfinity_pitch</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">42.0</span>
+
+    <span class="n">pip_radial_clearance</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.35</span>
+    <span class="n">pip_axial_clearance</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.40</span>
+    <span class="n">pip_cone_angle</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">45.0</span>
+    <span class="n">pip_hinge_radius</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">3.0</span>
+    <span class="n">pip_snap_catch</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">pip_snap_width</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">12.0</span>
+    <span class="n">pip_snap_diameter</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">3.0</span>
+
+<div class="viewcode-block" id="UnresolvedBoxSpec.resolve">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.spec.UnresolvedBoxSpec.html#pyboxbuilder.box.spec.UnresolvedBoxSpec.resolve">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">resolve</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">width</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">length</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">height</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">overrides</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ResolvedBoxSpec</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Resolve this declaration into an immutable ResolvedBoxSpec.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            width: Explicit width override, or uses self.width if set.</span>
+<span class="sd">            length: Explicit length override, or uses self.length if set.</span>
+<span class="sd">            height: Explicit height override, or uses self.height if set.</span>
+<span class="sd">            **overrides: Additional field overrides.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A frozen :class:`ResolvedBoxSpec` with validated non-null dimensions.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: If width, length, or height cannot be resolved.</span>
+<span class="sd">        """</span>
+        <span class="n">w</span> <span class="o">=</span> <span class="n">width</span> <span class="k">if</span> <span class="n">width</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span>
+        <span class="n">length_val</span> <span class="o">=</span> <span class="n">length</span> <span class="k">if</span> <span class="n">length</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">length</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="n">height</span> <span class="k">if</span> <span class="n">height</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">height</span>
+
+        <span class="k">if</span> <span class="n">w</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">length_val</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">h</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">"Cannot resolve box '</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="si">}</span><span class="s2">': width, length, and height must all be non-null. "</span>
+                <span class="sa">f</span><span class="s2">"Got width=</span><span class="si">{</span><span class="n">w</span><span class="si">}</span><span class="s2">, length=</span><span class="si">{</span><span class="n">length_val</span><span class="si">}</span><span class="s2">, height=</span><span class="si">{</span><span class="n">h</span><span class="si">}</span><span class="s2">."</span>
+            <span class="p">)</span>
+
+        <span class="n">spec_fields</span> <span class="o">=</span> <span class="nb">frozenset</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">fields</span><span class="p">(</span><span class="n">ResolvedBoxSpec</span><span class="p">))</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">fields</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">name</span> <span class="ow">in</span> <span class="n">spec_fields</span>
+        <span class="p">}</span>
+        <span class="n">data</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">overrides</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">spec_fields</span><span class="p">})</span>
+        <span class="n">data</span><span class="p">[</span><span class="s2">"width"</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">w</span><span class="p">)</span>
+        <span class="n">data</span><span class="p">[</span><span class="s2">"length"</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">length_val</span><span class="p">)</span>
+        <span class="n">data</span><span class="p">[</span><span class="s2">"height"</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ResolvedBoxSpec</span><span class="p">(</span><span class="o">**</span><span class="n">data</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="UnresolvedBoxSpec.from_builder">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.spec.UnresolvedBoxSpec.html#pyboxbuilder.box.spec.UnresolvedBoxSpec.from_builder">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_builder</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span>
+        <span class="n">builder</span><span class="p">:</span> <span class="n">BoxBuilder</span><span class="p">,</span>
+        <span class="n">project</span><span class="p">:</span> <span class="n">Project</span> <span class="o">|</span> <span class="n">ProjectManifest</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">UnresolvedBoxSpec</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Create an unresolved specification from a BoxBuilder and Project defaults."""</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.registry</span><span class="w"> </span><span class="kn">import</span> <span class="n">LIDLESS_BOX_TYPES</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.lid.builder</span><span class="w"> </span><span class="kn">import</span> <span class="n">LidBuilder</span>
+
+        <span class="n">wt</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">wall_thickness</span> <span class="ow">or</span> <span class="p">(</span><span class="n">project</span><span class="o">.</span><span class="n">wall_thickness</span> <span class="k">if</span> <span class="n">project</span> <span class="k">else</span> <span class="mf">2.0</span><span class="p">)</span>
+        <span class="n">ft</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">floor_thickness</span> <span class="ow">or</span> <span class="p">(</span><span class="n">project</span><span class="o">.</span><span class="n">floor_thickness</span> <span class="k">if</span> <span class="n">project</span> <span class="k">else</span> <span class="mf">1.6</span><span class="p">)</span>
+        <span class="n">lt</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">lid_thickness</span> <span class="ow">or</span> <span class="p">(</span><span class="n">project</span><span class="o">.</span><span class="n">lid_thickness</span> <span class="k">if</span> <span class="n">project</span> <span class="k">else</span> <span class="mf">2.0</span><span class="p">)</span>
+        <span class="n">rc</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">builder</span><span class="o">.</span><span class="n">ribbon_channel</span>
+            <span class="k">if</span> <span class="n">builder</span><span class="o">.</span><span class="n">ribbon_channel</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+            <span class="k">else</span> <span class="p">(</span><span class="n">project</span><span class="o">.</span><span class="n">ribbon_channels</span> <span class="k">if</span> <span class="n">project</span> <span class="k">else</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="p">)</span>
+
+        <span class="n">unresolved_fields</span> <span class="o">=</span> <span class="nb">frozenset</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">fields</span><span class="p">(</span><span class="bp">cls</span><span class="p">))</span>
+        <span class="n">overrides</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="n">name</span><span class="p">:</span> <span class="n">value</span>
+            <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="p">(</span>
+                <span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">builder</span><span class="p">,</span> <span class="n">f</span><span class="p">))</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">builder</span><span class="o">.</span><span class="n">__dataclass_fields__</span>
+            <span class="p">)</span>
+            <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">unresolved_fields</span> <span class="ow">and</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">_NOT_GEOMETRY</span> <span class="ow">and</span> <span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+        <span class="p">}</span>
+        <span class="n">hollow</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">overrides</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"hollow"</span><span class="p">)</span>
+            <span class="k">if</span> <span class="s2">"hollow"</span> <span class="ow">in</span> <span class="n">overrides</span>
+            <span class="k">else</span> <span class="ow">not</span> <span class="n">builder</span><span class="o">.</span><span class="n">compartments</span>
+        <span class="p">)</span>
+
+        <span class="n">lid_margin</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">builder</span><span class="o">.</span><span class="n">lid</span><span class="o">.</span><span class="n">border_margin_mm</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">builder</span><span class="o">.</span><span class="n">lid</span><span class="p">,</span> <span class="n">LidBuilder</span><span class="p">)</span> <span class="ow">and</span> <span class="n">builder</span><span class="o">.</span><span class="n">lid</span><span class="o">.</span><span class="n">border_margin_mm</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="k">else</span> <span class="kc">None</span>
+        <span class="p">)</span>
+
+        <span class="n">w</span><span class="p">,</span> <span class="n">l_dim</span><span class="p">,</span> <span class="n">h</span> <span class="o">=</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">builder</span><span class="o">.</span><span class="n">size</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">w</span><span class="p">,</span> <span class="n">l_dim</span><span class="p">,</span> <span class="n">h</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">builder</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">builder</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="n">builder</span><span class="o">.</span><span class="n">final_size</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">w</span><span class="p">,</span> <span class="n">l_dim</span><span class="p">,</span> <span class="n">h</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">final_size</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">builder</span><span class="o">.</span><span class="n">final_size</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">builder</span><span class="o">.</span><span class="n">final_size</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span>
+            <span class="n">label</span><span class="o">=</span><span class="n">builder</span><span class="o">.</span><span class="n">label</span><span class="p">,</span>
+            <span class="n">width</span><span class="o">=</span><span class="n">w</span><span class="p">,</span>
+            <span class="n">length</span><span class="o">=</span><span class="n">l_dim</span><span class="p">,</span>
+            <span class="n">height</span><span class="o">=</span><span class="n">h</span><span class="p">,</span>
+            <span class="n">wall_thickness</span><span class="o">=</span><span class="n">wt</span><span class="p">,</span>
+            <span class="n">floor_thickness</span><span class="o">=</span><span class="n">ft</span><span class="p">,</span>
+            <span class="n">lid_thickness</span><span class="o">=</span><span class="n">lt</span><span class="p">,</span>
+            <span class="n">ribbon_channel</span><span class="o">=</span><span class="n">rc</span><span class="p">,</span>
+            <span class="n">lid_border_margin_mm</span><span class="o">=</span><span class="n">lid_margin</span><span class="p">,</span>
+            <span class="n">hollow</span><span class="o">=</span><span class="n">hollow</span><span class="p">,</span>
+            <span class="n">rounding</span><span class="o">=</span><span class="p">(</span>
+                <span class="n">builder</span><span class="o">.</span><span class="n">rounding</span>
+                <span class="k">if</span> <span class="n">builder</span><span class="o">.</span><span class="n">rounding</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+                <span class="k">else</span> <span class="p">(</span><span class="n">project</span><span class="o">.</span><span class="n">rounding</span> <span class="k">if</span> <span class="n">project</span> <span class="k">else</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="p">),</span>
+            <span class="n">inner_rounding</span><span class="o">=</span><span class="p">(</span>
+                <span class="n">builder</span><span class="o">.</span><span class="n">inner_rounding</span>
+                <span class="k">if</span> <span class="n">builder</span><span class="o">.</span><span class="n">inner_rounding</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+                <span class="k">else</span> <span class="p">(</span><span class="n">project</span><span class="o">.</span><span class="n">inner_rounding</span> <span class="k">if</span> <span class="n">project</span> <span class="k">else</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="p">),</span>
+            <span class="n">rim_free</span><span class="o">=</span><span class="n">builder</span><span class="o">.</span><span class="n">box_type</span> <span class="ow">in</span> <span class="n">LIDLESS_BOX_TYPES</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">overrides</span><span class="p">,</span>
+        <span class="p">)</span></div>
 </div>
 
 
@@ -599,11 +1078,11 @@
 <div class="viewcode-block" id="build_spec">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.spec.build_spec.html#pyboxbuilder.box.spec.build_spec">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">build_spec</span><span class="p">(</span>
-    <span class="n">project</span><span class="p">:</span> <span class="n">Project</span><span class="p">,</span> <span class="n">builder</span><span class="p">:</span> <span class="n">BoxBuilder</span><span class="p">,</span> <span class="n">size</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BoxSpec</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""Assemble the one description this box is built from.</span>
+    <span class="n">project</span><span class="p">:</span> <span class="n">Project</span> <span class="o">|</span> <span class="n">ProjectManifest</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span> <span class="n">builder</span><span class="p">:</span> <span class="n">BoxBuilder</span><span class="p">,</span> <span class="n">size</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ResolvedBoxSpec</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Assemble the one description this box is built from (FR-091).</span>
 
-<span class="sd">    The single place a `BoxSpec` is made, so a previewed box and an exported</span>
+<span class="sd">    The single place a `ResolvedBoxSpec` is made, so a previewed box and an exported</span>
 <span class="sd">    box cannot be built from different descriptions.</span>
 
 <span class="sd">    Args:</span>
@@ -613,53 +1092,11 @@
 <span class="sd">        size: The box's resolved ``(width, length, height)`` in mm.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        The assembled :class:`BoxSpec`.</span>
+<span class="sd">        The assembled and validated :class:`ResolvedBoxSpec`.</span>
 
 <span class="sd">    """</span>
-    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.registry</span><span class="w"> </span><span class="kn">import</span> <span class="n">LIDLESS_BOX_TYPES</span>
-
-    <span class="n">wt</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">wall_thickness</span> <span class="ow">or</span> <span class="n">project</span><span class="o">.</span><span class="n">wall_thickness</span>
-    <span class="n">ft</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">floor_thickness</span> <span class="ow">or</span> <span class="n">project</span><span class="o">.</span><span class="n">floor_thickness</span>
-    <span class="n">lt</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">lid_thickness</span> <span class="ow">or</span> <span class="n">project</span><span class="o">.</span><span class="n">lid_thickness</span>
-    <span class="n">rc</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">ribbon_channel</span> <span class="k">if</span> <span class="n">builder</span><span class="o">.</span><span class="n">ribbon_channel</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">project</span><span class="o">.</span><span class="n">ribbon_channels</span>
-
-    <span class="n">overrides</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="n">name</span><span class="p">:</span> <span class="n">value</span>
-        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="p">(</span>
-            <span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">builder</span><span class="p">,</span> <span class="n">f</span><span class="p">))</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">builder</span><span class="o">.</span><span class="n">__dataclass_fields__</span>
-        <span class="p">)</span>
-        <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">_SPEC_FIELDS</span> <span class="ow">and</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">_NOT_GEOMETRY</span> <span class="ow">and</span> <span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
-    <span class="p">}</span>
-
-    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.lid.builder</span><span class="w"> </span><span class="kn">import</span> <span class="n">LidBuilder</span>
-    <span class="n">lid_margin</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="n">builder</span><span class="o">.</span><span class="n">lid</span><span class="o">.</span><span class="n">border_margin_mm</span>
-        <span class="k">if</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">builder</span><span class="o">.</span><span class="n">lid</span><span class="p">,</span> <span class="n">LidBuilder</span><span class="p">)</span> <span class="ow">and</span> <span class="n">builder</span><span class="o">.</span><span class="n">lid</span><span class="o">.</span><span class="n">border_margin_mm</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span>
-        <span class="k">else</span> <span class="kc">None</span>
-    <span class="p">)</span>
-
-    <span class="k">return</span> <span class="n">BoxSpec</span><span class="p">(</span>
-        <span class="n">label</span><span class="o">=</span><span class="n">builder</span><span class="o">.</span><span class="n">label</span><span class="p">,</span>
-        <span class="n">width</span><span class="o">=</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">length</span><span class="o">=</span><span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">height</span><span class="o">=</span><span class="n">size</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
-        <span class="n">wall_thickness</span><span class="o">=</span><span class="n">wt</span><span class="p">,</span> <span class="n">floor_thickness</span><span class="o">=</span><span class="n">ft</span><span class="p">,</span> <span class="n">lid_thickness</span><span class="o">=</span><span class="n">lt</span><span class="p">,</span>
-        <span class="n">ribbon_channel</span><span class="o">=</span><span class="n">rc</span><span class="p">,</span>
-        <span class="n">lid_border_margin_mm</span><span class="o">=</span><span class="n">lid_margin</span><span class="p">,</span>
-        <span class="c1"># Hollow the whole interior only when nothing else defines the</span>
-        <span class="c1"># cavities; with compartments, they are the cavities.</span>
-        <span class="n">hollow</span><span class="o">=</span><span class="ow">not</span> <span class="n">builder</span><span class="o">.</span><span class="n">compartments</span><span class="p">,</span>
-        <span class="c1"># Per-box override beats the project default, which in turn falls back</span>
-        <span class="c1"># to half the wall (FR-044).</span>
-        <span class="n">rounding</span><span class="o">=</span><span class="p">(</span>
-            <span class="n">builder</span><span class="o">.</span><span class="n">rounding</span> <span class="k">if</span> <span class="n">builder</span><span class="o">.</span><span class="n">rounding</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">project</span><span class="o">.</span><span class="n">rounding</span>
-        <span class="p">),</span>
-        <span class="n">inner_rounding</span><span class="o">=</span><span class="p">(</span>
-            <span class="n">builder</span><span class="o">.</span><span class="n">inner_rounding</span> <span class="k">if</span> <span class="n">builder</span><span class="o">.</span><span class="n">inner_rounding</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
-            <span class="k">else</span> <span class="n">project</span><span class="o">.</span><span class="n">inner_rounding</span>
-        <span class="p">),</span>
-        <span class="c1"># A lidless box's rim is exposed on both faces, so it rounds too.</span>
-        <span class="n">rim_free</span><span class="o">=</span><span class="n">builder</span><span class="o">.</span><span class="n">box_type</span> <span class="ow">in</span> <span class="n">LIDLESS_BOX_TYPES</span><span class="p">,</span>
-        <span class="o">**</span><span class="n">overrides</span><span class="p">,</span>
-    <span class="p">)</span></div>
+    <span class="n">unresolved</span> <span class="o">=</span> <span class="n">UnresolvedBoxSpec</span><span class="o">.</span><span class="n">from_builder</span><span class="p">(</span><span class="n">builder</span><span class="p">,</span> <span class="n">project</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">unresolved</span><span class="o">.</span><span class="n">resolve</span><span class="p">(</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">size</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span></div>
 
 
 
@@ -794,7 +1231,7 @@
     
       
         <script src="../../../_static/sphinx_immaterial_theme.32136f45f91ae6956.min.js?v=a7a9472a"></script>
-        <script type="module" src="../../../_static/stl_viewer.js?v=7bec9a74"></script>
+        <script type="module" src="../../../_static/stl_viewer.js?v=33eae823"></script>
     
   </body>
 </html>
