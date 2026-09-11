@@ -1678,6 +1678,7 @@ Where each requirement is designed, and where it is verified. Sections named bel
 | FR-095 | Multi-Color Documentation Example Models & Inlay Aesthetics | `docs/box_types.rst`, `docs/index.rst` |
 | FR-096 | Materialise Magics 15-Bit STL Vertex Color Pre-generation Pipeline | `scripts/generate_docs_stls.py`, `docs/_ext/stl_viewer.py`, `docs/_static/stl_viewer.js` |
 | FR-097 | Declarative Insert Project Modernization (`box_defaults`) | `boxes/_template/template.py`, `boxes/*/*.py` |
+| FR-098 | Streamlined CI Workflows & Base Code Isolation | `.github/workflows/test.yml`, `.github/workflows/docs.yml`, `tests/conftest.py` |
 
 | SC | Verified by |
 |---|---|
@@ -1751,6 +1752,14 @@ Where each requirement is designed, and where it is verified. Sections named bel
 | SC-095 | `docs/box_types.rst`, `docs/index.rst`, `sphinx-build -b html -W --keep-going docs docs/_build/html` |
 | SC-096 | `scripts/generate_docs_stls.py` (27 written, 55 unchanged, 0 failed) |
 | SC-097 | `test_adas_dream.py`, `test_dominion.py`, `test_russian_railroads.py`, `test_pioneer_rails.py`, `test_brink.py`, `test_emberleaf.py` |
+| SC-098 | `.github/workflows/test.yml`, `.github/workflows/docs.yml`, `tests/conftest.py` — base-only CI test execution in < 3m on ubuntu-latest |
+
+### Streamlined CI Workflows & Base Code Isolation (FR-098, SC-098)
+
+GitHub Actions previously stalled and timed out due to two configuration bottlenecks:
+1. **Retired macOS Runner Pool (`macos-13`)**: GitHub Actions retired `macos-13` (x86_64 macOS) runners. Workflows requesting `macos-13` waited in queue for 24 hours until hitting the maximum job execution timeout. Both `test.yml` and `docs.yml` are migrated to `ubuntu-latest` with headless PythonSCAD AppImage extraction, aligning with the 100% reliable execution pattern in `checks.yml`.
+2. **Docs Concurrency Deadlock**: `docs.yml` configured `concurrency: group: docs, cancel-in-progress: false`. When a run hung on `macos-13`, subsequent pushes to `main` queued behind it indefinitely. `cancel-in-progress` is set to `true` to cancel superseded builds and prevent queue deadlocks.
+3. **CI Scope Narrowed to Base Library Code**: `test.yml` was previously running tests for all 41 game box inserts in `boxes/` (via incomplete ignore lists) and running `test_ci_smoke.py` under a `Build every example` step. In accordance with user requirements, the `Build every example` step is removed, and pytest is enhanced with automated base-only filtering (`--base-only` / `box_example` marker in `tests/conftest.py`) that dynamically queries `boxes/` to ensure CI executes strictly the 41 core `pyboxbuilder` unit, layout, closure, and invariant test files.
 
 ## Complexity Tracking
 

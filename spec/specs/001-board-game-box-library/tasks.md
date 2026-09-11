@@ -1193,6 +1193,18 @@ stop the class of mistake from being expressible.
 - [x] T384 Verify Sphinx documentation build with `-W --keep-going` to guarantee 0 warnings or errors across all interactive 3D examples (SC-095).
 - [x] T385 Run full test suite, linting, and type checking (`pytest`, `make lint`, `make types`) verifying 100% pass rate across all 1,028 tests and 0 regressions (SC-097).
 
+---
+
+## Phase 40: Streamlined CI Workflows & Base Code Isolation (FR-098, SC-098)
+
+**Goal**: Resolve GitHub Actions timeout and queuing deadlock issues by migrating workflows (`test.yml`, `docs.yml`) from retired `macos-13` to `ubuntu-latest`, setting non-blocking concurrency on docs deploy, and narrowing CI test execution strictly to core `pyboxbuilder` base library tests via dynamic `--base-only` filtering.
+
+- [x] T386 [P] Add `--base-only` pytest flag and `box_example` marker hook in `tests/conftest.py` that dynamically queries `boxes/` directory names to exclude all game-specific box insert tests and `test_ci_smoke.py`, and register `box_example` marker in `pyproject.toml`.
+- [x] T387 [P] Update `.github/workflows/test.yml`: migrate from `macos-13` to `ubuntu-latest`, install headless PythonSCAD AppImage, invoke `python -m pytest tests/test_pyboxbuilder/ --base-only -q -k "not export"`, and remove the `Build every example` step.
+- [x] T388 [P] Update `.github/workflows/docs.yml`: migrate from `macos-13` to `ubuntu-latest`, install headless PythonSCAD AppImage, set `concurrency.cancel-in-progress: true`, and build and deploy docs.
+- [x] T389 [P] Write unit tests in `tests/test_pyboxbuilder/test_ci_isolation.py` verifying that `--base-only` flag correctly distinguishes core library test suites from game insert test suites.
+- [ ] T390 Run local test suite, push commits to `main` and `examples`, and monitor GitHub Actions execution with `gh run watch` to verify that `checks`, `test`, and `docs` run immediately and pass without timeouts (SC-098).
+
 ## Notes
 
 - [P] tasks = different files, no dependencies

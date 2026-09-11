@@ -150,4 +150,5 @@ quote-style = "double"
 markers = [
     "fast: Unit and layout tests that run without CSG geometry rendering (< 5s total)",
     "render: Heavy CSG geometry rendering & golden mesh comparison tests",
+    "box_example: Integration tests for game box insert projects in boxes/",
 ]

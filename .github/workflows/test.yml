@@ -6,20 +6,13 @@ on:
 
 jobs:
   test:
-    # Intel, not arm64: PythonSCAD's headless render (which the golden and
-    # measure tests shell out to) has known software-renderer issues on Apple
-    # Silicon — the app prints "Python Code globally trusted" and then reports
-    # no geometry.
-    runs-on: macos-13
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
-      # Must match the Python the PythonSCAD app bundles (3.14): the render
-      # subprocess imports pybosl2/shapely from this interpreter's site-packages,
-      # and shapely ships version-specific compiled extensions.
       - uses: actions/setup-python@v5
         with:
-          python-version: "3.14"
+          python-version: "3.12"
 
       - name: Install dependencies
         run: |
@@ -27,56 +20,36 @@ jobs:
           pip install pytest pybosl2 numpy fpdf2 shapely pillow pythonscad
           pip install -e .
 
-      # PythonSCAD's native runtime is what turns pybosl2 CSG into real
-      # geometry: the `pythonscad` pip wheel above supplies the `openscad` /
-      # `pythonscad` modules, and this app bundle supplies the headless render
-      # binary the golden-image tests shell out to. The DMG is a universal
-      # (x86_64 + arm64) bundle.
+      # PythonSCAD AppImage supplies the headless render binary the golden-image
+      # tests shell out to.
       - name: Install PythonSCAD
         run: |
-          curl -fsSL -o /tmp/PythonSCAD.dmg \
-            "https://github.com/pythonscad/pythonscad/releases/download/v1.1.2/PythonSCAD-v1.1.2.dmg"
-          hdiutil attach /tmp/PythonSCAD.dmg -nobrowse -mountpoint /tmp/PythonSCAD-mount
-          sudo cp -R /tmp/PythonSCAD-mount/PythonSCAD.app /Applications/
-          hdiutil detach /tmp/PythonSCAD-mount
-          sudo ln -sf /Applications/PythonSCAD.app/Contents/MacOS/PythonSCAD /usr/local/bin/pythonscad
-          test -x /Applications/PythonSCAD.app/Contents/MacOS/PythonSCAD
+          curl -fsSL -o /tmp/pythonscad.AppImage \
+            "https://github.com/pythonscad/pythonscad/releases/download/v1.1.2/PythonSCAD-1.1.2-qt6-x86_64-x86_64.AppImage"
+          chmod +x /tmp/pythonscad.AppImage
+          cd /tmp && /tmp/pythonscad.AppImage --appimage-extract
+          sudo mv /tmp/squashfs-root /opt/pythonscad
+          sudo ln -sf /opt/pythonscad/AppRun /usr/local/bin/pythonscad
+          test -x /opt/pythonscad/AppRun
           test -x /usr/local/bin/pythonscad
 
-      # Golden-image render tests: render each box/pattern through the real
-      # PythonSCAD binary and compare against the committed PNG.
+      # Golden-image render tests: render each base box type and pattern through
+      # the real PythonSCAD binary and compare against the committed PNG.
       - name: Run golden render tests
+        env:
+          PYTHONPATH: ".:tests"
         run: python -m pytest tests/test_pyboxbuilder/render/test_boxes_golden.py tests/test_pyboxbuilder/render/test_patterns_golden.py -q
 
-      # Fast pure-Python tests of the base library. The export path is not part
-      # of a CI pass: export() tessellates and writes 3MFs, which is `make
-      # export`'s job, not a test's. `-k "not export"` drops the export-focused
-      # test classes, and `--ignore` skips the golden/render directory and the
-      # example tests (built separately below).
-      - name: Run fast pure-Python tests
+      # Pure-Python tests of the base library. --base-only dynamically excludes all
+      # 41 game-specific box insert test suites in boxes/ and test_ci_smoke.py.
+      # The export path is not part of a CI pass: export() tessellates and writes
+      # 3MFs, which is `make export`'s job, not a test's. `-k "not export"` drops
+      # the export-focused test classes.
+      - name: Run fast pure-Python base tests
+        env:
+          PYTHONPATH: ".:tests"
         run: |
           python -m pytest tests/test_pyboxbuilder/ -q \
+            --base-only \
             --ignore=tests/test_pyboxbuilder/render \
-            --ignore=tests/test_pyboxbuilder/test_ci_smoke.py \
-            --ignore=tests/test_pyboxbuilder/test_1835.py \
-            --ignore=tests/test_pyboxbuilder/test_earth_animal_kingdom.py \
-            --ignore=tests/test_pyboxbuilder/test_emberleaf.py \
-            --ignore=tests/test_pyboxbuilder/test_irish_gauge.py \
-            --ignore=tests/test_pyboxbuilder/test_quickstart.py \
             -k "not export"
-
-      # The examples are their own thing: build every one and check the fidelity
-      # of the ones that copy a published insert — separately from the base
-      # library validation above, because they exercise whole projects and are
-      # the slow path.
-      - name: Build every example
-        env:
-          PYBOXBUILDER_EXPORT_FN: "12"
-        run: |
-          python -m pytest \
-            tests/test_pyboxbuilder/test_ci_smoke.py \
-            tests/test_pyboxbuilder/test_1835.py \
-            tests/test_pyboxbuilder/test_earth_animal_kingdom.py \
-            tests/test_pyboxbuilder/test_emberleaf.py \
-            tests/test_pyboxbuilder/test_irish_gauge.py \
-            tests/test_pyboxbuilder/test_quickstart.py -q

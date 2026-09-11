@@ -10,18 +10,14 @@ on:
 permissions:
   contents: write
 
-# Serialize deploys: a release and a dev push must not race on gh-pages.
+# Serialize deploys: cancel superseded runs so builds do not deadlock in queue.
 concurrency:
   group: docs
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   docs:
-    # Intel macOS: the ``pythonscad-example`` blocks render through the real
-    # PythonSCAD binary (installed below), which has software-renderer issues on
-    # arm64. Python 3.14 matches the Python the app bundles, so the rendered
-    # snippets can import pybosl2/shapely from this interpreter's site-packages.
-    runs-on: macos-13
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
@@ -31,7 +27,7 @@ jobs:
 
       - uses: actions/setup-python@v5
         with:
-          python-version: "3.14"
+          python-version: "3.12"
 
       - name: Install documentation dependencies
         run: |
@@ -40,13 +36,13 @@ jobs:
 
       - name: Install PythonSCAD
         run: |
-          curl -fsSL -o /tmp/PythonSCAD.dmg \
-            "https://github.com/pythonscad/pythonscad/releases/download/v1.1.2/PythonSCAD-v1.1.2.dmg"
-          hdiutil attach /tmp/PythonSCAD.dmg -nobrowse -mountpoint /tmp/PythonSCAD-mount
-          sudo cp -R /tmp/PythonSCAD-mount/PythonSCAD.app /Applications/
-          hdiutil detach /tmp/PythonSCAD-mount
-          sudo ln -sf /Applications/PythonSCAD.app/Contents/MacOS/PythonSCAD /usr/local/bin/pythonscad
-          test -x /Applications/PythonSCAD.app/Contents/MacOS/PythonSCAD
+          curl -fsSL -o /tmp/pythonscad.AppImage \
+            "https://github.com/pythonscad/pythonscad/releases/download/v1.1.2/PythonSCAD-1.1.2-qt6-x86_64-x86_64.AppImage"
+          chmod +x /tmp/pythonscad.AppImage
+          cd /tmp && /tmp/pythonscad.AppImage --appimage-extract
+          sudo mv /tmp/squashfs-root /opt/pythonscad
+          sudo ln -sf /opt/pythonscad/AppRun /usr/local/bin/pythonscad
+          test -x /opt/pythonscad/AppRun
           test -x /usr/local/bin/pythonscad
 
       - name: Resolve version and destination
