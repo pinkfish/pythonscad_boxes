@@ -473,7 +473,23 @@
 <span class="sd">            project.show()</span>
 <span class="sd">    """</span>
 
-    <span class="n">box_type</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="n">BoxType</span><span class="p">]</span> <span class="o">=</span> <span class="n">BoxType</span><span class="o">.</span><span class="n">NO_LID</span></div>
+    <span class="n">box_type</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="n">BoxType</span><span class="p">]</span> <span class="o">=</span> <span class="n">BoxType</span><span class="o">.</span><span class="n">NO_LID</span>
+
+    <span class="n">path</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="p">()</span>
+<span class="w">    </span><span class="sd">"""Closed 2D outline of the tray footprint, in mm, in the box's own frame.</span>
+<span class="sd">    Empty falls back to the rectangle implied by `size`."""</span>
+    <span class="n">hollow</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="w">    </span><span class="sd">"""False produces a solid block instead of a walled tray."""</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Normalize path points to immutable tuples of floats."""</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__post_init__</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">:</span>
+            <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span>
+                <span class="bp">self</span><span class="p">,</span>
+                <span class="s2">"path"</span><span class="p">,</span>
+                <span class="nb">tuple</span><span class="p">((</span><span class="nb">float</span><span class="p">(</span><span class="n">pt</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="nb">float</span><span class="p">(</span><span class="n">pt</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span> <span class="k">for</span> <span class="n">pt</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">),</span>
+            <span class="p">)</span></div>
 
 </code></pre></div>
 

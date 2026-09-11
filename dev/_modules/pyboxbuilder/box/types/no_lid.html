@@ -486,6 +486,10 @@
         <span class="c1"># holes below among them — hung a lid thickness too low (FR-043f).</span>
         <span class="n">spec</span> <span class="o">=</span> <span class="n">replace</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="n">rim_free</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="n">spec</span> <span class="o">=</span> <span class="n">with_no_lid_finger_holes</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">path</span><span class="p">:</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.types.path</span><span class="w"> </span><span class="kn">import</span> <span class="n">PathBox</span>
+
+            <span class="k">return</span> <span class="n">PathBox</span><span class="p">()</span><span class="o">.</span><span class="n">build_body</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
         <span class="n">body</span> <span class="o">=</span> <span class="n">build_shell</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">body</span>
 
@@ -502,6 +506,21 @@
         <span class="n">fit</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">stackable_fit_offset</span>
         <span class="n">mode</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">stackable</span> <span class="ow">or</span> <span class="n">StackableMode</span><span class="o">.</span><span class="n">INSIDE</span>
 
+        <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">path</span><span class="p">:</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.features</span><span class="w"> </span><span class="kn">import</span> <span class="n">extrude_footprint</span><span class="p">,</span> <span class="n">offset_footprint</span>
+
+            <span class="k">if</span> <span class="n">mode</span> <span class="ow">is</span> <span class="n">StackableMode</span><span class="o">.</span><span class="n">INSIDE</span><span class="p">:</span>
+                <span class="n">recess_path</span> <span class="o">=</span> <span class="n">offset_footprint</span><span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="n">wt</span> <span class="o">-</span> <span class="n">fit</span><span class="p">)</span>
+                <span class="n">recess</span> <span class="o">=</span> <span class="n">extrude_footprint</span><span class="p">(</span>
+                    <span class="n">recess_path</span><span class="p">,</span> <span class="n">stack</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">base_z</span><span class="o">=</span><span class="n">spec</span><span class="o">.</span><span class="n">height</span> <span class="o">-</span> <span class="n">stack</span>
+                <span class="p">)</span>
+                <span class="k">return</span> <span class="n">body</span> <span class="o">-</span> <span class="n">recess</span>
+            <span class="k">elif</span> <span class="n">mode</span> <span class="o">==</span> <span class="s2">"outside"</span> <span class="ow">or</span> <span class="n">mode</span> <span class="ow">is</span> <span class="n">StackableMode</span><span class="o">.</span><span class="n">OUTSIDE</span><span class="p">:</span>
+                <span class="n">ridge_path</span> <span class="o">=</span> <span class="n">offset_footprint</span><span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="o">-</span><span class="p">(</span><span class="n">stack</span> <span class="o">-</span> <span class="n">fit</span><span class="p">))</span>
+                <span class="n">ridge</span> <span class="o">=</span> <span class="n">extrude_footprint</span><span class="p">(</span><span class="n">ridge_path</span><span class="p">,</span> <span class="n">stack</span><span class="p">,</span> <span class="n">base_z</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">body</span> <span class="o">|</span> <span class="n">ridge</span>
+            <span class="k">return</span> <span class="n">body</span>
+
         <span class="k">if</span> <span class="n">mode</span> <span class="ow">is</span> <span class="n">StackableMode</span><span class="o">.</span><span class="n">INSIDE</span><span class="p">:</span>
             <span class="c1"># Carve a recess around the top rim, so the box above nests into it.</span>
             <span class="n">recess_w</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">width</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">wt</span> <span class="o">-</span> <span class="n">fit</span><span class="p">)</span>
@@ -515,7 +534,7 @@
                 <span class="p">),</span>
             <span class="p">)</span>
             <span class="k">return</span> <span class="n">body</span> <span class="o">-</span> <span class="n">recess</span>
-        <span class="k">elif</span> <span class="n">mode</span> <span class="o">==</span> <span class="s2">"outside"</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">mode</span> <span class="o">==</span> <span class="s2">"outside"</span> <span class="ow">or</span> <span class="n">mode</span> <span class="ow">is</span> <span class="n">StackableMode</span><span class="o">.</span><span class="n">OUTSIDE</span><span class="p">:</span>
             <span class="c1"># Add a ridge around the bottom outside, so it grips the box below.</span>
             <span class="n">ridge_w</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">width</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">stack</span> <span class="o">-</span> <span class="n">fit</span><span class="p">)</span>
             <span class="n">ridge_l</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">stack</span> <span class="o">-</span> <span class="n">fit</span><span class="p">)</span>
@@ -541,6 +560,9 @@
 <span class="sd">        nothing in the geometry to say so. Both pairs are opposing, so taking</span>
 <span class="sd">        the free one costs the attraction FR-039 is about exactly nothing.</span>
 <span class="sd">        """</span>
+        <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">path</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">body</span>
+
         <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">cuboid</span><span class="p">,</span> <span class="n">cylinder</span>
 
         <span class="n">magnet_type</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">magnet_type</span>
