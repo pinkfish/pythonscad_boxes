@@ -57,6 +57,8 @@ class CompartmentBuilder:
     """
     no_rotate: bool = False
     """Prevent the layout algorithm from rotating this compartment (e.g. directional card slots)."""
+    is_card: bool = False
+    """Whether this compartment holds cards, enforcing short-wall finger cutouts (FR-068)."""
     shape_file: str | None = None
     """Path to an SVG file defining the custom shape of the compartment cutout."""
     position: tuple[float, float] | None = None

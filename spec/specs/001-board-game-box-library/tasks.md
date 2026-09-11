@@ -1223,7 +1223,15 @@ stop the class of mistake from being expressible.
 - [x] T396 [P] Update `build_compartment_scoop` in `pyboxbuilder/compartments/carve.py` to keep `wall_thickness = base_wt`, translate the scoop cutout to the exterior wall along the side offset when `gap > 0`, and bridge across the gap above the floor (`z >= 0`).
 - [x] T397 [P] Add unit test in `tests/test_pyboxbuilder/test_carve.py` verifying that when a gap exists between a compartment and the back wall, the through-hole cylinder is placed at the exterior wall and does not cut into the floor at the compartment boundary.
 - [x] T398 Regenerate documentation STLs with `scripts/generate_docs_stls.py` and rebuild Sphinx docs.
-- [x] T399 Verify unit tests pass and commit and push to `origin main` and `origin examples`.
+## Phase 42: Card Box Short-Length Cutout Default (FR-068, FR-069)
+
+**Goal**: Guarantee that finger cutouts for all card boxes and card compartments default to the short length across all box types, dimensions, and orientations.
+
+- [x] T400 [P] Add `is_card: bool = False` to `CompartmentBuilder` in `pyboxbuilder/compartments/builder.py`, plumb through `BoxBuilder.compartment`, and set `is_card=True` in `BoxBuilder.cards`.
+- [x] T401 [P] In `pyboxbuilder/builders/_base.py`, add `lid_slide_axis` to `SlidingLidFields` and in `BoxBuilder.cards` automatically default `lid_slide_axis` along the longer card dimension (`"x"` when width > length else `"y"`).
+- [x] T402 [P] Update `carve_compartments` in `pyboxbuilder/compartments/carve.py` so that card compartments evaluate `short_sides` and default to the short length, overriding conflicting box type `preferred_scoop_side` long-wall defaults.
+- [x] T403 [P] Add unit tests in `tests/test_pyboxbuilder/test_compartments.py` verifying wide and tall card compartments default cutouts to the short wall across sliding and non-sliding box types.
+- [x] T404 Regenerate documentation STLs, build Sphinx docs with `-W --keep-going`, run unit tests with `--base-only`, and push commits to `origin main` and `origin examples`.
 
 ## Notes
 

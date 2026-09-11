@@ -133,6 +133,7 @@ class BoxBuilder:
         rounded_corners: float = 0.0,
         cut: Cut | FingerCut | None = None,
         no_rotate: bool = False,
+        is_card: bool = False,
         shape_file: str | None = None,
         position: tuple[float, float] | None = None,
         elements: tuple[CompartmentElement, ...] = (),
@@ -159,6 +160,7 @@ class BoxBuilder:
                 kind, everything else derived", a :class:`Cut` when something
                 needs saying, or ``None`` for no cut at all (FR-006).
             no_rotate: Keep the well's orientation through the layout.
+            is_card: Whether this well holds cards (FR-068).
             shape_file: An SVG whose outline the well is cut to.
             position: An explicit ``(x, y)`` in the interior frame, instead of
                 letting the layout place it.
@@ -182,6 +184,7 @@ class BoxBuilder:
             rounded_corners=rounded_corners,
             cut=Cut.of(cut),
             no_rotate=no_rotate,
+            is_card=is_card,
             shape_file=shape_file,
             position=position,
             elements=elements,
@@ -243,12 +246,16 @@ class BoxBuilder:
         if count is not None and count <= 0:
             raise ValueError(f"card count must be > 0; got {count}")
         depth = None if count is None else count * thickness + slack
+        if hasattr(self, "lid_slide_axis") and getattr(self, "lid_slide_axis", None) is None:
+            axis = "x" if size[0] > size[1] else "y"
+            object.__setattr__(self, "lid_slide_axis", axis)
         return self.compartment(
             label,
             size=(size[0] + slack, size[1] + slack),
             depth=depth,
             cut=cut,
             no_rotate=no_rotate,
+            is_card=True,
             **kwargs,
         )
 
@@ -342,6 +349,8 @@ class SlidingLidFields:
     placeholder (FR-000f).
     """
 
+    lid_slide_axis: str | None = None
+    """Which axis the lid slides along: 'x', 'y', or None (derives along length)."""
     fingernail_catch: bool | None = None
     """Cut the dish a nail starts the lid with; ``None`` means yes.
 

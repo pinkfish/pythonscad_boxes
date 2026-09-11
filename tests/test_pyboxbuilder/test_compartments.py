@@ -182,7 +182,7 @@ class ContentSizingTests(unittest.TestCase):
 
     def test_card_cutout_lands_on_short_wall(self) -> None:
         """Finger cutouts land on the short walls (FRONT/BACK) of the card box (FR-068)."""
-        from pyboxbuilder import Project, BoxType
+        from pyboxbuilder import BoxType, Project
         from pyboxbuilder.enums import ScoopSide
 
         p = Project("StandaloneCardDeck")
@@ -190,7 +190,7 @@ class ContentSizingTests(unittest.TestCase):
         box.cards("Deck", count=100, size=(63.5, 88.0))
         build = p.build()
         self.assertEqual(len(build.pieces), 2)  # body + lid, no spacers
-        body = [pc for pc in build.pieces if pc.kind == "body"][0]
+        body = next(pc for pc in build.pieces if pc.kind == "body")
         self.assertEqual(body.size[0], 75.0)
         self.assertEqual(body.size[1], 105.0)
 
@@ -200,6 +200,44 @@ class ContentSizingTests(unittest.TestCase):
         pl = resolved.compartments.placements[0]
         self.assertAlmostEqual(pl.size[0], 64.5)
         self.assertAlmostEqual(pl.size[1], 89.0)
+
+    def test_wide_card_deck_lands_on_short_wall(self) -> None:
+        """Wide card boxes (width > length) default scoop to the short wall (FR-068)."""
+        from pyboxbuilder import BoxType, Project
+        from pyboxbuilder.enums import ScoopSide
+
+        p = Project("WideCardDeck")
+        box = p.box(BoxType.SLIDING, "Cards", size=(105.0, 75.0, 50.0))
+        box.cards("Deck", count=100, size=(88.0, 63.5))
+        p.build()
+
+        resolved = p._pipeline._resolve_box(p._manifest, p._manifest.boxes[0])
+        # Short wall is at X = width, so lid slides along X and preferred scoop is RIGHT
+        self.assertEqual(resolved.spec.lid_slide_axis, "x")
+        self.assertIs(resolved.box.preferred_scoop_side(resolved.spec), ScoopSide.RIGHT)
+
+    def test_card_compartment_in_sliding_box_overrides_long_wall_default(self) -> None:
+        """A compartment holding cards in a sliding box defaults to the short wall even if box
+        defaults to Y (FR-068)."""
+        from pyboxbuilder import BoxType, Project
+        from pyboxbuilder.compartments.carve import build_contents
+        from pyboxbuilder.enums import FingerCut, ScoopSide
+
+        p = Project("WideCardComp")
+        box = p.box(BoxType.SLIDING, "Cards", size=(105.0, 75.0, 50.0), lid_slide_axis="y")
+        box.compartment("Cards", size=(88.0, 63.5), depth=40.0, cut=FingerCut.SCOOP)
+        p.build()
+
+        resolved = p._pipeline._resolve_box(p._manifest, p._manifest.boxes[0])
+        # Box prefers BACK (105mm long wall), but card compartment enforces short walls (LEFT/RIGHT)
+        self.assertIs(resolved.box.preferred_scoop_side(resolved.spec), ScoopSide.BACK)
+        contents = build_contents(
+            resolved.compartments.placements,
+            resolved.interior,
+            builders={cb.label: cb for cb in box.compartments},
+            default_side=resolved.box.preferred_scoop_side(resolved.spec),
+        )
+        self.assertIsNotNone(contents)
 
 
 class BoxDefaultsTests(unittest.TestCase):
