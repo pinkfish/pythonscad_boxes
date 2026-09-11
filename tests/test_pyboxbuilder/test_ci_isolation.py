@@ -3,7 +3,6 @@
 
 from __future__ import annotations
 
-from pathlib import Path
 import unittest
 
 from tests.conftest import get_box_example_names, is_box_example_path

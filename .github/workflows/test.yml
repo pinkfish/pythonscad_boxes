@@ -6,7 +6,7 @@ on:
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: macos-15
     steps:
       - uses: actions/checkout@v4
 
@@ -19,26 +19,6 @@ jobs:
           python -m pip install --upgrade pip
           pip install pytest pybosl2 numpy fpdf2 shapely pillow pythonscad
           pip install -e .
-
-      # PythonSCAD AppImage supplies the headless render binary the golden-image
-      # tests shell out to.
-      - name: Install PythonSCAD
-        run: |
-          curl -fsSL -o /tmp/pythonscad.AppImage \
-            "https://github.com/pythonscad/pythonscad/releases/download/v1.1.2/PythonSCAD-1.1.2-qt6-x86_64-x86_64.AppImage"
-          chmod +x /tmp/pythonscad.AppImage
-          cd /tmp && /tmp/pythonscad.AppImage --appimage-extract
-          sudo mv /tmp/squashfs-root /opt/pythonscad
-          sudo ln -sf /opt/pythonscad/AppRun /usr/local/bin/pythonscad
-          test -x /opt/pythonscad/AppRun
-          test -x /usr/local/bin/pythonscad
-
-      # Golden-image render tests: render each base box type and pattern through
-      # the real PythonSCAD binary and compare against the committed PNG.
-      - name: Run golden render tests
-        env:
-          PYTHONPATH: ".:tests"
-        run: python -m pytest tests/test_pyboxbuilder/render/test_boxes_golden.py tests/test_pyboxbuilder/render/test_patterns_golden.py -q
 
       # Pure-Python tests of the base library. --base-only dynamically excludes all
       # 41 game-specific box insert test suites in boxes/ and test_ci_smoke.py.

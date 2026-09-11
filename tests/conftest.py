@@ -6,6 +6,7 @@ from __future__ import annotations
 import os
 from functools import lru_cache
 from pathlib import Path
+
 import pytest
 
 FAST_FILES = {
@@ -56,9 +57,8 @@ def pytest_addoption(parser: pytest.Parser) -> None:
 
 def pytest_ignore_collect(collection_path: Path, config: pytest.Config) -> bool | None:
     """Skip game box insert tests when --base-only is active."""
-    if config.getoption("--base-only", default=False):
-        if is_box_example_path(collection_path):
-            return True
+    if config.getoption("--base-only", default=False) and is_box_example_path(collection_path):
+        return True
     return None
 
 
