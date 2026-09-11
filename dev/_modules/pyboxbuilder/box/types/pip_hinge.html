@@ -457,6 +457,20 @@
     <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2.shapes3d</span><span class="w"> </span><span class="kn">import</span> <span class="n">Bosl2Solid</span>
 
 
+<span class="k">def</span><span class="w"> </span><span class="nf">_to_solid</span><span class="p">(</span><span class="n">obj</span><span class="p">:</span> <span class="nb">object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Extract the underlying Bosl2Solid across different pybosl2 versions."""</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">cast</span>
+
+    <span class="n">shape_attr</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="s2">"shape"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">callable</span><span class="p">(</span><span class="n">shape_attr</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">cast</span><span class="p">(</span><span class="s2">"Bosl2Solid"</span><span class="p">,</span> <span class="n">shape_attr</span><span class="p">())</span>
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="s2">"_solid"</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">cast</span><span class="p">(</span><span class="s2">"Bosl2Solid"</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">_solid</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="s2">"translate"</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">cast</span><span class="p">(</span><span class="s2">"Bosl2Solid"</span><span class="p">,</span> <span class="n">obj</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">cast</span><span class="p">(</span><span class="s2">"Bosl2Solid"</span><span class="p">,</span> <span class="n">shape_attr</span><span class="p">)</span>
+
+
 <div class="viewcode-block" id="PrintInPlaceHingeBox">
 <a class="viewcode-back" href="../../../../_autosummary/pyboxbuilder.box.types.pip_hinge.PrintInPlaceHingeBox.html#pyboxbuilder.box.types.pip_hinge.PrintInPlaceHingeBox">[docs]</a>
 <span class="nd">@register_box</span><span class="p">(</span><span class="n">BoxType</span><span class="o">.</span><span class="n">PRINT_IN_PLACE_HINGE</span><span class="p">,</span> <span class="n">builder</span><span class="o">=</span><span class="n">PrintInPlaceHingeBoxBuilder</span><span class="p">)</span>
@@ -470,10 +484,14 @@
         <span class="n">wt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">wall_thickness</span>
         <span class="n">ft</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">floor_thickness</span>
         <span class="n">lt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">lid_thickness</span>
+        <span class="n">body_h</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">height</span> <span class="o">-</span> <span class="n">lt</span>
+        <span class="n">inner_w</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">width</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">wt</span>
+        <span class="n">inner_l</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">wt</span>
+        <span class="n">inner_h</span> <span class="o">=</span> <span class="n">body_h</span> <span class="o">-</span> <span class="n">ft</span>
         <span class="k">return</span> <span class="n">Interior</span><span class="p">(</span>
-            <span class="n">width</span><span class="o">=</span><span class="n">spec</span><span class="o">.</span><span class="n">width</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">wt</span><span class="p">,</span>
-            <span class="n">length</span><span class="o">=</span><span class="n">spec</span><span class="o">.</span><span class="n">length</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">wt</span><span class="p">,</span>
-            <span class="n">height</span><span class="o">=</span><span class="n">spec</span><span class="o">.</span><span class="n">height</span> <span class="o">-</span> <span class="n">lt</span> <span class="o">-</span> <span class="n">ft</span><span class="p">,</span>
+            <span class="n">width</span><span class="o">=</span><span class="n">inner_w</span><span class="p">,</span>
+            <span class="n">length</span><span class="o">=</span><span class="n">inner_l</span><span class="p">,</span>
+            <span class="n">height</span><span class="o">=</span><span class="n">inner_h</span><span class="p">,</span>
             <span class="n">origin_x</span><span class="o">=</span><span class="n">wt</span><span class="p">,</span>
             <span class="n">origin_y</span><span class="o">=</span><span class="n">wt</span><span class="p">,</span>
             <span class="n">origin_z</span><span class="o">=</span><span class="n">ft</span><span class="p">,</span>
@@ -500,7 +518,7 @@
         <span class="n">hinge_y</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span> <span class="o">+</span> <span class="n">arm</span> <span class="o">+</span> <span class="n">hr</span>
         <span class="n">lid_origin_y</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span> <span class="o">+</span> <span class="n">hinge_gap</span>
 
-        <span class="n">hinge</span> <span class="o">=</span> <span class="n">KnuckleHingePair</span><span class="p">(</span>
+        <span class="n">hinge_obj</span> <span class="o">=</span> <span class="n">KnuckleHingePair</span><span class="p">(</span>
             <span class="n">length</span><span class="o">=</span><span class="n">spec</span><span class="o">.</span><span class="n">width</span><span class="p">,</span>
             <span class="n">segs</span><span class="o">=</span><span class="n">spec</span><span class="o">.</span><span class="n">hinge_count</span><span class="p">,</span>
             <span class="n">knuckle_diam</span><span class="o">=</span><span class="n">hr</span> <span class="o">*</span> <span class="mf">2.0</span><span class="p">,</span>
@@ -509,7 +527,8 @@
             <span class="n">thick</span><span class="o">=</span><span class="n">lt</span><span class="p">,</span>
             <span class="n">gap</span><span class="o">=</span><span class="n">a_clr</span><span class="p">,</span>
             <span class="n">pin</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-        <span class="p">)</span><span class="o">.</span><span class="n">shape</span><span class="p">()</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">spec</span><span class="o">.</span><span class="n">width</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">hinge_y</span><span class="p">,</span> <span class="n">hr</span><span class="p">])</span>
+        <span class="p">)</span>
+        <span class="n">hinge</span> <span class="o">=</span> <span class="n">_to_solid</span><span class="p">(</span><span class="n">hinge_obj</span><span class="p">)</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">spec</span><span class="o">.</span><span class="n">width</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">hinge_y</span><span class="p">,</span> <span class="n">hr</span><span class="p">])</span>
 
         <span class="c1"># 3. Lid unfolded flat 180° behind the body along Y</span>
         <span class="n">lid_outer</span> <span class="o">=</span> <span class="n">block</span><span class="p">(</span>
@@ -530,20 +549,22 @@
         <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">pip_snap_catch</span><span class="p">:</span>
             <span class="n">catch_w</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">pip_snap_width</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">width</span> <span class="o">*</span> <span class="mf">0.4</span><span class="p">)</span>
             <span class="n">snap_diam</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">pip_snap_diameter</span>
-            <span class="n">sock</span> <span class="o">=</span> <span class="n">SnapSocket</span><span class="p">(</span>
+            <span class="n">sock_obj</span> <span class="o">=</span> <span class="n">SnapSocket</span><span class="p">(</span>
                 <span class="n">thick</span><span class="o">=</span><span class="n">wt</span><span class="p">,</span>
                 <span class="n">snaplen</span><span class="o">=</span><span class="n">catch_w</span><span class="p">,</span>
                 <span class="n">snapdiam</span><span class="o">=</span><span class="n">snap_diam</span><span class="p">,</span>
                 <span class="n">foldangle</span><span class="o">=</span><span class="mi">180</span><span class="p">,</span>
-            <span class="p">)</span><span class="o">.</span><span class="n">shape</span><span class="p">()</span>
+            <span class="p">)</span>
+            <span class="n">sock</span> <span class="o">=</span> <span class="n">_to_solid</span><span class="p">(</span><span class="n">sock_obj</span><span class="p">)</span>
             <span class="n">sock_placed</span> <span class="o">=</span> <span class="n">sock</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">spec</span><span class="o">.</span><span class="n">width</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">wt</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">body_h</span><span class="p">])</span>
 
-            <span class="n">lock</span> <span class="o">=</span> <span class="n">SnapLock</span><span class="p">(</span>
+            <span class="n">lock_obj</span> <span class="o">=</span> <span class="n">SnapLock</span><span class="p">(</span>
                 <span class="n">thick</span><span class="o">=</span><span class="n">wt</span><span class="p">,</span>
                 <span class="n">snaplen</span><span class="o">=</span><span class="n">catch_w</span><span class="p">,</span>
                 <span class="n">snapdiam</span><span class="o">=</span><span class="n">snap_diam</span><span class="p">,</span>
                 <span class="n">foldangle</span><span class="o">=</span><span class="mi">180</span><span class="p">,</span>
-            <span class="p">)</span><span class="o">.</span><span class="n">shape</span><span class="p">()</span>
+            <span class="p">)</span>
+            <span class="n">lock</span> <span class="o">=</span> <span class="n">_to_solid</span><span class="p">(</span><span class="n">lock_obj</span><span class="p">)</span>
             <span class="n">lock_placed</span> <span class="o">=</span> <span class="n">lock</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span>
                 <span class="p">[</span><span class="n">spec</span><span class="o">.</span><span class="n">width</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">lid_origin_y</span> <span class="o">+</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span> <span class="o">-</span> <span class="n">wt</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">lt</span><span class="p">]</span>
             <span class="p">)</span>
