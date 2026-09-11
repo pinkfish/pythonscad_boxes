@@ -1402,7 +1402,7 @@ A box type is nothing but a pair — how the body's rim is shaped, and what mate
 | `HINGE` | `knuckle_hinge` (printed pin) | pivots at the back | barrel may stand proud **behind** the footprint, nothing else may |
 | `FILAMENT_HINGE` | `filament_hinge` | pivots on a filament pin | interleaved knuckles, each leaf webbed to its own half |
 | `MAGNETIC` | magnet slots + flush plate | lifts off | body stops a lid thickness short so it closes flush |
-| `NO_LID` | none | — | stackable rim + side magnets live here (FR-038/039) |
+| `NO_LID` | none | — | stackable rim + side magnets live here (FR-038/039); supports rectangular footprints and arbitrary polygon paths (FR-018a) |
 | `PATH` | none | — | polygon footprint, lidless; also the carrier for polygon spacers (FR-014d) |
 
 **A closed box is exactly the size it declares** — over its declared footprint, at its declared height. That is the invariant the packer, `arrange()` and the spacer pass all depend on; it is stated here because seven types once broke it (Phase 18) and the "lid does not overlap body" test cannot catch it.
@@ -1640,7 +1640,7 @@ Where each requirement is designed, and where it is verified. Sections named bel
 | FR-013, FR-013a | Box Expansion; Main Earth Insert Sizing Rules | `packing/layout.py`, `boxes/earth/` |
 | FR-013b, FR-013c | Box Rotation Propagation to Compartments | `project.py`, `packing/layout.py` |
 | FR-014, FR-014a–e | Spacer Generation: Sweep, then Merge | `packing/spacer.py`, `paths.py` |
-| FR-018 | Spacer Generation (rectilinear merge) | `paths.py`, `box/types/path.py` |
+| FR-018, FR-018a | Spacer Generation & Polygon Footprint No-Lid Trays | `paths.py`, `box/types/path.py`, `box/types/no_lid.py`, `builders/no_lid.py` |
 | FR-019 | Clearance and Fit Model | `packing/spacer.py`, `compartments/builder.py` |
 | FR-020–FR-024 | Lid Decoration Design | `lid/label.py`, `lid/pattern.py`, `lid/decorate.py`, `lid/color_layers.py` |
 | FR-025 | Material and Colour Model | `export/exporter.py` |

@@ -1231,7 +1231,7 @@ stop the class of mistake from being expressible.
 - [x] T401 [P] In `pyboxbuilder/builders/_base.py`, add `lid_slide_axis` to `SlidingLidFields` and in `BoxBuilder.cards` automatically default `lid_slide_axis` along the longer card dimension (`"x"` when width > length else `"y"`).
 - [x] T402 [P] Update `carve_compartments` in `pyboxbuilder/compartments/carve.py` so that card compartments evaluate `short_sides` and default to the short length, overriding conflicting box type `preferred_scoop_side` long-wall defaults.
 - [x] T403 [P] Add unit tests in `tests/test_pyboxbuilder/test_compartments.py` verifying wide and tall card compartments default cutouts to the short wall across sliding and non-sliding box types.
-## Phase 43: Arbitrary Outside Edge Polygon Footprint on No-Lid Boxes (FR-018)
+## Phase 43: Arbitrary Outside Edge Polygon Footprint on No-Lid Boxes (FR-018a)
 
 **Goal**: Support arbitrary outside edge polygon footprints (`path`) on `BoxType.NO_LID` open trays (`NoLidBoxBuilder` / `NoLidBox`), matching polygon footprint capabilities while preserving open tray features like stackable rims and hollow toggle.
 
