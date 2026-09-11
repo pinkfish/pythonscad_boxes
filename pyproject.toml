@@ -147,6 +147,7 @@ convention = "google"
 quote-style = "double"
 
 [tool.pytest.ini_options]
+pythonpath = [".", "tests"]
 markers = [
     "fast: Unit and layout tests that run without CSG geometry rendering (< 5s total)",
     "render: Heavy CSG geometry rendering & golden mesh comparison tests",

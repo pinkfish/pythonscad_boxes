@@ -93,10 +93,13 @@ clean:
 	rm -rf $(OUT)
 
 test:
-	PYTHONPATH=. PYBOXBUILDER_EXPORT_FN=12 $(PYTHON) -m pytest tests/test_pyboxbuilder/ -n auto -q
+	PYTHONPATH=".:tests" PYBOXBUILDER_EXPORT_FN=12 $(PYTHON) -m pytest tests/test_pyboxbuilder/ --base-only -q -k "not export"
+
+test-all:
+	PYTHONPATH=".:tests" PYBOXBUILDER_EXPORT_FN=12 $(PYTHON) -m pytest tests/test_pyboxbuilder/ -q
 
 test-fast:
-	PYTHONPATH=. PYBOXBUILDER_EXPORT_FN=12 $(PYTHON) -m pytest tests/test_pyboxbuilder/ -m fast -q
+	PYTHONPATH=".:tests" PYBOXBUILDER_EXPORT_FN=12 $(PYTHON) -m pytest tests/test_pyboxbuilder/ -m fast -q
 
 lint:
 	PYTHONPATH=. $(PYTHON) -m ruff check pyboxbuilder/ boxes/
