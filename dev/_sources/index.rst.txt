@@ -155,7 +155,7 @@ This example defines a sliding card box where the internal height and depth are 
 
 .. pythonscad-example::
 
-   project = Project("CardGame", game_box_size=(200.0, 150.0, 70.0))
+   project = Project("CardGame")
    cards = project.box(
        BoxType.SLIDING,
        "Cards",
