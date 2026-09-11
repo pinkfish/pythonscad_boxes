@@ -76,10 +76,10 @@ class CardShoeBox(BoxTypeBase):
             discard_w = spec.width - divider_x - wt * 1.5
             discard_center_x = divider_x + wt * 0.5 + discard_w / 2.0
             scoop_r = 14.0
-            front_scoop = cyl(height=wt * 3, radius=scoop_r).rot([90, 0, 0]).translate(
+            front_scoop = cyl(height=wt * 3, radius=scoop_r).rotate([90, 0, 0]).translate(
                 [discard_center_x, 0, body_h]
             )
-            back_scoop = cyl(height=wt * 3, radius=scoop_r).rot([90, 0, 0]).translate(
+            back_scoop = cyl(height=wt * 3, radius=scoop_r).rotate([90, 0, 0]).translate(
                 [discard_center_x, spec.length, body_h]
             )
             body = body - front_scoop - back_scoop

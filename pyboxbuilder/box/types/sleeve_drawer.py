@@ -117,7 +117,7 @@ class SleeveDrawerBox(BoxTypeBase):
         # Push-through hole on back wall (Y = spec.length)
         push_r = min(spec.push_hole_radius, tunnel_h / 2.0 - 1.0)
         if push_r > 0:
-            push_hole = cyl(height=sw * 3, radius=push_r).rot([90, 0, 0]).translate(
+            push_hole = cyl(height=sw * 3, radius=push_r).rotate([90, 0, 0]).translate(
                 [spec.width / 2.0, spec.length, spec.height / 2.0]
             )
             sleeve = sleeve - push_hole

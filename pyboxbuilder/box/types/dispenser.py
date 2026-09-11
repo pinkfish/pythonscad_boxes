@@ -69,7 +69,7 @@ class DispenserBox(BoxTypeBase):
             cutter = block(
                 [inner_w + 2.0, inner_l * 2, cutter_h],
                 at=(wt - 1.0, wt, ft),
-            ).rot([-spec.chute_angle, 0, 0]).translate([0, 0, ramp_rise])
+            ).rotate([-spec.chute_angle, 0, 0]).translate([0, 0, ramp_rise])
             body = body | (ramp - cutter)
 
         # 2. Bottom dispensing slot on front wall (Y=0)
@@ -83,7 +83,7 @@ class DispenserBox(BoxTypeBase):
 
         # 3. Finger scoop at bottom center to pull tile forward
         scoop_r = 12.0
-        scoop = cyl(height=wt * 3, radius=scoop_r).rot([90, 0, 0]).translate(
+        scoop = cyl(height=wt * 3, radius=scoop_r).rotate([90, 0, 0]).translate(
             [spec.width / 2.0, 0, ft + slot_h / 2.0]
         )
         body = body - scoop

@@ -67,7 +67,7 @@ class ClamshellBox(BoxTypeBase):
         # Spine hinge knuckles along X for the body (i=0, 2, 4)
         for i in (0, 2, 4):
             y_start = i * knuckle_len
-            knuckle = cyl(height=knuckle_len - 0.4, radius=hr).rot([90, 0, 0]).translate(
+            knuckle = cyl(height=knuckle_len - 0.4, radius=hr).rotate([90, 0, 0]).translate(
                 [hr, y_start + knuckle_len / 2.0, half_h]
             )
             body = body | knuckle
@@ -126,7 +126,7 @@ class ClamshellBox(BoxTypeBase):
         # Interleaving knuckles along X for the lid (i=1, 3)
         for i in (1, 3):
             y_start = i * knuckle_len
-            knuckle = cyl(height=knuckle_len - 0.4, radius=hr).rot([90, 0, 0]).translate(
+            knuckle = cyl(height=knuckle_len - 0.4, radius=hr).rotate([90, 0, 0]).translate(
                 [hr, y_start + knuckle_len / 2.0, half_h]
             )
             lid = lid | knuckle
