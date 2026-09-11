@@ -1203,7 +1203,7 @@ stop the class of mistake from being expressible.
 - [x] T387 [P] Update `.github/workflows/test.yml`: migrate from retired `macos-13` to `macos-15` (for native 3MF/lib3mf mesh measurement), invoke `python -m pytest tests/test_pyboxbuilder/ --base-only -q -k "not export"`, and remove the `Build every example` step.
 - [x] T388 [P] Update `.github/workflows/docs.yml`: migrate from `macos-13` to `ubuntu-latest`, install headless PythonSCAD AppImage, set `concurrency.cancel-in-progress: true`, and build and deploy docs.
 - [x] T389 [P] Write unit tests in `tests/test_pyboxbuilder/test_ci_isolation.py` verifying that `--base-only` flag correctly distinguishes core library test suites from game insert test suites.
-- [ ] T390 Run local test suite, push commits to `main` and `examples`, and monitor GitHub Actions execution with `gh run watch` to verify that `checks`, `test`, and `docs` run immediately and pass without timeouts (SC-098).
+- [x] T390 Run local test suite, push commits to `main` and `examples`, and monitor GitHub Actions execution with `gh run watch` to verify that `checks`, `test`, and `docs` run immediately and pass without timeouts (SC-098).
 
 ## Notes
 
