@@ -295,7 +295,7 @@ Open & Stackable Trays (``BoxType.NO_LID``)
 
 **Builder**: :class:`~pyboxbuilder.builders.no_lid.NoLidBoxBuilder`
 
-Open organizer trays without a lid. When ``stackable`` is enabled (:class:`~pyboxbuilder.enums.StackableMode`), an interlocking step rim is added:
+Open organizer trays without a lid. Supports standard rectangular boxes as well as arbitrary polygon footprints via ``path``. When ``stackable`` is enabled (:class:`~pyboxbuilder.enums.StackableMode`), an interlocking step rim is added:
 
 - ``StackableMode.INSIDE``: A stepped inner recess in the top rim that the tray above nests down into.
 - ``StackableMode.OUTSIDE``: A perimeter skirt around the outside base that fits over the tray below.

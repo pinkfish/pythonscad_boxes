@@ -43,6 +43,10 @@ class NoLidBox(BoxTypeBase):
         # holes below among them — hung a lid thickness too low (FR-043f).
         spec = replace(spec, rim_free=True)
         spec = with_no_lid_finger_holes(spec)
+        if spec.path:
+            from pyboxbuilder.box.types.path import PathBox
+
+            return PathBox().build_body(spec)
         body = build_shell(spec)
         return body
 
@@ -59,6 +63,21 @@ class NoLidBox(BoxTypeBase):
         fit = spec.stackable_fit_offset
         mode = spec.stackable or StackableMode.INSIDE
 
+        if spec.path:
+            from pyboxbuilder.box.features import extrude_footprint, offset_footprint
+
+            if mode is StackableMode.INSIDE:
+                recess_path = offset_footprint(spec.path, wt - fit)
+                recess = extrude_footprint(
+                    recess_path, stack + 0.5, base_z=spec.height - stack
+                )
+                return body - recess
+            elif mode == "outside" or mode is StackableMode.OUTSIDE:
+                ridge_path = offset_footprint(spec.path, -(stack - fit))
+                ridge = extrude_footprint(ridge_path, stack, base_z=0.0)
+                return body | ridge
+            return body
+
         if mode is StackableMode.INSIDE:
             # Carve a recess around the top rim, so the box above nests into it.
             recess_w = spec.width - 2 * (wt - fit)
@@ -72,7 +91,7 @@ class NoLidBox(BoxTypeBase):
                 ),
             )
             return body - recess
-        elif mode == "outside":
+        elif mode == "outside" or mode is StackableMode.OUTSIDE:
             # Add a ridge around the bottom outside, so it grips the box below.
             ridge_w = spec.width + 2 * (stack - fit)
             ridge_l = spec.length + 2 * (stack - fit)
@@ -98,6 +117,9 @@ class NoLidBox(BoxTypeBase):
         nothing in the geometry to say so. Both pairs are opposing, so taking
         the free one costs the attraction FR-039 is about exactly nothing.
         """
+        if spec.path:
+            return body
+
         from pybosl2 import cuboid, cylinder
 
         magnet_type = spec.magnet_type

@@ -1231,7 +1231,15 @@ stop the class of mistake from being expressible.
 - [x] T401 [P] In `pyboxbuilder/builders/_base.py`, add `lid_slide_axis` to `SlidingLidFields` and in `BoxBuilder.cards` automatically default `lid_slide_axis` along the longer card dimension (`"x"` when width > length else `"y"`).
 - [x] T402 [P] Update `carve_compartments` in `pyboxbuilder/compartments/carve.py` so that card compartments evaluate `short_sides` and default to the short length, overriding conflicting box type `preferred_scoop_side` long-wall defaults.
 - [x] T403 [P] Add unit tests in `tests/test_pyboxbuilder/test_compartments.py` verifying wide and tall card compartments default cutouts to the short wall across sliding and non-sliding box types.
-- [x] T404 Regenerate documentation STLs, build Sphinx docs with `-W --keep-going`, run unit tests with `--base-only`, and push commits to `origin main` and `origin examples`.
+## Phase 43: Arbitrary Outside Edge Polygon Footprint on No-Lid Boxes (FR-018)
+
+**Goal**: Support arbitrary outside edge polygon footprints (`path`) on `BoxType.NO_LID` open trays (`NoLidBoxBuilder` / `NoLidBox`), matching polygon footprint capabilities while preserving open tray features like stackable rims and hollow toggle.
+
+- [x] T405 [P] Add `path: tuple[tuple[float, float], ...] = ()` and `hollow: bool = True` to `NoLidBoxBuilder` in `pyboxbuilder/builders/no_lid.py` with input normalization in `__post_init__`.
+- [x] T406 [P] Update `NoLidBox` in `pyboxbuilder/box/types/no_lid.py` to build polygon footprints via `PathBox().build_body(spec)`, support `StackableMode.INSIDE` and `StackableMode.OUTSIDE` on polygon paths, and guard magnet slot placement.
+- [x] T407 [P] Update `contracts/public_api.md` and `docs/box_types.rst` to document `path` and `hollow` on `NoLidBoxBuilder`.
+- [x] T408 [P] Add unit tests in `tests/test_pyboxbuilder/test_no_lid.py` covering polygon footprints, normalization, `hollow=False`, and stackable modes on `BoxType.NO_LID`.
+- [x] T409 Run test suite with `--base-only`, verify Sphinx documentation builds with 0 warnings, and push commits to `origin main` and `origin examples`.
 
 ## Notes
 

@@ -82,7 +82,7 @@ from the box's contents.
 | `BoxType.SLIPOVER` | `SlipoverBoxBuilder` | `foot`, `slip` |
 | `BoxType.SLIPOVER_PATH` | `SlipoverPathBoxBuilder` | — |
 | `BoxType.CAP_PATH` | `CapPathBoxBuilder` | — |
-| `BoxType.NO_LID` | `NoLidBoxBuilder` | — |
+| `BoxType.NO_LID` | `NoLidBoxBuilder` | `path`, `hollow` |
 | `BoxType.PATH` | `PathBoxBuilder` | `path`, `hollow` |
 | `BoxType.CARD_LIBRARY` | `CardLibraryBoxBuilder` | — |
 
