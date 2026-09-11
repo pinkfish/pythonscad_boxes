@@ -1216,6 +1216,15 @@ stop the class of mistake from being expressible.
 - [x] T394 Build Sphinx HTML docs with `-W --keep-going` and run unit test suite with `--base-only`.
 - [x] T395 Commit and push changes to both `origin main` and `origin examples`.
 
+## Phase 41: Offset Finger Hole Cylinder and Roundings Across Compartment Gaps (FR-069)
+
+**Goal**: When a compartment does not reach the exterior wall on a scooped side (e.g. `ScoopSide.BACK` spun 180°), offset the finger scoop cutout and through-floor cylinder bore to sit on the exterior wall with a bridging channel extending across the gap, eliminating floor punctures in the middle of the box.
+
+- [x] T396 [P] Update `build_compartment_scoop` in `pyboxbuilder/compartments/carve.py` to keep `wall_thickness = base_wt`, translate the scoop cutout to the exterior wall along the side offset when `gap > 0`, and bridge across the gap above the floor (`z >= 0`).
+- [x] T397 [P] Add unit test in `tests/test_pyboxbuilder/test_carve.py` verifying that when a gap exists between a compartment and the back wall, the through-hole cylinder is placed at the exterior wall and does not cut into the floor at the compartment boundary.
+- [x] T398 Regenerate documentation STLs with `scripts/generate_docs_stls.py` and rebuild Sphinx docs.
+- [x] T399 Verify unit tests pass and commit and push to `origin main` and `origin examples`.
+
 ## Notes
 
 - [P] tasks = different files, no dependencies

@@ -203,6 +203,22 @@ class CompartmentCarveTests(unittest.TestCase):
         self.assertEqual(kwargs["profile"].roll_rise, 4.0)
         self.assertEqual(kwargs["faces"].fillet, 1.25)
 
+    def test_scoop_with_gap_is_offset_to_exterior_wall(self) -> None:
+        """When a gap exists between a compartment and the exterior wall on the
+        scoop side, the scoop must be offset to sit at the exterior wall rather
+        than stranding the bore inside the box floor."""
+        placement = CompartmentPlacement("Cards", (60.0, 40.0), 26.0, (2.0, 2.0))
+        builder = CompartmentBuilder(
+            label="Cards", size=(60.0, 40.0), depth=26.0,
+            cut=Cut(kind=FingerCut.THROUGH_FLOOR, side=ScoopSide.BACK),
+        )
+        contents = build_contents([placement], INTERIOR, {"Cards": builder})
+        self.assertIsNotNone(contents)
+        low, size = bbox(contents)
+        # The rear exterior wall is at y = INTERIOR.origin_y + INTERIOR.length = 78.0 (box back is 80.0)
+        # The cut should reach through the rear wall, past 78.0
+        self.assertGreaterEqual(low[1] + size[1], 78.0)
+
     def test_no_compartments_carves_nothing(self) -> None:
         self.assertIsNone(build_contents([], INTERIOR))
 

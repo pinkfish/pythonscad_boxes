@@ -174,9 +174,8 @@ def build_compartment_scoop(
         gap = placement.position[0] - interior.origin_x
     elif scoop_side == ScoopSide.RIGHT:
         gap = (interior.origin_x + interior.width) - (placement.position[0] + width)
-    else:
-        gap = 0.0
-    wall_thickness = base_wt + max(0.0, gap)
+    gap = max(0.0, gap)
+    wall_thickness = base_wt
     cut = cut if cut is not None else Cut()
     floor_thickness: float | None = (
         floor_z if cut.kind is FingerCut.THROUGH_FLOOR
@@ -195,6 +194,43 @@ def build_compartment_scoop(
         ),
         faces=FaceTreatment(fillet=cut.face_fillet),
     )
+    if gap > 0:
+        from pybosl2 import cuboid
+
+        offset_map = {
+            ScoopSide.FRONT: [0.0, -gap, 0.0],
+            ScoopSide.BACK: [0.0, gap, 0.0],
+            ScoopSide.LEFT: [-gap, 0.0, 0.0],
+            ScoopSide.RIGHT: [gap, 0.0, 0.0],
+        }
+        scoop = scoop.translate(offset_map[scoop_side])
+        cut_radius = (
+            (cut.width / 2)
+            if cut.width is not None
+            else (17.0 if cut.kind is FingerCut.THROUGH_FLOOR else 14.0)
+        )
+        span = width if scoop_side in (ScoopSide.FRONT, ScoopSide.BACK) else length
+        cut_w = min(cut_radius * 2, span)
+        bridge_h = depth + 4.0
+        z_mid = bridge_h / 2 - 0.02
+        fudge = 0.05
+        if scoop_side == ScoopSide.FRONT:
+            bridge = cuboid([cut_w, gap + fudge, bridge_h]).translate(
+                [width / 2, -gap / 2, z_mid]
+            )
+        elif scoop_side == ScoopSide.BACK:
+            bridge = cuboid([cut_w, gap + fudge, bridge_h]).translate(
+                [width / 2, length + gap / 2, z_mid]
+            )
+        elif scoop_side == ScoopSide.LEFT:
+            bridge = cuboid([gap + fudge, cut_w, bridge_h]).translate(
+                [-gap / 2, length / 2, z_mid]
+            )
+        else:  # ScoopSide.RIGHT
+            bridge = cuboid([gap + fudge, cut_w, bridge_h]).translate(
+                [width + gap / 2, length / 2, z_mid]
+            )
+        scoop = scoop | bridge
 
     return _place(scoop, placement, interior)
 

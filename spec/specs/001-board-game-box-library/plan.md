@@ -848,6 +848,8 @@ All cutouts and outer edges MUST be smooth — no sharp 90° corners that catch 
 
    **The kind of cut is a per-compartment setting** (`FingerCut`), and the default is the through hole: a well that asks for a finger cut is usually a well something is stacked in. A well holding loose pieces asks for `SCOOP` and gets the side dip, which is also what the shallow-well branch (§1a13) still produces.
 
+   **Bridging compartment gaps to exterior walls.** When a compartment does not reach the exterior wall on the side being cut (for example, across autolayout shelf spacing or a sliding box stop ledge gap, e.g. at `ScoopSide.BACK` spun 180°), `build_compartment_scoop` MUST place the cut (the slot, cylinder bore, and face fillets) on the *exterior wall* rather than pinning it to the compartment edge. The wall cutout retains the true exterior wall thickness (`base_wt`), while a bridging channel spans the gap above the floor (`z >= 0`) from the compartment to the wall. This ensures the cylinder bore and floor cuts emerge on the exterior wall without puncturing the interior floor of the box.
+
 1b. **A floor finger hole is not an edge scoop (FR-062).** They were briefly built from one profile, which put a flat-bottomed pan where a bowl belongs. An edge scoop is a channel you sweep a finger *along*; a floor hole is a bore you push a piece *up* through, so its bottom is tangent to the floor. The two share `_sweep_through_wall` — the depth matching, face fillets, floor clip and side placement are genuinely common — and differ only where they should, in the profile.
 
 2. **Main box edges are smooth (FR-043d).** Every exposed edge of every printed piece is rounded over at `wall_thickness / 2` by default (FR-044):
