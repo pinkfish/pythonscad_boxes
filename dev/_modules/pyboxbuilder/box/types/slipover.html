@@ -491,6 +491,11 @@
 <span class="sd">        occupies the difference. A `foot` keeps its full footprint at the very</span>
 <span class="sd">        bottom for the sleeve to seat against.</span>
 <span class="sd">        """</span>
+        <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">path</span><span class="p">:</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.types.slipover_path</span><span class="w"> </span><span class="kn">import</span> <span class="n">SlipoverPathBox</span>
+
+            <span class="k">return</span> <span class="n">SlipoverPathBox</span><span class="p">()</span><span class="o">.</span><span class="n">build_body</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
+
         <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.features</span><span class="w"> </span><span class="kn">import</span> <span class="n">slipover_metrics</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.shell</span><span class="w"> </span><span class="kn">import</span> <span class="n">build_shell</span>
 
@@ -532,6 +537,11 @@
 <a class="viewcode-back" href="../../../../_autosummary/pyboxbuilder.box.types.slipover.SlipoverBox.html#pyboxbuilder.box.types.slipover.SlipoverBox.build_lid">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">build_lid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">,</span> <span class="n">decoration</span><span class="p">:</span> <span class="nb">object</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Return a sleeve that slips down over the body, stopping at the foot."""</span>
+        <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">path</span><span class="p">:</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.types.slipover_path</span><span class="w"> </span><span class="kn">import</span> <span class="n">SlipoverPathBox</span>
+
+            <span class="k">return</span> <span class="n">SlipoverPathBox</span><span class="p">()</span><span class="o">.</span><span class="n">build_lid</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="n">decoration</span><span class="p">)</span>
+
         <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.features</span><span class="w"> </span><span class="kn">import</span> <span class="n">slipover_metrics</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.shell</span><span class="w"> </span><span class="kn">import</span> <span class="n">block</span>
 

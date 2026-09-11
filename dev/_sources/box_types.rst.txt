@@ -71,7 +71,7 @@ Drop-On Cap Lid (``BoxType.CAP``)
 
 **Builder**: :class:`~pyboxbuilder.builders.cap.CapBoxBuilder`
 
-A friction-fit cap lid that drops straight onto the box body from above. The lid incorporates side finger cutouts (:class:`~pyboxbuilder.box.features.CapFingerMetrics`) that reveal the box body beneath, allowing easy removal by pinching the sides.
+A friction-fit cap lid that drops straight onto the box body from above. Supports standard rectangular boxes as well as arbitrary polygon footprints via ``path``. The lid incorporates side finger cutouts (:class:`~pyboxbuilder.box.features.CapFingerMetrics`) that reveal the box body beneath, allowing easy removal by pinching the sides.
 
 Cap boxes are well-suited for player trays, resource banks, and modular organizers where components are unpacked immediately onto the table.
 
@@ -128,7 +128,7 @@ Telescoping Slipover Lid (``BoxType.SLIPOVER``)
 
 **Builder**: :class:`~pyboxbuilder.builders.slipover.SlipoverBoxBuilder`
 
-A classic two-piece shoebox closure where the lid walls telescope down over the full height of the body. Internal air-release clearances ensure a smooth slide fit without vacuum resistance.
+A classic two-piece shoebox closure where the lid walls telescope down over the full height of the body. Supports standard rectangular boxes as well as arbitrary polygon footprints via ``path``. Internal air-release clearances ensure a smooth slide fit without vacuum resistance.
 
 Slipover lids provide high structural rigidity and a clean exterior finish.
 
