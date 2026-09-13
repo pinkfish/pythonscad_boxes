@@ -578,10 +578,46 @@ A finger cut is one shape swept through one wall, and these are its requirements
 - **FR-096**: The documentation 3D mesh pre-generation toolchain (`scripts/generate_docs_stls.py`) MUST render multi-material CSG solids to binary STL files embedding **Materialise Magics 15-bit Color Attributes**. These attributes MUST be recognized and rendered by Three.js `STLLoader` with per-vertex color materials in the WebGL viewer. When code examples are updated, the script MUST generate new keyed STL meshes and prune unreferenced, obsolete orphaned meshes from `docs/_extra/_stl/`.
 - **FR-097**: Game insert projects and project templates under `boxes/` MUST leverage **Declarative Repetition Reduction** via `box_defaults={"no_rotate": True}` on `Project(...)`. Projects whose sub-boxes universally require directional alignment MUST NOT repeat `no_rotate=True` across individual `project.box(...)` declarations.
 - **FR-098**: Continuous Integration (CI) test workflows MUST test **only the base library code** and exclude game-specific box integration suites. CI workflows (`test.yml`, `docs.yml`) MUST execute on active, supported runner pools (`macos-15` for `test.yml` providing native 3MF/lib3mf mesh measurement support; `ubuntu-latest` with headless PythonSCAD AppImage for `docs.yml`) to eliminate timeouts caused by retired runner pools (`macos-13`), and `docs.yml` MUST use non-blocking concurrency (`cancel-in-progress: true`) to prevent queued build deadlocks. Automated test filtering (`--base-only` flag / `box_example` marker) MUST dynamically exclude all box suites in `boxes/` and `test_ci_smoke.py` so that adding new box inserts does not expand base CI test execution.
+- **FR-099**: The library MUST support a **Unified Multi-Type Lid Retention Catch System** (`CatchType`) across all lidded box types that require positive closure retention.
+  - **Catch Types Supported**:
+    - `CatchType.NONE` ("none"): No catch mechanism is generated. The closure relies purely on track capture or friction fit.
+    - `CatchType.BUMP` ("bump"): Spherical / hemispherical bump detents and matching spherical dimples. Dimples are oversized relative to bumps by the configured fit clearance (`size_spacing`, default 0.1mm) to ensure positive tactile click without binding or plastic deformation.
+    - `CatchType.LOOP` ("loop"): Resilient flexible strap or loop tab extending from the lid/skirt with an aperture/recess that snaps over a matching retaining stud, post, or hook on the opposing box body.
+    - `CatchType.WEDGE` ("wedge"): Asymmetric ramped wedge ridge / barb featuring an angled lead-in ramp (30°–45°) for low-force closure and a flat horizontal or undercut retaining shoulder that locks against a matching recess, undercut groove, or retaining shelf on the opposing part.
+  - **Applicability Across All Lidded Box Types Requiring Catches**:
+    - **Sliding Lids** (`BoxType.SLIDING`, `BoxType.SLIDING_CATCH`, `BoxType.CARD_LIBRARY`):
+      - Catch location: Beside the track outlet (mouth), within `wall_thickness + 2 * catch_size` of the exit face, ensuring engagement only in the final millimetres of slide.
+      - When `BUMP`: Hemispherical bumps on the lid dovetail flanks dropping into spherical dimples in the body groove walls beside the mouth.
+      - When `WEDGE`: Asymmetric ramped wedge barbs on the lid dovetail flanks near the trailing end clicking into matching undercut notches in the body groove walls beside the mouth. (Per FR-002e0, a wedge catch at the leading stop wall seat is strictly forbidden; at the outlet, wedge barbs load across the dovetail thickness without delaminating printed layers).
+      - When `LOOP`: A flexible resilient loop tab projecting from the lid's trailing edge or top face, snapping down over a retaining post/stud on the box body outlet rim.
+      - When `NONE`: Smooth sliding channel with no detents.
+    - **Cap & Slipover Lids** (`BoxType.CAP`, `BoxType.CAP_PATH`, `BoxType.SLIPOVER`, `BoxType.SLIPOVER_PATH`):
+      - Catch location: Along the vertical mating walls of the stepped band (for cap boxes) or outer wall (for slipover sleeves), on each of the two long walls (or perimeter for path boxes).
+      - When `BUMP`: Spherical bumps on the inside mating surface of the lid/sleeve, and matching spherical dimples cut into the body's mating surface (minimum 2 dimples/bumps per side spaced at least 40mm apart, up to 4 per side, per FR-002q2/q3).
+      - When `WEDGE`: Asymmetric wedge ridge beads along the inner skirt/sleeve face (sloped lead-in ramp, horizontal retaining shelf) clicking into matching undercut wedge grooves on the body band/wall.
+      - When `LOOP`: Resilient loop tabs extending downward from the lid skirt or sleeve hem snapping over exterior retaining studs/bosses on the body wall below the skirt line.
+      - When `NONE`: Smooth friction fit without detents or dimples.
+    - **Hinged & Clamshell Closures** (`BoxType.HINGE`, `BoxType.FILAMENT_HINGE`, `BoxType.PRINT_IN_PLACE_HINGE`, `BoxType.CLAMSHELL`):
+      - Catch location: Centered on the front wall opposite the hinge axis.
+      - When `WEDGE`: Lid front tab carrying a right-angled triangular snap ridge (sloped entry ramp, flat horizontal lock shelf) snapping into a matching front body wall pocket groove.
+      - When `BUMP`: Lid front tab carrying dual spherical bumps that snap into matching hemispherical indents inside the front pocket on the box body.
+      - When `LOOP`: Resilient loop tab extending downward from the front lid rim that clips over an exterior retaining hook/boss on the body's front wall.
+      - When `NONE`: Lid closes flush against the rim without a front snap tab.
+    - **Cantilever Snap-Fit Lids** (`BoxType.SNAP_FIT`):
+      - Catch location: On the integrated downward-extending cantilever spring arms on opposing walls.
+      - When `WEDGE`: Cantilever arms terminating in wedge barb heads (45° lead-in ramp, flat horizontal lock shoulder) mating with recessed body catch pockets.
+      - When `BUMP`: Cantilever arms terminating in spherical bump detents clicking into body dimple pockets.
+      - When `LOOP`: Cantilever spring arms configured with loop apertures snapping over exterior protruding wedge studs/bosses on the box body.
+      - When `NONE`: Straight cantilever arms without latch detents.
+  - **Sizing, Derivation, and Validation**:
+    - Every box specification accepts `catch_type: CatchType` (or string equivalent) with defaults tailored to the box type (e.g. `BUMP` for sliding and cap/slipover, `WEDGE` for hinged and snap-fit).
+    - Accepts `catch_size: float | None` (bump radius for `BUMP`, wedge projection depth for `WEDGE`, loop aperture width/thickness for `LOOP`). If omitted (`None`), `catch_size` defaults to `min(1.0, wall_thickness / 3)`.
+    - Catch geometry MUST be validated prior to CSG evaluation: `catch_size` MUST NOT exceed half the wall thickness or lid thickness, and all pockets/protrusions MUST remain within the structural boundaries of the walls without punching through to the box interior or exterior.
 
 
 - **BoxSpec**: The complete configuration of a single box -- outer dimensions (explicit or auto-computed from compartments), wall/floor/lid thicknesses, lid type, compartments, finger holes, labelling decorations, material colours, print positioning, auto-expand behaviour (expandable axes), and a `no_rotate` flag (default `False`) that prevents the 3D packer from rotating the box. Immutable once built. If `size` is omitted, dimensions are derived from compartment layout during packing.
 - **BoxType**: Abstracts the lid mechanism -- defines how the body is constructed (e.g., with dovetail grooves for sliding, with overhangs for caps, cantilever snap latches, bayonets, threads, dispensers, card shoes, sleeve drawers, clamshells, modular interlocks, or monolithic print-in-place hinges) and what lid geometry mates with it.
+- **CatchType**: The enum defining the lid retention mechanism (`NONE`, `BUMP`, `LOOP`, `WEDGE`) across all lidded box families requiring positive closure latching.
 - **Compartment**: A single well inside a box interior, defined by its 2D footprint (width x length, or a polygon path), depth, rounding radius, and optional finger cutout specification. Can emit both a negative cavity and a positive insert.
 - **Compartment Group**: A collection of compartments that must stay together during layout, with a packing algorithm directive.
 - **Lid**: The closure for a box. Includes a decoration specification with: label text (auto-sized, with framed or frameless mode and optional corner-to-corner diagonal orientation), through-hole surface pattern (any of the `PatternType` catalog, per FR-023), fingernail lift cutout, and three independently settable accent colors (text color, frame top color, pattern top color). Minimum text height threshold (default 4mm) suppresses labels that would print illegibly. Supports per-export-mode label overrides: MMU and single-color exports can use different label specifications (e.g., frameless for MMU, framed for single) via `mmu_label` and `single_label` sub-configurations.
@@ -784,6 +820,8 @@ The project architecture undergoes structural hardening to eliminate God-objects
 - **SC-096**: `scripts/generate_docs_stls.py` runs with 0 failures, pre-generating all active documentation STL models with Materialise Magics 15-bit color attributes and leaving zero orphaned meshes.
 - **SC-097**: `boxes/_template/template.py` and repetitive game inserts (`adas_dream`, `dominion`, `russian_railroads`, `pioneer_rails`, `brink`, `emberleaf`) declare `box_defaults={"no_rotate": True}` on `Project(...)` with 0 duplicate `no_rotate=True` arguments and 100% test pass rate.
 - **SC-098**: Both `test.yml` (on `macos-15` with native 3MF/lib3mf support) and `docs.yml` (on `ubuntu-latest`) execute cleanly without runner timeouts; `test.yml` executes only the base library test suite (passing all tests in < 3 minutes) with zero game box insert suites executed; and `docs.yml` triggers immediately and successfully deploys Sphinx documentation without queuing deadlocks.
+- **SC-099**: All lidded box types needing a catch (`SLIDING`, `SLIDING_CATCH`, `CARD_LIBRARY`, `CAP`, `CAP_PATH`, `SLIPOVER`, `SLIPOVER_PATH`, `HINGE`, `FILAMENT_HINGE`, `PRINT_IN_PLACE_HINGE`, `CLAMSHELL`, `SNAP_FIT`) support `CatchType.BUMP`, `CatchType.LOOP`, `CatchType.WEDGE`, and `CatchType.NONE`. The resulting geometry is validated for envelope sanity and builds with 0mm³ body/lid intersection when closed and positive tactile latching when engaged.
+
 
 ### Railways of the World Example Specification
 

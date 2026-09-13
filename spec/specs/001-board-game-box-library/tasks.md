@@ -1252,7 +1252,22 @@ stop the class of mistake from being expressible.
 - [x] T414 [P] Add unit tests in `tests/test_pyboxbuilder/test_cap_polygon.py` and `tests/test_pyboxbuilder/test_slipover_polygon.py` covering polygon footprints, normalization, body and lid geometry, and `hollow=False`.
 - [x] T415 Run test suite with `--base-only`, verify Sphinx documentation builds with 0 warnings, and push commits to `origin main` and `origin examples`.
 
+## Phase 45: Unified Lid Retention Catch System (FR-099, SC-099)
+
+**Goal**: Implement a unified multi-type lid retention catch system (`CatchType.NONE`, `CatchType.BUMP`, `CatchType.LOOP`, `CatchType.WEDGE`) across all lidded box families requiring positive closure retention (sliding, cap, slipover, hinged, clamshell, snap-fit).
+
+- [ ] T416 [P] Define `CatchType` enum in `pyboxbuilder/enums.py` (`NONE = "none"`, `BUMP = "bump"`, `LOOP = "loop"`, `WEDGE = "wedge"`), and re-export `CatchType` in `pyboxbuilder/__init__.py`.
+- [ ] T417 [P] Add `catch_type: CatchType` and `catch_size: float | None = None` to `UnresolvedBoxSpec` and `ResolvedBoxSpec` in `pyboxbuilder/box/spec.py`. Plumb `catch_type` and `catch_size` through `BoxBuilder` in `pyboxbuilder/builders/_base.py` and all relevant builder subclasses (`SlidingBoxBuilder`, `SlidingCatchBoxBuilder`, `CapBoxBuilder`, `CapPathBoxBuilder`, `SlipoverBoxBuilder`, `SlipoverPathBoxBuilder`, `HingeBoxBuilder`, `FilamentHingeBoxBuilder`, `PrintInPlaceHingeBoxBuilder`, `ClamshellBoxBuilder`, `SnapFitBoxBuilder`), deprecating legacy `hinge_catch_type` and mapping scalar `catch_radius`.
+- [ ] T418 [P] Implement core geometric catch primitives in `pyboxbuilder/box/features.py`: `build_bump_detent()` (spherical bump + matching clearance dimple), `build_wedge_detent()` (asymmetric lead-in ramp + flat locking shoulder), and `build_loop_detent()` (resilient strap tab with aperture + chamfered body stud).
+- [ ] T419 [P] Update `sliding_catch` in `pyboxbuilder/box/features.py` to generate `BUMP`, `WEDGE`, and `LOOP` catches at the track outlet across `SlidingBox`, `SlidingCatchBox`, and `CardLibraryBox`.
+- [ ] T420 [P] Update `cap_slipover_catch` in `pyboxbuilder/box/features.py` to generate `BUMP`, `WEDGE`, and `LOOP` catches along the mating walls for `CapBox`, `CapPathBox`, `SlipoverBox`, and `SlipoverPathBox`.
+- [ ] T421 [P] Update `hinge_catch` in `pyboxbuilder/box/features.py` to generate `WEDGE`, `BUMP`, and `LOOP` catches on the front wall pocket/tab across `HingeBox`, `FilamentHingeBox`, `PrintInPlaceHingeBox`, and `ClamshellBox`.
+- [ ] T422 [P] Update `SnapFitBox` in `pyboxbuilder/box/types/snap_fit.py` to support `WEDGE`, `BUMP`, and `LOOP` detent configurations on its cantilever arms.
+- [ ] T423 [P] Add validation in `pyboxbuilder/box/validation.py` for catch envelope sanity (`catch_size` vs wall/lid thickness) and write unit tests in `tests/test_pyboxbuilder/test_catches.py`.
+- [ ] T424 Run test suite with `--base-only`, verify Sphinx documentation builds with 0 warnings, and push commits to `origin main` and `origin examples`.
+
 ## Notes
+
 
 - [P] tasks = different files, no dependencies
 - [Story] label maps task to specific user story for traceability

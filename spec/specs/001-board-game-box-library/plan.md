@@ -299,6 +299,77 @@ To hold the hinged lid closed, the box must carry a snap-fit catch on the front 
 - **Triangular Ridge snap (Default)**: The tab carries a right-angled triangular snap ridge (sloped bottom, flat top) pointing inward (+Y). The pocket has a matching right-angled triangular groove to catch it.
 - **Hemispherical Bumps snap (Alternative)**: Alternately, a bump catch consisting of two side-by-side round bumps on the lid tab that click into two matching hemispherical indents inside the pocket on the box body.
 
+### Unified Multi-Type Lid Retention Catch System (FR-099)
+
+Previously, catch mechanisms were fragmented across box types: sliding boxes used a scalar `catch_radius` for bump detents at the outlet; cap and slipover boxes had hardcoded bump catches; hinged boxes used a raw string `hinge_catch_type: str = "ridge"`; and snap-fit boxes used fixed wedge barbs on cantilever arms.
+
+FR-099 unifies all lid retention mechanisms under a single strongly-typed `CatchType` enum:
+
+```python
+class CatchType(Enum):
+    """Retention catch mechanism for box lids (FR-099)."""
+
+    NONE = "none"
+    """No positive retention catch (friction fit or plain track)."""
+    BUMP = "bump"
+    """Spherical / hemispherical detent bumps and matching dimples."""
+    LOOP = "loop"
+    """Resilient strap / loop tab that snaps over an opposing stud or hook."""
+    WEDGE = "wedge"
+    """Asymmetric ramped wedge ridge / barb with positive locking shoulder."""
+```
+
+#### 1. Core Geometric Primitives (`pyboxbuilder/box/features.py`)
+
+Three reusable geometric generators construct positive and negative catch features across all closure families:
+
+- **`build_bump_detent(radius, clearance=0.1)`**:
+  - Positive: A spherical or hemispherical bead protruding from the moving part (lid, skirt, or tab).
+  - Negative: A spherical dimple cut into the mating wall, dilated by `clearance` ($r_{dimple} = r_{bump} + \text{clearance}$) to ensure tactile snap without jamming.
+- **`build_wedge_detent(depth, width, height, ramp_angle=35.0, clearance=0.1)`**:
+  - Positive: An asymmetric ramped wedge barb featuring a low-angle incline ($\theta \approx 30^\circ\text{--}45^\circ$) along the insertion direction for easy closing, terminating in a flat horizontal retaining shoulder ($\alpha = 0^\circ$ or slight undercut) that resists opening.
+  - Negative: A matching undercut pocket or groove in the mating wall dilated by `clearance` along the non-locking dimensions.
+- **`build_loop_detent(tab_length, tab_width, aperture_size, stud_depth, clearance=0.15)`**:
+  - Positive: A resilient planar strap or loop tab extending from the lid rim or skirt with an internal rectangular aperture.
+  - Negative/Mating: An opposing retaining boss or hook stud projecting from the box body with a 45° lead-in chamfer. During closing, the loop deflects outward over the chamfer and drops over the stud.
+
+#### 2. Implementation Across All Lidded Closure Families
+
+The unified catch system applies across all lidded box families requiring retention:
+
+1. **Sliding Lids** (`BoxType.SLIDING`, `BoxType.SLIDING_CATCH`, `BoxType.CARD_LIBRARY`):
+   - Location: Positioned at the track outlet (mouth), within `wall_thickness + 2 * catch_size` of the exit face, engaging only in the final millimetres of slide travel.
+   - `CatchType.BUMP`: Hemispherical bumps on lid dovetail flanks dropping into spherical dimples in track walls beside the mouth.
+   - `CatchType.WEDGE`: Asymmetric wedge barbs on the trailing dovetail flanks snapping into matching undercut notches in the track walls. (Note: FR-002e0 forbids a wedge at the leading stop-wall seat because forcing the thin leading lip splits 3D-printed layers; a wedge catch on the trailing flanks at the outlet operates across the dovetail thickness and is completely safe).
+   - `CatchType.LOOP`: A resilient loop tab extending from the lid's trailing edge, clipping over a small retaining post on the box body outlet rim.
+   - `CatchType.NONE`: Smooth sliding channel without detents.
+2. **Cap & Slipover Lids** (`BoxType.CAP`, `BoxType.CAP_PATH`, `BoxType.SLIPOVER`, `BoxType.SLIPOVER_PATH`):
+   - Location: On the mating walls of the stepped band (cap) or outer wall (slipover) along the two long walls (or perimeter for path boxes).
+   - `CatchType.BUMP`: Spherical bumps on inside lid/sleeve face mating with spherical dimples in body walls (2 to 4 catches per side spaced $\ge 40\text{mm}$ apart).
+   - `CatchType.WEDGE`: Ramped wedge bead along the inner skirt face snapping into an undercut groove/ledge in the body band/wall.
+   - `CatchType.LOOP`: Flexible loop tabs on the skirt/sleeve hem snapping over exterior studs on the body wall below the skirt line.
+   - `CatchType.NONE`: Smooth friction fit without detents.
+3. **Hinged & Clamshell Closures** (`BoxType.HINGE`, `BoxType.FILAMENT_HINGE`, `BoxType.PRINT_IN_PLACE_HINGE`, `BoxType.CLAMSHELL`):
+   - Location: Centered on the front wall opposite the hinge axis.
+   - `CatchType.WEDGE`: Right-angled triangular ridge (sloped lead-in ramp, horizontal retaining shoulder) on lid front tab snapping into front body pocket groove.
+   - `CatchType.BUMP`: Dual spherical bumps on lid front tab clicking into matching hemispherical indents in the body front pocket.
+   - `CatchType.LOOP`: Resilient loop tab extending downward from the lid front rim clipping over an exterior stud/hook on the body front wall.
+   - `CatchType.NONE`: Hinged lid rests flush against the body rim without front latching.
+4. **Cantilever Snap-Fit Lids** (`BoxType.SNAP_FIT`):
+   - Location: Downward-extending cantilever spring arms on opposing walls.
+   - `CatchType.WEDGE`: Cantilever arms terminating in wedge barb heads (45° lead-in ramp, flat horizontal lock shoulder) mating with recessed body catch pockets.
+   - `CatchType.BUMP`: Cantilever arms terminating in spherical bump detents clicking into body dimple pockets.
+   - `CatchType.LOOP`: Cantilever arms with loop apertures snapping over exterior protruding wedge studs/bosses on the body.
+   - `CatchType.NONE`: Cantilever guide arms without latch detents.
+
+#### 3. Sizing & Invariant Validation
+
+Catch parameters are plumbed through `BoxSpec` and `ResolvedBoxSpec`:
+- `catch_type: CatchType = ...` (default resolved per box type, e.g. `BUMP` for sliding/cap/slipover, `WEDGE` for hinged/snap-fit).
+- `catch_size: float | None = None`: Primary dimension (bump radius for `BUMP`, wedge protrusion depth for `WEDGE`, loop thickness for `LOOP`). If `None`, derived as `min(1.0, wall_thickness / 3)`.
+- `GeometryValidator.catch_fits_wall`: Asserts that `catch_size <= wall_thickness / 2` and `catch_size <= lid_thickness / 2`, guaranteeing that detents and pockets never breach interior compartments or exterior cosmetic faces.
+
+
 
 ### A Sliding Box Needs Somewhere For The Lid To Go In (FR-002a)
 
@@ -1681,6 +1752,7 @@ Where each requirement is designed, and where it is verified. Sections named bel
 | FR-096 | Materialise Magics 15-Bit STL Vertex Color Pre-generation Pipeline | `scripts/generate_docs_stls.py`, `docs/_ext/stl_viewer.py`, `docs/_static/stl_viewer.js` |
 | FR-097 | Declarative Insert Project Modernization (`box_defaults`) | `boxes/_template/template.py`, `boxes/*/*.py` |
 | FR-098 | Streamlined CI Workflows & Base Code Isolation | `.github/workflows/test.yml`, `.github/workflows/docs.yml`, `tests/conftest.py` |
+| FR-099 | Unified Multi-Type Lid Retention Catch System (`CatchType`) | `pyboxbuilder/enums.py`, `pyboxbuilder/box/features.py`, `pyboxbuilder/box/types/*`, `pyboxbuilder/builders/*` |
 
 | SC | Verified by |
 |---|---|
@@ -1755,6 +1827,7 @@ Where each requirement is designed, and where it is verified. Sections named bel
 | SC-096 | `scripts/generate_docs_stls.py` (27 written, 55 unchanged, 0 failed) |
 | SC-097 | `test_adas_dream.py`, `test_dominion.py`, `test_russian_railroads.py`, `test_pioneer_rails.py`, `test_brink.py`, `test_emberleaf.py` |
 | SC-098 | `.github/workflows/test.yml` (macos-15), `.github/workflows/docs.yml` (ubuntu-latest), `tests/conftest.py` — base-only CI test execution in < 3m |
+| SC-099 | `test_catches.py`, `test_closures.py` — Unified multi-type catches (BUMP, LOOP, WEDGE, NONE) across all lidded types |
 
 ### Streamlined CI Workflows & Base Code Isolation (FR-098, SC-098)
 
@@ -1762,6 +1835,18 @@ GitHub Actions previously stalled and timed out due to two configuration bottlen
 1. **Retired macOS Runner Pool (`macos-13`)**: GitHub Actions retired `macos-13` (x86_64 macOS) runners. Workflows requesting `macos-13` waited in queue for 24 hours until hitting the maximum job execution timeout. `docs.yml` is migrated to `ubuntu-latest` with headless PythonSCAD AppImage extraction (building in < 3m). `test.yml` is migrated to `macos-15` (Apple Silicon M1): core `pyboxbuilder` tests assert on enclosed solid volume and compare 3MF files (`mesh.py::volume()`, `read_3mf_geometry()`), which requires `lib3mf` and `libzip` (bundled natively in macOS wheels, but absent from PyPI Linux wheels).
 2. **Docs Concurrency Deadlock**: `docs.yml` configured `concurrency: group: docs, cancel-in-progress: false`. When a run hung on `macos-13`, subsequent pushes to `main` queued behind it indefinitely. `cancel-in-progress` is set to `true` to cancel superseded builds and prevent queue deadlocks.
 3. **CI Scope Narrowed to Base Library Code**: `test.yml` was previously running tests for all 41 game box inserts in `boxes/` (via incomplete ignore lists) and running `test_ci_smoke.py` under a `Build every example` step. In accordance with user requirements, the `Build every example` step is removed, and pytest is enhanced with automated base-only filtering (`--base-only` / `box_example` marker in `tests/conftest.py`) that dynamically queries `boxes/` to ensure CI executes strictly the 41 core `pyboxbuilder` unit, layout, closure, and invariant test files.
+
+### Unified Lid Retention Catch Architecture (FR-099, SC-099)
+
+The multi-type catch subsystem establishes a cohesive architecture across all lid closure mechanisms:
+1. **Strongly-typed enum contract**: `CatchType` in `pyboxbuilder/enums.py` (`NONE`, `BUMP`, `LOOP`, `WEDGE`) replaces disparate boolean flags (`pip_snap_catch`), raw strings (`hinge_catch_type`), and isolated scalar radii (`catch_radius`).
+2. **Universal closure integration**:
+   - Sliding lids (`BoxType.SLIDING`, `SLIDING_CATCH`, `CARD_LIBRARY`) generate `BUMP`, `WEDGE`, or `LOOP` detents exclusively at the outlet mouth.
+   - Cap and slipover lids (`BoxType.CAP`, `CAP_PATH`, `SLIPOVER`, `SLIPOVER_PATH`) generate `BUMP`, `WEDGE`, or `LOOP` catches along mating walls.
+   - Hinged and clamshell lids (`BoxType.HINGE`, `FILAMENT_HINGE`, `PRINT_IN_PLACE_HINGE`, `CLAMSHELL`) generate `WEDGE`, `BUMP`, or `LOOP` catches on the front tab/pocket.
+   - Snap-fit lids (`BoxType.SNAP_FIT`) generate `WEDGE`, `BUMP`, or `LOOP` catches on opposing cantilever spring arms.
+3. **Pre-CSG geometric validation**: `GeometryValidator.catch_fits_wall` enforces that detents and recesses do not exceed structural wall and lid limits, failing fast with descriptive `GeometryValidationError` if invalid.
+
 
 ## Complexity Tracking
 
