@@ -946,10 +946,11 @@ def build_loop_detent(
         [width + 2 * clearance, depth + clearance, height + 2 * clearance],
         at=(-width / 2.0 - clearance, -0.05, -clearance),
     )
-    hook_w = aperture_w - 2 * clearance
-    hook_h = (height - aperture_h) / 2.0 + aperture_h * 0.7
+    hook_w = max(0.5, aperture_w - 2 * clearance)
+    hook_bottom = (height - aperture_h) / 2.0 + clearance
+    hook_h = max(0.5, aperture_h * 0.7 - 2 * clearance)
     hook_d = min(depth, t)
-    hook = block([hook_w, hook_d, hook_h], at=(-hook_w / 2.0, 0.0, 0.0))
+    hook = block([hook_w, hook_d, hook_h], at=(-hook_w / 2.0, 0.0, hook_bottom))
     body_cutter = pocket - hook
     return loop_tab, body_cutter
 

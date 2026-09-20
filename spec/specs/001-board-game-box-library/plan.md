@@ -1753,6 +1753,7 @@ Where each requirement is designed, and where it is verified. Sections named bel
 | FR-097 | Declarative Insert Project Modernization (`box_defaults`) | `boxes/_template/template.py`, `boxes/*/*.py` |
 | FR-098 | Streamlined CI Workflows & Base Code Isolation | `.github/workflows/test.yml`, `.github/workflows/docs.yml`, `tests/conftest.py` |
 | FR-099 | Unified Multi-Type Lid Retention Catch System (`CatchType`) | `pyboxbuilder/enums.py`, `pyboxbuilder/box/features.py`, `pyboxbuilder/box/types/*`, `pyboxbuilder/builders/*` |
+| FR-100 | Comprehensive Component & Catch Unit Test Coverage | `tests/test_pyboxbuilder/test_catches.py`, `tests/test_pyboxbuilder/test_closures.py`, `tests/test_pyboxbuilder/test_cap_polygon.py`, `tests/test_pyboxbuilder/test_slipover_polygon.py` |
 
 | SC | Verified by |
 |---|---|
@@ -1828,6 +1829,7 @@ Where each requirement is designed, and where it is verified. Sections named bel
 | SC-097 | `test_adas_dream.py`, `test_dominion.py`, `test_russian_railroads.py`, `test_pioneer_rails.py`, `test_brink.py`, `test_emberleaf.py` |
 | SC-098 | `.github/workflows/test.yml` (macos-15), `.github/workflows/docs.yml` (ubuntu-latest), `tests/conftest.py` — base-only CI test execution in < 3m |
 | SC-099 | `test_catches.py`, `test_closures.py` — Unified multi-type catches (BUMP, LOOP, WEDGE, NONE) across all lidded types |
+| SC-100 | `test_catches.py`, `test_closures.py`, `test_cap_polygon.py`, `test_slipover_polygon.py` — Comprehensive unit testing of all 23 box types, all catch configurations, both coordinate axes, and arbitrary polygon footprints with zero CSG collision volume |
 
 ### Streamlined CI Workflows & Base Code Isolation (FR-098, SC-098)
 
@@ -1846,6 +1848,15 @@ The multi-type catch subsystem establishes a cohesive architecture across all li
    - Hinged and clamshell lids (`BoxType.HINGE`, `FILAMENT_HINGE`, `PRINT_IN_PLACE_HINGE`, `CLAMSHELL`) generate `WEDGE`, `BUMP`, or `LOOP` catches on the front tab/pocket.
    - Snap-fit lids (`BoxType.SNAP_FIT`) generate `WEDGE`, `BUMP`, or `LOOP` catches on opposing cantilever spring arms.
 3. **Pre-CSG geometric validation**: `GeometryValidator.catch_fits_wall` enforces that detents and recesses do not exceed structural wall and lid limits, failing fast with descriptive `GeometryValidationError` if invalid.
+
+### Comprehensive Basic Component & Catch Testing Strategy (FR-100, SC-100)
+
+Every basic piece and closure mechanism in the library is subject to exhaustive automated unit testing:
+1. **Full Box Type Matrix**: All 23 registered box types in `BoxType` are tested to verify they produce non-null, manifold CSG bodies and lids.
+2. **Exhaustive Catch Matrix**: Every lidded box type needing retention (`SLIDING`, `SLIDING_CATCH`, `CARD_LIBRARY`, `CAP`, `CAP_PATH`, `SLIPOVER`, `SLIPOVER_PATH`, `HINGE`, `FILAMENT_HINGE`, `PRINT_IN_PLACE_HINGE`, `CLAMSHELL`, `SNAP_FIT`) is tested across all four `CatchType` variants (`BUMP`, `WEDGE`, `LOOP`, `NONE`), ensuring 0mm³ collision volume when closed (`volume(body & lid) < 0.05mm³`).
+3. **Multi-Axis Alignment**: Sliding lids and cantilever snap-fit arms are verified along both principal axes (X and Y) to prevent orientation inversion errors.
+4. **Arbitrary Polygon Footprints**: Cap and slipover boxes are verified with both rectangular and arbitrary 2D polygon boundaries (`path`), testing stepped bands, telescoping skirts, and solid/hollow base variants.
+5. **Geometric Invariants & Fail-Fast Validation**: Pre-CSG validation bounds and builder instantiation contracts are tested with negative test cases to prevent invalid parameters from reaching CSG evaluation.
 
 
 ## Complexity Tracking

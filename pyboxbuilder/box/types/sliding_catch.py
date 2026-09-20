@@ -78,7 +78,10 @@ class SlidingCatchBox(BoxTypeBase):
         if spec.rim_rounding is None:
             spec = replace(spec, rim_rounding=sliding_rim_rounding(spec))
         body = build_shell(spec) - sliding_track(spec).body
-        return body - sliding_catch(spec, self._catch_radius(spec), "x").body
+        catch = sliding_catch(spec, self._catch_radius(spec), "x")
+        if catch.body is not None:
+            body = body - catch.body
+        return body
 
     def slide_axis(self, spec: BoxSpec) -> str:
         """Return X — this type's lid always exits the right face."""
@@ -88,7 +91,8 @@ class SlidingCatchBox(BoxTypeBase):
         """Return the sliding plate with a bump that clicks into the body's dimple."""
         from pyboxbuilder.box.features import sliding_catch, sliding_track
 
-        lid = sliding_track(spec).require_lid() | sliding_catch(
-            spec, self._catch_radius(spec), "x"
-        ).require_lid()
+        lid = sliding_track(spec).require_lid()
+        catch = sliding_catch(spec, self._catch_radius(spec), "x")
+        if catch.lid is not None:
+            lid = lid | catch.lid
         return self.cut_fingernail_catch(lid, spec)
