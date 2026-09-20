@@ -622,6 +622,20 @@
                 <span class="p">),</span>
                 <span class="n">guidance</span><span class="o">=</span><span class="sa">f</span><span class="s2">"Reduce catch_radius to &lt; </span><span class="si">{</span><span class="n">spec</span><span class="o">.</span><span class="n">wall_thickness</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">mm or increase wall_thickness."</span><span class="p">,</span>
             <span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="n">spec</span><span class="o">.</span><span class="n">catch_size</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+            <span class="ow">and</span> <span class="n">spec</span><span class="o">.</span><span class="n">catch_size</span> <span class="o">&gt;</span> <span class="mf">0.0</span>
+            <span class="ow">and</span> <span class="n">spec</span><span class="o">.</span><span class="n">catch_size</span> <span class="o">&gt;=</span> <span class="n">spec</span><span class="o">.</span><span class="n">wall_thickness</span>
+        <span class="p">):</span>
+            <span class="k">raise</span> <span class="n">GeometryValidationError</span><span class="p">(</span>
+                <span class="n">label</span><span class="o">=</span><span class="n">spec</span><span class="o">.</span><span class="n">label</span><span class="p">,</span>
+                <span class="n">invariant</span><span class="o">=</span><span class="s2">"catch_size_fits_wall"</span><span class="p">,</span>
+                <span class="n">message</span><span class="o">=</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">"Catch size (</span><span class="si">{</span><span class="n">spec</span><span class="o">.</span><span class="n">catch_size</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">mm) must be strictly less than "</span>
+                    <span class="sa">f</span><span class="s2">"wall thickness (</span><span class="si">{</span><span class="n">spec</span><span class="o">.</span><span class="n">wall_thickness</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">mm)."</span>
+                <span class="p">),</span>
+                <span class="n">guidance</span><span class="o">=</span><span class="sa">f</span><span class="s2">"Reduce catch_size to &lt; </span><span class="si">{</span><span class="n">spec</span><span class="o">.</span><span class="n">wall_thickness</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">mm or increase wall_thickness."</span><span class="p">,</span>
+            <span class="p">)</span>
         <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">inset</span> <span class="o">&gt;</span> <span class="mf">0.0</span><span class="p">:</span>
             <span class="n">interior_depth</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">height</span> <span class="o">-</span> <span class="n">spec</span><span class="o">.</span><span class="n">floor_thickness</span>
             <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">inset</span> <span class="o">&gt;=</span> <span class="n">interior_depth</span><span class="p">:</span>

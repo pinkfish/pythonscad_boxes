@@ -605,4 +605,36 @@ A single-piece, zero-assembly hinged box where body and lid are laid flat at 180
    box.compartment("Tools", holds_pieces=True)
    project.show(show_lids=True)
 
+Lid Retention Catches (``CatchType``)
+-------------------------------------
+
+All lidded box types requiring positive closure retention (sliding, cap, slipover, hinged, clamshell, snap-fit) support the unified :class:`~pyboxbuilder.enums.CatchType` mechanism (FR-099):
+
+* **``CatchType.BUMP``** (``"bump"``): Spherical/hemispherical bump detents dropping into matching oversized clearance dimples (0.1mm clearance). Standard for sliding lids, cap boxes, and slipover boxes.
+* **``CatchType.WEDGE``** (``"wedge"``): Asymmetric ramped wedge barbs/ridges featuring a low-force lead-in ramp (30°–45°) and a flat horizontal retaining shoulder that snaps into an undercut groove or shelf. Standard for hinged and cantilever snap-fit lids.
+* **``CatchType.LOOP``** (``"loop"``): Flexible strap/loop tabs carrying an aperture window that clips over a matching retaining stud or hook on the opposing body wall.
+* **``CatchType.NONE``** (``"none"``): Generates a smooth friction fit or track slide without detent bumps, notches, or hooks.
+
+Configure catches via ``catch_type`` and ``catch_size`` on any box builder:
+
+.. code-block:: python
+
+   # Sliding lid with wedge catch instead of default bump:
+   box = project.box(
+       BoxType.SLIDING,
+       "Tokens",
+       size=(60.0, 60.0, 22.0),
+       catch_type=CatchType.WEDGE,
+       catch_size=0.8,
+   )
+
+   # Cap box with flexible loop retention:
+   cap = project.box(
+       BoxType.CAP,
+       "Cards",
+       size=(70.0, 50.0, 30.0),
+       catch_type=CatchType.LOOP,
+   )
+
+
 

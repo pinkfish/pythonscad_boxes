@@ -455,6 +455,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.spec</span><span class="w"> </span><span class="kn">import</span> <span class="n">BoxSpec</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">CatchType</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.precision</span><span class="w"> </span><span class="kn">import</span> <span class="n">kwargs</span> <span class="k">as</span> <span class="n">precision_kwargs</span>
 
 <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
@@ -1345,41 +1346,131 @@
 
 
 
+
+<span class="c1"># ------------------------------------------------------------ retention catches (FR-099)</span>
+
+
+<div class="viewcode-block" id="build_bump_detent">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.features.build_bump_detent.html#pyboxbuilder.box.features.build_bump_detent">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">build_bump_detent</span><span class="p">(</span>
+    <span class="n">radius</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">clearance</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">FIT_SLACK_MM</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Bosl2Solid</span><span class="p">,</span> <span class="n">Bosl2Solid</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">"""Return positive bump and negative dimple (FR-099).</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        tuple[Bosl2Solid, Bosl2Solid]: (bump, dimple)</span>
+<span class="sd">    """</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">sphere</span>
+
+    <span class="n">bump</span> <span class="o">=</span> <span class="n">sphere</span><span class="p">(</span><span class="n">radius</span><span class="o">=</span><span class="n">radius</span><span class="p">,</span> <span class="o">**</span><span class="n">precision_kwargs</span><span class="p">())</span>
+    <span class="n">dimple</span> <span class="o">=</span> <span class="n">sphere</span><span class="p">(</span><span class="n">radius</span><span class="o">=</span><span class="n">radius</span> <span class="o">+</span> <span class="n">clearance</span><span class="p">,</span> <span class="o">**</span><span class="n">precision_kwargs</span><span class="p">())</span>
+    <span class="k">return</span> <span class="n">bump</span><span class="p">,</span> <span class="n">dimple</span></div>
+
+
+
+<div class="viewcode-block" id="build_wedge_detent">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.features.build_wedge_detent.html#pyboxbuilder.box.features.build_wedge_detent">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">build_wedge_detent</span><span class="p">(</span>
+    <span class="n">depth</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">height</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">clearance</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">FIT_SLACK_MM</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Bosl2Solid</span><span class="p">,</span> <span class="n">Bosl2Solid</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">"""Return positive wedge barb and negative pocket groove (FR-099).</span>
+
+<span class="sd">    In detent local frame:</span>
+<span class="sd">    X: [-width/2, width/2]</span>
+<span class="sd">    Y: [0, depth]</span>
+<span class="sd">    Z: [0, height]</span>
+<span class="sd">    """</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path2D</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2.shapes2d</span><span class="w"> </span><span class="kn">import</span> <span class="n">polygon</span>
+
+    <span class="c1"># Sloped lead-in from (0, 0) to (depth, height), horizontal retaining shoulder at (0, height)</span>
+    <span class="n">wedge_poly</span> <span class="o">=</span> <span class="n">polygon</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">Path2D</span><span class="p">([</span>
+        <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span>
+        <span class="p">(</span><span class="n">depth</span><span class="p">,</span> <span class="n">height</span><span class="p">),</span>
+        <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">height</span><span class="p">),</span>
+    <span class="p">]))</span>
+    <span class="n">wedge</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">wedge_poly</span><span class="o">.</span><span class="n">linear_extrude</span><span class="p">(</span><span class="n">height</span><span class="o">=</span><span class="n">width</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">rotate</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">90</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+        <span class="o">.</span><span class="n">rotate</span><span class="p">([</span><span class="o">-</span><span class="mi">90</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+        <span class="o">.</span><span class="n">scale</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+        <span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="o">-</span><span class="n">width</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">])</span>
+    <span class="p">)</span>
+
+    <span class="n">groove_poly</span> <span class="o">=</span> <span class="n">polygon</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">Path2D</span><span class="p">([</span>
+        <span class="p">(</span><span class="o">-</span><span class="mf">0.05</span><span class="p">,</span> <span class="o">-</span><span class="n">clearance</span><span class="p">),</span>
+        <span class="p">(</span><span class="n">depth</span> <span class="o">+</span> <span class="n">clearance</span><span class="p">,</span> <span class="n">height</span> <span class="o">+</span> <span class="n">clearance</span><span class="p">),</span>
+        <span class="p">(</span><span class="o">-</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">height</span> <span class="o">+</span> <span class="n">clearance</span><span class="p">),</span>
+    <span class="p">]))</span>
+    <span class="n">groove</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">groove_poly</span><span class="o">.</span><span class="n">linear_extrude</span><span class="p">(</span><span class="n">height</span><span class="o">=</span><span class="n">width</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">clearance</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">rotate</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">90</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+        <span class="o">.</span><span class="n">rotate</span><span class="p">([</span><span class="o">-</span><span class="mi">90</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+        <span class="o">.</span><span class="n">scale</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+        <span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="o">-</span><span class="n">width</span> <span class="o">/</span> <span class="mf">2.0</span> <span class="o">-</span> <span class="n">clearance</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="o">-</span><span class="n">clearance</span><span class="p">])</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">wedge</span><span class="p">,</span> <span class="n">groove</span></div>
+
+
+
+<div class="viewcode-block" id="build_loop_detent">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.features.build_loop_detent.html#pyboxbuilder.box.features.build_loop_detent">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">build_loop_detent</span><span class="p">(</span>
+    <span class="n">depth</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">height</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">tab_thickness</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
+    <span class="n">clearance</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.15</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Bosl2Solid</span><span class="p">,</span> <span class="n">Bosl2Solid</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">"""Return positive loop tab and negative body pocket cutter with hook (FR-099)."""</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.shell</span><span class="w"> </span><span class="kn">import</span> <span class="n">block</span>
+
+    <span class="n">t</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">tab_thickness</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.6</span><span class="p">,</span> <span class="n">depth</span><span class="p">))</span>
+    <span class="n">outer_tab</span> <span class="o">=</span> <span class="n">block</span><span class="p">([</span><span class="n">width</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">height</span><span class="p">],</span> <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="n">width</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">))</span>
+    <span class="n">aperture_w</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">width</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">width</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">t</span><span class="p">)</span>
+    <span class="n">aperture_h</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">height</span> <span class="o">/</span> <span class="mf">3.0</span><span class="p">,</span> <span class="n">height</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">)</span>
+    <span class="n">aperture</span> <span class="o">=</span> <span class="n">block</span><span class="p">(</span>
+        <span class="p">[</span><span class="n">aperture_w</span><span class="p">,</span> <span class="n">t</span> <span class="o">+</span> <span class="mf">0.2</span><span class="p">,</span> <span class="n">aperture_h</span><span class="p">],</span>
+        <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="n">aperture_w</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.1</span><span class="p">,</span> <span class="p">(</span><span class="n">height</span> <span class="o">-</span> <span class="n">aperture_h</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">loop_tab</span> <span class="o">=</span> <span class="n">outer_tab</span> <span class="o">-</span> <span class="n">aperture</span>
+
+    <span class="n">pocket</span> <span class="o">=</span> <span class="n">block</span><span class="p">(</span>
+        <span class="p">[</span><span class="n">width</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">clearance</span><span class="p">,</span> <span class="n">depth</span> <span class="o">+</span> <span class="n">clearance</span><span class="p">,</span> <span class="n">height</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">clearance</span><span class="p">],</span>
+        <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="n">width</span> <span class="o">/</span> <span class="mf">2.0</span> <span class="o">-</span> <span class="n">clearance</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.05</span><span class="p">,</span> <span class="o">-</span><span class="n">clearance</span><span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">hook_w</span> <span class="o">=</span> <span class="n">aperture_w</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">clearance</span>
+    <span class="n">hook_h</span> <span class="o">=</span> <span class="p">(</span><span class="n">height</span> <span class="o">-</span> <span class="n">aperture_h</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span> <span class="o">+</span> <span class="n">aperture_h</span> <span class="o">*</span> <span class="mf">0.7</span>
+    <span class="n">hook_d</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">depth</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span>
+    <span class="n">hook</span> <span class="o">=</span> <span class="n">block</span><span class="p">([</span><span class="n">hook_w</span><span class="p">,</span> <span class="n">hook_d</span><span class="p">,</span> <span class="n">hook_h</span><span class="p">],</span> <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="n">hook_w</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">))</span>
+    <span class="n">body_cutter</span> <span class="o">=</span> <span class="n">pocket</span> <span class="o">-</span> <span class="n">hook</span>
+    <span class="k">return</span> <span class="n">loop_tab</span><span class="p">,</span> <span class="n">body_cutter</span></div>
+
+
+
 <div class="viewcode-block" id="sliding_catch">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.features.sliding_catch.html#pyboxbuilder.box.features.sliding_catch">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">sliding_catch</span><span class="p">(</span>
     <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">,</span> <span class="n">radius</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">along_axis</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"x"</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Closure</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""Return a bump-and-dimple detent that clicks the sliding lid shut (FR-002e1).</span>
+<span class="w">    </span><span class="sd">"""Return a retention catch that clicks the sliding lid shut (FR-002e1, FR-099).</span>
 
-<span class="sd">    A pair of bumps on the lid drop into matching dimples in the two groove</span>
-<span class="sd">    walls. The dimple is cut a touch larger so the two are not an interference</span>
-<span class="sd">    fit — the lid should click, not jam. This is the *only* catch a sliding box</span>
-<span class="sd">    gets: a wedge at the stop end would close by driving the lid's thinnest</span>
-<span class="sd">    section under an overhang, whereas a bump deflects by its own height, across</span>
-<span class="sd">    the lid's thickness (see :func:`dovetail_track`).</span>
-
-<span class="sd">    **The catch sits at the outlet**, the mouth the lid enters and leaves by, so</span>
-<span class="sd">    it engages in the last few millimetres of travel (FR-002e2). At the closed</span>
-<span class="sd">    end instead, the bump would be dragged the whole length of the groove on</span>
-<span class="sd">    every open and close — wearing the groove, making a long lid stiff to start,</span>
-<span class="sd">    and telling the hand nothing about when the lid is home.</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">        spec: Needs `width`, `length`, `height`; reads `wall_thickness` and</span>
-<span class="sd">            `lid_thickness`.</span>
-<span class="sd">        radius: The bump's radius. The dimple is half a fit clearance larger.</span>
-<span class="sd">        along_axis: ``"x"`` to slide along the width, ``"y"`` along the length —</span>
-<span class="sd">            the same frame :func:`dovetail_track` was given, so the catch lands</span>
-<span class="sd">            on the two walls that actually carry the grooves.</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">        The dimples to subtract from the body, and the bumps to add to the lid.</span>
-
+<span class="sd">    Supports CatchType.BUMP (default), CatchType.WEDGE, CatchType.LOOP, and CatchType.NONE.</span>
+<span class="sd">    The catch sits at the outlet mouth, engaging in the final millimetres of slide.</span>
 <span class="sd">    """</span>
-    <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">sphere</span>
-
     <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.shell</span><span class="w"> </span><span class="kn">import</span> <span class="n">block</span>
+
+    <span class="n">catch_type</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">resolved_catch_type</span><span class="p">(</span><span class="n">CatchType</span><span class="o">.</span><span class="n">BUMP</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">catch_type</span> <span class="o">==</span> <span class="n">CatchType</span><span class="o">.</span><span class="n">NONE</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">Closure</span><span class="p">()</span>
+
+    <span class="n">eff_radius</span> <span class="o">=</span> <span class="n">radius</span> <span class="k">if</span> <span class="n">radius</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">spec</span><span class="o">.</span><span class="n">resolved_catch_size</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">eff_radius</span> <span class="o">&lt;=</span> <span class="mf">0.0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">Closure</span><span class="p">()</span>
 
     <span class="n">wt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">wall_thickness</span>
     <span class="n">lt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">lid_thickness</span>
@@ -1389,49 +1480,75 @@
     <span class="n">along</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">width</span> <span class="k">if</span> <span class="n">along_axis</span> <span class="o">==</span> <span class="s2">"x"</span> <span class="k">else</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span>
     <span class="n">across</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span> <span class="k">if</span> <span class="n">along_axis</span> <span class="o">==</span> <span class="s2">"x"</span> <span class="k">else</span> <span class="n">spec</span><span class="o">.</span><span class="n">width</span>
 
-    <span class="c1"># Just inside the outlet face, and on the lid's dovetail flank at</span>
-    <span class="c1"># mid-thickness — which is where the lid's own material is. Centring on the</span>
-    <span class="c1"># wall's inner face instead leaves the bump hanging beside the lid rather</span>
-    <span class="c1"># than on it, because the flank has already leaned in by then.</span>
-    <span class="n">at_along</span> <span class="o">=</span> <span class="n">along</span> <span class="o">-</span> <span class="n">wt</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">radius</span>
+    <span class="n">at_along</span> <span class="o">=</span> <span class="n">along</span> <span class="o">-</span> <span class="n">wt</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">eff_radius</span>
     <span class="n">flank</span> <span class="o">=</span> <span class="n">wt</span> <span class="o">-</span> <span class="n">bottom_key</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">s</span>
     <span class="n">z</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">height</span> <span class="o">-</span> <span class="n">lt</span> <span class="o">/</span> <span class="mi">2</span>
+    <span class="n">envelope</span> <span class="o">=</span> <span class="n">block</span><span class="p">([</span><span class="n">spec</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">height</span><span class="p">])</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_place</span><span class="p">(</span><span class="n">solid</span><span class="p">:</span> <span class="n">Bosl2Solid</span><span class="p">,</span> <span class="n">across_pos</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">along_axis</span> <span class="o">==</span> <span class="s2">"x"</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">solid</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">at_along</span><span class="p">,</span> <span class="n">across_pos</span><span class="p">,</span> <span class="n">z</span><span class="p">])</span>
         <span class="k">return</span> <span class="n">solid</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">across_pos</span><span class="p">,</span> <span class="n">at_along</span><span class="p">,</span> <span class="n">z</span><span class="p">])</span>
 
-    <span class="n">dimple</span> <span class="o">=</span> <span class="n">sphere</span><span class="p">(</span><span class="n">radius</span><span class="o">=</span><span class="n">radius</span> <span class="o">+</span> <span class="n">FIT_SLACK_MM</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="o">**</span><span class="n">precision_kwargs</span><span class="p">())</span>
-    <span class="n">bump</span> <span class="o">=</span> <span class="n">sphere</span><span class="p">(</span><span class="n">radius</span><span class="o">=</span><span class="n">radius</span><span class="p">,</span> <span class="o">**</span><span class="n">precision_kwargs</span><span class="p">())</span>
-    <span class="n">bumps</span> <span class="o">=</span> <span class="n">_place</span><span class="p">(</span><span class="n">bump</span><span class="p">,</span> <span class="n">flank</span><span class="p">)</span> <span class="o">|</span> <span class="n">_place</span><span class="p">(</span><span class="n">bump</span><span class="p">,</span> <span class="n">across</span> <span class="o">-</span> <span class="n">flank</span><span class="p">)</span>
-    <span class="c1"># The bump engages sideways in the groove, so trimming its crown at the box's</span>
-    <span class="c1"># top face costs nothing — and leaving it proud would make the closed box</span>
-    <span class="c1"># taller than its declared height. The dimple is left untrimmed: it is cut</span>
-    <span class="c1"># from the body, and opening it slightly at the rim is harmless.</span>
-    <span class="n">envelope</span> <span class="o">=</span> <span class="n">block</span><span class="p">([</span><span class="n">spec</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">height</span><span class="p">])</span>
-    <span class="k">return</span> <span class="n">Closure</span><span class="p">(</span>
-        <span class="n">body</span><span class="o">=</span><span class="n">_place</span><span class="p">(</span><span class="n">dimple</span><span class="p">,</span> <span class="n">flank</span><span class="p">)</span> <span class="o">|</span> <span class="n">_place</span><span class="p">(</span><span class="n">dimple</span><span class="p">,</span> <span class="n">across</span> <span class="o">-</span> <span class="n">flank</span><span class="p">),</span>
-        <span class="n">lid</span><span class="o">=</span><span class="n">bumps</span> <span class="o">&amp;</span> <span class="n">envelope</span><span class="p">,</span>
-    <span class="p">)</span></div>
+    <span class="k">if</span> <span class="n">catch_type</span> <span class="o">==</span> <span class="n">CatchType</span><span class="o">.</span><span class="n">BUMP</span><span class="p">:</span>
+        <span class="n">bump</span><span class="p">,</span> <span class="n">dimple</span> <span class="o">=</span> <span class="n">build_bump_detent</span><span class="p">(</span><span class="n">eff_radius</span><span class="p">,</span> <span class="n">FIT_SLACK_MM</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="n">bumps</span> <span class="o">=</span> <span class="n">_place</span><span class="p">(</span><span class="n">bump</span><span class="p">,</span> <span class="n">flank</span><span class="p">)</span> <span class="o">|</span> <span class="n">_place</span><span class="p">(</span><span class="n">bump</span><span class="p">,</span> <span class="n">across</span> <span class="o">-</span> <span class="n">flank</span><span class="p">)</span>
+        <span class="n">dimples</span> <span class="o">=</span> <span class="n">_place</span><span class="p">(</span><span class="n">dimple</span><span class="p">,</span> <span class="n">flank</span><span class="p">)</span> <span class="o">|</span> <span class="n">_place</span><span class="p">(</span><span class="n">dimple</span><span class="p">,</span> <span class="n">across</span> <span class="o">-</span> <span class="n">flank</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">Closure</span><span class="p">(</span><span class="n">body</span><span class="o">=</span><span class="n">dimples</span><span class="p">,</span> <span class="n">lid</span><span class="o">=</span><span class="n">bumps</span> <span class="o">&amp;</span> <span class="n">envelope</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">catch_type</span> <span class="o">==</span> <span class="n">CatchType</span><span class="o">.</span><span class="n">WEDGE</span><span class="p">:</span>
+        <span class="n">w_depth</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">eff_radius</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">bottom_key</span> <span class="o">/</span> <span class="mf">3.0</span><span class="p">))</span>
+        <span class="n">w_width</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mf">4.0</span><span class="p">,</span> <span class="n">along</span> <span class="o">/</span> <span class="mf">8.0</span><span class="p">)</span>
+        <span class="n">w_height</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">lt</span> <span class="o">*</span> <span class="mf">0.8</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">)</span>
+        <span class="n">wedge</span><span class="p">,</span> <span class="n">groove</span> <span class="o">=</span> <span class="n">build_wedge_detent</span><span class="p">(</span><span class="n">w_depth</span><span class="p">,</span> <span class="n">w_width</span><span class="p">,</span> <span class="n">w_height</span><span class="p">)</span>
+
+        <span class="c1"># Place wedge and groove on both flanks pointing into wall (-Y on flank, +Y on across-flank)</span>
+        <span class="n">w_low</span> <span class="o">=</span> <span class="n">wedge</span><span class="o">.</span><span class="n">scale</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+        <span class="n">g_low</span> <span class="o">=</span> <span class="n">groove</span><span class="o">.</span><span class="n">scale</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+        <span class="n">wedges</span> <span class="o">=</span> <span class="n">_place</span><span class="p">(</span><span class="n">w_low</span><span class="p">,</span> <span class="n">flank</span><span class="p">)</span> <span class="o">|</span> <span class="n">_place</span><span class="p">(</span><span class="n">wedge</span><span class="p">,</span> <span class="n">across</span> <span class="o">-</span> <span class="n">flank</span><span class="p">)</span>
+        <span class="n">grooves</span> <span class="o">=</span> <span class="n">_place</span><span class="p">(</span><span class="n">g_low</span><span class="p">,</span> <span class="n">flank</span><span class="p">)</span> <span class="o">|</span> <span class="n">_place</span><span class="p">(</span><span class="n">groove</span><span class="p">,</span> <span class="n">across</span> <span class="o">-</span> <span class="n">flank</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">Closure</span><span class="p">(</span><span class="n">body</span><span class="o">=</span><span class="n">grooves</span><span class="p">,</span> <span class="n">lid</span><span class="o">=</span><span class="n">wedges</span> <span class="o">&amp;</span> <span class="n">envelope</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">catch_type</span> <span class="o">==</span> <span class="n">CatchType</span><span class="o">.</span><span class="n">LOOP</span><span class="p">:</span>
+        <span class="c1"># Loop tab on the lid trailing edge, matching pocket on body outlet rim</span>
+        <span class="n">l_width</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mf">12.0</span><span class="p">,</span> <span class="n">across</span> <span class="o">/</span> <span class="mf">3.0</span><span class="p">)</span>
+        <span class="n">l_depth</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">eff_radius</span> <span class="o">*</span> <span class="mf">1.5</span><span class="p">,</span> <span class="n">wt</span><span class="p">)</span>
+        <span class="n">l_height</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">lt</span> <span class="o">*</span> <span class="mf">1.2</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">)</span>
+        <span class="n">loop_tab</span><span class="p">,</span> <span class="n">body_cutter</span> <span class="o">=</span> <span class="n">build_loop_detent</span><span class="p">(</span><span class="n">l_depth</span><span class="p">,</span> <span class="n">l_width</span><span class="p">,</span> <span class="n">l_height</span><span class="p">)</span>
+
+        <span class="n">mid_across</span> <span class="o">=</span> <span class="n">across</span> <span class="o">/</span> <span class="mf">2.0</span>
+        <span class="k">if</span> <span class="n">along_axis</span> <span class="o">==</span> <span class="s2">"x"</span><span class="p">:</span>
+            <span class="n">lid_part</span> <span class="o">=</span> <span class="n">loop_tab</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">along</span> <span class="o">-</span> <span class="n">wt</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">mid_across</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">height</span> <span class="o">-</span> <span class="n">lt</span><span class="p">])</span>
+            <span class="n">body_part</span> <span class="o">=</span> <span class="n">body_cutter</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">along</span> <span class="o">-</span> <span class="n">wt</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">mid_across</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">height</span> <span class="o">-</span> <span class="n">lt</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">lid_part</span> <span class="o">=</span> <span class="n">loop_tab</span><span class="o">.</span><span class="n">rotate</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">90</span><span class="p">])</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">mid_across</span><span class="p">,</span> <span class="n">along</span> <span class="o">-</span> <span class="n">wt</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">height</span> <span class="o">-</span> <span class="n">lt</span><span class="p">])</span>
+            <span class="n">body_part</span> <span class="o">=</span> <span class="n">body_cutter</span><span class="o">.</span><span class="n">rotate</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">90</span><span class="p">])</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">mid_across</span><span class="p">,</span> <span class="n">along</span> <span class="o">-</span> <span class="n">wt</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">height</span> <span class="o">-</span> <span class="n">lt</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">Closure</span><span class="p">(</span><span class="n">body</span><span class="o">=</span><span class="n">body_part</span><span class="p">,</span> <span class="n">lid</span><span class="o">=</span><span class="n">lid_part</span> <span class="o">&amp;</span> <span class="n">envelope</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">Closure</span><span class="p">()</span></div>
+
 
 
 
 <div class="viewcode-block" id="cap_slipover_catch">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.features.cap_slipover_catch.html#pyboxbuilder.box.features.cap_slipover_catch">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">cap_slipover_catch</span><span class="p">(</span><span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">,</span> <span class="n">is_slipover</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Closure</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""Return a bump-and-dimple catch for cap boxes or slipover boxes (FR-002q2, FR-002q3).</span>
+<span class="w">    </span><span class="sd">"""Return a retention catch for cap boxes or slipover boxes (FR-002q2, FR-002q3, FR-099).</span>
 
-<span class="sd">    Bumps reside on the inside mating surface of the lid/sleeve, and dimples cut</span>
+<span class="sd">    Supports CatchType.BUMP (default), CatchType.WEDGE, CatchType.LOOP, and CatchType.NONE.</span>
+<span class="sd">    Catches reside on the inside mating surface of the lid/sleeve, and cut</span>
 <span class="sd">    into the box body's mating surface (the stepped band of the cap box body,</span>
 <span class="sd">    or the outer wall of the slipover box body).</span>
 <span class="sd">    """</span>
-    <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">sphere</span>
-
     <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.compartments.element</span><span class="w"> </span><span class="kn">import</span> <span class="n">union_all</span>
 
-    <span class="n">radius</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">catch_radius</span> <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">catch_radius</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="mf">1.0</span>
-    <span class="n">dimple_r</span> <span class="o">=</span> <span class="n">radius</span> <span class="o">+</span> <span class="n">FIT_SLACK_MM</span> <span class="o">/</span> <span class="mi">2</span>
+    <span class="n">catch_type</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">resolved_catch_type</span><span class="p">(</span><span class="n">CatchType</span><span class="o">.</span><span class="n">BUMP</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">catch_type</span> <span class="o">==</span> <span class="n">CatchType</span><span class="o">.</span><span class="n">NONE</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">Closure</span><span class="p">()</span>
+
+    <span class="n">radius</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">resolved_catch_size</span><span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">catch_radius</span> <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">catch_radius</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="mf">1.0</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">radius</span> <span class="o">&lt;=</span> <span class="mf">0.0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">Closure</span><span class="p">()</span>
 
     <span class="c1"># Determine long axis and dimensions</span>
     <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">width</span> <span class="o">&gt;=</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span><span class="p">:</span>
@@ -1475,28 +1592,80 @@
     <span class="n">body_solids</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">lid_solids</span> <span class="o">=</span> <span class="p">[]</span>
 
-    <span class="n">dimple</span> <span class="o">=</span> <span class="n">sphere</span><span class="p">(</span><span class="n">radius</span><span class="o">=</span><span class="n">dimple_r</span><span class="p">,</span> <span class="o">**</span><span class="n">precision_kwargs</span><span class="p">())</span>
-    <span class="n">bump</span> <span class="o">=</span> <span class="n">sphere</span><span class="p">(</span><span class="n">radius</span><span class="o">=</span><span class="n">radius</span><span class="p">,</span> <span class="o">**</span><span class="n">precision_kwargs</span><span class="p">())</span>
+    <span class="k">if</span> <span class="n">catch_type</span> <span class="o">==</span> <span class="n">CatchType</span><span class="o">.</span><span class="n">BUMP</span><span class="p">:</span>
+        <span class="n">bump</span><span class="p">,</span> <span class="n">dimple</span> <span class="o">=</span> <span class="n">build_bump_detent</span><span class="p">(</span><span class="n">radius</span><span class="p">,</span> <span class="n">FIT_SLACK_MM</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
+            <span class="n">pos_long</span> <span class="o">=</span> <span class="n">margin</span> <span class="o">+</span> <span class="n">i</span> <span class="o">*</span> <span class="n">spacing</span>
+            <span class="k">for</span> <span class="n">face</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"low"</span><span class="p">,</span> <span class="s2">"high"</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">face</span> <span class="o">==</span> <span class="s2">"low"</span><span class="p">:</span>
+                    <span class="n">pos_body</span> <span class="o">=</span> <span class="n">inset</span>
+                    <span class="n">pos_lid</span> <span class="o">=</span> <span class="n">inset</span> <span class="o">-</span> <span class="n">slack</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">pos_body</span> <span class="o">=</span> <span class="n">across_val</span> <span class="o">-</span> <span class="n">inset</span>
+                    <span class="n">pos_lid</span> <span class="o">=</span> <span class="n">across_val</span> <span class="o">-</span> <span class="p">(</span><span class="n">inset</span> <span class="o">-</span> <span class="n">slack</span><span class="p">)</span>
 
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
-        <span class="n">pos_long</span> <span class="o">=</span> <span class="n">margin</span> <span class="o">+</span> <span class="n">i</span> <span class="o">*</span> <span class="n">spacing</span>
-        <span class="k">for</span> <span class="n">face</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"low"</span><span class="p">,</span> <span class="s2">"high"</span><span class="p">):</span>
-            <span class="k">if</span> <span class="n">face</span> <span class="o">==</span> <span class="s2">"low"</span><span class="p">:</span>
-                <span class="n">pos_body</span> <span class="o">=</span> <span class="n">inset</span>
-                <span class="n">pos_lid</span> <span class="o">=</span> <span class="n">inset</span> <span class="o">-</span> <span class="n">slack</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">pos_body</span> <span class="o">=</span> <span class="n">across_val</span> <span class="o">-</span> <span class="n">inset</span>
-                <span class="n">pos_lid</span> <span class="o">=</span> <span class="n">across_val</span> <span class="o">-</span> <span class="p">(</span><span class="n">inset</span> <span class="o">-</span> <span class="n">slack</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">long_axis</span> <span class="o">==</span> <span class="s2">"x"</span><span class="p">:</span>
+                    <span class="n">b_pt</span> <span class="o">=</span> <span class="p">[</span><span class="n">pos_long</span><span class="p">,</span> <span class="n">pos_body</span><span class="p">,</span> <span class="n">z</span><span class="p">]</span>
+                    <span class="n">l_pt</span> <span class="o">=</span> <span class="p">[</span><span class="n">pos_long</span><span class="p">,</span> <span class="n">pos_lid</span><span class="p">,</span> <span class="n">z</span><span class="p">]</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">b_pt</span> <span class="o">=</span> <span class="p">[</span><span class="n">pos_body</span><span class="p">,</span> <span class="n">pos_long</span><span class="p">,</span> <span class="n">z</span><span class="p">]</span>
+                    <span class="n">l_pt</span> <span class="o">=</span> <span class="p">[</span><span class="n">pos_lid</span><span class="p">,</span> <span class="n">pos_long</span><span class="p">,</span> <span class="n">z</span><span class="p">]</span>
 
+                <span class="n">body_solids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dimple</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="n">b_pt</span><span class="p">))</span>
+                <span class="n">lid_solids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">bump</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="n">l_pt</span><span class="p">))</span>
+
+    <span class="k">elif</span> <span class="n">catch_type</span> <span class="o">==</span> <span class="n">CatchType</span><span class="o">.</span><span class="n">WEDGE</span><span class="p">:</span>
+        <span class="n">w_depth</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">radius</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">inset</span> <span class="o">*</span> <span class="mf">0.4</span><span class="p">))</span>
+        <span class="n">w_width</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mf">6.0</span><span class="p">,</span> <span class="n">spacing</span> <span class="o">*</span> <span class="mf">0.3</span> <span class="k">if</span> <span class="n">spacing</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mf">6.0</span><span class="p">)</span>
+        <span class="n">w_height</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">radius</span> <span class="o">*</span> <span class="mf">2.0</span><span class="p">)</span>
+        <span class="n">wedge</span><span class="p">,</span> <span class="n">groove</span> <span class="o">=</span> <span class="n">build_wedge_detent</span><span class="p">(</span>
+            <span class="n">depth</span><span class="o">=</span><span class="n">w_depth</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="n">w_width</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">w_height</span><span class="p">,</span> <span class="n">clearance</span><span class="o">=</span><span class="n">FIT_SLACK_MM</span> <span class="o">/</span> <span class="mi">2</span>
+        <span class="p">)</span>
+        <span class="n">z0</span> <span class="o">=</span> <span class="n">z</span> <span class="o">-</span> <span class="n">w_height</span> <span class="o">/</span> <span class="mf">2.0</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
+            <span class="n">pos_long</span> <span class="o">=</span> <span class="n">margin</span> <span class="o">+</span> <span class="n">i</span> <span class="o">*</span> <span class="n">spacing</span>
             <span class="k">if</span> <span class="n">long_axis</span> <span class="o">==</span> <span class="s2">"x"</span><span class="p">:</span>
-                <span class="n">b_pt</span> <span class="o">=</span> <span class="p">[</span><span class="n">pos_long</span><span class="p">,</span> <span class="n">pos_body</span><span class="p">,</span> <span class="n">z</span><span class="p">]</span>
-                <span class="n">l_pt</span> <span class="o">=</span> <span class="p">[</span><span class="n">pos_long</span><span class="p">,</span> <span class="n">pos_lid</span><span class="p">,</span> <span class="n">z</span><span class="p">]</span>
+                <span class="c1"># low face: extends +Y</span>
+                <span class="n">lid_solids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">wedge</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">pos_long</span><span class="p">,</span> <span class="n">inset</span> <span class="o">-</span> <span class="n">slack</span><span class="p">,</span> <span class="n">z0</span><span class="p">]))</span>
+                <span class="n">body_solids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">groove</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">pos_long</span><span class="p">,</span> <span class="n">inset</span><span class="p">,</span> <span class="n">z0</span><span class="p">]))</span>
+                <span class="c1"># high face: extends -Y</span>
+                <span class="n">lid_solids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">wedge</span><span class="o">.</span><span class="n">scale</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">pos_long</span><span class="p">,</span> <span class="n">across_val</span> <span class="o">-</span> <span class="p">(</span><span class="n">inset</span> <span class="o">-</span> <span class="n">slack</span><span class="p">),</span> <span class="n">z0</span><span class="p">]))</span>
+                <span class="n">body_solids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">groove</span><span class="o">.</span><span class="n">scale</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">pos_long</span><span class="p">,</span> <span class="n">across_val</span> <span class="o">-</span> <span class="n">inset</span><span class="p">,</span> <span class="n">z0</span><span class="p">]))</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">b_pt</span> <span class="o">=</span> <span class="p">[</span><span class="n">pos_body</span><span class="p">,</span> <span class="n">pos_long</span><span class="p">,</span> <span class="n">z</span><span class="p">]</span>
-                <span class="n">l_pt</span> <span class="o">=</span> <span class="p">[</span><span class="n">pos_lid</span><span class="p">,</span> <span class="n">pos_long</span><span class="p">,</span> <span class="n">z</span><span class="p">]</span>
+                <span class="c1"># low face: extends +X</span>
+                <span class="n">lid_solids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">wedge</span><span class="o">.</span><span class="n">rotate</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">90</span><span class="p">])</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">inset</span> <span class="o">-</span> <span class="n">slack</span><span class="p">,</span> <span class="n">pos_long</span><span class="p">,</span> <span class="n">z0</span><span class="p">]))</span>
+                <span class="n">body_solids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">groove</span><span class="o">.</span><span class="n">rotate</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">90</span><span class="p">])</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">inset</span><span class="p">,</span> <span class="n">pos_long</span><span class="p">,</span> <span class="n">z0</span><span class="p">]))</span>
+                <span class="c1"># high face: extends -X</span>
+                <span class="n">lid_solids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">wedge</span><span class="o">.</span><span class="n">rotate</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">90</span><span class="p">])</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">across_val</span> <span class="o">-</span> <span class="p">(</span><span class="n">inset</span> <span class="o">-</span> <span class="n">slack</span><span class="p">),</span> <span class="n">pos_long</span><span class="p">,</span> <span class="n">z0</span><span class="p">]))</span>
+                <span class="n">body_solids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">groove</span><span class="o">.</span><span class="n">rotate</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">90</span><span class="p">])</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">across_val</span> <span class="o">-</span> <span class="n">inset</span><span class="p">,</span> <span class="n">pos_long</span><span class="p">,</span> <span class="n">z0</span><span class="p">]))</span>
 
-            <span class="n">body_solids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dimple</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="n">b_pt</span><span class="p">))</span>
-            <span class="n">lid_solids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">bump</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="n">l_pt</span><span class="p">))</span>
+    <span class="k">elif</span> <span class="n">catch_type</span> <span class="o">==</span> <span class="n">CatchType</span><span class="o">.</span><span class="n">LOOP</span><span class="p">:</span>
+        <span class="n">l_width</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mf">8.0</span><span class="p">,</span> <span class="n">spacing</span> <span class="o">*</span> <span class="mf">0.4</span> <span class="k">if</span> <span class="n">spacing</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mf">8.0</span><span class="p">)</span>
+        <span class="n">l_depth</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">radius</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">inset</span> <span class="o">*</span> <span class="mf">0.4</span><span class="p">))</span>
+        <span class="n">l_height</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mf">6.0</span><span class="p">,</span> <span class="n">radius</span> <span class="o">*</span> <span class="mf">3.0</span><span class="p">)</span>
+        <span class="n">l_tab_th</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">l_depth</span><span class="p">)</span>
+        <span class="n">loop_tab</span><span class="p">,</span> <span class="n">body_cutter</span> <span class="o">=</span> <span class="n">build_loop_detent</span><span class="p">(</span>
+            <span class="n">depth</span><span class="o">=</span><span class="n">l_depth</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="n">l_width</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">l_height</span><span class="p">,</span> <span class="n">tab_thickness</span><span class="o">=</span><span class="n">l_tab_th</span><span class="p">,</span> <span class="n">clearance</span><span class="o">=</span><span class="n">FIT_SLACK_MM</span> <span class="o">/</span> <span class="mi">2</span>
+        <span class="p">)</span>
+        <span class="n">z0</span> <span class="o">=</span> <span class="n">z</span> <span class="o">-</span> <span class="n">l_height</span> <span class="o">/</span> <span class="mf">2.0</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
+            <span class="n">pos_long</span> <span class="o">=</span> <span class="n">margin</span> <span class="o">+</span> <span class="n">i</span> <span class="o">*</span> <span class="n">spacing</span>
+            <span class="k">if</span> <span class="n">long_axis</span> <span class="o">==</span> <span class="s2">"x"</span><span class="p">:</span>
+                <span class="c1"># low face: extends +Y</span>
+                <span class="n">lid_solids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">loop_tab</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">pos_long</span><span class="p">,</span> <span class="n">inset</span> <span class="o">-</span> <span class="n">slack</span><span class="p">,</span> <span class="n">z0</span><span class="p">]))</span>
+                <span class="n">body_solids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">body_cutter</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">pos_long</span><span class="p">,</span> <span class="n">inset</span><span class="p">,</span> <span class="n">z0</span><span class="p">]))</span>
+                <span class="c1"># high face: extends -Y</span>
+                <span class="n">lid_solids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">loop_tab</span><span class="o">.</span><span class="n">scale</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">pos_long</span><span class="p">,</span> <span class="n">across_val</span> <span class="o">-</span> <span class="p">(</span><span class="n">inset</span> <span class="o">-</span> <span class="n">slack</span><span class="p">),</span> <span class="n">z0</span><span class="p">]))</span>
+                <span class="n">body_solids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">body_cutter</span><span class="o">.</span><span class="n">scale</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">pos_long</span><span class="p">,</span> <span class="n">across_val</span> <span class="o">-</span> <span class="n">inset</span><span class="p">,</span> <span class="n">z0</span><span class="p">]))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># low face: extends +X</span>
+                <span class="n">lid_solids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">loop_tab</span><span class="o">.</span><span class="n">rotate</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">90</span><span class="p">])</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">inset</span> <span class="o">-</span> <span class="n">slack</span><span class="p">,</span> <span class="n">pos_long</span><span class="p">,</span> <span class="n">z0</span><span class="p">]))</span>
+                <span class="n">body_solids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">body_cutter</span><span class="o">.</span><span class="n">rotate</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">90</span><span class="p">])</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">inset</span><span class="p">,</span> <span class="n">pos_long</span><span class="p">,</span> <span class="n">z0</span><span class="p">]))</span>
+                <span class="c1"># high face: extends -X</span>
+                <span class="n">lid_solids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">loop_tab</span><span class="o">.</span><span class="n">rotate</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">90</span><span class="p">])</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">across_val</span> <span class="o">-</span> <span class="p">(</span><span class="n">inset</span> <span class="o">-</span> <span class="n">slack</span><span class="p">),</span> <span class="n">pos_long</span><span class="p">,</span> <span class="n">z0</span><span class="p">]))</span>
+                <span class="n">body_solids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">body_cutter</span><span class="o">.</span><span class="n">rotate</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">90</span><span class="p">])</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">across_val</span> <span class="o">-</span> <span class="n">inset</span><span class="p">,</span> <span class="n">pos_long</span><span class="p">,</span> <span class="n">z0</span><span class="p">]))</span>
 
     <span class="k">return</span> <span class="n">Closure</span><span class="p">(</span>
         <span class="n">body</span><span class="o">=</span><span class="n">union_all</span><span class="p">(</span><span class="n">body_solids</span><span class="p">),</span>
@@ -2037,12 +2206,23 @@
 <div class="viewcode-block" id="hinge_catch">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.features.hinge_catch.html#pyboxbuilder.box.features.hinge_catch">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">hinge_catch</span><span class="p">(</span><span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Closure</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""Return the front snap-fit catch for a hinged box (FR-002v)."""</span>
+<span class="w">    </span><span class="sd">"""Return the front snap-fit catch for a hinged box (FR-002v, FR-099).</span>
+
+<span class="sd">    Supports CatchType.WEDGE (default ridge), CatchType.BUMP, CatchType.LOOP, and CatchType.NONE.</span>
+<span class="sd">    """</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2.shapes2d</span><span class="w"> </span><span class="kn">import</span> <span class="n">polygon</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2.shapes3d</span><span class="w"> </span><span class="kn">import</span> <span class="n">sphere</span>
 
     <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.compartments.element</span><span class="w"> </span><span class="kn">import</span> <span class="n">union_all</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.precision</span><span class="w"> </span><span class="kn">import</span> <span class="n">kwargs</span> <span class="k">as</span> <span class="n">precision_kwargs</span>
+
+    <span class="n">catch_type</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">resolved_catch_type</span><span class="p">(</span><span class="n">CatchType</span><span class="o">.</span><span class="n">WEDGE</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">catch_type</span> <span class="o">==</span> <span class="n">CatchType</span><span class="o">.</span><span class="n">NONE</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">Closure</span><span class="p">()</span>
+
+    <span class="n">eff_size</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">resolved_catch_size</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">eff_size</span> <span class="o">&lt;=</span> <span class="mf">0.0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">Closure</span><span class="p">()</span>
 
     <span class="n">wt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">wall_thickness</span>
     <span class="n">lt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">lid_thickness</span>
@@ -2056,40 +2236,14 @@
 
     <span class="n">x_center</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">width</span> <span class="o">/</span> <span class="mf">2.0</span>
 
-    <span class="c1"># Body pocket cut (subtract from body front wall y=0..wt/2)</span>
-    <span class="c1"># Since wt/2 is thin (1.0mm), standard cuboid/rounded_block limits rounding to wt/4 (0.5mm)</span>
-    <span class="c1"># because of opposite edges.</span>
-    <span class="c1"># To get a true rounded corner front-face catch tab of width catch_width and fillet_r, we can build a 2D profile</span>
-    <span class="c1"># of a rectangle of size [catch_width, wt/2] with only the front-left and front-right corners rounded,</span>
-    <span class="c1"># and then extrude it.</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2.constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">FRONT</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2.shapes2d</span><span class="w"> </span><span class="kn">import</span> <span class="n">rect</span>
 
-    <span class="c1"># 2D shape for the lid tab (Y runs negative from 0 to -wt/2, which is outside the front face footprint)</span>
-    <span class="c1"># The front face is at Y=0. Lid tab hangs down from Y=0 in the direction of negative Y (frontwards) by wt/2.</span>
-    <span class="c1"># Therefore, the anchor is FRONT (meaning the front of the rectangle is at the local origin,</span>
-    <span class="c1"># so the rect extends back to Y &gt; 0? No,</span>
-    <span class="c1"># anchor=FRONT means FRONT edge is placed at the origin, so it extends in Y+ direction.</span>
-    <span class="c1"># If anchor=BACK, BACK edge is at origin, so it extends in Y- direction).</span>
-    <span class="c1"># Since we want it to go from Y=0 to Y=-wt/2, we anchor at BACK.</span>
-    <span class="c1"># When Y goes negative (0 to -wt/2), the "front" of this tab is at Y=-wt/2.</span>
-    <span class="c1"># In local rect coordinates [width, wt/2], if anchor=BACK, the rectangle spans Y: -wt/2 to 0.</span>
-    <span class="c1"># The bottom-left/right are at Y=-wt/2, and top-left/right are at Y=0.</span>
-    <span class="c1"># So we want to round index 0 and 1 (bottom_left and bottom_right)!</span>
-    <span class="c1"># 2D shape for the lid tab (Y runs negative from 0 to -wt/2)</span>
-    <span class="c1"># 2D shape for the lid tab (Y runs positive from 0 to wt/2, which is inside the front face wall)</span>
-    <span class="c1"># The front face is at Y=0. Lid tab Y ranges from 0 to wt/2.</span>
-    <span class="c1"># Therefore, we anchor the FRONT edge at the origin (so the rect extends in Y+ direction).</span>
-    <span class="c1"># Since we anchor=FRONT, the front corners (at Y=0) correspond to index 0 and 1 (bottom_left and bottom_right).</span>
     <span class="n">tab_2d</span> <span class="o">=</span> <span class="n">rect</span><span class="p">([</span><span class="n">catch_width</span><span class="p">,</span> <span class="n">wt</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">],</span> <span class="n">rounding</span><span class="o">=</span><span class="p">[</span><span class="n">fillet_r</span><span class="p">,</span> <span class="n">fillet_r</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">anchor</span><span class="o">=</span><span class="n">FRONT</span><span class="p">)</span>
     <span class="n">lid_tab</span> <span class="o">=</span> <span class="n">tab_2d</span><span class="o">.</span><span class="n">linear_extrude</span><span class="p">(</span><span class="n">height</span><span class="o">=</span><span class="n">catch_height</span><span class="p">)</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">x_center</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">body_height</span> <span class="o">-</span> <span class="n">catch_height</span><span class="p">])</span>
 
-    <span class="c1"># 2D shape for the body cut with gap clearance</span>
     <span class="n">body_cut_width</span> <span class="o">=</span> <span class="n">catch_width</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">gap</span>
     <span class="n">body_cut_y</span> <span class="o">=</span> <span class="n">wt</span> <span class="o">/</span> <span class="mf">2.0</span> <span class="o">+</span> <span class="n">gap</span>
-    <span class="c1"># Needs to cut from Y = -gap (for clearance) up to Y = wt/2.</span>
-    <span class="c1"># We anchor=FRONT, so rect spans Y: 0 to body_cut_y.</span>
-    <span class="c1"># We translate to Y = -gap, so it spans: -gap to wt/2.</span>
     <span class="n">body_cut_2d</span> <span class="o">=</span> <span class="n">rect</span><span class="p">(</span>
         <span class="p">[</span><span class="n">body_cut_width</span><span class="p">,</span> <span class="n">body_cut_y</span><span class="p">],</span>
         <span class="n">rounding</span><span class="o">=</span><span class="p">[</span><span class="n">fillet_r</span> <span class="o">+</span> <span class="n">gap</span><span class="p">,</span> <span class="n">fillet_r</span> <span class="o">+</span> <span class="n">gap</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
@@ -2099,16 +2253,6 @@
         <span class="p">[</span><span class="n">x_center</span><span class="p">,</span> <span class="o">-</span><span class="n">gap</span><span class="p">,</span> <span class="n">body_height</span> <span class="o">-</span> <span class="n">catch_height</span> <span class="o">-</span> <span class="n">gap</span><span class="p">]</span>
     <span class="p">)</span>
 
-    <span class="c1"># Angled strengthening piece (gusset/support) on the top/back of the lid tab</span>
-    <span class="c1"># The gusset goes from the top edge of the tab (y = wt/2, z = body_height)</span>
-    <span class="c1"># sloping up and back (y increasing, z increasing) to the bottom of the lid (z = body_height + lt).</span>
-    <span class="c1"># Since wt is the box wall thickness, the space behind the tab (y &gt;= wt/2) inside</span>
-    <span class="c1"># the box can contain this.</span>
-    <span class="c1"># Let's make the gusset width match the catch_width, or a bit narrower for aesthetics</span>
-    <span class="c1"># (e.g., catch_width - 2*fillet_r).</span>
-    <span class="c1"># Gusset thickness in Y: we can go from y = wt/2 to y = wt.</span>
-    <span class="c1"># We define the 2D path at Z=0.0 to prevent rotation-induced Y translation offsets,</span>
-    <span class="c1"># then translate to body_height in Z.</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path2D</span>
     <span class="n">gusset_poly</span> <span class="o">=</span> <span class="n">polygon</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">Path2D</span><span class="p">([</span>
         <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">wt</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">),</span>
@@ -2123,8 +2267,6 @@
         <span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">x_center</span> <span class="o">-</span> <span class="n">catch_width</span> <span class="o">/</span> <span class="mf">2.0</span> <span class="o">+</span> <span class="n">fillet_r</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">body_height</span><span class="p">])</span>
     <span class="p">)</span>
 
-    <span class="c1"># Matching clearance pocket carve-out on the inside front wall of the body.</span>
-    <span class="c1"># The pocket needs clearance gap in all directions.</span>
     <span class="n">pocket_poly</span> <span class="o">=</span> <span class="n">polygon</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">Path2D</span><span class="p">([</span>
         <span class="p">(</span><span class="o">-</span><span class="n">gap</span><span class="p">,</span> <span class="n">wt</span> <span class="o">/</span> <span class="mf">2.0</span> <span class="o">-</span> <span class="n">gap</span><span class="p">),</span>
         <span class="p">(</span><span class="o">-</span><span class="n">gap</span><span class="p">,</span> <span class="n">wt</span> <span class="o">+</span> <span class="mf">0.1</span><span class="p">),</span>
@@ -2142,11 +2284,11 @@
     <span class="n">body_cut</span> <span class="o">=</span> <span class="n">body_cut</span> <span class="o">|</span> <span class="n">pocket_cut</span>
     <span class="n">lid_tab</span> <span class="o">=</span> <span class="n">lid_tab</span> <span class="o">|</span> <span class="n">gusset</span>
 
-    <span class="n">bead_depth</span> <span class="o">=</span> <span class="mf">0.6</span>
     <span class="n">z_peak</span> <span class="o">=</span> <span class="n">body_height</span> <span class="o">-</span> <span class="n">catch_height</span> <span class="o">/</span> <span class="mf">2.0</span>
     <span class="n">slope_height</span> <span class="o">=</span> <span class="mf">2.0</span>
 
-    <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">hinge_catch_type</span> <span class="o">==</span> <span class="s2">"ridge"</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">catch_type</span> <span class="o">==</span> <span class="n">CatchType</span><span class="o">.</span><span class="n">WEDGE</span><span class="p">:</span>
+        <span class="n">bead_depth</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">eff_size</span><span class="p">,</span> <span class="n">wt</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">)</span>
         <span class="c1"># Right-angled triangular ridge on lid tab (flat top, sloped bottom)</span>
         <span class="n">ridge_poly</span> <span class="o">=</span> <span class="n">polygon</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">Path2D</span><span class="p">([</span>
             <span class="p">(</span><span class="n">wt</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span>
@@ -2177,11 +2319,11 @@
         <span class="p">)</span>
         <span class="n">body_catch_cut</span> <span class="o">=</span> <span class="n">body_cut</span> <span class="o">|</span> <span class="n">groove</span>
 
-    <span class="k">else</span><span class="p">:</span>
+    <span class="k">elif</span> <span class="n">catch_type</span> <span class="o">==</span> <span class="n">CatchType</span><span class="o">.</span><span class="n">BUMP</span><span class="p">:</span>
         <span class="c1"># Bump catch (two side-by-side bumps)</span>
         <span class="n">x1</span> <span class="o">=</span> <span class="n">x_center</span> <span class="o">-</span> <span class="n">catch_width</span> <span class="o">/</span> <span class="mf">4.0</span>
         <span class="n">x2</span> <span class="o">=</span> <span class="n">x_center</span> <span class="o">+</span> <span class="n">catch_width</span> <span class="o">/</span> <span class="mf">4.0</span>
-        <span class="n">r_bump</span> <span class="o">=</span> <span class="mf">1.2</span>
+        <span class="n">r_bump</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">eff_size</span><span class="p">,</span> <span class="n">wt</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">)</span>
 
         <span class="n">bump1</span> <span class="o">=</span> <span class="n">sphere</span><span class="p">(</span><span class="n">radius</span><span class="o">=</span><span class="n">r_bump</span><span class="p">,</span> <span class="o">**</span><span class="n">precision_kwargs</span><span class="p">())</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">x1</span><span class="p">,</span> <span class="n">wt</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">z_peak</span><span class="p">])</span>
         <span class="n">bump2</span> <span class="o">=</span> <span class="n">sphere</span><span class="p">(</span><span class="n">radius</span><span class="o">=</span><span class="n">r_bump</span><span class="p">,</span> <span class="o">**</span><span class="n">precision_kwargs</span><span class="p">())</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">x2</span><span class="p">,</span> <span class="n">wt</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">z_peak</span><span class="p">])</span>
@@ -2190,6 +2332,29 @@
         <span class="n">indent1</span> <span class="o">=</span> <span class="n">sphere</span><span class="p">(</span><span class="n">radius</span><span class="o">=</span><span class="n">r_bump</span> <span class="o">+</span> <span class="n">gap</span><span class="p">,</span> <span class="o">**</span><span class="n">precision_kwargs</span><span class="p">())</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">x1</span><span class="p">,</span> <span class="n">wt</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">z_peak</span><span class="p">])</span>
         <span class="n">indent2</span> <span class="o">=</span> <span class="n">sphere</span><span class="p">(</span><span class="n">radius</span><span class="o">=</span><span class="n">r_bump</span> <span class="o">+</span> <span class="n">gap</span><span class="p">,</span> <span class="o">**</span><span class="n">precision_kwargs</span><span class="p">())</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">x2</span><span class="p">,</span> <span class="n">wt</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">z_peak</span><span class="p">])</span>
         <span class="n">body_catch_cut</span> <span class="o">=</span> <span class="n">union_all</span><span class="p">([</span><span class="n">body_cut</span><span class="p">,</span> <span class="n">indent1</span><span class="p">,</span> <span class="n">indent2</span><span class="p">])</span>
+
+    <span class="k">elif</span> <span class="n">catch_type</span> <span class="o">==</span> <span class="n">CatchType</span><span class="o">.</span><span class="n">LOOP</span><span class="p">:</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.shell</span><span class="w"> </span><span class="kn">import</span> <span class="n">block</span>
+
+        <span class="n">aperture_w</span> <span class="o">=</span> <span class="n">catch_width</span> <span class="o">*</span> <span class="mf">0.55</span>
+        <span class="n">aperture_h</span> <span class="o">=</span> <span class="n">catch_height</span> <span class="o">*</span> <span class="mf">0.35</span>
+        <span class="n">aperture</span> <span class="o">=</span> <span class="n">block</span><span class="p">(</span>
+            <span class="p">[</span><span class="n">aperture_w</span><span class="p">,</span> <span class="n">wt</span> <span class="o">/</span> <span class="mf">2.0</span> <span class="o">+</span> <span class="mf">0.4</span><span class="p">,</span> <span class="n">aperture_h</span><span class="p">],</span>
+            <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="n">x_center</span> <span class="o">-</span> <span class="n">aperture_w</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">z_peak</span> <span class="o">-</span> <span class="n">aperture_h</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">),</span>
+        <span class="p">)</span>
+        <span class="n">lid_catch</span> <span class="o">=</span> <span class="n">lid_tab</span> <span class="o">-</span> <span class="n">aperture</span>
+
+        <span class="n">hook_w</span> <span class="o">=</span> <span class="n">aperture_w</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">gap</span>
+        <span class="n">hook_h</span> <span class="o">=</span> <span class="n">aperture_h</span> <span class="o">*</span> <span class="mf">0.7</span>
+        <span class="n">hook_d</span> <span class="o">=</span> <span class="n">wt</span> <span class="o">/</span> <span class="mf">2.0</span>
+        <span class="n">hook_stud</span> <span class="o">=</span> <span class="n">block</span><span class="p">(</span>
+            <span class="p">[</span><span class="n">hook_w</span><span class="p">,</span> <span class="n">hook_d</span><span class="p">,</span> <span class="n">hook_h</span><span class="p">],</span>
+            <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="n">x_center</span> <span class="o">-</span> <span class="n">hook_w</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">z_peak</span> <span class="o">-</span> <span class="n">aperture_h</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">),</span>
+        <span class="p">)</span>
+        <span class="n">body_catch_cut</span> <span class="o">=</span> <span class="n">body_cut</span> <span class="o">-</span> <span class="n">hook_stud</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">Closure</span><span class="p">()</span>
 
     <span class="k">return</span> <span class="n">Closure</span><span class="p">(</span><span class="n">body_cut</span><span class="o">=</span><span class="n">body_catch_cut</span><span class="p">,</span> <span class="n">lid</span><span class="o">=</span><span class="n">lid_catch</span><span class="p">)</span></div>
 

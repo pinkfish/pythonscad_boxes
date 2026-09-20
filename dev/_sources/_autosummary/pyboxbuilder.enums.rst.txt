@@ -16,6 +16,7 @@ pyboxbuilder.enums
       :nosignatures:
    
       BoxType
+      CatchType
       ElementShape
       FingerCut
       InterlockType

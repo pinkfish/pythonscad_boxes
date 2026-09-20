@@ -30,6 +30,9 @@ pyboxbuilder.box.features
       :toctree:
       :nosignatures:
    
+      build_bump_detent
+      build_loop_detent
+      build_wedge_detent
       cap_body
       cap_finger_cutouts
       cap_finger_metrics

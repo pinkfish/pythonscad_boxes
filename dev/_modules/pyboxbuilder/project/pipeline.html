@@ -446,7 +446,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Any</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">BoxType</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">BoxType</span><span class="p">,</span> <span class="n">CatchType</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.project.piece</span><span class="w"> </span><span class="kn">import</span> <span class="n">Build</span><span class="p">,</span> <span class="n">Piece</span><span class="p">,</span> <span class="n">ResolvedBox</span>
 
 <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
@@ -697,7 +697,7 @@
                 <span class="p">),</span>
             <span class="p">)</span> <span class="ow">or</span> <span class="p">(</span>
                 <span class="nb">isinstance</span><span class="p">(</span><span class="n">box</span><span class="p">,</span> <span class="p">(</span><span class="n">HingeBox</span><span class="p">,</span> <span class="n">FilamentHingeBox</span><span class="p">))</span>
-                <span class="ow">and</span> <span class="n">spec</span><span class="o">.</span><span class="n">hinge_catch_type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="s2">"none"</span><span class="p">)</span>
+                <span class="ow">and</span> <span class="n">spec</span><span class="o">.</span><span class="n">resolved_catch_type</span><span class="p">(</span><span class="n">CatchType</span><span class="o">.</span><span class="n">WEDGE</span><span class="p">)</span> <span class="o">!=</span> <span class="n">CatchType</span><span class="o">.</span><span class="n">NONE</span>
             <span class="p">):</span>
                 <span class="n">suppress_scoops</span> <span class="o">=</span> <span class="kc">True</span>
 

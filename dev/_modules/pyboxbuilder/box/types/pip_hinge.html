@@ -450,7 +450,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.shell</span><span class="w"> </span><span class="kn">import</span> <span class="n">block</span><span class="p">,</span> <span class="n">body_rounding</span><span class="p">,</span> <span class="n">build_shell</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.spec</span><span class="w"> </span><span class="kn">import</span> <span class="n">BoxSpec</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.builders.pip_hinge</span><span class="w"> </span><span class="kn">import</span> <span class="n">PrintInPlaceHingeBoxBuilder</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">BoxType</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">BoxType</span><span class="p">,</span> <span class="n">CatchType</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.rounding</span><span class="w"> </span><span class="kn">import</span> <span class="n">round_edges</span><span class="p">,</span> <span class="n">vertical_edges</span>
 
 <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
@@ -546,7 +546,7 @@
         <span class="n">monolithic</span> <span class="o">=</span> <span class="n">body</span> <span class="o">|</span> <span class="n">lid</span> <span class="o">|</span> <span class="n">hinge</span>
 
         <span class="c1"># 4. SnapLock &amp; SnapSocket catches from pybosl2.parts.hinges</span>
-        <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">pip_snap_catch</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">pip_snap_catch</span> <span class="ow">and</span> <span class="n">spec</span><span class="o">.</span><span class="n">resolved_catch_type</span><span class="p">(</span><span class="n">CatchType</span><span class="o">.</span><span class="n">WEDGE</span><span class="p">)</span> <span class="o">!=</span> <span class="n">CatchType</span><span class="o">.</span><span class="n">NONE</span><span class="p">:</span>
             <span class="n">catch_w</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">pip_snap_width</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">width</span> <span class="o">*</span> <span class="mf">0.4</span><span class="p">)</span>
             <span class="n">snap_diam</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">pip_snap_diameter</span>
             <span class="n">sock_obj</span> <span class="o">=</span> <span class="n">SnapSocket</span><span class="p">(</span>

@@ -457,7 +457,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Any</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">InterlockType</span><span class="p">,</span> <span class="n">MagnetType</span><span class="p">,</span> <span class="n">ScoopSide</span><span class="p">,</span> <span class="n">StackableMode</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">CatchType</span><span class="p">,</span> <span class="n">InterlockType</span><span class="p">,</span> <span class="n">MagnetType</span><span class="p">,</span> <span class="n">ScoopSide</span><span class="p">,</span> <span class="n">StackableMode</span>
 
 <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.interior</span><span class="w"> </span><span class="kn">import</span> <span class="n">Interior</span>
@@ -553,6 +553,10 @@
     <span class="n">lead_chamfer</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="w">    </span><span class="sd">"""Chamfer on the lid's leading end; ``None`` uses a quarter of the lid</span>
 <span class="sd">    thickness (FR-002d)."""</span>
+    <span class="n">catch_type</span><span class="p">:</span> <span class="n">CatchType</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">"""Lid retention mechanism — NONE, BUMP, LOOP, WEDGE, or None for type default (FR-099)."""</span>
+    <span class="n">catch_size</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">"""Primary dimension for the catch (bump radius, wedge depth, or loop size); None derives from wall thickness."""</span>
     <span class="n">catch_radius</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="w">    </span><span class="sd">"""Bump-catch radius; ``None`` is no catch, which is a plain sliding box's</span>
 <span class="sd">    default (FR-002e3)."""</span>
@@ -605,7 +609,7 @@
 <span class="w">    </span><span class="sd">"""Diameter of the hinge pin, in mm."""</span>
     <span class="n">filament_diameter</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.75</span>
 <span class="w">    </span><span class="sd">"""Diameter of the filament a living hinge is printed around."""</span>
-    <span class="n">hinge_catch_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"ridge"</span>
+    <span class="n">hinge_catch_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="w">    </span><span class="sd">"""Catch type for hinged boxes; 'ridge' or 'bump'."""</span>
 
     <span class="c1"># ── Magnets (FR-039) ─────────────────────────────────────────────────</span>
@@ -783,6 +787,45 @@
         <span class="k">return</span> <span class="n">replace</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">wall_tops</span><span class="o">=</span><span class="n">tops</span><span class="p">)</span></div>
 
 
+<div class="viewcode-block" id="BoxSpec.resolved_catch_type">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.spec.BoxSpec.html#pyboxbuilder.box.spec.BoxSpec.resolved_catch_type">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">resolved_catch_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="p">:</span> <span class="n">CatchType</span> <span class="o">=</span> <span class="n">CatchType</span><span class="o">.</span><span class="n">NONE</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CatchType</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Return the resolved CatchType enum for this box (FR-099)."""</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">catch_type</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">catch_type</span><span class="p">,</span> <span class="n">CatchType</span><span class="p">):</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">catch_type</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">catch_type</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="n">CatchType</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">catch_type</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
+                <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="n">default</span>
+        <span class="c1"># Legacy backward-compatibility fallbacks:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">catch_radius</span> <span class="o">==</span> <span class="mf">0.0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">CatchType</span><span class="o">.</span><span class="n">NONE</span>
+        <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">"pip_snap_catch"</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">CatchType</span><span class="o">.</span><span class="n">NONE</span>
+        <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">"hinge_catch_type"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"none"</span><span class="p">,</span> <span class="s2">"NONE"</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">CatchType</span><span class="o">.</span><span class="n">NONE</span>
+        <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">"hinge_catch_type"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="o">==</span> <span class="s2">"bump"</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">CatchType</span><span class="o">.</span><span class="n">BUMP</span>
+        <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">"hinge_catch_type"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="o">==</span> <span class="s2">"ridge"</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">CatchType</span><span class="o">.</span><span class="n">WEDGE</span>
+        <span class="k">return</span> <span class="n">default</span></div>
+
+
+<div class="viewcode-block" id="BoxSpec.resolved_catch_size">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.spec.BoxSpec.html#pyboxbuilder.box.spec.BoxSpec.resolved_catch_size">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">resolved_catch_size</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Return the primary dimension for the catch (FR-099)."""</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">catch_size</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">catch_size</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">catch_size</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">catch_radius</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">catch_radius</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">catch_radius</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">default</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">default</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">min</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">wall_thickness</span> <span class="o">/</span> <span class="mf">3.0</span><span class="p">)</span></div>
+
+
 <div class="viewcode-block" id="BoxSpec.to_unresolved">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.spec.BoxSpec.html#pyboxbuilder.box.spec.BoxSpec.to_unresolved">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">to_unresolved</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">UnresolvedBoxSpec</span><span class="p">:</span>
@@ -845,6 +888,8 @@
     <span class="n">lid_slide_axis</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">dovetail</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
     <span class="n">lead_chamfer</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">catch_type</span><span class="p">:</span> <span class="n">CatchType</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">catch_size</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">catch_radius</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">latch_radius</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.2</span>
     <span class="n">fingernail_catch</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
@@ -868,7 +913,7 @@
     <span class="n">hinge_count</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">5</span>
     <span class="n">hinge_pin_diameter</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">3.0</span>
     <span class="n">filament_diameter</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.75</span>
-    <span class="n">hinge_catch_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"ridge"</span>
+    <span class="n">hinge_catch_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 
     <span class="c1"># Magnets</span>
     <span class="n">magnet_type</span><span class="p">:</span> <span class="n">MagnetType</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
