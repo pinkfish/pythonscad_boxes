@@ -516,7 +516,10 @@
         <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">rim_rounding</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">spec</span> <span class="o">=</span> <span class="n">replace</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="n">rim_rounding</span><span class="o">=</span><span class="n">sliding_rim_rounding</span><span class="p">(</span><span class="n">spec</span><span class="p">))</span>
         <span class="n">body</span> <span class="o">=</span> <span class="n">build_shell</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span> <span class="o">-</span> <span class="n">sliding_track</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span><span class="o">.</span><span class="n">body</span>
-        <span class="k">return</span> <span class="n">body</span> <span class="o">-</span> <span class="n">sliding_catch</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">latch_radius</span><span class="p">,</span> <span class="s2">"x"</span><span class="p">)</span><span class="o">.</span><span class="n">body</span></div>
+        <span class="n">catch</span> <span class="o">=</span> <span class="n">sliding_catch</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">latch_radius</span><span class="p">,</span> <span class="s2">"x"</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">catch</span><span class="o">.</span><span class="n">body</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">body</span> <span class="o">=</span> <span class="n">body</span> <span class="o">-</span> <span class="n">catch</span><span class="o">.</span><span class="n">body</span>
+        <span class="k">return</span> <span class="n">body</span></div>
 
 
 <div class="viewcode-block" id="CardLibraryBox.slide_axis">
@@ -532,9 +535,10 @@
 <span class="w">        </span><span class="sd">"""Return the sliding face, latched shut so the cards cannot spill."""</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.features</span><span class="w"> </span><span class="kn">import</span> <span class="n">sliding_catch</span><span class="p">,</span> <span class="n">sliding_track</span>
 
-        <span class="n">lid</span> <span class="o">=</span> <span class="n">sliding_track</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span><span class="o">.</span><span class="n">require_lid</span><span class="p">()</span> <span class="o">|</span> <span class="n">sliding_catch</span><span class="p">(</span>
-            <span class="n">spec</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">latch_radius</span><span class="p">,</span> <span class="s2">"x"</span>
-        <span class="p">)</span><span class="o">.</span><span class="n">require_lid</span><span class="p">()</span>
+        <span class="n">lid</span> <span class="o">=</span> <span class="n">sliding_track</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span><span class="o">.</span><span class="n">require_lid</span><span class="p">()</span>
+        <span class="n">catch</span> <span class="o">=</span> <span class="n">sliding_catch</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">latch_radius</span><span class="p">,</span> <span class="s2">"x"</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">catch</span><span class="o">.</span><span class="n">lid</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">lid</span> <span class="o">=</span> <span class="n">lid</span> <span class="o">|</span> <span class="n">catch</span><span class="o">.</span><span class="n">lid</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cut_fingernail_catch</span><span class="p">(</span><span class="n">lid</span><span class="p">,</span> <span class="n">spec</span><span class="p">)</span></div>
 </div>
 
