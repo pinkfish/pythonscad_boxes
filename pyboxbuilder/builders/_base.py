@@ -8,7 +8,7 @@ from typing import TYPE_CHECKING, Any, ClassVar
 
 from pybosl2 import Color
 
-from pyboxbuilder.enums import BoxType, FingerCut, MagnetType, ScoopSide, StackableMode
+from pyboxbuilder.enums import BoxType, CatchType, FingerCut, MagnetType, ScoopSide, StackableMode
 
 if TYPE_CHECKING:
     from pyboxbuilder.compartments.builder import CompartmentBuilder
@@ -100,6 +100,10 @@ class BoxBuilder:
     """Make this the first-out box with extra clearance and a finger scoop."""
     ribbon_channel: bool | None = None
     """Cut bottom groove for lifting ribbon."""
+    catch_type: CatchType | None = None
+    """Lid retention mechanism — NONE, BUMP, LOOP, WEDGE, or None for type default (FR-099)."""
+    catch_size: float | None = None
+    """Primary dimension for the catch (bump radius, wedge depth, or loop size); None derives from wall thickness."""
 
     def __post_init__(self) -> None:
         """Reject bare strings where the API takes an enum.
@@ -109,10 +113,10 @@ class BoxBuilder:
         silent no-match deep inside the geometry code.
 
         Raises:
-            TypeError: If ``stackable`` or ``magnet_type`` is not its enum.
+            TypeError: If ``stackable``, ``magnet_type``, or ``catch_type`` is not its enum.
 
         """
-        for name, enum_cls in (("stackable", StackableMode), ("magnet_type", MagnetType)):
+        for name, enum_cls in (("stackable", StackableMode), ("magnet_type", MagnetType), ("catch_type", CatchType)):
             value = getattr(self, name)
             if value is not None and not isinstance(value, enum_cls):
                 members = ", ".join(f"{enum_cls.__name__}.{m.name}" for m in enum_cls)

@@ -8,7 +8,7 @@ from functools import cache, partial
 from pathlib import Path
 from typing import TYPE_CHECKING, Any
 
-from pyboxbuilder.enums import BoxType
+from pyboxbuilder.enums import BoxType, CatchType
 from pyboxbuilder.project.piece import Build, Piece, ResolvedBox
 
 if TYPE_CHECKING:
@@ -254,7 +254,7 @@ class GeometryPipeline:
                 ),
             ) or (
                 isinstance(box, (HingeBox, FilamentHingeBox))
-                and spec.hinge_catch_type not in (None, "none")
+                and spec.resolved_catch_type(CatchType.WEDGE) != CatchType.NONE
             ):
                 suppress_scoops = True
 

@@ -38,6 +38,7 @@ from pyboxbuilder.builders._base import Cut
 from pyboxbuilder.compartments.element import CompartmentElement, centered, centered_in_box, grid_pack
 from pyboxbuilder.enums import (
     BoxType,
+    CatchType,
     ElementShape,
     FingerCut,
     InterlockType,
@@ -79,6 +80,7 @@ __all__ = [
     "CardShoeBoxBuilder",
     "CardSize",
     "CardSpec",
+    "CatchType",
     "ClamshellBoxBuilder",
     "Color",
     "CompartmentElement",

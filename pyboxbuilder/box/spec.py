@@ -19,7 +19,7 @@ from dataclasses import dataclass, field, fields, replace
 from pathlib import Path
 from typing import TYPE_CHECKING, Any
 
-from pyboxbuilder.enums import InterlockType, MagnetType, ScoopSide, StackableMode
+from pyboxbuilder.enums import CatchType, InterlockType, MagnetType, ScoopSide, StackableMode
 
 if TYPE_CHECKING:
     from pyboxbuilder.box.interior import Interior
@@ -113,6 +113,10 @@ class BoxSpec:
     lead_chamfer: float | None = None
     """Chamfer on the lid's leading end; ``None`` uses a quarter of the lid
     thickness (FR-002d)."""
+    catch_type: CatchType | str | None = None
+    """Lid retention mechanism — NONE, BUMP, LOOP, WEDGE, or None for type default (FR-099)."""
+    catch_size: float | None = None
+    """Primary dimension for the catch (bump radius, wedge depth, or loop size); None derives from wall thickness."""
     catch_radius: float | None = None
     """Bump-catch radius; ``None`` is no catch, which is a plain sliding box's
     default (FR-002e3)."""
@@ -165,7 +169,7 @@ class BoxSpec:
     """Diameter of the hinge pin, in mm."""
     filament_diameter: float = 1.75
     """Diameter of the filament a living hinge is printed around."""
-    hinge_catch_type: str = "ridge"
+    hinge_catch_type: str | None = None
     """Catch type for hinged boxes; 'ridge' or 'bump'."""
 
     # ── Magnets (FR-039) ─────────────────────────────────────────────────
@@ -331,6 +335,39 @@ class BoxSpec:
                 tops[side] = float(z)
         return replace(self, wall_tops=tops)
 
+    def resolved_catch_type(self, default: CatchType = CatchType.NONE) -> CatchType:
+        """Return the resolved CatchType enum for this box (FR-099)."""
+        if self.catch_type is not None:
+            if isinstance(self.catch_type, CatchType):
+                return self.catch_type
+            if isinstance(self.catch_type, str):
+                try:
+                    return CatchType(self.catch_type.lower())
+                except ValueError:
+                    return default
+        # Legacy backward-compatibility fallbacks:
+        if self.catch_radius == 0.0:
+            return CatchType.NONE
+        if getattr(self, "pip_snap_catch", True) is False:
+            return CatchType.NONE
+        if getattr(self, "hinge_catch_type", None) in ("none", "NONE"):
+            return CatchType.NONE
+        if getattr(self, "hinge_catch_type", None) == "bump":
+            return CatchType.BUMP
+        if getattr(self, "hinge_catch_type", None) == "ridge":
+            return CatchType.WEDGE
+        return default
+
+    def resolved_catch_size(self, default: float | None = None) -> float:
+        """Return the primary dimension for the catch (FR-099)."""
+        if self.catch_size is not None and self.catch_size > 0:
+            return float(self.catch_size)
+        if self.catch_radius is not None and self.catch_radius > 0:
+            return float(self.catch_radius)
+        if default is not None:
+            return float(default)
+        return min(1.0, self.wall_thickness / 3.0)
+
     def to_unresolved(self) -> UnresolvedBoxSpec:
         """Convert this resolved spec into a mutable declaration spec (FR-091)."""
         data = {f.name: getattr(self, f.name) for f in fields(self)}
@@ -387,6 +424,8 @@ class UnresolvedBoxSpec:
     lid_slide_axis: str | None = None
     dovetail: bool = True
     lead_chamfer: float | None = None
+    catch_type: CatchType | str | None = None
+    catch_size: float | None = None
     catch_radius: float | None = None
     latch_radius: float = 1.2
     fingernail_catch: bool = True
@@ -410,7 +449,7 @@ class UnresolvedBoxSpec:
     hinge_count: int = 5
     hinge_pin_diameter: float = 3.0
     filament_diameter: float = 1.75
-    hinge_catch_type: str = "ridge"
+    hinge_catch_type: str | None = None
 
     # Magnets
     magnet_type: MagnetType | None = None

@@ -179,6 +179,20 @@ class GeometryValidator:
                 ),
                 guidance=f"Reduce catch_radius to < {spec.wall_thickness:.2f}mm or increase wall_thickness.",
             )
+        if (
+            spec.catch_size is not None
+            and spec.catch_size > 0.0
+            and spec.catch_size >= spec.wall_thickness
+        ):
+            raise GeometryValidationError(
+                label=spec.label,
+                invariant="catch_size_fits_wall",
+                message=(
+                    f"Catch size ({spec.catch_size:.2f}mm) must be strictly less than "
+                    f"wall thickness ({spec.wall_thickness:.2f}mm)."
+                ),
+                guidance=f"Reduce catch_size to < {spec.wall_thickness:.2f}mm or increase wall_thickness.",
+            )
         if spec.inset > 0.0:
             interior_depth = spec.height - spec.floor_thickness
             if spec.inset >= interior_depth:

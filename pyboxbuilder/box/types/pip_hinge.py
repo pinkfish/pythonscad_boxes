@@ -12,7 +12,7 @@ from pyboxbuilder.box.registry import register_box
 from pyboxbuilder.box.shell import block, body_rounding, build_shell
 from pyboxbuilder.box.spec import BoxSpec
 from pyboxbuilder.builders.pip_hinge import PrintInPlaceHingeBoxBuilder
-from pyboxbuilder.enums import BoxType
+from pyboxbuilder.enums import BoxType, CatchType
 from pyboxbuilder.rounding import round_edges, vertical_edges
 
 if TYPE_CHECKING:
@@ -101,7 +101,7 @@ class PrintInPlaceHingeBox(BoxTypeBase):
         monolithic = body | lid | hinge
 
         # 4. SnapLock & SnapSocket catches from pybosl2.parts.hinges
-        if spec.pip_snap_catch:
+        if spec.pip_snap_catch and spec.resolved_catch_type(CatchType.WEDGE) != CatchType.NONE:
             catch_w = min(spec.pip_snap_width, spec.width * 0.4)
             snap_diam = spec.pip_snap_diameter
             sock_obj = SnapSocket(

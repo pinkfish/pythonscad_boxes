@@ -12,7 +12,7 @@ from pyboxbuilder.box.registry import register_box
 from pyboxbuilder.box.shell import block, body_rounding
 from pyboxbuilder.box.spec import BoxSpec
 from pyboxbuilder.builders.clamshell import ClamshellBoxBuilder
-from pyboxbuilder.enums import BoxType
+from pyboxbuilder.enums import BoxType, CatchType
 from pyboxbuilder.rounding import round_edges, vertical_edges
 
 if TYPE_CHECKING:
@@ -73,7 +73,7 @@ class ClamshellBox(BoxTypeBase):
             body = body | knuckle
 
         # Perimeter closure ridge catch on front rim (X=spec.width)
-        if spec.closure_latch:
+        if spec.closure_latch and spec.resolved_catch_type(CatchType.WEDGE) != CatchType.NONE:
             ridge_w = 1.0
             ridge_h = 1.5
             catch_len = min(20.0, spec.length * 0.4)
@@ -132,7 +132,7 @@ class ClamshellBox(BoxTypeBase):
             lid = lid | knuckle
 
         # Perimeter closure catch groove on front rim (X=spec.width)
-        if spec.closure_latch:
+        if spec.closure_latch and spec.resolved_catch_type(CatchType.WEDGE) != CatchType.NONE:
             ridge_w = 1.0
             ridge_h = 1.5
             catch_len = min(20.0, spec.length * 0.4)

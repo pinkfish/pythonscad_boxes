@@ -17,6 +17,7 @@ from dataclasses import dataclass, replace
 from typing import TYPE_CHECKING
 
 from pyboxbuilder.box.spec import BoxSpec
+from pyboxbuilder.enums import CatchType
 from pyboxbuilder.precision import kwargs as precision_kwargs
 
 if TYPE_CHECKING:
@@ -856,39 +857,120 @@ def sliding_track(spec: BoxSpec) -> Closure:
     return dovetail_track(spec, "x")
 
 
-def sliding_catch(
-    spec: BoxSpec, radius: float = 1.0, along_axis: str = "x"
-) -> Closure:
-    """Return a bump-and-dimple detent that clicks the sliding lid shut (FR-002e1).
 
-    A pair of bumps on the lid drop into matching dimples in the two groove
-    walls. The dimple is cut a touch larger so the two are not an interference
-    fit — the lid should click, not jam. This is the *only* catch a sliding box
-    gets: a wedge at the stop end would close by driving the lid's thinnest
-    section under an overhang, whereas a bump deflects by its own height, across
-    the lid's thickness (see :func:`dovetail_track`).
+# ------------------------------------------------------------ retention catches (FR-099)
 
-    **The catch sits at the outlet**, the mouth the lid enters and leaves by, so
-    it engages in the last few millimetres of travel (FR-002e2). At the closed
-    end instead, the bump would be dragged the whole length of the groove on
-    every open and close — wearing the groove, making a long lid stiff to start,
-    and telling the hand nothing about when the lid is home.
 
-    Args:
-        spec: Needs `width`, `length`, `height`; reads `wall_thickness` and
-            `lid_thickness`.
-        radius: The bump's radius. The dimple is half a fit clearance larger.
-        along_axis: ``"x"`` to slide along the width, ``"y"`` along the length —
-            the same frame :func:`dovetail_track` was given, so the catch lands
-            on the two walls that actually carry the grooves.
+def build_bump_detent(
+    radius: float,
+    clearance: float = FIT_SLACK_MM / 2,
+) -> tuple[Bosl2Solid, Bosl2Solid]:
+    """Return positive bump and negative dimple (FR-099).
 
     Returns:
-        The dimples to subtract from the body, and the bumps to add to the lid.
-
+        tuple[Bosl2Solid, Bosl2Solid]: (bump, dimple)
     """
     from pybosl2 import sphere
 
+    bump = sphere(radius=radius, **precision_kwargs())
+    dimple = sphere(radius=radius + clearance, **precision_kwargs())
+    return bump, dimple
+
+
+def build_wedge_detent(
+    depth: float,
+    width: float,
+    height: float,
+    clearance: float = FIT_SLACK_MM / 2,
+) -> tuple[Bosl2Solid, Bosl2Solid]:
+    """Return positive wedge barb and negative pocket groove (FR-099).
+
+    In detent local frame:
+    X: [-width/2, width/2]
+    Y: [0, depth]
+    Z: [0, height]
+    """
+    from pybosl2 import Path2D
+    from pybosl2.shapes2d import polygon
+
+    # Sloped lead-in from (0, 0) to (depth, height), horizontal retaining shoulder at (0, height)
+    wedge_poly = polygon(path=Path2D([
+        (0.0, 0.0),
+        (depth, height),
+        (0.0, height),
+    ]))
+    wedge = (
+        wedge_poly.linear_extrude(height=width)
+        .rotate([0, 90, 0])
+        .rotate([-90, 0, 0])
+        .scale([1, -1, -1])
+        .translate([-width / 2.0, 0.0, 0.0])
+    )
+
+    groove_poly = polygon(path=Path2D([
+        (-0.05, -clearance),
+        (depth + clearance, height + clearance),
+        (-0.05, height + clearance),
+    ]))
+    groove = (
+        groove_poly.linear_extrude(height=width + 2 * clearance)
+        .rotate([0, 90, 0])
+        .rotate([-90, 0, 0])
+        .scale([1, -1, -1])
+        .translate([-width / 2.0 - clearance, 0.0, -clearance])
+    )
+    return wedge, groove
+
+
+def build_loop_detent(
+    depth: float,
+    width: float,
+    height: float,
+    tab_thickness: float = 1.0,
+    clearance: float = 0.15,
+) -> tuple[Bosl2Solid, Bosl2Solid]:
+    """Return positive loop tab and negative body pocket cutter with hook (FR-099)."""
     from pyboxbuilder.box.shell import block
+
+    t = min(tab_thickness, max(0.6, depth))
+    outer_tab = block([width, t, height], at=(-width / 2.0, 0.0, 0.0))
+    aperture_w = max(width / 2.0, width - 2 * t)
+    aperture_h = max(height / 3.0, height / 2.0)
+    aperture = block(
+        [aperture_w, t + 0.2, aperture_h],
+        at=(-aperture_w / 2.0, -0.1, (height - aperture_h) / 2.0),
+    )
+    loop_tab = outer_tab - aperture
+
+    pocket = block(
+        [width + 2 * clearance, depth + clearance, height + 2 * clearance],
+        at=(-width / 2.0 - clearance, -0.05, -clearance),
+    )
+    hook_w = aperture_w - 2 * clearance
+    hook_h = (height - aperture_h) / 2.0 + aperture_h * 0.7
+    hook_d = min(depth, t)
+    hook = block([hook_w, hook_d, hook_h], at=(-hook_w / 2.0, 0.0, 0.0))
+    body_cutter = pocket - hook
+    return loop_tab, body_cutter
+
+
+def sliding_catch(
+    spec: BoxSpec, radius: float = 1.0, along_axis: str = "x"
+) -> Closure:
+    """Return a retention catch that clicks the sliding lid shut (FR-002e1, FR-099).
+
+    Supports CatchType.BUMP (default), CatchType.WEDGE, CatchType.LOOP, and CatchType.NONE.
+    The catch sits at the outlet mouth, engaging in the final millimetres of slide.
+    """
+    from pyboxbuilder.box.shell import block
+
+    catch_type = spec.resolved_catch_type(CatchType.BUMP)
+    if catch_type == CatchType.NONE:
+        return Closure()
+
+    eff_radius = radius if radius is not None else spec.resolved_catch_size(1.0)
+    if eff_radius <= 0.0:
+        return Closure()
 
     wt = spec.wall_thickness
     lt = spec.lid_thickness
@@ -898,46 +980,72 @@ def sliding_catch(
     along = spec.width if along_axis == "x" else spec.length
     across = spec.length if along_axis == "x" else spec.width
 
-    # Just inside the outlet face, and on the lid's dovetail flank at
-    # mid-thickness — which is where the lid's own material is. Centring on the
-    # wall's inner face instead leaves the bump hanging beside the lid rather
-    # than on it, because the flank has already leaned in by then.
-    at_along = along - wt - 2 * radius
+    at_along = along - wt - 2 * eff_radius
     flank = wt - bottom_key / 2 + s
     z = spec.height - lt / 2
+    envelope = block([spec.width, spec.length, spec.height])
 
     def _place(solid: Bosl2Solid, across_pos: float) -> Bosl2Solid:
         if along_axis == "x":
             return solid.translate([at_along, across_pos, z])
         return solid.translate([across_pos, at_along, z])
 
-    dimple = sphere(radius=radius + FIT_SLACK_MM / 2, **precision_kwargs())
-    bump = sphere(radius=radius, **precision_kwargs())
-    bumps = _place(bump, flank) | _place(bump, across - flank)
-    # The bump engages sideways in the groove, so trimming its crown at the box's
-    # top face costs nothing — and leaving it proud would make the closed box
-    # taller than its declared height. The dimple is left untrimmed: it is cut
-    # from the body, and opening it slightly at the rim is harmless.
-    envelope = block([spec.width, spec.length, spec.height])
-    return Closure(
-        body=_place(dimple, flank) | _place(dimple, across - flank),
-        lid=bumps & envelope,
-    )
+    if catch_type == CatchType.BUMP:
+        bump, dimple = build_bump_detent(eff_radius, FIT_SLACK_MM / 2)
+        bumps = _place(bump, flank) | _place(bump, across - flank)
+        dimples = _place(dimple, flank) | _place(dimple, across - flank)
+        return Closure(body=dimples, lid=bumps & envelope)
+
+    if catch_type == CatchType.WEDGE:
+        w_depth = min(eff_radius, max(0.4, bottom_key / 3.0))
+        w_width = min(4.0, along / 8.0)
+        w_height = min(lt * 0.8, 2.0)
+        wedge, groove = build_wedge_detent(w_depth, w_width, w_height)
+
+        # Place wedge and groove on both flanks pointing into wall (-Y on flank, +Y on across-flank)
+        w_low = wedge.scale([1, -1, 1])
+        g_low = groove.scale([1, -1, 1])
+        wedges = _place(w_low, flank) | _place(wedge, across - flank)
+        grooves = _place(g_low, flank) | _place(groove, across - flank)
+        return Closure(body=grooves, lid=wedges & envelope)
+
+    if catch_type == CatchType.LOOP:
+        # Loop tab on the lid trailing edge, matching pocket on body outlet rim
+        l_width = min(12.0, across / 3.0)
+        l_depth = min(eff_radius * 1.5, wt)
+        l_height = min(lt * 1.2, 3.0)
+        loop_tab, body_cutter = build_loop_detent(l_depth, l_width, l_height)
+
+        mid_across = across / 2.0
+        if along_axis == "x":
+            lid_part = loop_tab.translate([along - wt / 2.0, mid_across, spec.height - lt])
+            body_part = body_cutter.translate([along - wt / 2.0, mid_across, spec.height - lt])
+        else:
+            lid_part = loop_tab.rotate([0, 0, 90]).translate([mid_across, along - wt / 2.0, spec.height - lt])
+            body_part = body_cutter.rotate([0, 0, 90]).translate([mid_across, along - wt / 2.0, spec.height - lt])
+        return Closure(body=body_part, lid=lid_part & envelope)
+
+    return Closure()
+
 
 
 def cap_slipover_catch(spec: BoxSpec, is_slipover: bool = False) -> Closure:
-    """Return a bump-and-dimple catch for cap boxes or slipover boxes (FR-002q2, FR-002q3).
+    """Return a retention catch for cap boxes or slipover boxes (FR-002q2, FR-002q3, FR-099).
 
-    Bumps reside on the inside mating surface of the lid/sleeve, and dimples cut
+    Supports CatchType.BUMP (default), CatchType.WEDGE, CatchType.LOOP, and CatchType.NONE.
+    Catches reside on the inside mating surface of the lid/sleeve, and cut
     into the box body's mating surface (the stepped band of the cap box body,
     or the outer wall of the slipover box body).
     """
-    from pybosl2 import sphere
-
     from pyboxbuilder.compartments.element import union_all
 
-    radius = spec.catch_radius if spec.catch_radius is not None else 1.0
-    dimple_r = radius + FIT_SLACK_MM / 2
+    catch_type = spec.resolved_catch_type(CatchType.BUMP)
+    if catch_type == CatchType.NONE:
+        return Closure()
+
+    radius = spec.resolved_catch_size(spec.catch_radius if spec.catch_radius is not None else 1.0)
+    if radius <= 0.0:
+        return Closure()
 
     # Determine long axis and dimensions
     if spec.width >= spec.length:
@@ -981,28 +1089,80 @@ def cap_slipover_catch(spec: BoxSpec, is_slipover: bool = False) -> Closure:
     body_solids = []
     lid_solids = []
 
-    dimple = sphere(radius=dimple_r, **precision_kwargs())
-    bump = sphere(radius=radius, **precision_kwargs())
+    if catch_type == CatchType.BUMP:
+        bump, dimple = build_bump_detent(radius, FIT_SLACK_MM / 2)
+        for i in range(N):
+            pos_long = margin + i * spacing
+            for face in ("low", "high"):
+                if face == "low":
+                    pos_body = inset
+                    pos_lid = inset - slack
+                else:
+                    pos_body = across_val - inset
+                    pos_lid = across_val - (inset - slack)
 
-    for i in range(N):
-        pos_long = margin + i * spacing
-        for face in ("low", "high"):
-            if face == "low":
-                pos_body = inset
-                pos_lid = inset - slack
-            else:
-                pos_body = across_val - inset
-                pos_lid = across_val - (inset - slack)
+                if long_axis == "x":
+                    b_pt = [pos_long, pos_body, z]
+                    l_pt = [pos_long, pos_lid, z]
+                else:
+                    b_pt = [pos_body, pos_long, z]
+                    l_pt = [pos_lid, pos_long, z]
 
+                body_solids.append(dimple.translate(b_pt))
+                lid_solids.append(bump.translate(l_pt))
+
+    elif catch_type == CatchType.WEDGE:
+        w_depth = min(radius, max(0.4, inset * 0.4))
+        w_width = min(6.0, spacing * 0.3 if spacing > 0 else 6.0)
+        w_height = min(2.0, radius * 2.0)
+        wedge, groove = build_wedge_detent(
+            depth=w_depth, width=w_width, height=w_height, clearance=FIT_SLACK_MM / 2
+        )
+        z0 = z - w_height / 2.0
+
+        for i in range(N):
+            pos_long = margin + i * spacing
             if long_axis == "x":
-                b_pt = [pos_long, pos_body, z]
-                l_pt = [pos_long, pos_lid, z]
+                # low face: extends +Y
+                lid_solids.append(wedge.translate([pos_long, inset - slack, z0]))
+                body_solids.append(groove.translate([pos_long, inset, z0]))
+                # high face: extends -Y
+                lid_solids.append(wedge.scale([1, -1, 1]).translate([pos_long, across_val - (inset - slack), z0]))
+                body_solids.append(groove.scale([1, -1, 1]).translate([pos_long, across_val - inset, z0]))
             else:
-                b_pt = [pos_body, pos_long, z]
-                l_pt = [pos_lid, pos_long, z]
+                # low face: extends +X
+                lid_solids.append(wedge.rotate([0, 0, -90]).translate([inset - slack, pos_long, z0]))
+                body_solids.append(groove.rotate([0, 0, -90]).translate([inset, pos_long, z0]))
+                # high face: extends -X
+                lid_solids.append(wedge.rotate([0, 0, 90]).translate([across_val - (inset - slack), pos_long, z0]))
+                body_solids.append(groove.rotate([0, 0, 90]).translate([across_val - inset, pos_long, z0]))
 
-            body_solids.append(dimple.translate(b_pt))
-            lid_solids.append(bump.translate(l_pt))
+    elif catch_type == CatchType.LOOP:
+        l_width = min(8.0, spacing * 0.4 if spacing > 0 else 8.0)
+        l_depth = min(radius, max(0.5, inset * 0.4))
+        l_height = min(6.0, radius * 3.0)
+        l_tab_th = min(1.0, l_depth)
+        loop_tab, body_cutter = build_loop_detent(
+            depth=l_depth, width=l_width, height=l_height, tab_thickness=l_tab_th, clearance=FIT_SLACK_MM / 2
+        )
+        z0 = z - l_height / 2.0
+
+        for i in range(N):
+            pos_long = margin + i * spacing
+            if long_axis == "x":
+                # low face: extends +Y
+                lid_solids.append(loop_tab.translate([pos_long, inset - slack, z0]))
+                body_solids.append(body_cutter.translate([pos_long, inset, z0]))
+                # high face: extends -Y
+                lid_solids.append(loop_tab.scale([1, -1, 1]).translate([pos_long, across_val - (inset - slack), z0]))
+                body_solids.append(body_cutter.scale([1, -1, 1]).translate([pos_long, across_val - inset, z0]))
+            else:
+                # low face: extends +X
+                lid_solids.append(loop_tab.rotate([0, 0, -90]).translate([inset - slack, pos_long, z0]))
+                body_solids.append(body_cutter.rotate([0, 0, -90]).translate([inset, pos_long, z0]))
+                # high face: extends -X
+                lid_solids.append(loop_tab.rotate([0, 0, 90]).translate([across_val - (inset - slack), pos_long, z0]))
+                body_solids.append(body_cutter.rotate([0, 0, 90]).translate([across_val - inset, pos_long, z0]))
 
     return Closure(
         body=union_all(body_solids),
@@ -1507,12 +1667,23 @@ def fingernail_dish(spec: BoxSpec, catch: FingernailCatch) -> Bosl2Solid:
 
 
 def hinge_catch(spec: BoxSpec) -> Closure:
-    """Return the front snap-fit catch for a hinged box (FR-002v)."""
+    """Return the front snap-fit catch for a hinged box (FR-002v, FR-099).
+
+    Supports CatchType.WEDGE (default ridge), CatchType.BUMP, CatchType.LOOP, and CatchType.NONE.
+    """
     from pybosl2.shapes2d import polygon
     from pybosl2.shapes3d import sphere
 
     from pyboxbuilder.compartments.element import union_all
     from pyboxbuilder.precision import kwargs as precision_kwargs
+
+    catch_type = spec.resolved_catch_type(CatchType.WEDGE)
+    if catch_type == CatchType.NONE:
+        return Closure()
+
+    eff_size = spec.resolved_catch_size(1.0)
+    if eff_size <= 0.0:
+        return Closure()
 
     wt = spec.wall_thickness
     lt = spec.lid_thickness
@@ -1526,40 +1697,14 @@ def hinge_catch(spec: BoxSpec) -> Closure:
 
     x_center = spec.width / 2.0
 
-    # Body pocket cut (subtract from body front wall y=0..wt/2)
-    # Since wt/2 is thin (1.0mm), standard cuboid/rounded_block limits rounding to wt/4 (0.5mm)
-    # because of opposite edges.
-    # To get a true rounded corner front-face catch tab of width catch_width and fillet_r, we can build a 2D profile
-    # of a rectangle of size [catch_width, wt/2] with only the front-left and front-right corners rounded,
-    # and then extrude it.
     from pybosl2.constants import FRONT
     from pybosl2.shapes2d import rect
 
-    # 2D shape for the lid tab (Y runs negative from 0 to -wt/2, which is outside the front face footprint)
-    # The front face is at Y=0. Lid tab hangs down from Y=0 in the direction of negative Y (frontwards) by wt/2.
-    # Therefore, the anchor is FRONT (meaning the front of the rectangle is at the local origin,
-    # so the rect extends back to Y > 0? No,
-    # anchor=FRONT means FRONT edge is placed at the origin, so it extends in Y+ direction.
-    # If anchor=BACK, BACK edge is at origin, so it extends in Y- direction).
-    # Since we want it to go from Y=0 to Y=-wt/2, we anchor at BACK.
-    # When Y goes negative (0 to -wt/2), the "front" of this tab is at Y=-wt/2.
-    # In local rect coordinates [width, wt/2], if anchor=BACK, the rectangle spans Y: -wt/2 to 0.
-    # The bottom-left/right are at Y=-wt/2, and top-left/right are at Y=0.
-    # So we want to round index 0 and 1 (bottom_left and bottom_right)!
-    # 2D shape for the lid tab (Y runs negative from 0 to -wt/2)
-    # 2D shape for the lid tab (Y runs positive from 0 to wt/2, which is inside the front face wall)
-    # The front face is at Y=0. Lid tab Y ranges from 0 to wt/2.
-    # Therefore, we anchor the FRONT edge at the origin (so the rect extends in Y+ direction).
-    # Since we anchor=FRONT, the front corners (at Y=0) correspond to index 0 and 1 (bottom_left and bottom_right).
     tab_2d = rect([catch_width, wt / 2.0], rounding=[fillet_r, fillet_r, 0, 0], anchor=FRONT)
     lid_tab = tab_2d.linear_extrude(height=catch_height).translate([x_center, 0.0, body_height - catch_height])
 
-    # 2D shape for the body cut with gap clearance
     body_cut_width = catch_width + 2 * gap
     body_cut_y = wt / 2.0 + gap
-    # Needs to cut from Y = -gap (for clearance) up to Y = wt/2.
-    # We anchor=FRONT, so rect spans Y: 0 to body_cut_y.
-    # We translate to Y = -gap, so it spans: -gap to wt/2.
     body_cut_2d = rect(
         [body_cut_width, body_cut_y],
         rounding=[fillet_r + gap, fillet_r + gap, 0, 0],
@@ -1569,16 +1714,6 @@ def hinge_catch(spec: BoxSpec) -> Closure:
         [x_center, -gap, body_height - catch_height - gap]
     )
 
-    # Angled strengthening piece (gusset/support) on the top/back of the lid tab
-    # The gusset goes from the top edge of the tab (y = wt/2, z = body_height)
-    # sloping up and back (y increasing, z increasing) to the bottom of the lid (z = body_height + lt).
-    # Since wt is the box wall thickness, the space behind the tab (y >= wt/2) inside
-    # the box can contain this.
-    # Let's make the gusset width match the catch_width, or a bit narrower for aesthetics
-    # (e.g., catch_width - 2*fillet_r).
-    # Gusset thickness in Y: we can go from y = wt/2 to y = wt.
-    # We define the 2D path at Z=0.0 to prevent rotation-induced Y translation offsets,
-    # then translate to body_height in Z.
     from pybosl2 import Path2D
     gusset_poly = polygon(path=Path2D([
         (0.0, wt / 2.0),
@@ -1593,8 +1728,6 @@ def hinge_catch(spec: BoxSpec) -> Closure:
         .translate([x_center - catch_width / 2.0 + fillet_r, 0, body_height])
     )
 
-    # Matching clearance pocket carve-out on the inside front wall of the body.
-    # The pocket needs clearance gap in all directions.
     pocket_poly = polygon(path=Path2D([
         (-gap, wt / 2.0 - gap),
         (-gap, wt + 0.1),
@@ -1612,11 +1745,11 @@ def hinge_catch(spec: BoxSpec) -> Closure:
     body_cut = body_cut | pocket_cut
     lid_tab = lid_tab | gusset
 
-    bead_depth = 0.6
     z_peak = body_height - catch_height / 2.0
     slope_height = 2.0
 
-    if spec.hinge_catch_type == "ridge":
+    if catch_type == CatchType.WEDGE:
+        bead_depth = min(eff_size, wt / 2.0)
         # Right-angled triangular ridge on lid tab (flat top, sloped bottom)
         ridge_poly = polygon(path=Path2D([
             (wt / 2.0, 0.0),
@@ -1647,11 +1780,11 @@ def hinge_catch(spec: BoxSpec) -> Closure:
         )
         body_catch_cut = body_cut | groove
 
-    else:
+    elif catch_type == CatchType.BUMP:
         # Bump catch (two side-by-side bumps)
         x1 = x_center - catch_width / 4.0
         x2 = x_center + catch_width / 4.0
-        r_bump = 1.2
+        r_bump = min(eff_size, wt / 2.0)
 
         bump1 = sphere(radius=r_bump, **precision_kwargs()).translate([x1, wt / 2.0, z_peak])
         bump2 = sphere(radius=r_bump, **precision_kwargs()).translate([x2, wt / 2.0, z_peak])
@@ -1660,6 +1793,29 @@ def hinge_catch(spec: BoxSpec) -> Closure:
         indent1 = sphere(radius=r_bump + gap, **precision_kwargs()).translate([x1, wt / 2.0, z_peak])
         indent2 = sphere(radius=r_bump + gap, **precision_kwargs()).translate([x2, wt / 2.0, z_peak])
         body_catch_cut = union_all([body_cut, indent1, indent2])
+
+    elif catch_type == CatchType.LOOP:
+        from pyboxbuilder.box.shell import block
+
+        aperture_w = catch_width * 0.55
+        aperture_h = catch_height * 0.35
+        aperture = block(
+            [aperture_w, wt / 2.0 + 0.4, aperture_h],
+            at=(x_center - aperture_w / 2.0, -0.2, z_peak - aperture_h / 2.0),
+        )
+        lid_catch = lid_tab - aperture
+
+        hook_w = aperture_w - 2 * gap
+        hook_h = aperture_h * 0.7
+        hook_d = wt / 2.0
+        hook_stud = block(
+            [hook_w, hook_d, hook_h],
+            at=(x_center - hook_w / 2.0, 0.0, z_peak - aperture_h / 2.0),
+        )
+        body_catch_cut = body_cut - hook_stud
+
+    else:
+        return Closure()
 
     return Closure(body_cut=body_catch_cut, lid=lid_catch)
 

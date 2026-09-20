@@ -32,6 +32,19 @@ class BoxType(Enum):
     PRINT_IN_PLACE_HINGE = "print_in_place_hinge"
 
 
+class CatchType(Enum):
+    """Retention catch mechanism for box lids (FR-099)."""
+
+    NONE = "none"
+    """No positive retention catch (friction fit or plain track)."""
+    BUMP = "bump"
+    """Spherical / hemispherical detent bumps and matching dimples."""
+    LOOP = "loop"
+    """Resilient strap / loop tab that snaps over an opposing stud or hook."""
+    WEDGE = "wedge"
+    """Asymmetric ramped wedge ridge / barb with positive locking shoulder."""
+
+
 class InterlockType(Enum):
     """Interlocking joint type for modular play trays."""
 
