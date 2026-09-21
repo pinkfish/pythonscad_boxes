@@ -317,11 +317,15 @@ class CatchType(Enum):
     """Resilient strap / loop tab that snaps over an opposing stud or hook."""
     WEDGE = "wedge"
     """Asymmetric ramped wedge ridge / barb with positive locking shoulder."""
+    MAGNET = "magnet"
+    """Paired blind cylindrical pockets sized for neodymium disc magnets."""
+    LEAF_SPRING = "leaf_spring"
+    """Compliant cantilever flexure arm backed by an elastic relief slot."""
 ```
 
 #### 1. Core Geometric Primitives (`pyboxbuilder/box/features.py`)
 
-Three reusable geometric generators construct positive and negative catch features across all closure families:
+Five reusable geometric generators construct positive and negative catch features across all closure families:
 
 - **`build_bump_detent(radius, clearance=0.1)`**:
   - Positive: A spherical or hemispherical bead protruding from the moving part (lid, skirt, or tab).
@@ -332,41 +336,55 @@ Three reusable geometric generators construct positive and negative catch featur
 - **`build_loop_detent(tab_length, tab_width, aperture_size, stud_depth, clearance=0.15)`**:
   - Positive: A resilient planar strap or loop tab extending from the lid rim or skirt with an internal rectangular aperture.
   - Negative/Mating: An opposing retaining boss or hook stud projecting from the box body with a 45° lead-in chamfer. During closing, the loop deflects outward over the chamfer and drops over the stud.
+- **`build_magnet_detent(diameter, depth, clearance=0.1)`**:
+  - Negative (Body): A blind cylindrical pocket in the body rim/track bed.
+  - Negative (Lid): A matching blind cylindrical pocket in the lid underside/skirt. Both parts have negative cavities that never intersect when closed.
+- **`build_leaf_spring_detent(depth, width, height, slot_width=0.8, clearance=0.1)`**:
+  - Positive (Lid): A detent bead positioned on a compliant cantilever tongue backed or flanked by an elastic relief clearance slot cut through the lid plate or skirt.
+  - Negative (Body): A matching spherical dimple or undercut groove on the body mating face.
 
 #### 2. Implementation Across All Lidded Closure Families
 
 The unified catch system applies across all lidded box families requiring retention:
 
 1. **Sliding Lids** (`BoxType.SLIDING`, `BoxType.SLIDING_CATCH`, `BoxType.CARD_LIBRARY`):
-   - Location: Positioned at the track outlet (mouth), within `wall_thickness + 2 * catch_size` of the exit face, engaging only in the final millimetres of slide travel.
+   - Location: Positioned at the track outlet (mouth), within `wall_thickness + 2 * catch_size` of the exit face, engaging only in the final millimetres of slide travel (or at the closed end for magnets).
    - `CatchType.BUMP`: Hemispherical bumps on lid dovetail flanks dropping into spherical dimples in track walls beside the mouth.
    - `CatchType.WEDGE`: Asymmetric wedge barbs on the trailing dovetail flanks snapping into matching undercut notches in the track walls. (Note: FR-002e0 forbids a wedge at the leading stop-wall seat because forcing the thin leading lip splits 3D-printed layers; a wedge catch on the trailing flanks at the outlet operates across the dovetail thickness and is completely safe).
    - `CatchType.LOOP`: A resilient loop tab extending from the lid's trailing edge, clipping over a small retaining post on the box body outlet rim.
+   - `CatchType.MAGNET`: Paired vertical cylindrical magnet pockets embedded in the body track bed and lid underside at the closed stop position.
+   - `CatchType.LEAF_SPRING`: Cantilever leaf spring bump on the lid flank backed by a longitudinal relief clearance slot, snapping into a body dimple.
    - `CatchType.NONE`: Smooth sliding channel without detents.
 2. **Cap & Slipover Lids** (`BoxType.CAP`, `BoxType.CAP_PATH`, `BoxType.SLIPOVER`, `BoxType.SLIPOVER_PATH`):
    - Location: On the mating walls of the stepped band (cap) or outer wall (slipover) along the two long walls (or perimeter for path boxes).
    - `CatchType.BUMP`: Spherical bumps on inside lid/sleeve face mating with spherical dimples in body walls (2 to 4 catches per side spaced $\ge 40\text{mm}$ apart).
    - `CatchType.WEDGE`: Ramped wedge bead along the inner skirt face snapping into an undercut groove/ledge in the body band/wall.
    - `CatchType.LOOP`: Flexible loop tabs on the skirt/sleeve hem snapping over exterior studs on the body wall below the skirt line.
+   - `CatchType.MAGNET`: Paired vertical cylindrical magnet pockets in the stepped band and lid roof/skirt.
+   - `CatchType.LEAF_SPRING`: Slotted compliant vertical skirt flexure fingers carrying detent bumps that snap into body dimples.
    - `CatchType.NONE`: Smooth friction fit without detents.
 3. **Hinged & Clamshell Closures** (`BoxType.HINGE`, `BoxType.FILAMENT_HINGE`, `BoxType.PRINT_IN_PLACE_HINGE`, `BoxType.CLAMSHELL`):
    - Location: Centered on the front wall opposite the hinge axis.
    - `CatchType.WEDGE`: Right-angled triangular ridge (sloped lead-in ramp, horizontal retaining shoulder) on lid front tab snapping into front body pocket groove.
    - `CatchType.BUMP`: Dual spherical bumps on lid front tab clicking into matching hemispherical indents in the body front pocket.
    - `CatchType.LOOP`: Resilient loop tab extending downward from the lid front rim clipping over an exterior stud/hook on the body front wall.
+   - `CatchType.MAGNET`: Paired vertical cylindrical magnet pockets at the front mating parting line between body rim and lid tab.
+   - `CatchType.LEAF_SPRING`: Front lid snap tab with vertical flexure relief slots flanking the catch bead, forming a central compliant leaf spring arm.
    - `CatchType.NONE`: Hinged lid rests flush against the body rim without front latching.
 4. **Cantilever Snap-Fit Lids** (`BoxType.SNAP_FIT`):
    - Location: Downward-extending cantilever spring arms on opposing walls.
    - `CatchType.WEDGE`: Cantilever arms terminating in wedge barb heads (45° lead-in ramp, flat horizontal lock shoulder) mating with recessed body catch pockets.
    - `CatchType.BUMP`: Cantilever arms terminating in spherical bump detents clicking into body dimple pockets.
    - `CatchType.LOOP`: Cantilever arms with loop apertures snapping over exterior protruding wedge studs/bosses on the body.
+   - `CatchType.MAGNET`: Cantilever arm pockets housing embedded magnets attracting opposing body wall magnet pockets.
+   - `CatchType.LEAF_SPRING`: Cantilever spring arms with flexure neck profiles providing low-strain compliant leaf-spring snap action.
    - `CatchType.NONE`: Cantilever guide arms without latch detents.
 
 #### 3. Sizing & Invariant Validation
 
 Catch parameters are plumbed through `BoxSpec` and `ResolvedBoxSpec`:
 - `catch_type: CatchType = ...` (default resolved per box type, e.g. `BUMP` for sliding/cap/slipover, `WEDGE` for hinged/snap-fit).
-- `catch_size: float | None = None`: Primary dimension (bump radius for `BUMP`, wedge protrusion depth for `WEDGE`, loop thickness for `LOOP`). If `None`, derived as `min(1.0, wall_thickness / 3)`.
+- `catch_size: float | None = None`: Primary dimension (bump radius for `BUMP`/`LEAF_SPRING`, wedge protrusion depth for `WEDGE`, loop thickness for `LOOP`, magnet diameter for `MAGNET`). If `None`, derived as `min(1.0, wall_thickness / 3)` for detents or `min(spec.magnet_diameter, 4.0)` for magnets.
 - `GeometryValidator.catch_fits_wall`: Asserts that `catch_size <= wall_thickness / 2` and `catch_size <= lid_thickness / 2`, guaranteeing that detents and pockets never breach interior compartments or exterior cosmetic faces.
 
 
@@ -1841,19 +1859,19 @@ GitHub Actions previously stalled and timed out due to two configuration bottlen
 ### Unified Lid Retention Catch Architecture (FR-099, SC-099)
 
 The multi-type catch subsystem establishes a cohesive architecture across all lid closure mechanisms:
-1. **Strongly-typed enum contract**: `CatchType` in `pyboxbuilder/enums.py` (`NONE`, `BUMP`, `LOOP`, `WEDGE`) replaces disparate boolean flags (`pip_snap_catch`), raw strings (`hinge_catch_type`), and isolated scalar radii (`catch_radius`).
+1. **Strongly-typed enum contract**: `CatchType` in `pyboxbuilder/enums.py` (`NONE`, `BUMP`, `LOOP`, `WEDGE`, `MAGNET`, `LEAF_SPRING`) replaces disparate boolean flags (`pip_snap_catch`), raw strings (`hinge_catch_type`), and isolated scalar radii (`catch_radius`).
 2. **Universal closure integration**:
-   - Sliding lids (`BoxType.SLIDING`, `SLIDING_CATCH`, `CARD_LIBRARY`) generate `BUMP`, `WEDGE`, or `LOOP` detents exclusively at the outlet mouth.
-   - Cap and slipover lids (`BoxType.CAP`, `CAP_PATH`, `SLIPOVER`, `SLIPOVER_PATH`) generate `BUMP`, `WEDGE`, or `LOOP` catches along mating walls.
-   - Hinged and clamshell lids (`BoxType.HINGE`, `FILAMENT_HINGE`, `PRINT_IN_PLACE_HINGE`, `CLAMSHELL`) generate `WEDGE`, `BUMP`, or `LOOP` catches on the front tab/pocket.
-   - Snap-fit lids (`BoxType.SNAP_FIT`) generate `WEDGE`, `BUMP`, or `LOOP` catches on opposing cantilever spring arms.
+   - Sliding lids (`BoxType.SLIDING`, `SLIDING_CATCH`, `CARD_LIBRARY`) generate `BUMP`, `WEDGE`, `LOOP`, `MAGNET`, or `LEAF_SPRING` detents at the outlet mouth or closed stop.
+   - Cap and slipover lids (`BoxType.CAP`, `CAP_PATH`, `SLIPOVER`, `SLIPOVER_PATH`) generate `BUMP`, `WEDGE`, `LOOP`, `MAGNET`, or `LEAF_SPRING` catches along mating walls.
+   - Hinged and clamshell lids (`BoxType.HINGE`, `FILAMENT_HINGE`, `PRINT_IN_PLACE_HINGE`, `CLAMSHELL`) generate `WEDGE`, `BUMP`, `LOOP`, `MAGNET`, or `LEAF_SPRING` catches on the front tab/pocket.
+   - Snap-fit lids (`BoxType.SNAP_FIT`) generate `WEDGE`, `BUMP`, `LOOP`, `MAGNET`, or `LEAF_SPRING` catches on opposing cantilever spring arms.
 3. **Pre-CSG geometric validation**: `GeometryValidator.catch_fits_wall` enforces that detents and recesses do not exceed structural wall and lid limits, failing fast with descriptive `GeometryValidationError` if invalid.
 
 ### Comprehensive Basic Component & Catch Testing Strategy (FR-100, SC-100)
 
 Every basic piece and closure mechanism in the library is subject to exhaustive automated unit testing:
 1. **Full Box Type Matrix**: All 23 registered box types in `BoxType` are tested to verify they produce non-null, manifold CSG bodies and lids.
-2. **Exhaustive Catch Matrix**: Every lidded box type needing retention (`SLIDING`, `SLIDING_CATCH`, `CARD_LIBRARY`, `CAP`, `CAP_PATH`, `SLIPOVER`, `SLIPOVER_PATH`, `HINGE`, `FILAMENT_HINGE`, `PRINT_IN_PLACE_HINGE`, `CLAMSHELL`, `SNAP_FIT`) is tested across all four `CatchType` variants (`BUMP`, `WEDGE`, `LOOP`, `NONE`), ensuring 0mm³ collision volume when closed (`volume(body & lid) < 0.05mm³`).
+2. **Exhaustive Catch Matrix**: Every lidded box type needing retention (`SLIDING`, `SLIDING_CATCH`, `CARD_LIBRARY`, `CAP`, `CAP_PATH`, `SLIPOVER`, `SLIPOVER_PATH`, `HINGE`, `FILAMENT_HINGE`, `PRINT_IN_PLACE_HINGE`, `CLAMSHELL`, `SNAP_FIT`) is tested across all six `CatchType` variants (`BUMP`, `WEDGE`, `LOOP`, `MAGNET`, `LEAF_SPRING`, `NONE`), ensuring 0mm³ collision volume when closed (`volume(body & lid) < 0.05mm³`).
 3. **Multi-Axis Alignment**: Sliding lids and cantilever snap-fit arms are verified along both principal axes (X and Y) to prevent orientation inversion errors.
 4. **Arbitrary Polygon Footprints**: Cap and slipover boxes are verified with both rectangular and arbitrary 2D polygon boundaries (`path`), testing stepped bands, telescoping skirts, and solid/hollow base variants.
 5. **Geometric Invariants & Fail-Fast Validation**: Pre-CSG validation bounds and builder instantiation contracts are tested with negative test cases to prevent invalid parameters from reaching CSG evaluation.

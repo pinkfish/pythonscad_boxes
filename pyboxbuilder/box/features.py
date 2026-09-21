@@ -955,6 +955,56 @@ def build_loop_detent(
     return loop_tab, body_cutter
 
 
+def build_magnet_detent(
+    diameter: float,
+    depth: float,
+    clearance: float = 0.1,
+) -> tuple[Bosl2Solid, Bosl2Solid]:
+    """Return negative cylindrical magnet cavities for lid and body (FR-099).
+
+    Both returns are negative cavities to be subtracted from lid and body,
+    sized to accept press-fit or glued-in neodymium disc magnets.
+
+    Returns:
+        tuple[Bosl2Solid, Bosl2Solid]: (lid_pocket, body_pocket)
+    """
+    from pybosl2 import cylinder
+
+    r = diameter / 2.0 + clearance
+    h = depth + 0.1
+    pocket_lid = cylinder(height=h, radius=r, **precision_kwargs())
+    pocket_body = cylinder(height=h, radius=r, **precision_kwargs())
+    return pocket_lid, pocket_body
+
+
+def build_leaf_spring_detent(
+    radius: float,
+    arm_length: float = 8.0,
+    arm_thickness: float = 1.0,
+    slot_width: float = 0.8,
+    clearance: float = FIT_SLACK_MM / 2,
+) -> tuple[Bosl2Solid, Bosl2Solid, Bosl2Solid]:
+    """Return positive detent bead, lid relief slot, and body dimple (FR-099).
+
+    Generates a compliant cantilever flexure arm with relief clearance slots
+    behind the detent bead, paired with an opposing clearance dimple.
+
+    Returns:
+        tuple[Bosl2Solid, Bosl2Solid, Bosl2Solid]: (bead, relief_slot, dimple)
+    """
+    from pybosl2 import sphere
+
+    from pyboxbuilder.box.shell import block
+
+    bead = sphere(radius=radius, **precision_kwargs())
+    dimple = sphere(radius=radius + clearance, **precision_kwargs())
+    slot = block(
+        [arm_length, slot_width, 2 * radius + 0.4],
+        at=(-arm_length / 2.0, arm_thickness, -radius - 0.2),
+    )
+    return bead, slot, dimple
+
+
 def sliding_catch(
     spec: BoxSpec, radius: float = 1.0, along_axis: str = "x"
 ) -> Closure:
@@ -1026,6 +1076,35 @@ def sliding_catch(
             body_part = body_cutter.rotate([0, 0, 90]).translate([mid_across, along - wt / 2.0, spec.height - lt])
         return Closure(body=body_part, lid=lid_part & envelope)
 
+    if catch_type == CatchType.MAGNET:
+        from pybosl2 import cylinder
+
+        m_diam = min(spec.magnet_diameter, spec.resolved_catch_size(3.0))
+        m_depth = min(spec.magnet_height, max(0.8, lt * 0.7))
+        clr = 0.1
+        mid_across = across / 2.0
+        pos_along = wt + m_diam / 2.0 + 1.0
+        if along_axis == "x":
+            b_center = [pos_along, mid_across, spec.height - lt - m_depth / 2.0]
+            l_center = [pos_along, mid_across, spec.height - lt + m_depth / 2.0]
+        else:
+            b_center = [mid_across, pos_along, spec.height - lt - m_depth / 2.0]
+            l_center = [mid_across, pos_along, spec.height - lt + m_depth / 2.0]
+        b_pocket = cylinder(height=m_depth, radius=m_diam / 2.0 + clr, **precision_kwargs()).translate(b_center)
+        l_pocket = cylinder(height=m_depth, radius=m_diam / 2.0 + clr, **precision_kwargs()).translate(l_center)
+        return Closure(body=b_pocket, lid_cut=l_pocket)
+
+    if catch_type == CatchType.LEAF_SPRING:
+        bead, slot, dimple = build_leaf_spring_detent(
+            eff_radius, arm_length=min(8.0, along / 5.0)
+        )
+        bumps = _place(bead, flank) | _place(bead, across - flank)
+        dimples = _place(dimple, flank) | _place(dimple, across - flank)
+        slot_low = _place(slot, flank + eff_radius + 0.5)
+        slot_high = _place(slot.scale([1, -1, 1]), across - flank - eff_radius - 0.5)
+        slots = slot_low | slot_high
+        return Closure(body=dimples, lid=bumps & envelope, lid_cut=slots & envelope)
+
     return Closure()
 
 
@@ -1058,12 +1137,12 @@ def cap_slipover_catch(spec: BoxSpec, is_slipover: bool = False) -> Closure:
         L = spec.length
         across_val = spec.width
 
+    lt = spec.lid_thickness
     if is_slipover:
         from pyboxbuilder.box.features import slipover_gap, slipover_metrics
         inset, _ = slipover_metrics(spec)
         slack = spec.slip_slack
         foot = spec.foot
-        lt = spec.lid_thickness
         gap = min(slipover_gap(spec), spec.height - foot - lt)
         # Center of catch along Z
         z = (foot + gap + spec.height - lt) / 2.0
@@ -1089,6 +1168,7 @@ def cap_slipover_catch(spec: BoxSpec, is_slipover: bool = False) -> Closure:
 
     body_solids = []
     lid_solids = []
+    lid_cuts = []
 
     if catch_type == CatchType.BUMP:
         bump, dimple = build_bump_detent(radius, FIT_SLACK_MM / 2)
@@ -1165,9 +1245,74 @@ def cap_slipover_catch(spec: BoxSpec, is_slipover: bool = False) -> Closure:
                 lid_solids.append(loop_tab.rotate([0, 0, 90]).translate([across_val - (inset - slack), pos_long, z0]))
                 body_solids.append(body_cutter.rotate([0, 0, 90]).translate([across_val - inset, pos_long, z0]))
 
+    elif catch_type == CatchType.MAGNET:
+        from pybosl2 import cylinder
+
+        m_diam = min(spec.magnet_diameter, spec.resolved_catch_size(3.0))
+        m_depth = min(spec.magnet_height, max(0.8, lt * 0.7))
+        clr = 0.1
+        for i in range(N):
+            pos_long = margin + i * spacing
+            for face in ("low", "high"):
+                pos_body = inset if face == "low" else across_val - inset
+                pos_lid = (inset - slack) if face == "low" else across_val - (inset - slack)
+                if long_axis == "x":
+                    b_pt = [pos_long, pos_body, z]
+                    l_pt = [pos_long, pos_lid, z]
+                else:
+                    b_pt = [pos_body, pos_long, z]
+                    l_pt = [pos_lid, pos_long, z]
+                body_solids.append(
+                    cylinder(height=m_depth, radius=m_diam / 2.0 + clr, **precision_kwargs()).translate(b_pt)
+                )
+                lid_cuts.append(
+                    cylinder(height=m_depth, radius=m_diam / 2.0 + clr, **precision_kwargs()).translate(l_pt)
+                )
+
+    elif catch_type == CatchType.LEAF_SPRING:
+        from pyboxbuilder.box.shell import block
+
+        bump, dimple = build_bump_detent(radius, FIT_SLACK_MM / 2)
+        slit_w = 0.8
+        slit_len = min(6.0, radius * 3.0)
+        slit_depth = inset + 1.0
+        for i in range(N):
+            pos_long = margin + i * spacing
+            for face in ("low", "high"):
+                pos_body = inset if face == "low" else across_val - inset
+                pos_lid = (inset - slack) if face == "low" else across_val - (inset - slack)
+
+                if long_axis == "x":
+                    b_pt = [pos_long, pos_body, z]
+                    l_pt = [pos_long, pos_lid, z]
+                    s1 = block(
+                        [slit_w, slit_depth, slit_len],
+                        at=(pos_long - radius - slit_w, pos_lid - slit_depth / 2.0, z - slit_len / 2.0),
+                    )
+                    s2 = block(
+                        [slit_w, slit_depth, slit_len],
+                        at=(pos_long + radius, pos_lid - slit_depth / 2.0, z - slit_len / 2.0),
+                    )
+                else:
+                    b_pt = [pos_body, pos_long, z]
+                    l_pt = [pos_lid, pos_long, z]
+                    s1 = block(
+                        [slit_depth, slit_w, slit_len],
+                        at=(pos_lid - slit_depth / 2.0, pos_long - radius - slit_w, z - slit_len / 2.0),
+                    )
+                    s2 = block(
+                        [slit_depth, slit_w, slit_len],
+                        at=(pos_lid - slit_depth / 2.0, pos_long + radius, z - slit_len / 2.0),
+                    )
+
+                body_solids.append(dimple.translate(b_pt))
+                lid_solids.append(bump.translate(l_pt))
+                lid_cuts.append(s1 | s2)
+
     return Closure(
         body=union_all(body_solids),
         lid=union_all(lid_solids),
+        lid_cut=union_all(lid_cuts),
     )
 
 
@@ -1814,6 +1959,64 @@ def hinge_catch(spec: BoxSpec) -> Closure:
             at=(x_center - hook_w / 2.0, 0.0, z_peak - aperture_h / 2.0),
         )
         body_catch_cut = body_cut - hook_stud
+
+    elif catch_type == CatchType.MAGNET:
+        from pybosl2 import cylinder
+
+        m_diam = min(spec.magnet_diameter, eff_size * 2.0 if eff_size > 0 else 4.0, wt * 1.5)
+        m_depth = min(spec.magnet_height, max(0.8, lt * 0.7))
+        clr = 0.1
+        pocket_body = cylinder(height=m_depth, radius=m_diam / 2.0 + clr, **precision_kwargs()).translate(
+            [x_center, wt / 2.0, body_height - m_depth / 2.0]
+        )
+        pocket_lid = cylinder(height=m_depth, radius=m_diam / 2.0 + clr, **precision_kwargs()).translate(
+            [x_center, wt / 2.0, body_height + m_depth / 2.0]
+        )
+        body_catch_cut = body_cut | pocket_body
+        lid_catch = lid_tab - pocket_lid
+
+    elif catch_type == CatchType.LEAF_SPRING:
+        from pyboxbuilder.box.shell import block
+
+        bead_depth = min(eff_size, wt / 2.0)
+        ridge_poly = polygon(path=Path2D([
+            (wt / 2.0, 0.0),
+            (wt / 2.0 + bead_depth, slope_height),
+            (wt / 2.0, slope_height),
+        ]))
+        ridge = (
+            ridge_poly.linear_extrude(height=catch_width * 0.6)
+            .rotate([0, 90, 0])
+            .rotate([-90, 0, 0])
+            .scale([1, -1, -1])
+            .translate([x_center - catch_width * 0.3, 0, z_peak - slope_height])
+        )
+        slit_w = 0.8
+        slit_h = catch_height * 0.8
+        slit_d = wt + 0.4
+        slit1 = block(
+            [slit_w, slit_d, slit_h],
+            at=(x_center - catch_width * 0.35, -0.2, body_height - catch_height),
+        )
+        slit2 = block(
+            [slit_w, slit_d, slit_h],
+            at=(x_center + catch_width * 0.35 - slit_w, -0.2, body_height - catch_height),
+        )
+        lid_catch = (lid_tab | ridge) - (slit1 | slit2)
+
+        groove_poly = polygon(path=Path2D([
+            (wt / 2.0 - 0.1, 0.0),
+            (wt / 2.0 + bead_depth + gap, slope_height + 1.0 + gap),
+            (wt / 2.0 - 0.1, slope_height + 1.0 + gap),
+        ]))
+        groove = (
+            groove_poly.linear_extrude(height=catch_width * 0.6 + 2 * gap)
+            .rotate([0, 90, 0])
+            .rotate([-90, 0, 0])
+            .scale([1, -1, -1])
+            .translate([x_center - catch_width * 0.3 - gap, 0, z_peak - slope_height - 1.0 - gap])
+        )
+        body_catch_cut = body_cut | groove
 
     else:
         return Closure()

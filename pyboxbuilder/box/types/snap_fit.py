@@ -116,6 +116,27 @@ class SnapFitBox(BoxTypeBase):
                     at=(x_c - stud_w / 2.0, spec.length - c_t - d_h, pocket_z),
                 )
                 body = body - (pocket_neg - stud_neg) - (pocket_pos - stud_pos)
+            elif catch_type == CatchType.MAGNET:
+                from pybosl2 import cylinder
+
+                r_m = min(d_h, c_w / 3.0) + clr
+                cyl_neg = cylinder(height=d_h + 0.1, radius=r_m, **precision_kwargs()).rotate([90, 0, 0]).translate(
+                    [x_c, c_t + d_h / 2.0, pocket_z + d_h / 2.0]
+                )
+                cyl_pos = cylinder(height=d_h + 0.1, radius=r_m, **precision_kwargs()).rotate([90, 0, 0]).translate(
+                    [x_c, spec.length - c_t - d_h / 2.0, pocket_z + d_h / 2.0]
+                )
+                body = body - cyl_neg - cyl_pos
+            elif catch_type == CatchType.LEAF_SPRING:
+                pocket_neg = block(
+                    [pocket_w, c_t + d_h + clr + 0.1, pocket_h],
+                    at=(x_c - pocket_w / 2.0, -0.05, pocket_z - clr),
+                )
+                pocket_pos = block(
+                    [pocket_w, c_t + d_h + clr + 0.1, pocket_h],
+                    at=(x_c - pocket_w / 2.0, spec.length - c_t - d_h - clr - 0.05, pocket_z - clr),
+                )
+                body = body - pocket_neg - pocket_pos
 
         else:
             # Opposing X walls (X=0 and X=width)
@@ -170,6 +191,27 @@ class SnapFitBox(BoxTypeBase):
                     at=(spec.width - c_t - d_h, y_c - stud_w / 2.0, pocket_z),
                 )
                 body = body - (pocket_neg - stud_neg) - (pocket_pos - stud_pos)
+            elif catch_type == CatchType.MAGNET:
+                from pybosl2 import cylinder
+
+                r_m = min(d_h, c_w / 3.0) + clr
+                cyl_neg = cylinder(height=d_h + 0.1, radius=r_m, **precision_kwargs()).rotate([0, 90, 0]).translate(
+                    [c_t + d_h / 2.0, y_c, pocket_z + d_h / 2.0]
+                )
+                cyl_pos = cylinder(height=d_h + 0.1, radius=r_m, **precision_kwargs()).rotate([0, 90, 0]).translate(
+                    [spec.width - c_t - d_h / 2.0, y_c, pocket_z + d_h / 2.0]
+                )
+                body = body - cyl_neg - cyl_pos
+            elif catch_type == CatchType.LEAF_SPRING:
+                pocket_neg = block(
+                    [c_t + d_h + clr + 0.1, pocket_w, pocket_h],
+                    at=(-0.05, y_c - pocket_w / 2.0, pocket_z - clr),
+                )
+                pocket_pos = block(
+                    [c_t + d_h + clr + 0.1, pocket_w, pocket_h],
+                    at=(spec.width - c_t - d_h - clr - 0.05, y_c - pocket_w / 2.0, pocket_z - clr),
+                )
+                body = body - pocket_neg - pocket_pos
 
         radius = body_rounding(spec)
         if radius > 0:
@@ -198,6 +240,7 @@ class SnapFitBox(BoxTypeBase):
         d_h = spec.resolved_catch_size(spec.detent_height)
         arm_drop = min(body_h - spec.floor_thickness, 12.0)
         pocket_z = max(body_h - 10.0, spec.floor_thickness + 2.0)
+        pocket_h = max(4.0, d_h * 2.5)
 
         if spec.latch_axis.lower() == "y":
             x_c = spec.width / 2.0
@@ -235,6 +278,36 @@ class SnapFitBox(BoxTypeBase):
                 ap_neg = block([ap_w, c_t + 0.2, ap_h], at=(x_c - ap_w / 2.0, -0.1, pocket_z))
                 ap_pos = block([ap_w, c_t + 0.2, ap_h], at=(x_c - ap_w / 2.0, spec.length - c_t - 0.1, pocket_z))
                 lid = lid | (arm_neg - ap_neg) | (arm_pos - ap_pos)
+            elif catch_type == CatchType.MAGNET:
+                from pybosl2 import cylinder
+
+                r_m = min(d_h, c_w / 3.0)
+                cyl_neg = cylinder(height=c_t + 0.2, radius=r_m, **precision_kwargs()).rotate([90, 0, 0]).translate(
+                    [x_c, c_t / 2.0, pocket_z + d_h / 2.0]
+                )
+                cyl_pos = cylinder(height=c_t + 0.2, radius=r_m, **precision_kwargs()).rotate([90, 0, 0]).translate(
+                    [x_c, spec.length - c_t / 2.0, pocket_z + d_h / 2.0]
+                )
+                lid = lid | (arm_neg - cyl_neg) | (arm_pos - cyl_pos)
+            elif catch_type == CatchType.LEAF_SPRING:
+                detent_neg = block(
+                    [c_w, d_h, d_h],
+                    at=(x_c - c_w / 2.0, c_t, pocket_z),
+                )
+                detent_pos = block(
+                    [c_w, d_h, d_h],
+                    at=(x_c - c_w / 2.0, spec.length - c_t - d_h, pocket_z),
+                )
+                waist_h = max(2.0, (arm_drop - pocket_h) * 0.5)
+                waist_neg = block(
+                    [c_w + 0.2, c_t * 0.4, waist_h],
+                    at=(x_c - c_w / 2.0 - 0.1, -0.1, body_h - waist_h),
+                )
+                waist_pos = block(
+                    [c_w + 0.2, c_t * 0.4, waist_h],
+                    at=(x_c - c_w / 2.0 - 0.1, spec.length - c_t * 0.4 + 0.1, body_h - waist_h),
+                )
+                lid = lid | (arm_neg - waist_neg) | detent_neg | (arm_pos - waist_pos) | detent_pos
             else:
                 lid = lid | arm_neg | arm_pos
         else:
@@ -273,6 +346,36 @@ class SnapFitBox(BoxTypeBase):
                 ap_neg = block([c_t + 0.2, ap_w, ap_h], at=(-0.1, y_c - ap_w / 2.0, pocket_z))
                 ap_pos = block([c_t + 0.2, ap_w, ap_h], at=(spec.width - c_t - 0.1, y_c - ap_w / 2.0, pocket_z))
                 lid = lid | (arm_neg - ap_neg) | (arm_pos - ap_pos)
+            elif catch_type == CatchType.MAGNET:
+                from pybosl2 import cylinder
+
+                r_m = min(d_h, c_w / 3.0)
+                cyl_neg = cylinder(height=c_t + 0.2, radius=r_m, **precision_kwargs()).rotate([0, 90, 0]).translate(
+                    [c_t / 2.0, y_c, pocket_z + d_h / 2.0]
+                )
+                cyl_pos = cylinder(height=c_t + 0.2, radius=r_m, **precision_kwargs()).rotate([0, 90, 0]).translate(
+                    [spec.width - c_t / 2.0, y_c, pocket_z + d_h / 2.0]
+                )
+                lid = lid | (arm_neg - cyl_neg) | (arm_pos - cyl_pos)
+            elif catch_type == CatchType.LEAF_SPRING:
+                detent_neg = block(
+                    [d_h, c_w, d_h],
+                    at=(c_t, y_c - c_w / 2.0, pocket_z),
+                )
+                detent_pos = block(
+                    [d_h, c_w, d_h],
+                    at=(spec.width - c_t - d_h, y_c - c_w / 2.0, pocket_z),
+                )
+                waist_h = max(2.0, (arm_drop - pocket_h) * 0.5)
+                waist_neg = block(
+                    [c_t * 0.4, c_w + 0.2, waist_h],
+                    at=(-0.1, y_c - c_w / 2.0 - 0.1, body_h - waist_h),
+                )
+                waist_pos = block(
+                    [c_t * 0.4, c_w + 0.2, waist_h],
+                    at=(spec.width - c_t * 0.4 + 0.1, y_c - c_w / 2.0 - 0.1, body_h - waist_h),
+                )
+                lid = lid | (arm_neg - waist_neg) | detent_neg | (arm_pos - waist_pos) | detent_pos
             else:
                 lid = lid | arm_neg | arm_pos
 

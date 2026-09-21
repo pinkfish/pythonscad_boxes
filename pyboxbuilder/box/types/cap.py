@@ -48,7 +48,11 @@ class CapBox(BoxTypeBase):
 
         body = cap_body(spec)
         catch = cap_slipover_catch(spec, is_slipover=False)
-        return body - catch.body
+        if catch.body is not None:
+            body = body - catch.body
+        if catch.body_cut is not None:
+            body = body - catch.body_cut
+        return body
 
     def build_lid(self, spec: BoxSpec, decoration: object = None) -> Bosl2Solid:
         """Return a cap: a top plate with a skirt that grips the body's stepped-in band."""
@@ -61,5 +65,9 @@ class CapBox(BoxTypeBase):
 
         lid = cap_lid(spec)
         catch = cap_slipover_catch(spec, is_slipover=False)
-        return lid | catch.lid
+        if catch.lid is not None:
+            lid = lid | catch.lid
+        if catch.lid_cut is not None:
+            lid = lid - catch.lid_cut
+        return lid
 

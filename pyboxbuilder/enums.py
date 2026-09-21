@@ -43,6 +43,10 @@ class CatchType(Enum):
     """Resilient strap / loop tab that snaps over an opposing stud or hook."""
     WEDGE = "wedge"
     """Asymmetric ramped wedge ridge / barb with positive locking shoulder."""
+    MAGNET = "magnet"
+    """Paired blind cylindrical pockets sized for neodymium disc magnets."""
+    LEAF_SPRING = "leaf_spring"
+    """Compliant cantilever flexure arm backed by an elastic relief slot."""
 
 
 class InterlockType(Enum):

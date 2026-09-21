@@ -68,6 +68,8 @@ class CardLibraryBox(BoxTypeBase):
         catch = sliding_catch(spec, spec.latch_radius, "x")
         if catch.body is not None:
             body = body - catch.body
+        if catch.body_cut is not None:
+            body = body - catch.body_cut
         return body
 
     def slide_axis(self, spec: BoxSpec) -> str:
@@ -82,4 +84,6 @@ class CardLibraryBox(BoxTypeBase):
         catch = sliding_catch(spec, spec.latch_radius, "x")
         if catch.lid is not None:
             lid = lid | catch.lid
+        if catch.lid_cut is not None:
+            lid = lid - catch.lid_cut
         return self.cut_fingernail_catch(lid, spec)

@@ -12,6 +12,8 @@ from __future__ import annotations
 import math
 from typing import TYPE_CHECKING
 
+from pyboxbuilder.enums import CatchType
+
 if TYPE_CHECKING:
     from pyboxbuilder.box.spec import ResolvedBoxSpec
 
@@ -182,6 +184,7 @@ class GeometryValidator:
         if (
             spec.catch_size is not None
             and spec.catch_size > 0.0
+            and spec.resolved_catch_type(CatchType.BUMP) != CatchType.MAGNET
             and spec.catch_size >= spec.wall_thickness
         ):
             raise GeometryValidationError(
@@ -192,6 +195,21 @@ class GeometryValidator:
                     f"wall thickness ({spec.wall_thickness:.2f}mm)."
                 ),
                 guidance=f"Reduce catch_size to < {spec.wall_thickness:.2f}mm or increase wall_thickness.",
+            )
+        if (
+            spec.catch_size is not None
+            and spec.catch_size > 0.0
+            and spec.resolved_catch_type(CatchType.BUMP) == CatchType.MAGNET
+            and spec.catch_size >= min(spec.width, spec.length) / 2.0
+        ):
+            raise GeometryValidationError(
+                label=spec.label,
+                invariant="catch_size_fits_wall",
+                message=(
+                    f"Magnet catch diameter ({spec.catch_size:.2f}mm) must be strictly less than "
+                    f"half the box footprint ({min(spec.width, spec.length) / 2.0:.2f}mm)."
+                ),
+                guidance="Reduce catch_size or increase box dimensions.",
             )
         if spec.inset > 0.0:
             interior_depth = spec.height - spec.floor_thickness

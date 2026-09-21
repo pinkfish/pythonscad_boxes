@@ -81,6 +81,8 @@ class SlidingCatchBox(BoxTypeBase):
         catch = sliding_catch(spec, self._catch_radius(spec), "x")
         if catch.body is not None:
             body = body - catch.body
+        if catch.body_cut is not None:
+            body = body - catch.body_cut
         return body
 
     def slide_axis(self, spec: BoxSpec) -> str:
@@ -95,4 +97,6 @@ class SlidingCatchBox(BoxTypeBase):
         catch = sliding_catch(spec, self._catch_radius(spec), "x")
         if catch.lid is not None:
             lid = lid | catch.lid
+        if catch.lid_cut is not None:
+            lid = lid - catch.lid_cut
         return self.cut_fingernail_catch(lid, spec)

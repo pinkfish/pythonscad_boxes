@@ -197,7 +197,11 @@ class SlidingBox(BoxTypeBase):
         if radius > 0:
             from pyboxbuilder.box.features import sliding_catch
 
-            body = body - sliding_catch(spec, radius, self._along_axis(spec)).body
+            catch = sliding_catch(spec, radius, self._along_axis(spec))
+            if catch.body is not None:
+                body = body - catch.body
+            if catch.body_cut is not None:
+                body = body - catch.body_cut
         return body
 
     def build_lid(self, spec: BoxSpec, decoration: object = None) -> Bosl2Solid:
@@ -211,7 +215,11 @@ class SlidingBox(BoxTypeBase):
         if radius > 0:
             from pyboxbuilder.box.features import sliding_catch
 
-            lid = lid | sliding_catch(spec, radius, self._along_axis(spec)).lid
+            catch = sliding_catch(spec, radius, self._along_axis(spec))
+            if catch.lid is not None:
+                lid = lid | catch.lid
+            if catch.lid_cut is not None:
+                lid = lid - catch.lid_cut
         return self.cut_fingernail_catch(lid, spec)
 
     def slide_axis(self, spec: BoxSpec) -> str:

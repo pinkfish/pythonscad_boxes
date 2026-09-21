@@ -136,6 +136,8 @@ class FilamentHingeBox(BoxTypeBase):
 
         from pyboxbuilder.box.features import hinge_catch
         catch = hinge_catch(spec)
+        if catch.lid_cut is not None:
+            lid = lid - catch.lid_cut
         if catch.lid is not None:
             lid = lid | catch.lid
         return lid
