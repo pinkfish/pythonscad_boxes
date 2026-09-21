@@ -63,6 +63,12 @@ class NoLidBox(BoxTypeBase):
         fit = spec.stackable_fit_offset
         mode = spec.stackable or StackableMode.INSIDE
 
+        if mode in (StackableMode.FEET, StackableMode.INDENTS, StackableMode.PERIMETER):
+            from pyboxbuilder.box.features import apply_stackable_body, apply_stackable_lid
+
+            body = apply_stackable_body(body, spec)
+            return apply_stackable_lid(body, spec, top_z=spec.height)
+
         if spec.path:
             from pyboxbuilder.box.features import extrude_footprint, offset_footprint
 

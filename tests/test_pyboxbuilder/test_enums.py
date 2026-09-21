@@ -56,9 +56,15 @@ class StackableAndMagnetEnumTests(unittest.TestCase):
     """T259–T261: type selections are enums, never bare strings."""
 
     def test_stackable_members(self) -> None:
-        self.assertEqual({m.name for m in StackableMode}, {"INSIDE", "OUTSIDE"})
+        self.assertEqual(
+            {m.name for m in StackableMode},
+            {"INSIDE", "OUTSIDE", "FEET", "INDENTS", "PERIMETER"},
+        )
         self.assertEqual(StackableMode.INSIDE.value, "inside")
         self.assertEqual(StackableMode.OUTSIDE.value, "outside")
+        self.assertEqual(StackableMode.FEET.value, "feet")
+        self.assertEqual(StackableMode.INDENTS.value, "indents")
+        self.assertEqual(StackableMode.PERIMETER.value, "perimeter")
 
     def test_magnet_members(self) -> None:
         self.assertEqual({m.name for m in MagnetType}, {"NONE", "ROUND", "RECT"})

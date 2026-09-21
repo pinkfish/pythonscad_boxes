@@ -83,7 +83,9 @@ class SlidingCatchBox(BoxTypeBase):
             body = body - catch.body
         if catch.body_cut is not None:
             body = body - catch.body_cut
-        return body
+        from pyboxbuilder.box.features import apply_stackable_body
+
+        return apply_stackable_body(body, spec)
 
     def slide_axis(self, spec: BoxSpec) -> str:
         """Return X — this type's lid always exits the right face."""
@@ -91,7 +93,7 @@ class SlidingCatchBox(BoxTypeBase):
 
     def build_lid(self, spec: BoxSpec, decoration: object = None) -> Bosl2Solid:
         """Return the sliding plate with a bump that clicks into the body's dimple."""
-        from pyboxbuilder.box.features import sliding_catch, sliding_track
+        from pyboxbuilder.box.features import apply_stackable_lid, sliding_catch, sliding_track
 
         lid = sliding_track(spec).require_lid()
         catch = sliding_catch(spec, self._catch_radius(spec), "x")
@@ -99,4 +101,5 @@ class SlidingCatchBox(BoxTypeBase):
             lid = lid | catch.lid
         if catch.lid_cut is not None:
             lid = lid - catch.lid_cut
-        return self.cut_fingernail_catch(lid, spec)
+        lid = self.cut_fingernail_catch(lid, spec)
+        return apply_stackable_lid(lid, spec)

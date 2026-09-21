@@ -103,16 +103,26 @@ class PatternType(Enum):
 
 
 class StackableMode(Enum):
-    """How a no-lid box's interlocking rim mates with its neighbour (FR-038).
+    """How a box mates vertically with its neighbour (FR-038, FR-101).
 
-    Both modes stack securely; the choice decides whether the rim sits inside
-    the box above or wraps around the box below.
+    Supports open trays and lidded boxes:
+    - INSIDE: Stepped inner recess in the top rim that the box above nests into.
+    - OUTSIDE: A ridge around the outside base that fits over the box below.
+    - FEET: Protruding locator feet on the bottom floor, matching socket indents on the lid/top.
+    - INDENTS: Recessed socket indents on the bottom floor, matching locator feet on the lid/top.
+    - PERIMETER: Continuous or segmented perimeter foot rim on bottom, matching channel on lid/top.
     """
 
     INSIDE = "inside"
     """A recess in the top rim that the box above nests down into."""
     OUTSIDE = "outside"
     """A ridge around the outside that fits over the box below."""
+    FEET = "feet"
+    """Protruding locator feet on the bottom floor, matching socket indents on the lid/top."""
+    INDENTS = "indents"
+    """Recessed socket indents on the bottom floor, matching locator feet on the lid/top."""
+    PERIMETER = "perimeter"
+    """Perimeter foot rim on the bottom floor, matching recessed channel on the lid/top."""
 
 
 class MagnetType(Enum):

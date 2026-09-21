@@ -39,10 +39,14 @@ class InsetBox(BoxTypeBase):
         from pyboxbuilder.box.shell import build_shell
 
         closure = rabbet(spec, inset=spec.inset)
-        return build_shell(spec) - closure.body
+        body = build_shell(spec) - closure.body
+        from pyboxbuilder.box.features import apply_stackable_body
+
+        return apply_stackable_body(body, spec)
 
     def build_lid(self, spec: BoxSpec, decoration: object = None) -> Bosl2Solid:
         """Return a plate that drops into the rabbet and finishes flush with the rim."""
-        from pyboxbuilder.box.features import rabbet
+        from pyboxbuilder.box.features import apply_stackable_lid, rabbet
 
-        return rabbet(spec, inset=spec.inset).lid
+        lid = rabbet(spec, inset=spec.inset).lid
+        return apply_stackable_lid(lid, spec)

@@ -45,9 +45,17 @@ class BoxBuilder:
     position: tuple[float, float, float] | None = None
     """Manual packing position override [X, Y, Z] in mm."""
     stackable: StackableMode | None = None
-    """Interlocking rim mode for no-lid boxes; ``None`` means not stackable."""
+    """Interlocking rim / stacking mode; ``None`` means not stackable."""
     stackable_thickness: float | None = None
     """Interlocking rim thickness for stackable boxes."""
+    stackable_fit_offset: float = 0.15
+    """Clearance offset between stacked feet/rim and matching socket."""
+    stackable_foot_size: float | None = None
+    """Width/diameter of locator feet in mm; ``None`` derives it from wall_thickness."""
+    stackable_foot_height: float = 1.6
+    """Height of protruding locator feet / depth of matching indents in mm."""
+    stackable_foot_inset: float | None = None
+    """Inset distance from perimeter in mm; ``None`` derives it from wall_thickness / 2."""
     magnet_type: MagnetType | None = None
     """Magnet slot shape; ``None`` or :attr:`MagnetType.NONE` means no magnets."""
     magnet_size: tuple[float, float, float] | None = None

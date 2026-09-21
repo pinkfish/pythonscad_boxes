@@ -2023,3 +2023,306 @@ def hinge_catch(spec: BoxSpec) -> Closure:
 
     return Closure(body_cut=body_catch_cut, lid=lid_catch)
 
+
+# --------------------------------------------------------- stackable features (FR-101)
+
+
+def build_stacking_feet(
+    width: float,
+    length: float,
+    foot_size: float,
+    foot_height: float,
+    foot_inset: float,
+    base_z: float = 0.0,
+    chamfer: float = 0.6,
+) -> Bosl2Solid:
+    """Return 4 corner locator feet protruding from the bottom floor (FR-101).
+
+    Args:
+        width: Box width in mm.
+        length: Box length in mm.
+        foot_size: Width/length of each foot pad in mm.
+        foot_height: Height of each foot in mm.
+        foot_inset: Inset from box edges in mm.
+        base_z: Z coordinate of the base floor (typically 0.0). Feet extend from
+            ``base_z - foot_height`` to ``base_z``.
+        chamfer: Bottom chamfer size in mm for support-free print and self-locating fit.
+
+    Returns:
+        Bosl2Solid: Union of the 4 corner feet.
+    """
+    from pybosl2 import Anchor, cuboid
+
+    from pyboxbuilder.box.shell import block, corner
+    from pyboxbuilder.compartments.element import union_all
+
+    c = min(chamfer, foot_height * 0.45, foot_size * 0.45)
+    solids = []
+    positions = [
+        (foot_inset, foot_inset),
+        (width - foot_inset - foot_size, foot_inset),
+        (foot_inset, length - foot_inset - foot_size),
+        (width - foot_inset - foot_size, length - foot_inset - foot_size),
+    ]
+    z_bottom = base_z - foot_height
+    for x, y in positions:
+        if c > 0.05:
+            f = corner(
+                cuboid([foot_size, foot_size, foot_height], chamfer=c, edges=[Anchor.BOTTOM]),
+                [foot_size, foot_size, foot_height],
+                (x, y, z_bottom),
+            )
+        else:
+            f = block([foot_size, foot_size, foot_height], at=(x, y, z_bottom))
+        solids.append(f)
+
+    return union_all(solids)
+
+
+def build_stacking_indents(
+    width: float,
+    length: float,
+    foot_size: float,
+    indent_depth: float,
+    foot_inset: float,
+    clearance: float = 0.15,
+    top_z: float = 0.0,
+) -> Bosl2Solid:
+    """Return 4 corner indent cutter solids to be subtracted from lid/rim (FR-101).
+
+    Args:
+        width: Box width in mm.
+        length: Box length in mm.
+        foot_size: Foot pad width in mm.
+        indent_depth: Depth of each indent socket in mm.
+        foot_inset: Inset from box edges in mm.
+        clearance: Fit clearance offset per side in mm.
+        top_z: Z coordinate of the top deck (indents cut from top_z - indent_depth to top_z + 0.1).
+
+    Returns:
+        Bosl2Solid: Union of the 4 corner indent cutters.
+    """
+    from pyboxbuilder.box.shell import block
+    from pyboxbuilder.compartments.element import union_all
+
+    s = foot_size + 2 * clearance
+    h = indent_depth + clearance + 0.1
+    z_start = top_z - indent_depth
+    positions = [
+        (foot_inset - clearance, foot_inset - clearance),
+        (width - foot_inset - foot_size - clearance, foot_inset - clearance),
+        (foot_inset - clearance, length - foot_inset - foot_size - clearance),
+        (width - foot_inset - foot_size - clearance, length - foot_inset - foot_size - clearance),
+    ]
+    solids = [block([s, s, h], at=(x, y, z_start)) for x, y in positions]
+    return union_all(solids)
+
+
+def build_perimeter_stacking_foot(
+    width: float,
+    length: float,
+    rim_thickness: float,
+    foot_height: float,
+    inset: float,
+    base_z: float = 0.0,
+) -> Bosl2Solid:
+    """Return an inset perimeter foot rim extending from base_z - foot_height to base_z (FR-101)."""
+    from pyboxbuilder.box.shell import block
+
+    outer_w = width - 2 * inset
+    outer_l = length - 2 * inset
+    inner_w = outer_w - 2 * rim_thickness
+    inner_l = outer_l - 2 * rim_thickness
+    z = base_z - foot_height
+
+    outer = block([outer_w, outer_l, foot_height], at=(inset, inset, z))
+    inner = block([inner_w, inner_l, foot_height + 0.2], at=(inset + rim_thickness, inset + rim_thickness, z - 0.1))
+    return outer - inner
+
+
+def build_perimeter_stacking_indent(
+    width: float,
+    length: float,
+    rim_thickness: float,
+    indent_depth: float,
+    inset: float,
+    clearance: float = 0.15,
+    top_z: float = 0.0,
+) -> Bosl2Solid:
+    """Return a perimeter channel cutter to be subtracted from lid top (FR-101)."""
+    from pyboxbuilder.box.shell import block
+
+    outer_w = width - 2 * inset + 2 * clearance
+    outer_l = length - 2 * inset + 2 * clearance
+    inner_w = outer_w - 2 * (rim_thickness + 2 * clearance)
+    inner_l = outer_l - 2 * (rim_thickness + 2 * clearance)
+    h = indent_depth + clearance + 0.1
+    z = top_z - indent_depth
+
+    outer = block([outer_w, outer_l, h], at=(inset - clearance, inset - clearance, z))
+    inner = block(
+        [inner_w, inner_l, h + 0.2],
+        at=(inset + rim_thickness + clearance, inset + rim_thickness + clearance, z - 0.1),
+    )
+    return outer - inner
+
+
+def apply_stackable_body(body: Bosl2Solid, spec: BoxSpec) -> Bosl2Solid:
+    """Apply stacking features to a box body according to spec.stackable (FR-101)."""
+    if spec.stackable is None:
+        return body
+
+    from pyboxbuilder.enums import StackableMode
+
+    mode = spec.stackable
+    wt = spec.wall_thickness
+    foot_size = spec.stackable_foot_size or max(6.0, wt * 2.5)
+    foot_height = spec.stackable_foot_height
+    foot_inset = spec.stackable_foot_inset if spec.stackable_foot_inset is not None else (wt + 1.0)
+    rim_thickness = spec.stackable_thickness or wt
+    clearance = spec.stackable_fit_offset
+    has_lid = spec.lid_thickness > 0.0
+
+    if mode is StackableMode.FEET:
+        depth = min(foot_height, max(0.8, (spec.lid_thickness if has_lid else spec.floor_thickness) - 0.8))
+        feet = build_stacking_feet(spec.width, spec.length, foot_size, depth, foot_inset, base_z=0.0)
+        body = body | feet
+        if not has_lid:
+            from pyboxbuilder.box.shell import block
+            from pyboxbuilder.compartments.element import union_all
+
+            ledge_s = foot_inset + foot_size + clearance + 1.0
+            ledges = [
+                block([ledge_s, ledge_s, depth], at=(0, 0, spec.height - depth)),
+                block([ledge_s, ledge_s, depth], at=(spec.width - ledge_s, 0, spec.height - depth)),
+                block([ledge_s, ledge_s, depth], at=(0, spec.length - ledge_s, spec.height - depth)),
+                block([ledge_s, ledge_s, depth], at=(spec.width - ledge_s, spec.length - ledge_s, spec.height - depth)),
+            ]
+            body = body | union_all(ledges)
+        # Subtract socket indents at top rim so lidless boxes or body knuckles do not collide
+        indents = build_stacking_indents(
+            spec.width,
+            spec.length,
+            foot_size,
+            depth,
+            foot_inset,
+            clearance=clearance,
+            top_z=spec.height,
+        )
+        return body - indents
+    elif mode is StackableMode.INDENTS:
+        depth = min(foot_height, max(0.8, spec.floor_thickness - 0.8))
+        indents = build_stacking_indents(
+            spec.width,
+            spec.length,
+            foot_size,
+            depth,
+            foot_inset,
+            clearance=clearance,
+            top_z=depth,
+        )
+        body = body - indents
+        if not has_lid:
+            # Lidless box carries locator bosses on its top rim
+            feet = build_stacking_feet(
+                spec.width,
+                spec.length,
+                foot_size,
+                depth,
+                foot_inset,
+                base_z=spec.height + depth,
+            )
+            body = body | feet
+        return body
+    elif mode is StackableMode.PERIMETER:
+        depth = min(foot_height, max(0.8, (spec.lid_thickness if has_lid else spec.floor_thickness) - 0.8))
+        foot_rim = build_perimeter_stacking_foot(
+            spec.width, spec.length, rim_thickness, depth, foot_inset, base_z=0.0
+        )
+        body = body | foot_rim
+        if not has_lid:
+            from pyboxbuilder.box.shell import block
+
+            ledge_w = foot_inset + rim_thickness + clearance + 1.0
+            ledge_outer = block([spec.width, spec.length, depth], at=(0, 0, spec.height - depth))
+            ledge_inner = block(
+                [spec.width - 2 * ledge_w, spec.length - 2 * ledge_w, depth + 0.2],
+                at=(ledge_w, ledge_w, spec.height - depth - 0.1),
+            )
+            body = body | (ledge_outer - ledge_inner)
+        channel = build_perimeter_stacking_indent(
+            spec.width,
+            spec.length,
+            rim_thickness,
+            depth,
+            foot_inset,
+            clearance=clearance,
+            top_z=spec.height,
+        )
+        return body - channel
+    elif mode is StackableMode.OUTSIDE:
+        from pyboxbuilder.box.shell import block
+
+        fit = spec.stackable_fit_offset
+        stack = spec.stackable_thickness or wt
+        ridge_w = spec.width + 2 * (stack - fit)
+        ridge_l = spec.length + 2 * (stack - fit)
+        ridge = block([ridge_w, ridge_l, stack], at=((spec.width - ridge_w) / 2, (spec.length - ridge_l) / 2, 0))
+        return body | ridge
+    return body
+
+
+def apply_stackable_lid(lid: Bosl2Solid, spec: BoxSpec, top_z: float | None = None) -> Bosl2Solid:
+    """Apply matching stacking features to a box lid according to spec.stackable (FR-101)."""
+    if spec.stackable is None:
+        return lid
+
+    from pyboxbuilder.enums import StackableMode
+
+    mode = spec.stackable
+    wt = spec.wall_thickness
+    lt = spec.lid_thickness
+    z_top = spec.height if top_z is None else top_z
+    foot_size = spec.stackable_foot_size or max(6.0, wt * 2.5)
+    foot_height = spec.stackable_foot_height
+    foot_inset = spec.stackable_foot_inset if spec.stackable_foot_inset is not None else (wt + 1.0)
+    rim_thickness = spec.stackable_thickness or wt
+    clearance = spec.stackable_fit_offset
+
+    if mode is StackableMode.FEET:
+        depth = min(foot_height, max(0.8, lt - 0.8))
+        indents = build_stacking_indents(
+            spec.width,
+            spec.length,
+            foot_size,
+            depth,
+            foot_inset,
+            clearance=clearance,
+            top_z=z_top,
+        )
+        return lid - indents
+    elif mode is StackableMode.INDENTS:
+        socket_depth = min(foot_height, max(0.8, spec.floor_thickness - 0.8))
+        feet = build_stacking_feet(
+            spec.width,
+            spec.length,
+            foot_size,
+            socket_depth,
+            foot_inset,
+            base_z=z_top + socket_depth,
+        )
+        return lid | feet
+    elif mode is StackableMode.PERIMETER:
+        depth = min(foot_height, max(0.8, lt - 0.8))
+        channel = build_perimeter_stacking_indent(
+            spec.width,
+            spec.length,
+            rim_thickness,
+            depth,
+            foot_inset,
+            clearance=clearance,
+            top_z=z_top,
+        )
+        return lid - channel
+    return lid
+

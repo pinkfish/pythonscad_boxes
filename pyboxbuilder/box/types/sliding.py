@@ -202,11 +202,13 @@ class SlidingBox(BoxTypeBase):
                 body = body - catch.body
             if catch.body_cut is not None:
                 body = body - catch.body_cut
-        return body
+        from pyboxbuilder.box.features import apply_stackable_body
+
+        return apply_stackable_body(body, spec)
 
     def build_lid(self, spec: BoxSpec, decoration: object = None) -> Bosl2Solid:
         """Build the sliding lid — a dovetailed plate, chamfered at its leading end."""
-        from pyboxbuilder.box.features import dovetail_track
+        from pyboxbuilder.box.features import apply_stackable_lid, dovetail_track
 
         closure = dovetail_track(spec, self._along_axis(spec))
         assert closure.lid is not None
@@ -220,7 +222,8 @@ class SlidingBox(BoxTypeBase):
                 lid = lid | catch.lid
             if catch.lid_cut is not None:
                 lid = lid - catch.lid_cut
-        return self.cut_fingernail_catch(lid, spec)
+        lid = self.cut_fingernail_catch(lid, spec)
+        return apply_stackable_lid(lid, spec)
 
     def slide_axis(self, spec: BoxSpec) -> str:
         """Return the axis this lid slides along — the long one (FR-002b)."""

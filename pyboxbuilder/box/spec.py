@@ -186,13 +186,19 @@ class BoxSpec:
     magnet_count_length: int = 2
     """Magnets per wall on the length axis."""
 
-    # ── Stacking (FR-038) ────────────────────────────────────────────────
+    # ── Stacking (FR-038, FR-101) ────────────────────────────────────────
     stackable: StackableMode | None = None
     """Interlocking rim mode; ``None`` means not stackable."""
     stackable_thickness: float | None = None
     """Interlocking rim thickness; ``None`` derives it from the wall."""
-    stackable_fit_offset: float = 0.1
-    """Clearance between a stacked box's rim and the one below it."""
+    stackable_fit_offset: float = 0.15
+    """Clearance between a stacked box's foot/rim and the one below it."""
+    stackable_foot_size: float | None = None
+    """Width/diameter of locator feet in mm; ``None`` derives it from wall_thickness."""
+    stackable_foot_height: float = 1.6
+    """Height of protruding locator feet / depth of matching indents in mm."""
+    stackable_foot_inset: float | None = None
+    """Inset distance from perimeter in mm; ``None`` derives it from wall_thickness / 2."""
 
     # ── Extraction (Phase 3) ─────────────────────────────────────────────
     tilt_to_lift: bool = False
@@ -462,7 +468,10 @@ class UnresolvedBoxSpec:
     # Stacking
     stackable: StackableMode | None = None
     stackable_thickness: float | None = None
-    stackable_fit_offset: float = 0.1
+    stackable_fit_offset: float = 0.15
+    stackable_foot_size: float | None = None
+    stackable_foot_height: float = 1.6
+    stackable_foot_inset: float | None = None
 
     # Extraction
     tilt_to_lift: bool = False

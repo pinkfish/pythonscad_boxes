@@ -64,6 +64,7 @@ class GeometryValidator:
         cls._validate_envelope_sanity(spec)
         cls._validate_clearances(spec)
         cls._validate_closure_bounds(spec)
+        cls._validate_stackable_bounds(spec)
 
     @classmethod
     def _validate_envelope_positivity(cls, spec: ResolvedBoxSpec) -> None:
@@ -222,4 +223,31 @@ class GeometryValidator:
                         f"({interior_depth:.2f}mm)."
                     ),
                     guidance="Reduce inset or increase box height.",
+                )
+
+    @classmethod
+    def _validate_stackable_bounds(cls, spec: ResolvedBoxSpec) -> None:
+        if spec.stackable is None:
+            return
+        from pyboxbuilder.enums import StackableMode
+
+        if spec.stackable in (StackableMode.FEET, StackableMode.INDENTS, StackableMode.PERIMETER):
+            foot_size = spec.stackable_foot_size or max(6.0, spec.wall_thickness * 2.5)
+            min_span = min(spec.width, spec.length)
+            if foot_size >= min_span / 2.0:
+                raise GeometryValidationError(
+                    label=spec.label,
+                    invariant="stackable_foot_size_fits_footprint",
+                    message=(
+                        f"Stackable foot size ({foot_size:.2f}mm) must be strictly less than "
+                        f"half the minimum box span ({min_span / 2.0:.2f}mm)."
+                    ),
+                    guidance="Reduce stackable_foot_size or increase box width/length.",
+                )
+            if spec.stackable_foot_height <= 0.0:
+                raise GeometryValidationError(
+                    label=spec.label,
+                    invariant="positive_stackable_foot_height",
+                    message=f"Stackable foot height must be positive, got {spec.stackable_foot_height}mm.",
+                    guidance="Set stackable_foot_height to a positive value (e.g. 1.6mm).",
                 )

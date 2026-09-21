@@ -56,19 +56,24 @@ class SlipoverPathBox(BoxTypeBase):
         body_path = offset_footprint(path, inset)
         outer = extrude_footprint(body_path, body_height)
         if not spec.hollow:
-            return outer
-        inner = extrude_footprint(
-            offset_footprint(body_path, wt), body_height - ft, ft
-        )
-        return outer - inner
+            body = outer
+        else:
+            inner = extrude_footprint(
+                offset_footprint(body_path, wt), body_height - ft, ft
+            )
+            body = outer - inner
+        from pyboxbuilder.box.features import apply_stackable_body
+
+        return apply_stackable_body(body, spec)
 
     def build_lid(self, spec: BoxSpec, decoration: object = None) -> Bosl2Solid:
         """Return a sleeve following the body's outline, stopping at the foot."""
-        from pyboxbuilder.box.features import path_sleeve
+        from pyboxbuilder.box.features import apply_stackable_lid, path_sleeve
 
         path = spec.path or ()
         if not path:
             from pyboxbuilder.box.types.slipover import SlipoverBox
 
             return SlipoverBox().build_lid(spec)
-        return path_sleeve(spec, path, spec.slip, spec.foot)
+        lid = path_sleeve(spec, path, spec.slip, spec.foot)
+        return apply_stackable_lid(lid, spec)

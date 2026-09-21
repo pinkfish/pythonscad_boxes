@@ -1772,9 +1772,11 @@ Where each requirement is designed, and where it is verified. Sections named bel
 | FR-098 | Streamlined CI Workflows & Base Code Isolation | `.github/workflows/test.yml`, `.github/workflows/docs.yml`, `tests/conftest.py` |
 | FR-099 | Unified Multi-Type Lid Retention Catch System (`CatchType`) | `pyboxbuilder/enums.py`, `pyboxbuilder/box/features.py`, `pyboxbuilder/box/types/*`, `pyboxbuilder/builders/*` |
 | FR-100 | Comprehensive Component & Catch Unit Test Coverage | `tests/test_pyboxbuilder/test_catches.py`, `tests/test_pyboxbuilder/test_closures.py`, `tests/test_pyboxbuilder/test_cap_polygon.py`, `tests/test_pyboxbuilder/test_slipover_polygon.py` |
+| FR-101 | Universal Stackable Box Architecture across Lidded and Open Families (`StackableMode`) | `pyboxbuilder/enums.py`, `pyboxbuilder/box/features.py`, `pyboxbuilder/box/types/*`, `pyboxbuilder/builders/*` |
 
 | SC | Verified by |
 |---|---|
+| SC-101 | `tests/test_pyboxbuilder/test_stackable.py` — vertical stacking without horizontal displacement, clearance offset verification, and zero solid collision volume |
 | SC-001 | `quickstart.md` scenarios (T085) |
 | SC-002, SC-008 | timed layout/auto-size tests in `test_compartments.py`, `test_packing.py` |
 | SC-003 | `test_closures.py` — zero body/lid intersection for all 11 lidded types |
@@ -1875,6 +1877,36 @@ Every basic piece and closure mechanism in the library is subject to exhaustive 
 3. **Multi-Axis Alignment**: Sliding lids and cantilever snap-fit arms are verified along both principal axes (X and Y) to prevent orientation inversion errors.
 4. **Arbitrary Polygon Footprints**: Cap and slipover boxes are verified with both rectangular and arbitrary 2D polygon boundaries (`path`), testing stepped bands, telescoping skirts, and solid/hollow base variants.
 5. **Geometric Invariants & Fail-Fast Validation**: Pre-CSG validation bounds and builder instantiation contracts are tested with negative test cases to prevent invalid parameters from reaching CSG evaluation.
+
+### Universal Stackable Box Architecture (FR-101, SC-101)
+
+The universal stackable box architecture enables vertical modular stacking across open trays and lidded box families by pairing positive locator feet or rims with matching negative locator sockets or channels:
+
+1. **Stacking Variants (`StackableMode`)**:
+   - `StackableMode.FEET` ("feet"): Protruding corner feet on the bottom floor of the box body, paired with matching recessed corner indents/sockets in the top lid surface (or top rim).
+   - `StackableMode.INDENTS` ("indents"): Inverted geometry where the bottom floor carries recessed corner indents/sockets and the top lid carries protruding corner locator feet/bosses.
+   - `StackableMode.PERIMETER` ("perimeter"): An inset continuous or segmented perimeter foot ring on the box floor, paired with a matching recessed perimeter channel/deck in the lid.
+   - `StackableMode.INSIDE` ("inside"): A stepped inner recess in the top rim (for open trays, e.g. `NO_LID`, `DICE_TRAY`) allowing the bottom base of the box above to nest inside.
+   - `StackableMode.OUTSIDE` ("outside"): A bottom perimeter skirt/ridge fitting around the outside top rim of the box below.
+
+2. **Feasibility Matrix Across All 23 Box Types**:
+   - **Sliding Family** (`SLIDING`, `SLIDING_CATCH`, `CARD_LIBRARY`): Supported via `FEET`, `INDENTS`, and `PERIMETER`. Corner indents on the lid top surface are placed clear of dovetail slide channels and rear stop, allowing the lid to slide freely even with a box resting on top.
+   - **Cap & Slipover Family** (`CAP`, `SLIPOVER`, `CAP_PATH`, `SLIPOVER_PATH`): Supported via `FEET`, `INDENTS`, and `PERIMETER`. Lid roof carries indents; body floor carries feet. Polygon variants use perimeter contours.
+   - **Hinged & Clamshell Family** (`HINGE`, `FILAMENT_HINGE`, `PRINT_IN_PLACE_HINGE`, `CLAMSHELL`): Supported via `FEET`, `INDENTS`, and `PERIMETER`. Stacking features sit clear of rear hinge knuckles and front catch tabs.
+   - **Snap-fit Family** (`SNAP_FIT`): Supported via `FEET`, `INDENTS`, and `PERIMETER`. Stacking features on the floor and lid deck operate independently of side cantilever latch arms.
+   - **Inset & Magnetic Family** (`INSET`, `MAGNETIC`): Supported via `FEET`, `INDENTS`, and `PERIMETER`. `MAGNETIC` boxes can embed vertical disc magnets in feet/indents for vertical magnetic latching.
+   - **Open Trays & Utilities** (`NO_LID`, `DICE_TRAY`, `MODULAR_INTERLOCK`, `SLEEVE_DRAWER`): Supported via `INSIDE`, `OUTSIDE`, `FEET`, and `PERIMETER`. `SLEEVE_DRAWER` outer sleeves stack vertically into modular drawer towers.
+   - **Cylindrical Family** (`BAYONET`, `THREADED`): Supported via concentric circular foot ring and matching circular channel indent.
+   - **Excluded Types**: `CARD_SHOE` and open `DISPENSER` (sloped hopper decks lack a flat resting surface).
+
+3. **Parametric Geometry Solids (`pyboxbuilder/box/features.py`)**:
+   - `build_stacking_feet(...)`: Emits positive corner foot solids with 45° lead-in chamfers for support-free 3D printing and self-aligning vertical stacking.
+   - `build_stacking_indents(...)`: Emits negative cutter solids with configurable fit clearance (`stackable_fit_offset`, default 0.15mm) ensuring smooth engagement without binding.
+   - `build_perimeter_stacking_foot(...)` and `build_perimeter_stacking_indent(...)`: Inset perimeter ridges and channels.
+
+4. **Safety & Invariant Validation**:
+   - Enforce minimum skin thickness (`indent_depth <= lid_thickness - 0.8mm`) to avoid puncturing the box interior.
+   - Inset corner feet from outer edges (`stackable_foot_inset >= wall_thickness / 2.0`) to avoid weakening outer perimeter walls or interfering with closure mechanisms.
 
 
 ## Complexity Tracking

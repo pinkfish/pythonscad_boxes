@@ -70,14 +70,18 @@ class MagneticBox(BoxTypeBase):
                 pocket = pocket.translate([mx, my, spec.height - depth / 2])
                 body = body - pocket
 
-        return body
+        from pyboxbuilder.box.features import apply_stackable_body
+
+        return apply_stackable_body(body, spec)
 
     def build_lid(self, spec: BoxSpec, decoration: object = None) -> Bosl2Solid:
         """Return a plate that closes onto the rim, finishing at the declared height."""
+        from pyboxbuilder.box.features import apply_stackable_lid
         from pyboxbuilder.box.shell import block
 
         lt = spec.lid_thickness
-        return block(
+        lid = block(
             [spec.width, spec.length, lt],
             at=(0, 0, self._body_height(spec)),
         )
+        return apply_stackable_lid(lid, spec)

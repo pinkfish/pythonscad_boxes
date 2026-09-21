@@ -130,4 +130,7 @@ class SleeveDrawerBox(BoxTypeBase):
                 radius,
                 list(vertical_edges()),
             )
-        return sleeve
+        from pyboxbuilder.box.features import apply_stackable_body, apply_stackable_lid
+
+        sleeve = apply_stackable_body(sleeve, spec)
+        return apply_stackable_lid(sleeve, spec, top_z=spec.height)

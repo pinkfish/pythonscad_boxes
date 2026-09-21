@@ -108,7 +108,9 @@ class HingeBox(BoxTypeBase):
                 radius,
                 list(vertical_edges()),
             )
-        return body
+        from pyboxbuilder.box.features import apply_stackable_body
+
+        return apply_stackable_body(body, spec)
 
     def build_lid(self, spec: BoxSpec, decoration: object = None) -> Bosl2Solid:
         """Return the lid carrying the interleaving knuckles, bored for the same pin.
@@ -131,10 +133,11 @@ class HingeBox(BoxTypeBase):
         if closure.pin is not None:
             lid = lid - closure.pin
 
-        from pyboxbuilder.box.features import hinge_catch
+        from pyboxbuilder.box.features import apply_stackable_lid, hinge_catch
+
         catch = hinge_catch(spec)
         if catch.lid_cut is not None:
             lid = lid - catch.lid_cut
         if catch.lid is not None:
             lid = lid | catch.lid
-        return lid
+        return apply_stackable_lid(lid, spec)

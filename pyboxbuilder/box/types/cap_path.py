@@ -57,19 +57,24 @@ class CapPathBox(BoxTypeBase):
         body_path = offset_footprint(path, inset)
         outer = extrude_footprint(body_path, body_height)
         if not spec.hollow:
-            return outer
-        inner = extrude_footprint(
-            offset_footprint(body_path, wt), body_height - ft, ft
-        )
-        return outer - inner
+            body = outer
+        else:
+            inner = extrude_footprint(
+                offset_footprint(body_path, wt), body_height - ft, ft
+            )
+            body = outer - inner
+        from pyboxbuilder.box.features import apply_stackable_body
+
+        return apply_stackable_body(body, spec)
 
     def build_lid(self, spec: BoxSpec, decoration: object = None) -> Bosl2Solid:
         """Return a cap whose skirt follows the same outline as the body."""
-        from pyboxbuilder.box.features import path_cap
+        from pyboxbuilder.box.features import apply_stackable_lid, path_cap
 
         path = spec.path or ()
         if not path:
             from pyboxbuilder.box.types.cap import CapBox
 
             return CapBox().build_lid(spec)
-        return path_cap(spec, path, spec.cap_height or min(10.0, spec.height / 2))
+        lid = path_cap(spec, path, spec.cap_height or min(10.0, spec.height / 2))
+        return apply_stackable_lid(lid, spec)
