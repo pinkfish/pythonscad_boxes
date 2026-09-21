@@ -2569,6 +2569,327 @@
     <span class="k">return</span> <span class="n">Closure</span><span class="p">(</span><span class="n">body_cut</span><span class="o">=</span><span class="n">body_catch_cut</span><span class="p">,</span> <span class="n">lid</span><span class="o">=</span><span class="n">lid_catch</span><span class="p">)</span></div>
 
 
+
+<span class="c1"># --------------------------------------------------------- stackable features (FR-101)</span>
+
+
+<div class="viewcode-block" id="build_stacking_feet">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.features.build_stacking_feet.html#pyboxbuilder.box.features.build_stacking_feet">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">build_stacking_feet</span><span class="p">(</span>
+    <span class="n">width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">foot_size</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">foot_height</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">foot_inset</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">base_z</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+    <span class="n">chamfer</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.6</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Return 4 corner locator feet protruding from the bottom floor (FR-101).</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        width: Box width in mm.</span>
+<span class="sd">        length: Box length in mm.</span>
+<span class="sd">        foot_size: Width/length of each foot pad in mm.</span>
+<span class="sd">        foot_height: Height of each foot in mm.</span>
+<span class="sd">        foot_inset: Inset from box edges in mm.</span>
+<span class="sd">        base_z: Z coordinate of the base floor (typically 0.0). Feet extend from</span>
+<span class="sd">            ``base_z - foot_height`` to ``base_z``.</span>
+<span class="sd">        chamfer: Bottom chamfer size in mm for support-free print and self-locating fit.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Bosl2Solid: Union of the 4 corner feet.</span>
+<span class="sd">    """</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">Anchor</span><span class="p">,</span> <span class="n">cuboid</span>
+
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.shell</span><span class="w"> </span><span class="kn">import</span> <span class="n">block</span><span class="p">,</span> <span class="n">corner</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.compartments.element</span><span class="w"> </span><span class="kn">import</span> <span class="n">union_all</span>
+
+    <span class="n">c</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">chamfer</span><span class="p">,</span> <span class="n">foot_height</span> <span class="o">*</span> <span class="mf">0.45</span><span class="p">,</span> <span class="n">foot_size</span> <span class="o">*</span> <span class="mf">0.45</span><span class="p">)</span>
+    <span class="n">solids</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">positions</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">(</span><span class="n">foot_inset</span><span class="p">,</span> <span class="n">foot_inset</span><span class="p">),</span>
+        <span class="p">(</span><span class="n">width</span> <span class="o">-</span> <span class="n">foot_inset</span> <span class="o">-</span> <span class="n">foot_size</span><span class="p">,</span> <span class="n">foot_inset</span><span class="p">),</span>
+        <span class="p">(</span><span class="n">foot_inset</span><span class="p">,</span> <span class="n">length</span> <span class="o">-</span> <span class="n">foot_inset</span> <span class="o">-</span> <span class="n">foot_size</span><span class="p">),</span>
+        <span class="p">(</span><span class="n">width</span> <span class="o">-</span> <span class="n">foot_inset</span> <span class="o">-</span> <span class="n">foot_size</span><span class="p">,</span> <span class="n">length</span> <span class="o">-</span> <span class="n">foot_inset</span> <span class="o">-</span> <span class="n">foot_size</span><span class="p">),</span>
+    <span class="p">]</span>
+    <span class="n">z_bottom</span> <span class="o">=</span> <span class="n">base_z</span> <span class="o">-</span> <span class="n">foot_height</span>
+    <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">positions</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">c</span> <span class="o">&gt;</span> <span class="mf">0.05</span><span class="p">:</span>
+            <span class="n">f</span> <span class="o">=</span> <span class="n">corner</span><span class="p">(</span>
+                <span class="n">cuboid</span><span class="p">([</span><span class="n">foot_size</span><span class="p">,</span> <span class="n">foot_size</span><span class="p">,</span> <span class="n">foot_height</span><span class="p">],</span> <span class="n">chamfer</span><span class="o">=</span><span class="n">c</span><span class="p">,</span> <span class="n">edges</span><span class="o">=</span><span class="p">[</span><span class="n">Anchor</span><span class="o">.</span><span class="n">BOTTOM</span><span class="p">]),</span>
+                <span class="p">[</span><span class="n">foot_size</span><span class="p">,</span> <span class="n">foot_size</span><span class="p">,</span> <span class="n">foot_height</span><span class="p">],</span>
+                <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z_bottom</span><span class="p">),</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">f</span> <span class="o">=</span> <span class="n">block</span><span class="p">([</span><span class="n">foot_size</span><span class="p">,</span> <span class="n">foot_size</span><span class="p">,</span> <span class="n">foot_height</span><span class="p">],</span> <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z_bottom</span><span class="p">))</span>
+        <span class="n">solids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">union_all</span><span class="p">(</span><span class="n">solids</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="build_stacking_indents">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.features.build_stacking_indents.html#pyboxbuilder.box.features.build_stacking_indents">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">build_stacking_indents</span><span class="p">(</span>
+    <span class="n">width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">foot_size</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">indent_depth</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">foot_inset</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">clearance</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.15</span><span class="p">,</span>
+    <span class="n">top_z</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Return 4 corner indent cutter solids to be subtracted from lid/rim (FR-101).</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        width: Box width in mm.</span>
+<span class="sd">        length: Box length in mm.</span>
+<span class="sd">        foot_size: Foot pad width in mm.</span>
+<span class="sd">        indent_depth: Depth of each indent socket in mm.</span>
+<span class="sd">        foot_inset: Inset from box edges in mm.</span>
+<span class="sd">        clearance: Fit clearance offset per side in mm.</span>
+<span class="sd">        top_z: Z coordinate of the top deck (indents cut from top_z - indent_depth to top_z + 0.1).</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Bosl2Solid: Union of the 4 corner indent cutters.</span>
+<span class="sd">    """</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.shell</span><span class="w"> </span><span class="kn">import</span> <span class="n">block</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.compartments.element</span><span class="w"> </span><span class="kn">import</span> <span class="n">union_all</span>
+
+    <span class="n">s</span> <span class="o">=</span> <span class="n">foot_size</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">clearance</span>
+    <span class="n">h</span> <span class="o">=</span> <span class="n">indent_depth</span> <span class="o">+</span> <span class="n">clearance</span> <span class="o">+</span> <span class="mf">0.1</span>
+    <span class="n">z_start</span> <span class="o">=</span> <span class="n">top_z</span> <span class="o">-</span> <span class="n">indent_depth</span>
+    <span class="n">positions</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">(</span><span class="n">foot_inset</span> <span class="o">-</span> <span class="n">clearance</span><span class="p">,</span> <span class="n">foot_inset</span> <span class="o">-</span> <span class="n">clearance</span><span class="p">),</span>
+        <span class="p">(</span><span class="n">width</span> <span class="o">-</span> <span class="n">foot_inset</span> <span class="o">-</span> <span class="n">foot_size</span> <span class="o">-</span> <span class="n">clearance</span><span class="p">,</span> <span class="n">foot_inset</span> <span class="o">-</span> <span class="n">clearance</span><span class="p">),</span>
+        <span class="p">(</span><span class="n">foot_inset</span> <span class="o">-</span> <span class="n">clearance</span><span class="p">,</span> <span class="n">length</span> <span class="o">-</span> <span class="n">foot_inset</span> <span class="o">-</span> <span class="n">foot_size</span> <span class="o">-</span> <span class="n">clearance</span><span class="p">),</span>
+        <span class="p">(</span><span class="n">width</span> <span class="o">-</span> <span class="n">foot_inset</span> <span class="o">-</span> <span class="n">foot_size</span> <span class="o">-</span> <span class="n">clearance</span><span class="p">,</span> <span class="n">length</span> <span class="o">-</span> <span class="n">foot_inset</span> <span class="o">-</span> <span class="n">foot_size</span> <span class="o">-</span> <span class="n">clearance</span><span class="p">),</span>
+    <span class="p">]</span>
+    <span class="n">solids</span> <span class="o">=</span> <span class="p">[</span><span class="n">block</span><span class="p">([</span><span class="n">s</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">h</span><span class="p">],</span> <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z_start</span><span class="p">))</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">positions</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">union_all</span><span class="p">(</span><span class="n">solids</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="build_perimeter_stacking_foot">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.features.build_perimeter_stacking_foot.html#pyboxbuilder.box.features.build_perimeter_stacking_foot">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">build_perimeter_stacking_foot</span><span class="p">(</span>
+    <span class="n">width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">rim_thickness</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">foot_height</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">inset</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">base_z</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Return an inset perimeter foot rim extending from base_z - foot_height to base_z (FR-101)."""</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.shell</span><span class="w"> </span><span class="kn">import</span> <span class="n">block</span>
+
+    <span class="n">outer_w</span> <span class="o">=</span> <span class="n">width</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">inset</span>
+    <span class="n">outer_l</span> <span class="o">=</span> <span class="n">length</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">inset</span>
+    <span class="n">inner_w</span> <span class="o">=</span> <span class="n">outer_w</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">rim_thickness</span>
+    <span class="n">inner_l</span> <span class="o">=</span> <span class="n">outer_l</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">rim_thickness</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="n">base_z</span> <span class="o">-</span> <span class="n">foot_height</span>
+
+    <span class="n">outer</span> <span class="o">=</span> <span class="n">block</span><span class="p">([</span><span class="n">outer_w</span><span class="p">,</span> <span class="n">outer_l</span><span class="p">,</span> <span class="n">foot_height</span><span class="p">],</span> <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="n">inset</span><span class="p">,</span> <span class="n">inset</span><span class="p">,</span> <span class="n">z</span><span class="p">))</span>
+    <span class="n">inner</span> <span class="o">=</span> <span class="n">block</span><span class="p">([</span><span class="n">inner_w</span><span class="p">,</span> <span class="n">inner_l</span><span class="p">,</span> <span class="n">foot_height</span> <span class="o">+</span> <span class="mf">0.2</span><span class="p">],</span> <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="n">inset</span> <span class="o">+</span> <span class="n">rim_thickness</span><span class="p">,</span> <span class="n">inset</span> <span class="o">+</span> <span class="n">rim_thickness</span><span class="p">,</span> <span class="n">z</span> <span class="o">-</span> <span class="mf">0.1</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">outer</span> <span class="o">-</span> <span class="n">inner</span></div>
+
+
+
+<div class="viewcode-block" id="build_perimeter_stacking_indent">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.features.build_perimeter_stacking_indent.html#pyboxbuilder.box.features.build_perimeter_stacking_indent">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">build_perimeter_stacking_indent</span><span class="p">(</span>
+    <span class="n">width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">rim_thickness</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">indent_depth</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">inset</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">clearance</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.15</span><span class="p">,</span>
+    <span class="n">top_z</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Return a perimeter channel cutter to be subtracted from lid top (FR-101)."""</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.shell</span><span class="w"> </span><span class="kn">import</span> <span class="n">block</span>
+
+    <span class="n">outer_w</span> <span class="o">=</span> <span class="n">width</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">inset</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">clearance</span>
+    <span class="n">outer_l</span> <span class="o">=</span> <span class="n">length</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">inset</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">clearance</span>
+    <span class="n">inner_w</span> <span class="o">=</span> <span class="n">outer_w</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">rim_thickness</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">clearance</span><span class="p">)</span>
+    <span class="n">inner_l</span> <span class="o">=</span> <span class="n">outer_l</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">rim_thickness</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">clearance</span><span class="p">)</span>
+    <span class="n">h</span> <span class="o">=</span> <span class="n">indent_depth</span> <span class="o">+</span> <span class="n">clearance</span> <span class="o">+</span> <span class="mf">0.1</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="n">top_z</span> <span class="o">-</span> <span class="n">indent_depth</span>
+
+    <span class="n">outer</span> <span class="o">=</span> <span class="n">block</span><span class="p">([</span><span class="n">outer_w</span><span class="p">,</span> <span class="n">outer_l</span><span class="p">,</span> <span class="n">h</span><span class="p">],</span> <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="n">inset</span> <span class="o">-</span> <span class="n">clearance</span><span class="p">,</span> <span class="n">inset</span> <span class="o">-</span> <span class="n">clearance</span><span class="p">,</span> <span class="n">z</span><span class="p">))</span>
+    <span class="n">inner</span> <span class="o">=</span> <span class="n">block</span><span class="p">(</span>
+        <span class="p">[</span><span class="n">inner_w</span><span class="p">,</span> <span class="n">inner_l</span><span class="p">,</span> <span class="n">h</span> <span class="o">+</span> <span class="mf">0.2</span><span class="p">],</span>
+        <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="n">inset</span> <span class="o">+</span> <span class="n">rim_thickness</span> <span class="o">+</span> <span class="n">clearance</span><span class="p">,</span> <span class="n">inset</span> <span class="o">+</span> <span class="n">rim_thickness</span> <span class="o">+</span> <span class="n">clearance</span><span class="p">,</span> <span class="n">z</span> <span class="o">-</span> <span class="mf">0.1</span><span class="p">),</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">outer</span> <span class="o">-</span> <span class="n">inner</span></div>
+
+
+
+<div class="viewcode-block" id="apply_stackable_body">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.features.apply_stackable_body.html#pyboxbuilder.box.features.apply_stackable_body">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">apply_stackable_body</span><span class="p">(</span><span class="n">body</span><span class="p">:</span> <span class="n">Bosl2Solid</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Apply stacking features to a box body according to spec.stackable (FR-101)."""</span>
+    <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">stackable</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">body</span>
+
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">StackableMode</span>
+
+    <span class="n">mode</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">stackable</span>
+    <span class="n">wt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">wall_thickness</span>
+    <span class="n">foot_size</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">stackable_foot_size</span> <span class="ow">or</span> <span class="nb">max</span><span class="p">(</span><span class="mf">6.0</span><span class="p">,</span> <span class="n">wt</span> <span class="o">*</span> <span class="mf">2.5</span><span class="p">)</span>
+    <span class="n">foot_height</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">stackable_foot_height</span>
+    <span class="n">foot_inset</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">stackable_foot_inset</span> <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">stackable_foot_inset</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="p">(</span><span class="n">wt</span> <span class="o">+</span> <span class="mf">1.0</span><span class="p">)</span>
+    <span class="n">rim_thickness</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">stackable_thickness</span> <span class="ow">or</span> <span class="n">wt</span>
+    <span class="n">clearance</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">stackable_fit_offset</span>
+    <span class="n">has_lid</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">lid_thickness</span> <span class="o">&gt;</span> <span class="mf">0.0</span>
+
+    <span class="k">if</span> <span class="n">mode</span> <span class="ow">is</span> <span class="n">StackableMode</span><span class="o">.</span><span class="n">FEET</span><span class="p">:</span>
+        <span class="n">depth</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">foot_height</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.8</span><span class="p">,</span> <span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">lid_thickness</span> <span class="k">if</span> <span class="n">has_lid</span> <span class="k">else</span> <span class="n">spec</span><span class="o">.</span><span class="n">floor_thickness</span><span class="p">)</span> <span class="o">-</span> <span class="mf">0.8</span><span class="p">))</span>
+        <span class="n">feet</span> <span class="o">=</span> <span class="n">build_stacking_feet</span><span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span><span class="p">,</span> <span class="n">foot_size</span><span class="p">,</span> <span class="n">depth</span><span class="p">,</span> <span class="n">foot_inset</span><span class="p">,</span> <span class="n">base_z</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span>
+        <span class="n">body</span> <span class="o">=</span> <span class="n">body</span> <span class="o">|</span> <span class="n">feet</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">has_lid</span><span class="p">:</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.shell</span><span class="w"> </span><span class="kn">import</span> <span class="n">block</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.compartments.element</span><span class="w"> </span><span class="kn">import</span> <span class="n">union_all</span>
+
+            <span class="n">ledge_s</span> <span class="o">=</span> <span class="n">foot_inset</span> <span class="o">+</span> <span class="n">foot_size</span> <span class="o">+</span> <span class="n">clearance</span> <span class="o">+</span> <span class="mf">1.0</span>
+            <span class="n">ledges</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">block</span><span class="p">([</span><span class="n">ledge_s</span><span class="p">,</span> <span class="n">ledge_s</span><span class="p">,</span> <span class="n">depth</span><span class="p">],</span> <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">height</span> <span class="o">-</span> <span class="n">depth</span><span class="p">)),</span>
+                <span class="n">block</span><span class="p">([</span><span class="n">ledge_s</span><span class="p">,</span> <span class="n">ledge_s</span><span class="p">,</span> <span class="n">depth</span><span class="p">],</span> <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">width</span> <span class="o">-</span> <span class="n">ledge_s</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">height</span> <span class="o">-</span> <span class="n">depth</span><span class="p">)),</span>
+                <span class="n">block</span><span class="p">([</span><span class="n">ledge_s</span><span class="p">,</span> <span class="n">ledge_s</span><span class="p">,</span> <span class="n">depth</span><span class="p">],</span> <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span> <span class="o">-</span> <span class="n">ledge_s</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">height</span> <span class="o">-</span> <span class="n">depth</span><span class="p">)),</span>
+                <span class="n">block</span><span class="p">([</span><span class="n">ledge_s</span><span class="p">,</span> <span class="n">ledge_s</span><span class="p">,</span> <span class="n">depth</span><span class="p">],</span> <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">width</span> <span class="o">-</span> <span class="n">ledge_s</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span> <span class="o">-</span> <span class="n">ledge_s</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">height</span> <span class="o">-</span> <span class="n">depth</span><span class="p">)),</span>
+            <span class="p">]</span>
+            <span class="n">body</span> <span class="o">=</span> <span class="n">body</span> <span class="o">|</span> <span class="n">union_all</span><span class="p">(</span><span class="n">ledges</span><span class="p">)</span>
+        <span class="c1"># Subtract socket indents at top rim so lidless boxes or body knuckles do not collide</span>
+        <span class="n">indents</span> <span class="o">=</span> <span class="n">build_stacking_indents</span><span class="p">(</span>
+            <span class="n">spec</span><span class="o">.</span><span class="n">width</span><span class="p">,</span>
+            <span class="n">spec</span><span class="o">.</span><span class="n">length</span><span class="p">,</span>
+            <span class="n">foot_size</span><span class="p">,</span>
+            <span class="n">depth</span><span class="p">,</span>
+            <span class="n">foot_inset</span><span class="p">,</span>
+            <span class="n">clearance</span><span class="o">=</span><span class="n">clearance</span><span class="p">,</span>
+            <span class="n">top_z</span><span class="o">=</span><span class="n">spec</span><span class="o">.</span><span class="n">height</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">body</span> <span class="o">-</span> <span class="n">indents</span>
+    <span class="k">elif</span> <span class="n">mode</span> <span class="ow">is</span> <span class="n">StackableMode</span><span class="o">.</span><span class="n">INDENTS</span><span class="p">:</span>
+        <span class="n">depth</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">foot_height</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">floor_thickness</span> <span class="o">-</span> <span class="mf">0.8</span><span class="p">))</span>
+        <span class="n">indents</span> <span class="o">=</span> <span class="n">build_stacking_indents</span><span class="p">(</span>
+            <span class="n">spec</span><span class="o">.</span><span class="n">width</span><span class="p">,</span>
+            <span class="n">spec</span><span class="o">.</span><span class="n">length</span><span class="p">,</span>
+            <span class="n">foot_size</span><span class="p">,</span>
+            <span class="n">depth</span><span class="p">,</span>
+            <span class="n">foot_inset</span><span class="p">,</span>
+            <span class="n">clearance</span><span class="o">=</span><span class="n">clearance</span><span class="p">,</span>
+            <span class="n">top_z</span><span class="o">=</span><span class="n">depth</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">body</span> <span class="o">=</span> <span class="n">body</span> <span class="o">-</span> <span class="n">indents</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">has_lid</span><span class="p">:</span>
+            <span class="c1"># Lidless box carries locator bosses on its top rim</span>
+            <span class="n">feet</span> <span class="o">=</span> <span class="n">build_stacking_feet</span><span class="p">(</span>
+                <span class="n">spec</span><span class="o">.</span><span class="n">width</span><span class="p">,</span>
+                <span class="n">spec</span><span class="o">.</span><span class="n">length</span><span class="p">,</span>
+                <span class="n">foot_size</span><span class="p">,</span>
+                <span class="n">depth</span><span class="p">,</span>
+                <span class="n">foot_inset</span><span class="p">,</span>
+                <span class="n">base_z</span><span class="o">=</span><span class="n">spec</span><span class="o">.</span><span class="n">height</span> <span class="o">+</span> <span class="n">depth</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">body</span> <span class="o">=</span> <span class="n">body</span> <span class="o">|</span> <span class="n">feet</span>
+        <span class="k">return</span> <span class="n">body</span>
+    <span class="k">elif</span> <span class="n">mode</span> <span class="ow">is</span> <span class="n">StackableMode</span><span class="o">.</span><span class="n">PERIMETER</span><span class="p">:</span>
+        <span class="n">depth</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">foot_height</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.8</span><span class="p">,</span> <span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">lid_thickness</span> <span class="k">if</span> <span class="n">has_lid</span> <span class="k">else</span> <span class="n">spec</span><span class="o">.</span><span class="n">floor_thickness</span><span class="p">)</span> <span class="o">-</span> <span class="mf">0.8</span><span class="p">))</span>
+        <span class="n">foot_rim</span> <span class="o">=</span> <span class="n">build_perimeter_stacking_foot</span><span class="p">(</span>
+            <span class="n">spec</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span><span class="p">,</span> <span class="n">rim_thickness</span><span class="p">,</span> <span class="n">depth</span><span class="p">,</span> <span class="n">foot_inset</span><span class="p">,</span> <span class="n">base_z</span><span class="o">=</span><span class="mf">0.0</span>
+        <span class="p">)</span>
+        <span class="n">body</span> <span class="o">=</span> <span class="n">body</span> <span class="o">|</span> <span class="n">foot_rim</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">has_lid</span><span class="p">:</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.shell</span><span class="w"> </span><span class="kn">import</span> <span class="n">block</span>
+
+            <span class="n">ledge_w</span> <span class="o">=</span> <span class="n">foot_inset</span> <span class="o">+</span> <span class="n">rim_thickness</span> <span class="o">+</span> <span class="n">clearance</span> <span class="o">+</span> <span class="mf">1.0</span>
+            <span class="n">ledge_outer</span> <span class="o">=</span> <span class="n">block</span><span class="p">([</span><span class="n">spec</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span><span class="p">,</span> <span class="n">depth</span><span class="p">],</span> <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">height</span> <span class="o">-</span> <span class="n">depth</span><span class="p">))</span>
+            <span class="n">ledge_inner</span> <span class="o">=</span> <span class="n">block</span><span class="p">(</span>
+                <span class="p">[</span><span class="n">spec</span><span class="o">.</span><span class="n">width</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">ledge_w</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">ledge_w</span><span class="p">,</span> <span class="n">depth</span> <span class="o">+</span> <span class="mf">0.2</span><span class="p">],</span>
+                <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="n">ledge_w</span><span class="p">,</span> <span class="n">ledge_w</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">height</span> <span class="o">-</span> <span class="n">depth</span> <span class="o">-</span> <span class="mf">0.1</span><span class="p">),</span>
+            <span class="p">)</span>
+            <span class="n">body</span> <span class="o">=</span> <span class="n">body</span> <span class="o">|</span> <span class="p">(</span><span class="n">ledge_outer</span> <span class="o">-</span> <span class="n">ledge_inner</span><span class="p">)</span>
+        <span class="n">channel</span> <span class="o">=</span> <span class="n">build_perimeter_stacking_indent</span><span class="p">(</span>
+            <span class="n">spec</span><span class="o">.</span><span class="n">width</span><span class="p">,</span>
+            <span class="n">spec</span><span class="o">.</span><span class="n">length</span><span class="p">,</span>
+            <span class="n">rim_thickness</span><span class="p">,</span>
+            <span class="n">depth</span><span class="p">,</span>
+            <span class="n">foot_inset</span><span class="p">,</span>
+            <span class="n">clearance</span><span class="o">=</span><span class="n">clearance</span><span class="p">,</span>
+            <span class="n">top_z</span><span class="o">=</span><span class="n">spec</span><span class="o">.</span><span class="n">height</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">body</span> <span class="o">-</span> <span class="n">channel</span>
+    <span class="k">elif</span> <span class="n">mode</span> <span class="ow">is</span> <span class="n">StackableMode</span><span class="o">.</span><span class="n">OUTSIDE</span><span class="p">:</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.shell</span><span class="w"> </span><span class="kn">import</span> <span class="n">block</span>
+
+        <span class="n">fit</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">stackable_fit_offset</span>
+        <span class="n">stack</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">stackable_thickness</span> <span class="ow">or</span> <span class="n">wt</span>
+        <span class="n">ridge_w</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">width</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">stack</span> <span class="o">-</span> <span class="n">fit</span><span class="p">)</span>
+        <span class="n">ridge_l</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">stack</span> <span class="o">-</span> <span class="n">fit</span><span class="p">)</span>
+        <span class="n">ridge</span> <span class="o">=</span> <span class="n">block</span><span class="p">([</span><span class="n">ridge_w</span><span class="p">,</span> <span class="n">ridge_l</span><span class="p">,</span> <span class="n">stack</span><span class="p">],</span> <span class="n">at</span><span class="o">=</span><span class="p">((</span><span class="n">spec</span><span class="o">.</span><span class="n">width</span> <span class="o">-</span> <span class="n">ridge_w</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">length</span> <span class="o">-</span> <span class="n">ridge_l</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">body</span> <span class="o">|</span> <span class="n">ridge</span>
+    <span class="k">return</span> <span class="n">body</span></div>
+
+
+
+<div class="viewcode-block" id="apply_stackable_lid">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.features.apply_stackable_lid.html#pyboxbuilder.box.features.apply_stackable_lid">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">apply_stackable_lid</span><span class="p">(</span><span class="n">lid</span><span class="p">:</span> <span class="n">Bosl2Solid</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">,</span> <span class="n">top_z</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Apply matching stacking features to a box lid according to spec.stackable (FR-101)."""</span>
+    <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">stackable</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">lid</span>
+
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">StackableMode</span>
+
+    <span class="n">mode</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">stackable</span>
+    <span class="n">wt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">wall_thickness</span>
+    <span class="n">lt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">lid_thickness</span>
+    <span class="n">z_top</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">height</span> <span class="k">if</span> <span class="n">top_z</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">top_z</span>
+    <span class="n">foot_size</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">stackable_foot_size</span> <span class="ow">or</span> <span class="nb">max</span><span class="p">(</span><span class="mf">6.0</span><span class="p">,</span> <span class="n">wt</span> <span class="o">*</span> <span class="mf">2.5</span><span class="p">)</span>
+    <span class="n">foot_height</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">stackable_foot_height</span>
+    <span class="n">foot_inset</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">stackable_foot_inset</span> <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">stackable_foot_inset</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="p">(</span><span class="n">wt</span> <span class="o">+</span> <span class="mf">1.0</span><span class="p">)</span>
+    <span class="n">rim_thickness</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">stackable_thickness</span> <span class="ow">or</span> <span class="n">wt</span>
+    <span class="n">clearance</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">stackable_fit_offset</span>
+
+    <span class="k">if</span> <span class="n">mode</span> <span class="ow">is</span> <span class="n">StackableMode</span><span class="o">.</span><span class="n">FEET</span><span class="p">:</span>
+        <span class="n">depth</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">foot_height</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">lt</span> <span class="o">-</span> <span class="mf">0.8</span><span class="p">))</span>
+        <span class="n">indents</span> <span class="o">=</span> <span class="n">build_stacking_indents</span><span class="p">(</span>
+            <span class="n">spec</span><span class="o">.</span><span class="n">width</span><span class="p">,</span>
+            <span class="n">spec</span><span class="o">.</span><span class="n">length</span><span class="p">,</span>
+            <span class="n">foot_size</span><span class="p">,</span>
+            <span class="n">depth</span><span class="p">,</span>
+            <span class="n">foot_inset</span><span class="p">,</span>
+            <span class="n">clearance</span><span class="o">=</span><span class="n">clearance</span><span class="p">,</span>
+            <span class="n">top_z</span><span class="o">=</span><span class="n">z_top</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">lid</span> <span class="o">-</span> <span class="n">indents</span>
+    <span class="k">elif</span> <span class="n">mode</span> <span class="ow">is</span> <span class="n">StackableMode</span><span class="o">.</span><span class="n">INDENTS</span><span class="p">:</span>
+        <span class="n">socket_depth</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">foot_height</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">floor_thickness</span> <span class="o">-</span> <span class="mf">0.8</span><span class="p">))</span>
+        <span class="n">feet</span> <span class="o">=</span> <span class="n">build_stacking_feet</span><span class="p">(</span>
+            <span class="n">spec</span><span class="o">.</span><span class="n">width</span><span class="p">,</span>
+            <span class="n">spec</span><span class="o">.</span><span class="n">length</span><span class="p">,</span>
+            <span class="n">foot_size</span><span class="p">,</span>
+            <span class="n">socket_depth</span><span class="p">,</span>
+            <span class="n">foot_inset</span><span class="p">,</span>
+            <span class="n">base_z</span><span class="o">=</span><span class="n">z_top</span> <span class="o">+</span> <span class="n">socket_depth</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">lid</span> <span class="o">|</span> <span class="n">feet</span>
+    <span class="k">elif</span> <span class="n">mode</span> <span class="ow">is</span> <span class="n">StackableMode</span><span class="o">.</span><span class="n">PERIMETER</span><span class="p">:</span>
+        <span class="n">depth</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">foot_height</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">lt</span> <span class="o">-</span> <span class="mf">0.8</span><span class="p">))</span>
+        <span class="n">channel</span> <span class="o">=</span> <span class="n">build_perimeter_stacking_indent</span><span class="p">(</span>
+            <span class="n">spec</span><span class="o">.</span><span class="n">width</span><span class="p">,</span>
+            <span class="n">spec</span><span class="o">.</span><span class="n">length</span><span class="p">,</span>
+            <span class="n">rim_thickness</span><span class="p">,</span>
+            <span class="n">depth</span><span class="p">,</span>
+            <span class="n">foot_inset</span><span class="p">,</span>
+            <span class="n">clearance</span><span class="o">=</span><span class="n">clearance</span><span class="p">,</span>
+            <span class="n">top_z</span><span class="o">=</span><span class="n">z_top</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">lid</span> <span class="o">-</span> <span class="n">channel</span>
+    <span class="k">return</span> <span class="n">lid</span></div>
+
+
 </code></pre></div>
 
 

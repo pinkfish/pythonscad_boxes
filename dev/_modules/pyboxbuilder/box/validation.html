@@ -505,7 +505,8 @@
         <span class="bp">cls</span><span class="o">.</span><span class="n">_validate_material_thicknesses</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
         <span class="bp">cls</span><span class="o">.</span><span class="n">_validate_envelope_sanity</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
         <span class="bp">cls</span><span class="o">.</span><span class="n">_validate_clearances</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
-        <span class="bp">cls</span><span class="o">.</span><span class="n">_validate_closure_bounds</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span></div>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">_validate_closure_bounds</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">_validate_stackable_bounds</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span></div>
 
 
     <span class="nd">@classmethod</span>
@@ -665,6 +666,33 @@
                         <span class="sa">f</span><span class="s2">"(</span><span class="si">{</span><span class="n">interior_depth</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">mm)."</span>
                     <span class="p">),</span>
                     <span class="n">guidance</span><span class="o">=</span><span class="s2">"Reduce inset or increase box height."</span><span class="p">,</span>
+                <span class="p">)</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_validate_stackable_bounds</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">ResolvedBoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">stackable</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">StackableMode</span>
+
+        <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">stackable</span> <span class="ow">in</span> <span class="p">(</span><span class="n">StackableMode</span><span class="o">.</span><span class="n">FEET</span><span class="p">,</span> <span class="n">StackableMode</span><span class="o">.</span><span class="n">INDENTS</span><span class="p">,</span> <span class="n">StackableMode</span><span class="o">.</span><span class="n">PERIMETER</span><span class="p">):</span>
+            <span class="n">foot_size</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">stackable_foot_size</span> <span class="ow">or</span> <span class="nb">max</span><span class="p">(</span><span class="mf">6.0</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">wall_thickness</span> <span class="o">*</span> <span class="mf">2.5</span><span class="p">)</span>
+            <span class="n">min_span</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">foot_size</span> <span class="o">&gt;=</span> <span class="n">min_span</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">GeometryValidationError</span><span class="p">(</span>
+                    <span class="n">label</span><span class="o">=</span><span class="n">spec</span><span class="o">.</span><span class="n">label</span><span class="p">,</span>
+                    <span class="n">invariant</span><span class="o">=</span><span class="s2">"stackable_foot_size_fits_footprint"</span><span class="p">,</span>
+                    <span class="n">message</span><span class="o">=</span><span class="p">(</span>
+                        <span class="sa">f</span><span class="s2">"Stackable foot size (</span><span class="si">{</span><span class="n">foot_size</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">mm) must be strictly less than "</span>
+                        <span class="sa">f</span><span class="s2">"half the minimum box span (</span><span class="si">{</span><span class="n">min_span</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">2.0</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">mm)."</span>
+                    <span class="p">),</span>
+                    <span class="n">guidance</span><span class="o">=</span><span class="s2">"Reduce stackable_foot_size or increase box width/length."</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">stackable_foot_height</span> <span class="o">&lt;=</span> <span class="mf">0.0</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">GeometryValidationError</span><span class="p">(</span>
+                    <span class="n">label</span><span class="o">=</span><span class="n">spec</span><span class="o">.</span><span class="n">label</span><span class="p">,</span>
+                    <span class="n">invariant</span><span class="o">=</span><span class="s2">"positive_stackable_foot_height"</span><span class="p">,</span>
+                    <span class="n">message</span><span class="o">=</span><span class="sa">f</span><span class="s2">"Stackable foot height must be positive, got </span><span class="si">{</span><span class="n">spec</span><span class="o">.</span><span class="n">stackable_foot_height</span><span class="si">}</span><span class="s2">mm."</span><span class="p">,</span>
+                    <span class="n">guidance</span><span class="o">=</span><span class="s2">"Set stackable_foot_height to a positive value (e.g. 1.6mm)."</span><span class="p">,</span>
                 <span class="p">)</span></div>
 
 </code></pre></div>

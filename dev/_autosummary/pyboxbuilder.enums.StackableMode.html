@@ -1310,9 +1310,25 @@
 <dt class="sig sig-object highlight py" id="pyboxbuilder.enums.StackableMode">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyboxbuilder.enums.</span></span><span class="sig-name descname"><span class="pre">StackableMode</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">*</span></span><a class="n reference internal" href="#pyboxbuilder.enums.StackableMode" title="pyboxbuilder.enums.StackableMode.__init__.values (Python parameter)"><span class="n"><span class="pre">values</span></span></a></em></span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyboxbuilder/enums.html#StackableMode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyboxbuilder.enums.StackableMode" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/enum.html#enum.Enum" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></a></p>
-<p>How a no-lid box’s interlocking rim mates with its neighbour (FR-038).</p>
-<p>Both modes stack securely; the choice decides whether the rim sits inside
-the box above or wraps around the box below.</p>
+<p>How a box mates vertically with its neighbour (FR-038, FR-101).</p>
+<p>Supports open trays and lidded boxes:
+- INSIDE: Stepped inner recess in the top rim that the box above nests into.
+- OUTSIDE: A ridge around the outside base that fits over the box below.
+- FEET: Protruding locator feet on the bottom floor, matching socket indents on the lid/top.
+- INDENTS: Recessed socket indents on the bottom floor, matching locator feet on the lid/top.
+- PERIMETER: Continuous or segmented perimeter foot rim on bottom, matching channel on lid/top.</p>
+<dl class="py attribute objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.enums.StackableMode.FEET">
+<span class="sig-name descname"><span class="pre">FEET</span></span><span class="p"> <span class="pre">=</span> </span><code class="code python docutils literal highlight highlight-python"><span class="s1">'feet'</span></code><a class="headerlink" href="#pyboxbuilder.enums.StackableMode.FEET" title="Link to this definition">¶</a></dt>
+<dd><p>Protruding locator feet on the bottom floor, matching socket indents on the lid/top.</p>
+</dd></dl>
+
+<dl class="py attribute objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.enums.StackableMode.INDENTS">
+<span class="sig-name descname"><span class="pre">INDENTS</span></span><span class="p"> <span class="pre">=</span> </span><code class="code python docutils literal highlight highlight-python"><span class="s1">'indents'</span></code><a class="headerlink" href="#pyboxbuilder.enums.StackableMode.INDENTS" title="Link to this definition">¶</a></dt>
+<dd><p>Recessed socket indents on the bottom floor, matching locator feet on the lid/top.</p>
+</dd></dl>
+
 <dl class="py attribute objdesc">
 <dt class="sig sig-object highlight py" id="pyboxbuilder.enums.StackableMode.INSIDE">
 <span class="sig-name descname"><span class="pre">INSIDE</span></span><span class="p"> <span class="pre">=</span> </span><code class="code python docutils literal highlight highlight-python"><span class="s1">'inside'</span></code><a class="headerlink" href="#pyboxbuilder.enums.StackableMode.INSIDE" title="Link to this definition">¶</a></dt>
@@ -1323,6 +1339,12 @@ the box above or wraps around the box below.</p>
 <dt class="sig sig-object highlight py" id="pyboxbuilder.enums.StackableMode.OUTSIDE">
 <span class="sig-name descname"><span class="pre">OUTSIDE</span></span><span class="p"> <span class="pre">=</span> </span><code class="code python docutils literal highlight highlight-python"><span class="s1">'outside'</span></code><a class="headerlink" href="#pyboxbuilder.enums.StackableMode.OUTSIDE" title="Link to this definition">¶</a></dt>
 <dd><p>A ridge around the outside that fits over the box below.</p>
+</dd></dl>
+
+<dl class="py attribute objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.enums.StackableMode.PERIMETER">
+<span class="sig-name descname"><span class="pre">PERIMETER</span></span><span class="p"> <span class="pre">=</span> </span><code class="code python docutils literal highlight highlight-python"><span class="s1">'perimeter'</span></code><a class="headerlink" href="#pyboxbuilder.enums.StackableMode.PERIMETER" title="Link to this definition">¶</a></dt>
+<dd><p>Perimeter foot rim on the bottom floor, matching recessed channel on the lid/top.</p>
 </dd></dl>
 
 </dd></dl>

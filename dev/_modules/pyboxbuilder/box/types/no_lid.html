@@ -506,6 +506,12 @@
         <span class="n">fit</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">stackable_fit_offset</span>
         <span class="n">mode</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">stackable</span> <span class="ow">or</span> <span class="n">StackableMode</span><span class="o">.</span><span class="n">INSIDE</span>
 
+        <span class="k">if</span> <span class="n">mode</span> <span class="ow">in</span> <span class="p">(</span><span class="n">StackableMode</span><span class="o">.</span><span class="n">FEET</span><span class="p">,</span> <span class="n">StackableMode</span><span class="o">.</span><span class="n">INDENTS</span><span class="p">,</span> <span class="n">StackableMode</span><span class="o">.</span><span class="n">PERIMETER</span><span class="p">):</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.features</span><span class="w"> </span><span class="kn">import</span> <span class="n">apply_stackable_body</span><span class="p">,</span> <span class="n">apply_stackable_lid</span>
+
+            <span class="n">body</span> <span class="o">=</span> <span class="n">apply_stackable_body</span><span class="p">(</span><span class="n">body</span><span class="p">,</span> <span class="n">spec</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">apply_stackable_lid</span><span class="p">(</span><span class="n">body</span><span class="p">,</span> <span class="n">spec</span><span class="p">,</span> <span class="n">top_z</span><span class="o">=</span><span class="n">spec</span><span class="o">.</span><span class="n">height</span><span class="p">)</span>
+
         <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">path</span><span class="p">:</span>
             <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.features</span><span class="w"> </span><span class="kn">import</span> <span class="n">extrude_footprint</span><span class="p">,</span> <span class="n">offset_footprint</span>
 

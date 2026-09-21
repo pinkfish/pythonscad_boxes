@@ -547,6 +547,7 @@
 
         <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.shell</span><span class="w"> </span><span class="kn">import</span> <span class="n">body_rounding</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.rounding</span><span class="w"> </span><span class="kn">import</span> <span class="n">round_edges</span><span class="p">,</span> <span class="n">vertical_edges</span>
+
         <span class="n">radius</span> <span class="o">=</span> <span class="n">body_rounding</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">radius</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="n">body</span> <span class="o">=</span> <span class="n">round_edges</span><span class="p">(</span>
@@ -555,7 +556,9 @@
                 <span class="n">radius</span><span class="p">,</span>
                 <span class="nb">list</span><span class="p">(</span><span class="n">vertical_edges</span><span class="p">()),</span>
             <span class="p">)</span>
-        <span class="k">return</span> <span class="n">body</span></div>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.features</span><span class="w"> </span><span class="kn">import</span> <span class="n">apply_stackable_body</span>
+
+        <span class="k">return</span> <span class="n">apply_stackable_body</span><span class="p">(</span><span class="n">body</span><span class="p">,</span> <span class="n">spec</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="FilamentHingeBox.build_lid">
@@ -585,13 +588,14 @@
         <span class="k">if</span> <span class="n">closure</span><span class="o">.</span><span class="n">pin</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">lid</span> <span class="o">=</span> <span class="n">lid</span> <span class="o">-</span> <span class="n">closure</span><span class="o">.</span><span class="n">pin</span>
 
-        <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.features</span><span class="w"> </span><span class="kn">import</span> <span class="n">hinge_catch</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.features</span><span class="w"> </span><span class="kn">import</span> <span class="n">apply_stackable_lid</span><span class="p">,</span> <span class="n">hinge_catch</span>
+
         <span class="n">catch</span> <span class="o">=</span> <span class="n">hinge_catch</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">catch</span><span class="o">.</span><span class="n">lid_cut</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">lid</span> <span class="o">=</span> <span class="n">lid</span> <span class="o">-</span> <span class="n">catch</span><span class="o">.</span><span class="n">lid_cut</span>
         <span class="k">if</span> <span class="n">catch</span><span class="o">.</span><span class="n">lid</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">lid</span> <span class="o">=</span> <span class="n">lid</span> <span class="o">|</span> <span class="n">catch</span><span class="o">.</span><span class="n">lid</span>
-        <span class="k">return</span> <span class="n">lid</span></div>
+        <span class="k">return</span> <span class="n">apply_stackable_lid</span><span class="p">(</span><span class="n">lid</span><span class="p">,</span> <span class="n">spec</span><span class="p">)</span></div>
 </div>
 
 </code></pre></div>

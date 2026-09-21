@@ -558,16 +558,26 @@
 <div class="viewcode-block" id="StackableMode">
 <a class="viewcode-back" href="../../_autosummary/pyboxbuilder.enums.StackableMode.html#pyboxbuilder.enums.StackableMode">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">StackableMode</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">"""How a no-lid box's interlocking rim mates with its neighbour (FR-038).</span>
+<span class="w">    </span><span class="sd">"""How a box mates vertically with its neighbour (FR-038, FR-101).</span>
 
-<span class="sd">    Both modes stack securely; the choice decides whether the rim sits inside</span>
-<span class="sd">    the box above or wraps around the box below.</span>
+<span class="sd">    Supports open trays and lidded boxes:</span>
+<span class="sd">    - INSIDE: Stepped inner recess in the top rim that the box above nests into.</span>
+<span class="sd">    - OUTSIDE: A ridge around the outside base that fits over the box below.</span>
+<span class="sd">    - FEET: Protruding locator feet on the bottom floor, matching socket indents on the lid/top.</span>
+<span class="sd">    - INDENTS: Recessed socket indents on the bottom floor, matching locator feet on the lid/top.</span>
+<span class="sd">    - PERIMETER: Continuous or segmented perimeter foot rim on bottom, matching channel on lid/top.</span>
 <span class="sd">    """</span>
 
     <span class="n">INSIDE</span> <span class="o">=</span> <span class="s2">"inside"</span>
 <span class="w">    </span><span class="sd">"""A recess in the top rim that the box above nests down into."""</span>
     <span class="n">OUTSIDE</span> <span class="o">=</span> <span class="s2">"outside"</span>
-<span class="w">    </span><span class="sd">"""A ridge around the outside that fits over the box below."""</span></div>
+<span class="w">    </span><span class="sd">"""A ridge around the outside that fits over the box below."""</span>
+    <span class="n">FEET</span> <span class="o">=</span> <span class="s2">"feet"</span>
+<span class="w">    </span><span class="sd">"""Protruding locator feet on the bottom floor, matching socket indents on the lid/top."""</span>
+    <span class="n">INDENTS</span> <span class="o">=</span> <span class="s2">"indents"</span>
+<span class="w">    </span><span class="sd">"""Recessed socket indents on the bottom floor, matching locator feet on the lid/top."""</span>
+    <span class="n">PERIMETER</span> <span class="o">=</span> <span class="s2">"perimeter"</span>
+<span class="w">    </span><span class="sd">"""Perimeter foot rim on the bottom floor, matching recessed channel on the lid/top."""</span></div>
 
 
 

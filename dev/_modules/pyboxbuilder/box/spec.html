@@ -626,13 +626,19 @@
     <span class="n">magnet_count_length</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2</span>
 <span class="w">    </span><span class="sd">"""Magnets per wall on the length axis."""</span>
 
-    <span class="c1"># ── Stacking (FR-038) ────────────────────────────────────────────────</span>
+    <span class="c1"># ── Stacking (FR-038, FR-101) ────────────────────────────────────────</span>
     <span class="n">stackable</span><span class="p">:</span> <span class="n">StackableMode</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="w">    </span><span class="sd">"""Interlocking rim mode; ``None`` means not stackable."""</span>
     <span class="n">stackable_thickness</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="w">    </span><span class="sd">"""Interlocking rim thickness; ``None`` derives it from the wall."""</span>
-    <span class="n">stackable_fit_offset</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.1</span>
-<span class="w">    </span><span class="sd">"""Clearance between a stacked box's rim and the one below it."""</span>
+    <span class="n">stackable_fit_offset</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.15</span>
+<span class="w">    </span><span class="sd">"""Clearance between a stacked box's foot/rim and the one below it."""</span>
+    <span class="n">stackable_foot_size</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">"""Width/diameter of locator feet in mm; ``None`` derives it from wall_thickness."""</span>
+    <span class="n">stackable_foot_height</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.6</span>
+<span class="w">    </span><span class="sd">"""Height of protruding locator feet / depth of matching indents in mm."""</span>
+    <span class="n">stackable_foot_inset</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">"""Inset distance from perimeter in mm; ``None`` derives it from wall_thickness / 2."""</span>
 
     <span class="c1"># ── Extraction (Phase 3) ─────────────────────────────────────────────</span>
     <span class="n">tilt_to_lift</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
@@ -926,7 +932,10 @@
     <span class="c1"># Stacking</span>
     <span class="n">stackable</span><span class="p">:</span> <span class="n">StackableMode</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">stackable_thickness</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">stackable_fit_offset</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.1</span>
+    <span class="n">stackable_fit_offset</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.15</span>
+    <span class="n">stackable_foot_size</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">stackable_foot_height</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.6</span>
+    <span class="n">stackable_foot_inset</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 
     <span class="c1"># Extraction</span>
     <span class="n">tilt_to_lift</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
