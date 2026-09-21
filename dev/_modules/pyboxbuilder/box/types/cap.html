@@ -493,7 +493,11 @@
 
         <span class="n">body</span> <span class="o">=</span> <span class="n">cap_body</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
         <span class="n">catch</span> <span class="o">=</span> <span class="n">cap_slipover_catch</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="n">is_slipover</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">body</span> <span class="o">-</span> <span class="n">catch</span><span class="o">.</span><span class="n">body</span></div>
+        <span class="k">if</span> <span class="n">catch</span><span class="o">.</span><span class="n">body</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">body</span> <span class="o">=</span> <span class="n">body</span> <span class="o">-</span> <span class="n">catch</span><span class="o">.</span><span class="n">body</span>
+        <span class="k">if</span> <span class="n">catch</span><span class="o">.</span><span class="n">body_cut</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">body</span> <span class="o">=</span> <span class="n">body</span> <span class="o">-</span> <span class="n">catch</span><span class="o">.</span><span class="n">body_cut</span>
+        <span class="k">return</span> <span class="n">body</span></div>
 
 
 <div class="viewcode-block" id="CapBox.build_lid">
@@ -509,7 +513,11 @@
 
         <span class="n">lid</span> <span class="o">=</span> <span class="n">cap_lid</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
         <span class="n">catch</span> <span class="o">=</span> <span class="n">cap_slipover_catch</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="n">is_slipover</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">lid</span> <span class="o">|</span> <span class="n">catch</span><span class="o">.</span><span class="n">lid</span></div>
+        <span class="k">if</span> <span class="n">catch</span><span class="o">.</span><span class="n">lid</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">lid</span> <span class="o">=</span> <span class="n">lid</span> <span class="o">|</span> <span class="n">catch</span><span class="o">.</span><span class="n">lid</span>
+        <span class="k">if</span> <span class="n">catch</span><span class="o">.</span><span class="n">lid_cut</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">lid</span> <span class="o">=</span> <span class="n">lid</span> <span class="o">-</span> <span class="n">catch</span><span class="o">.</span><span class="n">lid_cut</span>
+        <span class="k">return</span> <span class="n">lid</span></div>
 </div>
 
 

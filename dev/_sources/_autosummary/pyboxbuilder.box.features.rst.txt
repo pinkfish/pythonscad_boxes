@@ -31,7 +31,9 @@ pyboxbuilder.box.features
       :nosignatures:
    
       build_bump_detent
+      build_leaf_spring_detent
       build_loop_detent
+      build_magnet_detent
       build_wedge_detent
       cap_body
       cap_finger_cutouts
