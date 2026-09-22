@@ -455,7 +455,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Any</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">BoxType</span><span class="p">,</span> <span class="n">FingerCut</span><span class="p">,</span> <span class="n">ScoopSide</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">BoxType</span><span class="p">,</span> <span class="n">FingerCut</span><span class="p">,</span> <span class="n">InterlockType</span><span class="p">,</span> <span class="n">ScoopSide</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.helpers</span><span class="w"> </span><span class="kn">import</span> <span class="n">CardSize</span><span class="p">,</span> <span class="n">SleeveType</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.project.compiler</span><span class="w"> </span><span class="kn">import</span> <span class="n">LayoutCompiler</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.project.manifest</span><span class="w"> </span><span class="kn">import</span> <span class="n">ProjectManifest</span>
@@ -1182,6 +1182,146 @@
             <span class="n">cut</span><span class="o">=</span><span class="n">cut</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="k">return</span> <span class="n">builder</span></div>
+
+
+<div class="viewcode-block" id="Project.regular_polygon_box">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.project.core.Project.html#pyboxbuilder.project.core.Project.regular_polygon_box">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">regular_polygon_box</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">label</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">sides</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">apothem</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">height</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">box_type</span><span class="p">:</span> <span class="n">BoxType</span> <span class="o">=</span> <span class="n">BoxType</span><span class="o">.</span><span class="n">PATH</span><span class="p">,</span>
+        <span class="n">interlock_type</span><span class="p">:</span> <span class="n">InterlockType</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">interlock_clearance</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.15</span><span class="p">,</span>
+        <span class="n">interlock_sides</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span> <span class="o">|</span> <span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BoxBuilder</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Add a regular polygon footprint box with optional perimeter interlocking (FR-102).</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            label: Identifier for the box.</span>
+<span class="sd">            sides: Number of polygon sides (N &gt;= 3).</span>
+<span class="sd">            apothem: Inscribed radius in mm (half the flat-to-flat span).</span>
+<span class="sd">            height: Total box height in mm.</span>
+<span class="sd">            box_type: Box closure type (defaults to BoxType.PATH).</span>
+<span class="sd">            interlock_type: Perimeter interlocking mechanism (DOVETAIL, MAGNET, CLIP, etc.).</span>
+<span class="sd">            interlock_clearance: Clearance between mating interlock joints in mm.</span>
+<span class="sd">            interlock_sides: Specific face indices to equip with interlocks (defaults to all).</span>
+<span class="sd">            **kwargs: Extra fields passed to the box builder.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            The configured BoxBuilder.</span>
+<span class="sd">        """</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.features</span><span class="w"> </span><span class="kn">import</span> <span class="n">regular_polygon_path</span>
+
+        <span class="n">path</span> <span class="o">=</span> <span class="n">regular_polygon_path</span><span class="p">(</span><span class="n">sides</span><span class="p">,</span> <span class="n">apothem</span><span class="o">=</span><span class="n">apothem</span><span class="p">)</span>
+        <span class="n">w</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">path</span><span class="p">)</span>
+        <span class="n">l_dim</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">path</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">box</span><span class="p">(</span>
+            <span class="n">box_type</span><span class="p">,</span>
+            <span class="n">label</span><span class="p">,</span>
+            <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">l_dim</span><span class="p">,</span> <span class="n">height</span><span class="p">),</span>
+            <span class="n">path</span><span class="o">=</span><span class="n">path</span><span class="p">,</span>
+            <span class="n">polygon_sides</span><span class="o">=</span><span class="n">sides</span><span class="p">,</span>
+            <span class="n">polygon_apothem</span><span class="o">=</span><span class="n">apothem</span><span class="p">,</span>
+            <span class="n">interlock_type</span><span class="o">=</span><span class="n">interlock_type</span><span class="p">,</span>
+            <span class="n">interlock_clearance</span><span class="o">=</span><span class="n">interlock_clearance</span><span class="p">,</span>
+            <span class="n">interlock_sides</span><span class="o">=</span><span class="n">interlock_sides</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Project.hex_box">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.project.core.Project.html#pyboxbuilder.project.core.Project.hex_box">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">hex_box</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">label</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">apothem</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">height</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">box_type</span><span class="p">:</span> <span class="n">BoxType</span> <span class="o">=</span> <span class="n">BoxType</span><span class="o">.</span><span class="n">PATH</span><span class="p">,</span>
+        <span class="n">interlock_type</span><span class="p">:</span> <span class="n">InterlockType</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">interlock_clearance</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.15</span><span class="p">,</span>
+        <span class="n">interlock_sides</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span> <span class="o">|</span> <span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BoxBuilder</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Add a regular hexagonal box (6 sides) with optional interlocking (FR-102)."""</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">regular_polygon_box</span><span class="p">(</span>
+            <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span>
+            <span class="n">sides</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>
+            <span class="n">apothem</span><span class="o">=</span><span class="n">apothem</span><span class="p">,</span>
+            <span class="n">height</span><span class="o">=</span><span class="n">height</span><span class="p">,</span>
+            <span class="n">box_type</span><span class="o">=</span><span class="n">box_type</span><span class="p">,</span>
+            <span class="n">interlock_type</span><span class="o">=</span><span class="n">interlock_type</span><span class="p">,</span>
+            <span class="n">interlock_clearance</span><span class="o">=</span><span class="n">interlock_clearance</span><span class="p">,</span>
+            <span class="n">interlock_sides</span><span class="o">=</span><span class="n">interlock_sides</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Project.polygon_grid">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.project.core.Project.html#pyboxbuilder.project.core.Project.polygon_grid">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">polygon_grid</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">base_label</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">rows</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">cols</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">sides</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">apothem</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">height</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">spacing</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">box_type</span><span class="p">:</span> <span class="n">BoxType</span> <span class="o">=</span> <span class="n">BoxType</span><span class="o">.</span><span class="n">PATH</span><span class="p">,</span>
+        <span class="n">interlock_type</span><span class="p">:</span> <span class="n">InterlockType</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">interlock_clearance</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.15</span><span class="p">,</span>
+        <span class="n">origin</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">BoxBuilder</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Generate a tessellated 2D grid of regular polygon boxes (FR-102).</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            base_label: Prefix for each box label (e.g. 'Hex_0_0').</span>
+<span class="sd">            rows: Number of grid rows.</span>
+<span class="sd">            cols: Number of grid columns.</span>
+<span class="sd">            sides: Number of sides (e.g. 3, 4, 6).</span>
+<span class="sd">            apothem: Inscribed radius in mm.</span>
+<span class="sd">            height: Total box height in mm.</span>
+<span class="sd">            spacing: Clearance/spacing between adjacent box faces in mm (0.0 for direct contact).</span>
+<span class="sd">            box_type: Box type (defaults to BoxType.PATH).</span>
+<span class="sd">            interlock_type: Interlock joint mechanism.</span>
+<span class="sd">            interlock_clearance: Clearance for interlock joints in mm.</span>
+<span class="sd">            origin: (X, Y) origin offset in mm.</span>
+<span class="sd">            **kwargs: Extra arguments forwarded to each box builder.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            List of generated BoxBuilder instances.</span>
+<span class="sd">        """</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.features</span><span class="w"> </span><span class="kn">import</span> <span class="n">polygon_grid_position</span>
+
+        <span class="n">boxes</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">BoxBuilder</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">rows</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">cols</span><span class="p">):</span>
+                <span class="n">gx</span><span class="p">,</span> <span class="n">gy</span> <span class="o">=</span> <span class="n">polygon_grid_position</span><span class="p">(</span>
+                    <span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">sides</span><span class="o">=</span><span class="n">sides</span><span class="p">,</span> <span class="n">apothem</span><span class="o">=</span><span class="n">apothem</span><span class="p">,</span> <span class="n">spacing</span><span class="o">=</span><span class="n">spacing</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="n">origin</span>
+                <span class="p">)</span>
+                <span class="n">box_lbl</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">base_label</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">r</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">c</span><span class="si">}</span><span class="s2">"</span>
+                <span class="n">b</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">regular_polygon_box</span><span class="p">(</span>
+                    <span class="n">label</span><span class="o">=</span><span class="n">box_lbl</span><span class="p">,</span>
+                    <span class="n">sides</span><span class="o">=</span><span class="n">sides</span><span class="p">,</span>
+                    <span class="n">apothem</span><span class="o">=</span><span class="n">apothem</span><span class="p">,</span>
+                    <span class="n">height</span><span class="o">=</span><span class="n">height</span><span class="p">,</span>
+                    <span class="n">box_type</span><span class="o">=</span><span class="n">box_type</span><span class="p">,</span>
+                    <span class="n">interlock_type</span><span class="o">=</span><span class="n">interlock_type</span><span class="p">,</span>
+                    <span class="n">interlock_clearance</span><span class="o">=</span><span class="n">interlock_clearance</span><span class="p">,</span>
+                    <span class="n">position</span><span class="o">=</span><span class="p">(</span><span class="n">gx</span><span class="p">,</span> <span class="n">gy</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span>
+                    <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="n">boxes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">boxes</span></div>
 </div>
 
 </code></pre></div>

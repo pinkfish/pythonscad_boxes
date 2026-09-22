@@ -506,7 +506,8 @@
         <span class="bp">cls</span><span class="o">.</span><span class="n">_validate_envelope_sanity</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
         <span class="bp">cls</span><span class="o">.</span><span class="n">_validate_clearances</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
         <span class="bp">cls</span><span class="o">.</span><span class="n">_validate_closure_bounds</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
-        <span class="bp">cls</span><span class="o">.</span><span class="n">_validate_stackable_bounds</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span></div>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">_validate_stackable_bounds</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">_validate_interlock_bounds</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span></div>
 
 
     <span class="nd">@classmethod</span>
@@ -693,7 +694,24 @@
                     <span class="n">invariant</span><span class="o">=</span><span class="s2">"positive_stackable_foot_height"</span><span class="p">,</span>
                     <span class="n">message</span><span class="o">=</span><span class="sa">f</span><span class="s2">"Stackable foot height must be positive, got </span><span class="si">{</span><span class="n">spec</span><span class="o">.</span><span class="n">stackable_foot_height</span><span class="si">}</span><span class="s2">mm."</span><span class="p">,</span>
                     <span class="n">guidance</span><span class="o">=</span><span class="s2">"Set stackable_foot_height to a positive value (e.g. 1.6mm)."</span><span class="p">,</span>
-                <span class="p">)</span></div>
+                <span class="p">)</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_validate_interlock_bounds</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">ResolvedBoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">polygon_sides</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">spec</span><span class="o">.</span><span class="n">polygon_sides</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">GeometryValidationError</span><span class="p">(</span>
+                <span class="n">label</span><span class="o">=</span><span class="n">spec</span><span class="o">.</span><span class="n">label</span><span class="p">,</span>
+                <span class="n">invariant</span><span class="o">=</span><span class="s2">"min_polygon_sides"</span><span class="p">,</span>
+                <span class="n">message</span><span class="o">=</span><span class="sa">f</span><span class="s2">"Regular polygon must have at least 3 sides, got </span><span class="si">{</span><span class="n">spec</span><span class="o">.</span><span class="n">polygon_sides</span><span class="si">}</span><span class="s2">."</span><span class="p">,</span>
+                <span class="n">guidance</span><span class="o">=</span><span class="s2">"Set polygon_sides to 3 (triangle), 4 (square), 6 (hexagon), or higher."</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">interlock_type</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">spec</span><span class="o">.</span><span class="n">interlock_clearance</span> <span class="o">&lt;</span> <span class="mf">0.0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">GeometryValidationError</span><span class="p">(</span>
+                <span class="n">label</span><span class="o">=</span><span class="n">spec</span><span class="o">.</span><span class="n">label</span><span class="p">,</span>
+                <span class="n">invariant</span><span class="o">=</span><span class="s2">"non_negative_interlock_clearance"</span><span class="p">,</span>
+                <span class="n">message</span><span class="o">=</span><span class="sa">f</span><span class="s2">"Interlock clearance must be non-negative, got </span><span class="si">{</span><span class="n">spec</span><span class="o">.</span><span class="n">interlock_clearance</span><span class="si">}</span><span class="s2">mm."</span><span class="p">,</span>
+                <span class="n">guidance</span><span class="o">=</span><span class="s2">"Set interlock_clearance to a non-negative value (e.g. 0.15mm)."</span><span class="p">,</span>
+            <span class="p">)</span></div>
 
 </code></pre></div>
 

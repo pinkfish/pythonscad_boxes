@@ -2890,6 +2890,380 @@
     <span class="k">return</span> <span class="n">lid</span></div>
 
 
+
+<div class="viewcode-block" id="regular_polygon_path">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.features.regular_polygon_path.html#pyboxbuilder.box.features.regular_polygon_path">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">regular_polygon_path</span><span class="p">(</span>
+    <span class="n">sides</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">apothem</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">diameter</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">radius</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">orientation_deg</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="o">...</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">"""Generate closed 2D polygon vertices for a regular N-sided polygon (FR-102).</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        sides: Number of sides (N &gt;= 3).</span>
+<span class="sd">        apothem: Inradius (half flat-to-flat distance) in mm.</span>
+<span class="sd">        diameter: Full flat-to-flat distance (2 * apothem) in mm.</span>
+<span class="sd">        radius: Circumradius (distance from center to vertices) in mm.</span>
+<span class="sd">        orientation_deg: Angular offset in degrees.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        tuple[tuple[float, float], ...]: Closed polygon vertices normalized to [0, W] x [0, L].</span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="n">sides</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Regular polygon must have at least 3 sides; got </span><span class="si">{</span><span class="n">sides</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+    <span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
+
+    <span class="k">if</span> <span class="n">apothem</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">r_circum</span> <span class="o">=</span> <span class="n">apothem</span> <span class="o">/</span> <span class="n">math</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="n">sides</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">diameter</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">r_circum</span> <span class="o">=</span> <span class="p">(</span><span class="n">diameter</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">)</span> <span class="o">/</span> <span class="n">math</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="n">sides</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">radius</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">r_circum</span> <span class="o">=</span> <span class="n">radius</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Must specify at least one of apothem, diameter, or radius"</span><span class="p">)</span>
+
+    <span class="n">angle_offset</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">orientation_deg</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="n">sides</span><span class="p">)</span>
+    <span class="n">raw_pts</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">sides</span><span class="p">):</span>
+        <span class="n">angle</span> <span class="o">=</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">i</span> <span class="o">/</span> <span class="n">sides</span> <span class="o">+</span> <span class="n">angle_offset</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">r_circum</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">r_circum</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span>
+        <span class="n">raw_pts</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">))</span>
+
+    <span class="n">min_x</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">raw_pts</span><span class="p">)</span>
+    <span class="n">min_y</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">raw_pts</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">tuple</span><span class="p">((</span><span class="nb">round</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">min_x</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span> <span class="nb">round</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">min_y</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">raw_pts</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="polygon_grid_position">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.features.polygon_grid_position.html#pyboxbuilder.box.features.polygon_grid_position">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">polygon_grid_position</span><span class="p">(</span>
+    <span class="n">row</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">col</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">sides</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">apothem</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">spacing</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+    <span class="n">origin</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">"""Calculate the (x, y) world position for regular polygon cells in a tessellated grid (FR-102).</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        row: Row index in the grid (0-indexed).</span>
+<span class="sd">        col: Column index in the grid (0-indexed).</span>
+<span class="sd">        sides: Polygon sides (currently 3, 4, 6 supported).</span>
+<span class="sd">        apothem: Polygon apothem (half flat-to-flat distance) in mm.</span>
+<span class="sd">        spacing: Gap between adjacent polygon edges in mm (0.0 = touching faces).</span>
+<span class="sd">        origin: Base (x0, y0) translation offset.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        tuple[float, float]: (x, y) coordinates of the bounding box origin (min_x, min_y).</span>
+<span class="sd">    """</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
+
+    <span class="k">if</span> <span class="n">sides</span> <span class="o">==</span> <span class="mi">6</span><span class="p">:</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">apothem</span>
+        <span class="n">dx</span> <span class="o">=</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">r</span> <span class="o">+</span> <span class="n">spacing</span>
+        <span class="n">dy</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">3.0</span><span class="p">)</span> <span class="o">*</span> <span class="n">r</span> <span class="o">+</span> <span class="n">spacing</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">3.0</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">origin</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">col</span> <span class="o">*</span> <span class="n">dx</span> <span class="o">+</span> <span class="p">(</span><span class="n">row</span> <span class="o">%</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">r</span> <span class="o">+</span> <span class="n">spacing</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">)</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">origin</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">row</span> <span class="o">*</span> <span class="n">dy</span>
+        <span class="k">return</span> <span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="nb">round</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+    <span class="k">elif</span> <span class="n">sides</span> <span class="o">==</span> <span class="mi">4</span><span class="p">:</span>
+        <span class="n">w</span> <span class="o">=</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">apothem</span> <span class="o">+</span> <span class="n">spacing</span>
+        <span class="k">return</span> <span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">origin</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">col</span> <span class="o">*</span> <span class="n">w</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="nb">round</span><span class="p">(</span><span class="n">origin</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">row</span> <span class="o">*</span> <span class="n">w</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+    <span class="k">elif</span> <span class="n">sides</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">apothem</span>
+        <span class="n">dx</span> <span class="o">=</span> <span class="p">(</span><span class="mf">2.0</span> <span class="o">*</span> <span class="n">r</span> <span class="o">+</span> <span class="n">spacing</span><span class="p">)</span> <span class="o">/</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">3.0</span><span class="p">)</span>
+        <span class="n">dy</span> <span class="o">=</span> <span class="mf">3.0</span> <span class="o">*</span> <span class="n">r</span> <span class="o">+</span> <span class="n">spacing</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">origin</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">col</span> <span class="o">*</span> <span class="n">dx</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">origin</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">row</span> <span class="o">*</span> <span class="n">dy</span>
+        <span class="k">return</span> <span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="nb">round</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">w</span> <span class="o">=</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">apothem</span> <span class="o">+</span> <span class="n">spacing</span>
+        <span class="k">return</span> <span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">origin</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">col</span> <span class="o">*</span> <span class="n">w</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="nb">round</span><span class="p">(</span><span class="n">origin</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">row</span> <span class="o">*</span> <span class="n">w</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span></div>
+
+
+
+<div class="viewcode-block" id="build_horizontal_dovetail">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.features.build_horizontal_dovetail.html#pyboxbuilder.box.features.build_horizontal_dovetail">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">build_horizontal_dovetail</span><span class="p">(</span>
+    <span class="n">depth</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">3.0</span><span class="p">,</span>
+    <span class="n">width_tip</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">8.5</span><span class="p">,</span>
+    <span class="n">width_base</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">6.0</span><span class="p">,</span>
+    <span class="n">height</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">14.0</span><span class="p">,</span>
+    <span class="n">clearance</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+    <span class="n">is_female</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Build a true flared trapezoidal vertical dovetail joint key or socket (FR-102).</span>
+
+<span class="sd">    The key extends in +X from x=0 to x=depth.</span>
+<span class="sd">    At x=0, width is width_base; at x=depth, width is width_tip (where width_tip &gt; width_base).</span>
+<span class="sd">    The trapezoidal flare physically locks against horizontal pull-apart in both X and Y.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        depth: Penetration depth of the dovetail in mm.</span>
+<span class="sd">        width_tip: Width at the wide outer tip in mm.</span>
+<span class="sd">        width_base: Width at the narrow base neck in mm.</span>
+<span class="sd">        height: Vertical height of the joint in mm.</span>
+<span class="sd">        clearance: Fit offset in mm (applied to female socket).</span>
+<span class="sd">        is_female: True to create oversized female socket cutter.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Bosl2Solid: Dovetail solid ready to translate and union/subtract.</span>
+<span class="sd">    """</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2.shapes3d</span><span class="w"> </span><span class="kn">import</span> <span class="n">prismoid</span>
+
+    <span class="n">clr</span> <span class="o">=</span> <span class="n">clearance</span> <span class="k">if</span> <span class="n">is_female</span> <span class="k">else</span> <span class="mf">0.0</span>
+    <span class="n">w_base</span> <span class="o">=</span> <span class="n">width_base</span> <span class="o">+</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">clr</span>
+    <span class="n">w_tip</span> <span class="o">=</span> <span class="n">width_tip</span> <span class="o">+</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">clr</span>
+    <span class="n">h</span> <span class="o">=</span> <span class="n">height</span> <span class="o">+</span> <span class="p">(</span><span class="mf">2.0</span> <span class="o">*</span> <span class="n">clr</span> <span class="k">if</span> <span class="n">is_female</span> <span class="k">else</span> <span class="mf">0.0</span><span class="p">)</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="n">depth</span> <span class="o">+</span> <span class="p">(</span><span class="n">clr</span> <span class="o">+</span> <span class="mf">0.1</span> <span class="k">if</span> <span class="n">is_female</span> <span class="k">else</span> <span class="mf">0.0</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">prismoid</span><span class="p">([</span><span class="n">h</span><span class="p">,</span> <span class="n">w_base</span><span class="p">],</span> <span class="p">[</span><span class="n">h</span><span class="p">,</span> <span class="n">w_tip</span><span class="p">],</span> <span class="n">height</span><span class="o">=</span><span class="n">d</span><span class="p">)</span><span class="o">.</span><span class="n">rotate</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">90</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span></div>
+
+
+
+<div class="viewcode-block" id="build_interlock_clip">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.features.build_interlock_clip.html#pyboxbuilder.box.features.build_interlock_clip">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">build_interlock_clip</span><span class="p">(</span>
+    <span class="n">depth</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">2.5</span><span class="p">,</span>
+    <span class="n">width_tip</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">7.0</span><span class="p">,</span>
+    <span class="n">width_base</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">4.5</span><span class="p">,</span>
+    <span class="n">height</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">10.0</span><span class="p">,</span>
+    <span class="n">clearance</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.15</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Build a double-dovetail butterfly connector clip that locks adjacent boxes (FR-102).</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        depth: Penetration depth into each box wall in mm.</span>
+<span class="sd">        width_tip: Width of each wide end in mm.</span>
+<span class="sd">        width_base: Width at the central neck waist in mm.</span>
+<span class="sd">        height: Height of the clip in mm.</span>
+<span class="sd">        clearance: Fit clearance subtracted from the clip so it drops in easily.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Bosl2Solid: Butterfly clip centered at the interface (x=0).</span>
+<span class="sd">    """</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2.shapes3d</span><span class="w"> </span><span class="kn">import</span> <span class="n">prismoid</span>
+
+    <span class="n">w_tip</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">width_tip</span> <span class="o">-</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">clearance</span><span class="p">)</span>
+    <span class="n">w_base</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">width_base</span> <span class="o">-</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">clearance</span><span class="p">)</span>
+    <span class="n">h</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">height</span> <span class="o">-</span> <span class="n">clearance</span><span class="p">)</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">depth</span> <span class="o">-</span> <span class="n">clearance</span><span class="p">)</span>
+
+    <span class="n">right</span> <span class="o">=</span> <span class="n">prismoid</span><span class="p">([</span><span class="n">h</span><span class="p">,</span> <span class="n">w_base</span><span class="p">],</span> <span class="p">[</span><span class="n">h</span><span class="p">,</span> <span class="n">w_tip</span><span class="p">],</span> <span class="n">height</span><span class="o">=</span><span class="n">d</span><span class="p">)</span><span class="o">.</span><span class="n">rotate</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">90</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+    <span class="n">left</span> <span class="o">=</span> <span class="n">prismoid</span><span class="p">([</span><span class="n">h</span><span class="p">,</span> <span class="n">w_base</span><span class="p">],</span> <span class="p">[</span><span class="n">h</span><span class="p">,</span> <span class="n">w_tip</span><span class="p">],</span> <span class="n">height</span><span class="o">=</span><span class="n">d</span><span class="p">)</span><span class="o">.</span><span class="n">rotate</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">90</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">rotate</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">180</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">right</span> <span class="o">|</span> <span class="n">left</span></div>
+
+
+
+<div class="viewcode-block" id="apply_horizontal_interlock">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.features.apply_horizontal_interlock.html#pyboxbuilder.box.features.apply_horizontal_interlock">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">apply_horizontal_interlock</span><span class="p">(</span><span class="n">body</span><span class="p">:</span> <span class="n">Bosl2Solid</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Apply horizontal side interlocking features according to spec.interlock_type (FR-089, FR-102)."""</span>
+    <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">interlock_type</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">body</span>
+
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">InterlockType</span><span class="p">,</span> <span class="n">MagnetType</span>
+
+    <span class="n">itype</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">interlock_type</span>
+    <span class="k">if</span> <span class="n">itype</span> <span class="ow">is</span> <span class="n">InterlockType</span><span class="o">.</span><span class="n">NONE</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">body</span>
+
+    <span class="k">if</span> <span class="n">itype</span> <span class="ow">is</span> <span class="n">InterlockType</span><span class="o">.</span><span class="n">GRIDFINITY</span><span class="p">:</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.shell</span><span class="w"> </span><span class="kn">import</span> <span class="n">block</span>
+
+        <span class="n">base_bevel_h</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mf">2.5</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">floor_thickness</span><span class="p">)</span>
+        <span class="n">base_cut</span> <span class="o">=</span> <span class="n">block</span><span class="p">(</span>
+            <span class="p">[</span><span class="n">spec</span><span class="o">.</span><span class="n">width</span> <span class="o">+</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span> <span class="o">+</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">base_bevel_h</span><span class="p">],</span>
+            <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">),</span>
+        <span class="p">)</span> <span class="o">-</span> <span class="n">block</span><span class="p">(</span>
+            <span class="p">[</span><span class="n">spec</span><span class="o">.</span><span class="n">width</span> <span class="o">-</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span> <span class="o">-</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">base_bevel_h</span> <span class="o">+</span> <span class="mf">1.0</span><span class="p">],</span>
+            <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">),</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">body</span> <span class="o">-</span> <span class="n">base_cut</span>
+
+    <span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
+
+    <span class="n">clr</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">interlock_clearance</span>
+    <span class="n">body_h</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">height</span> <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">lid_thickness</span> <span class="o">==</span> <span class="mf">0.0</span> <span class="k">else</span> <span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">height</span> <span class="o">-</span> <span class="n">spec</span><span class="o">.</span><span class="n">lid_thickness</span><span class="p">)</span>
+    <span class="n">mid_z</span> <span class="o">=</span> <span class="n">body_h</span> <span class="o">/</span> <span class="mf">2.0</span>
+
+    <span class="c1"># Dovetail defaults:</span>
+    <span class="n">dt_depth</span> <span class="o">=</span> <span class="mf">3.0</span>
+    <span class="n">dt_w_tip</span> <span class="o">=</span> <span class="mf">8.5</span>
+    <span class="n">dt_w_base</span> <span class="o">=</span> <span class="mf">6.0</span>
+    <span class="n">dt_h</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mf">14.0</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mf">4.0</span><span class="p">,</span> <span class="n">body_h</span> <span class="o">*</span> <span class="mf">0.7</span><span class="p">))</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">interlock_size</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+        <span class="n">dt_depth</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">interlock_size</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">interlock_size</span><span class="p">,</span> <span class="p">(</span><span class="nb">tuple</span><span class="p">,</span> <span class="nb">list</span><span class="p">))</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">interlock_size</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="n">dt_depth</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">interlock_size</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">dt_w_tip</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">interlock_size</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">interlock_size</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="n">dt_w_base</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">interlock_size</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+
+    <span class="c1"># Magnet defaults:</span>
+    <span class="n">mag_dia</span> <span class="o">=</span> <span class="mf">6.0</span>
+    <span class="n">mag_depth</span> <span class="o">=</span> <span class="mf">2.0</span>
+    <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">magnet_type</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">spec</span><span class="o">.</span><span class="n">magnet_type</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">MagnetType</span><span class="o">.</span><span class="n">NONE</span> <span class="ow">and</span> <span class="n">spec</span><span class="o">.</span><span class="n">magnet_size</span><span class="p">:</span>
+        <span class="n">mag_dia</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">magnet_size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">mag_depth</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">magnet_size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">magnet_size</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="k">else</span> <span class="mf">2.0</span>
+
+    <span class="c1"># Clip defaults:</span>
+    <span class="n">clip_depth</span> <span class="o">=</span> <span class="mf">2.5</span>
+    <span class="n">clip_w_tip</span> <span class="o">=</span> <span class="mf">7.0</span>
+    <span class="n">clip_w_base</span> <span class="o">=</span> <span class="mf">4.5</span>
+    <span class="n">clip_h</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mf">10.0</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mf">3.0</span><span class="p">,</span> <span class="n">body_h</span> <span class="o">*</span> <span class="mf">0.6</span><span class="p">))</span>
+
+    <span class="c1"># 1. Polygon footprint (regular or arbitrary)</span>
+    <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">path</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">path</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">3</span><span class="p">:</span>
+        <span class="n">pts</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">path</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">pts</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">interlock_sides</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">i</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">spec</span><span class="o">.</span><span class="n">interlock_sides</span><span class="p">:</span>
+                <span class="k">continue</span>
+
+            <span class="n">p1</span> <span class="o">=</span> <span class="n">pts</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="n">p2</span> <span class="o">=</span> <span class="n">pts</span><span class="p">[(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="n">n</span><span class="p">]</span>
+            <span class="n">dx</span> <span class="o">=</span> <span class="n">p2</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">p1</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">dy</span> <span class="o">=</span> <span class="n">p2</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">p1</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">length</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">hypot</span><span class="p">(</span><span class="n">dx</span><span class="p">,</span> <span class="n">dy</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">length</span> <span class="o">&lt;</span> <span class="mf">4.0</span><span class="p">:</span>
+                <span class="k">continue</span>
+
+            <span class="n">tx</span><span class="p">,</span> <span class="n">ty</span> <span class="o">=</span> <span class="n">dx</span> <span class="o">/</span> <span class="n">length</span><span class="p">,</span> <span class="n">dy</span> <span class="o">/</span> <span class="n">length</span>
+            <span class="n">nx</span><span class="p">,</span> <span class="n">ny</span> <span class="o">=</span> <span class="n">ty</span><span class="p">,</span> <span class="o">-</span><span class="n">tx</span>
+            <span class="n">mx</span><span class="p">,</span> <span class="n">my</span> <span class="o">=</span> <span class="p">(</span><span class="n">p1</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">p2</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span> <span class="p">(</span><span class="n">p1</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">p2</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">/</span> <span class="mf">2.0</span>
+            <span class="n">normal_deg</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">degrees</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">atan2</span><span class="p">(</span><span class="n">ny</span><span class="p">,</span> <span class="n">nx</span><span class="p">))</span>
+
+            <span class="k">if</span> <span class="n">itype</span> <span class="ow">is</span> <span class="n">InterlockType</span><span class="o">.</span><span class="n">MAGNET</span><span class="p">:</span>
+                <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">cylinder</span>
+
+                <span class="n">pocket</span> <span class="o">=</span> <span class="n">cylinder</span><span class="p">(</span><span class="n">height</span><span class="o">=</span><span class="n">mag_depth</span> <span class="o">+</span> <span class="mf">0.1</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="n">mag_dia</span> <span class="o">/</span> <span class="mf">2.0</span> <span class="o">+</span> <span class="n">clr</span><span class="p">,</span> <span class="o">**</span><span class="n">precision_kwargs</span><span class="p">())</span>
+                <span class="n">pocket</span> <span class="o">=</span> <span class="n">pocket</span><span class="o">.</span><span class="n">rotate</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">90</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">rotate</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">normal_deg</span><span class="p">])</span>
+                <span class="n">pocket</span> <span class="o">=</span> <span class="n">pocket</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">mx</span> <span class="o">-</span> <span class="n">nx</span> <span class="o">*</span> <span class="n">mag_depth</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">my</span> <span class="o">-</span> <span class="n">ny</span> <span class="o">*</span> <span class="n">mag_depth</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">mid_z</span><span class="p">])</span>
+                <span class="n">body</span> <span class="o">=</span> <span class="n">body</span> <span class="o">-</span> <span class="n">pocket</span>
+
+            <span class="k">elif</span> <span class="n">itype</span> <span class="ow">is</span> <span class="n">InterlockType</span><span class="o">.</span><span class="n">DOVETAIL</span><span class="p">:</span>
+                <span class="n">is_male</span> <span class="o">=</span> <span class="p">(</span><span class="n">i</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">is_male</span><span class="p">:</span>
+                    <span class="n">key</span> <span class="o">=</span> <span class="n">build_horizontal_dovetail</span><span class="p">(</span><span class="n">dt_depth</span><span class="p">,</span> <span class="n">dt_w_tip</span><span class="p">,</span> <span class="n">dt_w_base</span><span class="p">,</span> <span class="n">dt_h</span><span class="p">,</span> <span class="n">clearance</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span>
+                    <span class="n">key</span> <span class="o">=</span> <span class="n">key</span><span class="o">.</span><span class="n">rotate</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">normal_deg</span><span class="p">])</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">mx</span><span class="p">,</span> <span class="n">my</span><span class="p">,</span> <span class="n">mid_z</span><span class="p">])</span>
+                    <span class="n">body</span> <span class="o">=</span> <span class="n">body</span> <span class="o">|</span> <span class="n">key</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">fem</span> <span class="o">=</span> <span class="n">build_horizontal_dovetail</span><span class="p">(</span><span class="n">dt_depth</span><span class="p">,</span> <span class="n">dt_w_tip</span><span class="p">,</span> <span class="n">dt_w_base</span><span class="p">,</span> <span class="n">dt_h</span><span class="p">,</span> <span class="n">clearance</span><span class="o">=</span><span class="n">clr</span><span class="p">,</span> <span class="n">is_female</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                    <span class="n">fem</span> <span class="o">=</span> <span class="n">fem</span><span class="o">.</span><span class="n">rotate</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">normal_deg</span> <span class="o">+</span> <span class="mf">180.0</span><span class="p">])</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span>
+                        <span class="n">mx</span> <span class="o">+</span> <span class="n">nx</span> <span class="o">*</span> <span class="mf">0.05</span><span class="p">,</span>
+                        <span class="n">my</span> <span class="o">+</span> <span class="n">ny</span> <span class="o">*</span> <span class="mf">0.05</span><span class="p">,</span>
+                        <span class="n">mid_z</span><span class="p">,</span>
+                    <span class="p">])</span>
+                    <span class="n">body</span> <span class="o">=</span> <span class="n">body</span> <span class="o">-</span> <span class="n">fem</span>
+
+            <span class="k">elif</span> <span class="n">itype</span> <span class="ow">is</span> <span class="n">InterlockType</span><span class="o">.</span><span class="n">CLIP</span><span class="p">:</span>
+                <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2.shapes3d</span><span class="w"> </span><span class="kn">import</span> <span class="n">prismoid</span>
+
+                <span class="n">clip_total_d</span> <span class="o">=</span> <span class="n">clip_depth</span> <span class="o">+</span> <span class="n">clr</span> <span class="o">+</span> <span class="mf">0.1</span>
+                <span class="n">slot</span> <span class="o">=</span> <span class="n">prismoid</span><span class="p">(</span>
+                    <span class="p">[</span><span class="n">clip_h</span> <span class="o">+</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">clr</span><span class="p">,</span> <span class="n">clip_w_base</span> <span class="o">+</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">clr</span><span class="p">],</span>
+                    <span class="p">[</span><span class="n">clip_h</span> <span class="o">+</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">clr</span><span class="p">,</span> <span class="n">clip_w_tip</span> <span class="o">+</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">clr</span><span class="p">],</span>
+                    <span class="n">height</span><span class="o">=</span><span class="n">clip_total_d</span><span class="p">,</span>
+                <span class="p">)</span><span class="o">.</span><span class="n">rotate</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">90</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">rotate</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">normal_deg</span> <span class="o">+</span> <span class="mf">180.0</span><span class="p">])</span>
+                <span class="n">slot</span> <span class="o">=</span> <span class="n">slot</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span>
+                    <span class="n">mx</span> <span class="o">+</span> <span class="n">nx</span> <span class="o">*</span> <span class="mf">0.05</span><span class="p">,</span>
+                    <span class="n">my</span> <span class="o">+</span> <span class="n">ny</span> <span class="o">*</span> <span class="mf">0.05</span><span class="p">,</span>
+                    <span class="n">body_h</span> <span class="o">-</span> <span class="n">clip_h</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span>
+                <span class="p">])</span>
+                <span class="n">body</span> <span class="o">=</span> <span class="n">body</span> <span class="o">-</span> <span class="n">slot</span>
+
+        <span class="k">return</span> <span class="n">body</span>
+
+    <span class="c1"># 2. Rectangular box</span>
+    <span class="n">w</span><span class="p">,</span> <span class="n">length_val</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span>
+    <span class="k">if</span> <span class="n">itype</span> <span class="ow">is</span> <span class="n">InterlockType</span><span class="o">.</span><span class="n">DOVETAIL</span><span class="p">:</span>
+        <span class="c1"># Male keys on +X and +Y</span>
+        <span class="n">key_x</span> <span class="o">=</span> <span class="n">build_horizontal_dovetail</span><span class="p">(</span><span class="n">dt_depth</span><span class="p">,</span> <span class="n">dt_w_tip</span><span class="p">,</span> <span class="n">dt_w_base</span><span class="p">,</span> <span class="n">dt_h</span><span class="p">,</span> <span class="n">clearance</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span>
+        <span class="n">key_x</span> <span class="o">=</span> <span class="n">key_x</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">w</span><span class="p">,</span> <span class="n">length_val</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">mid_z</span><span class="p">])</span>
+
+        <span class="n">key_y</span> <span class="o">=</span> <span class="n">build_horizontal_dovetail</span><span class="p">(</span><span class="n">dt_depth</span><span class="p">,</span> <span class="n">dt_w_tip</span><span class="p">,</span> <span class="n">dt_w_base</span><span class="p">,</span> <span class="n">dt_h</span><span class="p">,</span> <span class="n">clearance</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span>
+        <span class="n">key_y</span> <span class="o">=</span> <span class="n">key_y</span><span class="o">.</span><span class="n">rotate</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">90</span><span class="p">])</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">w</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">length_val</span><span class="p">,</span> <span class="n">mid_z</span><span class="p">])</span>
+        <span class="n">body</span> <span class="o">=</span> <span class="n">body</span> <span class="o">|</span> <span class="n">key_x</span> <span class="o">|</span> <span class="n">key_y</span>
+
+        <span class="c1"># Female sockets on -X (at x=0) and -Y (at y=0)</span>
+        <span class="n">fem_x</span> <span class="o">=</span> <span class="n">build_horizontal_dovetail</span><span class="p">(</span><span class="n">dt_depth</span><span class="p">,</span> <span class="n">dt_w_tip</span><span class="p">,</span> <span class="n">dt_w_base</span><span class="p">,</span> <span class="n">dt_h</span><span class="p">,</span> <span class="n">clearance</span><span class="o">=</span><span class="n">clr</span><span class="p">,</span> <span class="n">is_female</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">fem_x</span> <span class="o">=</span> <span class="n">fem_x</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="o">-</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">length_val</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">mid_z</span><span class="p">])</span>
+
+        <span class="n">fem_y</span> <span class="o">=</span> <span class="n">build_horizontal_dovetail</span><span class="p">(</span><span class="n">dt_depth</span><span class="p">,</span> <span class="n">dt_w_tip</span><span class="p">,</span> <span class="n">dt_w_base</span><span class="p">,</span> <span class="n">dt_h</span><span class="p">,</span> <span class="n">clearance</span><span class="o">=</span><span class="n">clr</span><span class="p">,</span> <span class="n">is_female</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">fem_y</span> <span class="o">=</span> <span class="n">fem_y</span><span class="o">.</span><span class="n">rotate</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">90</span><span class="p">])</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">w</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">mid_z</span><span class="p">])</span>
+        <span class="n">body</span> <span class="o">=</span> <span class="n">body</span> <span class="o">-</span> <span class="n">fem_x</span> <span class="o">-</span> <span class="n">fem_y</span>
+
+    <span class="k">elif</span> <span class="n">itype</span> <span class="ow">is</span> <span class="n">InterlockType</span><span class="o">.</span><span class="n">MAGNET</span><span class="p">:</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">cylinder</span>
+
+        <span class="n">p_x_pos</span> <span class="o">=</span> <span class="n">cylinder</span><span class="p">(</span>
+            <span class="n">height</span><span class="o">=</span><span class="n">mag_depth</span> <span class="o">+</span> <span class="mf">0.1</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="n">mag_dia</span> <span class="o">/</span> <span class="mf">2.0</span> <span class="o">+</span> <span class="n">clr</span><span class="p">,</span> <span class="o">**</span><span class="n">precision_kwargs</span><span class="p">()</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">rotate</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">90</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span>
+            <span class="n">w</span> <span class="o">-</span> <span class="n">mag_depth</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">length_val</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">mid_z</span>
+        <span class="p">])</span>
+        <span class="n">p_x_neg</span> <span class="o">=</span> <span class="n">cylinder</span><span class="p">(</span>
+            <span class="n">height</span><span class="o">=</span><span class="n">mag_depth</span> <span class="o">+</span> <span class="mf">0.1</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="n">mag_dia</span> <span class="o">/</span> <span class="mf">2.0</span> <span class="o">+</span> <span class="n">clr</span><span class="p">,</span> <span class="o">**</span><span class="n">precision_kwargs</span><span class="p">()</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">rotate</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">90</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span>
+            <span class="n">mag_depth</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">length_val</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">mid_z</span>
+        <span class="p">])</span>
+        <span class="n">p_y_pos</span> <span class="o">=</span> <span class="n">cylinder</span><span class="p">(</span>
+            <span class="n">height</span><span class="o">=</span><span class="n">mag_depth</span> <span class="o">+</span> <span class="mf">0.1</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="n">mag_dia</span> <span class="o">/</span> <span class="mf">2.0</span> <span class="o">+</span> <span class="n">clr</span><span class="p">,</span> <span class="o">**</span><span class="n">precision_kwargs</span><span class="p">()</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">rotate</span><span class="p">([</span><span class="mi">90</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span>
+            <span class="n">w</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">length_val</span> <span class="o">-</span> <span class="n">mag_depth</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">mid_z</span>
+        <span class="p">])</span>
+        <span class="n">p_y_neg</span> <span class="o">=</span> <span class="n">cylinder</span><span class="p">(</span>
+            <span class="n">height</span><span class="o">=</span><span class="n">mag_depth</span> <span class="o">+</span> <span class="mf">0.1</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="n">mag_dia</span> <span class="o">/</span> <span class="mf">2.0</span> <span class="o">+</span> <span class="n">clr</span><span class="p">,</span> <span class="o">**</span><span class="n">precision_kwargs</span><span class="p">()</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">rotate</span><span class="p">([</span><span class="mi">90</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span>
+            <span class="n">w</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">mag_depth</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">mid_z</span>
+        <span class="p">])</span>
+        <span class="n">body</span> <span class="o">=</span> <span class="n">body</span> <span class="o">-</span> <span class="n">p_x_pos</span> <span class="o">-</span> <span class="n">p_x_neg</span> <span class="o">-</span> <span class="n">p_y_pos</span> <span class="o">-</span> <span class="n">p_y_neg</span>
+
+    <span class="k">elif</span> <span class="n">itype</span> <span class="ow">is</span> <span class="n">InterlockType</span><span class="o">.</span><span class="n">CLIP</span><span class="p">:</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2.shapes3d</span><span class="w"> </span><span class="kn">import</span> <span class="n">prismoid</span>
+
+        <span class="n">clip_total_d</span> <span class="o">=</span> <span class="n">clip_depth</span> <span class="o">+</span> <span class="n">clr</span> <span class="o">+</span> <span class="mf">0.1</span>
+        <span class="c1"># Butterfly slots cut from top rim down into the walls</span>
+        <span class="n">slot_x_p</span> <span class="o">=</span> <span class="n">prismoid</span><span class="p">(</span>
+            <span class="p">[</span><span class="n">clip_h</span> <span class="o">+</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">clr</span><span class="p">,</span> <span class="n">clip_w_base</span> <span class="o">+</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">clr</span><span class="p">],</span>
+            <span class="p">[</span><span class="n">clip_h</span> <span class="o">+</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">clr</span><span class="p">,</span> <span class="n">clip_w_tip</span> <span class="o">+</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">clr</span><span class="p">],</span>
+            <span class="n">height</span><span class="o">=</span><span class="n">clip_total_d</span><span class="p">,</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">rotate</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">90</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">rotate</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">180</span><span class="p">])</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span>
+            <span class="n">w</span> <span class="o">+</span> <span class="mf">0.05</span><span class="p">,</span> <span class="n">length_val</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">body_h</span> <span class="o">-</span> <span class="n">clip_h</span> <span class="o">/</span> <span class="mf">2.0</span>
+        <span class="p">])</span>
+        <span class="n">slot_x_n</span> <span class="o">=</span> <span class="n">prismoid</span><span class="p">(</span>
+            <span class="p">[</span><span class="n">clip_h</span> <span class="o">+</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">clr</span><span class="p">,</span> <span class="n">clip_w_base</span> <span class="o">+</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">clr</span><span class="p">],</span>
+            <span class="p">[</span><span class="n">clip_h</span> <span class="o">+</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">clr</span><span class="p">,</span> <span class="n">clip_w_tip</span> <span class="o">+</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">clr</span><span class="p">],</span>
+            <span class="n">height</span><span class="o">=</span><span class="n">clip_total_d</span><span class="p">,</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">rotate</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">90</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span>
+            <span class="o">-</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">length_val</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">body_h</span> <span class="o">-</span> <span class="n">clip_h</span> <span class="o">/</span> <span class="mf">2.0</span>
+        <span class="p">])</span>
+        <span class="n">slot_y_p</span> <span class="o">=</span> <span class="n">prismoid</span><span class="p">(</span>
+            <span class="p">[</span><span class="n">clip_h</span> <span class="o">+</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">clr</span><span class="p">,</span> <span class="n">clip_w_base</span> <span class="o">+</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">clr</span><span class="p">],</span>
+            <span class="p">[</span><span class="n">clip_h</span> <span class="o">+</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">clr</span><span class="p">,</span> <span class="n">clip_w_tip</span> <span class="o">+</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">clr</span><span class="p">],</span>
+            <span class="n">height</span><span class="o">=</span><span class="n">clip_total_d</span><span class="p">,</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">rotate</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">90</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">rotate</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">90</span><span class="p">])</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span>
+            <span class="n">w</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">length_val</span> <span class="o">+</span> <span class="mf">0.05</span><span class="p">,</span> <span class="n">body_h</span> <span class="o">-</span> <span class="n">clip_h</span> <span class="o">/</span> <span class="mf">2.0</span>
+        <span class="p">])</span>
+        <span class="n">slot_y_n</span> <span class="o">=</span> <span class="n">prismoid</span><span class="p">(</span>
+            <span class="p">[</span><span class="n">clip_h</span> <span class="o">+</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">clr</span><span class="p">,</span> <span class="n">clip_w_base</span> <span class="o">+</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">clr</span><span class="p">],</span>
+            <span class="p">[</span><span class="n">clip_h</span> <span class="o">+</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">clr</span><span class="p">,</span> <span class="n">clip_w_tip</span> <span class="o">+</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">clr</span><span class="p">],</span>
+            <span class="n">height</span><span class="o">=</span><span class="n">clip_total_d</span><span class="p">,</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">rotate</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">90</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">rotate</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">90</span><span class="p">])</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span>
+            <span class="n">w</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">body_h</span> <span class="o">-</span> <span class="n">clip_h</span> <span class="o">/</span> <span class="mf">2.0</span>
+        <span class="p">])</span>
+        <span class="n">body</span> <span class="o">=</span> <span class="n">body</span> <span class="o">-</span> <span class="n">slot_x_p</span> <span class="o">-</span> <span class="n">slot_x_n</span> <span class="o">-</span> <span class="n">slot_y_p</span> <span class="o">-</span> <span class="n">slot_y_n</span>
+
+    <span class="k">return</span> <span class="n">body</span></div>
+
+
 </code></pre></div>
 
 

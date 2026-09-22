@@ -30,9 +30,12 @@ pyboxbuilder.box.features
       :toctree:
       :nosignatures:
    
+      apply_horizontal_interlock
       apply_stackable_body
       apply_stackable_lid
       build_bump_detent
+      build_horizontal_dovetail
+      build_interlock_clip
       build_leaf_spring_detent
       build_loop_detent
       build_magnet_detent
@@ -61,7 +64,9 @@ pyboxbuilder.box.features
       path_body_metrics
       path_cap
       path_sleeve
+      polygon_grid_position
       rabbet
+      regular_polygon_path
       sliding_catch
       sliding_dovetail
       sliding_track
