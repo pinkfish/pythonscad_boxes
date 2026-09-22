@@ -15,7 +15,7 @@ class InsetBoxBuilder(BoxBuilder):
     Example:
         .. pythonscad-example::
 
-            project = Project("InsetDemo", game_box_size=(80.0, 80.0, 30.0))
+            project = Project("InsetDemo")
             project.box(
                 BoxType.INSET,
                 "FlushTray",

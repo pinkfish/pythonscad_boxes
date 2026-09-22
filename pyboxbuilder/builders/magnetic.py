@@ -15,7 +15,7 @@ class MagneticBoxBuilder(BoxBuilder):
     Example:
         .. pythonscad-example::
 
-            project = Project("MagneticDemo", game_box_size=(80.0, 80.0, 30.0))
+            project = Project("MagneticDemo")
             project.box(
                 BoxType.MAGNETIC,
                 "Vault",

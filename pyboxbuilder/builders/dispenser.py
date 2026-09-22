@@ -20,7 +20,7 @@ class DispenserBoxBuilder(BoxBuilder):
     Example:
         .. pythonscad-example::
 
-            project = Project("DispenserDemo", game_box_size=(100.0, 100.0, 120.0))
+            project = Project("DispenserDemo")
             project.box(
                 BoxType.DISPENSER,
                 "TileTower",

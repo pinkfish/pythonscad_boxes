@@ -15,7 +15,7 @@ class CardLibraryBoxBuilder(SlidingLidFields, BoxBuilder):
     Example:
         .. pythonscad-example::
 
-            project = Project("CardLibDemo", game_box_size=(80.0, 100.0, 35.0))
+            project = Project("CardLibDemo")
             project.box(
                 BoxType.CARD_LIBRARY,
                 "Deck",

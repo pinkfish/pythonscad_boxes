@@ -19,7 +19,7 @@ class SleeveDrawerBoxBuilder(BoxBuilder):
     Example:
         .. pythonscad-example::
 
-            project = Project("SleeveDrawerDemo", game_box_size=(100.0, 100.0, 50.0))
+            project = Project("SleeveDrawerDemo")
             project.box(
                 BoxType.SLEEVE_DRAWER,
                 "ResourceDrawer",

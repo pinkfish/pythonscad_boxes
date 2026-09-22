@@ -21,7 +21,7 @@ It is ideal for token boxes, card decks, and trays where the lid should remain c
 
 .. pythonscad-example::
 
-   project = Project("SlidingDemo", game_box_size=(80.0, 80.0, 30.0))
+   project = Project("SlidingDemo")
    box = project.box(
        BoxType.SLIDING,
        "Tokens",
@@ -48,7 +48,7 @@ A variant of the sliding dovetail box equipped with a detent bump and fingernail
 
 .. pythonscad-example::
 
-   project = Project("CatchDemo", game_box_size=(80.0, 80.0, 30.0))
+   project = Project("CatchDemo")
    box = project.box(
        BoxType.SLIDING_CATCH,
        "CatchBox",
@@ -77,7 +77,7 @@ Cap boxes are well-suited for player trays, resource banks, and modular organize
 
 .. pythonscad-example::
 
-   project = Project("CapDemo", game_box_size=(80.0, 80.0, 30.0))
+   project = Project("CapDemo")
    box = project.box(
        BoxType.CAP,
        "PlayerTray",
@@ -104,7 +104,7 @@ Combines the drop-on friction cap lid with an arbitrary 2D polygon footprint. Th
 
 .. pythonscad-example::
 
-   project = Project("CapPathDemo", game_box_size=(80.0, 80.0, 30.0))
+   project = Project("CapPathDemo")
    l_path = (
        (0.0, 0.0),
        (55.0, 0.0),
@@ -134,7 +134,7 @@ Slipover lids provide high structural rigidity and a clean exterior finish.
 
 .. pythonscad-example::
 
-   project = Project("SlipoverDemo", game_box_size=(80.0, 90.0, 35.0))
+   project = Project("SlipoverDemo")
    box = project.box(
        BoxType.SLIPOVER,
        "MiniDeck",
@@ -160,7 +160,7 @@ A polygonal sleeve enclosure designed to slide over a custom 2D polygon body tra
 
 .. pythonscad-example::
 
-   project = Project("SlipPathDemo", game_box_size=(80.0, 80.0, 30.0))
+   project = Project("SlipPathDemo")
    l_path = (
        (0.0, 0.0),
        (55.0, 0.0),
@@ -188,7 +188,7 @@ Features an integrated pin hinge printed in place alongside the body and lid. Th
 
 .. pythonscad-example::
 
-   project = Project("HingeDemo", game_box_size=(80.0, 80.0, 30.0))
+   project = Project("HingeDemo")
    box = project.box(
        BoxType.HINGE,
        "Chest",
@@ -215,7 +215,7 @@ A compact, durable hinge design whose hinge barrel accepts a short length of sta
 
 .. pythonscad-example::
 
-   project = Project("FilamentHingeDemo", game_box_size=(80.0, 80.0, 30.0))
+   project = Project("FilamentHingeDemo")
    box = project.box(
        BoxType.FILAMENT_HINGE,
        "PinBox",
@@ -241,7 +241,7 @@ Recesses precision magnet cavities (:class:`~pyboxbuilder.enums.MagnetType`) int
 
 .. pythonscad-example::
 
-   project = Project("MagneticDemo", game_box_size=(80.0, 80.0, 30.0))
+   project = Project("MagneticDemo")
    box = project.box(
        BoxType.MAGNETIC,
        "Vault",
@@ -273,7 +273,7 @@ Inset boxes maximize usable height in tight game boxes where external lid rims w
 
 .. pythonscad-example::
 
-   project = Project("InsetDemo", game_box_size=(80.0, 80.0, 30.0))
+   project = Project("InsetDemo")
    box = project.box(
        BoxType.INSET,
        "FlushTray",
@@ -304,7 +304,7 @@ Stacked trays cannot slide off each other during play or transport.
 
 .. pythonscad-example::
 
-   project = Project("StackDemo", game_box_size=(80.0, 80.0, 40.0))
+   project = Project("StackDemo")
    b1 = project.box(
        BoxType.NO_LID,
        "TrayLower",
@@ -336,7 +336,7 @@ A specialized card storage box optimized for card decks. It supports standard ca
 
 .. pythonscad-example::
 
-   project = Project("CardLibDemo", game_box_size=(80.0, 100.0, 35.0))
+   project = Project("CardLibDemo")
    project.box(
        BoxType.CARD_LIBRARY,
        "Deck",
@@ -355,7 +355,7 @@ When rectangular boxes cannot fit around game boards, player mats, or non-rectan
 
 .. pythonscad-example::
 
-   project = Project("PathDemo", game_box_size=(80.0, 80.0, 30.0))
+   project = Project("PathDemo")
    l_path = (
        (0.0, 0.0),
        (55.0, 0.0),
@@ -383,7 +383,7 @@ Features integrated downward-extending cantilever spring arms on opposing walls 
 
 .. pythonscad-example::
 
-   project = Project("SnapFitDemo", game_box_size=(80.0, 80.0, 40.0))
+   project = Project("SnapFitDemo")
    box = project.box(
        BoxType.SNAP_FIT,
        "SnapBox",
@@ -411,7 +411,7 @@ Designed for cylindrical or rounded footprints, the lid and body mate via a quar
 
 .. pythonscad-example::
 
-   project = Project("BayonetDemo", game_box_size=(80.0, 80.0, 50.0))
+   project = Project("BayonetDemo")
    project.box(
        BoxType.BAYONET,
        "BayonetCanister",
@@ -432,7 +432,7 @@ Container with helical male/female screw threads on a circular cylindrical profi
 
 .. pythonscad-example::
 
-   project = Project("ThreadedDemo", game_box_size=(80.0, 80.0, 50.0))
+   project = Project("ThreadedDemo")
    project.box(
        BoxType.THREADED,
        "ThreadedJar",
@@ -453,7 +453,7 @@ Designed for cardboard tiles (e.g. Carcassonne, Catan), poker chips, or resource
 
 .. pythonscad-example::
 
-   project = Project("DispenserDemo", game_box_size=(80.0, 80.0, 90.0))
+   project = Project("DispenserDemo")
    project.box(
        BoxType.DISPENSER,
        "TileChute",
@@ -474,7 +474,7 @@ In-game tabletop utility tray with adjacent draw and discard wells. The draw wel
 
 .. pythonscad-example::
 
-   project = Project("CardShoeDemo", game_box_size=(150.0, 100.0, 60.0))
+   project = Project("CardShoeDemo")
    project.box(
        BoxType.CARD_SHOE,
        "ShoeTray",
@@ -496,7 +496,7 @@ A dual-purpose container where the body stores dice or tokens and the deep nesti
 
 .. pythonscad-example::
 
-   project = Project("DiceTrayDemo", game_box_size=(140.0, 110.0, 50.0))
+   project = Project("DiceTrayDemo")
    box = project.box(
        BoxType.DICE_TRAY,
        "ArenaBox",
@@ -518,7 +518,7 @@ A two-piece matchbox assembly consisting of a hollow 4-sided outer perimeter sle
 
 .. pythonscad-example::
 
-   project = Project("SleeveDrawerDemo", game_box_size=(90.0, 80.0, 40.0))
+   project = Project("SleeveDrawerDemo")
    box = project.box(
        BoxType.SLEEVE_DRAWER,
        "DrawerBox",
@@ -540,7 +540,7 @@ Two symmetrical tray halves joined along a central spine hinge, unfolding 180° 
 
 .. pythonscad-example::
 
-   project = Project("ClamshellDemo", game_box_size=(110.0, 80.0, 45.0))
+   project = Project("ClamshellDemo")
    project.box(
        BoxType.CLAMSHELL,
        "BookBox",
@@ -566,7 +566,7 @@ Trays featuring perimeter interlocking joints on outer walls to lock multiple bo
 
 .. pythonscad-example::
 
-   project = Project("ModularDemo", game_box_size=(80.0, 80.0, 40.0))
+   project = Project("ModularDemo")
    box = project.box(
        BoxType.MODULAR_INTERLOCK,
        "ModularTray",
@@ -587,7 +587,7 @@ A single-piece, zero-assembly hinged box where body and lid are laid flat at 180
 
 .. pythonscad-example::
 
-   project = Project("PIPHingeDemo", game_box_size=(80.0, 80.0, 35.0))
+   project = Project("PIPHingeDemo")
    box = project.box(
        BoxType.PRINT_IN_PLACE_HINGE,
        "HingedBox",
@@ -679,7 +679,7 @@ Configuration parameters available on all box builders:
 
 .. pythonscad-example::
 
-   project = Project("StackDemoLidded", game_box_size=(100.0, 100.0, 50.0))
+   project = Project("StackDemoLidded")
    b1 = project.box(
        BoxType.SLIDING,
        "BottomBox",

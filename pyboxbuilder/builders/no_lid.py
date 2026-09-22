@@ -15,7 +15,7 @@ class NoLidBoxBuilder(BoxBuilder):
     Example:
         .. pythonscad-example::
 
-            project = Project("StackDemo", game_box_size=(80.0, 80.0, 40.0))
+            project = Project("StackDemo")
             b1 = project.box(
                 BoxType.NO_LID,
                 "TrayLower",

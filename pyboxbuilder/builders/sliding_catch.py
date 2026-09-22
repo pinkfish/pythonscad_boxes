@@ -15,7 +15,7 @@ class SlidingCatchBoxBuilder(SlidingLidFields, BoxBuilder):
     Example:
         .. pythonscad-example::
 
-            project = Project("CatchDemo", game_box_size=(80.0, 80.0, 30.0))
+            project = Project("CatchDemo")
             project.box(
                 BoxType.SLIDING_CATCH,
                 "CatchBox",

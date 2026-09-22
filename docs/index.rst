@@ -178,7 +178,7 @@ This 4-compartment token organizer uses ratio-based dividers and rounded interio
 
 .. pythonscad-example::
 
-   project = Project("TokenOrganizer", game_box_size=(160.0, 120.0, 40.0))
+   project = Project("TokenOrganizer")
    tokens = project.box(
        BoxType.CAP,
        "Tokens",
@@ -204,7 +204,7 @@ This box prints flat in a single operation with zero assembly required. It lever
 
 .. pythonscad-example::
 
-   project = Project("HingeCase", game_box_size=(120.0, 100.0, 40.0))
+   project = Project("HingeCase")
    box = project.box(
        BoxType.PRINT_IN_PLACE_HINGE,
        "Tools",

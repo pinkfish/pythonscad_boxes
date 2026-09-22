@@ -19,7 +19,7 @@ class BayonetBoxBuilder(BoxBuilder):
     Example:
         .. pythonscad-example::
 
-            project = Project("BayonetDemo", game_box_size=(80.0, 80.0, 50.0))
+            project = Project("BayonetDemo")
             project.box(
                 BoxType.BAYONET,
                 "TokenCanister",

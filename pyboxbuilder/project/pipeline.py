@@ -49,19 +49,21 @@ class GeometryPipeline:
 
         if manifest.game_box_size is None:
             # Standalone: nothing is packed, so line the boxes up side by side
-            # for a preview. There are no layers and no spacers.
+            # for a preview (unless explicit positions are given). There are no layers and no spacers.
             x = 0.0
             for builder in manifest.boxes:
                 size = comp.standalone_size(manifest, builder)
+                at = builder.position if builder.position is not None else (x, 0.0, 0.0)
                 pieces.extend(
                     self._box_pieces(
                         manifest,
                         builder,
-                        (x, 0.0, 0.0),
+                        at,
                         build_box_solids_fn=build_box_solids_fn,
                     )
                 )
-                x += size[0] + STANDALONE_GAP_MM
+                if builder.position is None:
+                    x += size[0] + STANDALONE_GAP_MM
             return Build(pieces=tuple(pieces))
 
         packing = comp.resolve_final_layout(manifest)

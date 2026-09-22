@@ -18,7 +18,7 @@ class ThreadedBoxBuilder(BoxBuilder):
     Example:
         .. pythonscad-example::
 
-            project = Project("ThreadedDemo", game_box_size=(80.0, 80.0, 60.0))
+            project = Project("ThreadedDemo")
             project.box(
                 BoxType.THREADED,
                 "ScrewVessel",

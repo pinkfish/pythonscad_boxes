@@ -20,7 +20,7 @@ class DiceTrayBoxBuilder(BoxBuilder):
     Example:
         .. pythonscad-example::
 
-            project = Project("DiceTrayDemo", game_box_size=(200.0, 150.0, 60.0))
+            project = Project("DiceTrayDemo")
             project.box(
                 BoxType.DICE_TRAY,
                 "RollingArena",

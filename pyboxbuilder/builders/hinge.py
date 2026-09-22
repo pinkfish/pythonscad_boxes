@@ -15,7 +15,7 @@ class HingeBoxBuilder(BoxBuilder):
     Example:
         .. pythonscad-example::
 
-            project = Project("HingeDemo", game_box_size=(80.0, 80.0, 30.0))
+            project = Project("HingeDemo")
             project.box(
                 BoxType.HINGE,
                 "Chest",

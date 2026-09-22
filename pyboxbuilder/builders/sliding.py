@@ -17,7 +17,7 @@ class SlidingBoxBuilder(SlidingLidFields, BoxBuilder):
     Example:
         .. pythonscad-example::
 
-            project = Project("SlidingDemo", game_box_size=(80.0, 80.0, 30.0))
+            project = Project("SlidingDemo")
             project.box(
                 BoxType.SLIDING,
                 "Tokens",

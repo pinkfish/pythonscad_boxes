@@ -15,7 +15,7 @@ class CapBoxBuilder(BoxBuilder):
     Example:
         .. pythonscad-example::
 
-            project = Project("CapDemo", game_box_size=(80.0, 80.0, 30.0))
+            project = Project("CapDemo")
             box = project.box(
                 BoxType.CAP,
                 "PlayerTray",

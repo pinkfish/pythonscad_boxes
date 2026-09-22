@@ -15,7 +15,7 @@ class CapPathBoxBuilder(BoxBuilder):
     Example:
         .. pythonscad-example::
 
-            project = Project("CapPathDemo", game_box_size=(80.0, 80.0, 30.0))
+            project = Project("CapPathDemo")
             l_path = (
                 (0.0, 0.0),
                 (55.0, 0.0),

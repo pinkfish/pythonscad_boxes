@@ -20,7 +20,7 @@ class CardShoeBoxBuilder(BoxBuilder):
     Example:
         .. pythonscad-example::
 
-            project = Project("CardShoeDemo", game_box_size=(160.0, 120.0, 70.0))
+            project = Project("CardShoeDemo")
             project.box(
                 BoxType.CARD_SHOE,
                 "MarketDeck",

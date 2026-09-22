@@ -20,7 +20,7 @@ class PrintInPlaceHingeBoxBuilder(BoxBuilder):
     Example:
         .. pythonscad-example::
 
-            project = Project("PIPHingeDemo", game_box_size=(160.0, 100.0, 40.0))
+            project = Project("PIPHingeDemo")
             project.box(
                 BoxType.PRINT_IN_PLACE_HINGE,
                 "MiniDeckBox",

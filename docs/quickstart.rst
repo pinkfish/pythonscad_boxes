@@ -155,7 +155,7 @@ Sliding Lid (``BoxType.SLIDING``)
 
 .. pythonscad-example::
 
-   project = Project("SlidingDemo", game_box_size=(80.0, 80.0, 30.0))
+   project = Project("SlidingDemo")
    project.box(
        BoxType.SLIDING,
        "Tokens",
@@ -172,7 +172,7 @@ Sliding Catch Lid (``BoxType.SLIDING_CATCH``)
 
 .. pythonscad-example::
 
-   project = Project("CatchDemo", game_box_size=(80.0, 80.0, 30.0))
+   project = Project("CatchDemo")
    project.box(
        BoxType.SLIDING_CATCH,
        "CatchBox",
@@ -186,7 +186,7 @@ Drop-On Cap Lid (``BoxType.CAP``)
 
 .. pythonscad-example::
 
-   project = Project("CapDemo", game_box_size=(80.0, 80.0, 30.0))
+   project = Project("CapDemo")
    box = project.box(
        BoxType.CAP,
        "PlayerTray",
@@ -202,7 +202,7 @@ Telescoping Slipover Lid (``BoxType.SLIPOVER``)
 
 .. pythonscad-example::
 
-   project = Project("SlipoverDemo", game_box_size=(80.0, 80.0, 30.0))
+   project = Project("SlipoverDemo")
    project.box(
        BoxType.SLIPOVER,
        "CardsBox",
@@ -216,7 +216,7 @@ Inset Flush Lid (``BoxType.INSET``)
 
 .. pythonscad-example::
 
-   project = Project("InsetDemo", game_box_size=(80.0, 80.0, 30.0))
+   project = Project("InsetDemo")
    project.box(
        BoxType.INSET,
        "InsetBox",
@@ -230,7 +230,7 @@ Matchbox Sleeve & Drawer (``BoxType.SLEEVE_DRAWER``)
 
 .. pythonscad-example::
 
-   project = Project("DrawerDemo", game_box_size=(80.0, 80.0, 30.0))
+   project = Project("DrawerDemo")
    project.box(
        BoxType.SLEEVE_DRAWER,
        "MatchboxDrawer",
@@ -244,7 +244,7 @@ Print-In-Place Hinge Box (``BoxType.PRINT_IN_PLACE_HINGE``)
 
 .. pythonscad-example::
 
-   project = Project("PIPHingeDemo", game_box_size=(160.0, 100.0, 40.0))
+   project = Project("PIPHingeDemo")
    project.box(
        BoxType.PRINT_IN_PLACE_HINGE,
        "MiniDeckBox",
@@ -259,7 +259,7 @@ Bifold Clamshell Book Box (``BoxType.CLAMSHELL``)
 
 .. pythonscad-example::
 
-   project = Project("ClamshellDemo", game_box_size=(80.0, 80.0, 30.0))
+   project = Project("ClamshellDemo")
    project.box(
        BoxType.CLAMSHELL,
        "DiceBook",
@@ -273,7 +273,7 @@ Print-in-Place Pin Hinge (``BoxType.HINGE``)
 
 .. pythonscad-example::
 
-   project = Project("HingeDemo", game_box_size=(80.0, 80.0, 30.0))
+   project = Project("HingeDemo")
    project.box(
        BoxType.HINGE,
        "HingedChest",
@@ -287,7 +287,7 @@ Filament Pin Hinge (``BoxType.FILAMENT_HINGE``)
 
 .. pythonscad-example::
 
-   project = Project("FilamentHingeDemo", game_box_size=(80.0, 80.0, 30.0))
+   project = Project("FilamentHingeDemo")
    project.box(
        BoxType.FILAMENT_HINGE,
        "PinBox",
@@ -301,7 +301,7 @@ Snap-Fit Cantilever Latch (``BoxType.SNAP_FIT``)
 
 .. pythonscad-example::
 
-   project = Project("SnapFitDemo", game_box_size=(80.0, 80.0, 30.0))
+   project = Project("SnapFitDemo")
    project.box(
        BoxType.SNAP_FIT,
        "LatchBox",
@@ -316,7 +316,7 @@ Twist-Lock Bayonet Container (``BoxType.BAYONET``)
 
 .. pythonscad-example::
 
-   project = Project("BayonetDemo", game_box_size=(80.0, 80.0, 50.0))
+   project = Project("BayonetDemo")
    project.box(
        BoxType.BAYONET,
        "TokenCanister",
@@ -331,7 +331,7 @@ Threaded Screw Box (``BoxType.THREADED``)
 
 .. pythonscad-example::
 
-   project = Project("ThreadedDemo", game_box_size=(80.0, 80.0, 50.0))
+   project = Project("ThreadedDemo")
    project.box(
        BoxType.THREADED,
        "ScrewCanister",
@@ -346,7 +346,7 @@ Magnetic Closure Lid (``BoxType.MAGNETIC``)
 
 .. pythonscad-example::
 
-   project = Project("MagneticDemo", game_box_size=(80.0, 80.0, 30.0))
+   project = Project("MagneticDemo")
    project.box(
        BoxType.MAGNETIC,
        "Vault",
@@ -363,7 +363,7 @@ Gravity Tile & Token Dispenser (``BoxType.DISPENSER``)
 
 .. pythonscad-example::
 
-   project = Project("DispenserDemo", game_box_size=(70.0, 70.0, 80.0))
+   project = Project("DispenserDemo")
    project.box(
        BoxType.DISPENSER,
        "TileTower",
@@ -378,7 +378,7 @@ Angled Draw & Discard Card Shoe (``BoxType.CARD_SHOE``)
 
 .. pythonscad-example::
 
-   project = Project("CardShoeDemo", game_box_size=(100.0, 80.0, 40.0))
+   project = Project("CardShoeDemo")
    project.box(
        BoxType.CARD_SHOE,
        "DealerShoe",
@@ -393,7 +393,7 @@ Dice Tray & Rolling Arena (``BoxType.DICE_TRAY``)
 
 .. pythonscad-example::
 
-   project = Project("DiceTrayDemo", game_box_size=(90.0, 90.0, 40.0))
+   project = Project("DiceTrayDemo")
    project.box(
        BoxType.DICE_TRAY,
        "RollingArena",
@@ -408,7 +408,7 @@ Modular Interlocking Play Trays (``BoxType.MODULAR_INTERLOCK``)
 
 .. pythonscad-example::
 
-   project = Project("ModularDemo", game_box_size=(150.0, 150.0, 40.0))
+   project = Project("ModularDemo")
    project.box(
        BoxType.MODULAR_INTERLOCK,
        "DashboardTray",
@@ -423,7 +423,7 @@ Open & Stackable Trays (``BoxType.NO_LID``)
 
 .. pythonscad-example::
 
-   project = Project("StackDemo", game_box_size=(80.0, 80.0, 40.0))
+   project = Project("StackDemo")
    b1 = project.box(
        BoxType.NO_LID,
        "TrayLower",
@@ -445,7 +445,7 @@ Modular Vertical Card Divider Library (``BoxType.CARD_LIBRARY``)
 
 .. pythonscad-example::
 
-   project = Project("CardLibDemo", game_box_size=(80.0, 100.0, 35.0))
+   project = Project("CardLibDemo")
    project.box(
        BoxType.CARD_LIBRARY,
        "Deck",
@@ -458,7 +458,7 @@ Custom Polygonal Footprint (``BoxType.PATH``)
 
 .. pythonscad-example::
 
-   project = Project("PathDemo", game_box_size=(80.0, 80.0, 30.0))
+   project = Project("PathDemo")
    l_path = (
        (0.0, 0.0),
        (55.0, 0.0),
@@ -480,7 +480,7 @@ Custom Footprint with Drop-On Cap (``BoxType.CAP_PATH``)
 
 .. pythonscad-example::
 
-   project = Project("CapPathDemo", game_box_size=(80.0, 80.0, 30.0))
+   project = Project("CapPathDemo")
    l_path = (
        (0.0, 0.0),
        (55.0, 0.0),
@@ -502,7 +502,7 @@ Custom Footprint with Slipover Sleeve (``BoxType.SLIPOVER_PATH``)
 
 .. pythonscad-example::
 
-   project = Project("SlipPathDemo", game_box_size=(80.0, 80.0, 30.0))
+   project = Project("SlipPathDemo")
    l_path = (
        (0.0, 0.0),
        (55.0, 0.0),

@@ -19,7 +19,7 @@ class ModularInterlockBoxBuilder(BoxBuilder):
     Example:
         .. pythonscad-example::
 
-            project = Project("ModularDemo", game_box_size=(150.0, 150.0, 40.0))
+            project = Project("ModularDemo")
             project.box(
                 BoxType.MODULAR_INTERLOCK,
                 "DashboardTray",

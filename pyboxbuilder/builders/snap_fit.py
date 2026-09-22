@@ -20,7 +20,7 @@ class SnapFitBoxBuilder(BoxBuilder):
     Example:
         .. pythonscad-example::
 
-            project = Project("SnapFitDemo", game_box_size=(100.0, 100.0, 50.0))
+            project = Project("SnapFitDemo")
             project.box(
                 BoxType.SNAP_FIT,
                 "TokenBox",

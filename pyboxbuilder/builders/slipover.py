@@ -15,7 +15,7 @@ class SlipoverBoxBuilder(BoxBuilder):
     Example:
         .. pythonscad-example::
 
-            project = Project("SlipoverDemo", game_box_size=(80.0, 80.0, 35.0))
+            project = Project("SlipoverDemo")
             project.box(
                 BoxType.SLIPOVER,
                 "MiniDeck",

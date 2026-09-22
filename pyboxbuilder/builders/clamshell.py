@@ -19,7 +19,7 @@ class ClamshellBoxBuilder(BoxBuilder):
     Example:
         .. pythonscad-example::
 
-            project = Project("ClamshellDemo", game_box_size=(150.0, 100.0, 60.0))
+            project = Project("ClamshellDemo")
             project.box(
                 BoxType.CLAMSHELL,
                 "SpellBook",

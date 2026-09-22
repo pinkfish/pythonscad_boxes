@@ -42,3 +42,19 @@ class ProjectTests(unittest.TestCase):
         p.box(BoxType.SLIDING, "Cards", size=(100, 70, 50))
         result = p.export("/tmp/test_output")
         self.assertIsNotNone(result)
+
+    def test_standalone_box_has_no_spacers(self) -> None:
+        p = Project("Standalone")
+        p.box(BoxType.SLIDING, "Tokens", size=(60.0, 60.0, 22.0))
+        build = p.build()
+        self.assertEqual(len(build.pieces), 2)  # body + lid
+        self.assertEqual([p.kind for p in build.pieces], ["body", "lid"])
+        self.assertTrue(all(p.label == "Tokens" for p in build.pieces))
+
+    def test_standalone_boxes_respect_explicit_positions(self) -> None:
+        p = Project("StackDemo")
+        p.box(BoxType.NO_LID, "Lower", size=(60.0, 60.0, 16.0), position=(0.0, 0.0, 0.0))
+        p.box(BoxType.NO_LID, "Upper", size=(60.0, 60.0, 16.0), position=(0.0, 0.0, 16.0))
+        build = p.build()
+        self.assertEqual([p.position for p in build.pieces], [(0.0, 0.0, 0.0), (0.0, 0.0, 16.0)])
+
