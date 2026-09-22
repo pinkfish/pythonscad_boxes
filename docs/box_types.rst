@@ -613,19 +613,21 @@ All lidded box types requiring positive closure retention (sliding, cap, slipove
 * **``CatchType.BUMP``** (``"bump"``): Spherical/hemispherical bump detents dropping into matching oversized clearance dimples (0.1mm clearance). Standard for sliding lids, cap boxes, and slipover boxes.
 * **``CatchType.WEDGE``** (``"wedge"``): Asymmetric ramped wedge barbs/ridges featuring a low-force lead-in ramp (30°–45°) and a flat horizontal retaining shoulder that snaps into an undercut groove or shelf. Standard for hinged and cantilever snap-fit lids.
 * **``CatchType.LOOP``** (``"loop"``): Flexible strap/loop tabs carrying an aperture window that clips over a matching retaining stud or hook on the opposing body wall.
+* **``CatchType.MAGNET``** (``"magnet"``): Paired cylindrical pockets in lid and body sized for press-fit or adhesive aftermarket neodymium disc magnets (e.g. 3×2mm, 4×2mm, 6×3mm) with zero collision volume when closed.
+* **``CatchType.LEAF_SPRING``** (``"leaf_spring"``): Compliant cantilever flexure arms with relief clearance slots cut behind detent beads, preventing PLA fatigue and wear across high cycles.
 * **``CatchType.NONE``** (``"none"``): Generates a smooth friction fit or track slide without detent bumps, notches, or hooks.
 
 Configure catches via ``catch_type`` and ``catch_size`` on any box builder:
 
 .. code-block:: python
 
-   # Sliding lid with wedge catch instead of default bump:
+   # Sliding lid with magnet retention pockets:
    box = project.box(
        BoxType.SLIDING,
        "Tokens",
        size=(60.0, 60.0, 22.0),
-       catch_type=CatchType.WEDGE,
-       catch_size=0.8,
+       catch_type=CatchType.MAGNET,
+       catch_size=4.0,  # 4mm magnet diameter
    )
 
    # Cap box with flexible loop retention:
@@ -635,6 +637,71 @@ Configure catches via ``catch_type`` and ``catch_size`` on any box builder:
        size=(70.0, 50.0, 30.0),
        catch_type=CatchType.LOOP,
    )
+
+
+Universal Stacking Architecture (``StackableMode``)
+---------------------------------------------------
+
+All box types across both open trays and lidded box families (sliding, cap, slipover, hinged, clamshell, snap-fit) support the universal :class:`~pyboxbuilder.enums.StackableMode` architecture (**FR-101**, **SC-101**):
+
+* **``StackableMode.FEET``** (``"feet"``): Chamfered locator feet protruding downward from the box floor at corners, dropping into matching oversized registration indent sockets in the top lid surface or top rim.
+* **``StackableMode.INDENTS``** (``"indents"``): Inverted stacking where sockets are recessed into the underside floor of the box body, and raised locator bosses/feet project upward from the lid top deck or top rim.
+* **``StackableMode.PERIMETER``** (``"perimeter"``): Continuous perimeter rim foot around the base perimeter that drops into a matching perimeter channel/step on the box top or lid.
+* **``StackableMode.INSIDE``** (``"inside"``): Stepped inner recess in the top rim that the tray above nests down into (standard for open trays).
+* **``StackableMode.OUTSIDE``** (``"outside"``): Perimeter skirt around the outside base that fits over the tray below.
+
+When stacked at nominal height, two identical boxes mate with zero collision volume (``volume(lower & upper) < 0.05mm³``) and positive horizontal slide resistance along both X and Y axes.
+
+Configuration parameters available on all box builders:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 25 15 60
+
+   * - Parameter
+     - Default
+     - Description
+   * - ``stackable``
+     - ``None``
+     - :class:`~pyboxbuilder.enums.StackableMode` or string (``"feet"``, ``"indents"``, ``"perimeter"``, ``"inside"``, ``"outside"``).
+   * - ``stackable_foot_size``
+     - ``max(6.0, wall * 2.5)``
+     - Width and length (mm) of each square corner foot.
+   * - ``stackable_foot_height``
+     - ``1.2``
+     - Protrusion height (mm) of feet, bounded by floor/lid thickness.
+   * - ``stackable_foot_inset``
+     - ``wall + 1.0``
+     - Inset distance (mm) from outer box corners.
+   * - ``stackable_fit_offset``
+     - ``0.15``
+     - Lateral fit clearance (mm) between foot and indent walls.
+
+.. pythonscad-example::
+
+   project = Project("StackDemoLidded", game_box_size=(100.0, 100.0, 50.0))
+   b1 = project.box(
+       BoxType.SLIDING,
+       "BottomBox",
+       size=(60.0, 80.0, 22.0),
+       color=Color("midnightblue"),
+       position=(0.0, 0.0, 0.0),
+       stackable=StackableMode.FEET,
+       stackable_foot_size=7.0,
+       stackable_foot_height=1.2,
+   )
+   b2 = project.box(
+       BoxType.SLIDING,
+       "TopBox",
+       size=(60.0, 80.0, 22.0),
+       color=Color("coral"),
+       position=(0.0, 0.0, 22.0),
+       stackable=StackableMode.FEET,
+       stackable_foot_size=7.0,
+       stackable_foot_height=1.2,
+   )
+   project.show(show_lids=True)
+
 
 
 
