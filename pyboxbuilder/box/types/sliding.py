@@ -17,7 +17,7 @@ if TYPE_CHECKING:
 from pyboxbuilder.box.base import BoxTypeBase, Interior
 from pyboxbuilder.box.registry import register_box
 from pyboxbuilder.builders.sliding import SlidingBoxBuilder
-from pyboxbuilder.enums import BoxType
+from pyboxbuilder.enums import BoxType, InterlockType
 
 
 @register_box(BoxType.SLIDING, builder=SlidingBoxBuilder)
@@ -202,6 +202,10 @@ class SlidingBox(BoxTypeBase):
                 body = body - catch.body
             if catch.body_cut is not None:
                 body = body - catch.body_cut
+        if spec.interlock_type not in (None, InterlockType.NONE):
+            from pyboxbuilder.box.features import apply_horizontal_interlock
+
+            body = apply_horizontal_interlock(body, spec)
         from pyboxbuilder.box.features import apply_stackable_body
 
         return apply_stackable_body(body, spec)

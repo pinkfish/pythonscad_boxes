@@ -10,7 +10,7 @@ from pyboxbuilder.box.base import BoxTypeBase, Interior
 from pyboxbuilder.box.registry import register_box
 from pyboxbuilder.box.spec import BoxSpec
 from pyboxbuilder.builders.slipover import SlipoverBoxBuilder
-from pyboxbuilder.enums import BoxType
+from pyboxbuilder.enums import BoxType, InterlockType
 
 SLIPOVER_FINGER_MAX_MM = 20.0
 """Tallest a sleeve's corner notch gets, however deep the box."""
@@ -89,6 +89,10 @@ class SlipoverBox(BoxTypeBase):
             body = body - catch.body
         if catch.body_cut is not None:
             body = body - catch.body_cut
+        if spec.interlock_type not in (None, InterlockType.NONE):
+            from pyboxbuilder.box.features import apply_horizontal_interlock
+
+            body = apply_horizontal_interlock(body, spec)
         from pyboxbuilder.box.features import apply_stackable_body
 
         return apply_stackable_body(body, spec)

@@ -14,7 +14,7 @@ if TYPE_CHECKING:
 from pyboxbuilder.box.base import BoxTypeBase, Interior
 from pyboxbuilder.box.registry import register_box
 from pyboxbuilder.builders.cap_path import CapPathBoxBuilder
-from pyboxbuilder.enums import BoxType
+from pyboxbuilder.enums import BoxType, InterlockType
 
 
 @register_box(BoxType.CAP_PATH, builder=CapPathBoxBuilder)
@@ -63,6 +63,10 @@ class CapPathBox(BoxTypeBase):
                 offset_footprint(body_path, wt), body_height - ft, ft
             )
             body = outer - inner
+        if spec.interlock_type not in (None, InterlockType.NONE):
+            from pyboxbuilder.box.features import apply_horizontal_interlock
+
+            body = apply_horizontal_interlock(body, spec)
         from pyboxbuilder.box.features import apply_stackable_body
 
         return apply_stackable_body(body, spec)

@@ -8,7 +8,7 @@ from typing import TYPE_CHECKING, Any, ClassVar
 
 from pybosl2 import Color
 
-from pyboxbuilder.enums import BoxType, CatchType, FingerCut, MagnetType, ScoopSide, StackableMode
+from pyboxbuilder.enums import BoxType, CatchType, FingerCut, InterlockType, MagnetType, ScoopSide, StackableMode
 
 if TYPE_CHECKING:
     from pyboxbuilder.compartments.builder import CompartmentBuilder
@@ -112,6 +112,18 @@ class BoxBuilder:
     """Lid retention mechanism — NONE, BUMP, LOOP, WEDGE, or None for type default (FR-099)."""
     catch_size: float | None = None
     """Primary dimension for the catch (bump radius, wedge depth, or loop size); None derives from wall thickness."""
+    interlock_type: InterlockType | None = None
+    """Horizontal interlock joint type (dovetail, magnet, clip, gridfinity, none) (FR-089, FR-102)."""
+    interlock_clearance: float = 0.15
+    """Fit clearance offset for interlocking joints in mm."""
+    interlock_size: float | tuple[float, ...] | None = None
+    """Dimensions of connector (e.g. magnet diameter/depth, dovetail tip/depth)."""
+    interlock_sides: tuple[int | str, ...] | None = None
+    """Specific outer sides or polygon facet indices carrying connectors; None = all or default."""
+    polygon_sides: int | None = None
+    """Number of sides for regular polygon box footprint (e.g. 6 for hexagon)."""
+    polygon_apothem: float | None = None
+    """Inradius (apothem = half flat-to-flat distance) in mm for regular polygon."""
 
     def __post_init__(self) -> None:
         """Reject bare strings where the API takes an enum.
@@ -121,10 +133,15 @@ class BoxBuilder:
         silent no-match deep inside the geometry code.
 
         Raises:
-            TypeError: If ``stackable``, ``magnet_type``, or ``catch_type`` is not its enum.
+            TypeError: If ``stackable``, ``magnet_type``, ``catch_type``, or ``interlock_type`` is not its enum.
 
         """
-        for name, enum_cls in (("stackable", StackableMode), ("magnet_type", MagnetType), ("catch_type", CatchType)):
+        for name, enum_cls in (
+            ("stackable", StackableMode),
+            ("magnet_type", MagnetType),
+            ("catch_type", CatchType),
+            ("interlock_type", InterlockType),
+        ):
             value = getattr(self, name)
             if value is not None and not isinstance(value, enum_cls):
                 members = ", ".join(f"{enum_cls.__name__}.{m.name}" for m in enum_cls)
@@ -349,6 +366,46 @@ class BoxBuilder:
         )
         object.__setattr__(self, "finger_holes", (*self.finger_holes, hole))
         return hole
+
+    def interlocking(
+        self,
+        interlock_type: InterlockType = InterlockType.DOVETAIL,
+        *,
+        clearance: float = 0.15,
+        size: float | tuple[float, ...] | None = None,
+        sides: tuple[int | str, ...] | None = None,
+    ) -> BoxBuilder:
+        """Enable horizontal interlocking for this box (FR-102)."""
+        object.__setattr__(self, "interlock_type", interlock_type)
+        object.__setattr__(self, "interlock_clearance", clearance)
+        if size is not None:
+            object.__setattr__(self, "interlock_size", size)
+        if sides is not None:
+            object.__setattr__(self, "interlock_sides", sides)
+        return self
+
+    def polygon(
+        self,
+        sides: int,
+        *,
+        apothem: float | None = None,
+        diameter: float | None = None,
+        radius: float | None = None,
+    ) -> BoxBuilder:
+        """Configure this box with a regular polygon footprint (FR-102)."""
+        if sides < 3:
+            raise ValueError(f"Regular polygon must have at least 3 sides; got {sides}")
+        ap = apothem
+        if ap is None:
+            if diameter is not None:
+                ap = diameter / 2.0
+            elif radius is not None:
+                import math
+
+                ap = radius * math.cos(math.pi / sides)
+        object.__setattr__(self, "polygon_sides", sides)
+        object.__setattr__(self, "polygon_apothem", ap)
+        return self
 
 
 @dataclass(frozen=True)

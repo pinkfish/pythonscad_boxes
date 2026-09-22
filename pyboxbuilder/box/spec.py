@@ -256,10 +256,17 @@ class BoxSpec:
     clamshell_hinge_radius: float = 2.5
     closure_latch: bool = True
 
-    # Modular interlock (FR-089)
-    interlock_type: InterlockType = InterlockType.GRIDFINITY
+    # Modular interlock & Horizontal coupling (FR-089, FR-102)
+    interlock_type: InterlockType | None = None
+    interlock_clearance: float = 0.15
+    interlock_size: float | tuple[float, ...] | None = None
+    interlock_sides: tuple[int | str, ...] | None = None
     dovetail_clearance: float = 0.15
     gridfinity_pitch: float = 42.0
+
+    # Regular polygon footprint (FR-102)
+    polygon_sides: int | None = None
+    polygon_apothem: float | None = None
 
     # Print-in-place hinge (FR-090)
     pip_radial_clearance: float = 0.35
@@ -518,9 +525,15 @@ class UnresolvedBoxSpec:
     clamshell_hinge_radius: float = 2.5
     closure_latch: bool = True
 
-    interlock_type: InterlockType = InterlockType.GRIDFINITY
+    interlock_type: InterlockType | None = None
+    interlock_clearance: float = 0.15
+    interlock_size: float | tuple[float, ...] | None = None
+    interlock_sides: tuple[int | str, ...] | None = None
     dovetail_clearance: float = 0.15
     gridfinity_pitch: float = 42.0
+
+    polygon_sides: int | None = None
+    polygon_apothem: float | None = None
 
     pip_radial_clearance: float = 0.35
     pip_axial_clearance: float = 0.40
@@ -551,8 +564,24 @@ class UnresolvedBoxSpec:
         Raises:
             ValueError: If width, length, or height cannot be resolved.
         """
+        path_val = self.path
         w = width if width is not None else self.width
         length_val = length if length is not None else self.length
+
+        if (
+            self.polygon_sides is not None
+            and self.polygon_sides >= 3
+            and not path_val
+            and self.polygon_apothem is not None
+        ):
+            from pyboxbuilder.box.features import regular_polygon_path
+
+            path_val = regular_polygon_path(self.polygon_sides, apothem=self.polygon_apothem)
+            if w is None:
+                w = max(p[0] for p in path_val)
+            if length_val is None:
+                length_val = max(p[1] for p in path_val)
+
         h = height if height is not None else self.height
 
         if w is None or length_val is None or h is None:
@@ -568,6 +597,7 @@ class UnresolvedBoxSpec:
             if f.name in spec_fields
         }
         data.update({k: v for k, v in overrides.items() if k in spec_fields})
+        data["path"] = path_val
         data["width"] = float(w)
         data["length"] = float(length_val)
         data["height"] = float(h)

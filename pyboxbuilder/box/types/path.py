@@ -14,7 +14,7 @@ if TYPE_CHECKING:
 from pyboxbuilder.box.base import BoxTypeBase, Interior
 from pyboxbuilder.box.registry import register_box
 from pyboxbuilder.builders.path import PathBoxBuilder
-from pyboxbuilder.enums import BoxType
+from pyboxbuilder.enums import BoxType, InterlockType
 
 
 @register_box(BoxType.PATH, builder=PathBoxBuilder)
@@ -54,14 +54,20 @@ class PathBox(BoxTypeBase):
         spec = with_no_lid_finger_holes(replace(spec, rim_free=True))
 
         if not path:
-            return build_shell(spec)
+            body = build_shell(spec)
+        else:
+            outer = self._extrude(path, spec.height)
+            if not spec.hollow:
+                body = apply_finger_holes(outer, spec)
+            else:
+                inner = self._extrude(_inset_path(path, wt), spec.height - ft)
+                body = apply_finger_holes(outer - inner.translate([0.0, 0.0, ft]), spec)
 
-        outer = self._extrude(path, spec.height)
-        if not spec.hollow:
-            return apply_finger_holes(outer, spec)
-        inner = self._extrude(_inset_path(path, wt), spec.height - ft)
-        body = outer - inner.translate([0.0, 0.0, ft])
-        return apply_finger_holes(body, spec)
+        if spec.interlock_type not in (None, InterlockType.NONE):
+            from pyboxbuilder.box.features import apply_horizontal_interlock
+
+            body = apply_horizontal_interlock(body, spec)
+        return body
 
     @staticmethod
     def _extrude(path: tuple[tuple[float, float], ...], height: float) -> Bosl2Solid:

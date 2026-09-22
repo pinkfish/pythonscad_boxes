@@ -65,6 +65,7 @@ class GeometryValidator:
         cls._validate_clearances(spec)
         cls._validate_closure_bounds(spec)
         cls._validate_stackable_bounds(spec)
+        cls._validate_interlock_bounds(spec)
 
     @classmethod
     def _validate_envelope_positivity(cls, spec: ResolvedBoxSpec) -> None:
@@ -251,3 +252,20 @@ class GeometryValidator:
                     message=f"Stackable foot height must be positive, got {spec.stackable_foot_height}mm.",
                     guidance="Set stackable_foot_height to a positive value (e.g. 1.6mm).",
                 )
+
+    @classmethod
+    def _validate_interlock_bounds(cls, spec: ResolvedBoxSpec) -> None:
+        if spec.polygon_sides is not None and spec.polygon_sides < 3:
+            raise GeometryValidationError(
+                label=spec.label,
+                invariant="min_polygon_sides",
+                message=f"Regular polygon must have at least 3 sides, got {spec.polygon_sides}.",
+                guidance="Set polygon_sides to 3 (triangle), 4 (square), 6 (hexagon), or higher.",
+            )
+        if spec.interlock_type is not None and spec.interlock_clearance < 0.0:
+            raise GeometryValidationError(
+                label=spec.label,
+                invariant="non_negative_interlock_clearance",
+                message=f"Interlock clearance must be non-negative, got {spec.interlock_clearance}mm.",
+                guidance="Set interlock_clearance to a non-negative value (e.g. 0.15mm).",
+            )

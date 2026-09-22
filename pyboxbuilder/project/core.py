@@ -17,7 +17,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import TYPE_CHECKING, Any
 
-from pyboxbuilder.enums import BoxType, FingerCut, ScoopSide
+from pyboxbuilder.enums import BoxType, FingerCut, InterlockType, ScoopSide
 from pyboxbuilder.helpers import CardSize, SleeveType
 from pyboxbuilder.project.compiler import LayoutCompiler
 from pyboxbuilder.project.manifest import ProjectManifest
@@ -707,3 +707,134 @@ class Project:
             cut=cut,
         )
         return builder
+
+    def regular_polygon_box(
+        self,
+        label: str,
+        sides: int,
+        apothem: float,
+        height: float,
+        *,
+        box_type: BoxType = BoxType.PATH,
+        interlock_type: InterlockType | None = None,
+        interlock_clearance: float = 0.15,
+        interlock_sides: tuple[int | str, ...] | None = None,
+        **kwargs: Any,
+    ) -> BoxBuilder:
+        """Add a regular polygon footprint box with optional perimeter interlocking (FR-102).
+
+        Args:
+            label: Identifier for the box.
+            sides: Number of polygon sides (N >= 3).
+            apothem: Inscribed radius in mm (half the flat-to-flat span).
+            height: Total box height in mm.
+            box_type: Box closure type (defaults to BoxType.PATH).
+            interlock_type: Perimeter interlocking mechanism (DOVETAIL, MAGNET, CLIP, etc.).
+            interlock_clearance: Clearance between mating interlock joints in mm.
+            interlock_sides: Specific face indices to equip with interlocks (defaults to all).
+            **kwargs: Extra fields passed to the box builder.
+
+        Returns:
+            The configured BoxBuilder.
+        """
+        from pyboxbuilder.box.features import regular_polygon_path
+
+        path = regular_polygon_path(sides, apothem=apothem)
+        w = max(p[0] for p in path)
+        l_dim = max(p[1] for p in path)
+
+        return self.box(
+            box_type,
+            label,
+            size=(w, l_dim, height),
+            path=path,
+            polygon_sides=sides,
+            polygon_apothem=apothem,
+            interlock_type=interlock_type,
+            interlock_clearance=interlock_clearance,
+            interlock_sides=interlock_sides,
+            **kwargs,
+        )
+
+    def hex_box(
+        self,
+        label: str,
+        apothem: float,
+        height: float,
+        *,
+        box_type: BoxType = BoxType.PATH,
+        interlock_type: InterlockType | None = None,
+        interlock_clearance: float = 0.15,
+        interlock_sides: tuple[int | str, ...] | None = None,
+        **kwargs: Any,
+    ) -> BoxBuilder:
+        """Add a regular hexagonal box (6 sides) with optional interlocking (FR-102)."""
+        return self.regular_polygon_box(
+            label=label,
+            sides=6,
+            apothem=apothem,
+            height=height,
+            box_type=box_type,
+            interlock_type=interlock_type,
+            interlock_clearance=interlock_clearance,
+            interlock_sides=interlock_sides,
+            **kwargs,
+        )
+
+    def polygon_grid(
+        self,
+        base_label: str,
+        rows: int,
+        cols: int,
+        sides: int,
+        apothem: float,
+        height: float,
+        *,
+        spacing: float = 0.0,
+        box_type: BoxType = BoxType.PATH,
+        interlock_type: InterlockType | None = None,
+        interlock_clearance: float = 0.15,
+        origin: tuple[float, float] = (0.0, 0.0),
+        **kwargs: Any,
+    ) -> list[BoxBuilder]:
+        """Generate a tessellated 2D grid of regular polygon boxes (FR-102).
+
+        Args:
+            base_label: Prefix for each box label (e.g. 'Hex_0_0').
+            rows: Number of grid rows.
+            cols: Number of grid columns.
+            sides: Number of sides (e.g. 3, 4, 6).
+            apothem: Inscribed radius in mm.
+            height: Total box height in mm.
+            spacing: Clearance/spacing between adjacent box faces in mm (0.0 for direct contact).
+            box_type: Box type (defaults to BoxType.PATH).
+            interlock_type: Interlock joint mechanism.
+            interlock_clearance: Clearance for interlock joints in mm.
+            origin: (X, Y) origin offset in mm.
+            **kwargs: Extra arguments forwarded to each box builder.
+
+        Returns:
+            List of generated BoxBuilder instances.
+        """
+        from pyboxbuilder.box.features import polygon_grid_position
+
+        boxes: list[BoxBuilder] = []
+        for r in range(rows):
+            for c in range(cols):
+                gx, gy = polygon_grid_position(
+                    r, c, sides=sides, apothem=apothem, spacing=spacing, origin=origin
+                )
+                box_lbl = f"{base_label}_{r}_{c}"
+                b = self.regular_polygon_box(
+                    label=box_lbl,
+                    sides=sides,
+                    apothem=apothem,
+                    height=height,
+                    box_type=box_type,
+                    interlock_type=interlock_type,
+                    interlock_clearance=interlock_clearance,
+                    position=(gx, gy, 0.0),
+                    **kwargs,
+                )
+                boxes.append(b)
+        return boxes

@@ -654,6 +654,19 @@ A finger cut is one shape swept through one wall, and these are its requirements
     - **Cylindrical Family** (`BAYONET`, `THREADED`): Uses concentric circular foot ring on the body bottom and matching concentric circular channel indent on the lid.
     - **Excluded / Specialized Types**: Boxes with non-horizontal, open-chute top geometries (`CARD_SHOE`, open `DISPENSER`) are marked non-stackable because they lack a flat upper resting deck.
 
+- **FR-102**: **Horizontal Interlocking Architecture across Rectangular and Regular Polygon Boxes (`InterlockType`)**:
+  The library MUST support side-by-side modular horizontal interlocking across both rectangular and regular polygon box types (`NO_LID`, `PATH`, `SLIDING`, `SLIDING_CATCH`, `CARD_LIBRARY`, `CAP`, `CAP_PATH`, `SLIPOVER`, `SLIPOVER_PATH`, `SNAP_FIT`, `MODULAR_INTERLOCK`, `DICE_TRAY`), allowing boxes placed beside each other to lock together into cohesive multi-box trays and tessellated grids.
+  - **Interlock Types Supported (`InterlockType`)**:
+    - `InterlockType.DOVETAIL` ("dovetail"): True flared trapezoidal vertical dovetail joints (15°–20° flare angle, default `interlock_clearance = 0.15mm`). On rectangular boxes, +X and +Y walls carry male keys while -X and -Y walls carry female sockets. Boxes engage by sliding together vertically, providing complete physical resistance against horizontal pull-apart along all planar directions.
+    - `InterlockType.MAGNET` ("magnet"): Recessed cylindrical (or rectangular) magnet pockets centered at mid-height on outer vertical walls/facets, allowing adjacent boxes to snap together magnetically with full rotational freedom.
+    - `InterlockType.CLIP` ("clip"): Recessed connector key sockets along outer sidewalls where a separate double-dovetail butterfly connector clip inserts from above to bridge and lock two neighboring boxes together.
+    - `InterlockType.GRIDFINITY` ("gridfinity"): Tiered base profile for modular alignment into 42mm Gridfinity baseplates.
+    - `InterlockType.NONE` ("none"): Smooth outer sidewalls without interlocking features.
+  - **Regular Polygon Boxes & Tessellated Grids**:
+    - First-class support for regular polygon footprint boxes with $N \ge 3$ sides (equilateral triangles, squares, regular hexagons, regular octagons) via `polygon_sides` (e.g. `6` for hexagon) and `polygon_apothem` (or `polygon_diameter` / `polygon_radius`).
+    - Horizontal interlocks apply to every outer facet (or selected facets via `interlock_sides`), with connectors centered on facet midpoints oriented along facet normal vectors.
+    - The library provides a grid placement helper (`polygon_grid_position(row, col, sides, apothem, spacing=0.0)`) and project presets (`Project.polygon_box`, `Project.hex_box`, `Project.polygon_grid`) to tile polygon boxes into gap-free tessellated grids with matching connector alignment.
+
 - **BoxSpec**: The complete configuration of a single box -- outer dimensions (explicit or auto-computed from compartments), wall/floor/lid thicknesses, lid type, compartments, finger holes, labelling decorations, material colours, print positioning, auto-expand behaviour (expandable axes), and a `no_rotate` flag (default `False`) that prevents the 3D packer from rotating the box. Immutable once built. If `size` is omitted, dimensions are derived from compartment layout during packing.
 - **BoxType**: Abstracts the lid mechanism -- defines how the body is constructed (e.g., with dovetail grooves for sliding, with overhangs for caps, cantilever snap latches, bayonets, threads, dispensers, card shoes, sleeve drawers, clamshells, modular interlocks, or monolithic print-in-place hinges) and what lid geometry mates with it.
 - **CatchType**: The enum defining the lid retention mechanism (`NONE`, `BUMP`, `LOOP`, `WEDGE`, `MAGNET`, `LEAF_SPRING`) across all lidded box families requiring positive closure latching.
@@ -866,6 +879,10 @@ The project architecture undergoes structural hardening to eliminate God-objects
   1. Protruding feet/rims on the upper box enter the matching indents/recesses of the lower box with positive lateral registration (resisting horizontal displacement along both X and Y axes).
   2. The clearance between foot and indent measures exactly the configured `stackable_fit_offset` (default 0.15mm per side), verifying 0mm³ solid CSG collision (`volume(upper_box_feet & lower_box_lid) < 0.05mm³`).
   3. Stacking features do not puncture the interior (`floor_thickness` and `lid_thickness` retain at least 0.8mm solid skin behind every indent).
+- **SC-102**: When horizontal interlocking (`InterlockType.DOVETAIL`, `MAGNET`, `CLIP`) is enabled on rectangular or regular polygon boxes:
+  1. Two adjacent boxes placed at nominal touching positions assemble with zero solid CSG collision volume (`volume(box1 & box2) < 0.05mm³`), confirming that `interlock_clearance` (default 0.15mm) provides proper fit clearance without geometric collision.
+  2. For `DOVETAIL` and `CLIP`, displacing one box horizontally away from the other creates non-zero solid interference (`volume > 0.0mm³`), confirming that the joint physically prevents horizontal pull-apart in all planar directions.
+  3. For regular polygon boxes in a grid, shared facet midpoints and outward normal vectors align face-to-face across adjacent cells, enabling seamless multi-box grid assembly.
 
 
 ### Railways of the World Example Specification

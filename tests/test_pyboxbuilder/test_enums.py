@@ -7,6 +7,7 @@ from dataclasses import replace
 from pyboxbuilder.box.spec import BoxSpec
 from pyboxbuilder.enums import (
     BoxType,
+    InterlockType,
     LabelMode,
     MagnetType,
     PatternType,
@@ -68,6 +69,17 @@ class StackableAndMagnetEnumTests(unittest.TestCase):
 
     def test_magnet_members(self) -> None:
         self.assertEqual({m.name for m in MagnetType}, {"NONE", "ROUND", "RECT"})
+
+    def test_interlock_members(self) -> None:
+        self.assertEqual(
+            {m.name for m in InterlockType},
+            {"DOVETAIL", "MAGNET", "CLIP", "GRIDFINITY", "NONE"},
+        )
+        self.assertEqual(InterlockType.DOVETAIL.value, "dovetail")
+        self.assertEqual(InterlockType.MAGNET.value, "magnet")
+        self.assertEqual(InterlockType.CLIP.value, "clip")
+        self.assertEqual(InterlockType.GRIDFINITY.value, "gridfinity")
+        self.assertEqual(InterlockType.NONE.value, "none")
 
     def test_builder_accepts_the_enums(self) -> None:
         p = Project("EnumTest")

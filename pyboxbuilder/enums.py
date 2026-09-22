@@ -50,10 +50,13 @@ class CatchType(Enum):
 
 
 class InterlockType(Enum):
-    """Interlocking joint type for modular play trays."""
+    """Interlocking joint type for modular play trays and grid boxes (FR-089, FR-102)."""
 
     DOVETAIL = "dovetail"
+    MAGNET = "magnet"
+    CLIP = "clip"
     GRIDFINITY = "gridfinity"
+    NONE = "none"
 
 
 class LabelMode(Enum):

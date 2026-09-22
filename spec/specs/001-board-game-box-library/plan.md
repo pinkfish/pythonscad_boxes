@@ -1773,10 +1773,12 @@ Where each requirement is designed, and where it is verified. Sections named bel
 | FR-099 | Unified Multi-Type Lid Retention Catch System (`CatchType`) | `pyboxbuilder/enums.py`, `pyboxbuilder/box/features.py`, `pyboxbuilder/box/types/*`, `pyboxbuilder/builders/*` |
 | FR-100 | Comprehensive Component & Catch Unit Test Coverage | `tests/test_pyboxbuilder/test_catches.py`, `tests/test_pyboxbuilder/test_closures.py`, `tests/test_pyboxbuilder/test_cap_polygon.py`, `tests/test_pyboxbuilder/test_slipover_polygon.py` |
 | FR-101 | Universal Stackable Box Architecture across Lidded and Open Families (`StackableMode`) | `pyboxbuilder/enums.py`, `pyboxbuilder/box/features.py`, `pyboxbuilder/box/types/*`, `pyboxbuilder/builders/*` |
+| FR-102 | Horizontal Interlocking Architecture across Rectangular and Regular Polygon Boxes (`InterlockType`) | `pyboxbuilder/enums.py`, `pyboxbuilder/box/features.py`, `pyboxbuilder/box/types/*`, `pyboxbuilder/builders/*`, `pyboxbuilder/project/core.py` |
 
 | SC | Verified by |
 |---|---|
 | SC-101 | `tests/test_pyboxbuilder/test_stackable.py` — vertical stacking without horizontal displacement, clearance offset verification, and zero solid collision volume |
+| SC-102 | `tests/test_pyboxbuilder/test_interlock.py` — side-by-side assembly with zero collision volume, positive horizontal pull-apart resistance, and regular polygon grid alignment |
 | SC-001 | `quickstart.md` scenarios (T085) |
 | SC-002, SC-008 | timed layout/auto-size tests in `test_compartments.py`, `test_packing.py` |
 | SC-003 | `test_closures.py` — zero body/lid intersection for all 11 lidded types |
@@ -1908,7 +1910,29 @@ The universal stackable box architecture enables vertical modular stacking acros
    - Enforce minimum skin thickness (`indent_depth <= lid_thickness - 0.8mm`) to avoid puncturing the box interior.
    - Inset corner feet from outer edges (`stackable_foot_inset >= wall_thickness / 2.0`) to avoid weakening outer perimeter walls or interfering with closure mechanisms.
 
+### Horizontal Interlocking Architecture & Regular Polygon Tiling (FR-102, SC-102)
+
+The horizontal interlocking architecture enables side-by-side modular coupling across rectangular boxes and regular polygon boxes:
+
+1. **Interlock Mechanisms (`InterlockType`)**:
+   - `InterlockType.DOVETAIL` ("dovetail"): True flared trapezoidal vertical dovetail joints (15°–20° flare angle, default `interlock_clearance = 0.15mm`). On rectangular boxes, +X and +Y walls carry male keys while -X and -Y walls carry female sockets. Boxes engage by sliding together vertically, providing complete physical resistance against horizontal pull-apart along all planar directions.
+   - `InterlockType.MAGNET` ("magnet"): Recessed cylindrical or rectangular magnet pockets centered at mid-height on outer vertical walls/facets, allowing adjacent boxes to snap together magnetically with full rotational freedom.
+   - `InterlockType.CLIP` ("clip"): Recessed connector key sockets along outer sidewalls where a separate double-dovetail butterfly connector clip inserts from above to bridge and lock two neighboring boxes together.
+   - `InterlockType.GRIDFINITY` ("gridfinity"): Tiered base profile for modular alignment into 42mm Gridfinity baseplates.
+   - `InterlockType.NONE` ("none"): Smooth outer sidewalls without interlocking features.
+
+2. **Regular Polygon Footprints & Tiling Math**:
+   - First-class regular polygon footprint support ($N \ge 3$) via `polygon_sides` (e.g. 6 for hexagons) and `polygon_apothem`. Vertices are generated analytically using `regular_polygon_path(...)` and normalized to non-negative bounding envelopes.
+   - Horizontal interlocks apply to every outer facet (or designated facets via `interlock_sides`).
+   - `polygon_grid_position(row, col, sides, apothem, spacing=0.0)` calculates exact centers and placement offsets so that adjacent polygon boxes abut along shared flat edges with zero collision.
+   - Convenient high-level project presets: `project.regular_polygon_box(...)`, `project.hex_box(...)`, and `project.polygon_grid(...)`.
+
+3. **Collision & Constraint Invariants (SC-102)**:
+   - When two adjacent boxes are placed at nominal touching position, solid intersection volume is verified `< 0.05mm³`.
+   - Attempting to displace one box horizontally away from the other creates non-zero solid interference for mechanical interlocks (`DOVETAIL` and `CLIP`).
+
 
 ## Complexity Tracking
 
 > No violations.
+

@@ -16,7 +16,7 @@ if TYPE_CHECKING:
 from pyboxbuilder.box.base import BoxTypeBase, Interior
 from pyboxbuilder.box.registry import register_box
 from pyboxbuilder.builders.no_lid import NoLidBoxBuilder
-from pyboxbuilder.enums import BoxType, MagnetType, ScoopSide, StackableMode
+from pyboxbuilder.enums import BoxType, InterlockType, MagnetType, ScoopSide, StackableMode
 
 
 @register_box(BoxType.NO_LID, builder=NoLidBoxBuilder)
@@ -188,6 +188,10 @@ class NoLidBox(BoxTypeBase):
             body = self._add_stackable_rim(body, spec)
         if spec.magnet_type not in (None, MagnetType.NONE):
             body = self._add_magnet_slots(body, spec)
+        if spec.interlock_type not in (None, InterlockType.NONE):
+            from pyboxbuilder.box.features import apply_horizontal_interlock
+
+            body = apply_horizontal_interlock(body, spec)
         return body
 
     def build_lid(self, spec: BoxSpec, decoration: object = None) -> Bosl2Solid:

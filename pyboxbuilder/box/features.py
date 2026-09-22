@@ -2326,3 +2326,362 @@ def apply_stackable_lid(lid: Bosl2Solid, spec: BoxSpec, top_z: float | None = No
         return lid - channel
     return lid
 
+
+def regular_polygon_path(
+    sides: int,
+    *,
+    apothem: float | None = None,
+    diameter: float | None = None,
+    radius: float | None = None,
+    orientation_deg: float = 0.0,
+) -> tuple[tuple[float, float], ...]:
+    """Generate closed 2D polygon vertices for a regular N-sided polygon (FR-102).
+
+    Args:
+        sides: Number of sides (N >= 3).
+        apothem: Inradius (half flat-to-flat distance) in mm.
+        diameter: Full flat-to-flat distance (2 * apothem) in mm.
+        radius: Circumradius (distance from center to vertices) in mm.
+        orientation_deg: Angular offset in degrees.
+
+    Returns:
+        tuple[tuple[float, float], ...]: Closed polygon vertices normalized to [0, W] x [0, L].
+    """
+    if sides < 3:
+        raise ValueError(f"Regular polygon must have at least 3 sides; got {sides}")
+
+    import math
+
+    if apothem is not None:
+        r_circum = apothem / math.cos(math.pi / sides)
+    elif diameter is not None:
+        r_circum = (diameter / 2.0) / math.cos(math.pi / sides)
+    elif radius is not None:
+        r_circum = radius
+    else:
+        raise ValueError("Must specify at least one of apothem, diameter, or radius")
+
+    angle_offset = math.radians(orientation_deg) + (math.pi / sides)
+    raw_pts = []
+    for i in range(sides):
+        angle = 2.0 * math.pi * i / sides + angle_offset
+        x = r_circum * math.cos(angle)
+        y = r_circum * math.sin(angle)
+        raw_pts.append((x, y))
+
+    min_x = min(p[0] for p in raw_pts)
+    min_y = min(p[1] for p in raw_pts)
+    return tuple((round(p[0] - min_x, 6), round(p[1] - min_y, 6)) for p in raw_pts)
+
+
+def polygon_grid_position(
+    row: int,
+    col: int,
+    sides: int,
+    apothem: float,
+    spacing: float = 0.0,
+    origin: tuple[float, float] = (0.0, 0.0),
+) -> tuple[float, float]:
+    """Calculate the (x, y) world position for regular polygon cells in a tessellated grid (FR-102).
+
+    Args:
+        row: Row index in the grid (0-indexed).
+        col: Column index in the grid (0-indexed).
+        sides: Polygon sides (currently 3, 4, 6 supported).
+        apothem: Polygon apothem (half flat-to-flat distance) in mm.
+        spacing: Gap between adjacent polygon edges in mm (0.0 = touching faces).
+        origin: Base (x0, y0) translation offset.
+
+    Returns:
+        tuple[float, float]: (x, y) coordinates of the bounding box origin (min_x, min_y).
+    """
+    import math
+
+    if sides == 6:
+        r = apothem
+        dx = 2.0 * r + spacing
+        dy = math.sqrt(3.0) * r + spacing * math.sqrt(3.0) / 2.0
+        x = origin[0] + col * dx + (row % 2) * (r + spacing / 2.0)
+        y = origin[1] + row * dy
+        return (round(x, 4), round(y, 4))
+    elif sides == 4:
+        w = 2.0 * apothem + spacing
+        return (round(origin[0] + col * w, 4), round(origin[1] + row * w, 4))
+    elif sides == 3:
+        r = apothem
+        dx = (2.0 * r + spacing) / math.sqrt(3.0)
+        dy = 3.0 * r + spacing
+        x = origin[0] + col * dx
+        y = origin[1] + row * dy
+        return (round(x, 4), round(y, 4))
+    else:
+        w = 2.0 * apothem + spacing
+        return (round(origin[0] + col * w, 4), round(origin[1] + row * w, 4))
+
+
+def build_horizontal_dovetail(
+    depth: float = 3.0,
+    width_tip: float = 8.5,
+    width_base: float = 6.0,
+    height: float = 14.0,
+    clearance: float = 0.0,
+    is_female: bool = False,
+) -> Bosl2Solid:
+    """Build a true flared trapezoidal vertical dovetail joint key or socket (FR-102).
+
+    The key extends in +X from x=0 to x=depth.
+    At x=0, width is width_base; at x=depth, width is width_tip (where width_tip > width_base).
+    The trapezoidal flare physically locks against horizontal pull-apart in both X and Y.
+
+    Args:
+        depth: Penetration depth of the dovetail in mm.
+        width_tip: Width at the wide outer tip in mm.
+        width_base: Width at the narrow base neck in mm.
+        height: Vertical height of the joint in mm.
+        clearance: Fit offset in mm (applied to female socket).
+        is_female: True to create oversized female socket cutter.
+
+    Returns:
+        Bosl2Solid: Dovetail solid ready to translate and union/subtract.
+    """
+    from pybosl2.shapes3d import prismoid
+
+    clr = clearance if is_female else 0.0
+    w_base = width_base + 2.0 * clr
+    w_tip = width_tip + 2.0 * clr
+    h = height + (2.0 * clr if is_female else 0.0)
+    d = depth + (clr + 0.1 if is_female else 0.0)
+
+    return prismoid([h, w_base], [h, w_tip], height=d).rotate([0, 90, 0])
+
+
+def build_interlock_clip(
+    depth: float = 2.5,
+    width_tip: float = 7.0,
+    width_base: float = 4.5,
+    height: float = 10.0,
+    clearance: float = 0.15,
+) -> Bosl2Solid:
+    """Build a double-dovetail butterfly connector clip that locks adjacent boxes (FR-102).
+
+    Args:
+        depth: Penetration depth into each box wall in mm.
+        width_tip: Width of each wide end in mm.
+        width_base: Width at the central neck waist in mm.
+        height: Height of the clip in mm.
+        clearance: Fit clearance subtracted from the clip so it drops in easily.
+
+    Returns:
+        Bosl2Solid: Butterfly clip centered at the interface (x=0).
+    """
+    from pybosl2.shapes3d import prismoid
+
+    w_tip = max(2.0, width_tip - 2.0 * clearance)
+    w_base = max(1.5, width_base - 2.0 * clearance)
+    h = max(2.0, height - clearance)
+    d = max(1.0, depth - clearance)
+
+    right = prismoid([h, w_base], [h, w_tip], height=d).rotate([0, 90, 0])
+    left = prismoid([h, w_base], [h, w_tip], height=d).rotate([0, 90, 0]).rotate([0, 0, 180])
+    return right | left
+
+
+def apply_horizontal_interlock(body: Bosl2Solid, spec: BoxSpec) -> Bosl2Solid:
+    """Apply horizontal side interlocking features according to spec.interlock_type (FR-089, FR-102)."""
+    if spec.interlock_type is None:
+        return body
+
+    from pyboxbuilder.enums import InterlockType, MagnetType
+
+    itype = spec.interlock_type
+    if itype is InterlockType.NONE:
+        return body
+
+    if itype is InterlockType.GRIDFINITY:
+        from pyboxbuilder.box.shell import block
+
+        base_bevel_h = min(2.5, spec.floor_thickness)
+        base_cut = block(
+            [spec.width + 2.0, spec.length + 2.0, base_bevel_h],
+            at=(-1.0, -1.0, -0.5),
+        ) - block(
+            [spec.width - 2.0, spec.length - 2.0, base_bevel_h + 1.0],
+            at=(1.0, 1.0, -1.0),
+        )
+        return body - base_cut
+
+    import math
+
+    clr = spec.interlock_clearance
+    body_h = spec.height if spec.lid_thickness == 0.0 else (spec.height - spec.lid_thickness)
+    mid_z = body_h / 2.0
+
+    # Dovetail defaults:
+    dt_depth = 3.0
+    dt_w_tip = 8.5
+    dt_w_base = 6.0
+    dt_h = min(14.0, max(4.0, body_h * 0.7))
+    if isinstance(spec.interlock_size, (int, float)):
+        dt_depth = float(spec.interlock_size)
+    elif isinstance(spec.interlock_size, (tuple, list)) and len(spec.interlock_size) >= 2:
+        dt_depth = float(spec.interlock_size[0])
+        dt_w_tip = float(spec.interlock_size[1])
+        if len(spec.interlock_size) >= 3:
+            dt_w_base = float(spec.interlock_size[2])
+
+    # Magnet defaults:
+    mag_dia = 6.0
+    mag_depth = 2.0
+    if spec.magnet_type is not None and spec.magnet_type is not MagnetType.NONE and spec.magnet_size:
+        mag_dia = spec.magnet_size[0]
+        mag_depth = spec.magnet_size[1] if len(spec.magnet_size) > 1 else 2.0
+
+    # Clip defaults:
+    clip_depth = 2.5
+    clip_w_tip = 7.0
+    clip_w_base = 4.5
+    clip_h = min(10.0, max(3.0, body_h * 0.6))
+
+    # 1. Polygon footprint (regular or arbitrary)
+    if spec.path and len(spec.path) >= 3:
+        pts = spec.path
+        n = len(pts)
+        for i in range(n):
+            if spec.interlock_sides is not None and i not in spec.interlock_sides:
+                continue
+
+            p1 = pts[i]
+            p2 = pts[(i + 1) % n]
+            dx = p2[0] - p1[0]
+            dy = p2[1] - p1[1]
+            length = math.hypot(dx, dy)
+            if length < 4.0:
+                continue
+
+            tx, ty = dx / length, dy / length
+            nx, ny = ty, -tx
+            mx, my = (p1[0] + p2[0]) / 2.0, (p1[1] + p2[1]) / 2.0
+            normal_deg = math.degrees(math.atan2(ny, nx))
+
+            if itype is InterlockType.MAGNET:
+                from pybosl2 import cylinder
+
+                pocket = cylinder(height=mag_depth + 0.1, radius=mag_dia / 2.0 + clr, **precision_kwargs())
+                pocket = pocket.rotate([0, 90, 0]).rotate([0, 0, normal_deg])
+                pocket = pocket.translate([mx - nx * mag_depth / 2.0, my - ny * mag_depth / 2.0, mid_z])
+                body = body - pocket
+
+            elif itype is InterlockType.DOVETAIL:
+                is_male = (i % 2 == 0)
+                if is_male:
+                    key = build_horizontal_dovetail(dt_depth, dt_w_tip, dt_w_base, dt_h, clearance=0.0)
+                    key = key.rotate([0, 0, normal_deg]).translate([mx, my, mid_z])
+                    body = body | key
+                else:
+                    fem = build_horizontal_dovetail(dt_depth, dt_w_tip, dt_w_base, dt_h, clearance=clr, is_female=True)
+                    fem = fem.rotate([0, 0, normal_deg + 180.0]).translate([
+                        mx + nx * 0.05,
+                        my + ny * 0.05,
+                        mid_z,
+                    ])
+                    body = body - fem
+
+            elif itype is InterlockType.CLIP:
+                from pybosl2.shapes3d import prismoid
+
+                clip_total_d = clip_depth + clr + 0.1
+                slot = prismoid(
+                    [clip_h + 2.0 * clr, clip_w_base + 2.0 * clr],
+                    [clip_h + 2.0 * clr, clip_w_tip + 2.0 * clr],
+                    height=clip_total_d,
+                ).rotate([0, 90, 0]).rotate([0, 0, normal_deg + 180.0])
+                slot = slot.translate([
+                    mx + nx * 0.05,
+                    my + ny * 0.05,
+                    body_h - clip_h / 2.0,
+                ])
+                body = body - slot
+
+        return body
+
+    # 2. Rectangular box
+    w, length_val = spec.width, spec.length
+    if itype is InterlockType.DOVETAIL:
+        # Male keys on +X and +Y
+        key_x = build_horizontal_dovetail(dt_depth, dt_w_tip, dt_w_base, dt_h, clearance=0.0)
+        key_x = key_x.translate([w, length_val / 2.0, mid_z])
+
+        key_y = build_horizontal_dovetail(dt_depth, dt_w_tip, dt_w_base, dt_h, clearance=0.0)
+        key_y = key_y.rotate([0, 0, 90]).translate([w / 2.0, length_val, mid_z])
+        body = body | key_x | key_y
+
+        # Female sockets on -X (at x=0) and -Y (at y=0)
+        fem_x = build_horizontal_dovetail(dt_depth, dt_w_tip, dt_w_base, dt_h, clearance=clr, is_female=True)
+        fem_x = fem_x.translate([-0.05, length_val / 2.0, mid_z])
+
+        fem_y = build_horizontal_dovetail(dt_depth, dt_w_tip, dt_w_base, dt_h, clearance=clr, is_female=True)
+        fem_y = fem_y.rotate([0, 0, 90]).translate([w / 2.0, -0.05, mid_z])
+        body = body - fem_x - fem_y
+
+    elif itype is InterlockType.MAGNET:
+        from pybosl2 import cylinder
+
+        p_x_pos = cylinder(
+            height=mag_depth + 0.1, radius=mag_dia / 2.0 + clr, **precision_kwargs()
+        ).rotate([0, 90, 0]).translate([
+            w - mag_depth / 2.0, length_val / 2.0, mid_z
+        ])
+        p_x_neg = cylinder(
+            height=mag_depth + 0.1, radius=mag_dia / 2.0 + clr, **precision_kwargs()
+        ).rotate([0, 90, 0]).translate([
+            mag_depth / 2.0, length_val / 2.0, mid_z
+        ])
+        p_y_pos = cylinder(
+            height=mag_depth + 0.1, radius=mag_dia / 2.0 + clr, **precision_kwargs()
+        ).rotate([90, 0, 0]).translate([
+            w / 2.0, length_val - mag_depth / 2.0, mid_z
+        ])
+        p_y_neg = cylinder(
+            height=mag_depth + 0.1, radius=mag_dia / 2.0 + clr, **precision_kwargs()
+        ).rotate([90, 0, 0]).translate([
+            w / 2.0, mag_depth / 2.0, mid_z
+        ])
+        body = body - p_x_pos - p_x_neg - p_y_pos - p_y_neg
+
+    elif itype is InterlockType.CLIP:
+        from pybosl2.shapes3d import prismoid
+
+        clip_total_d = clip_depth + clr + 0.1
+        # Butterfly slots cut from top rim down into the walls
+        slot_x_p = prismoid(
+            [clip_h + 2.0 * clr, clip_w_base + 2.0 * clr],
+            [clip_h + 2.0 * clr, clip_w_tip + 2.0 * clr],
+            height=clip_total_d,
+        ).rotate([0, 90, 0]).rotate([0, 0, 180]).translate([
+            w + 0.05, length_val / 2.0, body_h - clip_h / 2.0
+        ])
+        slot_x_n = prismoid(
+            [clip_h + 2.0 * clr, clip_w_base + 2.0 * clr],
+            [clip_h + 2.0 * clr, clip_w_tip + 2.0 * clr],
+            height=clip_total_d,
+        ).rotate([0, 90, 0]).translate([
+            -0.05, length_val / 2.0, body_h - clip_h / 2.0
+        ])
+        slot_y_p = prismoid(
+            [clip_h + 2.0 * clr, clip_w_base + 2.0 * clr],
+            [clip_h + 2.0 * clr, clip_w_tip + 2.0 * clr],
+            height=clip_total_d,
+        ).rotate([0, 90, 0]).rotate([0, 0, -90]).translate([
+            w / 2.0, length_val + 0.05, body_h - clip_h / 2.0
+        ])
+        slot_y_n = prismoid(
+            [clip_h + 2.0 * clr, clip_w_base + 2.0 * clr],
+            [clip_h + 2.0 * clr, clip_w_tip + 2.0 * clr],
+            height=clip_total_d,
+        ).rotate([0, 90, 0]).rotate([0, 0, 90]).translate([
+            w / 2.0, -0.05, body_h - clip_h / 2.0
+        ])
+        body = body - slot_x_p - slot_x_n - slot_y_p - slot_y_n
+
+    return body
+
