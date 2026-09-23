@@ -122,7 +122,7 @@ A sliding dovetail lid that glides along side rails with no loose parts:
 
 .. pythonscad-example::
 
-   project = Project("SlidingDemo", game_box_size=(80.0, 80.0, 30.0))
+   project = Project("SlidingDemo")
    project.box(
        BoxType.SLIDING,
        "Tokens",
@@ -142,7 +142,7 @@ A sliding dovetail lid with an integrated detent bump catch at the leading edge 
 
 .. pythonscad-example::
 
-   project = Project("CatchDemo", game_box_size=(80.0, 80.0, 30.0))
+   project = Project("CatchDemo")
    project.box(
        BoxType.SLIDING_CATCH,
        "CatchBox",
@@ -159,7 +159,7 @@ A friction-fit cap lid that drops straight onto the box body from above with sid
 
 .. pythonscad-example::
 
-   project = Project("CapDemo", game_box_size=(80.0, 80.0, 30.0))
+   project = Project("CapDemo")
    box = project.box(
        BoxType.CAP,
        "PlayerTray",
@@ -178,7 +178,7 @@ A full-depth outer sleeve that envelopes the inner body tray completely:
 
 .. pythonscad-example::
 
-   project = Project("SlipoverDemo", game_box_size=(80.0, 80.0, 30.0))
+   project = Project("SlipoverDemo")
    project.box(
        BoxType.SLIPOVER,
        "CardsBox",
@@ -195,7 +195,7 @@ A flush drop-in lid that seats onto an internal stepped perimeter rabbet:
 
 .. pythonscad-example::
 
-   project = Project("InsetDemo", game_box_size=(80.0, 80.0, 30.0))
+   project = Project("InsetDemo")
    project.box(
        BoxType.INSET,
        "InsetBox",
@@ -212,7 +212,7 @@ A 4-sided outer sleeve enclosing an inner drawer tray with a pull lip and rear p
 
 .. pythonscad-example::
 
-   project = Project("DrawerDemo", game_box_size=(80.0, 80.0, 30.0))
+   project = Project("DrawerDemo")
    project.box(
        BoxType.SLEEVE_DRAWER,
        "MatchboxDrawer",
@@ -232,7 +232,7 @@ A zero-assembly 1-piece print laid flat at 180° on the print bed with interlock
 
 .. pythonscad-example::
 
-   project = Project("PIPHingeDemo", game_box_size=(160.0, 100.0, 40.0))
+   project = Project("PIPHingeDemo")
    project.box(
        BoxType.PRINT_IN_PLACE_HINGE,
        "MiniDeckBox",
@@ -250,7 +250,7 @@ A book-fold box with active compartments in both halves that opens flat 180° on
 
 .. pythonscad-example::
 
-   project = Project("ClamshellDemo", game_box_size=(80.0, 80.0, 30.0))
+   project = Project("ClamshellDemo")
    project.box(
        BoxType.CLAMSHELL,
        "DiceBook",
@@ -267,7 +267,7 @@ An integrated captive-pin knuckle hinge connecting body and lid:
 
 .. pythonscad-example::
 
-   project = Project("HingeDemo", game_box_size=(80.0, 80.0, 30.0))
+   project = Project("HingeDemo")
    project.box(
        BoxType.HINGE,
        "HingedChest",
@@ -284,7 +284,7 @@ Interleaving knuckles precision-bored to accept a standard 1.75mm 3D printer fil
 
 .. pythonscad-example::
 
-   project = Project("FilamentHingeDemo", game_box_size=(80.0, 80.0, 30.0))
+   project = Project("FilamentHingeDemo")
    project.box(
        BoxType.FILAMENT_HINGE,
        "PinBox",
@@ -304,7 +304,7 @@ A lid with integrated cantilever spring arms and 45° lead-in retention detents 
 
 .. pythonscad-example::
 
-   project = Project("SnapFitDemo", game_box_size=(80.0, 80.0, 30.0))
+   project = Project("SnapFitDemo")
    project.box(
        BoxType.SNAP_FIT,
        "LatchBox",
@@ -322,7 +322,7 @@ Quarter-turn twist-lock container with vertical entry keyways and horizontal loc
 
 .. pythonscad-example::
 
-   project = Project("BayonetDemo", game_box_size=(80.0, 80.0, 50.0))
+   project = Project("BayonetDemo")
    project.box(
        BoxType.BAYONET,
        "TokenCanister",
@@ -340,7 +340,7 @@ Coarse 3.0mm pitch modified trapezoidal screw threads with 0.25mm clearance for 
 
 .. pythonscad-example::
 
-   project = Project("ThreadedDemo", game_box_size=(80.0, 80.0, 50.0))
+   project = Project("ThreadedDemo")
    project.box(
        BoxType.THREADED,
        "ScrewCanister",
@@ -358,7 +358,7 @@ Concealed cylindrical magnet pockets in corners of the body and lid for a tactil
 
 .. pythonscad-example::
 
-   project = Project("MagneticDemo", game_box_size=(80.0, 80.0, 30.0))
+   project = Project("MagneticDemo")
    project.box(
        BoxType.MAGNETIC,
        "Vault",
@@ -381,7 +381,7 @@ A gravity dispenser tower featuring a 40° internal slide floor feeding a single
 
 .. pythonscad-example::
 
-   project = Project("DispenserDemo", game_box_size=(70.0, 70.0, 80.0))
+   project = Project("DispenserDemo")
    project.box(
        BoxType.DISPENSER,
        "TileTower",
@@ -399,7 +399,7 @@ A dealer shoe tray with a 20° slanted draw well, retaining lip, and flat discar
 
 .. pythonscad-example::
 
-   project = Project("CardShoeDemo", game_box_size=(100.0, 80.0, 40.0))
+   project = Project("CardShoeDemo")
    project.box(
        BoxType.CARD_SHOE,
        "DealerShoe",
@@ -417,7 +417,7 @@ Deep 25mm+ arena lid with 45° corner deflector fillets and felt pocket that fun
 
 .. pythonscad-example::
 
-   project = Project("DiceTrayDemo", game_box_size=(90.0, 90.0, 40.0))
+   project = Project("DiceTrayDemo")
    project.box(
        BoxType.DICE_TRAY,
        "RollingArena",
@@ -435,7 +435,7 @@ Tabletop organization trays with perimeter sliding dovetails or Gridfinity-compa
 
 .. pythonscad-example::
 
-   project = Project("ModularDemo", game_box_size=(150.0, 150.0, 40.0))
+   project = Project("ModularDemo")
    project.box(
        BoxType.MODULAR_INTERLOCK,
        "DashboardTray",
@@ -453,7 +453,7 @@ Open organizer trays with stepped stacking ledges and ergonomic fingertip scoops
 
 .. pythonscad-example::
 
-   project = Project("StackDemo", game_box_size=(80.0, 80.0, 40.0))
+   project = Project("StackDemo")
    project.box(
        BoxType.NO_LID,
        "BaseTray",
@@ -476,7 +476,7 @@ High-capacity card tray with finger pull-out scoops and angled card support wedg
 
 .. pythonscad-example::
 
-   project = Project("CardLibraryDemo", game_box_size=(120.0, 80.0, 40.0))
+   project = Project("CardLibraryDemo")
    project.box(
        BoxType.CARD_LIBRARY,
        "DeckLibrary",
@@ -496,7 +496,7 @@ Open custom-profile tray whose exterior footprint follows any arbitrary 2D polyg
 
 .. pythonscad-example::
 
-   project = Project("PathDemo", game_box_size=(80.0, 80.0, 30.0))
+   project = Project("PathDemo")
    l_path = (
        (0.0, 0.0),
        (55.0, 0.0),
@@ -522,7 +522,7 @@ Drop-on friction cap lid over an arbitrary 2D polygon path footprint:
 
 .. pythonscad-example::
 
-   project = Project("CapPathDemo", game_box_size=(80.0, 80.0, 30.0))
+   project = Project("CapPathDemo")
    l_path = (
        (0.0, 0.0),
        (55.0, 0.0),
@@ -548,7 +548,7 @@ Full-depth telescoping slipover sleeve over an arbitrary 2D polygon path footpri
 
 .. pythonscad-example::
 
-   project = Project("SlipoverPathDemo", game_box_size=(80.0, 80.0, 30.0))
+   project = Project("SlipoverPathDemo")
    t_path = (
        (15.0, 0.0),
        (40.0, 0.0),
