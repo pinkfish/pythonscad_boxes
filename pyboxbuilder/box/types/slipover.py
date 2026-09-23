@@ -157,8 +157,8 @@ class SlipoverBox(BoxTypeBase):
         get a fingertip. The original cuts a notch into two **diagonally
         opposite** corners — diagonal so the two hands pull along the sleeve's
         axis rather than twisting it — sized at half the skirt's height and
-        placed just under the lid plate, where the notch exposes the body's
-        corner and a thumb can push it out.
+        placed at the bottom rim of the lid sleeve, where the notch exposes
+        the body's corner and fingers can grip or push the sleeve off.
 
         Args:
             spec: Box dimensions; reads `wall_thickness`, `lid_thickness`,
@@ -168,14 +168,15 @@ class SlipoverBox(BoxTypeBase):
             The solid to subtract from the sleeve.
 
         """
-        from pyboxbuilder.box.features import corner_catch
+        from pyboxbuilder.box.features import corner_catch, slipover_gap
         from pyboxbuilder.compartments.element import union_all
 
         wt = spec.wall_thickness
         lt = spec.lid_thickness
         foot = spec.foot
+        gap = min(slipover_gap(spec), spec.height - foot - lt)
+        skirt = spec.height - foot - gap
 
-        skirt = spec.height - foot - lt
         # The original's sizing: half the skirt, capped, and a radius that stays
         # usable on a shallow box.
         # An explicit None check, not `or`: `slipover_finger_height=0` means
@@ -190,7 +191,7 @@ class SlipoverBox(BoxTypeBase):
             return None
         radius = max(height, SLIPOVER_FINGER_MIN_RADIUS_MM)
 
-        top = spec.height - lt
+        base_z = foot + gap
         notches = [
             corner_catch(
                 (0.0, 0.0), (1, 1), radius=radius, height=height,
@@ -201,4 +202,7 @@ class SlipoverBox(BoxTypeBase):
                 height=height, wall_thickness=wt, rounding_edge=wt / 4,
             ),
         ]
-        return union_all([n.translate([0.0, 0.0, top - height]) for n in notches])
+        return union_all([
+            n.mirror([0, 0, 1]).translate([0.0, 0.0, base_z + height])
+            for n in notches
+        ])

@@ -776,6 +776,18 @@ class SlipoverFingerNotchTests(unittest.TestCase):
             "the notch cut into the lid plate",
         )
 
+    def test_the_notch_opens_at_the_bottom_of_the_sleeve(self) -> None:
+        from pyboxbuilder.box.features import slipover_gap
+
+        plain = self.sleeve(slipover_finger_height=0.0)
+        gap = min(slipover_gap(SPEC), SPEC.height - SPEC.foot - SPEC.lid_thickness)
+        base_z = SPEC.foot + gap
+        (_, _, z0), (_, _, dz) = bbox(plain - self.sleeve())
+        self.assertAlmostEqual(
+            z0, base_z, delta=0.5,
+            msg="the notch does not open at the bottom rim of the sleeve",
+        )
+
     def test_a_shallow_sleeve_still_gets_a_usable_notch(self) -> None:
         from pyboxbuilder.box.types.slipover import SLIPOVER_FINGER_MIN_RADIUS_MM
 
