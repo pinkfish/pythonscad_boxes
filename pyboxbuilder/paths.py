@@ -224,3 +224,63 @@ def largest_inscribed_rectangle(path: Sequence[Point]) -> tuple[float, float, fl
             stack.append(c)
 
     return best_rect
+
+
+def polygon_convex_corners(path: Sequence[Point]) -> list[int]:
+    """Return indices of convex vertices (outer corners) of a closed polygon path.
+
+    Args:
+        path: Ordered vertices of a closed 2D polygon.
+
+    Returns:
+        List of vertex indices that are convex (exterior corners).
+
+    """
+    n = len(path)
+    if n < 3:
+        return list(range(n))
+    area2 = signed_area(path)
+    is_ccw = area2 > 0
+    convex = []
+    for i in range(n):
+        p_prev = path[(i - 1) % n]
+        p_curr = path[i]
+        p_next = path[(i + 1) % n]
+        e1 = (p_curr[0] - p_prev[0], p_curr[1] - p_prev[1])
+        e2 = (p_next[0] - p_curr[0], p_next[1] - p_curr[1])
+        cross = e1[0] * e2[1] - e1[1] * e2[0]
+        # In CCW, a convex corner turns left (cross > 0); in CW, turns right (cross < 0)
+        if (is_ccw and cross > 1e-4) or (not is_ccw and cross < -1e-4):
+            convex.append(i)
+    return convex
+
+
+def polygon_opposite_corners(path: Sequence[Point]) -> list[int]:
+    """Return indices of two opposite convex corners (furthest apart) of a polygon.
+
+    Args:
+        path: Ordered vertices of a closed 2D polygon.
+
+    Returns:
+        Indices of the two convex vertices with maximum Euclidean separation.
+
+    """
+    convex = polygon_convex_corners(path)
+    if not convex:
+        return []
+    if len(convex) <= 2:
+        return convex
+    best_pair = (convex[0], convex[1])
+    max_d2 = -1.0
+    for i in range(len(convex)):
+        for j in range(i + 1, len(convex)):
+            idx_a = convex[i]
+            idx_b = convex[j]
+            pa = path[idx_a]
+            pb = path[idx_b]
+            d2 = (pa[0] - pb[0]) ** 2 + (pa[1] - pb[1]) ** 2
+            if d2 > max_d2:
+                max_d2 = d2
+                best_pair = (idx_a, idx_b)
+    return list(best_pair)
+

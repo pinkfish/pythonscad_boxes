@@ -68,12 +68,69 @@ class SlipoverPathBox(BoxTypeBase):
 
     def build_lid(self, spec: BoxSpec, decoration: object = None) -> Bosl2Solid:
         """Return a sleeve following the body's outline, stopping at the foot."""
-        from pyboxbuilder.box.features import apply_stackable_lid, path_sleeve
+        from pyboxbuilder.box.features import (
+            apply_stackable_lid,
+            path_sleeve,
+        )
 
         path = spec.path or ()
         if not path:
             from pyboxbuilder.box.types.slipover import SlipoverBox
 
-            return SlipoverBox().build_lid(spec)
+            return SlipoverBox().build_lid(spec, decoration)
         lid = path_sleeve(spec, path, spec.slip, spec.foot)
+        notches = self._finger_notches(spec, path)
+        if notches is not None:
+            lid = lid - notches
         return apply_stackable_lid(lid, spec)
+
+    def _finger_notches(
+        self, spec: BoxSpec, path: tuple[tuple[float, float], ...]
+    ) -> Bosl2Solid | None:
+        """Corner notches at opposite corners of the polygon sleeve so it can be pulled off."""
+        from pybosl2.constants import Anchor
+        from pybosl2.shapes3d import cyl
+
+        from pyboxbuilder.box.types.slipover import (
+            SLIPOVER_FINGER_MAX_MM,
+            SLIPOVER_FINGER_MIN_RADIUS_MM,
+        )
+        from pyboxbuilder.compartments.element import union_all
+        from pyboxbuilder.paths import polygon_opposite_corners
+
+        foot = spec.foot
+        skirt = spec.height - foot
+        requested = spec.slipover_finger_height
+        height = (
+            min(SLIPOVER_FINGER_MAX_MM, skirt / 2) if requested is None
+            else float(requested)
+        )
+        height = max(0.0, min(height, skirt))
+        if height <= 0:
+            return None
+
+        corner_indices = polygon_opposite_corners(path)
+        if not corner_indices:
+            return None
+
+        n = len(path)
+        base_z = foot
+        notches = []
+        for idx in corner_indices:
+            p = path[idx]
+            p_prev = path[(idx - 1) % n]
+            p_next = path[(idx + 1) % n]
+            d_prev = ((p[0] - p_prev[0]) ** 2 + (p[1] - p_prev[1]) ** 2) ** 0.5
+            d_next = ((p[0] - p_next[0]) ** 2 + (p[1] - p_next[1]) ** 2) ** 0.5
+            max_r = max(SLIPOVER_FINGER_MIN_RADIUS_MM, min(d_prev, d_next) * 0.45)
+            r = min(max(height, SLIPOVER_FINGER_MIN_RADIUS_MM), max_r)
+            notches.append(
+                cyl(
+                    radius=r,
+                    height=height + 0.5,
+                    rounding2=min(r / 2, height / 2),
+                    anchor=Anchor.BOTTOM,
+                ).translate([p[0], p[1], base_z - 0.5])
+            )
+        return union_all(notches)
+
