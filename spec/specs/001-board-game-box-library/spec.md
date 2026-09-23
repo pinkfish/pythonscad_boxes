@@ -667,6 +667,23 @@ A finger cut is one shape swept through one wall, and these are its requirements
     - Horizontal interlocks apply to every outer facet (or selected facets via `interlock_sides`), with connectors centered on facet midpoints oriented along facet normal vectors.
     - The library provides a grid placement helper (`polygon_grid_position(row, col, sides, apothem, spacing=0.0)`) and project presets (`Project.polygon_box`, `Project.hex_box`, `Project.polygon_grid`) to tile polygon boxes into gap-free tessellated grids with matching connector alignment.
 
+- **FR-103**: **Polygon Footprint Lid Labeling & Pattern Clipping (`BoxType.CAP_PATH`, `BoxType.SLIPOVER_PATH`)**:
+  The library MUST support intelligent label placement and perimeter-conforming surface pattern cutting on polygon footprint lids (`BoxType.CAP_PATH`, `BoxType.SLIPOVER_PATH`):
+  - **Largest Inscribed Rectangle Placement**: When a label is specified without explicit coordinates on a polygon lid, the library MUST calculate the maximal inscribed axis-aligned rectangle (`largest_inscribed_rectangle(path)`) within the polygon boundary. The label (text, frame, backing plate, and hatching recess) MUST be placed inside this largest contiguous interior region rather than naively at the polygon bounding box center (which may lie in an empty void or outside the polygon for non-convex shapes like L-shapes, T-shapes, or U-shapes).
+  - **Explicit Placement Overrides**: `LidBuilder` MUST support optional `label_center: tuple[float, float]` and `label_area: tuple[float, float, float, float]` to allow callers to manually position or constrain the label within designated polygon lobes.
+  - **Perimeter-Conforming Pattern Clipping**: Through-hole lid patterns (`PatternType`) on polygon lids MUST be clipped against an inset boundary `offset_footprint(path, border_width)` rather than a rectangular bounding box, ensuring pattern cutouts follow the polygon contour and preserve a solid outer perimeter rim without cutting into skirt walls.
+
+- **FR-104**: **Bottom-Aligned Finger Grip Notches for Rectangular & Polygon Slipover Sleeves**:
+  The library MUST carve finger grip cutouts at the bottom rim of slipover sleeve lids (`BoxType.SLIPOVER`, `BoxType.SLIPOVER_PATH`) to allow fingers to grip and remove the outer sleeve from the body:
+  - **Rectangular Slipover Sleeves**: Finger cutouts MUST open at the bottom edge of the sleeve skirt (`z = foot + gap`), flaring downward and curving off upward into the skirt wall, rather than carving at the top roof under the lid deck.
+  - **Polygon Slipover Sleeves (`SlipoverPathBox`)**: Finger scoops MUST be carved at opposite exterior (convex) corners (`polygon_convex_corners`, `polygon_opposite_corners`), opening at `z = foot` and extending upward by `min(SLIPOVER_FINGER_MAX_MM, skirt / 2)`. Cutout radii MUST clamp to incident edge lengths (`min(d_prev, d_next) * 0.45`) to prevent clipping adjacent corners on compact polygons. Setting `slipover_finger_height=0.0` disables the scoops.
+
+- **FR-105**: **Solid-Knuckle Filament Hinge & Rim-Level 50/50 Split Print-in-Place Hinge Architecture**:
+  The library MUST clearly separate and correctly manufacture the three hinged box closure mechanisms (`BoxType.FILAMENT_HINGE`, `BoxType.HINGE`, `BoxType.PRINT_IN_PLACE_HINGE`):
+  - **Filament Hinge (`BoxType.FILAMENT_HINGE`)**: Two-piece separable box joined by standard 1.75mm filament (or wire) inserted as the hinge pin. Alternating body and lid knuckles MUST be 100% solid along Z without horizontal slicing or parting voids cutting across the hinge axis; axial separation is maintained by interleaving spacing along X with gap `gap`, and rotational clearance is provided by `body_cut` and `lid_cut` radial reliefs.
+  - **Standard Pin Hinge (`BoxType.HINGE`)**: Two-piece separable box using customizable knuckle pin bore diameter (`spec.hinge_pin_diameter`, default 3.0mm) intended for 3D printed pins, metal rods, or M3 screws.
+  - **Monolithic Print-In-Place Hinge (`BoxType.PRINT_IN_PLACE_HINGE`)**: One-piece monolithic print printed flat unfolded 180° on the build plate. The box MUST split 50/50 halfway up the side (`half_h = spec.height / 2.0`), producing equal-depth base body and lid trays. The captive interlocked `KnuckleHingePair` and snap catches (`SnapSocket`, `SnapLock`) MUST be positioned along the shared mating rim at `z = half_h`. 45° self-supporting overhang chamfer wedges (`wedge`) MUST connect the elevated hinge arms to the tray back walls for support-free 3D printing. Usable base interior height is `half_h - floor_thickness`.
+
 - **BoxSpec**: The complete configuration of a single box -- outer dimensions (explicit or auto-computed from compartments), wall/floor/lid thicknesses, lid type, compartments, finger holes, labelling decorations, material colours, print positioning, auto-expand behaviour (expandable axes), and a `no_rotate` flag (default `False`) that prevents the 3D packer from rotating the box. Immutable once built. If `size` is omitted, dimensions are derived from compartment layout during packing.
 - **BoxType**: Abstracts the lid mechanism -- defines how the body is constructed (e.g., with dovetail grooves for sliding, with overhangs for caps, cantilever snap latches, bayonets, threads, dispensers, card shoes, sleeve drawers, clamshells, modular interlocks, or monolithic print-in-place hinges) and what lid geometry mates with it.
 - **CatchType**: The enum defining the lid retention mechanism (`NONE`, `BUMP`, `LOOP`, `WEDGE`, `MAGNET`, `LEAF_SPRING`) across all lidded box families requiring positive closure latching.
@@ -883,6 +900,16 @@ The project architecture undergoes structural hardening to eliminate God-objects
   1. Two adjacent boxes placed at nominal touching positions assemble with zero solid CSG collision volume (`volume(box1 & box2) < 0.05mm³`), confirming that `interlock_clearance` (default 0.15mm) provides proper fit clearance without geometric collision.
   2. For `DOVETAIL` and `CLIP`, displacing one box horizontally away from the other creates non-zero solid interference (`volume > 0.0mm³`), confirming that the joint physically prevents horizontal pull-apart in all planar directions.
   3. For regular polygon boxes in a grid, shared facet midpoints and outward normal vectors align face-to-face across adjacent cells, enabling seamless multi-box grid assembly.
+- **SC-103**: On polygon footprint lids (`CAP_PATH`, `SLIPOVER_PATH`):
+  1. Automated label placement selects the largest interior rectangular space, placing labels inside polygon arms (e.g. `y < 20` for an L-shape) rather than the non-convex void.
+  2. Through-hole patterns are bounded by the offset polygon perimeter, verifying 0mm³ cut into the outer skirt walls.
+- **SC-104**: On slipover box sleeves (`SLIPOVER`, `SLIPOVER_PATH`):
+  1. On rectangular sleeves, finger notches remove material starting at `z = foot + gap`, aligning the open mouth with the bottom rim of the sleeve.
+  2. On polygon sleeves, finger scoops remove material at `z = foot` at the two convex corners with maximum separation, with radii clamped to incident polygon edges.
+- **SC-105**: For filament-hinged and print-in-place hinged boxes:
+  1. `BoxType.FILAMENT_HINGE` knuckles contain zero horizontal parting slice voids through the knuckle center, and the closed box has zero CSG collision volume (`< 0.05mm³`).
+  2. `BoxType.PRINT_IN_PLACE_HINGE` base tray and lid tray each have height `half_h = spec.height / 2.0`, `interior.height == half_h - floor_thickness`, the hinge knuckles and snap catches sit at `z = half_h`, and self-supporting 45° chamfers connect the hinge arms to the back walls.
+
 
 
 ### Railways of the World Example Specification

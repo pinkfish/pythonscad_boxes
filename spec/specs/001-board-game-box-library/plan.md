@@ -1774,11 +1774,17 @@ Where each requirement is designed, and where it is verified. Sections named bel
 | FR-100 | Comprehensive Component & Catch Unit Test Coverage | `tests/test_pyboxbuilder/test_catches.py`, `tests/test_pyboxbuilder/test_closures.py`, `tests/test_pyboxbuilder/test_cap_polygon.py`, `tests/test_pyboxbuilder/test_slipover_polygon.py` |
 | FR-101 | Universal Stackable Box Architecture across Lidded and Open Families (`StackableMode`) | `pyboxbuilder/enums.py`, `pyboxbuilder/box/features.py`, `pyboxbuilder/box/types/*`, `pyboxbuilder/builders/*` |
 | FR-102 | Horizontal Interlocking Architecture across Rectangular and Regular Polygon Boxes (`InterlockType`) | `pyboxbuilder/enums.py`, `pyboxbuilder/box/features.py`, `pyboxbuilder/box/types/*`, `pyboxbuilder/builders/*`, `pyboxbuilder/project/core.py` |
+| FR-103 | Polygon Footprint Lid Labeling & Pattern Clipping | `pyboxbuilder/paths.py`, `pyboxbuilder/lid/builder.py`, `pyboxbuilder/lid/label.py`, `pyboxbuilder/lid/decorate.py`, `pyboxbuilder/project/pipeline.py` |
+| FR-104 | Bottom-Aligned Finger Grip Notches for Rectangular & Polygon Slipover Sleeves | `pyboxbuilder/paths.py`, `pyboxbuilder/box/types/slipover.py`, `pyboxbuilder/box/types/slipover_path.py` |
+| FR-105 | Solid-Knuckle Filament Hinge & Rim-Level 50/50 Split Print-in-Place Hinge Architecture | `pyboxbuilder/box/features.py`, `pyboxbuilder/box/types/pip_hinge.py`, `pyboxbuilder/box/types/hinge.py`, `pyboxbuilder/box/types/filament_hinge.py` |
 
 | SC | Verified by |
 |---|---|
 | SC-101 | `tests/test_pyboxbuilder/test_stackable.py` — vertical stacking without horizontal displacement, clearance offset verification, and zero solid collision volume |
 | SC-102 | `tests/test_pyboxbuilder/test_interlock.py` — side-by-side assembly with zero collision volume, positive horizontal pull-apart resistance, and regular polygon grid alignment |
+| SC-103 | `tests/test_pyboxbuilder/test_polygon_lid.py` — largest inscribed rectangle placement inside polygon interior arms and perimeter-conforming pattern clipping |
+| SC-104 | `tests/test_pyboxbuilder/test_closures.py` (`SlipoverFingerNotchTests`), `tests/test_pyboxbuilder/test_slipover_polygon.py` — bottom-rim finger notch alignment and opposite convex corner selection |
+| SC-105 | `tests/test_pyboxbuilder/test_extended_boxes.py` (`test_pip_hinge_split_halfway`), `tests/test_pyboxbuilder/test_closures.py` — solid filament hinge knuckle integrity and 50/50 PIP hinge split with rim-level knuckles |
 | SC-001 | `quickstart.md` scenarios (T085) |
 | SC-002, SC-008 | timed layout/auto-size tests in `test_compartments.py`, `test_packing.py` |
 | SC-003 | `test_closures.py` — zero body/lid intersection for all 11 lidded types |
@@ -1932,7 +1938,61 @@ The horizontal interlocking architecture enables side-by-side modular coupling a
    - Attempting to displace one box horizontally away from the other creates non-zero solid interference for mechanical interlocks (`DOVETAIL` and `CLIP`).
 
 
+### Polygon Footprint Lid Labeling & Pattern Clipping (FR-103, SC-103)
+
+The polygon lid architecture extends framed labeling and through-hole surface patterns to arbitrary 2D polygon footprints (`BoxType.CAP_PATH`, `BoxType.SLIPOVER_PATH`):
+
+1. **Maximal Inscribed Rectangle Algorithm (`pyboxbuilder/paths.py`)**:
+   - `point_in_polygon(x, y, poly)` implements ray casting to verify boundary containment.
+   - `largest_inscribed_rectangle(path)`:
+     - For rectilinear polygons (e.g., L-shaped, T-shaped, U-shaped trays), performs an exact coordinate-grid decomposition over unique X and Y vertex coordinates, finding the largest axis-aligned bounding box inside the interior in $< 1$ ms.
+     - For arbitrary/regular polygons (e.g. hexagons, octagons, triangles), samples a 2D regular grid and applies a maximal rectangle histogram stack algorithm.
+   - Automatically centers the label, hatching recess, and backing plate inside this largest interior region (e.g., inside the 55x25mm arm of an L-shape rather than at the bounding box centroid which falls in empty space).
+
+2. **Explicit Placement Control (`pyboxbuilder/lid/builder.py`, `pyboxbuilder/lid/label.py`)**:
+   - `LidBuilder` provides `label_center: tuple[float, float] | None` and `label_area: tuple[float, float, float, float] | None` to explicitly place or size the label within designated polygon lobes.
+   - Defaults to automated largest inscribed rectangle placement when left unspecified (`None`).
+
+3. **Perimeter-Conforming Pattern Clipping (`pyboxbuilder/lid/decorate.py`)**:
+   - Through-hole lattices (`PatternType.HEX`, `SQUARE`, `VORONOI`, etc.) on polygon lids are clipped against `offset_footprint(path, pattern.border_width)` rather than an enclosing rectangle.
+   - Guarantees pattern cutouts track the polygon contour, preserving a solid perimeter border and preventing cuts into the outer skirt walls.
+
+### Bottom-Aligned Slipover Finger Grip Notches (FR-104, SC-104)
+
+The slipover finger notch architecture ensures outer sleeves can be physically gripped and removed:
+
+1. **Rectangular Sleeves (`pyboxbuilder/box/types/slipover.py`)**:
+   - Finger notches are computed relative to the sleeve skirt's lower edge at `base_z = foot + gap` (where `gap = min(slipover_gap(spec), spec.height - foot - lt)`).
+   - Cylindrical scoops with rounded tops are mirrored along Z and translated to `base_z + height`, opening downward at the bottom rim of the sleeve and flaring upward into the skirt wall.
+
+2. **Polygon Sleeves (`pyboxbuilder/box/types/slipover_path.py`, `pyboxbuilder/paths.py`)**:
+   - `polygon_convex_corners(path)` identifies exterior corners using vertex cross-products and path winding, filtering out reflex/interior corners (such as the inside bend of an L-shape).
+   - `polygon_opposite_corners(path)` selects the two convex corners with maximum Euclidean distance, providing natural two-handed pull points.
+   - Arched scoops are carved at these opposite corners starting at `z = foot`, with radii clamped to incident edge lengths (`min(d_prev, d_next) * 0.45`) to preserve adjacent corners.
+
+### Solid-Knuckle Filament Hinge & Rim-Aligned 50/50 Split Print-in-Place Hinge (FR-105, SC-105)
+
+The library clearly differentiates and implements the three hinged box closure mechanisms:
+
+1. **Hinge Mechanism Comparison**:
+   - **`BoxType.FILAMENT_HINGE`**: Two-piece separable box (body and lid printed separately). Joined post-print by pushing standard 1.75mm 3D printer filament (or wire) through the knuckle bore. Flush knuckle profile with zero extra hardware.
+   - **`BoxType.HINGE`**: Two-piece separable box using customizable knuckle pin bore diameter (`spec.hinge_pin_diameter`, default 3.0mm) intended for 3D printed pins, metal dowels, or M3 hardware.
+   - **`BoxType.PRINT_IN_PLACE_HINGE`**: One-piece monolithic print (body and lid printed simultaneously flat at 180° on the print bed). Uses captive interlocked knuckle joints (`KnuckleHingePair`) and snap catches (`SnapSocket`/`SnapLock`) from `pybosl2.parts.hinges`. Zero assembly required.
+
+2. **Filament Hinge Solid Knuckle Integrity (`pyboxbuilder/box/features.py`)**:
+   - Removed the erroneous `parting = block(...)` horizontal cutter previously subtracted at `axis_z`.
+   - Alternating body and lid knuckles are segmented axially along X with clearance gaps `gap` and radially cleared by `body_cut`/`lid_cut`. Knuckles are 100% solid along Z without horizontal parting voids, and the closed box mates with zero collision (`collision volume = 1.08e-12 mm³`).
+
+3. **Print-in-Place Hinge 50/50 Split & Rim-Level Knuckles (`pyboxbuilder/box/types/pip_hinge.py`)**:
+   - The box splits halfway up the side (`half_h = spec.height / 2.0`), producing equal-depth base body and lid trays.
+   - The captive `KnuckleHingePair` is elevated to `z = half_h`, aligning it with the shared mating rim where the box closes.
+   - 45° self-supporting overhang chamfer wedges (`wedge` from `pybosl2.shapes3d`) connect the elevated hinge arms to the tray back walls, ensuring clean 3D printing without support material.
+   - `SnapSocket` and `SnapLock` catches are positioned on the mating front rims at `z = half_h`.
+   - Interior usable height of the base tray is `half_h - floor_thickness`.
+
+
 ## Complexity Tracking
 
 > No violations.
+
 

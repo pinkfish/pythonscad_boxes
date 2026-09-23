@@ -1266,6 +1266,32 @@ stop the class of mistake from being expressible.
 - [x] T423 [P] Add validation in `pyboxbuilder/box/validation.py` for catch envelope sanity (`catch_size` vs wall/lid thickness) and write unit tests in `tests/test_pyboxbuilder/test_catches.py`.
 - [x] T424 Run test suite with `--base-only`, verify Sphinx documentation builds with 0 warnings, and push commits to `origin main` and `origin examples`.
 
+## Phase 46: Polygon Footprint Lid Labeling & Pattern Clipping (FR-103, SC-103)
+
+**Goal**: Support intelligent label placement and perimeter-conforming surface pattern cutting on polygon footprint lids (`BoxType.CAP_PATH`, `BoxType.SLIPOVER_PATH`).
+
+- [x] T425 [P] Implement `point_in_polygon` and `largest_inscribed_rectangle` in `pyboxbuilder/paths.py` supporting exact rectilinear decomposition and sample-grid search for arbitrary polygons.
+- [x] T426 [P] Add `label_center` and `label_area` overrides to `LidBuilder` in `pyboxbuilder/lid/builder.py` and plumb to `build_label` in `pyboxbuilder/lid/label.py`.
+- [x] T427 [P] Update `decorate_lid` and `_cut_pattern` in `pyboxbuilder/lid/decorate.py` to position labels in the largest inscribed rectangle and clip patterns to `offset_footprint(path, border_width)`.
+- [x] T428 [P] Add unit tests in `tests/test_pyboxbuilder/test_polygon_lid.py` and verify documentation example in `docs/box_types.rst`.
+
+## Phase 47: Bottom-Aligned Finger Grip Notches for Slipover Sleeves (FR-104, SC-104)
+
+**Goal**: Align slipover finger grip cutouts at the bottom rim of the outer sleeve across rectangular and polygon slipover boxes.
+
+- [x] T429 [P] Update `_finger_notches` in `pyboxbuilder/box/types/slipover.py` to open at `base_z = foot + gap`, curving upward into the skirt.
+- [x] T430 [P] Implement `polygon_convex_corners` and `polygon_opposite_corners` in `pyboxbuilder/paths.py`.
+- [x] T431 [P] Implement `_finger_notches` in `pyboxbuilder/box/types/slipover_path.py` carving arched scoops at opposite convex corners starting at `z = foot`.
+- [x] T432 [P] Add unit tests in `tests/test_pyboxbuilder/test_closures.py` and `tests/test_pyboxbuilder/test_slipover_polygon.py`.
+
+## Phase 48: Solid-Knuckle Filament Hinge & Rim-Level 50/50 Split Print-in-Place Hinge (FR-105, SC-105)
+
+**Goal**: Eliminate the horizontal parting slice bug in `filament_hinge` and split `PrintInPlaceHingeBox` 50/50 halfway up the box with knuckles elevated to the shared rim.
+
+- [x] T433 [P] Remove parting block subtraction in `filament_hinge` in `pyboxbuilder/box/features.py`, ensuring 100% solid knuckles.
+- [x] T434 [P] Redesign `PrintInPlaceHingeBox` in `pyboxbuilder/box/types/pip_hinge.py` to split body and lid trays equally at `half_h = spec.height / 2.0`, elevate `KnuckleHingePair` and snap catches to `z = half_h`, and add 45° overhang chamfer wedges down to the tray back walls.
+- [x] T435 [P] Add unit tests in `tests/test_pyboxbuilder/test_extended_boxes.py` (`test_pip_hinge_split_halfway`), regenerate docs STLs, and verify Sphinx documentation.
+
 ## Notes
 
 
