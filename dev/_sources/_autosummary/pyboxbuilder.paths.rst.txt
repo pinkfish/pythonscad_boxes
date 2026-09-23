@@ -22,6 +22,8 @@ pyboxbuilder.paths
       bounds
       inset_rectilinear
       is_rectilinear
+      largest_inscribed_rectangle
+      point_in_polygon
       polygon_area
       signed_area
    

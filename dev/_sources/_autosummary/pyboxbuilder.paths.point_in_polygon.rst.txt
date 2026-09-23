@@ -1,0 +1,6 @@
+pyboxbuilder.paths.point\_in\_polygon
+=====================================
+
+.. currentmodule:: pyboxbuilder.paths
+
+.. autofunction:: point_in_polygon

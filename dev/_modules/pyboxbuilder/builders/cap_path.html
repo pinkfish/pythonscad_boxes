@@ -469,6 +469,14 @@
 <span class="sd">                "CapPathTray",</span>
 <span class="sd">                size=(55.0, 55.0, 20.0),</span>
 <span class="sd">                path=l_path,</span>
+<span class="sd">                color=Color("teal"),</span>
+<span class="sd">                lid=LidBuilder(</span>
+<span class="sd">                    label_mode=LabelMode.FRAMED,</span>
+<span class="sd">                    text_color=Color("white"),</span>
+<span class="sd">                    frame_color=Color("silver"),</span>
+<span class="sd">                    border_margin_mm=3.0,</span>
+<span class="sd">                    pattern=PatternBuilder(PatternType.HEX, spacing=8.0),</span>
+<span class="sd">                ).titled("PARTS"),</span>
 <span class="sd">            )</span>
 <span class="sd">            project.show(show_lids=True)</span>
 <span class="sd">    """</span>

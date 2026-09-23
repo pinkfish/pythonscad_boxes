@@ -615,6 +615,15 @@
 <span class="sd">    keep-out is the glyph outline, and the label is inlaid into the lid rather</span>
 <span class="sd">    than perched on it. Raise it for a lid whose pattern is coarse enough that</span>
 <span class="sd">    a stroke would otherwise finish on the very edge of a hole."""</span>
+    <span class="n">label_center</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">"""Explicit ``(x, y)`` center position for the label in the lid's local frame.</span>
+
+<span class="sd">    When ``None`` on a polygon lid, the label is placed in the largest</span>
+<span class="sd">    inscribed rectangular space."""</span>
+    <span class="n">label_area</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">"""Explicit ``(x, y, width, length)`` bounding box for the label in the lid's local frame.</span>
+
+<span class="sd">    When ``None`` on a polygon lid, the largest inscribed rectangle is used."""</span>
     <span class="n">mmu_label</span><span class="p">:</span> <span class="n">LidBuilder</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="w">    </span><span class="sd">"""Fields to override for the multi-material export (see :meth:`for_mode`)."""</span>
     <span class="n">single_label</span><span class="p">:</span> <span class="n">LidBuilder</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>

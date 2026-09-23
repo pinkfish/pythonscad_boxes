@@ -1,0 +1,6 @@
+pyboxbuilder.paths.largest\_inscribed\_rectangle
+================================================
+
+.. currentmodule:: pyboxbuilder.paths
+
+.. autofunction:: largest_inscribed_rectangle
