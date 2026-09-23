@@ -9,7 +9,7 @@ from pybosl2.parts.hinges import KnuckleHingePair, SnapLock, SnapSocket
 
 from pyboxbuilder.box.base import BoxTypeBase, Interior
 from pyboxbuilder.box.registry import register_box
-from pyboxbuilder.box.shell import block, body_rounding, build_shell
+from pyboxbuilder.box.shell import block, body_rounding
 from pyboxbuilder.box.spec import BoxSpec
 from pyboxbuilder.builders.pip_hinge import PrintInPlaceHingeBoxBuilder
 from pyboxbuilder.enums import BoxType, CatchType
@@ -38,14 +38,13 @@ class PrintInPlaceHingeBox(BoxTypeBase):
     """Monolithic 180° flat print-in-place captive hinge box (FR-090)."""
 
     def interior(self, spec: BoxSpec) -> Interior:
-        """Return the usable interior volume of the box body."""
+        """Return the usable interior volume of the base tray half."""
         wt = spec.wall_thickness
         ft = spec.floor_thickness
-        lt = spec.lid_thickness
-        body_h = spec.height - lt
+        half_h = spec.height / 2.0
         inner_w = spec.width - 2 * wt
         inner_l = spec.length - 2 * wt
-        inner_h = body_h - ft
+        inner_h = half_h - ft
         return Interior(
             width=inner_w,
             length=inner_l,
@@ -56,22 +55,30 @@ class PrintInPlaceHingeBox(BoxTypeBase):
         )
 
     def build_body(self, spec: BoxSpec) -> Bosl2Solid:
-        """Return the monolithic print containing body, lid, pybosl2 KnuckleHingePair, and snap catches."""
+        """Return the monolithic print containing body tray, lid tray, pybosl2 KnuckleHingePair, and snap catches."""
+        from pybosl2.constants import Anchor
+        from pybosl2.shapes3d import wedge
+
         wt = spec.wall_thickness
         ft = spec.floor_thickness
         lt = spec.lid_thickness
-        body_h = spec.height - lt
+        half_h = spec.height / 2.0
         hr = spec.pip_hinge_radius
         a_clr = spec.pip_axial_clearance
 
-        # 1. Main Box Body
-        body = build_shell(spec)
+        # 1. Main Box Body (tray of height half_h)
+        inner_w = spec.width - 2 * wt
+        inner_l = spec.length - 2 * wt
+        body_outer = block([spec.width, spec.length, half_h], at=(0, 0, 0))
+        body_cavity = block([inner_w, inner_l, half_h - ft + 1.0], at=(wt, wt, ft))
+        body = body_outer - body_cavity
 
-        # 2. Interlocking print-in-place knuckle hinge pair from pybosl2
-        arm = 4.0
+        # 2. Interlocking print-in-place knuckle hinge pair from pybosl2 along shared rim (z = half_h)
+        arm = max(4.0, hr + 1.0)
         hinge_gap = 2.0 * (arm + hr)
         hinge_y = spec.length + arm + hr
         lid_origin_y = spec.length + hinge_gap
+        thick = min(wt, hr)
 
         hinge_obj = KnuckleHingePair(
             length=spec.width,
@@ -79,22 +86,36 @@ class PrintInPlaceHingeBox(BoxTypeBase):
             knuckle_diam=hr * 2.0,
             pin_diam=max(1.5, hr * 0.8),
             arm=arm,
-            thick=lt,
+            thick=thick,
             gap=a_clr,
             pin=True,
         )
-        hinge = _to_solid(hinge_obj).translate([spec.width / 2.0, hinge_y, hr])
+        hinge = _to_solid(hinge_obj).translate([spec.width / 2.0, hinge_y, half_h])
 
-        # 3. Lid unfolded flat 180° behind the body along Y
+        # Self-supporting 45-degree chamfer brackets under the hinge arms
+        z_arm_bottom = half_h - thick / 2.0
+        chamfer_h = min(arm, z_arm_bottom)
+        if chamfer_h > 0.5:
+            supp_body = wedge(
+                size=[spec.width, arm, chamfer_h],
+                anchor=Anchor.FRONT + Anchor.LEFT + Anchor.BOTTOM,
+            ).translate([0.0, spec.length, z_arm_bottom - chamfer_h])
+
+            supp_lid = wedge(
+                size=[spec.width, arm, chamfer_h],
+                anchor=Anchor.FRONT + Anchor.LEFT + Anchor.BOTTOM,
+            ).mirror([0, 1, 0]).translate([0.0, lid_origin_y, z_arm_bottom - chamfer_h])
+
+            hinge = hinge | supp_body | supp_lid
+
+        # 3. Lid tray of height half_h unfolded flat 180° behind the body along Y
         lid_outer = block(
-            [spec.width, spec.length, lt],
+            [spec.width, spec.length, half_h],
             at=(0, lid_origin_y, 0),
         )
-        inner_w = spec.width - 2 * wt
-        inner_l = spec.length - 2 * wt
         lid_cavity = block(
-            [inner_w, inner_l, lt],
-            at=(wt, lid_origin_y + wt, ft),
+            [inner_w, inner_l, half_h - lt + 1.0],
+            at=(wt, lid_origin_y + wt, lt),
         )
         lid = lid_outer - lid_cavity
 
@@ -111,7 +132,7 @@ class PrintInPlaceHingeBox(BoxTypeBase):
                 foldangle=180,
             )
             sock = _to_solid(sock_obj)
-            sock_placed = sock.translate([spec.width / 2.0, wt / 2.0, body_h])
+            sock_placed = sock.translate([spec.width / 2.0, wt / 2.0, half_h])
 
             lock_obj = SnapLock(
                 thick=wt,
@@ -121,7 +142,7 @@ class PrintInPlaceHingeBox(BoxTypeBase):
             )
             lock = _to_solid(lock_obj)
             lock_placed = lock.translate(
-                [spec.width / 2.0, lid_origin_y + spec.length - wt / 2.0, lt]
+                [spec.width / 2.0, lid_origin_y + spec.length - wt / 2.0, half_h]
             )
             monolithic = monolithic | sock_placed | lock_placed
 
@@ -129,7 +150,7 @@ class PrintInPlaceHingeBox(BoxTypeBase):
         if radius > 0:
             monolithic = round_edges(
                 monolithic,
-                [spec.width, spec.length, body_h],
+                [spec.width, spec.length, half_h],
                 radius,
                 list(vertical_edges()),
             )

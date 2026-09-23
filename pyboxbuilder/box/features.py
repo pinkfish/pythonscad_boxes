@@ -1548,17 +1548,10 @@ def filament_hinge(
 
     pin = cylinder(height=spec.width + 2, radius=bore, **precision_kwargs()).rotate([0, 90, 0])
     pin = pin.translate([spec.width / 2, axis_y, axis_z])
-    # Split the barrel at the joint line so the two leaves cannot touch.
-    parting = block(
-        [spec.width + 2, web_depth + 2 * radius + 2, gap],
-        at=(-1.0, web_y - web_depth - 1.0, axis_z - gap / 2),
-    )
 
-    body = union_all(body_parts)
-    lid = union_all(lid_parts)
     return Closure(
-        body=None if body is None else body - parting,
-        lid=None if lid is None else lid - parting,
+        body=union_all(body_parts),
+        lid=union_all(lid_parts),
         body_cut=union_all(body_relief),
         lid_cut=union_all(lid_relief),
         pin=pin,

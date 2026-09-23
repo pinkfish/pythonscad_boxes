@@ -275,3 +275,24 @@ class ExtendedBoxGeometryTests(unittest.TestCase):
 
             # Monolithic PIP hinge produces NO lid file (FR-090)
             self.assertFalse((mmu_dir / "PIP_lid.3mf").exists())
+
+    def test_pip_hinge_split_halfway(self) -> None:
+        """Verify PIP hinge box splits halfway up the side (FR-090)."""
+        impl = BOX_IMPL_REGISTRY[BoxType.PRINT_IN_PLACE_HINGE]()
+        spec = BoxSpec(label="PIP50", width=60.0, length=40.0, height=30.0)
+        solid = impl.build_body(spec)
+        self.assertIsNotNone(solid)
+
+        # Interior height of the base tray must be half the total height minus floor
+        interior = impl.interior(spec)
+        self.assertAlmostEqual(interior.height, 15.0 - spec.floor_thickness)
+
+        # The monolithic build spans from z=0 up to half_h + hr
+        b = solid.bounds()
+        centre, size = (b.center, b.size) if hasattr(b, "center") else b
+        z_min = centre[2] - size[2] / 2.0
+        z_max = centre[2] + size[2] / 2.0
+        self.assertAlmostEqual(z_min, 0.0, delta=0.5)
+        # Top of the snap catch tabs reaches half_h + ~4.7mm (or half_h + hr without catches)
+        self.assertAlmostEqual(z_max, 15.0 + 4.71, delta=0.5)
+
