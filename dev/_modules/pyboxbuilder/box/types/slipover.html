@@ -606,8 +606,8 @@
 <span class="sd">        get a fingertip. The original cuts a notch into two **diagonally</span>
 <span class="sd">        opposite** corners — diagonal so the two hands pull along the sleeve's</span>
 <span class="sd">        axis rather than twisting it — sized at half the skirt's height and</span>
-<span class="sd">        placed just under the lid plate, where the notch exposes the body's</span>
-<span class="sd">        corner and a thumb can push it out.</span>
+<span class="sd">        placed at the bottom rim of the lid sleeve, where the notch exposes</span>
+<span class="sd">        the body's corner and fingers can grip or push the sleeve off.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            spec: Box dimensions; reads `wall_thickness`, `lid_thickness`,</span>
@@ -617,14 +617,15 @@
 <span class="sd">            The solid to subtract from the sleeve.</span>
 
 <span class="sd">        """</span>
-        <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.features</span><span class="w"> </span><span class="kn">import</span> <span class="n">corner_catch</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.features</span><span class="w"> </span><span class="kn">import</span> <span class="n">corner_catch</span><span class="p">,</span> <span class="n">slipover_gap</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.compartments.element</span><span class="w"> </span><span class="kn">import</span> <span class="n">union_all</span>
 
         <span class="n">wt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">wall_thickness</span>
         <span class="n">lt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">lid_thickness</span>
         <span class="n">foot</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">foot</span>
+        <span class="n">gap</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">slipover_gap</span><span class="p">(</span><span class="n">spec</span><span class="p">),</span> <span class="n">spec</span><span class="o">.</span><span class="n">height</span> <span class="o">-</span> <span class="n">foot</span> <span class="o">-</span> <span class="n">lt</span><span class="p">)</span>
+        <span class="n">skirt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">height</span> <span class="o">-</span> <span class="n">foot</span> <span class="o">-</span> <span class="n">gap</span>
 
-        <span class="n">skirt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">height</span> <span class="o">-</span> <span class="n">foot</span> <span class="o">-</span> <span class="n">lt</span>
         <span class="c1"># The original's sizing: half the skirt, capped, and a radius that stays</span>
         <span class="c1"># usable on a shallow box.</span>
         <span class="c1"># An explicit None check, not `or`: `slipover_finger_height=0` means</span>
@@ -639,7 +640,7 @@
             <span class="k">return</span> <span class="kc">None</span>
         <span class="n">radius</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">height</span><span class="p">,</span> <span class="n">SLIPOVER_FINGER_MIN_RADIUS_MM</span><span class="p">)</span>
 
-        <span class="n">top</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">height</span> <span class="o">-</span> <span class="n">lt</span>
+        <span class="n">base_z</span> <span class="o">=</span> <span class="n">foot</span> <span class="o">+</span> <span class="n">gap</span>
         <span class="n">notches</span> <span class="o">=</span> <span class="p">[</span>
             <span class="n">corner_catch</span><span class="p">(</span>
                 <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">radius</span><span class="o">=</span><span class="n">radius</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">height</span><span class="p">,</span>
@@ -650,7 +651,10 @@
                 <span class="n">height</span><span class="o">=</span><span class="n">height</span><span class="p">,</span> <span class="n">wall_thickness</span><span class="o">=</span><span class="n">wt</span><span class="p">,</span> <span class="n">rounding_edge</span><span class="o">=</span><span class="n">wt</span> <span class="o">/</span> <span class="mi">4</span><span class="p">,</span>
             <span class="p">),</span>
         <span class="p">]</span>
-        <span class="k">return</span> <span class="n">union_all</span><span class="p">([</span><span class="n">n</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">top</span> <span class="o">-</span> <span class="n">height</span><span class="p">])</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">notches</span><span class="p">])</span></div>
+        <span class="k">return</span> <span class="n">union_all</span><span class="p">([</span>
+            <span class="n">n</span><span class="o">.</span><span class="n">mirror</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">base_z</span> <span class="o">+</span> <span class="n">height</span><span class="p">])</span>
+            <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">notches</span>
+        <span class="p">])</span></div>
 
 </code></pre></div>
 
