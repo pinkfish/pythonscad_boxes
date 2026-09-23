@@ -86,6 +86,7 @@ def decorate_lid(
     mode: str = "mmu",
     body_color: Color | None = None,
     reserved: Sequence[tuple[float, float, float]] = (),
+    path: tuple[tuple[float, float], ...] | None = None,
 ) -> DecoratedLid:
     """Apply a lid's label, pattern and colours to its geometry.
 
@@ -99,6 +100,7 @@ def decorate_lid(
         reserved: ``(x, y, radius)`` circles on the lid that the pattern must
             leave solid — a box type's own lid features, such as a sliding
             lid's fingernail dish (FR-002e5).
+        path: Optional closed 2D polygon outline for polygon-footprint lids.
 
     Returns:
         The decorated lid and its coloured inserts.
@@ -115,12 +117,52 @@ def decorate_lid(
     width, length, origin_x, origin_y, top_z = face
     result = DecoratedLid(solid=lid)
 
+    label_w, label_l = width, length
+    center_x: float | None = None
+    center_y: float | None = None
+
+    if path is not None and len(path) >= 3 and resolved.text:
+        if resolved.label_area is not None:
+            lx, ly, lw, ll = resolved.label_area
+            center_x = (lx + lw / 2) - origin_x
+            center_y = (ly + ll / 2) - origin_y
+            label_w, label_l = lw, ll
+        elif resolved.label_center is not None:
+            cx, cy = resolved.label_center
+            center_x = cx - origin_x
+            center_y = cy - origin_y
+        else:
+            from pyboxbuilder.paths import largest_inscribed_rectangle
+
+            lx, ly, lw, ll = largest_inscribed_rectangle(path)
+            if lw > 0 and ll > 0:
+                center_x = (lx + lw / 2) - origin_x
+                center_y = (ly + ll / 2) - origin_y
+                label_w, label_l = lw, ll
+
+    margin_override = resolved.border_margin_mm
+    if margin_override is None and path is not None and (label_w > 0 and label_l > 0):
+        from pyboxbuilder.lid.builder import BORDER_MARGIN_MM
+        margin_override = min(BORDER_MARGIN_MM, max(2.0, min(label_w, label_l) / 4))
+
     # The label is built first even though it is applied last, because the
     # pattern has to know where it lands: holes under the lettering leave it
     # printing onto air, and in MMU mode the text is a separate object that
     # would simply fall through. The label takes precedence and the pattern
     # stops at its boundary (FR-023).
-    label = _build_label(resolved, width, length, mode) if resolved.text else None
+    label = (
+        _build_label(
+            resolved,
+            label_w,
+            label_l,
+            mode,
+            center_x=center_x,
+            center_y=center_y,
+            border_margin_mm=margin_override,
+        )
+        if resolved.text
+        else None
+    )
     if resolved.text and label is None:
         result.skipped_label = True
 
@@ -134,6 +176,7 @@ def decorate_lid(
             logo_keepout=logo_solid,
             label_clearance=resolved.label_clearance,
             reserved=reserved,
+            path=path,
         )
 
     if label is not None:
@@ -161,7 +204,13 @@ of a hole.
 
 
 def _build_label(
-    builder: LidBuilder, width: float, length: float, mode: str
+    builder: LidBuilder,
+    width: float,
+    length: float,
+    mode: str,
+    center_x: float | None = None,
+    center_y: float | None = None,
+    border_margin_mm: float | None = None,
 ) -> Label | None:
     """Build the label for this face, or ``None`` if it would be illegible."""
     from pyboxbuilder.lid.label import build_label
@@ -172,6 +221,7 @@ def _build_label(
     # to engraved text. Asking for the frame anyway would also lift the text
     # clear of the face and engrave nothing at all.
     label_mode = builder.mode if mode != "single" else LabelMode.FRAMELESS
+    margin = border_margin_mm if border_margin_mm is not None else builder.border_margin
 
     return build_label(
         width=width,
@@ -181,10 +231,12 @@ def _build_label(
         label_mode=label_mode,
         diagonal=builder.is_diagonal,
         min_text_height_mm=builder.min_text_height,
-        border_margin_mm=builder.border_margin,
+        border_margin_mm=margin,
         label_border_mm=builder.label_border_mm,
         label_text_gap_mm=builder.label_text_gap_mm,
         label_rounding_mm=builder.label_rounding_mm,
+        center_x=center_x,
+        center_y=center_y,
     )
 
 
@@ -357,6 +409,7 @@ def _cut_pattern(
     logo_keepout: Bosl2Solid | None = None,
     label_clearance: float = LABEL_CLEARANCE_MM,
     reserved: Sequence[tuple[float, float, float]] = (),
+    path: tuple[tuple[float, float], ...] | None = None,
 ) -> Bosl2Solid:
     """Cut the through-hole pattern into the lid, clear of its border.
 
@@ -374,6 +427,7 @@ def _cut_pattern(
         logo_keepout: The logo solid whose shape must stay solid.
         label_clearance: Solid margin kept around the lettering.
         reserved: ``(x, y, radius)`` circles the pattern must leave solid.
+        path: Optional closed 2D polygon outline for polygon lids.
 
     Returns:
         The perforated lid.
@@ -387,35 +441,56 @@ def _cut_pattern(
     # edge, the other keeps *material* there — the band the lid is picked up
     # by, and on a sliding lid the band that rides in the grooves.
     margin = builder.pattern.border_width
-    area_w = width - 2 * margin
-    area_l = length - 2 * margin
-    if area_w <= 0 or area_l <= 0:
-        return lid
 
     # Overshoot above and below so the holes go all the way through — a pattern
     # that stops short of the top face leaves a skin and shows nothing.
     depth = lid_thickness + 2.0
     base = (origin_x + margin, origin_y + margin, top_z - lid_thickness - 1.0)
 
-    holes = build_pattern(
-        area_w, area_l, depth, builder.pattern.type,
-        builder.pattern.spacing, builder.pattern.web,
-    )
-    if holes is None:
-        # No hole fits — too small an area, or a pitch that cannot hold a hole
-        # and a printable web at once. A solid lid is the right answer; a
-        # peppering of pinholes is not (FR-000c).
-        return lid
+    if path is not None and len(path) >= 3:
+        from pyboxbuilder.box.features import extrude_footprint, offset_footprint
+        from pyboxbuilder.paths import bounds
 
-    # The fills lay their lattice out in the area's own frame, deliberately
-    # overhanging every edge, so it is *moved* into place and not re-anchored.
-    # Re-anchoring by bounding box — which this used to do — threw the centring
-    # away and pushed the whole overhang to one side: on a 96 x 70 lid the
-    # right edge lost 56mm³ of material to the border strip and the left only
-    # 33mm³, so one side was cut through the hexes and the other through the
-    # webs. Trimming to the area is what keeps the border solid.
-    holes = holes.translate([base[0], base[1], base[2]])
-    holes = holes & block([area_w, area_l, depth], at=base)
+        inset_path = offset_footprint(path, margin)
+        (pmin_x, pmin_y), (pmax_x, pmax_y) = bounds(inset_path)
+        if pmax_x <= pmin_x or pmax_y <= pmin_y:
+            return lid
+
+        holes = build_pattern(
+            width, length, depth, builder.pattern.type,
+            builder.pattern.spacing, builder.pattern.web,
+        )
+        if holes is None:
+            return lid
+
+        clip_solid = extrude_footprint(inset_path, depth, base[2])
+        holes = holes.translate([origin_x, origin_y, base[2]])
+        holes = holes & clip_solid
+    else:
+        area_w = width - 2 * margin
+        area_l = length - 2 * margin
+        if area_w <= 0 or area_l <= 0:
+            return lid
+
+        holes = build_pattern(
+            area_w, area_l, depth, builder.pattern.type,
+            builder.pattern.spacing, builder.pattern.web,
+        )
+        if holes is None:
+            # No hole fits — too small an area, or a pitch that cannot hold a hole
+            # and a printable web at once. A solid lid is the right answer; a
+            # peppering of pinholes is not (FR-000c).
+            return lid
+
+        # The fills lay their lattice out in the area's own frame, deliberately
+        # overhanging every edge, so it is *moved* into place and not re-anchored.
+        # Re-anchoring by bounding box — which this used to do — threw the centring
+        # away and pushed the whole overhang to one side: on a 96 x 70 lid the
+        # right edge lost 56mm³ of material to the border strip and the left only
+        # 33mm³, so one side was cut through the hexes and the other through the
+        # webs. Trimming to the area is what keeps the border solid.
+        holes = holes.translate([base[0], base[1], base[2]])
+        holes = holes & block([area_w, area_l, depth], at=base)
 
     keepout = _label_keepout(keep_clear, depth, label_clearance)
     if keepout is not None:

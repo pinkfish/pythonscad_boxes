@@ -172,6 +172,15 @@ class LidBuilder:
     keep-out is the glyph outline, and the label is inlaid into the lid rather
     than perched on it. Raise it for a lid whose pattern is coarse enough that
     a stroke would otherwise finish on the very edge of a hole."""
+    label_center: tuple[float, float] | None = None
+    """Explicit ``(x, y)`` center position for the label in the lid's local frame.
+
+    When ``None`` on a polygon lid, the label is placed in the largest
+    inscribed rectangular space."""
+    label_area: tuple[float, float, float, float] | None = None
+    """Explicit ``(x, y, width, length)`` bounding box for the label in the lid's local frame.
+
+    When ``None`` on a polygon lid, the largest inscribed rectangle is used."""
     mmu_label: LidBuilder | None = None
     """Fields to override for the multi-material export (see :meth:`for_mode`)."""
     single_label: LidBuilder | None = None

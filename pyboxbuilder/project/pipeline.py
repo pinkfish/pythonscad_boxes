@@ -318,6 +318,7 @@ class GeometryPipeline:
         builder = piece.builder
         if piece.solid is None or builder is None or builder.lid is None:
             return piece.solid, None
+        path = getattr(builder, "path", None)
         decorated = decorate_lid(
             piece.solid,
             builder.lid,
@@ -325,6 +326,7 @@ class GeometryPipeline:
             mode,
             body_color=builder.color,
             reserved=self._lid_keepouts(manifest, builder),
+            path=path,
         )
         return decorated.solid, decorated.inserts or None
 

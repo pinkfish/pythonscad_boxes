@@ -536,7 +536,14 @@ Drop-on friction cap lid over an arbitrary 2D polygon path footprint:
        "CapPathTray",
        size=(55.0, 55.0, 20.0),
        path=l_path,
-       lid=LidBuilder(text="L-TRAY"),
+       color=Color("teal"),
+       lid=LidBuilder(
+           label_mode=LabelMode.FRAMED,
+           text_color=Color("white"),
+           frame_color=Color("silver"),
+           border_margin_mm=3.0,
+           pattern=PatternBuilder(PatternType.HEX, spacing=8.0),
+       ).titled("PARTS"),
    )
    project.show(show_lids=True)
 

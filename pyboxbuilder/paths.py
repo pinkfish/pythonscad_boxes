@@ -100,3 +100,127 @@ def _sign(value: float) -> float:
     if value < -EPSILON:
         return -1.0
     return 0.0
+
+
+def point_in_polygon(x: float, y: float, poly: Sequence[Point]) -> bool:
+    """Return True if point (x, y) is inside the polygon by ray casting."""
+    inside = False
+    n = len(poly)
+    for i in range(n):
+        x1, y1 = poly[i]
+        x2, y2 = poly[(i + 1) % n]
+        if ((y1 > y) != (y2 > y)) and (x < (x2 - x1) * (y - y1) / (y2 - y1) + x1):
+            inside = not inside
+    return inside
+
+
+def largest_inscribed_rectangle(path: Sequence[Point]) -> tuple[float, float, float, float]:
+    """Find the largest axis-aligned inscribed rectangle in a simple polygon.
+
+    Returns:
+        `(x, y, width, length)` in the polygon's local frame.
+    """
+    if len(path) < 3:
+        return (0.0, 0.0, 0.0, 0.0)
+
+    if is_rectilinear(path):
+        xs = sorted({p[0] for p in path})
+        ys = sorted({p[1] for p in path})
+        if len(xs) < 2 or len(ys) < 2:
+            return (0.0, 0.0, 0.0, 0.0)
+
+        ncols = len(xs) - 1
+        nrows = len(ys) - 1
+
+        grid = [
+            [
+                point_in_polygon((xs[c] + xs[c + 1]) / 2.0, (ys[r] + ys[r + 1]) / 2.0, path)
+                for c in range(ncols)
+            ]
+            for r in range(nrows)
+        ]
+
+        best_area = -1.0
+        best_rect = (0.0, 0.0, 0.0, 0.0)
+
+        for c1 in range(ncols):
+            for c2 in range(c1, ncols):
+                width = xs[c2 + 1] - xs[c1]
+                r_start: int | None = None
+                for r in range(nrows):
+                    all_inside = all(grid[r][c] for c in range(c1, c2 + 1))
+                    if all_inside:
+                        if r_start is None:
+                            r_start = r
+                        length = ys[r + 1] - ys[r_start]
+                        area = width * length
+                        if area > best_area or (abs(area - best_area) < 1e-6 and width > best_rect[2]):
+                            best_area = area
+                            best_rect = (xs[c1], ys[r_start], width, length)
+                    else:
+                        r_start = None
+
+        return best_rect
+
+    # Non-rectilinear polygon: grid discretization with histogram method
+    min_x = min(p[0] for p in path)
+    max_x = max(p[0] for p in path)
+    min_y = min(p[1] for p in path)
+    max_y = max(p[1] for p in path)
+
+    w = max_x - min_x
+    l = max_y - min_y
+    if w <= 0 or l <= 0:
+        return (0.0, 0.0, 0.0, 0.0)
+
+    n_samples = 60
+    dx = w / n_samples
+    dy = l / n_samples
+
+    grid_non_rect = []
+    for r in range(n_samples):
+        row = []
+        y0 = min_y + r * dy
+        y1 = y0 + dy
+        ymid = (y0 + y1) / 2.0
+        for c in range(n_samples):
+            x0 = min_x + c * dx
+            x1 = x0 + dx
+            xmid = (x0 + x1) / 2.0
+            inside = (
+                point_in_polygon(xmid, ymid, path)
+                and point_in_polygon(x0, y0, path)
+                and point_in_polygon(x1, y0, path)
+                and point_in_polygon(x0, y1, path)
+                and point_in_polygon(x1, y1, path)
+            )
+            row.append(inside)
+        grid_non_rect.append(row)
+
+    best_area = -1.0
+    best_rect = (0.0, 0.0, 0.0, 0.0)
+
+    heights = [0] * n_samples
+    for r in range(n_samples):
+        for c in range(n_samples):
+            heights[c] = heights[c] + 1 if grid_non_rect[r][c] else 0
+
+        stack: list[int] = []
+        for c in range(n_samples + 1):
+            h = heights[c] if c < n_samples else 0
+            while stack and heights[stack[-1]] >= h:
+                top = stack.pop()
+                width_cells = c if not stack else c - stack[-1] - 1
+                length_cells = heights[top]
+                col_start = stack[-1] + 1 if stack else 0
+                row_start = r - length_cells + 1
+
+                actual_w = width_cells * dx
+                actual_l = length_cells * dy
+                area = actual_w * actual_l
+                if area > best_area:
+                    best_area = area
+                    best_rect = (min_x + col_start * dx, min_y + row_start * dy, actual_w, actual_l)
+            stack.append(c)
+
+    return best_rect
