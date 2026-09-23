@@ -25,6 +25,8 @@ pyboxbuilder.paths
       largest_inscribed_rectangle
       point_in_polygon
       polygon_area
+      polygon_convex_corners
+      polygon_opposite_corners
       signed_area
    
    
