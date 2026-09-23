@@ -80,6 +80,25 @@ class PatternFillTests(unittest.TestCase):
         except ImportError:
             self.skipTest("bosl2 not available")
 
+    def test_triangle_fill(self):
+        try:
+            result = build_pattern(100, 70, 3.0, PatternType.TRIANGLE, spacing=10.0)
+            self.assertIsNotNone(result)
+        except ImportError:
+            self.skipTest("bosl2 not available")
+
+    def test_dense_triangle_fill(self):
+        try:
+            result = build_pattern(100, 70, 3.0, PatternType.DENSE_TRIANGLE, spacing=10.0)
+            self.assertIsNotNone(result)
+        except ImportError:
+            self.skipTest("bosl2 not available")
+
+    def test_triangle_pattern_too_small_spacing_returns_none(self):
+        # When spacing is so small that a minimum hole and web cannot fit, return None
+        result = build_pattern(100, 70, 3.0, PatternType.TRIANGLE, spacing=2.0)
+        self.assertIsNone(result)
+
 
 class HoleAndWebTests(unittest.TestCase):
     """A pattern is specified by the web between holes, not by a share of the

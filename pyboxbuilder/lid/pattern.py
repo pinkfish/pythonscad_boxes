@@ -60,6 +60,8 @@ DENSE_SPACING_SHARE = 1.6
 DEPTH_OVERSHOOT = 1.2
 """How far a hole is over-extruded relative to the lid, so it breaks through."""
 
+ROOT_THREE = math.sqrt(3.0)
+
 
 def hole_size(spacing: float, web: float | None) -> float:
     """Return how big a hole is, given the pitch and the web between them.
@@ -360,17 +362,40 @@ def _triangle_fill(
     width: float, length: float, thickness: float, spacing: float,
     web: float | None = None, dense: bool = False,
 ) -> Bosl2Solid | None:
-    """Triangular holes, alternating point-up and point-down along each row."""
+    """Triangular holes on an isometric grid, alternating point-up and point-down."""
+    from pybosl2 import regular_prism
+
     step = spacing * (DENSE_SPACING_SHARE if dense else 1.0)
-    size = hole_size(step, web)
+    gap = DEFAULT_WEB_MM if web is None else max(web, MIN_WEB_MM)
+    s_hole = step - ROOT_THREE * gap
+    if s_hole < MIN_HOLE_MM:
+        return None
+    r_hole = s_hole / (2.0 * ROOT_THREE)
 
-    def shape(x: float, y: float) -> Bosl2Solid:
-        # Alternating spin is what makes a triangle grid read as one, rather
-        # than as rows of identical wedges.
-        spin = 180.0 if round(x / step) % 2 else 0.0
-        return _prism(3, size, thickness, spin).translate([x, y, thickness / 2])
+    row_step = step * ROOT_THREE / 2.0  # Height of equilateral triangle row band
+    height = thickness * DEPTH_OVERSHOOT
 
-    return _punch(shape, width, length, step, size)
+    hole_up = regular_prism(
+        3, inner_radius=r_hole, height=height, spin=90.0, **precision_kwargs()
+    )
+    hole_down = regular_prism(
+        3, inner_radius=r_hole, height=height, spin=270.0, **precision_kwargs()
+    )
+
+    half_cols = math.ceil(width / (2.0 * step)) + 1
+    half_rows = math.ceil(length / (2.0 * row_step)) + 1
+
+    holes = None
+    for j in range(-half_rows, half_rows + 1):
+        y_band = length / 2.0 + j * row_step
+        x_offset = (j % 2) * (step / 2.0)
+        for k in range(-half_cols, half_cols + 1):
+            x_base = width / 2.0 + k * step + x_offset
+            cut_up = hole_up.translate([x_base, y_band - row_step / 6.0, thickness / 2.0])
+            cut_down = hole_down.translate([x_base + step / 2.0, y_band + row_step / 6.0, thickness / 2.0])
+            holes = cut_up if holes is None else holes | cut_up
+            holes = holes | cut_down
+    return holes
 
 
 def _octagon_fill(
@@ -647,9 +672,6 @@ def _leaf_fill(
         width, length, spacing, leaf_length, stagger=True,
         row_step=_leaf_row_step(leaf_length / 2.0, leaf_width / 2.0, gap),
     )
-
-
-ROOT_THREE = math.sqrt(3.0)
 
 LEAF_VEIN_BRANCHES = ((-0.45, 0.05), (0.05, 0.45), (0.45, 0.80))
 """Where each side vein leaves the midrib and where it lands, as fractions.
