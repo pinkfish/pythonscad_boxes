@@ -19,7 +19,7 @@ from pyboxbuilder.builders import (
     SnapFitBoxBuilder,
     ThreadedBoxBuilder,
 )
-from pyboxbuilder.enums import BoxType, InterlockType
+from pyboxbuilder.enums import BoxType, DispenserExtractionMode, InterlockType
 from pyboxbuilder.project import Project
 
 
@@ -100,6 +100,12 @@ class ExtendedBoxBuildersTests(unittest.TestCase):
         self.assertEqual(b.dispense_slot_clearance, 0.7)
         self.assertEqual(b.sight_slot_width, 9.0)
         self.assertIsNone(b.sight_slot_start)
+        self.assertEqual(b.dispenser_mode, DispenserExtractionMode.SCOOP)
+        self.assertEqual(b.scoop_radius, 14.0)
+        self.assertEqual(b.floor_scoop_depth, 12.0)
+        self.assertEqual(b.floor_scoop_width, 24.0)
+        self.assertEqual(b.tray_depth, 20.0)
+        self.assertEqual(b.rear_push_width, 22.0)
 
     def test_card_shoe_builder(self) -> None:
         p = Project("TestCardShoe")
@@ -326,4 +332,69 @@ class ExtendedBoxGeometryTests(unittest.TestCase):
         wall_vol = volume(body & probe)
         expected_vol = probe_w * spec.wall_thickness * probe_h  # 15 * 2 * 10 = 300 mm³
         self.assertAlmostEqual(wall_vol, expected_vol, delta=1.0)
+
+    def test_dispenser_extraction_modes(self) -> None:
+        """Test all 4 extraction mechanisms: SCOOP, TRAY, REAR_PUSH, ARCH."""
+        from pyboxbuilder.box.shell import block
+        from tests.mesh import volume
+
+        impl = BOX_IMPL_REGISTRY[BoxType.DISPENSER]()
+        base_spec = BoxSpec(
+            label="Chute",
+            width=55.0,
+            length=55.0,
+            height=70.0,
+            chute_angle=35.0,
+            token_thickness=3.0,
+        )
+
+        # 1. SCOOP (default): verify floor cutout allows pinching under the tile
+        scoop_body = impl.build_body(base_spec)
+        self.assertIsNotNone(scoop_body)
+        floor_probe = block([20.0, 10.0, base_spec.floor_thickness], at=((55.0 - 20.0) / 2.0, 0.0, 0.0))
+        # Floor notch cuts through the floor at the front center
+        self.assertAlmostEqual(volume(scoop_body & floor_probe), 0.0, delta=1.0)
+
+        # 2. TRAY mode: protruding front shelf expands bounding box in -Y
+        tray_spec = BoxSpec(
+            label="TrayDisp",
+            width=55.0,
+            length=55.0,
+            height=70.0,
+            dispenser_mode=DispenserExtractionMode.TRAY,
+            tray_depth=20.0,
+        )
+        tray_body = impl.build_body(tray_spec)
+        self.assertIsNotNone(tray_body)
+        tray_probe = block([50.0, 15.0, base_spec.floor_thickness], at=(2.5, -18.0, 0.0))
+        self.assertGreater(volume(tray_body & tray_probe), 200.0)
+
+        # 3. REAR_PUSH mode: rear push cutout through the back wall at floor level
+        rear_spec = BoxSpec(
+            label="RearDisp",
+            width=55.0,
+            length=55.0,
+            height=70.0,
+            dispenser_mode=DispenserExtractionMode.REAR_PUSH,
+            rear_push_width=20.0,
+        )
+        rear_body = impl.build_body(rear_spec)
+        self.assertIsNotNone(rear_body)
+        rear_probe = block([18.0, base_spec.wall_thickness, 8.0], at=((55.0 - 18.0) / 2.0, 55.0 - base_spec.wall_thickness, base_spec.floor_thickness))
+        self.assertAlmostEqual(volume(rear_body & rear_probe), 0.0, delta=1.0)
+
+        # 4. ARCH mode: front wall is open through archway
+        arch_spec = BoxSpec(
+            label="ArchDisp",
+            width=55.0,
+            length=55.0,
+            height=70.0,
+            dispenser_mode=DispenserExtractionMode.ARCH,
+            arch_height=40.0,
+        )
+        arch_body = impl.build_body(arch_spec)
+        self.assertIsNotNone(arch_body)
+        arch_probe = block([20.0, base_spec.wall_thickness, 15.0], at=((55.0 - 20.0) / 2.0, 0.0, 20.0))
+        self.assertAlmostEqual(volume(arch_body & arch_probe), 0.0, delta=1.0)
+
 

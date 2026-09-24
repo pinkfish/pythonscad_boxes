@@ -182,3 +182,22 @@ class ElementShape(Enum):
     HEXAGON = "hexagon"
     SPHERE_SCOOP = "sphere_scoop"
     TEXT = "text"
+
+
+class DispenserExtractionMode(Enum):
+    """How tiles/tokens are extracted from a gravity dispenser (FR-084).
+
+    * ``SCOOP``: Front finger scoop + floor notch so the bottom tile can be
+      pinched and pulled forward (default).
+    * ``TRAY``: Forward-extending landing tray/lip where the bottom tile slides
+      out ahead of the tower for direct pickup.
+    * ``REAR_PUSH``: Rear push slot on the back wall allowing a finger to slide
+      the bottom tile forward through the front slot.
+    * ``ARCH``: Open front archway for direct finger access to the bottom tiles.
+    """
+
+    SCOOP = "scoop"
+    TRAY = "tray"
+    REAR_PUSH = "rear_push"
+    ARCH = "arch"
+

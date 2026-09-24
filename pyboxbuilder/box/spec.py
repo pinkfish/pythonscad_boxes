@@ -19,7 +19,14 @@ from dataclasses import dataclass, field, fields, replace
 from pathlib import Path
 from typing import TYPE_CHECKING, Any
 
-from pyboxbuilder.enums import CatchType, InterlockType, MagnetType, ScoopSide, StackableMode
+from pyboxbuilder.enums import (
+    CatchType,
+    DispenserExtractionMode,
+    InterlockType,
+    MagnetType,
+    ScoopSide,
+    StackableMode,
+)
 
 if TYPE_CHECKING:
     from pyboxbuilder.box.interior import Interior
@@ -236,6 +243,13 @@ class BoxSpec:
     dispense_slot_clearance: float = 0.8
     sight_slot_width: float = 8.0
     sight_slot_start: float | None = None
+    dispenser_mode: DispenserExtractionMode = DispenserExtractionMode.SCOOP
+    scoop_radius: float = 14.0
+    floor_scoop_depth: float = 12.0
+    floor_scoop_width: float = 24.0
+    tray_depth: float = 20.0
+    rear_push_width: float = 22.0
+    arch_height: float | None = None
 
     # Card shoe (FR-085)
     draw_angle: float = 20.0
@@ -510,6 +524,13 @@ class UnresolvedBoxSpec:
     dispense_slot_clearance: float = 0.8
     sight_slot_width: float = 8.0
     sight_slot_start: float | None = None
+    dispenser_mode: DispenserExtractionMode = DispenserExtractionMode.SCOOP
+    scoop_radius: float = 14.0
+    floor_scoop_depth: float = 12.0
+    floor_scoop_width: float = 24.0
+    tray_depth: float = 20.0
+    rear_push_width: float = 22.0
+    arch_height: float | None = None
 
     draw_angle: float = 20.0
     retaining_lip_height: float = 10.0

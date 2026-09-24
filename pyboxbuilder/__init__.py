@@ -39,6 +39,7 @@ from pyboxbuilder.compartments.element import CompartmentElement, centered, cent
 from pyboxbuilder.enums import (
     BoxType,
     CatchType,
+    DispenserExtractionMode,
     ElementShape,
     FingerCut,
     InterlockType,
@@ -87,6 +88,7 @@ __all__ = [
     "Cut",
     "DiceTrayBoxBuilder",
     "DispenserBoxBuilder",
+    "DispenserExtractionMode",
     "ElementShape",
     "ExportResult",
     "FilamentHingeBoxBuilder",
