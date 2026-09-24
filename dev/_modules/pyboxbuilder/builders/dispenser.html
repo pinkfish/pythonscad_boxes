@@ -443,7 +443,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">ClassVar</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.builders._base</span><span class="w"> </span><span class="kn">import</span> <span class="n">BoxBuilder</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">BoxType</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">BoxType</span><span class="p">,</span> <span class="n">DispenserExtractionMode</span>
 
 
 <div class="viewcode-block" id="DispenserBoxBuilder">
@@ -454,8 +454,8 @@
 
 <span class="sd">    Designed for cardboard tiles, chips, or resource tokens during gameplay.</span>
 <span class="sd">    Features a top loading chute, an internal slide floor angled toward the front</span>
-<span class="sd">    wall, a horizontal bottom dispensing slot, a vertical sight slot, and a curved</span>
-<span class="sd">    finger extraction scoop.</span>
+<span class="sd">    wall, a horizontal bottom dispensing slot, a vertical sight slot, and configurable</span>
+<span class="sd">    extraction mechanisms (front pinch scoop, forward landing tray, rear push, or arch).</span>
 
 <span class="sd">    Example:</span>
 <span class="sd">        .. pythonscad-example::</span>
@@ -481,7 +481,22 @@
     <span class="n">sight_slot_width</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">8.0</span>
 <span class="w">    </span><span class="sd">"""Width of the vertical inspection/sight slot on the front wall in mm."""</span>
     <span class="n">sight_slot_start</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="w">    </span><span class="sd">"""Starting height Z in mm of the sight slot. Defaults to covering the lower half (body_h * 0.5)."""</span></div>
+<span class="w">    </span><span class="sd">"""Starting height Z in mm of the sight slot. Defaults to covering the lower half (body_h * 0.5)."""</span>
+    <span class="n">dispenser_mode</span><span class="p">:</span> <span class="n">DispenserExtractionMode</span> <span class="o">=</span> <span class="n">DispenserExtractionMode</span><span class="o">.</span><span class="n">SCOOP</span>
+<span class="w">    </span><span class="sd">""":class:`~pyboxbuilder.enums.DispenserExtractionMode` selection: SCOOP (default), TRAY, REAR_PUSH, or ARCH."""</span>
+    <span class="n">scoop_radius</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">14.0</span>
+<span class="w">    </span><span class="sd">"""Radius of the front finger scoop in mm for SCOOP mode."""</span>
+    <span class="n">floor_scoop_depth</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">12.0</span>
+<span class="w">    </span><span class="sd">"""Depth of the front floor pinch cutout in mm for SCOOP mode."""</span>
+    <span class="n">floor_scoop_width</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">24.0</span>
+<span class="w">    </span><span class="sd">"""Width of the front floor pinch cutout in mm for SCOOP mode."""</span>
+    <span class="n">tray_depth</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">20.0</span>
+<span class="w">    </span><span class="sd">"""Depth of forward-protruding landing tray shelf in mm for TRAY mode."""</span>
+    <span class="n">rear_push_width</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">22.0</span>
+<span class="w">    </span><span class="sd">"""Width of rear push finger cutout in mm for REAR_PUSH mode."""</span>
+    <span class="n">arch_height</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">"""Height of front open archway in mm for ARCH mode (defaults to 0.65 * body_h)."""</span></div>
+
 
 </code></pre></div>
 

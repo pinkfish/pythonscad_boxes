@@ -457,7 +457,14 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Any</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">CatchType</span><span class="p">,</span> <span class="n">InterlockType</span><span class="p">,</span> <span class="n">MagnetType</span><span class="p">,</span> <span class="n">ScoopSide</span><span class="p">,</span> <span class="n">StackableMode</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.enums</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">CatchType</span><span class="p">,</span>
+    <span class="n">DispenserExtractionMode</span><span class="p">,</span>
+    <span class="n">InterlockType</span><span class="p">,</span>
+    <span class="n">MagnetType</span><span class="p">,</span>
+    <span class="n">ScoopSide</span><span class="p">,</span>
+    <span class="n">StackableMode</span><span class="p">,</span>
+<span class="p">)</span>
 
 <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.interior</span><span class="w"> </span><span class="kn">import</span> <span class="n">Interior</span>
@@ -676,6 +683,13 @@
     <span class="n">dispense_slot_clearance</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.8</span>
     <span class="n">sight_slot_width</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">8.0</span>
     <span class="n">sight_slot_start</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">dispenser_mode</span><span class="p">:</span> <span class="n">DispenserExtractionMode</span> <span class="o">=</span> <span class="n">DispenserExtractionMode</span><span class="o">.</span><span class="n">SCOOP</span>
+    <span class="n">scoop_radius</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">14.0</span>
+    <span class="n">floor_scoop_depth</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">12.0</span>
+    <span class="n">floor_scoop_width</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">24.0</span>
+    <span class="n">tray_depth</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">20.0</span>
+    <span class="n">rear_push_width</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">22.0</span>
+    <span class="n">arch_height</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 
     <span class="c1"># Card shoe (FR-085)</span>
     <span class="n">draw_angle</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">20.0</span>
@@ -974,6 +988,13 @@
     <span class="n">dispense_slot_clearance</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.8</span>
     <span class="n">sight_slot_width</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">8.0</span>
     <span class="n">sight_slot_start</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">dispenser_mode</span><span class="p">:</span> <span class="n">DispenserExtractionMode</span> <span class="o">=</span> <span class="n">DispenserExtractionMode</span><span class="o">.</span><span class="n">SCOOP</span>
+    <span class="n">scoop_radius</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">14.0</span>
+    <span class="n">floor_scoop_depth</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">12.0</span>
+    <span class="n">floor_scoop_width</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">24.0</span>
+    <span class="n">tray_depth</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">20.0</span>
+    <span class="n">rear_push_width</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">22.0</span>
+    <span class="n">arch_height</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 
     <span class="n">draw_angle</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">20.0</span>
     <span class="n">retaining_lip_height</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">10.0</span>
