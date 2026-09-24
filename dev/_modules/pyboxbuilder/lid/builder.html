@@ -519,6 +519,8 @@
 
 <span class="sd">    ``None`` uses :data:`PATTERN_BORDER_MM`. ``0`` runs the pattern to the</span>
 <span class="sd">    lid's edge, which is rarely what a lid wants — see that constant."""</span>
+    <span class="n">inlay</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="w">    </span><span class="sd">"""When True, inlay the pattern flush into the lid surface (no through-holes)."""</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">border_width</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>

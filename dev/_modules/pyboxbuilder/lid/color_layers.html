@@ -535,9 +535,15 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">_contrast_hue</span><span class="p">(</span><span class="n">base</span><span class="p">:</span> <span class="n">Color</span><span class="p">,</span> <span class="n">shift</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Color</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Shift the hue of a color for contrast."""</span>
     <span class="kn">import</span><span class="w"> </span><span class="nn">colorsys</span>
+
     <span class="n">r</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">base</span><span class="o">.</span><span class="n">rgba</span>
     <span class="n">h</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">s</span> <span class="o">=</span> <span class="n">colorsys</span><span class="o">.</span><span class="n">rgb_to_hls</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
-    <span class="n">h</span> <span class="o">=</span> <span class="p">(</span><span class="n">h</span> <span class="o">+</span> <span class="n">shift</span><span class="p">)</span> <span class="o">%</span> <span class="mf">1.0</span>
+    <span class="k">if</span> <span class="n">s</span> <span class="o">&lt;</span> <span class="mf">0.15</span><span class="p">:</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="mf">0.65</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="p">(</span><span class="n">h</span> <span class="o">+</span> <span class="n">shift</span><span class="p">)</span> <span class="o">%</span> <span class="mf">1.0</span>
+        <span class="n">l</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="k">if</span> <span class="n">l</span> <span class="o">&lt;</span> <span class="mf">0.2</span> <span class="ow">or</span> <span class="n">l</span> <span class="o">&gt;</span> <span class="mf">0.8</span> <span class="k">else</span> <span class="n">l</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="p">(</span><span class="n">h</span> <span class="o">+</span> <span class="n">shift</span><span class="p">)</span> <span class="o">%</span> <span class="mf">1.0</span>
     <span class="n">r</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">colorsys</span><span class="o">.</span><span class="n">hls_to_rgb</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">Color</span><span class="p">([</span><span class="n">r</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">b</span><span class="p">])</span>
 </code></pre></div>
