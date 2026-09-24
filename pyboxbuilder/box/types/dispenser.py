@@ -82,22 +82,30 @@ class DispenserBox(BoxTypeBase):
         body = body - dispense_slot
 
         # 3. Finger scoop at bottom center to pull tile forward
-        scoop_r = 12.0
+        lower_cover_h = body_h * 0.5
+        sight_z_start = (
+            spec.sight_slot_start
+            if spec.sight_slot_start is not None
+            else max(lower_cover_h, ft + slot_h + 12.0)
+        )
+        scoop_r = min(10.0, max(4.0, (sight_z_start - ft - slot_h) * 0.45))
         scoop = cyl(height=wt * 3, radius=scoop_r).rotate([90, 0, 0]).translate(
             [spec.width / 2.0, 0, ft + slot_h / 2.0]
         )
         body = body - scoop
 
-        # 4. Vertical sight slot on front wall
+        # 4. Vertical sight slot on front wall (upper half; lower half covers the chute)
         sight_w = spec.sight_slot_width
-        sight_z_start = ft + slot_h + 4.0
-        sight_z_end = max(sight_z_start + 5.0, body_h - 6.0)
-        sight_h = sight_z_end - sight_z_start
-        sight_slot = block(
-            [sight_w, wt * 2, sight_h],
-            at=((spec.width - sight_w) / 2.0, -wt, sight_z_start),
-        )
-        body = body - sight_slot
+        if sight_w > 0:
+            sight_z_end = max(sight_z_start + 5.0, body_h - 6.0)
+            sight_h = sight_z_end - sight_z_start
+            if sight_h >= 5.0:
+                sight_slot = block(
+                    [sight_w, wt * 2, sight_h],
+                    at=((spec.width - sight_w) / 2.0, -wt, sight_z_start),
+                )
+                body = body - sight_slot
+
 
         radius = body_rounding(spec)
         if radius > 0:

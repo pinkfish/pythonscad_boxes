@@ -40,3 +40,5 @@ class DispenserBoxBuilder(BoxBuilder):
     """Clearance height above token thickness for the dispensing slot in mm."""
     sight_slot_width: float = 8.0
     """Width of the vertical inspection/sight slot on the front wall in mm."""
+    sight_slot_start: float | None = None
+    """Starting height Z in mm of the sight slot. Defaults to covering the lower half (body_h * 0.5)."""

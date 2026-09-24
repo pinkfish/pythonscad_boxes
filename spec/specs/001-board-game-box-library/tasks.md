@@ -1292,6 +1292,14 @@ stop the class of mistake from being expressible.
 - [x] T434 [P] Redesign `PrintInPlaceHingeBox` in `pyboxbuilder/box/types/pip_hinge.py` to split body and lid trays equally at `half_h = spec.height / 2.0`, elevate `KnuckleHingePair` and snap catches to `z = half_h`, and add 45° overhang chamfer wedges down to the tray back walls.
 - [x] T435 [P] Add unit tests in `tests/test_pyboxbuilder/test_extended_boxes.py` (`test_pip_hinge_split_halfway`), regenerate docs STLs, and verify Sphinx documentation.
 
+## Phase 49: Gravity Tile & Token Dispenser Lower Cover (FR-084)
+
+**Goal**: Cover the gap across the lower half of the gravity dispenser front wall to retain angled tiles on the internal gravity slide without slicing open the wall down to the bottom dispensing slot.
+
+- [x] T436 [P] Add `sight_slot_start: float | None = None` to `BoxSpec`, `UnresolvedBoxSpec`, and `DispenserBoxBuilder`.
+- [x] T437 [P] Update `DispenserBox.build_body` in `pyboxbuilder/box/types/dispenser.py` to keep the front wall solid across the lower half (`z < body_h * 0.5`) and position the vertical sight slot in the upper half.
+- [x] T438 [P] Add `test_dispenser_lower_cover` to `tests/test_pyboxbuilder/test_extended_boxes.py` verifying a solid front wall at mid-height and regenerate documentation STLs.
+
 ## Notes
 
 

@@ -235,6 +235,7 @@ class BoxSpec:
     token_thickness: float = 3.0
     dispense_slot_clearance: float = 0.8
     sight_slot_width: float = 8.0
+    sight_slot_start: float | None = None
 
     # Card shoe (FR-085)
     draw_angle: float = 20.0
@@ -508,6 +509,7 @@ class UnresolvedBoxSpec:
     token_thickness: float = 3.0
     dispense_slot_clearance: float = 0.8
     sight_slot_width: float = 8.0
+    sight_slot_start: float | None = None
 
     draw_angle: float = 20.0
     retaining_lip_height: float = 10.0
@@ -630,11 +632,13 @@ class UnresolvedBoxSpec:
             )
             if name in unresolved_fields and name not in _NOT_GEOMETRY and value is not None
         }
-        hollow = (
-            overrides.pop("hollow")
-            if "hollow" in overrides
-            else not builder.compartments
-        )
+        builder_hollow = overrides.pop("hollow", None)
+        if builder.compartments:
+            hollow = False
+        elif builder_hollow is not None:
+            hollow = builder_hollow
+        else:
+            hollow = True
 
         lid_margin = (
             builder.lid.border_margin_mm

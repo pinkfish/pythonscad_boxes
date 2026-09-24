@@ -1990,9 +1990,23 @@ The library clearly differentiates and implements the three hinged box closure m
    - `SnapSocket` and `SnapLock` catches are positioned on the mating front rims at `z = half_h`.
    - Interior usable height of the base tray is `half_h - floor_thickness`.
 
+### Gravity Tile & Token Dispenser Lower-Half Front Cover (FR-084)
+
+The gravity dispenser tower architecture preserves a solid front retaining wall (cover) across the lower half to retain angled tiles on the internal gravity slide:
+
+1. **Cover over the Gap in the Lower Half (`pyboxbuilder/box/types/dispenser.py`)**:
+   - Previously, the vertical sight slot started only 4mm above the dispensing slot (`ft + slot_h + 4.0`), overlapping with the finger scoop and creating a continuous cutout running all the way down the front wall.
+   - The front wall now retains a solid cover across the lower half (`z < body_h * 0.5`), keeping tiles firmly inside the chute as they tilt forward along the 35°–45° slide ramp.
+   - The bottom dispensing slot (`token_thickness + dispense_slot_clearance`) and finger scoop (`scoop_r <= 10.0mm`) are bounded to the bottom rim, leaving a solid retaining wall between the scoop and the sight slot.
+
+2. **Upper-Half Vertical Sight Slot**:
+   - The sight slot begins in the upper half (`sight_z_start = max(body_h * 0.5, ft + slot_h + 12.0)` or explicit `spec.sight_slot_start`), extending upward to `body_h - 6.0`.
+   - This allows players to monitor remaining stack height and access tiles from above without creating an open void in the lower chute.
+
 
 ## Complexity Tracking
 
 > No violations.
+
 
 

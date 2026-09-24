@@ -99,6 +99,7 @@ class ExtendedBoxBuildersTests(unittest.TestCase):
         self.assertEqual(b.token_thickness, 2.5)
         self.assertEqual(b.dispense_slot_clearance, 0.7)
         self.assertEqual(b.sight_slot_width, 9.0)
+        self.assertIsNone(b.sight_slot_start)
 
     def test_card_shoe_builder(self) -> None:
         p = Project("TestCardShoe")
@@ -295,4 +296,34 @@ class ExtendedBoxGeometryTests(unittest.TestCase):
         self.assertAlmostEqual(z_min, 0.0, delta=0.5)
         # Top of the snap catch tabs reaches half_h + ~4.7mm (or half_h + hr without catches)
         self.assertAlmostEqual(z_max, 15.0 + 4.71, delta=0.5)
+
+    def test_dispenser_lower_cover(self) -> None:
+        """Verify gravity tile dispenser has a solid front cover over the lower half (FR-084)."""
+        from pyboxbuilder.box.shell import block
+        from tests.mesh import volume
+
+        impl = BOX_IMPL_REGISTRY[BoxType.DISPENSER]()
+        spec = BoxSpec(
+            label="Chute",
+            width=55.0,
+            length=55.0,
+            height=70.0,
+            chute_angle=40.0,
+            token_thickness=3.0,
+        )
+        body = impl.build_body(spec)
+        self.assertIsNotNone(body)
+
+        # In the lower half (z = 20..30mm), the front wall (y = 0..wt, x across the center)
+        # must be solid (covered over the gap), NOT cut through all the way down.
+        # Probe a 15mm wide slice across the center where the sight slot is positioned.
+        probe_w = 15.0
+        probe_h = 10.0
+        probe = block(
+            [probe_w, spec.wall_thickness, probe_h],
+            at=((spec.width - probe_w) / 2.0, 0.0, 20.0),
+        )
+        wall_vol = volume(body & probe)
+        expected_vol = probe_w * spec.wall_thickness * probe_h  # 15 * 2 * 10 = 300 mm³
+        self.assertAlmostEqual(wall_vol, expected_vol, delta=1.0)
 
