@@ -79,6 +79,8 @@ class PatternBuilder:
 
     ``None`` uses :data:`PATTERN_BORDER_MM`. ``0`` runs the pattern to the
     lid's edge, which is rarely what a lid wants — see that constant."""
+    inlay: bool = False
+    """When True, inlay the pattern flush into the lid surface (no through-holes)."""
 
     @property
     def border_width(self) -> float:

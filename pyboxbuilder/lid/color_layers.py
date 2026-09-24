@@ -91,8 +91,14 @@ def resolve_colors(
 def _contrast_hue(base: Color, shift: float) -> Color:
     """Shift the hue of a color for contrast."""
     import colorsys
+
     r, g, b, _ = base.rgba
     h, l, s = colorsys.rgb_to_hls(r, g, b)
-    h = (h + shift) % 1.0
+    if s < 0.15:
+        s = 0.65
+        h = (h + shift) % 1.0
+        l = 0.5 if l < 0.2 or l > 0.8 else l
+    else:
+        h = (h + shift) % 1.0
     r, g, b = colorsys.hls_to_rgb(h, l, s)
     return Color([r, g, b])

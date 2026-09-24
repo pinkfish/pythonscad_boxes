@@ -451,3 +451,51 @@ class InsertColourTests(unittest.TestCase):
             len(re.findall(r"<base ", model)), 3,
             "the lid, the lettering and the grid should be three materials",
         )
+
+    def test_inlaid_pattern_mmu_creates_colored_insert(self) -> None:
+        """Inlaid pattern in MMU mode creates a separate colored insert."""
+        from pybosl2 import Color
+        from pyboxbuilder.enums import PatternType
+
+        builder = LidBuilder(
+            text="Dice",
+            label_mode=LabelMode.FRAMELESS,
+            pattern=PatternBuilder(PatternType.DENSE_HEX, inlay=True),
+            pattern_color=Color("blue"),
+            text_color=Color("gold"),
+        )
+        decorated = decorate_lid(bare_lid(), builder, 2.0, "mmu", body_color=Color("gray"))
+        self.assertEqual(len(decorated.inserts), 2, "pattern insert and text insert")
+        colors = [ins.color.rgba[:3] for ins in decorated.inserts if ins.color]
+        # Check text color (gold) and pattern color (blue)
+        self.assertTrue(any(c[2] > 0.8 for c in colors), "blue pattern insert")
+
+    def test_inlaid_pattern_single_mode_engraves_without_inserts(self) -> None:
+        """Inlaid pattern in single mode leaves 0 inserts and engraves into the solid."""
+        from pyboxbuilder.enums import PatternType
+
+        builder = LidBuilder(
+            text="Dice",
+            label_mode=LabelMode.FRAMELESS,
+            pattern=PatternBuilder(PatternType.DENSE_HEX, inlay=True),
+        )
+        decorated = decorate_lid(bare_lid(), builder, 2.0, "single")
+        self.assertEqual(len(decorated.inserts), 0)
+        self.assertIsNotNone(decorated.solid)
+
+    def test_inlaid_pattern_leaves_underside_solid(self) -> None:
+        """Unlike through-holes, an inlaid pattern does not penetrate the bottom face."""
+        from pyboxbuilder.enums import PatternType
+
+        through_builder = LidBuilder(
+            pattern=PatternBuilder(PatternType.DENSE_HEX, inlay=False),
+        )
+        inlaid_builder = LidBuilder(
+            pattern=PatternBuilder(PatternType.DENSE_HEX, inlay=True),
+        )
+        through_dec = decorate_lid(bare_lid(), through_builder, 2.0, "mmu")
+        inlaid_dec = decorate_lid(bare_lid(), inlaid_builder, 2.0, "mmu")
+        # Inlaid solid has far more volume retained in the base plate than through-cut
+        self.assertGreater(volume(inlaid_dec.solid), volume(through_dec.solid))
+
+

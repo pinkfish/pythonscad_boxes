@@ -136,6 +136,17 @@ class ExtendedBoxBuildersTests(unittest.TestCase):
         self.assertEqual(b.arena_wall_height, 30.0)
         self.assertEqual(b.felt_pocket_depth, 1.5)
         self.assertTrue(b.corner_deflectors)
+        # FR-086 / MMU rolling area lid enhancements
+        self.assertIsNotNone(b.lid)
+        assert b.lid is not None
+        self.assertEqual(b.lid.text, "Arena")
+        self.assertIsNotNone(b.lid.pattern)
+        assert b.lid.pattern is not None
+        self.assertTrue(b.lid.pattern.inlay)
+        # Preview in MMU generates body, lid, pattern insert, and text insert
+        pieces = p.preview_pieces(show_lids=True)
+        self.assertEqual(len(pieces), 4)
+
 
     def test_sleeve_drawer_builder(self) -> None:
         p = Project("TestSleeveDrawer")
