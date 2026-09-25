@@ -323,6 +323,70 @@ def _circle_fill(
     )
 
 
+_DICE_PIP_OFFSETS: dict[int, list[tuple[float, float]]] = {
+    1: [(0.0, 0.0)],
+    2: [(-1.0, -1.0), (1.0, 1.0)],
+    3: [(-1.0, -1.0), (0.0, 0.0), (1.0, 1.0)],
+    4: [(-1.0, -1.0), (-1.0, 1.0), (1.0, -1.0), (1.0, 1.0)],
+    5: [(-1.0, -1.0), (-1.0, 1.0), (0.0, 0.0), (1.0, -1.0), (1.0, 1.0)],
+    6: [(-1.0, -1.0), (-1.0, 0.0), (-1.0, 1.0), (1.0, -1.0), (1.0, 0.0), (1.0, 1.0)],
+}
+
+
+def _make_die_face(
+    val: int,
+    size: float,
+    height: float,
+) -> Bosl2Solid:
+    """Build one die face (1-6) of `size` x `size`, with pips cut out."""
+    from pybosl2 import cuboid, cylinder
+
+    from pyboxbuilder.rounding import vertical_edges
+
+    rounding = min(size * 0.12, 2.0)
+    body = cuboid(
+        [size, size, height],
+        rounding=rounding,
+        edges=vertical_edges(),
+    )
+
+    d = size * 0.26
+    pip_r = max(0.6, size * 0.08)
+    pips: Bosl2Solid | None = None
+    for ox, oy in _DICE_PIP_OFFSETS[val]:
+        pip = cylinder(
+            height=height * 1.1,
+            radius=pip_r,
+            **precision_kwargs(),
+        ).translate([ox * d, oy * d, 0])
+        pips = pip if pips is None else pips | pip
+
+    if pips is not None:
+        return body - pips
+    return body
+
+
+def _dice_fill(
+    width: float, length: float, thickness: float, spacing: float,
+    web: float | None = None,
+) -> Bosl2Solid | None:
+    """Gaming dice faces (D6) with pips on a square grid."""
+    size = hole_size(spacing, web)
+    if size <= 0:
+        return None
+
+    height = thickness * DEPTH_OVERSHOOT
+    die_faces = {val: _make_die_face(val, size, height) for val in range(1, 7)}
+
+    def _shape_at(x: float, y: float) -> Bosl2Solid:
+        col = round((x - width / 2.0) / spacing)
+        row = round((y - length / 2.0) / spacing)
+        val = ((row * 3 + col) % 6) + 1
+        return die_faces[val].translate([x, y, thickness / 2])
+
+    return _punch(_shape_at, width, length, spacing, size)
+
+
 POINTY_TOP_SPIN = 30.0
 """Rotation that stands a hexagon on a flat, with its flats left and right.
 
@@ -836,6 +900,7 @@ _PATTERN_FILLS: dict[
     PatternType.LEAF_VEINS: lambda w, l, t, s, web: _leaf_tessellation_fill(
         w, l, t, s, web, veins=True
     ),
+    PatternType.DICE: _dice_fill,
 }
 """Every pattern the library can draw.
 

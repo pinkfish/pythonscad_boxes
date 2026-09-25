@@ -41,8 +41,10 @@ class DiceTrayBoxBuilder(BoxBuilder):
     """Add 45° corner deflector fillets to bounce rolling dice inward."""
 
     def __post_init__(self) -> None:
-        """Configure default lid with text title and inlaid pattern (no through-holes)."""
+        """Configure default lid with multi-material text title and inlaid dice pattern."""
         if self.lid is None:
+            from pybosl2 import Color
+
             from pyboxbuilder.enums import LabelMode, PatternType
             from pyboxbuilder.lid.builder import LidBuilder, PatternBuilder
 
@@ -51,18 +53,26 @@ class DiceTrayBoxBuilder(BoxBuilder):
                 "lid",
                 LidBuilder(
                     text=self.label,
+                    text_color=Color("gold"),
                     label_mode=LabelMode.FRAMELESS,
                     label_clearance_mm=3.0,
-                    pattern=PatternBuilder(PatternType.DENSE_HEX, inlay=True),
+                    pattern=PatternBuilder(PatternType.DICE, spacing=14.0, inlay=True),
+                    pattern_color=Color("white"),
                 ),
             )
         else:
             from dataclasses import replace
 
+            from pybosl2 import Color
+
             updates: dict[str, Any] = {}
             if self.lid.text is None:
                 updates["text"] = self.label
+            if self.lid.text_color is None:
+                updates["text_color"] = Color("gold")
             if self.lid.pattern is not None and not self.lid.pattern.inlay:
                 updates["pattern"] = replace(self.lid.pattern, inlay=True)
+            if self.lid.pattern_color is None:
+                updates["pattern_color"] = Color("white")
             if updates:
                 object.__setattr__(self, "lid", replace(self.lid, **updates))

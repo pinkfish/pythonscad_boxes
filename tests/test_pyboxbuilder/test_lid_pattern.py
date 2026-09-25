@@ -99,6 +99,13 @@ class PatternFillTests(unittest.TestCase):
         result = build_pattern(100, 70, 3.0, PatternType.TRIANGLE, spacing=2.0)
         self.assertIsNone(result)
 
+    def test_dice_fill(self):
+        try:
+            result = build_pattern(100, 70, 3.0, PatternType.DICE, spacing=14.0)
+            self.assertIsNotNone(result)
+        except ImportError:
+            self.skipTest("bosl2 not available")
+
 
 class HoleAndWebTests(unittest.TestCase):
     """A pattern is specified by the web between holes, not by a share of the

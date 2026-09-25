@@ -103,6 +103,8 @@ class PatternType(Enum):
     """Leaves that tile the lid edge to edge, leaving a net of their outlines."""
     LEAF_VEINS = "leaf_veins"
     """That tessellation with a midrib and branching veins left in each leaf."""
+    DICE = "dice"
+    """Gaming dice (D6) faces with pips on a grid."""
 
 
 class StackableMode(Enum):

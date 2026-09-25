@@ -101,8 +101,15 @@ def extract_example_blocks() -> list[tuple[str, str, str]]:
     return blocks
 
 
-def main() -> int:
+def main(argv: list[str] | None = None) -> int:
     """Scan docs, extract code blocks, and render missing/changed STLs."""
+    import argparse
+
+    parser = argparse.ArgumentParser(description="Pre-generate documentation STLs.")
+    parser.add_argument("--force", action="store_true", help="Force re-rendering and overwriting of STLs.")
+    parser.add_argument("filter", nargs="?", default=None, help="Optional substring to filter examples by.")
+    args = parser.parse_args(argv)
+
     binary = find_pythonscad_binary()
     if binary is None:
         print("ERROR: No PythonSCAD binary found. Set PYTHONSCAD_BIN or install PythonSCAD.app.", file=sys.stderr)
@@ -111,7 +118,9 @@ def main() -> int:
     print(f"Using PythonSCAD binary: {binary}")
     _STL_DIR.mkdir(parents=True, exist_ok=True)
     blocks = extract_example_blocks()
-    print(f"Found {len(blocks)} unique documentation example blocks.")
+    if args.filter:
+        blocks = [b for b in blocks if args.filter in b[0] or args.filter in b[1] or args.filter in b[2]]
+    print(f"Found {len(blocks)} matching documentation example blocks.")
 
     written = 0
     skipped = 0
@@ -141,8 +150,11 @@ def main() -> int:
             candidate.unlink(missing_ok=True)
             continue
 
-        if out_stl.exists() and same_geometry(
-            read_stl_geometry(candidate), read_stl_geometry(out_stl)
+        if (
+            not args.force
+            and out_stl.exists()
+            and candidate.stat().st_size == out_stl.stat().st_size
+            and same_geometry(read_stl_geometry(candidate), read_stl_geometry(out_stl))
         ):
             candidate.unlink(missing_ok=True)
             skipped += 1
