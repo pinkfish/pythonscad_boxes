@@ -545,5 +545,57 @@ class InsertColourTests(unittest.TestCase):
         decorated = decorate_lid(bare_lid(), builder, 2.0, "mmu")
         self.assertGreaterEqual(len(decorated.inserts), 2)
 
+    def test_full_depth_inlay_penetrates_full_lid_thickness(self) -> None:
+        """through_inlay=True creates inserts that span the full lid thickness (FR-024d)."""
+        from pybosl2 import Color
+
+        top_builder = LidBuilder(
+            pattern=PatternBuilder(PatternType.DICE, inlay=True, through_inlay=False),
+            pattern_colors=(Color("white"), Color("red")),
+        )
+        through_builder = LidBuilder(
+            pattern=PatternBuilder(PatternType.DICE, inlay=True, through_inlay=True),
+            pattern_colors=(Color("white"), Color("red")),
+        )
+        dec_top = decorate_lid(bare_lid(), top_builder, 2.0, "mmu")
+        dec_through = decorate_lid(bare_lid(), through_builder, 2.0, "mmu")
+
+        # Full-depth inlays cut more volume out of the lid body
+        self.assertLess(volume(dec_through.solid), volume(dec_top.solid))
+
+        # Total insert volume for full-depth inlays is substantially greater (3x or more for 2mm vs 0.6mm)
+        vol_top_inserts = sum(volume(ins.solid) for ins in dec_top.inserts)
+        vol_through_inserts = sum(volume(ins.solid) for ins in dec_through.inserts)
+        self.assertGreater(vol_through_inserts, vol_top_inserts * 2.5)
+
+    def test_selective_through_inlay_per_color(self) -> None:
+        """through_inlay accepts color indices to make specific parts full-depth while others remain top-layer (FR-024d)."""
+        from pybosl2 import Color
+
+        # Die body (index 0) through, pips (index 1) top-layer
+        builder = LidBuilder(
+            pattern=PatternBuilder(PatternType.DICE, inlay=True, through_inlay=(0,)),
+            pattern_colors=(Color("white"), Color("red")),
+        )
+        decorated = decorate_lid(bare_lid(), builder, 2.0, "mmu")
+        self.assertEqual(len(decorated.inserts), 2)
+
+    def test_simple_pattern_through_inlay(self) -> None:
+        """Standard single-material patterns like HEX support through_inlay=True (FR-024d)."""
+        from pybosl2 import Color
+
+        builder = LidBuilder(
+            pattern=PatternBuilder(PatternType.HEX, inlay=True, through_inlay=True),
+            pattern_color=Color("orange"),
+        )
+        decorated = decorate_lid(bare_lid(), builder, 2.0, "mmu")
+        self.assertEqual(len(decorated.inserts), 1)
+        ins = decorated.inserts[0]
+        # Full 2.0mm depth insert has height ~2.0mm
+        b = ins.solid.bounds()
+        size_z = float(b.size[2]) if hasattr(b, "size") else float(b[1][2])
+        self.assertGreaterEqual(size_z, 1.8)
+
+
 
 

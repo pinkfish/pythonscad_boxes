@@ -24,7 +24,7 @@ from collections.abc import Sequence
 from dataclasses import dataclass, field
 from typing import TYPE_CHECKING
 
-from pyboxbuilder.enums import LabelMode
+from pyboxbuilder.enums import LabelMode, PatternType
 
 if TYPE_CHECKING:
     from pybosl2 import Color
@@ -574,7 +574,27 @@ def _apply_inlaid_pattern(
 
     assert builder.pattern is not None
     margin = builder.pattern.border_width
-    depth = INLAY_DEPTH_MM if mode != "single" else ENGRAVE_DEPTH_MM
+    through_inlay = (
+        builder.pattern_through_inlay
+        if builder.pattern_through_inlay is not None
+        else builder.pattern.through_inlay
+    )
+    inlay_depth = (
+        builder.pattern_inlay_depth_mm
+        if builder.pattern_inlay_depth_mm is not None
+        else (builder.pattern.inlay_depth_mm or INLAY_DEPTH_MM)
+    )
+
+    is_simple_pattern = builder.pattern.type not in (
+        PatternType.RING,
+        PatternType.CHECKER,
+        PatternType.DICE,
+    )
+    if is_simple_pattern and through_inlay is True:
+        depth = lid_thickness
+    else:
+        depth = inlay_depth if mode != "single" else ENGRAVE_DEPTH_MM
+
     base_z = top_z - depth
     base = (origin_x + margin, origin_y + margin, base_z)
 
@@ -610,6 +630,7 @@ def _apply_inlaid_pattern(
             hole_ratio=builder.pattern.hole_ratio,
             inlay=True,
             lid_thickness=lid_thickness,
+            through_inlay=through_inlay,
         )
         if holes is None:
             return
@@ -635,6 +656,7 @@ def _apply_inlaid_pattern(
             hole_ratio=builder.pattern.hole_ratio,
             inlay=True,
             lid_thickness=lid_thickness,
+            through_inlay=through_inlay,
         )
         if holes is None:
             return

@@ -1311,6 +1311,16 @@ stop the class of mistake from being expressible.
 - [x] T442 [P] Add unit tests for multi-color patterns, shapes with holes, and hybrid through-holes in `tests/test_pyboxbuilder/test_lid_pattern.py` and `tests/test_pyboxbuilder/test_lid_decorate.py`.
 
 
+## Phase 51: Full-Depth vs. Top-Layer Multi-Color Inlays (FR-024d)
+
+**Goal**: Allow multi-color pattern inlays to penetrate completely through the lid or remain on the top surface layer, configurable globally or per-color index.
+
+- [x] T443 [P] Add `through_inlay: bool | tuple[int, ...] = False` and `inlay_depth_mm: float | None = None` to `PatternBuilder` and `LidBuilder` in `pyboxbuilder/lid/builder.py`.
+- [x] T444 [P] Update `_ring_fill`, `_checker_fill`, and `_dice_fill` in `pyboxbuilder/lid/pattern.py` to generate full-depth solids when `_is_through_inlay` is True for the part.
+- [x] T445 [P] Update `_apply_inlaid_pattern` in `pyboxbuilder/lid/decorate.py` to support `through_inlay` for both composite `PatternResult` and single-solid fills.
+- [x] T446 [P] Add unit tests in `tests/test_pyboxbuilder/test_lid_pattern.py` and `tests/test_pyboxbuilder/test_lid_decorate.py` verifying full-depth inlays, top-layer inlays, and mixed per-color depth inlays.
+
+
 ## Notes
 
 

@@ -81,10 +81,20 @@ class PatternBuilder:
     lid's edge, which is rarely what a lid wants — see that constant."""
     inlay: bool = False
     """When True, inlay the pattern flush into the lid surface."""
+    through_inlay: bool | tuple[int, ...] = False
+    """When True, colored inlays extend completely through the lid thickness instead of just the top layer.
+    Can also be a tuple of color indices (e.g. (0,)) that extend through the lid while others remain top-layer."""
+    inlay_depth_mm: float | None = None
+    """Depth in mm of top-layer inlays (defaults to INLAY_DEPTH_MM = 0.6mm)."""
     through_holes: bool = False
     """When True in inlay mode, cutouts/holes inside pattern shapes penetrate completely through the lid."""
     hole_ratio: float = 0.5
     """Relative inner hole size for shapes with holes (such as RING), from 0.1 to 0.9."""
+
+    def __post_init__(self) -> None:
+        """Convert list through_inlay to tuple for immutability."""
+        if isinstance(self.through_inlay, list):
+            object.__setattr__(self, "through_inlay", tuple(self.through_inlay))
 
     @property
     def border_width(self) -> float:
@@ -154,6 +164,10 @@ class LidBuilder:
     """Colour of the pattern's top layer; ``None`` contrasts with the body."""
     pattern_colors: tuple[Color, ...] | None = None
     """Palette of colours for multi-colour patterns; falls back to pattern.colors or pattern_color."""
+    pattern_through_inlay: bool | tuple[int, ...] | None = None
+    """Override for whether pattern inlays extend completely through the lid thickness."""
+    pattern_inlay_depth_mm: float | None = None
+    """Override for top-layer pattern inlay depth in mm."""
     logo: Any | None = None
     """Path to the SVG logo, a Bosl2Solid, or a callable representing the custom lid logo."""
     logo_color: Color | None = None
@@ -193,6 +207,11 @@ class LidBuilder:
     """Fields to override for the multi-material export (see :meth:`for_mode`)."""
     single_label: LidBuilder | None = None
     """Fields to override for the single-colour export."""
+
+    def __post_init__(self) -> None:
+        """Convert list pattern_through_inlay to tuple for immutability."""
+        if isinstance(self.pattern_through_inlay, list):
+            object.__setattr__(self, "pattern_through_inlay", tuple(self.pattern_through_inlay))
 
     def titled(self, text: str, **overrides: Any) -> LidBuilder:
         """Return this lid style, carrying a particular box's text.

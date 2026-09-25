@@ -962,3 +962,86 @@ class MultiColorAndHolePatternTests(unittest.TestCase):
         self.assertIsNotNone(res.holes)
         self.assertTrue(len(res.inlays) > 0)
 
+    def test_ring_fill_through_inlay(self) -> None:
+        """PatternType.RING supports through_inlay=True (full depth) and selective color indices (FR-024d)."""
+        from mesh import volume
+        from pybosl2 import Color
+
+        from pyboxbuilder.lid.pattern import PatternResult
+
+        # All through
+        res_through = build_pattern(
+            60.0, 40.0, 0.6, PatternType.RING, spacing=12.0,
+            inlay=True, colors=[Color("white"), Color("red")],
+            lid_thickness=2.0, through_inlay=True,
+        )
+        # Top-layer only
+        res_top = build_pattern(
+            60.0, 40.0, 0.6, PatternType.RING, spacing=12.0,
+            inlay=True, colors=[Color("white"), Color("red")],
+            lid_thickness=2.0, through_inlay=False,
+        )
+        assert isinstance(res_through, PatternResult) and isinstance(res_top, PatternResult)
+        # Full-depth inlays have significantly greater volume than top-layer inlays
+        self.assertGreater(volume(res_through.solid), volume(res_top.solid) * 2.0)
+
+        # Selective through: index 0 through, index 1 top-layer
+        res_selective = build_pattern(
+            60.0, 40.0, 0.6, PatternType.RING, spacing=12.0,
+            inlay=True, colors=[Color("white"), Color("red")],
+            lid_thickness=2.0, through_inlay=(0,),
+        )
+        assert isinstance(res_selective, PatternResult)
+        self.assertGreater(volume(res_through.solid), volume(res_selective.solid))
+        self.assertGreater(volume(res_selective.solid), volume(res_top.solid))
+
+    def test_checker_fill_through_inlay(self) -> None:
+        """PatternType.CHECKER supports through_inlay=True for full lid thickness tiles (FR-024d)."""
+        from mesh import volume
+        from pybosl2 import Color
+
+        from pyboxbuilder.lid.pattern import PatternResult
+
+        res_through = build_pattern(
+            60.0, 40.0, 0.6, PatternType.CHECKER, spacing=10.0,
+            inlay=True, colors=[Color("black"), Color("white")],
+            lid_thickness=2.0, through_inlay=True,
+        )
+        res_top = build_pattern(
+            60.0, 40.0, 0.6, PatternType.CHECKER, spacing=10.0,
+            inlay=True, colors=[Color("black"), Color("white")],
+            lid_thickness=2.0, through_inlay=False,
+        )
+        assert isinstance(res_through, PatternResult) and isinstance(res_top, PatternResult)
+        self.assertGreater(volume(res_through.solid), volume(res_top.solid) * 2.0)
+
+    def test_dice_fill_through_inlay(self) -> None:
+        """PatternType.DICE supports full-depth or selective through-inlays (FR-024d)."""
+        from mesh import volume
+        from pybosl2 import Color
+
+        from pyboxbuilder.lid.pattern import PatternResult
+
+        res_through = build_pattern(
+            60.0, 40.0, 0.6, PatternType.DICE, spacing=15.0,
+            inlay=True, colors=[Color("white"), Color("red")],
+            lid_thickness=2.0, through_inlay=True,
+        )
+        res_top = build_pattern(
+            60.0, 40.0, 0.6, PatternType.DICE, spacing=15.0,
+            inlay=True, colors=[Color("white"), Color("red")],
+            lid_thickness=2.0, through_inlay=False,
+        )
+        assert isinstance(res_through, PatternResult) and isinstance(res_top, PatternResult)
+        self.assertGreater(volume(res_through.solid), volume(res_top.solid) * 2.0)
+
+        # Die body through (0), pips top-layer (1)
+        res_body_through = build_pattern(
+            60.0, 40.0, 0.6, PatternType.DICE, spacing=15.0,
+            inlay=True, colors=[Color("white"), Color("red")],
+            lid_thickness=2.0, through_inlay=(0,),
+        )
+        assert isinstance(res_body_through, PatternResult)
+        self.assertGreater(volume(res_body_through.solid), volume(res_top.solid))
+
+

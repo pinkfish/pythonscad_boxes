@@ -161,6 +161,13 @@ class PatternResult:
         return PatternResult(inlays=new_inlays, holes=new_holes)
 
 
+def _is_through_inlay(key: int, through_inlay: bool | Sequence[int]) -> bool:
+    """Return whether inlay part with color index `key` extends through the lid."""
+    if isinstance(through_inlay, bool):
+        return through_inlay
+    return key in through_inlay
+
+
 def build_pattern(
     width: float,
     length: float,
@@ -173,6 +180,7 @@ def build_pattern(
     hole_ratio: float = 0.5,
     inlay: bool = False,
     lid_thickness: float | None = None,
+    through_inlay: bool | Sequence[int] = False,
 ) -> Bosl2Solid | PatternResult | None:
     """Build the through-hole or inlaid pattern for a lid.
 
@@ -191,6 +199,8 @@ def build_pattern(
         hole_ratio: Ratio of inner hole to outer shape for annular shapes.
         inlay: Whether the pattern is flush-inlaid rather than through-holes.
         lid_thickness: Full thickness of the lid (for through-hole cuts).
+        through_inlay: When True, colored inlays extend completely through the lid thickness.
+            Can also be a sequence of color indices that extend through the lid.
 
     Returns:
         A solid or :class:`PatternResult`, or ``None`` when none fit.
@@ -224,6 +234,8 @@ def build_pattern(
         kwargs["inlay"] = inlay
     if "lid_thickness" in sig.parameters:
         kwargs["lid_thickness"] = lid_thickness
+    if "through_inlay" in sig.parameters:
+        kwargs["through_inlay"] = through_inlay
 
     return fill(width, length, thickness, spacing, web, **kwargs)
 
@@ -492,6 +504,7 @@ def _dice_fill(
     hole_ratio: float = 0.5,
     inlay: bool = False,
     lid_thickness: float | None = None,
+    through_inlay: bool | Sequence[int] = False,
 ) -> Bosl2Solid | PatternResult | None:
     """Gaming dice faces (D6) with pips on a square grid."""
     size = hole_size(spacing, web)
@@ -508,39 +521,46 @@ def _dice_fill(
     from pyboxbuilder.rounding import vertical_edges
 
     rounding = min(size * 0.12, 2.0)
-    body = cuboid(
+    body_top = cuboid(
         [size, size, height],
         rounding=rounding,
         edges=vertical_edges(),
-    )
+    ).translate([0, 0, thickness / 2])
+    body_through = cuboid(
+        [size, size, actual_lid_t * DEPTH_OVERSHOOT],
+        rounding=rounding,
+        edges=vertical_edges(),
+    ).translate([0, 0, cut_z])
 
     d = size * 0.26
     pip_r = max(0.6, size * 0.08)
 
-    face_pips: dict[int, Bosl2Solid] = {}
+    face_pips_top: dict[int, Bosl2Solid] = {}
     face_pips_through: dict[int, Bosl2Solid] = {}
-    face_bodies_cut: dict[int, Bosl2Solid] = {}
+    face_bodies_cut_top: dict[int, Bosl2Solid] = {}
+    face_bodies_cut_through: dict[int, Bosl2Solid] = {}
 
     for val in range(1, 7):
-        pips: Bosl2Solid | None = None
+        pips_top: Bosl2Solid | None = None
         pips_through: Bosl2Solid | None = None
         for ox, oy in _DICE_PIP_OFFSETS[val]:
             p = cylinder(
                 height=height * 1.1,
                 radius=pip_r,
                 **precision_kwargs(),
-            ).translate([ox * d, oy * d, 0])
+            ).translate([ox * d, oy * d, thickness / 2])
             p_through = cylinder(
                 height=cut_h,
                 radius=pip_r,
                 **precision_kwargs(),
             ).translate([ox * d, oy * d, cut_z])
-            pips = p if pips is None else pips | p
+            pips_top = p if pips_top is None else pips_top | p
             pips_through = p_through if pips_through is None else pips_through | p_through
-        assert pips is not None and pips_through is not None
-        face_pips[val] = pips
+        assert pips_top is not None and pips_through is not None
+        face_pips_top[val] = pips_top
         face_pips_through[val] = pips_through
-        face_bodies_cut[val] = body - pips
+        face_bodies_cut_top[val] = body_top - pips_top
+        face_bodies_cut_through[val] = body_through - pips_through
 
     if not inlay:
 
@@ -548,7 +568,7 @@ def _dice_fill(
             col = round((x - width / 2.0) / spacing)
             row = round((y - length / 2.0) / spacing)
             val = ((row * 3 + col) % 6) + 1
-            return face_bodies_cut[val].translate([x, y, thickness / 2])
+            return face_bodies_cut_through[val].translate([x, y, 0])
 
         return _punch(_shape_simple, width, length, spacing, size)
 
@@ -559,8 +579,6 @@ def _dice_fill(
         row = round((y - length / 2.0) / spacing)
         val = ((row * 3 + col) % 6) + 1
 
-        body_solid = face_bodies_cut[val].translate([x, y, thickness / 2])
-
         body_color_idx = 0
         if colors and len(colors) > 2 and not through_holes:
             body_color_idx = (row * 3 + col) % (len(colors) - 1)
@@ -568,12 +586,18 @@ def _dice_fill(
         else:
             pip_color_idx = 1
 
+        body_is_through = _is_through_inlay(body_color_idx, through_inlay)
+        body_geom = face_bodies_cut_through[val] if body_is_through else face_bodies_cut_top[val]
+        body_solid = body_geom.translate([x, y, 0])
+
         if through_holes:
             pip_hole = face_pips_through[val].translate([x, y, 0])
             return PatternResult(inlays=[(body_solid, body_color_idx)], holes=pip_hole)
 
         if has_pip_color:
-            pip_solid = face_pips[val].translate([x, y, thickness / 2])
+            pip_is_through = _is_through_inlay(pip_color_idx, through_inlay)
+            pip_geom = face_pips_through[val] if pip_is_through else face_pips_top[val]
+            pip_solid = pip_geom.translate([x, y, 0])
             return PatternResult(inlays=[(body_solid, body_color_idx), (pip_solid, pip_color_idx)])
 
         return PatternResult(inlays=[(body_solid, body_color_idx)])
@@ -592,6 +616,7 @@ def _ring_fill(
     hole_ratio: float = 0.5,
     inlay: bool = False,
     lid_thickness: float | None = None,
+    through_inlay: bool | Sequence[int] = False,
 ) -> Bosl2Solid | PatternResult | None:
     """Circular rings / washers with an inner hole."""
     from pybosl2 import cylinder
@@ -605,20 +630,35 @@ def _ring_fill(
     r_inner = max(0.4, r_outer * ratio)
 
     height = thickness * DEPTH_OVERSHOOT
-    outer = cylinder(height=height, radius=r_outer, **precision_kwargs())
-    inner = cylinder(height=height * 1.1, radius=r_inner, **precision_kwargs())
-    ring = outer - inner
-
     actual_lid_t = lid_thickness if lid_thickness is not None else thickness
     cut_h = actual_lid_t + 2.0
     cut_z = thickness - actual_lid_t / 2.0
-    inner_cut = cylinder(height=cut_h, radius=r_inner, **precision_kwargs()).translate([0, 0, cut_z])
+
+    outer_top = cylinder(height=height, radius=r_outer, **precision_kwargs())
+    inner_top = cylinder(height=height * 1.1, radius=r_inner, **precision_kwargs())
+    ring_top = (outer_top - inner_top).translate([0, 0, thickness / 2])
+    inner_disc_top = inner_top.translate([0, 0, thickness / 2])
+
+    outer_through = cylinder(
+        height=actual_lid_t * DEPTH_OVERSHOOT, radius=r_outer, **precision_kwargs()
+    )
+    inner_through = cylinder(
+        height=actual_lid_t * DEPTH_OVERSHOOT * 1.1, radius=r_inner, **precision_kwargs()
+    )
+    ring_through = (outer_through - inner_through).translate([0, 0, cut_z])
+    inner_disc_through = cylinder(
+        height=actual_lid_t * DEPTH_OVERSHOOT, radius=r_inner, **precision_kwargs()
+    ).translate([0, 0, cut_z])
+
+    inner_cut = cylinder(height=cut_h, radius=r_inner, **precision_kwargs()).translate(
+        [0, 0, cut_z]
+    )
 
     has_multi_color = bool(colors and len(colors) >= 2)
 
     if not inlay:
         return _punch(
-            lambda x, y: ring.translate([x, y, thickness / 2]),
+            lambda x, y: ring_through.translate([x, y, 0]),
             width,
             length,
             spacing,
@@ -628,15 +668,18 @@ def _ring_fill(
     def _shape_ring(x: float, y: float) -> PatternResult | Bosl2Solid:
         col = round((x - width / 2.0) / spacing)
         row = round((y - length / 2.0) / spacing)
-        outer_solid = ring.translate([x, y, thickness / 2])
+        c_idx = (row + col) % len(colors) if colors and len(colors) > 1 else 0
+
+        ring_geom = ring_through if _is_through_inlay(c_idx, through_inlay) else ring_top
+        outer_solid = ring_geom.translate([x, y, 0])
 
         if through_holes:
             hole_solid = inner_cut.translate([x, y, 0])
-            c_idx = (row + col) % len(colors) if colors and len(colors) > 1 else 0
             return PatternResult(inlays=[(outer_solid, c_idx)], holes=hole_solid)
 
         if has_multi_color:
-            inner_solid = inner.translate([x, y, thickness / 2])
+            inner_geom = inner_disc_through if _is_through_inlay(1, through_inlay) else inner_disc_top
+            inner_solid = inner_geom.translate([x, y, 0])
             return PatternResult(inlays=[(outer_solid, 0), (inner_solid, 1)])
 
         return outer_solid
@@ -655,6 +698,7 @@ def _checker_fill(
     hole_ratio: float = 0.5,
     inlay: bool = False,
     lid_thickness: float | None = None,
+    through_inlay: bool | Sequence[int] = False,
 ) -> Bosl2Solid | PatternResult | None:
     """Alternating checkerboard tiles on a square grid."""
     from pybosl2 import cuboid
@@ -668,7 +712,8 @@ def _checker_fill(
     cut_h = actual_lid_t + 2.0
     cut_z = thickness - actual_lid_t / 2.0
 
-    tile = cuboid([size, size, height])
+    tile_top = cuboid([size, size, height]).translate([0, 0, thickness / 2])
+    tile_through = cuboid([size, size, actual_lid_t * DEPTH_OVERSHOOT]).translate([0, 0, cut_z])
     tile_cut = cuboid([size, size, cut_h]).translate([0, 0, cut_z])
 
     if not inlay:
@@ -677,7 +722,7 @@ def _checker_fill(
             col = round((x - width / 2.0) / spacing)
             row = round((y - length / 2.0) / spacing)
             if (row + col) % 2 == 0:
-                return tile.translate([x, y, thickness / 2])
+                return tile_through.translate([x, y, 0])
             return None
 
         holes = None
@@ -692,15 +737,14 @@ def _checker_fill(
         row = round((y - length / 2.0) / spacing)
         tile_type = (row + col) % 2
 
+        tile_geom = tile_through if _is_through_inlay(tile_type, through_inlay) else tile_top
+
         if through_holes:
             if tile_type == 0:
-                return (tile.translate([x, y, thickness / 2]), 0)
+                return (tile_geom.translate([x, y, 0]), 0)
             return PatternResult(holes=tile_cut.translate([x, y, 0]))
 
-        if colors and len(colors) >= 2:
-            return (tile.translate([x, y, thickness / 2]), tile_type)
-
-        return (tile.translate([x, y, thickness / 2]), tile_type)
+        return (tile_geom.translate([x, y, 0]), tile_type)
 
     return _punch_multi(_shape_checker, width, length, spacing, size)
 
