@@ -262,9 +262,12 @@ class BoxSpec:
     corner_deflectors: bool = True
 
     # Sleeve drawer (FR-087)
-    push_hole_radius: float = 12.0
+    push_hole_radius: float = 0.0
+    drawer_handle_style: str = "handle"
+    drawer_handle_length: float = 4.0
     drawer_pull_lip: float = 4.0
-    sleeve_slack: float = 0.2
+    sleeve_slack: float = 0.25
+    sleeve_wall_thickness: float | None = None
 
     # Clamshell (FR-088)
     spine_gap: float = 1.0
@@ -540,9 +543,12 @@ class UnresolvedBoxSpec:
     felt_pocket_depth: float = 1.2
     corner_deflectors: bool = True
 
-    push_hole_radius: float = 12.0
+    push_hole_radius: float = 0.0
+    drawer_handle_style: str = "handle"
+    drawer_handle_length: float = 4.0
     drawer_pull_lip: float = 4.0
-    sleeve_slack: float = 0.2
+    sleeve_slack: float = 0.25
+    sleeve_wall_thickness: float | None = None
 
     spine_gap: float = 1.0
     clamshell_hinge_radius: float = 2.5

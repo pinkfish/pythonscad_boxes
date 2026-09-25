@@ -1547,6 +1547,14 @@ One number, `Project.clearance_slack` (default 1.0mm, sane range 1–2mm), appli
 - *MMU*: the label is a separate raised insert in its own material; compartment floor labels are raised 0.2mm in a second colour.
 - *Single*: the label is **engraved** into the face, and a framed label degrades to engraved text — a frame is a colour feature, and keeping it lifted the text 0.4mm clear so the engraving cut nothing (T202). Compartment floor labels are 0.2mm recessed cutouts.
 
+### Matchbox Sleeve & Drawer Architecture (FR-087)
+
+The `BoxType.SLEEVE_DRAWER` design separates into an outer enclosure (sleeve) and an inner sliding tray (drawer):
+- **Outer Sleeve (`build_lid`)**: A 4-sided tubular enclosure with top, bottom, and side walls of thickness `sleeve_wall_thickness` (default `max(1.2, wall_thickness / 2.0)`). The back wall is solid by default (`push_hole_radius = 0.0`), preventing dust intrusion while supporting an optional circular push-through hole (`push_hole_radius > 0`) when requested.
+- **Inner Sliding Drawer (`build_body`)**: A solid five-sided tray with intact front, back, and side walls of thickness `wall_thickness` and floor of thickness `floor_thickness`. It slides inside the sleeve tunnel with clearance `sleeve_slack` (default 0.25mm).
+- **Front Pull Handle**: The front face features an integrated ergonomic pull handle (`drawer_handle_style="handle"`, default `drawer_handle_length=4.0mm`), pull tab/lip (`"lip"`), or flush solid front (`"none"`).
+- **Compartment Carving & Scoop Suppression**: `box.interior(spec)` precisely defines the drawer's internal cavity (`[wt, drawer_l - wt]`), ensuring compartments carve exclusively within the drawer interior without cutting into the front wall. `SleeveDrawerBox` is included in `suppress_scoops` to prevent external finger scoops from piercing the drawer walls.
+
 ## Material and Colour Model (FR-009, FR-024, FR-025)
 
 - **`pybosl2.Color` only.** No `Color` class, no presets, no RGB literals in project files — webcolor names at the call site (`Color("darkgreen")`). `pyboxbuilder/color.py` must not exist.

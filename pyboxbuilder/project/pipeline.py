@@ -161,18 +161,19 @@ class GeometryPipeline:
         # Pre-CSG physical invariant validation (FR-092 / SC-092)
         GeometryValidator.validate(spec)
 
-        interior = spec.interior()
+        box_cls = BOX_IMPL_REGISTRY.get(builder.box_type)
+        box = box_cls() if box_cls is not None else None
+        if box is not None:
+            spec = spec.with_wall_tops(box)
+            interior = box.interior(spec)
+        else:
+            interior = spec.interior()
 
         siblings = len(builder.compartments)
         comp_data = [
             cb.resolved(interior.width, interior.length, interior.height, siblings)
             for cb in builder.compartments
         ]
-
-        box_cls = BOX_IMPL_REGISTRY.get(builder.box_type)
-        box = box_cls() if box_cls is not None else None
-        if box is not None:
-            spec = spec.with_wall_tops(box)
 
         comp_layout = None
         if comp_data:
@@ -230,6 +231,7 @@ class GeometryPipeline:
             from pyboxbuilder.box.types.cap_path import CapPathBox
             from pyboxbuilder.box.types.filament_hinge import FilamentHingeBox
             from pyboxbuilder.box.types.hinge import HingeBox
+            from pyboxbuilder.box.types.sleeve_drawer import SleeveDrawerBox
             from pyboxbuilder.box.types.sliding_catch import SlidingCatchBox
             from pyboxbuilder.box.types.slipover import SlipoverBox
             from pyboxbuilder.box.types.slipover_path import SlipoverPathBox
@@ -253,6 +255,7 @@ class GeometryPipeline:
                     SlipoverBox,
                     SlipoverPathBox,
                     SlidingCatchBox,
+                    SleeveDrawerBox,
                 ),
             ) or (
                 isinstance(box, (HingeBox, FilamentHingeBox))

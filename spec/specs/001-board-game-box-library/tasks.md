@@ -1321,6 +1321,16 @@ stop the class of mistake from being expressible.
 - [x] T446 [P] Add unit tests in `tests/test_pyboxbuilder/test_lid_pattern.py` and `tests/test_pyboxbuilder/test_lid_decorate.py` verifying full-depth inlays, top-layer inlays, and mixed per-color depth inlays.
 
 
+## Phase 52: Matchbox Sleeve & Drawer Redesign (FR-087)
+
+**Goal**: Redesign `BoxType.SLEEVE_DRAWER` so the sliding drawer is a solid, clean container with an integrated front pull handle, no floating bits or front wall holes, and the outer sleeve has a solid back wall by default (with optional push hole).
+
+- [x] T447 [P] Update `SleeveDrawerBoxBuilder` in `pyboxbuilder/builders/sleeve_drawer.py` with `drawer_handle_style: str = "handle"`, `drawer_handle_length: float = 4.0`, and default `push_hole_radius: float = 0.0`.
+- [x] T448 [P] Update `GeometryPipeline._resolve_box` in `pyboxbuilder/project/pipeline.py` to invoke `box.interior(spec)` and add `SleeveDrawerBox` to `suppress_scoops`.
+- [x] T449 [P] Redesign `SleeveDrawerBox` in `pyboxbuilder/box/types/sleeve_drawer.py`: solid drawer walls with front handle, exact interior alignment, and solid sleeve back wall.
+- [x] T450 [P] Update `spec.md`, `plan.md`, documentation (`docs/box_types.rst`), and add comprehensive unit tests in `tests/test_pyboxbuilder/test_extended_boxes.py`.
+
+
 ## Notes
 
 

@@ -161,7 +161,45 @@ class ExtendedBoxBuildersTests(unittest.TestCase):
         self.assertIsInstance(b, SleeveDrawerBoxBuilder)
         self.assertEqual(b.push_hole_radius, 10.0)
         self.assertEqual(b.drawer_pull_lip, 5.0)
+        self.assertEqual(b.drawer_handle_length, 5.0)
         self.assertEqual(b.sleeve_slack, 0.25)
+
+    def test_sleeve_drawer_solid_and_handle(self) -> None:
+        """Sleeve drawer defaults to solid back wall, front handle, and intact front wall."""
+        from mesh import volume
+
+        p = Project("MatchboxSolidTest")
+        box = p.box(
+            BoxType.SLEEVE_DRAWER,
+            "SolidDrawer",
+            size=(70.0, 60.0, 28.0),
+            drawer_handle_style="handle",
+            drawer_handle_length=4.0,
+        )
+        self.assertEqual(box.push_hole_radius, 0.0)
+        box.compartment("Cards", holds_pieces=True)
+
+        pieces = p.preview_pieces(show_lids=True)
+        self.assertEqual(len(pieces), 2)
+        drawer_piece = [pc for pc in pieces if pc.label == "SolidDrawer"][0]
+        sleeve_piece = [pc for pc in pieces if pc.label == "SolidDrawer"][1]
+
+        # Drawer handle extends in -Y by 4mm
+        b_box = drawer_piece.solid.bounds()
+        min_y = float(b_box[0][1]) if isinstance(b_box, tuple) else float(b_box.min[1])
+        self.assertAlmostEqual(min_y, 28.0, delta=1.5)  # in preview packed layout
+
+        # Compare solid back sleeve vs pierced back sleeve
+        p_hole = Project("MatchboxHoleTest")
+        box_hole = p_hole.box(
+            BoxType.SLEEVE_DRAWER,
+            "HoleDrawer",
+            size=(70.0, 60.0, 28.0),
+            push_hole_radius=10.0,
+        )
+        pieces_hole = p_hole.preview_pieces(show_lids=True)
+        sleeve_hole_piece = [pc for pc in pieces_hole if pc.label == "HoleDrawer"][1]
+        self.assertGreater(volume(sleeve_piece.solid), volume(sleeve_hole_piece.solid))
 
     def test_clamshell_builder(self) -> None:
         p = Project("TestClamshell")
