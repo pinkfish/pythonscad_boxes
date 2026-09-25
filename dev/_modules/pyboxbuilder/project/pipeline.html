@@ -604,18 +604,19 @@
         <span class="c1"># Pre-CSG physical invariant validation (FR-092 / SC-092)</span>
         <span class="n">GeometryValidator</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
 
-        <span class="n">interior</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">interior</span><span class="p">()</span>
+        <span class="n">box_cls</span> <span class="o">=</span> <span class="n">BOX_IMPL_REGISTRY</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">builder</span><span class="o">.</span><span class="n">box_type</span><span class="p">)</span>
+        <span class="n">box</span> <span class="o">=</span> <span class="n">box_cls</span><span class="p">()</span> <span class="k">if</span> <span class="n">box_cls</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">box</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">spec</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">with_wall_tops</span><span class="p">(</span><span class="n">box</span><span class="p">)</span>
+            <span class="n">interior</span> <span class="o">=</span> <span class="n">box</span><span class="o">.</span><span class="n">interior</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">interior</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">interior</span><span class="p">()</span>
 
         <span class="n">siblings</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">builder</span><span class="o">.</span><span class="n">compartments</span><span class="p">)</span>
         <span class="n">comp_data</span> <span class="o">=</span> <span class="p">[</span>
             <span class="n">cb</span><span class="o">.</span><span class="n">resolved</span><span class="p">(</span><span class="n">interior</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="n">interior</span><span class="o">.</span><span class="n">length</span><span class="p">,</span> <span class="n">interior</span><span class="o">.</span><span class="n">height</span><span class="p">,</span> <span class="n">siblings</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">cb</span> <span class="ow">in</span> <span class="n">builder</span><span class="o">.</span><span class="n">compartments</span>
         <span class="p">]</span>
-
-        <span class="n">box_cls</span> <span class="o">=</span> <span class="n">BOX_IMPL_REGISTRY</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">builder</span><span class="o">.</span><span class="n">box_type</span><span class="p">)</span>
-        <span class="n">box</span> <span class="o">=</span> <span class="n">box_cls</span><span class="p">()</span> <span class="k">if</span> <span class="n">box_cls</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span>
-        <span class="k">if</span> <span class="n">box</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">spec</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">with_wall_tops</span><span class="p">(</span><span class="n">box</span><span class="p">)</span>
 
         <span class="n">comp_layout</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">if</span> <span class="n">comp_data</span><span class="p">:</span>
@@ -673,6 +674,7 @@
             <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.types.cap_path</span><span class="w"> </span><span class="kn">import</span> <span class="n">CapPathBox</span>
             <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.types.filament_hinge</span><span class="w"> </span><span class="kn">import</span> <span class="n">FilamentHingeBox</span>
             <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.types.hinge</span><span class="w"> </span><span class="kn">import</span> <span class="n">HingeBox</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.types.sleeve_drawer</span><span class="w"> </span><span class="kn">import</span> <span class="n">SleeveDrawerBox</span>
             <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.types.sliding_catch</span><span class="w"> </span><span class="kn">import</span> <span class="n">SlidingCatchBox</span>
             <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.types.slipover</span><span class="w"> </span><span class="kn">import</span> <span class="n">SlipoverBox</span>
             <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.types.slipover_path</span><span class="w"> </span><span class="kn">import</span> <span class="n">SlipoverPathBox</span>
@@ -696,6 +698,7 @@
                     <span class="n">SlipoverBox</span><span class="p">,</span>
                     <span class="n">SlipoverPathBox</span><span class="p">,</span>
                     <span class="n">SlidingCatchBox</span><span class="p">,</span>
+                    <span class="n">SleeveDrawerBox</span><span class="p">,</span>
                 <span class="p">),</span>
             <span class="p">)</span> <span class="ow">or</span> <span class="p">(</span>
                 <span class="nb">isinstance</span><span class="p">(</span><span class="n">box</span><span class="p">,</span> <span class="p">(</span><span class="n">HingeBox</span><span class="p">,</span> <span class="n">FilamentHingeBox</span><span class="p">))</span>

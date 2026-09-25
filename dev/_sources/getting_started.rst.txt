@@ -208,7 +208,7 @@ A flush drop-in lid that seats onto an internal stepped perimeter rabbet:
 Matchbox Sleeve & Drawer (``BoxType.SLEEVE_DRAWER``)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-A 4-sided outer sleeve enclosing an inner drawer tray with a pull lip and rear push-through hole:
+A 4-sided outer sleeve enclosing an inner drawer tray with a solid back wall and front pull handle:
 
 .. pythonscad-example::
 
@@ -217,7 +217,7 @@ A 4-sided outer sleeve enclosing an inner drawer tray with a pull lip and rear p
        BoxType.SLEEVE_DRAWER,
        "MatchboxDrawer",
        size=(60.0, 50.0, 22.0),
-       drawer_pull_lip=4.0,
+       drawer_handle_length=4.0,
    )
    project.show(show_lids=True)
 

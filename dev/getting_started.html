@@ -1529,18 +1529,17 @@
 </div>
 <div class="stl-viewer" data-stl-uri="_stl/62e075399d7fc00b.stl" data-stl-color="#6f9ac9" style="width:100%;height:360px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a class="reference external" href="_stl/62e075399d7fc00b.stl">⬇ Download STL mesh</a></p>
 <h4 id="matchbox-sleeve-drawer-boxtype-sleeve-drawer">Matchbox Sleeve &amp; Drawer (<code class="docutils literal notranslate"><span class="pre">BoxType.SLEEVE_DRAWER</span></code>)<a class="headerlink" href="#matchbox-sleeve-drawer-boxtype-sleeve-drawer" title="Link to this heading">¶</a></h4>
-<p>A 4-sided outer sleeve enclosing an inner drawer tray with a pull lip and rear push-through hole:</p>
+<p>A 4-sided outer sleeve enclosing an inner drawer tray with a solid back wall and front pull handle:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="n">project</span> <span class="o">=</span> <span class="n">Project</span><span class="p">(</span><span class="s2">"DrawerDemo"</span><span class="p">)</span>
 <span class="n">project</span><span class="o">.</span><span class="n">box</span><span class="p">(</span>
     <span class="n">BoxType</span><span class="o">.</span><span class="n">SLEEVE_DRAWER</span><span class="p">,</span>
     <span class="s2">"MatchboxDrawer"</span><span class="p">,</span>
     <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mf">60.0</span><span class="p">,</span> <span class="mf">50.0</span><span class="p">,</span> <span class="mf">22.0</span><span class="p">),</span>
-    <span class="n">drawer_pull_lip</span><span class="o">=</span><span class="mf">4.0</span><span class="p">,</span>
+    <span class="n">drawer_handle_length</span><span class="o">=</span><span class="mf">4.0</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="n">project</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">show_lids</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </code></pre></div>
 </div>
-<div class="stl-viewer" data-stl-uri="_stl/3a008231ffd40216.stl" data-stl-color="#6f9ac9" style="width:100%;height:360px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a class="reference external" href="_stl/3a008231ffd40216.stl">⬇ Download STL mesh</a></p>
 <h3 id="hinged-folding-closures">Hinged &amp; Folding Closures<a class="headerlink" href="#hinged-folding-closures" title="Link to this heading">¶</a></h3>
 <h4 id="monolithic-print-in-place-hinge-box-boxtype-print-in-place-hinge">Monolithic Print-In-Place Hinge Box (<code class="docutils literal notranslate"><span class="pre">BoxType.PRINT_IN_PLACE_HINGE</span></code>)<a class="headerlink" href="#monolithic-print-in-place-hinge-box-boxtype-print-in-place-hinge" title="Link to this heading">¶</a></h4>
 <p>A zero-assembly 1-piece print laid flat at 180° on the print bed with interlocking captive pin knuckles and front snap catches from <code class="docutils literal notranslate"><span class="pre">pybosl2</span></code>:</p>

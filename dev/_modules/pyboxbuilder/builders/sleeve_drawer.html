@@ -471,12 +471,26 @@
 <span class="sd">    """</span>
 
     <span class="n">box_type</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="n">BoxType</span><span class="p">]</span> <span class="o">=</span> <span class="n">BoxType</span><span class="o">.</span><span class="n">SLEEVE_DRAWER</span>
-    <span class="n">push_hole_radius</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">12.0</span>
-<span class="w">    </span><span class="sd">"""Radius of the finger push-through hole on the sleeve back wall in mm."""</span>
+    <span class="n">push_hole_radius</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span>
+<span class="w">    </span><span class="sd">"""Radius of the finger push-through hole on the sleeve back wall in mm (default 0.0: solid back)."""</span>
+    <span class="n">drawer_handle_style</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"handle"</span>
+<span class="w">    </span><span class="sd">"""Handle style on the front drawer face: 'handle' (pull handle), 'lip' (pull tab), or 'none' (flush)."""</span>
+    <span class="n">drawer_handle_length</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">4.0</span>
+<span class="w">    </span><span class="sd">"""Forward extension length of the drawer front handle in mm."""</span>
     <span class="n">drawer_pull_lip</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">4.0</span>
-<span class="w">    </span><span class="sd">"""Extension length of the drawer front pull tab/lip in mm."""</span>
-    <span class="n">sleeve_slack</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.2</span>
-<span class="w">    </span><span class="sd">"""Clearance between outer sleeve and inner sliding drawer in mm."""</span></div>
+<span class="w">    </span><span class="sd">"""Backward-compatible alias for drawer_handle_length in mm."""</span>
+    <span class="n">sleeve_slack</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.25</span>
+<span class="w">    </span><span class="sd">"""Clearance between outer sleeve and inner sliding drawer in mm."""</span>
+    <span class="n">sleeve_wall_thickness</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">"""Wall thickness of the outer sleeve in mm (defaults to max(1.2, wall_thickness / 2.0))."""</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Synchronize drawer_handle_length and drawer_pull_lip."""</span>
+        <span class="c1"># If caller passed non-default drawer_pull_lip and left drawer_handle_length default, sync it</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">drawer_pull_lip</span> <span class="o">!=</span> <span class="mf">4.0</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">drawer_handle_length</span> <span class="o">==</span> <span class="mf">4.0</span><span class="p">:</span>
+            <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">"drawer_handle_length"</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">drawer_pull_lip</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">drawer_handle_length</span> <span class="o">!=</span> <span class="mf">4.0</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">drawer_pull_lip</span> <span class="o">==</span> <span class="mf">4.0</span><span class="p">:</span>
+            <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">"drawer_pull_lip"</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">drawer_handle_length</span><span class="p">)</span></div>
 
 </code></pre></div>
 

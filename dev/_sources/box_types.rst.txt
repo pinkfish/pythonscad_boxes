@@ -521,7 +521,7 @@ Matchbox Sleeve & Drawer (``BoxType.SLEEVE_DRAWER``)
 
 **Builder**: :class:`~pyboxbuilder.builders.sleeve_drawer.SleeveDrawerBoxBuilder`
 
-A two-piece matchbox assembly consisting of a hollow 4-sided outer perimeter sleeve and an inner sliding compartment drawer, enabling horizontal drawer access without removing stacked trays above it. The drawer front features an integrated pull tab/lip, and the sleeve back wall features a semi-circular finger push-through hole.
+A two-piece matchbox assembly consisting of a hollow 4-sided outer perimeter sleeve and an inner sliding compartment drawer, enabling horizontal drawer access without removing stacked trays above it. The drawer is a solid container with an integrated front pull handle, and the sleeve features a solid back wall (with an optional push-through hole).
 
 .. pythonscad-example::
 
@@ -531,8 +531,8 @@ A two-piece matchbox assembly consisting of a hollow 4-sided outer perimeter sle
        "DrawerBox",
        size=(70.0, 60.0, 28.0),
        color=Color("sienna"),
-       push_hole_radius=12.0,
-       drawer_pull_lip=4.0,
+       drawer_handle_style="handle",
+       drawer_handle_length=4.0,
    )
    box.compartment("Cards", holds_pieces=True)
    project.show(show_lids=True)
