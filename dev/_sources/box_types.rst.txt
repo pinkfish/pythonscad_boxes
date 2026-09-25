@@ -499,7 +499,7 @@ Dice Tray & Rolling Arena (``BoxType.DICE_TRAY``)
 
 **Builder**: :class:`~pyboxbuilder.builders.dice_tray.DiceTrayBoxBuilder`
 
-A dual-purpose container where the body stores dice or tokens and the deep nesting lid doubles as an active tabletop dice rolling arena. The lid perimeter walls rise at least 25mm above the tray floor with 45° internal corner fillets to bounce rolling dice back toward the center, and a recessed acoustic pad pocket for adhesive felt.
+A dual-purpose container where the body stores dice or tokens and the deep nesting lid doubles as an active tabletop dice rolling arena. The lid perimeter walls rise at least 25mm above the tray floor with 45° internal corner fillets to bounce rolling dice back toward the center, and a recessed acoustic pad pocket for adhesive felt. In multi-material (MMU) mode, the lid defaults to an inlaid gaming dice pattern (D6 faces) with contrasting title text and pips without cutting through-holes into the rolling arena.
 
 .. pythonscad-example::
 

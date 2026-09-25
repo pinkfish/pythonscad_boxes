@@ -481,8 +481,10 @@
 <span class="w">    </span><span class="sd">"""Add 45° corner deflector fillets to bounce rolling dice inward."""</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">"""Configure default lid with text title and inlaid pattern (no through-holes)."""</span>
+<span class="w">        </span><span class="sd">"""Configure default lid with multi-material text title and inlaid dice pattern."""</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">lid</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">Color</span>
+
             <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">LabelMode</span><span class="p">,</span> <span class="n">PatternType</span>
             <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.lid.builder</span><span class="w"> </span><span class="kn">import</span> <span class="n">LidBuilder</span><span class="p">,</span> <span class="n">PatternBuilder</span>
 
@@ -491,19 +493,27 @@
                 <span class="s2">"lid"</span><span class="p">,</span>
                 <span class="n">LidBuilder</span><span class="p">(</span>
                     <span class="n">text</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="p">,</span>
+                    <span class="n">text_color</span><span class="o">=</span><span class="n">Color</span><span class="p">(</span><span class="s2">"gold"</span><span class="p">),</span>
                     <span class="n">label_mode</span><span class="o">=</span><span class="n">LabelMode</span><span class="o">.</span><span class="n">FRAMELESS</span><span class="p">,</span>
                     <span class="n">label_clearance_mm</span><span class="o">=</span><span class="mf">3.0</span><span class="p">,</span>
-                    <span class="n">pattern</span><span class="o">=</span><span class="n">PatternBuilder</span><span class="p">(</span><span class="n">PatternType</span><span class="o">.</span><span class="n">DENSE_HEX</span><span class="p">,</span> <span class="n">inlay</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+                    <span class="n">pattern</span><span class="o">=</span><span class="n">PatternBuilder</span><span class="p">(</span><span class="n">PatternType</span><span class="o">.</span><span class="n">DICE</span><span class="p">,</span> <span class="n">spacing</span><span class="o">=</span><span class="mf">14.0</span><span class="p">,</span> <span class="n">inlay</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+                    <span class="n">pattern_color</span><span class="o">=</span><span class="n">Color</span><span class="p">(</span><span class="s2">"white"</span><span class="p">),</span>
                 <span class="p">),</span>
             <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">replace</span>
 
+            <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">Color</span>
+
             <span class="n">updates</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">lid</span><span class="o">.</span><span class="n">text</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">updates</span><span class="p">[</span><span class="s2">"text"</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">label</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">lid</span><span class="o">.</span><span class="n">text_color</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">updates</span><span class="p">[</span><span class="s2">"text_color"</span><span class="p">]</span> <span class="o">=</span> <span class="n">Color</span><span class="p">(</span><span class="s2">"gold"</span><span class="p">)</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">lid</span><span class="o">.</span><span class="n">pattern</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">lid</span><span class="o">.</span><span class="n">pattern</span><span class="o">.</span><span class="n">inlay</span><span class="p">:</span>
                 <span class="n">updates</span><span class="p">[</span><span class="s2">"pattern"</span><span class="p">]</span> <span class="o">=</span> <span class="n">replace</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lid</span><span class="o">.</span><span class="n">pattern</span><span class="p">,</span> <span class="n">inlay</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">lid</span><span class="o">.</span><span class="n">pattern_color</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">updates</span><span class="p">[</span><span class="s2">"pattern_color"</span><span class="p">]</span> <span class="o">=</span> <span class="n">Color</span><span class="p">(</span><span class="s2">"white"</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">updates</span><span class="p">:</span>
                 <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">"lid"</span><span class="p">,</span> <span class="n">replace</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lid</span><span class="p">,</span> <span class="o">**</span><span class="n">updates</span><span class="p">))</span></div>
 
