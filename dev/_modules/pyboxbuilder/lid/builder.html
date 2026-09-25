@@ -520,7 +520,11 @@
 <span class="sd">    ``None`` uses :data:`PATTERN_BORDER_MM`. ``0`` runs the pattern to the</span>
 <span class="sd">    lid's edge, which is rarely what a lid wants — see that constant."""</span>
     <span class="n">inlay</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
-<span class="w">    </span><span class="sd">"""When True, inlay the pattern flush into the lid surface (no through-holes)."""</span>
+<span class="w">    </span><span class="sd">"""When True, inlay the pattern flush into the lid surface."""</span>
+    <span class="n">through_holes</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="w">    </span><span class="sd">"""When True in inlay mode, cutouts/holes inside pattern shapes penetrate completely through the lid."""</span>
+    <span class="n">hole_ratio</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.5</span>
+<span class="w">    </span><span class="sd">"""Relative inner hole size for shapes with holes (such as RING), from 0.1 to 0.9."""</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">border_width</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
@@ -591,6 +595,8 @@
 <span class="w">    </span><span class="sd">"""Through-hole pattern, or ``None`` for a plain lid."""</span>
     <span class="n">pattern_color</span><span class="p">:</span> <span class="n">Color</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="w">    </span><span class="sd">"""Colour of the pattern's top layer; ``None`` contrasts with the body."""</span>
+    <span class="n">pattern_colors</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Color</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">"""Palette of colours for multi-colour patterns; falls back to pattern.colors or pattern_color."""</span>
     <span class="n">logo</span><span class="p">:</span> <span class="n">Any</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="w">    </span><span class="sd">"""Path to the SVG logo, a Bosl2Solid, or a callable representing the custom lid logo."""</span>
     <span class="n">logo_color</span><span class="p">:</span> <span class="n">Color</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
@@ -661,28 +667,19 @@
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">min_text_height</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""The shortest printable label, resolved."""</span>
-        <span class="k">return</span> <span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">min_text_height_mm</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">min_text_height_mm</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">MIN_TEXT_HEIGHT_MM</span>
-        <span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">min_text_height_mm</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">min_text_height_mm</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">MIN_TEXT_HEIGHT_MM</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">label_clearance</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""The margin kept around the lettering, resolved."""</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.lid.decorate</span><span class="w"> </span><span class="kn">import</span> <span class="n">LABEL_CLEARANCE_MM</span>
 
-        <span class="k">return</span> <span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">label_clearance_mm</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">label_clearance_mm</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">LABEL_CLEARANCE_MM</span>
-        <span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">label_clearance_mm</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">label_clearance_mm</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">LABEL_CLEARANCE_MM</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">border_margin</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""The margin kept clear at the lid's edge, resolved."""</span>
-        <span class="k">return</span> <span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">border_margin_mm</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">border_margin_mm</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">BORDER_MARGIN_MM</span>
-        <span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">border_margin_mm</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">border_margin_mm</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">BORDER_MARGIN_MM</span>
 
 <div class="viewcode-block" id="LidBuilder.for_mode">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.lid.builder.LidBuilder.html#pyboxbuilder.lid.builder.LidBuilder.for_mode">[docs]</a>
@@ -721,8 +718,7 @@
         <span class="k">return</span> <span class="p">{</span>
             <span class="n">f</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">fields</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"mmu_label"</span><span class="p">,</span> <span class="s2">"single_label"</span><span class="p">)</span>
-            <span class="ow">and</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f</span><span class="o">.</span><span class="n">name</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+            <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"mmu_label"</span><span class="p">,</span> <span class="s2">"single_label"</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f</span><span class="o">.</span><span class="n">name</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
         <span class="p">}</span>
 
 <div class="viewcode-block" id="LidBuilder.resolve_for_mode">
@@ -733,7 +729,8 @@
 
         <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
             <span class="s2">"LidBuilder.resolve_for_mode() is deprecated; use for_mode()."</span><span class="p">,</span>
-            <span class="ne">DeprecationWarning</span><span class="p">,</span> <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+            <span class="ne">DeprecationWarning</span><span class="p">,</span>
+            <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">for_mode</span><span class="p">(</span><span class="n">mode</span><span class="p">)</span></div>
 </div>

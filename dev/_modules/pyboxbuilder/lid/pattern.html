@@ -458,8 +458,11 @@
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">random</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Iterator</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">Sequence</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">field</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Any</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">Color</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">PatternType</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.precision</span><span class="w"> </span><span class="kn">import</span> <span class="n">kwargs</span> <span class="k">as</span> <span class="n">precision_kwargs</span>
@@ -525,6 +528,7 @@
     <span class="k">return</span> <span class="n">size</span> <span class="k">if</span> <span class="n">size</span> <span class="o">&gt;=</span> <span class="n">MIN_HOLE_MM</span> <span class="k">else</span> <span class="mf">0.0</span></div>
 
 
+
 <div class="viewcode-block" id="default_spacing">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.lid.pattern.default_spacing.html#pyboxbuilder.lid.pattern.default_spacing">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">default_spacing</span><span class="p">(</span><span class="n">width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">length</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
@@ -561,6 +565,52 @@
 <span class="sd">"""</span>
 
 
+<div class="viewcode-block" id="PatternResult">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.lid.pattern.PatternResult.html#pyboxbuilder.lid.pattern.PatternResult">[docs]</a>
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">PatternResult</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Compound or multi-material pattern geometry output.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        inlays: List of (solid, color_key) where color_key is an integer palette</span>
+<span class="sd">            index, an explicit pybosl2.Color, or None.</span>
+<span class="sd">        holes: Optional solid of cutouts that cut completely through the lid.</span>
+<span class="sd">    """</span>
+
+    <span class="n">inlays</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="n">Bosl2Solid</span><span class="p">,</span> <span class="nb">int</span> <span class="o">|</span> <span class="n">Color</span> <span class="o">|</span> <span class="kc">None</span><span class="p">]]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span>
+    <span class="n">holes</span><span class="p">:</span> <span class="n">Bosl2Solid</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">solid</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Combined geometry of all inlays and holes."""</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">holes</span>
+        <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">inlays</span><span class="p">:</span>
+            <span class="n">res</span> <span class="o">=</span> <span class="n">s</span> <span class="k">if</span> <span class="n">res</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">res</span> <span class="o">|</span> <span class="n">s</span>
+        <span class="k">return</span> <span class="n">res</span>
+
+<div class="viewcode-block" id="PatternResult.translate">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.lid.pattern.PatternResult.html#pyboxbuilder.lid.pattern.PatternResult.translate">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">translate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">PatternResult</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Translate all inlay components and through-holes by vector `v`."""</span>
+        <span class="n">new_inlays</span> <span class="o">=</span> <span class="p">[(</span><span class="n">s</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">v</span><span class="p">)),</span> <span class="n">c</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">inlays</span><span class="p">]</span>
+        <span class="n">new_holes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">holes</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">v</span><span class="p">))</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">holes</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="n">PatternResult</span><span class="p">(</span><span class="n">inlays</span><span class="o">=</span><span class="n">new_inlays</span><span class="p">,</span> <span class="n">holes</span><span class="o">=</span><span class="n">new_holes</span><span class="p">)</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__and__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Bosl2Solid</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PatternResult</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Intersect every component with clipping boundary `other`."""</span>
+        <span class="n">new_inlays</span> <span class="o">=</span> <span class="p">[(</span><span class="n">s</span> <span class="o">&amp;</span> <span class="n">other</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">inlays</span><span class="p">]</span>
+        <span class="n">new_holes</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">holes</span> <span class="o">&amp;</span> <span class="n">other</span><span class="p">)</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">holes</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="n">PatternResult</span><span class="p">(</span><span class="n">inlays</span><span class="o">=</span><span class="n">new_inlays</span><span class="p">,</span> <span class="n">holes</span><span class="o">=</span><span class="n">new_holes</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__sub__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Bosl2Solid</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PatternResult</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Subtract keepout solid `other` from every component."""</span>
+        <span class="n">new_inlays</span> <span class="o">=</span> <span class="p">[(</span><span class="n">s</span> <span class="o">-</span> <span class="n">other</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">inlays</span><span class="p">]</span>
+        <span class="n">new_holes</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">holes</span> <span class="o">-</span> <span class="n">other</span><span class="p">)</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">holes</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="n">PatternResult</span><span class="p">(</span><span class="n">inlays</span><span class="o">=</span><span class="n">new_inlays</span><span class="p">,</span> <span class="n">holes</span><span class="o">=</span><span class="n">new_holes</span><span class="p">)</span></div>
+
+
+
 <div class="viewcode-block" id="build_pattern">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.lid.pattern.build_pattern.html#pyboxbuilder.lid.pattern.build_pattern">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">build_pattern</span><span class="p">(</span>
@@ -570,28 +620,35 @@
     <span class="n">pattern_type</span><span class="p">:</span> <span class="n">PatternType</span><span class="p">,</span>
     <span class="n">spacing</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">web</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""Build the through-hole cutouts for a lid.</span>
+    <span class="n">colors</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Color</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">through_holes</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">hole_ratio</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span>
+    <span class="n">inlay</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">lid_thickness</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span> <span class="o">|</span> <span class="n">PatternResult</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Build the through-hole or inlaid pattern for a lid.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        width: Width of the area to fill, in mm — the lid less its border.</span>
 <span class="sd">        length: Length of that area, in mm.</span>
-<span class="sd">        thickness: Lid thickness; the holes are cut deeper so they break through.</span>
+<span class="sd">        thickness: Pattern thickness (inlay depth or lid thickness).</span>
 <span class="sd">        pattern_type: Which pattern. ``PatternType.NONE`` returns ``None``.</span>
 <span class="sd">        spacing: Centre-to-centre distance between holes. ``None`` derives it</span>
 <span class="sd">            from the area (see :func:`default_spacing`).</span>
 <span class="sd">        web: Material left between neighbouring holes. ``None`` uses</span>
-<span class="sd">            :data:`DEFAULT_WEB_MM`. This, rather than the hole size, is what a</span>
-<span class="sd">            pattern is really specified by: it is what prints.</span>
+<span class="sd">            :data:`DEFAULT_WEB_MM`.</span>
+<span class="sd">        colors: Palette of colors for multi-color patterns.</span>
+<span class="sd">        through_holes: When True with inlay, internal holes inside pattern</span>
+<span class="sd">            shapes cut completely through the lid.</span>
+<span class="sd">        hole_ratio: Ratio of inner hole to outer shape for annular shapes.</span>
+<span class="sd">        inlay: Whether the pattern is flush-inlaid rather than through-holes.</span>
+<span class="sd">        lid_thickness: Full thickness of the lid (for through-hole cuts).</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        The solid to subtract from the lid, or ``None`` for no pattern, for an</span>
-<span class="sd">        area too small to hold a whole hole, or for a pitch too tight to hold a</span>
-<span class="sd">        hole and a printable web at once.</span>
+<span class="sd">        A solid or :class:`PatternResult`, or ``None`` when none fit.</span>
 
 <span class="sd">    Raises:</span>
-<span class="sd">        ValueError: If the pattern has no fill registered — which cannot happen</span>
-<span class="sd">            for a catalog member, and is the check that keeps it that way.</span>
+<span class="sd">        ValueError: If the pattern has no fill registered.</span>
 
 <span class="sd">    """</span>
     <span class="k">if</span> <span class="n">spacing</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -603,15 +660,29 @@
     <span class="n">fill</span> <span class="o">=</span> <span class="n">_PATTERN_FILLS</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">pattern_type</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">fill</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">available</span> <span class="o">=</span> <span class="s2">", "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">_PATTERN_FILLS</span><span class="p">))</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">"No fill registered for PatternType.</span><span class="si">{</span><span class="n">pattern_type</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">. "</span>
-            <span class="sa">f</span><span class="s2">"Available: </span><span class="si">{</span><span class="n">available</span><span class="si">}</span><span class="s2">"</span>
-        <span class="p">)</span>
-    <span class="k">return</span> <span class="n">fill</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">thickness</span><span class="p">,</span> <span class="n">spacing</span><span class="p">,</span> <span class="n">web</span><span class="p">)</span></div>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"No fill registered for PatternType.</span><span class="si">{</span><span class="n">pattern_type</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">. Available: </span><span class="si">{</span><span class="n">available</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+    <span class="kn">import</span><span class="w"> </span><span class="nn">inspect</span>
+
+    <span class="n">sig</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">signature</span><span class="p">(</span><span class="n">fill</span><span class="p">)</span>
+    <span class="n">kwargs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">if</span> <span class="s2">"colors"</span> <span class="ow">in</span> <span class="n">sig</span><span class="o">.</span><span class="n">parameters</span><span class="p">:</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s2">"colors"</span><span class="p">]</span> <span class="o">=</span> <span class="n">colors</span>
+    <span class="k">if</span> <span class="s2">"through_holes"</span> <span class="ow">in</span> <span class="n">sig</span><span class="o">.</span><span class="n">parameters</span><span class="p">:</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s2">"through_holes"</span><span class="p">]</span> <span class="o">=</span> <span class="n">through_holes</span>
+    <span class="k">if</span> <span class="s2">"hole_ratio"</span> <span class="ow">in</span> <span class="n">sig</span><span class="o">.</span><span class="n">parameters</span><span class="p">:</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s2">"hole_ratio"</span><span class="p">]</span> <span class="o">=</span> <span class="n">hole_ratio</span>
+    <span class="k">if</span> <span class="s2">"inlay"</span> <span class="ow">in</span> <span class="n">sig</span><span class="o">.</span><span class="n">parameters</span><span class="p">:</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s2">"inlay"</span><span class="p">]</span> <span class="o">=</span> <span class="n">inlay</span>
+    <span class="k">if</span> <span class="s2">"lid_thickness"</span> <span class="ow">in</span> <span class="n">sig</span><span class="o">.</span><span class="n">parameters</span><span class="p">:</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s2">"lid_thickness"</span><span class="p">]</span> <span class="o">=</span> <span class="n">lid_thickness</span>
+
+    <span class="k">return</span> <span class="n">fill</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">thickness</span><span class="p">,</span> <span class="n">spacing</span><span class="p">,</span> <span class="n">web</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 
 
 <span class="c1"># ── Cell placement ────────────────────────────────────────────────────</span>
+
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_grid_cells</span><span class="p">(</span>
     <span class="n">width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
@@ -716,9 +787,48 @@
     <span class="k">return</span> <span class="n">holes</span>
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">_prism</span><span class="p">(</span>
-    <span class="n">sides</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">across_flats</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">thickness</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">spin</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_punch_multi</span><span class="p">(</span>
+    <span class="n">shape_at</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[</span>
+        <span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
+        <span class="n">Bosl2Solid</span> <span class="o">|</span> <span class="n">PatternResult</span> <span class="o">|</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Bosl2Solid</span><span class="p">,</span> <span class="nb">int</span> <span class="o">|</span> <span class="n">Color</span> <span class="o">|</span> <span class="kc">None</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">],</span>
+    <span class="n">width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">spacing</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">hole</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">stagger</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">row_step</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PatternResult</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Union pattern cells into grouped inlays and optional through-holes."""</span>
+    <span class="k">if</span> <span class="n">hole</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="n">inlays_by_key</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="n">Bosl2Solid</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">through_holes</span><span class="p">:</span> <span class="n">Bosl2Solid</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">_grid_cells</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">spacing</span><span class="p">,</span> <span class="n">stagger</span><span class="p">,</span> <span class="n">row_step</span><span class="p">):</span>
+        <span class="n">elem</span> <span class="o">=</span> <span class="n">shape_at</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">elem</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">elem</span><span class="p">,</span> <span class="n">PatternResult</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">elem</span><span class="o">.</span><span class="n">holes</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">through_holes</span> <span class="o">=</span> <span class="n">elem</span><span class="o">.</span><span class="n">holes</span> <span class="k">if</span> <span class="n">through_holes</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">through_holes</span> <span class="o">|</span> <span class="n">elem</span><span class="o">.</span><span class="n">holes</span>
+            <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">elem</span><span class="o">.</span><span class="n">inlays</span><span class="p">:</span>
+                <span class="n">inlays_by_key</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">s</span> <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">inlays_by_key</span> <span class="k">else</span> <span class="n">inlays_by_key</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">|</span> <span class="n">s</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">elem</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
+            <span class="n">s</span><span class="p">,</span> <span class="n">key</span> <span class="o">=</span> <span class="n">elem</span>
+            <span class="n">inlays_by_key</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">s</span> <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">inlays_by_key</span> <span class="k">else</span> <span class="n">inlays_by_key</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">|</span> <span class="n">s</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">inlays_by_key</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">elem</span> <span class="k">if</span> <span class="mi">0</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">inlays_by_key</span> <span class="k">else</span> <span class="n">inlays_by_key</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">|</span> <span class="n">elem</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">inlays_by_key</span> <span class="ow">and</span> <span class="n">through_holes</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="n">inlays</span> <span class="o">=</span> <span class="p">[(</span><span class="n">solid</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">solid</span> <span class="ow">in</span> <span class="n">inlays_by_key</span><span class="o">.</span><span class="n">items</span><span class="p">()]</span>
+    <span class="k">return</span> <span class="n">PatternResult</span><span class="p">(</span><span class="n">inlays</span><span class="o">=</span><span class="n">inlays</span><span class="p">,</span> <span class="n">holes</span><span class="o">=</span><span class="n">through_holes</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_prism</span><span class="p">(</span><span class="n">sides</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">across_flats</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">thickness</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">spin</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""One regular-polygon hole, tall enough to break through the lid."""</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">regular_prism</span>
 
@@ -736,8 +846,12 @@
 
 <span class="c1"># ── Fills ─────────────────────────────────────────────────────────────</span>
 
+
 <span class="k">def</span><span class="w"> </span><span class="nf">_square_fill</span><span class="p">(</span>
-    <span class="n">width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">thickness</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">spacing</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">thickness</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">spacing</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">web</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Square holes on a square grid."""</span>
@@ -745,15 +859,19 @@
 
     <span class="n">size</span> <span class="o">=</span> <span class="n">hole_size</span><span class="p">(</span><span class="n">spacing</span><span class="p">,</span> <span class="n">web</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">_punch</span><span class="p">(</span>
-        <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">cuboid</span><span class="p">([</span><span class="n">size</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">thickness</span> <span class="o">*</span> <span class="n">DEPTH_OVERSHOOT</span><span class="p">])</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span>
-            <span class="p">[</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">thickness</span> <span class="o">/</span> <span class="mi">2</span><span class="p">]</span>
-        <span class="p">),</span>
-        <span class="n">width</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">spacing</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span>
+        <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">cuboid</span><span class="p">([</span><span class="n">size</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">thickness</span> <span class="o">*</span> <span class="n">DEPTH_OVERSHOOT</span><span class="p">])</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">thickness</span> <span class="o">/</span> <span class="mi">2</span><span class="p">]),</span>
+        <span class="n">width</span><span class="p">,</span>
+        <span class="n">length</span><span class="p">,</span>
+        <span class="n">spacing</span><span class="p">,</span>
+        <span class="n">size</span><span class="p">,</span>
     <span class="p">)</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_circle_fill</span><span class="p">(</span>
-    <span class="n">width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">thickness</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">spacing</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">thickness</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">spacing</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">web</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Round holes on a square grid."""</span>
@@ -766,7 +884,10 @@
             <span class="n">radius</span><span class="o">=</span><span class="n">size</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span>
             <span class="o">**</span><span class="n">precision_kwargs</span><span class="p">(),</span>
         <span class="p">)</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">thickness</span> <span class="o">/</span> <span class="mi">2</span><span class="p">]),</span>
-        <span class="n">width</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">spacing</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span>
+        <span class="n">width</span><span class="p">,</span>
+        <span class="n">length</span><span class="p">,</span>
+        <span class="n">spacing</span><span class="p">,</span>
+        <span class="n">size</span><span class="p">,</span>
     <span class="p">)</span>
 
 
@@ -814,24 +935,227 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_dice_fill</span><span class="p">(</span>
-    <span class="n">width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">thickness</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">spacing</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">thickness</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">spacing</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">web</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="n">colors</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Color</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">through_holes</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">hole_ratio</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span>
+    <span class="n">inlay</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">lid_thickness</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span> <span class="o">|</span> <span class="n">PatternResult</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Gaming dice faces (D6) with pips on a square grid."""</span>
     <span class="n">size</span> <span class="o">=</span> <span class="n">hole_size</span><span class="p">(</span><span class="n">spacing</span><span class="p">,</span> <span class="n">web</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">size</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">None</span>
 
     <span class="n">height</span> <span class="o">=</span> <span class="n">thickness</span> <span class="o">*</span> <span class="n">DEPTH_OVERSHOOT</span>
-    <span class="n">die_faces</span> <span class="o">=</span> <span class="p">{</span><span class="n">val</span><span class="p">:</span> <span class="n">_make_die_face</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">height</span><span class="p">)</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">7</span><span class="p">)}</span>
+    <span class="n">actual_lid_t</span> <span class="o">=</span> <span class="n">lid_thickness</span> <span class="k">if</span> <span class="n">lid_thickness</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">thickness</span>
+    <span class="n">cut_h</span> <span class="o">=</span> <span class="n">actual_lid_t</span> <span class="o">+</span> <span class="mf">2.0</span>
+    <span class="n">cut_z</span> <span class="o">=</span> <span class="n">thickness</span> <span class="o">-</span> <span class="n">actual_lid_t</span> <span class="o">/</span> <span class="mf">2.0</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">_shape_at</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">cuboid</span><span class="p">,</span> <span class="n">cylinder</span>
+
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.rounding</span><span class="w"> </span><span class="kn">import</span> <span class="n">vertical_edges</span>
+
+    <span class="n">rounding</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">size</span> <span class="o">*</span> <span class="mf">0.12</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">)</span>
+    <span class="n">body</span> <span class="o">=</span> <span class="n">cuboid</span><span class="p">(</span>
+        <span class="p">[</span><span class="n">size</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">height</span><span class="p">],</span>
+        <span class="n">rounding</span><span class="o">=</span><span class="n">rounding</span><span class="p">,</span>
+        <span class="n">edges</span><span class="o">=</span><span class="n">vertical_edges</span><span class="p">(),</span>
+    <span class="p">)</span>
+
+    <span class="n">d</span> <span class="o">=</span> <span class="n">size</span> <span class="o">*</span> <span class="mf">0.26</span>
+    <span class="n">pip_r</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.6</span><span class="p">,</span> <span class="n">size</span> <span class="o">*</span> <span class="mf">0.08</span><span class="p">)</span>
+
+    <span class="n">face_pips</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Bosl2Solid</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">face_pips_through</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Bosl2Solid</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">face_bodies_cut</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Bosl2Solid</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">7</span><span class="p">):</span>
+        <span class="n">pips</span><span class="p">:</span> <span class="n">Bosl2Solid</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">pips_through</span><span class="p">:</span> <span class="n">Bosl2Solid</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">for</span> <span class="n">ox</span><span class="p">,</span> <span class="n">oy</span> <span class="ow">in</span> <span class="n">_DICE_PIP_OFFSETS</span><span class="p">[</span><span class="n">val</span><span class="p">]:</span>
+            <span class="n">p</span> <span class="o">=</span> <span class="n">cylinder</span><span class="p">(</span>
+                <span class="n">height</span><span class="o">=</span><span class="n">height</span> <span class="o">*</span> <span class="mf">1.1</span><span class="p">,</span>
+                <span class="n">radius</span><span class="o">=</span><span class="n">pip_r</span><span class="p">,</span>
+                <span class="o">**</span><span class="n">precision_kwargs</span><span class="p">(),</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">ox</span> <span class="o">*</span> <span class="n">d</span><span class="p">,</span> <span class="n">oy</span> <span class="o">*</span> <span class="n">d</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+            <span class="n">p_through</span> <span class="o">=</span> <span class="n">cylinder</span><span class="p">(</span>
+                <span class="n">height</span><span class="o">=</span><span class="n">cut_h</span><span class="p">,</span>
+                <span class="n">radius</span><span class="o">=</span><span class="n">pip_r</span><span class="p">,</span>
+                <span class="o">**</span><span class="n">precision_kwargs</span><span class="p">(),</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">ox</span> <span class="o">*</span> <span class="n">d</span><span class="p">,</span> <span class="n">oy</span> <span class="o">*</span> <span class="n">d</span><span class="p">,</span> <span class="n">cut_z</span><span class="p">])</span>
+            <span class="n">pips</span> <span class="o">=</span> <span class="n">p</span> <span class="k">if</span> <span class="n">pips</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">pips</span> <span class="o">|</span> <span class="n">p</span>
+            <span class="n">pips_through</span> <span class="o">=</span> <span class="n">p_through</span> <span class="k">if</span> <span class="n">pips_through</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">pips_through</span> <span class="o">|</span> <span class="n">p_through</span>
+        <span class="k">assert</span> <span class="n">pips</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">pips_through</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+        <span class="n">face_pips</span><span class="p">[</span><span class="n">val</span><span class="p">]</span> <span class="o">=</span> <span class="n">pips</span>
+        <span class="n">face_pips_through</span><span class="p">[</span><span class="n">val</span><span class="p">]</span> <span class="o">=</span> <span class="n">pips_through</span>
+        <span class="n">face_bodies_cut</span><span class="p">[</span><span class="n">val</span><span class="p">]</span> <span class="o">=</span> <span class="n">body</span> <span class="o">-</span> <span class="n">pips</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">inlay</span><span class="p">:</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">_shape_simple</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
+            <span class="n">col</span> <span class="o">=</span> <span class="nb">round</span><span class="p">((</span><span class="n">x</span> <span class="o">-</span> <span class="n">width</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">)</span> <span class="o">/</span> <span class="n">spacing</span><span class="p">)</span>
+            <span class="n">row</span> <span class="o">=</span> <span class="nb">round</span><span class="p">((</span><span class="n">y</span> <span class="o">-</span> <span class="n">length</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">)</span> <span class="o">/</span> <span class="n">spacing</span><span class="p">)</span>
+            <span class="n">val</span> <span class="o">=</span> <span class="p">((</span><span class="n">row</span> <span class="o">*</span> <span class="mi">3</span> <span class="o">+</span> <span class="n">col</span><span class="p">)</span> <span class="o">%</span> <span class="mi">6</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+            <span class="k">return</span> <span class="n">face_bodies_cut</span><span class="p">[</span><span class="n">val</span><span class="p">]</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">thickness</span> <span class="o">/</span> <span class="mi">2</span><span class="p">])</span>
+
+        <span class="k">return</span> <span class="n">_punch</span><span class="p">(</span><span class="n">_shape_simple</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">spacing</span><span class="p">,</span> <span class="n">size</span><span class="p">)</span>
+
+    <span class="n">has_pip_color</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">colors</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">colors</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_shape_at</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PatternResult</span><span class="p">:</span>
         <span class="n">col</span> <span class="o">=</span> <span class="nb">round</span><span class="p">((</span><span class="n">x</span> <span class="o">-</span> <span class="n">width</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">)</span> <span class="o">/</span> <span class="n">spacing</span><span class="p">)</span>
         <span class="n">row</span> <span class="o">=</span> <span class="nb">round</span><span class="p">((</span><span class="n">y</span> <span class="o">-</span> <span class="n">length</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">)</span> <span class="o">/</span> <span class="n">spacing</span><span class="p">)</span>
         <span class="n">val</span> <span class="o">=</span> <span class="p">((</span><span class="n">row</span> <span class="o">*</span> <span class="mi">3</span> <span class="o">+</span> <span class="n">col</span><span class="p">)</span> <span class="o">%</span> <span class="mi">6</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
-        <span class="k">return</span> <span class="n">die_faces</span><span class="p">[</span><span class="n">val</span><span class="p">]</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">thickness</span> <span class="o">/</span> <span class="mi">2</span><span class="p">])</span>
 
-    <span class="k">return</span> <span class="n">_punch</span><span class="p">(</span><span class="n">_shape_at</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">spacing</span><span class="p">,</span> <span class="n">size</span><span class="p">)</span>
+        <span class="n">body_solid</span> <span class="o">=</span> <span class="n">face_bodies_cut</span><span class="p">[</span><span class="n">val</span><span class="p">]</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">thickness</span> <span class="o">/</span> <span class="mi">2</span><span class="p">])</span>
+
+        <span class="n">body_color_idx</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">if</span> <span class="n">colors</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">colors</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">2</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">through_holes</span><span class="p">:</span>
+            <span class="n">body_color_idx</span> <span class="o">=</span> <span class="p">(</span><span class="n">row</span> <span class="o">*</span> <span class="mi">3</span> <span class="o">+</span> <span class="n">col</span><span class="p">)</span> <span class="o">%</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">colors</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">pip_color_idx</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">colors</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">pip_color_idx</span> <span class="o">=</span> <span class="mi">1</span>
+
+        <span class="k">if</span> <span class="n">through_holes</span><span class="p">:</span>
+            <span class="n">pip_hole</span> <span class="o">=</span> <span class="n">face_pips_through</span><span class="p">[</span><span class="n">val</span><span class="p">]</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+            <span class="k">return</span> <span class="n">PatternResult</span><span class="p">(</span><span class="n">inlays</span><span class="o">=</span><span class="p">[(</span><span class="n">body_solid</span><span class="p">,</span> <span class="n">body_color_idx</span><span class="p">)],</span> <span class="n">holes</span><span class="o">=</span><span class="n">pip_hole</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">has_pip_color</span><span class="p">:</span>
+            <span class="n">pip_solid</span> <span class="o">=</span> <span class="n">face_pips</span><span class="p">[</span><span class="n">val</span><span class="p">]</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">thickness</span> <span class="o">/</span> <span class="mi">2</span><span class="p">])</span>
+            <span class="k">return</span> <span class="n">PatternResult</span><span class="p">(</span><span class="n">inlays</span><span class="o">=</span><span class="p">[(</span><span class="n">body_solid</span><span class="p">,</span> <span class="n">body_color_idx</span><span class="p">),</span> <span class="p">(</span><span class="n">pip_solid</span><span class="p">,</span> <span class="n">pip_color_idx</span><span class="p">)])</span>
+
+        <span class="k">return</span> <span class="n">PatternResult</span><span class="p">(</span><span class="n">inlays</span><span class="o">=</span><span class="p">[(</span><span class="n">body_solid</span><span class="p">,</span> <span class="n">body_color_idx</span><span class="p">)])</span>
+
+    <span class="k">return</span> <span class="n">_punch_multi</span><span class="p">(</span><span class="n">_shape_at</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">spacing</span><span class="p">,</span> <span class="n">size</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_ring_fill</span><span class="p">(</span>
+    <span class="n">width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">thickness</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">spacing</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">web</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">colors</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Color</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">through_holes</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">hole_ratio</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span>
+    <span class="n">inlay</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">lid_thickness</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span> <span class="o">|</span> <span class="n">PatternResult</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Circular rings / washers with an inner hole."""</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">cylinder</span>
+
+    <span class="n">size</span> <span class="o">=</span> <span class="n">hole_size</span><span class="p">(</span><span class="n">spacing</span><span class="p">,</span> <span class="n">web</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">size</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="n">r_outer</span> <span class="o">=</span> <span class="n">size</span> <span class="o">/</span> <span class="mf">2.0</span>
+    <span class="n">ratio</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.1</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="mf">0.9</span><span class="p">,</span> <span class="n">hole_ratio</span><span class="p">))</span>
+    <span class="n">r_inner</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">r_outer</span> <span class="o">*</span> <span class="n">ratio</span><span class="p">)</span>
+
+    <span class="n">height</span> <span class="o">=</span> <span class="n">thickness</span> <span class="o">*</span> <span class="n">DEPTH_OVERSHOOT</span>
+    <span class="n">outer</span> <span class="o">=</span> <span class="n">cylinder</span><span class="p">(</span><span class="n">height</span><span class="o">=</span><span class="n">height</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="n">r_outer</span><span class="p">,</span> <span class="o">**</span><span class="n">precision_kwargs</span><span class="p">())</span>
+    <span class="n">inner</span> <span class="o">=</span> <span class="n">cylinder</span><span class="p">(</span><span class="n">height</span><span class="o">=</span><span class="n">height</span> <span class="o">*</span> <span class="mf">1.1</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="n">r_inner</span><span class="p">,</span> <span class="o">**</span><span class="n">precision_kwargs</span><span class="p">())</span>
+    <span class="n">ring</span> <span class="o">=</span> <span class="n">outer</span> <span class="o">-</span> <span class="n">inner</span>
+
+    <span class="n">actual_lid_t</span> <span class="o">=</span> <span class="n">lid_thickness</span> <span class="k">if</span> <span class="n">lid_thickness</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">thickness</span>
+    <span class="n">cut_h</span> <span class="o">=</span> <span class="n">actual_lid_t</span> <span class="o">+</span> <span class="mf">2.0</span>
+    <span class="n">cut_z</span> <span class="o">=</span> <span class="n">thickness</span> <span class="o">-</span> <span class="n">actual_lid_t</span> <span class="o">/</span> <span class="mf">2.0</span>
+    <span class="n">inner_cut</span> <span class="o">=</span> <span class="n">cylinder</span><span class="p">(</span><span class="n">height</span><span class="o">=</span><span class="n">cut_h</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="n">r_inner</span><span class="p">,</span> <span class="o">**</span><span class="n">precision_kwargs</span><span class="p">())</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">cut_z</span><span class="p">])</span>
+
+    <span class="n">has_multi_color</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">colors</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">colors</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">inlay</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">_punch</span><span class="p">(</span>
+            <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">ring</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">thickness</span> <span class="o">/</span> <span class="mi">2</span><span class="p">]),</span>
+            <span class="n">width</span><span class="p">,</span>
+            <span class="n">length</span><span class="p">,</span>
+            <span class="n">spacing</span><span class="p">,</span>
+            <span class="n">size</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_shape_ring</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PatternResult</span> <span class="o">|</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
+        <span class="n">col</span> <span class="o">=</span> <span class="nb">round</span><span class="p">((</span><span class="n">x</span> <span class="o">-</span> <span class="n">width</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">)</span> <span class="o">/</span> <span class="n">spacing</span><span class="p">)</span>
+        <span class="n">row</span> <span class="o">=</span> <span class="nb">round</span><span class="p">((</span><span class="n">y</span> <span class="o">-</span> <span class="n">length</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">)</span> <span class="o">/</span> <span class="n">spacing</span><span class="p">)</span>
+        <span class="n">outer_solid</span> <span class="o">=</span> <span class="n">ring</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">thickness</span> <span class="o">/</span> <span class="mi">2</span><span class="p">])</span>
+
+        <span class="k">if</span> <span class="n">through_holes</span><span class="p">:</span>
+            <span class="n">hole_solid</span> <span class="o">=</span> <span class="n">inner_cut</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+            <span class="n">c_idx</span> <span class="o">=</span> <span class="p">(</span><span class="n">row</span> <span class="o">+</span> <span class="n">col</span><span class="p">)</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">colors</span><span class="p">)</span> <span class="k">if</span> <span class="n">colors</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">colors</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="k">else</span> <span class="mi">0</span>
+            <span class="k">return</span> <span class="n">PatternResult</span><span class="p">(</span><span class="n">inlays</span><span class="o">=</span><span class="p">[(</span><span class="n">outer_solid</span><span class="p">,</span> <span class="n">c_idx</span><span class="p">)],</span> <span class="n">holes</span><span class="o">=</span><span class="n">hole_solid</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">has_multi_color</span><span class="p">:</span>
+            <span class="n">inner_solid</span> <span class="o">=</span> <span class="n">inner</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">thickness</span> <span class="o">/</span> <span class="mi">2</span><span class="p">])</span>
+            <span class="k">return</span> <span class="n">PatternResult</span><span class="p">(</span><span class="n">inlays</span><span class="o">=</span><span class="p">[(</span><span class="n">outer_solid</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="n">inner_solid</span><span class="p">,</span> <span class="mi">1</span><span class="p">)])</span>
+
+        <span class="k">return</span> <span class="n">outer_solid</span>
+
+    <span class="k">return</span> <span class="n">_punch_multi</span><span class="p">(</span><span class="n">_shape_ring</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">spacing</span><span class="p">,</span> <span class="n">size</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_checker_fill</span><span class="p">(</span>
+    <span class="n">width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">thickness</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">spacing</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">web</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">colors</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Color</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">through_holes</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">hole_ratio</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span>
+    <span class="n">inlay</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">lid_thickness</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span> <span class="o">|</span> <span class="n">PatternResult</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Alternating checkerboard tiles on a square grid."""</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">cuboid</span>
+
+    <span class="n">size</span> <span class="o">=</span> <span class="n">hole_size</span><span class="p">(</span><span class="n">spacing</span><span class="p">,</span> <span class="n">web</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">size</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="n">height</span> <span class="o">=</span> <span class="n">thickness</span> <span class="o">*</span> <span class="n">DEPTH_OVERSHOOT</span>
+    <span class="n">actual_lid_t</span> <span class="o">=</span> <span class="n">lid_thickness</span> <span class="k">if</span> <span class="n">lid_thickness</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">thickness</span>
+    <span class="n">cut_h</span> <span class="o">=</span> <span class="n">actual_lid_t</span> <span class="o">+</span> <span class="mf">2.0</span>
+    <span class="n">cut_z</span> <span class="o">=</span> <span class="n">thickness</span> <span class="o">-</span> <span class="n">actual_lid_t</span> <span class="o">/</span> <span class="mf">2.0</span>
+
+    <span class="n">tile</span> <span class="o">=</span> <span class="n">cuboid</span><span class="p">([</span><span class="n">size</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">height</span><span class="p">])</span>
+    <span class="n">tile_cut</span> <span class="o">=</span> <span class="n">cuboid</span><span class="p">([</span><span class="n">size</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">cut_h</span><span class="p">])</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">cut_z</span><span class="p">])</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">inlay</span><span class="p">:</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">_shape_cut</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">col</span> <span class="o">=</span> <span class="nb">round</span><span class="p">((</span><span class="n">x</span> <span class="o">-</span> <span class="n">width</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">)</span> <span class="o">/</span> <span class="n">spacing</span><span class="p">)</span>
+            <span class="n">row</span> <span class="o">=</span> <span class="nb">round</span><span class="p">((</span><span class="n">y</span> <span class="o">-</span> <span class="n">length</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">)</span> <span class="o">/</span> <span class="n">spacing</span><span class="p">)</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">row</span> <span class="o">+</span> <span class="n">col</span><span class="p">)</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">tile</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">thickness</span> <span class="o">/</span> <span class="mi">2</span><span class="p">])</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="n">holes</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">_grid_cells</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">spacing</span><span class="p">):</span>
+            <span class="n">cut</span> <span class="o">=</span> <span class="n">_shape_cut</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">cut</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">holes</span> <span class="o">=</span> <span class="n">cut</span> <span class="k">if</span> <span class="n">holes</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">holes</span> <span class="o">|</span> <span class="n">cut</span>
+        <span class="k">return</span> <span class="n">holes</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_shape_checker</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PatternResult</span> <span class="o">|</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Bosl2Solid</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
+        <span class="n">col</span> <span class="o">=</span> <span class="nb">round</span><span class="p">((</span><span class="n">x</span> <span class="o">-</span> <span class="n">width</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">)</span> <span class="o">/</span> <span class="n">spacing</span><span class="p">)</span>
+        <span class="n">row</span> <span class="o">=</span> <span class="nb">round</span><span class="p">((</span><span class="n">y</span> <span class="o">-</span> <span class="n">length</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">)</span> <span class="o">/</span> <span class="n">spacing</span><span class="p">)</span>
+        <span class="n">tile_type</span> <span class="o">=</span> <span class="p">(</span><span class="n">row</span> <span class="o">+</span> <span class="n">col</span><span class="p">)</span> <span class="o">%</span> <span class="mi">2</span>
+
+        <span class="k">if</span> <span class="n">through_holes</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">tile_type</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">return</span> <span class="p">(</span><span class="n">tile</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">thickness</span> <span class="o">/</span> <span class="mi">2</span><span class="p">]),</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">PatternResult</span><span class="p">(</span><span class="n">holes</span><span class="o">=</span><span class="n">tile_cut</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="mi">0</span><span class="p">]))</span>
+
+        <span class="k">if</span> <span class="n">colors</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">colors</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">(</span><span class="n">tile</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">thickness</span> <span class="o">/</span> <span class="mi">2</span><span class="p">]),</span> <span class="n">tile_type</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="p">(</span><span class="n">tile</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">thickness</span> <span class="o">/</span> <span class="mi">2</span><span class="p">]),</span> <span class="n">tile_type</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">_punch_multi</span><span class="p">(</span><span class="n">_shape_checker</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">spacing</span><span class="p">,</span> <span class="n">size</span><span class="p">)</span>
 
 
 <span class="n">POINTY_TOP_SPIN</span> <span class="o">=</span> <span class="mf">30.0</span>
@@ -848,8 +1172,12 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_hex_fill</span><span class="p">(</span>
-    <span class="n">width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">thickness</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">spacing</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
-    <span class="n">web</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">dense</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">thickness</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">spacing</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">web</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">dense</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Hexagonal holes in staggered rows — a true honeycomb.</span>
 
@@ -862,16 +1190,22 @@
     <span class="n">step</span> <span class="o">=</span> <span class="n">spacing</span> <span class="o">*</span> <span class="p">(</span><span class="n">DENSE_SPACING_SHARE</span> <span class="k">if</span> <span class="n">dense</span> <span class="k">else</span> <span class="mf">1.0</span><span class="p">)</span>
     <span class="n">size</span> <span class="o">=</span> <span class="n">hole_size</span><span class="p">(</span><span class="n">step</span><span class="p">,</span> <span class="n">web</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">_punch</span><span class="p">(</span>
-        <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">_prism</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">thickness</span><span class="p">,</span> <span class="n">POINTY_TOP_SPIN</span><span class="p">)</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span>
-            <span class="p">[</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">thickness</span> <span class="o">/</span> <span class="mi">2</span><span class="p">]</span>
-        <span class="p">),</span>
-        <span class="n">width</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">step</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">stagger</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">_prism</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">thickness</span><span class="p">,</span> <span class="n">POINTY_TOP_SPIN</span><span class="p">)</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">thickness</span> <span class="o">/</span> <span class="mi">2</span><span class="p">]),</span>
+        <span class="n">width</span><span class="p">,</span>
+        <span class="n">length</span><span class="p">,</span>
+        <span class="n">step</span><span class="p">,</span>
+        <span class="n">size</span><span class="p">,</span>
+        <span class="n">stagger</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="p">)</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_triangle_fill</span><span class="p">(</span>
-    <span class="n">width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">thickness</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">spacing</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
-    <span class="n">web</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">dense</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">thickness</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">spacing</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">web</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">dense</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Triangular holes on an isometric grid, alternating point-up and point-down."""</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">regular_prism</span>
@@ -886,12 +1220,8 @@
     <span class="n">row_step</span> <span class="o">=</span> <span class="n">step</span> <span class="o">*</span> <span class="n">ROOT_THREE</span> <span class="o">/</span> <span class="mf">2.0</span>  <span class="c1"># Height of equilateral triangle row band</span>
     <span class="n">height</span> <span class="o">=</span> <span class="n">thickness</span> <span class="o">*</span> <span class="n">DEPTH_OVERSHOOT</span>
 
-    <span class="n">hole_up</span> <span class="o">=</span> <span class="n">regular_prism</span><span class="p">(</span>
-        <span class="mi">3</span><span class="p">,</span> <span class="n">inner_radius</span><span class="o">=</span><span class="n">r_hole</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">height</span><span class="p">,</span> <span class="n">spin</span><span class="o">=</span><span class="mf">90.0</span><span class="p">,</span> <span class="o">**</span><span class="n">precision_kwargs</span><span class="p">()</span>
-    <span class="p">)</span>
-    <span class="n">hole_down</span> <span class="o">=</span> <span class="n">regular_prism</span><span class="p">(</span>
-        <span class="mi">3</span><span class="p">,</span> <span class="n">inner_radius</span><span class="o">=</span><span class="n">r_hole</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">height</span><span class="p">,</span> <span class="n">spin</span><span class="o">=</span><span class="mf">270.0</span><span class="p">,</span> <span class="o">**</span><span class="n">precision_kwargs</span><span class="p">()</span>
-    <span class="p">)</span>
+    <span class="n">hole_up</span> <span class="o">=</span> <span class="n">regular_prism</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">inner_radius</span><span class="o">=</span><span class="n">r_hole</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">height</span><span class="p">,</span> <span class="n">spin</span><span class="o">=</span><span class="mf">90.0</span><span class="p">,</span> <span class="o">**</span><span class="n">precision_kwargs</span><span class="p">())</span>
+    <span class="n">hole_down</span> <span class="o">=</span> <span class="n">regular_prism</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">inner_radius</span><span class="o">=</span><span class="n">r_hole</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">height</span><span class="p">,</span> <span class="n">spin</span><span class="o">=</span><span class="mf">270.0</span><span class="p">,</span> <span class="o">**</span><span class="n">precision_kwargs</span><span class="p">())</span>
 
     <span class="n">half_cols</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">width</span> <span class="o">/</span> <span class="p">(</span><span class="mf">2.0</span> <span class="o">*</span> <span class="n">step</span><span class="p">))</span> <span class="o">+</span> <span class="mi">1</span>
     <span class="n">half_rows</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">length</span> <span class="o">/</span> <span class="p">(</span><span class="mf">2.0</span> <span class="o">*</span> <span class="n">row_step</span><span class="p">))</span> <span class="o">+</span> <span class="mi">1</span>
@@ -910,16 +1240,20 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_octagon_fill</span><span class="p">(</span>
-    <span class="n">width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">thickness</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">spacing</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">thickness</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">spacing</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">web</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Octagonal holes on a square grid, leaving small square webs."""</span>
     <span class="n">size</span> <span class="o">=</span> <span class="n">hole_size</span><span class="p">(</span><span class="n">spacing</span><span class="p">,</span> <span class="n">web</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">_punch</span><span class="p">(</span>
-        <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">_prism</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">thickness</span><span class="p">,</span> <span class="mf">22.5</span><span class="p">)</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span>
-            <span class="p">[</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">thickness</span> <span class="o">/</span> <span class="mi">2</span><span class="p">]</span>
-        <span class="p">),</span>
-        <span class="n">width</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">spacing</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span>
+        <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">_prism</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">thickness</span><span class="p">,</span> <span class="mf">22.5</span><span class="p">)</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">thickness</span> <span class="o">/</span> <span class="mi">2</span><span class="p">]),</span>
+        <span class="n">width</span><span class="p">,</span>
+        <span class="n">length</span><span class="p">,</span>
+        <span class="n">spacing</span><span class="p">,</span>
+        <span class="n">size</span><span class="p">,</span>
     <span class="p">)</span>
 
 
@@ -958,9 +1292,7 @@
 <span class="sd">"""</span>
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">_voronoi_points</span><span class="p">(</span>
-    <span class="n">width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">spacing</span><span class="p">:</span> <span class="nb">float</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_voronoi_points</span><span class="p">(</span><span class="n">width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">spacing</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
 <span class="w">    </span><span class="sd">"""Seed points: one per cell of a grid, each scattered within its cell.</span>
 
 <span class="sd">    Args:</span>
@@ -978,8 +1310,7 @@
     <span class="n">rng</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">Random</span><span class="p">(</span><span class="n">VORONOI_SEED</span><span class="p">)</span>
     <span class="n">roam</span> <span class="o">=</span> <span class="n">spacing</span> <span class="o">*</span> <span class="n">VORONOI_JITTER</span> <span class="o">/</span> <span class="mf">2.0</span>
     <span class="k">return</span> <span class="p">[</span>
-        <span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">rng</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="o">-</span><span class="n">roam</span><span class="p">,</span> <span class="n">roam</span><span class="p">),</span> <span class="n">y</span> <span class="o">+</span> <span class="n">rng</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="o">-</span><span class="n">roam</span><span class="p">,</span> <span class="n">roam</span><span class="p">))</span>
-        <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">_grid_cells</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">spacing</span><span class="p">)</span>
+        <span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">rng</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="o">-</span><span class="n">roam</span><span class="p">,</span> <span class="n">roam</span><span class="p">),</span> <span class="n">y</span> <span class="o">+</span> <span class="n">rng</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="o">-</span><span class="n">roam</span><span class="p">,</span> <span class="n">roam</span><span class="p">))</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">_grid_cells</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">spacing</span><span class="p">)</span>
     <span class="p">]</span>
 
 
@@ -1022,16 +1353,21 @@
         <span class="c1"># The bisector sits halfway between the two; step back towards `point`</span>
         <span class="c1"># by the inset, and face the plane so `point` is on the kept side.</span>
         <span class="n">angle</span> <span class="o">=</span> <span class="mf">90.0</span> <span class="o">+</span> <span class="n">math</span><span class="o">.</span><span class="n">degrees</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">atan2</span><span class="p">(</span><span class="o">-</span><span class="n">dy</span><span class="p">,</span> <span class="o">-</span><span class="n">dx</span><span class="p">))</span>
-        <span class="n">cut</span> <span class="o">=</span> <span class="n">half_plane</span><span class="o">.</span><span class="n">rotate</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span>
-            <span class="p">(</span><span class="n">point</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">other</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">/</span> <span class="mf">2.0</span> <span class="o">-</span> <span class="n">dx</span> <span class="o">/</span> <span class="n">distance</span> <span class="o">*</span> <span class="n">inset</span><span class="p">,</span>
-            <span class="p">(</span><span class="n">point</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">other</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">/</span> <span class="mf">2.0</span> <span class="o">-</span> <span class="n">dy</span> <span class="o">/</span> <span class="n">distance</span> <span class="o">*</span> <span class="n">inset</span><span class="p">,</span>
-        <span class="p">])</span>
+        <span class="n">cut</span> <span class="o">=</span> <span class="n">half_plane</span><span class="o">.</span><span class="n">rotate</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span>
+            <span class="p">[</span>
+                <span class="p">(</span><span class="n">point</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">other</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">/</span> <span class="mf">2.0</span> <span class="o">-</span> <span class="n">dx</span> <span class="o">/</span> <span class="n">distance</span> <span class="o">*</span> <span class="n">inset</span><span class="p">,</span>
+                <span class="p">(</span><span class="n">point</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">other</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">/</span> <span class="mf">2.0</span> <span class="o">-</span> <span class="n">dy</span> <span class="o">/</span> <span class="n">distance</span> <span class="o">*</span> <span class="n">inset</span><span class="p">,</span>
+            <span class="p">]</span>
+        <span class="p">)</span>
         <span class="n">cell</span> <span class="o">=</span> <span class="n">cut</span> <span class="k">if</span> <span class="n">cell</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">cell</span> <span class="o">&amp;</span> <span class="n">cut</span>
     <span class="k">return</span> <span class="n">cell</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_voronoi_fill</span><span class="p">(</span>
-    <span class="n">width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">thickness</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">spacing</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">thickness</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">spacing</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">web</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Irregular cells with an even web between them — a true Voronoi.</span>
@@ -1064,9 +1400,7 @@
         <span class="k">return</span> <span class="kc">None</span>
 
     <span class="n">height</span> <span class="o">=</span> <span class="n">thickness</span> <span class="o">*</span> <span class="n">DEPTH_OVERSHOOT</span>
-    <span class="k">return</span> <span class="n">cells</span><span class="o">.</span><span class="n">offset</span><span class="p">(</span><span class="n">radius</span><span class="o">=</span><span class="n">corner</span><span class="p">)</span><span class="o">.</span><span class="n">linear_extrude</span><span class="p">(</span><span class="n">height</span><span class="o">=</span><span class="n">height</span><span class="p">)</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span>
-        <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="o">-</span><span class="p">(</span><span class="n">height</span> <span class="o">-</span> <span class="n">thickness</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">]</span>
-    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">cells</span><span class="o">.</span><span class="n">offset</span><span class="p">(</span><span class="n">radius</span><span class="o">=</span><span class="n">corner</span><span class="p">)</span><span class="o">.</span><span class="n">linear_extrude</span><span class="p">(</span><span class="n">height</span><span class="o">=</span><span class="n">height</span><span class="p">)</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="o">-</span><span class="p">(</span><span class="n">height</span> <span class="o">-</span> <span class="n">thickness</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">])</span>
 
 
 <span class="n">LEAF_ASPECT</span> <span class="o">=</span> <span class="mf">2.0</span>
@@ -1104,8 +1438,8 @@
 <span class="sd">    """</span>
     <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">half_length</span><span class="p">:</span>
         <span class="k">return</span> <span class="mf">0.0</span>
-    <span class="n">ball</span> <span class="o">=</span> <span class="p">(</span><span class="n">half_length</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">half_width</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">half_width</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">ball</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">-</span> <span class="n">x</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">ball</span> <span class="o">-</span> <span class="n">half_width</span><span class="p">)</span>
+    <span class="n">ball</span> <span class="o">=</span> <span class="p">(</span><span class="n">half_length</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">half_width</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">half_width</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">ball</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">ball</span> <span class="o">-</span> <span class="n">half_width</span><span class="p">)</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_leaf_row_step</span><span class="p">(</span><span class="n">half_length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">half_width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">web</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
@@ -1141,14 +1475,12 @@
     <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">cuboid</span><span class="p">,</span> <span class="n">cylinder</span>
 
     <span class="n">half_length</span><span class="p">,</span> <span class="n">half_width</span> <span class="o">=</span> <span class="n">length</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">width</span> <span class="o">/</span> <span class="mf">2.0</span>
-    <span class="n">ball</span> <span class="o">=</span> <span class="p">(</span><span class="n">half_length</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">half_width</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">half_width</span><span class="p">)</span>
+    <span class="n">ball</span> <span class="o">=</span> <span class="p">(</span><span class="n">half_length</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">half_width</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">half_width</span><span class="p">)</span>
     <span class="n">height</span> <span class="o">=</span> <span class="n">thickness</span> <span class="o">*</span> <span class="n">DEPTH_OVERSHOOT</span>
     <span class="c1"># The lens two overlapping circles leave. Each is offset until its near</span>
     <span class="c1"># edge reaches the leaf's midline plus half its width.</span>
     <span class="n">disc</span> <span class="o">=</span> <span class="n">cylinder</span><span class="p">(</span><span class="n">height</span><span class="o">=</span><span class="n">height</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="n">ball</span><span class="p">,</span> <span class="o">**</span><span class="n">precision_kwargs</span><span class="p">())</span>
-    <span class="n">leaf</span> <span class="o">=</span> <span class="n">disc</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">half_width</span> <span class="o">-</span> <span class="n">ball</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span> <span class="o">&amp;</span> <span class="n">disc</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span>
-        <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">ball</span> <span class="o">-</span> <span class="n">half_width</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
-    <span class="p">)</span>
+    <span class="n">leaf</span> <span class="o">=</span> <span class="n">disc</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">half_width</span> <span class="o">-</span> <span class="n">ball</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span> <span class="o">&amp;</span> <span class="n">disc</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">ball</span> <span class="o">-</span> <span class="n">half_width</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
     <span class="k">if</span> <span class="n">rib</span> <span class="o">&lt;=</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">width</span> <span class="o">/</span> <span class="mf">2.0</span> <span class="o">-</span> <span class="n">rib</span> <span class="o">/</span> <span class="mf">2.0</span> <span class="o">&lt;</span> <span class="n">LEAF_MIDRIB_MIN_HALF_MM</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">leaf</span>
     <span class="c1"># The midrib: a bar of lid left along the leaf's spine. It is what tells a</span>
@@ -1158,7 +1490,10 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_leaf_fill</span><span class="p">(</span>
-    <span class="n">width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">thickness</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">spacing</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">thickness</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">spacing</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">web</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Pointed-oval leaves with midribs, interlocking in offset rows.</span>
@@ -1177,12 +1512,15 @@
     <span class="n">rib</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">MIN_WEB_MM</span><span class="p">,</span> <span class="n">gap</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">_punch</span><span class="p">(</span>
-        <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">_leaf</span><span class="p">(</span><span class="n">leaf_length</span><span class="p">,</span> <span class="n">leaf_width</span><span class="p">,</span> <span class="n">thickness</span><span class="p">,</span> <span class="n">rib</span><span class="p">)</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span>
-            <span class="p">[</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">thickness</span> <span class="o">/</span> <span class="mi">2</span><span class="p">]</span>
-        <span class="p">),</span>
-        <span class="n">width</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">spacing</span><span class="p">,</span> <span class="n">leaf_length</span><span class="p">,</span> <span class="n">stagger</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">_leaf</span><span class="p">(</span><span class="n">leaf_length</span><span class="p">,</span> <span class="n">leaf_width</span><span class="p">,</span> <span class="n">thickness</span><span class="p">,</span> <span class="n">rib</span><span class="p">)</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">thickness</span> <span class="o">/</span> <span class="mi">2</span><span class="p">]),</span>
+        <span class="n">width</span><span class="p">,</span>
+        <span class="n">length</span><span class="p">,</span>
+        <span class="n">spacing</span><span class="p">,</span>
+        <span class="n">leaf_length</span><span class="p">,</span>
+        <span class="n">stagger</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="n">row_step</span><span class="o">=</span><span class="n">_leaf_row_step</span><span class="p">(</span><span class="n">leaf_length</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">leaf_width</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">gap</span><span class="p">),</span>
     <span class="p">)</span>
+
 
 <span class="n">LEAF_VEIN_BRANCHES</span> <span class="o">=</span> <span class="p">((</span><span class="o">-</span><span class="mf">0.45</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">),</span> <span class="p">(</span><span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.45</span><span class="p">),</span> <span class="p">(</span><span class="mf">0.45</span><span class="p">,</span> <span class="mf">0.80</span><span class="p">))</span>
 <span class="sd">"""Where each side vein leaves the midrib and where it lands, as fractions.</span>
@@ -1263,14 +1601,10 @@
 
     <span class="n">half_width</span> <span class="o">=</span> <span class="n">section</span> <span class="o">*</span> <span class="n">ROOT_THREE</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">stroke</span><span class="p">(</span>
-        <span class="n">start</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="n">end</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Shape2D</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">stroke</span><span class="p">(</span><span class="n">start</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="n">end</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Bosl2Shape2D</span><span class="p">:</span>
         <span class="n">length</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">dist</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">)</span>
         <span class="n">angle</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">degrees</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">atan2</span><span class="p">(</span><span class="n">end</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">start</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">end</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">start</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
-        <span class="k">return</span> <span class="n">s2</span><span class="o">.</span><span class="n">rect</span><span class="p">([</span><span class="n">length</span><span class="p">,</span> <span class="n">thickness</span><span class="p">])</span><span class="o">.</span><span class="n">rotate</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span>
-            <span class="p">[(</span><span class="n">start</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">end</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="p">(</span><span class="n">start</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">end</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">/</span> <span class="mi">2</span><span class="p">]</span>
-        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">s2</span><span class="o">.</span><span class="n">rect</span><span class="p">([</span><span class="n">length</span><span class="p">,</span> <span class="n">thickness</span><span class="p">])</span><span class="o">.</span><span class="n">rotate</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span><span class="o">.</span><span class="n">translate</span><span class="p">([(</span><span class="n">start</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">end</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="p">(</span><span class="n">start</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">end</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">/</span> <span class="mi">2</span><span class="p">])</span>
 
     <span class="n">veins</span> <span class="o">=</span> <span class="n">stroke</span><span class="p">((</span><span class="o">-</span><span class="n">half_width</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span> <span class="p">(</span><span class="n">half_width</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">))</span>
     <span class="k">for</span> <span class="n">sign</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
@@ -1285,8 +1619,12 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_leaf_tessellation_fill</span><span class="p">(</span>
-    <span class="n">width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">thickness</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">spacing</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
-    <span class="n">web</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">veins</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">thickness</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">spacing</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">web</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">veins</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Leaves that tile the lid edge to edge, leaving their outlines and veins.</span>
 
@@ -1309,24 +1647,24 @@
     <span class="c1"># `spacing` is the lattice pitch along a row, which for this tile is twice</span>
     <span class="c1"># the leaf's half-width, so the leaf is built from the section that gives it.</span>
     <span class="n">section</span> <span class="o">=</span> <span class="n">spacing</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">ROOT_THREE</span><span class="p">)</span>
-    <span class="n">outline</span> <span class="o">=</span> <span class="n">s2</span><span class="o">.</span><span class="n">polygon</span><span class="p">(</span>
-        <span class="n">Path2D</span><span class="p">([[</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">tessellating_leaf_path</span><span class="p">(</span><span class="n">section</span><span class="p">)])</span>
-    <span class="p">)</span><span class="o">.</span><span class="n">offset</span><span class="p">(</span><span class="n">delta</span><span class="o">=-</span><span class="n">gap</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">)</span>
+    <span class="n">outline</span> <span class="o">=</span> <span class="n">s2</span><span class="o">.</span><span class="n">polygon</span><span class="p">(</span><span class="n">Path2D</span><span class="p">([[</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">tessellating_leaf_path</span><span class="p">(</span><span class="n">section</span><span class="p">)]))</span><span class="o">.</span><span class="n">offset</span><span class="p">(</span><span class="n">delta</span><span class="o">=-</span><span class="n">gap</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">veins</span><span class="p">:</span>
         <span class="n">outline</span> <span class="o">=</span> <span class="n">outline</span> <span class="o">-</span> <span class="n">_leaf_veins</span><span class="p">(</span><span class="n">section</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="n">MIN_WEB_MM</span><span class="p">,</span> <span class="n">gap</span> <span class="o">*</span> <span class="n">LEAF_VEIN_SHARE</span><span class="p">))</span>
 
     <span class="n">height</span> <span class="o">=</span> <span class="n">thickness</span> <span class="o">*</span> <span class="n">DEPTH_OVERSHOOT</span>
-    <span class="n">hole</span> <span class="o">=</span> <span class="n">outline</span><span class="o">.</span><span class="n">linear_extrude</span><span class="p">(</span><span class="n">height</span><span class="o">=</span><span class="n">height</span><span class="p">)</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span>
-        <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="p">(</span><span class="n">height</span> <span class="o">-</span> <span class="n">thickness</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">]</span>
-    <span class="p">)</span>
+    <span class="n">hole</span> <span class="o">=</span> <span class="n">outline</span><span class="o">.</span><span class="n">linear_extrude</span><span class="p">(</span><span class="n">height</span><span class="o">=</span><span class="n">height</span><span class="p">)</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="p">(</span><span class="n">height</span> <span class="o">-</span> <span class="n">thickness</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">])</span>
 
     <span class="c1"># Rows step half the leaf's height and shift half a pitch, which is the</span>
     <span class="c1"># lattice the tile actually tessellates on: each leaf's notches take the</span>
     <span class="c1"># neighbouring row's tips.</span>
     <span class="k">return</span> <span class="n">_punch</span><span class="p">(</span>
         <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">hole</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="mi">0</span><span class="p">]),</span>
-        <span class="n">width</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">spacing</span><span class="p">,</span> <span class="n">spacing</span><span class="p">,</span>
-        <span class="n">stagger</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">row_step</span><span class="o">=</span><span class="mi">2</span> <span class="o">*</span> <span class="n">section</span><span class="p">,</span>
+        <span class="n">width</span><span class="p">,</span>
+        <span class="n">length</span><span class="p">,</span>
+        <span class="n">spacing</span><span class="p">,</span>
+        <span class="n">spacing</span><span class="p">,</span>
+        <span class="n">stagger</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">row_step</span><span class="o">=</span><span class="mi">2</span> <span class="o">*</span> <span class="n">section</span><span class="p">,</span>
     <span class="p">)</span>
 
 
@@ -1340,17 +1678,15 @@
     <span class="n">PatternType</span><span class="o">.</span><span class="n">HEX</span><span class="p">:</span> <span class="n">_hex_fill</span><span class="p">,</span>
     <span class="n">PatternType</span><span class="o">.</span><span class="n">DENSE_HEX</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">w</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">web</span><span class="p">:</span> <span class="n">_hex_fill</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">web</span><span class="p">,</span> <span class="n">dense</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
     <span class="n">PatternType</span><span class="o">.</span><span class="n">TRIANGLE</span><span class="p">:</span> <span class="n">_triangle_fill</span><span class="p">,</span>
-    <span class="n">PatternType</span><span class="o">.</span><span class="n">DENSE_TRIANGLE</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">w</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">web</span><span class="p">:</span> <span class="n">_triangle_fill</span><span class="p">(</span>
-        <span class="n">w</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">web</span><span class="p">,</span> <span class="n">dense</span><span class="o">=</span><span class="kc">True</span>
-    <span class="p">),</span>
+    <span class="n">PatternType</span><span class="o">.</span><span class="n">DENSE_TRIANGLE</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">w</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">web</span><span class="p">:</span> <span class="n">_triangle_fill</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">web</span><span class="p">,</span> <span class="n">dense</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
     <span class="n">PatternType</span><span class="o">.</span><span class="n">OCTAGON</span><span class="p">:</span> <span class="n">_octagon_fill</span><span class="p">,</span>
     <span class="n">PatternType</span><span class="o">.</span><span class="n">VORONOI</span><span class="p">:</span> <span class="n">_voronoi_fill</span><span class="p">,</span>
     <span class="n">PatternType</span><span class="o">.</span><span class="n">LEAF</span><span class="p">:</span> <span class="n">_leaf_fill</span><span class="p">,</span>
     <span class="n">PatternType</span><span class="o">.</span><span class="n">LEAF_TESSELLATION</span><span class="p">:</span> <span class="n">_leaf_tessellation_fill</span><span class="p">,</span>
-    <span class="n">PatternType</span><span class="o">.</span><span class="n">LEAF_VEINS</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">w</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">web</span><span class="p">:</span> <span class="n">_leaf_tessellation_fill</span><span class="p">(</span>
-        <span class="n">w</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">web</span><span class="p">,</span> <span class="n">veins</span><span class="o">=</span><span class="kc">True</span>
-    <span class="p">),</span>
+    <span class="n">PatternType</span><span class="o">.</span><span class="n">LEAF_VEINS</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">w</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">web</span><span class="p">:</span> <span class="n">_leaf_tessellation_fill</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">web</span><span class="p">,</span> <span class="n">veins</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
     <span class="n">PatternType</span><span class="o">.</span><span class="n">DICE</span><span class="p">:</span> <span class="n">_dice_fill</span><span class="p">,</span>
+    <span class="n">PatternType</span><span class="o">.</span><span class="n">RING</span><span class="p">:</span> <span class="n">_ring_fill</span><span class="p">,</span>
+    <span class="n">PatternType</span><span class="o">.</span><span class="n">CHECKER</span><span class="p">:</span> <span class="n">_checker_fill</span><span class="p">,</span>
 <span class="p">}</span>
 <span class="sd">"""Every pattern the library can draw.</span>
 
