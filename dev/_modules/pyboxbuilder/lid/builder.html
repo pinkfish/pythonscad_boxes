@@ -521,10 +521,20 @@
 <span class="sd">    lid's edge, which is rarely what a lid wants — see that constant."""</span>
     <span class="n">inlay</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
 <span class="w">    </span><span class="sd">"""When True, inlay the pattern flush into the lid surface."""</span>
+    <span class="n">through_inlay</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="w">    </span><span class="sd">"""When True, colored inlays extend completely through the lid thickness instead of just the top layer.</span>
+<span class="sd">    Can also be a tuple of color indices (e.g. (0,)) that extend through the lid while others remain top-layer."""</span>
+    <span class="n">inlay_depth_mm</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">"""Depth in mm of top-layer inlays (defaults to INLAY_DEPTH_MM = 0.6mm)."""</span>
     <span class="n">through_holes</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
 <span class="w">    </span><span class="sd">"""When True in inlay mode, cutouts/holes inside pattern shapes penetrate completely through the lid."""</span>
     <span class="n">hole_ratio</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.5</span>
 <span class="w">    </span><span class="sd">"""Relative inner hole size for shapes with holes (such as RING), from 0.1 to 0.9."""</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Convert list through_inlay to tuple for immutability."""</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">through_inlay</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">"through_inlay"</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">through_inlay</span><span class="p">))</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">border_width</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
@@ -597,6 +607,10 @@
 <span class="w">    </span><span class="sd">"""Colour of the pattern's top layer; ``None`` contrasts with the body."""</span>
     <span class="n">pattern_colors</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Color</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="w">    </span><span class="sd">"""Palette of colours for multi-colour patterns; falls back to pattern.colors or pattern_color."""</span>
+    <span class="n">pattern_through_inlay</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">"""Override for whether pattern inlays extend completely through the lid thickness."""</span>
+    <span class="n">pattern_inlay_depth_mm</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">"""Override for top-layer pattern inlay depth in mm."""</span>
     <span class="n">logo</span><span class="p">:</span> <span class="n">Any</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="w">    </span><span class="sd">"""Path to the SVG logo, a Bosl2Solid, or a callable representing the custom lid logo."""</span>
     <span class="n">logo_color</span><span class="p">:</span> <span class="n">Color</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
@@ -636,6 +650,11 @@
 <span class="w">    </span><span class="sd">"""Fields to override for the multi-material export (see :meth:`for_mode`)."""</span>
     <span class="n">single_label</span><span class="p">:</span> <span class="n">LidBuilder</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="w">    </span><span class="sd">"""Fields to override for the single-colour export."""</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Convert list pattern_through_inlay to tuple for immutability."""</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pattern_through_inlay</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">"pattern_through_inlay"</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pattern_through_inlay</span><span class="p">))</span>
 
 <div class="viewcode-block" id="LidBuilder.titled">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.lid.builder.LidBuilder.html#pyboxbuilder.lid.builder.LidBuilder.titled">[docs]</a>
