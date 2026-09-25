@@ -235,7 +235,7 @@ Matchbox Sleeve & Drawer (``BoxType.SLEEVE_DRAWER``)
        BoxType.SLEEVE_DRAWER,
        "MatchboxDrawer",
        size=(60.0, 50.0, 22.0),
-       drawer_pull_lip=4.0,
+       drawer_handle_length=4.0,
    )
    project.show(show_lids=True)
 

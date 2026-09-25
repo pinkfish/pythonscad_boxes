@@ -24,17 +24,17 @@ class SleeveDrawerBoxBuilder(BoxBuilder):
                 BoxType.SLEEVE_DRAWER,
                 "ResourceDrawer",
                 size=(80.0, 70.0, 35.0),
-                push_hole_radius=12.0,
-                drawer_pull_lip=4.0,
+                drawer_handle_style="handle",
+                drawer_handle_length=4.0,
             )
             project.show(show_lids=True)
     """
 
     box_type: ClassVar[BoxType] = BoxType.SLEEVE_DRAWER
     push_hole_radius: float = 0.0
-    """Radius of the finger push-through hole on the sleeve back wall in mm (default 0.0: solid back)."""
+    """Radius of the finger push-through hole on the sleeve back wall in mm, default 0.0 for solid back."""
     drawer_handle_style: str = "handle"
-    """Handle style on the front drawer face: 'handle' (pull handle), 'lip' (pull tab), or 'none' (flush)."""
+    """Handle style on the front drawer face -- 'handle' (pull handle), 'lip' (pull tab), or 'none' (flush)."""
     drawer_handle_length: float = 4.0
     """Forward extension length of the drawer front handle in mm."""
     drawer_pull_lip: float = 4.0

@@ -1329,6 +1329,7 @@ stop the class of mistake from being expressible.
 - [x] T448 [P] Update `GeometryPipeline._resolve_box` in `pyboxbuilder/project/pipeline.py` to invoke `box.interior(spec)` and add `SleeveDrawerBox` to `suppress_scoops`.
 - [x] T449 [P] Redesign `SleeveDrawerBox` in `pyboxbuilder/box/types/sleeve_drawer.py`: solid drawer walls with front handle, exact interior alignment, and solid sleeve back wall.
 - [x] T450 [P] Update `spec.md`, `plan.md`, documentation (`docs/box_types.rst`), and add comprehensive unit tests in `tests/test_pyboxbuilder/test_extended_boxes.py`.
+- [x] T451 [P] Pre-generate and verify documentation binary STLs (`docs/_extra/_stl/*.stl`) for all documentation example snippets (including Matchbox `SleeveDrawerBox`).
 
 
 ## Notes
