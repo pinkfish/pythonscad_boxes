@@ -464,17 +464,17 @@
 <span class="sd">                BoxType.SLEEVE_DRAWER,</span>
 <span class="sd">                "ResourceDrawer",</span>
 <span class="sd">                size=(80.0, 70.0, 35.0),</span>
-<span class="sd">                push_hole_radius=12.0,</span>
-<span class="sd">                drawer_pull_lip=4.0,</span>
+<span class="sd">                drawer_handle_style="handle",</span>
+<span class="sd">                drawer_handle_length=4.0,</span>
 <span class="sd">            )</span>
 <span class="sd">            project.show(show_lids=True)</span>
 <span class="sd">    """</span>
 
     <span class="n">box_type</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="n">BoxType</span><span class="p">]</span> <span class="o">=</span> <span class="n">BoxType</span><span class="o">.</span><span class="n">SLEEVE_DRAWER</span>
     <span class="n">push_hole_radius</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span>
-<span class="w">    </span><span class="sd">"""Radius of the finger push-through hole on the sleeve back wall in mm (default 0.0: solid back)."""</span>
+<span class="w">    </span><span class="sd">"""Radius of the finger push-through hole on the sleeve back wall in mm, default 0.0 for solid back."""</span>
     <span class="n">drawer_handle_style</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"handle"</span>
-<span class="w">    </span><span class="sd">"""Handle style on the front drawer face: 'handle' (pull handle), 'lip' (pull tab), or 'none' (flush)."""</span>
+<span class="w">    </span><span class="sd">"""Handle style on the front drawer face -- 'handle' (pull handle), 'lip' (pull tab), or 'none' (flush)."""</span>
     <span class="n">drawer_handle_length</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">4.0</span>
 <span class="w">    </span><span class="sd">"""Forward extension length of the drawer front handle in mm."""</span>
     <span class="n">drawer_pull_lip</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">4.0</span>
