@@ -80,7 +80,11 @@ class PatternBuilder:
     ``None`` uses :data:`PATTERN_BORDER_MM`. ``0`` runs the pattern to the
     lid's edge, which is rarely what a lid wants — see that constant."""
     inlay: bool = False
-    """When True, inlay the pattern flush into the lid surface (no through-holes)."""
+    """When True, inlay the pattern flush into the lid surface."""
+    through_holes: bool = False
+    """When True in inlay mode, cutouts/holes inside pattern shapes penetrate completely through the lid."""
+    hole_ratio: float = 0.5
+    """Relative inner hole size for shapes with holes (such as RING), from 0.1 to 0.9."""
 
     @property
     def border_width(self) -> float:
@@ -148,6 +152,8 @@ class LidBuilder:
     """Through-hole pattern, or ``None`` for a plain lid."""
     pattern_color: Color | None = None
     """Colour of the pattern's top layer; ``None`` contrasts with the body."""
+    pattern_colors: tuple[Color, ...] | None = None
+    """Palette of colours for multi-colour patterns; falls back to pattern.colors or pattern_color."""
     logo: Any | None = None
     """Path to the SVG logo, a Bosl2Solid, or a callable representing the custom lid logo."""
     logo_color: Color | None = None
@@ -215,28 +221,19 @@ class LidBuilder:
     @property
     def min_text_height(self) -> float:
         """The shortest printable label, resolved."""
-        return (
-            self.min_text_height_mm
-            if self.min_text_height_mm is not None else MIN_TEXT_HEIGHT_MM
-        )
+        return self.min_text_height_mm if self.min_text_height_mm is not None else MIN_TEXT_HEIGHT_MM
 
     @property
     def label_clearance(self) -> float:
         """The margin kept around the lettering, resolved."""
         from pyboxbuilder.lid.decorate import LABEL_CLEARANCE_MM
 
-        return (
-            self.label_clearance_mm
-            if self.label_clearance_mm is not None else LABEL_CLEARANCE_MM
-        )
+        return self.label_clearance_mm if self.label_clearance_mm is not None else LABEL_CLEARANCE_MM
 
     @property
     def border_margin(self) -> float:
         """The margin kept clear at the lid's edge, resolved."""
-        return (
-            self.border_margin_mm
-            if self.border_margin_mm is not None else BORDER_MARGIN_MM
-        )
+        return self.border_margin_mm if self.border_margin_mm is not None else BORDER_MARGIN_MM
 
     def for_mode(self, mode: str) -> LidBuilder:
         """Return this lid as it prints in one colour mode.
@@ -272,8 +269,7 @@ class LidBuilder:
         return {
             f.name: getattr(self, f.name)
             for f in fields(self)
-            if f.name not in ("mmu_label", "single_label")
-            and getattr(self, f.name) is not None
+            if f.name not in ("mmu_label", "single_label") and getattr(self, f.name) is not None
         }
 
     def resolve_for_mode(self, mode: str) -> LidBuilder:
@@ -282,6 +278,7 @@ class LidBuilder:
 
         warnings.warn(
             "LidBuilder.resolve_for_mode() is deprecated; use for_mode().",
-            DeprecationWarning, stacklevel=2,
+            DeprecationWarning,
+            stacklevel=2,
         )
         return self.for_mode(mode)

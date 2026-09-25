@@ -143,6 +143,7 @@ def decorate_lid(
     margin_override = resolved.border_margin_mm
     if margin_override is None and path is not None and (label_w > 0 and label_l > 0):
         from pyboxbuilder.lid.builder import BORDER_MARGIN_MM
+
         margin_override = min(BORDER_MARGIN_MM, max(2.0, min(label_w, label_l) / 4))
 
     # The label is built first even though it is applied last, because the
@@ -171,8 +172,15 @@ def decorate_lid(
     if resolved.pattern is not None:
         if resolved.pattern.inlay:
             _apply_inlaid_pattern(
-                result, resolved, width, length,
-                origin_x, origin_y, top_z, mode,
+                result,
+                resolved,
+                width,
+                length,
+                origin_x,
+                origin_y,
+                top_z,
+                mode,
+                lid_thickness=lid_thickness,
                 keep_clear=label,
                 logo_keepout=logo_solid,
                 label_clearance=resolved.label_clearance,
@@ -181,8 +189,14 @@ def decorate_lid(
             )
         else:
             result.solid = _cut_pattern(
-                result.solid, resolved, width, length,
-                origin_x, origin_y, top_z, lid_thickness,
+                result.solid,
+                resolved,
+                width,
+                length,
+                origin_x,
+                origin_y,
+                top_z,
+                lid_thickness,
                 keep_clear=label,
                 logo_keepout=logo_solid,
                 label_clearance=resolved.label_clearance,
@@ -267,9 +281,7 @@ def _bounds_center_size(
     )
 
 
-def _build_logo(
-    builder: LidBuilder, width: float, length: float, mode: str
-) -> Bosl2Solid | None:
+def _build_logo(builder: LidBuilder, width: float, length: float, mode: str) -> Bosl2Solid | None:
     """Build the logo solid, centered on the lid face."""
     if not builder.logo:
         return None
@@ -283,6 +295,7 @@ def _build_logo(
     depth = INLAY_DEPTH_MM
     if isinstance(builder.logo, str):
         from pyboxbuilder.compartments.element import _svg_region
+
         raw = _svg_region(builder.logo).linear_extrude(height=depth)
         (cx, cy, cz), (span_x, span_y, _) = _bounds_center_size(raw)
         raw = raw.translate([-float(cx), -float(cy), -float(cz) + depth / 2])
@@ -313,6 +326,7 @@ def _apply_logo(
     mode: str,
 ) -> None:
     """Inlay or engrave the logo into the lid."""
+
     def onto_face(solid: Bosl2Solid) -> Bosl2Solid:
         return solid.translate([origin_x, origin_y, top_z - INLAY_DEPTH_MM])
 
@@ -337,9 +351,7 @@ Minkowski sum over every letter.
 """
 
 
-def _label_keepout(
-    label: Label | None, depth: float, clearance: float = LABEL_CLEARANCE_MM
-) -> Bosl2Solid | None:
+def _label_keepout(label: Label | None, depth: float, clearance: float = LABEL_CLEARANCE_MM) -> Bosl2Solid | None:
     """Return the volume a label needs kept solid, in the face's own frame.
 
     Follows the label's **shape**, not its bounding box. A box is right for a
@@ -468,8 +480,16 @@ def _cut_pattern(
             return lid
 
         holes = build_pattern(
-            width, length, depth, builder.pattern.type,
-            builder.pattern.spacing, builder.pattern.web,
+            width,
+            length,
+            depth,
+            builder.pattern.type,
+            builder.pattern.spacing,
+            builder.pattern.web,
+            through_holes=builder.pattern.through_holes,
+            hole_ratio=builder.pattern.hole_ratio,
+            inlay=False,
+            lid_thickness=lid_thickness,
         )
         if holes is None:
             return lid
@@ -484,8 +504,16 @@ def _cut_pattern(
             return lid
 
         holes = build_pattern(
-            area_w, area_l, depth, builder.pattern.type,
-            builder.pattern.spacing, builder.pattern.web,
+            area_w,
+            area_l,
+            depth,
+            builder.pattern.type,
+            builder.pattern.spacing,
+            builder.pattern.web,
+            through_holes=builder.pattern.through_holes,
+            hole_ratio=builder.pattern.hole_ratio,
+            inlay=False,
+            lid_thickness=lid_thickness,
         )
         if holes is None:
             # No hole fits — too small an area, or a pitch that cannot hold a hole
@@ -518,7 +546,8 @@ def _cut_pattern(
     # lid's own frame, not the face's.
     for x, y, radius in reserved:
         holes = holes - _disc(x, y, base[2], radius, depth)
-    return lid - holes
+    cut_solid = holes.solid if hasattr(holes, "solid") and holes.solid is not None else holes
+    return lid - cut_solid
 
 
 def _apply_inlaid_pattern(
@@ -530,6 +559,7 @@ def _apply_inlaid_pattern(
     origin_y: float,
     top_z: float,
     mode: str,
+    lid_thickness: float = 2.0,
     keep_clear: Label | None = None,
     logo_keepout: Bosl2Solid | None = None,
     label_clearance: float = LABEL_CLEARANCE_MM,
@@ -537,6 +567,8 @@ def _apply_inlaid_pattern(
     path: tuple[tuple[float, float], ...] | None = None,
 ) -> None:
     """Inlay the pattern into `result`, or engrave it for single-colour print."""
+    from pybosl2 import Color
+
     from pyboxbuilder.box.shell import block
     from pyboxbuilder.lid.pattern import build_pattern
 
@@ -545,6 +577,17 @@ def _apply_inlaid_pattern(
     depth = INLAY_DEPTH_MM if mode != "single" else ENGRAVE_DEPTH_MM
     base_z = top_z - depth
     base = (origin_x + margin, origin_y + margin, base_z)
+
+    palette: Sequence[Color] = ()
+    if builder.pattern_colors:
+        palette = builder.pattern_colors
+    elif builder.pattern and builder.pattern.colors:
+        palette = builder.pattern.colors
+    elif builder.pattern_color is not None:
+        palette = (builder.pattern_color,)
+
+    clip_h = lid_thickness + 4.0
+    clip_base_z = top_z - lid_thickness - 2.0
 
     if path is not None and len(path) >= 3:
         from pyboxbuilder.box.features import extrude_footprint, offset_footprint
@@ -556,13 +599,22 @@ def _apply_inlaid_pattern(
             return
 
         holes = build_pattern(
-            width, length, depth, builder.pattern.type,
-            builder.pattern.spacing, builder.pattern.web,
+            width,
+            length,
+            depth,
+            builder.pattern.type,
+            builder.pattern.spacing,
+            builder.pattern.web,
+            colors=palette,
+            through_holes=builder.pattern.through_holes,
+            hole_ratio=builder.pattern.hole_ratio,
+            inlay=True,
+            lid_thickness=lid_thickness,
         )
         if holes is None:
             return
 
-        clip_solid = extrude_footprint(inset_path, depth, base_z)
+        clip_solid = extrude_footprint(inset_path, clip_h, clip_base_z)
         holes = holes.translate([origin_x, origin_y, base_z])
         holes = holes & clip_solid
     else:
@@ -572,31 +624,62 @@ def _apply_inlaid_pattern(
             return
 
         holes = build_pattern(
-            area_w, area_l, depth, builder.pattern.type,
-            builder.pattern.spacing, builder.pattern.web,
+            area_w,
+            area_l,
+            depth,
+            builder.pattern.type,
+            builder.pattern.spacing,
+            builder.pattern.web,
+            colors=palette,
+            through_holes=builder.pattern.through_holes,
+            hole_ratio=builder.pattern.hole_ratio,
+            inlay=True,
+            lid_thickness=lid_thickness,
         )
         if holes is None:
             return
 
         holes = holes.translate([base[0], base[1], base[2]])
-        holes = holes & block([area_w, area_l, depth * 1.5], at=(base[0], base[1], base[2]))
+        holes = holes & block([area_w, area_l, clip_h], at=(base[0], base[1], clip_base_z))
 
-    keepout = _label_keepout(keep_clear, depth * 2, label_clearance)
+    keepout = _label_keepout(keep_clear, clip_h, label_clearance)
     if keepout is not None:
-        holes = holes - keepout.translate([origin_x, origin_y, base_z])
+        holes = holes - keepout.translate([origin_x, origin_y, clip_base_z])
 
     if logo_keepout is not None:
-        stretched_logo = _as_depth(logo_keepout, depth * 2)
-        holes = holes - stretched_logo.translate([origin_x, origin_y, base_z])
+        stretched_logo = _as_depth(logo_keepout, clip_h)
+        holes = holes - stretched_logo.translate([origin_x, origin_y, clip_base_z])
 
     for x, y, radius in reserved:
-        holes = holes - _disc(x, y, base_z, radius, depth * 2)
+        holes = holes - _disc(x, y, clip_base_z, radius, clip_h)
 
-    inlay = holes & result.solid
-    result.solid = result.solid - inlay
-    if mode != "single":
-        color = builder.pattern_color
-        result.inserts.append(LidInsert(_coloured(inlay, color), color))
+    if hasattr(holes, "inlays"):
+        if holes.holes is not None:
+            through_cut = holes.holes & result.solid
+            result.solid = result.solid - through_cut
+
+        for part_solid, color_key in holes.inlays:
+            inlay = part_solid & result.solid
+            result.solid = result.solid - inlay
+            if mode != "single":
+                if isinstance(color_key, Color):
+                    c = color_key
+                elif isinstance(color_key, int):
+                    if palette and color_key < len(palette):
+                        c = palette[color_key]
+                    elif palette:
+                        c = palette[color_key % len(palette)]
+                    else:
+                        c = builder.pattern_color
+                else:
+                    c = builder.pattern_color
+                result.inserts.append(LidInsert(_coloured(inlay, c), c))
+    else:
+        inlay = holes & result.solid
+        result.solid = result.solid - inlay
+        if mode != "single":
+            color = builder.pattern_color
+            result.inserts.append(LidInsert(_coloured(inlay, color), color))
 
 
 def _disc(x: float, y: float, z: float, radius: float, depth: float) -> Bosl2Solid:
@@ -605,9 +688,7 @@ def _disc(x: float, y: float, z: float, radius: float, depth: float) -> Bosl2Sol
 
     from pyboxbuilder.precision import kwargs as precision_kwargs
 
-    return cylinder(height=depth, radius=radius, **precision_kwargs()).translate(
-        [x, y, z + depth / 2]
-    )
+    return cylinder(height=depth, radius=radius, **precision_kwargs()).translate([x, y, z + depth / 2])
 
 
 def _apply_label(
@@ -718,22 +799,32 @@ def _with_accent_colors(builder: LidBuilder, body_color: Color | None) -> LidBui
     from pyboxbuilder.lid.color_layers import resolve_colors
 
     pattern_c = builder.pattern_color
-    if pattern_c is None and builder.pattern is not None and builder.pattern.colors:
-        pattern_c = builder.pattern.colors[0]
+    if pattern_c is None:
+        if builder.pattern_colors:
+            pattern_c = builder.pattern_colors[0]
+        elif builder.pattern is not None and builder.pattern.colors:
+            pattern_c = builder.pattern.colors[0]
 
     colors = resolve_colors(
         body_color if body_color is not None else Color("gray"),
-        builder.text_color, builder.frame_color, pattern_c,
+        builder.text_color,
+        builder.frame_color,
+        pattern_c,
     )
     logo_color = builder.logo_color
     if logo_color is None:
         logo_color = colors.text_color
+
+    pattern_colors = builder.pattern_colors
+    if pattern_colors is None and builder.pattern is not None and builder.pattern.colors:
+        pattern_colors = tuple(builder.pattern.colors)
 
     return replace(
         builder,
         text_color=colors.text_color,
         frame_color=colors.frame_color,
         pattern_color=colors.pattern_color,
+        pattern_colors=pattern_colors,
         logo_color=logo_color,
     )
 

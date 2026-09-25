@@ -498,4 +498,52 @@ class InsertColourTests(unittest.TestCase):
         # Inlaid solid has far more volume retained in the base plate than through-cut
         self.assertGreater(volume(inlaid_dec.solid), volume(through_dec.solid))
 
+    def test_multi_color_inlaid_pattern_creates_multiple_inserts(self) -> None:
+        """Multi-color pattern produces distinct inserts for each palette color (FR-024)."""
+        from pybosl2 import Color
+
+        builder = LidBuilder(
+            pattern=PatternBuilder(PatternType.DICE, inlay=True),
+            pattern_colors=(Color("white"), Color("red")),
+        )
+        decorated = decorate_lid(bare_lid(), builder, 2.0, "mmu", body_color=Color("blue"))
+        # Should have multiple inserts: die body (white) and pips (red)
+        self.assertGreaterEqual(len(decorated.inserts), 2)
+        insert_colors = [ins.color for ins in decorated.inserts if ins.color]
+        self.assertTrue(any(c == Color("white") or c.rgba == Color("white").rgba for c in insert_colors))
+        self.assertTrue(any(c == Color("red") or c.rgba == Color("red").rgba for c in insert_colors))
+
+    def test_hybrid_through_holes_and_inlays(self) -> None:
+        """Hybrid pattern has surface inlays and punches through holes completely (FR-024)."""
+        from pybosl2 import Color
+
+        hybrid_builder = LidBuilder(
+            pattern=PatternBuilder(PatternType.DICE, inlay=True, through_holes=True),
+            pattern_color=Color("white"),
+        )
+        inlaid_only_builder = LidBuilder(
+            pattern=PatternBuilder(PatternType.DICE, inlay=True, through_holes=False),
+            pattern_color=Color("white"),
+        )
+        hybrid_dec = decorate_lid(bare_lid(), hybrid_builder, 2.0, "mmu")
+        inlaid_dec = decorate_lid(bare_lid(), inlaid_only_builder, 2.0, "mmu")
+
+        # Hybrid has inlays (the die faces)
+        self.assertGreaterEqual(len(hybrid_dec.inserts), 1)
+        # Because pips cut through the lid in hybrid, the solid has less volume than inlaid-only
+        self.assertLess(volume(hybrid_dec.solid), volume(inlaid_dec.solid))
+
+    def test_ring_pattern_multi_color_inserts(self) -> None:
+        """RING pattern with 2 colors produces concentric inlays."""
+        from pybosl2 import Color
+
+        builder = LidBuilder(
+            pattern=PatternBuilder(
+                PatternType.RING, inlay=True, colors=(Color("gold"), Color("silver")),
+            ),
+        )
+        decorated = decorate_lid(bare_lid(), builder, 2.0, "mmu")
+        self.assertGreaterEqual(len(decorated.inserts), 2)
+
+
 

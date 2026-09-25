@@ -1301,6 +1301,16 @@ stop the class of mistake from being expressible.
 - [x] T438 [P] Add unit tests in `tests/test_pyboxbuilder/test_extended_boxes.py` (`test_dispenser_lower_cover`, `test_dispenser_extraction_modes`), regenerate documentation STLs, and verify Sphinx HTML docs.
 
 
+## Phase 50: Multi-Color Patterns & Shapes With Holes (FR-023, FR-024)
+
+**Goal**: Support multi-color patterns, perforated/annular shapes with holes in them, and hybrid inlaid patterns with through-holes.
+
+- [x] T439 [P] Update `PatternType` enum (`RING`, `CHECKER`) in `pyboxbuilder/enums.py` and `PatternBuilder` dataclass (`through_holes`, `hole_ratio`) in `pyboxbuilder/lid/builder.py`.
+- [x] T440 [P] Implement `PatternResult` composite pattern output and new pattern fills (`_ring_fill`, `_checker_fill`, multi-color `_dice_fill`) in `pyboxbuilder/lid/pattern.py`.
+- [x] T441 [P] Update `decorate_lid`, `_apply_inlaid_pattern`, and `_cut_pattern` in `pyboxbuilder/lid/decorate.py` to support `PatternResult`, multi-color inserts, and through-hole hybrid patterns.
+- [x] T442 [P] Add unit tests for multi-color patterns, shapes with holes, and hybrid through-holes in `tests/test_pyboxbuilder/test_lid_pattern.py` and `tests/test_pyboxbuilder/test_lid_decorate.py`.
+
+
 ## Notes
 
 

@@ -20,8 +20,11 @@ from __future__ import annotations
 
 import math
 import random
-from collections.abc import Callable, Iterator
-from typing import TYPE_CHECKING
+from collections.abc import Callable, Iterator, Sequence
+from dataclasses import dataclass, field
+from typing import TYPE_CHECKING, Any
+
+from pybosl2 import Color
 
 from pyboxbuilder.enums import PatternType
 from pyboxbuilder.precision import kwargs as precision_kwargs
@@ -84,6 +87,7 @@ def hole_size(spacing: float, web: float | None) -> float:
         size = spacing - MIN_WEB_MM
     return size if size >= MIN_HOLE_MM else 0.0
 
+
 def default_spacing(width: float, length: float) -> float:
     """Return the cell size a pattern uses when the caller names none.
 
@@ -117,6 +121,46 @@ cells: a named option does what it says (FR-000g).
 """
 
 
+@dataclass
+class PatternResult:
+    """Compound or multi-material pattern geometry output.
+
+    Attributes:
+        inlays: List of (solid, color_key) where color_key is an integer palette
+            index, an explicit pybosl2.Color, or None.
+        holes: Optional solid of cutouts that cut completely through the lid.
+    """
+
+    inlays: list[tuple[Bosl2Solid, int | Color | None]] = field(default_factory=list)
+    holes: Bosl2Solid | None = None
+
+    @property
+    def solid(self) -> Bosl2Solid | None:
+        """Combined geometry of all inlays and holes."""
+        res = self.holes
+        for s, _ in self.inlays:
+            res = s if res is None else res | s
+        return res
+
+    def translate(self, v: Sequence[float]) -> PatternResult:
+        """Translate all inlay components and through-holes by vector `v`."""
+        new_inlays = [(s.translate(list(v)), c) for s, c in self.inlays]
+        new_holes = self.holes.translate(list(v)) if self.holes is not None else None
+        return PatternResult(inlays=new_inlays, holes=new_holes)
+
+    def __and__(self, other: Bosl2Solid) -> PatternResult:
+        """Intersect every component with clipping boundary `other`."""
+        new_inlays = [(s & other, c) for s, c in self.inlays]
+        new_holes = (self.holes & other) if self.holes is not None else None
+        return PatternResult(inlays=new_inlays, holes=new_holes)
+
+    def __sub__(self, other: Bosl2Solid) -> PatternResult:
+        """Subtract keepout solid `other` from every component."""
+        new_inlays = [(s - other, c) for s, c in self.inlays]
+        new_holes = (self.holes - other) if self.holes is not None else None
+        return PatternResult(inlays=new_inlays, holes=new_holes)
+
+
 def build_pattern(
     width: float,
     length: float,
@@ -124,28 +168,35 @@ def build_pattern(
     pattern_type: PatternType,
     spacing: float | None = None,
     web: float | None = None,
-) -> Bosl2Solid | None:
-    """Build the through-hole cutouts for a lid.
+    colors: Sequence[Color] | None = None,
+    through_holes: bool = False,
+    hole_ratio: float = 0.5,
+    inlay: bool = False,
+    lid_thickness: float | None = None,
+) -> Bosl2Solid | PatternResult | None:
+    """Build the through-hole or inlaid pattern for a lid.
 
     Args:
         width: Width of the area to fill, in mm — the lid less its border.
         length: Length of that area, in mm.
-        thickness: Lid thickness; the holes are cut deeper so they break through.
+        thickness: Pattern thickness (inlay depth or lid thickness).
         pattern_type: Which pattern. ``PatternType.NONE`` returns ``None``.
         spacing: Centre-to-centre distance between holes. ``None`` derives it
             from the area (see :func:`default_spacing`).
         web: Material left between neighbouring holes. ``None`` uses
-            :data:`DEFAULT_WEB_MM`. This, rather than the hole size, is what a
-            pattern is really specified by: it is what prints.
+            :data:`DEFAULT_WEB_MM`.
+        colors: Palette of colors for multi-color patterns.
+        through_holes: When True with inlay, internal holes inside pattern
+            shapes cut completely through the lid.
+        hole_ratio: Ratio of inner hole to outer shape for annular shapes.
+        inlay: Whether the pattern is flush-inlaid rather than through-holes.
+        lid_thickness: Full thickness of the lid (for through-hole cuts).
 
     Returns:
-        The solid to subtract from the lid, or ``None`` for no pattern, for an
-        area too small to hold a whole hole, or for a pitch too tight to hold a
-        hole and a printable web at once.
+        A solid or :class:`PatternResult`, or ``None`` when none fit.
 
     Raises:
-        ValueError: If the pattern has no fill registered — which cannot happen
-            for a catalog member, and is the check that keeps it that way.
+        ValueError: If the pattern has no fill registered.
 
     """
     if spacing is None:
@@ -157,14 +208,28 @@ def build_pattern(
     fill = _PATTERN_FILLS.get(pattern_type)
     if fill is None:
         available = ", ".join(sorted(p.name for p in _PATTERN_FILLS))
-        raise ValueError(
-            f"No fill registered for PatternType.{pattern_type.name}. "
-            f"Available: {available}"
-        )
-    return fill(width, length, thickness, spacing, web)
+        raise ValueError(f"No fill registered for PatternType.{pattern_type.name}. Available: {available}")
+
+    import inspect
+
+    sig = inspect.signature(fill)
+    kwargs: dict[str, Any] = {}
+    if "colors" in sig.parameters:
+        kwargs["colors"] = colors
+    if "through_holes" in sig.parameters:
+        kwargs["through_holes"] = through_holes
+    if "hole_ratio" in sig.parameters:
+        kwargs["hole_ratio"] = hole_ratio
+    if "inlay" in sig.parameters:
+        kwargs["inlay"] = inlay
+    if "lid_thickness" in sig.parameters:
+        kwargs["lid_thickness"] = lid_thickness
+
+    return fill(width, length, thickness, spacing, web, **kwargs)
 
 
 # ── Cell placement ────────────────────────────────────────────────────
+
 
 def _grid_cells(
     width: float,
@@ -269,9 +334,48 @@ def _punch(
     return holes
 
 
-def _prism(
-    sides: int, across_flats: float, thickness: float, spin: float = 0.0
-) -> Bosl2Solid:
+def _punch_multi(
+    shape_at: Callable[
+        [float, float],
+        Bosl2Solid | PatternResult | tuple[Bosl2Solid, int | Color | None] | None,
+    ],
+    width: float,
+    length: float,
+    spacing: float,
+    hole: float,
+    stagger: bool = False,
+    row_step: float | None = None,
+) -> PatternResult | None:
+    """Union pattern cells into grouped inlays and optional through-holes."""
+    if hole <= 0:
+        return None
+
+    inlays_by_key: dict[Any, Bosl2Solid] = {}
+    through_holes: Bosl2Solid | None = None
+
+    for x, y in _grid_cells(width, length, spacing, stagger, row_step):
+        elem = shape_at(x, y)
+        if elem is None:
+            continue
+        if isinstance(elem, PatternResult):
+            if elem.holes is not None:
+                through_holes = elem.holes if through_holes is None else through_holes | elem.holes
+            for s, key in elem.inlays:
+                inlays_by_key[key] = s if key not in inlays_by_key else inlays_by_key[key] | s
+        elif isinstance(elem, tuple):
+            s, key = elem
+            inlays_by_key[key] = s if key not in inlays_by_key else inlays_by_key[key] | s
+        else:
+            inlays_by_key[0] = elem if 0 not in inlays_by_key else inlays_by_key[0] | elem
+
+    if not inlays_by_key and through_holes is None:
+        return None
+
+    inlays = [(solid, key) for key, solid in inlays_by_key.items()]
+    return PatternResult(inlays=inlays, holes=through_holes)
+
+
+def _prism(sides: int, across_flats: float, thickness: float, spin: float = 0.0) -> Bosl2Solid:
     """One regular-polygon hole, tall enough to break through the lid."""
     from pybosl2 import regular_prism
 
@@ -289,8 +393,12 @@ def _prism(
 
 # ── Fills ─────────────────────────────────────────────────────────────
 
+
 def _square_fill(
-    width: float, length: float, thickness: float, spacing: float,
+    width: float,
+    length: float,
+    thickness: float,
+    spacing: float,
     web: float | None = None,
 ) -> Bosl2Solid | None:
     """Square holes on a square grid."""
@@ -298,15 +406,19 @@ def _square_fill(
 
     size = hole_size(spacing, web)
     return _punch(
-        lambda x, y: cuboid([size, size, thickness * DEPTH_OVERSHOOT]).translate(
-            [x, y, thickness / 2]
-        ),
-        width, length, spacing, size,
+        lambda x, y: cuboid([size, size, thickness * DEPTH_OVERSHOOT]).translate([x, y, thickness / 2]),
+        width,
+        length,
+        spacing,
+        size,
     )
 
 
 def _circle_fill(
-    width: float, length: float, thickness: float, spacing: float,
+    width: float,
+    length: float,
+    thickness: float,
+    spacing: float,
     web: float | None = None,
 ) -> Bosl2Solid | None:
     """Round holes on a square grid."""
@@ -319,7 +431,10 @@ def _circle_fill(
             radius=size / 2,
             **precision_kwargs(),
         ).translate([x, y, thickness / 2]),
-        width, length, spacing, size,
+        width,
+        length,
+        spacing,
+        size,
     )
 
 
@@ -367,24 +482,227 @@ def _make_die_face(
 
 
 def _dice_fill(
-    width: float, length: float, thickness: float, spacing: float,
+    width: float,
+    length: float,
+    thickness: float,
+    spacing: float,
     web: float | None = None,
-) -> Bosl2Solid | None:
+    colors: Sequence[Color] | None = None,
+    through_holes: bool = False,
+    hole_ratio: float = 0.5,
+    inlay: bool = False,
+    lid_thickness: float | None = None,
+) -> Bosl2Solid | PatternResult | None:
     """Gaming dice faces (D6) with pips on a square grid."""
     size = hole_size(spacing, web)
     if size <= 0:
         return None
 
     height = thickness * DEPTH_OVERSHOOT
-    die_faces = {val: _make_die_face(val, size, height) for val in range(1, 7)}
+    actual_lid_t = lid_thickness if lid_thickness is not None else thickness
+    cut_h = actual_lid_t + 2.0
+    cut_z = thickness - actual_lid_t / 2.0
 
-    def _shape_at(x: float, y: float) -> Bosl2Solid:
+    from pybosl2 import cuboid, cylinder
+
+    from pyboxbuilder.rounding import vertical_edges
+
+    rounding = min(size * 0.12, 2.0)
+    body = cuboid(
+        [size, size, height],
+        rounding=rounding,
+        edges=vertical_edges(),
+    )
+
+    d = size * 0.26
+    pip_r = max(0.6, size * 0.08)
+
+    face_pips: dict[int, Bosl2Solid] = {}
+    face_pips_through: dict[int, Bosl2Solid] = {}
+    face_bodies_cut: dict[int, Bosl2Solid] = {}
+
+    for val in range(1, 7):
+        pips: Bosl2Solid | None = None
+        pips_through: Bosl2Solid | None = None
+        for ox, oy in _DICE_PIP_OFFSETS[val]:
+            p = cylinder(
+                height=height * 1.1,
+                radius=pip_r,
+                **precision_kwargs(),
+            ).translate([ox * d, oy * d, 0])
+            p_through = cylinder(
+                height=cut_h,
+                radius=pip_r,
+                **precision_kwargs(),
+            ).translate([ox * d, oy * d, cut_z])
+            pips = p if pips is None else pips | p
+            pips_through = p_through if pips_through is None else pips_through | p_through
+        assert pips is not None and pips_through is not None
+        face_pips[val] = pips
+        face_pips_through[val] = pips_through
+        face_bodies_cut[val] = body - pips
+
+    if not inlay:
+
+        def _shape_simple(x: float, y: float) -> Bosl2Solid:
+            col = round((x - width / 2.0) / spacing)
+            row = round((y - length / 2.0) / spacing)
+            val = ((row * 3 + col) % 6) + 1
+            return face_bodies_cut[val].translate([x, y, thickness / 2])
+
+        return _punch(_shape_simple, width, length, spacing, size)
+
+    has_pip_color = bool(colors and len(colors) >= 2)
+
+    def _shape_at(x: float, y: float) -> PatternResult:
         col = round((x - width / 2.0) / spacing)
         row = round((y - length / 2.0) / spacing)
         val = ((row * 3 + col) % 6) + 1
-        return die_faces[val].translate([x, y, thickness / 2])
 
-    return _punch(_shape_at, width, length, spacing, size)
+        body_solid = face_bodies_cut[val].translate([x, y, thickness / 2])
+
+        body_color_idx = 0
+        if colors and len(colors) > 2 and not through_holes:
+            body_color_idx = (row * 3 + col) % (len(colors) - 1)
+            pip_color_idx = len(colors) - 1
+        else:
+            pip_color_idx = 1
+
+        if through_holes:
+            pip_hole = face_pips_through[val].translate([x, y, 0])
+            return PatternResult(inlays=[(body_solid, body_color_idx)], holes=pip_hole)
+
+        if has_pip_color:
+            pip_solid = face_pips[val].translate([x, y, thickness / 2])
+            return PatternResult(inlays=[(body_solid, body_color_idx), (pip_solid, pip_color_idx)])
+
+        return PatternResult(inlays=[(body_solid, body_color_idx)])
+
+    return _punch_multi(_shape_at, width, length, spacing, size)
+
+
+def _ring_fill(
+    width: float,
+    length: float,
+    thickness: float,
+    spacing: float,
+    web: float | None = None,
+    colors: Sequence[Color] | None = None,
+    through_holes: bool = False,
+    hole_ratio: float = 0.5,
+    inlay: bool = False,
+    lid_thickness: float | None = None,
+) -> Bosl2Solid | PatternResult | None:
+    """Circular rings / washers with an inner hole."""
+    from pybosl2 import cylinder
+
+    size = hole_size(spacing, web)
+    if size <= 0:
+        return None
+
+    r_outer = size / 2.0
+    ratio = max(0.1, min(0.9, hole_ratio))
+    r_inner = max(0.4, r_outer * ratio)
+
+    height = thickness * DEPTH_OVERSHOOT
+    outer = cylinder(height=height, radius=r_outer, **precision_kwargs())
+    inner = cylinder(height=height * 1.1, radius=r_inner, **precision_kwargs())
+    ring = outer - inner
+
+    actual_lid_t = lid_thickness if lid_thickness is not None else thickness
+    cut_h = actual_lid_t + 2.0
+    cut_z = thickness - actual_lid_t / 2.0
+    inner_cut = cylinder(height=cut_h, radius=r_inner, **precision_kwargs()).translate([0, 0, cut_z])
+
+    has_multi_color = bool(colors and len(colors) >= 2)
+
+    if not inlay:
+        return _punch(
+            lambda x, y: ring.translate([x, y, thickness / 2]),
+            width,
+            length,
+            spacing,
+            size,
+        )
+
+    def _shape_ring(x: float, y: float) -> PatternResult | Bosl2Solid:
+        col = round((x - width / 2.0) / spacing)
+        row = round((y - length / 2.0) / spacing)
+        outer_solid = ring.translate([x, y, thickness / 2])
+
+        if through_holes:
+            hole_solid = inner_cut.translate([x, y, 0])
+            c_idx = (row + col) % len(colors) if colors and len(colors) > 1 else 0
+            return PatternResult(inlays=[(outer_solid, c_idx)], holes=hole_solid)
+
+        if has_multi_color:
+            inner_solid = inner.translate([x, y, thickness / 2])
+            return PatternResult(inlays=[(outer_solid, 0), (inner_solid, 1)])
+
+        return outer_solid
+
+    return _punch_multi(_shape_ring, width, length, spacing, size)
+
+
+def _checker_fill(
+    width: float,
+    length: float,
+    thickness: float,
+    spacing: float,
+    web: float | None = None,
+    colors: Sequence[Color] | None = None,
+    through_holes: bool = False,
+    hole_ratio: float = 0.5,
+    inlay: bool = False,
+    lid_thickness: float | None = None,
+) -> Bosl2Solid | PatternResult | None:
+    """Alternating checkerboard tiles on a square grid."""
+    from pybosl2 import cuboid
+
+    size = hole_size(spacing, web)
+    if size <= 0:
+        return None
+
+    height = thickness * DEPTH_OVERSHOOT
+    actual_lid_t = lid_thickness if lid_thickness is not None else thickness
+    cut_h = actual_lid_t + 2.0
+    cut_z = thickness - actual_lid_t / 2.0
+
+    tile = cuboid([size, size, height])
+    tile_cut = cuboid([size, size, cut_h]).translate([0, 0, cut_z])
+
+    if not inlay:
+
+        def _shape_cut(x: float, y: float) -> Bosl2Solid | None:
+            col = round((x - width / 2.0) / spacing)
+            row = round((y - length / 2.0) / spacing)
+            if (row + col) % 2 == 0:
+                return tile.translate([x, y, thickness / 2])
+            return None
+
+        holes = None
+        for x, y in _grid_cells(width, length, spacing):
+            cut = _shape_cut(x, y)
+            if cut is not None:
+                holes = cut if holes is None else holes | cut
+        return holes
+
+    def _shape_checker(x: float, y: float) -> PatternResult | tuple[Bosl2Solid, int]:
+        col = round((x - width / 2.0) / spacing)
+        row = round((y - length / 2.0) / spacing)
+        tile_type = (row + col) % 2
+
+        if through_holes:
+            if tile_type == 0:
+                return (tile.translate([x, y, thickness / 2]), 0)
+            return PatternResult(holes=tile_cut.translate([x, y, 0]))
+
+        if colors and len(colors) >= 2:
+            return (tile.translate([x, y, thickness / 2]), tile_type)
+
+        return (tile.translate([x, y, thickness / 2]), tile_type)
+
+    return _punch_multi(_shape_checker, width, length, spacing, size)
 
 
 POINTY_TOP_SPIN = 30.0
@@ -401,8 +719,12 @@ until the hexagon and the lattice agree.
 
 
 def _hex_fill(
-    width: float, length: float, thickness: float, spacing: float,
-    web: float | None = None, dense: bool = False,
+    width: float,
+    length: float,
+    thickness: float,
+    spacing: float,
+    web: float | None = None,
+    dense: bool = False,
 ) -> Bosl2Solid | None:
     """Hexagonal holes in staggered rows — a true honeycomb.
 
@@ -415,16 +737,22 @@ def _hex_fill(
     step = spacing * (DENSE_SPACING_SHARE if dense else 1.0)
     size = hole_size(step, web)
     return _punch(
-        lambda x, y: _prism(6, size, thickness, POINTY_TOP_SPIN).translate(
-            [x, y, thickness / 2]
-        ),
-        width, length, step, size, stagger=True,
+        lambda x, y: _prism(6, size, thickness, POINTY_TOP_SPIN).translate([x, y, thickness / 2]),
+        width,
+        length,
+        step,
+        size,
+        stagger=True,
     )
 
 
 def _triangle_fill(
-    width: float, length: float, thickness: float, spacing: float,
-    web: float | None = None, dense: bool = False,
+    width: float,
+    length: float,
+    thickness: float,
+    spacing: float,
+    web: float | None = None,
+    dense: bool = False,
 ) -> Bosl2Solid | None:
     """Triangular holes on an isometric grid, alternating point-up and point-down."""
     from pybosl2 import regular_prism
@@ -439,12 +767,8 @@ def _triangle_fill(
     row_step = step * ROOT_THREE / 2.0  # Height of equilateral triangle row band
     height = thickness * DEPTH_OVERSHOOT
 
-    hole_up = regular_prism(
-        3, inner_radius=r_hole, height=height, spin=90.0, **precision_kwargs()
-    )
-    hole_down = regular_prism(
-        3, inner_radius=r_hole, height=height, spin=270.0, **precision_kwargs()
-    )
+    hole_up = regular_prism(3, inner_radius=r_hole, height=height, spin=90.0, **precision_kwargs())
+    hole_down = regular_prism(3, inner_radius=r_hole, height=height, spin=270.0, **precision_kwargs())
 
     half_cols = math.ceil(width / (2.0 * step)) + 1
     half_rows = math.ceil(length / (2.0 * row_step)) + 1
@@ -463,16 +787,20 @@ def _triangle_fill(
 
 
 def _octagon_fill(
-    width: float, length: float, thickness: float, spacing: float,
+    width: float,
+    length: float,
+    thickness: float,
+    spacing: float,
     web: float | None = None,
 ) -> Bosl2Solid | None:
     """Octagonal holes on a square grid, leaving small square webs."""
     size = hole_size(spacing, web)
     return _punch(
-        lambda x, y: _prism(8, size, thickness, 22.5).translate(
-            [x, y, thickness / 2]
-        ),
-        width, length, spacing, size,
+        lambda x, y: _prism(8, size, thickness, 22.5).translate([x, y, thickness / 2]),
+        width,
+        length,
+        spacing,
+        size,
     )
 
 
@@ -511,9 +839,7 @@ its own. Anything beyond this cannot cut the cell, so testing it is only cost.
 """
 
 
-def _voronoi_points(
-    width: float, length: float, spacing: float
-) -> list[tuple[float, float]]:
+def _voronoi_points(width: float, length: float, spacing: float) -> list[tuple[float, float]]:
     """Seed points: one per cell of a grid, each scattered within its cell.
 
     Args:
@@ -531,8 +857,7 @@ def _voronoi_points(
     rng = random.Random(VORONOI_SEED)
     roam = spacing * VORONOI_JITTER / 2.0
     return [
-        (x + rng.uniform(-roam, roam), y + rng.uniform(-roam, roam))
-        for x, y in _grid_cells(width, length, spacing)
+        (x + rng.uniform(-roam, roam), y + rng.uniform(-roam, roam)) for x, y in _grid_cells(width, length, spacing)
     ]
 
 
@@ -575,16 +900,21 @@ def _voronoi_cell(
         # The bisector sits halfway between the two; step back towards `point`
         # by the inset, and face the plane so `point` is on the kept side.
         angle = 90.0 + math.degrees(math.atan2(-dy, -dx))
-        cut = half_plane.rotate(angle).translate([
-            (point[0] + other[0]) / 2.0 - dx / distance * inset,
-            (point[1] + other[1]) / 2.0 - dy / distance * inset,
-        ])
+        cut = half_plane.rotate(angle).translate(
+            [
+                (point[0] + other[0]) / 2.0 - dx / distance * inset,
+                (point[1] + other[1]) / 2.0 - dy / distance * inset,
+            ]
+        )
         cell = cut if cell is None else cell & cut
     return cell
 
 
 def _voronoi_fill(
-    width: float, length: float, thickness: float, spacing: float,
+    width: float,
+    length: float,
+    thickness: float,
+    spacing: float,
     web: float | None = None,
 ) -> Bosl2Solid | None:
     """Irregular cells with an even web between them — a true Voronoi.
@@ -617,9 +947,7 @@ def _voronoi_fill(
         return None
 
     height = thickness * DEPTH_OVERSHOOT
-    return cells.offset(radius=corner).linear_extrude(height=height).translate(
-        [0.0, 0.0, -(height - thickness) / 2.0]
-    )
+    return cells.offset(radius=corner).linear_extrude(height=height).translate([0.0, 0.0, -(height - thickness) / 2.0])
 
 
 LEAF_ASPECT = 2.0
@@ -657,8 +985,8 @@ def _leaf_half_height(x: float, half_length: float, half_width: float) -> float:
     """
     if abs(x) >= half_length:
         return 0.0
-    ball = (half_length ** 2 + half_width ** 2) / (2 * half_width)
-    return math.sqrt(ball ** 2 - x ** 2) - (ball - half_width)
+    ball = (half_length**2 + half_width**2) / (2 * half_width)
+    return math.sqrt(ball**2 - x**2) - (ball - half_width)
 
 
 def _leaf_row_step(half_length: float, half_width: float, web: float) -> float:
@@ -694,14 +1022,12 @@ def _leaf(length: float, width: float, thickness: float, rib: float) -> Bosl2Sol
     from pybosl2 import cuboid, cylinder
 
     half_length, half_width = length / 2.0, width / 2.0
-    ball = (half_length ** 2 + half_width ** 2) / (2 * half_width)
+    ball = (half_length**2 + half_width**2) / (2 * half_width)
     height = thickness * DEPTH_OVERSHOOT
     # The lens two overlapping circles leave. Each is offset until its near
     # edge reaches the leaf's midline plus half its width.
     disc = cylinder(height=height, radius=ball, **precision_kwargs())
-    leaf = disc.translate([0, half_width - ball, 0]) & disc.translate(
-        [0, ball - half_width, 0]
-    )
+    leaf = disc.translate([0, half_width - ball, 0]) & disc.translate([0, ball - half_width, 0])
     if rib <= 0 or width / 2.0 - rib / 2.0 < LEAF_MIDRIB_MIN_HALF_MM:
         return leaf
     # The midrib: a bar of lid left along the leaf's spine. It is what tells a
@@ -711,7 +1037,10 @@ def _leaf(length: float, width: float, thickness: float, rib: float) -> Bosl2Sol
 
 
 def _leaf_fill(
-    width: float, length: float, thickness: float, spacing: float,
+    width: float,
+    length: float,
+    thickness: float,
+    spacing: float,
     web: float | None = None,
 ) -> Bosl2Solid | None:
     """Pointed-oval leaves with midribs, interlocking in offset rows.
@@ -730,12 +1059,15 @@ def _leaf_fill(
     rib = max(MIN_WEB_MM, gap / 2.0)
 
     return _punch(
-        lambda x, y: _leaf(leaf_length, leaf_width, thickness, rib).translate(
-            [x, y, thickness / 2]
-        ),
-        width, length, spacing, leaf_length, stagger=True,
+        lambda x, y: _leaf(leaf_length, leaf_width, thickness, rib).translate([x, y, thickness / 2]),
+        width,
+        length,
+        spacing,
+        leaf_length,
+        stagger=True,
         row_step=_leaf_row_step(leaf_length / 2.0, leaf_width / 2.0, gap),
     )
+
 
 LEAF_VEIN_BRANCHES = ((-0.45, 0.05), (0.05, 0.45), (0.45, 0.80))
 """Where each side vein leaves the midrib and where it lands, as fractions.
@@ -813,14 +1145,10 @@ def _leaf_veins(section: float, thickness: float) -> Bosl2Shape2D:
 
     half_width = section * ROOT_THREE
 
-    def stroke(
-        start: tuple[float, float], end: tuple[float, float]
-    ) -> Bosl2Shape2D:
+    def stroke(start: tuple[float, float], end: tuple[float, float]) -> Bosl2Shape2D:
         length = math.dist(start, end)
         angle = math.degrees(math.atan2(end[1] - start[1], end[0] - start[0]))
-        return s2.rect([length, thickness]).rotate(angle).translate(
-            [(start[0] + end[0]) / 2, (start[1] + end[1]) / 2]
-        )
+        return s2.rect([length, thickness]).rotate(angle).translate([(start[0] + end[0]) / 2, (start[1] + end[1]) / 2])
 
     veins = stroke((-half_width, 0.0), (half_width, 0.0))
     for sign in (1, -1):
@@ -835,8 +1163,12 @@ def _leaf_veins(section: float, thickness: float) -> Bosl2Shape2D:
 
 
 def _leaf_tessellation_fill(
-    width: float, length: float, thickness: float, spacing: float,
-    web: float | None = None, veins: bool = False,
+    width: float,
+    length: float,
+    thickness: float,
+    spacing: float,
+    web: float | None = None,
+    veins: bool = False,
 ) -> Bosl2Solid | None:
     """Leaves that tile the lid edge to edge, leaving their outlines and veins.
 
@@ -859,24 +1191,24 @@ def _leaf_tessellation_fill(
     # `spacing` is the lattice pitch along a row, which for this tile is twice
     # the leaf's half-width, so the leaf is built from the section that gives it.
     section = spacing / (2 * ROOT_THREE)
-    outline = s2.polygon(
-        Path2D([[x, y] for x, y in tessellating_leaf_path(section)])
-    ).offset(delta=-gap / 2.0)
+    outline = s2.polygon(Path2D([[x, y] for x, y in tessellating_leaf_path(section)])).offset(delta=-gap / 2.0)
     if veins:
         outline = outline - _leaf_veins(section, max(MIN_WEB_MM, gap * LEAF_VEIN_SHARE))
 
     height = thickness * DEPTH_OVERSHOOT
-    hole = outline.linear_extrude(height=height).translate(
-        [0, 0, -(height - thickness) / 2.0]
-    )
+    hole = outline.linear_extrude(height=height).translate([0, 0, -(height - thickness) / 2.0])
 
     # Rows step half the leaf's height and shift half a pitch, which is the
     # lattice the tile actually tessellates on: each leaf's notches take the
     # neighbouring row's tips.
     return _punch(
         lambda x, y: hole.translate([x, y, 0]),
-        width, length, spacing, spacing,
-        stagger=True, row_step=2 * section,
+        width,
+        length,
+        spacing,
+        spacing,
+        stagger=True,
+        row_step=2 * section,
     )
 
 
@@ -890,17 +1222,15 @@ _PATTERN_FILLS: dict[
     PatternType.HEX: _hex_fill,
     PatternType.DENSE_HEX: lambda w, l, t, s, web: _hex_fill(w, l, t, s, web, dense=True),
     PatternType.TRIANGLE: _triangle_fill,
-    PatternType.DENSE_TRIANGLE: lambda w, l, t, s, web: _triangle_fill(
-        w, l, t, s, web, dense=True
-    ),
+    PatternType.DENSE_TRIANGLE: lambda w, l, t, s, web: _triangle_fill(w, l, t, s, web, dense=True),
     PatternType.OCTAGON: _octagon_fill,
     PatternType.VORONOI: _voronoi_fill,
     PatternType.LEAF: _leaf_fill,
     PatternType.LEAF_TESSELLATION: _leaf_tessellation_fill,
-    PatternType.LEAF_VEINS: lambda w, l, t, s, web: _leaf_tessellation_fill(
-        w, l, t, s, web, veins=True
-    ),
+    PatternType.LEAF_VEINS: lambda w, l, t, s, web: _leaf_tessellation_fill(w, l, t, s, web, veins=True),
     PatternType.DICE: _dice_fill,
+    PatternType.RING: _ring_fill,
+    PatternType.CHECKER: _checker_fill,
 }
 """Every pattern the library can draw.
 

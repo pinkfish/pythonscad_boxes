@@ -105,6 +105,10 @@ class PatternType(Enum):
     """That tessellation with a midrib and branching veins left in each leaf."""
     DICE = "dice"
     """Gaming dice (D6) faces with pips on a grid."""
+    RING = "ring"
+    """Circular rings / washers with an inner hole."""
+    CHECKER = "checker"
+    """Alternating checkerboard tiles on a square grid."""
 
 
 class StackableMode(Enum):
@@ -202,4 +206,3 @@ class DispenserExtractionMode(Enum):
     TRAY = "tray"
     REAR_PUSH = "rear_push"
     ARCH = "arch"
-

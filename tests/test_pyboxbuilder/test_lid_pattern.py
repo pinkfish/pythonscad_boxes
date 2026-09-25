@@ -834,3 +834,131 @@ class VoronoiDefaultPitchTests(unittest.TestCase):
         from pyboxbuilder.lid.pattern import MIN_DERIVED_SPACING_MM
 
         self.assertEqual(list(MIN_DERIVED_SPACING_MM), [PatternType.VORONOI])
+
+
+class MultiColorAndHolePatternTests(unittest.TestCase):
+    """Tests for multi-color patterns, shapes with holes, and PatternResult (FR-024)."""
+
+    def test_pattern_result_operations(self) -> None:
+        """PatternResult behaves as a composite solid supporting translate, &, -, and .solid."""
+        from pybosl2 import Color, cuboid
+
+        from pyboxbuilder.lid.pattern import PatternResult
+
+        s1 = cuboid([10, 10, 2]).translate([0, 0, 0])
+        s2 = cuboid([4, 4, 2]).translate([0, 0, 0])
+        s3 = cuboid([2, 2, 5]).translate([0, 0, 0])
+        pr = PatternResult(inlays=[(s1, 0), (s2, Color("red"))], holes=s3)
+
+        self.assertIsNotNone(pr.solid)
+        shifted = pr.translate([5, 10, 15])
+        self.assertIsInstance(shifted, PatternResult)
+        self.assertEqual(len(shifted.inlays), 2)
+        self.assertIsNotNone(shifted.holes)
+
+        clipped = pr & cuboid([20, 20, 10])
+        self.assertIsInstance(clipped, PatternResult)
+
+        cut = pr - cuboid([1, 1, 10])
+        self.assertIsInstance(cut, PatternResult)
+
+    def test_ring_fill_through_holes(self) -> None:
+        """PatternType.RING with inlay=False creates regular through-holes."""
+        from pybosl2.shapes3d import Bosl2Solid
+
+        res = build_pattern(60.0, 40.0, 2.0, PatternType.RING, spacing=10.0, inlay=False)
+        self.assertIsInstance(res, Bosl2Solid)
+
+    def test_ring_fill_multi_color_inlay(self) -> None:
+        """PatternType.RING with inlay=True and 2 colors produces concentric inlays."""
+        from pybosl2 import Color
+
+        from pyboxbuilder.lid.pattern import PatternResult
+
+        res = build_pattern(
+            60.0, 40.0, 0.6, PatternType.RING, spacing=12.0,
+            inlay=True, colors=[Color("white"), Color("red")],
+        )
+        self.assertIsInstance(res, PatternResult)
+        self.assertGreaterEqual(len(res.inlays), 2)
+        keys = {k for _, k in res.inlays}
+        self.assertIn(0, keys)
+        self.assertIn(1, keys)
+        self.assertIsNone(res.holes)
+
+    def test_ring_fill_hybrid_through_holes(self) -> None:
+        """PatternType.RING with through_holes=True produces inlays with through-hole centers."""
+        from pybosl2 import Color
+
+        from pyboxbuilder.lid.pattern import PatternResult
+
+        res = build_pattern(
+            60.0, 40.0, 0.6, PatternType.RING, spacing=12.0,
+            inlay=True, through_holes=True, lid_thickness=2.0,
+        )
+        self.assertIsInstance(res, PatternResult)
+        self.assertIsNotNone(res.holes)
+        self.assertTrue(len(res.inlays) > 0)
+
+    def test_checker_fill_through_holes(self) -> None:
+        """PatternType.CHECKER with inlay=False creates alternating through-cut tiles."""
+        from pybosl2.shapes3d import Bosl2Solid
+
+        res = build_pattern(60.0, 40.0, 2.0, PatternType.CHECKER, spacing=10.0, inlay=False)
+        self.assertIsInstance(res, Bosl2Solid)
+
+    def test_checker_fill_multi_color_inlays(self) -> None:
+        """PatternType.CHECKER with inlay=True and 2 colors produces two alternating inlay sets."""
+        from pybosl2 import Color
+
+        from pyboxbuilder.lid.pattern import PatternResult
+
+        res = build_pattern(
+            60.0, 40.0, 0.6, PatternType.CHECKER, spacing=10.0,
+            inlay=True, colors=[Color("black"), Color("white")],
+        )
+        self.assertIsInstance(res, PatternResult)
+        keys = {k for _, k in res.inlays}
+        self.assertIn(0, keys)
+        self.assertIn(1, keys)
+
+    def test_checker_fill_hybrid_through_holes(self) -> None:
+        """PatternType.CHECKER with through_holes=True has one tile set inlaid and other through-cut."""
+        from pyboxbuilder.lid.pattern import PatternResult
+
+        res = build_pattern(
+            60.0, 40.0, 0.6, PatternType.CHECKER, spacing=10.0,
+            inlay=True, through_holes=True, lid_thickness=2.0,
+        )
+        self.assertIsInstance(res, PatternResult)
+        self.assertIsNotNone(res.holes)
+        self.assertTrue(len(res.inlays) > 0)
+
+    def test_dice_fill_multi_color_inlays(self) -> None:
+        """PatternType.DICE with inlay=True separates die body from pip colors."""
+        from pybosl2 import Color
+
+        from pyboxbuilder.lid.pattern import PatternResult
+
+        res = build_pattern(
+            60.0, 40.0, 0.6, PatternType.DICE, spacing=15.0,
+            inlay=True, colors=[Color("white"), Color("red")],
+        )
+        self.assertIsInstance(res, PatternResult)
+        keys = {k for _, k in res.inlays}
+        self.assertIn(0, keys)
+        self.assertIn(1, keys)
+        self.assertIsNone(res.holes)
+
+    def test_dice_fill_hybrid_through_hole_pips(self) -> None:
+        """PatternType.DICE with through_holes=True inlays die body and cuts pips through lid."""
+        from pyboxbuilder.lid.pattern import PatternResult
+
+        res = build_pattern(
+            60.0, 40.0, 0.6, PatternType.DICE, spacing=15.0,
+            inlay=True, through_holes=True, lid_thickness=2.0,
+        )
+        self.assertIsInstance(res, PatternResult)
+        self.assertIsNotNone(res.holes)
+        self.assertTrue(len(res.inlays) > 0)
+
