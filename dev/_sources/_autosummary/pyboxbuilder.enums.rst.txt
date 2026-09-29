@@ -17,11 +17,15 @@ pyboxbuilder.enums
    
       BoxType
       CatchType
+      ColorMode
       DispenserExtractionMode
+      DrawerHandleStyle
       ElementShape
       FingerCut
+      HingeCatchType
       InterlockType
       LabelMode
+      LatchAxis
       MagnetType
       PatternType
       ScoopSide

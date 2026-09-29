@@ -443,7 +443,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">ClassVar</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.builders._base</span><span class="w"> </span><span class="kn">import</span> <span class="n">BoxBuilder</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">BoxType</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">BoxType</span><span class="p">,</span> <span class="n">LatchAxis</span>
 
 
 <div class="viewcode-block" id="SnapFitBoxBuilder">
@@ -467,6 +467,7 @@
 <span class="sd">                size=(70.0, 60.0, 30.0),</span>
 <span class="sd">                cantilever_thickness=1.6,</span>
 <span class="sd">                cantilever_width=14.0,</span>
+<span class="sd">                latch_axis=LatchAxis.X,</span>
 <span class="sd">            )</span>
 <span class="sd">            project.show(show_lids=True)</span>
 <span class="sd">    """</span>
@@ -480,8 +481,25 @@
 <span class="w">    </span><span class="sd">"""Horizontal deflection clearance in mm."""</span>
     <span class="n">detent_height</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.5</span>
 <span class="w">    </span><span class="sd">"""Height / protrusion of the retention detent in mm."""</span>
-    <span class="n">latch_axis</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"x"</span>
-<span class="w">    </span><span class="sd">"""Axis on whose opposing walls the latches sit ('x' or 'y')."""</span></div>
+    <span class="n">latch_axis</span><span class="p">:</span> <span class="n">LatchAxis</span> <span class="o">=</span> <span class="n">LatchAxis</span><span class="o">.</span><span class="n">X</span>
+<span class="w">    </span><span class="sd">"""Axis on whose opposing walls the latches sit (LatchAxis.X or LatchAxis.Y, FR-106)."""</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Coerce latch_axis string or validate enum instance."""</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">latch_axis</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">"latch_axis"</span><span class="p">,</span> <span class="n">LatchAxis</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">latch_axis</span><span class="o">.</span><span class="n">lower</span><span class="p">()))</span>
+            <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                <span class="n">valid</span> <span class="o">=</span> <span class="p">[</span><span class="n">e</span><span class="o">.</span><span class="n">value</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">LatchAxis</span><span class="p">]</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">"Invalid latch_axis '</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">latch_axis</span><span class="si">}</span><span class="s2">'. "</span>
+                    <span class="sa">f</span><span class="s2">"Must be LatchAxis enum member: </span><span class="si">{</span><span class="n">valid</span><span class="si">}</span><span class="s2">"</span>
+                <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="kc">None</span>
+        <span class="k">elif</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">latch_axis</span><span class="p">,</span> <span class="n">LatchAxis</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">"latch_axis must be a LatchAxis enum, got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">latch_axis</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">"</span>
+            <span class="p">)</span></div>
+
 
 </code></pre></div>
 

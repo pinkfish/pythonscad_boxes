@@ -450,7 +450,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.shell</span><span class="w"> </span><span class="kn">import</span> <span class="n">block</span><span class="p">,</span> <span class="n">body_rounding</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.spec</span><span class="w"> </span><span class="kn">import</span> <span class="n">BoxSpec</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.builders.sleeve_drawer</span><span class="w"> </span><span class="kn">import</span> <span class="n">SleeveDrawerBoxBuilder</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">BoxType</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">BoxType</span><span class="p">,</span> <span class="n">DrawerHandleStyle</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.precision</span><span class="w"> </span><span class="kn">import</span> <span class="n">precision</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.rounding</span><span class="w"> </span><span class="kn">import</span> <span class="n">round_edges</span><span class="p">,</span> <span class="n">vertical_edges</span>
 
@@ -506,8 +506,10 @@
             <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">drawer_handle_length</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
             <span class="k">else</span> <span class="n">spec</span><span class="o">.</span><span class="n">drawer_pull_lip</span>
         <span class="p">)</span>
-        <span class="n">style</span> <span class="o">=</span> <span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">drawer_handle_style</span> <span class="ow">or</span> <span class="s2">"handle"</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
-        <span class="n">has_handle</span> <span class="o">=</span> <span class="n">handle_len</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">style</span> <span class="o">!=</span> <span class="s2">"none"</span>
+        <span class="n">style</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">drawer_handle_style</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">style</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">style</span> <span class="o">=</span> <span class="n">DrawerHandleStyle</span><span class="p">(</span><span class="n">style</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
+        <span class="n">has_handle</span> <span class="o">=</span> <span class="n">handle_len</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">style</span> <span class="o">!=</span> <span class="n">DrawerHandleStyle</span><span class="o">.</span><span class="n">NONE</span>
         <span class="n">actual_handle_len</span> <span class="o">=</span> <span class="n">handle_len</span> <span class="k">if</span> <span class="n">has_handle</span> <span class="k">else</span> <span class="mf">0.0</span>
 
         <span class="n">drawer_w</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">width</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">sw</span> <span class="o">+</span> <span class="n">slack</span><span class="p">)</span>
@@ -546,7 +548,7 @@
             <span class="p">)</span>
 
         <span class="k">if</span> <span class="n">has_handle</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">style</span> <span class="o">==</span> <span class="s2">"lip"</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">style</span> <span class="o">==</span> <span class="n">DrawerHandleStyle</span><span class="o">.</span><span class="n">LIP</span><span class="p">:</span>
                 <span class="n">lip_w</span> <span class="o">=</span> <span class="n">drawer_w</span> <span class="o">*</span> <span class="mf">0.7</span>
                 <span class="n">lip_h</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">3.0</span><span class="p">,</span> <span class="n">drawer_h</span> <span class="o">*</span> <span class="mf">0.3</span><span class="p">)</span>
                 <span class="n">lip</span> <span class="o">=</span> <span class="n">cuboid</span><span class="p">(</span>

@@ -450,7 +450,16 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">CatchType</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.enums</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">CatchType</span><span class="p">,</span>
+    <span class="n">DispenserExtractionMode</span><span class="p">,</span>
+    <span class="n">DrawerHandleStyle</span><span class="p">,</span>
+    <span class="n">HingeCatchType</span><span class="p">,</span>
+    <span class="n">InterlockType</span><span class="p">,</span>
+    <span class="n">LatchAxis</span><span class="p">,</span>
+    <span class="n">MagnetType</span><span class="p">,</span>
+    <span class="n">StackableMode</span><span class="p">,</span>
+<span class="p">)</span>
 
 <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.spec</span><span class="w"> </span><span class="kn">import</span> <span class="n">ResolvedBoxSpec</span>
@@ -507,7 +516,8 @@
         <span class="bp">cls</span><span class="o">.</span><span class="n">_validate_clearances</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
         <span class="bp">cls</span><span class="o">.</span><span class="n">_validate_closure_bounds</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
         <span class="bp">cls</span><span class="o">.</span><span class="n">_validate_stackable_bounds</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
-        <span class="bp">cls</span><span class="o">.</span><span class="n">_validate_interlock_bounds</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span></div>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">_validate_interlock_bounds</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">_validate_enum_invariants</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span></div>
 
 
     <span class="nd">@classmethod</span>
@@ -711,7 +721,45 @@
                 <span class="n">invariant</span><span class="o">=</span><span class="s2">"non_negative_interlock_clearance"</span><span class="p">,</span>
                 <span class="n">message</span><span class="o">=</span><span class="sa">f</span><span class="s2">"Interlock clearance must be non-negative, got </span><span class="si">{</span><span class="n">spec</span><span class="o">.</span><span class="n">interlock_clearance</span><span class="si">}</span><span class="s2">mm."</span><span class="p">,</span>
                 <span class="n">guidance</span><span class="o">=</span><span class="s2">"Set interlock_clearance to a non-negative value (e.g. 0.15mm)."</span><span class="p">,</span>
-            <span class="p">)</span></div>
+            <span class="p">)</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_validate_enum_invariants</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">ResolvedBoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Validate that all categorical configuration options are strict instances of Python Enum (FR-106)."""</span>
+        <span class="n">categorical_fields</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">catch_type</span><span class="p">,</span> <span class="n">CatchType</span><span class="p">,</span> <span class="s2">"catch_type"</span><span class="p">,</span> <span class="kc">True</span><span class="p">),</span>
+            <span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">hinge_catch_type</span><span class="p">,</span> <span class="n">HingeCatchType</span><span class="p">,</span> <span class="s2">"hinge_catch_type"</span><span class="p">,</span> <span class="kc">True</span><span class="p">),</span>
+            <span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">interlock_type</span><span class="p">,</span> <span class="n">InterlockType</span><span class="p">,</span> <span class="s2">"interlock_type"</span><span class="p">,</span> <span class="kc">True</span><span class="p">),</span>
+            <span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">magnet_type</span><span class="p">,</span> <span class="n">MagnetType</span><span class="p">,</span> <span class="s2">"magnet_type"</span><span class="p">,</span> <span class="kc">True</span><span class="p">),</span>
+            <span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">stackable</span><span class="p">,</span> <span class="n">StackableMode</span><span class="p">,</span> <span class="s2">"stackable"</span><span class="p">,</span> <span class="kc">True</span><span class="p">),</span>
+            <span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">dispenser_mode</span><span class="p">,</span> <span class="n">DispenserExtractionMode</span><span class="p">,</span> <span class="s2">"dispenser_mode"</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span>
+            <span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">drawer_handle_style</span><span class="p">,</span> <span class="n">DrawerHandleStyle</span><span class="p">,</span> <span class="s2">"drawer_handle_style"</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span>
+            <span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">latch_axis</span><span class="p">,</span> <span class="n">LatchAxis</span><span class="p">,</span> <span class="s2">"latch_axis"</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span>
+        <span class="p">)</span>
+        <span class="k">for</span> <span class="n">val</span><span class="p">,</span> <span class="n">enum_cls</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">allow_none</span> <span class="ow">in</span> <span class="n">categorical_fields</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">val</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">allow_none</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="n">GeometryValidationError</span><span class="p">(</span>
+                        <span class="n">label</span><span class="o">=</span><span class="n">spec</span><span class="o">.</span><span class="n">label</span><span class="p">,</span>
+                        <span class="n">invariant</span><span class="o">=</span><span class="s2">"enum_invariant"</span><span class="p">,</span>
+                        <span class="n">message</span><span class="o">=</span><span class="sa">f</span><span class="s2">"Field '</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">' must not be None; expected </span><span class="si">{</span><span class="n">enum_cls</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> enum."</span><span class="p">,</span>
+                        <span class="n">guidance</span><span class="o">=</span><span class="sa">f</span><span class="s2">"Set </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> to a valid </span><span class="si">{</span><span class="n">enum_cls</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> member."</span><span class="p">,</span>
+                    <span class="p">)</span>
+                <span class="k">continue</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">enum_cls</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="n">GeometryValidationError</span><span class="p">(</span>
+                    <span class="n">label</span><span class="o">=</span><span class="n">spec</span><span class="o">.</span><span class="n">label</span><span class="p">,</span>
+                    <span class="n">invariant</span><span class="o">=</span><span class="s2">"enum_invariant"</span><span class="p">,</span>
+                    <span class="n">message</span><span class="o">=</span><span class="p">(</span>
+                        <span class="sa">f</span><span class="s2">"Field '</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">' must be an instance of </span><span class="si">{</span><span class="n">enum_cls</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> enum, "</span>
+                        <span class="sa">f</span><span class="s2">"got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">val</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">val</span><span class="si">!r}</span><span class="s2">)."</span>
+                    <span class="p">),</span>
+                    <span class="n">guidance</span><span class="o">=</span><span class="p">(</span>
+                        <span class="sa">f</span><span class="s2">"Use </span><span class="si">{</span><span class="n">enum_cls</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">val</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span><span class="w"> </span><span class="nb">str</span><span class="p">)</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">'MEMBER'</span><span class="si">}</span><span class="s2"> "</span>
+                        <span class="s2">"instead of raw strings."</span>
+                    <span class="p">),</span>
+                <span class="p">)</span></div>
+
 
 </code></pre></div>
 

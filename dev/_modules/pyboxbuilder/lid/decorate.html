@@ -462,7 +462,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">field</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">LabelMode</span><span class="p">,</span> <span class="n">PatternType</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">ColorMode</span><span class="p">,</span> <span class="n">LabelMode</span><span class="p">,</span> <span class="n">PatternType</span>
 
 <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">Color</span>
@@ -529,7 +529,7 @@
     <span class="n">lid</span><span class="p">:</span> <span class="n">Bosl2Solid</span><span class="p">,</span>
     <span class="n">builder</span><span class="p">:</span> <span class="n">LidBuilder</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">lid_thickness</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
-    <span class="n">mode</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"mmu"</span><span class="p">,</span>
+    <span class="n">mode</span><span class="p">:</span> <span class="n">ColorMode</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">ColorMode</span><span class="o">.</span><span class="n">MMU</span><span class="p">,</span>
     <span class="n">body_color</span><span class="p">:</span> <span class="n">Color</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">reserved</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="p">(),</span>
     <span class="n">path</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="o">...</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -540,7 +540,7 @@
 <span class="sd">        lid: The bare lid from a box type's `build_lid`.</span>
 <span class="sd">        builder: The lid configuration; None leaves the lid untouched.</span>
 <span class="sd">        lid_thickness: Thickness of the plate the decoration goes into.</span>
-<span class="sd">        mode: "mmu" or "single".</span>
+<span class="sd">        mode: :class:`~pyboxbuilder.enums.ColorMode` or string ("mmu" or "single").</span>
 <span class="sd">        body_color: The box's own colour, which the accents are derived to</span>
 <span class="sd">            contrast with when the caller names none (FR-022).</span>
 <span class="sd">        reserved: ``(x, y, radius)`` circles on the lid that the pattern must</span>
@@ -555,7 +555,8 @@
     <span class="k">if</span> <span class="n">lid</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">builder</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">DecoratedLid</span><span class="p">(</span><span class="n">solid</span><span class="o">=</span><span class="n">lid</span><span class="p">)</span>
 
-    <span class="n">resolved</span> <span class="o">=</span> <span class="n">_with_accent_colors</span><span class="p">(</span><span class="n">builder</span><span class="o">.</span><span class="n">for_mode</span><span class="p">(</span><span class="n">mode</span><span class="p">),</span> <span class="n">body_color</span><span class="p">)</span>
+    <span class="n">mode_str</span> <span class="o">=</span> <span class="n">mode</span><span class="o">.</span><span class="n">value</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">mode</span><span class="p">,</span> <span class="n">ColorMode</span><span class="p">)</span> <span class="k">else</span> <span class="nb">str</span><span class="p">(</span><span class="n">mode</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+    <span class="n">resolved</span> <span class="o">=</span> <span class="n">_with_accent_colors</span><span class="p">(</span><span class="n">builder</span><span class="o">.</span><span class="n">for_mode</span><span class="p">(</span><span class="n">mode_str</span><span class="p">),</span> <span class="n">body_color</span><span class="p">)</span>
     <span class="n">face</span> <span class="o">=</span> <span class="n">_top_face</span><span class="p">(</span><span class="n">lid</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">face</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">DecoratedLid</span><span class="p">(</span><span class="n">solid</span><span class="o">=</span><span class="n">lid</span><span class="p">)</span>
@@ -602,7 +603,7 @@
             <span class="n">resolved</span><span class="p">,</span>
             <span class="n">label_w</span><span class="p">,</span>
             <span class="n">label_l</span><span class="p">,</span>
-            <span class="n">mode</span><span class="p">,</span>
+            <span class="n">mode_str</span><span class="p">,</span>
             <span class="n">center_x</span><span class="o">=</span><span class="n">center_x</span><span class="p">,</span>
             <span class="n">center_y</span><span class="o">=</span><span class="n">center_y</span><span class="p">,</span>
             <span class="n">border_margin_mm</span><span class="o">=</span><span class="n">margin_override</span><span class="p">,</span>
@@ -616,7 +617,7 @@
     <span class="k">if</span> <span class="n">resolved</span><span class="o">.</span><span class="n">text</span> <span class="ow">and</span> <span class="n">label</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">result</span><span class="o">.</span><span class="n">skipped_label</span> <span class="o">=</span> <span class="kc">True</span>
 
-    <span class="n">logo_solid</span> <span class="o">=</span> <span class="n">_build_logo</span><span class="p">(</span><span class="n">resolved</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">mode</span><span class="p">)</span> <span class="k">if</span> <span class="n">resolved</span><span class="o">.</span><span class="n">logo</span> <span class="k">else</span> <span class="kc">None</span>
+    <span class="n">logo_solid</span> <span class="o">=</span> <span class="n">_build_logo</span><span class="p">(</span><span class="n">resolved</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">mode_str</span><span class="p">)</span> <span class="k">if</span> <span class="n">resolved</span><span class="o">.</span><span class="n">logo</span> <span class="k">else</span> <span class="kc">None</span>
 
     <span class="k">if</span> <span class="n">resolved</span><span class="o">.</span><span class="n">pattern</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">resolved</span><span class="o">.</span><span class="n">pattern</span><span class="o">.</span><span class="n">inlay</span><span class="p">:</span>
@@ -628,7 +629,7 @@
                 <span class="n">origin_x</span><span class="p">,</span>
                 <span class="n">origin_y</span><span class="p">,</span>
                 <span class="n">top_z</span><span class="p">,</span>
-                <span class="n">mode</span><span class="p">,</span>
+                <span class="n">mode_str</span><span class="p">,</span>
                 <span class="n">lid_thickness</span><span class="o">=</span><span class="n">lid_thickness</span><span class="p">,</span>
                 <span class="n">keep_clear</span><span class="o">=</span><span class="n">label</span><span class="p">,</span>
                 <span class="n">logo_keepout</span><span class="o">=</span><span class="n">logo_solid</span><span class="p">,</span>
@@ -654,10 +655,10 @@
             <span class="p">)</span>
 
     <span class="k">if</span> <span class="n">label</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">_apply_label</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">resolved</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">origin_x</span><span class="p">,</span> <span class="n">origin_y</span><span class="p">,</span> <span class="n">top_z</span><span class="p">,</span> <span class="n">mode</span><span class="p">,</span> <span class="n">lid_thickness</span><span class="p">)</span>
+        <span class="n">_apply_label</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">resolved</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">origin_x</span><span class="p">,</span> <span class="n">origin_y</span><span class="p">,</span> <span class="n">top_z</span><span class="p">,</span> <span class="n">mode_str</span><span class="p">,</span> <span class="n">lid_thickness</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">logo_solid</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">_apply_logo</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">resolved</span><span class="p">,</span> <span class="n">logo_solid</span><span class="p">,</span> <span class="n">origin_x</span><span class="p">,</span> <span class="n">origin_y</span><span class="p">,</span> <span class="n">top_z</span><span class="p">,</span> <span class="n">mode</span><span class="p">)</span>
+        <span class="n">_apply_logo</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">resolved</span><span class="p">,</span> <span class="n">logo_solid</span><span class="p">,</span> <span class="n">origin_x</span><span class="p">,</span> <span class="n">origin_y</span><span class="p">,</span> <span class="n">top_z</span><span class="p">,</span> <span class="n">mode_str</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">result</span></div>
 

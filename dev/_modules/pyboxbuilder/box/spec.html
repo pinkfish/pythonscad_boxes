@@ -460,7 +460,10 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.enums</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">CatchType</span><span class="p">,</span>
     <span class="n">DispenserExtractionMode</span><span class="p">,</span>
+    <span class="n">DrawerHandleStyle</span><span class="p">,</span>
+    <span class="n">HingeCatchType</span><span class="p">,</span>
     <span class="n">InterlockType</span><span class="p">,</span>
+    <span class="n">LatchAxis</span><span class="p">,</span>
     <span class="n">MagnetType</span><span class="p">,</span>
     <span class="n">ScoopSide</span><span class="p">,</span>
     <span class="n">StackableMode</span><span class="p">,</span>
@@ -474,6 +477,67 @@
 
 <span class="n">WIGGLE_MM</span> <span class="o">=</span> <span class="mf">0.2</span>
 <span class="sd">"""Default clearance between two printed parts that have to fit together."""</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_coerce_enum</span><span class="p">(</span><span class="n">val</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">enum_cls</span><span class="p">:</span> <span class="nb">type</span><span class="p">[</span><span class="n">Any</span><span class="p">],</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">allow_none</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Coerce string or validate enum instance for a categorical configuration option (FR-106)."""</span>
+    <span class="k">if</span> <span class="n">val</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">allow_none</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> cannot be None; must be an instance of </span><span class="si">{</span><span class="n">enum_cls</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">."</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">enum_cls</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">val</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">enum_cls</span><span class="p">(</span><span class="n">val</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
+        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+            <span class="n">valid_vals</span> <span class="o">=</span> <span class="p">[</span><span class="n">e</span><span class="o">.</span><span class="n">value</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">enum_cls</span><span class="p">]</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">"Invalid </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> '</span><span class="si">{</span><span class="n">val</span><span class="si">}</span><span class="s2">'. Must be a </span><span class="si">{</span><span class="n">enum_cls</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> enum member: </span><span class="si">{</span><span class="n">valid_vals</span><span class="si">}</span><span class="s2">"</span>
+            <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="kc">None</span>
+    <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> must be a </span><span class="si">{</span><span class="n">enum_cls</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> enum, got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">val</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">."</span>
+    <span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_coerce_box_spec_enums</span><span class="p">(</span><span class="n">spec</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Ensure all categorical options on a BoxSpec or ResolvedBoxSpec are canonical enums."""</span>
+    <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="s2">"catch_type"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span>
+            <span class="n">spec</span><span class="p">,</span> <span class="s2">"catch_type"</span><span class="p">,</span> <span class="n">_coerce_enum</span><span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">catch_type</span><span class="p">,</span> <span class="n">CatchType</span><span class="p">,</span> <span class="s2">"catch_type"</span><span class="p">,</span> <span class="n">allow_none</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="p">)</span>
+    <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="s2">"hinge_catch_type"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span>
+            <span class="n">spec</span><span class="p">,</span>
+            <span class="s2">"hinge_catch_type"</span><span class="p">,</span>
+            <span class="n">_coerce_enum</span><span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">hinge_catch_type</span><span class="p">,</span> <span class="n">HingeCatchType</span><span class="p">,</span> <span class="s2">"hinge_catch_type"</span><span class="p">,</span> <span class="n">allow_none</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+        <span class="p">)</span>
+    <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="s2">"interlock_type"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span>
+            <span class="n">spec</span><span class="p">,</span>
+            <span class="s2">"interlock_type"</span><span class="p">,</span>
+            <span class="n">_coerce_enum</span><span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">interlock_type</span><span class="p">,</span> <span class="n">InterlockType</span><span class="p">,</span> <span class="s2">"interlock_type"</span><span class="p">,</span> <span class="n">allow_none</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+        <span class="p">)</span>
+    <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="s2">"magnet_type"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span>
+            <span class="n">spec</span><span class="p">,</span> <span class="s2">"magnet_type"</span><span class="p">,</span> <span class="n">_coerce_enum</span><span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">magnet_type</span><span class="p">,</span> <span class="n">MagnetType</span><span class="p">,</span> <span class="s2">"magnet_type"</span><span class="p">,</span> <span class="n">allow_none</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="p">)</span>
+    <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="s2">"stackable"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span>
+            <span class="n">spec</span><span class="p">,</span> <span class="s2">"stackable"</span><span class="p">,</span> <span class="n">_coerce_enum</span><span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">stackable</span><span class="p">,</span> <span class="n">StackableMode</span><span class="p">,</span> <span class="s2">"stackable"</span><span class="p">,</span> <span class="n">allow_none</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="p">)</span>
+    <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="s2">"dispenser_mode"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span>
+            <span class="n">spec</span><span class="p">,</span> <span class="s2">"dispenser_mode"</span><span class="p">,</span> <span class="n">_coerce_enum</span><span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">dispenser_mode</span><span class="p">,</span> <span class="n">DispenserExtractionMode</span><span class="p">,</span> <span class="s2">"dispenser_mode"</span><span class="p">)</span>
+        <span class="p">)</span>
+    <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="s2">"drawer_handle_style"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span>
+            <span class="n">spec</span><span class="p">,</span>
+            <span class="s2">"drawer_handle_style"</span><span class="p">,</span>
+            <span class="n">_coerce_enum</span><span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">drawer_handle_style</span><span class="p">,</span> <span class="n">DrawerHandleStyle</span><span class="p">,</span> <span class="s2">"drawer_handle_style"</span><span class="p">),</span>
+        <span class="p">)</span>
+    <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="s2">"latch_axis"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="s2">"latch_axis"</span><span class="p">,</span> <span class="n">_coerce_enum</span><span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">latch_axis</span><span class="p">,</span> <span class="n">LatchAxis</span><span class="p">,</span> <span class="s2">"latch_axis"</span><span class="p">))</span>
 
 
 <div class="viewcode-block" id="BoxSpec">
@@ -616,8 +680,8 @@
 <span class="w">    </span><span class="sd">"""Diameter of the hinge pin, in mm."""</span>
     <span class="n">filament_diameter</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.75</span>
 <span class="w">    </span><span class="sd">"""Diameter of the filament a living hinge is printed around."""</span>
-    <span class="n">hinge_catch_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="w">    </span><span class="sd">"""Catch type for hinged boxes; 'ridge' or 'bump'."""</span>
+    <span class="n">hinge_catch_type</span><span class="p">:</span> <span class="n">HingeCatchType</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">"""Catch type for hinged boxes (FR-106); HingeCatchType.RIDGE, HingeCatchType.BUMP, or HingeCatchType.NONE."""</span>
 
     <span class="c1"># ── Magnets (FR-039) ─────────────────────────────────────────────────</span>
     <span class="n">magnet_type</span><span class="p">:</span> <span class="n">MagnetType</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
@@ -661,7 +725,8 @@
     <span class="n">cantilever_width</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">12.0</span>
     <span class="n">deflection_clearance</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.3</span>
     <span class="n">detent_height</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.5</span>
-    <span class="n">latch_axis</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"x"</span>
+    <span class="n">latch_axis</span><span class="p">:</span> <span class="n">LatchAxis</span> <span class="o">=</span> <span class="n">LatchAxis</span><span class="o">.</span><span class="n">X</span>
+<span class="w">    </span><span class="sd">"""Axis on whose opposing walls the latches sit (FR-081, FR-106)."""</span>
 
     <span class="c1"># Bayonet (FR-082)</span>
     <span class="n">lug_count</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4</span>
@@ -703,7 +768,7 @@
 
     <span class="c1"># Sleeve drawer (FR-087)</span>
     <span class="n">push_hole_radius</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span>
-    <span class="n">drawer_handle_style</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"handle"</span>
+    <span class="n">drawer_handle_style</span><span class="p">:</span> <span class="n">DrawerHandleStyle</span> <span class="o">=</span> <span class="n">DrawerHandleStyle</span><span class="o">.</span><span class="n">HANDLE</span>
     <span class="n">drawer_handle_length</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">4.0</span>
     <span class="n">drawer_pull_lip</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">4.0</span>
     <span class="n">sleeve_slack</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.25</span>
@@ -734,6 +799,10 @@
     <span class="n">pip_snap_catch</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
     <span class="n">pip_snap_width</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">12.0</span>
     <span class="n">pip_snap_diameter</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">3.0</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Ensure all categorical options are canonical enums (FR-106)."""</span>
+        <span class="n">_coerce_box_spec_enums</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
 <div class="viewcode-block" id="BoxSpec.interior">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.spec.BoxSpec.html#pyboxbuilder.box.spec.BoxSpec.interior">[docs]</a>
@@ -835,11 +904,11 @@
             <span class="k">return</span> <span class="n">CatchType</span><span class="o">.</span><span class="n">NONE</span>
         <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">"pip_snap_catch"</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">CatchType</span><span class="o">.</span><span class="n">NONE</span>
-        <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">"hinge_catch_type"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"none"</span><span class="p">,</span> <span class="s2">"NONE"</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">hinge_catch_type</span> <span class="o">==</span> <span class="n">HingeCatchType</span><span class="o">.</span><span class="n">NONE</span> <span class="ow">or</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">"hinge_catch_type"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"none"</span><span class="p">,</span> <span class="s2">"NONE"</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">CatchType</span><span class="o">.</span><span class="n">NONE</span>
-        <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">"hinge_catch_type"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="o">==</span> <span class="s2">"bump"</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">hinge_catch_type</span> <span class="o">==</span> <span class="n">HingeCatchType</span><span class="o">.</span><span class="n">BUMP</span> <span class="ow">or</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">"hinge_catch_type"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="o">==</span> <span class="s2">"bump"</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">CatchType</span><span class="o">.</span><span class="n">BUMP</span>
-        <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">"hinge_catch_type"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="o">==</span> <span class="s2">"ridge"</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">hinge_catch_type</span> <span class="o">==</span> <span class="n">HingeCatchType</span><span class="o">.</span><span class="n">RIDGE</span> <span class="ow">or</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">"hinge_catch_type"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="o">==</span> <span class="s2">"ridge"</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">CatchType</span><span class="o">.</span><span class="n">WEDGE</span>
         <span class="k">return</span> <span class="n">default</span></div>
 
@@ -944,7 +1013,7 @@
     <span class="n">hinge_count</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">5</span>
     <span class="n">hinge_pin_diameter</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">3.0</span>
     <span class="n">filament_diameter</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.75</span>
-    <span class="n">hinge_catch_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">hinge_catch_type</span><span class="p">:</span> <span class="n">HingeCatchType</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 
     <span class="c1"># Magnets</span>
     <span class="n">magnet_type</span><span class="p">:</span> <span class="n">MagnetType</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
@@ -972,7 +1041,7 @@
     <span class="n">cantilever_width</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">12.0</span>
     <span class="n">deflection_clearance</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.3</span>
     <span class="n">detent_height</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.5</span>
-    <span class="n">latch_axis</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"x"</span>
+    <span class="n">latch_axis</span><span class="p">:</span> <span class="n">LatchAxis</span> <span class="o">=</span> <span class="n">LatchAxis</span><span class="o">.</span><span class="n">X</span>
 
     <span class="n">lug_count</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4</span>
     <span class="n">turn_angle</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">90.0</span>
@@ -1008,7 +1077,7 @@
     <span class="n">corner_deflectors</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
 
     <span class="n">push_hole_radius</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span>
-    <span class="n">drawer_handle_style</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"handle"</span>
+    <span class="n">drawer_handle_style</span><span class="p">:</span> <span class="n">DrawerHandleStyle</span> <span class="o">=</span> <span class="n">DrawerHandleStyle</span><span class="o">.</span><span class="n">HANDLE</span>
     <span class="n">drawer_handle_length</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">4.0</span>
     <span class="n">drawer_pull_lip</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">4.0</span>
     <span class="n">sleeve_slack</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.25</span>
@@ -1035,6 +1104,10 @@
     <span class="n">pip_snap_catch</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
     <span class="n">pip_snap_width</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">12.0</span>
     <span class="n">pip_snap_diameter</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">3.0</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Ensure all categorical options are canonical enums (FR-106)."""</span>
+        <span class="n">_coerce_box_spec_enums</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
 <div class="viewcode-block" id="UnresolvedBoxSpec.resolve">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.spec.UnresolvedBoxSpec.html#pyboxbuilder.box.spec.UnresolvedBoxSpec.resolve">[docs]</a>

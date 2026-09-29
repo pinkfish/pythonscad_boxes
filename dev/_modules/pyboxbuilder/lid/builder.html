@@ -444,7 +444,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">fields</span><span class="p">,</span> <span class="n">replace</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Any</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">LabelMode</span><span class="p">,</span> <span class="n">PatternType</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">ColorMode</span><span class="p">,</span> <span class="n">LabelMode</span><span class="p">,</span> <span class="n">PatternType</span>
 
 <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder</span><span class="w"> </span><span class="kn">import</span> <span class="n">Color</span>
@@ -707,7 +707,7 @@
 
 <div class="viewcode-block" id="LidBuilder.for_mode">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.lid.builder.LidBuilder.html#pyboxbuilder.lid.builder.LidBuilder.for_mode">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">for_mode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LidBuilder</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">for_mode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span><span class="p">:</span> <span class="n">ColorMode</span> <span class="o">|</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LidBuilder</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Return this lid as it prints in one colour mode.</span>
 
 <span class="sd">        A per-mode override carries **only the fields it sets**. That has to be</span>
@@ -718,13 +718,14 @@
 <span class="sd">        taken from the override whether it mentioned them or not.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            mode: ``"mmu"`` or ``"single"``.</span>
+<span class="sd">            mode: :class:`~pyboxbuilder.enums.ColorMode` or string (``"mmu"`` or ``"single"``).</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            The effective configuration; ``self`` when that mode sets nothing.</span>
 
 <span class="sd">        """</span>
-        <span class="n">override</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mmu_label</span> <span class="k">if</span> <span class="n">mode</span> <span class="o">==</span> <span class="s2">"mmu"</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">single_label</span>
+        <span class="n">mode_val</span> <span class="o">=</span> <span class="n">mode</span><span class="o">.</span><span class="n">value</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">mode</span><span class="p">,</span> <span class="n">ColorMode</span><span class="p">)</span> <span class="k">else</span> <span class="nb">str</span><span class="p">(</span><span class="n">mode</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+        <span class="n">override</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mmu_label</span> <span class="k">if</span> <span class="n">mode_val</span> <span class="o">==</span> <span class="s2">"mmu"</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">single_label</span>
         <span class="k">if</span> <span class="n">override</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span>
         <span class="k">return</span> <span class="n">replace</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">override</span><span class="o">.</span><span class="n">_stated</span><span class="p">(),</span> <span class="n">mmu_label</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">single_label</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></div>
@@ -747,7 +748,7 @@
 
 <div class="viewcode-block" id="LidBuilder.resolve_for_mode">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.lid.builder.LidBuilder.html#pyboxbuilder.lid.builder.LidBuilder.resolve_for_mode">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">resolve_for_mode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LidBuilder</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">resolve_for_mode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span><span class="p">:</span> <span class="n">ColorMode</span> <span class="o">|</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LidBuilder</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Return the deprecated alias for :meth:`for_mode`."""</span>
         <span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
 

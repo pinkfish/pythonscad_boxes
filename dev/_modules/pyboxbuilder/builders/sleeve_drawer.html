@@ -443,7 +443,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">ClassVar</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.builders._base</span><span class="w"> </span><span class="kn">import</span> <span class="n">BoxBuilder</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">BoxType</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">BoxType</span><span class="p">,</span> <span class="n">DrawerHandleStyle</span>
 
 
 <div class="viewcode-block" id="SleeveDrawerBoxBuilder">
@@ -464,7 +464,7 @@
 <span class="sd">                BoxType.SLEEVE_DRAWER,</span>
 <span class="sd">                "ResourceDrawer",</span>
 <span class="sd">                size=(80.0, 70.0, 35.0),</span>
-<span class="sd">                drawer_handle_style="handle",</span>
+<span class="sd">                drawer_handle_style=DrawerHandleStyle.HANDLE,</span>
 <span class="sd">                drawer_handle_length=4.0,</span>
 <span class="sd">            )</span>
 <span class="sd">            project.show(show_lids=True)</span>
@@ -473,8 +473,8 @@
     <span class="n">box_type</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="n">BoxType</span><span class="p">]</span> <span class="o">=</span> <span class="n">BoxType</span><span class="o">.</span><span class="n">SLEEVE_DRAWER</span>
     <span class="n">push_hole_radius</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span>
 <span class="w">    </span><span class="sd">"""Radius of the finger push-through hole on the sleeve back wall in mm, default 0.0 for solid back."""</span>
-    <span class="n">drawer_handle_style</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"handle"</span>
-<span class="w">    </span><span class="sd">"""Handle style on the front drawer face -- 'handle' (pull handle), 'lip' (pull tab), or 'none' (flush)."""</span>
+    <span class="n">drawer_handle_style</span><span class="p">:</span> <span class="n">DrawerHandleStyle</span> <span class="o">=</span> <span class="n">DrawerHandleStyle</span><span class="o">.</span><span class="n">HANDLE</span>
+<span class="w">    </span><span class="sd">"""Handle style on the front drawer face -- DrawerHandleStyle.HANDLE, LIP, or NONE (FR-106)."""</span>
     <span class="n">drawer_handle_length</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">4.0</span>
 <span class="w">    </span><span class="sd">"""Forward extension length of the drawer front handle in mm."""</span>
     <span class="n">drawer_pull_lip</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">4.0</span>
@@ -485,12 +485,29 @@
 <span class="w">    </span><span class="sd">"""Wall thickness of the outer sleeve in mm (defaults to max(1.2, wall_thickness / 2.0))."""</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">"""Synchronize drawer_handle_length and drawer_pull_lip."""</span>
+<span class="w">        </span><span class="sd">"""Synchronize drawer_handle_length, drawer_pull_lip, and coerce drawer_handle_style."""</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">drawer_handle_style</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="p">,</span> <span class="s2">"drawer_handle_style"</span><span class="p">,</span> <span class="n">DrawerHandleStyle</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">drawer_handle_style</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
+                <span class="p">)</span>
+            <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                <span class="n">valid</span> <span class="o">=</span> <span class="p">[</span><span class="n">e</span><span class="o">.</span><span class="n">value</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">DrawerHandleStyle</span><span class="p">]</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">"Invalid drawer_handle_style '</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">drawer_handle_style</span><span class="si">}</span><span class="s2">'. "</span>
+                    <span class="sa">f</span><span class="s2">"Must be DrawerHandleStyle enum member: </span><span class="si">{</span><span class="n">valid</span><span class="si">}</span><span class="s2">"</span>
+                <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="kc">None</span>
+        <span class="k">elif</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">drawer_handle_style</span><span class="p">,</span> <span class="n">DrawerHandleStyle</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">"drawer_handle_style must be a DrawerHandleStyle enum, got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">drawer_handle_style</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">"</span>
+            <span class="p">)</span>
+
         <span class="c1"># If caller passed non-default drawer_pull_lip and left drawer_handle_length default, sync it</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">drawer_pull_lip</span> <span class="o">!=</span> <span class="mf">4.0</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">drawer_handle_length</span> <span class="o">==</span> <span class="mf">4.0</span><span class="p">:</span>
             <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">"drawer_handle_length"</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">drawer_pull_lip</span><span class="p">)</span>
         <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">drawer_handle_length</span> <span class="o">!=</span> <span class="mf">4.0</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">drawer_pull_lip</span> <span class="o">==</span> <span class="mf">4.0</span><span class="p">:</span>
             <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">"drawer_pull_lip"</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">drawer_handle_length</span><span class="p">)</span></div>
+
 
 </code></pre></div>
 
