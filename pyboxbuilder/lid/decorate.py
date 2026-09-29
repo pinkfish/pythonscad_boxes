@@ -24,7 +24,7 @@ from collections.abc import Sequence
 from dataclasses import dataclass, field
 from typing import TYPE_CHECKING
 
-from pyboxbuilder.enums import LabelMode, PatternType
+from pyboxbuilder.enums import ColorMode, LabelMode, PatternType
 
 if TYPE_CHECKING:
     from pybosl2 import Color
@@ -83,7 +83,7 @@ def decorate_lid(
     lid: Bosl2Solid,
     builder: LidBuilder | None,
     lid_thickness: float,
-    mode: str = "mmu",
+    mode: ColorMode | str = ColorMode.MMU,
     body_color: Color | None = None,
     reserved: Sequence[tuple[float, float, float]] = (),
     path: tuple[tuple[float, float], ...] | None = None,
@@ -94,7 +94,7 @@ def decorate_lid(
         lid: The bare lid from a box type's `build_lid`.
         builder: The lid configuration; None leaves the lid untouched.
         lid_thickness: Thickness of the plate the decoration goes into.
-        mode: "mmu" or "single".
+        mode: :class:`~pyboxbuilder.enums.ColorMode` or string ("mmu" or "single").
         body_color: The box's own colour, which the accents are derived to
             contrast with when the caller names none (FR-022).
         reserved: ``(x, y, radius)`` circles on the lid that the pattern must
@@ -109,7 +109,8 @@ def decorate_lid(
     if lid is None or builder is None:
         return DecoratedLid(solid=lid)
 
-    resolved = _with_accent_colors(builder.for_mode(mode), body_color)
+    mode_str = mode.value if isinstance(mode, ColorMode) else str(mode).lower()
+    resolved = _with_accent_colors(builder.for_mode(mode_str), body_color)
     face = _top_face(lid)
     if face is None:
         return DecoratedLid(solid=lid)
@@ -156,7 +157,7 @@ def decorate_lid(
             resolved,
             label_w,
             label_l,
-            mode,
+            mode_str,
             center_x=center_x,
             center_y=center_y,
             border_margin_mm=margin_override,
@@ -170,7 +171,7 @@ def decorate_lid(
     if resolved.text and label is None:
         result.skipped_label = True
 
-    logo_solid = _build_logo(resolved, width, length, mode) if resolved.logo else None
+    logo_solid = _build_logo(resolved, width, length, mode_str) if resolved.logo else None
 
     if resolved.pattern is not None:
         if resolved.pattern.inlay:
@@ -182,7 +183,7 @@ def decorate_lid(
                 origin_x,
                 origin_y,
                 top_z,
-                mode,
+                mode_str,
                 lid_thickness=lid_thickness,
                 keep_clear=label,
                 logo_keepout=logo_solid,
@@ -208,10 +209,10 @@ def decorate_lid(
             )
 
     if label is not None:
-        _apply_label(result, resolved, label, origin_x, origin_y, top_z, mode, lid_thickness)
+        _apply_label(result, resolved, label, origin_x, origin_y, top_z, mode_str, lid_thickness)
 
     if logo_solid is not None:
-        _apply_logo(result, resolved, logo_solid, origin_x, origin_y, top_z, mode)
+        _apply_logo(result, resolved, logo_solid, origin_x, origin_y, top_z, mode_str)
 
     return result
 

@@ -12,7 +12,16 @@ from __future__ import annotations
 import math
 from typing import TYPE_CHECKING
 
-from pyboxbuilder.enums import CatchType
+from pyboxbuilder.enums import (
+    CatchType,
+    DispenserExtractionMode,
+    DrawerHandleStyle,
+    HingeCatchType,
+    InterlockType,
+    LatchAxis,
+    MagnetType,
+    StackableMode,
+)
 
 if TYPE_CHECKING:
     from pyboxbuilder.box.spec import ResolvedBoxSpec
@@ -66,6 +75,7 @@ class GeometryValidator:
         cls._validate_closure_bounds(spec)
         cls._validate_stackable_bounds(spec)
         cls._validate_interlock_bounds(spec)
+        cls._validate_enum_invariants(spec)
 
     @classmethod
     def _validate_envelope_positivity(cls, spec: ResolvedBoxSpec) -> None:
@@ -269,3 +279,41 @@ class GeometryValidator:
                 message=f"Interlock clearance must be non-negative, got {spec.interlock_clearance}mm.",
                 guidance="Set interlock_clearance to a non-negative value (e.g. 0.15mm).",
             )
+
+    @classmethod
+    def _validate_enum_invariants(cls, spec: ResolvedBoxSpec) -> None:
+        """Validate that all categorical configuration options are strict instances of Python Enum (FR-106)."""
+        categorical_fields = (
+            (spec.catch_type, CatchType, "catch_type", True),
+            (spec.hinge_catch_type, HingeCatchType, "hinge_catch_type", True),
+            (spec.interlock_type, InterlockType, "interlock_type", True),
+            (spec.magnet_type, MagnetType, "magnet_type", True),
+            (spec.stackable, StackableMode, "stackable", True),
+            (spec.dispenser_mode, DispenserExtractionMode, "dispenser_mode", False),
+            (spec.drawer_handle_style, DrawerHandleStyle, "drawer_handle_style", False),
+            (spec.latch_axis, LatchAxis, "latch_axis", False),
+        )
+        for val, enum_cls, name, allow_none in categorical_fields:
+            if val is None:
+                if not allow_none:
+                    raise GeometryValidationError(
+                        label=spec.label,
+                        invariant="enum_invariant",
+                        message=f"Field '{name}' must not be None; expected {enum_cls.__name__} enum.",
+                        guidance=f"Set {name} to a valid {enum_cls.__name__} member.",
+                    )
+                continue
+            if not isinstance(val, enum_cls):
+                raise GeometryValidationError(
+                    label=spec.label,
+                    invariant="enum_invariant",
+                    message=(
+                        f"Field '{name}' must be an instance of {enum_cls.__name__} enum, "
+                        f"got {type(val).__name__} ({val!r})."
+                    ),
+                    guidance=(
+                        f"Use {enum_cls.__name__}.{val.upper() if isinstance(val, str) else 'MEMBER'} "
+                        "instead of raw strings."
+                    ),
+                )
+

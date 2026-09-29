@@ -6,7 +6,7 @@ from __future__ import annotations
 from dataclasses import dataclass, fields, replace
 from typing import TYPE_CHECKING, Any
 
-from pyboxbuilder.enums import LabelMode, PatternType
+from pyboxbuilder.enums import ColorMode, LabelMode, PatternType
 
 if TYPE_CHECKING:
     from pyboxbuilder import Color
@@ -259,7 +259,7 @@ class LidBuilder:
         """The margin kept clear at the lid's edge, resolved."""
         return self.border_margin_mm if self.border_margin_mm is not None else BORDER_MARGIN_MM
 
-    def for_mode(self, mode: str) -> LidBuilder:
+    def for_mode(self, mode: ColorMode | str) -> LidBuilder:
         """Return this lid as it prints in one colour mode.
 
         A per-mode override carries **only the fields it sets**. That has to be
@@ -270,13 +270,14 @@ class LidBuilder:
         taken from the override whether it mentioned them or not.
 
         Args:
-            mode: ``"mmu"`` or ``"single"``.
+            mode: :class:`~pyboxbuilder.enums.ColorMode` or string (``"mmu"`` or ``"single"``).
 
         Returns:
             The effective configuration; ``self`` when that mode sets nothing.
 
         """
-        override = self.mmu_label if mode == "mmu" else self.single_label
+        mode_val = mode.value if isinstance(mode, ColorMode) else str(mode).lower()
+        override = self.mmu_label if mode_val == "mmu" else self.single_label
         if override is None:
             return self
         return replace(self, **override._stated(), mmu_label=None, single_label=None)
@@ -296,7 +297,7 @@ class LidBuilder:
             if f.name not in ("mmu_label", "single_label") and getattr(self, f.name) is not None
         }
 
-    def resolve_for_mode(self, mode: str) -> LidBuilder:
+    def resolve_for_mode(self, mode: ColorMode | str) -> LidBuilder:
         """Return the deprecated alias for :meth:`for_mode`."""
         import warnings
 

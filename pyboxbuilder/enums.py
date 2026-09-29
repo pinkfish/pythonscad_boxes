@@ -206,3 +206,44 @@ class DispenserExtractionMode(Enum):
     TRAY = "tray"
     REAR_PUSH = "rear_push"
     ARCH = "arch"
+
+
+class DrawerHandleStyle(Enum):
+    """Handle style for sleeve drawers (FR-087)."""
+
+    HANDLE = "handle"
+    """Centered ergonomic pull knob/handle."""
+    LIP = "lip"
+    """Forward-projecting lip across the drawer front."""
+    NONE = "none"
+    """Flush front face with no protruding handle."""
+
+
+class HingeCatchType(Enum):
+    """Catch mechanism for hinged box closures."""
+
+    RIDGE = "ridge"
+    """Ridge / wedge barb catch."""
+    BUMP = "bump"
+    """Detent bump catch."""
+    NONE = "none"
+    """No positive catch."""
+
+
+class LatchAxis(Enum):
+    """Axis on whose opposing walls cantilever latch arms sit (FR-081)."""
+
+    X = "x"
+    """Latches on the left and right walls parallel to the X axis."""
+    Y = "y"
+    """Latches on the front and back walls parallel to the Y axis."""
+
+
+class ColorMode(Enum):
+    """Multi-material color mode for lids and decorations."""
+
+    MMU = "mmu"
+    """Multi-material printing with discrete colored inserts."""
+    SINGLE = "single"
+    """Single material printing (engraved labels, through-hole cuts)."""
+

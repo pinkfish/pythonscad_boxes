@@ -5,7 +5,7 @@ from dataclasses import dataclass
 from typing import ClassVar
 
 from pyboxbuilder.builders._base import BoxBuilder
-from pyboxbuilder.enums import BoxType
+from pyboxbuilder.enums import BoxType, LatchAxis
 
 
 @dataclass(frozen=True)
@@ -27,6 +27,7 @@ class SnapFitBoxBuilder(BoxBuilder):
                 size=(70.0, 60.0, 30.0),
                 cantilever_thickness=1.6,
                 cantilever_width=14.0,
+                latch_axis=LatchAxis.X,
             )
             project.show(show_lids=True)
     """
@@ -40,5 +41,22 @@ class SnapFitBoxBuilder(BoxBuilder):
     """Horizontal deflection clearance in mm."""
     detent_height: float = 1.5
     """Height / protrusion of the retention detent in mm."""
-    latch_axis: str = "x"
-    """Axis on whose opposing walls the latches sit ('x' or 'y')."""
+    latch_axis: LatchAxis = LatchAxis.X
+    """Axis on whose opposing walls the latches sit (LatchAxis.X or LatchAxis.Y, FR-106)."""
+
+    def __post_init__(self) -> None:
+        """Coerce latch_axis string or validate enum instance."""
+        if isinstance(self.latch_axis, str):
+            try:
+                object.__setattr__(self, "latch_axis", LatchAxis(self.latch_axis.lower()))
+            except ValueError:
+                valid = [e.value for e in LatchAxis]
+                raise ValueError(
+                    f"Invalid latch_axis '{self.latch_axis}'. "
+                    f"Must be LatchAxis enum member: {valid}"
+                ) from None
+        elif not isinstance(self.latch_axis, LatchAxis):
+            raise TypeError(
+                f"latch_axis must be a LatchAxis enum, got {type(self.latch_axis).__name__}"
+            )
+

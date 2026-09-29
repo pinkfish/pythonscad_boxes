@@ -1342,6 +1342,17 @@ stop the class of mistake from being expressible.
 - [x] T455 [P] Add unit tests in `tests/test_pyboxbuilder/test_polygon_lid.py` validating polygon-following frame, center hole >= 10mm with pattern cutout, center hole < 10mm suppressed (solid polygon plate), and custom `min_hole_size_mm`.
 
 
+## Phase 54: Strict Python Enum Invariant for Categorical Options (FR-106)
+
+**Goal**: Strongly require Python `Enum` instances across all discrete categorical options (`DrawerHandleStyle`, `HingeCatchType`, `LatchAxis`, `ColorMode`, `CatchType`, `InterlockType`, `DispenserExtractionMode`, `StackableMode`, `MagnetType`, etc.), prohibiting raw strings as primary types while providing automatic case-insensitive string coercion and `GeometryValidator` invariant enforcement.
+
+- [x] T456 [P] Add `DrawerHandleStyle`, `HingeCatchType`, `LatchAxis`, and `ColorMode` to `pyboxbuilder/enums.py` and re-export in `pyboxbuilder/__init__.py`.
+- [x] T457 [P] Update `BoxSpec` / `ResolvedBoxSpec` in `pyboxbuilder/box/spec.py` to use `DrawerHandleStyle`, `HingeCatchType`, and `LatchAxis`, with case-insensitive string coercion and validation.
+- [x] T458 [P] Update `GeometryValidator` in `pyboxbuilder/box/validation.py` to validate enum invariants.
+- [x] T459 [P] Update builders (`SleeveDrawerBoxBuilder`, `SnapFitBoxBuilder`, `HingeBoxBuilder`, `FilamentHingeBoxBuilder`), box types (`sleeve_drawer.py`, `snap_fit.py`), and lid decoration (`decorate.py`, `builder.py`) to use the enums.
+- [x] T460 [P] Add unit tests in `tests/test_pyboxbuilder/test_enums.py` and `tests/test_pyboxbuilder/test_validation.py` asserting enum types, string coercion, and invalid value rejection.
+
+
 ## Notes
 
 

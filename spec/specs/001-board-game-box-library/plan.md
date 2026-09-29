@@ -2027,6 +2027,32 @@ The gravity dispenser tower architecture features an internal downward slide ram
    - `ARCH`: Open front archway (`arch_height`, default 0.65 * body_h) providing direct visual and manual access to the bottom tiles with an upper retaining lintel band.
 
 
+### Strict Python Enum Invariant for Categorical Options (FR-106, SC-106)
+
+1. **No Raw Strings for Categorical State**:
+   - All finite categorical configuration options across builders, specifications, and pipeline stages MUST be typed with and store explicit Python Enum members from `pyboxbuilder.enums`:
+     - `BoxType`
+     - `CatchType`
+     - `InterlockType`
+     - `LabelMode`
+     - `PatternType`
+     - `StackableMode`
+     - `MagnetType`
+     - `ScoopSide`
+     - `FingerCut`
+     - `ElementShape`
+     - `DispenserExtractionMode`
+     - `DrawerHandleStyle` (`HANDLE`, `LIP`, `NONE`)
+     - `HingeCatchType` (`RIDGE`, `BUMP`, `NONE`)
+     - `LatchAxis` (`X`, `Y`)
+     - `ColorMode` (`MMU`, `SINGLE`)
+   - Raw strings are prohibited as primary configuration types (with the explicit exception of `Color`, which represents color values).
+
+2. **Coercion & GeometryValidator Enforcement**:
+   - Builders and specification constructors accept Enum instances. For user convenience and backwards compatibility, case-insensitive string values are automatically coerced to their canonical Enum members. Invalid strings or non-enum types raise a descriptive `ValueError` or `TypeError`.
+   - `GeometryValidator._validate_enum_invariants` enforces that all resolved categorical options on `ResolvedBoxSpec` are strict instances of their corresponding Enum classes prior to CSG evaluation.
+
+
 ## Complexity Tracking
 
 > No violations.

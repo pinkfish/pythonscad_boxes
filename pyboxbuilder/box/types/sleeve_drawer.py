@@ -12,7 +12,7 @@ from pyboxbuilder.box.registry import register_box
 from pyboxbuilder.box.shell import block, body_rounding
 from pyboxbuilder.box.spec import BoxSpec
 from pyboxbuilder.builders.sleeve_drawer import SleeveDrawerBoxBuilder
-from pyboxbuilder.enums import BoxType
+from pyboxbuilder.enums import BoxType, DrawerHandleStyle
 from pyboxbuilder.precision import precision
 from pyboxbuilder.rounding import round_edges, vertical_edges
 
@@ -61,8 +61,10 @@ class SleeveDrawerBox(BoxTypeBase):
             if spec.drawer_handle_length is not None
             else spec.drawer_pull_lip
         )
-        style = (spec.drawer_handle_style or "handle").lower()
-        has_handle = handle_len > 0 and style != "none"
+        style = spec.drawer_handle_style
+        if isinstance(style, str):
+            style = DrawerHandleStyle(style.lower())
+        has_handle = handle_len > 0 and style != DrawerHandleStyle.NONE
         actual_handle_len = handle_len if has_handle else 0.0
 
         drawer_w = spec.width - 2 * (sw + slack)
@@ -101,7 +103,7 @@ class SleeveDrawerBox(BoxTypeBase):
             )
 
         if has_handle:
-            if style == "lip":
+            if style == DrawerHandleStyle.LIP:
                 lip_w = drawer_w * 0.7
                 lip_h = max(3.0, drawer_h * 0.3)
                 lip = cuboid(

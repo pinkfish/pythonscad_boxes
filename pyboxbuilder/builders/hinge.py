@@ -5,7 +5,7 @@ from dataclasses import dataclass
 from typing import ClassVar
 
 from pyboxbuilder.builders._base import BoxBuilder
-from pyboxbuilder.enums import BoxType
+from pyboxbuilder.enums import BoxType, HingeCatchType
 
 
 @dataclass(frozen=True)
@@ -20,6 +20,7 @@ class HingeBoxBuilder(BoxBuilder):
                 BoxType.HINGE,
                 "Chest",
                 size=(60.0, 50.0, 22.0),
+                hinge_catch_type=HingeCatchType.RIDGE,
                 lid=LidBuilder(text="SUPPLIES"),
             )
             project.show(show_lids=True)
@@ -30,5 +31,24 @@ class HingeBoxBuilder(BoxBuilder):
     """Knuckles across the hinge; ``None`` uses the geometry's own default."""
     hinge_pin_diameter: float | None = None
     """Pin stock diameter in mm; ``None`` uses the geometry's own default."""
-    hinge_catch_type: str = "ridge"
-    """Catch type for hinged boxes; 'ridge' or 'bump'."""
+    hinge_catch_type: HingeCatchType = HingeCatchType.RIDGE
+    """Catch type for hinged boxes (FR-106); HingeCatchType.RIDGE, BUMP, or NONE."""
+
+    def __post_init__(self) -> None:
+        """Coerce hinge_catch_type string or validate enum instance."""
+        if isinstance(self.hinge_catch_type, str):
+            try:
+                object.__setattr__(
+                    self, "hinge_catch_type", HingeCatchType(self.hinge_catch_type.lower())
+                )
+            except ValueError:
+                valid = [e.value for e in HingeCatchType]
+                raise ValueError(
+                    f"Invalid hinge_catch_type '{self.hinge_catch_type}'. "
+                    f"Must be HingeCatchType enum member: {valid}"
+                ) from None
+        elif not isinstance(self.hinge_catch_type, HingeCatchType):
+            raise TypeError(
+                f"hinge_catch_type must be a HingeCatchType enum, got {type(self.hinge_catch_type).__name__}"
+            )
+

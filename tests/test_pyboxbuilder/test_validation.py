@@ -70,6 +70,24 @@ class GeometryValidatorTests(unittest.TestCase):
             GeometryValidator.validate(spec)
         self.assertIn("catch_radius_fits_wall", str(ctx.exception))
 
+    def test_enum_invariants_strictly_validated(self) -> None:
+        spec = BoxSpec(width=50.0, length=50.0, height=20.0)
+        # Manually bypass __post_init__ to test GeometryValidator's defense in depth
+        object.__setattr__(spec, "latch_axis", "raw_string")
+        with self.assertRaises(GeometryValidationError) as ctx:
+            GeometryValidator.validate(spec)
+        self.assertIn("enum_invariant", str(ctx.exception))
+        self.assertIn("latch_axis", str(ctx.exception))
+
+        # Reset latch_axis and corrupt drawer_handle_style
+        from pyboxbuilder.enums import LatchAxis
+        object.__setattr__(spec, "latch_axis", LatchAxis.X)
+        object.__setattr__(spec, "drawer_handle_style", "raw_handle")
+        with self.assertRaises(GeometryValidationError) as ctx:
+            GeometryValidator.validate(spec)
+        self.assertIn("enum_invariant", str(ctx.exception))
+        self.assertIn("drawer_handle_style", str(ctx.exception))
+
 
 if __name__ == "__main__":
     unittest.main()

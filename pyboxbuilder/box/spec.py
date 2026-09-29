@@ -22,7 +22,10 @@ from typing import TYPE_CHECKING, Any
 from pyboxbuilder.enums import (
     CatchType,
     DispenserExtractionMode,
+    DrawerHandleStyle,
+    HingeCatchType,
     InterlockType,
+    LatchAxis,
     MagnetType,
     ScoopSide,
     StackableMode,
@@ -36,6 +39,67 @@ if TYPE_CHECKING:
 
 WIGGLE_MM = 0.2
 """Default clearance between two printed parts that have to fit together."""
+
+
+def _coerce_enum(val: Any, enum_cls: type[Any], name: str, allow_none: bool = False) -> Any:
+    """Coerce string or validate enum instance for a categorical configuration option (FR-106)."""
+    if val is None:
+        if allow_none:
+            return None
+        raise ValueError(f"{name} cannot be None; must be an instance of {enum_cls.__name__}.")
+    if isinstance(val, enum_cls):
+        return val
+    if isinstance(val, str):
+        try:
+            return enum_cls(val.lower())
+        except ValueError:
+            valid_vals = [e.value for e in enum_cls]
+            raise ValueError(
+                f"Invalid {name} '{val}'. Must be a {enum_cls.__name__} enum member: {valid_vals}"
+            ) from None
+    raise TypeError(
+        f"{name} must be a {enum_cls.__name__} enum, got {type(val).__name__}."
+    )
+
+
+def _coerce_box_spec_enums(spec: Any) -> None:
+    """Ensure all categorical options on a BoxSpec or ResolvedBoxSpec are canonical enums."""
+    if getattr(spec, "catch_type", None) is not None:
+        object.__setattr__(
+            spec, "catch_type", _coerce_enum(spec.catch_type, CatchType, "catch_type", allow_none=True)
+        )
+    if getattr(spec, "hinge_catch_type", None) is not None:
+        object.__setattr__(
+            spec,
+            "hinge_catch_type",
+            _coerce_enum(spec.hinge_catch_type, HingeCatchType, "hinge_catch_type", allow_none=True),
+        )
+    if getattr(spec, "interlock_type", None) is not None:
+        object.__setattr__(
+            spec,
+            "interlock_type",
+            _coerce_enum(spec.interlock_type, InterlockType, "interlock_type", allow_none=True),
+        )
+    if getattr(spec, "magnet_type", None) is not None:
+        object.__setattr__(
+            spec, "magnet_type", _coerce_enum(spec.magnet_type, MagnetType, "magnet_type", allow_none=True)
+        )
+    if getattr(spec, "stackable", None) is not None:
+        object.__setattr__(
+            spec, "stackable", _coerce_enum(spec.stackable, StackableMode, "stackable", allow_none=True)
+        )
+    if getattr(spec, "dispenser_mode", None) is not None:
+        object.__setattr__(
+            spec, "dispenser_mode", _coerce_enum(spec.dispenser_mode, DispenserExtractionMode, "dispenser_mode")
+        )
+    if getattr(spec, "drawer_handle_style", None) is not None:
+        object.__setattr__(
+            spec,
+            "drawer_handle_style",
+            _coerce_enum(spec.drawer_handle_style, DrawerHandleStyle, "drawer_handle_style"),
+        )
+    if getattr(spec, "latch_axis", None) is not None:
+        object.__setattr__(spec, "latch_axis", _coerce_enum(spec.latch_axis, LatchAxis, "latch_axis"))
 
 
 @dataclass(frozen=True)
@@ -176,8 +240,8 @@ class BoxSpec:
     """Diameter of the hinge pin, in mm."""
     filament_diameter: float = 1.75
     """Diameter of the filament a living hinge is printed around."""
-    hinge_catch_type: str | None = None
-    """Catch type for hinged boxes; 'ridge' or 'bump'."""
+    hinge_catch_type: HingeCatchType | None = None
+    """Catch type for hinged boxes (FR-106); HingeCatchType.RIDGE, HingeCatchType.BUMP, or HingeCatchType.NONE."""
 
     # ── Magnets (FR-039) ─────────────────────────────────────────────────
     magnet_type: MagnetType | None = None
@@ -221,7 +285,8 @@ class BoxSpec:
     cantilever_width: float = 12.0
     deflection_clearance: float = 0.3
     detent_height: float = 1.5
-    latch_axis: str = "x"
+    latch_axis: LatchAxis = LatchAxis.X
+    """Axis on whose opposing walls the latches sit (FR-081, FR-106)."""
 
     # Bayonet (FR-082)
     lug_count: int = 4
@@ -263,7 +328,7 @@ class BoxSpec:
 
     # Sleeve drawer (FR-087)
     push_hole_radius: float = 0.0
-    drawer_handle_style: str = "handle"
+    drawer_handle_style: DrawerHandleStyle = DrawerHandleStyle.HANDLE
     drawer_handle_length: float = 4.0
     drawer_pull_lip: float = 4.0
     sleeve_slack: float = 0.25
@@ -294,6 +359,10 @@ class BoxSpec:
     pip_snap_catch: bool = True
     pip_snap_width: float = 12.0
     pip_snap_diameter: float = 3.0
+
+    def __post_init__(self) -> None:
+        """Ensure all categorical options are canonical enums (FR-106)."""
+        _coerce_box_spec_enums(self)
 
     def interior(self) -> Interior:
         """Return the usable volume inside this box.
@@ -381,11 +450,11 @@ class BoxSpec:
             return CatchType.NONE
         if getattr(self, "pip_snap_catch", True) is False:
             return CatchType.NONE
-        if getattr(self, "hinge_catch_type", None) in ("none", "NONE"):
+        if self.hinge_catch_type == HingeCatchType.NONE or getattr(self, "hinge_catch_type", None) in ("none", "NONE"):
             return CatchType.NONE
-        if getattr(self, "hinge_catch_type", None) == "bump":
+        if self.hinge_catch_type == HingeCatchType.BUMP or getattr(self, "hinge_catch_type", None) == "bump":
             return CatchType.BUMP
-        if getattr(self, "hinge_catch_type", None) == "ridge":
+        if self.hinge_catch_type == HingeCatchType.RIDGE or getattr(self, "hinge_catch_type", None) == "ridge":
             return CatchType.WEDGE
         return default
 
@@ -480,7 +549,7 @@ class UnresolvedBoxSpec:
     hinge_count: int = 5
     hinge_pin_diameter: float = 3.0
     filament_diameter: float = 1.75
-    hinge_catch_type: str | None = None
+    hinge_catch_type: HingeCatchType | None = None
 
     # Magnets
     magnet_type: MagnetType | None = None
@@ -508,7 +577,7 @@ class UnresolvedBoxSpec:
     cantilever_width: float = 12.0
     deflection_clearance: float = 0.3
     detent_height: float = 1.5
-    latch_axis: str = "x"
+    latch_axis: LatchAxis = LatchAxis.X
 
     lug_count: int = 4
     turn_angle: float = 90.0
@@ -544,7 +613,7 @@ class UnresolvedBoxSpec:
     corner_deflectors: bool = True
 
     push_hole_radius: float = 0.0
-    drawer_handle_style: str = "handle"
+    drawer_handle_style: DrawerHandleStyle = DrawerHandleStyle.HANDLE
     drawer_handle_length: float = 4.0
     drawer_pull_lip: float = 4.0
     sleeve_slack: float = 0.25
@@ -571,6 +640,10 @@ class UnresolvedBoxSpec:
     pip_snap_catch: bool = True
     pip_snap_width: float = 12.0
     pip_snap_diameter: float = 3.0
+
+    def __post_init__(self) -> None:
+        """Ensure all categorical options are canonical enums (FR-106)."""
+        _coerce_box_spec_enums(self)
 
     def resolve(
         self,

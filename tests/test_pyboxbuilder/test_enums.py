@@ -7,8 +7,12 @@ from dataclasses import replace
 from pyboxbuilder.box.spec import BoxSpec
 from pyboxbuilder.enums import (
     BoxType,
+    ColorMode,
+    DrawerHandleStyle,
+    HingeCatchType,
     InterlockType,
     LabelMode,
+    LatchAxis,
     MagnetType,
     PatternType,
     ScoopSide,
@@ -128,3 +132,84 @@ class StackableAndMagnetEnumTests(unittest.TestCase):
         plain = repr(NoLidBox().build_body(base))
         explicit_none = repr(NoLidBox().build_body(replace(base, magnet_type=MagnetType.NONE)))
         self.assertEqual(plain, explicit_none)
+
+
+class CategoricalEnumTests(unittest.TestCase):
+    """FR-106: Tests for HingeCatchType, LatchAxis, DrawerHandleStyle, and ColorMode enums."""
+
+    def test_enum_members_and_values(self) -> None:
+        self.assertEqual({m.name for m in HingeCatchType}, {"RIDGE", "BUMP", "NONE"})
+        self.assertEqual(HingeCatchType.RIDGE.value, "ridge")
+        self.assertEqual(HingeCatchType.BUMP.value, "bump")
+        self.assertEqual(HingeCatchType.NONE.value, "none")
+
+        self.assertEqual({m.name for m in LatchAxis}, {"X", "Y"})
+        self.assertEqual(LatchAxis.X.value, "x")
+        self.assertEqual(LatchAxis.Y.value, "y")
+
+        self.assertEqual({m.name for m in DrawerHandleStyle}, {"HANDLE", "LIP", "NONE"})
+        self.assertEqual(DrawerHandleStyle.HANDLE.value, "handle")
+        self.assertEqual(DrawerHandleStyle.LIP.value, "lip")
+        self.assertEqual(DrawerHandleStyle.NONE.value, "none")
+
+        self.assertEqual({m.name for m in ColorMode}, {"MMU", "SINGLE"})
+        self.assertEqual(ColorMode.MMU.value, "mmu")
+        self.assertEqual(ColorMode.SINGLE.value, "single")
+
+    def test_box_spec_string_coercion(self) -> None:
+        spec = BoxSpec(
+            width=50,
+            length=50,
+            height=20,
+            hinge_catch_type="bump",
+            latch_axis="y",
+            drawer_handle_style="lip",
+        )
+        self.assertIs(spec.hinge_catch_type, HingeCatchType.BUMP)
+        self.assertIs(spec.latch_axis, LatchAxis.Y)
+        self.assertIs(spec.drawer_handle_style, DrawerHandleStyle.LIP)
+
+    def test_invalid_string_raises_value_error(self) -> None:
+        with self.assertRaises(ValueError) as ctx:
+            BoxSpec(width=50, length=50, height=20, latch_axis="z")
+        self.assertIn("latch_axis", str(ctx.exception))
+        self.assertIn("LatchAxis", str(ctx.exception))
+
+        with self.assertRaises(ValueError) as ctx:
+            BoxSpec(width=50, length=50, height=20, hinge_catch_type="magnetic")
+        self.assertIn("hinge_catch_type", str(ctx.exception))
+        self.assertIn("HingeCatchType", str(ctx.exception))
+
+        with self.assertRaises(ValueError) as ctx:
+            BoxSpec(width=50, length=50, height=20, drawer_handle_style="knob")
+        self.assertIn("drawer_handle_style", str(ctx.exception))
+        self.assertIn("DrawerHandleStyle", str(ctx.exception))
+
+    def test_non_string_non_enum_raises_type_error(self) -> None:
+        with self.assertRaises(TypeError) as ctx:
+            BoxSpec(width=50, length=50, height=20, latch_axis=123)  # type: ignore[arg-type]
+        self.assertIn("latch_axis", str(ctx.exception))
+
+        with self.assertRaises(TypeError) as ctx:
+            BoxSpec(width=50, length=50, height=20, hinge_catch_type=456)  # type: ignore[arg-type]
+        self.assertIn("hinge_catch_type", str(ctx.exception))
+
+    def test_color_mode_in_lid_builder_and_decorate(self) -> None:
+        from pybosl2.shapes3d import cube
+        from pyboxbuilder.lid.builder import LidBuilder
+        from pyboxbuilder.lid.decorate import decorate_lid
+
+        builder = LidBuilder(text="TEST", mmu_label=LidBuilder(text="MMU_LABEL"))
+        mmu_resolved = builder.for_mode(ColorMode.MMU)
+        self.assertEqual(mmu_resolved.text, "MMU_LABEL")
+
+        single_resolved = builder.for_mode(ColorMode.SINGLE)
+        self.assertEqual(single_resolved.text, "TEST")
+
+        lid_solid = cube([40, 40, 2])
+        dec_mmu = decorate_lid(lid_solid, builder, lid_thickness=2.0, mode=ColorMode.MMU)
+        self.assertIsNotNone(dec_mmu.solid)
+
+        dec_single = decorate_lid(lid_solid, builder, lid_thickness=2.0, mode=ColorMode.SINGLE)
+        self.assertIsNotNone(dec_single.solid)
+

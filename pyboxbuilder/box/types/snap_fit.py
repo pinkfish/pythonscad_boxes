@@ -11,7 +11,7 @@ from pyboxbuilder.box.registry import register_box
 from pyboxbuilder.box.shell import block, body_rounding, build_shell
 from pyboxbuilder.box.spec import BoxSpec
 from pyboxbuilder.builders.snap_fit import SnapFitBoxBuilder
-from pyboxbuilder.enums import BoxType
+from pyboxbuilder.enums import BoxType, LatchAxis
 from pyboxbuilder.rounding import round_edges, vertical_edges
 
 if TYPE_CHECKING:
@@ -63,7 +63,7 @@ class SnapFitBox(BoxTypeBase):
         pocket_z = max(body_h - 10.0, spec.floor_thickness + 2.0)
 
         # Latch arm and pocket cuts on opposing walls
-        if spec.latch_axis.lower() == "y":
+        if spec.latch_axis == LatchAxis.Y or getattr(spec.latch_axis, "value", spec.latch_axis) == "y":
             # Opposing Y walls (Y=0 and Y=length)
             x_c = spec.width / 2.0
             chan_neg = block(
@@ -244,7 +244,7 @@ class SnapFitBox(BoxTypeBase):
         pocket_z = max(body_h - 10.0, spec.floor_thickness + 2.0)
         pocket_h = max(4.0, d_h * 2.5)
 
-        if spec.latch_axis.lower() == "y":
+        if spec.latch_axis == LatchAxis.Y or getattr(spec.latch_axis, "value", spec.latch_axis) == "y":
             x_c = spec.width / 2.0
             arm_neg = block(
                 [c_w, c_t, arm_drop + lt],

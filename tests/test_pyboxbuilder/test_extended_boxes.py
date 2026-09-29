@@ -19,7 +19,7 @@ from pyboxbuilder.builders import (
     SnapFitBoxBuilder,
     ThreadedBoxBuilder,
 )
-from pyboxbuilder.enums import BoxType, DispenserExtractionMode, InterlockType
+from pyboxbuilder.enums import BoxType, DispenserExtractionMode, InterlockType, LatchAxis
 from pyboxbuilder.project import Project
 
 
@@ -43,7 +43,7 @@ class ExtendedBoxBuildersTests(unittest.TestCase):
         self.assertEqual(b.cantilever_width, 14.0)
         self.assertEqual(b.deflection_clearance, 0.35)
         self.assertEqual(b.detent_height, 1.6)
-        self.assertEqual(b.latch_axis, "y")
+        self.assertEqual(b.latch_axis, LatchAxis.Y)
 
     def test_bayonet_builder(self) -> None:
         p = Project("TestBayonet")
