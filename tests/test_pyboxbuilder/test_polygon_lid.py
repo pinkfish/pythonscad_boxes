@@ -107,12 +107,14 @@ class TestPolygonLid(unittest.TestCase):
         # Verify frame insert follows the perimeter of the polygon footprint
         frame_insert = [pp for pp in preview if pp.color == Color("silver")][0]
         fb = frame_insert.solid.bounds()
-        fcx = float(fb[0][0]) if not hasattr(fb, "center") else float(fb.center[0])
-        fcy = float(fb[0][1]) if not hasattr(fb, "center") else float(fb.center[1])
+        fcx = float(fb.center[0]) if hasattr(fb, "center") else float(fb[0][0])
+        fcy = float(fb.center[1]) if hasattr(fb, "center") else float(fb[0][1])
+        fsize_x = float(fb.size[0]) if hasattr(fb, "size") else float(fb[1][0])
+        fsize_y = float(fb.size[1]) if hasattr(fb, "size") else float(fb[1][1])
         self.assertAlmostEqual(fcx, 27.5, delta=1.0)
         self.assertAlmostEqual(fcy, 27.5, delta=1.0)
-        self.assertGreater(fb[1][0], 40.0)
-        self.assertGreater(fb[1][1], 40.0)
+        self.assertGreater(fsize_x, 40.0)
+        self.assertGreater(fsize_y, 40.0)
 
     def test_explicit_label_center_override(self) -> None:
         p = Project("CapPathCenterTest")

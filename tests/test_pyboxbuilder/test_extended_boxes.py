@@ -186,8 +186,8 @@ class ExtendedBoxBuildersTests(unittest.TestCase):
 
         # Drawer handle extends in -Y by 4mm
         b_box = drawer_piece.solid.bounds()
-        min_y = float(b_box[0][1]) if isinstance(b_box, tuple) else float(b_box.min[1])
-        self.assertAlmostEqual(min_y, 28.0, delta=1.5)  # in preview packed layout
+        center_y = float(b_box.center[1]) if hasattr(b_box, "center") else float(b_box[0][1])
+        self.assertAlmostEqual(center_y, 28.0, delta=1.5)  # in preview packed layout
 
         # Compare solid back sleeve vs pierced back sleeve
         p_hole = Project("MatchboxHoleTest")
