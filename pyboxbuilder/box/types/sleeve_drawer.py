@@ -55,12 +55,22 @@ class SleeveDrawerBox(BoxTypeBase):
         wt = spec.wall_thickness
         ft = spec.floor_thickness
 
+        # Front pull handle / lip
+        handle_len = (
+            spec.drawer_handle_length
+            if spec.drawer_handle_length is not None
+            else spec.drawer_pull_lip
+        )
+        style = (spec.drawer_handle_style or "handle").lower()
+        has_handle = handle_len > 0 and style != "none"
+        actual_handle_len = handle_len if has_handle else 0.0
+
         drawer_w = spec.width - 2 * (sw + slack)
-        drawer_l = max(10.0, spec.length - sw - slack)
+        drawer_l = max(10.0, spec.length - sw - slack - actual_handle_len)
         drawer_h = spec.height - 2 * (sw + slack)
 
         origin_x = sw + slack
-        origin_y = 0.0
+        origin_y = actual_handle_len
         origin_z = sw + slack
 
         # Outer drawer solid
@@ -90,25 +100,18 @@ class SleeveDrawerBox(BoxTypeBase):
                 at=(origin_x, origin_y, origin_z),
             )
 
-        # Front pull handle / lip
-        handle_len = (
-            spec.drawer_handle_length
-            if spec.drawer_handle_length is not None
-            else spec.drawer_pull_lip
-        )
-        style = (spec.drawer_handle_style or "handle").lower()
-        if handle_len > 0 and style != "none":
+        if has_handle:
             if style == "lip":
                 lip_w = drawer_w * 0.7
                 lip_h = max(3.0, drawer_h * 0.3)
                 lip = cuboid(
-                    [lip_w, handle_len, lip_h],
-                    rounding=min(1.5, handle_len / 2.0),
+                    [lip_w, actual_handle_len, lip_h],
+                    rounding=min(1.5, actual_handle_len / 2.0),
                     edges=vertical_edges(),
                     **precision().kwargs(),
                 ).translate([
                     spec.width / 2.0,
-                    origin_y - handle_len / 2.0,
+                    actual_handle_len / 2.0,
                     origin_z + drawer_h - lip_h / 2.0,
                 ])
                 drawer = drawer | lip
@@ -117,13 +120,13 @@ class SleeveDrawerBox(BoxTypeBase):
                 hw = min(22.0, drawer_w * 0.5)
                 hh = min(8.0, drawer_h * 0.4)
                 handle = cuboid(
-                    [hw, handle_len, hh],
-                    rounding=min(1.5, handle_len / 2.0),
+                    [hw, actual_handle_len, hh],
+                    rounding=min(1.5, actual_handle_len / 2.0),
                     edges=vertical_edges(),
                     **precision().kwargs(),
                 ).translate([
                     spec.width / 2.0,
-                    origin_y - handle_len / 2.0,
+                    actual_handle_len / 2.0,
                     origin_z + drawer_h / 2.0,
                 ])
                 drawer = drawer | handle

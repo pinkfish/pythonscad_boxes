@@ -1332,6 +1332,16 @@ stop the class of mistake from being expressible.
 - [x] T451 [P] Pre-generate and verify documentation binary STLs (`docs/_extra/_stl/*.stl`) for all documentation example snippets (including Matchbox `SleeveDrawerBox`).
 
 
+## Phase 53: Polygon Lid Perimeter Frame Label & Center Hole Control (FR-103)
+
+**Goal**: Support polygon-following label backing plates (`LabelMode.FRAMED`) on polygon footprint lids (`BoxType.CAP_PATH`, `BoxType.SLIPOVER_PATH`), creating a perimeter frame band with an inner center hole that exposes the lid surface and pattern, omitting the center hole when it is smaller than `min_hole_size_mm` (default 10.0mm).
+
+- [x] T452 [P] Update `LidBuilder` in `pyboxbuilder/lid/builder.py` with `min_hole_size_mm: float = 10.0`.
+- [x] T453 [P] Update `build_label` in `pyboxbuilder/lid/label.py` and `pyboxbuilder/lid/decorate.py` to support polygon footprint perimeter frames (`path`), inner hole extraction, and minimum size thresholding.
+- [x] T454 [P] Update pattern clipping and keepout interaction in `pyboxbuilder/lid/decorate.py` to allow patterns in the central opening when >= `min_hole_size_mm` and keep patterns out of the solid frame band.
+- [x] T455 [P] Add unit tests in `tests/test_pyboxbuilder/test_polygon_lid.py` validating polygon-following frame, center hole >= 10mm with pattern cutout, center hole < 10mm suppressed (solid polygon plate), and custom `min_hole_size_mm`.
+
+
 ## Notes
 
 

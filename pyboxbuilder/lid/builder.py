@@ -203,6 +203,11 @@ class LidBuilder:
     """Explicit ``(x, y, width, length)`` bounding box for the label in the lid's local frame.
 
     When ``None`` on a polygon lid, the largest inscribed rectangle is used."""
+    min_hole_size_mm: float = 10.0
+    """Minimum span (width/length in mm) for the central opening in a polygon lid frame.
+
+    If the inner opening in the middle is smaller than this value, it is omitted,
+    leaving the label plate continuous and solid."""
     mmu_label: LidBuilder | None = None
     """Fields to override for the multi-material export (see :meth:`for_mode`)."""
     single_label: LidBuilder | None = None

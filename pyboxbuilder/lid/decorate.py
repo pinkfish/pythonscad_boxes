@@ -160,6 +160,9 @@ def decorate_lid(
             center_x=center_x,
             center_y=center_y,
             border_margin_mm=margin_override,
+            path=path,
+            origin_x=origin_x,
+            origin_y=origin_y,
         )
         if resolved.text
         else None
@@ -236,9 +239,18 @@ def _build_label(
     center_x: float | None = None,
     center_y: float | None = None,
     border_margin_mm: float | None = None,
+    path: tuple[tuple[float, float], ...] | None = None,
+    origin_x: float = 0.0,
+    origin_y: float = 0.0,
 ) -> Label | None:
     """Build the label for this face, or ``None`` if it would be illegible."""
-    from pyboxbuilder.lid.label import build_label
+    from pyboxbuilder.lid.label import (
+        BACKING_HEIGHT_MM,
+        LABEL_BORDER_MM,
+        LABEL_TEXT_GAP_MM,
+        Label,
+        build_label,
+    )
 
     assert builder.text is not None
     # A frame is a colour feature: in one material there is nothing to
@@ -247,6 +259,81 @@ def _build_label(
     # clear of the face and engrave nothing at all.
     label_mode = builder.mode if mode != "single" else LabelMode.FRAMELESS
     margin = border_margin_mm if border_margin_mm is not None else builder.border_margin
+
+    if path is not None and len(path) >= 3 and builder.mode == LabelMode.FRAMED:
+        from pyboxbuilder.box.features import extrude_footprint, offset_footprint
+        from pyboxbuilder.paths import bounds, largest_inscribed_rectangle
+
+        # The label frame follows the inside of the polygon with edge offset (FR-103)
+        edge_offset = margin if margin is not None else 5.0
+        outer_path = offset_footprint(path, edge_offset)
+        if len(outer_path) < 3:
+            return None
+
+        (ox_min, oy_min), (ox_max, oy_max) = bounds(outer_path)
+        if ox_max <= ox_min or oy_max <= oy_min:
+            return None
+
+        border = builder.label_border_mm if builder.label_border_mm is not None else LABEL_BORDER_MM
+        gap = builder.label_text_gap_mm if builder.label_text_gap_mm is not None else LABEL_TEXT_GAP_MM
+        frame_width = border + gap
+        inner_path = offset_footprint(outer_path, frame_width)
+
+        min_hole_size = builder.min_hole_size_mm if builder.min_hole_size_mm is not None else 10.0
+        has_center_hole = False
+        if len(inner_path) >= 3:
+            (ix_min, iy_min), (ix_max, iy_max) = bounds(inner_path)
+            iw, il = max(0.0, ix_max - ix_min), max(0.0, iy_max - iy_min)
+            rx, ry, rw, rl = largest_inscribed_rectangle(inner_path)
+            # Center hole must be large enough across both dimensions
+            if iw >= min_hole_size and il >= min_hole_size and min(rw, rl) >= min_hole_size:
+                has_center_hole = True
+
+        outer_local = tuple((float(x - origin_x), float(y - origin_y)) for x, y in outer_path)
+        inner_local = tuple((float(x - origin_x), float(y - origin_y)) for x, y in inner_path)
+
+        outer_solid = extrude_footprint(outer_local, BACKING_HEIGHT_MM, 0.0)
+        if has_center_hole:
+            inner_solid = extrude_footprint(inner_local, BACKING_HEIGHT_MM + 2.0, -1.0)
+            plate = outer_solid - inner_solid
+        else:
+            plate = outer_solid
+
+        # Sizing and centering of text
+        if center_x is not None and center_y is not None:
+            tx, ty = center_x, center_y
+            target_w, target_l = width, length
+        else:
+            search_path = inner_path if has_center_hole else outer_path
+            rx, ry, rw, rl = largest_inscribed_rectangle(search_path)
+            if rw > 0 and rl > 0:
+                tx = (rx + rw / 2) - origin_x
+                ty = (ry + rl / 2) - origin_y
+                target_w, target_l = rw, rl
+            else:
+                tx, ty = width / 2, length / 2
+                target_w, target_l = width, length
+
+        lbl_text = build_label(
+            width=target_w,
+            length=target_l,
+            thickness=0.0,
+            text=builder.text,
+            label_mode=LabelMode.FRAMELESS,
+            diagonal=builder.is_diagonal,
+            min_text_height_mm=builder.min_text_height,
+            border_margin_mm=0.0,
+            center_x=tx,
+            center_y=ty,
+        )
+        if lbl_text is None:
+            return None
+
+        if mode == "single":
+            return Label(text=lbl_text.text, hatching=None, plate=plate)
+
+        hatching = plate - lbl_text.text
+        return Label(text=lbl_text.text, hatching=hatching, plate=plate)
 
     return build_label(
         width=width,
@@ -374,10 +461,15 @@ def _label_keepout(label: Label | None, depth: float, clearance: float = LABEL_C
     if label is None:
         return None
 
-    # A framed label's plate really is a rectangle, and it already stands off
-    # the text by its own padding, so it is its own keep-out.
+    # A framed label's plate stands off the pattern by its boundary, and if the
+    # plate has an inner opening (on polygon lids), the text inside must also be kept clear.
     if label.plate is not None:
-        return _as_depth(label.plate, depth)
+        plate_keepout = _as_depth(label.plate, depth)
+        text_solid = label.text
+        if clearance > 0:
+            text_solid = _grown(text_solid, clearance)
+        text_keepout = _as_depth(text_solid, depth)
+        return plate_keepout | text_keepout
 
     if clearance <= 0:
         # The glyphs themselves: the holes stop where the letters do.

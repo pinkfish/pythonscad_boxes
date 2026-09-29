@@ -1955,18 +1955,28 @@ The horizontal interlocking architecture enables side-by-side modular coupling a
 
 The polygon lid architecture extends framed labeling and through-hole surface patterns to arbitrary 2D polygon footprints (`BoxType.CAP_PATH`, `BoxType.SLIPOVER_PATH`):
 
-1. **Maximal Inscribed Rectangle Algorithm (`pyboxbuilder/paths.py`)**:
+1. **Polygon-Conforming Label Backing Frame & Center Hole Control (`pyboxbuilder/lid/decorate.py`, `pyboxbuilder/lid/label.py`)**:
+   - For polygon lids (`BoxType.CAP_PATH`, `BoxType.SLIPOVER_PATH`), a framed label (`LabelMode.FRAMED`) constructs its backing plate to follow the inside contour of the polygon footprint rather than generating a small rectangular plaque:
+     - `outer_path = offset_footprint(path, -edge_offset)` where `edge_offset = builder.border_margin_mm or 5.0mm`.
+     - `frame_width = (builder.label_border_mm or 1.5) + (builder.label_text_gap_mm or 0.5)`.
+     - `inner_path = offset_footprint(outer_path, -frame_width)`.
+   - **Center Hole Minimum Size Threshold (`min_hole_size_mm`)**:
+     - `min_hole_size_mm` defaults to `10.0mm` in `LidBuilder`.
+     - If the inner hole in the middle measures $< \text{min\_hole\_size\_mm}$ across either dimension (width or length < `min_hole_size_mm`, or `len(inner_path) < 3`), the inner hole is omitted ("doesn't include that piece"). The label backing plate remains a solid polygon plate.
+     - If the inner hole $\ge \text{min\_hole\_size\_mm}$, an inner opening is cut into the backing plate: `plate = extrude(outer_path) - extrude(inner_path)`. The center hole exposes the lid top surface, allowing through-hole patterns (`PatternBuilder`) to cut through the central opening while remaining kept out of the solid perimeter frame band.
+
+2. **Maximal Inscribed Rectangle Algorithm (`pyboxbuilder/paths.py`)**:
    - `point_in_polygon(x, y, poly)` implements ray casting to verify boundary containment.
    - `largest_inscribed_rectangle(path)`:
      - For rectilinear polygons (e.g., L-shaped, T-shaped, U-shaped trays), performs an exact coordinate-grid decomposition over unique X and Y vertex coordinates, finding the largest axis-aligned bounding box inside the interior in $< 1$ ms.
      - For arbitrary/regular polygons (e.g. hexagons, octagons, triangles), samples a 2D regular grid and applies a maximal rectangle histogram stack algorithm.
-   - Automatically centers the label, hatching recess, and backing plate inside this largest interior region (e.g., inside the 55x25mm arm of an L-shape rather than at the bounding box centroid which falls in empty space).
+   - When text coordinates are not explicitly specified, centers the label text inside this largest interior region.
 
-2. **Explicit Placement Control (`pyboxbuilder/lid/builder.py`, `pyboxbuilder/lid/label.py`)**:
+3. **Explicit Placement Control (`pyboxbuilder/lid/builder.py`, `pyboxbuilder/lid/label.py`)**:
    - `LidBuilder` provides `label_center: tuple[float, float] | None` and `label_area: tuple[float, float, float, float] | None` to explicitly place or size the label within designated polygon lobes.
    - Defaults to automated largest inscribed rectangle placement when left unspecified (`None`).
 
-3. **Perimeter-Conforming Pattern Clipping (`pyboxbuilder/lid/decorate.py`)**:
+4. **Perimeter-Conforming Pattern Clipping (`pyboxbuilder/lid/decorate.py`)**:
    - Through-hole lattices (`PatternType.HEX`, `SQUARE`, `VORONOI`, etc.) on polygon lids are clipped against `offset_footprint(path, pattern.border_width)` rather than an enclosing rectangle.
    - Guarantees pattern cutouts track the polygon contour, preserving a solid perimeter border and preventing cuts into the outer skirt walls.
 
