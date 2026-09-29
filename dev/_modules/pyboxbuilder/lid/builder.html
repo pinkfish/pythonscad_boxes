@@ -646,6 +646,11 @@
 <span class="w">    </span><span class="sd">"""Explicit ``(x, y, width, length)`` bounding box for the label in the lid's local frame.</span>
 
 <span class="sd">    When ``None`` on a polygon lid, the largest inscribed rectangle is used."""</span>
+    <span class="n">min_hole_size_mm</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">10.0</span>
+<span class="w">    </span><span class="sd">"""Minimum span (width/length in mm) for the central opening in a polygon lid frame.</span>
+
+<span class="sd">    If the inner opening in the middle is smaller than this value, it is omitted,</span>
+<span class="sd">    leaving the label plate continuous and solid."""</span>
     <span class="n">mmu_label</span><span class="p">:</span> <span class="n">LidBuilder</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="w">    </span><span class="sd">"""Fields to override for the multi-material export (see :meth:`for_mode`)."""</span>
     <span class="n">single_label</span><span class="p">:</span> <span class="n">LidBuilder</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>

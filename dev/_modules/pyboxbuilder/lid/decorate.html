@@ -606,6 +606,9 @@
             <span class="n">center_x</span><span class="o">=</span><span class="n">center_x</span><span class="p">,</span>
             <span class="n">center_y</span><span class="o">=</span><span class="n">center_y</span><span class="p">,</span>
             <span class="n">border_margin_mm</span><span class="o">=</span><span class="n">margin_override</span><span class="p">,</span>
+            <span class="n">path</span><span class="o">=</span><span class="n">path</span><span class="p">,</span>
+            <span class="n">origin_x</span><span class="o">=</span><span class="n">origin_x</span><span class="p">,</span>
+            <span class="n">origin_y</span><span class="o">=</span><span class="n">origin_y</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="k">if</span> <span class="n">resolved</span><span class="o">.</span><span class="n">text</span>
         <span class="k">else</span> <span class="kc">None</span>
@@ -683,9 +686,18 @@
     <span class="n">center_x</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">center_y</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">border_margin_mm</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">path</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="o">...</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">origin_x</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+    <span class="n">origin_y</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Label</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Build the label for this face, or ``None`` if it would be illegible."""</span>
-    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.lid.label</span><span class="w"> </span><span class="kn">import</span> <span class="n">build_label</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.lid.label</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+        <span class="n">BACKING_HEIGHT_MM</span><span class="p">,</span>
+        <span class="n">LABEL_BORDER_MM</span><span class="p">,</span>
+        <span class="n">LABEL_TEXT_GAP_MM</span><span class="p">,</span>
+        <span class="n">Label</span><span class="p">,</span>
+        <span class="n">build_label</span><span class="p">,</span>
+    <span class="p">)</span>
 
     <span class="k">assert</span> <span class="n">builder</span><span class="o">.</span><span class="n">text</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
     <span class="c1"># A frame is a colour feature: in one material there is nothing to</span>
@@ -694,6 +706,81 @@
     <span class="c1"># clear of the face and engrave nothing at all.</span>
     <span class="n">label_mode</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">mode</span> <span class="k">if</span> <span class="n">mode</span> <span class="o">!=</span> <span class="s2">"single"</span> <span class="k">else</span> <span class="n">LabelMode</span><span class="o">.</span><span class="n">FRAMELESS</span>
     <span class="n">margin</span> <span class="o">=</span> <span class="n">border_margin_mm</span> <span class="k">if</span> <span class="n">border_margin_mm</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">builder</span><span class="o">.</span><span class="n">border_margin</span>
+
+    <span class="k">if</span> <span class="n">path</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">3</span> <span class="ow">and</span> <span class="n">builder</span><span class="o">.</span><span class="n">mode</span> <span class="o">==</span> <span class="n">LabelMode</span><span class="o">.</span><span class="n">FRAMED</span><span class="p">:</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.features</span><span class="w"> </span><span class="kn">import</span> <span class="n">extrude_footprint</span><span class="p">,</span> <span class="n">offset_footprint</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.paths</span><span class="w"> </span><span class="kn">import</span> <span class="n">bounds</span><span class="p">,</span> <span class="n">largest_inscribed_rectangle</span>
+
+        <span class="c1"># The label frame follows the inside of the polygon with edge offset (FR-103)</span>
+        <span class="n">edge_offset</span> <span class="o">=</span> <span class="n">margin</span> <span class="k">if</span> <span class="n">margin</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="mf">5.0</span>
+        <span class="n">outer_path</span> <span class="o">=</span> <span class="n">offset_footprint</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">edge_offset</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">outer_path</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="p">(</span><span class="n">ox_min</span><span class="p">,</span> <span class="n">oy_min</span><span class="p">),</span> <span class="p">(</span><span class="n">ox_max</span><span class="p">,</span> <span class="n">oy_max</span><span class="p">)</span> <span class="o">=</span> <span class="n">bounds</span><span class="p">(</span><span class="n">outer_path</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">ox_max</span> <span class="o">&lt;=</span> <span class="n">ox_min</span> <span class="ow">or</span> <span class="n">oy_max</span> <span class="o">&lt;=</span> <span class="n">oy_min</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="n">border</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">label_border_mm</span> <span class="k">if</span> <span class="n">builder</span><span class="o">.</span><span class="n">label_border_mm</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">LABEL_BORDER_MM</span>
+        <span class="n">gap</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">label_text_gap_mm</span> <span class="k">if</span> <span class="n">builder</span><span class="o">.</span><span class="n">label_text_gap_mm</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">LABEL_TEXT_GAP_MM</span>
+        <span class="n">frame_width</span> <span class="o">=</span> <span class="n">border</span> <span class="o">+</span> <span class="n">gap</span>
+        <span class="n">inner_path</span> <span class="o">=</span> <span class="n">offset_footprint</span><span class="p">(</span><span class="n">outer_path</span><span class="p">,</span> <span class="n">frame_width</span><span class="p">)</span>
+
+        <span class="n">min_hole_size</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">min_hole_size_mm</span> <span class="k">if</span> <span class="n">builder</span><span class="o">.</span><span class="n">min_hole_size_mm</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="mf">10.0</span>
+        <span class="n">has_center_hole</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">inner_path</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="p">(</span><span class="n">ix_min</span><span class="p">,</span> <span class="n">iy_min</span><span class="p">),</span> <span class="p">(</span><span class="n">ix_max</span><span class="p">,</span> <span class="n">iy_max</span><span class="p">)</span> <span class="o">=</span> <span class="n">bounds</span><span class="p">(</span><span class="n">inner_path</span><span class="p">)</span>
+            <span class="n">iw</span><span class="p">,</span> <span class="n">il</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">ix_max</span> <span class="o">-</span> <span class="n">ix_min</span><span class="p">),</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">iy_max</span> <span class="o">-</span> <span class="n">iy_min</span><span class="p">)</span>
+            <span class="n">rx</span><span class="p">,</span> <span class="n">ry</span><span class="p">,</span> <span class="n">rw</span><span class="p">,</span> <span class="n">rl</span> <span class="o">=</span> <span class="n">largest_inscribed_rectangle</span><span class="p">(</span><span class="n">inner_path</span><span class="p">)</span>
+            <span class="c1"># Center hole must be large enough across both dimensions</span>
+            <span class="k">if</span> <span class="n">iw</span> <span class="o">&gt;=</span> <span class="n">min_hole_size</span> <span class="ow">and</span> <span class="n">il</span> <span class="o">&gt;=</span> <span class="n">min_hole_size</span> <span class="ow">and</span> <span class="nb">min</span><span class="p">(</span><span class="n">rw</span><span class="p">,</span> <span class="n">rl</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">min_hole_size</span><span class="p">:</span>
+                <span class="n">has_center_hole</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="n">outer_local</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">((</span><span class="nb">float</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">origin_x</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="n">y</span> <span class="o">-</span> <span class="n">origin_y</span><span class="p">))</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">outer_path</span><span class="p">)</span>
+        <span class="n">inner_local</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">((</span><span class="nb">float</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">origin_x</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="n">y</span> <span class="o">-</span> <span class="n">origin_y</span><span class="p">))</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">inner_path</span><span class="p">)</span>
+
+        <span class="n">outer_solid</span> <span class="o">=</span> <span class="n">extrude_footprint</span><span class="p">(</span><span class="n">outer_local</span><span class="p">,</span> <span class="n">BACKING_HEIGHT_MM</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">has_center_hole</span><span class="p">:</span>
+            <span class="n">inner_solid</span> <span class="o">=</span> <span class="n">extrude_footprint</span><span class="p">(</span><span class="n">inner_local</span><span class="p">,</span> <span class="n">BACKING_HEIGHT_MM</span> <span class="o">+</span> <span class="mf">2.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">)</span>
+            <span class="n">plate</span> <span class="o">=</span> <span class="n">outer_solid</span> <span class="o">-</span> <span class="n">inner_solid</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">plate</span> <span class="o">=</span> <span class="n">outer_solid</span>
+
+        <span class="c1"># Sizing and centering of text</span>
+        <span class="k">if</span> <span class="n">center_x</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">center_y</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">tx</span><span class="p">,</span> <span class="n">ty</span> <span class="o">=</span> <span class="n">center_x</span><span class="p">,</span> <span class="n">center_y</span>
+            <span class="n">target_w</span><span class="p">,</span> <span class="n">target_l</span> <span class="o">=</span> <span class="n">width</span><span class="p">,</span> <span class="n">length</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">search_path</span> <span class="o">=</span> <span class="n">inner_path</span> <span class="k">if</span> <span class="n">has_center_hole</span> <span class="k">else</span> <span class="n">outer_path</span>
+            <span class="n">rx</span><span class="p">,</span> <span class="n">ry</span><span class="p">,</span> <span class="n">rw</span><span class="p">,</span> <span class="n">rl</span> <span class="o">=</span> <span class="n">largest_inscribed_rectangle</span><span class="p">(</span><span class="n">search_path</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">rw</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">rl</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">tx</span> <span class="o">=</span> <span class="p">(</span><span class="n">rx</span> <span class="o">+</span> <span class="n">rw</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="n">origin_x</span>
+                <span class="n">ty</span> <span class="o">=</span> <span class="p">(</span><span class="n">ry</span> <span class="o">+</span> <span class="n">rl</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="n">origin_y</span>
+                <span class="n">target_w</span><span class="p">,</span> <span class="n">target_l</span> <span class="o">=</span> <span class="n">rw</span><span class="p">,</span> <span class="n">rl</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">tx</span><span class="p">,</span> <span class="n">ty</span> <span class="o">=</span> <span class="n">width</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">length</span> <span class="o">/</span> <span class="mi">2</span>
+                <span class="n">target_w</span><span class="p">,</span> <span class="n">target_l</span> <span class="o">=</span> <span class="n">width</span><span class="p">,</span> <span class="n">length</span>
+
+        <span class="n">lbl_text</span> <span class="o">=</span> <span class="n">build_label</span><span class="p">(</span>
+            <span class="n">width</span><span class="o">=</span><span class="n">target_w</span><span class="p">,</span>
+            <span class="n">length</span><span class="o">=</span><span class="n">target_l</span><span class="p">,</span>
+            <span class="n">thickness</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+            <span class="n">text</span><span class="o">=</span><span class="n">builder</span><span class="o">.</span><span class="n">text</span><span class="p">,</span>
+            <span class="n">label_mode</span><span class="o">=</span><span class="n">LabelMode</span><span class="o">.</span><span class="n">FRAMELESS</span><span class="p">,</span>
+            <span class="n">diagonal</span><span class="o">=</span><span class="n">builder</span><span class="o">.</span><span class="n">is_diagonal</span><span class="p">,</span>
+            <span class="n">min_text_height_mm</span><span class="o">=</span><span class="n">builder</span><span class="o">.</span><span class="n">min_text_height</span><span class="p">,</span>
+            <span class="n">border_margin_mm</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+            <span class="n">center_x</span><span class="o">=</span><span class="n">tx</span><span class="p">,</span>
+            <span class="n">center_y</span><span class="o">=</span><span class="n">ty</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">lbl_text</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="k">if</span> <span class="n">mode</span> <span class="o">==</span> <span class="s2">"single"</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">Label</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="n">lbl_text</span><span class="o">.</span><span class="n">text</span><span class="p">,</span> <span class="n">hatching</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">plate</span><span class="o">=</span><span class="n">plate</span><span class="p">)</span>
+
+        <span class="n">hatching</span> <span class="o">=</span> <span class="n">plate</span> <span class="o">-</span> <span class="n">lbl_text</span><span class="o">.</span><span class="n">text</span>
+        <span class="k">return</span> <span class="n">Label</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="n">lbl_text</span><span class="o">.</span><span class="n">text</span><span class="p">,</span> <span class="n">hatching</span><span class="o">=</span><span class="n">hatching</span><span class="p">,</span> <span class="n">plate</span><span class="o">=</span><span class="n">plate</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">build_label</span><span class="p">(</span>
         <span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span>
@@ -821,10 +908,15 @@
     <span class="k">if</span> <span class="n">label</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">None</span>
 
-    <span class="c1"># A framed label's plate really is a rectangle, and it already stands off</span>
-    <span class="c1"># the text by its own padding, so it is its own keep-out.</span>
+    <span class="c1"># A framed label's plate stands off the pattern by its boundary, and if the</span>
+    <span class="c1"># plate has an inner opening (on polygon lids), the text inside must also be kept clear.</span>
     <span class="k">if</span> <span class="n">label</span><span class="o">.</span><span class="n">plate</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">_as_depth</span><span class="p">(</span><span class="n">label</span><span class="o">.</span><span class="n">plate</span><span class="p">,</span> <span class="n">depth</span><span class="p">)</span>
+        <span class="n">plate_keepout</span> <span class="o">=</span> <span class="n">_as_depth</span><span class="p">(</span><span class="n">label</span><span class="o">.</span><span class="n">plate</span><span class="p">,</span> <span class="n">depth</span><span class="p">)</span>
+        <span class="n">text_solid</span> <span class="o">=</span> <span class="n">label</span><span class="o">.</span><span class="n">text</span>
+        <span class="k">if</span> <span class="n">clearance</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">text_solid</span> <span class="o">=</span> <span class="n">_grown</span><span class="p">(</span><span class="n">text_solid</span><span class="p">,</span> <span class="n">clearance</span><span class="p">)</span>
+        <span class="n">text_keepout</span> <span class="o">=</span> <span class="n">_as_depth</span><span class="p">(</span><span class="n">text_solid</span><span class="p">,</span> <span class="n">depth</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">plate_keepout</span> <span class="o">|</span> <span class="n">text_keepout</span>
 
     <span class="k">if</span> <span class="n">clearance</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
         <span class="c1"># The glyphs themselves: the holes stop where the letters do.</span>
