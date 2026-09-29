@@ -958,6 +958,10 @@ The project architecture undergoes structural hardening to eliminate God-objects
 - **SC-105**: For filament-hinged and print-in-place hinged boxes:
   1. `BoxType.FILAMENT_HINGE` knuckles contain zero horizontal parting slice voids through the knuckle center, and the closed box has zero CSG collision volume (`< 0.05mm³`).
   2. `BoxType.PRINT_IN_PLACE_HINGE` base tray and lid tray each have height `half_h = spec.height / 2.0`, `interior.height == half_h - floor_thickness`, the hinge knuckles and snap catches sit at `z = half_h`, and self-supporting 45° chamfers connect the hinge arms to the back walls.
+- **SC-106**: For categorical option enums:
+  1. All discrete categorical options (`HingeCatchType`, `LatchAxis`, `DrawerHandleStyle`, `ColorMode`, `CatchType`, `InterlockType`, `DispenserExtractionMode`, `StackableMode`, `MagnetType`, `ScoopSide`, `FingerCut`, `ElementShape`, `BoxType`, `LabelMode`, `PatternType`) are Python `Enum` instances.
+  2. Specification constructors and builders coerce case-insensitive string names to canonical enum members, rejecting invalid strings with informative `ValueError`s indicating the enum and valid choices, and rejecting invalid types with `TypeError`.
+  3. `GeometryValidator.validate(spec)` strictly verifies that all categorical fields on `ResolvedBoxSpec` are instances of their corresponding `Enum` types.
 
 
 

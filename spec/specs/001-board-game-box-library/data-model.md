@@ -51,10 +51,20 @@ Project.export() / Project.show()
 | Enum | Members | Purpose |
 |------|---------|---------|
 | `BoxType` | SLIDING, SLIDING_CATCH, CAP, SLIPOVER, INSET, SLEEVE_DRAWER, PRINT_IN_PLACE_HINGE, CLAMSHELL, HINGE, FILAMENT_HINGE, SNAP_FIT, BAYONET, THREADED, MAGNETIC, DISPENSER, CARD_SHOE, DICE_TRAY, MODULAR_INTERLOCK, NO_LID, CARD_LIBRARY, PATH, CAP_PATH, SLIPOVER_PATH | Box closure mechanism selection (23 types) |
+| `CatchType` | NONE, BUMP, LOOP, WEDGE, MAGNET, LEAF_SPRING | Lid retention catch mechanism |
+| `InterlockType` | NONE, DOVETAIL, MAGNET, CLIP, GRIDFINITY | Horizontal interlock joint type |
 | `LabelMode` | FRAMED, FRAMELESS | Label decoration style |
-| `PatternType` | NONE, SQUARE, CIRCLE, HEX, DENSE_HEX, TRIANGLE, DENSE_TRIANGLE, OCTAGON, VORONOI, LEAF, LEAF_TESSELLATION, LEAF_VEINS | Lid through-hole surface patterns |
+| `PatternType` | NONE, SQUARE, CIRCLE, HEX, DENSE_HEX, TRIANGLE, DENSE_TRIANGLE, OCTAGON, VORONOI, LEAF, LEAF_TESSELLATION, LEAF_VEINS, DICE, RING, CHECKER | Lid through-hole surface patterns |
+| `StackableMode` | FEET, INDENTS, PERIMETER, INSIDE, OUTSIDE | Stacking rim and foot alignment mode |
+| `MagnetType` | NONE, ROUND, RECT | Magnet cavity shape |
 | `ScoopSide` | FRONT, BACK, LEFT, RIGHT | Finger scoop placement |
 | `FingerCut` | THROUGH_FLOOR, SCOOP, U_SHAPED | Which cut empties a compartment (FR-060) |
+| `ElementShape` | RECT, CYLINDER, POLYGON | Compartment cutout profile shape |
+| `DispenserExtractionMode` | SCOOP, TRAY, REAR_PUSH, ARCH | Gravity dispenser bottom tile extraction mode |
+| `DrawerHandleStyle` | HANDLE, LIP, NONE | Matchbox sleeve drawer front handle style |
+| `HingeCatchType` | RIDGE, BUMP, NONE | Knuckle and pin hinge catch retention style |
+| `LatchAxis` | X, Y | Cantilever snap-fit latch arm orientation axis |
+| `ColorMode` | MMU, SINGLE | Multi-material vs single-color export mode |
 
 ## Color (`pybosl2.Color`, re-exported from `pyboxbuilder`)
 
@@ -90,14 +100,16 @@ Use `pybosl2.Color` directly — no custom Color class. Supports webcolor names 
 | `expandable_width` | `bool` | True |
 | `expandable_length` | `bool` | True |
 | `no_rotate` | `bool` | False (prevents 3D packer from rotating the box; FR-013c) |
-| `stackable` | `str \| None` | None ('inside' or 'outside' for no-lid boxes; FR-038) |
+| `stackable` | `StackableMode \| None` | None (stacking mode; FR-038, FR-101) |
 | `stackable_thickness` | `float \| None` | None (interlocking rim thickness) |
-| `magnet_type` | `str \| None` | None ('round' or 'rect'; FR-039) |
+| `magnet_type` | `MagnetType \| None` | None (:attr:`MagnetType.ROUND` or :attr:`MagnetType.RECT`; FR-039) |
 | `magnet_size` | `tuple[float, float, float] \| None` | None (magnet slot dimensions) |
 | `wall_thickness` | `float \| None` | None (project default) |
 | `floor_thickness` | `float \| None` | None |
 | `lid_thickness` | `float \| None` | None |
 | `lid` | `LidBuilder \| None` | None |
+| `catch_type` | `CatchType \| None` | None (:attr:`CatchType.NONE`, :attr:`CatchType.BUMP`, :attr:`CatchType.LOOP`, :attr:`CatchType.WEDGE`, :attr:`CatchType.MAGNET`, :attr:`CatchType.LEAF_SPRING`; FR-099) |
+| `interlock_type` | `InterlockType \| None` | None (:attr:`InterlockType.DOVETAIL`, :attr:`InterlockType.MAGNET`, :attr:`InterlockType.CLIP`; FR-102) |
 | `finger_holes` | `tuple[FingerHoleBuilder, ...]` | () |
 | `auto_finger_holes` | `bool` | True (a no-lid box's default pair; FR-047b) |
 | `compartments` | `tuple[CompartmentBuilder, ...]` | () |

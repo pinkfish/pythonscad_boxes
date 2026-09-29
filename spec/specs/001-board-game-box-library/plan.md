@@ -1790,6 +1790,7 @@ Where each requirement is designed, and where it is verified. Sections named bel
 | FR-103 | Polygon Footprint Lid Labeling & Pattern Clipping | `pyboxbuilder/paths.py`, `pyboxbuilder/lid/builder.py`, `pyboxbuilder/lid/label.py`, `pyboxbuilder/lid/decorate.py`, `pyboxbuilder/project/pipeline.py` |
 | FR-104 | Bottom-Aligned Finger Grip Notches for Rectangular & Polygon Slipover Sleeves | `pyboxbuilder/paths.py`, `pyboxbuilder/box/types/slipover.py`, `pyboxbuilder/box/types/slipover_path.py` |
 | FR-105 | Solid-Knuckle Filament Hinge & Rim-Level 50/50 Split Print-in-Place Hinge Architecture | `pyboxbuilder/box/features.py`, `pyboxbuilder/box/types/pip_hinge.py`, `pyboxbuilder/box/types/hinge.py`, `pyboxbuilder/box/types/filament_hinge.py` |
+| FR-106 | Strict Python Enum Invariant for Categorical Options | `pyboxbuilder/enums.py`, `pyboxbuilder/box/spec.py`, `pyboxbuilder/box/validation.py`, `pyboxbuilder/builders/*` |
 
 | SC | Verified by |
 |---|---|
@@ -1798,6 +1799,7 @@ Where each requirement is designed, and where it is verified. Sections named bel
 | SC-103 | `tests/test_pyboxbuilder/test_polygon_lid.py` — largest inscribed rectangle placement inside polygon interior arms and perimeter-conforming pattern clipping |
 | SC-104 | `tests/test_pyboxbuilder/test_closures.py` (`SlipoverFingerNotchTests`), `tests/test_pyboxbuilder/test_slipover_polygon.py` — bottom-rim finger notch alignment and opposite convex corner selection |
 | SC-105 | `tests/test_pyboxbuilder/test_extended_boxes.py` (`test_pip_hinge_split_halfway`), `tests/test_pyboxbuilder/test_closures.py` — solid filament hinge knuckle integrity and 50/50 PIP hinge split with rim-level knuckles |
+| SC-106 | `tests/test_pyboxbuilder/test_enums.py`, `tests/test_pyboxbuilder/test_validation.py` — strict Python Enum verification, string coercion, and invalid value rejection |
 | SC-001 | `quickstart.md` scenarios (T085) |
 | SC-002, SC-008 | timed layout/auto-size tests in `test_compartments.py`, `test_packing.py` |
 | SC-003 | `test_closures.py` — zero body/lid intersection for all 11 lidded types |

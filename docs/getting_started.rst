@@ -90,7 +90,7 @@ You can customize lids with geometric patterns, finger grips, or text labels:
 
 .. code-block:: python
 
-    from pyboxbuilder import BoxType, PatternType, Project
+    from pyboxbuilder import BoxType, LidBuilder, PatternBuilder, PatternType, Project
 
     project = Project("FancyBox", game_box_size=None)
 
@@ -98,10 +98,11 @@ You can customize lids with geometric patterns, finger grips, or text labels:
         BoxType.SLIDING,
         "Gems",
         size=(70.0, 50.0, 30.0),
+        lid=LidBuilder(
+            pattern=PatternBuilder(PatternType.HEX, border_margin_mm=4.0),
+            text="GEMS",
+        ),
     )
-
-    # Decorate the sliding lid with a hex pattern
-    fancy.lid.pattern(PatternType.HEX, border_margin_mm=4.0)
 
 See the :doc:`box_types` guide for full details on each lid style and parameter options.
 
