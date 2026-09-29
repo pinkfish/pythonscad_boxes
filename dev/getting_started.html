@@ -1439,7 +1439,7 @@
 </ul>
 <h3 id="adding-lids-patterns-and-labels">Adding Lids, Patterns, and Labels<a class="headerlink" href="#adding-lids-patterns-and-labels" title="Link to this heading">¶</a></h3>
 <p>You can customize lids with geometric patterns, finger grips, or text labels:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder</span><span class="w"> </span><span class="kn">import</span> <span class="n">BoxType</span><span class="p">,</span> <span class="n">PatternType</span><span class="p">,</span> <span class="n">Project</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder</span><span class="w"> </span><span class="kn">import</span> <span class="n">BoxType</span><span class="p">,</span> <span class="n">LidBuilder</span><span class="p">,</span> <span class="n">PatternBuilder</span><span class="p">,</span> <span class="n">PatternType</span><span class="p">,</span> <span class="n">Project</span>
 
 <span class="n">project</span> <span class="o">=</span> <span class="n">Project</span><span class="p">(</span><span class="s2">"FancyBox"</span><span class="p">,</span> <span class="n">game_box_size</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
 
@@ -1447,10 +1447,11 @@
     <span class="n">BoxType</span><span class="o">.</span><span class="n">SLIDING</span><span class="p">,</span>
     <span class="s2">"Gems"</span><span class="p">,</span>
     <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mf">70.0</span><span class="p">,</span> <span class="mf">50.0</span><span class="p">,</span> <span class="mf">30.0</span><span class="p">),</span>
+    <span class="n">lid</span><span class="o">=</span><span class="n">LidBuilder</span><span class="p">(</span>
+        <span class="n">pattern</span><span class="o">=</span><span class="n">PatternBuilder</span><span class="p">(</span><span class="n">PatternType</span><span class="o">.</span><span class="n">HEX</span><span class="p">,</span> <span class="n">border_margin_mm</span><span class="o">=</span><span class="mf">4.0</span><span class="p">),</span>
+        <span class="n">text</span><span class="o">=</span><span class="s2">"GEMS"</span><span class="p">,</span>
+    <span class="p">),</span>
 <span class="p">)</span>
-
-<span class="c1"># Decorate the sliding lid with a hex pattern</span>
-<span class="n">fancy</span><span class="o">.</span><span class="n">lid</span><span class="o">.</span><span class="n">pattern</span><span class="p">(</span><span class="n">PatternType</span><span class="o">.</span><span class="n">HEX</span><span class="p">,</span> <span class="n">border_margin_mm</span><span class="o">=</span><span class="mf">4.0</span><span class="p">)</span>
 </code></pre></div>
 </div>
 <p>See the <a class="reference internal" href="box_types.html"><span class="doc">Box Types Guide &amp; Gallery</span></a> guide for full details on each lid style and parameter options.</p>
