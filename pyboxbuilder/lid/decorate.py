@@ -30,8 +30,23 @@ if TYPE_CHECKING:
     from pybosl2 import Color
     from pybosl2.shapes3d import Bosl2Solid
 
-    from pyboxbuilder.lid.builder import LidBuilder
+    from pyboxbuilder.lid.builder import LidBuilder, PatternBuilder
     from pyboxbuilder.lid.label import Label
+
+
+def _pattern_of(builder: LidBuilder) -> PatternBuilder:
+    """Normalize any pattern specification on the builder to a PatternBuilder."""
+    from pyboxbuilder.lid.builder import PatternBuilder
+
+    pat = builder.pattern
+    assert pat is not None
+    if isinstance(pat, PatternBuilder):
+        return pat
+    if isinstance(pat, str):
+        from pyboxbuilder.enums import PatternType
+
+        return PatternBuilder(type=PatternType(pat.lower()))
+    return PatternBuilder(type=pat)
 
 ENGRAVE_DEPTH_MM = 0.4
 """How deep a single-colour label is cut into the lid."""
@@ -173,8 +188,12 @@ def decorate_lid(
 
     logo_solid = _build_logo(resolved, width, length, mode_str) if resolved.logo else None
 
-    if resolved.pattern is not None:
-        if resolved.pattern.inlay:
+    res_pat = _pattern_of(resolved) if resolved.pattern is not None else None
+    if (
+        res_pat is not None
+        and res_pat.type not in (PatternType.NONE, PatternType.SOLID)
+    ):
+        if res_pat.inlay:
             _apply_inlaid_pattern(
                 result,
                 resolved,
@@ -552,11 +571,11 @@ def _cut_pattern(
     from pyboxbuilder.box.shell import block
     from pyboxbuilder.lid.pattern import build_pattern
 
-    assert builder.pattern is not None
+    pat = _pattern_of(builder)
     # The pattern's border is its own, not the label's: one keeps text off the
     # edge, the other keeps *material* there — the band the lid is picked up
     # by, and on a sliding lid the band that rides in the grooves.
-    margin = builder.pattern.border_width
+    margin = pat.border_width
 
     # Overshoot above and below so the holes go all the way through — a pattern
     # that stops short of the top face leaves a skin and shows nothing.
@@ -576,11 +595,11 @@ def _cut_pattern(
             width,
             length,
             depth,
-            builder.pattern.type,
-            builder.pattern.spacing,
-            builder.pattern.web,
-            through_holes=builder.pattern.through_holes,
-            hole_ratio=builder.pattern.hole_ratio,
+            pat.type,
+            pat.spacing,
+            pat.web,
+            through_holes=pat.through_holes,
+            hole_ratio=pat.hole_ratio,
             inlay=False,
             lid_thickness=lid_thickness,
         )
@@ -600,11 +619,11 @@ def _cut_pattern(
             area_w,
             area_l,
             depth,
-            builder.pattern.type,
-            builder.pattern.spacing,
-            builder.pattern.web,
-            through_holes=builder.pattern.through_holes,
-            hole_ratio=builder.pattern.hole_ratio,
+            pat.type,
+            pat.spacing,
+            pat.web,
+            through_holes=pat.through_holes,
+            hole_ratio=pat.hole_ratio,
             inlay=False,
             lid_thickness=lid_thickness,
         )
@@ -665,20 +684,20 @@ def _apply_inlaid_pattern(
     from pyboxbuilder.box.shell import block
     from pyboxbuilder.lid.pattern import build_pattern
 
-    assert builder.pattern is not None
-    margin = builder.pattern.border_width
+    pat = _pattern_of(builder)
+    margin = pat.border_width
     through_inlay = (
         builder.pattern_through_inlay
         if builder.pattern_through_inlay is not None
-        else builder.pattern.through_inlay
+        else pat.through_inlay
     )
     inlay_depth = (
         builder.pattern_inlay_depth_mm
         if builder.pattern_inlay_depth_mm is not None
-        else (builder.pattern.inlay_depth_mm or INLAY_DEPTH_MM)
+        else (pat.inlay_depth_mm or INLAY_DEPTH_MM)
     )
 
-    is_simple_pattern = builder.pattern.type not in (
+    is_simple_pattern = pat.type not in (
         PatternType.RING,
         PatternType.CHECKER,
         PatternType.DICE,
@@ -694,8 +713,8 @@ def _apply_inlaid_pattern(
     palette: Sequence[Color] = ()
     if builder.pattern_colors:
         palette = builder.pattern_colors
-    elif builder.pattern and builder.pattern.colors:
-        palette = builder.pattern.colors
+    elif pat.colors:
+        palette = pat.colors
     elif builder.pattern_color is not None:
         palette = (builder.pattern_color,)
 
@@ -715,12 +734,12 @@ def _apply_inlaid_pattern(
             width,
             length,
             depth,
-            builder.pattern.type,
-            builder.pattern.spacing,
-            builder.pattern.web,
+            pat.type,
+            pat.spacing,
+            pat.web,
             colors=palette,
-            through_holes=builder.pattern.through_holes,
-            hole_ratio=builder.pattern.hole_ratio,
+            through_holes=pat.through_holes,
+            hole_ratio=pat.hole_ratio,
             inlay=True,
             lid_thickness=lid_thickness,
             through_inlay=through_inlay,
@@ -741,12 +760,12 @@ def _apply_inlaid_pattern(
             area_w,
             area_l,
             depth,
-            builder.pattern.type,
-            builder.pattern.spacing,
-            builder.pattern.web,
+            pat.type,
+            pat.spacing,
+            pat.web,
             colors=palette,
-            through_holes=builder.pattern.through_holes,
-            hole_ratio=builder.pattern.hole_ratio,
+            through_holes=pat.through_holes,
+            hole_ratio=pat.hole_ratio,
             inlay=True,
             lid_thickness=lid_thickness,
             through_inlay=through_inlay,
@@ -913,12 +932,13 @@ def _with_accent_colors(builder: LidBuilder, body_color: Color | None) -> LidBui
 
     from pyboxbuilder.lid.color_layers import resolve_colors
 
+    pat = _pattern_of(builder) if builder.pattern is not None else None
     pattern_c = builder.pattern_color
     if pattern_c is None:
         if builder.pattern_colors:
             pattern_c = builder.pattern_colors[0]
-        elif builder.pattern is not None and builder.pattern.colors:
-            pattern_c = builder.pattern.colors[0]
+        elif pat is not None and pat.colors:
+            pattern_c = pat.colors[0]
 
     colors = resolve_colors(
         body_color if body_color is not None else Color("gray"),
@@ -931,8 +951,8 @@ def _with_accent_colors(builder: LidBuilder, body_color: Color | None) -> LidBui
         logo_color = colors.text_color
 
     pattern_colors = builder.pattern_colors
-    if pattern_colors is None and builder.pattern is not None and builder.pattern.colors:
-        pattern_colors = tuple(builder.pattern.colors)
+    if pattern_colors is None and pat is not None and pat.colors:
+        pattern_colors = tuple(pat.colors)
 
     return replace(
         builder,

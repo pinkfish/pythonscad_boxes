@@ -596,6 +596,112 @@ class InsertColourTests(unittest.TestCase):
         size_z = float(b.size[2]) if hasattr(b, "size") else float(b[1][2])
         self.assertGreaterEqual(size_z, 1.8)
 
+    def test_solid_pattern_decoration(self) -> None:
+        """PatternType.SOLID produces no cutouts or inlays, keeping the lid unbroken."""
+        builder = LidBuilder(pattern=PatternType.SOLID)
+        solid_lid = bare_lid()
+        decorated = decorate_lid(solid_lid, builder, 2.0, "mmu")
+        self.assertEqual(len(decorated.inserts), 0)
+        self.assertEqual(solid_lid, decorated.solid)
 
+    def test_box_builder_pattern_shortcut(self) -> None:
+        """Box builders default to hex pattern and accept pattern shortcut."""
+        from pyboxbuilder.builders.sliding import SlidingBoxBuilder
+        from pyboxbuilder.builders.no_lid import NoLidBoxBuilder
 
+        # Default is hex
+        b = SlidingBoxBuilder(label="Cards", size=(100, 70, 50))
+        self.assertIsNotNone(b.lid)
+        self.assertEqual(b.lid.pattern.type, PatternType.HEX)
+
+        # Pattern shortcut with enum
+        b_solid = SlidingBoxBuilder(label="Solid", size=(100, 70, 50), pattern=PatternType.SOLID)
+        self.assertIsNotNone(b_solid.lid)
+        self.assertEqual(b_solid.lid.pattern.type, PatternType.SOLID)
+
+        # Pattern shortcut with string
+        b_str = SlidingBoxBuilder(label="Str", size=(100, 70, 50), pattern="solid")
+        self.assertIsNotNone(b_str.lid)
+        self.assertEqual(b_str.lid.pattern.type, PatternType.SOLID)
+
+        # No lid box types have no lid
+        b_nolid = NoLidBoxBuilder(label="Tray", size=(100, 70, 50))
+        self.assertIsNone(b_nolid.lid)
+
+    def test_ring_pattern_cut_and_inlay(self) -> None:
+        """PatternType.RING cuts annular holes or inlays rings with hole centers."""
+        from pybosl2 import Color
+
+        # Cut mode
+        builder_cut = LidBuilder(
+            pattern=PatternBuilder(PatternType.RING, spacing=15.0, hole_ratio=0.5)
+        )
+        dec_cut = decorate_lid(bare_lid(), builder_cut, 2.0, "single")
+        self.assertEqual(len(dec_cut.inserts), 0)
+        self.assertLess(volume(dec_cut.solid), volume(bare_lid()))
+
+        # Inlay mode with 2 colors (outer ring and inner hole)
+        builder_inlay = LidBuilder(
+            pattern=PatternBuilder(
+                PatternType.RING,
+                spacing=15.0,
+                inlay=True,
+                colors=(Color("cyan"), Color("yellow")),
+            )
+        )
+        dec_inlay = decorate_lid(bare_lid(), builder_inlay, 2.0, "mmu")
+        self.assertEqual(len(dec_inlay.inserts), 2)
+        insert_colors = [ins.color for ins in dec_inlay.inserts if ins.color]
+        self.assertIn(Color("cyan"), insert_colors)
+        self.assertIn(Color("yellow"), insert_colors)
+
+    def test_checker_pattern_multicolor_inlay(self) -> None:
+        """PatternType.CHECKER alternates between two colors."""
+        from pybosl2 import Color
+
+        builder = LidBuilder(
+            pattern=PatternBuilder(
+                PatternType.CHECKER,
+                spacing=15.0,
+                inlay=True,
+                colors=(Color("black"), Color("white")),
+            )
+        )
+        dec = decorate_lid(bare_lid(), builder, 2.0, "mmu")
+        self.assertEqual(len(dec.inserts), 2)
+
+    def test_dice_multicolor_inlay_and_hybrid_holes(self) -> None:
+        """DICE pattern supports 2 colors, and hybrid through-hole pips."""
+        from pybosl2 import Color
+
+        # 2-color inlay: white die face, red pips
+        builder_multi = LidBuilder(
+            pattern=PatternBuilder(
+                PatternType.DICE,
+                spacing=20.0,
+                inlay=True,
+                colors=(Color("white"), Color("red")),
+            )
+        )
+        dec_multi = decorate_lid(bare_lid(), builder_multi, 2.0, "mmu")
+        self.assertEqual(len(dec_multi.inserts), 2)
+        insert_colors = [ins.color for ins in dec_multi.inserts if ins.color]
+        self.assertIn(Color("white"), insert_colors)
+        self.assertIn(Color("red"), insert_colors)
+
+        # Hybrid mode: through_holes=True turns pips into through-holes in the lid
+        builder_hybrid = LidBuilder(
+            pattern=PatternBuilder(
+                PatternType.DICE,
+                spacing=20.0,
+                inlay=True,
+                through_holes=True,
+                colors=(Color("white"),),
+            )
+        )
+        dec_hybrid = decorate_lid(bare_lid(), builder_hybrid, 2.0, "mmu")
+        # In hybrid mode with only face color provided, only face insert is created
+        self.assertEqual(len(dec_hybrid.inserts), 1)
+        # Lid volume is decreased because pips penetrate all the way through the lid
+        self.assertLess(volume(dec_hybrid.solid), volume(dec_multi.solid))
 

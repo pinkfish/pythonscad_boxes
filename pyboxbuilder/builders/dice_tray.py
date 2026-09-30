@@ -70,9 +70,16 @@ class DiceTrayBoxBuilder(BoxBuilder):
                 updates["text"] = self.label
             if self.lid.text_color is None:
                 updates["text_color"] = Color("gold")
-            if self.lid.pattern is not None and not self.lid.pattern.inlay:
-                updates["pattern"] = replace(self.lid.pattern, inlay=True)
+            if self.lid.pattern is not None:
+                from pyboxbuilder.lid.builder import PatternBuilder
+
+                pat = self.lid.pattern
+                if not isinstance(pat, PatternBuilder):
+                    pat = PatternBuilder(type=pat)
+                if not pat.inlay:
+                    updates["pattern"] = replace(pat, inlay=True)
             if self.lid.pattern_color is None:
                 updates["pattern_color"] = Color("white")
             if updates:
                 object.__setattr__(self, "lid", replace(self.lid, **updates))
+        super().__post_init__()

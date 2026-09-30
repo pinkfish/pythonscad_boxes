@@ -187,7 +187,7 @@ class PatternBorderTests(unittest.TestCase):
 
     def test_every_pattern_keeps_the_border(self) -> None:
         for pattern_type in PatternType:
-            if pattern_type is PatternType.NONE:
+            if pattern_type in (PatternType.NONE, PatternType.SOLID):
                 continue
             with self.subTest(pattern=pattern_type.name):
                 for margin in self.margins(pattern_type, 8.0):
@@ -1043,5 +1043,53 @@ class MultiColorAndHolePatternTests(unittest.TestCase):
         )
         assert isinstance(res_body_through, PatternResult)
         self.assertGreater(volume(res_body_through.solid), volume(res_top.solid))
+
+    def test_solid_pattern(self) -> None:
+        """PatternType.SOLID produces None (zero cuts/inlays), leaving a solid surface."""
+        res = build_pattern(60.0, 40.0, 2.0, PatternType.SOLID)
+        self.assertIsNone(res)
+
+
+class PatternResultTests(unittest.TestCase):
+    def test_pattern_result_operations(self) -> None:
+        """PatternResult translates, clips, and subtracts keepouts across inlays and holes."""
+        from pybosl2.shapes3d import cube
+        from pyboxbuilder.lid.pattern import PatternResult
+
+        s1 = cube([10, 10, 2])
+        s2 = cube([5, 5, 2])
+        h = cube([2, 2, 5])
+        res = PatternResult(inlays=[(s1, 0), (s2, 1)], holes=h)
+
+        # .solid returns union of all inlays
+        self.assertIsNotNone(res.solid)
+
+        # .translate
+        shifted = res.translate([10, 20, 0])
+        self.assertEqual(len(shifted.inlays), 2)
+        self.assertIsNotNone(shifted.holes)
+
+        # __and__ clipping
+        mask = cube([8, 8, 10])
+        clipped = res & mask
+        self.assertEqual(len(clipped.inlays), 2)
+        self.assertIsNotNone(clipped.holes)
+
+        # __sub__ keepout subtraction
+        subbed = res - mask
+        self.assertEqual(len(subbed.inlays), 2)
+        self.assertIsNotNone(subbed.holes)
+
+    def test_pattern_result_empty(self) -> None:
+        """Empty PatternResult handles .solid, translate, and clipping gracefully."""
+        from pybosl2.shapes3d import cube
+        from pyboxbuilder.lid.pattern import PatternResult
+
+        res = PatternResult()
+        self.assertIsNone(res.solid)
+        self.assertEqual(res.translate([1, 2, 3]).inlays, [])
+        self.assertEqual((res & cube([5, 5, 5])).inlays, [])
+        self.assertEqual((res - cube([5, 5, 5])).inlays, [])
+
 
 

@@ -67,4 +67,5 @@ class SleeveDrawerBoxBuilder(BoxBuilder):
             object.__setattr__(self, "drawer_handle_length", self.drawer_pull_lip)
         elif self.drawer_handle_length != 4.0 and self.drawer_pull_lip == 4.0:
             object.__setattr__(self, "drawer_pull_lip", self.drawer_handle_length)
+        super().__post_init__()
 

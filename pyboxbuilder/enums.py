@@ -80,6 +80,8 @@ class PatternType(Enum):
 
     NONE = "none"
     """No pattern — a solid lid."""
+    SOLID = "solid"
+    """Explicitly solid lid surface — no through-holes or inlays."""
 
     SQUARE = "square"
     """Square holes on a square grid."""

@@ -8,12 +8,21 @@ from typing import TYPE_CHECKING, Any, ClassVar
 
 from pybosl2 import Color
 
-from pyboxbuilder.enums import BoxType, CatchType, FingerCut, InterlockType, MagnetType, ScoopSide, StackableMode
+from pyboxbuilder.enums import (
+    BoxType,
+    CatchType,
+    FingerCut,
+    InterlockType,
+    MagnetType,
+    PatternType,
+    ScoopSide,
+    StackableMode,
+)
 
 if TYPE_CHECKING:
     from pyboxbuilder.compartments.builder import CompartmentBuilder
     from pyboxbuilder.compartments.element import CompartmentElement
-    from pyboxbuilder.lid.builder import LidBuilder
+    from pyboxbuilder.lid.builder import LidBuilder, PatternBuilder
 
 
 CARD_THICKNESS_MM = 0.6
@@ -82,6 +91,8 @@ class BoxBuilder:
     """Edge radius where a partial lid grips this body; None uses half the outer radius."""
     lid: LidBuilder | None = None
     """Lid decoration configuration."""
+    pattern: PatternBuilder | PatternType | str | None = None
+    """Lid through-hole or surface pattern shortcut; sets or overrides lid.pattern."""
     color: Color | None = None
     """Body colour, as a :class:`pybosl2.Color` (webcolor names welcome).
 
@@ -149,6 +160,31 @@ class BoxBuilder:
                     f"Box '{self.label}': {name} must be a {enum_cls.__name__} "
                     f"({members}) or None; got {value!r}"
                 )
+
+        bt = getattr(self, "box_type", None)
+        if self.pattern is not None:
+            pat = self.pattern
+            if isinstance(pat, str):
+                pat = PatternType(pat.lower())
+            if isinstance(pat, PatternType):
+                from pyboxbuilder.lid.builder import PatternBuilder
+
+                pat = PatternBuilder(type=pat)
+            if self.lid is None:
+                from pyboxbuilder.lid.builder import LidBuilder
+
+                object.__setattr__(self, "lid", LidBuilder(pattern=pat))
+            else:
+                from dataclasses import replace
+
+                object.__setattr__(self, "lid", replace(self.lid, pattern=pat))
+        elif bt is not None:
+            from pyboxbuilder.box.registry import LIDLESS_BOX_TYPES
+
+            if bt not in LIDLESS_BOX_TYPES and self.lid is None:
+                from pyboxbuilder.lid.builder import LidBuilder, PatternBuilder
+
+                object.__setattr__(self, "lid", LidBuilder(pattern=PatternBuilder(PatternType.HEX)))
 
     def compartment(
         self,

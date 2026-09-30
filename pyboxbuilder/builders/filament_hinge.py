@@ -47,4 +47,5 @@ class FilamentHingeBoxBuilder(BoxBuilder):
             raise TypeError(
                 f"hinge_catch_type must be a HingeCatchType enum, got {type(self.hinge_catch_type).__name__}"
             )
+        super().__post_init__()
 

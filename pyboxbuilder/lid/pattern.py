@@ -172,7 +172,7 @@ def build_pattern(
     width: float,
     length: float,
     thickness: float,
-    pattern_type: PatternType,
+    pattern_type: PatternType | str,
     spacing: float | None = None,
     web: float | None = None,
     colors: Sequence[Color] | None = None,
@@ -188,7 +188,8 @@ def build_pattern(
         width: Width of the area to fill, in mm — the lid less its border.
         length: Length of that area, in mm.
         thickness: Pattern thickness (inlay depth or lid thickness).
-        pattern_type: Which pattern. ``PatternType.NONE`` returns ``None``.
+        pattern_type: Which pattern. ``PatternType.NONE`` and
+            ``PatternType.SOLID`` return ``None``.
         spacing: Centre-to-centre distance between holes. ``None`` derives it
             from the area (see :func:`default_spacing`).
         web: Material left between neighbouring holes. ``None`` uses
@@ -209,6 +210,12 @@ def build_pattern(
         ValueError: If the pattern has no fill registered.
 
     """
+    if isinstance(pattern_type, str):
+        pattern_type = PatternType(pattern_type.lower())
+
+    if pattern_type in (PatternType.NONE, PatternType.SOLID):
+        return None
+
     if spacing is None:
         spacing = max(
             default_spacing(width, length),
@@ -1261,6 +1268,7 @@ _PATTERN_FILLS: dict[
     Callable[[float, float, float, float, float | None], Bosl2Solid | None],
 ] = {
     PatternType.NONE: lambda w, l, t, s, web: None,
+    PatternType.SOLID: lambda w, l, t, s, web: None,
     PatternType.SQUARE: _square_fill,
     PatternType.CIRCLE: _circle_fill,
     PatternType.HEX: _hex_fill,

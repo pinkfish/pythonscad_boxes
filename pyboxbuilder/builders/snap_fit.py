@@ -59,4 +59,5 @@ class SnapFitBoxBuilder(BoxBuilder):
             raise TypeError(
                 f"latch_axis must be a LatchAxis enum, got {type(self.latch_axis).__name__}"
             )
+        super().__post_init__()
 

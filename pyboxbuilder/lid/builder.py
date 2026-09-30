@@ -58,7 +58,7 @@ class PatternBuilder:
     from the two.
     """
 
-    type: PatternType = PatternType.HEX
+    type: PatternType | str = PatternType.HEX
     """Which pattern to cut. See :class:`~pyboxbuilder.enums.PatternType`."""
     colors: tuple[Color, ...] = ()
     """Accent colours for the pattern's top layer, if any."""
@@ -92,7 +92,9 @@ class PatternBuilder:
     """Relative inner hole size for shapes with holes (such as RING), from 0.1 to 0.9."""
 
     def __post_init__(self) -> None:
-        """Convert list through_inlay to tuple for immutability."""
+        """Convert list through_inlay to tuple and coerce string type."""
+        if isinstance(self.type, str):
+            object.__setattr__(self, "type", PatternType(self.type.lower()))
         if isinstance(self.through_inlay, list):
             object.__setattr__(self, "through_inlay", tuple(self.through_inlay))
 
@@ -158,7 +160,7 @@ class LidBuilder:
     The grid is a texture behind the lettering, not a second label. What sits
     *behind* both is the box's own material — it is never cut, so it needs no
     colour here (FR-022)."""
-    pattern: PatternBuilder | None = PatternBuilder(PatternType.DENSE_HEX)
+    pattern: PatternBuilder | PatternType | str | None = PatternBuilder(PatternType.HEX)
     """Through-hole pattern, or ``None`` for a plain lid."""
     pattern_color: Color | None = None
     """Colour of the pattern's top layer; ``None`` contrasts with the body."""
@@ -214,7 +216,11 @@ class LidBuilder:
     """Fields to override for the single-colour export."""
 
     def __post_init__(self) -> None:
-        """Convert list pattern_through_inlay to tuple for immutability."""
+        """Convert list pattern_through_inlay to tuple and coerce pattern."""
+        if isinstance(self.pattern, str):
+            object.__setattr__(self, "pattern", PatternBuilder(PatternType(self.pattern.lower())))
+        elif isinstance(self.pattern, PatternType):
+            object.__setattr__(self, "pattern", PatternBuilder(self.pattern))
         if isinstance(self.pattern_through_inlay, list):
             object.__setattr__(self, "pattern_through_inlay", tuple(self.pattern_through_inlay))
 

@@ -319,12 +319,18 @@ class GeometryPipeline:
         from pyboxbuilder.lid.decorate import decorate_lid
 
         builder = piece.builder
-        if piece.solid is None or builder is None or builder.lid is None:
+        if piece.solid is None or builder is None:
             return piece.solid, None
+        lid_builder = builder.lid
+        if lid_builder is None:
+            from pyboxbuilder.enums import PatternType
+            from pyboxbuilder.lid.builder import LidBuilder, PatternBuilder
+
+            lid_builder = LidBuilder(pattern=PatternBuilder(PatternType.HEX))
         path = getattr(builder, "path", None)
         decorated = decorate_lid(
             piece.solid,
-            builder.lid,
+            lid_builder,
             builder.lid_thickness or manifest.lid_thickness,
             mode,
             body_color=builder.color,

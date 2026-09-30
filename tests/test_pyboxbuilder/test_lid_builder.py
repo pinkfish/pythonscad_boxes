@@ -25,11 +25,23 @@ class LidBuilderTests(unittest.TestCase):
         self.assertFalse(lb.is_diagonal)
         self.assertIsNone(lb.text_color)
         self.assertIsNone(lb.frame_color)
-        self.assertEqual(lb.pattern.type, PatternType.DENSE_HEX)
+        self.assertEqual(lb.pattern.type, PatternType.HEX)
         self.assertIsNone(lb.pattern_color)
         self.assertEqual(lb.min_text_height, 4.0)
         # The lid's border, plus the label's own 2mm inset inside it (FR-023).
         self.assertEqual(lb.border_margin, 10.0)
+
+    def test_solid_pattern_shorthands(self) -> None:
+        lb1 = LidBuilder(pattern=PatternType.SOLID)
+        self.assertIsNotNone(lb1.pattern)
+        self.assertEqual(lb1.pattern.type, PatternType.SOLID)
+
+        lb2 = LidBuilder(pattern="solid")
+        self.assertIsNotNone(lb2.pattern)
+        self.assertEqual(lb2.pattern.type, PatternType.SOLID)
+
+        pb = PatternBuilder(type="solid")
+        self.assertEqual(pb.type, PatternType.SOLID)
 
     def test_with_text(self) -> None:
         lb = LidBuilder(text="Cards")
