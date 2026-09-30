@@ -675,6 +675,10 @@ A finger cut is one shape swept through one wall, and these are its requirements
     - Foot size (`stackable_foot_size`) defaults to `max(6.0mm, wall_thickness * 2.5)`.
     - Corner feet and lid indents MUST be inset from the outer perimeter by `stackable_foot_inset` (default `wall_thickness / 2.0` or `1.0mm`), ensuring they do not breach the outer cosmetic wall, compromise lid sliding channels, or conflict with lid retention catches.
     - Indent depth MUST NOT exceed `lid_thickness - 0.8mm` (or floor thickness for inverted indents) to guarantee a solid minimum bottom skin and prevent interior punch-through.
+  - **Stackable Lid Decoration & Indent Structural Keepout Invariant**:
+    - Lidded boxes with stackable features MUST retain and render lid decoration patterns by default (`PatternType.HEX` or user-specified pattern).
+    - To prevent thin, fragile perimeters or perforations around the stacking recesses, stackable indents and locator bosses on the lid MUST maintain a solid clearance buffer of at least 2.0mm (`STACKABLE_KEEPOUT_MARGIN_MM = 2.0`) around their perimeter.
+    - For corner indents/feet (`StackableMode.FEET`, `StackableMode.INDENTS`), the keepout regions MUST extend outward to the exterior lid borders/sides as solid squares pulled out to the perimeter edges. This leaves robust, solid corner blocks directly anchoring the stacking sockets into the lid plate while preventing pattern cuts from encroaching within 2.0mm of the indent walls.
   - **Box Type Feasibility & Exclusions**:
     - **Sliding Family** (`SLIDING`, `SLIDING_CATCH`, `CARD_LIBRARY`): Corner indents on the lid top deck MUST be positioned clear of the slide track grooves and rear stop, allowing the lid to slide freely into and out of the lower box even when an upper box is stacked on top.
     - **Cap / Slipover Family** (`CAP`, `SLIPOVER`, `CAP_PATH`, `SLIPOVER_PATH`): Indents are carved into the top roof of the cap/slipover lid; feet are added to the body floor.

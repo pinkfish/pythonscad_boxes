@@ -97,6 +97,14 @@ class PatternBuilder:
             object.__setattr__(self, "type", PatternType(self.type.lower()))
         if isinstance(self.through_inlay, list):
             object.__setattr__(self, "through_inlay", tuple(self.through_inlay))
+        if isinstance(self.colors, (list, tuple)):
+            from pybosl2 import Color
+
+            object.__setattr__(
+                self,
+                "colors",
+                tuple(c if isinstance(c, Color) else Color(c) for c in self.colors),
+            )
 
     @property
     def border_width(self) -> float:
@@ -223,6 +231,14 @@ class LidBuilder:
             object.__setattr__(self, "pattern", PatternBuilder(self.pattern))
         if isinstance(self.pattern_through_inlay, list):
             object.__setattr__(self, "pattern_through_inlay", tuple(self.pattern_through_inlay))
+        if isinstance(self.pattern_colors, (list, tuple)):
+            from pybosl2 import Color
+
+            object.__setattr__(
+                self,
+                "pattern_colors",
+                tuple(c if isinstance(c, Color) else Color(c) for c in self.pattern_colors),
+            )
 
     def titled(self, text: str, **overrides: Any) -> LidBuilder:
         """Return this lid style, carrying a particular box's text.

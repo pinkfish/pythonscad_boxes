@@ -1930,6 +1930,10 @@ The universal stackable box architecture enables vertical modular stacking acros
 4. **Safety & Invariant Validation**:
    - Enforce minimum skin thickness (`indent_depth <= lid_thickness - 0.8mm`) to avoid puncturing the box interior.
    - Inset corner feet from outer edges (`stackable_foot_inset >= wall_thickness / 2.0`) to avoid weakening outer perimeter walls or interfering with closure mechanisms.
+   - **Stackable Lid Decoration & Indent Structural Keepouts**:
+     - Retain lid decoration patterns by default (`PatternType.HEX` or specified pattern) on lidded stackable boxes.
+     - Indents and locator bosses maintain a solid clearance buffer of at least 2.0mm (`STACKABLE_KEEPOUT_MARGIN_MM = 2.0`) around their perimeter.
+     - For corner indents/feet, the keepout extends outward to the exterior lid borders/sides as solid squares pulled out to the perimeter edges, leaving robust solid corner blocks anchoring the stacking sockets into the lid plate while preventing pattern cuts from encroaching within 2.0mm of the indent walls.
 
 ### Horizontal Interlocking Architecture & Regular Polygon Tiling (FR-102, SC-102)
 
