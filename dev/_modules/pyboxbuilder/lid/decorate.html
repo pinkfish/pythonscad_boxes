@@ -468,8 +468,23 @@
     <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">Color</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2.shapes3d</span><span class="w"> </span><span class="kn">import</span> <span class="n">Bosl2Solid</span>
 
-    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.lid.builder</span><span class="w"> </span><span class="kn">import</span> <span class="n">LidBuilder</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.lid.builder</span><span class="w"> </span><span class="kn">import</span> <span class="n">LidBuilder</span><span class="p">,</span> <span class="n">PatternBuilder</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.lid.label</span><span class="w"> </span><span class="kn">import</span> <span class="n">Label</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_pattern_of</span><span class="p">(</span><span class="n">builder</span><span class="p">:</span> <span class="n">LidBuilder</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PatternBuilder</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Normalize any pattern specification on the builder to a PatternBuilder."""</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.lid.builder</span><span class="w"> </span><span class="kn">import</span> <span class="n">PatternBuilder</span>
+
+    <span class="n">pat</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">pattern</span>
+    <span class="k">assert</span> <span class="n">pat</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">pat</span><span class="p">,</span> <span class="n">PatternBuilder</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">pat</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">pat</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">PatternType</span>
+
+        <span class="k">return</span> <span class="n">PatternBuilder</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="n">PatternType</span><span class="p">(</span><span class="n">pat</span><span class="o">.</span><span class="n">lower</span><span class="p">()))</span>
+    <span class="k">return</span> <span class="n">PatternBuilder</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="n">pat</span><span class="p">)</span>
 
 <span class="n">ENGRAVE_DEPTH_MM</span> <span class="o">=</span> <span class="mf">0.4</span>
 <span class="sd">"""How deep a single-colour label is cut into the lid."""</span>
@@ -619,8 +634,12 @@
 
     <span class="n">logo_solid</span> <span class="o">=</span> <span class="n">_build_logo</span><span class="p">(</span><span class="n">resolved</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">mode_str</span><span class="p">)</span> <span class="k">if</span> <span class="n">resolved</span><span class="o">.</span><span class="n">logo</span> <span class="k">else</span> <span class="kc">None</span>
 
-    <span class="k">if</span> <span class="n">resolved</span><span class="o">.</span><span class="n">pattern</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">resolved</span><span class="o">.</span><span class="n">pattern</span><span class="o">.</span><span class="n">inlay</span><span class="p">:</span>
+    <span class="n">res_pat</span> <span class="o">=</span> <span class="n">_pattern_of</span><span class="p">(</span><span class="n">resolved</span><span class="p">)</span> <span class="k">if</span> <span class="n">resolved</span><span class="o">.</span><span class="n">pattern</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="p">(</span>
+        <span class="n">res_pat</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+        <span class="ow">and</span> <span class="n">res_pat</span><span class="o">.</span><span class="n">type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="n">PatternType</span><span class="o">.</span><span class="n">NONE</span><span class="p">,</span> <span class="n">PatternType</span><span class="o">.</span><span class="n">SOLID</span><span class="p">)</span>
+    <span class="p">):</span>
+        <span class="k">if</span> <span class="n">res_pat</span><span class="o">.</span><span class="n">inlay</span><span class="p">:</span>
             <span class="n">_apply_inlaid_pattern</span><span class="p">(</span>
                 <span class="n">result</span><span class="p">,</span>
                 <span class="n">resolved</span><span class="p">,</span>
@@ -999,11 +1018,11 @@
     <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.shell</span><span class="w"> </span><span class="kn">import</span> <span class="n">block</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.lid.pattern</span><span class="w"> </span><span class="kn">import</span> <span class="n">build_pattern</span>
 
-    <span class="k">assert</span> <span class="n">builder</span><span class="o">.</span><span class="n">pattern</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+    <span class="n">pat</span> <span class="o">=</span> <span class="n">_pattern_of</span><span class="p">(</span><span class="n">builder</span><span class="p">)</span>
     <span class="c1"># The pattern's border is its own, not the label's: one keeps text off the</span>
     <span class="c1"># edge, the other keeps *material* there — the band the lid is picked up</span>
     <span class="c1"># by, and on a sliding lid the band that rides in the grooves.</span>
-    <span class="n">margin</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">pattern</span><span class="o">.</span><span class="n">border_width</span>
+    <span class="n">margin</span> <span class="o">=</span> <span class="n">pat</span><span class="o">.</span><span class="n">border_width</span>
 
     <span class="c1"># Overshoot above and below so the holes go all the way through — a pattern</span>
     <span class="c1"># that stops short of the top face leaves a skin and shows nothing.</span>
@@ -1023,11 +1042,11 @@
             <span class="n">width</span><span class="p">,</span>
             <span class="n">length</span><span class="p">,</span>
             <span class="n">depth</span><span class="p">,</span>
-            <span class="n">builder</span><span class="o">.</span><span class="n">pattern</span><span class="o">.</span><span class="n">type</span><span class="p">,</span>
-            <span class="n">builder</span><span class="o">.</span><span class="n">pattern</span><span class="o">.</span><span class="n">spacing</span><span class="p">,</span>
-            <span class="n">builder</span><span class="o">.</span><span class="n">pattern</span><span class="o">.</span><span class="n">web</span><span class="p">,</span>
-            <span class="n">through_holes</span><span class="o">=</span><span class="n">builder</span><span class="o">.</span><span class="n">pattern</span><span class="o">.</span><span class="n">through_holes</span><span class="p">,</span>
-            <span class="n">hole_ratio</span><span class="o">=</span><span class="n">builder</span><span class="o">.</span><span class="n">pattern</span><span class="o">.</span><span class="n">hole_ratio</span><span class="p">,</span>
+            <span class="n">pat</span><span class="o">.</span><span class="n">type</span><span class="p">,</span>
+            <span class="n">pat</span><span class="o">.</span><span class="n">spacing</span><span class="p">,</span>
+            <span class="n">pat</span><span class="o">.</span><span class="n">web</span><span class="p">,</span>
+            <span class="n">through_holes</span><span class="o">=</span><span class="n">pat</span><span class="o">.</span><span class="n">through_holes</span><span class="p">,</span>
+            <span class="n">hole_ratio</span><span class="o">=</span><span class="n">pat</span><span class="o">.</span><span class="n">hole_ratio</span><span class="p">,</span>
             <span class="n">inlay</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
             <span class="n">lid_thickness</span><span class="o">=</span><span class="n">lid_thickness</span><span class="p">,</span>
         <span class="p">)</span>
@@ -1047,11 +1066,11 @@
             <span class="n">area_w</span><span class="p">,</span>
             <span class="n">area_l</span><span class="p">,</span>
             <span class="n">depth</span><span class="p">,</span>
-            <span class="n">builder</span><span class="o">.</span><span class="n">pattern</span><span class="o">.</span><span class="n">type</span><span class="p">,</span>
-            <span class="n">builder</span><span class="o">.</span><span class="n">pattern</span><span class="o">.</span><span class="n">spacing</span><span class="p">,</span>
-            <span class="n">builder</span><span class="o">.</span><span class="n">pattern</span><span class="o">.</span><span class="n">web</span><span class="p">,</span>
-            <span class="n">through_holes</span><span class="o">=</span><span class="n">builder</span><span class="o">.</span><span class="n">pattern</span><span class="o">.</span><span class="n">through_holes</span><span class="p">,</span>
-            <span class="n">hole_ratio</span><span class="o">=</span><span class="n">builder</span><span class="o">.</span><span class="n">pattern</span><span class="o">.</span><span class="n">hole_ratio</span><span class="p">,</span>
+            <span class="n">pat</span><span class="o">.</span><span class="n">type</span><span class="p">,</span>
+            <span class="n">pat</span><span class="o">.</span><span class="n">spacing</span><span class="p">,</span>
+            <span class="n">pat</span><span class="o">.</span><span class="n">web</span><span class="p">,</span>
+            <span class="n">through_holes</span><span class="o">=</span><span class="n">pat</span><span class="o">.</span><span class="n">through_holes</span><span class="p">,</span>
+            <span class="n">hole_ratio</span><span class="o">=</span><span class="n">pat</span><span class="o">.</span><span class="n">hole_ratio</span><span class="p">,</span>
             <span class="n">inlay</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
             <span class="n">lid_thickness</span><span class="o">=</span><span class="n">lid_thickness</span><span class="p">,</span>
         <span class="p">)</span>
@@ -1112,20 +1131,20 @@
     <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.shell</span><span class="w"> </span><span class="kn">import</span> <span class="n">block</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.lid.pattern</span><span class="w"> </span><span class="kn">import</span> <span class="n">build_pattern</span>
 
-    <span class="k">assert</span> <span class="n">builder</span><span class="o">.</span><span class="n">pattern</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
-    <span class="n">margin</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">pattern</span><span class="o">.</span><span class="n">border_width</span>
+    <span class="n">pat</span> <span class="o">=</span> <span class="n">_pattern_of</span><span class="p">(</span><span class="n">builder</span><span class="p">)</span>
+    <span class="n">margin</span> <span class="o">=</span> <span class="n">pat</span><span class="o">.</span><span class="n">border_width</span>
     <span class="n">through_inlay</span> <span class="o">=</span> <span class="p">(</span>
         <span class="n">builder</span><span class="o">.</span><span class="n">pattern_through_inlay</span>
         <span class="k">if</span> <span class="n">builder</span><span class="o">.</span><span class="n">pattern_through_inlay</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
-        <span class="k">else</span> <span class="n">builder</span><span class="o">.</span><span class="n">pattern</span><span class="o">.</span><span class="n">through_inlay</span>
+        <span class="k">else</span> <span class="n">pat</span><span class="o">.</span><span class="n">through_inlay</span>
     <span class="p">)</span>
     <span class="n">inlay_depth</span> <span class="o">=</span> <span class="p">(</span>
         <span class="n">builder</span><span class="o">.</span><span class="n">pattern_inlay_depth_mm</span>
         <span class="k">if</span> <span class="n">builder</span><span class="o">.</span><span class="n">pattern_inlay_depth_mm</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
-        <span class="k">else</span> <span class="p">(</span><span class="n">builder</span><span class="o">.</span><span class="n">pattern</span><span class="o">.</span><span class="n">inlay_depth_mm</span> <span class="ow">or</span> <span class="n">INLAY_DEPTH_MM</span><span class="p">)</span>
+        <span class="k">else</span> <span class="p">(</span><span class="n">pat</span><span class="o">.</span><span class="n">inlay_depth_mm</span> <span class="ow">or</span> <span class="n">INLAY_DEPTH_MM</span><span class="p">)</span>
     <span class="p">)</span>
 
-    <span class="n">is_simple_pattern</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">pattern</span><span class="o">.</span><span class="n">type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span>
+    <span class="n">is_simple_pattern</span> <span class="o">=</span> <span class="n">pat</span><span class="o">.</span><span class="n">type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span>
         <span class="n">PatternType</span><span class="o">.</span><span class="n">RING</span><span class="p">,</span>
         <span class="n">PatternType</span><span class="o">.</span><span class="n">CHECKER</span><span class="p">,</span>
         <span class="n">PatternType</span><span class="o">.</span><span class="n">DICE</span><span class="p">,</span>
@@ -1141,8 +1160,8 @@
     <span class="n">palette</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Color</span><span class="p">]</span> <span class="o">=</span> <span class="p">()</span>
     <span class="k">if</span> <span class="n">builder</span><span class="o">.</span><span class="n">pattern_colors</span><span class="p">:</span>
         <span class="n">palette</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">pattern_colors</span>
-    <span class="k">elif</span> <span class="n">builder</span><span class="o">.</span><span class="n">pattern</span> <span class="ow">and</span> <span class="n">builder</span><span class="o">.</span><span class="n">pattern</span><span class="o">.</span><span class="n">colors</span><span class="p">:</span>
-        <span class="n">palette</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">pattern</span><span class="o">.</span><span class="n">colors</span>
+    <span class="k">elif</span> <span class="n">pat</span><span class="o">.</span><span class="n">colors</span><span class="p">:</span>
+        <span class="n">palette</span> <span class="o">=</span> <span class="n">pat</span><span class="o">.</span><span class="n">colors</span>
     <span class="k">elif</span> <span class="n">builder</span><span class="o">.</span><span class="n">pattern_color</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">palette</span> <span class="o">=</span> <span class="p">(</span><span class="n">builder</span><span class="o">.</span><span class="n">pattern_color</span><span class="p">,)</span>
 
@@ -1162,12 +1181,12 @@
             <span class="n">width</span><span class="p">,</span>
             <span class="n">length</span><span class="p">,</span>
             <span class="n">depth</span><span class="p">,</span>
-            <span class="n">builder</span><span class="o">.</span><span class="n">pattern</span><span class="o">.</span><span class="n">type</span><span class="p">,</span>
-            <span class="n">builder</span><span class="o">.</span><span class="n">pattern</span><span class="o">.</span><span class="n">spacing</span><span class="p">,</span>
-            <span class="n">builder</span><span class="o">.</span><span class="n">pattern</span><span class="o">.</span><span class="n">web</span><span class="p">,</span>
+            <span class="n">pat</span><span class="o">.</span><span class="n">type</span><span class="p">,</span>
+            <span class="n">pat</span><span class="o">.</span><span class="n">spacing</span><span class="p">,</span>
+            <span class="n">pat</span><span class="o">.</span><span class="n">web</span><span class="p">,</span>
             <span class="n">colors</span><span class="o">=</span><span class="n">palette</span><span class="p">,</span>
-            <span class="n">through_holes</span><span class="o">=</span><span class="n">builder</span><span class="o">.</span><span class="n">pattern</span><span class="o">.</span><span class="n">through_holes</span><span class="p">,</span>
-            <span class="n">hole_ratio</span><span class="o">=</span><span class="n">builder</span><span class="o">.</span><span class="n">pattern</span><span class="o">.</span><span class="n">hole_ratio</span><span class="p">,</span>
+            <span class="n">through_holes</span><span class="o">=</span><span class="n">pat</span><span class="o">.</span><span class="n">through_holes</span><span class="p">,</span>
+            <span class="n">hole_ratio</span><span class="o">=</span><span class="n">pat</span><span class="o">.</span><span class="n">hole_ratio</span><span class="p">,</span>
             <span class="n">inlay</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
             <span class="n">lid_thickness</span><span class="o">=</span><span class="n">lid_thickness</span><span class="p">,</span>
             <span class="n">through_inlay</span><span class="o">=</span><span class="n">through_inlay</span><span class="p">,</span>
@@ -1188,12 +1207,12 @@
             <span class="n">area_w</span><span class="p">,</span>
             <span class="n">area_l</span><span class="p">,</span>
             <span class="n">depth</span><span class="p">,</span>
-            <span class="n">builder</span><span class="o">.</span><span class="n">pattern</span><span class="o">.</span><span class="n">type</span><span class="p">,</span>
-            <span class="n">builder</span><span class="o">.</span><span class="n">pattern</span><span class="o">.</span><span class="n">spacing</span><span class="p">,</span>
-            <span class="n">builder</span><span class="o">.</span><span class="n">pattern</span><span class="o">.</span><span class="n">web</span><span class="p">,</span>
+            <span class="n">pat</span><span class="o">.</span><span class="n">type</span><span class="p">,</span>
+            <span class="n">pat</span><span class="o">.</span><span class="n">spacing</span><span class="p">,</span>
+            <span class="n">pat</span><span class="o">.</span><span class="n">web</span><span class="p">,</span>
             <span class="n">colors</span><span class="o">=</span><span class="n">palette</span><span class="p">,</span>
-            <span class="n">through_holes</span><span class="o">=</span><span class="n">builder</span><span class="o">.</span><span class="n">pattern</span><span class="o">.</span><span class="n">through_holes</span><span class="p">,</span>
-            <span class="n">hole_ratio</span><span class="o">=</span><span class="n">builder</span><span class="o">.</span><span class="n">pattern</span><span class="o">.</span><span class="n">hole_ratio</span><span class="p">,</span>
+            <span class="n">through_holes</span><span class="o">=</span><span class="n">pat</span><span class="o">.</span><span class="n">through_holes</span><span class="p">,</span>
+            <span class="n">hole_ratio</span><span class="o">=</span><span class="n">pat</span><span class="o">.</span><span class="n">hole_ratio</span><span class="p">,</span>
             <span class="n">inlay</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
             <span class="n">lid_thickness</span><span class="o">=</span><span class="n">lid_thickness</span><span class="p">,</span>
             <span class="n">through_inlay</span><span class="o">=</span><span class="n">through_inlay</span><span class="p">,</span>
@@ -1360,12 +1379,13 @@
 
     <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.lid.color_layers</span><span class="w"> </span><span class="kn">import</span> <span class="n">resolve_colors</span>
 
+    <span class="n">pat</span> <span class="o">=</span> <span class="n">_pattern_of</span><span class="p">(</span><span class="n">builder</span><span class="p">)</span> <span class="k">if</span> <span class="n">builder</span><span class="o">.</span><span class="n">pattern</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span>
     <span class="n">pattern_c</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">pattern_color</span>
     <span class="k">if</span> <span class="n">pattern_c</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">builder</span><span class="o">.</span><span class="n">pattern_colors</span><span class="p">:</span>
             <span class="n">pattern_c</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">pattern_colors</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="k">elif</span> <span class="n">builder</span><span class="o">.</span><span class="n">pattern</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">builder</span><span class="o">.</span><span class="n">pattern</span><span class="o">.</span><span class="n">colors</span><span class="p">:</span>
-            <span class="n">pattern_c</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">pattern</span><span class="o">.</span><span class="n">colors</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="n">pat</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">pat</span><span class="o">.</span><span class="n">colors</span><span class="p">:</span>
+            <span class="n">pattern_c</span> <span class="o">=</span> <span class="n">pat</span><span class="o">.</span><span class="n">colors</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 
     <span class="n">colors</span> <span class="o">=</span> <span class="n">resolve_colors</span><span class="p">(</span>
         <span class="n">body_color</span> <span class="k">if</span> <span class="n">body_color</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">Color</span><span class="p">(</span><span class="s2">"gray"</span><span class="p">),</span>
@@ -1378,8 +1398,8 @@
         <span class="n">logo_color</span> <span class="o">=</span> <span class="n">colors</span><span class="o">.</span><span class="n">text_color</span>
 
     <span class="n">pattern_colors</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">pattern_colors</span>
-    <span class="k">if</span> <span class="n">pattern_colors</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">builder</span><span class="o">.</span><span class="n">pattern</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">builder</span><span class="o">.</span><span class="n">pattern</span><span class="o">.</span><span class="n">colors</span><span class="p">:</span>
-        <span class="n">pattern_colors</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">builder</span><span class="o">.</span><span class="n">pattern</span><span class="o">.</span><span class="n">colors</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">pattern_colors</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">pat</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">pat</span><span class="o">.</span><span class="n">colors</span><span class="p">:</span>
+        <span class="n">pattern_colors</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">pat</span><span class="o">.</span><span class="n">colors</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">replace</span><span class="p">(</span>
         <span class="n">builder</span><span class="p">,</span>
