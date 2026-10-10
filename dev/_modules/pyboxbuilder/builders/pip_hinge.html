@@ -453,9 +453,8 @@
 <span class="w">    </span><span class="sd">"""Builder for monolithic print-in-place hinged box type (FR-090).</span>
 
 <span class="sd">    A single-piece, zero-assembly hinged box where body and lid are laid flat</span>
-<span class="sd">    at 180° on the print bed in a single print job, joined by captive cone-and-socket</span>
-<span class="sd">    or knuckle joints along the shared rim, with 45° self-supporting overhang angles</span>
-<span class="sd">    and calibrated air gaps.</span>
+<span class="sd">    at 180° on the print bed in a single print job, joined by a 3D-printable flexible</span>
+<span class="sd">    bridge hinge along the shared rim (z = height / 2.0).</span>
 
 <span class="sd">    Example:</span>
 <span class="sd">        .. pythonscad-example::</span>
@@ -465,8 +464,8 @@
 <span class="sd">                BoxType.PRINT_IN_PLACE_HINGE,</span>
 <span class="sd">                "MiniDeckBox",</span>
 <span class="sd">                size=(70.0, 50.0, 25.0),</span>
-<span class="sd">                pip_radial_clearance=0.35,</span>
-<span class="sd">                pip_axial_clearance=0.40,</span>
+<span class="sd">                pip_bridge_width=0.40,</span>
+<span class="sd">                pip_bridge_thickness=0.40,</span>
 <span class="sd">            )</span>
 <span class="sd">            project.show(show_lids=True)</span>
 <span class="sd">    """</span>
@@ -480,6 +479,10 @@
 <span class="w">    </span><span class="sd">"""Self-supporting overhang angle for captive hinge cones in degrees."""</span>
     <span class="n">pip_hinge_radius</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">3.0</span>
 <span class="w">    </span><span class="sd">"""Outer radius of the hinge knuckle barrel in mm."""</span>
+    <span class="n">pip_bridge_width</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.4</span>
+<span class="w">    </span><span class="sd">"""Width of the flexible 3D-printable bridge joining the two halves of the box in mm (minimum 0.4mm)."""</span>
+    <span class="n">pip_bridge_thickness</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.4</span>
+<span class="w">    </span><span class="sd">"""Vertical thickness of the print-in-place bridge in mm (default 0.4mm)."""</span>
     <span class="n">pip_snap_catch</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
 <span class="w">    </span><span class="sd">"""Include pybosl2 SnapLock and SnapSocket catches on front rims."""</span>
     <span class="n">pip_snap_width</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">12.0</span>

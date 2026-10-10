@@ -200,7 +200,7 @@ This 4-compartment token organizer uses ratio-based dividers and rounded interio
 Example 3: Monolithic Print-in-Place Hinged Box
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-This box prints flat in a single operation with zero assembly required. It leverages interlocking knuckle hinges with captive pins and integrated front tactile snap catches:
+This box prints flat in a single operation with zero assembly required. It joins body and lid along their shared rim with a 3D-printable flexible bridge hinge and integrated front tactile snap catches:
 
 .. pythonscad-example::
 
@@ -210,8 +210,8 @@ This box prints flat in a single operation with zero assembly required. It lever
        "Tools",
        size=(90.0, 60.0, 24.0),
        color=Color("teal"),
-       pip_radial_clearance=0.35,
-       pip_axial_clearance=0.40,
+       pip_bridge_width=0.40,
+       pip_bridge_thickness=0.40,
        lid=LidBuilder(
            label_mode=LabelMode.FRAMED,
            frame_color=Color("goldenrod"),

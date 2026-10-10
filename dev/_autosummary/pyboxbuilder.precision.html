@@ -1252,7 +1252,7 @@ chamfers, finger scoops and holes, lid-pattern curves) takes its facet count
 from the precision in force, so one setting on <code class="xref py py-meth docutils literal notranslate"><span class="pre">export()</span></code> or
 <code class="xref py py-meth docutils literal notranslate"><span class="pre">show()</span></code> reaches all of them. No geometry call hardcodes a facet
 count the caller cannot override.</p>
-<p>The setting travels in a <a class="reference external" href="https://docs.python.org/3/library/contextvars.html#contextvars.ContextVar" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ContextVar</span></code></a> rather than through
+<p>The setting travels in a <a class="reference external" href="https://docs.python.org/3/library/contextvars.html#contextvars.ContextVar" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ContextVar</span></code></a> rather than through
 every function signature: the geometry call sites are several layers below the
 public API and threading a parameter through each of them would put a
 precision argument on functions that have nothing else to do with it.</p>

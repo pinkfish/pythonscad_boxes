@@ -249,8 +249,8 @@ Print-In-Place Hinge Box (``BoxType.PRINT_IN_PLACE_HINGE``)
        BoxType.PRINT_IN_PLACE_HINGE,
        "MiniDeckBox",
        size=(70.0, 50.0, 25.0),
-       pip_radial_clearance=0.35,
-       pip_axial_clearance=0.40,
+       pip_bridge_width=0.40,
+       pip_bridge_thickness=0.40,
    )
    project.show(show_lids=True)
 
