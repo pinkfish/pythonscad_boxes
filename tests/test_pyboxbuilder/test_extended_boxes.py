@@ -247,6 +247,18 @@ class ExtendedBoxBuildersTests(unittest.TestCase):
         self.assertEqual(b.pip_axial_clearance, 0.45)
         self.assertEqual(b.pip_cone_angle, 45.0)
         self.assertEqual(b.pip_hinge_radius, 3.2)
+        self.assertEqual(b.pip_bridge_width, 0.4)
+        self.assertEqual(b.pip_bridge_thickness, 0.4)
+
+        b2 = p.box(
+            BoxType.PRINT_IN_PLACE_HINGE,
+            "CustomBridgeBox",
+            size=(50, 40, 20),
+            pip_bridge_width=0.6,
+            pip_bridge_thickness=0.5,
+        )
+        self.assertEqual(b2.pip_bridge_width, 0.6)
+        self.assertEqual(b2.pip_bridge_thickness, 0.5)
 
 
 class ExtendedBoxGeometryTests(unittest.TestCase):
@@ -343,14 +355,52 @@ class ExtendedBoxGeometryTests(unittest.TestCase):
         interior = impl.interior(spec)
         self.assertAlmostEqual(interior.height, 15.0 - spec.floor_thickness)
 
-        # The monolithic build spans from z=0 up to half_h + hr
+        # The monolithic build spans from z=0 up to half_h + snap_h
         b = solid.bounds()
         centre, size = (b.center, b.size) if hasattr(b, "center") else b
         z_min = centre[2] - size[2] / 2.0
         z_max = centre[2] + size[2] / 2.0
         self.assertAlmostEqual(z_min, 0.0, delta=0.5)
-        # Top of the snap catch tabs reaches half_h + ~4.7mm (or half_h + hr without catches)
+        # Top of the snap catch tabs reaches half_h + ~4.7mm (or half_h without catches)
         self.assertAlmostEqual(z_max, 15.0 + 4.71, delta=0.5)
+
+    def test_pip_hinge_bridge_geometry_and_zero_overhangs(self) -> None:
+        """Verify the 0.4mm min bridge connects halves and has no mid-air overhangs below."""
+        from pyboxbuilder.box.shell import block
+        from pyboxbuilder.box.validation import GeometryValidationError, GeometryValidator
+        from tests.mesh import volume
+
+        impl = BOX_IMPL_REGISTRY[BoxType.PRINT_IN_PLACE_HINGE]()
+
+        # 1. Default bridge width (0.4mm)
+        spec = BoxSpec(label="BridgeBox", width=60.0, length=40.0, height=30.0)
+        body = impl.build_body(spec)
+        self.assertIsNotNone(body)
+
+        # The space directly below the bridge (y=40.0..40.4, z=0..14.5) must be empty air (0 overhang)
+        gap_probe = block([60.0, 0.4, 14.5], at=(0.0, 40.0, 0.0))
+        self.assertAlmostEqual(volume(body & gap_probe), 0.0, delta=0.01)
+
+        # The bridge itself at z=14.6..15.0 spans across the 0.4mm gap
+        bridge_probe = block([60.0, 0.4, 0.4], at=(0.0, 40.0, 14.6))
+        self.assertAlmostEqual(volume(body & bridge_probe), 60.0 * 0.4 * 0.4, delta=0.1)
+
+        # 2. Configurable bridge width (e.g. 0.8mm)
+        spec_wide = BoxSpec(label="WideBridge", width=60.0, length=40.0, height=30.0, pip_bridge_width=0.8)
+        body_wide = impl.build_body(spec_wide)
+        bridge_probe_wide = block([60.0, 0.8, 0.4], at=(0.0, 40.0, 14.6))
+        self.assertAlmostEqual(volume(body_wide & bridge_probe_wide), 60.0 * 0.8 * 0.4, delta=0.1)
+
+        # 3. Side wall edge connectivity: verify the bridge is fully present and connected at the extreme outer edges (x=0..1mm and x=59..60mm)
+        left_edge_probe = block([1.0, 0.4, 0.4], at=(0.0, 40.0, 14.6))
+        right_edge_probe = block([1.0, 0.4, 0.4], at=(59.0, 40.0, 14.6))
+        self.assertAlmostEqual(volume(body & left_edge_probe), 1.0 * 0.4 * 0.4, delta=0.05)
+        self.assertAlmostEqual(volume(body & right_edge_probe), 1.0 * 0.4 * 0.4, delta=0.05)
+
+        # 4. Validation: bridge width < 0.4mm must raise GeometryValidationError
+        spec_invalid = BoxSpec(label="InvalidBridge", width=60.0, length=40.0, height=30.0, pip_bridge_width=0.2)
+        with self.assertRaises(GeometryValidationError):
+            GeometryValidator.validate(spec_invalid)
 
     def test_dispenser_lower_cover(self) -> None:
         """Verify gravity tile dispenser has a solid front cover over the lower half (FR-084)."""

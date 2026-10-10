@@ -351,11 +351,13 @@ class BoxSpec:
     polygon_sides: int | None = None
     polygon_apothem: float | None = None
 
-    # Print-in-place hinge (FR-090)
+    # Print-in-place hinge (FR-090, FR-105)
     pip_radial_clearance: float = 0.35
     pip_axial_clearance: float = 0.40
     pip_cone_angle: float = 45.0
     pip_hinge_radius: float = 3.0
+    pip_bridge_width: float = 0.4
+    pip_bridge_thickness: float = 0.4
     pip_snap_catch: bool = True
     pip_snap_width: float = 12.0
     pip_snap_diameter: float = 3.0
@@ -637,6 +639,8 @@ class UnresolvedBoxSpec:
     pip_axial_clearance: float = 0.40
     pip_cone_angle: float = 45.0
     pip_hinge_radius: float = 3.0
+    pip_bridge_width: float = 0.4
+    pip_bridge_thickness: float = 0.4
     pip_snap_catch: bool = True
     pip_snap_width: float = 12.0
     pip_snap_diameter: float = 3.0

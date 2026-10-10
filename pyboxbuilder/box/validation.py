@@ -235,6 +235,17 @@ class GeometryValidator:
                     ),
                     guidance="Reduce inset or increase box height.",
                 )
+        pip_w = getattr(spec, "pip_bridge_width", None)
+        if pip_w is not None and pip_w < 0.4:
+            raise GeometryValidationError(
+                label=spec.label,
+                invariant="pip_bridge_width_min",
+                message=(
+                    f"Print-in-place hinge bridge width ({pip_w:.2f}mm) must be "
+                    f"at least 0.40mm to ensure printable 3D bridging."
+                ),
+                guidance="Set pip_bridge_width to >= 0.40mm.",
+            )
 
     @classmethod
     def _validate_stackable_bounds(cls, spec: ResolvedBoxSpec) -> None:

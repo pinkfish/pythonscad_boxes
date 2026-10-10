@@ -1353,6 +1353,16 @@ stop the class of mistake from being expressible.
 - [x] T460 [P] Add unit tests in `tests/test_pyboxbuilder/test_enums.py` and `tests/test_pyboxbuilder/test_validation.py` asserting enum types, string coercion, and invalid value rejection.
 
 
+## Phase 55: 3D-Printable Print-In-Place Bridge Hinge Architecture (FR-090, FR-105)
+
+**Goal**: Eliminate unprintable floating knuckles, mid-air pin bores, and overhangs on `PrintInPlaceHingeBox`, replacing them with a 3D-printable bridge joining the two halves along the shared mating rim with a minimum width of 0.4mm (configurable via `pip_bridge_width`).
+
+- [x] T461 [P] Add `pip_bridge_width: float = 0.4` and `pip_bridge_thickness: float = 0.4` to `PrintInPlaceHingeBoxBuilder`, `UnresolvedBoxSpec`, `ResolvedBoxSpec`, and `BoxSpec`.
+- [x] T462 [P] Add minimum 0.40mm bridge width validation for `PRINT_IN_PLACE_HINGE` in `GeometryValidator`.
+- [x] T463 [P] Redesign `PrintInPlaceHingeBox.build_body` in `pyboxbuilder/box/types/pip_hinge.py` to join the body and lid trays with the 3D-printable bridge at `z = half_h`, eliminating floating knuckles, mid-air horizontal pins, and mid-air chamfer overhangs.
+- [x] T464 [P] Add unit tests in `tests/test_pyboxbuilder/test_extended_boxes.py` validating 0.4mm default bridge width, configurability, minimum width validation, and zero overhangs in the air gap below the bridge.
+
+
 ## Notes
 
 

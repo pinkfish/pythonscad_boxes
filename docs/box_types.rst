@@ -590,7 +590,7 @@ Monolithic Print-In-Place Hinge Box (``BoxType.PRINT_IN_PLACE_HINGE``)
 
 **Builder**: :class:`~pyboxbuilder.builders.pip_hinge.PrintInPlaceHingeBoxBuilder`
 
-A single-piece, zero-assembly hinged box where body and lid are laid flat at 180° on the print bed in a single print job. Joined by captive cone-and-socket knuckle joints along the shared top rim, calibrated to 0.35mm radial and 0.40mm axial clearances with 45° self-supporting overhang angles so the hinge breaks free smoothly on first flexion.
+A single-piece, zero-assembly hinged box where body and lid are laid flat at 180° on the print bed in a single print job. Joined by a 3D-printable bridge joining the two halves of the box along the shared mating rim at ``z = height / 2.0``, with a configurable bridge width of at least 0.40mm (``pip_bridge_width``, default 0.40mm) and thickness (``pip_bridge_thickness``, default 0.40mm) ensuring clean, support-free 3D printing with 0° overhangs.
 
 .. pythonscad-example::
 
@@ -600,8 +600,8 @@ A single-piece, zero-assembly hinged box where body and lid are laid flat at 180
        "HingedBox",
        size=(60.0, 45.0, 22.0),
        color=Color("forestgreen"),
-       pip_radial_clearance=0.35,
-       pip_axial_clearance=0.40,
+       pip_bridge_width=0.40,
+       pip_bridge_thickness=0.40,
        lid=LidBuilder(
            label_mode=LabelMode.FRAMED,
            frame_color=Color("gold"),

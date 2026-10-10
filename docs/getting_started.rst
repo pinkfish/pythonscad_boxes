@@ -229,7 +229,7 @@ Hinged & Folding Closures
 Monolithic Print-In-Place Hinge Box (``BoxType.PRINT_IN_PLACE_HINGE``)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-A zero-assembly 1-piece print laid flat at 180° on the print bed with interlocking captive pin knuckles and front snap catches from ``pybosl2``:
+A zero-assembly 1-piece print laid flat at 180° on the print bed with a 3D-printable flexible bridge hinge and front snap catches:
 
 .. pythonscad-example::
 
@@ -238,8 +238,8 @@ A zero-assembly 1-piece print laid flat at 180° on the print bed with interlock
        BoxType.PRINT_IN_PLACE_HINGE,
        "MiniDeckBox",
        size=(70.0, 50.0, 25.0),
-       pip_radial_clearance=0.35,
-       pip_axial_clearance=0.40,
+       pip_bridge_width=0.40,
+       pip_bridge_thickness=0.40,
    )
    project.show(show_lids=True)
 

@@ -2012,10 +2012,11 @@ The library clearly differentiates and implements the three hinged box closure m
    - Removed the erroneous `parting = block(...)` horizontal cutter previously subtracted at `axis_z`.
    - Alternating body and lid knuckles are segmented axially along X with clearance gaps `gap` and radially cleared by `body_cut`/`lid_cut`. Knuckles are 100% solid along Z without horizontal parting voids, and the closed box mates with zero collision (`collision volume = 1.08e-12 mm³`).
 
-3. **Print-in-Place Hinge 50/50 Split & Rim-Level Knuckles (`pyboxbuilder/box/types/pip_hinge.py`)**:
+3. **Print-in-Place Hinge 50/50 Split & 3D-Printable Bridge Hinge (`pyboxbuilder/box/types/pip_hinge.py`)**:
    - The box splits halfway up the side (`half_h = spec.height / 2.0`), producing equal-depth base body and lid trays.
-   - The captive `KnuckleHingePair` is elevated to `z = half_h`, aligning it with the shared mating rim where the box closes.
-   - 45° self-supporting overhang chamfer wedges (`wedge` from `pybosl2.shapes3d`) connect the elevated hinge arms to the tray back walls, ensuring clean 3D printing without support material.
+   - The two halves are joined along the shared mating rim at `z = half_h` by a 3D-printable bridge.
+   - The bridge between the two halves of the box is at least 0.40mm wide at the smallest (the minimum printable bridge span for a standard 0.4mm FDM nozzle) and is fully configurable via `spec.pip_bridge_width` (default 0.40mm, minimum 0.40mm) and `spec.pip_bridge_thickness` (default 0.40mm).
+   - All unprintable overhangs are eliminated: the previous `KnuckleHingePair` had horizontal bores and mid-air suspended pins elevated at `z = half_h` (10-15mm above the bed) with floating wedges that could not slice or print. In the redesigned architecture, both trays print with 100% vertical exterior walls (0° overhang angle) from the print bed, and the bridge cleanly spans the gap at `z = half_h` without support material.
    - `SnapSocket` and `SnapLock` catches are positioned on the mating front rims at `z = half_h`.
    - Interior usable height of the base tray is `half_h - floor_thickness`.
 
