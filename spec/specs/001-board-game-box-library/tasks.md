@@ -1363,6 +1363,15 @@ stop the class of mistake from being expressible.
 - [x] T464 [P] Add unit tests in `tests/test_pyboxbuilder/test_extended_boxes.py` validating 0.4mm default bridge width, configurability, minimum width validation, and zero overhangs in the air gap below the bridge.
 
 
+## Phase 56: Rounded Base Geometry for Ergonomic Extraction (FR-107)
+
+**Goal**: Replace 3.0mm bottom chamfer with rounded base of radius `wall_thickness` (configurable via `base_rounding`), enabling smooth tilt-to-lift rocking for box extraction without aggressive chamfer cuts.
+
+- [x] T465 [P] Add `base_rounding: float | None = None` and updated `tilt_to_lift` docstring to `BoxSpec`, `UnresolvedBoxSpec`, `ResolvedBoxSpec`, `BoxBuilderBase`, and `Project`.
+- [x] T466 [P] Update `build_shell` in `pyboxbuilder/box/shell.py` to round bottom edges with `base_rounding(spec) = wall_thickness` instead of cutting 3.0mm chamfers (`bottom_chamfer_slivers`).
+- [x] T467 [P] Add unit tests in `tests/test_pyboxbuilder/test_extraction.py` validating rounded base radius `wall_thickness`, `base_rounding` override, `tilt_to_lift=False` fallback, and absence of 3mm chamfer.
+
+
 ## Notes
 
 

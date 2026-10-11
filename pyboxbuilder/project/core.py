@@ -82,6 +82,12 @@ class Project:
     ``None`` derives it per box as ``wall_thickness / 2``. ``0`` leaves
     every edge square.
     """
+    base_rounding: float | None = None
+    """Edge radius for every box's base/bottom edges.
+
+    ``None`` derives it per box as ``wall_thickness``. ``0`` leaves
+    the base edge square.
+    """
     inner_rounding: float | None = None
     """Edge radius where a partial lid grips the body (FR-044b).
 

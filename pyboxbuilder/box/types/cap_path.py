@@ -48,19 +48,27 @@ class CapPathBox(BoxTypeBase):
 
             return CapBox().build_body(spec)
 
-        # A polygon body is set in all round and stops short, so the cap that
-        # wraps it comes back out to the declared footprint and height.
         wt = spec.wall_thickness
         ft = spec.floor_thickness
         inset, body_height = path_body_metrics(spec)
-
+        cap_h = spec.cap_height or min(10.0, spec.height / 2)
+        band_z = spec.height - cap_h
         body_path = offset_footprint(path, inset)
-        outer = extrude_footprint(body_path, body_height)
+
+        if band_z >= body_height:
+            outer = extrude_footprint(path, body_height)
+        elif band_z > 0:
+            outer = extrude_footprint(path, band_z, 0.0) | extrude_footprint(
+                body_path, body_height, 0.0
+            )
+        else:
+            outer = extrude_footprint(body_path, body_height, 0.0)
+
         if not spec.hollow:
             body = outer
         else:
             inner = extrude_footprint(
-                offset_footprint(body_path, wt), body_height - ft, ft
+                offset_footprint(path, wt), body_height - ft, ft
             )
             body = outer - inner
         if spec.interlock_type not in (None, InterlockType.NONE):

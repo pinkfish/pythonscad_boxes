@@ -167,24 +167,36 @@ def build_shell(spec: BoxSpec) -> Bosl2Solid:
     size = [spec.width, spec.length, spec.height]
     outer = block(size)
 
-    if spec.tilt_to_lift:
-        outer = outer - bottom_chamfer_slivers(size, 3.0)
-
     # Round what a hand grips: the vertical corners and the base always, and the
     # top rim too when nothing has to mate with it. On a lidded box the rim is a
     # sealing surface, so its rounding lives on the lid instead — the closed box
     # still reads as rounded top, sides and bottom (FR-043/FR-044).
-    radius = body_rounding(spec)
-    if radius > 0:
-        if spec.tilt_to_lift:
-            edges = list(vertical_edges())
-            if spec.rim_free:
-                edges = [*edges, _top_anchor()]
-        else:
+    # The base has a rounded bottom (defaulting to wall_thickness) so the box rocks
+    # up smoothly for extraction without a sharp or chamfered bottom edge.
+    v_radius = body_rounding(spec)
+    b_radius = base_rounding(spec)
+
+    v_edges = list(vertical_edges())
+    if spec.rim_free:
+        v_edges = [*v_edges, _top_anchor()]
+
+    if (
+        v_radius == b_radius
+        and not getattr(spec, "tilt_to_lift", False)
+        and getattr(spec, "base_rounding", None) is None
+    ):
+        if v_radius > 0:
             edges = vertical_and_bottom_edges()
             if spec.rim_free:
                 edges = [*edges, _top_anchor()]
-        outer = round_edges(outer, size, radius, edges)
+            outer = round_edges(outer, size, v_radius, edges)
+    else:
+        if v_radius > 0:
+            outer = round_edges(outer, size, v_radius, v_edges)
+        if b_radius > 0:
+            from pybosl2 import Anchor
+
+            outer = round_edges(outer, size, b_radius, [Anchor.BOTTOM])
 
     # A type whose top face is exposed *with the lid on* rounds that edge too,
     # at its own radius — a sliding box, whose lid lies down in the channel so
@@ -200,6 +212,29 @@ def build_shell(spec: BoxSpec) -> Bosl2Solid:
     outer = apply_finger_holes(outer, spec)
     outer = apply_ribbon_channels(outer, spec)
     return outer
+
+
+def base_rounding(spec: BoxSpec) -> float:
+    """Return the edge radius for this box body's base.
+
+    The base is rounded by wall_thickness (smaller than the previous 3mm chamfer)
+    so the box rocks smoothly for extraction without a sharp or chamfered base.
+
+    Args:
+        spec: Reads `base_rounding`, `rounding`, `tilt_to_lift`, and `wall_thickness`.
+
+    Returns:
+        The radius in mm. ``0`` disables rounding entirely.
+
+    """
+    explicit = getattr(spec, "base_rounding", None)
+    if explicit is not None:
+        return max(0.0, float(explicit))
+    if spec.rounding == 0:
+        return 0.0
+    if getattr(spec, "tilt_to_lift", False):
+        return float(spec.wall_thickness)
+    return body_rounding(spec)
 
 
 def body_rounding(spec: BoxSpec) -> float:

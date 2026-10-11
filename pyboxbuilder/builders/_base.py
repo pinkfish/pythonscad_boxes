@@ -87,6 +87,8 @@ class BoxBuilder:
     """Per-box lid thickness override."""
     rounding: float | None = None
     """Edge radius for this box's exposed edges; None uses the project default."""
+    base_rounding: float | None = None
+    """Edge radius for this box body's base; None uses wall_thickness."""
     inner_rounding: float | None = None
     """Edge radius where a partial lid grips this body; None uses half the outer radius."""
     lid: LidBuilder | None = None
@@ -114,7 +116,7 @@ class BoxBuilder:
     compartments: tuple[CompartmentBuilder, ...] = ()
     """Interior compartments."""
     tilt_to_lift: bool = True
-    """Subtle bottom bevel to rock box up for easy extraction."""
+    """Subtle bottom rounding (wall_thickness) to rock box up for easy extraction."""
     keystone: bool = False
     """Make this the first-out box with extra clearance and a finger scoop."""
     ribbon_channel: bool | None = None

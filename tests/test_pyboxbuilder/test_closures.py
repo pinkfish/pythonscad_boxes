@@ -592,8 +592,15 @@ class PathClosureTests(unittest.TestCase):
         body = box.build_body(self.spec())
         lid = box.build_lid(self.spec())
         self.assertLess(volume(body & lid), 0.01)
-        # The cap wraps the body, so its footprint is larger.
-        self.assertGreater(bbox(lid)[1][0], bbox(body)[1][0])
+        # The base of the body matches the declared footprint so the cap skirt
+        # has a shoulder to rest on, while the upper band is stepped in.
+        self.assertAlmostEqual(bbox(body)[1][0], bbox(lid)[1][0], places=3)
+        cap_h = self.spec().cap_height or min(10.0, self.spec().height / 2)
+        band_z = self.spec().height - cap_h
+        from pyboxbuilder.box.features import extrude_footprint
+        probe_band = extrude_footprint(self.L_SHAPE, self.spec().height - band_z - 0.5, band_z + 0.5)
+        collar = body & probe_band
+        self.assertLess(bbox(collar)[1][0], bbox(lid)[1][0])
 
     def test_a_slipover_path_sleeve_follows_the_polygon(self) -> None:
         box = BOX_IMPL_REGISTRY[BoxType.SLIPOVER_PATH]()

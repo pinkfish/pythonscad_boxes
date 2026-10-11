@@ -55,6 +55,8 @@ class SlipoverPathBox(BoxTypeBase):
 
         body_path = offset_footprint(path, inset)
         outer = extrude_footprint(body_path, body_height)
+        if spec.foot > 0:
+            outer = outer | extrude_footprint(path, spec.foot, 0.0)
         if not spec.hollow:
             body = outer
         else:
