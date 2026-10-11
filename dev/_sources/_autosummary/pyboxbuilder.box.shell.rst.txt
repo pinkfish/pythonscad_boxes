@@ -21,6 +21,7 @@ pyboxbuilder.box.shell
    
       apply_finger_holes
       apply_ribbon_channels
+      base_rounding
       block
       body_rounding
       bottom_chamfer_slivers

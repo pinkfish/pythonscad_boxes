@@ -622,24 +622,36 @@
     <span class="n">size</span> <span class="o">=</span> <span class="p">[</span><span class="n">spec</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">height</span><span class="p">]</span>
     <span class="n">outer</span> <span class="o">=</span> <span class="n">block</span><span class="p">(</span><span class="n">size</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">tilt_to_lift</span><span class="p">:</span>
-        <span class="n">outer</span> <span class="o">=</span> <span class="n">outer</span> <span class="o">-</span> <span class="n">bottom_chamfer_slivers</span><span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">)</span>
-
     <span class="c1"># Round what a hand grips: the vertical corners and the base always, and the</span>
     <span class="c1"># top rim too when nothing has to mate with it. On a lidded box the rim is a</span>
     <span class="c1"># sealing surface, so its rounding lives on the lid instead — the closed box</span>
     <span class="c1"># still reads as rounded top, sides and bottom (FR-043/FR-044).</span>
-    <span class="n">radius</span> <span class="o">=</span> <span class="n">body_rounding</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">radius</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">tilt_to_lift</span><span class="p">:</span>
-            <span class="n">edges</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">vertical_edges</span><span class="p">())</span>
-            <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">rim_free</span><span class="p">:</span>
-                <span class="n">edges</span> <span class="o">=</span> <span class="p">[</span><span class="o">*</span><span class="n">edges</span><span class="p">,</span> <span class="n">_top_anchor</span><span class="p">()]</span>
-        <span class="k">else</span><span class="p">:</span>
+    <span class="c1"># The base has a rounded bottom (defaulting to wall_thickness) so the box rocks</span>
+    <span class="c1"># up smoothly for extraction without a sharp or chamfered bottom edge.</span>
+    <span class="n">v_radius</span> <span class="o">=</span> <span class="n">body_rounding</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
+    <span class="n">b_radius</span> <span class="o">=</span> <span class="n">base_rounding</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
+
+    <span class="n">v_edges</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">vertical_edges</span><span class="p">())</span>
+    <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">rim_free</span><span class="p">:</span>
+        <span class="n">v_edges</span> <span class="o">=</span> <span class="p">[</span><span class="o">*</span><span class="n">v_edges</span><span class="p">,</span> <span class="n">_top_anchor</span><span class="p">()]</span>
+
+    <span class="k">if</span> <span class="p">(</span>
+        <span class="n">v_radius</span> <span class="o">==</span> <span class="n">b_radius</span>
+        <span class="ow">and</span> <span class="ow">not</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="s2">"tilt_to_lift"</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="ow">and</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="s2">"base_rounding"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span>
+    <span class="p">):</span>
+        <span class="k">if</span> <span class="n">v_radius</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="n">edges</span> <span class="o">=</span> <span class="n">vertical_and_bottom_edges</span><span class="p">()</span>
             <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">rim_free</span><span class="p">:</span>
                 <span class="n">edges</span> <span class="o">=</span> <span class="p">[</span><span class="o">*</span><span class="n">edges</span><span class="p">,</span> <span class="n">_top_anchor</span><span class="p">()]</span>
-        <span class="n">outer</span> <span class="o">=</span> <span class="n">round_edges</span><span class="p">(</span><span class="n">outer</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">radius</span><span class="p">,</span> <span class="n">edges</span><span class="p">)</span>
+            <span class="n">outer</span> <span class="o">=</span> <span class="n">round_edges</span><span class="p">(</span><span class="n">outer</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">v_radius</span><span class="p">,</span> <span class="n">edges</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">v_radius</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">outer</span> <span class="o">=</span> <span class="n">round_edges</span><span class="p">(</span><span class="n">outer</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">v_radius</span><span class="p">,</span> <span class="n">v_edges</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">b_radius</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">Anchor</span>
+
+            <span class="n">outer</span> <span class="o">=</span> <span class="n">round_edges</span><span class="p">(</span><span class="n">outer</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">b_radius</span><span class="p">,</span> <span class="p">[</span><span class="n">Anchor</span><span class="o">.</span><span class="n">BOTTOM</span><span class="p">])</span>
 
     <span class="c1"># A type whose top face is exposed *with the lid on* rounds that edge too,</span>
     <span class="c1"># at its own radius — a sliding box, whose lid lies down in the channel so</span>
@@ -655,6 +667,32 @@
     <span class="n">outer</span> <span class="o">=</span> <span class="n">apply_finger_holes</span><span class="p">(</span><span class="n">outer</span><span class="p">,</span> <span class="n">spec</span><span class="p">)</span>
     <span class="n">outer</span> <span class="o">=</span> <span class="n">apply_ribbon_channels</span><span class="p">(</span><span class="n">outer</span><span class="p">,</span> <span class="n">spec</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">outer</span></div>
+
+
+
+<div class="viewcode-block" id="base_rounding">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.shell.base_rounding.html#pyboxbuilder.box.shell.base_rounding">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">base_rounding</span><span class="p">(</span><span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Return the edge radius for this box body's base.</span>
+
+<span class="sd">    The base is rounded by wall_thickness (smaller than the previous 3mm chamfer)</span>
+<span class="sd">    so the box rocks smoothly for extraction without a sharp or chamfered base.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        spec: Reads `base_rounding`, `rounding`, `tilt_to_lift`, and `wall_thickness`.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        The radius in mm. ``0`` disables rounding entirely.</span>
+
+<span class="sd">    """</span>
+    <span class="n">explicit</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="s2">"base_rounding"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">explicit</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">explicit</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">rounding</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mf">0.0</span>
+    <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="s2">"tilt_to_lift"</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">wall_thickness</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">body_rounding</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span></div>
 
 
 

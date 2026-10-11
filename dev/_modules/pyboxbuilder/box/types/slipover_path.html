@@ -500,6 +500,8 @@
 
         <span class="n">body_path</span> <span class="o">=</span> <span class="n">offset_footprint</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">inset</span><span class="p">)</span>
         <span class="n">outer</span> <span class="o">=</span> <span class="n">extrude_footprint</span><span class="p">(</span><span class="n">body_path</span><span class="p">,</span> <span class="n">body_height</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">foot</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">outer</span> <span class="o">=</span> <span class="n">outer</span> <span class="o">|</span> <span class="n">extrude_footprint</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">foot</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">spec</span><span class="o">.</span><span class="n">hollow</span><span class="p">:</span>
             <span class="n">body</span> <span class="o">=</span> <span class="n">outer</span>
         <span class="k">else</span><span class="p">:</span>

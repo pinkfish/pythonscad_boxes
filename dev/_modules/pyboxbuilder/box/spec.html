@@ -587,6 +587,8 @@
     <span class="c1"># ── Rounding (FR-043/FR-044) ─────────────────────────────────────────</span>
     <span class="n">rounding</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="w">    </span><span class="sd">"""Radius for this body's exposed edges; ``None`` uses half the wall."""</span>
+    <span class="n">base_rounding</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">"""Radius for this body's base/bottom edges; ``None`` derives it from wall_thickness."""</span>
     <span class="n">inner_rounding</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="w">    </span><span class="sd">"""Radius where a partial lid grips the body; ``None`` uses half the</span>
 <span class="sd">    outer radius (FR-044b)."""</span>
@@ -713,7 +715,7 @@
 
     <span class="c1"># ── Extraction (Phase 3) ─────────────────────────────────────────────</span>
     <span class="n">tilt_to_lift</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
-<span class="w">    </span><span class="sd">"""Subtle bottom bevel to rock box up for easy extraction."""</span>
+<span class="w">    </span><span class="sd">"""Subtle bottom rounding (wall_thickness) to rock box up for easy extraction."""</span>
     <span class="n">keystone</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
 <span class="w">    </span><span class="sd">"""Make this the first-out box with extra clearance and a finger scoop."""</span>
     <span class="n">ribbon_channel</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
@@ -971,6 +973,7 @@
 
     <span class="c1"># Rounding</span>
     <span class="n">rounding</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">base_rounding</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">inner_rounding</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">rim_free</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="n">rim_rounding</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
@@ -1206,6 +1209,9 @@
             <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">unresolved_fields</span> <span class="ow">and</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">_NOT_GEOMETRY</span> <span class="ow">and</span> <span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
         <span class="p">}</span>
         <span class="n">builder_hollow</span> <span class="o">=</span> <span class="n">overrides</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"hollow"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">overrides</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"rounding"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">overrides</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"base_rounding"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">overrides</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"inner_rounding"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">builder</span><span class="o">.</span><span class="n">compartments</span><span class="p">:</span>
             <span class="n">hollow</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="k">elif</span> <span class="n">builder_hollow</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -1240,6 +1246,11 @@
                 <span class="n">builder</span><span class="o">.</span><span class="n">rounding</span>
                 <span class="k">if</span> <span class="n">builder</span><span class="o">.</span><span class="n">rounding</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
                 <span class="k">else</span> <span class="p">(</span><span class="n">project</span><span class="o">.</span><span class="n">rounding</span> <span class="k">if</span> <span class="n">project</span> <span class="k">else</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="p">),</span>
+            <span class="n">base_rounding</span><span class="o">=</span><span class="p">(</span>
+                <span class="nb">getattr</span><span class="p">(</span><span class="n">builder</span><span class="p">,</span> <span class="s2">"base_rounding"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+                <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">builder</span><span class="p">,</span> <span class="s2">"base_rounding"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+                <span class="k">else</span> <span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">project</span><span class="p">,</span> <span class="s2">"base_rounding"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="k">if</span> <span class="n">project</span> <span class="k">else</span> <span class="kc">None</span><span class="p">)</span>
             <span class="p">),</span>
             <span class="n">inner_rounding</span><span class="o">=</span><span class="p">(</span>
                 <span class="n">builder</span><span class="o">.</span><span class="n">inner_rounding</span>

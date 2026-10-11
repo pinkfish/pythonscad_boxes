@@ -493,19 +493,27 @@
 
             <span class="k">return</span> <span class="n">CapBox</span><span class="p">()</span><span class="o">.</span><span class="n">build_body</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
 
-        <span class="c1"># A polygon body is set in all round and stops short, so the cap that</span>
-        <span class="c1"># wraps it comes back out to the declared footprint and height.</span>
         <span class="n">wt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">wall_thickness</span>
         <span class="n">ft</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">floor_thickness</span>
         <span class="n">inset</span><span class="p">,</span> <span class="n">body_height</span> <span class="o">=</span> <span class="n">path_body_metrics</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
-
+        <span class="n">cap_h</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">cap_height</span> <span class="ow">or</span> <span class="nb">min</span><span class="p">(</span><span class="mf">10.0</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">height</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="n">band_z</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">height</span> <span class="o">-</span> <span class="n">cap_h</span>
         <span class="n">body_path</span> <span class="o">=</span> <span class="n">offset_footprint</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">inset</span><span class="p">)</span>
-        <span class="n">outer</span> <span class="o">=</span> <span class="n">extrude_footprint</span><span class="p">(</span><span class="n">body_path</span><span class="p">,</span> <span class="n">body_height</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">band_z</span> <span class="o">&gt;=</span> <span class="n">body_height</span><span class="p">:</span>
+            <span class="n">outer</span> <span class="o">=</span> <span class="n">extrude_footprint</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">body_height</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">band_z</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">outer</span> <span class="o">=</span> <span class="n">extrude_footprint</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">band_z</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span> <span class="o">|</span> <span class="n">extrude_footprint</span><span class="p">(</span>
+                <span class="n">body_path</span><span class="p">,</span> <span class="n">body_height</span><span class="p">,</span> <span class="mf">0.0</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">outer</span> <span class="o">=</span> <span class="n">extrude_footprint</span><span class="p">(</span><span class="n">body_path</span><span class="p">,</span> <span class="n">body_height</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+
         <span class="k">if</span> <span class="ow">not</span> <span class="n">spec</span><span class="o">.</span><span class="n">hollow</span><span class="p">:</span>
             <span class="n">body</span> <span class="o">=</span> <span class="n">outer</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">inner</span> <span class="o">=</span> <span class="n">extrude_footprint</span><span class="p">(</span>
-                <span class="n">offset_footprint</span><span class="p">(</span><span class="n">body_path</span><span class="p">,</span> <span class="n">wt</span><span class="p">),</span> <span class="n">body_height</span> <span class="o">-</span> <span class="n">ft</span><span class="p">,</span> <span class="n">ft</span>
+                <span class="n">offset_footprint</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">wt</span><span class="p">),</span> <span class="n">body_height</span> <span class="o">-</span> <span class="n">ft</span><span class="p">,</span> <span class="n">ft</span>
             <span class="p">)</span>
             <span class="n">body</span> <span class="o">=</span> <span class="n">outer</span> <span class="o">-</span> <span class="n">inner</span>
         <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">interlock_type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">InterlockType</span><span class="o">.</span><span class="n">NONE</span><span class="p">):</span>
