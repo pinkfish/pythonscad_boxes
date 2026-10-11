@@ -107,6 +107,9 @@ Use `pybosl2.Color` directly — no custom Color class. Supports webcolor names 
 | `wall_thickness` | `float \| None` | None (project default) |
 | `floor_thickness` | `float \| None` | None |
 | `lid_thickness` | `float \| None` | None |
+| `rounding` | `float \| None` | None (project default or half wall thickness) |
+| `base_rounding` | `float \| None` | None (defaults to wall_thickness; FR-107) |
+| `tilt_to_lift` | `bool` | True (subtle bottom rounding for ergonomic extraction) |
 | `lid` | `LidBuilder \| None` | None |
 | `catch_type` | `CatchType \| None` | None (:attr:`CatchType.NONE`, :attr:`CatchType.BUMP`, :attr:`CatchType.LOOP`, :attr:`CatchType.WEDGE`, :attr:`CatchType.MAGNET`, :attr:`CatchType.LEAF_SPRING`; FR-099) |
 | `interlock_type` | `InterlockType \| None` | None (:attr:`InterlockType.DOVETAIL`, :attr:`InterlockType.MAGNET`, :attr:`InterlockType.CLIP`; FR-102) |

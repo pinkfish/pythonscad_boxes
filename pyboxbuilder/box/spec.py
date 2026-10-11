@@ -147,6 +147,8 @@ class BoxSpec:
     # ── Rounding (FR-043/FR-044) ─────────────────────────────────────────
     rounding: float | None = None
     """Radius for this body's exposed edges; ``None`` uses half the wall."""
+    base_rounding: float | None = None
+    """Radius for this body's base/bottom edges; ``None`` derives it from wall_thickness."""
     inner_rounding: float | None = None
     """Radius where a partial lid grips the body; ``None`` uses half the
     outer radius (FR-044b)."""
@@ -273,7 +275,7 @@ class BoxSpec:
 
     # ── Extraction (Phase 3) ─────────────────────────────────────────────
     tilt_to_lift: bool = False
-    """Subtle bottom bevel to rock box up for easy extraction."""
+    """Subtle bottom rounding (wall_thickness) to rock box up for easy extraction."""
     keystone: bool = False
     """Make this the first-out box with extra clearance and a finger scoop."""
     ribbon_channel: bool = False
@@ -507,6 +509,7 @@ class UnresolvedBoxSpec:
 
     # Rounding
     rounding: float | None = None
+    base_rounding: float | None = None
     inner_rounding: float | None = None
     rim_free: bool = False
     rim_rounding: float | None = None
@@ -737,6 +740,9 @@ class UnresolvedBoxSpec:
             if name in unresolved_fields and name not in _NOT_GEOMETRY and value is not None
         }
         builder_hollow = overrides.pop("hollow", None)
+        overrides.pop("rounding", None)
+        overrides.pop("base_rounding", None)
+        overrides.pop("inner_rounding", None)
         if builder.compartments:
             hollow = False
         elif builder_hollow is not None:
@@ -771,6 +777,11 @@ class UnresolvedBoxSpec:
                 builder.rounding
                 if builder.rounding is not None
                 else (project.rounding if project else None)
+            ),
+            base_rounding=(
+                getattr(builder, "base_rounding", None)
+                if getattr(builder, "base_rounding", None) is not None
+                else (getattr(project, "base_rounding", None) if project else None)
             ),
             inner_rounding=(
                 builder.inner_rounding

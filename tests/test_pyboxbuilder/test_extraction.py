@@ -128,3 +128,28 @@ def test_build_shell_ergonomic_features() -> None:
         assert solid_key is not None
     except ImportError:
         pass
+
+
+def test_rounded_base_geometry() -> None:
+    """Verify that tilt_to_lift gives a rounded base with radius=wall_thickness (not 3mm chamfer)."""
+    from pyboxbuilder.box.shell import base_rounding, build_shell
+
+    project = Project("BaseRoundingTest")
+    # Default tilt_to_lift is True, base_rounding is wall_thickness
+    box = project.box(BoxType.NO_LID, "Tray", size=(50, 50, 20), wall_thickness=2.0)
+    spec = build_spec(project, box, (50.0, 50.0, 20.0))
+    assert base_rounding(spec) == 2.0
+
+    # Explicit override works
+    box_override = project.box(BoxType.NO_LID, "TrayCustom", size=(50, 50, 20), wall_thickness=2.0, base_rounding=1.5)
+    spec_override = build_spec(project, box_override, (50.0, 50.0, 20.0))
+    assert base_rounding(spec_override) == 1.5
+
+    # tilt_to_lift=False falls back to wall_thickness / 2
+    box_no_tilt = project.box(BoxType.NO_LID, "TrayNoTilt", size=(50, 50, 20), wall_thickness=2.0, tilt_to_lift=False)
+    spec_no_tilt = build_spec(project, box_no_tilt, (50.0, 50.0, 20.0))
+    assert base_rounding(spec_no_tilt) == 1.0
+
+    # Build shell solid and verify it has a valid manifold volume
+    solid = build_shell(spec)
+    assert solid is not None

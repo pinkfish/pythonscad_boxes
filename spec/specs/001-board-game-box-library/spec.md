@@ -732,6 +732,12 @@ A finger cut is one shape swept through one wall, and these are its requirements
     - `LatchAxis`: `X = "x"`, `Y = "y"`
     - `ColorMode`: `MMU = "mmu"`, `SINGLE = "single"`
 
+- **FR-107**: **Rounded Base Geometry for Box Extraction (`wall_thickness`)**:
+  All box bodies MUST feature a rounded base along the bottom outer edges of the box body, replacing any bottom chamfer or bevel:
+  - **Rounded Base Profile**: Box bodies have a rounded bottom edge profile rather than a chamfer. The rounding radius defaults to `wall_thickness` (e.g. `spec.wall_thickness`), which is smaller and gentler than the former 3.0mm chamfer.
+  - **Ergonomic Rocking ("Tilt-to-Lift")**: The rounded base allows tightly nested sub-boxes in game inserts to rock and tilt up smoothly for easy retrieval without catching on sharp 90° corners or presenting aggressive 45° chamfered cuts.
+  - **Customization and Overrides**: Callers may explicitly set `base_rounding` per box or project to override the radius. If `spec.rounding == 0` and no explicit `base_rounding` is provided, all edges (including the base) stay square. When `tilt_to_lift=False`, the base rounding falls back to the standard body edge radius `body_rounding(spec)` (`wall_thickness / 2`).
+
 - **BoxSpec**: The complete configuration of a single box -- outer dimensions (explicit or auto-computed from compartments), wall/floor/lid thicknesses, lid type, compartments, finger holes, labelling decorations, material colours, print positioning, auto-expand behaviour (expandable axes), and a `no_rotate` flag (default `False`) that prevents the 3D packer from rotating the box. Immutable once built. If `size` is omitted, dimensions are derived from compartment layout during packing.
 - **BoxType**: Abstracts the lid mechanism -- defines how the body is constructed (e.g., with dovetail grooves for sliding, with overhangs for caps, cantilever snap latches, bayonets, threads, dispensers, card shoes, sleeve drawers, clamshells, modular interlocks, or monolithic print-in-place hinges) and what lid geometry mates with it.
 - **CatchType**: The enum defining the lid retention mechanism (`NONE`, `BUMP`, `LOOP`, `WEDGE`, `MAGNET`, `LEAF_SPRING`) across all lidded box families requiring positive closure latching.
