@@ -37,8 +37,9 @@ class SlipoverPathBoxBuilder(BoxBuilder):
 
     path: tuple[tuple[float, float], ...] = ()
     """Closed 2D outline of the tray footprint, in mm, in the box's own frame."""
-    foot: float = 0.0
-    """Height of the exposed base the sleeve stops against, in mm."""
+    foot: float = 2.0
+    """Height of the exposed base the sleeve stops against, in mm. A small
+    foot matches the outer sleeve footprint for clean box stacking."""
     slip: float = 1.6
     """Thickness of the sleeve wall that wraps the body."""
     hollow: bool = True

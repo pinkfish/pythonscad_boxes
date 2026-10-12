@@ -1383,6 +1383,17 @@ stop the class of mistake from being expressible.
 - [x] T472 [P] Add unit tests in `tests/test_pyboxbuilder/test_polygon_lid.py` and `tests/test_pyboxbuilder/test_extraction.py` validating longest open space label positioning and base chamfer option.
 
 
+## Phase 58: Unify Slipover Lid Semantics & Default Foot for Stacking (FR-104)
+
+**Goal**: Unify lid semantics between rectangular and polygon slipover boxes so sleeves stop short of the foot (`z = foot + gap`, `skirt = spec.height - foot - gap`), leaving an exposed finger band. Add a default 2.0mm foot on the bottom for both slipover types to ensure stable stacking in boxes.
+
+- [x] T473 [P] Update `path_sleeve` in `pyboxbuilder/box/features.py` to stop a gap short of the foot (`base_z = foot + gap`, `skirt = spec.height - foot - gap`) matching `SlipoverBox`.
+- [x] T474 [P] Update `_finger_notches` in `pyboxbuilder/box/types/slipover_path.py` to position notches at `base_z = foot + gap`.
+- [x] T475 [P] Add `DEFAULT_SLIPOVER_FOOT_MM = 2.0` in `pyboxbuilder/box/features.py` and default `foot: float = 2.0` in `SlipoverBoxBuilder`, `SlipoverPathBoxBuilder`, `UnresolvedBoxSpec`, and `BoxSpec`.
+- [x] T476 [P] Update `SlipoverBox.build_body` in `pyboxbuilder/box/types/slipover.py` to apply base rounding/chamfer to `foot_block` and carve interior cavity when `foot > floor_thickness`.
+- [x] T477 [P] Update and add unit tests in `tests/test_pyboxbuilder/test_slipover_polygon.py` and `tests/test_pyboxbuilder/test_closures.py` validating unified lid elevation, notch placement, and base foot stacking alignment.
+
+
 ## Notes
 
 

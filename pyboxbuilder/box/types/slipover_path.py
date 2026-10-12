@@ -93,6 +93,7 @@ class SlipoverPathBox(BoxTypeBase):
         from pybosl2.constants import Anchor
         from pybosl2.shapes3d import cyl
 
+        from pyboxbuilder.box.features import slipover_gap
         from pyboxbuilder.box.types.slipover import (
             SLIPOVER_FINGER_MAX_MM,
             SLIPOVER_FINGER_MIN_RADIUS_MM,
@@ -100,8 +101,10 @@ class SlipoverPathBox(BoxTypeBase):
         from pyboxbuilder.compartments.element import union_all
         from pyboxbuilder.paths import polygon_opposite_corners
 
+        lt = spec.lid_thickness
         foot = spec.foot
-        skirt = spec.height - foot
+        gap = min(slipover_gap(spec), spec.height - foot - lt)
+        skirt = spec.height - foot - gap
         requested = spec.slipover_finger_height
         height = (
             min(SLIPOVER_FINGER_MAX_MM, skirt / 2) if requested is None
@@ -116,7 +119,7 @@ class SlipoverPathBox(BoxTypeBase):
             return None
 
         n = len(path)
-        base_z = foot
+        base_z = foot + gap
         notches = []
         for idx in corner_indices:
             p = path[idx]

@@ -409,6 +409,10 @@ reasoning the cap box's skirt already uses.
 """
 
 
+DEFAULT_SLIPOVER_FOOT_MM = 2.0
+"""Default height of the exposed base/foot below a slipover sleeve (FR-002p)."""
+
+
 SLIPOVER_GAP_MIN_MM = 3.0
 """Least body a slipover sleeve leaves showing above the foot (FR-002p)."""
 
@@ -1633,17 +1637,20 @@ def path_sleeve(
     spec: BoxSpec,
     path: tuple[tuple[float, float], ...],
     slip: float,
-    foot: float = 0.0,
+    foot: float | None = None,
 ) -> Bosl2Solid:
     """Return a sleeve that slips over a polygon-footprint body, stopping at the foot."""
     lt = spec.lid_thickness
     slack = spec.slip_slack
     inset, _ = path_body_metrics(spec)
-    skirt = spec.height - foot
+    foot_val = spec.foot if foot is None else float(foot)
+    gap = min(slipover_gap(spec), spec.height - foot_val - lt)
+    skirt = spec.height - foot_val - gap
+    base_z = foot_val + gap
 
-    outer = extrude_footprint(path, skirt, foot)
+    outer = extrude_footprint(path, skirt, base_z)
     cavity = extrude_footprint(
-        offset_footprint(path, inset - slack), skirt - lt, foot
+        offset_footprint(path, inset - slack), skirt - lt, base_z
     )
     return outer - cavity
 
