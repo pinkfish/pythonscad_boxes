@@ -89,6 +89,8 @@ class BoxBuilder:
     """Edge radius for this box's exposed edges; None uses the project default."""
     base_rounding: float | None = None
     """Edge radius for this box body's base; None uses wall_thickness."""
+    base_chamfer: float | bool | None = None
+    """Bottom chamfer in mm, or True for 3.0mm; None defaults to rounded base."""
     inner_rounding: float | None = None
     """Edge radius where a partial lid grips this body; None uses half the outer radius."""
     lid: LidBuilder | None = None

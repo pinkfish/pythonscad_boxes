@@ -70,7 +70,8 @@ def test_keystone_clearance_packing() -> None:
     assert b_norm.final_size == (80.0, 80.0, 40.0)
     assert b_key.final_size == (80.0, 40.0, 40.0)
 
-    # The placement size for the keystone box should be its original size
+    # The placement size for the keystone and normal boxes should be their original size
+    assert pl_norm.size == (80.0, 80.0, 40.0)
     assert pl_key.size == (80.0, 40.0, 40.0)
 
 
@@ -153,3 +154,32 @@ def test_rounded_base_geometry() -> None:
     # Build shell solid and verify it has a valid manifold volume
     solid = build_shell(spec)
     assert solid is not None
+
+
+def test_base_chamfer_option() -> None:
+    """Verify that base_chamfer can be explicitly configured on Project or Box."""
+    from pyboxbuilder.box.shell import build_shell
+
+    project = Project("BaseChamferTest", base_chamfer=1.5)
+    box_inherited = project.box(BoxType.NO_LID, "Inherited", size=(50, 50, 20))
+    spec_inherited = build_spec(project, box_inherited, (50.0, 50.0, 20.0))
+    assert spec_inherited.base_chamfer == 1.5
+
+    box_override = project.box(BoxType.NO_LID, "Override", size=(50, 50, 20), base_chamfer=3.0)
+    spec_override = build_spec(project, box_override, (50.0, 50.0, 20.0))
+    assert spec_override.base_chamfer == 3.0
+
+    box_bool = project.box(BoxType.NO_LID, "BoolChamfer", size=(50, 50, 20), base_chamfer=True)
+    spec_bool = build_spec(project, box_bool, (50.0, 50.0, 20.0))
+    assert spec_bool.base_chamfer is True
+
+    # None defaults to rounded base without chamfer
+    project_default = Project("DefaultProject")
+    box_default = project_default.box(BoxType.NO_LID, "DefaultBox", size=(50, 50, 20))
+    spec_default = build_spec(project_default, box_default, (50.0, 50.0, 20.0))
+    assert spec_default.base_chamfer is None
+
+    # Verify solid geometry builds for chamfered box
+    solid = build_shell(spec_override)
+    assert solid is not None
+
