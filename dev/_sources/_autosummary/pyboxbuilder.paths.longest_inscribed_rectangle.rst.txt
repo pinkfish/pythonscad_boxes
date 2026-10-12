@@ -1,0 +1,6 @@
+pyboxbuilder.paths.longest\_inscribed\_rectangle
+================================================
+
+.. currentmodule:: pyboxbuilder.paths
+
+.. autofunction:: longest_inscribed_rectangle

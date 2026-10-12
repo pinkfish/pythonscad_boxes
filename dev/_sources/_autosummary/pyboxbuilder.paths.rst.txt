@@ -23,6 +23,7 @@ pyboxbuilder.paths
       inset_rectilinear
       is_rectilinear
       largest_inscribed_rectangle
+      longest_inscribed_rectangle
       point_in_polygon
       polygon_area
       polygon_convex_corners
