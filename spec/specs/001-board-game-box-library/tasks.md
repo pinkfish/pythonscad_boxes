@@ -1402,6 +1402,15 @@ stop the class of mistake from being expressible.
 - [x] T479 [P] Add unit tests in `tests/test_pyboxbuilder/test_closures.py` (`test_lid_has_no_bridge_between_knuckles_at_back`) confirming open slots between knuckles and zero collision volume.
 
 
+## Phase 60: Gravity Tile Dispenser Rounded Through-Floor Notch & Modular Stacking (FR-084)
+
+**Goal**: Make the floor finger notch on `DispenserBox` rounded with smooth corner radii and pierce completely through both the base floor and internal slide ramp to eliminate any thin suspended layer, allowing direct finger contact on the bottom tile. Enable modular vertical stacking (`apply_stackable_body`, `apply_stackable_lid`).
+
+- [x] T480 [P] Redesign floor cutout in `pyboxbuilder/box/types/dispenser.py` with smooth corner radii (`r = min(floor_w / 4.0, 4.0)`) and full vertical height piercing both floor and slide ramp (`max_pierce_z = max(ft + slot_h, ramp_z) + 1.0`).
+- [x] T481 [P] Wire `apply_stackable_body` and `apply_stackable_lid` into `DispenserBox` in `pyboxbuilder/box/types/dispenser.py`.
+- [x] T482 [P] Add unit tests in `tests/test_pyboxbuilder/test_extended_boxes.py` (`test_dispenser_floor_notch_cuts_cleanly_through_ramp`, `test_dispenser_stackable`) confirming full penetration without collision and modular stacking.
+
+
 ## Notes
 
 

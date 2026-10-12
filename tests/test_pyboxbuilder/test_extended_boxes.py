@@ -496,4 +496,44 @@ class ExtendedBoxGeometryTests(unittest.TestCase):
         arch_probe = block([20.0, base_spec.wall_thickness, 15.0], at=((55.0 - 20.0) / 2.0, 0.0, 20.0))
         self.assertAlmostEqual(volume(arch_body & arch_probe), 0.0, delta=1.0)
 
+    def test_dispenser_floor_notch_cuts_cleanly_through_ramp(self) -> None:
+        """Verify the floor notch cuts completely through the bottom and slide ramp (no thin layer on top)."""
+        from pyboxbuilder.box.shell import block
+        from tests.mesh import volume
+
+        impl = BOX_IMPL_REGISTRY[BoxType.DISPENSER]()
+        spec = BoxSpec(
+            label="Chute",
+            width=55.0,
+            length=55.0,
+            height=70.0,
+            chute_angle=40.0,
+            token_thickness=3.0,
+            floor_thickness=2.0,
+        )
+        body = impl.build_body(spec)
+        self.assertIsNotNone(body)
+
+        # Probe in the notch above the 2.0mm floor (z = 2.5..4.5mm) where the slide ramp slopes upward
+        probe = block([12.0, 6.0, 2.0], at=((spec.width - 12.0) / 2.0, spec.wall_thickness + 2.0, 2.5))
+        self.assertAlmostEqual(volume(body & probe), 0.0, delta=0.01)
+
+    def test_dispenser_stackable(self) -> None:
+        """Verify dispenser supports modular stacking mode."""
+        from pyboxbuilder.enums import StackableMode
+
+        impl = BOX_IMPL_REGISTRY[BoxType.DISPENSER]()
+        spec = BoxSpec(
+            label="StackChute",
+            width=55.0,
+            length=55.0,
+            height=70.0,
+            stackable=StackableMode.FEET,
+        )
+        body = impl.build_body(spec)
+        lid = impl.build_lid(spec)
+        self.assertIsNotNone(body)
+        self.assertIsNotNone(lid)
+
+
 

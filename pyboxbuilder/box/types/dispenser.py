@@ -14,7 +14,9 @@ from pyboxbuilder.box.registry import register_box
 from pyboxbuilder.box.shell import block, body_rounding, build_shell
 from pyboxbuilder.box.spec import BoxSpec
 from pyboxbuilder.builders.dispenser import DispenserBoxBuilder
+from pyboxbuilder.compartments.element import union_all
 from pyboxbuilder.enums import BoxType, DispenserExtractionMode
+from pyboxbuilder.precision import kwargs as precision_kwargs
 from pyboxbuilder.rounding import round_edges, vertical_edges
 
 if TYPE_CHECKING:
@@ -93,11 +95,38 @@ class DispenserBox(BoxTypeBase):
 
             floor_w = min(spec.floor_scoop_width, inner_w - 4.0)
             floor_d = spec.floor_scoop_depth
-            floor_cut = block(
-                [floor_w, floor_d + wt, ft * 3],
-                at=((spec.width - floor_w) / 2.0, -wt, -ft),
-            )
-            body = body - floor_cut
+            if floor_w > 0 and floor_d > 0:
+                # Pierce cleanly through both the bottom floor and the angled slide ramp
+                ramp_z = ft + (ramp_rise * min(1.0, floor_d / inner_l) if ramp_rise > 0.5 else 0.0)
+                max_pierce_z = max(ft + slot_h, ramp_z) + 1.0
+                cut_z_bottom = -1.0
+                cut_h = max_pierce_z - cut_z_bottom
+                cut_z_center = cut_z_bottom + cut_h / 2.0
+
+                cx = spec.width / 2.0
+                r = min(floor_w / 4.0, 4.0)
+                y_front = -wt
+                y_back = wt + floor_d
+                total_l = y_back - y_front
+
+                # Rounded U-notch in the floor with semicircular arch / rounded back corners
+                floor_parts = [
+                    block([floor_w, total_l - r, cut_h], at=(cx - floor_w / 2.0, y_front, cut_z_bottom)),
+                    cyl(height=cut_h, radius=r, **precision_kwargs()).translate(
+                        [cx - floor_w / 2.0 + r, y_back - r, cut_z_center]
+                    ),
+                ]
+                if floor_w > 2.0 * r:
+                    floor_parts.extend([
+                        cyl(height=cut_h, radius=r, **precision_kwargs()).translate(
+                            [cx + floor_w / 2.0 - r, y_back - r, cut_z_center]
+                        ),
+                        block(
+                            [floor_w - 2.0 * r, r, cut_h],
+                            at=(cx - floor_w / 2.0 + r, y_back - r, cut_z_bottom),
+                        ),
+                    ])
+                body = body - union_all(floor_parts)
 
             # Upper vertical sight slot with solid retaining bridge in between
             sight_w = spec.sight_slot_width
@@ -145,7 +174,9 @@ class DispenserBox(BoxTypeBase):
                 radius,
                 list(vertical_edges()),
             )
-        return body
+        from pyboxbuilder.box.features import apply_stackable_body
+
+        return apply_stackable_body(body, spec)
 
     def build_lid(self, spec: BoxSpec, decoration: object = None) -> Bosl2Solid:
         """Return the top loading chute cover lid."""
@@ -177,4 +208,6 @@ class DispenserBox(BoxTypeBase):
                 radius,
                 list(vertical_edges()),
             )
-        return lid
+        from pyboxbuilder.box.features import apply_stackable_lid
+
+        return apply_stackable_lid(lid, spec)

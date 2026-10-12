@@ -2036,10 +2036,11 @@ The gravity dispenser tower architecture features an internal downward slide ram
    - The ramp uses a clean 3D wedge prism sloping downwards from the back wall (`y = length - wt`, height `ramp_rise`) down to the floor at the front wall (`y = wt`, height `0`), so tiles slide by gravity toward the bottom dispensing slot rather than piling up backwards.
 
 2. **Extraction Modes (`DispenserExtractionMode`)**:
-   - `SCOOP` (default): A prominent front finger scoop (`scoop_radius`, default 14mm) combined with an underside floor cutout (`floor_scoop_depth`, default 12mm, `floor_scoop_width`, default 24mm). This allows players to pinch the bottom tile top-and-bottom with thumb and forefinger and slide it forward. A solid retaining cover bridge across the lower-mid region (`z < body_h * 0.5`) holds the remaining stack, while the upper sight slot (`z >= body_h * 0.5`) monitors stack height.
+   - `SCOOP` (default): A prominent front finger scoop (`scoop_radius`, default 14mm) combined with an underside floor cutout (`floor_scoop_depth`, default 12mm, `floor_scoop_width`, default 24mm) shaped with smooth rounded back corners. The cutout pierces cleanly through both the base floor and internal slide ramp, avoiding any thin suspended layer over the notch so players can pinch the bottom tile directly with thumb and forefinger. A solid retaining cover bridge across the lower-mid region (`z < body_h * 0.5`) holds the remaining stack, while the upper sight slot (`z >= body_h * 0.5`) monitors stack height.
    - `TRAY`: Forward-extending landing tray shelf (`tray_depth`, default 20mm) with side guide rails and front stop lip, where the bottom tile slides out in front of the tower for direct pickup.
    - `REAR_PUSH`: Rear finger push slot on the back wall at floor level (`rear_push_width`, default 22mm) allowing a player to slide the bottom tile forward through the front slot from behind.
    - `ARCH`: Open front archway (`arch_height`, default 0.65 * body_h) providing direct visual and manual access to the bottom tiles with an upper retaining lintel band.
+   - **Stacking**: `DispenserBox` applies `apply_stackable_body` and `apply_stackable_lid`, supporting modular feet and indents for vertical stacking.
 
 
 ### Strict Python Enum Invariant for Categorical Options (FR-106, SC-106)
