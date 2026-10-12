@@ -574,8 +574,10 @@
 
         <span class="n">lt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">lid_thickness</span>
         <span class="n">body_spec</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_body_spec</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
+        <span class="n">radius</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">wall_thickness</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">filament_diameter</span><span class="p">)</span>
+        <span class="n">axis_y</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span> <span class="o">-</span> <span class="n">radius</span>
         <span class="n">lid</span> <span class="o">=</span> <span class="n">block</span><span class="p">(</span>
-            <span class="p">[</span><span class="n">spec</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span><span class="p">,</span> <span class="n">lt</span><span class="p">],</span> <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">body_spec</span><span class="o">.</span><span class="n">height</span><span class="p">)</span>
+            <span class="p">[</span><span class="n">spec</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="n">axis_y</span><span class="p">,</span> <span class="n">lt</span><span class="p">],</span> <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">body_spec</span><span class="o">.</span><span class="n">height</span><span class="p">)</span>
         <span class="p">)</span>
         <span class="n">closure</span> <span class="o">=</span> <span class="n">filament_hinge</span><span class="p">(</span>
             <span class="n">body_spec</span><span class="p">,</span>
