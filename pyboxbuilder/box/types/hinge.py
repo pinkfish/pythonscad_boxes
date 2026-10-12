@@ -122,8 +122,10 @@ class HingeBox(BoxTypeBase):
         from pyboxbuilder.box.shell import block
 
         lt = spec.lid_thickness
+        radius = max(spec.wall_thickness, spec.hinge_pin_diameter)
+        axis_y = spec.length - radius
         lid = block(
-            [spec.width, spec.length, lt],
+            [spec.width, axis_y, lt],
             at=(0, 0, self._body_spec(spec).height),
         )
         closure = self._closure(spec)

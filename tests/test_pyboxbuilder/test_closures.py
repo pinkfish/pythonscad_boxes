@@ -567,7 +567,29 @@ class HingeArticulationTests(unittest.TestCase):
         body, lid = self.hinge_parts()
         (_, body_y, _), (_, body_l, _) = bbox(body)
         (_, lid_y, _), (_, lid_l, _) = bbox(lid)
-        self.assertAlmostEqual(body_y + body_l, lid_y + lid_l, places=1)
+        # Knuckle cylinders are faceted so sagitta is within ~0.15mm of the back wall
+        self.assertAlmostEqual(body_y + body_l, lid_y + lid_l, delta=0.2)
+
+    def test_lid_has_no_bridge_between_knuckles_at_back(self) -> None:
+        """The back of the lid only has knuckles, not a join/bridge piece between them."""
+        from pyboxbuilder.box.shell import block
+
+        for box_type in (BoxType.FILAMENT_HINGE, BoxType.HINGE):
+            with self.subTest(box_type=box_type):
+                box = BOX_IMPL_REGISTRY[box_type]()
+                lid = box.build_lid(SPEC)
+                radius = max(
+                    SPEC.wall_thickness,
+                    SPEC.filament_diameter if box_type == BoxType.FILAMENT_HINGE else SPEC.hinge_pin_diameter,
+                )
+                axis_y = SPEC.length - radius
+                pitch = SPEC.width / SPEC.hinge_count
+                # Knuckle 0 is a body knuckle; the lid must have an open slot here behind axis_y
+                probe = block(
+                    [pitch * 0.5, radius, SPEC.lid_thickness],
+                    at=(pitch * 0.25, axis_y, SPEC.height - SPEC.lid_thickness),
+                )
+                self.assertLess(volume(lid & probe), 0.001)
 
     def test_the_halves_are_separate_parts(self) -> None:
         body, lid = self.hinge_parts()

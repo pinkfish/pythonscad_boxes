@@ -123,8 +123,10 @@ class FilamentHingeBox(BoxTypeBase):
 
         lt = spec.lid_thickness
         body_spec = self._body_spec(spec)
+        radius = max(spec.wall_thickness, spec.filament_diameter)
+        axis_y = spec.length - radius
         lid = block(
-            [spec.width, spec.length, lt], at=(0, 0, body_spec.height)
+            [spec.width, axis_y, lt], at=(0, 0, body_spec.height)
         )
         closure = filament_hinge(
             body_spec,
