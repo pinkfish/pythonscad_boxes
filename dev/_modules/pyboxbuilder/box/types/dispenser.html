@@ -452,7 +452,9 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.shell</span><span class="w"> </span><span class="kn">import</span> <span class="n">block</span><span class="p">,</span> <span class="n">body_rounding</span><span class="p">,</span> <span class="n">build_shell</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.spec</span><span class="w"> </span><span class="kn">import</span> <span class="n">BoxSpec</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.builders.dispenser</span><span class="w"> </span><span class="kn">import</span> <span class="n">DispenserBoxBuilder</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.compartments.element</span><span class="w"> </span><span class="kn">import</span> <span class="n">union_all</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">BoxType</span><span class="p">,</span> <span class="n">DispenserExtractionMode</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.precision</span><span class="w"> </span><span class="kn">import</span> <span class="n">kwargs</span> <span class="k">as</span> <span class="n">precision_kwargs</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.rounding</span><span class="w"> </span><span class="kn">import</span> <span class="n">round_edges</span><span class="p">,</span> <span class="n">vertical_edges</span>
 
 <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
@@ -538,11 +540,38 @@
 
             <span class="n">floor_w</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">floor_scoop_width</span><span class="p">,</span> <span class="n">inner_w</span> <span class="o">-</span> <span class="mf">4.0</span><span class="p">)</span>
             <span class="n">floor_d</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">floor_scoop_depth</span>
-            <span class="n">floor_cut</span> <span class="o">=</span> <span class="n">block</span><span class="p">(</span>
-                <span class="p">[</span><span class="n">floor_w</span><span class="p">,</span> <span class="n">floor_d</span> <span class="o">+</span> <span class="n">wt</span><span class="p">,</span> <span class="n">ft</span> <span class="o">*</span> <span class="mi">3</span><span class="p">],</span>
-                <span class="n">at</span><span class="o">=</span><span class="p">((</span><span class="n">spec</span><span class="o">.</span><span class="n">width</span> <span class="o">-</span> <span class="n">floor_w</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span> <span class="o">-</span><span class="n">wt</span><span class="p">,</span> <span class="o">-</span><span class="n">ft</span><span class="p">),</span>
-            <span class="p">)</span>
-            <span class="n">body</span> <span class="o">=</span> <span class="n">body</span> <span class="o">-</span> <span class="n">floor_cut</span>
+            <span class="k">if</span> <span class="n">floor_w</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">floor_d</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="c1"># Pierce cleanly through both the bottom floor and the angled slide ramp</span>
+                <span class="n">ramp_z</span> <span class="o">=</span> <span class="n">ft</span> <span class="o">+</span> <span class="p">(</span><span class="n">ramp_rise</span> <span class="o">*</span> <span class="nb">min</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">floor_d</span> <span class="o">/</span> <span class="n">inner_l</span><span class="p">)</span> <span class="k">if</span> <span class="n">ramp_rise</span> <span class="o">&gt;</span> <span class="mf">0.5</span> <span class="k">else</span> <span class="mf">0.0</span><span class="p">)</span>
+                <span class="n">max_pierce_z</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">ft</span> <span class="o">+</span> <span class="n">slot_h</span><span class="p">,</span> <span class="n">ramp_z</span><span class="p">)</span> <span class="o">+</span> <span class="mf">1.0</span>
+                <span class="n">cut_z_bottom</span> <span class="o">=</span> <span class="o">-</span><span class="mf">1.0</span>
+                <span class="n">cut_h</span> <span class="o">=</span> <span class="n">max_pierce_z</span> <span class="o">-</span> <span class="n">cut_z_bottom</span>
+                <span class="n">cut_z_center</span> <span class="o">=</span> <span class="n">cut_z_bottom</span> <span class="o">+</span> <span class="n">cut_h</span> <span class="o">/</span> <span class="mf">2.0</span>
+
+                <span class="n">cx</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">width</span> <span class="o">/</span> <span class="mf">2.0</span>
+                <span class="n">r</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">floor_w</span> <span class="o">/</span> <span class="mf">4.0</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">)</span>
+                <span class="n">y_front</span> <span class="o">=</span> <span class="o">-</span><span class="n">wt</span>
+                <span class="n">y_back</span> <span class="o">=</span> <span class="n">wt</span> <span class="o">+</span> <span class="n">floor_d</span>
+                <span class="n">total_l</span> <span class="o">=</span> <span class="n">y_back</span> <span class="o">-</span> <span class="n">y_front</span>
+
+                <span class="c1"># Rounded U-notch in the floor with semicircular arch / rounded back corners</span>
+                <span class="n">floor_parts</span> <span class="o">=</span> <span class="p">[</span>
+                    <span class="n">block</span><span class="p">([</span><span class="n">floor_w</span><span class="p">,</span> <span class="n">total_l</span> <span class="o">-</span> <span class="n">r</span><span class="p">,</span> <span class="n">cut_h</span><span class="p">],</span> <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="n">cx</span> <span class="o">-</span> <span class="n">floor_w</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">y_front</span><span class="p">,</span> <span class="n">cut_z_bottom</span><span class="p">)),</span>
+                    <span class="n">cyl</span><span class="p">(</span><span class="n">height</span><span class="o">=</span><span class="n">cut_h</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="n">r</span><span class="p">,</span> <span class="o">**</span><span class="n">precision_kwargs</span><span class="p">())</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span>
+                        <span class="p">[</span><span class="n">cx</span> <span class="o">-</span> <span class="n">floor_w</span> <span class="o">/</span> <span class="mf">2.0</span> <span class="o">+</span> <span class="n">r</span><span class="p">,</span> <span class="n">y_back</span> <span class="o">-</span> <span class="n">r</span><span class="p">,</span> <span class="n">cut_z_center</span><span class="p">]</span>
+                    <span class="p">),</span>
+                <span class="p">]</span>
+                <span class="k">if</span> <span class="n">floor_w</span> <span class="o">&gt;</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">r</span><span class="p">:</span>
+                    <span class="n">floor_parts</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span>
+                        <span class="n">cyl</span><span class="p">(</span><span class="n">height</span><span class="o">=</span><span class="n">cut_h</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="n">r</span><span class="p">,</span> <span class="o">**</span><span class="n">precision_kwargs</span><span class="p">())</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span>
+                            <span class="p">[</span><span class="n">cx</span> <span class="o">+</span> <span class="n">floor_w</span> <span class="o">/</span> <span class="mf">2.0</span> <span class="o">-</span> <span class="n">r</span><span class="p">,</span> <span class="n">y_back</span> <span class="o">-</span> <span class="n">r</span><span class="p">,</span> <span class="n">cut_z_center</span><span class="p">]</span>
+                        <span class="p">),</span>
+                        <span class="n">block</span><span class="p">(</span>
+                            <span class="p">[</span><span class="n">floor_w</span> <span class="o">-</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">r</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">cut_h</span><span class="p">],</span>
+                            <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="n">cx</span> <span class="o">-</span> <span class="n">floor_w</span> <span class="o">/</span> <span class="mf">2.0</span> <span class="o">+</span> <span class="n">r</span><span class="p">,</span> <span class="n">y_back</span> <span class="o">-</span> <span class="n">r</span><span class="p">,</span> <span class="n">cut_z_bottom</span><span class="p">),</span>
+                        <span class="p">),</span>
+                    <span class="p">])</span>
+                <span class="n">body</span> <span class="o">=</span> <span class="n">body</span> <span class="o">-</span> <span class="n">union_all</span><span class="p">(</span><span class="n">floor_parts</span><span class="p">)</span>
 
             <span class="c1"># Upper vertical sight slot with solid retaining bridge in between</span>
             <span class="n">sight_w</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">sight_slot_width</span>
@@ -590,7 +619,9 @@
                 <span class="n">radius</span><span class="p">,</span>
                 <span class="nb">list</span><span class="p">(</span><span class="n">vertical_edges</span><span class="p">()),</span>
             <span class="p">)</span>
-        <span class="k">return</span> <span class="n">body</span></div>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.features</span><span class="w"> </span><span class="kn">import</span> <span class="n">apply_stackable_body</span>
+
+        <span class="k">return</span> <span class="n">apply_stackable_body</span><span class="p">(</span><span class="n">body</span><span class="p">,</span> <span class="n">spec</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="DispenserBox.build_lid">
@@ -625,7 +656,9 @@
                 <span class="n">radius</span><span class="p">,</span>
                 <span class="nb">list</span><span class="p">(</span><span class="n">vertical_edges</span><span class="p">()),</span>
             <span class="p">)</span>
-        <span class="k">return</span> <span class="n">lid</span></div>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.features</span><span class="w"> </span><span class="kn">import</span> <span class="n">apply_stackable_lid</span>
+
+        <span class="k">return</span> <span class="n">apply_stackable_lid</span><span class="p">(</span><span class="n">lid</span><span class="p">,</span> <span class="n">spec</span><span class="p">)</span></div>
 </div>
 
 </code></pre></div>
