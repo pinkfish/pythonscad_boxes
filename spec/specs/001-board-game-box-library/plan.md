@@ -2015,9 +2015,10 @@ The library clearly differentiates and implements the three hinged box closure m
    - **`BoxType.HINGE`**: Two-piece separable box using customizable knuckle pin bore diameter (`spec.hinge_pin_diameter`, default 3.0mm) intended for 3D printed pins, metal dowels, or M3 hardware.
    - **`BoxType.PRINT_IN_PLACE_HINGE`**: One-piece monolithic print (body and lid printed simultaneously flat at 180° on the print bed). Uses captive interlocked knuckle joints (`KnuckleHingePair`) and snap catches (`SnapSocket`/`SnapLock`) from `pybosl2.parts.hinges`. Zero assembly required.
 
-2. **Filament Hinge Solid Knuckle Integrity (`pyboxbuilder/box/features.py`)**:
+2. **Filament Hinge & Pin Hinge Knuckle Integrity (`pyboxbuilder/box/features.py`, `filament_hinge.py`, `hinge.py`)**:
    - Removed the erroneous `parting = block(...)` horizontal cutter previously subtracted at `axis_z`.
-   - Alternating body and lid knuckles are segmented axially along X with clearance gaps `gap` and radially cleared by `body_cut`/`lid_cut`. Knuckles are 100% solid along Z without horizontal parting voids, and the closed box mates with zero collision (`collision volume = 1.08e-12 mm³`).
+   - Alternating body and lid knuckles are segmented axially along X with clearance gaps `gap` and radially cleared by `body_cut`/`lid_cut`. Knuckles are 100% solid along Z without horizontal parting voids, and the closed box mates with zero collision (`collision volume < 0.01 mm³`).
+   - The lid plate stops cleanly at `axis_y = spec.length - radius` with body knuckle relief opening up through the top of the lid, ensuring only the discrete hinge knuckles exist at the rear of the lid without thin rounded join pieces bridging between them across the body knuckle slots.
 
 3. **Print-in-Place Hinge 50/50 Split & 3D-Printable Bridge Hinge (`pyboxbuilder/box/types/pip_hinge.py`)**:
    - The box splits halfway up the side (`half_h = spec.height / 2.0`), producing equal-depth base body and lid trays.

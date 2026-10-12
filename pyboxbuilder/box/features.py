@@ -1544,11 +1544,18 @@ def filament_hinge(
             )
             body_parts += [knuckle, web]
             # And the mirror image: what the lid gives up for this knuckle.
-            lid_relief.append(
-                cylinder(
-                    height=length + 2 * gap, radius=radius + gap, **precision_kwargs()
-                ).rotate([0, 90, 0]).translate([centre_x, axis_y, axis_z])
+            relief = cylinder(
+                height=length + 2 * gap, radius=radius + gap, **precision_kwargs()
+            ).rotate([0, 90, 0]).translate([centre_x, axis_y, axis_z])
+            relief_top = block(
+                [length + 2 * gap, radius + gap + 1.0, leaf_thickness + gap + 1.0],
+                at=(
+                    centre_x - length / 2 - gap,
+                    axis_y - gap,
+                    axis_z,
+                ),
             )
+            lid_relief += [relief, relief_top]
 
     pin = cylinder(height=spec.width + 2, radius=bore, **precision_kwargs()).rotate([0, 90, 0])
     pin = pin.translate([spec.width / 2, axis_y, axis_z])

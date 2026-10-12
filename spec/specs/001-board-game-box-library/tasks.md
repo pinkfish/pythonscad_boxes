@@ -1394,6 +1394,14 @@ stop the class of mistake from being expressible.
 - [x] T477 [P] Update and add unit tests in `tests/test_pyboxbuilder/test_slipover_polygon.py` and `tests/test_pyboxbuilder/test_closures.py` validating unified lid elevation, notch placement, and base foot stacking alignment.
 
 
+## Phase 59: Remove Filament and Pin Hinge Lid Rear Bridging Pieces (FR-105)
+
+**Goal**: Remove the continuous thin rounded bridge piece joining between the backs of the lid knuckles on `FilamentHingeBox` and `HingeBox` so the lid carries only discrete knuckles at the rear with open slots across body knuckles.
+
+- [x] T478 [P] Update `filament_hinge` in `pyboxbuilder/box/features.py` with upper relief above body knuckles, and terminate lid plates at `axis_y = spec.length - radius` in `FilamentHingeBox.build_lid` and `HingeBox.build_lid`.
+- [x] T479 [P] Add unit tests in `tests/test_pyboxbuilder/test_closures.py` (`test_lid_has_no_bridge_between_knuckles_at_back`) confirming open slots between knuckles and zero collision volume.
+
+
 ## Notes
 
 
