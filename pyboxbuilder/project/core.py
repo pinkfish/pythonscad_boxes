@@ -88,6 +88,8 @@ class Project:
     ``None`` derives it per box as ``wall_thickness``. ``0`` leaves
     the base edge square.
     """
+    base_chamfer: float | bool | None = None
+    """Bottom chamfer in mm, or True for 3.0mm; None defaults to rounded base."""
     inner_rounding: float | None = None
     """Edge radius where a partial lid grips the body (FR-044b).
 

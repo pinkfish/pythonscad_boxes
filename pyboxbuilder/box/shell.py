@@ -180,23 +180,36 @@ def build_shell(spec: BoxSpec) -> Bosl2Solid:
     if spec.rim_free:
         v_edges = [*v_edges, _top_anchor()]
 
-    if (
-        v_radius == b_radius
-        and not getattr(spec, "tilt_to_lift", False)
-        and getattr(spec, "base_rounding", None) is None
-    ):
-        if v_radius > 0:
-            edges = vertical_and_bottom_edges()
-            if spec.rim_free:
-                edges = [*edges, _top_anchor()]
-            outer = round_edges(outer, size, v_radius, edges)
+    base_chamfer_val = getattr(spec, "base_chamfer", None)
+    if base_chamfer_val is True:
+        chamfer_val: float | None = 3.0
+    elif isinstance(base_chamfer_val, (int, float)) and base_chamfer_val > 0:
+        chamfer_val = float(base_chamfer_val)
     else:
+        chamfer_val = None
+
+    if chamfer_val is not None:
+        outer = outer - bottom_chamfer_slivers(size, chamfer_val)
         if v_radius > 0:
             outer = round_edges(outer, size, v_radius, v_edges)
-        if b_radius > 0:
-            from pybosl2 import Anchor
+    else:
+        if (
+            v_radius == b_radius
+            and not getattr(spec, "tilt_to_lift", True)
+            and getattr(spec, "base_rounding", None) is None
+        ):
+            if v_radius > 0:
+                edges = vertical_and_bottom_edges()
+                if spec.rim_free:
+                    edges = [*edges, _top_anchor()]
+                outer = round_edges(outer, size, v_radius, edges)
+        else:
+            if v_radius > 0:
+                outer = round_edges(outer, size, v_radius, v_edges)
+            if b_radius > 0:
+                from pybosl2 import Anchor
 
-            outer = round_edges(outer, size, b_radius, [Anchor.BOTTOM])
+                outer = round_edges(outer, size, b_radius, [Anchor.BOTTOM])
 
     # A type whose top face is exposed *with the lid on* rounds that edge too,
     # at its own radius — a sliding box, whose lid lies down in the channel so
@@ -232,7 +245,7 @@ def base_rounding(spec: BoxSpec) -> float:
         return max(0.0, float(explicit))
     if spec.rounding == 0:
         return 0.0
-    if getattr(spec, "tilt_to_lift", False):
+    if getattr(spec, "tilt_to_lift", True):
         return float(spec.wall_thickness)
     return body_rounding(spec)
 

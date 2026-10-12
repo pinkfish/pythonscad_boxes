@@ -2062,6 +2062,30 @@ The gravity dispenser tower architecture features an internal downward slide ram
    - `GeometryValidator._validate_enum_invariants` enforces that all resolved categorical options on `ResolvedBoxSpec` are strict instances of their corresponding Enum classes prior to CSG evaluation.
 
 
+### Polygon Lid Label Sizing & Longest Open Space Inscription (FR-103, SC-103)
+
+1. **Longest Open Space Detection (`pyboxbuilder/paths.py`)**:
+   - `longest_inscribed_rectangle(path, min_short_dim=0.0) -> tuple[float, float, float, float]`: Finds the axis-aligned inscribed rectangle in `path` maximizing the longest dimension (`max(w, l)`), with area `w * l` as a tie-breaker.
+   - For rectilinear polygon paths, searches grid-aligned rectangles spanned by vertex coordinates. For general polygon paths, searches sample points and verifies all corners and boundary points remain strictly inside the polygon interior.
+
+2. **Lid Sign Inscription & Auto-Sizing (`pyboxbuilder/lid/decorate.py`)**:
+   - Polygon lids offset inward from the lid perimeter by border margins (`open_path = offset_footprint(path, margin)`).
+   - The longest open rectangular space is calculated on `open_path`.
+   - The sign (text, backing plate, and hatching) is placed in that longest open space, auto-sizing the text and backing plate to fit within the available bounds without overflowing the border margins.
+
+
+### Rounded Base Geometry & Configurable Chamfer Option (FR-107, SC-107)
+
+1. **Default Rounded Base**:
+   - Box bodies default to a rounded base with radius `wall_thickness` (e.g., `base_rounding = wall_thickness`).
+   - The rounded base supports tilt-to-lift rocking for extracting tightly nested boxes from game inserts without sharp edge binding.
+
+2. **Configurable Base Chamfer (`base_chamfer`)**:
+   - `base_chamfer: float | bool | None = None` is exposed on `Project`, `BoxBuilderBase`, `UnresolvedBoxSpec`, `ResolvedBoxSpec`, and `BoxSpec`.
+   - In `build_shell` (`pyboxbuilder/box/shell.py`), if `base_chamfer` is set (> 0 or `True`), 45° bottom edge chamfer slivers are cut (using the specified float or defaulting to `wall_thickness`).
+   - If `base_chamfer` is `None` or `False`, the shell defaults to rounded edges with `base_rounding`.
+
+
 ## Complexity Tracking
 
 > No violations.

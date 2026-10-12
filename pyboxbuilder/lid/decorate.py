@@ -138,6 +138,8 @@ def decorate_lid(
     center_y: float | None = None
 
     if path is not None and len(path) >= 3 and resolved.text:
+        margin = resolved.border_margin_mm if resolved.border_margin_mm is not None else 5.0
+
         if resolved.label_area is not None:
             lx, ly, lw, ll = resolved.label_area
             center_x = (lx + lw / 2) - origin_x
@@ -147,20 +149,30 @@ def decorate_lid(
             cx, cy = resolved.label_center
             center_x = cx - origin_x
             center_y = cy - origin_y
-        else:
-            from pyboxbuilder.paths import largest_inscribed_rectangle
+            from pyboxbuilder.box.features import offset_footprint
+            from pyboxbuilder.paths import longest_inscribed_rectangle
 
-            lx, ly, lw, ll = largest_inscribed_rectangle(path)
-            if lw > 0 and ll > 0:
-                center_x = (lx + lw / 2) - origin_x
-                center_y = (ly + ll / 2) - origin_y
-                label_w, label_l = lw, ll
+            open_path = offset_footprint(path, margin)
+            if len(open_path) >= 3:
+                rx, ry, rw, rl = longest_inscribed_rectangle(open_path)
+                label_w, label_l = rw, rl
+            else:
+                label_w, label_l = max(0.0, width - 2 * margin), max(0.0, length - 2 * margin)
+        else:
+            from pyboxbuilder.box.features import offset_footprint
+            from pyboxbuilder.paths import longest_inscribed_rectangle
+
+            open_path = offset_footprint(path, margin)
+            if len(open_path) >= 3:
+                rx, ry, rw, rl = longest_inscribed_rectangle(open_path)
+                if rw > 0 and rl > 0:
+                    center_x = (rx + rw / 2) - origin_x
+                    center_y = (ry + rl / 2) - origin_y
+                    label_w, label_l = rw, rl
 
     margin_override = resolved.border_margin_mm
     if margin_override is None and path is not None and (label_w > 0 and label_l > 0):
-        from pyboxbuilder.lid.builder import BORDER_MARGIN_MM
-
-        margin_override = min(BORDER_MARGIN_MM, max(2.0, min(label_w, label_l) / 4))
+        margin_override = 0.0
 
     # The label is built first even though it is applied last, because the
     # pattern has to know where it lands: holes under the lettering leave it
@@ -175,7 +187,7 @@ def decorate_lid(
             mode_str,
             center_x=center_x,
             center_y=center_y,
-            border_margin_mm=margin_override,
+            border_margin_mm=0.0 if (path is not None and len(path) >= 3) else margin_override,
             path=path,
             origin_x=origin_x,
             origin_y=origin_y,
@@ -264,13 +276,7 @@ def _build_label(
     origin_y: float = 0.0,
 ) -> Label | None:
     """Build the label for this face, or ``None`` if it would be illegible."""
-    from pyboxbuilder.lid.label import (
-        BACKING_HEIGHT_MM,
-        LABEL_BORDER_MM,
-        LABEL_TEXT_GAP_MM,
-        Label,
-        build_label,
-    )
+    from pyboxbuilder.lid.label import build_label
 
     assert builder.text is not None
     # A frame is a colour feature: in one material there is nothing to
@@ -280,80 +286,6 @@ def _build_label(
     label_mode = builder.mode if mode != "single" else LabelMode.FRAMELESS
     margin = border_margin_mm if border_margin_mm is not None else builder.border_margin
 
-    if path is not None and len(path) >= 3 and builder.mode == LabelMode.FRAMED:
-        from pyboxbuilder.box.features import extrude_footprint, offset_footprint
-        from pyboxbuilder.paths import bounds, largest_inscribed_rectangle
-
-        # The label frame follows the inside of the polygon with edge offset (FR-103)
-        edge_offset = margin if margin is not None else 5.0
-        outer_path = offset_footprint(path, edge_offset)
-        if len(outer_path) < 3:
-            return None
-
-        (ox_min, oy_min), (ox_max, oy_max) = bounds(outer_path)
-        if ox_max <= ox_min or oy_max <= oy_min:
-            return None
-
-        border = builder.label_border_mm if builder.label_border_mm is not None else LABEL_BORDER_MM
-        gap = builder.label_text_gap_mm if builder.label_text_gap_mm is not None else LABEL_TEXT_GAP_MM
-        frame_width = border + gap
-        inner_path = offset_footprint(outer_path, frame_width)
-
-        min_hole_size = builder.min_hole_size_mm if builder.min_hole_size_mm is not None else 10.0
-        has_center_hole = False
-        if len(inner_path) >= 3:
-            (ix_min, iy_min), (ix_max, iy_max) = bounds(inner_path)
-            iw, il = max(0.0, ix_max - ix_min), max(0.0, iy_max - iy_min)
-            rx, ry, rw, rl = largest_inscribed_rectangle(inner_path)
-            # Center hole must be large enough across both dimensions
-            if iw >= min_hole_size and il >= min_hole_size and min(rw, rl) >= min_hole_size:
-                has_center_hole = True
-
-        outer_local = tuple((float(x - origin_x), float(y - origin_y)) for x, y in outer_path)
-        inner_local = tuple((float(x - origin_x), float(y - origin_y)) for x, y in inner_path)
-
-        outer_solid = extrude_footprint(outer_local, BACKING_HEIGHT_MM, 0.0)
-        if has_center_hole:
-            inner_solid = extrude_footprint(inner_local, BACKING_HEIGHT_MM + 2.0, -1.0)
-            plate = outer_solid - inner_solid
-        else:
-            plate = outer_solid
-
-        # Sizing and centering of text
-        if center_x is not None and center_y is not None:
-            tx, ty = center_x, center_y
-            target_w, target_l = width, length
-        else:
-            search_path = inner_path if has_center_hole else outer_path
-            rx, ry, rw, rl = largest_inscribed_rectangle(search_path)
-            if rw > 0 and rl > 0:
-                tx = (rx + rw / 2) - origin_x
-                ty = (ry + rl / 2) - origin_y
-                target_w, target_l = rw, rl
-            else:
-                tx, ty = width / 2, length / 2
-                target_w, target_l = width, length
-
-        lbl_text = build_label(
-            width=target_w,
-            length=target_l,
-            thickness=0.0,
-            text=builder.text,
-            label_mode=LabelMode.FRAMELESS,
-            diagonal=builder.is_diagonal,
-            min_text_height_mm=builder.min_text_height,
-            border_margin_mm=0.0,
-            center_x=tx,
-            center_y=ty,
-        )
-        if lbl_text is None:
-            return None
-
-        if mode == "single":
-            return Label(text=lbl_text.text, hatching=None, plate=plate)
-
-        hatching = plate - lbl_text.text
-        return Label(text=lbl_text.text, hatching=hatching, plate=plate)
 
     return build_label(
         width=width,

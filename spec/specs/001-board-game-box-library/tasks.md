@@ -1372,6 +1372,17 @@ stop the class of mistake from being expressible.
 - [x] T467 [P] Add unit tests in `tests/test_pyboxbuilder/test_extraction.py` validating rounded base radius `wall_thickness`, `base_rounding` override, `tilt_to_lift=False` fallback, and absence of 3mm chamfer.
 
 
+## Phase 57: Polygon Lid Longest Open Space Label Sizing & Base Chamfer Option (FR-103, FR-107)
+
+**Goal**: Calculate inscribed bounds with border offsets subtracted on polygon lids, determine the longest open dimension, and place the sign directly in that space. Default box bottoms to rounded base while supporting base_chamfer as an explicit option.
+
+- [x] T468 [P] Add `longest_inscribed_rectangle` in `pyboxbuilder/paths.py` prioritizing maximum length (`max(w, l)`) with area as tie-breaker.
+- [x] T469 [P] Update polygon lid label sizing and positioning in `pyboxbuilder/lid/decorate.py` to offset borders, locate longest open space, and size the sign within it.
+- [x] T470 [P] Add `base_chamfer: float | bool | None = None` to `BoxSpec`, `UnresolvedBoxSpec`, `ResolvedBoxSpec`, `BoxBuilderBase`, and `Project`.
+- [x] T471 [P] Update `build_shell` in `pyboxbuilder/box/shell.py` to support explicit `base_chamfer` option while maintaining default rounded base.
+- [x] T472 [P] Add unit tests in `tests/test_pyboxbuilder/test_polygon_lid.py` and `tests/test_pyboxbuilder/test_extraction.py` validating longest open space label positioning and base chamfer option.
+
+
 ## Notes
 
 
