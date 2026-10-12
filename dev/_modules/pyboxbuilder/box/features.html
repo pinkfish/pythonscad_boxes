@@ -868,6 +868,10 @@
 <span class="sd">"""</span>
 
 
+<span class="n">DEFAULT_SLIPOVER_FOOT_MM</span> <span class="o">=</span> <span class="mf">2.0</span>
+<span class="sd">"""Default height of the exposed base/foot below a slipover sleeve (FR-002p)."""</span>
+
+
 <span class="n">SLIPOVER_GAP_MIN_MM</span> <span class="o">=</span> <span class="mf">3.0</span>
 <span class="sd">"""Least body a slipover sleeve leaves showing above the foot (FR-002p)."""</span>
 
@@ -2166,17 +2170,20 @@
     <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">,</span>
     <span class="n">path</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="o">...</span><span class="p">],</span>
     <span class="n">slip</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
-    <span class="n">foot</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+    <span class="n">foot</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Return a sleeve that slips over a polygon-footprint body, stopping at the foot."""</span>
     <span class="n">lt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">lid_thickness</span>
     <span class="n">slack</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">slip_slack</span>
     <span class="n">inset</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">path_body_metrics</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
-    <span class="n">skirt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">height</span> <span class="o">-</span> <span class="n">foot</span>
+    <span class="n">foot_val</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">foot</span> <span class="k">if</span> <span class="n">foot</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="nb">float</span><span class="p">(</span><span class="n">foot</span><span class="p">)</span>
+    <span class="n">gap</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">slipover_gap</span><span class="p">(</span><span class="n">spec</span><span class="p">),</span> <span class="n">spec</span><span class="o">.</span><span class="n">height</span> <span class="o">-</span> <span class="n">foot_val</span> <span class="o">-</span> <span class="n">lt</span><span class="p">)</span>
+    <span class="n">skirt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">height</span> <span class="o">-</span> <span class="n">foot_val</span> <span class="o">-</span> <span class="n">gap</span>
+    <span class="n">base_z</span> <span class="o">=</span> <span class="n">foot_val</span> <span class="o">+</span> <span class="n">gap</span>
 
-    <span class="n">outer</span> <span class="o">=</span> <span class="n">extrude_footprint</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">skirt</span><span class="p">,</span> <span class="n">foot</span><span class="p">)</span>
+    <span class="n">outer</span> <span class="o">=</span> <span class="n">extrude_footprint</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">skirt</span><span class="p">,</span> <span class="n">base_z</span><span class="p">)</span>
     <span class="n">cavity</span> <span class="o">=</span> <span class="n">extrude_footprint</span><span class="p">(</span>
-        <span class="n">offset_footprint</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">inset</span> <span class="o">-</span> <span class="n">slack</span><span class="p">),</span> <span class="n">skirt</span> <span class="o">-</span> <span class="n">lt</span><span class="p">,</span> <span class="n">foot</span>
+        <span class="n">offset_footprint</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">inset</span> <span class="o">-</span> <span class="n">slack</span><span class="p">),</span> <span class="n">skirt</span> <span class="o">-</span> <span class="n">lt</span><span class="p">,</span> <span class="n">base_z</span>
     <span class="p">)</span>
     <span class="k">return</span> <span class="n">outer</span> <span class="o">-</span> <span class="n">cavity</span></div>
 

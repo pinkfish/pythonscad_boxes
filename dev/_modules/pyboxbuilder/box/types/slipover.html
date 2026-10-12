@@ -520,14 +520,53 @@
         <span class="p">)</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">inset</span><span class="p">,</span> <span class="n">inset</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">])</span>
 
         <span class="k">if</span> <span class="n">foot</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.shell</span><span class="w"> </span><span class="kn">import</span> <span class="n">body_rounding</span>
-            <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.rounding</span><span class="w"> </span><span class="kn">import</span> <span class="n">rounded_block</span><span class="p">,</span> <span class="n">vertical_edges</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">Anchor</span>
 
-            <span class="n">body</span> <span class="o">=</span> <span class="n">body</span> <span class="o">|</span> <span class="n">rounded_block</span><span class="p">(</span>
-                <span class="p">[</span><span class="n">spec</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span><span class="p">,</span> <span class="n">foot</span><span class="p">],</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.shell</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+                <span class="n">base_rounding</span><span class="p">,</span>
+                <span class="n">body_rounding</span><span class="p">,</span>
+                <span class="n">bottom_chamfer_slivers</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.rounding</span><span class="w"> </span><span class="kn">import</span> <span class="n">round_edges</span><span class="p">,</span> <span class="n">rounded_block</span><span class="p">,</span> <span class="n">vertical_edges</span>
+
+            <span class="n">foot_size</span> <span class="o">=</span> <span class="p">[</span><span class="n">spec</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span><span class="p">,</span> <span class="n">foot</span><span class="p">]</span>
+            <span class="n">foot_block</span> <span class="o">=</span> <span class="n">rounded_block</span><span class="p">(</span>
+                <span class="n">foot_size</span><span class="p">,</span>
                 <span class="n">body_rounding</span><span class="p">(</span><span class="n">spec</span><span class="p">),</span>
                 <span class="n">vertical_edges</span><span class="p">(),</span>
             <span class="p">)</span>
+
+            <span class="n">base_chamfer_val</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="s2">"base_chamfer"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">base_chamfer_val</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+                <span class="n">chamfer_val</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="mf">3.0</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">base_chamfer_val</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">))</span> <span class="ow">and</span> <span class="n">base_chamfer_val</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">chamfer_val</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">base_chamfer_val</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">chamfer_val</span> <span class="o">=</span> <span class="kc">None</span>
+
+            <span class="k">if</span> <span class="n">chamfer_val</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">foot_block</span> <span class="o">=</span> <span class="n">foot_block</span> <span class="o">-</span> <span class="n">bottom_chamfer_slivers</span><span class="p">(</span><span class="n">foot_size</span><span class="p">,</span> <span class="n">chamfer_val</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">b_radius</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">base_rounding</span><span class="p">(</span><span class="n">spec</span><span class="p">),</span> <span class="n">foot</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">b_radius</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">foot_block</span> <span class="o">=</span> <span class="n">round_edges</span><span class="p">(</span>
+                        <span class="n">foot_block</span><span class="p">,</span> <span class="n">foot_size</span><span class="p">,</span> <span class="n">b_radius</span><span class="p">,</span> <span class="p">[</span><span class="n">Anchor</span><span class="o">.</span><span class="n">BOTTOM</span><span class="p">]</span>
+                    <span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">hollow</span> <span class="ow">and</span> <span class="n">foot</span> <span class="o">&gt;</span> <span class="n">spec</span><span class="o">.</span><span class="n">floor_thickness</span><span class="p">:</span>
+                <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.shell</span><span class="w"> </span><span class="kn">import</span> <span class="n">block</span>
+
+                <span class="n">interior_w</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">width</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">inset</span> <span class="o">+</span> <span class="n">spec</span><span class="o">.</span><span class="n">wall_thickness</span><span class="p">)</span>
+                <span class="n">interior_l</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">inset</span> <span class="o">+</span> <span class="n">spec</span><span class="o">.</span><span class="n">wall_thickness</span><span class="p">)</span>
+                <span class="n">foot_block</span> <span class="o">=</span> <span class="n">foot_block</span> <span class="o">-</span> <span class="n">block</span><span class="p">(</span>
+                    <span class="p">[</span><span class="n">interior_w</span><span class="p">,</span> <span class="n">interior_l</span><span class="p">,</span> <span class="n">foot</span> <span class="o">-</span> <span class="n">spec</span><span class="o">.</span><span class="n">floor_thickness</span><span class="p">],</span>
+                    <span class="n">at</span><span class="o">=</span><span class="p">(</span>
+                        <span class="n">inset</span> <span class="o">+</span> <span class="n">spec</span><span class="o">.</span><span class="n">wall_thickness</span><span class="p">,</span>
+                        <span class="n">inset</span> <span class="o">+</span> <span class="n">spec</span><span class="o">.</span><span class="n">wall_thickness</span><span class="p">,</span>
+                        <span class="n">spec</span><span class="o">.</span><span class="n">floor_thickness</span><span class="p">,</span>
+                    <span class="p">),</span>
+                <span class="p">)</span>
+            <span class="n">body</span> <span class="o">=</span> <span class="n">body</span> <span class="o">|</span> <span class="n">foot_block</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.features</span><span class="w"> </span><span class="kn">import</span> <span class="n">cap_slipover_catch</span>
         <span class="n">catch</span> <span class="o">=</span> <span class="n">cap_slipover_catch</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="n">is_slipover</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">catch</span><span class="o">.</span><span class="n">body</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>

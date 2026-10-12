@@ -477,8 +477,9 @@
 
     <span class="n">path</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="p">()</span>
 <span class="w">    </span><span class="sd">"""Closed 2D outline of the tray footprint, in mm, in the box's own frame."""</span>
-    <span class="n">foot</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span>
-<span class="w">    </span><span class="sd">"""Height of the exposed base the sleeve stops against, in mm."""</span>
+    <span class="n">foot</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">2.0</span>
+<span class="w">    </span><span class="sd">"""Height of the exposed base the sleeve stops against, in mm. A small</span>
+<span class="sd">    foot matches the outer sleeve footprint for clean box stacking."""</span>
     <span class="n">slip</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.6</span>
 <span class="w">    </span><span class="sd">"""Thickness of the sleeve wall that wraps the body."""</span>
     <span class="n">hollow</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
