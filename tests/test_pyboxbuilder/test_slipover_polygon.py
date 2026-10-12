@@ -2,11 +2,11 @@
 """Unit tests for SlipoverBox with arbitrary polygon footprints."""
 
 import unittest
+from dataclasses import replace
 
 from pyboxbuilder import Project
-from pyboxbuilder.box.registry import BOX_IMPL_REGISTRY, BOX_TYPE_REGISTRY
+from pyboxbuilder.box.registry import BOX_IMPL_REGISTRY
 from pyboxbuilder.box.spec import BoxSpec
-from pyboxbuilder.builders.slipover import SlipoverBoxBuilder
 from pyboxbuilder.enums import BoxType
 
 
@@ -111,6 +111,7 @@ class SlipoverBoxPolygonTests(unittest.TestCase):
 
     def test_slipover_polygon_finger_notches_remove_material(self) -> None:
         from mesh import volume
+
         from pyboxbuilder.paths import polygon_opposite_corners
 
         l_path = (
@@ -154,12 +155,14 @@ class SlipoverBoxPolygonTests(unittest.TestCase):
             "finger notches did not remove material from polygon sleeve",
         )
 
-        # Check bounds of removed material align with bottom of sleeve (spec.foot)
+        # Check bounds of removed material align with bottom of sleeve (foot + gap)
+        from pyboxbuilder.box.features import slipover_gap
+        gap = min(slipover_gap(spec_notched), spec_notched.height - spec_notched.foot - spec_notched.lid_thickness)
         removed = plain_lid - notched_lid
         b = removed.bounds()
         centre, size = (b.center, b.size) if hasattr(b, "center") else b
         z0 = centre[2] - size[2] / 2
-        self.assertAlmostEqual(z0, 3.0, delta=0.5, msg="notch does not start at bottom of sleeve")
+        self.assertAlmostEqual(z0, spec_notched.foot + gap, delta=0.5, msg="notch does not start at bottom of sleeve")
 
         # Check opposite corners detected
         opp = polygon_opposite_corners(l_path)
@@ -167,6 +170,43 @@ class SlipoverBoxPolygonTests(unittest.TestCase):
         # Should be the two outer tips of the L
         pts = {l_path[opp[0]], l_path[opp[1]]}
         self.assertEqual(pts, {(60.0, 0.0), (0.0, 60.0)})
+
+    def test_polygon_and_rectangular_slipover_have_identical_lid_semantics(self) -> None:
+        """Verify that SlipoverPathBox and SlipoverBox have identical lid elevation and skirt semantics."""
+        from pyboxbuilder.box.features import slipover_gap
+
+        rect_box = BOX_IMPL_REGISTRY[BoxType.SLIPOVER]()
+        path_box = BOX_IMPL_REGISTRY[BoxType.SLIPOVER_PATH]()
+
+        rect_path = ((0.0, 0.0), (60.0, 0.0), (60.0, 40.0), (0.0, 40.0))
+        spec = BoxSpec(
+            label="Compare",
+            width=60.0,
+            length=40.0,
+            height=30.0,
+            wall_thickness=2.0,
+            floor_thickness=1.6,
+            lid_thickness=2.0,
+            foot=2.0,
+        )
+        rect_lid = rect_box.build_lid(spec)
+        path_lid = path_box.build_lid(replace(spec, path=rect_path))
+
+        b_rect = rect_lid.bounds()
+        b_path = path_lid.bounds()
+        c_rect, s_rect = (b_rect.center, b_rect.size) if hasattr(b_rect, "center") else b_rect
+        c_path, s_path = (b_path.center, b_path.size) if hasattr(b_path, "center") else b_path
+
+        z0_rect = c_rect[2] - s_rect[2] / 2
+        z0_path = c_path[2] - s_path[2] / 2
+
+        gap = min(slipover_gap(spec), spec.height - spec.foot - spec.lid_thickness)
+        expected_z0 = spec.foot + gap
+
+        self.assertAlmostEqual(z0_rect, expected_z0, places=3)
+        self.assertAlmostEqual(z0_path, expected_z0, places=3)
+        self.assertAlmostEqual(z0_rect, z0_path, places=3)
+        self.assertAlmostEqual(s_rect[2], s_path[2], places=3)
 
 
 if __name__ == "__main__":

@@ -224,7 +224,7 @@ class BoxSpec:
     between 10mm and a sixth of the side (FR-002m)."""
     cap_finger_height: float | None = None
     """Height of a corner cutout; ``None`` derives it from the skirt."""
-    foot: float = 0.0
+    foot: float = 2.0
     """Height of exposed base a slipover sleeve stops above (FR-002p)."""
     slip: float = 1.6
     """Slipover sleeve wall thickness."""
@@ -547,7 +547,7 @@ class UnresolvedBoxSpec:
     cap_finger_radius: float | None = None
     cap_finger_length: float | None = None
     cap_finger_height: float | None = None
-    foot: float = 0.0
+    foot: float = 2.0
     slip: float = 1.6
     slipover_gap: float | None = None
     slipover_finger_height: float | None = None

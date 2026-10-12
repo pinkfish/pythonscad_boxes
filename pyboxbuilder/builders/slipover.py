@@ -30,9 +30,9 @@ class SlipoverBoxBuilder(BoxBuilder):
 
     box_type: ClassVar[BoxType] = BoxType.SLIPOVER
 
-    foot: float = 0.0
-    """Height of the exposed base the sleeve stops against, in mm. 0 = the
-    sleeve covers the whole body."""
+    foot: float = 2.0
+    """Height of the exposed base the sleeve stops against, in mm. A small
+    foot matches the outer sleeve footprint for clean box stacking."""
     slip: float = 1.6
     """Thickness of the sleeve wall that wraps the body."""
     path: tuple[tuple[float, float], ...] = ()

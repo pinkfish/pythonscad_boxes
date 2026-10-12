@@ -1988,18 +1988,23 @@ The polygon lid architecture extends framed labeling and through-hole surface pa
    - Through-hole lattices (`PatternType.HEX`, `SQUARE`, `VORONOI`, etc.) on polygon lids are clipped against `offset_footprint(path, pattern.border_width)` rather than an enclosing rectangle.
    - Guarantees pattern cutouts track the polygon contour, preserving a solid perimeter border and preventing cuts into the outer skirt walls.
 
-### Bottom-Aligned Slipover Finger Grip Notches (FR-104, SC-104)
+### Unified Slipover Lid Semantics & Bottom-Aligned Finger Notches (FR-104, SC-104)
 
-The slipover finger notch architecture ensures outer sleeves can be physically gripped and removed:
+The slipover finger notch and lid architecture ensures outer sleeves have unified semantics, fit stably, and can be physically gripped and removed:
 
-1. **Rectangular Sleeves (`pyboxbuilder/box/types/slipover.py`)**:
-   - Finger notches are computed relative to the sleeve skirt's lower edge at `base_z = foot + gap` (where `gap = min(slipover_gap(spec), spec.height - foot - lt)`).
+1. **Unified Lid & Foot Semantics (FR-104)**:
+   - Both rectangular (`SlipoverBox`) and polygon (`SlipoverPathBox`) slipover boxes have identical lid skirt and elevation semantics: the sleeve skirt has height `skirt = spec.height - foot - gap` and starts at `base_z = foot + gap`, leaving an exposed body band of height `gap = min(slipover_gap(spec), spec.height - foot - lt)` between `z = foot` and `z = foot + gap`.
+   - Both builders default `foot: float = 2.0` (matching `DEFAULT_SLIPOVER_FOOT_MM = 2.0`), providing full outer footprint contact at `z = 0..foot` so boxes stack cleanly and stably.
+   - On `SlipoverBox`, when `foot > 0`, the base foot has the configured base rounding/chamfer applied to its bottom edge and clears the interior cavity when `foot > floor_thickness`.
+
+2. **Rectangular Sleeves (`pyboxbuilder/box/types/slipover.py`)**:
+   - Finger notches are computed relative to the sleeve skirt's lower edge at `base_z = foot + gap`.
    - Cylindrical scoops with rounded tops are mirrored along Z and translated to `base_z + height`, opening downward at the bottom rim of the sleeve and flaring upward into the skirt wall.
 
-2. **Polygon Sleeves (`pyboxbuilder/box/types/slipover_path.py`, `pyboxbuilder/paths.py`)**:
+3. **Polygon Sleeves (`pyboxbuilder/box/types/slipover_path.py`, `pyboxbuilder/paths.py`)**:
    - `polygon_convex_corners(path)` identifies exterior corners using vertex cross-products and path winding, filtering out reflex/interior corners (such as the inside bend of an L-shape).
    - `polygon_opposite_corners(path)` selects the two convex corners with maximum Euclidean distance, providing natural two-handed pull points.
-   - Arched scoops are carved at these opposite corners starting at `z = foot`, with radii clamped to incident edge lengths (`min(d_prev, d_next) * 0.45`) to preserve adjacent corners.
+   - Arched scoops are carved at these opposite corners starting at the sleeve's bottom rim at `base_z = foot + gap`, with radii clamped to incident edge lengths (`min(d_prev, d_next) * 0.45`) to preserve adjacent corners.
 
 ### Solid-Knuckle Filament Hinge & Rim-Aligned 50/50 Split Print-in-Place Hinge (FR-105, SC-105)
 

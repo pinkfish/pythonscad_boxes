@@ -75,14 +75,53 @@ class SlipoverBox(BoxTypeBase):
         ).translate([inset, inset, 0.0])
 
         if foot > 0:
-            from pyboxbuilder.box.shell import body_rounding
-            from pyboxbuilder.rounding import rounded_block, vertical_edges
+            from pybosl2 import Anchor
 
-            body = body | rounded_block(
-                [spec.width, spec.length, foot],
+            from pyboxbuilder.box.shell import (
+                base_rounding,
+                body_rounding,
+                bottom_chamfer_slivers,
+            )
+            from pyboxbuilder.rounding import round_edges, rounded_block, vertical_edges
+
+            foot_size = [spec.width, spec.length, foot]
+            foot_block = rounded_block(
+                foot_size,
                 body_rounding(spec),
                 vertical_edges(),
             )
+
+            base_chamfer_val = getattr(spec, "base_chamfer", None)
+            if base_chamfer_val is True:
+                chamfer_val: float | None = 3.0
+            elif isinstance(base_chamfer_val, (int, float)) and base_chamfer_val > 0:
+                chamfer_val = float(base_chamfer_val)
+            else:
+                chamfer_val = None
+
+            if chamfer_val is not None:
+                foot_block = foot_block - bottom_chamfer_slivers(foot_size, chamfer_val)
+            else:
+                b_radius = min(base_rounding(spec), foot)
+                if b_radius > 0:
+                    foot_block = round_edges(
+                        foot_block, foot_size, b_radius, [Anchor.BOTTOM]
+                    )
+
+            if spec.hollow and foot > spec.floor_thickness:
+                from pyboxbuilder.box.shell import block
+
+                interior_w = spec.width - 2 * (inset + spec.wall_thickness)
+                interior_l = spec.length - 2 * (inset + spec.wall_thickness)
+                foot_block = foot_block - block(
+                    [interior_w, interior_l, foot - spec.floor_thickness],
+                    at=(
+                        inset + spec.wall_thickness,
+                        inset + spec.wall_thickness,
+                        spec.floor_thickness,
+                    ),
+                )
+            body = body | foot_block
         from pyboxbuilder.box.features import cap_slipover_catch
         catch = cap_slipover_catch(spec, is_slipover=True)
         if catch.body is not None:

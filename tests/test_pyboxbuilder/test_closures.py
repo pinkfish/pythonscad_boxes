@@ -182,12 +182,32 @@ class DeclaredSizeTests(unittest.TestCase):
 
     def test_the_slipover_body_sits_inside_its_sleeve(self) -> None:
         box = BOX_IMPL_REGISTRY[BoxType.SLIPOVER]()
-        (bx, by, _), (body_w, body_l, body_h) = bbox(box.build_body(SPEC))
+        plain = replace(SPEC, foot=0.0)
+        (bx, by, _), (body_w, body_l, body_h) = bbox(box.build_body(plain))
         self.assertGreater(bx, 0.0)
         self.assertGreater(by, 0.0)
         self.assertLess(body_w, SPEC.width)
         self.assertLess(body_l, SPEC.length)
         self.assertLess(body_h, SPEC.height)
+
+        # With default foot, the base matches the declared footprint for stacking,
+        # while the collar above the foot sits inside the sleeve.
+        body_with_foot = box.build_body(SPEC)
+        (fx, fy, _), (fw, fl, _) = bbox(body_with_foot)
+        self.assertAlmostEqual(fw, SPEC.width, places=2)
+        self.assertAlmostEqual(fl, SPEC.length, places=2)
+
+        from pyboxbuilder.box.shell import block
+        band_z = SPEC.foot + 0.5
+        collar = body_with_foot & block(
+            [SPEC.width, SPEC.length, SPEC.height - band_z],
+            at=(0.0, 0.0, band_z),
+        )
+        (cx, cy, _), (cw, cl, _) = bbox(collar)
+        self.assertGreater(cx, 0.0)
+        self.assertGreater(cy, 0.0)
+        self.assertLess(cw, SPEC.width)
+        self.assertLess(cl, SPEC.length)
 
         (_, _, _), (lid_w, lid_l, _) = bbox(box.build_lid(SPEC))
         self.assertAlmostEqual(lid_w, SPEC.width, places=2)
@@ -607,7 +627,14 @@ class PathClosureTests(unittest.TestCase):
         body = box.build_body(self.spec())
         lid = box.build_lid(self.spec())
         self.assertLess(volume(body & lid), 0.01)
-        self.assertGreater(bbox(lid)[1][0], bbox(body)[1][0])
+        # The base foot matches the declared footprint for clean stacking,
+        # while the collar above the foot is stepped in for the sleeve.
+        self.assertAlmostEqual(bbox(body)[1][0], bbox(lid)[1][0], places=3)
+        band_z = self.spec().foot + 0.5
+        from pyboxbuilder.box.features import extrude_footprint
+        probe_band = extrude_footprint(self.L_SHAPE, self.spec().height - band_z - 0.5, band_z + 0.5)
+        collar = body & probe_band
+        self.assertLess(bbox(collar)[1][0], bbox(lid)[1][0])
 
     def test_a_path_body_is_hollow(self) -> None:
         box = BOX_IMPL_REGISTRY[BoxType.CAP_PATH]()
