@@ -290,6 +290,26 @@ class GeometryValidator:
                 message=f"Interlock clearance must be non-negative, got {spec.interlock_clearance}mm.",
                 guidance="Set interlock_clearance to a non-negative value (e.g. 0.15mm).",
             )
+        if spec.interlock_type is InterlockType.DOVETAIL:
+            dt_depth = 3.0
+            if isinstance(spec.interlock_size, (int, float)):
+                dt_depth = float(spec.interlock_size)
+            elif isinstance(spec.interlock_size, (tuple, list)) and len(spec.interlock_size) >= 1:
+                dt_depth = float(spec.interlock_size[0])
+
+            if spec.wall_thickness <= dt_depth:
+                raise GeometryValidationError(
+                    label=spec.label,
+                    invariant="dovetail_depth_fits_wall",
+                    message=(
+                        f"Wall thickness ({spec.wall_thickness:.2f}mm) must be strictly greater than "
+                        f"dovetail depth ({dt_depth:.2f}mm) to prevent piercing through the wall into the interior."
+                    ),
+                    guidance=(
+                        f"Increase wall_thickness to > {dt_depth:.2f}mm (e.g. wall_thickness=4.0) "
+                        f"or reduce dovetail depth (interlock_size) to < {spec.wall_thickness:.2f}mm."
+                    ),
+                )
 
     @classmethod
     def _validate_enum_invariants(cls, spec: ResolvedBoxSpec) -> None:

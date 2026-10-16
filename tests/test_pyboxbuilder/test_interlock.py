@@ -126,12 +126,26 @@ class InterlockValidationTests(unittest.TestCase):
             width=50.0,
             length=50.0,
             height=20.0,
+            wall_thickness=4.0,
             interlock_type=InterlockType.DOVETAIL,
             interlock_clearance=-0.05,
         )
         with self.assertRaises(GeometryValidationError) as ctx:
             GeometryValidator.validate(spec)
         self.assertEqual(ctx.exception.invariant, "non_negative_interlock_clearance")
+
+    def test_dovetail_depth_must_not_exceed_wall_thickness(self) -> None:
+        spec = BoxSpec(
+            label="ThinWallDovetail",
+            width=50.0,
+            length=50.0,
+            height=20.0,
+            wall_thickness=2.0,  # <= default dt_depth (3.0mm)
+            interlock_type=InterlockType.DOVETAIL,
+        )
+        with self.assertRaises(GeometryValidationError) as ctx:
+            GeometryValidator.validate(spec)
+        self.assertEqual(ctx.exception.invariant, "dovetail_depth_fits_wall")
 
 
 class RectangularBoxInterlockingTests(unittest.TestCase):
@@ -143,6 +157,7 @@ class RectangularBoxInterlockingTests(unittest.TestCase):
             width=60.0,
             length=60.0,
             height=20.0,
+            wall_thickness=4.0,
             interlock_type=InterlockType.DOVETAIL,
             interlock_clearance=0.15,
         )
@@ -171,6 +186,32 @@ class RectangularBoxInterlockingTests(unittest.TestCase):
             0.0,
             "Flared dovetail must generate positive collision when pulled horizontally apart",
         )
+
+    def test_dovetail_does_not_pierce_interior_wall(self) -> None:
+        """Verify that with wall_thickness > dt_depth, the interior wall remains solid."""
+        from pyboxbuilder.box.shell import block
+
+        spec = BoxSpec(
+            label="SolidWallModTray",
+            width=60.0,
+            length=60.0,
+            height=20.0,
+            wall_thickness=4.0,
+            interlock_type=InterlockType.DOVETAIL,
+            interlock_clearance=0.15,
+        )
+        handler = ModularInterlockBox()
+        body = handler.build_body(spec)
+
+        # The female dovetail on -X (at x=0) penetrates 3.0mm (+ clearance) to x ≈ 3.2mm.
+        # With wall_thickness=4.0mm, the wall between x=3.5mm and x=4.0mm must be 100% solid.
+        wall_probe = block([0.5, 6.0, 6.0], at=(3.5, 27.0, 7.0))
+        wall_vol = volume(body & wall_probe)
+        self.assertAlmostEqual(wall_vol, 0.5 * 6.0 * 6.0, delta=0.01)
+
+        # The interior cavity (x=4.0..8.0mm) must have zero dovetail intrusion.
+        cavity_probe = block([4.0, 8.0, 8.0], at=(4.0, 26.0, 6.0))
+        self.assertAlmostEqual(volume(body & cavity_probe), 0.0, delta=0.01)
 
     def test_magnet_cavity_alignment(self) -> None:
         spec = BoxSpec(
@@ -219,6 +260,7 @@ class RegularPolygonBoxGridTests(unittest.TestCase):
             height=20.0,
             box_type=BoxType.PATH,
             interlock_type=InterlockType.DOVETAIL,
+            wall_thickness=4.0,
         )
         self.assertEqual(b.polygon_sides, 6)
         self.assertEqual(b.polygon_apothem, 30.0)

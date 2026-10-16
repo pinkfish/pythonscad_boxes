@@ -164,6 +164,13 @@ def main(argv: list[str] | None = None) -> int:
             written += 1
             print(f"  WRITTEN:   {digest}.stl ({source_file}) [{out_stl.stat().st_size} bytes]")
 
+    if not args.filter:
+        active_digests = {f"{b[1]}.stl" for b in blocks}
+        for existing in _STL_DIR.glob("*.stl"):
+            if not existing.name.startswith(".") and existing.name not in active_digests:
+                existing.unlink()
+                print(f"  PRUNED:    {existing.name} (orphaned)")
+
     print(f"\nDone: {written} written, {skipped} unchanged, {failed} failed.")
     return 1 if failed > 0 else 0
 
