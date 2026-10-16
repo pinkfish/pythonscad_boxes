@@ -464,6 +464,7 @@
 <span class="sd">                BoxType.MODULAR_INTERLOCK,</span>
 <span class="sd">                "DashboardTray",</span>
 <span class="sd">                size=(84.0, 84.0, 25.0),</span>
+<span class="sd">                wall_thickness=4.0,</span>
 <span class="sd">                interlock_type=InterlockType.DOVETAIL,</span>
 <span class="sd">                dovetail_clearance=0.15,</span>
 <span class="sd">            )</span>
@@ -471,6 +472,8 @@
 <span class="sd">    """</span>
 
     <span class="n">box_type</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="n">BoxType</span><span class="p">]</span> <span class="o">=</span> <span class="n">BoxType</span><span class="o">.</span><span class="n">MODULAR_INTERLOCK</span>
+    <span class="n">wall_thickness</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">4.0</span>
+<span class="w">    </span><span class="sd">"""Wall thickness in mm (defaults to 4.0mm so 3.0mm perimeter dovetails do not pierce the wall)."""</span>
     <span class="n">interlock_type</span><span class="p">:</span> <span class="n">InterlockType</span> <span class="o">=</span> <span class="n">InterlockType</span><span class="o">.</span><span class="n">GRIDFINITY</span>
 <span class="w">    </span><span class="sd">"""Interlock joint style (DOVETAIL or GRIDFINITY)."""</span>
     <span class="n">dovetail_clearance</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.15</span>

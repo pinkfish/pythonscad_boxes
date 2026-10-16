@@ -413,6 +413,7 @@ Modular Interlocking Play Trays (``BoxType.MODULAR_INTERLOCK``)
        BoxType.MODULAR_INTERLOCK,
        "DashboardTray",
        size=(84.0, 84.0, 25.0),
+       wall_thickness=4.0,
        interlock_type=InterlockType.DOVETAIL,
        dovetail_clearance=0.15,
    )

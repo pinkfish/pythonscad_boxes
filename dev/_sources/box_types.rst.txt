@@ -579,7 +579,9 @@ Trays featuring perimeter interlocking joints on outer walls to lock multiple bo
        "ModularTray",
        size=(65.0, 65.0, 24.0),
        color=Color("steelblue"),
+       wall_thickness=4.0,
        interlock_type=InterlockType.DOVETAIL,
+       dovetail_clearance=0.15,
    )
    box.compartment("Items", holds_pieces=True)
    project.show(show_lids=True)
