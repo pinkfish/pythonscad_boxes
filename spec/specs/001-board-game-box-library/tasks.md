@@ -1411,6 +1411,17 @@ stop the class of mistake from being expressible.
 - [x] T482 [P] Add unit tests in `tests/test_pyboxbuilder/test_extended_boxes.py` (`test_dispenser_floor_notch_cuts_cleanly_through_ramp`, `test_dispenser_stackable`) confirming full penetration without collision and modular stacking.
 
 
+## Phase 61: Modular Interlock Dovetail Wall Thickness Control & Invariant (FR-089, FR-092)
+
+**Goal**: Prevent dovetail interlock female sockets from piercing through the perimeter wall into the interior cavity by asserting `wall_thickness > dt_depth` via `GeometryValidator` and `apply_horizontal_interlock`, setting `ModularInterlockBoxBuilder` default `wall_thickness = 4.0`, and updating documentation examples.
+
+- [x] T483 [P] Add `dovetail_depth_fits_wall` validation invariant in `pyboxbuilder/box/validation.py` asserting `wall_thickness > dt_depth` for `DOVETAIL` interlocks.
+- [x] T484 [P] Add defensive invariant guard in `apply_horizontal_interlock` in `pyboxbuilder/box/features.py` raising `GeometryValidationError` if `wall_thickness <= dt_depth`.
+- [x] T485 [P] Set default `wall_thickness: float = 4.0` in `ModularInterlockBoxBuilder` in `pyboxbuilder/builders/modular_interlock.py`.
+- [x] T486 [P] Update modular box examples with `wall_thickness=4.0` in `docs/box_types.rst`, `docs/getting_started.rst`, and `docs/quickstart.rst`.
+- [x] T487 [P] Add unit tests in `tests/test_pyboxbuilder/test_interlock.py` verifying `dovetail_depth_fits_wall` validation error on insufficient wall thickness and solid interior wall preservation behind socket.
+
+
 ## Notes
 
 

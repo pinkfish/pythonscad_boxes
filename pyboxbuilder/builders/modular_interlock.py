@@ -24,6 +24,7 @@ class ModularInterlockBoxBuilder(BoxBuilder):
                 BoxType.MODULAR_INTERLOCK,
                 "DashboardTray",
                 size=(84.0, 84.0, 25.0),
+                wall_thickness=4.0,
                 interlock_type=InterlockType.DOVETAIL,
                 dovetail_clearance=0.15,
             )
@@ -31,6 +32,8 @@ class ModularInterlockBoxBuilder(BoxBuilder):
     """
 
     box_type: ClassVar[BoxType] = BoxType.MODULAR_INTERLOCK
+    wall_thickness: float = 4.0
+    """Wall thickness in mm (defaults to 4.0mm so 3.0mm perimeter dovetails do not pierce the wall)."""
     interlock_type: InterlockType = InterlockType.GRIDFINITY
     """Interlock joint style (DOVETAIL or GRIDFINITY)."""
     dovetail_clearance: float = 0.15

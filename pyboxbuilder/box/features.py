@@ -2530,11 +2530,28 @@ def apply_horizontal_interlock(body: Bosl2Solid, spec: BoxSpec) -> Bosl2Solid:
     dt_h = min(14.0, max(4.0, body_h * 0.7))
     if isinstance(spec.interlock_size, (int, float)):
         dt_depth = float(spec.interlock_size)
-    elif isinstance(spec.interlock_size, (tuple, list)) and len(spec.interlock_size) >= 2:
+    elif isinstance(spec.interlock_size, (tuple, list)) and len(spec.interlock_size) >= 1:
         dt_depth = float(spec.interlock_size[0])
-        dt_w_tip = float(spec.interlock_size[1])
+        if len(spec.interlock_size) >= 2:
+            dt_w_tip = float(spec.interlock_size[1])
         if len(spec.interlock_size) >= 3:
             dt_w_base = float(spec.interlock_size[2])
+
+    if itype is InterlockType.DOVETAIL and spec.wall_thickness <= dt_depth:
+        from pyboxbuilder.box.validation import GeometryValidationError
+
+        raise GeometryValidationError(
+            label=spec.label,
+            invariant="dovetail_depth_fits_wall",
+            message=(
+                f"Wall thickness ({spec.wall_thickness:.2f}mm) must be strictly greater than "
+                f"dovetail depth ({dt_depth:.2f}mm) to prevent piercing through the wall into the interior."
+            ),
+            guidance=(
+                f"Increase wall_thickness to > {dt_depth:.2f}mm (e.g. wall_thickness=4.0) "
+                f"or reduce dovetail depth (interlock_size) to < {spec.wall_thickness:.2f}mm."
+            ),
+        )
 
     # Magnet defaults:
     mag_dia = 6.0

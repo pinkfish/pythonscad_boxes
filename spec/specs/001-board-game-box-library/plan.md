@@ -2093,6 +2093,20 @@ The gravity dispenser tower architecture features an internal downward slide ram
    - If `base_chamfer` is `None` or `False`, the shell defaults to rounded edges with `base_rounding`.
 
 
+### Modular Interlock Dovetail Wall Thickness Control & Invariant (FR-089, FR-092)
+
+1. **Physical Dovetail Envelope & Wall Piercing Prevention**:
+   - The female dovetail socket cutter extends `dt_depth + clearance` (typically `3.0mm + 0.15mm = 3.15mm`) into the box wall from the outer edge.
+   - If `wall_thickness <= dt_depth` (e.g. `2.0mm`), the female cutter cuts completely through the box perimeter wall into the interior storage cavity.
+   - To guarantee that the wall behind the dovetail joint remains completely solid (at least `1.0mm` solid material remaining between socket root and interior cavity), `wall_thickness` MUST be strictly greater than `dt_depth`.
+   - `ModularInterlockBoxBuilder` establishes a safe default of `wall_thickness: float = 4.0` (exceeding default `dt_depth = 3.0mm`).
+
+2. **Pre-CSG Validation & Construction Guards**:
+   - `GeometryValidator._validate_interlock_bounds` asserts `invariant="dovetail_depth_fits_wall"`: raises `GeometryValidationError` if `spec.interlock_type is InterlockType.DOVETAIL and spec.wall_thickness <= dt_depth`.
+   - `apply_horizontal_interlock` in `pyboxbuilder/box/features.py` enforces the identical invariant guard before CSG difference operations.
+   - Documentation examples in `docs/box_types.rst`, `docs/getting_started.rst`, and `docs/quickstart.rst` specify `wall_thickness=4.0`.
+
+
 ## Complexity Tracking
 
 > No violations.
