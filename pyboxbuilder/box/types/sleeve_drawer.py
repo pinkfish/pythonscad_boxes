@@ -37,7 +37,7 @@ class SleeveDrawerBox(BoxTypeBase):
         wt = spec.wall_thickness
         ft = spec.floor_thickness
         drawer_w = spec.width - 2 * (sw + slack)
-        drawer_l = spec.length - sw - slack
+        drawer_l = max(10.0, spec.length - sw - slack)
         drawer_h = spec.height - 2 * (sw + slack)
         return Interior(
             width=max(1.0, drawer_w - 2 * wt),
@@ -49,7 +49,7 @@ class SleeveDrawerBox(BoxTypeBase):
         )
 
     def build_body(self, spec: BoxSpec) -> Bosl2Solid:
-        """Return the inner sliding drawer with solid walls and front pull handle."""
+        """Return the inner sliding drawer with solid front face and pull handle."""
         sw = self._sleeve_wall(spec)
         slack = spec.sleeve_slack
         wt = spec.wall_thickness
@@ -68,20 +68,20 @@ class SleeveDrawerBox(BoxTypeBase):
         actual_handle_len = handle_len if has_handle else 0.0
 
         drawer_w = spec.width - 2 * (sw + slack)
-        drawer_l = max(10.0, spec.length - sw - slack - actual_handle_len)
+        drawer_l = max(10.0, spec.length - sw - slack)
         drawer_h = spec.height - 2 * (sw + slack)
 
         origin_x = sw + slack
-        origin_y = actual_handle_len
+        origin_y = 0.0
         origin_z = sw + slack
 
-        # Outer drawer solid
+        # Outer drawer solid with full solid front face at y=0.0
         drawer_outer = block(
             [drawer_w, drawer_l, drawer_h],
             at=(origin_x, origin_y, origin_z),
         )
 
-        # Cavity
+        # Cavity cleanly recessed inside drawer, leaving front, back, and side walls solid
         inner_w = max(1.0, drawer_w - 2 * wt)
         inner_l = max(1.0, drawer_l - 2 * wt)
         inner_h = max(1.0, drawer_h - ft + 1.0)
@@ -113,12 +113,12 @@ class SleeveDrawerBox(BoxTypeBase):
                     **precision().kwargs(),
                 ).translate([
                     spec.width / 2.0,
-                    actual_handle_len / 2.0,
+                    -actual_handle_len / 2.0,
                     origin_z + drawer_h - lip_h / 2.0,
                 ])
                 drawer = drawer | lip
             else:
-                # Default "handle": centered ergonomic pull knob/handle
+                # Default "handle": centered ergonomic pull knob/handle projecting forward from solid front face
                 hw = min(22.0, drawer_w * 0.5)
                 hh = min(8.0, drawer_h * 0.4)
                 handle = cuboid(
@@ -128,7 +128,7 @@ class SleeveDrawerBox(BoxTypeBase):
                     **precision().kwargs(),
                 ).translate([
                     spec.width / 2.0,
-                    actual_handle_len / 2.0,
+                    -actual_handle_len / 2.0,
                     origin_z + drawer_h / 2.0,
                 ])
                 drawer = drawer | handle

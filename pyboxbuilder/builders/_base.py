@@ -185,7 +185,7 @@ class BoxBuilder:
         elif bt is not None:
             from pyboxbuilder.box.registry import LIDLESS_BOX_TYPES
 
-            if bt not in LIDLESS_BOX_TYPES and self.lid is None:
+            if bt not in LIDLESS_BOX_TYPES and bt != BoxType.SLEEVE_DRAWER and self.lid is None:
                 from pyboxbuilder.lid.builder import LidBuilder, PatternBuilder
 
                 object.__setattr__(self, "lid", LidBuilder(pattern=PatternBuilder(PatternType.HEX)))
