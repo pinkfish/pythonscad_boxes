@@ -1422,6 +1422,17 @@ stop the class of mistake from being expressible.
 - [x] T487 [P] Add unit tests in `tests/test_pyboxbuilder/test_interlock.py` verifying `dovetail_depth_fits_wall` validation error on insufficient wall thickness and solid interior wall preservation behind socket.
 
 
+## Phase 62: Matchbox Sleeve & Drawer Solid Front Face & Enclosure Integrity (FR-087)
+
+**Goal**: Fix `BoxType.SLEEVE_DRAWER` inner drawer to have a 100% solid front face spanning the full opening cross section with an integrated forward-projecting pull handle, aligned interior compartment carving to eliminate holes, and solid outer sleeve enclosure.
+
+- [x] T488 [P] Update `SleeveDrawerBox.build_body` and `interior` in `pyboxbuilder/box/types/sleeve_drawer.py` ensuring the front face is 100% solid spanning the full cross section at `y = 0.0`, `interior.origin_y = wt`, and the pull handle projects forward in -Y from the front wall.
+- [x] T489 [P] Update `pyboxbuilder/builders/_base.py` and `pyboxbuilder/project/pipeline.py` to exclude `BoxType.SLEEVE_DRAWER` from default lid pattern decorations, maintaining a solid protective outer sleeve.
+- [x] T490 [P] Update unit tests in `tests/test_pyboxbuilder/test_extended_boxes.py` (`test_sleeve_drawer_solid_and_handle`) with volume probes asserting a 100% solid front drawer face and solid outer sleeve top.
+- [x] T491 [P] Re-generate and verify documentation binary STLs (`6e5e7b39a27a2d32.stl`, `14d6f6112aaeaa69.stl`, `e157a755b61460b5.stl`).
+- [x] T492 [P] Update `spec.md`, `plan.md`, and `tasks.md` reflecting solid front face geometry, handle projection, and solid sleeve enclosure.
+
+
 ## Notes
 
 

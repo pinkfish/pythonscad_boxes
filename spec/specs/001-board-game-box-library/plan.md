@@ -2107,6 +2107,22 @@ The gravity dispenser tower architecture features an internal downward slide ram
    - Documentation examples in `docs/box_types.rst`, `docs/getting_started.rst`, and `docs/quickstart.rst` specify `wall_thickness=4.0`.
 
 
+### Matchbox Sleeve & Drawer Solid Front Face & Enclosure Integrity (FR-087)
+
+1. **Continuous Solid Front Face (`y = 0`)**:
+   - The sliding drawer's outer solid spans `[drawer_w, drawer_l, drawer_h]` from `y = 0.0` to `drawer_l = spec.length - sw - slack`.
+   - The front face of the drawer is a continuous, 100% solid rectangular wall from `y = 0.0` to `y = wt`.
+   - The pull handle (`DrawerHandleStyle.HANDLE` or `LIP`) is mounted directly to the solid front face, projecting forward in the -Y direction (`-actual_handle_len / 2.0`) without creating open gaps or voids around it.
+
+2. **Compartment Cavity Alignment & Front Wall Preservation**:
+   - `SleeveDrawerBox.interior` defines `origin_y = wt` and `length = drawer_l - 2 * wt`, precisely matching the cavity geometry in `build_body`.
+   - Compartment carving and piece wells are positioned strictly behind the front wall (`y >= wt`), guaranteeing that interior features (including `holds_pieces=True` corner radii) never pierce through or damage the solid front face.
+
+3. **Solid Protective Sleeve Enclosure**:
+   - Outer sleeves (`BoxType.SLEEVE_DRAWER`) do not receive default through-hole hexagonal patterns during lid decoration when `builder.lid is None`.
+   - `_base.py` and `pipeline.py` exclude `BoxType.SLEEVE_DRAWER` from automatic hex pattern assignment, keeping the sleeve a 100% solid protective outer shell.
+
+
 ## Complexity Tracking
 
 > No violations.

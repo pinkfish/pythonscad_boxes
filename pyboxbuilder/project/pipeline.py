@@ -323,6 +323,11 @@ class GeometryPipeline:
             return piece.solid, None
         lid_builder = builder.lid
         if lid_builder is None:
+            from pyboxbuilder.enums import BoxType
+
+            if getattr(builder, "box_type", None) == BoxType.SLEEVE_DRAWER:
+                return piece.solid, None
+
             from pyboxbuilder.enums import PatternType
             from pyboxbuilder.lid.builder import LidBuilder, PatternBuilder
 

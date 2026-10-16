@@ -189,6 +189,25 @@ class ExtendedBoxBuildersTests(unittest.TestCase):
         center_y = float(b_box.center[1]) if hasattr(b_box, "center") else float(b_box[0][1])
         self.assertAlmostEqual(center_y, 28.0, delta=1.5)  # in preview packed layout
 
+        # Verify drawer front wall (y=0..wt) is 100% solid behind handle (compartment does not breach front wall)
+        from pyboxbuilder.box.shell import block
+
+        sw = 1.2
+        slack = 0.25
+        wt = 2.0
+        drawer_w = 70.0 - 2 * (sw + slack)
+        drawer_h = 28.0 - 2 * (sw + slack)
+        front_wall_probe = block([drawer_w, wt, drawer_h], at=(sw + slack, 0.0, sw + slack))
+        actual_front = volume(drawer_piece.solid & front_wall_probe)
+        expected_front = drawer_w * wt * drawer_h
+        self.assertAlmostEqual(actual_front, expected_front, delta=15.0)  # delta accounts for corner rounding
+
+        # Verify outer sleeve has no through-hole hex pattern (remains solid)
+        sleeve_top_probe = block([60.0, 50.0, sw], at=(5.0, 5.0, 28.0 - sw))
+        actual_sleeve_top = volume(sleeve_piece.solid & sleeve_top_probe)
+        expected_sleeve_top = 60.0 * 50.0 * sw
+        self.assertAlmostEqual(actual_sleeve_top, expected_sleeve_top, delta=15.0)
+
         # Compare solid back sleeve vs pierced back sleeve
         p_hole = Project("MatchboxHoleTest")
         box_hole = p_hole.box(
