@@ -49,3 +49,5 @@ class PrintInPlaceHingeBoxBuilder(BoxBuilder):
     """Length of the snap catch tab in mm."""
     pip_snap_diameter: float = 3.0
     """Diameter of the snap ridge in mm."""
+    pip_gap_mm: float = 1.0
+    """Gap between the two box halves on the print bed in mm (default 1.0mm, matching OpenSCAD toolkit)."""

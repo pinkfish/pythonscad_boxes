@@ -365,6 +365,7 @@ class BoxSpec:
     pip_snap_catch: bool = True
     pip_snap_width: float = 12.0
     pip_snap_diameter: float = 3.0
+    pip_gap_mm: float = 1.0
 
     def __post_init__(self) -> None:
         """Ensure all categorical options are canonical enums (FR-106)."""
@@ -650,6 +651,7 @@ class UnresolvedBoxSpec:
     pip_snap_catch: bool = True
     pip_snap_width: float = 12.0
     pip_snap_diameter: float = 3.0
+    pip_gap_mm: float = 1.0
 
     def __post_init__(self) -> None:
         """Ensure all categorical options are canonical enums (FR-106)."""

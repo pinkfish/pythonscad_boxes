@@ -2132,7 +2132,20 @@ The gravity dispenser tower architecture features an internal downward slide ram
 
 2. **Clean Front Wall Catch Distinction**:
    - The front walls carry a clean snap-fit ridge catch consisting of a flat rectangular tab with an inward-facing triangular wedge ridge on the lid front wall and a matching recessed pocket on the body front wall.
-   - Eliminates cylindrical primitives (`SnapLock`/`SnapSocket`) from the front walls, preventing the catch from appearing like a hinge knuckle.
+### Print-In-Place 1.0mm Gap Hinge & Self-Supporting Cone Pivots (FR-090, SC-105)
+
+1. **OpenSCAD Toolkit 1.0mm Gap Convention**:
+   - `PrintInPlaceHingeBox` places body and lid directly adjacent to each other on the print bed with `gap = spec.pip_gap_mm = 1.0mm` (matching `openscad_boardgame_toolkit/hinge_box.scad` `gap = 1`).
+   - Knuckles are positioned along the shared mating rim at `y_pivot = spec.length + gap / 2.0 = spec.length + 0.5` and `z_pivot = half_h`.
+   - Eliminates the previous 14mm horizontal void chasm, placing both box halves directly adjacent on the print bed.
+
+2. **Full Solid Wall Support & 45° Self-Supporting Chamfers**:
+   - Underneath the knuckles, the box walls are solid down to the bed (`z = 0`).
+   - 45° chamfer brackets under the 0.5mm knuckle overhang slope down directly into the solid vertical walls, guaranteeing 100% self-supporting geometry with zero mid-air horizontal cylinder overhangs.
+
+3. **45° Male/Female Cone-and-Socket Pivots**:
+   - Adjacent knuckles connect via 45° captive cone-and-socket joints (conical male pins on lid knuckles, conical female sockets in body knuckles) with calibrated radial (`0.35mm`) and axial (`0.40mm`) clearances.
+   - Cones print layer-by-layer at 45° overhang without supports and rotate freely when folded 180° into the closed box state.
 
 
 ## Complexity Tracking

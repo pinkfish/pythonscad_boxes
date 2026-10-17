@@ -383,7 +383,7 @@ class ExtendedBoxGeometryTests(unittest.TestCase):
         self.assertAlmostEqual(z_max, 19.0, delta=0.5)
 
     def test_pip_hinge_middle_knuckles_and_clean_catch(self) -> None:
-        """Verify knuckle hinge is placed in the middle section and front walls have a clean snap catch."""
+        """Verify knuckle hinge is placed along the 1.0mm shared mating rim and front walls have a clean snap catch."""
         from pyboxbuilder.box.shell import block
         from tests.mesh import volume
 
@@ -393,21 +393,27 @@ class ExtendedBoxGeometryTests(unittest.TestCase):
         self.assertIsNotNone(body)
 
         hr = spec.pip_hinge_radius
-        arm = max(4.0, hr + 1.0)
-        hinge_gap = 2.0 * (arm + hr)
-        hinge_y = 40.0 + arm + hr
-        half_h = 15.0
+        gap = spec.pip_gap_mm
+        self.assertAlmostEqual(gap, 1.0)
+        y_pivot = spec.length + gap / 2.0
+        half_h = spec.height / 2.0
 
-        # Middle section: knuckle barrel must be present and solid at y=hinge_y, z=half_h
-        barrel_probe = block([60.0, 2 * hr, 2 * hr], at=(0.0, hinge_y - hr, half_h - hr))
+        # Middle section: knuckle barrel must be present and solid at y=y_pivot, z=half_h
+        barrel_probe = block([spec.width, 2 * hr, 2 * hr], at=(0.0, y_pivot - hr, half_h - hr))
         v_barrel = volume(body & barrel_probe)
         self.assertGreater(v_barrel, 1000.0)
 
         # Front wall: clean snap catch tab on lid front wall
-        lid_front_y = 40.0 + hinge_gap + 40.0
-        tab_probe = block([60.0, 2.0, 4.0], at=(0.0, lid_front_y - 2.0, half_h))
+        lid_front_y = spec.length + gap + spec.length
+        tab_probe = block([spec.width, 2.0, 4.0], at=(0.0, lid_front_y - 2.0, half_h))
         v_tab = volume(body & tab_probe)
         self.assertGreater(v_tab, 20.0)
+
+        # Monolithic bounds: length must be 2 * spec.length + gap (81.0mm), no 14mm chasm
+        _centre, size = (
+            body.bounds() if isinstance(body.bounds(), tuple) else (body.bounds().center, body.bounds().size)
+        )
+        self.assertAlmostEqual(size[1], 2 * spec.length + gap, delta=0.2)
 
     def test_dispenser_lower_cover(self) -> None:
         """Verify gravity tile dispenser has a solid front cover over the lower half (FR-084)."""
