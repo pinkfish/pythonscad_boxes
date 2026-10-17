@@ -590,17 +590,13 @@
 
                 <span class="n">body_knuckles</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">k_solid</span><span class="p">)</span>
 
-                <span class="c1"># Clearance cutout in the lid half in this segment</span>
+                <span class="c1"># Conforming cylindrical clearance cutout in the lid half hugging the knuckle barrel</span>
                 <span class="n">c_cyl</span> <span class="o">=</span> <span class="p">(</span>
                     <span class="n">cylinder</span><span class="p">(</span><span class="n">height</span><span class="o">=</span><span class="n">k_len</span> <span class="o">+</span> <span class="n">a_clr</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="n">hr</span> <span class="o">+</span> <span class="n">r_clr</span><span class="p">,</span> <span class="n">fn</span><span class="o">=</span><span class="mi">32</span><span class="p">)</span>
                     <span class="o">.</span><span class="n">rotate</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">90</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
                     <span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">k_cx</span><span class="p">,</span> <span class="n">y_pivot</span><span class="p">,</span> <span class="n">z_pivot</span><span class="p">])</span>
                 <span class="p">)</span>
-                <span class="n">c_box</span> <span class="o">=</span> <span class="n">block</span><span class="p">(</span>
-                    <span class="p">[</span><span class="n">k_len</span> <span class="o">+</span> <span class="n">a_clr</span><span class="p">,</span> <span class="n">hr</span> <span class="o">+</span> <span class="n">r_clr</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">hr</span> <span class="o">+</span> <span class="mf">1.0</span><span class="p">],</span>
-                    <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="n">kx0</span> <span class="o">-</span> <span class="n">a_clr</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">y_pivot</span><span class="p">,</span> <span class="n">z_pivot</span> <span class="o">-</span> <span class="n">hr</span><span class="p">),</span>
-                <span class="p">)</span>
-                <span class="n">lid_cutouts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">c_cyl</span> <span class="o">|</span> <span class="n">c_box</span><span class="p">)</span>
+                <span class="n">lid_cutouts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">c_cyl</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="c1"># Lid knuckle (attached to lid front mating wall)</span>
                 <span class="c1"># Solid attachment block extending from y_pivot to inner lid front wall</span>
@@ -638,17 +634,13 @@
 
                 <span class="n">lid_knuckles</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">k_solid</span><span class="p">)</span>
 
-                <span class="c1"># Clearance cutout in the body half in this segment</span>
+                <span class="c1"># Conforming cylindrical clearance cutout in the body half hugging the knuckle barrel</span>
                 <span class="n">c_cyl</span> <span class="o">=</span> <span class="p">(</span>
                     <span class="n">cylinder</span><span class="p">(</span><span class="n">height</span><span class="o">=</span><span class="n">k_len</span> <span class="o">+</span> <span class="n">a_clr</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="n">hr</span> <span class="o">+</span> <span class="n">r_clr</span><span class="p">,</span> <span class="n">fn</span><span class="o">=</span><span class="mi">32</span><span class="p">)</span>
                     <span class="o">.</span><span class="n">rotate</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">90</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
                     <span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">k_cx</span><span class="p">,</span> <span class="n">y_pivot</span><span class="p">,</span> <span class="n">z_pivot</span><span class="p">])</span>
                 <span class="p">)</span>
-                <span class="n">c_box</span> <span class="o">=</span> <span class="n">block</span><span class="p">(</span>
-                    <span class="p">[</span><span class="n">k_len</span> <span class="o">+</span> <span class="n">a_clr</span><span class="p">,</span> <span class="n">hr</span> <span class="o">+</span> <span class="n">r_clr</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">hr</span> <span class="o">+</span> <span class="mf">1.0</span><span class="p">],</span>
-                    <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="n">kx0</span> <span class="o">-</span> <span class="n">a_clr</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">y_pivot</span> <span class="o">-</span> <span class="n">hr</span> <span class="o">-</span> <span class="n">r_clr</span> <span class="o">-</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">z_pivot</span> <span class="o">-</span> <span class="n">hr</span><span class="p">),</span>
-                <span class="p">)</span>
-                <span class="n">body_cutouts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">c_cyl</span> <span class="o">|</span> <span class="n">c_box</span><span class="p">)</span>
+                <span class="n">body_cutouts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">c_cyl</span><span class="p">)</span>
 
         <span class="k">for</span> <span class="n">bk</span> <span class="ow">in</span> <span class="n">body_knuckles</span><span class="p">:</span>
             <span class="n">body</span> <span class="o">=</span> <span class="n">body</span> <span class="o">|</span> <span class="n">bk</span>
