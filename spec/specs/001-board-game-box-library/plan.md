@@ -2147,6 +2147,10 @@ The gravity dispenser tower architecture features an internal downward slide ram
    - Adjacent knuckles connect via 45° captive cone-and-socket joints (conical male pins on lid knuckles, conical female sockets in body knuckles) with calibrated radial (`0.35mm`) and axial (`0.40mm`) clearances.
    - Cones print layer-by-layer at 45° overhang without supports and rotate freely when folded 180° into the closed box state.
 
+4. **Conforming Cylindrical Clearance Cutouts**:
+   - The clearance cutouts in both box halves conform strictly to the knuckle barrel cylindrical profile (`c_cyl`) with `0.35mm` radial clearance, eliminating rectangular shelf cuts (`c_box`), wide gaps, or bridging overhangs.
+   - The box walls directly follow the round contour with 0.35mm air gap, ensuring unrestricted 180° rotation with zero CSG collision volume throughout movement.
+
 
 ## Complexity Tracking
 

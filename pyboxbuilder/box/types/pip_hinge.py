@@ -145,17 +145,13 @@ class PrintInPlaceHingeBox(BoxTypeBase):
 
                 body_knuckles.append(k_solid)
 
-                # Clearance cutout in the lid half in this segment
+                # Conforming cylindrical clearance cutout in the lid half hugging the knuckle barrel
                 c_cyl = (
                     cylinder(height=k_len + a_clr, radius=hr + r_clr, fn=32)
                     .rotate([0, 90, 0])
                     .translate([k_cx, y_pivot, z_pivot])
                 )
-                c_box = block(
-                    [k_len + a_clr, hr + r_clr + 0.5, hr + 1.0],
-                    at=(kx0 - a_clr / 2.0, y_pivot, z_pivot - hr),
-                )
-                lid_cutouts.append(c_cyl | c_box)
+                lid_cutouts.append(c_cyl)
             else:
                 # Lid knuckle (attached to lid front mating wall)
                 # Solid attachment block extending from y_pivot to inner lid front wall
@@ -193,17 +189,13 @@ class PrintInPlaceHingeBox(BoxTypeBase):
 
                 lid_knuckles.append(k_solid)
 
-                # Clearance cutout in the body half in this segment
+                # Conforming cylindrical clearance cutout in the body half hugging the knuckle barrel
                 c_cyl = (
                     cylinder(height=k_len + a_clr, radius=hr + r_clr, fn=32)
                     .rotate([0, 90, 0])
                     .translate([k_cx, y_pivot, z_pivot])
                 )
-                c_box = block(
-                    [k_len + a_clr, hr + r_clr + 0.5, hr + 1.0],
-                    at=(kx0 - a_clr / 2.0, y_pivot - hr - r_clr - 0.5, z_pivot - hr),
-                )
-                body_cutouts.append(c_cyl | c_box)
+                body_cutouts.append(c_cyl)
 
         for bk in body_knuckles:
             body = body | bk

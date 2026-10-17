@@ -415,6 +415,14 @@ class ExtendedBoxGeometryTests(unittest.TestCase):
         )
         self.assertAlmostEqual(size[1], 2 * spec.length + gap, delta=0.2)
 
+        # Conforming edge: wall under knuckle barrel hugs the round profile without rectangular voids
+        wall_probe = block(
+            [10.0, spec.wall_thickness, 1.0],
+            at=(15.0, spec.length - spec.wall_thickness, half_h - hr - 1.0),
+        )
+        v_wall = volume(body & wall_probe)
+        self.assertGreater(v_wall, 15.0)
+
     def test_dispenser_lower_cover(self) -> None:
         """Verify gravity tile dispenser has a solid front cover over the lower half (FR-084)."""
         from pyboxbuilder.box.shell import block

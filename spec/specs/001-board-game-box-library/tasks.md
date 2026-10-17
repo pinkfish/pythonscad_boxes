@@ -1453,6 +1453,7 @@ stop the class of mistake from being expressible.
 - [x] T500 [P] Update unit tests in `tests/test_pyboxbuilder/test_extended_boxes.py` (`test_pip_hinge_middle_knuckles_and_clean_catch`) asserting 1.0mm gap and zero mid-air overhangs.
 - [x] T501 [P] Re-generate and verify documentation binary STLs (`00c94d7ab54e7a45.stl`, `4065da781b9d99f3.stl`, `21804efe2e97d991.stl`).
 - [x] T502 [P] Update `spec.md`, `plan.md`, and `tasks.md` reflecting 1.0mm gap and cone-and-socket captive hinge geometry.
+- [x] T503 [P] Remove rectangular `c_box` shelf cuts from `PrintInPlaceHingeBox` clearance cutouts in `pyboxbuilder/box/types/pip_hinge.py`, conforming the box wall edge closely around the knuckle barrel with 0.35mm radial clearance and eliminating bridging overhangs.
  
  
 ## Notes
