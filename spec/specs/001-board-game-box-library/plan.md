@@ -2123,6 +2123,18 @@ The gravity dispenser tower architecture features an internal downward slide ram
    - `_base.py` and `pipeline.py` exclude `BoxType.SLEEVE_DRAWER` from automatic hex pattern assignment, keeping the sleeve a 100% solid protective outer shell.
 
 
+### Print-In-Place Knuckle Hinge Middle Section Placement & Front Snap Catch (FR-090, SC-105)
+
+1. **Knuckle Hinge Middle Section Placement**:
+   - `PrintInPlaceHingeBox.build_body` in `pyboxbuilder/box/types/pip_hinge.py` places `KnuckleHingePair` in the middle section between the body tray (`y = 0..spec.length`) and lid tray (`y = lid_origin_y..lid_origin_y + spec.length`), centering the hinge axis at `y = spec.length + arm + hr` and `z = half_h`.
+   - The middle section contains the interlocking knuckles, pin bore, and captive pin with calibrated radial and axial air gaps.
+   - 45° self-supporting overhang chamfer brackets under both hinge arms connect the arms down to the box walls, printing cleanly on the bed without mid-air overhangs or supports.
+
+2. **Clean Front Wall Catch Distinction**:
+   - The front walls carry a clean snap-fit ridge catch consisting of a flat rectangular tab with an inward-facing triangular wedge ridge on the lid front wall and a matching recessed pocket on the body front wall.
+   - Eliminates cylindrical primitives (`SnapLock`/`SnapSocket`) from the front walls, preventing the catch from appearing like a hinge knuckle.
+
+
 ## Complexity Tracking
 
 > No violations.
