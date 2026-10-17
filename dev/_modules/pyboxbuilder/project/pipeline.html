@@ -766,6 +766,11 @@
             <span class="k">return</span> <span class="n">piece</span><span class="o">.</span><span class="n">solid</span><span class="p">,</span> <span class="kc">None</span>
         <span class="n">lid_builder</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">lid</span>
         <span class="k">if</span> <span class="n">lid_builder</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">BoxType</span>
+
+            <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">builder</span><span class="p">,</span> <span class="s2">"box_type"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="o">==</span> <span class="n">BoxType</span><span class="o">.</span><span class="n">SLEEVE_DRAWER</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">piece</span><span class="o">.</span><span class="n">solid</span><span class="p">,</span> <span class="kc">None</span>
+
             <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">PatternType</span>
             <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.lid.builder</span><span class="w"> </span><span class="kn">import</span> <span class="n">LidBuilder</span><span class="p">,</span> <span class="n">PatternBuilder</span>
 
