@@ -1442,8 +1442,19 @@ stop the class of mistake from being expressible.
 - [x] T495 [P] Update unit tests in `tests/test_pyboxbuilder/test_extended_boxes.py` (`test_pip_hinge_split_halfway`, `test_pip_hinge_middle_knuckles_and_clean_catch`) with volume probes asserting middle knuckle hinge presence and clean front catch.
 - [x] T496 [P] Pre-generate and verify documentation binary STLs (`00c94d7ab54e7a45.stl`, `4065da781b9d99f3.stl`, `21804efe2e97d991.stl`).
 - [x] T497 [P] Update `docs/box_types.rst`, `docs/getting_started.rst`, `spec.md`, `plan.md`, and `tasks.md`.
-
-
+ 
+ 
+## Phase 64: Print-In-Place 1.0mm Gap Hinge & Self-Supporting Cone Pivots (FR-090, SC-105)
+ 
+**Goal**: Match the OpenSCAD print-in-place box setup (`openscad_boardgame_toolkit/hinge_box.scad`) by eliminating the 14mm mid-air overhang chasm, placing body and lid directly adjacent with `gap = 1.0mm`, supporting knuckles directly on solid box walls with 45° chamfers down to the print bed, and using 45° self-supporting captive cone-and-socket pivots.
+ 
+- [x] T498 [P] Add `pip_gap_mm: float = 1.0` parameter to `BoxSpec`, `BoxSpecBuilder`, and `PrintInPlaceHingeBoxBuilder`.
+- [x] T499 [P] Update `PrintInPlaceHingeBox.build_body` in `pyboxbuilder/box/types/pip_hinge.py` to position body and lid adjacent with `gap = 1.0mm`, rim pivot at `y_pivot = spec.length + 0.5`, 45° self-supporting cone-and-socket pivots (`HingeCone`), and 45° chamfer support brackets into the solid vertical box walls.
+- [x] T500 [P] Update unit tests in `tests/test_pyboxbuilder/test_extended_boxes.py` (`test_pip_hinge_middle_knuckles_and_clean_catch`) asserting 1.0mm gap and zero mid-air overhangs.
+- [x] T501 [P] Re-generate and verify documentation binary STLs (`00c94d7ab54e7a45.stl`, `4065da781b9d99f3.stl`, `21804efe2e97d991.stl`).
+- [x] T502 [P] Update `spec.md`, `plan.md`, and `tasks.md` reflecting 1.0mm gap and cone-and-socket captive hinge geometry.
+ 
+ 
 ## Notes
 
 
