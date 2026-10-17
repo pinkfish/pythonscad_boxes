@@ -1433,6 +1433,17 @@ stop the class of mistake from being expressible.
 - [x] T492 [P] Update `spec.md`, `plan.md`, and `tasks.md` reflecting solid front face geometry, handle projection, and solid sleeve enclosure.
 
 
+## Phase 63: Print-In-Place Knuckle Hinge Middle Section Placement & Front Snap Catch (FR-090, SC-105)
+
+**Goal**: Restore `KnuckleHingePair` print-in-place knuckle hinge to the middle section between body and lid on `PrintInPlaceHingeBox`, eliminate cylindrical knuckles from the front walls, and implement a clean snap-fit catch.
+
+- [x] T493 [P] Update `PrintInPlaceHingeBox.build_body` in `pyboxbuilder/box/types/pip_hinge.py` to place `KnuckleHingePair` in the middle section between the body and lid with 45° self-supporting overhang chamfer brackets under both arms.
+- [x] T494 [P] Replace cylindrical `SnapLock`/`SnapSocket` primitives on the front walls with a clean snap-fit catch (lid tab with triangular wedge ridge, body recessed pocket), eliminating hinge-like appearance on the catch side.
+- [x] T495 [P] Update unit tests in `tests/test_pyboxbuilder/test_extended_boxes.py` (`test_pip_hinge_split_halfway`, `test_pip_hinge_middle_knuckles_and_clean_catch`) with volume probes asserting middle knuckle hinge presence and clean front catch.
+- [x] T496 [P] Pre-generate and verify documentation binary STLs (`00c94d7ab54e7a45.stl`, `4065da781b9d99f3.stl`, `21804efe2e97d991.stl`).
+- [x] T497 [P] Update `docs/box_types.rst`, `docs/getting_started.rst`, `spec.md`, `plan.md`, and `tasks.md`.
+
+
 ## Notes
 
 

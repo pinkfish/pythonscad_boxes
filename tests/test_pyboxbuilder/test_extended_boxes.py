@@ -380,46 +380,34 @@ class ExtendedBoxGeometryTests(unittest.TestCase):
         z_min = centre[2] - size[2] / 2.0
         z_max = centre[2] + size[2] / 2.0
         self.assertAlmostEqual(z_min, 0.0, delta=0.5)
-        # Top of the snap catch tabs reaches half_h + ~4.7mm (or half_h without catches)
-        self.assertAlmostEqual(z_max, 15.0 + 4.71, delta=0.5)
+        self.assertAlmostEqual(z_max, 19.0, delta=0.5)
 
-    def test_pip_hinge_bridge_geometry_and_zero_overhangs(self) -> None:
-        """Verify the 0.4mm min bridge connects halves and has no mid-air overhangs below."""
+    def test_pip_hinge_middle_knuckles_and_clean_catch(self) -> None:
+        """Verify knuckle hinge is placed in the middle section and front walls have a clean snap catch."""
         from pyboxbuilder.box.shell import block
-        from pyboxbuilder.box.validation import GeometryValidationError, GeometryValidator
         from tests.mesh import volume
 
         impl = BOX_IMPL_REGISTRY[BoxType.PRINT_IN_PLACE_HINGE]()
-
-        # 1. Default bridge width (0.4mm)
-        spec = BoxSpec(label="BridgeBox", width=60.0, length=40.0, height=30.0)
+        spec = BoxSpec(label="KnucklePIPBox", width=60.0, length=40.0, height=30.0)
         body = impl.build_body(spec)
         self.assertIsNotNone(body)
 
-        # The space directly below the bridge (y=40.0..40.4, z=0..14.5) must be empty air (0 overhang)
-        gap_probe = block([60.0, 0.4, 14.5], at=(0.0, 40.0, 0.0))
-        self.assertAlmostEqual(volume(body & gap_probe), 0.0, delta=0.01)
+        hr = spec.pip_hinge_radius
+        arm = max(4.0, hr + 1.0)
+        hinge_gap = 2.0 * (arm + hr)
+        hinge_y = 40.0 + arm + hr
+        half_h = 15.0
 
-        # The bridge itself at z=14.6..15.0 spans across the 0.4mm gap
-        bridge_probe = block([60.0, 0.4, 0.4], at=(0.0, 40.0, 14.6))
-        self.assertAlmostEqual(volume(body & bridge_probe), 60.0 * 0.4 * 0.4, delta=0.1)
+        # Middle section: knuckle barrel must be present and solid at y=hinge_y, z=half_h
+        barrel_probe = block([60.0, 2 * hr, 2 * hr], at=(0.0, hinge_y - hr, half_h - hr))
+        v_barrel = volume(body & barrel_probe)
+        self.assertGreater(v_barrel, 1000.0)
 
-        # 2. Configurable bridge width (e.g. 0.8mm)
-        spec_wide = BoxSpec(label="WideBridge", width=60.0, length=40.0, height=30.0, pip_bridge_width=0.8)
-        body_wide = impl.build_body(spec_wide)
-        bridge_probe_wide = block([60.0, 0.8, 0.4], at=(0.0, 40.0, 14.6))
-        self.assertAlmostEqual(volume(body_wide & bridge_probe_wide), 60.0 * 0.8 * 0.4, delta=0.1)
-
-        # 3. Side wall edge connectivity: verify the bridge is fully present and connected at the extreme outer edges (x=0..1mm and x=59..60mm)
-        left_edge_probe = block([1.0, 0.4, 0.4], at=(0.0, 40.0, 14.6))
-        right_edge_probe = block([1.0, 0.4, 0.4], at=(59.0, 40.0, 14.6))
-        self.assertAlmostEqual(volume(body & left_edge_probe), 1.0 * 0.4 * 0.4, delta=0.05)
-        self.assertAlmostEqual(volume(body & right_edge_probe), 1.0 * 0.4 * 0.4, delta=0.05)
-
-        # 4. Validation: bridge width < 0.4mm must raise GeometryValidationError
-        spec_invalid = BoxSpec(label="InvalidBridge", width=60.0, length=40.0, height=30.0, pip_bridge_width=0.2)
-        with self.assertRaises(GeometryValidationError):
-            GeometryValidator.validate(spec_invalid)
+        # Front wall: clean snap catch tab on lid front wall
+        lid_front_y = 40.0 + hinge_gap + 40.0
+        tab_probe = block([60.0, 2.0, 4.0], at=(0.0, lid_front_y - 2.0, half_h))
+        v_tab = volume(body & tab_probe)
+        self.assertGreater(v_tab, 20.0)
 
     def test_dispenser_lower_cover(self) -> None:
         """Verify gravity tile dispenser has a solid front cover over the lower half (FR-084)."""
