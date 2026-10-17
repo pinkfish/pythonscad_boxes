@@ -229,7 +229,7 @@ Hinged & Folding Closures
 Monolithic Print-In-Place Hinge Box (``BoxType.PRINT_IN_PLACE_HINGE``)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-A zero-assembly 1-piece print laid flat at 180° on the print bed with a 3D-printable flexible bridge hinge and front snap catches:
+A zero-assembly 1-piece print laid flat at 180° on the print bed with an interlocking print-in-place knuckle hinge in the middle section and front snap catches:
 
 .. pythonscad-example::
 
