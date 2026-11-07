@@ -285,10 +285,10 @@ class BoxSpec:
 
     # ── Extended Box Types (FR-081–FR-090) ───────────────────────────────
     # Snap-fit (FR-081)
-    cantilever_thickness: float = 1.6
-    cantilever_width: float = 12.0
-    deflection_clearance: float = 0.3
-    detent_height: float = 1.5
+    cantilever_thickness: float = 2.0
+    cantilever_width: float = 14.0
+    deflection_clearance: float = 0.25
+    detent_height: float = 0.8
     latch_axis: LatchAxis = LatchAxis.X
     """Axis on whose opposing walls the latches sit (FR-081, FR-106)."""
 
@@ -307,7 +307,8 @@ class BoxSpec:
     thread_depth: float = 1.0
 
     # Dispenser (FR-084)
-    chute_angle: float = 40.0
+    chute_angle: float = 0.0
+    tile_angle: float | None = None
     token_thickness: float = 3.0
     dispense_slot_clearance: float = 0.8
     sight_slot_width: float = 8.0
@@ -366,6 +367,8 @@ class BoxSpec:
     pip_snap_width: float = 12.0
     pip_snap_diameter: float = 3.0
     pip_gap_mm: float = 1.0
+    inset_hinge_side_gap: float = 3.0
+    inset_hinge_tab_height: float = 6.0
 
     def __post_init__(self) -> None:
         """Ensure all categorical options are canonical enums (FR-106)."""
@@ -582,10 +585,10 @@ class UnresolvedBoxSpec:
     ribbon_channel: bool = False
 
     # Extended Box Types (FR-081–FR-090)
-    cantilever_thickness: float = 1.6
-    cantilever_width: float = 12.0
-    deflection_clearance: float = 0.3
-    detent_height: float = 1.5
+    cantilever_thickness: float = 2.0
+    cantilever_width: float = 14.0
+    deflection_clearance: float = 0.25
+    detent_height: float = 0.8
     latch_axis: LatchAxis = LatchAxis.X
 
     lug_count: int = 4
@@ -600,7 +603,8 @@ class UnresolvedBoxSpec:
     thread_clearance: float = 0.25
     thread_depth: float = 1.0
 
-    chute_angle: float = 40.0
+    chute_angle: float = 0.0
+    tile_angle: float | None = None
     token_thickness: float = 3.0
     dispense_slot_clearance: float = 0.8
     sight_slot_width: float = 8.0
@@ -652,6 +656,8 @@ class UnresolvedBoxSpec:
     pip_snap_width: float = 12.0
     pip_snap_diameter: float = 3.0
     pip_gap_mm: float = 1.0
+    inset_hinge_side_gap: float = 3.0
+    inset_hinge_tab_height: float = 6.0
 
     def __post_init__(self) -> None:
         """Ensure all categorical options are canonical enums (FR-106)."""
