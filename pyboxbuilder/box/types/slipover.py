@@ -12,11 +12,14 @@ from pyboxbuilder.box.spec import BoxSpec
 from pyboxbuilder.builders.slipover import SlipoverBoxBuilder
 from pyboxbuilder.enums import BoxType, InterlockType
 
-SLIPOVER_FINGER_MAX_MM = 20.0
+SLIPOVER_FINGER_MAX_MM = 6.0
 """Tallest a sleeve's corner notch gets, however deep the box."""
 
-SLIPOVER_FINGER_MIN_RADIUS_MM = 7.0
+SLIPOVER_FINGER_MIN_RADIUS_MM = 5.0
 """Smallest notch radius that still admits a fingertip."""
+
+SLIPOVER_FINGER_MAX_RADIUS_MM = 6.5
+"""Largest default notch radius so corner cutouts stay subtle."""
 
 if TYPE_CHECKING:
     from pybosl2.shapes3d import Bosl2Solid
@@ -216,29 +219,43 @@ class SlipoverBox(BoxTypeBase):
         gap = min(slipover_gap(spec), spec.height - foot - lt)
         skirt = spec.height - foot - gap
 
-        # The original's sizing: half the skirt, capped, and a radius that stays
-        # usable on a shallow box.
+        # A subtle corner notch above the bottom gap: capped at 8mm and a third
+        # of the skirt so it does not dominate the sleeve, while combining with
+        # the bottom gap to give fingertips plenty of room to grip the corner.
         # An explicit None check, not `or`: `slipover_finger_height=0` means
         # "no notch", and `or` reads zero as "unset" and hands back the default.
         requested = spec.slipover_finger_height
         height = (
-            min(SLIPOVER_FINGER_MAX_MM, skirt / 2) if requested is None
+            min(SLIPOVER_FINGER_MAX_MM, skirt / 3) if requested is None
             else float(requested)
         )
         height = max(0.0, min(height, skirt))
         if height <= 0:
             return None
-        radius = max(height, SLIPOVER_FINGER_MIN_RADIUS_MM)
+        max_span_r = max(3.5, min(spec.width, spec.length) * 0.22)
+        radius_cap = (
+            SLIPOVER_FINGER_MAX_RADIUS_MM
+            if requested is None
+            else max(height, SLIPOVER_FINGER_MAX_RADIUS_MM)
+        )
+        radius = min(
+            max(height, SLIPOVER_FINGER_MIN_RADIUS_MM),
+            radius_cap,
+            max_span_r,
+        )
+        top_rounding = min(2.0, radius * 0.3)
 
         base_z = foot + gap
         notches = [
             corner_catch(
                 (0.0, 0.0), (1, 1), radius=radius, height=height,
                 wall_thickness=wt, rounding_edge=wt / 4,
+                top_rounding=top_rounding,
             ),
             corner_catch(
                 (spec.width, spec.length), (-1, -1), radius=radius,
                 height=height, wall_thickness=wt, rounding_edge=wt / 4,
+                top_rounding=top_rounding,
             ),
         ]
         return union_all([

@@ -3,142 +3,204 @@
 
 from __future__ import annotations
 
-from dataclasses import replace
 from typing import TYPE_CHECKING
 
-from pyboxbuilder.box.base import BoxTypeBase, Interior
+from pyboxbuilder.box.features import slipover_gap, slipover_metrics
 from pyboxbuilder.box.registry import register_box
-from pyboxbuilder.box.shell import block, body_rounding, build_shell
+from pyboxbuilder.box.shell import block
 from pyboxbuilder.box.spec import BoxSpec
+from pyboxbuilder.box.types.slipover import SLIPOVER_FINGER_MAX_MM, SlipoverBox
 from pyboxbuilder.builders.dice_tray import DiceTrayBoxBuilder
+from pyboxbuilder.compartments.element import union_all
 from pyboxbuilder.enums import BoxType
-from pyboxbuilder.rounding import round_edges, vertical_edges
 
 if TYPE_CHECKING:
     from pybosl2.shapes3d import Bosl2Solid
 
 
-@register_box(BoxType.DICE_TRAY, builder=DiceTrayBoxBuilder)
-class DiceTrayBox(BoxTypeBase):
-    """Dual-purpose storage box and active tabletop dice rolling arena (FR-086)."""
+def _corner_triangles(
+    x0: float,
+    y0: float,
+    x1: float,
+    y1: float,
+    d: float,
+    z0: float,
+    h: float,
+    pad: float = 0.0,
+) -> Bosl2Solid:
+    """Return 45° triangular prisms at the four corners of ``[x0..x1, y0..y1]``."""
+    from pybosl2 import Path2D
+    from pybosl2.shapes2d import polygon
 
-    def interior(self, spec: BoxSpec) -> Interior:
-        """Return the usable interior volume of the storage body."""
+    tris = [
+        [(x0 - pad, y0 - pad), (x0 + d, y0 - pad), (x0 - pad, y0 + d)],
+        [(x1 + pad, y0 - pad), (x1 + pad, y0 + d), (x1 - d, y0 - pad)],
+        [(x0 - pad, y1 + pad), (x0 - pad, y1 - d), (x0 + d, y1 + pad)],
+        [(x1 + pad, y1 + pad), (x1 - d, y1 + pad), (x1 + pad, y1 - d)],
+    ]
+    return union_all([
+        polygon(path=Path2D(pts)).linear_extrude(height=h).translate([0.0, 0.0, z0])
+        for pts in tris
+    ])
+
+
+@register_box(BoxType.DICE_TRAY, builder=DiceTrayBoxBuilder)
+class DiceTrayBox(SlipoverBox):
+    """Dual-purpose slipover storage box and tabletop dice rolling arena (FR-086)."""
+
+    def _deflector_metrics(self, spec: BoxSpec) -> tuple[float, float, float, float, float]:
+        """Return ``(inset, body_height, z_deflect_bot, d_lid, d_body)`` for corner deflectors."""
+        lt = spec.lid_thickness
+        foot = spec.foot
+        slack = spec.slip_slack
+        inset, body_height = slipover_metrics(spec)
+        gap = min(slipover_gap(spec), spec.height - foot - lt)
+        skirt = spec.height - foot - gap
+        base_z = foot + gap
+
+        requested = spec.slipover_finger_height
+        notch_h = (
+            min(SLIPOVER_FINGER_MAX_MM, skirt / 3.0)
+            if requested is None
+            else float(requested)
+        )
+        notch_h = max(0.0, min(notch_h, skirt))
+
+        # Keep lower rim clear for slipover corner finger notches and side catches
+        z_deflect_bot = min(body_height - 1.0, base_z + max(notch_h + 1.0, skirt * 0.3))
+        inner_w = spec.width - 2 * inset
+        inner_l = spec.length - 2 * inset
+        d_lid = min(10.0, min(inner_w, inner_l) * 0.14)
+        d_body = d_lid + slack + 0.15
+        return inset, body_height, z_deflect_bot, d_lid, d_body
+
+    def interior_mask(self, spec: BoxSpec) -> Bosl2Solid:
+        """Keep compartments clear of the inset slipover body walls and 45° corner deflectors."""
         wt = spec.wall_thickness
         ft = spec.floor_thickness
-        lt = spec.lid_thickness
-        return Interior(
-            width=spec.width - 2 * wt,
-            length=spec.length - 2 * wt,
-            height=spec.height - lt - ft,
-            origin_x=wt,
-            origin_y=wt,
-            origin_z=ft,
+        inset, body_height, _z_def, _d_lid, d_body = self._deflector_metrics(spec)
+        mask = block(
+            [
+                spec.width - 2 * (inset + wt),
+                spec.length - 2 * (inset + wt),
+                body_height - ft + 1.0,
+            ],
+            at=(inset + wt, inset + wt, ft),
         )
-
-    def _body_spec(self, spec: BoxSpec) -> BoxSpec:
-        """Return the body spec stopped below the lid plate."""
-        return replace(spec, height=spec.height - spec.lid_thickness)
+        if spec.corner_deflectors and body_height > ft + 2.0:
+            corner_keepout = _corner_triangles(
+                inset,
+                inset,
+                spec.width - inset,
+                spec.length - inset,
+                d_body + wt * 1.5,
+                ft,
+                body_height - ft + 1.0,
+            )
+            mask = mask - corner_keepout
+        return mask
 
     def build_body(self, spec: BoxSpec) -> Bosl2Solid:
-        """Return the storage box body, stepped in at the top to receive the arena skirt."""
+        """Return the slipover tray body with matching upper corner bevels for the arena deflectors."""
+        body = super().build_body(spec)
+        if not spec.corner_deflectors:
+            return body
+
         wt = spec.wall_thickness
         ft = spec.floor_thickness
-        lt = spec.lid_thickness
-        arena_h = min(spec.height - ft - 2.0, max(15.0, spec.arena_wall_height))
-        band_z = spec.height - arena_h
-        body_h = spec.height - lt
+        slack = spec.slip_slack
+        inset, body_height, z_deflect_bot, _d_lid, d_body = self._deflector_metrics(spec)
+        z_cut_bot = max(spec.foot + 0.2, z_deflect_bot - slack)
+        cut_h = body_height - z_cut_bot
+        if cut_h <= 0.5:
+            return body
 
-        body = build_shell(replace(spec, height=body_h, interior_top=body_h))
-        # Step in the upper band above band_z so the arena lid skirt fits over it
-        slack = 0.3
-        inset = wt + slack
-        keep = block([spec.width, spec.length, band_z]) | block(
-            [spec.width - 2 * inset, spec.length - 2 * inset, body_h - band_z + 0.1],
-            at=(inset, inset, band_z),
+        # Reinforce inner corners behind the 45° bevel before cutting outer corners
+        z_wall_bot = max(ft, z_cut_bot - wt)
+        inner_fill = _corner_triangles(
+            inset,
+            inset,
+            spec.width - inset,
+            spec.length - inset,
+            d_body + wt * 1.4,
+            z_wall_bot,
+            body_height - z_wall_bot,
+        ) & block(
+            [spec.width - 2 * inset, spec.length - 2 * inset, body_height - z_wall_bot],
+            at=(inset, inset, z_wall_bot),
         )
-        body = body & keep
-
-        radius = body_rounding(spec)
-        if radius > 0:
-            body = round_edges(
-                body,
-                [spec.width, spec.length, body_h],
-                radius,
-                list(vertical_edges()),
+        if spec.hollow:
+            inner_cavity = block(
+                [
+                    spec.width - 2 * (inset + wt),
+                    spec.length - 2 * (inset + wt),
+                    body_height - ft + 0.2,
+                ],
+                at=(inset + wt, inset + wt, ft),
+            ) - _corner_triangles(
+                inset,
+                inset,
+                spec.width - inset,
+                spec.length - inset,
+                d_body + wt * 1.4,
+                z_wall_bot,
+                body_height - z_wall_bot + 0.2,
             )
-        from pyboxbuilder.box.features import apply_stackable_body
+            body = (body | inner_fill) - inner_cavity
+        else:
+            body = body | inner_fill
 
-        return apply_stackable_body(body, spec)
+        outer_bevel = _corner_triangles(
+            inset,
+            inset,
+            spec.width - inset,
+            spec.length - inset,
+            d_body,
+            z_cut_bot,
+            cut_h + 0.2,
+            pad=0.1,
+        )
+        return body - outer_bevel
 
     def build_lid(self, spec: BoxSpec, decoration: object = None) -> Bosl2Solid:
-        """Return the deep rolling arena lid with deflector corners and felt pocket."""
-        wt = spec.wall_thickness
+        """Return the slipover sleeve lid with side catches/notches, felt recess, and 45° corner deflectors."""
+        sleeve = super().build_lid(spec, decoration)
+
         lt = spec.lid_thickness
-        ft = spec.floor_thickness
-        arena_h = min(spec.height - ft - 2.0, max(15.0, spec.arena_wall_height))
-        band_z = spec.height - arena_h
+        slack = spec.slip_slack
+        inset, _body_height, z_deflect_bot, d_lid, _d_body = self._deflector_metrics(spec)
 
-        # Arena outer footprint matches box footprint, placed from band_z to spec.height
-        arena_outer = block([spec.width, spec.length, arena_h], at=(0, 0, band_z))
+        # Recessed felt pad pocket on the arena floor (inner roof of the slipover sleeve)
+        pocket_d = min(spec.felt_pocket_depth, max(0.0, lt * 0.4))
+        if pocket_d > 0.05:
+            margin = 1.5
+            x0_f = inset - slack + margin
+            y0_f = inset - slack + margin
+            felt_w = spec.width - 2 * x0_f
+            felt_l = spec.length - 2 * y0_f
+            if felt_w > 4.0 and felt_l > 4.0:
+                felt_pocket = block(
+                    [felt_w, felt_l, pocket_d + 0.05],
+                    at=(x0_f, y0_f, spec.height - lt - 0.05),
+                )
+                sleeve = sleeve - felt_pocket
 
-        # Arena interior well from band_z to spec.height - lt
-        inner_w = spec.width - 2 * wt
-        inner_l = spec.length - 2 * wt
-        arena_inner = block(
-            [inner_w, inner_l, arena_h - lt + 0.1],
-            at=(wt, wt, band_z - 0.05),
-        )
-
-        lid = arena_outer - arena_inner
-
-        # Recessed felt pad pocket in the arena floor
-        pocket_d = spec.felt_pocket_depth
-        if pocket_d > 0:
-            margin = 1.0
-            felt_w = inner_w - 2 * margin
-            felt_l = inner_l - 2 * margin
-            felt_pocket = block(
-                [felt_w, felt_l, pocket_d + 0.1],
-                at=(wt + margin, wt + margin, spec.height - lt - pocket_d + 0.05),
+        # 45° triangular corner deflector fillets inside the arena floor corners
+        def_h = (spec.height - lt) - z_deflect_bot
+        if spec.corner_deflectors and def_h > 0.5:
+            x0_c = inset - slack
+            y0_c = inset - slack
+            x1_c = spec.width - inset + slack
+            y1_c = spec.length - inset + slack
+            deflectors = _corner_triangles(
+                x0_c, y0_c, x1_c, y1_c, d_lid, z_deflect_bot, def_h
+            ) & block(
+                [x1_c - x0_c, y1_c - y0_c, def_h],
+                at=(x0_c, y0_c, z_deflect_bot),
             )
-            lid = lid - felt_pocket
+            sleeve = sleeve | deflectors
+            notches = self._finger_notches(spec)
+            if notches is not None:
+                sleeve = sleeve - notches
 
-        # 45° corner deflector fillets in interior corners
-        if spec.corner_deflectors:
-            fillet_size = min(12.0, min(inner_w, inner_l) * 0.15)
-            fillet_h = arena_h - lt
-            sw = block(
-                [fillet_size, fillet_size, fillet_h],
-                at=(wt, wt, band_z),
-            )
-            se = block(
-                [fillet_size, fillet_size, fillet_h],
-                at=(spec.width - wt - fillet_size, wt, band_z),
-            )
-            nw = block(
-                [fillet_size, fillet_size, fillet_h],
-                at=(wt, spec.length - wt - fillet_size, band_z),
-            )
-            ne = block(
-                [fillet_size, fillet_size, fillet_h],
-                at=(
-                    spec.width - wt - fillet_size,
-                    spec.length - wt - fillet_size,
-                    band_z,
-                ),
-            )
-            lid = lid | sw | se | nw | ne
-
-        radius = body_rounding(spec)
-        if radius > 0:
-            lid = round_edges(
-                lid,
-                [spec.width, spec.length, arena_h],
-                radius,
-                list(vertical_edges()),
-            )
-
-        from pyboxbuilder.box.features import apply_stackable_lid
-
-        return apply_stackable_lid(lid, spec, top_z=spec.height)
+        return sleeve
