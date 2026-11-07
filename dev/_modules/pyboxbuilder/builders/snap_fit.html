@@ -465,21 +465,22 @@
 <span class="sd">                BoxType.SNAP_FIT,</span>
 <span class="sd">                "TokenBox",</span>
 <span class="sd">                size=(70.0, 60.0, 30.0),</span>
-<span class="sd">                cantilever_thickness=1.6,</span>
+<span class="sd">                cantilever_thickness=2.0,</span>
 <span class="sd">                cantilever_width=14.0,</span>
+<span class="sd">                detent_height=0.8,</span>
 <span class="sd">                latch_axis=LatchAxis.X,</span>
 <span class="sd">            )</span>
 <span class="sd">            project.show(show_lids=True)</span>
 <span class="sd">    """</span>
 
     <span class="n">box_type</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="n">BoxType</span><span class="p">]</span> <span class="o">=</span> <span class="n">BoxType</span><span class="o">.</span><span class="n">SNAP_FIT</span>
-    <span class="n">cantilever_thickness</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.6</span>
-<span class="w">    </span><span class="sd">"""Cantilever spring arm thickness in mm (FR-081 default 1.6mm)."""</span>
-    <span class="n">cantilever_width</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">12.0</span>
+    <span class="n">cantilever_thickness</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">2.0</span>
+<span class="w">    </span><span class="sd">"""Cantilever spring arm thickness in mm (FR-081 default 2.0mm)."""</span>
+    <span class="n">cantilever_width</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">14.0</span>
 <span class="w">    </span><span class="sd">"""Width of each cantilever latch arm in mm."""</span>
-    <span class="n">deflection_clearance</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.3</span>
+    <span class="n">deflection_clearance</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.25</span>
 <span class="w">    </span><span class="sd">"""Horizontal deflection clearance in mm."""</span>
-    <span class="n">detent_height</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.5</span>
+    <span class="n">detent_height</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.8</span>
 <span class="w">    </span><span class="sd">"""Height / protrusion of the retention detent in mm."""</span>
     <span class="n">latch_axis</span><span class="p">:</span> <span class="n">LatchAxis</span> <span class="o">=</span> <span class="n">LatchAxis</span><span class="o">.</span><span class="n">X</span>
 <span class="w">    </span><span class="sd">"""Axis on whose opposing walls the latches sit (LatchAxis.X or LatchAxis.Y, FR-106)."""</span>

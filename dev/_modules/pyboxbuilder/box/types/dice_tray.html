@@ -441,155 +441,217 @@
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">replace</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">BoxTypeBase</span><span class="p">,</span> <span class="n">Interior</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.features</span><span class="w"> </span><span class="kn">import</span> <span class="n">slipover_gap</span><span class="p">,</span> <span class="n">slipover_metrics</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.registry</span><span class="w"> </span><span class="kn">import</span> <span class="n">register_box</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.shell</span><span class="w"> </span><span class="kn">import</span> <span class="n">block</span><span class="p">,</span> <span class="n">body_rounding</span><span class="p">,</span> <span class="n">build_shell</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.shell</span><span class="w"> </span><span class="kn">import</span> <span class="n">block</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.spec</span><span class="w"> </span><span class="kn">import</span> <span class="n">BoxSpec</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.types.slipover</span><span class="w"> </span><span class="kn">import</span> <span class="n">SLIPOVER_FINGER_MAX_MM</span><span class="p">,</span> <span class="n">SlipoverBox</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.builders.dice_tray</span><span class="w"> </span><span class="kn">import</span> <span class="n">DiceTrayBoxBuilder</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.compartments.element</span><span class="w"> </span><span class="kn">import</span> <span class="n">union_all</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">BoxType</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.rounding</span><span class="w"> </span><span class="kn">import</span> <span class="n">round_edges</span><span class="p">,</span> <span class="n">vertical_edges</span>
 
 <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2.shapes3d</span><span class="w"> </span><span class="kn">import</span> <span class="n">Bosl2Solid</span>
 
 
+<span class="k">def</span><span class="w"> </span><span class="nf">_corner_triangles</span><span class="p">(</span>
+    <span class="n">x0</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">y0</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">x1</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">y1</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">d</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">z0</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">h</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">pad</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Return 45° triangular prisms at the four corners of ``[x0..x1, y0..y1]``."""</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path2D</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2.shapes2d</span><span class="w"> </span><span class="kn">import</span> <span class="n">polygon</span>
+
+    <span class="n">tris</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">[(</span><span class="n">x0</span> <span class="o">-</span> <span class="n">pad</span><span class="p">,</span> <span class="n">y0</span> <span class="o">-</span> <span class="n">pad</span><span class="p">),</span> <span class="p">(</span><span class="n">x0</span> <span class="o">+</span> <span class="n">d</span><span class="p">,</span> <span class="n">y0</span> <span class="o">-</span> <span class="n">pad</span><span class="p">),</span> <span class="p">(</span><span class="n">x0</span> <span class="o">-</span> <span class="n">pad</span><span class="p">,</span> <span class="n">y0</span> <span class="o">+</span> <span class="n">d</span><span class="p">)],</span>
+        <span class="p">[(</span><span class="n">x1</span> <span class="o">+</span> <span class="n">pad</span><span class="p">,</span> <span class="n">y0</span> <span class="o">-</span> <span class="n">pad</span><span class="p">),</span> <span class="p">(</span><span class="n">x1</span> <span class="o">+</span> <span class="n">pad</span><span class="p">,</span> <span class="n">y0</span> <span class="o">+</span> <span class="n">d</span><span class="p">),</span> <span class="p">(</span><span class="n">x1</span> <span class="o">-</span> <span class="n">d</span><span class="p">,</span> <span class="n">y0</span> <span class="o">-</span> <span class="n">pad</span><span class="p">)],</span>
+        <span class="p">[(</span><span class="n">x0</span> <span class="o">-</span> <span class="n">pad</span><span class="p">,</span> <span class="n">y1</span> <span class="o">+</span> <span class="n">pad</span><span class="p">),</span> <span class="p">(</span><span class="n">x0</span> <span class="o">-</span> <span class="n">pad</span><span class="p">,</span> <span class="n">y1</span> <span class="o">-</span> <span class="n">d</span><span class="p">),</span> <span class="p">(</span><span class="n">x0</span> <span class="o">+</span> <span class="n">d</span><span class="p">,</span> <span class="n">y1</span> <span class="o">+</span> <span class="n">pad</span><span class="p">)],</span>
+        <span class="p">[(</span><span class="n">x1</span> <span class="o">+</span> <span class="n">pad</span><span class="p">,</span> <span class="n">y1</span> <span class="o">+</span> <span class="n">pad</span><span class="p">),</span> <span class="p">(</span><span class="n">x1</span> <span class="o">-</span> <span class="n">d</span><span class="p">,</span> <span class="n">y1</span> <span class="o">+</span> <span class="n">pad</span><span class="p">),</span> <span class="p">(</span><span class="n">x1</span> <span class="o">+</span> <span class="n">pad</span><span class="p">,</span> <span class="n">y1</span> <span class="o">-</span> <span class="n">d</span><span class="p">)],</span>
+    <span class="p">]</span>
+    <span class="k">return</span> <span class="n">union_all</span><span class="p">([</span>
+        <span class="n">polygon</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">Path2D</span><span class="p">(</span><span class="n">pts</span><span class="p">))</span><span class="o">.</span><span class="n">linear_extrude</span><span class="p">(</span><span class="n">height</span><span class="o">=</span><span class="n">h</span><span class="p">)</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">z0</span><span class="p">])</span>
+        <span class="k">for</span> <span class="n">pts</span> <span class="ow">in</span> <span class="n">tris</span>
+    <span class="p">])</span>
+
+
 <div class="viewcode-block" id="DiceTrayBox">
 <a class="viewcode-back" href="../../../../_autosummary/pyboxbuilder.box.types.dice_tray.DiceTrayBox.html#pyboxbuilder.box.types.dice_tray.DiceTrayBox">[docs]</a>
 <span class="nd">@register_box</span><span class="p">(</span><span class="n">BoxType</span><span class="o">.</span><span class="n">DICE_TRAY</span><span class="p">,</span> <span class="n">builder</span><span class="o">=</span><span class="n">DiceTrayBoxBuilder</span><span class="p">)</span>
-<span class="k">class</span><span class="w"> </span><span class="nc">DiceTrayBox</span><span class="p">(</span><span class="n">BoxTypeBase</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">"""Dual-purpose storage box and active tabletop dice rolling arena (FR-086)."""</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">DiceTrayBox</span><span class="p">(</span><span class="n">SlipoverBox</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Dual-purpose slipover storage box and tabletop dice rolling arena (FR-086)."""</span>
 
-<div class="viewcode-block" id="DiceTrayBox.interior">
-<a class="viewcode-back" href="../../../../_autosummary/pyboxbuilder.box.types.dice_tray.DiceTrayBox.html#pyboxbuilder.box.types.dice_tray.DiceTrayBox.interior">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">interior</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Interior</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">"""Return the usable interior volume of the storage body."""</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_deflector_metrics</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Return ``(inset, body_height, z_deflect_bot, d_lid, d_body)`` for corner deflectors."""</span>
+        <span class="n">lt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">lid_thickness</span>
+        <span class="n">foot</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">foot</span>
+        <span class="n">slack</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">slip_slack</span>
+        <span class="n">inset</span><span class="p">,</span> <span class="n">body_height</span> <span class="o">=</span> <span class="n">slipover_metrics</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
+        <span class="n">gap</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">slipover_gap</span><span class="p">(</span><span class="n">spec</span><span class="p">),</span> <span class="n">spec</span><span class="o">.</span><span class="n">height</span> <span class="o">-</span> <span class="n">foot</span> <span class="o">-</span> <span class="n">lt</span><span class="p">)</span>
+        <span class="n">skirt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">height</span> <span class="o">-</span> <span class="n">foot</span> <span class="o">-</span> <span class="n">gap</span>
+        <span class="n">base_z</span> <span class="o">=</span> <span class="n">foot</span> <span class="o">+</span> <span class="n">gap</span>
+
+        <span class="n">requested</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">slipover_finger_height</span>
+        <span class="n">notch_h</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="nb">min</span><span class="p">(</span><span class="n">SLIPOVER_FINGER_MAX_MM</span><span class="p">,</span> <span class="n">skirt</span> <span class="o">/</span> <span class="mf">3.0</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">requested</span> <span class="ow">is</span> <span class="kc">None</span>
+            <span class="k">else</span> <span class="nb">float</span><span class="p">(</span><span class="n">requested</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">notch_h</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="n">notch_h</span><span class="p">,</span> <span class="n">skirt</span><span class="p">))</span>
+
+        <span class="c1"># Keep lower rim clear for slipover corner finger notches and side catches</span>
+        <span class="n">z_deflect_bot</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">body_height</span> <span class="o">-</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">base_z</span> <span class="o">+</span> <span class="nb">max</span><span class="p">(</span><span class="n">notch_h</span> <span class="o">+</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">skirt</span> <span class="o">*</span> <span class="mf">0.3</span><span class="p">))</span>
+        <span class="n">inner_w</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">width</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">inset</span>
+        <span class="n">inner_l</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">inset</span>
+        <span class="n">d_lid</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mf">10.0</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="n">inner_w</span><span class="p">,</span> <span class="n">inner_l</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.14</span><span class="p">)</span>
+        <span class="n">d_body</span> <span class="o">=</span> <span class="n">d_lid</span> <span class="o">+</span> <span class="n">slack</span> <span class="o">+</span> <span class="mf">0.15</span>
+        <span class="k">return</span> <span class="n">inset</span><span class="p">,</span> <span class="n">body_height</span><span class="p">,</span> <span class="n">z_deflect_bot</span><span class="p">,</span> <span class="n">d_lid</span><span class="p">,</span> <span class="n">d_body</span>
+
+<div class="viewcode-block" id="DiceTrayBox.interior_mask">
+<a class="viewcode-back" href="../../../../_autosummary/pyboxbuilder.box.types.dice_tray.DiceTrayBox.html#pyboxbuilder.box.types.dice_tray.DiceTrayBox.interior_mask">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">interior_mask</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Keep compartments clear of the inset slipover body walls and 45° corner deflectors."""</span>
         <span class="n">wt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">wall_thickness</span>
         <span class="n">ft</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">floor_thickness</span>
-        <span class="n">lt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">lid_thickness</span>
-        <span class="k">return</span> <span class="n">Interior</span><span class="p">(</span>
-            <span class="n">width</span><span class="o">=</span><span class="n">spec</span><span class="o">.</span><span class="n">width</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">wt</span><span class="p">,</span>
-            <span class="n">length</span><span class="o">=</span><span class="n">spec</span><span class="o">.</span><span class="n">length</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">wt</span><span class="p">,</span>
-            <span class="n">height</span><span class="o">=</span><span class="n">spec</span><span class="o">.</span><span class="n">height</span> <span class="o">-</span> <span class="n">lt</span> <span class="o">-</span> <span class="n">ft</span><span class="p">,</span>
-            <span class="n">origin_x</span><span class="o">=</span><span class="n">wt</span><span class="p">,</span>
-            <span class="n">origin_y</span><span class="o">=</span><span class="n">wt</span><span class="p">,</span>
-            <span class="n">origin_z</span><span class="o">=</span><span class="n">ft</span><span class="p">,</span>
-        <span class="p">)</span></div>
+        <span class="n">inset</span><span class="p">,</span> <span class="n">body_height</span><span class="p">,</span> <span class="n">_z_def</span><span class="p">,</span> <span class="n">_d_lid</span><span class="p">,</span> <span class="n">d_body</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_deflector_metrics</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
+        <span class="n">mask</span> <span class="o">=</span> <span class="n">block</span><span class="p">(</span>
+            <span class="p">[</span>
+                <span class="n">spec</span><span class="o">.</span><span class="n">width</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">inset</span> <span class="o">+</span> <span class="n">wt</span><span class="p">),</span>
+                <span class="n">spec</span><span class="o">.</span><span class="n">length</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">inset</span> <span class="o">+</span> <span class="n">wt</span><span class="p">),</span>
+                <span class="n">body_height</span> <span class="o">-</span> <span class="n">ft</span> <span class="o">+</span> <span class="mf">1.0</span><span class="p">,</span>
+            <span class="p">],</span>
+            <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="n">inset</span> <span class="o">+</span> <span class="n">wt</span><span class="p">,</span> <span class="n">inset</span> <span class="o">+</span> <span class="n">wt</span><span class="p">,</span> <span class="n">ft</span><span class="p">),</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">corner_deflectors</span> <span class="ow">and</span> <span class="n">body_height</span> <span class="o">&gt;</span> <span class="n">ft</span> <span class="o">+</span> <span class="mf">2.0</span><span class="p">:</span>
+            <span class="n">corner_keepout</span> <span class="o">=</span> <span class="n">_corner_triangles</span><span class="p">(</span>
+                <span class="n">inset</span><span class="p">,</span>
+                <span class="n">inset</span><span class="p">,</span>
+                <span class="n">spec</span><span class="o">.</span><span class="n">width</span> <span class="o">-</span> <span class="n">inset</span><span class="p">,</span>
+                <span class="n">spec</span><span class="o">.</span><span class="n">length</span> <span class="o">-</span> <span class="n">inset</span><span class="p">,</span>
+                <span class="n">d_body</span> <span class="o">+</span> <span class="n">wt</span> <span class="o">*</span> <span class="mf">1.5</span><span class="p">,</span>
+                <span class="n">ft</span><span class="p">,</span>
+                <span class="n">body_height</span> <span class="o">-</span> <span class="n">ft</span> <span class="o">+</span> <span class="mf">1.0</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">mask</span> <span class="o">=</span> <span class="n">mask</span> <span class="o">-</span> <span class="n">corner_keepout</span>
+        <span class="k">return</span> <span class="n">mask</span></div>
 
-
-    <span class="k">def</span><span class="w"> </span><span class="nf">_body_spec</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BoxSpec</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">"""Return the body spec stopped below the lid plate."""</span>
-        <span class="k">return</span> <span class="n">replace</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">spec</span><span class="o">.</span><span class="n">height</span> <span class="o">-</span> <span class="n">spec</span><span class="o">.</span><span class="n">lid_thickness</span><span class="p">)</span>
 
 <div class="viewcode-block" id="DiceTrayBox.build_body">
 <a class="viewcode-back" href="../../../../_autosummary/pyboxbuilder.box.types.dice_tray.DiceTrayBox.html#pyboxbuilder.box.types.dice_tray.DiceTrayBox.build_body">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">build_body</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">"""Return the storage box body, stepped in at the top to receive the arena skirt."""</span>
+<span class="w">        </span><span class="sd">"""Return the slipover tray body with matching upper corner bevels for the arena deflectors."""</span>
+        <span class="n">body</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">build_body</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">spec</span><span class="o">.</span><span class="n">corner_deflectors</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">body</span>
+
         <span class="n">wt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">wall_thickness</span>
         <span class="n">ft</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">floor_thickness</span>
-        <span class="n">lt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">lid_thickness</span>
-        <span class="n">arena_h</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">height</span> <span class="o">-</span> <span class="n">ft</span> <span class="o">-</span> <span class="mf">2.0</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mf">15.0</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">arena_wall_height</span><span class="p">))</span>
-        <span class="n">band_z</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">height</span> <span class="o">-</span> <span class="n">arena_h</span>
-        <span class="n">body_h</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">height</span> <span class="o">-</span> <span class="n">lt</span>
+        <span class="n">slack</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">slip_slack</span>
+        <span class="n">inset</span><span class="p">,</span> <span class="n">body_height</span><span class="p">,</span> <span class="n">z_deflect_bot</span><span class="p">,</span> <span class="n">_d_lid</span><span class="p">,</span> <span class="n">d_body</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_deflector_metrics</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
+        <span class="n">z_cut_bot</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">foot</span> <span class="o">+</span> <span class="mf">0.2</span><span class="p">,</span> <span class="n">z_deflect_bot</span> <span class="o">-</span> <span class="n">slack</span><span class="p">)</span>
+        <span class="n">cut_h</span> <span class="o">=</span> <span class="n">body_height</span> <span class="o">-</span> <span class="n">z_cut_bot</span>
+        <span class="k">if</span> <span class="n">cut_h</span> <span class="o">&lt;=</span> <span class="mf">0.5</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">body</span>
 
-        <span class="n">body</span> <span class="o">=</span> <span class="n">build_shell</span><span class="p">(</span><span class="n">replace</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">body_h</span><span class="p">,</span> <span class="n">interior_top</span><span class="o">=</span><span class="n">body_h</span><span class="p">))</span>
-        <span class="c1"># Step in the upper band above band_z so the arena lid skirt fits over it</span>
-        <span class="n">slack</span> <span class="o">=</span> <span class="mf">0.3</span>
-        <span class="n">inset</span> <span class="o">=</span> <span class="n">wt</span> <span class="o">+</span> <span class="n">slack</span>
-        <span class="n">keep</span> <span class="o">=</span> <span class="n">block</span><span class="p">([</span><span class="n">spec</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span><span class="p">,</span> <span class="n">band_z</span><span class="p">])</span> <span class="o">|</span> <span class="n">block</span><span class="p">(</span>
-            <span class="p">[</span><span class="n">spec</span><span class="o">.</span><span class="n">width</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">inset</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">inset</span><span class="p">,</span> <span class="n">body_h</span> <span class="o">-</span> <span class="n">band_z</span> <span class="o">+</span> <span class="mf">0.1</span><span class="p">],</span>
-            <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="n">inset</span><span class="p">,</span> <span class="n">inset</span><span class="p">,</span> <span class="n">band_z</span><span class="p">),</span>
+        <span class="c1"># Reinforce inner corners behind the 45° bevel before cutting outer corners</span>
+        <span class="n">z_wall_bot</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">ft</span><span class="p">,</span> <span class="n">z_cut_bot</span> <span class="o">-</span> <span class="n">wt</span><span class="p">)</span>
+        <span class="n">inner_fill</span> <span class="o">=</span> <span class="n">_corner_triangles</span><span class="p">(</span>
+            <span class="n">inset</span><span class="p">,</span>
+            <span class="n">inset</span><span class="p">,</span>
+            <span class="n">spec</span><span class="o">.</span><span class="n">width</span> <span class="o">-</span> <span class="n">inset</span><span class="p">,</span>
+            <span class="n">spec</span><span class="o">.</span><span class="n">length</span> <span class="o">-</span> <span class="n">inset</span><span class="p">,</span>
+            <span class="n">d_body</span> <span class="o">+</span> <span class="n">wt</span> <span class="o">*</span> <span class="mf">1.4</span><span class="p">,</span>
+            <span class="n">z_wall_bot</span><span class="p">,</span>
+            <span class="n">body_height</span> <span class="o">-</span> <span class="n">z_wall_bot</span><span class="p">,</span>
+        <span class="p">)</span> <span class="o">&amp;</span> <span class="n">block</span><span class="p">(</span>
+            <span class="p">[</span><span class="n">spec</span><span class="o">.</span><span class="n">width</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">inset</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">inset</span><span class="p">,</span> <span class="n">body_height</span> <span class="o">-</span> <span class="n">z_wall_bot</span><span class="p">],</span>
+            <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="n">inset</span><span class="p">,</span> <span class="n">inset</span><span class="p">,</span> <span class="n">z_wall_bot</span><span class="p">),</span>
         <span class="p">)</span>
-        <span class="n">body</span> <span class="o">=</span> <span class="n">body</span> <span class="o">&amp;</span> <span class="n">keep</span>
-
-        <span class="n">radius</span> <span class="o">=</span> <span class="n">body_rounding</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">radius</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">body</span> <span class="o">=</span> <span class="n">round_edges</span><span class="p">(</span>
-                <span class="n">body</span><span class="p">,</span>
-                <span class="p">[</span><span class="n">spec</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span><span class="p">,</span> <span class="n">body_h</span><span class="p">],</span>
-                <span class="n">radius</span><span class="p">,</span>
-                <span class="nb">list</span><span class="p">(</span><span class="n">vertical_edges</span><span class="p">()),</span>
+        <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">hollow</span><span class="p">:</span>
+            <span class="n">inner_cavity</span> <span class="o">=</span> <span class="n">block</span><span class="p">(</span>
+                <span class="p">[</span>
+                    <span class="n">spec</span><span class="o">.</span><span class="n">width</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">inset</span> <span class="o">+</span> <span class="n">wt</span><span class="p">),</span>
+                    <span class="n">spec</span><span class="o">.</span><span class="n">length</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">inset</span> <span class="o">+</span> <span class="n">wt</span><span class="p">),</span>
+                    <span class="n">body_height</span> <span class="o">-</span> <span class="n">ft</span> <span class="o">+</span> <span class="mf">0.2</span><span class="p">,</span>
+                <span class="p">],</span>
+                <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="n">inset</span> <span class="o">+</span> <span class="n">wt</span><span class="p">,</span> <span class="n">inset</span> <span class="o">+</span> <span class="n">wt</span><span class="p">,</span> <span class="n">ft</span><span class="p">),</span>
+            <span class="p">)</span> <span class="o">-</span> <span class="n">_corner_triangles</span><span class="p">(</span>
+                <span class="n">inset</span><span class="p">,</span>
+                <span class="n">inset</span><span class="p">,</span>
+                <span class="n">spec</span><span class="o">.</span><span class="n">width</span> <span class="o">-</span> <span class="n">inset</span><span class="p">,</span>
+                <span class="n">spec</span><span class="o">.</span><span class="n">length</span> <span class="o">-</span> <span class="n">inset</span><span class="p">,</span>
+                <span class="n">d_body</span> <span class="o">+</span> <span class="n">wt</span> <span class="o">*</span> <span class="mf">1.4</span><span class="p">,</span>
+                <span class="n">z_wall_bot</span><span class="p">,</span>
+                <span class="n">body_height</span> <span class="o">-</span> <span class="n">z_wall_bot</span> <span class="o">+</span> <span class="mf">0.2</span><span class="p">,</span>
             <span class="p">)</span>
-        <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.features</span><span class="w"> </span><span class="kn">import</span> <span class="n">apply_stackable_body</span>
+            <span class="n">body</span> <span class="o">=</span> <span class="p">(</span><span class="n">body</span> <span class="o">|</span> <span class="n">inner_fill</span><span class="p">)</span> <span class="o">-</span> <span class="n">inner_cavity</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">body</span> <span class="o">=</span> <span class="n">body</span> <span class="o">|</span> <span class="n">inner_fill</span>
 
-        <span class="k">return</span> <span class="n">apply_stackable_body</span><span class="p">(</span><span class="n">body</span><span class="p">,</span> <span class="n">spec</span><span class="p">)</span></div>
+        <span class="n">outer_bevel</span> <span class="o">=</span> <span class="n">_corner_triangles</span><span class="p">(</span>
+            <span class="n">inset</span><span class="p">,</span>
+            <span class="n">inset</span><span class="p">,</span>
+            <span class="n">spec</span><span class="o">.</span><span class="n">width</span> <span class="o">-</span> <span class="n">inset</span><span class="p">,</span>
+            <span class="n">spec</span><span class="o">.</span><span class="n">length</span> <span class="o">-</span> <span class="n">inset</span><span class="p">,</span>
+            <span class="n">d_body</span><span class="p">,</span>
+            <span class="n">z_cut_bot</span><span class="p">,</span>
+            <span class="n">cut_h</span> <span class="o">+</span> <span class="mf">0.2</span><span class="p">,</span>
+            <span class="n">pad</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">body</span> <span class="o">-</span> <span class="n">outer_bevel</span></div>
 
 
 <div class="viewcode-block" id="DiceTrayBox.build_lid">
 <a class="viewcode-back" href="../../../../_autosummary/pyboxbuilder.box.types.dice_tray.DiceTrayBox.html#pyboxbuilder.box.types.dice_tray.DiceTrayBox.build_lid">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">build_lid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">,</span> <span class="n">decoration</span><span class="p">:</span> <span class="nb">object</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">"""Return the deep rolling arena lid with deflector corners and felt pocket."""</span>
-        <span class="n">wt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">wall_thickness</span>
+<span class="w">        </span><span class="sd">"""Return the slipover sleeve lid with side catches/notches, felt recess, and 45° corner deflectors."""</span>
+        <span class="n">sleeve</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">build_lid</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="n">decoration</span><span class="p">)</span>
+
         <span class="n">lt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">lid_thickness</span>
-        <span class="n">ft</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">floor_thickness</span>
-        <span class="n">arena_h</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">height</span> <span class="o">-</span> <span class="n">ft</span> <span class="o">-</span> <span class="mf">2.0</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mf">15.0</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">arena_wall_height</span><span class="p">))</span>
-        <span class="n">band_z</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">height</span> <span class="o">-</span> <span class="n">arena_h</span>
+        <span class="n">slack</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">slip_slack</span>
+        <span class="n">inset</span><span class="p">,</span> <span class="n">_body_height</span><span class="p">,</span> <span class="n">z_deflect_bot</span><span class="p">,</span> <span class="n">d_lid</span><span class="p">,</span> <span class="n">_d_body</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_deflector_metrics</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
 
-        <span class="c1"># Arena outer footprint matches box footprint, placed from band_z to spec.height</span>
-        <span class="n">arena_outer</span> <span class="o">=</span> <span class="n">block</span><span class="p">([</span><span class="n">spec</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span><span class="p">,</span> <span class="n">arena_h</span><span class="p">],</span> <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">band_z</span><span class="p">))</span>
+        <span class="c1"># Recessed felt pad pocket on the arena floor (inner roof of the slipover sleeve)</span>
+        <span class="n">pocket_d</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">felt_pocket_depth</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">lt</span> <span class="o">*</span> <span class="mf">0.4</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">pocket_d</span> <span class="o">&gt;</span> <span class="mf">0.05</span><span class="p">:</span>
+            <span class="n">margin</span> <span class="o">=</span> <span class="mf">1.5</span>
+            <span class="n">x0_f</span> <span class="o">=</span> <span class="n">inset</span> <span class="o">-</span> <span class="n">slack</span> <span class="o">+</span> <span class="n">margin</span>
+            <span class="n">y0_f</span> <span class="o">=</span> <span class="n">inset</span> <span class="o">-</span> <span class="n">slack</span> <span class="o">+</span> <span class="n">margin</span>
+            <span class="n">felt_w</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">width</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">x0_f</span>
+            <span class="n">felt_l</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">y0_f</span>
+            <span class="k">if</span> <span class="n">felt_w</span> <span class="o">&gt;</span> <span class="mf">4.0</span> <span class="ow">and</span> <span class="n">felt_l</span> <span class="o">&gt;</span> <span class="mf">4.0</span><span class="p">:</span>
+                <span class="n">felt_pocket</span> <span class="o">=</span> <span class="n">block</span><span class="p">(</span>
+                    <span class="p">[</span><span class="n">felt_w</span><span class="p">,</span> <span class="n">felt_l</span><span class="p">,</span> <span class="n">pocket_d</span> <span class="o">+</span> <span class="mf">0.05</span><span class="p">],</span>
+                    <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="n">x0_f</span><span class="p">,</span> <span class="n">y0_f</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">height</span> <span class="o">-</span> <span class="n">lt</span> <span class="o">-</span> <span class="mf">0.05</span><span class="p">),</span>
+                <span class="p">)</span>
+                <span class="n">sleeve</span> <span class="o">=</span> <span class="n">sleeve</span> <span class="o">-</span> <span class="n">felt_pocket</span>
 
-        <span class="c1"># Arena interior well from band_z to spec.height - lt</span>
-        <span class="n">inner_w</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">width</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">wt</span>
-        <span class="n">inner_l</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">wt</span>
-        <span class="n">arena_inner</span> <span class="o">=</span> <span class="n">block</span><span class="p">(</span>
-            <span class="p">[</span><span class="n">inner_w</span><span class="p">,</span> <span class="n">inner_l</span><span class="p">,</span> <span class="n">arena_h</span> <span class="o">-</span> <span class="n">lt</span> <span class="o">+</span> <span class="mf">0.1</span><span class="p">],</span>
-            <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="n">wt</span><span class="p">,</span> <span class="n">wt</span><span class="p">,</span> <span class="n">band_z</span> <span class="o">-</span> <span class="mf">0.05</span><span class="p">),</span>
-        <span class="p">)</span>
-
-        <span class="n">lid</span> <span class="o">=</span> <span class="n">arena_outer</span> <span class="o">-</span> <span class="n">arena_inner</span>
-
-        <span class="c1"># Recessed felt pad pocket in the arena floor</span>
-        <span class="n">pocket_d</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">felt_pocket_depth</span>
-        <span class="k">if</span> <span class="n">pocket_d</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">margin</span> <span class="o">=</span> <span class="mf">1.0</span>
-            <span class="n">felt_w</span> <span class="o">=</span> <span class="n">inner_w</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">margin</span>
-            <span class="n">felt_l</span> <span class="o">=</span> <span class="n">inner_l</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">margin</span>
-            <span class="n">felt_pocket</span> <span class="o">=</span> <span class="n">block</span><span class="p">(</span>
-                <span class="p">[</span><span class="n">felt_w</span><span class="p">,</span> <span class="n">felt_l</span><span class="p">,</span> <span class="n">pocket_d</span> <span class="o">+</span> <span class="mf">0.1</span><span class="p">],</span>
-                <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="n">wt</span> <span class="o">+</span> <span class="n">margin</span><span class="p">,</span> <span class="n">wt</span> <span class="o">+</span> <span class="n">margin</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">height</span> <span class="o">-</span> <span class="n">lt</span> <span class="o">-</span> <span class="n">pocket_d</span> <span class="o">+</span> <span class="mf">0.05</span><span class="p">),</span>
+        <span class="c1"># 45° triangular corner deflector fillets inside the arena floor corners</span>
+        <span class="n">def_h</span> <span class="o">=</span> <span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">height</span> <span class="o">-</span> <span class="n">lt</span><span class="p">)</span> <span class="o">-</span> <span class="n">z_deflect_bot</span>
+        <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">corner_deflectors</span> <span class="ow">and</span> <span class="n">def_h</span> <span class="o">&gt;</span> <span class="mf">0.5</span><span class="p">:</span>
+            <span class="n">x0_c</span> <span class="o">=</span> <span class="n">inset</span> <span class="o">-</span> <span class="n">slack</span>
+            <span class="n">y0_c</span> <span class="o">=</span> <span class="n">inset</span> <span class="o">-</span> <span class="n">slack</span>
+            <span class="n">x1_c</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">width</span> <span class="o">-</span> <span class="n">inset</span> <span class="o">+</span> <span class="n">slack</span>
+            <span class="n">y1_c</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span> <span class="o">-</span> <span class="n">inset</span> <span class="o">+</span> <span class="n">slack</span>
+            <span class="n">deflectors</span> <span class="o">=</span> <span class="n">_corner_triangles</span><span class="p">(</span>
+                <span class="n">x0_c</span><span class="p">,</span> <span class="n">y0_c</span><span class="p">,</span> <span class="n">x1_c</span><span class="p">,</span> <span class="n">y1_c</span><span class="p">,</span> <span class="n">d_lid</span><span class="p">,</span> <span class="n">z_deflect_bot</span><span class="p">,</span> <span class="n">def_h</span>
+            <span class="p">)</span> <span class="o">&amp;</span> <span class="n">block</span><span class="p">(</span>
+                <span class="p">[</span><span class="n">x1_c</span> <span class="o">-</span> <span class="n">x0_c</span><span class="p">,</span> <span class="n">y1_c</span> <span class="o">-</span> <span class="n">y0_c</span><span class="p">,</span> <span class="n">def_h</span><span class="p">],</span>
+                <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="n">x0_c</span><span class="p">,</span> <span class="n">y0_c</span><span class="p">,</span> <span class="n">z_deflect_bot</span><span class="p">),</span>
             <span class="p">)</span>
-            <span class="n">lid</span> <span class="o">=</span> <span class="n">lid</span> <span class="o">-</span> <span class="n">felt_pocket</span>
+            <span class="n">sleeve</span> <span class="o">=</span> <span class="n">sleeve</span> <span class="o">|</span> <span class="n">deflectors</span>
+            <span class="n">notches</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_finger_notches</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">notches</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">sleeve</span> <span class="o">=</span> <span class="n">sleeve</span> <span class="o">-</span> <span class="n">notches</span>
 
-        <span class="c1"># 45° corner deflector fillets in interior corners</span>
-        <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">corner_deflectors</span><span class="p">:</span>
-            <span class="n">fillet_size</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mf">12.0</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="n">inner_w</span><span class="p">,</span> <span class="n">inner_l</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.15</span><span class="p">)</span>
-            <span class="n">fillet_h</span> <span class="o">=</span> <span class="n">arena_h</span> <span class="o">-</span> <span class="n">lt</span>
-            <span class="n">sw</span> <span class="o">=</span> <span class="n">block</span><span class="p">(</span>
-                <span class="p">[</span><span class="n">fillet_size</span><span class="p">,</span> <span class="n">fillet_size</span><span class="p">,</span> <span class="n">fillet_h</span><span class="p">],</span>
-                <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="n">wt</span><span class="p">,</span> <span class="n">wt</span><span class="p">,</span> <span class="n">band_z</span><span class="p">),</span>
-            <span class="p">)</span>
-            <span class="n">se</span> <span class="o">=</span> <span class="n">block</span><span class="p">(</span>
-                <span class="p">[</span><span class="n">fillet_size</span><span class="p">,</span> <span class="n">fillet_size</span><span class="p">,</span> <span class="n">fillet_h</span><span class="p">],</span>
-                <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">width</span> <span class="o">-</span> <span class="n">wt</span> <span class="o">-</span> <span class="n">fillet_size</span><span class="p">,</span> <span class="n">wt</span><span class="p">,</span> <span class="n">band_z</span><span class="p">),</span>
-            <span class="p">)</span>
-            <span class="n">nw</span> <span class="o">=</span> <span class="n">block</span><span class="p">(</span>
-                <span class="p">[</span><span class="n">fillet_size</span><span class="p">,</span> <span class="n">fillet_size</span><span class="p">,</span> <span class="n">fillet_h</span><span class="p">],</span>
-                <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="n">wt</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span> <span class="o">-</span> <span class="n">wt</span> <span class="o">-</span> <span class="n">fillet_size</span><span class="p">,</span> <span class="n">band_z</span><span class="p">),</span>
-            <span class="p">)</span>
-            <span class="n">ne</span> <span class="o">=</span> <span class="n">block</span><span class="p">(</span>
-                <span class="p">[</span><span class="n">fillet_size</span><span class="p">,</span> <span class="n">fillet_size</span><span class="p">,</span> <span class="n">fillet_h</span><span class="p">],</span>
-                <span class="n">at</span><span class="o">=</span><span class="p">(</span>
-                    <span class="n">spec</span><span class="o">.</span><span class="n">width</span> <span class="o">-</span> <span class="n">wt</span> <span class="o">-</span> <span class="n">fillet_size</span><span class="p">,</span>
-                    <span class="n">spec</span><span class="o">.</span><span class="n">length</span> <span class="o">-</span> <span class="n">wt</span> <span class="o">-</span> <span class="n">fillet_size</span><span class="p">,</span>
-                    <span class="n">band_z</span><span class="p">,</span>
-                <span class="p">),</span>
-            <span class="p">)</span>
-            <span class="n">lid</span> <span class="o">=</span> <span class="n">lid</span> <span class="o">|</span> <span class="n">sw</span> <span class="o">|</span> <span class="n">se</span> <span class="o">|</span> <span class="n">nw</span> <span class="o">|</span> <span class="n">ne</span>
-
-        <span class="n">radius</span> <span class="o">=</span> <span class="n">body_rounding</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">radius</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">lid</span> <span class="o">=</span> <span class="n">round_edges</span><span class="p">(</span>
-                <span class="n">lid</span><span class="p">,</span>
-                <span class="p">[</span><span class="n">spec</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span><span class="p">,</span> <span class="n">arena_h</span><span class="p">],</span>
-                <span class="n">radius</span><span class="p">,</span>
-                <span class="nb">list</span><span class="p">(</span><span class="n">vertical_edges</span><span class="p">()),</span>
-            <span class="p">)</span>
-
-        <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.features</span><span class="w"> </span><span class="kn">import</span> <span class="n">apply_stackable_lid</span>
-
-        <span class="k">return</span> <span class="n">apply_stackable_lid</span><span class="p">(</span><span class="n">lid</span><span class="p">,</span> <span class="n">spec</span><span class="p">,</span> <span class="n">top_z</span><span class="o">=</span><span class="n">spec</span><span class="o">.</span><span class="n">height</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">sleeve</span></div>
 </div>
 
 </code></pre></div>

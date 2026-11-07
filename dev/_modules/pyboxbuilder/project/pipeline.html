@@ -669,11 +669,14 @@
             <span class="p">)</span>
 
         <span class="k">if</span> <span class="n">resolved</span><span class="o">.</span><span class="n">compartments</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">body</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.features</span><span class="w"> </span><span class="kn">import</span> <span class="n">hinge_intrusion</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.features</span><span class="w"> </span><span class="kn">import</span> <span class="n">hinge_intrusion</span><span class="p">,</span> <span class="n">magnetic_hinge_catch</span>
             <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.types.cap</span><span class="w"> </span><span class="kn">import</span> <span class="n">CapBox</span>
             <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.types.cap_path</span><span class="w"> </span><span class="kn">import</span> <span class="n">CapPathBox</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.types.clamshell</span><span class="w"> </span><span class="kn">import</span> <span class="n">ClamshellBox</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.types.dice_tray</span><span class="w"> </span><span class="kn">import</span> <span class="n">DiceTrayBox</span>
             <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.types.filament_hinge</span><span class="w"> </span><span class="kn">import</span> <span class="n">FilamentHingeBox</span>
-            <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.types.hinge</span><span class="w"> </span><span class="kn">import</span> <span class="n">HingeBox</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.types.inset_hinge</span><span class="w"> </span><span class="kn">import</span> <span class="n">InsetHingeBox</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.types.magnetic_hinge</span><span class="w"> </span><span class="kn">import</span> <span class="n">MagneticHingeBox</span>
             <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.types.sleeve_drawer</span><span class="w"> </span><span class="kn">import</span> <span class="n">SleeveDrawerBox</span>
             <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.types.sliding_catch</span><span class="w"> </span><span class="kn">import</span> <span class="n">SlidingCatchBox</span>
             <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.types.slipover</span><span class="w"> </span><span class="kn">import</span> <span class="n">SlipoverBox</span>
@@ -681,13 +684,13 @@
             <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.compartments.carve</span><span class="w"> </span><span class="kn">import</span> <span class="n">build_contents</span><span class="p">,</span> <span class="n">build_inserts</span>
 
             <span class="n">hinge_solid</span> <span class="o">=</span> <span class="kc">None</span>
-            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">box</span><span class="p">,</span> <span class="p">(</span><span class="n">HingeBox</span><span class="p">,</span> <span class="n">FilamentHingeBox</span><span class="p">)):</span>
-                <span class="n">fd</span> <span class="o">=</span> <span class="p">(</span>
-                    <span class="n">spec</span><span class="o">.</span><span class="n">hinge_pin_diameter</span>
-                    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">box</span><span class="p">,</span> <span class="n">HingeBox</span><span class="p">)</span>
-                    <span class="k">else</span> <span class="n">spec</span><span class="o">.</span><span class="n">filament_diameter</span>
-                <span class="p">)</span>
-                <span class="n">hinge_solid</span> <span class="o">=</span> <span class="n">hinge_intrusion</span><span class="p">(</span><span class="n">resolved</span><span class="o">.</span><span class="n">spec</span><span class="p">,</span> <span class="n">fd</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">box</span><span class="p">,</span> <span class="p">(</span><span class="n">FilamentHingeBox</span><span class="p">,</span> <span class="n">ClamshellBox</span><span class="p">)):</span>
+                <span class="n">hinge_solid</span> <span class="o">=</span> <span class="n">hinge_intrusion</span><span class="p">(</span><span class="n">box</span><span class="o">.</span><span class="n">_body_spec</span><span class="p">(</span><span class="n">resolved</span><span class="o">.</span><span class="n">spec</span><span class="p">),</span> <span class="n">spec</span><span class="o">.</span><span class="n">filament_diameter</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">box</span><span class="p">,</span> <span class="n">MagneticHingeBox</span><span class="p">):</span>
+                <span class="n">hinge_solid</span> <span class="o">=</span> <span class="n">hinge_intrusion</span><span class="p">(</span><span class="n">resolved</span><span class="o">.</span><span class="n">spec</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">filament_diameter</span><span class="p">)</span>
+                <span class="n">front_catch</span> <span class="o">=</span> <span class="n">magnetic_hinge_catch</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">front_catch</span><span class="o">.</span><span class="n">body</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">hinge_solid</span> <span class="o">=</span> <span class="n">hinge_solid</span> <span class="o">|</span> <span class="n">front_catch</span><span class="o">.</span><span class="n">body</span>
 
             <span class="n">suppress_scoops</span> <span class="o">=</span> <span class="kc">False</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span>
@@ -695,13 +698,16 @@
                 <span class="p">(</span>
                     <span class="n">CapBox</span><span class="p">,</span>
                     <span class="n">CapPathBox</span><span class="p">,</span>
+                    <span class="n">DiceTrayBox</span><span class="p">,</span>
                     <span class="n">SlipoverBox</span><span class="p">,</span>
                     <span class="n">SlipoverPathBox</span><span class="p">,</span>
                     <span class="n">SlidingCatchBox</span><span class="p">,</span>
                     <span class="n">SleeveDrawerBox</span><span class="p">,</span>
+                    <span class="n">MagneticHingeBox</span><span class="p">,</span>
+                    <span class="n">InsetHingeBox</span><span class="p">,</span>
                 <span class="p">),</span>
             <span class="p">)</span> <span class="ow">or</span> <span class="p">(</span>
-                <span class="nb">isinstance</span><span class="p">(</span><span class="n">box</span><span class="p">,</span> <span class="p">(</span><span class="n">HingeBox</span><span class="p">,</span> <span class="n">FilamentHingeBox</span><span class="p">))</span>
+                <span class="nb">isinstance</span><span class="p">(</span><span class="n">box</span><span class="p">,</span> <span class="p">(</span><span class="n">FilamentHingeBox</span><span class="p">,</span> <span class="n">ClamshellBox</span><span class="p">))</span>
                 <span class="ow">and</span> <span class="n">spec</span><span class="o">.</span><span class="n">resolved_catch_type</span><span class="p">(</span><span class="n">CatchType</span><span class="o">.</span><span class="n">WEDGE</span><span class="p">)</span> <span class="o">!=</span> <span class="n">CatchType</span><span class="o">.</span><span class="n">NONE</span>
             <span class="p">):</span>
                 <span class="n">suppress_scoops</span> <span class="o">=</span> <span class="kc">True</span>

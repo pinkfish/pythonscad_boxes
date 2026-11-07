@@ -254,6 +254,21 @@ Print-In-Place Hinge Box (``BoxType.PRINT_IN_PLACE_HINGE``)
    )
    project.show(show_lids=True)
 
+Print-In-Place Inset Hinge Box (``BoxType.INSET_HINGE``)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. pythonscad-example::
+
+   project = Project("InsetHingeDemo")
+   project.box(
+       BoxType.INSET_HINGE,
+       "InsetDeckBox",
+       size=(70.0, 50.0, 26.0),
+       pip_hinge_radius=3.0,
+       pip_radial_clearance=0.30,
+   )
+   project.show(show_lids=True)
+
 Bifold Clamshell Book Box (``BoxType.CLAMSHELL``)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -264,21 +279,8 @@ Bifold Clamshell Book Box (``BoxType.CLAMSHELL``)
        BoxType.CLAMSHELL,
        "DiceBook",
        size=(60.0, 50.0, 24.0),
-       clamshell_hinge_radius=2.5,
-   )
-   project.show(show_lids=True)
-
-Print-in-Place Pin Hinge (``BoxType.HINGE``)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-.. pythonscad-example::
-
-   project = Project("HingeDemo")
-   project.box(
-       BoxType.HINGE,
-       "HingedChest",
-       size=(60.0, 60.0, 22.0),
-       hinge_count=3,
+       filament_diameter=1.75,
+       hinge_count=5,
    )
    project.show(show_lids=True)
 
@@ -296,6 +298,22 @@ Filament Pin Hinge (``BoxType.FILAMENT_HINGE``)
    )
    project.show(show_lids=True)
 
+Magnetic Pin Hinge (``BoxType.MAGNETIC_HINGE``)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. pythonscad-example::
+
+   project = Project("MagneticHingeDemo")
+   project.box(
+       BoxType.MAGNETIC_HINGE,
+       "MagChest",
+       size=(60.0, 50.0, 22.0),
+       magnet_diameter=4.0,
+       magnet_height=2.0,
+       lid=LidBuilder(text="RELICS"),
+   )
+   project.show(show_lids=True)
+
 Snap-Fit Cantilever Latch (``BoxType.SNAP_FIT``)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -306,8 +324,9 @@ Snap-Fit Cantilever Latch (``BoxType.SNAP_FIT``)
        BoxType.SNAP_FIT,
        "LatchBox",
        size=(60.0, 50.0, 25.0),
-       cantilever_width=12.0,
-       detent_height=1.5,
+       cantilever_thickness=2.0,
+       cantilever_width=14.0,
+       detent_height=0.8,
    )
    project.show(show_lids=True)
 
@@ -368,7 +387,6 @@ Gravity Tile & Token Dispenser (``BoxType.DISPENSER``)
        BoxType.DISPENSER,
        "TileTower",
        size=(55.0, 55.0, 70.0),
-       chute_angle=40.0,
        token_thickness=3.0,
    )
    project.show(show_lids=True)

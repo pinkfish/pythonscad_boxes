@@ -452,9 +452,9 @@
 <span class="k">class</span><span class="w"> </span><span class="nc">ClamshellBoxBuilder</span><span class="p">(</span><span class="n">BoxBuilder</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""Builder for bifold / clamshell book box type (FR-088).</span>
 
-<span class="sd">    Two tray halves joined along a central spine hinge, unfolding 180° flat onto</span>
-<span class="sd">    the table so both halves serve as active token/card trays during play, and</span>
-<span class="sd">    folding closed for secure vertical book-style storage.</span>
+<span class="sd">    Two symmetrical tray halves joined along a central filament-pin spine hinge,</span>
+<span class="sd">    unfolding 180° flat onto the table so both halves serve as active token/card</span>
+<span class="sd">    trays during play, and folding closed with a front catch for storage.</span>
 
 <span class="sd">    Example:</span>
 <span class="sd">        .. pythonscad-example::</span>
@@ -464,20 +464,24 @@
 <span class="sd">                BoxType.CLAMSHELL,</span>
 <span class="sd">                "SpellBook",</span>
 <span class="sd">                size=(120.0, 80.0, 40.0),</span>
-<span class="sd">                spine_gap=1.0,</span>
-<span class="sd">                clamshell_hinge_radius=2.5,</span>
+<span class="sd">                filament_diameter=1.75,</span>
+<span class="sd">                hinge_count=5,</span>
 <span class="sd">                closure_latch=True,</span>
 <span class="sd">            )</span>
 <span class="sd">            project.show(show_lids=True)</span>
 <span class="sd">    """</span>
 
     <span class="n">box_type</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="n">BoxType</span><span class="p">]</span> <span class="o">=</span> <span class="n">BoxType</span><span class="o">.</span><span class="n">CLAMSHELL</span>
+    <span class="n">filament_diameter</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.75</span>
+<span class="w">    </span><span class="sd">"""Diameter of the filament hinge pin in mm (default 1.75mm)."""</span>
+    <span class="n">hinge_count</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="w">    </span><span class="sd">"""Total number of interleaving knuckles across the spine hinge."""</span>
     <span class="n">spine_gap</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span>
 <span class="w">    </span><span class="sd">"""Gap along the central spine hinge in mm."""</span>
     <span class="n">clamshell_hinge_radius</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">2.5</span>
 <span class="w">    </span><span class="sd">"""Radius of the spine hinge knuckle barrel in mm."""</span>
     <span class="n">closure_latch</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
-<span class="w">    </span><span class="sd">"""Add perimeter retention ridge catches to keep the clamshell closed."""</span></div>
+<span class="w">    </span><span class="sd">"""Add front retention catch to keep the clamshell closed."""</span></div>
 
 </code></pre></div>
 

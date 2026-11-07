@@ -60,6 +60,8 @@ pyboxbuilder.box.features
       hinge_intrusion
       lead_chamfer_size
       lid_corner_rounding
+      magnetic_hinge_catch
+      magnetic_hinge_catch_metrics
       offset_footprint
       path_body_metrics
       path_cap

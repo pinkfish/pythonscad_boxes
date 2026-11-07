@@ -2577,6 +2577,100 @@
 
 
 
+<div class="viewcode-block" id="magnetic_hinge_catch_metrics">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.features.magnetic_hinge_catch_metrics.html#pyboxbuilder.box.features.magnetic_hinge_catch_metrics">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">magnetic_hinge_catch_metrics</span><span class="p">(</span><span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">"""Return ``(x_center, y_center, r_boss)`` for a hinged box's front magnet catch."""</span>
+    <span class="n">wt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">wall_thickness</span>
+    <span class="n">md</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">magnet_diameter</span><span class="p">),</span> <span class="n">spec</span><span class="o">.</span><span class="n">width</span> <span class="o">*</span> <span class="mf">0.35</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span> <span class="o">*</span> <span class="mf">0.25</span><span class="p">)</span>
+    <span class="n">clr</span> <span class="o">=</span> <span class="mf">0.1</span>
+    <span class="n">r_pocket</span> <span class="o">=</span> <span class="n">md</span> <span class="o">/</span> <span class="mf">2.0</span> <span class="o">+</span> <span class="n">clr</span>
+    <span class="n">front_skin</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">wt</span> <span class="o">*</span> <span class="mf">0.4</span><span class="p">)</span>
+    <span class="n">x_center</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">width</span> <span class="o">/</span> <span class="mf">2.0</span>
+    <span class="n">y_center</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">wt</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">front_skin</span> <span class="o">+</span> <span class="n">r_pocket</span><span class="p">)</span>
+    <span class="n">wall_ring</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">1.2</span><span class="p">,</span> <span class="n">wt</span> <span class="o">*</span> <span class="mf">0.5</span><span class="p">)</span>
+    <span class="n">r_boss</span> <span class="o">=</span> <span class="n">r_pocket</span> <span class="o">+</span> <span class="n">wall_ring</span>
+    <span class="k">return</span> <span class="n">x_center</span><span class="p">,</span> <span class="n">y_center</span><span class="p">,</span> <span class="n">r_boss</span></div>
+
+
+
+<div class="viewcode-block" id="magnetic_hinge_catch">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.features.magnetic_hinge_catch.html#pyboxbuilder.box.features.magnetic_hinge_catch">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">magnetic_hinge_catch</span><span class="p">(</span><span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Closure</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Return the front magnet boss and matching body/lid magnet sockets for a hinged box."""</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path2D</span><span class="p">,</span> <span class="n">cylinder</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2.shapes2d</span><span class="w"> </span><span class="kn">import</span> <span class="n">polygon</span>
+
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.shell</span><span class="w"> </span><span class="kn">import</span> <span class="n">block</span>
+
+    <span class="n">wt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">wall_thickness</span>
+    <span class="n">lt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">lid_thickness</span>
+    <span class="n">ft</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">floor_thickness</span>
+    <span class="n">body_height</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">height</span> <span class="o">-</span> <span class="n">lt</span>
+
+    <span class="n">md</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">magnet_diameter</span><span class="p">),</span> <span class="n">spec</span><span class="o">.</span><span class="n">width</span> <span class="o">*</span> <span class="mf">0.35</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span> <span class="o">*</span> <span class="mf">0.25</span><span class="p">)</span>
+    <span class="n">mh</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">magnet_height</span><span class="p">),</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.8</span><span class="p">,</span> <span class="p">(</span><span class="n">body_height</span> <span class="o">-</span> <span class="n">ft</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.35</span><span class="p">))</span>
+    <span class="n">clr</span> <span class="o">=</span> <span class="mf">0.1</span>
+    <span class="n">r_pocket</span> <span class="o">=</span> <span class="n">md</span> <span class="o">/</span> <span class="mf">2.0</span> <span class="o">+</span> <span class="n">clr</span>
+    <span class="n">x_center</span><span class="p">,</span> <span class="n">y_center</span><span class="p">,</span> <span class="n">r_boss</span> <span class="o">=</span> <span class="n">magnetic_hinge_catch_metrics</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
+
+    <span class="c1"># Preserve a solid top skin above the lid pocket so the lid's top surface stays unbroken</span>
+    <span class="n">top_skin</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.6</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">lt</span> <span class="o">*</span> <span class="mf">0.4</span><span class="p">))</span>
+    <span class="n">lid_pocket_depth</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">mh</span> <span class="o">+</span> <span class="n">clr</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.6</span><span class="p">,</span> <span class="n">lt</span> <span class="o">-</span> <span class="n">top_skin</span><span class="p">))</span>
+    <span class="n">extra_for_lid</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="p">(</span><span class="n">mh</span> <span class="o">+</span> <span class="n">clr</span><span class="p">)</span> <span class="o">-</span> <span class="n">lid_pocket_depth</span><span class="p">)</span>
+    <span class="n">body_pocket_depth</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span>
+        <span class="n">mh</span> <span class="o">+</span> <span class="n">clr</span> <span class="o">+</span> <span class="n">extra_for_lid</span> <span class="o">+</span> <span class="mf">0.1</span><span class="p">,</span>
+        <span class="nb">max</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">body_height</span> <span class="o">-</span> <span class="n">ft</span> <span class="o">-</span> <span class="mf">1.2</span><span class="p">),</span>
+    <span class="p">)</span>
+
+    <span class="n">z_boss_flat</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">ft</span><span class="p">,</span> <span class="n">body_height</span> <span class="o">-</span> <span class="n">body_pocket_depth</span> <span class="o">-</span> <span class="mf">1.0</span><span class="p">)</span>
+    <span class="n">protrusion</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="p">(</span><span class="n">y_center</span> <span class="o">+</span> <span class="n">r_boss</span><span class="p">)</span> <span class="o">-</span> <span class="n">wt</span><span class="p">)</span>
+    <span class="n">z_taper_bot</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">ft</span><span class="p">,</span> <span class="n">z_boss_flat</span> <span class="o">-</span> <span class="n">protrusion</span><span class="p">)</span>
+    <span class="n">col_h</span> <span class="o">=</span> <span class="n">body_height</span> <span class="o">-</span> <span class="n">z_taper_bot</span>
+
+    <span class="n">cyl_col</span> <span class="o">=</span> <span class="n">cylinder</span><span class="p">(</span>
+        <span class="n">height</span><span class="o">=</span><span class="n">col_h</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="n">r_boss</span><span class="p">,</span> <span class="o">**</span><span class="n">precision_kwargs</span><span class="p">()</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">x_center</span><span class="p">,</span> <span class="n">y_center</span><span class="p">,</span> <span class="n">z_taper_bot</span> <span class="o">+</span> <span class="n">col_h</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">])</span>
+    <span class="n">web_col</span> <span class="o">=</span> <span class="n">block</span><span class="p">(</span>
+        <span class="p">[</span><span class="mf">2.0</span> <span class="o">*</span> <span class="n">r_boss</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">y_center</span> <span class="o">-</span> <span class="n">wt</span> <span class="o">*</span> <span class="mf">0.5</span><span class="p">),</span> <span class="n">col_h</span><span class="p">],</span>
+        <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="n">x_center</span> <span class="o">-</span> <span class="n">r_boss</span><span class="p">,</span> <span class="n">wt</span> <span class="o">*</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">z_taper_bot</span><span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">boss</span> <span class="o">=</span> <span class="p">(</span><span class="n">cyl_col</span> <span class="o">|</span> <span class="n">web_col</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">block</span><span class="p">(</span>
+        <span class="p">[</span><span class="n">spec</span><span class="o">.</span><span class="n">width</span> <span class="o">-</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">wt</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span> <span class="o">-</span> <span class="n">wt</span><span class="p">,</span> <span class="n">col_h</span> <span class="o">+</span> <span class="mf">0.2</span><span class="p">],</span>
+        <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="n">wt</span><span class="p">,</span> <span class="n">wt</span> <span class="o">*</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">z_taper_bot</span> <span class="o">-</span> <span class="mf">0.1</span><span class="p">),</span>
+    <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">z_boss_flat</span> <span class="o">&gt;</span> <span class="n">z_taper_bot</span> <span class="o">+</span> <span class="mf">0.05</span> <span class="ow">and</span> <span class="n">protrusion</span> <span class="o">&gt;</span> <span class="mf">0.05</span><span class="p">:</span>
+        <span class="n">bevel_poly</span> <span class="o">=</span> <span class="n">polygon</span><span class="p">(</span>
+            <span class="n">path</span><span class="o">=</span><span class="n">Path2D</span><span class="p">([</span>
+                <span class="p">(</span><span class="n">wt</span><span class="p">,</span> <span class="n">z_taper_bot</span> <span class="o">-</span> <span class="mf">0.1</span><span class="p">),</span>
+                <span class="p">(</span><span class="n">y_center</span> <span class="o">+</span> <span class="n">r_boss</span> <span class="o">+</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">z_taper_bot</span> <span class="o">-</span> <span class="mf">0.1</span><span class="p">),</span>
+                <span class="p">(</span><span class="n">y_center</span> <span class="o">+</span> <span class="n">r_boss</span> <span class="o">+</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">z_boss_flat</span><span class="p">),</span>
+            <span class="p">])</span>
+        <span class="p">)</span>
+        <span class="n">bevel_cut</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">bevel_poly</span><span class="o">.</span><span class="n">linear_extrude</span><span class="p">(</span><span class="n">height</span><span class="o">=</span><span class="mf">2.0</span> <span class="o">*</span> <span class="n">r_boss</span> <span class="o">+</span> <span class="mf">2.0</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">rotate</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">90</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+            <span class="o">.</span><span class="n">rotate</span><span class="p">([</span><span class="o">-</span><span class="mi">90</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+            <span class="o">.</span><span class="n">scale</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+            <span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">x_center</span> <span class="o">-</span> <span class="n">r_boss</span> <span class="o">-</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">])</span>
+        <span class="p">)</span>
+        <span class="n">boss</span> <span class="o">=</span> <span class="n">boss</span> <span class="o">-</span> <span class="n">bevel_cut</span>
+
+    <span class="n">h_body_cut</span> <span class="o">=</span> <span class="n">body_pocket_depth</span> <span class="o">+</span> <span class="mf">0.05</span>
+    <span class="n">pocket_body</span> <span class="o">=</span> <span class="n">cylinder</span><span class="p">(</span>
+        <span class="n">height</span><span class="o">=</span><span class="n">h_body_cut</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="n">r_pocket</span><span class="p">,</span> <span class="o">**</span><span class="n">precision_kwargs</span><span class="p">()</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">x_center</span><span class="p">,</span> <span class="n">y_center</span><span class="p">,</span> <span class="n">body_height</span> <span class="o">+</span> <span class="mf">0.05</span> <span class="o">-</span> <span class="n">h_body_cut</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">])</span>
+
+    <span class="n">h_lid_cut</span> <span class="o">=</span> <span class="n">lid_pocket_depth</span> <span class="o">+</span> <span class="mf">0.05</span>
+    <span class="n">pocket_lid</span> <span class="o">=</span> <span class="n">cylinder</span><span class="p">(</span>
+        <span class="n">height</span><span class="o">=</span><span class="n">h_lid_cut</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="n">r_pocket</span><span class="p">,</span> <span class="o">**</span><span class="n">precision_kwargs</span><span class="p">()</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">x_center</span><span class="p">,</span> <span class="n">y_center</span><span class="p">,</span> <span class="n">body_height</span> <span class="o">-</span> <span class="mf">0.05</span> <span class="o">+</span> <span class="n">h_lid_cut</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="n">Closure</span><span class="p">(</span><span class="n">body</span><span class="o">=</span><span class="n">boss</span><span class="p">,</span> <span class="n">body_cut</span><span class="o">=</span><span class="n">pocket_body</span><span class="p">,</span> <span class="n">lid_cut</span><span class="o">=</span><span class="n">pocket_lid</span><span class="p">)</span></div>
+
+
+
 <span class="c1"># --------------------------------------------------------- stackable features (FR-101)</span>
 
 

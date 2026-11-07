@@ -1,0 +1,6 @@
+pyboxbuilder.box.features.magnetic\_hinge\_catch
+================================================
+
+.. currentmodule:: pyboxbuilder.box.features
+
+.. autofunction:: magnetic_hinge_catch

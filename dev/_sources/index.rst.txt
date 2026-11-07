@@ -75,10 +75,10 @@ Start by declaring a :class:`~pyboxbuilder.project.core.Project` with the inside
 2. Choose Box Types & Closure Mechanics
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-``pyboxbuilder`` supports **23 specialized box types** spanning 5 closure families:
+``pyboxbuilder`` supports **24 specialized box types** spanning 5 closure families:
 
 * **Sliding & Friction**: Dovetail sliding lids (``BoxType.SLIDING``), snap-lock sliding catches (``BoxType.SLIDING_CATCH``), drop-on friction caps (``BoxType.CAP``), telescoping slipovers (``BoxType.SLIPOVER``), internal rabbet insets (``BoxType.INSET``), and matchbox sleeves (``BoxType.SLEEVE_DRAWER``).
-* **Hinges & Bifolds**: Monolithic 1-piece print-in-place hinged boxes (``BoxType.PRINT_IN_PLACE_HINGE``), dual-tray clamshell book boxes (``BoxType.CLAMSHELL``), integrated knuckle hinges (``BoxType.HINGE``), and precision filament-pin hinges (``BoxType.FILAMENT_HINGE``).
+* **Hinges & Bifolds**: Monolithic 1-piece print-in-place hinged boxes (``BoxType.PRINT_IN_PLACE_HINGE`` and ``BoxType.INSET_HINGE``), dual-tray clamshell book boxes (``BoxType.CLAMSHELL``), precision filament-pin knuckle hinges (``BoxType.FILAMENT_HINGE``), and magnetic-catch filament-hinged boxes (``BoxType.MAGNETIC_HINGE``).
 * **Mechanical & Magnetic**: Cantilever snap-fit latches (``BoxType.SNAP_FIT``), quarter-turn bayonets (``BoxType.BAYONET``), coarse screw threads (``BoxType.THREADED``), and concealed neodymium magnet vaults (``BoxType.MAGNETIC``).
 * **Tabletop Utilities**: Gravity-slide token dispensers (``BoxType.DISPENSER``), angled card dealer shoes (``BoxType.CARD_SHOE``), deep dice rolling arenas (``BoxType.DICE_TRAY``), and modular interlocking trays (``BoxType.MODULAR_INTERLOCK``).
 * **Custom Polygons**: Arbitrary 2D footprint extrusions with matching cap or slipover lids (``BoxType.PATH``, ``BoxType.CAP_PATH``, ``BoxType.SLIPOVER_PATH``).
@@ -233,7 +233,7 @@ Core System Architecture
    * - Subsystem
      - Description & Capabilities
    * - **Box Builders**
-     - 23 typed builders in :mod:`pyboxbuilder.builders` supporting sliding dovetails with snap catches, friction caps, telescoping slipovers, print-in-place and filament-pin hinges, magnetic vaults, inset lids, stackable open bins, card libraries, dispensers, card shoes, dice arenas, modular interlocks, and polygon path footprints.
+     - 23 typed builders in :mod:`pyboxbuilder.builders` supporting sliding dovetails with snap catches, friction caps, telescoping slipovers, print-in-place, filament-pin, and magnetic-catch hinges, magnetic vaults, inset lids, stackable open bins, card libraries, dispensers, card shoes, dice arenas, modular interlocks, and polygon path footprints.
    * - **Compartments & Ergonomics**
      - Ratio-based compartment division (``box.compartment(...)``), ergonomic rounded token scoops (``holds_pieces=True``), full-depth push-through holes, hex grids, and arbitrary SVG pocket silhouettes.
    * - **Lid Decoration**

@@ -453,9 +453,10 @@
 <span class="w">    </span><span class="sd">"""Builder for gravity tile &amp; token dispenser tower type (FR-084).</span>
 
 <span class="sd">    Designed for cardboard tiles, chips, or resource tokens during gameplay.</span>
-<span class="sd">    Features a top loading chute, an internal slide floor angled toward the front</span>
-<span class="sd">    wall, a horizontal bottom dispensing slot, a vertical sight slot, and configurable</span>
-<span class="sd">    extraction mechanisms (front pinch scoop, forward landing tray, rear push, or arch).</span>
+<span class="sd">    Features a top loading chute, a flat or configurable angled internal floor</span>
+<span class="sd">    (default ``0.0°`` flat floor), a horizontal bottom dispensing slot, a vertical</span>
+<span class="sd">    sight slot, and finger-pinch extraction cutouts (front pinch scoop and bottom</span>
+<span class="sd">    floor notch by default, or forward landing tray, rear push, or arch).</span>
 
 <span class="sd">    Example:</span>
 <span class="sd">        .. pythonscad-example::</span>
@@ -466,14 +467,15 @@
 <span class="sd">                "TileTower",</span>
 <span class="sd">                size=(60.0, 60.0, 90.0),</span>
 <span class="sd">                token_thickness=3.0,</span>
-<span class="sd">                chute_angle=40.0,</span>
 <span class="sd">            )</span>
 <span class="sd">            project.show(show_lids=True)</span>
 <span class="sd">    """</span>
 
     <span class="n">box_type</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="n">BoxType</span><span class="p">]</span> <span class="o">=</span> <span class="n">BoxType</span><span class="o">.</span><span class="n">DISPENSER</span>
-    <span class="n">chute_angle</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">40.0</span>
-<span class="w">    </span><span class="sd">"""Angle of the internal gravity slide floor in degrees (typically 35°–45°)."""</span>
+    <span class="n">chute_angle</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span>
+<span class="w">    </span><span class="sd">"""Angle of the internal tile floor in degrees (defaults to ``0.0°`` flat; set e.g. ``35°`` for a ramp)."""</span>
+    <span class="n">tile_angle</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">"""Optional alias for ``chute_angle`` specifying the angle of the internal tile floor in degrees."""</span>
     <span class="n">token_thickness</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">3.0</span>
 <span class="w">    </span><span class="sd">"""Thickness of a single tile or token in mm."""</span>
     <span class="n">dispense_slot_clearance</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.8</span>
@@ -495,7 +497,14 @@
     <span class="n">rear_push_width</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">22.0</span>
 <span class="w">    </span><span class="sd">"""Width of rear push finger cutout in mm for REAR_PUSH mode."""</span>
     <span class="n">arch_height</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="w">    </span><span class="sd">"""Height of front open archway in mm for ARCH mode (defaults to 0.65 * body_h)."""</span></div>
+<span class="w">    </span><span class="sd">"""Height of front open archway in mm for ARCH mode (defaults to 0.65 * body_h)."""</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Synchronize ``tile_angle`` and ``chute_angle``."""</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">tile_angle</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">"chute_angle"</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tile_angle</span><span class="p">))</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__post_init__</span><span class="p">()</span></div>
+
 
 
 </code></pre></div>

@@ -186,39 +186,12 @@ A polygonal sleeve enclosure designed to slide over a custom 2D polygon body tra
    project.show(show_lids=True)
 
 
-Print-in-Place Pin Hinge (``BoxType.HINGE``)
---------------------------------------------
-
-**Builder**: :class:`~pyboxbuilder.builders.hinge.HingeBoxBuilder`
-
-Features an integrated pin hinge printed in place alongside the body and lid. The hinge knuckles print with internal clearance gaps so the lid swings open freely straight off the build plate without requiring assembly or separate hardware.
-
-.. pythonscad-example::
-
-   project = Project("HingeDemo")
-   box = project.box(
-       BoxType.HINGE,
-       "Chest",
-       size=(60.0, 50.0, 22.0),
-       color=Color("saddlebrown"),
-       lid=LidBuilder(
-           label_mode=LabelMode.FRAMED,
-           frame_color=Color("gold"),
-           text_color=Color("white"),
-           pattern=PatternBuilder(PatternType.VORONOI, spacing=8.0),
-       ).titled("CHEST"),
-   )
-   box.compartment("Coins", width_ratio=0.5, holds_pieces=True)
-   box.compartment("Loot", width_ratio=0.5, holds_pieces=True)
-   project.show(show_lids=True)
-
-
 Filament Pin Hinge (``BoxType.FILAMENT_HINGE``)
 -----------------------------------------------
 
 **Builder**: :class:`~pyboxbuilder.builders.filament_hinge.FilamentHingeBoxBuilder`
 
-A compact, durable hinge design whose hinge barrel accepts a short length of standard 1.75 mm 3D printing filament as the hinge pin. Because the pin is inserted post-print, the hinge barrels can be smaller and tighter than print-in-place tolerances permit.
+A compact, durable two-piece hinged box whose interleaving rear knuckles are bored to accept a short length of standard 1.75 mm 3D printing filament (or configurable pin diameter via ``filament_diameter`` and ``hinge_count``) as the hinge pin, paired with a front snap catch. Because the pin is inserted post-print, the hinge barrels can be smaller and tighter than print-in-place tolerances permit.
 
 .. pythonscad-example::
 
@@ -236,6 +209,35 @@ A compact, durable hinge design whose hinge barrel accepts a short length of sta
        ).titled("GEAR"),
    )
    box.compartment("Dice", holds_pieces=True)
+   project.show(show_lids=True)
+
+
+Magnetic Pin Hinge (``BoxType.MAGNETIC_HINGE``)
+-----------------------------------------------
+
+**Builder**: :class:`~pyboxbuilder.builders.magnetic_hinge.MagneticHingeBoxBuilder`
+
+Combines a rear filament pin hinge with a support-free front magnet boss and matching blind magnet sockets in the front body rim and lid underside (``magnet_diameter`` default 4.0 mm, ``magnet_height`` default 2.0 mm) so the hinged lid snaps and stays closed magnetically.
+
+.. pythonscad-example::
+
+   project = Project("MagneticHingeDemo")
+   box = project.box(
+       BoxType.MAGNETIC_HINGE,
+       "MagChest",
+       size=(60.0, 50.0, 22.0),
+       color=Color("saddlebrown"),
+       magnet_diameter=4.0,
+       magnet_height=2.0,
+       lid=LidBuilder(
+           label_mode=LabelMode.FRAMED,
+           frame_color=Color("gold"),
+           text_color=Color("white"),
+           pattern=PatternBuilder(PatternType.VORONOI, spacing=8.0),
+       ).titled("CHEST"),
+   )
+   box.compartment("Coins", width_ratio=0.5, holds_pieces=True)
+   box.compartment("Loot", width_ratio=0.5, holds_pieces=True)
    project.show(show_lids=True)
 
 
@@ -396,8 +398,9 @@ Features integrated downward-extending cantilever spring arms on opposing walls 
        "SnapBox",
        size=(60.0, 50.0, 24.0),
        color=Color("darkmagenta"),
-       cantilever_thickness=1.6,
-       cantilever_width=12.0,
+       cantilever_thickness=2.0,
+       cantilever_width=14.0,
+       detent_height=0.8,
        lid=LidBuilder(
            label_mode=LabelMode.FRAMED,
            frame_color=Color("gold"),
@@ -456,7 +459,7 @@ Gravity Tile & Token Dispenser (``BoxType.DISPENSER``)
 
 **Builder**: :class:`~pyboxbuilder.builders.dispenser.DispenserBoxBuilder`
 
-Designed for cardboard tiles (e.g. Carcassonne, Catan), poker chips, or resource tokens during gameplay. Features a top loading chute, an internal slide floor angled at 35°–45° toward the front wall, a horizontal bottom dispensing slot, a vertical sight slot to monitor remaining stack height, and a curved finger scoop.
+Designed for cardboard tiles (e.g. Carcassonne, Catan), poker chips, or resource tokens during gameplay. Features a top loading chute, a flat internal floor by default (or a configurable angled slide ramp via ``chute_angle`` / ``tile_angle``), a horizontal bottom dispensing slot, a vertical sight slot to monitor remaining stack height, and a curved front finger scoop + bottom floor cutout so you can pinch and pull out the bottom tile with your fingers.
 
 .. pythonscad-example::
 
@@ -466,7 +469,6 @@ Designed for cardboard tiles (e.g. Carcassonne, Catan), poker chips, or resource
        "TileChute",
        size=(55.0, 55.0, 70.0),
        color=Color("darkred"),
-       chute_angle=40.0,
        token_thickness=3.0,
    )
    project.show(show_lids=True)
@@ -543,7 +545,7 @@ Bifold Clamshell Book Box (``BoxType.CLAMSHELL``)
 
 **Builder**: :class:`~pyboxbuilder.builders.clamshell.ClamshellBoxBuilder`
 
-Two symmetrical tray halves joined along a central spine hinge, unfolding 180° flat onto the table so both halves serve as accessible token or card trays during play. The closing rims feature perimeter snap detents to hold the book securely closed during vertical storage.
+Two symmetrical tray halves joined along a central filament-pin spine hinge, unfolding 180° flat onto the table so both halves serve as accessible token or card trays during play. A standard 1.75mm filament strand threads through the interleaved spine knuckles after printing, and a front snap catch holds the book securely closed during storage.
 
 .. pythonscad-example::
 
@@ -553,7 +555,8 @@ Two symmetrical tray halves joined along a central spine hinge, unfolding 180° 
        "BookBox",
        size=(90.0, 65.0, 32.0),
        color=Color("darkslateblue"),
-       spine_gap=1.0,
+       filament_diameter=1.75,
+       hinge_count=5,
        lid=LidBuilder(
            label_mode=LabelMode.FRAMED,
            frame_color=Color("gold"),
@@ -612,6 +615,28 @@ A single-piece, zero-assembly hinged box where body and lid are laid flat at 180
        ).titled("PIPKIT"),
    )
    box.compartment("Tools", holds_pieces=True)
+   project.show(show_lids=True)
+
+
+Print-In-Place Inset Hinge Box (``BoxType.INSET_HINGE``)
+--------------------------------------------------------
+
+**Builder**: :class:`~pyboxbuilder.builders.inset_hinge.InsetHingeBoxBuilder`
+
+A second print-in-place hinged box variant based on ``MakeBoxAndLidWithInsetHinge`` from ``hinge_box.scad``. The base and lid halves sit side-by-side along the X axis separated by ``pip_gap_mm`` (default ``1.0 mm``) and are joined by a recessed print-in-place conical knuckle hinge (``InsetHinge``) with 45° self-supporting mounting brackets, a self-aligning perimeter rim and rabbet, and a front snap-latch tab (``MakeLidTab``).
+
+.. pythonscad-example::
+
+   project = Project("InsetHingeDemo")
+   box = project.box(
+       BoxType.INSET_HINGE,
+       "InsetHingeBox",
+       size=(60.0, 50.0, 26.0),
+       color=Color("seagreen"),
+       pip_hinge_radius=3.0,
+       pip_radial_clearance=0.30,
+   )
+   box.compartment("Tokens", holds_pieces=True)
    project.show(show_lids=True)
 
 Lid Retention Catches (``CatchType``)

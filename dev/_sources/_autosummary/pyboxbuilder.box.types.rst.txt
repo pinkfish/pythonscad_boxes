@@ -20,9 +20,10 @@ pyboxbuilder.box.types
       dice_tray
       dispenser
       filament_hinge
-      hinge
       inset
+      inset_hinge
       magnetic
+      magnetic_hinge
       modular_interlock
       no_lid
       path
