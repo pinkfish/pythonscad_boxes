@@ -26,8 +26,8 @@ class EnumTests(unittest.TestCase):
         types = {t for t in BoxType}
         self.assertIn(BoxType.SLIDING, types)
         self.assertIn(BoxType.CAP, types)
-        self.assertIn(BoxType.HINGE, types)
         self.assertIn(BoxType.FILAMENT_HINGE, types)
+        self.assertIn(BoxType.MAGNETIC_HINGE, types)
         self.assertIn(BoxType.MAGNETIC, types)
         self.assertIn(BoxType.INSET, types)
         self.assertIn(BoxType.SLIDING_CATCH, types)
@@ -36,6 +36,7 @@ class EnumTests(unittest.TestCase):
         self.assertIn(BoxType.CAP_PATH, types)
         self.assertIn(BoxType.NO_LID, types)
         self.assertIn(BoxType.CARD_LIBRARY, types)
+        self.assertIn(BoxType.INSET_HINGE, types)
 
     def test_box_type_values_are_strings(self) -> None:
         for bt in BoxType:

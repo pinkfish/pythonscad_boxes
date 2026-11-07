@@ -244,10 +244,28 @@ A zero-assembly 1-piece print laid flat at 180° on the print bed with an interl
    project.show(show_lids=True)
 
 
+Print-In-Place Inset Hinge Box (``BoxType.INSET_HINGE``)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+A side-by-side 1-piece print-in-place hinged box with a recessed conical knuckle hinge, self-aligning perimeter rim, and front latch tab (based on ``hinge_box.scad``):
+
+.. pythonscad-example::
+
+   project = Project("InsetHingeDemo")
+   project.box(
+       BoxType.INSET_HINGE,
+       "InsetDeckBox",
+       size=(70.0, 50.0, 26.0),
+       pip_hinge_radius=3.0,
+       pip_radial_clearance=0.30,
+   )
+   project.show(show_lids=True)
+
+
 Bifold Clamshell Book Box (``BoxType.CLAMSHELL``)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-A book-fold box with active compartments in both halves that opens flat 180° on the tabletop:
+A book-fold box with two equal-depth tray halves joined by a mid-height filament pin hinge and front snap catch:
 
 .. pythonscad-example::
 
@@ -256,24 +274,8 @@ A book-fold box with active compartments in both halves that opens flat 180° on
        BoxType.CLAMSHELL,
        "DiceBook",
        size=(60.0, 50.0, 24.0),
-       clamshell_hinge_radius=2.5,
-   )
-   project.show(show_lids=True)
-
-
-Print-in-Place Pin Hinge (``BoxType.HINGE``)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-An integrated captive-pin knuckle hinge connecting body and lid:
-
-.. pythonscad-example::
-
-   project = Project("HingeDemo")
-   project.box(
-       BoxType.HINGE,
-       "HingedChest",
-       size=(60.0, 60.0, 22.0),
-       hinge_count=3,
+       filament_diameter=1.75,
+       hinge_count=5,
    )
    project.show(show_lids=True)
 
@@ -281,7 +283,7 @@ An integrated captive-pin knuckle hinge connecting body and lid:
 Filament Pin Hinge (``BoxType.FILAMENT_HINGE``)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Interleaving knuckles precision-bored to accept a standard 1.75mm 3D printer filament strand as the hinge pin:
+Interleaving knuckles precision-bored to accept a standard 1.75mm 3D printer filament strand (or custom pin diameter via ``filament_diameter`` and ``hinge_count``) as the hinge pin:
 
 .. pythonscad-example::
 
@@ -291,6 +293,25 @@ Interleaving knuckles precision-bored to accept a standard 1.75mm 3D printer fil
        "PinBox",
        size=(60.0, 50.0, 22.0),
        lid=LidBuilder(text="GEAR"),
+   )
+   project.show(show_lids=True)
+
+
+Magnetic Pin Hinge (``BoxType.MAGNETIC_HINGE``)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+A filament-hinged box at the back paired with a small magnet socket at the front to hold the lid closed:
+
+.. pythonscad-example::
+
+   project = Project("MagneticHingeDemo")
+   project.box(
+       BoxType.MAGNETIC_HINGE,
+       "MagChest",
+       size=(60.0, 50.0, 22.0),
+       magnet_diameter=4.0,
+       magnet_height=2.0,
+       lid=LidBuilder(text="RELICS"),
    )
    project.show(show_lids=True)
 
@@ -310,8 +331,9 @@ A lid with integrated cantilever spring arms and 45° lead-in retention detents 
        BoxType.SNAP_FIT,
        "LatchBox",
        size=(60.0, 50.0, 25.0),
-       cantilever_width=12.0,
-       detent_height=1.5,
+       cantilever_thickness=2.0,
+       cantilever_width=14.0,
+       detent_height=0.8,
    )
    project.show(show_lids=True)
 
@@ -378,7 +400,7 @@ Tabletop & Game Play Trays
 Gravity Tile & Token Dispenser (``BoxType.DISPENSER``)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-A gravity dispenser tower featuring a 40° internal slide floor feeding a single-token extraction slot:
+A tile and token dispenser tower with a flat floor (or configurable ``chute_angle`` / ``tile_angle`` ramp) and front finger-pinch cutouts for pulling out the bottom tile:
 
 .. pythonscad-example::
 
@@ -387,7 +409,6 @@ A gravity dispenser tower featuring a 40° internal slide floor feeding a single
        BoxType.DISPENSER,
        "TileTower",
        size=(55.0, 55.0, 70.0),
-       chute_angle=40.0,
        token_thickness=3.0,
    )
    project.show(show_lids=True)

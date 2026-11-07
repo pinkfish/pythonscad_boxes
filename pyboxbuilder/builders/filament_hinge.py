@@ -27,6 +27,10 @@ class FilamentHingeBoxBuilder(BoxBuilder):
     """
 
     box_type: ClassVar[BoxType] = BoxType.FILAMENT_HINGE
+    hinge_count: int | None = None
+    """Knuckles across the hinge; ``None`` uses the geometry's own default."""
+    filament_diameter: float | None = None
+    """Pin/filament stock diameter in mm; ``None`` uses the geometry's own default (1.75mm)."""
     hinge_catch_type: HingeCatchType = HingeCatchType.RIDGE
     """Catch type for hinged boxes (FR-106); HingeCatchType.RIDGE, BUMP, or NONE."""
 

@@ -19,22 +19,24 @@ class BoxRegistryTests(unittest.TestCase):
     def test_registry_returns_correct_builder_class(self) -> None:
         from pyboxbuilder.builders.cap import CapBoxBuilder
         from pyboxbuilder.builders.filament_hinge import FilamentHingeBoxBuilder
-        from pyboxbuilder.builders.hinge import HingeBoxBuilder
         from pyboxbuilder.builders.magnetic import MagneticBoxBuilder
+        from pyboxbuilder.builders.magnetic_hinge import MagneticHingeBoxBuilder
         from pyboxbuilder.builders.no_lid import NoLidBoxBuilder
         from pyboxbuilder.builders.sliding import SlidingBoxBuilder
 
         self.assertIs(BOX_TYPE_REGISTRY[BoxType.SLIDING], SlidingBoxBuilder)
         self.assertIs(BOX_TYPE_REGISTRY[BoxType.CAP], CapBoxBuilder)
-        self.assertIs(BOX_TYPE_REGISTRY[BoxType.HINGE], HingeBoxBuilder)
         self.assertIs(
             BOX_TYPE_REGISTRY[BoxType.FILAMENT_HINGE], FilamentHingeBoxBuilder
+        )
+        self.assertIs(
+            BOX_TYPE_REGISTRY[BoxType.MAGNETIC_HINGE], MagneticHingeBoxBuilder
         )
         self.assertIs(BOX_TYPE_REGISTRY[BoxType.MAGNETIC], MagneticBoxBuilder)
         self.assertIs(BOX_TYPE_REGISTRY[BoxType.NO_LID], NoLidBoxBuilder)
 
     def test_all_box_types_exportable(self) -> None:
-        """Verify all 12 box types can be added and exported."""
+        """Verify all core box types can be added and exported."""
         import tempfile
 
         p = Project("AllTypes", game_box_size=(500, 500, 100))
@@ -42,8 +44,8 @@ class BoxRegistryTests(unittest.TestCase):
         types_and_builders = [
             (BoxType.SLIDING, {}),
             (BoxType.CAP, {"cap_height": 8.0}),
-            (BoxType.HINGE, {"hinge_count": 3}),
-            (BoxType.FILAMENT_HINGE, {}),
+            (BoxType.FILAMENT_HINGE, {"hinge_count": 3}),
+            (BoxType.MAGNETIC_HINGE, {"magnet_diameter": 4.0, "magnet_height": 2.0}),
             (BoxType.MAGNETIC, {"magnet_diameter": 6.0}),
             (BoxType.INSET, {}),
             (BoxType.SLIDING_CATCH, {}),

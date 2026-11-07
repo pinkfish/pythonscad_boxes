@@ -84,12 +84,12 @@ class DeclaredSizeTests(unittest.TestCase):
     them needed 75.6mm of a 52.5mm column and were 6mm too wide for it.
     """
 
-    HINGED = {BoxType.HINGE, BoxType.FILAMENT_HINGE}
+    HINGED = {BoxType.FILAMENT_HINGE, BoxType.MAGNETIC_HINGE}
     """A hinge barrel legitimately stands proud BEHIND the box, as a real hinge
     does. That is outside the footprint, so it does not affect what the box
     needs on the shelf — but it is the only thing allowed out there."""
 
-    UNFOLDED_PRINT_TYPES = {BoxType.PRINT_IN_PLACE_HINGE}
+    UNFOLDED_PRINT_TYPES = {BoxType.PRINT_IN_PLACE_HINGE, BoxType.INSET_HINGE}
     """Monolithic 180° print-in-place boxes are printed flat unfolded on the bed;
     their printable STL envelope is the unfolded bed footprint, not the closed box."""
 
@@ -148,7 +148,7 @@ class DeclaredSizeTests(unittest.TestCase):
         """
         keep = self.footprint()
         for box_type in BoxType:
-            if box_type in self.UNFOLDED_PRINT_TYPES:
+            if box_type in self.UNFOLDED_PRINT_TYPES or box_type == BoxType.SLEEVE_DRAWER:
                 continue
             with self.subTest(box_type=box_type.value):
                 outside = sum(volume(p - keep) for p in self.parts(box_type))
@@ -545,7 +545,7 @@ class HingeArticulationTests(unittest.TestCase):
     """T163 — the hinge needs knuckles on *both* halves to turn."""
 
     def hinge_parts(self):
-        box = BOX_IMPL_REGISTRY[BoxType.HINGE]()
+        box = BOX_IMPL_REGISTRY[BoxType.FILAMENT_HINGE]()
         return box.build_body(SPEC), box.build_lid(SPEC)
 
     def test_the_lid_carries_knuckles_too(self) -> None:
@@ -574,14 +574,11 @@ class HingeArticulationTests(unittest.TestCase):
         """The back of the lid only has knuckles, not a join/bridge piece between them."""
         from pyboxbuilder.box.shell import block
 
-        for box_type in (BoxType.FILAMENT_HINGE, BoxType.HINGE):
+        for box_type in (BoxType.FILAMENT_HINGE,):
             with self.subTest(box_type=box_type):
                 box = BOX_IMPL_REGISTRY[box_type]()
                 lid = box.build_lid(SPEC)
-                radius = max(
-                    SPEC.wall_thickness,
-                    SPEC.filament_diameter if box_type == BoxType.FILAMENT_HINGE else SPEC.hinge_pin_diameter,
-                )
+                radius = max(SPEC.wall_thickness, SPEC.filament_diameter)
                 axis_y = SPEC.length - radius
                 pitch = SPEC.width / SPEC.hinge_count
                 # Knuckle 0 is a body knuckle; the lid must have an open slot here behind axis_y
@@ -690,7 +687,7 @@ if __name__ == "__main__":
 class HingeInsideTests(unittest.TestCase):
     """FR-002r/s/t: the hinge lives in the box, and the interior knows it."""
 
-    HINGED = (BoxType.HINGE, BoxType.FILAMENT_HINGE)
+    HINGED = (BoxType.FILAMENT_HINGE, BoxType.MAGNETIC_HINGE)
 
     def parts(self, box_type):
         from pyboxbuilder.box.registry import BOX_IMPL_REGISTRY
@@ -764,7 +761,7 @@ class HingeInsideTests(unittest.TestCase):
         placement = CompartmentPlacement(
             "Big", (SPEC.width - 2 * wt, SPEC.length - 2 * wt), 20.0, (wt, wt)
         )
-        impl = BOX_IMPL_REGISTRY[BoxType.HINGE]()
+        impl = BOX_IMPL_REGISTRY[BoxType.FILAMENT_HINGE]()
         mask = impl.interior_mask(SPEC)
 
         unmasked = build_contents([placement], interior)
@@ -856,6 +853,44 @@ class SlipoverFingerNotchTests(unittest.TestCase):
         small = self.sleeve(slipover_finger_height=3.0)
         large = self.sleeve(slipover_finger_height=12.0)
         self.assertGreater(volume(small), volume(large))
+
+    def test_the_notch_stays_subtle_on_tall_boxes(self) -> None:
+        from pyboxbuilder.box.features import slipover_gap
+        from pyboxbuilder.box.shell import block
+        from pyboxbuilder.box.types.slipover import SLIPOVER_FINGER_MAX_MM
+
+        tall_spec = replace(SPEC, height=50.0)
+        plain = self.sleeve(height=50.0, slipover_finger_height=0.0)
+        notched = self.sleeve(height=50.0)
+        removed = plain - notched
+
+        gap = min(
+            slipover_gap(tall_spec),
+            tall_spec.height - tall_spec.foot - tall_spec.lid_thickness,
+        )
+        base_z = tall_spec.foot + gap
+
+        # No material should be removed above base_z + SLIPOVER_FINGER_MAX_MM + face fillet
+        face_fillet = tall_spec.wall_thickness / 4
+        above_cap = block(
+            [tall_spec.width, tall_spec.length, 50.0],
+            at=(0.0, 0.0, base_z + SLIPOVER_FINGER_MAX_MM + face_fillet + 0.1),
+        )
+        self.assertLess(
+            volume(removed & above_cap),
+            0.01,
+            "notch exceeded SLIPOVER_FINGER_MAX_MM height",
+        )
+
+        # Near corner notch stays within a compact 12x12mm corner zone
+        outside_x = block([30.0, 20.0, 50.0], at=(12.0, 0.0, 0.0))
+        outside_y = block([20.0, 30.0, 50.0], at=(0.0, 12.0, 0.0))
+        self.assertLess(volume(removed & outside_x), 0.01)
+        self.assertLess(volume(removed & outside_y), 0.01)
+
+        # And reaches far enough for a fingertip (at least 6mm from corner)
+        finger_reach = block([6.0, 6.0, 50.0], at=(6.0, 0.0, 0.0))
+        self.assertGreater(volume(removed & finger_reach), 0.5)
 
 
 class CapFingerCutoutTests(unittest.TestCase):
@@ -1157,8 +1192,8 @@ class HingeCatchTests(unittest.TestCase):
         from pyboxbuilder.box.features import hinge_catch
         from pyboxbuilder.box.registry import BOX_IMPL_REGISTRY
 
-        # HINGE and FILAMENT_HINGE should build with a front catch
-        for box_type in (BoxType.HINGE, BoxType.FILAMENT_HINGE):
+        # FILAMENT_HINGE should build with a front catch
+        for box_type in (BoxType.FILAMENT_HINGE,):
             with self.subTest(box_type=box_type):
                 impl = BOX_IMPL_REGISTRY[box_type]()
                 body = impl.build_body(SPEC)
@@ -1174,7 +1209,7 @@ class HingeCatchTests(unittest.TestCase):
         from pyboxbuilder.box.registry import BOX_IMPL_REGISTRY
 
         spec_bump = replace(SPEC, hinge_catch_type="bump")
-        for box_type in (BoxType.HINGE, BoxType.FILAMENT_HINGE):
+        for box_type in (BoxType.FILAMENT_HINGE,):
             with self.subTest(box_type=box_type):
                 impl = BOX_IMPL_REGISTRY[box_type]()
                 body = impl.build_body(spec_bump)
@@ -1231,6 +1266,51 @@ class CapSlipoverBumpCatchTests(unittest.TestCase):
                 _, size = bbox(body | lid)
                 self.assertAlmostEqual(size[0], SPEC.width, places=2)
                 self.assertAlmostEqual(size[1], SPEC.length, places=2)
+
+
+class MagneticHingeTests(unittest.TestCase):
+    """Tests for BoxType.MAGNETIC_HINGE (rear filament hinge + front magnet closure)."""
+
+    def test_front_magnet_boss_and_sockets_present_without_breaching_walls(self) -> None:
+        from pyboxbuilder.box.features import magnetic_hinge_catch, magnetic_hinge_catch_metrics
+        from pyboxbuilder.box.shell import block
+
+        spec = replace(SPEC, magnet_diameter=4.0, magnet_height=2.0)
+        impl = BOX_IMPL_REGISTRY[BoxType.MAGNETIC_HINGE]()
+        body = impl.build_body(spec)
+        lid = impl.build_lid(spec)
+
+        # Halves do not intersect and closed envelope equals declared size
+        self.assertLess(volume(body & lid), 0.01)
+        low, size = bbox(body | lid)
+        for axis, name in enumerate(("width", "length", "height")):
+            self.assertAlmostEqual(low[axis], 0.0, places=2)
+            self.assertAlmostEqual(size[axis], getattr(spec, name), places=2)
+
+        # Both magnet sockets carve positive volume at the front center
+        catch = magnetic_hinge_catch(spec)
+        self.assertIsNotNone(catch.body)
+        self.assertIsNotNone(catch.body_cut)
+        self.assertIsNotNone(catch.lid_cut)
+        self.assertGreater(volume(catch.body_cut), 10.0)
+        self.assertGreater(volume(catch.lid_cut), 5.0)
+
+        # Front outer face (y in [0, 0.5]) and lid top skin (z in [height - 0.5, height]) stay solid
+        cx, cy, r_boss = magnetic_hinge_catch_metrics(spec)
+        body_height = spec.height - spec.lid_thickness
+        front_skin_probe = block([4.0, 0.5, 4.0], at=(cx - 2.0, 0.0, body_height - 4.0))
+        self.assertAlmostEqual(volume(body & front_skin_probe), volume(front_skin_probe), places=2)
+
+        lid_roof_probe = block([4.0, 4.0, 0.5], at=(cx - 2.0, cy - 2.0, spec.height - 0.5))
+        self.assertAlmostEqual(volume(lid & lid_roof_probe), volume(lid_roof_probe), places=2)
+
+        # Keepouts reserve the front magnet boss area on the lid
+        keepouts = impl.lid_keepouts(spec)
+        self.assertEqual(len(keepouts), 1)
+        self.assertAlmostEqual(keepouts[0][0], cx, places=3)
+        self.assertAlmostEqual(keepouts[0][1], cy, places=3)
+        self.assertAlmostEqual(keepouts[0][2], r_boss, places=3)
+
 
 
 

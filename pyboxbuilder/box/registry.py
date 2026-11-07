@@ -114,5 +114,6 @@ LIDLESS_BOX_TYPES: frozenset[BoxType] = frozenset({
     BoxType.NO_LID,
     BoxType.PATH,
     BoxType.PRINT_IN_PLACE_HINGE,
+    BoxType.INSET_HINGE,
 })
 """Box types that produce a body file only — no lid geometry, no `_lid.3mf`."""
