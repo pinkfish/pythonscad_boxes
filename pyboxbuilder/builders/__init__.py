@@ -10,9 +10,10 @@ from pyboxbuilder.builders.clamshell import ClamshellBoxBuilder
 from pyboxbuilder.builders.dice_tray import DiceTrayBoxBuilder
 from pyboxbuilder.builders.dispenser import DispenserBoxBuilder
 from pyboxbuilder.builders.filament_hinge import FilamentHingeBoxBuilder
-from pyboxbuilder.builders.hinge import HingeBoxBuilder
 from pyboxbuilder.builders.inset import InsetBoxBuilder
+from pyboxbuilder.builders.inset_hinge import InsetHingeBoxBuilder
 from pyboxbuilder.builders.magnetic import MagneticBoxBuilder
+from pyboxbuilder.builders.magnetic_hinge import MagneticHingeBoxBuilder
 from pyboxbuilder.builders.modular_interlock import ModularInterlockBoxBuilder
 from pyboxbuilder.builders.no_lid import NoLidBoxBuilder
 from pyboxbuilder.builders.path import PathBoxBuilder
@@ -35,9 +36,10 @@ __all__ = [
     "DiceTrayBoxBuilder",
     "DispenserBoxBuilder",
     "FilamentHingeBoxBuilder",
-    "HingeBoxBuilder",
     "InsetBoxBuilder",
+    "InsetHingeBoxBuilder",
     "MagneticBoxBuilder",
+    "MagneticHingeBoxBuilder",
     "ModularInterlockBoxBuilder",
     "NoLidBoxBuilder",
     "PathBoxBuilder",

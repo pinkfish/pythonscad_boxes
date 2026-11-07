@@ -226,11 +226,14 @@ class GeometryPipeline:
             )
 
         if resolved.compartments is not None and body is not None:
-            from pyboxbuilder.box.features import hinge_intrusion
+            from pyboxbuilder.box.features import hinge_intrusion, magnetic_hinge_catch
             from pyboxbuilder.box.types.cap import CapBox
             from pyboxbuilder.box.types.cap_path import CapPathBox
+            from pyboxbuilder.box.types.clamshell import ClamshellBox
+            from pyboxbuilder.box.types.dice_tray import DiceTrayBox
             from pyboxbuilder.box.types.filament_hinge import FilamentHingeBox
-            from pyboxbuilder.box.types.hinge import HingeBox
+            from pyboxbuilder.box.types.inset_hinge import InsetHingeBox
+            from pyboxbuilder.box.types.magnetic_hinge import MagneticHingeBox
             from pyboxbuilder.box.types.sleeve_drawer import SleeveDrawerBox
             from pyboxbuilder.box.types.sliding_catch import SlidingCatchBox
             from pyboxbuilder.box.types.slipover import SlipoverBox
@@ -238,13 +241,13 @@ class GeometryPipeline:
             from pyboxbuilder.compartments.carve import build_contents, build_inserts
 
             hinge_solid = None
-            if isinstance(box, (HingeBox, FilamentHingeBox)):
-                fd = (
-                    spec.hinge_pin_diameter
-                    if isinstance(box, HingeBox)
-                    else spec.filament_diameter
-                )
-                hinge_solid = hinge_intrusion(resolved.spec, fd)
+            if isinstance(box, (FilamentHingeBox, ClamshellBox)):
+                hinge_solid = hinge_intrusion(box._body_spec(resolved.spec), spec.filament_diameter)
+            elif isinstance(box, MagneticHingeBox):
+                hinge_solid = hinge_intrusion(resolved.spec, spec.filament_diameter)
+                front_catch = magnetic_hinge_catch(spec)
+                if front_catch.body is not None:
+                    hinge_solid = hinge_solid | front_catch.body
 
             suppress_scoops = False
             if isinstance(
@@ -252,13 +255,16 @@ class GeometryPipeline:
                 (
                     CapBox,
                     CapPathBox,
+                    DiceTrayBox,
                     SlipoverBox,
                     SlipoverPathBox,
                     SlidingCatchBox,
                     SleeveDrawerBox,
+                    MagneticHingeBox,
+                    InsetHingeBox,
                 ),
             ) or (
-                isinstance(box, (HingeBox, FilamentHingeBox))
+                isinstance(box, (FilamentHingeBox, ClamshellBox))
                 and spec.resolved_catch_type(CatchType.WEDGE) != CatchType.NONE
             ):
                 suppress_scoops = True

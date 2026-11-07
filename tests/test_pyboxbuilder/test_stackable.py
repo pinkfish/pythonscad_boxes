@@ -185,7 +185,7 @@ class StackingBoxMatingTests(unittest.TestCase):
                     self._assert_stacking_mating(bt, spec)
 
     def test_hinged_and_clamshell_family_stacking(self) -> None:
-        for bt in (BoxType.HINGE, BoxType.FILAMENT_HINGE, BoxType.CLAMSHELL):
+        for bt in (BoxType.FILAMENT_HINGE, BoxType.CLAMSHELL):
             for mode in (StackableMode.FEET, StackableMode.INDENTS, StackableMode.PERIMETER):
                 with self.subTest(box_type=bt.value, mode=mode.value):
                     spec = BoxSpec(

@@ -2031,6 +2031,94 @@ def hinge_catch(spec: BoxSpec) -> Closure:
     return Closure(body_cut=body_catch_cut, lid=lid_catch)
 
 
+def magnetic_hinge_catch_metrics(spec: BoxSpec) -> tuple[float, float, float]:
+    """Return ``(x_center, y_center, r_boss)`` for a hinged box's front magnet catch."""
+    wt = spec.wall_thickness
+    md = min(float(spec.magnet_diameter), spec.width * 0.35, spec.length * 0.25)
+    clr = 0.1
+    r_pocket = md / 2.0 + clr
+    front_skin = max(0.8, wt * 0.4)
+    x_center = spec.width / 2.0
+    y_center = max(wt / 2.0, front_skin + r_pocket)
+    wall_ring = max(1.2, wt * 0.5)
+    r_boss = r_pocket + wall_ring
+    return x_center, y_center, r_boss
+
+
+def magnetic_hinge_catch(spec: BoxSpec) -> Closure:
+    """Return the front magnet boss and matching body/lid magnet sockets for a hinged box."""
+    from pybosl2 import Path2D, cylinder
+    from pybosl2.shapes2d import polygon
+
+    from pyboxbuilder.box.shell import block
+
+    wt = spec.wall_thickness
+    lt = spec.lid_thickness
+    ft = spec.floor_thickness
+    body_height = spec.height - lt
+
+    md = min(float(spec.magnet_diameter), spec.width * 0.35, spec.length * 0.25)
+    mh = min(float(spec.magnet_height), max(0.8, (body_height - ft) * 0.35))
+    clr = 0.1
+    r_pocket = md / 2.0 + clr
+    x_center, y_center, r_boss = magnetic_hinge_catch_metrics(spec)
+
+    # Preserve a solid top skin above the lid pocket so the lid's top surface stays unbroken
+    top_skin = max(0.6, min(0.8, lt * 0.4))
+    lid_pocket_depth = min(mh + clr, max(0.6, lt - top_skin))
+    extra_for_lid = max(0.0, (mh + clr) - lid_pocket_depth)
+    body_pocket_depth = min(
+        mh + clr + extra_for_lid + 0.1,
+        max(1.0, body_height - ft - 1.2),
+    )
+
+    z_boss_flat = max(ft, body_height - body_pocket_depth - 1.0)
+    protrusion = max(0.0, (y_center + r_boss) - wt)
+    z_taper_bot = max(ft, z_boss_flat - protrusion)
+    col_h = body_height - z_taper_bot
+
+    cyl_col = cylinder(
+        height=col_h, radius=r_boss, **precision_kwargs()
+    ).translate([x_center, y_center, z_taper_bot + col_h / 2.0])
+    web_col = block(
+        [2.0 * r_boss, max(0.1, y_center - wt * 0.5), col_h],
+        at=(x_center - r_boss, wt * 0.5, z_taper_bot),
+    )
+    boss = (cyl_col | web_col) & block(
+        [spec.width - 2.0 * wt, spec.length - wt, col_h + 0.2],
+        at=(wt, wt * 0.5, z_taper_bot - 0.1),
+    )
+
+    if z_boss_flat > z_taper_bot + 0.05 and protrusion > 0.05:
+        bevel_poly = polygon(
+            path=Path2D([
+                (wt, z_taper_bot - 0.1),
+                (y_center + r_boss + 1.0, z_taper_bot - 0.1),
+                (y_center + r_boss + 1.0, z_boss_flat),
+            ])
+        )
+        bevel_cut = (
+            bevel_poly.linear_extrude(height=2.0 * r_boss + 2.0)
+            .rotate([0, 90, 0])
+            .rotate([-90, 0, 0])
+            .scale([1, -1, -1])
+            .translate([x_center - r_boss - 1.0, 0.0, 0.0])
+        )
+        boss = boss - bevel_cut
+
+    h_body_cut = body_pocket_depth + 0.05
+    pocket_body = cylinder(
+        height=h_body_cut, radius=r_pocket, **precision_kwargs()
+    ).translate([x_center, y_center, body_height + 0.05 - h_body_cut / 2.0])
+
+    h_lid_cut = lid_pocket_depth + 0.05
+    pocket_lid = cylinder(
+        height=h_lid_cut, radius=r_pocket, **precision_kwargs()
+    ).translate([x_center, y_center, body_height - 0.05 + h_lid_cut / 2.0])
+
+    return Closure(body=boss, body_cut=pocket_body, lid_cut=pocket_lid)
+
+
 # --------------------------------------------------------- stackable features (FR-101)
 
 

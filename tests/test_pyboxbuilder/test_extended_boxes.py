@@ -13,6 +13,7 @@ from pyboxbuilder.builders import (
     ClamshellBoxBuilder,
     DiceTrayBoxBuilder,
     DispenserBoxBuilder,
+    InsetHingeBoxBuilder,
     ModularInterlockBoxBuilder,
     PrintInPlaceHingeBoxBuilder,
     SleeveDrawerBoxBuilder,
@@ -85,6 +86,20 @@ class ExtendedBoxBuildersTests(unittest.TestCase):
 
     def test_dispenser_builder(self) -> None:
         p = Project("TestDispenser")
+        b_default = p.box(BoxType.DISPENSER, "DefaultTower", size=(55, 55, 80))
+        self.assertIsInstance(b_default, DispenserBoxBuilder)
+        self.assertEqual(b_default.chute_angle, 0.0)
+        self.assertEqual(b_default.dispenser_mode, DispenserExtractionMode.SCOOP)
+
+        b_angled = p.box(
+            BoxType.DISPENSER,
+            "AngledTower",
+            size=(55, 55, 80),
+            tile_angle=25.0,
+        )
+        self.assertEqual(b_angled.chute_angle, 25.0)
+        self.assertEqual(b_angled.tile_angle, 25.0)
+
         b = p.box(
             BoxType.DISPENSER,
             "Tower",
@@ -278,6 +293,23 @@ class ExtendedBoxBuildersTests(unittest.TestCase):
         )
         self.assertEqual(b2.pip_bridge_width, 0.6)
         self.assertEqual(b2.pip_bridge_thickness, 0.5)
+
+    def test_inset_hinge_builder(self) -> None:
+        p = Project("TestInsetHinge")
+        b = p.box(
+            BoxType.INSET_HINGE,
+            "InsetBox",
+            size=(65, 50, 26),
+            pip_hinge_radius=3.0,
+            pip_radial_clearance=0.30,
+            inset_hinge_side_gap=3.5,
+            inset_hinge_tab_height=5.0,
+        )
+        self.assertIsInstance(b, InsetHingeBoxBuilder)
+        self.assertEqual(b.pip_hinge_radius, 3.0)
+        self.assertEqual(b.pip_radial_clearance, 0.30)
+        self.assertEqual(b.inset_hinge_side_gap, 3.5)
+        self.assertEqual(b.inset_hinge_tab_height, 5.0)
 
 
 class ExtendedBoxGeometryTests(unittest.TestCase):
@@ -555,6 +587,205 @@ class ExtendedBoxGeometryTests(unittest.TestCase):
         lid = impl.build_lid(spec)
         self.assertIsNotNone(body)
         self.assertIsNotNone(lid)
+
+    def test_dispenser_default_flat_and_configurable_angle(self) -> None:
+        """Verify dispenser defaults to a flat floor with finger cutouts and supports configurable tile_angle."""
+        from pyboxbuilder.box.shell import block
+        from tests.mesh import volume
+
+        impl = BOX_IMPL_REGISTRY[BoxType.DISPENSER]()
+        flat_spec = BoxSpec(label="FlatDisp", width=55.0, length=55.0, height=70.0)
+        self.assertEqual(flat_spec.chute_angle, 0.0)
+        flat_body = impl.build_body(flat_spec)
+
+        # Back interior above floor (y = 35..50, z = ft + 1.0..ft + 10.0) should be completely open on a flat floor
+        back_cavity_probe = block(
+            [20.0, 15.0, 9.0],
+            at=((55.0 - 20.0) / 2.0, 35.0, flat_spec.floor_thickness + 1.0),
+        )
+        self.assertAlmostEqual(volume(flat_body & back_cavity_probe), 0.0, delta=0.05)
+
+        # Front finger-pinch floor cutout should still be open for pulling out the bottom tile
+        front_notch_probe = block(
+            [16.0, 8.0, flat_spec.floor_thickness],
+            at=((55.0 - 16.0) / 2.0, 0.0, 0.0),
+        )
+        self.assertAlmostEqual(volume(flat_body & front_notch_probe), 0.0, delta=0.05)
+
+        # Configuring tile_angle=35.0 adds the angled ramp in the back interior
+        angled_spec = BoxSpec(
+            label="AngledDisp",
+            width=55.0,
+            length=55.0,
+            height=70.0,
+            tile_angle=35.0,
+        )
+        angled_body = impl.build_body(angled_spec)
+        self.assertGreater(volume(angled_body & back_cavity_probe), 500.0)
+
+    def test_dice_tray_slipover_lid_features(self) -> None:
+        """Verify DiceTrayBox inherits SlipoverBox body/lid sleeve features (foot, gap, corner finger notches, catches)."""
+        from dataclasses import replace
+
+        from pyboxbuilder.box.features import slipover_gap, slipover_metrics
+        from pyboxbuilder.box.shell import block
+        from pyboxbuilder.box.types.slipover import SlipoverBox
+        from tests.mesh import volume
+
+        impl = BOX_IMPL_REGISTRY[BoxType.DICE_TRAY]()
+        self.assertIsInstance(impl, SlipoverBox)
+
+        spec = BoxSpec(label="Arena", width=100.0, length=80.0, height=35.0)
+        body = impl.build_body(spec)
+        lid = impl.build_lid(spec)
+        self.assertLess(volume(body & lid), 0.05)
+
+        # Body extends full slipover height (height - lt - size_spacing = 32.8mm)
+        _inset, body_h = slipover_metrics(spec)
+        b_body = body.bounds()
+        c_b, s_b = (b_body.center, b_body.size) if hasattr(b_body, "center") else b_body
+        self.assertAlmostEqual(c_b[2] + s_b[2] / 2.0, body_h, delta=0.1)
+
+        # Lid sleeve starts at foot + gap and has diagonal corner finger cutouts at (0, 0) and (width, length)
+        base_z = spec.foot + min(slipover_gap(spec), spec.height - spec.foot - spec.lid_thickness)
+        b_lid = lid.bounds()
+        c_l, s_l = (b_lid.center, b_lid.size) if hasattr(b_lid, "center") else b_lid
+        self.assertAlmostEqual(c_l[2] - s_l[2] / 2.0, base_z, delta=0.1)
+
+        lid_no_notches = impl.build_lid(replace(spec, slipover_finger_height=0.0))
+        self.assertGreater(volume(lid_no_notches), volume(lid) + 5.0)
+
+    def test_clamshell_filament_hinge_and_pin_bore(self) -> None:
+        """Verify ClamshellBox uses a bored filament pin hinge at z=height/2 and front snap catch."""
+        from pybosl2 import cylinder
+
+        from pyboxbuilder.precision import kwargs as precision_kwargs
+        from tests.mesh import volume
+
+        p = Project("TestClamshellFilament")
+        b = p.box(
+            BoxType.CLAMSHELL,
+            "SpellBook",
+            size=(80.0, 60.0, 30.0),
+            filament_diameter=1.75,
+            hinge_count=5,
+        )
+        self.assertAlmostEqual(b.filament_diameter, 1.75)
+        self.assertEqual(b.hinge_count, 5)
+
+        impl = BOX_IMPL_REGISTRY[BoxType.CLAMSHELL]()
+        spec = BoxSpec(label="SpellBook", width=80.0, length=60.0, height=30.0)
+        body = impl.build_body(spec)
+        lid = impl.build_lid(spec)
+        self.assertLess(volume(body & lid), 0.05)
+
+        # Verify the filament pin bore at (y = length - radius, z = height / 2) is completely clear through both body and lid
+        radius_h = max(spec.wall_thickness, spec.filament_diameter)
+        axis_y = spec.length - radius_h
+        axis_z = spec.height / 2.0
+        pin_probe = (
+            cylinder(height=spec.width, radius=spec.filament_diameter / 2.0, **precision_kwargs())
+            .rotate([0, 90, 0])
+            .translate([spec.width / 2.0, axis_y, axis_z])
+        )
+        self.assertAlmostEqual(volume(body & pin_probe), 0.0, delta=0.02)
+        self.assertAlmostEqual(volume(lid & pin_probe), 0.0, delta=0.02)
+
+
+
+
+    def test_snap_fit_cantilever_proportions_and_backing_wall(self) -> None:
+        """Verify cantilever latch has compact, sturdy proportions and an unbroken internal backing wall."""
+        from pyboxbuilder.box.shell import block
+        from tests.mesh import volume
+
+        p = Project("SnapFitStrength")
+        box = p.box(BoxType.SNAP_FIT, "SturdySnap", size=(60.0, 50.0, 26.0))
+        box.compartment("Tokens", holds_pieces=True)
+
+        self.assertAlmostEqual(box.cantilever_thickness, 2.0)
+        self.assertAlmostEqual(box.cantilever_width, 14.0)
+        self.assertAlmostEqual(box.detent_height, 0.8)
+        self.assertAlmostEqual(box.deflection_clearance, 0.25)
+
+        impl = BOX_IMPL_REGISTRY[BoxType.SNAP_FIT]()
+        spec = BoxSpec(label="SturdySnap", width=60.0, length=50.0, height=26.0)
+        body = impl.build_body(spec)
+        lid = impl.build_lid(spec)
+        self.assertLess(volume(body & lid), 0.05)
+
+        # Lid cantilever arm drop should be compact (~6.5mm below lid underside at z=24, so z_min >= 17.0)
+        b = lid.bounds()
+        centre, size = (b.center, b.size) if hasattr(b, "center") else b
+        z_min = centre[2] - size[2] / 2.0
+        z_max = centre[2] + size[2] / 2.0
+        self.assertAlmostEqual(z_max, 26.0, delta=0.1)
+        arm_drop = (26.0 - spec.lid_thickness) - z_min
+        self.assertGreaterEqual(arm_drop, 4.8)
+        self.assertLessEqual(arm_drop, 6.6)
+
+        # Verify the built body (including compartment cut) has solid internal backing wall behind the pocket
+        pieces = p.preview_pieces(show_lids=True)
+        body_piece = [pc for pc in pieces if pc.label == "SturdySnap"][0]
+        m = impl._latch_metrics(spec)
+        pocket_depth = float(m["c_t"]) + float(m["eff_d_h"]) + float(m["clr"])
+        boss_t = float(m["boss_t"])
+        backing_thickness = boss_t - pocket_depth
+        self.assertGreaterEqual(backing_thickness, 1.2)
+
+        backing_probe = block(
+            [backing_thickness * 0.8, 10.0, 3.0],
+            at=(pocket_depth + 0.1, (50.0 - 10.0) / 2.0, float(m["pocket_z"])),
+        )
+        expected_vol = (backing_thickness * 0.8) * 10.0 * 3.0
+        self.assertAlmostEqual(volume(body_piece.solid & backing_probe), expected_vol, delta=0.5)
+
+    def test_inset_hinge_geometry_and_features(self) -> None:
+        """Verify InsetHingeBox side-by-side layout, recessed conical hinge, rim, and latch tab."""
+        from pyboxbuilder.box.shell import block
+        from tests.mesh import volume
+
+        impl = BOX_IMPL_REGISTRY[BoxType.INSET_HINGE]()
+        spec = BoxSpec(label="InsetHingeTest", width=60.0, length=50.0, height=28.0)
+        body = impl.build_body(spec)
+        lid = impl.build_lid(spec)
+        self.assertIsNotNone(body)
+        self.assertIsNone(lid)
+
+        # Unfolded X span is 2 * width + gap (121.0mm), Y span is length (50.0mm)
+        b = body.bounds()
+        centre, size = (b.center, b.size) if hasattr(b, "center") else b
+        self.assertAlmostEqual(size[0], 2 * spec.width + spec.pip_gap_mm, delta=0.2)
+        self.assertAlmostEqual(size[1], spec.length, delta=0.2)
+        half_h = spec.height / 2.0
+        z_min = centre[2] - size[2] / 2.0
+        z_max = centre[2] + size[2] / 2.0
+        self.assertAlmostEqual(z_min, 0.0, delta=0.2)
+        # Front latch tab rises above half_h - lt by tab_height (6.0mm -> z_max = 18.0mm)
+        self.assertAlmostEqual(z_max, half_h - spec.lid_thickness + spec.inset_hinge_tab_height, delta=0.2)
+
+        # Recessed InsetHinge sits across the gap at x = width + gap/2
+        hinge_probe = block(
+            [12.0, spec.length - 6.0, 6.0],
+            at=(spec.width + spec.pip_gap_mm / 2.0 - 6.0, 3.0, half_h - 6.0),
+        )
+        self.assertGreater(volume(body & hinge_probe), 1500.0)
+
+        # Front latch tab on base outer wall (x = 0 .. wt/2) rises above z = half_h - lt
+        tab_probe = block(
+            [spec.wall_thickness, 12.0, 6.0],
+            at=(0.0, spec.length / 2.0 - 6.0, half_h - spec.lid_thickness - 4.0),
+        )
+        self.assertGreater(volume(body & tab_probe), 20.0)
+
+        # Interior reserves hinge_width along X on the base half
+        interior = impl.interior(spec)
+        hinge_width = 2.0 * (2.0 * spec.pip_hinge_radius) + spec.pip_gap_mm
+        self.assertAlmostEqual(interior.width, spec.width - spec.wall_thickness - hinge_width)
+        self.assertAlmostEqual(interior.length, spec.length - 2.0 * spec.wall_thickness)
+        self.assertAlmostEqual(interior.height, half_h - spec.floor_thickness)
+
+
 
 
 

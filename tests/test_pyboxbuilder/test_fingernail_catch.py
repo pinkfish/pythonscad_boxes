@@ -20,7 +20,7 @@ from pyboxbuilder.box.spec import BoxSpec
 from pyboxbuilder.enums import BoxType
 
 SLIDING = (BoxType.SLIDING, BoxType.SLIDING_CATCH, BoxType.CARD_LIBRARY)
-LIFT_OFF = (BoxType.CAP, BoxType.INSET, BoxType.SLIPOVER, BoxType.HINGE)
+LIFT_OFF = (BoxType.CAP, BoxType.INSET, BoxType.SLIPOVER, BoxType.FILAMENT_HINGE)
 
 SPEC = BoxSpec(
     label="T", width=96.0, length=70.0, height=40.0,

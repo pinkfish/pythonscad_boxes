@@ -12,9 +12,9 @@ from pyboxbuilder.enums import BoxType
 class ClamshellBoxBuilder(BoxBuilder):
     """Builder for bifold / clamshell book box type (FR-088).
 
-    Two tray halves joined along a central spine hinge, unfolding 180° flat onto
-    the table so both halves serve as active token/card trays during play, and
-    folding closed for secure vertical book-style storage.
+    Two symmetrical tray halves joined along a central filament-pin spine hinge,
+    unfolding 180° flat onto the table so both halves serve as active token/card
+    trays during play, and folding closed with a front catch for storage.
 
     Example:
         .. pythonscad-example::
@@ -24,17 +24,21 @@ class ClamshellBoxBuilder(BoxBuilder):
                 BoxType.CLAMSHELL,
                 "SpellBook",
                 size=(120.0, 80.0, 40.0),
-                spine_gap=1.0,
-                clamshell_hinge_radius=2.5,
+                filament_diameter=1.75,
+                hinge_count=5,
                 closure_latch=True,
             )
             project.show(show_lids=True)
     """
 
     box_type: ClassVar[BoxType] = BoxType.CLAMSHELL
+    filament_diameter: float = 1.75
+    """Diameter of the filament hinge pin in mm (default 1.75mm)."""
+    hinge_count: int = 5
+    """Total number of interleaving knuckles across the spine hinge."""
     spine_gap: float = 1.0
     """Gap along the central spine hinge in mm."""
     clamshell_hinge_radius: float = 2.5
     """Radius of the spine hinge knuckle barrel in mm."""
     closure_latch: bool = True
-    """Add perimeter retention ridge catches to keep the clamshell closed."""
+    """Add front retention catch to keep the clamshell closed."""

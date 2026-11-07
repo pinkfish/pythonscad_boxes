@@ -17,9 +17,9 @@ from pyboxbuilder.enums import BoxType
 class RegistryTests(unittest.TestCase):
     """Verify registry discovery, decorator registration, and completeness."""
 
-    def test_all_23_box_types_are_registered(self) -> None:
+    def test_all_24_box_types_are_registered(self) -> None:
         ensure_registered()
-        self.assertEqual(len(BoxType), 23)
+        self.assertEqual(len(BoxType), 24)
         for b_type in BoxType:
             with self.subTest(box_type=b_type):
                 self.assertIn(b_type, BOX_TYPE_REGISTRY)
@@ -45,7 +45,12 @@ class RegistryTests(unittest.TestCase):
     def test_lidless_box_types_set(self) -> None:
         self.assertEqual(
             LIDLESS_BOX_TYPES,
-            frozenset({BoxType.NO_LID, BoxType.PATH, BoxType.PRINT_IN_PLACE_HINGE}),
+            frozenset({
+                BoxType.NO_LID,
+                BoxType.PATH,
+                BoxType.PRINT_IN_PLACE_HINGE,
+                BoxType.INSET_HINGE,
+            }),
         )
 
 

@@ -1,18 +1,24 @@
 # SPDX-License-Identifier: Apache-2.0
-"""ClamshellBox — bifold / clamshell book box type (FR-088)."""
+"""ClamshellBox — bifold / clamshell book box type with filament pin hinge (FR-088)."""
 
 from __future__ import annotations
 
+from dataclasses import replace
 from typing import TYPE_CHECKING
 
-from pybosl2.shapes3d import cyl
-
 from pyboxbuilder.box.base import BoxTypeBase, Interior
+from pyboxbuilder.box.features import (
+    apply_stackable_body,
+    apply_stackable_lid,
+    filament_hinge,
+    hinge_catch,
+    hinge_intrusion,
+)
 from pyboxbuilder.box.registry import register_box
-from pyboxbuilder.box.shell import block, body_rounding
+from pyboxbuilder.box.shell import block, body_rounding, build_shell
 from pyboxbuilder.box.spec import BoxSpec
 from pyboxbuilder.builders.clamshell import ClamshellBoxBuilder
-from pyboxbuilder.enums import BoxType, CatchType
+from pyboxbuilder.enums import BoxType
 from pyboxbuilder.rounding import round_edges, vertical_edges
 
 if TYPE_CHECKING:
@@ -21,7 +27,7 @@ if TYPE_CHECKING:
 
 @register_box(BoxType.CLAMSHELL, builder=ClamshellBoxBuilder)
 class ClamshellBox(BoxTypeBase):
-    """Bifold clamshell book box with active compartments in both halves (FR-088)."""
+    """Bifold clamshell book box with a mid-height filament pin hinge (FR-088)."""
 
     def interior(self, spec: BoxSpec) -> Interior:
         """Return the usable interior volume of the base tray half."""
@@ -37,125 +43,104 @@ class ClamshellBox(BoxTypeBase):
             origin_z=ft,
         )
 
-    def build_body(self, spec: BoxSpec) -> Bosl2Solid:
-        """Return the base half with spine hinge knuckles, reliefs, and front catch."""
+    @staticmethod
+    def _body_spec(spec: BoxSpec) -> BoxSpec:
+        """Return the lower tray half spec stopping at ``spec.height / 2``."""
+        half_h = spec.height / 2.0
+        return replace(spec, height=half_h, interior_top=half_h)
+
+    def interior_mask(self, spec: BoxSpec) -> Bosl2Solid:
+        """Return the lower tray interior, excluding the rear filament hinge intrusion."""
         wt = spec.wall_thickness
         ft = spec.floor_thickness
         half_h = spec.height / 2.0
+        available = block(
+            [spec.width - 2 * wt, spec.length - 2 * wt, half_h],
+            at=(wt, wt, ft),
+        )
+        return available - hinge_intrusion(self._body_spec(spec), spec.filament_diameter)
 
-        # Tray half outer
-        tray_outer = block([spec.width, spec.length, half_h], at=(0, 0, 0))
+    def build_body(self, spec: BoxSpec) -> Bosl2Solid:
+        """Return the lower tray half with interleaved filament-hinge knuckles and front catch."""
+        wt = spec.wall_thickness
+        lt = spec.lid_thickness
+        half_h = spec.height / 2.0
+        radius_h = max(wt, spec.filament_diameter)
 
-        # Interior cavity
-        inner_w = spec.width - 2 * wt
-        inner_l = spec.length - 2 * wt
-        inner_h = half_h - ft + 1.0
-        cavity = block([inner_w, inner_l, inner_h], at=(wt, wt, ft))
-        body = tray_outer - cavity
+        body_spec = self._body_spec(spec)
+        closure = filament_hinge(
+            body_spec,
+            spec.filament_diameter,
+            spec.hinge_count,
+            lid_thickness=radius_h,
+        )
+        body = build_shell(body_spec)
+        if closure.body_cut is not None:
+            body = body - closure.body_cut
+        if closure.body is not None:
+            body = body | closure.body
+        if closure.pin is not None:
+            body = body - closure.pin
 
-        hr = spec.clamshell_hinge_radius
-        knuckle_len = spec.length / 5.0
+        if spec.closure_latch:
+            catch = hinge_catch(replace(spec, height=half_h + lt))
+            if catch.body_cut is not None:
+                body = body - catch.body_cut
 
-        # Relief cutouts for the lid's knuckles (i=1, 3)
-        for i in (1, 3):
-            y_start = i * knuckle_len
-            body = body - block(
-                [hr * 2.0 + 0.5, knuckle_len + 0.2, hr + 1.0],
-                at=(-0.1, y_start - 0.1, half_h - hr),
-            )
-
-        # Spine hinge knuckles along X for the body (i=0, 2, 4)
-        for i in (0, 2, 4):
-            y_start = i * knuckle_len
-            knuckle = cyl(height=knuckle_len - 0.4, radius=hr).rotate([90, 0, 0]).translate(
-                [hr, y_start + knuckle_len / 2.0, half_h]
-            )
-            body = body | knuckle
-
-        # Perimeter closure ridge catch on front rim (X=spec.width)
-        if spec.closure_latch and spec.resolved_catch_type(CatchType.WEDGE) != CatchType.NONE:
-            ridge_w = 1.0
-            ridge_h = 1.5
-            catch_len = min(20.0, spec.length * 0.4)
-            ridge = block(
-                [ridge_w, catch_len, ridge_h],
-                at=(
-                    spec.width - wt,
-                    (spec.length - catch_len) / 2.0,
-                    half_h,
-                ),
-            )
-            body = body | ridge
-
-        radius = body_rounding(spec)
-        if radius > 0:
+        r_body = body_rounding(spec)
+        if r_body > 0:
             body = round_edges(
                 body,
-                [spec.width, spec.length, half_h],
-                radius,
+                [spec.width, spec.length, spec.height],
+                r_body,
                 list(vertical_edges()),
             )
-        from pyboxbuilder.box.features import apply_stackable_body
-
         return apply_stackable_body(body, spec)
 
     def build_lid(self, spec: BoxSpec, decoration: object = None) -> Bosl2Solid:
-        """Return the upper tray half with interleaving spine knuckles and catch groove."""
+        """Return the upper tray half with interleaving filament-hinge knuckles and front catch."""
         wt = spec.wall_thickness
-        ft = spec.floor_thickness
+        lt = spec.lid_thickness
         half_h = spec.height / 2.0
+        radius_h = max(wt, spec.filament_diameter)
+        body_spec = self._body_spec(spec)
 
-        # Upper tray half (mirrored/stacked at z=half_h)
-        tray_outer = block([spec.width, spec.length, half_h], at=(0, 0, half_h))
+        # Upper tray half from z=half_h to z=spec.height, trimmed along back edge for hinge barrel
+        axis_y = spec.length - radius_h
+        tray_outer = block([spec.width, axis_y, half_h], at=(0.0, 0.0, half_h))
+        if half_h > radius_h:
+            tray_outer = tray_outer | block(
+                [spec.width, radius_h, half_h - radius_h],
+                at=(0.0, axis_y, half_h + radius_h),
+            )
 
         inner_w = spec.width - 2 * wt
         inner_l = spec.length - 2 * wt
-        inner_h = half_h - ft + 1.0
-        cavity = block([inner_w, inner_l, inner_h], at=(wt, wt, half_h))
+        inner_h = max(0.5, half_h - lt)
+        cavity = block(
+            [inner_w, inner_l, inner_h + 0.1],
+            at=(wt, wt, half_h - 0.1),
+        ) - hinge_intrusion(body_spec, spec.filament_diameter)
         lid = tray_outer - cavity
 
-        hr = spec.clamshell_hinge_radius
-        knuckle_len = spec.length / 5.0
+        closure = filament_hinge(
+            body_spec,
+            spec.filament_diameter,
+            spec.hinge_count,
+            lid_thickness=radius_h,
+        )
+        if closure.lid_cut is not None:
+            lid = lid - closure.lid_cut
+        if closure.lid is not None:
+            lid = lid | closure.lid
+        if closure.pin is not None:
+            lid = lid - closure.pin
 
-        # Relief cutouts for the body's knuckles (i=0, 2, 4)
-        for i in (0, 2, 4):
-            y_start = i * knuckle_len
-            lid = lid - block(
-                [hr * 2.0 + 0.5, knuckle_len + 0.2, hr + 1.0],
-                at=(-0.1, y_start - 0.1, half_h - 0.1),
-            )
-
-        # Interleaving knuckles along X for the lid (i=1, 3)
-        for i in (1, 3):
-            y_start = i * knuckle_len
-            knuckle = cyl(height=knuckle_len - 0.4, radius=hr).rotate([90, 0, 0]).translate(
-                [hr, y_start + knuckle_len / 2.0, half_h]
-            )
-            lid = lid | knuckle
-
-        # Perimeter closure catch groove on front rim (X=spec.width)
-        if spec.closure_latch and spec.resolved_catch_type(CatchType.WEDGE) != CatchType.NONE:
-            ridge_w = 1.0
-            ridge_h = 1.5
-            catch_len = min(20.0, spec.length * 0.4)
-            groove = block(
-                [ridge_w + 0.4, catch_len + 0.4, ridge_h + 0.4],
-                at=(
-                    spec.width - wt - 0.2,
-                    (spec.length - catch_len - 0.4) / 2.0,
-                    half_h - 0.1,
-                ),
-            )
-            lid = lid - groove
-
-        radius = body_rounding(spec)
-        if radius > 0:
-            lid = round_edges(
-                lid,
-                [spec.width, spec.length, half_h],
-                radius,
-                list(vertical_edges()),
-            )
-        from pyboxbuilder.box.features import apply_stackable_lid
+        if spec.closure_latch:
+            catch = hinge_catch(replace(spec, height=half_h + lt))
+            if catch.lid_cut is not None:
+                lid = lid - catch.lid_cut
+            if catch.lid is not None:
+                lid = lid | catch.lid
 
         return apply_stackable_lid(lid, spec, top_z=spec.height)

@@ -66,7 +66,7 @@ _PREAMBLE = (
     "from pyboxbuilder.builders import (\n"
     "    BayonetBoxBuilder, CapBoxBuilder, CapPathBoxBuilder, CardLibraryBoxBuilder,\n"
     "    CardShoeBoxBuilder, ClamshellBoxBuilder, DiceTrayBoxBuilder, DispenserBoxBuilder,\n"
-    "    FilamentHingeBoxBuilder, HingeBoxBuilder, InsetBoxBuilder, MagneticBoxBuilder,\n"
+    "    FilamentHingeBoxBuilder, InsetBoxBuilder, InsetHingeBoxBuilder, MagneticBoxBuilder, MagneticHingeBoxBuilder,\n"
     "    ModularInterlockBoxBuilder, NoLidBoxBuilder, PathBoxBuilder,\n"
     "    PrintInPlaceHingeBoxBuilder, SleeveDrawerBoxBuilder, SlidingBoxBuilder,\n"
     "    SlidingCatchBoxBuilder, SlipoverBoxBuilder, SlipoverPathBoxBuilder,\n"

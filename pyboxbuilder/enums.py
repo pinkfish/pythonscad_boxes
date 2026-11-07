@@ -9,8 +9,8 @@ class BoxType(Enum):
 
     SLIDING = "sliding"
     CAP = "cap"
-    HINGE = "hinge"
     FILAMENT_HINGE = "filament_hinge"
+    MAGNETIC_HINGE = "magnetic_hinge"
     MAGNETIC = "magnetic"
     INSET = "inset"
     SLIDING_CATCH = "sliding_catch"
@@ -30,6 +30,7 @@ class BoxType(Enum):
     CLAMSHELL = "clamshell"
     MODULAR_INTERLOCK = "modular_interlock"
     PRINT_IN_PLACE_HINGE = "print_in_place_hinge"
+    INSET_HINGE = "inset_hinge"
 
 
 class CatchType(Enum):

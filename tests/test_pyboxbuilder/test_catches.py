@@ -17,7 +17,6 @@ from pyboxbuilder import (
     CardLibraryBoxBuilder,
     ClamshellBoxBuilder,
     FilamentHingeBoxBuilder,
-    HingeBoxBuilder,
     PrintInPlaceHingeBoxBuilder,
     SlidingBoxBuilder,
     SlidingCatchBoxBuilder,
@@ -250,7 +249,7 @@ class AllBoxTypesCatchMatingMatrixTests(unittest.TestCase):
                         )
 
     def test_cap_and_slipover_catches(self) -> None:
-        for bt in (BoxType.CAP, BoxType.SLIPOVER):
+        for bt in (BoxType.CAP, BoxType.SLIPOVER, BoxType.DICE_TRAY):
             impl = BOX_IMPL_REGISTRY[bt]()
             for ct in ALL_CATCHES:
                 with self.subTest(box_type=bt.value, catch_type=ct.value):
@@ -282,7 +281,7 @@ class AllBoxTypesCatchMatingMatrixTests(unittest.TestCase):
                     )
 
     def test_hinged_and_clamshell_catches(self) -> None:
-        for bt in (BoxType.HINGE, BoxType.FILAMENT_HINGE, BoxType.CLAMSHELL):
+        for bt in (BoxType.FILAMENT_HINGE, BoxType.CLAMSHELL):
             impl = BOX_IMPL_REGISTRY[bt]()
             for ct in ALL_CATCHES:
                 with self.subTest(box_type=bt.value, catch_type=ct.value):
@@ -334,7 +333,6 @@ class BuilderCatchMatrixTests(unittest.TestCase):
             CapPathBoxBuilder(label="b5", path=POLY_L, catch_type=CatchType.LEAF_SPRING, catch_size=0.7),
             SlipoverBoxBuilder(label="b6", catch_type=CatchType.BUMP, catch_size=0.9),
             SlipoverPathBoxBuilder(label="b7", path=POLY_L, catch_type=CatchType.LOOP, catch_size=1.0),
-            HingeBoxBuilder(label="b8", catch_type=CatchType.MAGNET, catch_size=3.0),
             FilamentHingeBoxBuilder(label="b9", catch_type=CatchType.LEAF_SPRING, catch_size=0.8),
             PrintInPlaceHingeBoxBuilder(label="b10", catch_type=CatchType.NONE),
             ClamshellBoxBuilder(label="b11", catch_type=CatchType.BUMP, catch_size=0.9),

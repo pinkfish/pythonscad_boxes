@@ -267,7 +267,12 @@ class PathBoxTests(unittest.TestCase):
     def test_path_boxes_are_lidless(self) -> None:
         self.assertEqual(
             LIDLESS_BOX_TYPES,
-            frozenset({BoxType.NO_LID, BoxType.PATH, BoxType.PRINT_IN_PLACE_HINGE}),
+            frozenset({
+                BoxType.NO_LID,
+                BoxType.PATH,
+                BoxType.PRINT_IN_PLACE_HINGE,
+                BoxType.INSET_HINGE,
+            }),
         )
         box = BOX_IMPL_REGISTRY[BoxType.PATH]()
         self.assertIsNone(box.build_lid(BoxSpec(width=50, length=50, height=20)))
@@ -303,6 +308,41 @@ class PathBoxTests(unittest.TestCase):
         self.assertEqual(
             (interior.width, interior.length, interior.height), (56.0, 36.0, 18.4)
         )
+
+    def test_polygon_path_box_has_top_rounding_and_finger_indents(self) -> None:
+        from dataclasses import replace
+
+        from mesh import volume
+
+        box = BOX_IMPL_REGISTRY[BoxType.PATH]()
+        l_path = (
+            (0.0, 0.0),
+            (55.0, 0.0),
+            (55.0, 25.0),
+            (25.0, 25.0),
+            (25.0, 55.0),
+            (0.0, 55.0),
+        )
+        spec_default = BoxSpec(
+            width=55.0,
+            length=55.0,
+            height=20.0,
+            wall_thickness=2.0,
+            floor_thickness=1.6,
+            path=l_path,
+        )
+        spec_no_holes = replace(spec_default, auto_finger_holes=False)
+        spec_unrounded = replace(spec_no_holes, rounding=0.0)
+
+        vol_default = volume(box.build_body(spec_default))
+        vol_no_holes = volume(box.build_body(spec_no_holes))
+        vol_unrounded = volume(box.build_body(spec_unrounded))
+
+        # Top finger indents remove material from the top rim
+        self.assertLess(vol_default, vol_no_holes - 20.0)
+        # Top/bottom/corner rounding removes material compared to sharp extrusion
+        self.assertLess(vol_no_holes, vol_unrounded - 20.0)
+
 
 
 if __name__ == "__main__":
