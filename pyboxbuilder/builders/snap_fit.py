@@ -25,21 +25,22 @@ class SnapFitBoxBuilder(BoxBuilder):
                 BoxType.SNAP_FIT,
                 "TokenBox",
                 size=(70.0, 60.0, 30.0),
-                cantilever_thickness=1.6,
+                cantilever_thickness=2.0,
                 cantilever_width=14.0,
+                detent_height=0.8,
                 latch_axis=LatchAxis.X,
             )
             project.show(show_lids=True)
     """
 
     box_type: ClassVar[BoxType] = BoxType.SNAP_FIT
-    cantilever_thickness: float = 1.6
-    """Cantilever spring arm thickness in mm (FR-081 default 1.6mm)."""
-    cantilever_width: float = 12.0
+    cantilever_thickness: float = 2.0
+    """Cantilever spring arm thickness in mm (FR-081 default 2.0mm)."""
+    cantilever_width: float = 14.0
     """Width of each cantilever latch arm in mm."""
-    deflection_clearance: float = 0.3
+    deflection_clearance: float = 0.25
     """Horizontal deflection clearance in mm."""
-    detent_height: float = 1.5
+    detent_height: float = 0.8
     """Height / protrusion of the retention detent in mm."""
     latch_axis: LatchAxis = LatchAxis.X
     """Axis on whose opposing walls the latches sit (LatchAxis.X or LatchAxis.Y, FR-106)."""

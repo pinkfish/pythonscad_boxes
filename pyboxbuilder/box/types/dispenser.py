@@ -53,12 +53,17 @@ class DispenserBox(BoxTypeBase):
 
         body = build_shell(self._body_spec(spec))
 
-        # 1. Angled slide ramp in the interior bottom sloping downwards toward the front (Y=wt)
+        # 1. Flat (default 0°) or configurable angled slide floor sloping toward the front (Y=wt)
         inner_w = spec.width - 2 * wt
         inner_l = spec.length - 2 * wt
-        ramp_rad = math.radians(spec.chute_angle)
-        ramp_rise = min(inner_l * math.tan(ramp_rad), body_h - ft - 25.0)
-        if ramp_rise > 0.5:
+        angle_deg = float(spec.tile_angle if spec.tile_angle is not None else spec.chute_angle)
+        ramp_rad = math.radians(max(0.0, min(angle_deg, 60.0)))
+        ramp_rise = (
+            min(inner_l * math.tan(ramp_rad), max(0.0, body_h - ft - 15.0))
+            if angle_deg > 0.0
+            else 0.0
+        )
+        if ramp_rise > 0.1:
             # wedge([x, y, z]) top edge at y=0, slopes down to z=0 at y=inner_l.
             # Rotate 180 deg around Z puts top edge at back (y=inner_l) and slopes down to front (y=0).
             ramp = (
@@ -96,8 +101,8 @@ class DispenserBox(BoxTypeBase):
             floor_w = min(spec.floor_scoop_width, inner_w - 4.0)
             floor_d = spec.floor_scoop_depth
             if floor_w > 0 and floor_d > 0:
-                # Pierce cleanly through both the bottom floor and the angled slide ramp
-                ramp_z = ft + (ramp_rise * min(1.0, floor_d / inner_l) if ramp_rise > 0.5 else 0.0)
+                # Pierce cleanly through both the bottom floor and any angled slide ramp
+                ramp_z = ft + (ramp_rise * min(1.0, floor_d / inner_l) if ramp_rise > 0.1 else 0.0)
                 max_pierce_z = max(ft + slot_h, ramp_z) + 1.0
                 cut_z_bottom = -1.0
                 cut_h = max_pierce_z - cut_z_bottom

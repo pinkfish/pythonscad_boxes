@@ -13,9 +13,10 @@ class DispenserBoxBuilder(BoxBuilder):
     """Builder for gravity tile & token dispenser tower type (FR-084).
 
     Designed for cardboard tiles, chips, or resource tokens during gameplay.
-    Features a top loading chute, an internal slide floor angled toward the front
-    wall, a horizontal bottom dispensing slot, a vertical sight slot, and configurable
-    extraction mechanisms (front pinch scoop, forward landing tray, rear push, or arch).
+    Features a top loading chute, a flat or configurable angled internal floor
+    (default ``0.0°`` flat floor), a horizontal bottom dispensing slot, a vertical
+    sight slot, and finger-pinch extraction cutouts (front pinch scoop and bottom
+    floor notch by default, or forward landing tray, rear push, or arch).
 
     Example:
         .. pythonscad-example::
@@ -26,14 +27,15 @@ class DispenserBoxBuilder(BoxBuilder):
                 "TileTower",
                 size=(60.0, 60.0, 90.0),
                 token_thickness=3.0,
-                chute_angle=40.0,
             )
             project.show(show_lids=True)
     """
 
     box_type: ClassVar[BoxType] = BoxType.DISPENSER
-    chute_angle: float = 40.0
-    """Angle of the internal gravity slide floor in degrees (typically 35°–45°)."""
+    chute_angle: float = 0.0
+    """Angle of the internal tile floor in degrees (defaults to ``0.0°`` flat; set e.g. ``35°`` for a ramp)."""
+    tile_angle: float | None = None
+    """Optional alias for ``chute_angle`` specifying the angle of the internal tile floor in degrees."""
     token_thickness: float = 3.0
     """Thickness of a single tile or token in mm."""
     dispense_slot_clearance: float = 0.8
@@ -56,4 +58,11 @@ class DispenserBoxBuilder(BoxBuilder):
     """Width of rear push finger cutout in mm for REAR_PUSH mode."""
     arch_height: float | None = None
     """Height of front open archway in mm for ARCH mode (defaults to 0.65 * body_h)."""
+
+    def __post_init__(self) -> None:
+        """Synchronize ``tile_angle`` and ``chute_angle``."""
+        if self.tile_angle is not None:
+            object.__setattr__(self, "chute_angle", float(self.tile_angle))
+        super().__post_init__()
+
 
