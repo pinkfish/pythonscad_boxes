@@ -171,6 +171,29 @@ class SlipoverBoxPolygonTests(unittest.TestCase):
         pts = {l_path[opp[0]], l_path[opp[1]]}
         self.assertEqual(pts, {(60.0, 0.0), (0.0, 60.0)})
 
+        # Check that polygon corner cutouts stay subtle vertically and horizontally
+        from pyboxbuilder.box.shell import block
+        from pyboxbuilder.box.types.slipover import SLIPOVER_FINGER_MAX_MM
+
+        base_z = spec_notched.foot + gap
+        face_fillet = spec_notched.wall_thickness / 4
+        above_cap = block(
+            [60.0, 60.0, 25.0],
+            at=(0.0, 0.0, base_z + SLIPOVER_FINGER_MAX_MM + face_fillet + 0.1),
+        )
+        self.assertLess(
+            volume(removed & above_cap),
+            0.01,
+            "polygon slipover notch exceeded SLIPOVER_FINGER_MAX_MM height",
+        )
+        # At corner (60, 0), notch stays within 10mm of the corner
+        far_from_corner = block([30.0, 25.0, 25.0], at=(20.0, 0.0, 0.0))
+        self.assertLess(
+            volume(removed & far_from_corner),
+            0.01,
+            "polygon slipover notch extended too far along the wall",
+        )
+
     def test_polygon_and_rectangular_slipover_have_identical_lid_semantics(self) -> None:
         """Verify that SlipoverPathBox and SlipoverBox have identical lid elevation and skirt semantics."""
         from pyboxbuilder.box.features import slipover_gap

@@ -90,24 +90,29 @@ class SlipoverPathBox(BoxTypeBase):
         self, spec: BoxSpec, path: tuple[tuple[float, float], ...]
     ) -> Bosl2Solid | None:
         """Corner notches at opposite corners of the polygon sleeve so it can be pulled off."""
-        from pybosl2.constants import Anchor
-        from pybosl2.shapes3d import cyl
+        import math
 
         from pyboxbuilder.box.features import slipover_gap
         from pyboxbuilder.box.types.slipover import (
             SLIPOVER_FINGER_MAX_MM,
+            SLIPOVER_FINGER_MAX_RADIUS_MM,
             SLIPOVER_FINGER_MIN_RADIUS_MM,
         )
         from pyboxbuilder.compartments.element import union_all
-        from pyboxbuilder.paths import polygon_opposite_corners
+        from pyboxbuilder.compartments.finger_cuts import build_wall_scoop
+        from pyboxbuilder.compartments.finger_outline import CutProfile
+        from pyboxbuilder.compartments.finger_sweep import FaceTreatment
+        from pyboxbuilder.enums import ScoopSide
+        from pyboxbuilder.paths import polygon_area, polygon_opposite_corners
 
+        wt = spec.wall_thickness
         lt = spec.lid_thickness
         foot = spec.foot
         gap = min(slipover_gap(spec), spec.height - foot - lt)
         skirt = spec.height - foot - gap
         requested = spec.slipover_finger_height
         height = (
-            min(SLIPOVER_FINGER_MAX_MM, skirt / 2) if requested is None
+            min(SLIPOVER_FINGER_MAX_MM, skirt / 3) if requested is None
             else float(requested)
         )
         height = max(0.0, min(height, skirt))
@@ -119,23 +124,57 @@ class SlipoverPathBox(BoxTypeBase):
             return None
 
         n = len(path)
+        ccw = polygon_area(path) >= 0.0
         base_z = foot + gap
+        radius_cap = (
+            SLIPOVER_FINGER_MAX_RADIUS_MM
+            if requested is None
+            else max(height, SLIPOVER_FINGER_MAX_RADIUS_MM)
+        )
         notches = []
         for idx in corner_indices:
             p = path[idx]
             p_prev = path[(idx - 1) % n]
             p_next = path[(idx + 1) % n]
-            d_prev = ((p[0] - p_prev[0]) ** 2 + (p[1] - p_prev[1]) ** 2) ** 0.5
-            d_next = ((p[0] - p_next[0]) ** 2 + (p[1] - p_next[1]) ** 2) ** 0.5
-            max_r = max(SLIPOVER_FINGER_MIN_RADIUS_MM, min(d_prev, d_next) * 0.45)
-            r = min(max(height, SLIPOVER_FINGER_MIN_RADIUS_MM), max_r)
-            notches.append(
-                cyl(
+            d_prev = math.hypot(p[0] - p_prev[0], p[1] - p_prev[1])
+            d_next = math.hypot(p[0] - p_next[0], p[1] - p_next[1])
+            max_r = max(3.5, min(d_prev, d_next) * 0.22)
+            r = min(max(height, SLIPOVER_FINGER_MIN_RADIUS_MM), radius_cap, max_r)
+            top_rounding = min(2.0, r * 0.3)
+            span = max(4.0 * r, 4.0 * wt)
+            base_scoop = (
+                build_wall_scoop(
+                    span,
+                    span,
+                    height,
+                    ScoopSide.FRONT,
                     radius=r,
-                    height=height + 0.5,
-                    rounding2=min(r / 2, height / 2),
-                    anchor=Anchor.BOTTOM,
-                ).translate([p[0], p[1], base_z - 0.5])
+                    wall_thickness=wt,
+                    profile=CutProfile(mouth_flare=top_rounding),
+                    faces=FaceTreatment(
+                        fillet=wt / 4,
+                        breach_floor=True,
+                        top_limit=height,
+                    ),
+                )
+                .translate([-span / 2, wt, 0.0])
+                .mirror([0, 0, 1])
+                .translate([0.0, 0.0, base_z + height])
             )
+            edges = (
+                (p[0] - p_prev[0], p[1] - p_prev[1])
+                if ccw
+                else (p_prev[0] - p[0], p_prev[1] - p[1]),
+                (p_next[0] - p[0], p_next[1] - p[1])
+                if ccw
+                else (p[0] - p_next[0], p[1] - p_next[1]),
+            )
+            for dx, dy in edges:
+                if math.hypot(dx, dy) <= 1e-9:
+                    continue
+                angle = math.degrees(math.atan2(dy, dx))
+                notches.append(
+                    base_scoop.rotate([0.0, 0.0, angle]).translate([p[0], p[1], 0.0])
+                )
         return union_all(notches)
 

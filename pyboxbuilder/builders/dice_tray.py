@@ -33,6 +33,10 @@ class DiceTrayBoxBuilder(BoxBuilder):
     """
 
     box_type: ClassVar[BoxType] = BoxType.DICE_TRAY
+    foot: float = 2.0
+    """Height of the exposed base foot the slipover arena sleeve stops against, in mm."""
+    slip: float = 1.6
+    """Thickness of the slipover sleeve wall that wraps the body, in mm."""
     arena_wall_height: float = 28.0
     """Height of the rolling arena walls in mm (MUST be >= 25.0mm)."""
     felt_pocket_depth: float = 1.2
