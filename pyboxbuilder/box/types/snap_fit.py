@@ -168,9 +168,15 @@ class SnapFitBox(BoxTypeBase):
 
     def interior_mask(self, spec: BoxSpec) -> Bosl2Solid:
         """Subtract internal latch backing bosses so compartments keep full wall integrity."""
+        wt = spec.wall_thickness
+        ft = spec.floor_thickness
         mask = super().interior_mask(spec)
+        if mask is None:
+            mask = block(
+                [spec.width - 2 * wt, spec.length - 2 * wt, spec.height],
+                at=(wt, wt, ft),
+            )
         m = self._latch_metrics(spec)
-        wt = float(m["wt"])
         boss_t = float(m["boss_t"])
         if boss_t <= wt + 0.05:
             return mask

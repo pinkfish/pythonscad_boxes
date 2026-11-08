@@ -14,6 +14,7 @@ from pyboxbuilder.box.shell import block, body_rounding
 from pyboxbuilder.box.spec import BoxSpec
 from pyboxbuilder.builders.pip_hinge import PrintInPlaceHingeBoxBuilder
 from pyboxbuilder.enums import BoxType, CatchType
+from pyboxbuilder.precision import kwargs as precision_kwargs
 from pyboxbuilder.rounding import round_edges
 
 if TYPE_CHECKING:
@@ -94,7 +95,7 @@ class PrintInPlaceHingeBox(BoxTypeBase):
 
             # Knuckle barrel cylinder along X
             barrel = (
-                cylinder(height=k_len, radius=hr, fn=32)
+                cylinder(height=k_len, radius=hr, **precision_kwargs())
                 .rotate([0, 90, 0])
                 .translate([k_cx, y_pivot, z_pivot])
             )
@@ -124,7 +125,7 @@ class PrintInPlaceHingeBox(BoxTypeBase):
                             height=h_cone + a_clr,
                             radius1=r_cone + r_clr,
                             radius2=0.0,
-                            fn=32,
+                            **precision_kwargs(),
                         )
                         .rotate([0, 90, 0])
                         .translate([kx0 + (h_cone + a_clr) / 2.0, y_pivot, z_pivot])
@@ -136,7 +137,7 @@ class PrintInPlaceHingeBox(BoxTypeBase):
                             height=h_cone + a_clr,
                             radius1=r_cone + r_clr,
                             radius2=0.0,
-                            fn=32,
+                            **precision_kwargs(),
                         )
                         .rotate([0, -90, 0])
                         .translate([kx1 - (h_cone + a_clr) / 2.0, y_pivot, z_pivot])
@@ -147,7 +148,7 @@ class PrintInPlaceHingeBox(BoxTypeBase):
 
                 # Conforming cylindrical clearance cutout in the lid half hugging the knuckle barrel
                 c_cyl = (
-                    cylinder(height=k_len + a_clr, radius=hr + r_clr, fn=32)
+                    cylinder(height=k_len + a_clr, radius=hr + r_clr, **precision_kwargs())
                     .rotate([0, 90, 0])
                     .translate([k_cx, y_pivot, z_pivot])
                 )
@@ -174,14 +175,14 @@ class PrintInPlaceHingeBox(BoxTypeBase):
                 # Male cones on ends pointing into adjacent body sockets
                 if i > 0:
                     cone_l = (
-                        cylinder(height=h_cone, radius1=r_cone, radius2=0.0, fn=32)
+                        cylinder(height=h_cone, radius1=r_cone, radius2=0.0, **precision_kwargs())
                         .rotate([0, -90, 0])
                         .translate([kx0 - h_cone / 2.0, y_pivot, z_pivot])
                     )
                     k_solid = k_solid | cone_l
                 if i < n_knuckles - 1:
                     cone_r = (
-                        cylinder(height=h_cone, radius1=r_cone, radius2=0.0, fn=32)
+                        cylinder(height=h_cone, radius1=r_cone, radius2=0.0, **precision_kwargs())
                         .rotate([0, 90, 0])
                         .translate([kx1 + h_cone / 2.0, y_pivot, z_pivot])
                     )
@@ -191,7 +192,7 @@ class PrintInPlaceHingeBox(BoxTypeBase):
 
                 # Conforming cylindrical clearance cutout in the body half hugging the knuckle barrel
                 c_cyl = (
-                    cylinder(height=k_len + a_clr, radius=hr + r_clr, fn=32)
+                    cylinder(height=k_len + a_clr, radius=hr + r_clr, **precision_kwargs())
                     .rotate([0, 90, 0])
                     .translate([k_cx, y_pivot, z_pivot])
                 )

@@ -14,6 +14,7 @@ from pyboxbuilder.box.shell import block, body_rounding
 from pyboxbuilder.box.spec import BoxSpec
 from pyboxbuilder.builders.inset_hinge import InsetHingeBoxBuilder
 from pyboxbuilder.enums import BoxType, CatchType
+from pyboxbuilder.precision import kwargs as precision_kwargs
 
 if TYPE_CHECKING:
     from pybosl2.shapes3d import Bosl2Solid
@@ -21,13 +22,13 @@ if TYPE_CHECKING:
 
 def _hinge_cone(r: float, offset: float) -> Bosl2Solid:
     """Build the 45° hollow conical pivot shell (HingeCone in hinge_box.scad)."""
-    outer = cylinder(height=r, radius1=r, radius2=0.0, fn=32).translate([
+    outer = cylinder(height=r, radius1=r, radius2=0.0, **precision_kwargs()).translate([
         0.0,
         0.0,
         r / 2.0,
     ])
     inner_r = max(0.1, r - offset)
-    inner = cylinder(height=inner_r, radius1=inner_r, radius2=0.0, fn=32).translate([
+    inner = cylinder(height=inner_r, radius1=inner_r, radius2=0.0, **precision_kwargs()).translate([
         0.0,
         0.0,
         inner_r / 2.0 - 0.01,
@@ -49,7 +50,7 @@ def _hinge_line_with_spacing_and_num(
     effective_gap = offset * 2.0 if gap is None else max(offset * 2.0, gap)
 
     # Base cylinder from z = 0 to z = length
-    core = cylinder(height=length, radius=r, fn=32).translate([0.0, 0.0, length / 2.0])
+    core = cylinder(height=length, radius=r, **precision_kwargs()).translate([0.0, 0.0, length / 2.0])
 
     # Subtract conical separations and odd-segment outer clearance rings
     cuts: list[Bosl2Solid] = []
@@ -63,12 +64,12 @@ def _hinge_line_with_spacing_and_num(
             ring_outer = cylinder(
                 height=spacing + 0.04,
                 radius=diameter,
-                fn=32,
+                **precision_kwargs(),
             ).translate([0.0, 0.0, spacing * i + spacing / 2.0])
             ring_inner = cylinder(
                 height=spacing + 0.06,
                 radius=max(0.2, r - offset),
-                fn=32,
+                **precision_kwargs(),
             ).translate([0.0, 0.0, spacing * i + spacing / 2.0])
             cuts.append(ring_outer - ring_inner)
 
@@ -83,7 +84,7 @@ def _hinge_line_with_spacing_and_num(
             c_seg = cylinder(
                 height=max(0.2, spacing - offset),
                 radius=r,
-                fn=32,
+                **precision_kwargs(),
             ).translate([0.0, 0.0, z_base + spacing / 2.0])
             arm_h = r + effective_gap + 0.01
             arm_seg = (
@@ -100,7 +101,7 @@ def _hinge_line_with_spacing_and_num(
             b_cyl = cylinder(
                 height=length,
                 radius=r + offset,
-                fn=32,
+                **precision_kwargs(),
             ).translate([r / 2.0 + offset, 0.0, length / 2.0 - (spacing / 4.0 + r)])
             b_back = cuboid([1.0 + r, diameter, spacing + offset * 3.0]).translate([
                 offset * 1.5,
@@ -127,7 +128,7 @@ def _hinge_line_with_spacing_and_num(
             b_bore = cylinder(
                 height=spacing * 4.0,
                 radius=max(0.2, r - 0.01),
-                fn=32,
+                **precision_kwargs(),
             ).translate([0.0, 0.0, z_base + spacing * 2.0 - offset * 2.0])
             additions.append(b_chamfer | (b_block - b_bore))
 
