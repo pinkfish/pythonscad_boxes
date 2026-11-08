@@ -497,6 +497,14 @@
 <span class="sd">colour is a surface, and nothing about the label is structural.</span>
 <span class="sd">"""</span>
 
+<span class="n">DEFAULT_TOP_SKIN_MM</span> <span class="o">=</span> <span class="mf">0.8</span>
+<span class="sd">"""Default solid top skin thickness (in mm) supporting thin colored inlays above the backing lattice.</span>
+
+<span class="sd">At 0.2mm layer height, 0.8mm (4 layers) provides a 0.6mm (3-layer) color inlay</span>
+<span class="sd">plus a continuous 0.2mm (1-layer) solid bridging floor tied into the backing</span>
+<span class="sd">lattice ribs below, keeping the lid sturdy while reducing plastic consumption.</span>
+<span class="sd">"""</span>
+
 
 <div class="viewcode-block" id="LidInsert">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.lid.decorate.LidInsert.html#pyboxbuilder.lid.decorate.LidInsert">[docs]</a>
@@ -684,6 +692,20 @@
                 <span class="n">reserved</span><span class="o">=</span><span class="n">reserved</span><span class="p">,</span>
                 <span class="n">path</span><span class="o">=</span><span class="n">path</span><span class="p">,</span>
             <span class="p">)</span>
+    <span class="k">elif</span> <span class="n">resolved</span><span class="o">.</span><span class="n">backing_pattern</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">result</span><span class="o">.</span><span class="n">solid</span> <span class="o">=</span> <span class="n">_cut_backing_lattice</span><span class="p">(</span>
+            <span class="n">result</span><span class="o">.</span><span class="n">solid</span><span class="p">,</span>
+            <span class="n">resolved</span><span class="p">,</span>
+            <span class="n">width</span><span class="p">,</span>
+            <span class="n">length</span><span class="p">,</span>
+            <span class="n">origin_x</span><span class="p">,</span>
+            <span class="n">origin_y</span><span class="p">,</span>
+            <span class="n">top_z</span><span class="p">,</span>
+            <span class="n">lid_thickness</span><span class="p">,</span>
+            <span class="n">inlay_depth</span><span class="o">=</span><span class="n">INLAY_DEPTH_MM</span><span class="p">,</span>
+            <span class="n">reserved</span><span class="o">=</span><span class="n">reserved</span><span class="p">,</span>
+            <span class="n">path</span><span class="o">=</span><span class="n">path</span><span class="p">,</span>
+        <span class="p">)</span>
 
     <span class="k">if</span> <span class="n">label</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">_apply_label</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">resolved</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">origin_x</span><span class="p">,</span> <span class="n">origin_y</span><span class="p">,</span> <span class="n">top_z</span><span class="p">,</span> <span class="n">mode_str</span><span class="p">,</span> <span class="n">lid_thickness</span><span class="p">)</span>
@@ -1038,6 +1060,168 @@
     <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">radius</span> <span class="ow">in</span> <span class="n">reserved</span><span class="p">:</span>
         <span class="n">holes</span> <span class="o">=</span> <span class="n">holes</span> <span class="o">-</span> <span class="n">_disc</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">base</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">radius</span><span class="p">,</span> <span class="n">depth</span><span class="p">)</span>
     <span class="n">cut_solid</span> <span class="o">=</span> <span class="n">holes</span><span class="o">.</span><span class="n">solid</span> <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">holes</span><span class="p">,</span> <span class="s2">"solid"</span><span class="p">)</span> <span class="ow">and</span> <span class="n">holes</span><span class="o">.</span><span class="n">solid</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">holes</span>
+    <span class="n">lid</span> <span class="o">=</span> <span class="n">lid</span> <span class="o">-</span> <span class="n">cut_solid</span>
+
+    <span class="n">back_mask</span><span class="p">:</span> <span class="n">Bosl2Solid</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="n">logo_keepout</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">back_mask</span> <span class="o">=</span> <span class="n">logo_keepout</span>
+    <span class="k">if</span> <span class="n">keep_clear</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">keep_clear</span><span class="o">.</span><span class="n">plate</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">back_mask</span> <span class="o">=</span> <span class="n">keep_clear</span><span class="o">.</span><span class="n">plate</span> <span class="k">if</span> <span class="n">back_mask</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="p">(</span><span class="n">back_mask</span> <span class="o">|</span> <span class="n">keep_clear</span><span class="o">.</span><span class="n">plate</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">back_mask</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">lid</span> <span class="o">=</span> <span class="n">_cut_backing_lattice</span><span class="p">(</span>
+            <span class="n">lid</span><span class="p">,</span>
+            <span class="n">builder</span><span class="p">,</span>
+            <span class="n">width</span><span class="p">,</span>
+            <span class="n">length</span><span class="p">,</span>
+            <span class="n">origin_x</span><span class="p">,</span>
+            <span class="n">origin_y</span><span class="p">,</span>
+            <span class="n">top_z</span><span class="p">,</span>
+            <span class="n">lid_thickness</span><span class="p">,</span>
+            <span class="n">inlay_depth</span><span class="o">=</span><span class="n">INLAY_DEPTH_MM</span><span class="p">,</span>
+            <span class="n">reserved</span><span class="o">=</span><span class="n">reserved</span><span class="p">,</span>
+            <span class="n">path</span><span class="o">=</span><span class="n">path</span><span class="p">,</span>
+            <span class="n">mask</span><span class="o">=</span><span class="n">back_mask</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="k">return</span> <span class="n">lid</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_resolve_backing_spec</span><span class="p">(</span>
+    <span class="n">builder</span><span class="p">:</span> <span class="n">LidBuilder</span><span class="p">,</span>
+    <span class="n">lid_thickness</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">inlay_depth</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">INLAY_DEPTH_MM</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">PatternType</span><span class="p">,</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">"""Return ``(backing_pattern_type, spacing, web, top_skin_mm)`` for a lid."""</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.lid.builder</span><span class="w"> </span><span class="kn">import</span> <span class="n">PatternBuilder</span>
+
+    <span class="n">pat</span> <span class="o">=</span> <span class="n">_pattern_of</span><span class="p">(</span><span class="n">builder</span><span class="p">)</span> <span class="k">if</span> <span class="n">builder</span><span class="o">.</span><span class="n">pattern</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="n">builder</span><span class="o">.</span><span class="n">backing_pattern</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">bp</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">backing_pattern</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">bp</span><span class="p">,</span> <span class="n">PatternBuilder</span><span class="p">):</span>
+            <span class="n">b_type</span> <span class="o">=</span> <span class="n">PatternType</span><span class="p">(</span><span class="n">bp</span><span class="o">.</span><span class="n">type</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">bp</span><span class="o">.</span><span class="n">type</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">else</span> <span class="n">bp</span><span class="o">.</span><span class="n">type</span>
+            <span class="n">b_spacing</span> <span class="o">=</span> <span class="n">bp</span><span class="o">.</span><span class="n">spacing</span>
+            <span class="n">b_web</span> <span class="o">=</span> <span class="n">bp</span><span class="o">.</span><span class="n">web</span>
+            <span class="n">req_skin</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">top_skin_mm</span> <span class="k">if</span> <span class="n">builder</span><span class="o">.</span><span class="n">top_skin_mm</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">bp</span><span class="o">.</span><span class="n">top_skin_mm</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">bp</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">b_type</span> <span class="o">=</span> <span class="n">PatternType</span><span class="p">(</span><span class="n">bp</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
+            <span class="n">b_spacing</span> <span class="o">=</span> <span class="n">pat</span><span class="o">.</span><span class="n">backing_spacing</span> <span class="k">if</span> <span class="n">pat</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span>
+            <span class="n">b_web</span> <span class="o">=</span> <span class="n">pat</span><span class="o">.</span><span class="n">backing_web</span> <span class="k">if</span> <span class="n">pat</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span>
+            <span class="n">req_skin</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">top_skin_mm</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">b_type</span> <span class="o">=</span> <span class="n">bp</span>
+            <span class="n">b_spacing</span> <span class="o">=</span> <span class="n">pat</span><span class="o">.</span><span class="n">backing_spacing</span> <span class="k">if</span> <span class="n">pat</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span>
+            <span class="n">b_web</span> <span class="o">=</span> <span class="n">pat</span><span class="o">.</span><span class="n">backing_web</span> <span class="k">if</span> <span class="n">pat</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span>
+            <span class="n">req_skin</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">top_skin_mm</span>
+    <span class="k">elif</span> <span class="n">pat</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">raw_bp</span> <span class="o">=</span> <span class="n">pat</span><span class="o">.</span><span class="n">backing_pattern</span>
+        <span class="k">if</span> <span class="n">raw_bp</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">b_type</span> <span class="o">=</span> <span class="n">PatternType</span><span class="o">.</span><span class="n">NONE</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">raw_bp</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">b_type</span> <span class="o">=</span> <span class="n">PatternType</span><span class="p">(</span><span class="n">raw_bp</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">b_type</span> <span class="o">=</span> <span class="n">raw_bp</span>
+        <span class="n">b_spacing</span> <span class="o">=</span> <span class="n">pat</span><span class="o">.</span><span class="n">backing_spacing</span>
+        <span class="n">b_web</span> <span class="o">=</span> <span class="n">pat</span><span class="o">.</span><span class="n">backing_web</span>
+        <span class="n">req_skin</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">top_skin_mm</span> <span class="k">if</span> <span class="n">builder</span><span class="o">.</span><span class="n">top_skin_mm</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">pat</span><span class="o">.</span><span class="n">top_skin_mm</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">b_type</span> <span class="o">=</span> <span class="n">PatternType</span><span class="o">.</span><span class="n">NONE</span>
+        <span class="n">b_spacing</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">b_web</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">req_skin</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">top_skin_mm</span>
+
+    <span class="n">default_skin</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">DEFAULT_TOP_SKIN_MM</span><span class="p">,</span> <span class="n">inlay_depth</span> <span class="o">+</span> <span class="mf">0.2</span><span class="p">)</span>
+    <span class="n">skin</span> <span class="o">=</span> <span class="n">req_skin</span> <span class="k">if</span> <span class="n">req_skin</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">default_skin</span>
+    <span class="k">if</span> <span class="n">lid_thickness</span> <span class="o">&gt;=</span> <span class="mf">1.2</span><span class="p">:</span>
+        <span class="n">skin</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">inlay_depth</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="n">skin</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="n">inlay_depth</span> <span class="o">+</span> <span class="mf">0.2</span><span class="p">,</span> <span class="n">lid_thickness</span> <span class="o">*</span> <span class="mf">0.6</span><span class="p">)))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">skin</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">skin</span><span class="p">,</span> <span class="n">lid_thickness</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">b_type</span><span class="p">,</span> <span class="n">b_spacing</span><span class="p">,</span> <span class="n">b_web</span><span class="p">,</span> <span class="n">skin</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_cut_backing_lattice</span><span class="p">(</span>
+    <span class="n">lid</span><span class="p">:</span> <span class="n">Bosl2Solid</span><span class="p">,</span>
+    <span class="n">builder</span><span class="p">:</span> <span class="n">LidBuilder</span><span class="p">,</span>
+    <span class="n">width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">origin_x</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">origin_y</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">top_z</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">lid_thickness</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">inlay_depth</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">INLAY_DEPTH_MM</span><span class="p">,</span>
+    <span class="n">reserved</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="p">(),</span>
+    <span class="n">path</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="o">...</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">mask</span><span class="p">:</span> <span class="n">Bosl2Solid</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Cut the selectable backing lattice into the underside of the lid below the top skin."""</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.shell</span><span class="w"> </span><span class="kn">import</span> <span class="n">block</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.lid.builder</span><span class="w"> </span><span class="kn">import</span> <span class="n">LID_BORDER_MM</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.lid.pattern</span><span class="w"> </span><span class="kn">import</span> <span class="n">build_pattern</span>
+
+    <span class="n">b_type</span><span class="p">,</span> <span class="n">b_spacing</span><span class="p">,</span> <span class="n">b_web</span><span class="p">,</span> <span class="n">skin</span> <span class="o">=</span> <span class="n">_resolve_backing_spec</span><span class="p">(</span><span class="n">builder</span><span class="p">,</span> <span class="n">lid_thickness</span><span class="p">,</span> <span class="n">inlay_depth</span><span class="p">)</span>
+    <span class="n">lattice_depth</span> <span class="o">=</span> <span class="n">lid_thickness</span> <span class="o">-</span> <span class="n">skin</span>
+    <span class="k">if</span> <span class="n">lattice_depth</span> <span class="o">&lt;=</span> <span class="mf">0.2</span> <span class="ow">or</span> <span class="n">b_type</span> <span class="ow">in</span> <span class="p">(</span><span class="n">PatternType</span><span class="o">.</span><span class="n">NONE</span><span class="p">,</span> <span class="n">PatternType</span><span class="o">.</span><span class="n">SOLID</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">lid</span>
+
+    <span class="n">pat</span> <span class="o">=</span> <span class="n">_pattern_of</span><span class="p">(</span><span class="n">builder</span><span class="p">)</span> <span class="k">if</span> <span class="n">builder</span><span class="o">.</span><span class="n">pattern</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span>
+    <span class="n">margin</span> <span class="o">=</span> <span class="n">pat</span><span class="o">.</span><span class="n">border_width</span> <span class="k">if</span> <span class="n">pat</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">LID_BORDER_MM</span>
+    <span class="n">cut_h</span> <span class="o">=</span> <span class="n">lattice_depth</span> <span class="o">+</span> <span class="mf">0.2</span>
+    <span class="n">cut_z0</span> <span class="o">=</span> <span class="n">top_z</span> <span class="o">-</span> <span class="n">lid_thickness</span> <span class="o">-</span> <span class="mf">0.2</span>
+
+    <span class="k">if</span> <span class="n">path</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">3</span><span class="p">:</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.features</span><span class="w"> </span><span class="kn">import</span> <span class="n">extrude_footprint</span><span class="p">,</span> <span class="n">offset_footprint</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.paths</span><span class="w"> </span><span class="kn">import</span> <span class="n">bounds</span>
+
+        <span class="n">inset_path</span> <span class="o">=</span> <span class="n">offset_footprint</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">margin</span><span class="p">)</span>
+        <span class="p">(</span><span class="n">pmin_x</span><span class="p">,</span> <span class="n">pmin_y</span><span class="p">),</span> <span class="p">(</span><span class="n">pmax_x</span><span class="p">,</span> <span class="n">pmax_y</span><span class="p">)</span> <span class="o">=</span> <span class="n">bounds</span><span class="p">(</span><span class="n">inset_path</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">pmax_x</span> <span class="o">&lt;=</span> <span class="n">pmin_x</span> <span class="ow">or</span> <span class="n">pmax_y</span> <span class="o">&lt;=</span> <span class="n">pmin_y</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">lid</span>
+
+        <span class="n">holes</span> <span class="o">=</span> <span class="n">build_pattern</span><span class="p">(</span>
+            <span class="n">width</span><span class="p">,</span>
+            <span class="n">length</span><span class="p">,</span>
+            <span class="n">cut_h</span><span class="p">,</span>
+            <span class="n">b_type</span><span class="p">,</span>
+            <span class="n">b_spacing</span><span class="p">,</span>
+            <span class="n">b_web</span><span class="p">,</span>
+            <span class="n">inlay</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">lid_thickness</span><span class="o">=</span><span class="n">cut_h</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">holes</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">lid</span>
+
+        <span class="n">clip_solid</span> <span class="o">=</span> <span class="n">extrude_footprint</span><span class="p">(</span><span class="n">inset_path</span><span class="p">,</span> <span class="n">cut_h</span><span class="p">,</span> <span class="n">cut_z0</span><span class="p">)</span>
+        <span class="n">holes</span> <span class="o">=</span> <span class="n">holes</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">origin_x</span><span class="p">,</span> <span class="n">origin_y</span><span class="p">,</span> <span class="n">cut_z0</span><span class="p">])</span>
+        <span class="n">holes</span> <span class="o">=</span> <span class="n">holes</span> <span class="o">&amp;</span> <span class="n">clip_solid</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">area_w</span> <span class="o">=</span> <span class="n">width</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">margin</span>
+        <span class="n">area_l</span> <span class="o">=</span> <span class="n">length</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">margin</span>
+        <span class="k">if</span> <span class="n">area_w</span> <span class="o">&lt;=</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">area_l</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">lid</span>
+
+        <span class="n">holes</span> <span class="o">=</span> <span class="n">build_pattern</span><span class="p">(</span>
+            <span class="n">area_w</span><span class="p">,</span>
+            <span class="n">area_l</span><span class="p">,</span>
+            <span class="n">cut_h</span><span class="p">,</span>
+            <span class="n">b_type</span><span class="p">,</span>
+            <span class="n">b_spacing</span><span class="p">,</span>
+            <span class="n">b_web</span><span class="p">,</span>
+            <span class="n">inlay</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">lid_thickness</span><span class="o">=</span><span class="n">cut_h</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">holes</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">lid</span>
+
+        <span class="n">base</span> <span class="o">=</span> <span class="p">(</span><span class="n">origin_x</span> <span class="o">+</span> <span class="n">margin</span><span class="p">,</span> <span class="n">origin_y</span> <span class="o">+</span> <span class="n">margin</span><span class="p">,</span> <span class="n">cut_z0</span><span class="p">)</span>
+        <span class="n">holes</span> <span class="o">=</span> <span class="n">holes</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">base</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">base</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">base</span><span class="p">[</span><span class="mi">2</span><span class="p">]])</span>
+        <span class="n">holes</span> <span class="o">=</span> <span class="n">holes</span> <span class="o">&amp;</span> <span class="n">block</span><span class="p">([</span><span class="n">area_w</span><span class="p">,</span> <span class="n">area_l</span><span class="p">,</span> <span class="n">cut_h</span><span class="p">],</span> <span class="n">at</span><span class="o">=</span><span class="n">base</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">mask</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">stretched_mask</span> <span class="o">=</span> <span class="n">_as_depth</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span> <span class="n">cut_h</span> <span class="o">+</span> <span class="mf">0.4</span><span class="p">)</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">origin_x</span><span class="p">,</span> <span class="n">origin_y</span><span class="p">,</span> <span class="n">cut_z0</span> <span class="o">-</span> <span class="mf">0.1</span><span class="p">])</span>
+        <span class="n">holes</span> <span class="o">=</span> <span class="n">holes</span> <span class="o">&amp;</span> <span class="n">stretched_mask</span>
+
+    <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">radius</span> <span class="ow">in</span> <span class="n">reserved</span><span class="p">:</span>
+        <span class="n">holes</span> <span class="o">=</span> <span class="n">holes</span> <span class="o">-</span> <span class="n">_disc</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">cut_z0</span><span class="p">,</span> <span class="n">radius</span><span class="p">,</span> <span class="n">cut_h</span><span class="p">)</span>
+
+    <span class="n">cut_solid</span> <span class="o">=</span> <span class="n">holes</span><span class="o">.</span><span class="n">solid</span> <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">holes</span><span class="p">,</span> <span class="s2">"solid"</span><span class="p">)</span> <span class="ow">and</span> <span class="n">holes</span><span class="o">.</span><span class="n">solid</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">holes</span>
     <span class="k">return</span> <span class="n">lid</span> <span class="o">-</span> <span class="n">cut_solid</span>
 
 
@@ -1075,6 +1259,8 @@
         <span class="k">if</span> <span class="n">builder</span><span class="o">.</span><span class="n">pattern_inlay_depth_mm</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
         <span class="k">else</span> <span class="p">(</span><span class="n">pat</span><span class="o">.</span><span class="n">inlay_depth_mm</span> <span class="ow">or</span> <span class="n">INLAY_DEPTH_MM</span><span class="p">)</span>
     <span class="p">)</span>
+    <span class="k">if</span> <span class="n">through_inlay</span> <span class="ow">is</span> <span class="kc">False</span> <span class="ow">and</span> <span class="n">lid_thickness</span> <span class="o">&gt;=</span> <span class="mf">1.2</span><span class="p">:</span>
+        <span class="n">inlay_depth</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">inlay_depth</span><span class="p">,</span> <span class="n">lid_thickness</span> <span class="o">-</span> <span class="mf">0.6</span><span class="p">)</span>
 
     <span class="n">is_simple_pattern</span> <span class="o">=</span> <span class="n">pat</span><span class="o">.</span><span class="n">type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span>
         <span class="n">PatternType</span><span class="o">.</span><span class="n">RING</span><span class="p">,</span>
@@ -1171,7 +1357,14 @@
             <span class="n">through_cut</span> <span class="o">=</span> <span class="n">holes</span><span class="o">.</span><span class="n">holes</span> <span class="o">&amp;</span> <span class="n">result</span><span class="o">.</span><span class="n">solid</span>
             <span class="n">result</span><span class="o">.</span><span class="n">solid</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">solid</span> <span class="o">-</span> <span class="n">through_cut</span>
 
+        <span class="n">top_clip</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">block</span><span class="p">([</span><span class="n">width</span> <span class="o">+</span> <span class="mf">4.0</span><span class="p">,</span> <span class="n">length</span> <span class="o">+</span> <span class="mf">4.0</span><span class="p">,</span> <span class="n">depth</span> <span class="o">+</span> <span class="mf">2.0</span><span class="p">],</span> <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="n">origin_x</span> <span class="o">-</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">origin_y</span> <span class="o">-</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">base_z</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">through_inlay</span> <span class="ow">is</span> <span class="kc">False</span>
+            <span class="k">else</span> <span class="kc">None</span>
+        <span class="p">)</span>
         <span class="k">for</span> <span class="n">part_solid</span><span class="p">,</span> <span class="n">color_key</span> <span class="ow">in</span> <span class="n">holes</span><span class="o">.</span><span class="n">inlays</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">top_clip</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">part_solid</span> <span class="o">=</span> <span class="n">part_solid</span> <span class="o">&amp;</span> <span class="n">top_clip</span>
             <span class="n">inlay</span> <span class="o">=</span> <span class="n">part_solid</span> <span class="o">&amp;</span> <span class="n">result</span><span class="o">.</span><span class="n">solid</span>
             <span class="n">result</span><span class="o">.</span><span class="n">solid</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">solid</span> <span class="o">-</span> <span class="n">inlay</span>
             <span class="k">if</span> <span class="n">mode</span> <span class="o">!=</span> <span class="s2">"single"</span><span class="p">:</span>
@@ -1188,11 +1381,32 @@
                     <span class="n">c</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">pattern_color</span>
                 <span class="n">result</span><span class="o">.</span><span class="n">inserts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">LidInsert</span><span class="p">(</span><span class="n">_coloured</span><span class="p">(</span><span class="n">inlay</span><span class="p">,</span> <span class="n">c</span><span class="p">),</span> <span class="n">c</span><span class="p">))</span>
     <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">through_inlay</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="n">top_clip</span> <span class="o">=</span> <span class="n">block</span><span class="p">(</span>
+                <span class="p">[</span><span class="n">width</span> <span class="o">+</span> <span class="mf">4.0</span><span class="p">,</span> <span class="n">length</span> <span class="o">+</span> <span class="mf">4.0</span><span class="p">,</span> <span class="n">depth</span> <span class="o">+</span> <span class="mf">2.0</span><span class="p">],</span>
+                <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="n">origin_x</span> <span class="o">-</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">origin_y</span> <span class="o">-</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">base_z</span><span class="p">),</span>
+            <span class="p">)</span>
+            <span class="n">holes</span> <span class="o">=</span> <span class="n">holes</span> <span class="o">&amp;</span> <span class="n">top_clip</span>
         <span class="n">inlay</span> <span class="o">=</span> <span class="n">holes</span> <span class="o">&amp;</span> <span class="n">result</span><span class="o">.</span><span class="n">solid</span>
         <span class="n">result</span><span class="o">.</span><span class="n">solid</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">solid</span> <span class="o">-</span> <span class="n">inlay</span>
         <span class="k">if</span> <span class="n">mode</span> <span class="o">!=</span> <span class="s2">"single"</span><span class="p">:</span>
             <span class="n">color</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">pattern_color</span>
             <span class="n">result</span><span class="o">.</span><span class="n">inserts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">LidInsert</span><span class="p">(</span><span class="n">_coloured</span><span class="p">(</span><span class="n">inlay</span><span class="p">,</span> <span class="n">color</span><span class="p">),</span> <span class="n">color</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="n">through_inlay</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">result</span><span class="o">.</span><span class="n">solid</span> <span class="o">=</span> <span class="n">_cut_backing_lattice</span><span class="p">(</span>
+            <span class="n">result</span><span class="o">.</span><span class="n">solid</span><span class="p">,</span>
+            <span class="n">builder</span><span class="p">,</span>
+            <span class="n">width</span><span class="p">,</span>
+            <span class="n">length</span><span class="p">,</span>
+            <span class="n">origin_x</span><span class="p">,</span>
+            <span class="n">origin_y</span><span class="p">,</span>
+            <span class="n">top_z</span><span class="p">,</span>
+            <span class="n">lid_thickness</span><span class="p">,</span>
+            <span class="n">inlay_depth</span><span class="o">=</span><span class="n">inlay_depth</span><span class="p">,</span>
+            <span class="n">reserved</span><span class="o">=</span><span class="n">reserved</span><span class="p">,</span>
+            <span class="n">path</span><span class="o">=</span><span class="n">path</span><span class="p">,</span>
+        <span class="p">)</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_disc</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">z</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">radius</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">depth</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
