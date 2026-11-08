@@ -691,6 +691,18 @@ class ExtendedBoxGeometryTests(unittest.TestCase):
         self.assertAlmostEqual(volume(body & pin_probe), 0.0, delta=0.02)
         self.assertAlmostEqual(volume(lid & pin_probe), 0.0, delta=0.02)
 
+        # Verify odd lid knuckles (index=1, 3) connect vertically upward (+Z) into the upper tray back wall
+        from pyboxbuilder.box.shell import block
+
+        pitch = spec.width / spec.hinge_count
+        for odd_idx in (1, 3):
+            cx = (odd_idx + 0.5) * pitch
+            upper_wall_probe = block(
+                [pitch * 0.5, radius_h * 0.8, radius_h * 0.8],
+                at=(cx - pitch * 0.25, axis_y + radius_h * 0.1, axis_z + 0.15),
+            )
+            self.assertGreater(volume(lid & upper_wall_probe), 5.0)
+
 
 
 
@@ -752,10 +764,11 @@ class ExtendedBoxGeometryTests(unittest.TestCase):
         self.assertIsNotNone(body)
         self.assertIsNone(lid)
 
-        # Unfolded X span is 2 * width + gap (121.0mm), Y span is length (50.0mm)
+        # Unfolded X span is 2 * width + gap (2 * pip_radial_clearance), Y span is length (50.0mm)
+        expected_gap = 2.0 * spec.pip_radial_clearance
         b = body.bounds()
         centre, size = (b.center, b.size) if hasattr(b, "center") else b
-        self.assertAlmostEqual(size[0], 2 * spec.width + spec.pip_gap_mm, delta=0.2)
+        self.assertAlmostEqual(size[0], 2 * spec.width + expected_gap, delta=0.2)
         self.assertAlmostEqual(size[1], spec.length, delta=0.2)
         half_h = spec.height / 2.0
         z_min = centre[2] - size[2] / 2.0
@@ -767,9 +780,37 @@ class ExtendedBoxGeometryTests(unittest.TestCase):
         # Recessed InsetHinge sits across the gap at x = width + gap/2
         hinge_probe = block(
             [12.0, spec.length - 6.0, 6.0],
-            at=(spec.width + spec.pip_gap_mm / 2.0 - 6.0, 3.0, half_h - 6.0),
+            at=(spec.width + expected_gap / 2.0 - 6.0, 3.0, half_h - 6.0),
         )
         self.assertGreater(volume(body & hinge_probe), 1500.0)
+
+        # No center sliver bar down the middle gap in even hinge segments (i = 2)
+        hinge_diameter = 2.0 * spec.pip_hinge_radius
+        hinge_length = spec.length - 2.0 * spec.inset_hinge_side_gap
+        num_segs = max(2, round(hinge_length / hinge_diameter))
+        seg_spacing = hinge_length / num_segs
+        even_seg_y = spec.inset_hinge_side_gap + 2.5 * seg_spacing
+        even_gap_probe = block(
+            [expected_gap * 0.5, seg_spacing * 0.3, hinge_diameter],
+            at=(
+                spec.width + expected_gap * 0.25,
+                even_seg_y - seg_spacing * 0.15,
+                half_h - hinge_diameter - spec.pip_radial_clearance,
+            ),
+        )
+        self.assertAlmostEqual(volume(body & even_gap_probe), 0.0, delta=1e-3)
+
+        # Odd hinge segments (i = 1) bridge cleanly across the middle gap
+        odd_seg_y = spec.inset_hinge_side_gap + 1.5 * seg_spacing
+        odd_gap_probe = block(
+            [expected_gap * 0.5, seg_spacing * 0.3, hinge_diameter * 0.5],
+            at=(
+                spec.width + expected_gap * 0.25,
+                odd_seg_y - seg_spacing * 0.15,
+                half_h - hinge_diameter * 0.75 - spec.pip_radial_clearance,
+            ),
+        )
+        self.assertGreater(volume(body & odd_gap_probe), 0.1)
 
         # Front latch tab on base outer wall (x = 0 .. wt/2) rises above z = half_h - lt
         tab_probe = block(
@@ -780,7 +821,7 @@ class ExtendedBoxGeometryTests(unittest.TestCase):
 
         # Interior reserves hinge_width along X on the base half
         interior = impl.interior(spec)
-        hinge_width = 2.0 * (2.0 * spec.pip_hinge_radius) + spec.pip_gap_mm
+        hinge_width = 2.0 * (2.0 * spec.pip_hinge_radius) + expected_gap
         self.assertAlmostEqual(interior.width, spec.width - spec.wall_thickness - hinge_width)
         self.assertAlmostEqual(interior.length, spec.length - 2.0 * spec.wall_thickness)
         self.assertAlmostEqual(interior.height, half_h - spec.floor_thickness)

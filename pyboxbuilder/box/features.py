@@ -413,37 +413,31 @@ DEFAULT_SLIPOVER_FOOT_MM = 2.0
 """Default height of the exposed base/foot below a slipover sleeve (FR-002p)."""
 
 
-SLIPOVER_GAP_MIN_MM = 3.0
+SLIPOVER_GAP_MIN_MM = 0.0
 """Least body a slipover sleeve leaves showing above the foot (FR-002p)."""
 
-SLIPOVER_GAP_MAX_MM = 6.0
-"""Most body a slipover sleeve leaves showing above the foot (FR-002p).
-
-The gap is where the fingers go, so a wider one takes a wider curve — but it is
-skirt the sleeve gives up to get it, so it stops at 6mm.
-"""
+SLIPOVER_GAP_MAX_MM = 0.0
+"""Most body a slipover sleeve leaves showing above the foot (FR-002p)."""
 
 
 def slipover_gap(spec: BoxSpec) -> float:
     """How much body a sleeve leaves exposed above the foot (FR-002p).
 
-    A sleeve that runs all the way down to the foot meets it in a closed seam
-    with nothing to grip. Stopping short leaves a band of the body showing the
-    whole way round, which is what the fingers pull on.
+    By default the sleeve reaches all the way down to the foot (``0.0``),
+    relying on the corner finger notches for grip unless ``slipover_gap``
+    is explicitly set on the spec.
 
     Args:
         spec: Needs `height`; reads `foot` and `slipover_gap`.
 
     Returns:
-        The gap in mm — a quarter of the covered height, held between
-        :data:`SLIPOVER_GAP_MIN_MM` and :data:`SLIPOVER_GAP_MAX_MM`.
+        The gap in mm (defaults to ``0.0``).
 
     """
     explicit = spec.slipover_gap
     if explicit is not None:
         return max(0.0, float(explicit))
-    covered = spec.height - spec.foot
-    return min(SLIPOVER_GAP_MAX_MM, max(SLIPOVER_GAP_MIN_MM, covered / 4))
+    return 0.0
 
 
 def slipover_metrics(spec: BoxSpec) -> tuple[float, float]:
@@ -1607,6 +1601,100 @@ def extrude_footprint(
     return solid if base_z == 0.0 else solid.translate([0.0, 0.0, base_z])
 
 
+def extrude_rounded_footprint(
+    path: tuple[tuple[float, float], ...],
+    height: float,
+    base_z: float = 0.0,
+    *,
+    r_corner: float = 0.0,
+    r_bottom: float = 0.0,
+    r_top: float = 0.0,
+) -> Bosl2Solid:
+    """Extrude a polygon footprint with rounded vertical corners and optional top/bottom roundovers."""
+    import math
+
+    from pybosl2 import Path2D
+    from pybosl2.shapes3d.base import CsgSolid
+    from pybosl2.skin import os_profile
+
+    from pyboxbuilder.box.shell import block
+    from pyboxbuilder.paths import is_rectilinear
+    from pyboxbuilder.rounding import rounding_facets
+
+    if height <= 0.0 or len(path) < 3:
+        return extrude_footprint(path, max(0.01, height), base_z)
+
+    try:
+        steps = max(8, rounding_facets()["fn"] // 4)
+        fn = rounding_facets()["fn"]
+        p2d = Path2D([(float(x), float(y)) for x, y in path], closed=True)
+        rc = 0.0
+        if r_corner > 0.05 and is_rectilinear(path):
+            min_edge = min(
+                math.hypot(
+                    path[(i + 1) % len(path)][0] - path[i][0],
+                    path[(i + 1) % len(path)][1] - path[i][1],
+                )
+                for i in range(len(path))
+            )
+            rc = min(r_corner, min_edge * 0.2)
+            if rc > 0.05:
+                p2d = p2d.round_corners(radius=rc, fn=fn)
+
+        r_bot = min(max(0.0, r_bottom), height * 0.45)
+        r_tp = min(max(0.0, r_top), height * 0.45)
+        if rc > 0.05:
+            r_bot = min(r_bot, rc * 0.75)
+            r_tp = min(r_tp, rc * 0.75)
+
+        def _make_prof(r: float) -> object:
+            pts = [
+                [
+                    -r * math.sin((math.pi / 2) * i / steps),
+                    r * (1.0 - math.cos((math.pi / 2) * i / steps)),
+                ]
+                for i in range(steps + 1)
+            ]
+            return os_profile(Path2D(pts))
+
+        if r_bot > 0.05 and r_tp > 0.05:
+            r = min(r_bot, r_tp)
+            prof = _make_prof(r)
+            swept = p2d.offset(delta=-r).offset_sweep(
+                height=height, bottom=prof, top=prof, steps=steps
+            )
+            solid = CsgSolid(swept.polyhedron()) if hasattr(swept, "polyhedron") else swept
+        elif r_bot > 0.05:
+            prof = _make_prof(r_bot)
+            swept = p2d.offset(delta=-r_bot).offset_sweep(
+                height=height, bottom=prof, steps=steps
+            )
+            solid = CsgSolid(swept.polyhedron()) if hasattr(swept, "polyhedron") else swept
+        elif r_tp > 0.05:
+            r = r_tp
+            prof = _make_prof(r)
+            swept = p2d.offset(delta=-r).offset_sweep(
+                height=height + r, bottom=prof, top=prof, steps=steps
+            )
+            raw = CsgSolid(swept.polyhedron()) if hasattr(swept, "polyhedron") else swept
+            raw = raw.translate([0.0, 0.0, -r])
+            min_x = min(p[0] for p in path) - 2.0
+            min_y = min(p[1] for p in path) - 2.0
+            max_x = max(p[0] for p in path) + 2.0
+            max_y = max(p[1] for p in path) + 2.0
+            keep = block(
+                [max_x - min_x, max_y - min_y, height + 0.1],
+                at=(min_x, min_y, 0.0),
+            )
+            solid = raw & keep
+        else:
+            solid = p2d.linear_extrude(height=height)
+
+        return solid if base_z == 0.0 else solid.translate([0.0, 0.0, base_z])
+    except Exception:
+        return extrude_footprint(path, height, base_z)
+
+
 def path_body_metrics(spec: BoxSpec) -> tuple[float, float]:
     """(inset per side, body height) for a polygon-footprint body.
 
@@ -1628,14 +1716,25 @@ def path_cap(
     Its outer face is the declared outline, so a closed box measures exactly
     what it was asked for.
     """
+    from pyboxbuilder.box.shell import body_rounding
+    from pyboxbuilder.rounding import lid_rounding, mating_rounding
+
     lt = spec.lid_thickness
     slack = spec.cap_slack
     inset, _ = path_body_metrics(spec)
+    r_body = body_rounding(spec)
+    r_mating = max(mating_rounding(spec), r_body * 0.75)
+    r_lid = min(lid_rounding(spec), max(0.0, (inset - slack) * 0.85), lt * 0.85)
 
     base = spec.height - cap_height
-    cap = extrude_footprint(path, cap_height, base)
-    cavity = extrude_footprint(
-        offset_footprint(path, inset - slack), cap_height - lt, base
+    cap = extrude_rounded_footprint(
+        path, cap_height, base, r_corner=r_body, r_top=r_lid
+    )
+    cavity = extrude_rounded_footprint(
+        offset_footprint(path, inset - slack),
+        cap_height - lt + 0.1,
+        base - 0.1,
+        r_corner=r_mating,
     )
     return cap - cavity
 
@@ -1647,6 +1746,9 @@ def path_sleeve(
     foot: float | None = None,
 ) -> Bosl2Solid:
     """Return a sleeve that slips over a polygon-footprint body, stopping at the foot."""
+    from pyboxbuilder.box.shell import body_rounding
+    from pyboxbuilder.rounding import lid_rounding, mating_rounding
+
     lt = spec.lid_thickness
     slack = spec.slip_slack
     inset, _ = path_body_metrics(spec)
@@ -1654,10 +1756,18 @@ def path_sleeve(
     gap = min(slipover_gap(spec), spec.height - foot_val - lt)
     skirt = spec.height - foot_val - gap
     base_z = foot_val + gap
+    r_body = body_rounding(spec)
+    r_mating = max(mating_rounding(spec), r_body * 0.75)
+    r_lid = min(lid_rounding(spec), max(0.0, (inset - slack) * 0.85), lt * 0.85)
 
-    outer = extrude_footprint(path, skirt, base_z)
-    cavity = extrude_footprint(
-        offset_footprint(path, inset - slack), skirt - lt, base_z
+    outer = extrude_rounded_footprint(
+        path, skirt, base_z, r_corner=r_body, r_top=r_lid
+    )
+    cavity = extrude_rounded_footprint(
+        offset_footprint(path, inset - slack),
+        skirt - lt + 0.1,
+        base_z - 0.1,
+        r_corner=r_mating,
     )
     return outer - cavity
 

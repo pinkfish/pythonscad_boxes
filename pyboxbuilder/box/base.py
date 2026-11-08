@@ -111,6 +111,8 @@ class BoxTypeBase:
             overrides it (FR-044i).
 
         """
+        if spec.path:
+            return []
         from pyboxbuilder.rounding import vertical_and_top_edges
 
         return vertical_and_top_edges()

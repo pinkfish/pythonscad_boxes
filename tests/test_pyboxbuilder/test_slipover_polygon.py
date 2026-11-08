@@ -231,6 +231,95 @@ class SlipoverBoxPolygonTests(unittest.TestCase):
         self.assertAlmostEqual(z0_rect, z0_path, places=3)
         self.assertAlmostEqual(s_rect[2], s_path[2], places=3)
 
+    def test_polygon_base_and_lid_corners_are_rounded_and_notched(self) -> None:
+        """Verify base foot and lid corners are rounded to match and front corners are notched."""
+        from mesh import volume
+
+        from pyboxbuilder.box.shell import block
+
+        l_path = (
+            (0.0, 0.0),
+            (55.0, 0.0),
+            (55.0, 25.0),
+            (25.0, 25.0),
+            (25.0, 55.0),
+            (0.0, 55.0),
+        )
+        box = BOX_IMPL_REGISTRY[BoxType.SLIPOVER_PATH]()
+        spec = BoxSpec(
+            label="SlipL",
+            width=55.0,
+            length=55.0,
+            height=20.0,
+            path=l_path,
+        )
+        body = box.build_body(spec)
+        lid_notched = box.build_lid(spec)
+        lid_plain = box.build_lid(replace(spec, slipover_finger_height=0.0))
+        removed = lid_plain - lid_notched
+
+        # Front-left corner (0, 0), front-right corner (55, 0), and back-left corner (0, 55)
+        # must all have finger notches cut into the sleeve.
+        for cx, cy in ((0.0, 0.0), (48.0, 0.0), (0.0, 48.0)):
+            probe = block([7.0, 7.0, 20.0], at=(cx, cy, 0.0))
+            self.assertGreater(
+                volume(removed & probe),
+                0.5,
+                f"Expected finger notch material removed near corner ({cx}, {cy})",
+            )
+
+        # Base foot corners at (0, 0), (55, 0), (55, 25) must be rounded (no sharp vertex tip).
+        for vx, vy in ((0.0, 0.0), (54.8, 0.0), (54.8, 24.8)):
+            tip = block([0.2, 0.2, spec.foot], at=(vx, vy, 0.0))
+            self.assertLess(
+                volume(body & tip),
+                0.001,
+                f"Expected base foot corner at ({vx}, {vy}) to be rounded",
+            )
+
+    def test_cap_path_base_and_lid_corners_are_rounded_and_cutout(self) -> None:
+        """Verify CapPathBox rounds base and lid corners and cuts corner finger recesses."""
+        from mesh import volume
+
+        from pyboxbuilder.box.shell import block
+
+        l_path = (
+            (0.0, 0.0),
+            (55.0, 0.0),
+            (55.0, 25.0),
+            (25.0, 25.0),
+            (25.0, 55.0),
+            (0.0, 55.0),
+        )
+        box = BOX_IMPL_REGISTRY[BoxType.CAP_PATH]()
+        spec = BoxSpec(
+            label="CapL",
+            width=55.0,
+            length=55.0,
+            height=20.0,
+            path=l_path,
+        )
+        body_cut = box.build_body(spec)
+        body_plain = box.build_body(replace(spec, cap_finger_cutouts=False))
+        removed = body_plain - body_cut
+
+        # Front-left (0, 0), front-right (55, 0), and back-left (0, 55) must have finger cutouts.
+        for cx, cy in ((0.0, 0.0), (48.0, 0.0), (0.0, 48.0)):
+            probe = block([7.0, 7.0, 12.0], at=(cx, cy, 0.0))
+            self.assertGreater(
+                volume(removed & probe),
+                0.5,
+                f"Expected cap finger cutout material removed near corner ({cx}, {cy})",
+            )
+
+        # Base foot corners and lid corners must be rounded (no sharp vertex tip).
+        lid = box.build_lid(spec)
+        for vx, vy in ((0.0, 0.0), (54.8, 0.0), (54.8, 24.8)):
+            tip_body = block([0.2, 0.2, 2.0], at=(vx, vy, 0.0))
+            tip_lid = block([0.2, 0.2, 10.0], at=(vx, vy, 10.0))
+            self.assertLess(volume(body_cut & tip_body), 0.001)
+            self.assertLess(volume(lid & tip_lid), 0.001)
+
 
 if __name__ == "__main__":
     unittest.main()

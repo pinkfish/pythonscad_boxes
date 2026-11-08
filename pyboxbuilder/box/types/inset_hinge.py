@@ -41,10 +41,12 @@ def _hinge_line_with_spacing_and_num(
     spacing: float,
     offset: float,
     spin: float = 90.0,
+    gap: float | None = None,
 ) -> Bosl2Solid:
     """Build a single conical print-in-place hinge line (HingeLineWithSpacingAndNum in hinge_box.scad)."""
     length = num * spacing
     r = diameter / 2.0
+    effective_gap = offset * 2.0 if gap is None else max(offset * 2.0, gap)
 
     # Base cylinder from z = 0 to z = length
     core = cylinder(height=length, radius=r, fn=32).translate([0.0, 0.0, length / 2.0])
@@ -83,7 +85,7 @@ def _hinge_line_with_spacing_and_num(
                 radius=r,
                 fn=32,
             ).translate([0.0, 0.0, z_base + spacing / 2.0])
-            arm_h = r + offset * 2.0 + 0.01
+            arm_h = r + effective_gap + 0.01
             arm_seg = (
                 cuboid(
                     [spacing - offset, diameter, arm_h],
@@ -134,7 +136,8 @@ def _hinge_line_with_spacing_and_num(
         total = total | a
 
     shifted = total.translate([0.0, 0.0, -length / 2.0])
-    bound_box = cuboid([diameter * 2.0, diameter * 2.0, length])
+    bound_span = max(diameter * 2.0, diameter + effective_gap * 2.0)
+    bound_box = cuboid([bound_span, bound_span, length])
     return (bound_box & shifted).rotate([0, 270, 0])
 
 
@@ -144,15 +147,10 @@ def _inset_hinge(
     diameter: float,
     offset: float,
 ) -> Bosl2Solid:
-    """Build the double-barrel print-in-place inset hinge assembly (InsetHinge in hinge_box.scad)."""
+    """Build the double-barrel print-in-place inset hinge assembly without a center sliver bar."""
     num = max(2, round(length / diameter))
     spacing = length / num
-
-    center_bar = cuboid([
-        length,
-        max(0.4, width - diameter * 2.0 - offset / 2.0),
-        diameter,
-    ]).translate([0.0, width / 2.0, 0.0])
+    gap = max(0.0, width - diameter * 2.0)
 
     line1 = _hinge_line_with_spacing_and_num(
         diameter=diameter,
@@ -160,6 +158,7 @@ def _inset_hinge(
         spin=90.0,
         num=num,
         spacing=spacing,
+        gap=gap,
     ).translate([0.0, diameter / 2.0, 0.0])
 
     line2 = (
@@ -169,12 +168,13 @@ def _inset_hinge(
             spin=90.0,
             num=num,
             spacing=spacing,
+            gap=gap,
         )
         .mirror([0, 1, 0])
         .translate([0.0, width - diameter / 2.0, 0.0])
     )
 
-    return (center_bar | line1 | line2).translate([0.0, -width / 2.0, 0.0])
+    return (line1 | line2).translate([0.0, -width / 2.0, 0.0])
 
 
 def _make_lid_tab(
@@ -217,12 +217,21 @@ class InsetHingeBox(BoxTypeBase):
     """Print-in-place inset-hinge box based on MakeBoxAndLidWithInsetHinge (hinge_box.scad)."""
 
     @staticmethod
-    def _hinge_metrics(spec: BoxSpec) -> tuple[float, float, float, float, float]:
+    def _effective_gap(spec: BoxSpec) -> float:
+        """Return the print-in-place bed gap between the two box halves (2 * hinge_offset)."""
+        hinge_offset = spec.pip_radial_clearance
+        raw_gap = getattr(spec, "pip_gap_mm", 0.0)
+        if raw_gap <= 0.0 or abs(raw_gap - 1.0) < 1e-6:
+            return hinge_offset * 2.0
+        return raw_gap
+
+    @classmethod
+    def _hinge_metrics(cls, spec: BoxSpec) -> tuple[float, float, float, float, float]:
         """Return (hinge_diameter, hinge_width, side_gap, hinge_length, hinge_offset)."""
         wt = spec.wall_thickness
         ft = spec.floor_thickness
         half_h = spec.height / 2.0
-        gap = getattr(spec, "pip_gap_mm", 1.0)
+        gap = cls._effective_gap(spec)
         hinge_diameter = min(
             2.0 * spec.pip_hinge_radius,
             max(3.0, (spec.width - 2.0 * wt - gap) / 2.5),
@@ -261,7 +270,7 @@ class InsetHingeBox(BoxTypeBase):
         ft = spec.floor_thickness
         lt = spec.lid_thickness
         half_h = spec.height / 2.0
-        gap = getattr(spec, "pip_gap_mm", 1.0)
+        gap = self._effective_gap(spec)
         offset = spec.size_spacing
         print_in_place_offset = 0.2
         print_layer_height = 0.2
@@ -269,6 +278,7 @@ class InsetHingeBox(BoxTypeBase):
         hinge_diameter, hinge_width, side_gap, hinge_length, hinge_offset = (
             self._hinge_metrics(spec)
         )
+        hinge_sink = max(hinge_offset, gap / 2.0)
 
         r_body = min(body_rounding(spec), wt, half_h / 3.0)
         outer_edges = [
@@ -373,12 +383,12 @@ class InsetHingeBox(BoxTypeBase):
             [
                 hinge_width + print_in_place_offset * 2.0 + 0.02,
                 hinge_length + print_in_place_offset * 2.0,
-                hinge_diameter + 5.0 + hinge_offset + 1.0,
+                hinge_diameter + 5.0 + hinge_sink + 1.0,
             ],
             at=(
                 spec.width - hinge_diameter - 0.01 - print_in_place_offset,
                 side_gap - print_in_place_offset,
-                half_h - hinge_diameter - print_layer_height - hinge_offset,
+                half_h - hinge_diameter - print_layer_height - hinge_sink,
             ),
         )
         shell = shell - hinge_pocket
@@ -394,7 +404,7 @@ class InsetHingeBox(BoxTypeBase):
             .translate([
                 spec.width + gap / 2.0,
                 hinge_length / 2.0 + side_gap,
-                half_h - hinge_diameter / 2.0 - hinge_offset,
+                half_h - hinge_diameter / 2.0 - hinge_sink,
             ])
         )
         monolithic = shell | hinge_asm
