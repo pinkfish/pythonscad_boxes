@@ -59,6 +59,14 @@ to cover the material under it. Deeper only costs filament and print time: the
 colour is a surface, and nothing about the label is structural.
 """
 
+DEFAULT_TOP_SKIN_MM = 0.8
+"""Default solid top skin thickness (in mm) supporting thin colored inlays above the backing lattice.
+
+At 0.2mm layer height, 0.8mm (4 layers) provides a 0.6mm (3-layer) color inlay
+plus a continuous 0.2mm (1-layer) solid bridging floor tied into the backing
+lattice ribs below, keeping the lid sturdy while reducing plastic consumption.
+"""
+
 
 @dataclass(frozen=True)
 class LidInsert:
@@ -238,6 +246,20 @@ def decorate_lid(
                 reserved=reserved,
                 path=path,
             )
+    elif resolved.backing_pattern is not None:
+        result.solid = _cut_backing_lattice(
+            result.solid,
+            resolved,
+            width,
+            length,
+            origin_x,
+            origin_y,
+            top_z,
+            lid_thickness,
+            inlay_depth=INLAY_DEPTH_MM,
+            reserved=reserved,
+            path=path,
+        )
 
     if label is not None:
         _apply_label(result, resolved, label, origin_x, origin_y, top_z, mode_str, lid_thickness)
@@ -591,6 +613,168 @@ def _cut_pattern(
     for x, y, radius in reserved:
         holes = holes - _disc(x, y, base[2], radius, depth)
     cut_solid = holes.solid if hasattr(holes, "solid") and holes.solid is not None else holes
+    lid = lid - cut_solid
+
+    back_mask: Bosl2Solid | None = None
+    if logo_keepout is not None:
+        back_mask = logo_keepout
+    if keep_clear is not None and keep_clear.plate is not None:
+        back_mask = keep_clear.plate if back_mask is None else (back_mask | keep_clear.plate)
+    if back_mask is not None:
+        lid = _cut_backing_lattice(
+            lid,
+            builder,
+            width,
+            length,
+            origin_x,
+            origin_y,
+            top_z,
+            lid_thickness,
+            inlay_depth=INLAY_DEPTH_MM,
+            reserved=reserved,
+            path=path,
+            mask=back_mask,
+        )
+    return lid
+
+
+def _resolve_backing_spec(
+    builder: LidBuilder,
+    lid_thickness: float,
+    inlay_depth: float = INLAY_DEPTH_MM,
+) -> tuple[PatternType, float | None, float | None, float]:
+    """Return ``(backing_pattern_type, spacing, web, top_skin_mm)`` for a lid."""
+    from pyboxbuilder.lid.builder import PatternBuilder
+
+    pat = _pattern_of(builder) if builder.pattern is not None else None
+    if builder.backing_pattern is not None:
+        bp = builder.backing_pattern
+        if isinstance(bp, PatternBuilder):
+            b_type = PatternType(bp.type.lower()) if isinstance(bp.type, str) else bp.type
+            b_spacing = bp.spacing
+            b_web = bp.web
+            req_skin = builder.top_skin_mm if builder.top_skin_mm is not None else bp.top_skin_mm
+        elif isinstance(bp, str):
+            b_type = PatternType(bp.lower())
+            b_spacing = pat.backing_spacing if pat is not None else None
+            b_web = pat.backing_web if pat is not None else None
+            req_skin = builder.top_skin_mm
+        else:
+            b_type = bp
+            b_spacing = pat.backing_spacing if pat is not None else None
+            b_web = pat.backing_web if pat is not None else None
+            req_skin = builder.top_skin_mm
+    elif pat is not None:
+        raw_bp = pat.backing_pattern
+        if raw_bp is None:
+            b_type = PatternType.NONE
+        elif isinstance(raw_bp, str):
+            b_type = PatternType(raw_bp.lower())
+        else:
+            b_type = raw_bp
+        b_spacing = pat.backing_spacing
+        b_web = pat.backing_web
+        req_skin = builder.top_skin_mm if builder.top_skin_mm is not None else pat.top_skin_mm
+    else:
+        b_type = PatternType.NONE
+        b_spacing = None
+        b_web = None
+        req_skin = builder.top_skin_mm
+
+    default_skin = max(DEFAULT_TOP_SKIN_MM, inlay_depth + 0.2)
+    skin = req_skin if req_skin is not None else default_skin
+    if lid_thickness >= 1.2:
+        skin = max(inlay_depth, min(skin, max(inlay_depth + 0.2, lid_thickness * 0.6)))
+    else:
+        skin = min(skin, lid_thickness)
+    return b_type, b_spacing, b_web, skin
+
+
+def _cut_backing_lattice(
+    lid: Bosl2Solid,
+    builder: LidBuilder,
+    width: float,
+    length: float,
+    origin_x: float,
+    origin_y: float,
+    top_z: float,
+    lid_thickness: float,
+    inlay_depth: float = INLAY_DEPTH_MM,
+    reserved: Sequence[tuple[float, float, float]] = (),
+    path: tuple[tuple[float, float], ...] | None = None,
+    mask: Bosl2Solid | None = None,
+) -> Bosl2Solid:
+    """Cut the selectable backing lattice into the underside of the lid below the top skin."""
+    from pyboxbuilder.box.shell import block
+    from pyboxbuilder.lid.builder import LID_BORDER_MM
+    from pyboxbuilder.lid.pattern import build_pattern
+
+    b_type, b_spacing, b_web, skin = _resolve_backing_spec(builder, lid_thickness, inlay_depth)
+    lattice_depth = lid_thickness - skin
+    if lattice_depth <= 0.2 or b_type in (PatternType.NONE, PatternType.SOLID):
+        return lid
+
+    pat = _pattern_of(builder) if builder.pattern is not None else None
+    margin = pat.border_width if pat is not None else LID_BORDER_MM
+    cut_h = lattice_depth + 0.2
+    cut_z0 = top_z - lid_thickness - 0.2
+
+    if path is not None and len(path) >= 3:
+        from pyboxbuilder.box.features import extrude_footprint, offset_footprint
+        from pyboxbuilder.paths import bounds
+
+        inset_path = offset_footprint(path, margin)
+        (pmin_x, pmin_y), (pmax_x, pmax_y) = bounds(inset_path)
+        if pmax_x <= pmin_x or pmax_y <= pmin_y:
+            return lid
+
+        holes = build_pattern(
+            width,
+            length,
+            cut_h,
+            b_type,
+            b_spacing,
+            b_web,
+            inlay=False,
+            lid_thickness=cut_h,
+        )
+        if holes is None:
+            return lid
+
+        clip_solid = extrude_footprint(inset_path, cut_h, cut_z0)
+        holes = holes.translate([origin_x, origin_y, cut_z0])
+        holes = holes & clip_solid
+    else:
+        area_w = width - 2 * margin
+        area_l = length - 2 * margin
+        if area_w <= 0 or area_l <= 0:
+            return lid
+
+        holes = build_pattern(
+            area_w,
+            area_l,
+            cut_h,
+            b_type,
+            b_spacing,
+            b_web,
+            inlay=False,
+            lid_thickness=cut_h,
+        )
+        if holes is None:
+            return lid
+
+        base = (origin_x + margin, origin_y + margin, cut_z0)
+        holes = holes.translate([base[0], base[1], base[2]])
+        holes = holes & block([area_w, area_l, cut_h], at=base)
+
+    if mask is not None:
+        stretched_mask = _as_depth(mask, cut_h + 0.4).translate([origin_x, origin_y, cut_z0 - 0.1])
+        holes = holes & stretched_mask
+
+    for x, y, radius in reserved:
+        holes = holes - _disc(x, y, cut_z0, radius, cut_h)
+
+    cut_solid = holes.solid if hasattr(holes, "solid") and holes.solid is not None else holes
     return lid - cut_solid
 
 
@@ -628,6 +812,8 @@ def _apply_inlaid_pattern(
         if builder.pattern_inlay_depth_mm is not None
         else (pat.inlay_depth_mm or INLAY_DEPTH_MM)
     )
+    if through_inlay is False and lid_thickness >= 1.2:
+        inlay_depth = min(inlay_depth, lid_thickness - 0.6)
 
     is_simple_pattern = pat.type not in (
         PatternType.RING,
@@ -724,7 +910,14 @@ def _apply_inlaid_pattern(
             through_cut = holes.holes & result.solid
             result.solid = result.solid - through_cut
 
+        top_clip = (
+            block([width + 4.0, length + 4.0, depth + 2.0], at=(origin_x - 2.0, origin_y - 2.0, base_z))
+            if through_inlay is False
+            else None
+        )
         for part_solid, color_key in holes.inlays:
+            if top_clip is not None:
+                part_solid = part_solid & top_clip
             inlay = part_solid & result.solid
             result.solid = result.solid - inlay
             if mode != "single":
@@ -741,11 +934,32 @@ def _apply_inlaid_pattern(
                     c = builder.pattern_color
                 result.inserts.append(LidInsert(_coloured(inlay, c), c))
     else:
+        if through_inlay is False:
+            top_clip = block(
+                [width + 4.0, length + 4.0, depth + 2.0],
+                at=(origin_x - 2.0, origin_y - 2.0, base_z),
+            )
+            holes = holes & top_clip
         inlay = holes & result.solid
         result.solid = result.solid - inlay
         if mode != "single":
             color = builder.pattern_color
             result.inserts.append(LidInsert(_coloured(inlay, color), color))
+
+    if through_inlay is not True:
+        result.solid = _cut_backing_lattice(
+            result.solid,
+            builder,
+            width,
+            length,
+            origin_x,
+            origin_y,
+            top_z,
+            lid_thickness,
+            inlay_depth=inlay_depth,
+            reserved=reserved,
+            path=path,
+        )
 
 
 def _disc(x: float, y: float, z: float, radius: float, depth: float) -> Bosl2Solid:
