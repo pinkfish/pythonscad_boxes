@@ -705,3 +705,112 @@ class InsertColourTests(unittest.TestCase):
         # Lid volume is decreased because pips penetrate all the way through the lid
         self.assertLess(volume(dec_hybrid.solid), volume(dec_multi.solid))
 
+    def test_multicolor_inlay_uses_thin_top_color_and_selectable_backing_lattice(self) -> None:
+        """Multi-color inlaid lids print a thin top color layer with a sturdy top skin and backing lattice."""
+        from pybosl2 import Color
+
+        from pyboxbuilder.box.shell import block
+        from pyboxbuilder.lid.decorate import DEFAULT_TOP_SKIN_MM, INLAY_DEPTH_MM
+
+        pat_default = PatternBuilder(
+            PatternType.DICE,
+            spacing=14.0,
+            inlay=True,
+            colors=(Color("white"), Color("red")),
+        )
+        self.assertEqual(pat_default.backing_pattern, PatternType.HEX)
+
+        lid = bare_lid()
+        dec_hex_back = decorate_lid(
+            lid,
+            LidBuilder(text="Arena", label_mode=LabelMode.FRAMELESS, pattern=pat_default),
+            2.0,
+            "mmu",
+        )
+        dec_solid_back = decorate_lid(
+            lid,
+            LidBuilder(
+                text="Arena",
+                label_mode=LabelMode.FRAMELESS,
+                pattern=PatternBuilder(
+                    PatternType.DICE,
+                    spacing=14.0,
+                    inlay=True,
+                    colors=(Color("white"), Color("red")),
+                    backing_pattern=PatternType.SOLID,
+                ),
+            ),
+            2.0,
+            "mmu",
+        )
+        dec_tri_back = decorate_lid(
+            lid,
+            LidBuilder(
+                text="Arena",
+                label_mode=LabelMode.FRAMELESS,
+                pattern=pat_default,
+                backing_pattern=PatternType.TRIANGLE,
+            ),
+            2.0,
+            "mmu",
+        )
+
+        # 1. All colored inserts are thin top-layer inlays (0.6mm, never full 2.0mm lid thickness)
+        for ins in dec_hex_back.inserts:
+            (_, _, _), (_, _, h) = _bounds_cs(ins.solid)
+            self.assertAlmostEqual(h, INLAY_DEPTH_MM, places=4)
+
+        # 2. Default HEX backing lattice uses significantly less plastic than a solid back
+        self.assertLess(volume(dec_hex_back.solid), volume(dec_solid_back.solid) * 0.85)
+
+        # 3. Backing lattice is selectable (e.g. TRIANGLE vs HEX)
+        self.assertGreater(abs(volume(dec_tri_back.solid) - volume(dec_hex_back.solid)), 10.0)
+
+        # 4. Sturdy bridging layer between top color inlays and backing lattice remains unbroken
+        (_, _, cz), (_, _, lid_h) = _bounds_cs(lid)
+        top_z = cz + lid_h / 2.0
+        bridge_z0 = top_z - DEFAULT_TOP_SKIN_MM
+        bridge_h = DEFAULT_TOP_SKIN_MM - INLAY_DEPTH_MM
+        bridge_probe = block([60.0, 40.0, bridge_h], at=(20.0, 15.0, bridge_z0))
+        self.assertAlmostEqual(
+            volume(dec_hex_back.solid & bridge_probe),
+            60.0 * 40.0 * bridge_h,
+            delta=1.0,
+        )
+
+    def test_multicolor_logo_and_framed_label_have_backing_lattice(self) -> None:
+        """Multi-color logos and framed labels on patterned lids keep a thin top skin and cut a backing lattice."""
+        import pybosl2
+        from pybosl2 import Color
+
+        logo_box = pybosl2.shapes3d.cube([50.0, 40.0, 0.6])
+        lid = bare_lid()
+        dec_hex_back = decorate_lid(
+            lid,
+            LidBuilder(
+                text="Erie",
+                label_mode=LabelMode.FRAMED,
+                frame_color=Color("white"),
+                logo=logo_box,
+                logo_color=Color("blue"),
+                pattern=PatternBuilder(PatternType.DENSE_HEX),
+            ),
+            2.0,
+            "mmu",
+        )
+        dec_solid_back = decorate_lid(
+            lid,
+            LidBuilder(
+                text="Erie",
+                label_mode=LabelMode.FRAMED,
+                frame_color=Color("white"),
+                logo=logo_box,
+                logo_color=Color("blue"),
+                pattern=PatternBuilder(PatternType.DENSE_HEX, backing_pattern=PatternType.SOLID),
+            ),
+            2.0,
+            "mmu",
+        )
+        self.assertLess(volume(dec_hex_back.solid), volume(dec_solid_back.solid) - 200.0)
+
+

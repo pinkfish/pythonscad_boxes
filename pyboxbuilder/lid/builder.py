@@ -90,11 +90,21 @@ class PatternBuilder:
     """When True in inlay mode, cutouts/holes inside pattern shapes penetrate completely through the lid."""
     hole_ratio: float = 0.5
     """Relative inner hole size for shapes with holes (such as RING), from 0.1 to 0.9."""
+    backing_pattern: PatternType | str | None = PatternType.HEX
+    """Lattice pattern cut into the back of the lid behind top-layer inlays to reduce plastic use (defaults to HEX)."""
+    backing_spacing: float | None = None
+    """Centre-to-centre distance between holes in the backing lattice, in mm; ``None`` derives from lid size."""
+    backing_web: float | None = None
+    """Material left between neighbouring holes in the backing lattice, in mm; ``None`` uses default web."""
+    top_skin_mm: float | None = None
+    """Solid top skin thickness in mm supporting thin colored inlays above the backing lattice (defaults to 0.8mm)."""
 
     def __post_init__(self) -> None:
         """Convert list through_inlay to tuple and coerce string type."""
         if isinstance(self.type, str):
             object.__setattr__(self, "type", PatternType(self.type.lower()))
+        if isinstance(self.backing_pattern, str):
+            object.__setattr__(self, "backing_pattern", PatternType(self.backing_pattern.lower()))
         if isinstance(self.through_inlay, list):
             object.__setattr__(self, "through_inlay", tuple(self.through_inlay))
         if isinstance(self.colors, (list, tuple)):
@@ -178,6 +188,10 @@ class LidBuilder:
     """Override for whether pattern inlays extend completely through the lid thickness."""
     pattern_inlay_depth_mm: float | None = None
     """Override for top-layer pattern inlay depth in mm."""
+    backing_pattern: PatternBuilder | PatternType | str | None = None
+    """Override for the backing lattice pattern on the lid underside behind top-layer inlays (defaults to HEX)."""
+    top_skin_mm: float | None = None
+    """Override for the solid top skin thickness in mm supporting thin colored inlays above the backing lattice."""
     logo: Any | None = None
     """Path to the SVG logo, a Bosl2Solid, or a callable representing the custom lid logo."""
     logo_color: Color | None = None
@@ -229,6 +243,8 @@ class LidBuilder:
             object.__setattr__(self, "pattern", PatternBuilder(PatternType(self.pattern.lower())))
         elif isinstance(self.pattern, PatternType):
             object.__setattr__(self, "pattern", PatternBuilder(self.pattern))
+        if isinstance(self.backing_pattern, str):
+            object.__setattr__(self, "backing_pattern", PatternType(self.backing_pattern.lower()))
         if isinstance(self.pattern_through_inlay, list):
             object.__setattr__(self, "pattern_through_inlay", tuple(self.pattern_through_inlay))
         if isinstance(self.pattern_colors, (list, tuple)):

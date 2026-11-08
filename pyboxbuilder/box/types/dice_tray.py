@@ -170,21 +170,6 @@ class DiceTrayBox(SlipoverBox):
         slack = spec.slip_slack
         inset, _body_height, z_deflect_bot, d_lid, _d_body = self._deflector_metrics(spec)
 
-        # Recessed felt pad pocket on the arena floor (inner roof of the slipover sleeve)
-        pocket_d = min(spec.felt_pocket_depth, max(0.0, lt * 0.4))
-        if pocket_d > 0.05:
-            margin = 1.5
-            x0_f = inset - slack + margin
-            y0_f = inset - slack + margin
-            felt_w = spec.width - 2 * x0_f
-            felt_l = spec.length - 2 * y0_f
-            if felt_w > 4.0 and felt_l > 4.0:
-                felt_pocket = block(
-                    [felt_w, felt_l, pocket_d + 0.05],
-                    at=(x0_f, y0_f, spec.height - lt - 0.05),
-                )
-                sleeve = sleeve - felt_pocket
-
         # 45° triangular corner deflector fillets inside the arena floor corners
         def_h = (spec.height - lt) - z_deflect_bot
         if spec.corner_deflectors and def_h > 0.5:

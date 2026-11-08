@@ -21,7 +21,13 @@ from pyboxbuilder.builders import (
     SnapFitBoxBuilder,
     ThreadedBoxBuilder,
 )
-from pyboxbuilder.enums import BoxType, CatchType, DispenserExtractionMode, InterlockType, LatchAxis
+from pyboxbuilder.enums import (
+    BoxType,
+    CatchType,
+    DispenserExtractionMode,
+    InterlockType,
+    LatchAxis,
+)
 from pyboxbuilder.project import Project
 
 
@@ -159,10 +165,12 @@ class ExtendedBoxBuildersTests(unittest.TestCase):
         self.assertIsNotNone(b.lid.pattern)
         assert b.lid.pattern is not None
         self.assertTrue(b.lid.pattern.inlay)
+        from pyboxbuilder.enums import PatternType
+
+        self.assertEqual(b.lid.pattern.backing_pattern, PatternType.HEX)
         # Preview in MMU generates body, lid, pattern insert, and text insert
         pieces = p.preview_pieces(show_lids=True)
         self.assertEqual(len(pieces), 4)
-
 
     def test_sleeve_drawer_builder(self) -> None:
         p = Project("TestSleeveDrawer")
@@ -202,7 +210,9 @@ class ExtendedBoxBuildersTests(unittest.TestCase):
 
         # Drawer handle extends in -Y by 4mm
         b_box = drawer_piece.solid.bounds()
-        center_y = float(b_box.center[1]) if hasattr(b_box, "center") else float(b_box[0][1])
+        center_y = (
+            float(b_box.center[1]) if hasattr(b_box, "center") else float(b_box[0][1])
+        )
         self.assertAlmostEqual(center_y, 28.0, delta=1.5)  # in preview packed layout
 
         # Verify drawer front wall (y=0..wt) is 100% solid behind handle (compartment does not breach front wall)
@@ -213,10 +223,14 @@ class ExtendedBoxBuildersTests(unittest.TestCase):
         wt = 2.0
         drawer_w = 70.0 - 2 * (sw + slack)
         drawer_h = 28.0 - 2 * (sw + slack)
-        front_wall_probe = block([drawer_w, wt, drawer_h], at=(sw + slack, 0.0, sw + slack))
+        front_wall_probe = block(
+            [drawer_w, wt, drawer_h], at=(sw + slack, 0.0, sw + slack)
+        )
         actual_front = volume(drawer_piece.solid & front_wall_probe)
         expected_front = drawer_w * wt * drawer_h
-        self.assertAlmostEqual(actual_front, expected_front, delta=15.0)  # delta accounts for corner rounding
+        self.assertAlmostEqual(
+            actual_front, expected_front, delta=15.0
+        )  # delta accounts for corner rounding
 
         # Verify outer sleeve has no through-hole hex pattern (remains solid)
         sleeve_top_probe = block([60.0, 50.0, sw], at=(5.0, 5.0, 28.0 - sw))
@@ -447,7 +461,9 @@ class ExtendedBoxGeometryTests(unittest.TestCase):
         half_h = spec.height / 2.0
 
         # Middle section: knuckle barrel must be present and solid at y=y_pivot, z=half_h
-        barrel_probe = block([spec.width, 2 * hr, 2 * hr], at=(0.0, y_pivot - hr, half_h - hr))
+        barrel_probe = block(
+            [spec.width, 2 * hr, 2 * hr], at=(0.0, y_pivot - hr, half_h - hr)
+        )
         v_barrel = volume(body & barrel_probe)
         self.assertGreater(v_barrel, 1000.0)
 
@@ -459,7 +475,9 @@ class ExtendedBoxGeometryTests(unittest.TestCase):
 
         # Monolithic bounds: length must be 2 * spec.length + gap (81.0mm), no 14mm chasm
         _centre, size = (
-            body.bounds() if isinstance(body.bounds(), tuple) else (body.bounds().center, body.bounds().size)
+            body.bounds()
+            if isinstance(body.bounds(), tuple)
+            else (body.bounds().center, body.bounds().size)
         )
         self.assertAlmostEqual(size[1], 2 * spec.length + gap, delta=0.2)
 
@@ -519,7 +537,9 @@ class ExtendedBoxGeometryTests(unittest.TestCase):
         # 1. SCOOP (default): verify floor cutout allows pinching under the tile
         scoop_body = impl.build_body(base_spec)
         self.assertIsNotNone(scoop_body)
-        floor_probe = block([20.0, 10.0, base_spec.floor_thickness], at=((55.0 - 20.0) / 2.0, 0.0, 0.0))
+        floor_probe = block(
+            [20.0, 10.0, base_spec.floor_thickness], at=((55.0 - 20.0) / 2.0, 0.0, 0.0)
+        )
         # Floor notch cuts through the floor at the front center
         self.assertAlmostEqual(volume(scoop_body & floor_probe), 0.0, delta=1.0)
 
@@ -534,7 +554,9 @@ class ExtendedBoxGeometryTests(unittest.TestCase):
         )
         tray_body = impl.build_body(tray_spec)
         self.assertIsNotNone(tray_body)
-        tray_probe = block([50.0, 15.0, base_spec.floor_thickness], at=(2.5, -18.0, 0.0))
+        tray_probe = block(
+            [50.0, 15.0, base_spec.floor_thickness], at=(2.5, -18.0, 0.0)
+        )
         self.assertGreater(volume(tray_body & tray_probe), 200.0)
 
         # 3. REAR_PUSH mode: rear push cutout through the back wall at floor level
@@ -548,7 +570,14 @@ class ExtendedBoxGeometryTests(unittest.TestCase):
         )
         rear_body = impl.build_body(rear_spec)
         self.assertIsNotNone(rear_body)
-        rear_probe = block([18.0, base_spec.wall_thickness, 8.0], at=((55.0 - 18.0) / 2.0, 55.0 - base_spec.wall_thickness, base_spec.floor_thickness))
+        rear_probe = block(
+            [18.0, base_spec.wall_thickness, 8.0],
+            at=(
+                (55.0 - 18.0) / 2.0,
+                55.0 - base_spec.wall_thickness,
+                base_spec.floor_thickness,
+            ),
+        )
         self.assertAlmostEqual(volume(rear_body & rear_probe), 0.0, delta=1.0)
 
         # 4. ARCH mode: front wall is open through archway
@@ -562,7 +591,9 @@ class ExtendedBoxGeometryTests(unittest.TestCase):
         )
         arch_body = impl.build_body(arch_spec)
         self.assertIsNotNone(arch_body)
-        arch_probe = block([20.0, base_spec.wall_thickness, 15.0], at=((55.0 - 20.0) / 2.0, 0.0, 20.0))
+        arch_probe = block(
+            [20.0, base_spec.wall_thickness, 15.0], at=((55.0 - 20.0) / 2.0, 0.0, 20.0)
+        )
         self.assertAlmostEqual(volume(arch_body & arch_probe), 0.0, delta=1.0)
 
     def test_dispenser_floor_notch_cuts_cleanly_through_ramp(self) -> None:
@@ -584,7 +615,10 @@ class ExtendedBoxGeometryTests(unittest.TestCase):
         self.assertIsNotNone(body)
 
         # Probe in the notch above the 2.0mm floor (z = 2.5..4.5mm) where the slide ramp slopes upward
-        probe = block([12.0, 6.0, 2.0], at=((spec.width - 12.0) / 2.0, spec.wall_thickness + 2.0, 2.5))
+        probe = block(
+            [12.0, 6.0, 2.0],
+            at=((spec.width - 12.0) / 2.0, spec.wall_thickness + 2.0, 2.5),
+        )
         self.assertAlmostEqual(volume(body & probe), 0.0, delta=0.01)
 
     def test_dispenser_stackable(self) -> None:
@@ -663,7 +697,9 @@ class ExtendedBoxGeometryTests(unittest.TestCase):
         self.assertAlmostEqual(c_b[2] + s_b[2] / 2.0, body_h, delta=0.1)
 
         # Lid sleeve starts at foot + gap and has diagonal corner finger cutouts at (0, 0) and (width, length)
-        base_z = spec.foot + min(slipover_gap(spec), spec.height - spec.foot - spec.lid_thickness)
+        base_z = spec.foot + min(
+            slipover_gap(spec), spec.height - spec.foot - spec.lid_thickness
+        )
         b_lid = lid.bounds()
         c_l, s_l = (b_lid.center, b_lid.size) if hasattr(b_lid, "center") else b_lid
         self.assertAlmostEqual(c_l[2] - s_l[2] / 2.0, base_z, delta=0.1)
@@ -700,7 +736,11 @@ class ExtendedBoxGeometryTests(unittest.TestCase):
         axis_y = spec.length - radius_h
         axis_z = spec.height / 2.0
         pin_probe = (
-            cylinder(height=spec.width, radius=spec.filament_diameter / 2.0, **precision_kwargs())
+            cylinder(
+                height=spec.width,
+                radius=spec.filament_diameter / 2.0,
+                **precision_kwargs(),
+            )
             .rotate([0, 90, 0])
             .translate([spec.width / 2.0, axis_y, axis_z])
         )
@@ -718,9 +758,6 @@ class ExtendedBoxGeometryTests(unittest.TestCase):
                 at=(cx - pitch * 0.25, axis_y + radius_h * 0.1, axis_z + 0.15),
             )
             self.assertGreater(volume(lid & upper_wall_probe), 5.0)
-
-
-
 
     def test_snap_fit_cantilever_proportions_and_backing_wall(self) -> None:
         """Verify cantilever latch has compact, sturdy proportions and an unbroken internal backing wall."""
@@ -766,7 +803,9 @@ class ExtendedBoxGeometryTests(unittest.TestCase):
             at=(pocket_depth + 0.1, (50.0 - 10.0) / 2.0, float(m["pocket_z"])),
         )
         expected_vol = (backing_thickness * 0.8) * 10.0 * 3.0
-        self.assertAlmostEqual(volume(body_piece.solid & backing_probe), expected_vol, delta=0.5)
+        self.assertAlmostEqual(
+            volume(body_piece.solid & backing_probe), expected_vol, delta=0.5
+        )
 
     def test_inset_hinge_geometry_and_features(self) -> None:
         """Verify InsetHingeBox side-by-side layout, recessed conical hinge, rim, and latch tab."""
@@ -791,7 +830,9 @@ class ExtendedBoxGeometryTests(unittest.TestCase):
         z_max = centre[2] + size[2] / 2.0
         self.assertAlmostEqual(z_min, 0.0, delta=0.2)
         # Front latch tab rises above half_h - lt by tab_height (6.0mm -> z_max = 18.0mm)
-        self.assertAlmostEqual(z_max, half_h - spec.lid_thickness + spec.inset_hinge_tab_height, delta=0.2)
+        self.assertAlmostEqual(
+            z_max, half_h - spec.lid_thickness + spec.inset_hinge_tab_height, delta=0.2
+        )
 
         # Recessed InsetHinge sits across the gap at x = width + gap/2
         hinge_probe = block(
@@ -838,7 +879,9 @@ class ExtendedBoxGeometryTests(unittest.TestCase):
         # Interior reserves hinge_width along X on the base half
         interior = impl.interior(spec)
         hinge_width = 2.0 * (2.0 * spec.pip_hinge_radius) + expected_gap
-        self.assertAlmostEqual(interior.width, spec.width - spec.wall_thickness - hinge_width)
+        self.assertAlmostEqual(
+            interior.width, spec.width - spec.wall_thickness - hinge_width
+        )
         self.assertAlmostEqual(interior.length, spec.length - 2.0 * spec.wall_thickness)
         self.assertAlmostEqual(interior.height, half_h - spec.floor_thickness)
 
@@ -850,7 +893,9 @@ class ExtendedBoxGeometryTests(unittest.TestCase):
         from tests.mesh import volume
 
         impl = BOX_IMPL_REGISTRY[BoxType.SLIDING_HINGE]()
-        base_spec = BoxSpec(label="SlidingHingeTest", width=70.0, length=55.0, height=28.0)
+        base_spec = BoxSpec(
+            label="SlidingHingeTest", width=70.0, length=55.0, height=28.0
+        )
 
         # 1. Default SLIDE_ACROSS ("front" style)
         body_front = impl.build_body(base_spec)
@@ -889,8 +934,3 @@ class ExtendedBoxGeometryTests(unittest.TestCase):
         self.assertIsNotNone(lid_spin)
         self.assertLess(volume(body_spin & lid_spin), 0.05)
         self.assertGreater(volume(body_spin & front_body_probe), 25.0)
-
-
-
-
-

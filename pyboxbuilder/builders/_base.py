@@ -97,6 +97,8 @@ class BoxBuilder:
     """Lid decoration configuration."""
     pattern: PatternBuilder | PatternType | str | None = None
     """Lid through-hole or surface pattern shortcut; sets or overrides lid.pattern."""
+    backing_pattern: PatternBuilder | PatternType | str | None = None
+    """Backing lattice pattern on the underside of the lid behind top-layer inlays (defaults to HEX)."""
     color: Color | None = None
     """Body colour, as a :class:`pybosl2.Color` (webcolor names welcome).
 
@@ -189,6 +191,11 @@ class BoxBuilder:
                 from pyboxbuilder.lid.builder import LidBuilder, PatternBuilder
 
                 object.__setattr__(self, "lid", LidBuilder(pattern=PatternBuilder(PatternType.HEX)))
+
+        if self.backing_pattern is not None and self.lid is not None:
+            from dataclasses import replace
+
+            object.__setattr__(self, "lid", replace(self.lid, backing_pattern=self.backing_pattern))
 
     def compartment(
         self,
