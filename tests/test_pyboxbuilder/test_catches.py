@@ -20,6 +20,7 @@ from pyboxbuilder import (
     PrintInPlaceHingeBoxBuilder,
     SlidingBoxBuilder,
     SlidingCatchBoxBuilder,
+    SlidingHingeBoxBuilder,
     SlipoverBoxBuilder,
     SlipoverPathBoxBuilder,
     SnapFitBoxBuilder,
@@ -211,6 +212,35 @@ class HingeCatchTests(unittest.TestCase):
                 self.assertIsNotNone(closure.body_cut)
                 self.assertIsNotNone(closure.lid)
 
+    def test_hinge_slide_and_spin_catch_types(self) -> None:
+        for ct in (
+            CatchType.SLIDE_ACROSS,
+            CatchType.SLIDE_UP,
+            CatchType.SPIN,
+            CatchType.PUSH_BUTTON,
+            CatchType.TOGGLE_LATCH,
+            CatchType.PINCH_SLIDE,
+            CatchType.ROTARY_BOLT,
+        ):
+            with self.subTest(catch_type=ct.value):
+                spec = replace(SPEC, catch_type=ct)
+                closure = hinge_catch(spec)
+                self.assertTrue(
+                    closure.body is not None or closure.body_cut is not None,
+                    f"{ct.value} should produce body or body_cut",
+                )
+                self.assertTrue(
+                    closure.lid is not None or closure.lid_cut is not None,
+                    f"{ct.value} should produce lid or lid_cut",
+                )
+
+    def test_hinge_slide_across_card_library_style(self) -> None:
+        spec = replace(SPEC, catch_type=CatchType.SLIDE_ACROSS, slide_catch_style="card_library")
+        closure = hinge_catch(spec)
+        self.assertIsNotNone(closure.body)
+        self.assertIsNotNone(closure.body_cut)
+        self.assertIsNotNone(closure.lid)
+
     def test_hinge_catch_none(self) -> None:
         spec = replace(SPEC, catch_type=CatchType.NONE)
         closure = hinge_catch(spec)
@@ -281,7 +311,7 @@ class AllBoxTypesCatchMatingMatrixTests(unittest.TestCase):
                     )
 
     def test_hinged_and_clamshell_catches(self) -> None:
-        for bt in (BoxType.FILAMENT_HINGE, BoxType.CLAMSHELL):
+        for bt in (BoxType.FILAMENT_HINGE, BoxType.SLIDING_HINGE, BoxType.CLAMSHELL):
             impl = BOX_IMPL_REGISTRY[bt]()
             for ct in ALL_CATCHES:
                 with self.subTest(box_type=bt.value, catch_type=ct.value):
@@ -295,6 +325,43 @@ class AllBoxTypesCatchMatingMatrixTests(unittest.TestCase):
                         0.05,
                         f"{bt.value} ({ct.value}) closed lid intersects body",
                     )
+
+    def test_hinged_slide_and_spin_catches_matrix(self) -> None:
+        new_catches = (
+            CatchType.SLIDE_ACROSS,
+            CatchType.SLIDE_UP,
+            CatchType.SPIN,
+            CatchType.PUSH_BUTTON,
+            CatchType.TOGGLE_LATCH,
+            CatchType.PINCH_SLIDE,
+            CatchType.ROTARY_BOLT,
+        )
+        for bt in (BoxType.FILAMENT_HINGE, BoxType.SLIDING_HINGE):
+            impl = BOX_IMPL_REGISTRY[bt]()
+            for ct in new_catches:
+                with self.subTest(box_type=bt.value, catch_type=ct.value):
+                    spec = replace(SPEC, catch_type=ct)
+                    body = impl.build_body(spec)
+                    lid = impl.build_lid(spec)
+                    self.assertIsNotNone(body)
+                    self.assertIsNotNone(lid)
+                    self.assertLess(
+                        volume(body & lid),
+                        0.05,
+                        f"{bt.value} ({ct.value}) closed lid intersects body",
+                    )
+            # Also verify card_library dual-side slide_across style
+            with self.subTest(box_type=bt.value, catch_type="slide_across_card_library"):
+                spec_cl = replace(SPEC, catch_type=CatchType.SLIDE_ACROSS, slide_catch_style="card_library")
+                body_cl = impl.build_body(spec_cl)
+                lid_cl = impl.build_lid(spec_cl)
+                self.assertIsNotNone(body_cl)
+                self.assertIsNotNone(lid_cl)
+                self.assertLess(
+                    volume(body_cl & lid_cl),
+                    0.05,
+                    f"{bt.value} (slide_across card_library) closed lid intersects body",
+                )
 
     def test_pip_hinge_catches(self) -> None:
         impl = BOX_IMPL_REGISTRY[BoxType.PRINT_IN_PLACE_HINGE]()
@@ -334,6 +401,7 @@ class BuilderCatchMatrixTests(unittest.TestCase):
             SlipoverBoxBuilder(label="b6", catch_type=CatchType.BUMP, catch_size=0.9),
             SlipoverPathBoxBuilder(label="b7", path=POLY_L, catch_type=CatchType.LOOP, catch_size=1.0),
             FilamentHingeBoxBuilder(label="b9", catch_type=CatchType.LEAF_SPRING, catch_size=0.8),
+            SlidingHingeBoxBuilder(label="b9_slide", catch_type=CatchType.SPIN, catch_size=1.0),
             PrintInPlaceHingeBoxBuilder(label="b10", catch_type=CatchType.NONE),
             ClamshellBoxBuilder(label="b11", catch_type=CatchType.BUMP, catch_size=0.9),
             SnapFitBoxBuilder(label="b12", catch_type=CatchType.LOOP, catch_size=1.0),

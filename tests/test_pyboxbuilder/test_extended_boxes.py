@@ -17,10 +17,11 @@ from pyboxbuilder.builders import (
     ModularInterlockBoxBuilder,
     PrintInPlaceHingeBoxBuilder,
     SleeveDrawerBoxBuilder,
+    SlidingHingeBoxBuilder,
     SnapFitBoxBuilder,
     ThreadedBoxBuilder,
 )
-from pyboxbuilder.enums import BoxType, DispenserExtractionMode, InterlockType, LatchAxis
+from pyboxbuilder.enums import BoxType, CatchType, DispenserExtractionMode, InterlockType, LatchAxis
 from pyboxbuilder.project import Project
 
 
@@ -310,6 +311,21 @@ class ExtendedBoxBuildersTests(unittest.TestCase):
         self.assertEqual(b.pip_radial_clearance, 0.30)
         self.assertEqual(b.inset_hinge_side_gap, 3.5)
         self.assertEqual(b.inset_hinge_tab_height, 5.0)
+
+    def test_sliding_hinge_builder(self) -> None:
+        p = Project("TestSlidingHinge")
+        b = p.box(
+            BoxType.SLIDING_HINGE,
+            "SlideHingeBox",
+            size=(70, 55, 28),
+            catch_type=CatchType.SLIDE_ACROSS,
+            slide_catch_style="card_library",
+            pip_radial_clearance=0.30,
+        )
+        self.assertIsInstance(b, SlidingHingeBoxBuilder)
+        self.assertEqual(b.catch_type, CatchType.SLIDE_ACROSS)
+        self.assertEqual(b.slide_catch_style, "card_library")
+        self.assertEqual(b.pip_radial_clearance, 0.30)
 
 
 class ExtendedBoxGeometryTests(unittest.TestCase):
@@ -825,6 +841,54 @@ class ExtendedBoxGeometryTests(unittest.TestCase):
         self.assertAlmostEqual(interior.width, spec.width - spec.wall_thickness - hinge_width)
         self.assertAlmostEqual(interior.length, spec.length - 2.0 * spec.wall_thickness)
         self.assertAlmostEqual(interior.height, half_h - spec.floor_thickness)
+
+    def test_sliding_hinge_box_geometry_and_catches(self) -> None:
+        """Verify SlidingHingeBox defaults to SLIDE_ACROSS and supports slide_up, spin, and card_library catches."""
+        from dataclasses import replace
+
+        from pyboxbuilder.box.shell import block
+        from tests.mesh import volume
+
+        impl = BOX_IMPL_REGISTRY[BoxType.SLIDING_HINGE]()
+        base_spec = BoxSpec(label="SlidingHingeTest", width=70.0, length=55.0, height=28.0)
+
+        # 1. Default SLIDE_ACROSS ("front" style)
+        body_front = impl.build_body(base_spec)
+        lid_front = impl.build_lid(base_spec)
+        self.assertIsNotNone(body_front)
+        self.assertIsNotNone(lid_front)
+        self.assertLess(volume(body_front & lid_front), 0.05)
+
+        # Front catch assembly adds L-hook stalk material inside y=0..6 on lid below z=body_h
+        front_lid_probe = block([30.0, 6.0, 4.0], at=(20.0, 0.5, 22.0))
+        self.assertGreater(volume(lid_front & front_lid_probe), 5.0)
+
+        # 2. SLIDE_ACROSS with "card_library" dual-side style
+        spec_cl = replace(base_spec, slide_catch_style="card_library")
+        body_cl = impl.build_body(spec_cl)
+        lid_cl = impl.build_lid(spec_cl)
+        self.assertIsNotNone(body_cl)
+        self.assertIsNotNone(lid_cl)
+        self.assertLess(volume(body_cl & lid_cl), 0.05)
+
+        # 3. SLIDE_UP catch on body front wall
+        spec_up = replace(base_spec, catch_type=CatchType.SLIDE_UP)
+        body_up = impl.build_body(spec_up)
+        lid_up = impl.build_lid(spec_up)
+        self.assertIsNotNone(body_up)
+        self.assertIsNotNone(lid_up)
+        self.assertLess(volume(body_up & lid_up), 0.05)
+        front_body_probe = block([24.0, 4.0, 14.0], at=(23.0, 0.0, 14.0))
+        self.assertGreater(volume(body_up & front_body_probe), 30.0)
+
+        # 4. SPIN catch (print-in-place rotary cam)
+        spec_spin = replace(base_spec, catch_type=CatchType.SPIN)
+        body_spin = impl.build_body(spec_spin)
+        lid_spin = impl.build_lid(spec_spin)
+        self.assertIsNotNone(body_spin)
+        self.assertIsNotNone(lid_spin)
+        self.assertLess(volume(body_spin & lid_spin), 0.05)
+        self.assertGreater(volume(body_spin & front_body_probe), 25.0)
 
 
 

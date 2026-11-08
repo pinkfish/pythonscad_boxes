@@ -31,6 +31,7 @@ class BoxType(Enum):
     MODULAR_INTERLOCK = "modular_interlock"
     PRINT_IN_PLACE_HINGE = "print_in_place_hinge"
     INSET_HINGE = "inset_hinge"
+    SLIDING_HINGE = "sliding_hinge"
 
 
 class CatchType(Enum):
@@ -48,6 +49,20 @@ class CatchType(Enum):
     """Paired blind cylindrical pockets sized for neodymium disc magnets."""
     LEAF_SPRING = "leaf_spring"
     """Compliant cantilever flexure arm backed by an elastic relief slot."""
+    SLIDE_ACROSS = "slide_across"
+    """Captive print-in-place horizontal dovetail sliding bolt catch (card-library style)."""
+    SLIDE_UP = "slide_up"
+    """Captive print-in-place vertical dovetail slider on the front wall that slides up to lock."""
+    SPIN = "spin"
+    """Print-in-place rotary cam / turn-button catch that hooks the lid when spun up and releases when spun down."""
+    PUSH_BUTTON = "push_button"
+    """Compliant thumb-press flexure button on the front wall that deflects inward to release the lid."""
+    TOGGLE_LATCH = "toggle_latch"
+    """Print-in-place articulated over-center draw latch bail on the front wall."""
+    PINCH_SLIDE = "pinch_slide"
+    """Dual opposing captive dovetail sliders that pinch toward the center to release both bolts."""
+    ROTARY_BOLT = "rotary_bolt"
+    """Flush print-in-place quarter-turn rotary cam disk inside the lid."""
 
 
 class InterlockType(Enum):
@@ -229,6 +244,20 @@ class HingeCatchType(Enum):
     """Ridge / wedge barb catch."""
     BUMP = "bump"
     """Detent bump catch."""
+    SLIDE_ACROSS = "slide_across"
+    """Captive print-in-place horizontal dovetail sliding bolt catch."""
+    SLIDE_UP = "slide_up"
+    """Captive print-in-place vertical dovetail slider catch on the front wall."""
+    SPIN = "spin"
+    """Print-in-place rotary cam / turn-button catch on the front wall."""
+    PUSH_BUTTON = "push_button"
+    """Compliant thumb-press flexure release catch on the front wall."""
+    TOGGLE_LATCH = "toggle_latch"
+    """Print-in-place articulated over-center draw latch bail on the front wall."""
+    PINCH_SLIDE = "pinch_slide"
+    """Dual opposing captive dovetail sliders that pinch together to release."""
+    ROTARY_BOLT = "rotary_bolt"
+    """Flush print-in-place quarter-turn rotary cam disk inside the lid."""
     NONE = "none"
     """No positive catch."""
 

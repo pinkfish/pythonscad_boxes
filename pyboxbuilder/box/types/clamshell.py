@@ -180,12 +180,18 @@ class ClamshellBox(BoxTypeBase):
         """Return the lower tray interior, excluding the rear filament hinge intrusion."""
         wt = spec.wall_thickness
         ft = spec.floor_thickness
+        lt = spec.lid_thickness
         half_h = spec.height / 2.0
         available = block(
             [spec.width - 2 * wt, spec.length - 2 * wt, half_h],
             at=(wt, wt, ft),
         )
-        return available - hinge_intrusion(self._body_spec(spec), spec.filament_diameter)
+        mask = available - hinge_intrusion(self._body_spec(spec), spec.filament_diameter)
+        if spec.closure_latch:
+            catch = hinge_catch(replace(spec, height=half_h + lt))
+            if catch.body is not None:
+                mask = mask - catch.body
+        return mask
 
     def build_body(self, spec: BoxSpec) -> Bosl2Solid:
         """Return the lower tray half with interleaved filament-hinge knuckles and front catch."""
@@ -202,11 +208,6 @@ class ClamshellBox(BoxTypeBase):
         if closure.pin is not None:
             body = body - closure.pin
 
-        if spec.closure_latch:
-            catch = hinge_catch(replace(spec, height=half_h + lt))
-            if catch.body_cut is not None:
-                body = body - catch.body_cut
-
         r_body = body_rounding(spec)
         if r_body > 0:
             body = round_edges(
@@ -215,6 +216,14 @@ class ClamshellBox(BoxTypeBase):
                 r_body,
                 list(vertical_edges()),
             )
+
+        if spec.closure_latch:
+            catch = hinge_catch(replace(spec, height=half_h + lt))
+            if catch.body_cut is not None:
+                body = body - catch.body_cut
+            if catch.body is not None:
+                body = body | catch.body
+
         return apply_stackable_body(body, spec)
 
     def build_lid(self, spec: BoxSpec, decoration: object = None) -> Bosl2Solid:

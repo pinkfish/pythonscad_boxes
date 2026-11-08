@@ -139,9 +139,26 @@ class CategoricalEnumTests(unittest.TestCase):
     """FR-106: Tests for HingeCatchType, LatchAxis, DrawerHandleStyle, and ColorMode enums."""
 
     def test_enum_members_and_values(self) -> None:
-        self.assertEqual({m.name for m in HingeCatchType}, {"RIDGE", "BUMP", "NONE"})
+        self.assertEqual(
+            {m.name for m in HingeCatchType},
+            {
+                "RIDGE",
+                "BUMP",
+                "SLIDE_ACROSS",
+                "SLIDE_UP",
+                "SPIN",
+                "PUSH_BUTTON",
+                "TOGGLE_LATCH",
+                "PINCH_SLIDE",
+                "ROTARY_BOLT",
+                "NONE",
+            },
+        )
         self.assertEqual(HingeCatchType.RIDGE.value, "ridge")
         self.assertEqual(HingeCatchType.BUMP.value, "bump")
+        self.assertEqual(HingeCatchType.SLIDE_ACROSS.value, "slide_across")
+        self.assertEqual(HingeCatchType.SLIDE_UP.value, "slide_up")
+        self.assertEqual(HingeCatchType.SPIN.value, "spin")
         self.assertEqual(HingeCatchType.NONE.value, "none")
 
         self.assertEqual({m.name for m in LatchAxis}, {"X", "Y"})
