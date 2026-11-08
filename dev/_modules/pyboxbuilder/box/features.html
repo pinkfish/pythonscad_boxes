@@ -872,15 +872,11 @@
 <span class="sd">"""Default height of the exposed base/foot below a slipover sleeve (FR-002p)."""</span>
 
 
-<span class="n">SLIPOVER_GAP_MIN_MM</span> <span class="o">=</span> <span class="mf">3.0</span>
+<span class="n">SLIPOVER_GAP_MIN_MM</span> <span class="o">=</span> <span class="mf">0.0</span>
 <span class="sd">"""Least body a slipover sleeve leaves showing above the foot (FR-002p)."""</span>
 
-<span class="n">SLIPOVER_GAP_MAX_MM</span> <span class="o">=</span> <span class="mf">6.0</span>
-<span class="sd">"""Most body a slipover sleeve leaves showing above the foot (FR-002p).</span>
-
-<span class="sd">The gap is where the fingers go, so a wider one takes a wider curve — but it is</span>
-<span class="sd">skirt the sleeve gives up to get it, so it stops at 6mm.</span>
-<span class="sd">"""</span>
+<span class="n">SLIPOVER_GAP_MAX_MM</span> <span class="o">=</span> <span class="mf">0.0</span>
+<span class="sd">"""Most body a slipover sleeve leaves showing above the foot (FR-002p)."""</span>
 
 
 <div class="viewcode-block" id="slipover_gap">
@@ -888,23 +884,21 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">slipover_gap</span><span class="p">(</span><span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""How much body a sleeve leaves exposed above the foot (FR-002p).</span>
 
-<span class="sd">    A sleeve that runs all the way down to the foot meets it in a closed seam</span>
-<span class="sd">    with nothing to grip. Stopping short leaves a band of the body showing the</span>
-<span class="sd">    whole way round, which is what the fingers pull on.</span>
+<span class="sd">    By default the sleeve reaches all the way down to the foot (``0.0``),</span>
+<span class="sd">    relying on the corner finger notches for grip unless ``slipover_gap``</span>
+<span class="sd">    is explicitly set on the spec.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        spec: Needs `height`; reads `foot` and `slipover_gap`.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        The gap in mm — a quarter of the covered height, held between</span>
-<span class="sd">        :data:`SLIPOVER_GAP_MIN_MM` and :data:`SLIPOVER_GAP_MAX_MM`.</span>
+<span class="sd">        The gap in mm (defaults to ``0.0``).</span>
 
 <span class="sd">    """</span>
     <span class="n">explicit</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">slipover_gap</span>
     <span class="k">if</span> <span class="n">explicit</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">explicit</span><span class="p">))</span>
-    <span class="n">covered</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">height</span> <span class="o">-</span> <span class="n">spec</span><span class="o">.</span><span class="n">foot</span>
-    <span class="k">return</span> <span class="nb">min</span><span class="p">(</span><span class="n">SLIPOVER_GAP_MAX_MM</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="n">SLIPOVER_GAP_MIN_MM</span><span class="p">,</span> <span class="n">covered</span> <span class="o">/</span> <span class="mi">4</span><span class="p">))</span></div>
+    <span class="k">return</span> <span class="mf">0.0</span></div>
 
 
 
@@ -2132,6 +2126,103 @@
 
 
 
+<div class="viewcode-block" id="extrude_rounded_footprint">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.features.extrude_rounded_footprint.html#pyboxbuilder.box.features.extrude_rounded_footprint">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">extrude_rounded_footprint</span><span class="p">(</span>
+    <span class="n">path</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="o">...</span><span class="p">],</span>
+    <span class="n">height</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">base_z</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">r_corner</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+    <span class="n">r_bottom</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+    <span class="n">r_top</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Extrude a polygon footprint with rounded vertical corners and optional top/bottom roundovers."""</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
+
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path2D</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2.shapes3d.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">CsgSolid</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2.skin</span><span class="w"> </span><span class="kn">import</span> <span class="n">os_profile</span>
+
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.shell</span><span class="w"> </span><span class="kn">import</span> <span class="n">block</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.paths</span><span class="w"> </span><span class="kn">import</span> <span class="n">is_rectilinear</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.rounding</span><span class="w"> </span><span class="kn">import</span> <span class="n">rounding_facets</span>
+
+    <span class="k">if</span> <span class="n">height</span> <span class="o">&lt;=</span> <span class="mf">0.0</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">extrude_footprint</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">height</span><span class="p">),</span> <span class="n">base_z</span><span class="p">)</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">steps</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="n">rounding_facets</span><span class="p">()[</span><span class="s2">"fn"</span><span class="p">]</span> <span class="o">//</span> <span class="mi">4</span><span class="p">)</span>
+        <span class="n">fn</span> <span class="o">=</span> <span class="n">rounding_facets</span><span class="p">()[</span><span class="s2">"fn"</span><span class="p">]</span>
+        <span class="n">p2d</span> <span class="o">=</span> <span class="n">Path2D</span><span class="p">([(</span><span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="n">y</span><span class="p">))</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">path</span><span class="p">],</span> <span class="n">closed</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">rc</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="k">if</span> <span class="n">r_corner</span> <span class="o">&gt;</span> <span class="mf">0.05</span> <span class="ow">and</span> <span class="n">is_rectilinear</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+            <span class="n">min_edge</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span>
+                <span class="n">math</span><span class="o">.</span><span class="n">hypot</span><span class="p">(</span>
+                    <span class="n">path</span><span class="p">[(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">path</span><span class="p">)][</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">path</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span>
+                    <span class="n">path</span><span class="p">[(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">path</span><span class="p">)][</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">path</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span>
+                <span class="p">)</span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">path</span><span class="p">))</span>
+            <span class="p">)</span>
+            <span class="n">rc</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">r_corner</span><span class="p">,</span> <span class="n">min_edge</span> <span class="o">*</span> <span class="mf">0.2</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">rc</span> <span class="o">&gt;</span> <span class="mf">0.05</span><span class="p">:</span>
+                <span class="n">p2d</span> <span class="o">=</span> <span class="n">p2d</span><span class="o">.</span><span class="n">round_corners</span><span class="p">(</span><span class="n">radius</span><span class="o">=</span><span class="n">rc</span><span class="p">,</span> <span class="n">fn</span><span class="o">=</span><span class="n">fn</span><span class="p">)</span>
+
+        <span class="n">r_bot</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">r_bottom</span><span class="p">),</span> <span class="n">height</span> <span class="o">*</span> <span class="mf">0.45</span><span class="p">)</span>
+        <span class="n">r_tp</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">r_top</span><span class="p">),</span> <span class="n">height</span> <span class="o">*</span> <span class="mf">0.45</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">rc</span> <span class="o">&gt;</span> <span class="mf">0.05</span><span class="p">:</span>
+            <span class="n">r_bot</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">r_bot</span><span class="p">,</span> <span class="n">rc</span> <span class="o">*</span> <span class="mf">0.75</span><span class="p">)</span>
+            <span class="n">r_tp</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">r_tp</span><span class="p">,</span> <span class="n">rc</span> <span class="o">*</span> <span class="mf">0.75</span><span class="p">)</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">_make_prof</span><span class="p">(</span><span class="n">r</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">object</span><span class="p">:</span>
+            <span class="n">pts</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="p">[</span>
+                    <span class="o">-</span><span class="n">r</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">sin</span><span class="p">((</span><span class="n">math</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">i</span> <span class="o">/</span> <span class="n">steps</span><span class="p">),</span>
+                    <span class="n">r</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">math</span><span class="o">.</span><span class="n">cos</span><span class="p">((</span><span class="n">math</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">i</span> <span class="o">/</span> <span class="n">steps</span><span class="p">)),</span>
+                <span class="p">]</span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">steps</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="p">]</span>
+            <span class="k">return</span> <span class="n">os_profile</span><span class="p">(</span><span class="n">Path2D</span><span class="p">(</span><span class="n">pts</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="n">r_bot</span> <span class="o">&gt;</span> <span class="mf">0.05</span> <span class="ow">and</span> <span class="n">r_tp</span> <span class="o">&gt;</span> <span class="mf">0.05</span><span class="p">:</span>
+            <span class="n">r</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">r_bot</span><span class="p">,</span> <span class="n">r_tp</span><span class="p">)</span>
+            <span class="n">prof</span> <span class="o">=</span> <span class="n">_make_prof</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
+            <span class="n">swept</span> <span class="o">=</span> <span class="n">p2d</span><span class="o">.</span><span class="n">offset</span><span class="p">(</span><span class="n">delta</span><span class="o">=-</span><span class="n">r</span><span class="p">)</span><span class="o">.</span><span class="n">offset_sweep</span><span class="p">(</span>
+                <span class="n">height</span><span class="o">=</span><span class="n">height</span><span class="p">,</span> <span class="n">bottom</span><span class="o">=</span><span class="n">prof</span><span class="p">,</span> <span class="n">top</span><span class="o">=</span><span class="n">prof</span><span class="p">,</span> <span class="n">steps</span><span class="o">=</span><span class="n">steps</span>
+            <span class="p">)</span>
+            <span class="n">solid</span> <span class="o">=</span> <span class="n">CsgSolid</span><span class="p">(</span><span class="n">swept</span><span class="o">.</span><span class="n">polyhedron</span><span class="p">())</span> <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">swept</span><span class="p">,</span> <span class="s2">"polyhedron"</span><span class="p">)</span> <span class="k">else</span> <span class="n">swept</span>
+        <span class="k">elif</span> <span class="n">r_bot</span> <span class="o">&gt;</span> <span class="mf">0.05</span><span class="p">:</span>
+            <span class="n">prof</span> <span class="o">=</span> <span class="n">_make_prof</span><span class="p">(</span><span class="n">r_bot</span><span class="p">)</span>
+            <span class="n">swept</span> <span class="o">=</span> <span class="n">p2d</span><span class="o">.</span><span class="n">offset</span><span class="p">(</span><span class="n">delta</span><span class="o">=-</span><span class="n">r_bot</span><span class="p">)</span><span class="o">.</span><span class="n">offset_sweep</span><span class="p">(</span>
+                <span class="n">height</span><span class="o">=</span><span class="n">height</span><span class="p">,</span> <span class="n">bottom</span><span class="o">=</span><span class="n">prof</span><span class="p">,</span> <span class="n">steps</span><span class="o">=</span><span class="n">steps</span>
+            <span class="p">)</span>
+            <span class="n">solid</span> <span class="o">=</span> <span class="n">CsgSolid</span><span class="p">(</span><span class="n">swept</span><span class="o">.</span><span class="n">polyhedron</span><span class="p">())</span> <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">swept</span><span class="p">,</span> <span class="s2">"polyhedron"</span><span class="p">)</span> <span class="k">else</span> <span class="n">swept</span>
+        <span class="k">elif</span> <span class="n">r_tp</span> <span class="o">&gt;</span> <span class="mf">0.05</span><span class="p">:</span>
+            <span class="n">r</span> <span class="o">=</span> <span class="n">r_tp</span>
+            <span class="n">prof</span> <span class="o">=</span> <span class="n">_make_prof</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
+            <span class="n">swept</span> <span class="o">=</span> <span class="n">p2d</span><span class="o">.</span><span class="n">offset</span><span class="p">(</span><span class="n">delta</span><span class="o">=-</span><span class="n">r</span><span class="p">)</span><span class="o">.</span><span class="n">offset_sweep</span><span class="p">(</span>
+                <span class="n">height</span><span class="o">=</span><span class="n">height</span> <span class="o">+</span> <span class="n">r</span><span class="p">,</span> <span class="n">bottom</span><span class="o">=</span><span class="n">prof</span><span class="p">,</span> <span class="n">top</span><span class="o">=</span><span class="n">prof</span><span class="p">,</span> <span class="n">steps</span><span class="o">=</span><span class="n">steps</span>
+            <span class="p">)</span>
+            <span class="n">raw</span> <span class="o">=</span> <span class="n">CsgSolid</span><span class="p">(</span><span class="n">swept</span><span class="o">.</span><span class="n">polyhedron</span><span class="p">())</span> <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">swept</span><span class="p">,</span> <span class="s2">"polyhedron"</span><span class="p">)</span> <span class="k">else</span> <span class="n">swept</span>
+            <span class="n">raw</span> <span class="o">=</span> <span class="n">raw</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="o">-</span><span class="n">r</span><span class="p">])</span>
+            <span class="n">min_x</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">path</span><span class="p">)</span> <span class="o">-</span> <span class="mf">2.0</span>
+            <span class="n">min_y</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">path</span><span class="p">)</span> <span class="o">-</span> <span class="mf">2.0</span>
+            <span class="n">max_x</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">path</span><span class="p">)</span> <span class="o">+</span> <span class="mf">2.0</span>
+            <span class="n">max_y</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">path</span><span class="p">)</span> <span class="o">+</span> <span class="mf">2.0</span>
+            <span class="n">keep</span> <span class="o">=</span> <span class="n">block</span><span class="p">(</span>
+                <span class="p">[</span><span class="n">max_x</span> <span class="o">-</span> <span class="n">min_x</span><span class="p">,</span> <span class="n">max_y</span> <span class="o">-</span> <span class="n">min_y</span><span class="p">,</span> <span class="n">height</span> <span class="o">+</span> <span class="mf">0.1</span><span class="p">],</span>
+                <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="n">min_x</span><span class="p">,</span> <span class="n">min_y</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span>
+            <span class="p">)</span>
+            <span class="n">solid</span> <span class="o">=</span> <span class="n">raw</span> <span class="o">&amp;</span> <span class="n">keep</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">solid</span> <span class="o">=</span> <span class="n">p2d</span><span class="o">.</span><span class="n">linear_extrude</span><span class="p">(</span><span class="n">height</span><span class="o">=</span><span class="n">height</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">solid</span> <span class="k">if</span> <span class="n">base_z</span> <span class="o">==</span> <span class="mf">0.0</span> <span class="k">else</span> <span class="n">solid</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">base_z</span><span class="p">])</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">extrude_footprint</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="n">base_z</span><span class="p">)</span></div>
+
+
+
 <div class="viewcode-block" id="path_body_metrics">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.features.path_body_metrics.html#pyboxbuilder.box.features.path_body_metrics">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">path_body_metrics</span><span class="p">(</span><span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
@@ -2158,14 +2249,25 @@
 <span class="sd">    Its outer face is the declared outline, so a closed box measures exactly</span>
 <span class="sd">    what it was asked for.</span>
 <span class="sd">    """</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.shell</span><span class="w"> </span><span class="kn">import</span> <span class="n">body_rounding</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.rounding</span><span class="w"> </span><span class="kn">import</span> <span class="n">lid_rounding</span><span class="p">,</span> <span class="n">mating_rounding</span>
+
     <span class="n">lt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">lid_thickness</span>
     <span class="n">slack</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">cap_slack</span>
     <span class="n">inset</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">path_body_metrics</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
+    <span class="n">r_body</span> <span class="o">=</span> <span class="n">body_rounding</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
+    <span class="n">r_mating</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">mating_rounding</span><span class="p">(</span><span class="n">spec</span><span class="p">),</span> <span class="n">r_body</span> <span class="o">*</span> <span class="mf">0.75</span><span class="p">)</span>
+    <span class="n">r_lid</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">lid_rounding</span><span class="p">(</span><span class="n">spec</span><span class="p">),</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="p">(</span><span class="n">inset</span> <span class="o">-</span> <span class="n">slack</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.85</span><span class="p">),</span> <span class="n">lt</span> <span class="o">*</span> <span class="mf">0.85</span><span class="p">)</span>
 
     <span class="n">base</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">height</span> <span class="o">-</span> <span class="n">cap_height</span>
-    <span class="n">cap</span> <span class="o">=</span> <span class="n">extrude_footprint</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">cap_height</span><span class="p">,</span> <span class="n">base</span><span class="p">)</span>
-    <span class="n">cavity</span> <span class="o">=</span> <span class="n">extrude_footprint</span><span class="p">(</span>
-        <span class="n">offset_footprint</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">inset</span> <span class="o">-</span> <span class="n">slack</span><span class="p">),</span> <span class="n">cap_height</span> <span class="o">-</span> <span class="n">lt</span><span class="p">,</span> <span class="n">base</span>
+    <span class="n">cap</span> <span class="o">=</span> <span class="n">extrude_rounded_footprint</span><span class="p">(</span>
+        <span class="n">path</span><span class="p">,</span> <span class="n">cap_height</span><span class="p">,</span> <span class="n">base</span><span class="p">,</span> <span class="n">r_corner</span><span class="o">=</span><span class="n">r_body</span><span class="p">,</span> <span class="n">r_top</span><span class="o">=</span><span class="n">r_lid</span>
+    <span class="p">)</span>
+    <span class="n">cavity</span> <span class="o">=</span> <span class="n">extrude_rounded_footprint</span><span class="p">(</span>
+        <span class="n">offset_footprint</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">inset</span> <span class="o">-</span> <span class="n">slack</span><span class="p">),</span>
+        <span class="n">cap_height</span> <span class="o">-</span> <span class="n">lt</span> <span class="o">+</span> <span class="mf">0.1</span><span class="p">,</span>
+        <span class="n">base</span> <span class="o">-</span> <span class="mf">0.1</span><span class="p">,</span>
+        <span class="n">r_corner</span><span class="o">=</span><span class="n">r_mating</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="k">return</span> <span class="n">cap</span> <span class="o">-</span> <span class="n">cavity</span></div>
 
@@ -2180,6 +2282,9 @@
     <span class="n">foot</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Return a sleeve that slips over a polygon-footprint body, stopping at the foot."""</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.shell</span><span class="w"> </span><span class="kn">import</span> <span class="n">body_rounding</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.rounding</span><span class="w"> </span><span class="kn">import</span> <span class="n">lid_rounding</span><span class="p">,</span> <span class="n">mating_rounding</span>
+
     <span class="n">lt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">lid_thickness</span>
     <span class="n">slack</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">slip_slack</span>
     <span class="n">inset</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">path_body_metrics</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
@@ -2187,10 +2292,18 @@
     <span class="n">gap</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">slipover_gap</span><span class="p">(</span><span class="n">spec</span><span class="p">),</span> <span class="n">spec</span><span class="o">.</span><span class="n">height</span> <span class="o">-</span> <span class="n">foot_val</span> <span class="o">-</span> <span class="n">lt</span><span class="p">)</span>
     <span class="n">skirt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">height</span> <span class="o">-</span> <span class="n">foot_val</span> <span class="o">-</span> <span class="n">gap</span>
     <span class="n">base_z</span> <span class="o">=</span> <span class="n">foot_val</span> <span class="o">+</span> <span class="n">gap</span>
+    <span class="n">r_body</span> <span class="o">=</span> <span class="n">body_rounding</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
+    <span class="n">r_mating</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">mating_rounding</span><span class="p">(</span><span class="n">spec</span><span class="p">),</span> <span class="n">r_body</span> <span class="o">*</span> <span class="mf">0.75</span><span class="p">)</span>
+    <span class="n">r_lid</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">lid_rounding</span><span class="p">(</span><span class="n">spec</span><span class="p">),</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="p">(</span><span class="n">inset</span> <span class="o">-</span> <span class="n">slack</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.85</span><span class="p">),</span> <span class="n">lt</span> <span class="o">*</span> <span class="mf">0.85</span><span class="p">)</span>
 
-    <span class="n">outer</span> <span class="o">=</span> <span class="n">extrude_footprint</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">skirt</span><span class="p">,</span> <span class="n">base_z</span><span class="p">)</span>
-    <span class="n">cavity</span> <span class="o">=</span> <span class="n">extrude_footprint</span><span class="p">(</span>
-        <span class="n">offset_footprint</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">inset</span> <span class="o">-</span> <span class="n">slack</span><span class="p">),</span> <span class="n">skirt</span> <span class="o">-</span> <span class="n">lt</span><span class="p">,</span> <span class="n">base_z</span>
+    <span class="n">outer</span> <span class="o">=</span> <span class="n">extrude_rounded_footprint</span><span class="p">(</span>
+        <span class="n">path</span><span class="p">,</span> <span class="n">skirt</span><span class="p">,</span> <span class="n">base_z</span><span class="p">,</span> <span class="n">r_corner</span><span class="o">=</span><span class="n">r_body</span><span class="p">,</span> <span class="n">r_top</span><span class="o">=</span><span class="n">r_lid</span>
+    <span class="p">)</span>
+    <span class="n">cavity</span> <span class="o">=</span> <span class="n">extrude_rounded_footprint</span><span class="p">(</span>
+        <span class="n">offset_footprint</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">inset</span> <span class="o">-</span> <span class="n">slack</span><span class="p">),</span>
+        <span class="n">skirt</span> <span class="o">-</span> <span class="n">lt</span> <span class="o">+</span> <span class="mf">0.1</span><span class="p">,</span>
+        <span class="n">base_z</span> <span class="o">-</span> <span class="mf">0.1</span><span class="p">,</span>
+        <span class="n">r_corner</span><span class="o">=</span><span class="n">r_mating</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="k">return</span> <span class="n">outer</span> <span class="o">-</span> <span class="n">cavity</span></div>
 

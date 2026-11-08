@@ -565,6 +565,8 @@
 <span class="sd">            overrides it (FR-044i).</span>
 
 <span class="sd">        """</span>
+        <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">path</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[]</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.rounding</span><span class="w"> </span><span class="kn">import</span> <span class="n">vertical_and_top_edges</span>
 
         <span class="k">return</span> <span class="n">vertical_and_top_edges</span><span class="p">()</span></div>

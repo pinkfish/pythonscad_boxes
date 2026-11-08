@@ -53,6 +53,7 @@ pyboxbuilder.box.features
       corner_catch
       dovetail_track
       extrude_footprint
+      extrude_rounded_footprint
       filament_hinge
       fingernail_catch
       fingernail_dish

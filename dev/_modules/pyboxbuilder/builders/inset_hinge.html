@@ -454,8 +454,8 @@
 
 <span class="sd">    A single-piece, zero-assembly hinged box based on ``MakeBoxAndLidWithInsetHinge``</span>
 <span class="sd">    from ``hinge_box.scad``. Both base and lid halves sit side-by-side along the X</span>
-<span class="sd">    axis on the print bed separated by ``pip_gap_mm`` (default ``1.0 mm``), joined by</span>
-<span class="sd">    a recessed print-in-place conical knuckle hinge (``InsetHinge``) with 45°</span>
+<span class="sd">    axis on the print bed separated by ``2 * pip_radial_clearance`` (default ``0.60 mm``),</span>
+<span class="sd">    joined by a recessed print-in-place conical knuckle hinge (``InsetHinge``) with 45°</span>
 <span class="sd">    self-supporting mounting brackets, a self-aligning perimeter rim and rabbet, and</span>
 <span class="sd">    a front snap-latch tab (``MakeLidTab``).</span>
 
@@ -478,8 +478,8 @@
 <span class="w">    </span><span class="sd">"""Outer radius of the inset hinge knuckle barrel in mm (hinge diameter = 2 * radius)."""</span>
     <span class="n">pip_radial_clearance</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.30</span>
 <span class="w">    </span><span class="sd">"""Clearance offset around the captive conical hinge knuckles in mm (hinge_offset)."""</span>
-    <span class="n">pip_gap_mm</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span>
-<span class="w">    </span><span class="sd">"""Gap between the base and lid halves on the print bed in mm."""</span>
+    <span class="n">pip_gap_mm</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.60</span>
+<span class="w">    </span><span class="sd">"""Gap between the base and lid halves on the print bed in mm (2 * pip_radial_clearance)."""</span>
     <span class="n">inset_hinge_side_gap</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">3.0</span>
 <span class="w">    </span><span class="sd">"""End wall margin at the front and back of the inset hinge pocket in mm."""</span>
     <span class="n">pip_snap_catch</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
