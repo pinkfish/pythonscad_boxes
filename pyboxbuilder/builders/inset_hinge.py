@@ -14,8 +14,8 @@ class InsetHingeBoxBuilder(BoxBuilder):
 
     A single-piece, zero-assembly hinged box based on ``MakeBoxAndLidWithInsetHinge``
     from ``hinge_box.scad``. Both base and lid halves sit side-by-side along the X
-    axis on the print bed separated by ``pip_gap_mm`` (default ``1.0 mm``), joined by
-    a recessed print-in-place conical knuckle hinge (``InsetHinge``) with 45°
+    axis on the print bed separated by ``2 * pip_radial_clearance`` (default ``0.60 mm``),
+    joined by a recessed print-in-place conical knuckle hinge (``InsetHinge``) with 45°
     self-supporting mounting brackets, a self-aligning perimeter rim and rabbet, and
     a front snap-latch tab (``MakeLidTab``).
 
@@ -38,8 +38,8 @@ class InsetHingeBoxBuilder(BoxBuilder):
     """Outer radius of the inset hinge knuckle barrel in mm (hinge diameter = 2 * radius)."""
     pip_radial_clearance: float = 0.30
     """Clearance offset around the captive conical hinge knuckles in mm (hinge_offset)."""
-    pip_gap_mm: float = 1.0
-    """Gap between the base and lid halves on the print bed in mm."""
+    pip_gap_mm: float = 0.60
+    """Gap between the base and lid halves on the print bed in mm (2 * pip_radial_clearance)."""
     inset_hinge_side_gap: float = 3.0
     """End wall margin at the front and back of the inset hinge pocket in mm."""
     pip_snap_catch: bool = True
