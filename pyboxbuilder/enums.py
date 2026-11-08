@@ -127,6 +127,16 @@ class PatternType(Enum):
     """Circular rings / washers with an inner hole."""
     CHECKER = "checker"
     """Alternating checkerboard tiles on a square grid."""
+    STEPPED_CUBE = "stepped_cube"
+    """Stepped 3D cube and diamond rhombic tessellation (4-color isometric cube & peak diamond tiling)."""
+    TUMBLING_BLOCKS = "tumbling_blocks"
+    """Classic 3-rhombus isometric cube tessellation (tumbling blocks)."""
+    CHEVRON = "chevron"
+    """Interlocking 60°/120° herringbone chevron rhombus tessellation."""
+    PENROSE = "penrose"
+    """Ten-fold quasiperiodic Penrose rhombus tessellation (de Bruijn multigrid)."""
+    AMMANN_BEENKER = "ammann_beenker"
+    """Eight-fold quasiperiodic Ammann–Beenker rhombus tessellation (de Bruijn multigrid)."""
 
 
 class StackableMode(Enum):

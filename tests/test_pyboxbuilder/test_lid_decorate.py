@@ -813,4 +813,80 @@ class InsertColourTests(unittest.TestCase):
         )
         self.assertLess(volume(dec_hex_back.solid), volume(dec_solid_back.solid) - 200.0)
 
+    def test_stepped_cube_and_rhombic_tessellations_with_backing_lattice(self) -> None:
+        """Stepped-cube and rhombic tessellations inlay thin multi-color tiles on top with a backing lattice underneath."""
+        from pybosl2 import Color
+
+        from pyboxbuilder.lid.decorate import INLAY_DEPTH_MM
+
+        lid = bare_lid()
+        # 1. Stepped cube tessellation (4-color default palette matching reference tessellation)
+        dec_stepped = decorate_lid(
+            lid,
+            LidBuilder(
+                pattern=PatternBuilder(PatternType.STEPPED_CUBE, spacing=12.0, inlay=True),
+            ),
+            2.0,
+            "mmu",
+        )
+        self.assertEqual(len(dec_stepped.inserts), 4)
+        for ins in dec_stepped.inserts:
+            (_, _, _), (_, _, h) = _bounds_cs(ins.solid)
+            self.assertAlmostEqual(h, INLAY_DEPTH_MM, places=4)
+
+        dec_stepped_solid_back = decorate_lid(
+            lid,
+            LidBuilder(
+                pattern=PatternBuilder(
+                    PatternType.STEPPED_CUBE,
+                    spacing=12.0,
+                    inlay=True,
+                    backing_pattern=PatternType.SOLID,
+                ),
+            ),
+            2.0,
+            "mmu",
+        )
+        self.assertLess(volume(dec_stepped.solid), volume(dec_stepped_solid_back.solid) * 0.85)
+
+        # 2. Tumbling blocks (3-color), Chevron (2-color), Penrose (2-color), Ammann-Beenker (2-color)
+        for pt, expected_inserts in (
+            (PatternType.TUMBLING_BLOCKS, 3),
+            (PatternType.CHEVRON, 2),
+            (PatternType.PENROSE, 2),
+            (PatternType.AMMANN_BEENKER, 2),
+        ):
+            with self.subTest(pattern=pt.name):
+                dec = decorate_lid(
+                    lid,
+                    LidBuilder(pattern=PatternBuilder(pt, spacing=12.0, inlay=True)),
+                    2.0,
+                    "mmu",
+                )
+                self.assertEqual(len(dec.inserts), expected_inserts)
+                for ins in dec.inserts:
+                    (_, _, _), (_, _, h) = _bounds_cs(ins.solid)
+                    self.assertAlmostEqual(h, INLAY_DEPTH_MM, places=4)
+
+        # 3. Custom palette override and hybrid through_holes mode
+        custom_colors = (Color("gold"), Color("royalblue"), Color("mediumseagreen"), Color("indigo"))
+        dec_custom = decorate_lid(
+            lid,
+            LidBuilder(
+                pattern=PatternBuilder(
+                    PatternType.STEPPED_CUBE,
+                    spacing=12.0,
+                    inlay=True,
+                    colors=custom_colors,
+                    through_holes=True,
+                ),
+            ),
+            2.0,
+            "mmu",
+        )
+        # With through_holes=True, 3 groups are inlaid and the 4th group cuts through the lid
+        self.assertEqual(len(dec_custom.inserts), 3)
+        self.assertLess(volume(dec_custom.solid), volume(dec_stepped.solid))
+
+
 

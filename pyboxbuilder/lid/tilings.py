@@ -18,8 +18,12 @@ import math
 
 __all__ = [
     "Tile",
+    "chevron_tiling",
+    "multigrid_colored_tiling",
     "multigrid_tiling",
     "polygon_area",
+    "stepped_cube_tiling",
+    "tumbling_blocks_tiling",
 ]
 
 Point = tuple[float, float]
@@ -176,3 +180,238 @@ def _multigrid_cell(
                 for da, db in ((0, 0), (1, 0), (1, 1), (0, 1))
             ])
     return out
+
+
+def multigrid_colored_tiling(
+    width: float,
+    length: float,
+    symmetry: int,
+    edge: float,
+) -> list[tuple[list[Point], int]]:
+    """Return ``(vertices, color_idx)`` for each rhombus in de Bruijn's multigrid tiling.
+
+    Classifies each rhombus by the acute angle between its two generating line
+    families ``j`` and ``k``: ``min(k - j, symmetry - (k - j)) - 1``, which
+    separates thin and thick rhombi into distinct colour groups.
+    """
+    if symmetry < 4:
+        raise ValueError(
+            f"a multigrid tiling needs at least 4 line families, got {symmetry}: "
+            "with three the crossings give a plain lattice, not a quasicrystal"
+        )
+    if edge <= 0:
+        raise ValueError(f"edge must be positive, got {edge}")
+
+    normals = [
+        (math.cos(math.pi * j / symmetry), math.sin(math.pi * j / symmetry))
+        for j in range(symmetry)
+    ]
+    offsets = [MULTIGRID_OFFSETS[j % len(MULTIGRID_OFFSETS)] for j in range(symmetry)]
+    reach = math.hypot(width, length) / edge / 2.0 + 2.0
+    centre = (width / (2.0 * edge), length / (2.0 * edge))
+
+    tiles: list[tuple[list[Point], int]] = []
+    for j in range(symmetry):
+        for k in range(j + 1, symmetry):
+            color_idx = min(k - j, symmetry - (k - j)) - 1
+            for poly in _multigrid_cell(j, k, normals, offsets, centre, reach, edge):
+                tiles.append((poly, color_idx))
+    return tiles
+
+
+ROOT_THREE = math.sqrt(3.0)
+
+
+def stepped_cube_tiling(
+    width: float,
+    length: float,
+    edge: float,
+) -> list[tuple[list[Point], int]]:
+    """Tile an area with the 4-part stepped 3D cube & diamond rhombic tessellation.
+
+    Every tile is a 60°/120° rhombus of side length ``edge`` (area ``√3/2 * edge²``),
+    arranged in repeating cells of width ``√3 * edge`` and height ``2 * edge``:
+
+    * **0**: Peak horizontal diamond (top of the stepped chevron band).
+    * **1**: Valley horizontal diamond (nested between peak diamonds, forming the
+      top face of each 3D cube).
+    * **2**: Left-leaning vertical rhombus (left illuminated face of each 3D cube).
+    * **3**: Right-leaning vertical rhombus (right shaded face of each 3D cube).
+
+    Together the four rhombi partition the plane edge-to-edge with zero overlap.
+    """
+    if edge <= 0:
+        raise ValueError(f"edge must be positive, got {edge}")
+
+    s = edge
+    w = ROOT_THREE * s
+    half_w = w / 2.0
+    half_s = s / 2.0
+    step_y = 2.0 * s
+
+    cx, cy = width / 2.0, length / 2.0
+    cols = math.ceil(width / (2.0 * w)) + 2
+    rows = math.ceil(length / (2.0 * step_y)) + 2
+
+    tiles: list[tuple[list[Point], int]] = []
+    for r in range(-rows, rows + 1):
+        y0 = cy + r * step_y
+        for c in range(-cols, cols + 1):
+            x0 = cx + c * w
+            # 0: Peak horizontal diamond centered at (x0, y0 + s/2)
+            tiles.append((
+                [
+                    (x0, y0),
+                    (x0 + half_w, y0 + half_s),
+                    (x0, y0 + s),
+                    (x0 - half_w, y0 + half_s),
+                ],
+                0,
+            ))
+            # 1: Valley horizontal diamond centered at (x0 + w/2, y0)
+            tiles.append((
+                [
+                    (x0 + half_w, y0 - half_s),
+                    (x0 + w, y0),
+                    (x0 + half_w, y0 + half_s),
+                    (x0, y0),
+                ],
+                1,
+            ))
+            # 2: Left vertical rhombus in [x0 - w/2, x0]
+            tiles.append((
+                [
+                    (x0 - half_w, y0 + half_s),
+                    (x0, y0 + s),
+                    (x0, y0 + 2.0 * s),
+                    (x0 - half_w, y0 + 1.5 * s),
+                ],
+                2,
+            ))
+            # 3: Right vertical rhombus in [x0, x0 + w/2]
+            tiles.append((
+                [
+                    (x0, y0 + s),
+                    (x0 + half_w, y0 + half_s),
+                    (x0 + half_w, y0 + 1.5 * s),
+                    (x0, y0 + 2.0 * s),
+                ],
+                3,
+            ))
+    return tiles
+
+
+def tumbling_blocks_tiling(
+    width: float,
+    length: float,
+    edge: float,
+) -> list[tuple[list[Point], int]]:
+    """Tile an area with the classic 3-rhombus isometric cube tessellation (tumbling blocks).
+
+    Each pointy-top regular hexagon of side ``edge`` is subdivided into three
+    60°/120° rhombi meeting at the hexagon centre:
+
+    * **0**: Top horizontal diamond face.
+    * **1**: Left vertical rhombus face.
+    * **2**: Right vertical rhombus face.
+    """
+    if edge <= 0:
+        raise ValueError(f"edge must be positive, got {edge}")
+
+    s = edge
+    w = ROOT_THREE * s
+    half_w = w / 2.0
+    half_s = s / 2.0
+    row_step = 1.5 * s
+
+    cx, cy = width / 2.0, length / 2.0
+    cols = math.ceil(width / (2.0 * w)) + 2
+    rows = math.ceil(length / (2.0 * row_step)) + 2
+
+    tiles: list[tuple[list[Point], int]] = []
+    for r in range(-rows, rows + 1):
+        hy = cy + r * row_step
+        x_shift = (r % 2) * half_w
+        for c in range(-cols, cols + 1):
+            hx = cx + c * w + x_shift
+            # 0: Top diamond
+            tiles.append((
+                [
+                    (hx, hy),
+                    (hx + half_w, hy + half_s),
+                    (hx, hy + s),
+                    (hx - half_w, hy + half_s),
+                ],
+                0,
+            ))
+            # 1: Left vertical rhombus
+            tiles.append((
+                [
+                    (hx, hy),
+                    (hx - half_w, hy + half_s),
+                    (hx - half_w, hy - half_s),
+                    (hx, hy - s),
+                ],
+                1,
+            ))
+            # 2: Right vertical rhombus
+            tiles.append((
+                [
+                    (hx, hy),
+                    (hx, hy - s),
+                    (hx + half_w, hy - half_s),
+                    (hx + half_w, hy + half_s),
+                ],
+                2,
+            ))
+    return tiles
+
+
+def chevron_tiling(
+    width: float,
+    length: float,
+    edge: float,
+) -> list[tuple[list[Point], int]]:
+    """Tile an area with interlocking 60°/120° chevron / herringbone rhombi.
+
+    Alternating columns of width ``√3/2 * edge`` slope up-right (colour ``0``)
+    and down-right (colour ``1``), meeting along verticalzig-zag seams.
+    """
+    if edge <= 0:
+        raise ValueError(f"edge must be positive, got {edge}")
+
+    s = edge
+    col_w = ROOT_THREE * s / 2.0
+    half_s = s / 2.0
+
+    cx, cy = width / 2.0, length / 2.0
+    cols = math.ceil(width / (2.0 * col_w)) + 2
+    rows = math.ceil(length / (2.0 * s)) + 2
+
+    tiles: list[tuple[list[Point], int]] = []
+    for c in range(-cols, cols + 1):
+        x0 = cx + c * col_w
+        is_odd = (c % 2) != 0
+        for r in range(-rows, rows + 1):
+            y0 = cy + r * s
+            if not is_odd:
+                tiles.append((
+                    [
+                        (x0, y0),
+                        (x0 + col_w, y0 + half_s),
+                        (x0 + col_w, y0 + 1.5 * s),
+                        (x0, y0 + s),
+                    ],
+                    0,
+                ))
+            else:
+                tiles.append((
+                    [
+                        (x0, y0 + half_s),
+                        (x0 + col_w, y0),
+                        (x0 + col_w, y0 + s),
+                        (x0, y0 + 1.5 * s),
+                    ],
+                    1,
+                ))
+    return tiles
