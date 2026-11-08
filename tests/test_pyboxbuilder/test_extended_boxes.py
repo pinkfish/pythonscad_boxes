@@ -859,9 +859,9 @@ class ExtendedBoxGeometryTests(unittest.TestCase):
         self.assertIsNotNone(lid_front)
         self.assertLess(volume(body_front & lid_front), 0.05)
 
-        # Front catch assembly adds L-hook stalk material in front of y=0 on lid
-        front_lid_probe = block([30.0, 5.0, 12.0], at=(20.0, -5.0, 18.0))
-        self.assertGreater(volume(lid_front & front_lid_probe), 10.0)
+        # Front catch assembly adds L-hook stalk material inside y=0..6 on lid below z=body_h
+        front_lid_probe = block([30.0, 6.0, 4.0], at=(20.0, 0.5, 22.0))
+        self.assertGreater(volume(lid_front & front_lid_probe), 5.0)
 
         # 2. SLIDE_ACROSS with "card_library" dual-side style
         spec_cl = replace(base_spec, slide_catch_style="card_library")

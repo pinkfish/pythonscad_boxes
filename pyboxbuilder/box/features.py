@@ -2358,22 +2358,24 @@ def build_slide_across_hinge_catch(spec: BoxSpec) -> Closure:
         z_flat=body_h - roof_h - lug_h - 1.2,
     )
 
-    # Body front wall L-mortise:
+    # Body front wall L-mortise on the inner face (y in [wt - mortise_d, boss_t + 0.2]):
     # - Locked pocket under retaining bridge roof at x in [x_center - lug_w/2, x_center + lug_w/2]
     # - Open-top drop-in entry notch shifted by -travel along X
+    y_mort0 = wt - mortise_d
+    mort_span_y = boss_t - y_mort0 + 0.2
     locked_mortise = block(
-        [lug_w + 2 * pip_clr, mortise_d + pip_clr + 0.1, lug_h + 2 * pip_clr],
+        [lug_w + 2 * pip_clr, mort_span_y, lug_h + 2 * pip_clr],
         at=(
             x_center - lug_w / 2.0 - pip_clr,
-            -0.1,
+            y_mort0,
             body_h - roof_h - lug_h - pip_clr,
         ),
     )
     entry_notch = block(
-        [travel + lug_w * 0.6 + 2 * pip_clr, mortise_d + pip_clr + 0.1, roof_h + lug_h + 0.3],
+        [travel + lug_w * 0.6 + 2 * pip_clr, mort_span_y, roof_h + lug_h + 0.3],
         at=(
             x_center - lug_w / 2.0 - travel - pip_clr,
-            -0.1,
+            y_mort0,
             body_h - roof_h - lug_h - pip_clr,
         ),
     )
@@ -2403,12 +2405,7 @@ def build_slide_across_hinge_catch(spec: BoxSpec) -> Closure:
         [max(0.8, wt * 0.5), chan_d, lt],
         at=(x_center + chan_w / 2.0 - max(0.8, wt * 0.5), 0.0, body_h),
     )
-    # Trim a front drop slot through rail_front where the slider arm reaches the front lug
-    front_slot = block(
-        [chan_w - 2 * max(0.8, wt * 0.5), rail_y + 0.2, lt * 0.6 + pip_clr],
-        at=(x_center - chan_w / 2.0 + max(0.8, wt * 0.5), -0.1, body_h - 0.05),
-    )
-    lid_frame = (rail_front | rail_back | end_left | end_right) - front_slot
+    lid_frame = rail_front | rail_back | end_left | end_right
 
     # Captive dovetail slider (separated from lid_frame by pip_clr)
     inner_y_bot = (chan_d - 2 * rail_y) + 0.6 - 2 * pip_clr
@@ -2421,23 +2418,27 @@ def build_slide_across_hinge_catch(spec: BoxSpec) -> Closure:
 
     # Thumb handle bar rising flush to spec.height
     thumb_knob = block(
-        [slider_w * 0.45, max(0.6, inner_y_top), lt],
+        [slider_w * 0.45, max(0.6, inner_y_top), max(0.8, lt - pip_clr)],
         at=(x_center - slider_w * 0.225, (chan_d - max(0.6, inner_y_top)) / 2.0, body_h + pip_clr),
     )
-    # Forward arm & L-shaped locking lug: vertical stalk in front of y=0 (-stalk_t - pip_clr .. -pip_clr)
-    # and horizontal foot reaching inward (+Y) into locked_mortise below body_h - roof_h.
+    # L-shaped locking lug: vertical stalk inside the box (y >= boss_t + pip_clr)
+    # and horizontal foot reaching forward (-Y) into locked_mortise below body_h - roof_h.
     stalk_t = max(0.8, wt * 0.45)
+    y_stalk0 = boss_t + pip_clr
+    arm_y0 = min(chan_d * 0.5, y_stalk0)
+    arm_y1 = max(chan_d * 0.5, y_stalk0 + stalk_t)
     lug_arm = block(
-        [lug_w, chan_d * 0.5 + stalk_t + pip_clr, max(0.6, lt * 0.5 - pip_clr)],
-        at=(x_center - lug_w / 2.0, -stalk_t - pip_clr, body_h + pip_clr),
+        [lug_w, arm_y1 - arm_y0, max(0.6, lt * 0.5 - pip_clr)],
+        at=(x_center - lug_w / 2.0, arm_y0, body_h + pip_clr),
     )
     lug_stalk = block(
         [lug_w, stalk_t, roof_h + lug_h + 2 * pip_clr],
-        at=(x_center - lug_w / 2.0, -stalk_t - pip_clr, body_h - roof_h - lug_h),
+        at=(x_center - lug_w / 2.0, y_stalk0, body_h - roof_h - lug_h),
     )
+    y_foot0 = y_mort0 + pip_clr
     lug_foot = block(
-        [lug_w, stalk_t + pip_clr + max(0.6, mortise_d - pip_clr), lug_h],
-        at=(x_center - lug_w / 2.0, -stalk_t - pip_clr, body_h - roof_h - lug_h),
+        [lug_w, (y_stalk0 + stalk_t) - y_foot0, lug_h],
+        at=(x_center - lug_w / 2.0, y_foot0, body_h - roof_h - lug_h),
     )
     slider = slider_core | thumb_knob | lug_arm | lug_stalk | lug_foot
 
@@ -2972,26 +2973,32 @@ def build_pinch_slide_hinge_catch(spec: BoxSpec) -> Closure:
     inner_y_bot = (chan_d - 2 * rail_y) + 0.6 - 2 * pip_clr
     inner_y_top = (chan_d - 2 * rail_y) - 2 * pip_clr
 
+    y_mort0 = wt - mortise_d
+    mort_span_y = boss_t - y_mort0 + 0.2
+    stalk_t = max(0.8, wt * 0.45)
+    y_stalk0 = boss_t + pip_clr
+    y_foot0 = y_mort0 + pip_clr
+
     for sign in (-1.0, 1.0):
         # Outer locked position of each slider center
         x_locked = x_center + sign * (wt * 0.5 + travel + slider_w / 2.0)
         x_lug = x_locked + sign * (slider_w - lug_w) * 0.4
 
         locked_mortise = block(
-            [lug_w + 2 * pip_clr, mortise_d + pip_clr + 0.1, lug_h + 2 * pip_clr],
+            [lug_w + 2 * pip_clr, mort_span_y, lug_h + 2 * pip_clr],
             at=(
                 x_lug - lug_w / 2.0 - pip_clr,
-                -0.1,
+                y_mort0,
                 body_h - roof_h - lug_h - pip_clr,
             ),
         )
         # Entry notch shifted inward toward x_center by travel
         x_entry_min = min(x_lug - lug_w / 2.0, x_lug - sign * travel - lug_w / 2.0) - pip_clr
         entry_notch = block(
-            [travel + lug_w + 2 * pip_clr, mortise_d + pip_clr + 0.1, roof_h + lug_h + 0.3],
+            [travel + lug_w + 2 * pip_clr, mort_span_y, roof_h + lug_h + 0.3],
             at=(
                 x_entry_min,
-                -0.1,
+                y_mort0,
                 body_h - roof_h - lug_h - pip_clr,
             ),
         )
@@ -3002,18 +3009,19 @@ def build_pinch_slide_hinge_catch(spec: BoxSpec) -> Closure:
             size2=[slider_w, max(0.6, inner_y_top)],
             height=max(0.8, lt - pip_clr),
         ).translate([x_locked, chan_d / 2.0, body_h + pip_clr])
-        stalk_t = max(0.8, wt * 0.45)
+        arm_y0 = min(chan_d * 0.5, y_stalk0)
+        arm_y1 = max(chan_d * 0.5, y_stalk0 + stalk_t)
         s_arm = block(
-            [lug_w, chan_d * 0.5 + stalk_t + pip_clr, max(0.6, lt * 0.5 - pip_clr)],
-            at=(x_lug - lug_w / 2.0, -stalk_t - pip_clr, body_h + pip_clr),
+            [lug_w, arm_y1 - arm_y0, max(0.6, lt * 0.5 - pip_clr)],
+            at=(x_lug - lug_w / 2.0, arm_y0, body_h + pip_clr),
         )
         s_stalk = block(
             [lug_w, stalk_t, roof_h + lug_h + 2 * pip_clr],
-            at=(x_lug - lug_w / 2.0, -stalk_t - pip_clr, body_h - roof_h - lug_h),
+            at=(x_lug - lug_w / 2.0, y_stalk0, body_h - roof_h - lug_h),
         )
         s_foot = block(
-            [lug_w, stalk_t + pip_clr + max(0.6, mortise_d - pip_clr), lug_h],
-            at=(x_lug - lug_w / 2.0, -stalk_t - pip_clr, body_h - roof_h - lug_h),
+            [lug_w, (y_stalk0 + stalk_t) - y_foot0, lug_h],
+            at=(x_lug - lug_w / 2.0, y_foot0, body_h - roof_h - lug_h),
         )
         sliders.append(s_core | s_arm | s_stalk | s_foot)
 
@@ -3025,11 +3033,7 @@ def build_pinch_slide_hinge_catch(spec: BoxSpec) -> Closure:
     rail_back = block([chan_w, rail_y, lt], at=(x_center - chan_w / 2.0, chan_d - rail_y, body_h))
     end_l = block([wt * 0.5, chan_d, lt], at=(x_center - chan_w / 2.0, 0.0, body_h))
     end_r = block([wt * 0.5, chan_d, lt], at=(x_center + chan_w / 2.0 - wt * 0.5, 0.0, body_h))
-    front_slot = block(
-        [chan_w - wt, rail_y + 0.2, lt * 0.6 + pip_clr],
-        at=(x_center - chan_w / 2.0 + wt * 0.5, -0.1, body_h - 0.05),
-    )
-    lid_frame = (rail_front | rail_back | end_l | end_r) - front_slot
+    lid_frame = rail_front | rail_back | end_l | end_r
 
     from pyboxbuilder.compartments.element import union_all
 

@@ -42,7 +42,7 @@ class SlidingHingeBoxBuilder(BoxBuilder):
     hinge_catch_type: HingeCatchType = HingeCatchType.SLIDE_ACROSS
     """Hinge catch mechanism enum fallback."""
     slide_catch_style: str = "front"
-    """Placement style for SLIDE_ACROSS: ``'front'`` (single front bolt) or ``'card_library'`` (dual side bolts)."""
+    """Placement style for ``SLIDE_ACROSS`` (``'front'`` single front bolt or ``'card_library'`` dual side bolts)."""
     pip_radial_clearance: float = 0.28
     """Print-in-place clearance in mm for captive sliding or spinning catch parts."""
 
