@@ -1719,9 +1719,320 @@
     <span class="p">)</span>
 
 
+<span class="n">_DEFAULT_TESSELLATION_PALETTES</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Color</span><span class="p">,</span> <span class="o">...</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">"stepped_cube"</span><span class="p">:</span> <span class="p">(</span>
+        <span class="n">Color</span><span class="p">(</span><span class="s2">"#f7f749"</span><span class="p">),</span>
+        <span class="n">Color</span><span class="p">(</span><span class="s2">"#6366cf"</span><span class="p">),</span>
+        <span class="n">Color</span><span class="p">(</span><span class="s2">"#23c48e"</span><span class="p">),</span>
+        <span class="n">Color</span><span class="p">(</span><span class="s2">"#5c5d99"</span><span class="p">),</span>
+    <span class="p">),</span>
+    <span class="s2">"tumbling_blocks"</span><span class="p">:</span> <span class="p">(</span>
+        <span class="n">Color</span><span class="p">(</span><span class="s2">"#f5e663"</span><span class="p">),</span>
+        <span class="n">Color</span><span class="p">(</span><span class="s2">"#4ecdc4"</span><span class="p">),</span>
+        <span class="n">Color</span><span class="p">(</span><span class="s2">"#3b5284"</span><span class="p">),</span>
+    <span class="p">),</span>
+    <span class="s2">"chevron"</span><span class="p">:</span> <span class="p">(</span>
+        <span class="n">Color</span><span class="p">(</span><span class="s2">"#f4a261"</span><span class="p">),</span>
+        <span class="n">Color</span><span class="p">(</span><span class="s2">"#2a9d8f"</span><span class="p">),</span>
+    <span class="p">),</span>
+    <span class="s2">"penrose"</span><span class="p">:</span> <span class="p">(</span>
+        <span class="n">Color</span><span class="p">(</span><span class="s2">"#e9c46a"</span><span class="p">),</span>
+        <span class="n">Color</span><span class="p">(</span><span class="s2">"#264653"</span><span class="p">),</span>
+    <span class="p">),</span>
+    <span class="s2">"ammann_beenker"</span><span class="p">:</span> <span class="p">(</span>
+        <span class="n">Color</span><span class="p">(</span><span class="s2">"#a8dadc"</span><span class="p">),</span>
+        <span class="n">Color</span><span class="p">(</span><span class="s2">"#1d3557"</span><span class="p">),</span>
+    <span class="p">),</span>
+<span class="p">}</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_inset_rhombus</span><span class="p">(</span>
+    <span class="n">pts</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]],</span>
+    <span class="n">inset_dist</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Inset a 4-vertex rhombus by perpendicular distance ``inset_dist`` on all edges."""</span>
+    <span class="k">if</span> <span class="n">inset_dist</span> <span class="o">&lt;=</span> <span class="mf">0.0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">pts</span>
+    <span class="n">cx</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">pts</span><span class="p">)</span> <span class="o">/</span> <span class="mf">4.0</span>
+    <span class="n">cy</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">pts</span><span class="p">)</span> <span class="o">/</span> <span class="mf">4.0</span>
+    <span class="n">e1x</span><span class="p">,</span> <span class="n">e1y</span> <span class="o">=</span> <span class="n">pts</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">pts</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">pts</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">pts</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">e2x</span><span class="p">,</span> <span class="n">e2y</span> <span class="o">=</span> <span class="n">pts</span><span class="p">[</span><span class="mi">3</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">pts</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">pts</span><span class="p">[</span><span class="mi">3</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">pts</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">cross</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">e1x</span> <span class="o">*</span> <span class="n">e2y</span> <span class="o">-</span> <span class="n">e1y</span> <span class="o">*</span> <span class="n">e2x</span><span class="p">)</span>
+    <span class="n">edge</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">hypot</span><span class="p">(</span><span class="n">e1x</span><span class="p">,</span> <span class="n">e1y</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">edge</span> <span class="o">&lt;=</span> <span class="mf">1e-9</span> <span class="ow">or</span> <span class="n">cross</span> <span class="o">&lt;=</span> <span class="mf">1e-9</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+    <span class="c1"># Twice the inradius of the rhombus is (cross / edge) = edge * sin(theta).</span>
+    <span class="n">two_inradius</span> <span class="o">=</span> <span class="n">cross</span> <span class="o">/</span> <span class="n">edge</span>
+    <span class="n">scale</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="p">(</span><span class="mf">2.0</span> <span class="o">*</span> <span class="n">inset_dist</span><span class="p">)</span> <span class="o">/</span> <span class="n">two_inradius</span>
+    <span class="k">if</span> <span class="n">scale</span> <span class="o">&lt;=</span> <span class="mf">0.12</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+    <span class="k">return</span> <span class="p">[(</span><span class="n">cx</span> <span class="o">+</span> <span class="p">(</span><span class="n">px</span> <span class="o">-</span> <span class="n">cx</span><span class="p">)</span> <span class="o">*</span> <span class="n">scale</span><span class="p">,</span> <span class="n">cy</span> <span class="o">+</span> <span class="p">(</span><span class="n">py</span> <span class="o">-</span> <span class="n">cy</span><span class="p">)</span> <span class="o">*</span> <span class="n">scale</span><span class="p">)</span> <span class="k">for</span> <span class="n">px</span><span class="p">,</span> <span class="n">py</span> <span class="ow">in</span> <span class="n">pts</span><span class="p">]</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_rhombic_tessellation_fill</span><span class="p">(</span>
+    <span class="n">kind</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">thickness</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">spacing</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">web</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">colors</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Color</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">through_holes</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">inlay</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">lid_thickness</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">through_inlay</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span> <span class="o">|</span> <span class="n">PatternResult</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Build a through-hole or multi-color inlaid rhombic tessellation."""</span>
+    <span class="k">if</span> <span class="n">hole_size</span><span class="p">(</span><span class="n">spacing</span><span class="p">,</span> <span class="n">web</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path2D</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">shapes2d</span> <span class="k">as</span> <span class="n">s2</span>
+
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.lid.tilings</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+        <span class="n">chevron_tiling</span><span class="p">,</span>
+        <span class="n">multigrid_colored_tiling</span><span class="p">,</span>
+        <span class="n">stepped_cube_tiling</span><span class="p">,</span>
+        <span class="n">tumbling_blocks_tiling</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">gap</span> <span class="o">=</span> <span class="n">DEFAULT_WEB_MM</span> <span class="k">if</span> <span class="n">web</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="nb">max</span><span class="p">(</span><span class="n">web</span><span class="p">,</span> <span class="n">MIN_WEB_MM</span><span class="p">)</span>
+    <span class="c1"># Derive rhombus side length so the narrowest tile holds both the web and MIN_HOLE_MM</span>
+    <span class="k">if</span> <span class="n">kind</span> <span class="o">==</span> <span class="s2">"penrose"</span><span class="p">:</span>
+        <span class="n">min_sin</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mf">5.0</span><span class="p">)</span>
+        <span class="n">edge</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">spacing</span> <span class="o">*</span> <span class="mf">0.75</span><span class="p">,</span> <span class="p">(</span><span class="n">gap</span> <span class="o">+</span> <span class="n">MIN_HOLE_MM</span><span class="p">)</span> <span class="o">/</span> <span class="n">min_sin</span><span class="p">)</span>
+        <span class="n">raw_tiles</span> <span class="o">=</span> <span class="n">multigrid_colored_tiling</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="n">edge</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="s2">"ammann_beenker"</span><span class="p">:</span>
+        <span class="n">min_sin</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mf">4.0</span><span class="p">)</span>
+        <span class="n">edge</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">spacing</span> <span class="o">*</span> <span class="mf">0.75</span><span class="p">,</span> <span class="p">(</span><span class="n">gap</span> <span class="o">+</span> <span class="n">MIN_HOLE_MM</span><span class="p">)</span> <span class="o">/</span> <span class="n">min_sin</span><span class="p">)</span>
+        <span class="n">raw_tiles</span> <span class="o">=</span> <span class="n">multigrid_colored_tiling</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">edge</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="s2">"stepped_cube"</span><span class="p">:</span>
+        <span class="n">min_sin</span> <span class="o">=</span> <span class="n">ROOT_THREE</span> <span class="o">/</span> <span class="mf">2.0</span>
+        <span class="n">edge</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">spacing</span> <span class="o">*</span> <span class="mf">0.70</span><span class="p">,</span> <span class="p">(</span><span class="n">gap</span> <span class="o">+</span> <span class="n">MIN_HOLE_MM</span><span class="p">)</span> <span class="o">/</span> <span class="n">min_sin</span><span class="p">)</span>
+        <span class="n">raw_tiles</span> <span class="o">=</span> <span class="n">stepped_cube_tiling</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">edge</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="s2">"tumbling_blocks"</span><span class="p">:</span>
+        <span class="n">min_sin</span> <span class="o">=</span> <span class="n">ROOT_THREE</span> <span class="o">/</span> <span class="mf">2.0</span>
+        <span class="n">edge</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">spacing</span> <span class="o">*</span> <span class="mf">0.70</span><span class="p">,</span> <span class="p">(</span><span class="n">gap</span> <span class="o">+</span> <span class="n">MIN_HOLE_MM</span><span class="p">)</span> <span class="o">/</span> <span class="n">min_sin</span><span class="p">)</span>
+        <span class="n">raw_tiles</span> <span class="o">=</span> <span class="n">tumbling_blocks_tiling</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">edge</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="s2">"chevron"</span><span class="p">:</span>
+        <span class="n">min_sin</span> <span class="o">=</span> <span class="n">ROOT_THREE</span> <span class="o">/</span> <span class="mf">2.0</span>
+        <span class="n">edge</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">spacing</span> <span class="o">*</span> <span class="mf">0.70</span><span class="p">,</span> <span class="p">(</span><span class="n">gap</span> <span class="o">+</span> <span class="n">MIN_HOLE_MM</span><span class="p">)</span> <span class="o">/</span> <span class="n">min_sin</span><span class="p">)</span>
+        <span class="n">raw_tiles</span> <span class="o">=</span> <span class="n">chevron_tiling</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">edge</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Unknown rhombic tessellation kind: </span><span class="si">{</span><span class="n">kind</span><span class="si">!r}</span><span class="s2">"</span><span class="p">)</span>
+
+    <span class="n">inset_d</span> <span class="o">=</span> <span class="p">(</span><span class="n">gap</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">)</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">inlay</span> <span class="k">else</span> <span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">gap</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span> <span class="k">if</span> <span class="n">web</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.02</span><span class="p">,</span> <span class="n">web</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">)</span>
+
+    <span class="n">margin_pad</span> <span class="o">=</span> <span class="n">edge</span> <span class="o">*</span> <span class="mf">1.5</span>
+    <span class="n">grouped_2d</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Bosl2Shape2D</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">all_2d</span><span class="p">:</span> <span class="n">Bosl2Shape2D</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">for</span> <span class="n">pts</span><span class="p">,</span> <span class="n">c_idx</span> <span class="ow">in</span> <span class="n">raw_tiles</span><span class="p">:</span>
+        <span class="n">xs</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">pts</span><span class="p">]</span>
+        <span class="n">ys</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">pts</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">max</span><span class="p">(</span><span class="n">xs</span><span class="p">)</span> <span class="o">&lt;</span> <span class="o">-</span><span class="n">margin_pad</span> <span class="ow">or</span> <span class="nb">min</span><span class="p">(</span><span class="n">xs</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">width</span> <span class="o">+</span> <span class="n">margin_pad</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="k">if</span> <span class="nb">max</span><span class="p">(</span><span class="n">ys</span><span class="p">)</span> <span class="o">&lt;</span> <span class="o">-</span><span class="n">margin_pad</span> <span class="ow">or</span> <span class="nb">min</span><span class="p">(</span><span class="n">ys</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">length</span> <span class="o">+</span> <span class="n">margin_pad</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="n">inset_pts</span> <span class="o">=</span> <span class="n">_inset_rhombus</span><span class="p">(</span><span class="n">pts</span><span class="p">,</span> <span class="n">inset_d</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">inset_pts</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="n">poly_2d</span> <span class="o">=</span> <span class="n">s2</span><span class="o">.</span><span class="n">polygon</span><span class="p">(</span><span class="n">Path2D</span><span class="p">([[</span><span class="n">px</span><span class="p">,</span> <span class="n">py</span><span class="p">]</span> <span class="k">for</span> <span class="n">px</span><span class="p">,</span> <span class="n">py</span> <span class="ow">in</span> <span class="n">inset_pts</span><span class="p">]))</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">inlay</span><span class="p">:</span>
+            <span class="n">all_2d</span> <span class="o">=</span> <span class="n">poly_2d</span> <span class="k">if</span> <span class="n">all_2d</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">all_2d</span> <span class="o">|</span> <span class="n">poly_2d</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">grouped_2d</span><span class="p">[</span><span class="n">c_idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">poly_2d</span> <span class="k">if</span> <span class="n">c_idx</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">grouped_2d</span> <span class="k">else</span> <span class="p">(</span><span class="n">grouped_2d</span><span class="p">[</span><span class="n">c_idx</span><span class="p">]</span> <span class="o">|</span> <span class="n">poly_2d</span><span class="p">)</span>
+
+    <span class="n">height</span> <span class="o">=</span> <span class="n">thickness</span> <span class="o">*</span> <span class="n">DEPTH_OVERSHOOT</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">inlay</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">all_2d</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="n">all_2d</span><span class="o">.</span><span class="n">linear_extrude</span><span class="p">(</span><span class="n">height</span><span class="o">=</span><span class="n">height</span><span class="p">)</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="o">-</span><span class="p">(</span><span class="n">height</span> <span class="o">-</span> <span class="n">thickness</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">])</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">grouped_2d</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="n">actual_lid_t</span> <span class="o">=</span> <span class="n">lid_thickness</span> <span class="k">if</span> <span class="n">lid_thickness</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">thickness</span>
+    <span class="n">through_h</span> <span class="o">=</span> <span class="n">actual_lid_t</span> <span class="o">*</span> <span class="n">DEPTH_OVERSHOOT</span>
+    <span class="n">through_z0</span> <span class="o">=</span> <span class="n">thickness</span> <span class="o">-</span> <span class="n">actual_lid_t</span> <span class="o">-</span> <span class="p">(</span><span class="n">through_h</span> <span class="o">-</span> <span class="n">actual_lid_t</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span>
+    <span class="n">top_z0</span> <span class="o">=</span> <span class="o">-</span><span class="p">(</span><span class="n">height</span> <span class="o">-</span> <span class="n">thickness</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span>
+
+    <span class="n">default_palette</span> <span class="o">=</span> <span class="n">_DEFAULT_TESSELLATION_PALETTES</span><span class="p">[</span><span class="n">kind</span><span class="p">]</span>
+    <span class="n">use_custom_palette</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">colors</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">colors</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">sorted_keys</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">grouped_2d</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+    <span class="n">hole_group_key</span> <span class="o">=</span> <span class="n">sorted_keys</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="k">if</span> <span class="p">(</span><span class="n">through_holes</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">sorted_keys</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span>
+
+    <span class="n">inlays</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="n">Bosl2Solid</span><span class="p">,</span> <span class="nb">int</span> <span class="o">|</span> <span class="n">Color</span> <span class="o">|</span> <span class="kc">None</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">holes_solid</span><span class="p">:</span> <span class="n">Bosl2Solid</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">for</span> <span class="n">c_idx</span> <span class="ow">in</span> <span class="n">sorted_keys</span><span class="p">:</span>
+        <span class="n">shape_2d</span> <span class="o">=</span> <span class="n">grouped_2d</span><span class="p">[</span><span class="n">c_idx</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">hole_group_key</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">c_idx</span> <span class="o">==</span> <span class="n">hole_group_key</span><span class="p">:</span>
+            <span class="n">cut_h</span> <span class="o">=</span> <span class="n">actual_lid_t</span> <span class="o">+</span> <span class="mf">2.0</span>
+            <span class="n">holes_solid</span> <span class="o">=</span> <span class="n">shape_2d</span><span class="o">.</span><span class="n">linear_extrude</span><span class="p">(</span><span class="n">height</span><span class="o">=</span><span class="n">cut_h</span><span class="p">)</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span>
+                <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">thickness</span> <span class="o">-</span> <span class="n">actual_lid_t</span> <span class="o">-</span> <span class="mf">1.0</span><span class="p">]</span>
+            <span class="p">)</span>
+            <span class="k">continue</span>
+
+        <span class="n">is_thru</span> <span class="o">=</span> <span class="n">_is_through_inlay</span><span class="p">(</span><span class="n">c_idx</span><span class="p">,</span> <span class="n">through_inlay</span><span class="p">)</span>
+        <span class="n">ext_h</span> <span class="o">=</span> <span class="n">through_h</span> <span class="k">if</span> <span class="n">is_thru</span> <span class="k">else</span> <span class="n">height</span>
+        <span class="n">ext_z</span> <span class="o">=</span> <span class="n">through_z0</span> <span class="k">if</span> <span class="n">is_thru</span> <span class="k">else</span> <span class="n">top_z0</span>
+        <span class="n">part_3d</span> <span class="o">=</span> <span class="n">shape_2d</span><span class="o">.</span><span class="n">linear_extrude</span><span class="p">(</span><span class="n">height</span><span class="o">=</span><span class="n">ext_h</span><span class="p">)</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">ext_z</span><span class="p">])</span>
+
+        <span class="k">if</span> <span class="n">use_custom_palette</span><span class="p">:</span>
+            <span class="n">color_key</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="n">Color</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">c_idx</span>
+        <span class="k">elif</span> <span class="n">colors</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">colors</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">through_holes</span><span class="p">:</span>
+            <span class="n">color_key</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">color_key</span> <span class="o">=</span> <span class="n">default_palette</span><span class="p">[</span><span class="n">c_idx</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">default_palette</span><span class="p">)]</span>
+        <span class="n">inlays</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">part_3d</span><span class="p">,</span> <span class="n">color_key</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">PatternResult</span><span class="p">(</span><span class="n">inlays</span><span class="o">=</span><span class="n">inlays</span><span class="p">,</span> <span class="n">holes</span><span class="o">=</span><span class="n">holes_solid</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_stepped_cube_fill</span><span class="p">(</span>
+    <span class="n">width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">thickness</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">spacing</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">web</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">colors</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Color</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">through_holes</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">inlay</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">lid_thickness</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">through_inlay</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span> <span class="o">|</span> <span class="n">PatternResult</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Stepped 3D cube and diamond rhombic tessellation fill."""</span>
+    <span class="k">return</span> <span class="n">_rhombic_tessellation_fill</span><span class="p">(</span>
+        <span class="s2">"stepped_cube"</span><span class="p">,</span>
+        <span class="n">width</span><span class="p">,</span>
+        <span class="n">length</span><span class="p">,</span>
+        <span class="n">thickness</span><span class="p">,</span>
+        <span class="n">spacing</span><span class="p">,</span>
+        <span class="n">web</span><span class="p">,</span>
+        <span class="n">colors</span><span class="o">=</span><span class="n">colors</span><span class="p">,</span>
+        <span class="n">through_holes</span><span class="o">=</span><span class="n">through_holes</span><span class="p">,</span>
+        <span class="n">inlay</span><span class="o">=</span><span class="n">inlay</span><span class="p">,</span>
+        <span class="n">lid_thickness</span><span class="o">=</span><span class="n">lid_thickness</span><span class="p">,</span>
+        <span class="n">through_inlay</span><span class="o">=</span><span class="n">through_inlay</span><span class="p">,</span>
+    <span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_tumbling_blocks_fill</span><span class="p">(</span>
+    <span class="n">width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">thickness</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">spacing</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">web</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">colors</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Color</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">through_holes</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">inlay</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">lid_thickness</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">through_inlay</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span> <span class="o">|</span> <span class="n">PatternResult</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Classic 3-rhombus isometric cube (tumbling blocks) tessellation fill."""</span>
+    <span class="k">return</span> <span class="n">_rhombic_tessellation_fill</span><span class="p">(</span>
+        <span class="s2">"tumbling_blocks"</span><span class="p">,</span>
+        <span class="n">width</span><span class="p">,</span>
+        <span class="n">length</span><span class="p">,</span>
+        <span class="n">thickness</span><span class="p">,</span>
+        <span class="n">spacing</span><span class="p">,</span>
+        <span class="n">web</span><span class="p">,</span>
+        <span class="n">colors</span><span class="o">=</span><span class="n">colors</span><span class="p">,</span>
+        <span class="n">through_holes</span><span class="o">=</span><span class="n">through_holes</span><span class="p">,</span>
+        <span class="n">inlay</span><span class="o">=</span><span class="n">inlay</span><span class="p">,</span>
+        <span class="n">lid_thickness</span><span class="o">=</span><span class="n">lid_thickness</span><span class="p">,</span>
+        <span class="n">through_inlay</span><span class="o">=</span><span class="n">through_inlay</span><span class="p">,</span>
+    <span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_chevron_fill</span><span class="p">(</span>
+    <span class="n">width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">thickness</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">spacing</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">web</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">colors</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Color</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">through_holes</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">inlay</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">lid_thickness</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">through_inlay</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span> <span class="o">|</span> <span class="n">PatternResult</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Interlocking 60°/120° herringbone chevron rhombus tessellation fill."""</span>
+    <span class="k">return</span> <span class="n">_rhombic_tessellation_fill</span><span class="p">(</span>
+        <span class="s2">"chevron"</span><span class="p">,</span>
+        <span class="n">width</span><span class="p">,</span>
+        <span class="n">length</span><span class="p">,</span>
+        <span class="n">thickness</span><span class="p">,</span>
+        <span class="n">spacing</span><span class="p">,</span>
+        <span class="n">web</span><span class="p">,</span>
+        <span class="n">colors</span><span class="o">=</span><span class="n">colors</span><span class="p">,</span>
+        <span class="n">through_holes</span><span class="o">=</span><span class="n">through_holes</span><span class="p">,</span>
+        <span class="n">inlay</span><span class="o">=</span><span class="n">inlay</span><span class="p">,</span>
+        <span class="n">lid_thickness</span><span class="o">=</span><span class="n">lid_thickness</span><span class="p">,</span>
+        <span class="n">through_inlay</span><span class="o">=</span><span class="n">through_inlay</span><span class="p">,</span>
+    <span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_penrose_fill</span><span class="p">(</span>
+    <span class="n">width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">thickness</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">spacing</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">web</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">colors</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Color</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">through_holes</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">inlay</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">lid_thickness</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">through_inlay</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span> <span class="o">|</span> <span class="n">PatternResult</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Ten-fold quasiperiodic Penrose rhombus tessellation fill."""</span>
+    <span class="k">return</span> <span class="n">_rhombic_tessellation_fill</span><span class="p">(</span>
+        <span class="s2">"penrose"</span><span class="p">,</span>
+        <span class="n">width</span><span class="p">,</span>
+        <span class="n">length</span><span class="p">,</span>
+        <span class="n">thickness</span><span class="p">,</span>
+        <span class="n">spacing</span><span class="p">,</span>
+        <span class="n">web</span><span class="p">,</span>
+        <span class="n">colors</span><span class="o">=</span><span class="n">colors</span><span class="p">,</span>
+        <span class="n">through_holes</span><span class="o">=</span><span class="n">through_holes</span><span class="p">,</span>
+        <span class="n">inlay</span><span class="o">=</span><span class="n">inlay</span><span class="p">,</span>
+        <span class="n">lid_thickness</span><span class="o">=</span><span class="n">lid_thickness</span><span class="p">,</span>
+        <span class="n">through_inlay</span><span class="o">=</span><span class="n">through_inlay</span><span class="p">,</span>
+    <span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_ammann_beenker_fill</span><span class="p">(</span>
+    <span class="n">width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">thickness</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">spacing</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">web</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">colors</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Color</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">through_holes</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">inlay</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">lid_thickness</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">through_inlay</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span> <span class="o">|</span> <span class="n">PatternResult</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Eight-fold quasiperiodic Ammann–Beenker rhombus tessellation fill."""</span>
+    <span class="k">return</span> <span class="n">_rhombic_tessellation_fill</span><span class="p">(</span>
+        <span class="s2">"ammann_beenker"</span><span class="p">,</span>
+        <span class="n">width</span><span class="p">,</span>
+        <span class="n">length</span><span class="p">,</span>
+        <span class="n">thickness</span><span class="p">,</span>
+        <span class="n">spacing</span><span class="p">,</span>
+        <span class="n">web</span><span class="p">,</span>
+        <span class="n">colors</span><span class="o">=</span><span class="n">colors</span><span class="p">,</span>
+        <span class="n">through_holes</span><span class="o">=</span><span class="n">through_holes</span><span class="p">,</span>
+        <span class="n">inlay</span><span class="o">=</span><span class="n">inlay</span><span class="p">,</span>
+        <span class="n">lid_thickness</span><span class="o">=</span><span class="n">lid_thickness</span><span class="p">,</span>
+        <span class="n">through_inlay</span><span class="o">=</span><span class="n">through_inlay</span><span class="p">,</span>
+    <span class="p">)</span>
+
+
 <span class="n">_PATTERN_FILLS</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span>
     <span class="n">PatternType</span><span class="p">,</span>
-    <span class="n">Callable</span><span class="p">[[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span><span class="p">],</span> <span class="n">Bosl2Solid</span> <span class="o">|</span> <span class="kc">None</span><span class="p">],</span>
+    <span class="n">Callable</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">Bosl2Solid</span> <span class="o">|</span> <span class="n">PatternResult</span> <span class="o">|</span> <span class="kc">None</span><span class="p">],</span>
 <span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
     <span class="n">PatternType</span><span class="o">.</span><span class="n">NONE</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">w</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">web</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">PatternType</span><span class="o">.</span><span class="n">SOLID</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">w</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">web</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
@@ -1739,6 +2050,11 @@
     <span class="n">PatternType</span><span class="o">.</span><span class="n">DICE</span><span class="p">:</span> <span class="n">_dice_fill</span><span class="p">,</span>
     <span class="n">PatternType</span><span class="o">.</span><span class="n">RING</span><span class="p">:</span> <span class="n">_ring_fill</span><span class="p">,</span>
     <span class="n">PatternType</span><span class="o">.</span><span class="n">CHECKER</span><span class="p">:</span> <span class="n">_checker_fill</span><span class="p">,</span>
+    <span class="n">PatternType</span><span class="o">.</span><span class="n">STEPPED_CUBE</span><span class="p">:</span> <span class="n">_stepped_cube_fill</span><span class="p">,</span>
+    <span class="n">PatternType</span><span class="o">.</span><span class="n">TUMBLING_BLOCKS</span><span class="p">:</span> <span class="n">_tumbling_blocks_fill</span><span class="p">,</span>
+    <span class="n">PatternType</span><span class="o">.</span><span class="n">CHEVRON</span><span class="p">:</span> <span class="n">_chevron_fill</span><span class="p">,</span>
+    <span class="n">PatternType</span><span class="o">.</span><span class="n">PENROSE</span><span class="p">:</span> <span class="n">_penrose_fill</span><span class="p">,</span>
+    <span class="n">PatternType</span><span class="o">.</span><span class="n">AMMANN_BEENKER</span><span class="p">:</span> <span class="n">_ammann_beenker_fill</span><span class="p">,</span>
 <span class="p">}</span>
 <span class="sd">"""Every pattern the library can draw.</span>
 

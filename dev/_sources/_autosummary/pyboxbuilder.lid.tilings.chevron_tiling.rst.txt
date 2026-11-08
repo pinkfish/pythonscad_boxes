@@ -1,0 +1,6 @@
+pyboxbuilder.lid.tilings.chevron\_tiling
+========================================
+
+.. currentmodule:: pyboxbuilder.lid.tilings
+
+.. autofunction:: chevron_tiling

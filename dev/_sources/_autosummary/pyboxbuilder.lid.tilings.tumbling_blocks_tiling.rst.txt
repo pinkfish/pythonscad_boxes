@@ -1,0 +1,6 @@
+pyboxbuilder.lid.tilings.tumbling\_blocks\_tiling
+=================================================
+
+.. currentmodule:: pyboxbuilder.lid.tilings
+
+.. autofunction:: tumbling_blocks_tiling
