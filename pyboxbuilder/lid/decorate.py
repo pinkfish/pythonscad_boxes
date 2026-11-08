@@ -819,6 +819,11 @@ def _apply_inlaid_pattern(
         PatternType.RING,
         PatternType.CHECKER,
         PatternType.DICE,
+        PatternType.STEPPED_CUBE,
+        PatternType.TUMBLING_BLOCKS,
+        PatternType.CHEVRON,
+        PatternType.PENROSE,
+        PatternType.AMMANN_BEENKER,
     )
     if is_simple_pattern and through_inlay is True:
         depth = lid_thickness

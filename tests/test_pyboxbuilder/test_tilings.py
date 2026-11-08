@@ -9,7 +9,15 @@ their areas sum to exactly that area — coverage and non-overlap at once.
 import math
 import unittest
 
-from pyboxbuilder.lid.tilings import Tile, multigrid_tiling, polygon_area
+from pyboxbuilder.lid.tilings import (
+    Tile,
+    chevron_tiling,
+    multigrid_colored_tiling,
+    multigrid_tiling,
+    polygon_area,
+    stepped_cube_tiling,
+    tumbling_blocks_tiling,
+)
 from pyboxbuilder.paths import signed_area
 
 Point = tuple[float, float]
@@ -123,3 +131,74 @@ class MultigridCoverageTests(unittest.TestCase):
             self.assertAlmostEqual(
                 covered, expected, delta=expected * 1e-6, msg=f"symmetry={symmetry}"
             )
+
+
+class RhombicTessellationTests(unittest.TestCase):
+    """Verify stepped_cube, tumbling_blocks, chevron, and colored multigrid tilings."""
+
+    WIDTH, LENGTH = 120.0, 90.0
+    EDGE = 8.0
+
+    def test_non_positive_edge_is_refused(self) -> None:
+        for fn in (stepped_cube_tiling, tumbling_blocks_tiling, chevron_tiling):
+            with self.assertRaises(ValueError):
+                fn(self.WIDTH, self.LENGTH, 0.0)
+        with self.assertRaises(ValueError):
+            multigrid_colored_tiling(self.WIDTH, self.LENGTH, 5, 0.0)
+
+    def test_stepped_cube_tiles_rhombi_winding_and_four_colors(self) -> None:
+        tiles = stepped_cube_tiling(self.WIDTH, self.LENGTH, self.EDGE)
+        self.assertGreater(len(tiles), 0)
+        color_groups = {c for _, c in tiles}
+        self.assertEqual(color_groups, {0, 1, 2, 3})
+
+        covered = 0.0
+        for poly, _ in tiles:
+            self.assertEqual(len(poly), 4)
+            for i in range(4):
+                self.assertAlmostEqual(math.dist(poly[i], poly[(i + 1) % 4]), self.EDGE, places=6)
+            self.assertGreater(signed_area(poly), 0.0)
+            covered += polygon_area(_clip_to_box(poly, self.WIDTH, self.LENGTH))
+
+        expected = self.WIDTH * self.LENGTH
+        self.assertAlmostEqual(covered, expected, delta=expected * 1e-6)
+
+    def test_tumbling_blocks_tiles_rhombi_winding_and_three_colors(self) -> None:
+        tiles = tumbling_blocks_tiling(self.WIDTH, self.LENGTH, self.EDGE)
+        self.assertGreater(len(tiles), 0)
+        color_groups = {c for _, c in tiles}
+        self.assertEqual(color_groups, {0, 1, 2})
+
+        covered = 0.0
+        for poly, _ in tiles:
+            self.assertEqual(len(poly), 4)
+            for i in range(4):
+                self.assertAlmostEqual(math.dist(poly[i], poly[(i + 1) % 4]), self.EDGE, places=6)
+            self.assertGreater(signed_area(poly), 0.0)
+            covered += polygon_area(_clip_to_box(poly, self.WIDTH, self.LENGTH))
+
+        expected = self.WIDTH * self.LENGTH
+        self.assertAlmostEqual(covered, expected, delta=expected * 1e-6)
+
+    def test_chevron_tiles_rhombi_winding_and_two_colors(self) -> None:
+        tiles = chevron_tiling(self.WIDTH, self.LENGTH, self.EDGE)
+        self.assertGreater(len(tiles), 0)
+        color_groups = {c for _, c in tiles}
+        self.assertEqual(color_groups, {0, 1})
+
+        covered = 0.0
+        for poly, _ in tiles:
+            self.assertEqual(len(poly), 4)
+            for i in range(4):
+                self.assertAlmostEqual(math.dist(poly[i], poly[(i + 1) % 4]), self.EDGE, places=6)
+            self.assertGreater(signed_area(poly), 0.0)
+            covered += polygon_area(_clip_to_box(poly, self.WIDTH, self.LENGTH))
+
+        expected = self.WIDTH * self.LENGTH
+        self.assertAlmostEqual(covered, expected, delta=expected * 1e-6)
+
+    def test_multigrid_colored_tiling_separates_thin_and_thick_rhombi(self) -> None:
+        for sym in (4, 5):
+            tiles = multigrid_colored_tiling(self.WIDTH, self.LENGTH, sym, self.EDGE)
+            self.assertEqual({c for _, c in tiles}, {0, 1})
+

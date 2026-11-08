@@ -1263,9 +1263,320 @@ def _leaf_tessellation_fill(
     )
 
 
+_DEFAULT_TESSELLATION_PALETTES: dict[str, tuple[Color, ...]] = {
+    "stepped_cube": (
+        Color("#f7f749"),
+        Color("#6366cf"),
+        Color("#23c48e"),
+        Color("#5c5d99"),
+    ),
+    "tumbling_blocks": (
+        Color("#f5e663"),
+        Color("#4ecdc4"),
+        Color("#3b5284"),
+    ),
+    "chevron": (
+        Color("#f4a261"),
+        Color("#2a9d8f"),
+    ),
+    "penrose": (
+        Color("#e9c46a"),
+        Color("#264653"),
+    ),
+    "ammann_beenker": (
+        Color("#a8dadc"),
+        Color("#1d3557"),
+    ),
+}
+
+
+def _inset_rhombus(
+    pts: list[tuple[float, float]],
+    inset_dist: float,
+) -> list[tuple[float, float]] | None:
+    """Inset a 4-vertex rhombus by perpendicular distance ``inset_dist`` on all edges."""
+    if inset_dist <= 0.0:
+        return pts
+    cx = sum(p[0] for p in pts) / 4.0
+    cy = sum(p[1] for p in pts) / 4.0
+    e1x, e1y = pts[1][0] - pts[0][0], pts[1][1] - pts[0][1]
+    e2x, e2y = pts[3][0] - pts[0][0], pts[3][1] - pts[0][1]
+    cross = abs(e1x * e2y - e1y * e2x)
+    edge = math.hypot(e1x, e1y)
+    if edge <= 1e-9 or cross <= 1e-9:
+        return None
+    # Twice the inradius of the rhombus is (cross / edge) = edge * sin(theta).
+    two_inradius = cross / edge
+    scale = 1.0 - (2.0 * inset_dist) / two_inradius
+    if scale <= 0.12:
+        return None
+    return [(cx + (px - cx) * scale, cy + (py - cy) * scale) for px, py in pts]
+
+
+def _rhombic_tessellation_fill(
+    kind: str,
+    width: float,
+    length: float,
+    thickness: float,
+    spacing: float,
+    web: float | None = None,
+    colors: Sequence[Color] | None = None,
+    through_holes: bool = False,
+    inlay: bool = False,
+    lid_thickness: float | None = None,
+    through_inlay: bool | Sequence[int] = False,
+) -> Bosl2Solid | PatternResult | None:
+    """Build a through-hole or multi-color inlaid rhombic tessellation."""
+    if hole_size(spacing, web) <= 0:
+        return None
+
+    from pybosl2 import Path2D
+    from pybosl2 import shapes2d as s2
+
+    from pyboxbuilder.lid.tilings import (
+        chevron_tiling,
+        multigrid_colored_tiling,
+        stepped_cube_tiling,
+        tumbling_blocks_tiling,
+    )
+
+    gap = DEFAULT_WEB_MM if web is None else max(web, MIN_WEB_MM)
+    # Derive rhombus side length so the narrowest tile holds both the web and MIN_HOLE_MM
+    if kind == "penrose":
+        min_sin = math.sin(math.pi / 5.0)
+        edge = max(spacing * 0.75, (gap + MIN_HOLE_MM) / min_sin)
+        raw_tiles = multigrid_colored_tiling(width, length, 5, edge)
+    elif kind == "ammann_beenker":
+        min_sin = math.sin(math.pi / 4.0)
+        edge = max(spacing * 0.75, (gap + MIN_HOLE_MM) / min_sin)
+        raw_tiles = multigrid_colored_tiling(width, length, 4, edge)
+    elif kind == "stepped_cube":
+        min_sin = ROOT_THREE / 2.0
+        edge = max(spacing * 0.70, (gap + MIN_HOLE_MM) / min_sin)
+        raw_tiles = stepped_cube_tiling(width, length, edge)
+    elif kind == "tumbling_blocks":
+        min_sin = ROOT_THREE / 2.0
+        edge = max(spacing * 0.70, (gap + MIN_HOLE_MM) / min_sin)
+        raw_tiles = tumbling_blocks_tiling(width, length, edge)
+    elif kind == "chevron":
+        min_sin = ROOT_THREE / 2.0
+        edge = max(spacing * 0.70, (gap + MIN_HOLE_MM) / min_sin)
+        raw_tiles = chevron_tiling(width, length, edge)
+    else:
+        raise ValueError(f"Unknown rhombic tessellation kind: {kind!r}")
+
+    inset_d = (gap / 2.0) if not inlay else (min(gap, 0.8) / 2.0 if web is None else max(0.02, web) / 2.0)
+
+    margin_pad = edge * 1.5
+    grouped_2d: dict[int, Bosl2Shape2D] = {}
+    all_2d: Bosl2Shape2D | None = None
+
+    for pts, c_idx in raw_tiles:
+        xs = [p[0] for p in pts]
+        ys = [p[1] for p in pts]
+        if max(xs) < -margin_pad or min(xs) > width + margin_pad:
+            continue
+        if max(ys) < -margin_pad or min(ys) > length + margin_pad:
+            continue
+        inset_pts = _inset_rhombus(pts, inset_d)
+        if inset_pts is None:
+            continue
+        poly_2d = s2.polygon(Path2D([[px, py] for px, py in inset_pts]))
+        if not inlay:
+            all_2d = poly_2d if all_2d is None else all_2d | poly_2d
+        else:
+            grouped_2d[c_idx] = poly_2d if c_idx not in grouped_2d else (grouped_2d[c_idx] | poly_2d)
+
+    height = thickness * DEPTH_OVERSHOOT
+    if not inlay:
+        if all_2d is None:
+            return None
+        return all_2d.linear_extrude(height=height).translate([0.0, 0.0, -(height - thickness) / 2.0])
+
+    if not grouped_2d:
+        return None
+
+    actual_lid_t = lid_thickness if lid_thickness is not None else thickness
+    through_h = actual_lid_t * DEPTH_OVERSHOOT
+    through_z0 = thickness - actual_lid_t - (through_h - actual_lid_t) / 2.0
+    top_z0 = -(height - thickness) / 2.0
+
+    default_palette = _DEFAULT_TESSELLATION_PALETTES[kind]
+    use_custom_palette = bool(colors and len(colors) >= 2)
+    sorted_keys = sorted(grouped_2d.keys())
+    hole_group_key = sorted_keys[-1] if (through_holes and len(sorted_keys) >= 2) else None
+
+    inlays: list[tuple[Bosl2Solid, int | Color | None]] = []
+    holes_solid: Bosl2Solid | None = None
+
+    for c_idx in sorted_keys:
+        shape_2d = grouped_2d[c_idx]
+        if hole_group_key is not None and c_idx == hole_group_key:
+            cut_h = actual_lid_t + 2.0
+            holes_solid = shape_2d.linear_extrude(height=cut_h).translate(
+                [0.0, 0.0, thickness - actual_lid_t - 1.0]
+            )
+            continue
+
+        is_thru = _is_through_inlay(c_idx, through_inlay)
+        ext_h = through_h if is_thru else height
+        ext_z = through_z0 if is_thru else top_z0
+        part_3d = shape_2d.linear_extrude(height=ext_h).translate([0.0, 0.0, ext_z])
+
+        if use_custom_palette:
+            color_key: int | Color | None = c_idx
+        elif colors and len(colors) == 1 and through_holes:
+            color_key = 0
+        else:
+            color_key = default_palette[c_idx % len(default_palette)]
+        inlays.append((part_3d, color_key))
+
+    return PatternResult(inlays=inlays, holes=holes_solid)
+
+
+def _stepped_cube_fill(
+    width: float,
+    length: float,
+    thickness: float,
+    spacing: float,
+    web: float | None = None,
+    colors: Sequence[Color] | None = None,
+    through_holes: bool = False,
+    inlay: bool = False,
+    lid_thickness: float | None = None,
+    through_inlay: bool | Sequence[int] = False,
+) -> Bosl2Solid | PatternResult | None:
+    """Stepped 3D cube and diamond rhombic tessellation fill."""
+    return _rhombic_tessellation_fill(
+        "stepped_cube",
+        width,
+        length,
+        thickness,
+        spacing,
+        web,
+        colors=colors,
+        through_holes=through_holes,
+        inlay=inlay,
+        lid_thickness=lid_thickness,
+        through_inlay=through_inlay,
+    )
+
+
+def _tumbling_blocks_fill(
+    width: float,
+    length: float,
+    thickness: float,
+    spacing: float,
+    web: float | None = None,
+    colors: Sequence[Color] | None = None,
+    through_holes: bool = False,
+    inlay: bool = False,
+    lid_thickness: float | None = None,
+    through_inlay: bool | Sequence[int] = False,
+) -> Bosl2Solid | PatternResult | None:
+    """Classic 3-rhombus isometric cube (tumbling blocks) tessellation fill."""
+    return _rhombic_tessellation_fill(
+        "tumbling_blocks",
+        width,
+        length,
+        thickness,
+        spacing,
+        web,
+        colors=colors,
+        through_holes=through_holes,
+        inlay=inlay,
+        lid_thickness=lid_thickness,
+        through_inlay=through_inlay,
+    )
+
+
+def _chevron_fill(
+    width: float,
+    length: float,
+    thickness: float,
+    spacing: float,
+    web: float | None = None,
+    colors: Sequence[Color] | None = None,
+    through_holes: bool = False,
+    inlay: bool = False,
+    lid_thickness: float | None = None,
+    through_inlay: bool | Sequence[int] = False,
+) -> Bosl2Solid | PatternResult | None:
+    """Interlocking 60°/120° herringbone chevron rhombus tessellation fill."""
+    return _rhombic_tessellation_fill(
+        "chevron",
+        width,
+        length,
+        thickness,
+        spacing,
+        web,
+        colors=colors,
+        through_holes=through_holes,
+        inlay=inlay,
+        lid_thickness=lid_thickness,
+        through_inlay=through_inlay,
+    )
+
+
+def _penrose_fill(
+    width: float,
+    length: float,
+    thickness: float,
+    spacing: float,
+    web: float | None = None,
+    colors: Sequence[Color] | None = None,
+    through_holes: bool = False,
+    inlay: bool = False,
+    lid_thickness: float | None = None,
+    through_inlay: bool | Sequence[int] = False,
+) -> Bosl2Solid | PatternResult | None:
+    """Ten-fold quasiperiodic Penrose rhombus tessellation fill."""
+    return _rhombic_tessellation_fill(
+        "penrose",
+        width,
+        length,
+        thickness,
+        spacing,
+        web,
+        colors=colors,
+        through_holes=through_holes,
+        inlay=inlay,
+        lid_thickness=lid_thickness,
+        through_inlay=through_inlay,
+    )
+
+
+def _ammann_beenker_fill(
+    width: float,
+    length: float,
+    thickness: float,
+    spacing: float,
+    web: float | None = None,
+    colors: Sequence[Color] | None = None,
+    through_holes: bool = False,
+    inlay: bool = False,
+    lid_thickness: float | None = None,
+    through_inlay: bool | Sequence[int] = False,
+) -> Bosl2Solid | PatternResult | None:
+    """Eight-fold quasiperiodic Ammann–Beenker rhombus tessellation fill."""
+    return _rhombic_tessellation_fill(
+        "ammann_beenker",
+        width,
+        length,
+        thickness,
+        spacing,
+        web,
+        colors=colors,
+        through_holes=through_holes,
+        inlay=inlay,
+        lid_thickness=lid_thickness,
+        through_inlay=through_inlay,
+    )
+
+
 _PATTERN_FILLS: dict[
     PatternType,
-    Callable[[float, float, float, float, float | None], Bosl2Solid | None],
+    Callable[..., Bosl2Solid | PatternResult | None],
 ] = {
     PatternType.NONE: lambda w, l, t, s, web: None,
     PatternType.SOLID: lambda w, l, t, s, web: None,
@@ -1283,6 +1594,11 @@ _PATTERN_FILLS: dict[
     PatternType.DICE: _dice_fill,
     PatternType.RING: _ring_fill,
     PatternType.CHECKER: _checker_fill,
+    PatternType.STEPPED_CUBE: _stepped_cube_fill,
+    PatternType.TUMBLING_BLOCKS: _tumbling_blocks_fill,
+    PatternType.CHEVRON: _chevron_fill,
+    PatternType.PENROSE: _penrose_fill,
+    PatternType.AMMANN_BEENKER: _ammann_beenker_fill,
 }
 """Every pattern the library can draw.
 
