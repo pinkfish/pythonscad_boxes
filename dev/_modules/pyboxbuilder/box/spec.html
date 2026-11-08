@@ -809,6 +809,8 @@
     <span class="n">pip_gap_mm</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span>
     <span class="n">inset_hinge_side_gap</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">3.0</span>
     <span class="n">inset_hinge_tab_height</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">6.0</span>
+    <span class="n">slide_catch_style</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"front"</span>
+<span class="w">    </span><span class="sd">"""Placement style for sliding hinge catch ('front' or 'card_library')."""</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Ensure all categorical options are canonical enums (FR-106)."""</span>
@@ -920,6 +922,12 @@
             <span class="k">return</span> <span class="n">CatchType</span><span class="o">.</span><span class="n">BUMP</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">hinge_catch_type</span> <span class="o">==</span> <span class="n">HingeCatchType</span><span class="o">.</span><span class="n">RIDGE</span> <span class="ow">or</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">"hinge_catch_type"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="o">==</span> <span class="s2">"ridge"</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">CatchType</span><span class="o">.</span><span class="n">WEDGE</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">hinge_catch_type</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">h_val</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hinge_catch_type</span><span class="p">,</span> <span class="s2">"value"</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hinge_catch_type</span><span class="p">))</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">CatchType</span><span class="p">(</span><span class="n">h_val</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                <span class="k">pass</span>
         <span class="k">return</span> <span class="n">default</span></div>
 
 
@@ -1122,6 +1130,8 @@
     <span class="n">pip_gap_mm</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span>
     <span class="n">inset_hinge_side_gap</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">3.0</span>
     <span class="n">inset_hinge_tab_height</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">6.0</span>
+    <span class="n">slide_catch_style</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"front"</span>
+<span class="w">    </span><span class="sd">"""Placement style for sliding hinge catch ('front' or 'card_library')."""</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Ensure all categorical options are canonical enums (FR-106)."""</span>

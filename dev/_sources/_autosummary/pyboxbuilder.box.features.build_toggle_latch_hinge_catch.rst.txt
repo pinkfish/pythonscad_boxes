@@ -1,0 +1,6 @@
+pyboxbuilder.box.features.build\_toggle\_latch\_hinge\_catch
+============================================================
+
+.. currentmodule:: pyboxbuilder.box.features
+
+.. autofunction:: build_toggle_latch_hinge_catch

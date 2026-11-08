@@ -41,8 +41,15 @@ pyboxbuilder.box.features
       build_magnet_detent
       build_perimeter_stacking_foot
       build_perimeter_stacking_indent
+      build_pinch_slide_hinge_catch
+      build_push_button_hinge_catch
+      build_rotary_bolt_hinge_catch
+      build_slide_across_hinge_catch
+      build_slide_up_hinge_catch
+      build_spin_hinge_catch
       build_stacking_feet
       build_stacking_indents
+      build_toggle_latch_hinge_catch
       build_wedge_detent
       cap_body
       cap_finger_cutouts

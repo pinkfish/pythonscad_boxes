@@ -623,7 +623,7 @@ Print-In-Place Inset Hinge Box (``BoxType.INSET_HINGE``)
 
 **Builder**: :class:`~pyboxbuilder.builders.inset_hinge.InsetHingeBoxBuilder`
 
-A second print-in-place hinged box variant based on ``MakeBoxAndLidWithInsetHinge`` from ``hinge_box.scad``. The base and lid halves sit side-by-side along the X axis separated by ``pip_gap_mm`` (default ``1.0 mm``) and are joined by a recessed print-in-place conical knuckle hinge (``InsetHinge``) with 45° self-supporting mounting brackets, a self-aligning perimeter rim and rabbet, and a front snap-latch tab (``MakeLidTab``).
+A second print-in-place hinged box variant based on ``MakeBoxAndLidWithInsetHinge`` from ``hinge_box.scad``. The base and lid halves sit side-by-side along the X axis separated by ``2 * pip_radial_clearance`` (default ``0.60 mm``) and are joined by a recessed print-in-place conical knuckle hinge (``InsetHinge``) with 45° self-supporting mounting brackets, a self-aligning perimeter rim and rabbet, and a front snap-latch tab (``MakeLidTab``).
 
 .. pythonscad-example::
 
@@ -639,6 +639,28 @@ A second print-in-place hinged box variant based on ``MakeBoxAndLidWithInsetHing
    box.compartment("Tokens", holds_pieces=True)
    project.show(show_lids=True)
 
+
+Sliding & Spin Catch Hinge Box (``BoxType.SLIDING_HINGE``)
+----------------------------------------------------------
+
+**Builder**: :class:`~pyboxbuilder.builders.sliding_hinge.SlidingHingeBoxBuilder`
+
+A hinged-lid box that combines a rear filament-pin knuckle hinge with a print-in-place mechanical retention catch — defaulting to a captive horizontal dovetail sliding bolt (``CatchType.SLIDE_ACROSS``), with built-in support for ``CatchType.SLIDE_UP`` (vertical captive front-wall slider), ``CatchType.SPIN`` (print-in-place rotary cam / turn-button latch that hooks onto the lid when spun up and releases when spun down), ``CatchType.PUSH_BUTTON``, ``CatchType.TOGGLE_LATCH``, ``CatchType.PINCH_SLIDE``, and ``CatchType.ROTARY_BOLT``, as well as dual side-wall card-library sliding latches (``slide_catch_style="card_library"``).
+
+.. pythonscad-example::
+
+   project = Project("SlidingHingeDemo")
+   box = project.box(
+       BoxType.SLIDING_HINGE,
+       "SlideHingeBox",
+       size=(65.0, 50.0, 24.0),
+       color=Color("darkslateblue"),
+       catch_type=CatchType.SLIDE_ACROSS,
+   )
+   box.compartment("Deck", holds_pieces=True)
+   project.show(show_lids=True)
+
+
 Lid Retention Catches (``CatchType``)
 -------------------------------------
 
@@ -649,6 +671,13 @@ All lidded box types requiring positive closure retention (sliding, cap, slipove
 * **``CatchType.LOOP``** (``"loop"``): Flexible strap/loop tabs carrying an aperture window that clips over a matching retaining stud or hook on the opposing body wall.
 * **``CatchType.MAGNET``** (``"magnet"``): Paired cylindrical pockets in lid and body sized for press-fit or adhesive aftermarket neodymium disc magnets (e.g. 3×2mm, 4×2mm, 6×3mm) with zero collision volume when closed.
 * **``CatchType.LEAF_SPRING``** (``"leaf_spring"``): Compliant cantilever flexure arms with relief clearance slots cut behind detent beads, preventing PLA fatigue and wear across high cycles.
+* **``CatchType.SLIDE_ACROSS``** (``"slide_across"``): Captive print-in-place horizontal dovetail sliding bolt in the lid that slides across into an undercut mortise roof in the body wall (supports ``slide_catch_style="front"`` or ``"card_library"`` dual side bolts).
+* **``CatchType.SLIDE_UP``** (``"slide_up"``): Captive print-in-place vertical dovetail slider on the front wall that slides up (``+Z``) behind the lid's front strike bridge to lock and slides down (``-Z``) to release.
+* **``CatchType.SPIN``** (``"spin"``): Print-in-place rotary turn-button / cam catch on the front wall using a 45° double-cone hourglass bearing; hooks onto the lid's front ledge when spun up (``0°``) and releases the lid when spun down (``90°–180°``).
+* **``CatchType.PUSH_BUTTON``** (``"push_button"``): Compliant thumb-press flexure button on the front wall that deflects inward to release the lid's catch loop.
+* **``CatchType.TOGGLE_LATCH``** (``"toggle_latch"``): Print-in-place articulated draw-latch bail on the front wall that hooks over the lid's front stud.
+* **``CatchType.PINCH_SLIDE``** (``"pinch_slide"``): Dual opposing captive dovetail sliders on the lid front that pinch together toward the center to release both bolts simultaneously.
+* **``CatchType.ROTARY_BOLT``** (``"rotary_bolt"``): Flush print-in-place quarter-turn rotary cam disk inside the lid that swings an eccentric locking bar under the front wall rim.
 * **``CatchType.NONE``** (``"none"``): Generates a smooth friction fit or track slide without detent bumps, notches, or hooks.
 
 Configure catches via ``catch_type`` and ``catch_size`` on any box builder:

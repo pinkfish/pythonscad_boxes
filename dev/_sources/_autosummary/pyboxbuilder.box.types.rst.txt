@@ -31,6 +31,7 @@ pyboxbuilder.box.types
       sleeve_drawer
       sliding
       sliding_catch
+      sliding_hinge
       slipover
       slipover_path
       snap_fit

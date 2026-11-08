@@ -625,12 +625,18 @@
 <span class="w">        </span><span class="sd">"""Return the lower tray interior, excluding the rear filament hinge intrusion."""</span>
         <span class="n">wt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">wall_thickness</span>
         <span class="n">ft</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">floor_thickness</span>
+        <span class="n">lt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">lid_thickness</span>
         <span class="n">half_h</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">height</span> <span class="o">/</span> <span class="mf">2.0</span>
         <span class="n">available</span> <span class="o">=</span> <span class="n">block</span><span class="p">(</span>
             <span class="p">[</span><span class="n">spec</span><span class="o">.</span><span class="n">width</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">wt</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">wt</span><span class="p">,</span> <span class="n">half_h</span><span class="p">],</span>
             <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="n">wt</span><span class="p">,</span> <span class="n">wt</span><span class="p">,</span> <span class="n">ft</span><span class="p">),</span>
         <span class="p">)</span>
-        <span class="k">return</span> <span class="n">available</span> <span class="o">-</span> <span class="n">hinge_intrusion</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_body_spec</span><span class="p">(</span><span class="n">spec</span><span class="p">),</span> <span class="n">spec</span><span class="o">.</span><span class="n">filament_diameter</span><span class="p">)</span></div>
+        <span class="n">mask</span> <span class="o">=</span> <span class="n">available</span> <span class="o">-</span> <span class="n">hinge_intrusion</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_body_spec</span><span class="p">(</span><span class="n">spec</span><span class="p">),</span> <span class="n">spec</span><span class="o">.</span><span class="n">filament_diameter</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">closure_latch</span><span class="p">:</span>
+            <span class="n">catch</span> <span class="o">=</span> <span class="n">hinge_catch</span><span class="p">(</span><span class="n">replace</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">half_h</span> <span class="o">+</span> <span class="n">lt</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">catch</span><span class="o">.</span><span class="n">body</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">mask</span> <span class="o">=</span> <span class="n">mask</span> <span class="o">-</span> <span class="n">catch</span><span class="o">.</span><span class="n">body</span>
+        <span class="k">return</span> <span class="n">mask</span></div>
 
 
 <div class="viewcode-block" id="ClamshellBox.build_body">
@@ -650,11 +656,6 @@
         <span class="k">if</span> <span class="n">closure</span><span class="o">.</span><span class="n">pin</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">body</span> <span class="o">=</span> <span class="n">body</span> <span class="o">-</span> <span class="n">closure</span><span class="o">.</span><span class="n">pin</span>
 
-        <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">closure_latch</span><span class="p">:</span>
-            <span class="n">catch</span> <span class="o">=</span> <span class="n">hinge_catch</span><span class="p">(</span><span class="n">replace</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">half_h</span> <span class="o">+</span> <span class="n">lt</span><span class="p">))</span>
-            <span class="k">if</span> <span class="n">catch</span><span class="o">.</span><span class="n">body_cut</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">body</span> <span class="o">=</span> <span class="n">body</span> <span class="o">-</span> <span class="n">catch</span><span class="o">.</span><span class="n">body_cut</span>
-
         <span class="n">r_body</span> <span class="o">=</span> <span class="n">body_rounding</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">r_body</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="n">body</span> <span class="o">=</span> <span class="n">round_edges</span><span class="p">(</span>
@@ -663,6 +664,14 @@
                 <span class="n">r_body</span><span class="p">,</span>
                 <span class="nb">list</span><span class="p">(</span><span class="n">vertical_edges</span><span class="p">()),</span>
             <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">closure_latch</span><span class="p">:</span>
+            <span class="n">catch</span> <span class="o">=</span> <span class="n">hinge_catch</span><span class="p">(</span><span class="n">replace</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">half_h</span> <span class="o">+</span> <span class="n">lt</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">catch</span><span class="o">.</span><span class="n">body_cut</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">body</span> <span class="o">=</span> <span class="n">body</span> <span class="o">-</span> <span class="n">catch</span><span class="o">.</span><span class="n">body_cut</span>
+            <span class="k">if</span> <span class="n">catch</span><span class="o">.</span><span class="n">body</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">body</span> <span class="o">=</span> <span class="n">body</span> <span class="o">|</span> <span class="n">catch</span><span class="o">.</span><span class="n">body</span>
+
         <span class="k">return</span> <span class="n">apply_stackable_body</span><span class="p">(</span><span class="n">body</span><span class="p">,</span> <span class="n">spec</span><span class="p">)</span></div>
 
 
