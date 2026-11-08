@@ -21,6 +21,7 @@ from pyboxbuilder.builders.pip_hinge import PrintInPlaceHingeBoxBuilder
 from pyboxbuilder.builders.sleeve_drawer import SleeveDrawerBoxBuilder
 from pyboxbuilder.builders.sliding import SlidingBoxBuilder
 from pyboxbuilder.builders.sliding_catch import SlidingCatchBoxBuilder
+from pyboxbuilder.builders.sliding_hinge import SlidingHingeBoxBuilder
 from pyboxbuilder.builders.slipover import SlipoverBoxBuilder
 from pyboxbuilder.builders.slipover_path import SlipoverPathBoxBuilder
 from pyboxbuilder.builders.snap_fit import SnapFitBoxBuilder
@@ -47,6 +48,7 @@ __all__ = [
     "SleeveDrawerBoxBuilder",
     "SlidingBoxBuilder",
     "SlidingCatchBoxBuilder",
+    "SlidingHingeBoxBuilder",
     "SlipoverBoxBuilder",
     "SlipoverPathBoxBuilder",
     "SnapFitBoxBuilder",

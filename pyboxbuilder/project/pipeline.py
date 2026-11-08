@@ -236,12 +236,13 @@ class GeometryPipeline:
             from pyboxbuilder.box.types.magnetic_hinge import MagneticHingeBox
             from pyboxbuilder.box.types.sleeve_drawer import SleeveDrawerBox
             from pyboxbuilder.box.types.sliding_catch import SlidingCatchBox
+            from pyboxbuilder.box.types.sliding_hinge import SlidingHingeBox
             from pyboxbuilder.box.types.slipover import SlipoverBox
             from pyboxbuilder.box.types.slipover_path import SlipoverPathBox
             from pyboxbuilder.compartments.carve import build_contents, build_inserts
 
             hinge_solid = None
-            if isinstance(box, (FilamentHingeBox, ClamshellBox)):
+            if isinstance(box, (FilamentHingeBox, SlidingHingeBox, ClamshellBox)):
                 hinge_solid = hinge_intrusion(box._body_spec(resolved.spec), spec.filament_diameter)
             elif isinstance(box, MagneticHingeBox):
                 hinge_solid = hinge_intrusion(resolved.spec, spec.filament_diameter)
@@ -264,7 +265,7 @@ class GeometryPipeline:
                     InsetHingeBox,
                 ),
             ) or (
-                isinstance(box, (FilamentHingeBox, ClamshellBox))
+                isinstance(box, (FilamentHingeBox, SlidingHingeBox, ClamshellBox))
                 and spec.resolved_catch_type(CatchType.WEDGE) != CatchType.NONE
             ):
                 suppress_scoops = True

@@ -369,6 +369,8 @@ class BoxSpec:
     pip_gap_mm: float = 1.0
     inset_hinge_side_gap: float = 3.0
     inset_hinge_tab_height: float = 6.0
+    slide_catch_style: str = "front"
+    """Placement style for sliding hinge catch ('front' or 'card_library')."""
 
     def __post_init__(self) -> None:
         """Ensure all categorical options are canonical enums (FR-106)."""
@@ -466,6 +468,12 @@ class BoxSpec:
             return CatchType.BUMP
         if self.hinge_catch_type == HingeCatchType.RIDGE or getattr(self, "hinge_catch_type", None) == "ridge":
             return CatchType.WEDGE
+        if self.hinge_catch_type is not None:
+            h_val = getattr(self.hinge_catch_type, "value", str(self.hinge_catch_type)).lower()
+            try:
+                return CatchType(h_val)
+            except ValueError:
+                pass
         return default
 
     def resolved_catch_size(self, default: float | None = None) -> float:
@@ -658,6 +666,8 @@ class UnresolvedBoxSpec:
     pip_gap_mm: float = 1.0
     inset_hinge_side_gap: float = 3.0
     inset_hinge_tab_height: float = 6.0
+    slide_catch_style: str = "front"
+    """Placement style for sliding hinge catch ('front' or 'card_library')."""
 
     def __post_init__(self) -> None:
         """Ensure all categorical options are canonical enums (FR-106)."""

@@ -59,7 +59,7 @@ class FilamentHingeBox(BoxTypeBase):
             The usable interior volume.
 
         """
-        from pyboxbuilder.box.features import hinge_intrusion
+        from pyboxbuilder.box.features import hinge_catch, hinge_intrusion
         from pyboxbuilder.box.shell import block
 
         wt = spec.wall_thickness
@@ -68,9 +68,13 @@ class FilamentHingeBox(BoxTypeBase):
             [spec.width - 2 * wt, spec.length - 2 * wt, spec.height],
             at=(wt, wt, ft),
         )
-        return available - hinge_intrusion(
+        mask = available - hinge_intrusion(
             self._body_spec(spec), spec.filament_diameter
         )
+        catch = hinge_catch(spec)
+        if catch.body is not None:
+            mask = mask - catch.body
+        return mask
 
     def build_body(self, spec: BoxSpec) -> Bosl2Solid:
         """Return the shell with half the hinge knuckles along its back edge."""
@@ -92,11 +96,6 @@ class FilamentHingeBox(BoxTypeBase):
         if closure.pin is not None:
             body = body - closure.pin
 
-        from pyboxbuilder.box.features import hinge_catch
-        catch = hinge_catch(spec)
-        if catch.body_cut is not None:
-            body = body - catch.body_cut
-
         from pyboxbuilder.box.shell import body_rounding
         from pyboxbuilder.rounding import round_edges, vertical_edges
 
@@ -108,6 +107,15 @@ class FilamentHingeBox(BoxTypeBase):
                 radius,
                 list(vertical_edges()),
             )
+
+        from pyboxbuilder.box.features import hinge_catch
+
+        catch = hinge_catch(spec)
+        if catch.body_cut is not None:
+            body = body - catch.body_cut
+        if catch.body is not None:
+            body = body | catch.body
+
         from pyboxbuilder.box.features import apply_stackable_body
 
         return apply_stackable_body(body, spec)
