@@ -500,7 +500,7 @@
 
     <span class="nb">type</span><span class="p">:</span> <span class="n">PatternType</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">PatternType</span><span class="o">.</span><span class="n">HEX</span>
 <span class="w">    </span><span class="sd">"""Which pattern to cut. See :class:`~pyboxbuilder.enums.PatternType`."""</span>
-    <span class="n">colors</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Color</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="p">()</span>
+    <span class="n">colors</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Color</span> <span class="o">|</span> <span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="n">Color</span> <span class="o">|</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">()</span>
 <span class="w">    </span><span class="sd">"""Accent colours for the pattern's top layer, if any."""</span>
     <span class="n">spacing</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="w">    </span><span class="sd">"""Centre-to-centre distance between holes, in mm.</span>
@@ -519,8 +519,8 @@
 
 <span class="sd">    ``None`` uses :data:`PATTERN_BORDER_MM`. ``0`` runs the pattern to the</span>
 <span class="sd">    lid's edge, which is rarely what a lid wants — see that constant."""</span>
-    <span class="n">inlay</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
-<span class="w">    </span><span class="sd">"""When True, inlay the pattern flush into the lid surface."""</span>
+    <span class="n">inlay</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">"""When True, inlay the pattern flush into the lid; ``None`` defaults to ``True`` for multi-colour patterns."""</span>
     <span class="n">through_inlay</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
 <span class="w">    </span><span class="sd">"""When True, colored inlays extend completely through the lid thickness instead of just the top layer.</span>
 <span class="sd">    Can also be a tuple of color indices (e.g. (0,)) that extend through the lid while others remain top-layer."""</span>
@@ -555,6 +555,118 @@
                 <span class="s2">"colors"</span><span class="p">,</span>
                 <span class="nb">tuple</span><span class="p">(</span><span class="n">c</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">Color</span><span class="p">)</span> <span class="k">else</span> <span class="n">Color</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">colors</span><span class="p">),</span>
             <span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">inlay</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">is_multicolor_tessellation</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="ow">in</span> <span class="p">(</span>
+                <span class="n">PatternType</span><span class="o">.</span><span class="n">STEPPED_CUBE</span><span class="p">,</span>
+                <span class="n">PatternType</span><span class="o">.</span><span class="n">TUMBLING_BLOCKS</span><span class="p">,</span>
+                <span class="n">PatternType</span><span class="o">.</span><span class="n">CHEVRON</span><span class="p">,</span>
+                <span class="n">PatternType</span><span class="o">.</span><span class="n">PENROSE</span><span class="p">,</span>
+                <span class="n">PatternType</span><span class="o">.</span><span class="n">AMMANN_BEENKER</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">"inlay"</span><span class="p">,</span> <span class="nb">bool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">colors</span><span class="p">)</span> <span class="ow">or</span> <span class="n">is_multicolor_tessellation</span><span class="p">)</span>
+
+<div class="viewcode-block" id="PatternBuilder.stepped_cube">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.lid.builder.PatternBuilder.html#pyboxbuilder.lid.builder.PatternBuilder.stepped_cube">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">stepped_cube</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span>
+        <span class="n">colors</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Color</span> <span class="o">|</span> <span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="n">Color</span> <span class="o">|</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">(),</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">peak_color</span><span class="p">:</span> <span class="n">Color</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">valley_color</span><span class="p">:</span> <span class="n">Color</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">left_color</span><span class="p">:</span> <span class="n">Color</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">right_color</span><span class="p">:</span> <span class="n">Color</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">spacing</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">web</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">border</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">backing_pattern</span><span class="p">:</span> <span class="n">PatternType</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">PatternType</span><span class="o">.</span><span class="n">HEX</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PatternBuilder</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Create a 4-colour stepped 3D cube &amp; diamond tessellation pattern.</span>
+
+<span class="sd">        Colours can be passed as a sequence ``colors=(peak, valley, left, right)``</span>
+<span class="sd">        or individually via ``peak_color``, ``valley_color``, ``left_color``, and</span>
+<span class="sd">        ``right_color`` (any omitted face falls back to the default stepped-cube palette).</span>
+<span class="sd">        """</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">Color</span>
+
+        <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.lid.pattern</span><span class="w"> </span><span class="kn">import</span> <span class="n">_DEFAULT_TESSELLATION_PALETTES</span>
+
+        <span class="n">resolved_colors</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Color</span> <span class="o">|</span> <span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="n">Color</span> <span class="o">|</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">colors</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">resolved_colors</span> <span class="ow">and</span> <span class="nb">any</span><span class="p">(</span>
+            <span class="n">c</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="p">(</span><span class="n">peak_color</span><span class="p">,</span> <span class="n">valley_color</span><span class="p">,</span> <span class="n">left_color</span><span class="p">,</span> <span class="n">right_color</span><span class="p">)</span>
+        <span class="p">):</span>
+            <span class="n">defaults</span> <span class="o">=</span> <span class="n">_DEFAULT_TESSELLATION_PALETTES</span><span class="p">[</span><span class="s2">"stepped_cube"</span><span class="p">]</span>
+            <span class="n">resolved_colors</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">Color</span><span class="p">(</span><span class="n">peak_color</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">peak_color</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">else</span> <span class="p">(</span><span class="n">peak_color</span> <span class="ow">or</span> <span class="n">defaults</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span>
+                <span class="n">Color</span><span class="p">(</span><span class="n">valley_color</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">valley_color</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">else</span> <span class="p">(</span><span class="n">valley_color</span> <span class="ow">or</span> <span class="n">defaults</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span>
+                <span class="n">Color</span><span class="p">(</span><span class="n">left_color</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">left_color</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">else</span> <span class="p">(</span><span class="n">left_color</span> <span class="ow">or</span> <span class="n">defaults</span><span class="p">[</span><span class="mi">2</span><span class="p">]),</span>
+                <span class="n">Color</span><span class="p">(</span><span class="n">right_color</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">right_color</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">else</span> <span class="p">(</span><span class="n">right_color</span> <span class="ow">or</span> <span class="n">defaults</span><span class="p">[</span><span class="mi">3</span><span class="p">]),</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span>
+            <span class="nb">type</span><span class="o">=</span><span class="n">PatternType</span><span class="o">.</span><span class="n">STEPPED_CUBE</span><span class="p">,</span>
+            <span class="n">colors</span><span class="o">=</span><span class="n">resolved_colors</span><span class="p">,</span>
+            <span class="n">spacing</span><span class="o">=</span><span class="n">spacing</span><span class="p">,</span>
+            <span class="n">web</span><span class="o">=</span><span class="n">web</span><span class="p">,</span>
+            <span class="n">border</span><span class="o">=</span><span class="n">border</span><span class="p">,</span>
+            <span class="n">inlay</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"inlay"</span><span class="p">,</span> <span class="kc">True</span><span class="p">),</span>
+            <span class="n">backing_pattern</span><span class="o">=</span><span class="n">backing_pattern</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="PatternBuilder.penrose">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.lid.builder.PatternBuilder.html#pyboxbuilder.lid.builder.PatternBuilder.penrose">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">penrose</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span>
+        <span class="n">colors</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Color</span> <span class="o">|</span> <span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="n">Color</span> <span class="o">|</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">(),</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">thick_colors</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Color</span> <span class="o">|</span> <span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="n">Color</span> <span class="o">|</span> <span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="n">Color</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">thin_colors</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Color</span> <span class="o">|</span> <span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="n">Color</span> <span class="o">|</span> <span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="n">Color</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">spacing</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">web</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">border</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">backing_pattern</span><span class="p">:</span> <span class="n">PatternType</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">PatternType</span><span class="o">.</span><span class="n">HEX</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PatternBuilder</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Create a multi-colour 10-fold quasiperiodic Penrose rhombus tessellation pattern.</span>
+
+<span class="sd">        Supports 2, 3, 4, 5 or more colours via ``colors=(...)``, or separate</span>
+<span class="sd">        ``thick_colors`` (72° rhombi) and ``thin_colors`` (36° rhombi).</span>
+<span class="sd">        """</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">Color</span>
+
+        <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.lid.pattern</span><span class="w"> </span><span class="kn">import</span> <span class="n">_DEFAULT_TESSELLATION_PALETTES</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">_norm_list</span><span class="p">(</span><span class="n">val</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">fallback</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Color</span><span class="p">,</span> <span class="o">...</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Color</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="n">val</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">fallback</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">Color</span><span class="p">)):</span>
+                <span class="n">c</span> <span class="o">=</span> <span class="n">val</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">Color</span><span class="p">)</span> <span class="k">else</span> <span class="n">Color</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+                <span class="k">return</span> <span class="p">[</span><span class="n">c</span><span class="p">,</span> <span class="n">c</span><span class="p">]</span>
+            <span class="n">items</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">Color</span><span class="p">)</span> <span class="k">else</span> <span class="n">Color</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">val</span><span class="p">]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">items</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="k">return</span> <span class="p">[</span><span class="n">items</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">items</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+            <span class="k">return</span> <span class="n">items</span>
+
+        <span class="n">resolved_colors</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Color</span> <span class="o">|</span> <span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="n">Color</span> <span class="o">|</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">colors</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">resolved_colors</span> <span class="ow">and</span> <span class="p">(</span><span class="n">thick_colors</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">thin_colors</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
+            <span class="n">defaults</span> <span class="o">=</span> <span class="n">_DEFAULT_TESSELLATION_PALETTES</span><span class="p">[</span><span class="s2">"penrose"</span><span class="p">]</span>
+            <span class="n">tk</span> <span class="o">=</span> <span class="n">_norm_list</span><span class="p">(</span><span class="n">thick_colors</span><span class="p">,</span> <span class="n">defaults</span><span class="p">[:</span><span class="mi">2</span><span class="p">])</span>
+            <span class="n">tn</span> <span class="o">=</span> <span class="n">_norm_list</span><span class="p">(</span><span class="n">thin_colors</span><span class="p">,</span> <span class="n">defaults</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">4</span><span class="p">])</span>
+            <span class="n">resolved_colors</span> <span class="o">=</span> <span class="p">(</span><span class="o">*</span><span class="n">tk</span><span class="p">[:</span><span class="mi">2</span><span class="p">],</span> <span class="o">*</span><span class="n">tn</span><span class="p">[:</span><span class="mi">2</span><span class="p">])</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span>
+            <span class="nb">type</span><span class="o">=</span><span class="n">PatternType</span><span class="o">.</span><span class="n">PENROSE</span><span class="p">,</span>
+            <span class="n">colors</span><span class="o">=</span><span class="n">resolved_colors</span><span class="p">,</span>
+            <span class="n">spacing</span><span class="o">=</span><span class="n">spacing</span><span class="p">,</span>
+            <span class="n">web</span><span class="o">=</span><span class="n">web</span><span class="p">,</span>
+            <span class="n">border</span><span class="o">=</span><span class="n">border</span><span class="p">,</span>
+            <span class="n">inlay</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"inlay"</span><span class="p">,</span> <span class="kc">True</span><span class="p">),</span>
+            <span class="n">backing_pattern</span><span class="o">=</span><span class="n">backing_pattern</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">border_width</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
@@ -623,9 +735,9 @@
 <span class="sd">    colour here (FR-022)."""</span>
     <span class="n">pattern</span><span class="p">:</span> <span class="n">PatternBuilder</span> <span class="o">|</span> <span class="n">PatternType</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">PatternBuilder</span><span class="p">(</span><span class="n">PatternType</span><span class="o">.</span><span class="n">HEX</span><span class="p">)</span>
 <span class="w">    </span><span class="sd">"""Through-hole pattern, or ``None`` for a plain lid."""</span>
-    <span class="n">pattern_color</span><span class="p">:</span> <span class="n">Color</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">pattern_color</span><span class="p">:</span> <span class="n">Color</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="w">    </span><span class="sd">"""Colour of the pattern's top layer; ``None`` contrasts with the body."""</span>
-    <span class="n">pattern_colors</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Color</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">pattern_colors</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Color</span> <span class="o">|</span> <span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="n">Color</span> <span class="o">|</span> <span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="w">    </span><span class="sd">"""Palette of colours for multi-colour patterns; falls back to pattern.colors or pattern_color."""</span>
     <span class="n">pattern_through_inlay</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="w">    </span><span class="sd">"""Override for whether pattern inlays extend completely through the lid thickness."""</span>
@@ -690,6 +802,10 @@
             <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">"backing_pattern"</span><span class="p">,</span> <span class="n">PatternType</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">backing_pattern</span><span class="o">.</span><span class="n">lower</span><span class="p">()))</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pattern_through_inlay</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
             <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">"pattern_through_inlay"</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pattern_through_inlay</span><span class="p">))</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pattern_color</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">Color</span>
+
+            <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">"pattern_color"</span><span class="p">,</span> <span class="n">Color</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pattern_color</span><span class="p">))</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pattern_colors</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
             <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">Color</span>
 
