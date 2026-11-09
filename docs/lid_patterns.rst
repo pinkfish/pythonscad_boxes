@@ -5,8 +5,10 @@ Lid Patterns Guide & Gallery
 
 Patterns fall into two architectural categories:
 
-1. **Perforated Through-Hole Lattices & Botanical Tilings** (``HEX``, ``DENSE_HEX``, ``SQUARE``, ``CIRCLE``, ``TRIANGLE``, ``DENSE_TRIANGLE``, ``OCTAGON``, ``VORONOI``, ``LEAF``, ``LEAF_TESSELLATION``, ``LEAF_VEINS``): Cut open lattices through the lid within the solid perimeter border, saving filament while keeping contents visible and ventilated. Any of these can also be inlaid as a colored top layer by setting ``inlay=True`` or passing ``colors=(...)``.
+1. **Perforated Through-Hole Lattices & Botanical Tilings** (``HEX``, ``DENSE_HEX``, ``SQUARE``, ``CIRCLE``, ``TRIANGLE``, ``DENSE_TRIANGLE``, ``OCTAGON``, ``VORONOI``, ``LEAF``, ``LEAF_TESSELLATION``, ``LEAF_VEINS``): Cut open lattices through the lid, saving filament while keeping contents visible and ventilated. Any of these can also be inlaid as a colored top layer by setting ``inlay=True`` or passing ``colors=(...)``.
 2. **Multi-Color Inlays & Rhombic / Quasicrystal Tessellations** (``STEPPED_CUBE``, ``PENROSE``, ``AMMANN_BEENKER``, ``TUMBLING_BLOCKS``, ``CHEVRON``, ``DICE``, ``RING``, ``CHECKER``): Inlay a thin ``0.6 mm`` colored tile skin into the top face of the lid above a continuous ``0.8 mm`` structural floor and a selectable underside backing lattice (defaulting to ``PatternType.HEX`` via ``backing_pattern``) to minimize plastic use while preserving full lid strength.
+
+Every example below renders **only the sliding lid** (``project.show(lids_only=True)``) with ``border=0.0`` and ``fingernail_catch=False`` so the pattern fills the lid edge-to-edge.
 
 .. contents:: On this page
    :local:
@@ -24,20 +26,18 @@ Staggered rows of regular hexagons separated by a constant-width structural web.
 .. pythonscad-example::
 
    project = Project("HexPatternDemo")
-   box = project.box(
+   project.box(
        BoxType.SLIDING,
-       "HexBox",
-       size=(70.0, 55.0, 20.0),
+       "HexLid",
+       size=(80.0, 60.0, 20.0),
        color=Color("darkslateblue"),
+       fingernail_catch=False,
+       catch_radius=0.0,
        lid=LidBuilder(
-           label_mode=LabelMode.FRAMED,
-           frame_color=Color("gold"),
-           text_color=Color("white"),
-           pattern=PatternBuilder(PatternType.HEX, spacing=9.0),
-       ).titled("HEX"),
+           pattern=PatternBuilder(PatternType.HEX, spacing=9.0, border=0.0),
+       ),
    )
-   box.compartment("Well", holds_pieces=True)
-   project.show(show_lids=True)
+   project.show(lids_only=True)
 
 
 Dense Honeycomb Grid (``PatternType.DENSE_HEX``)
@@ -48,20 +48,18 @@ A tighter-pitch hexagonal honeycomb that keeps smaller game pieces safely enclos
 .. pythonscad-example::
 
    project = Project("DenseHexPatternDemo")
-   box = project.box(
+   project.box(
        BoxType.SLIDING,
-       "DenseHexBox",
-       size=(70.0, 55.0, 20.0),
+       "DenseHexLid",
+       size=(80.0, 60.0, 20.0),
        color=Color("teal"),
+       fingernail_catch=False,
+       catch_radius=0.0,
        lid=LidBuilder(
-           label_mode=LabelMode.FRAMED,
-           frame_color=Color("gold"),
-           text_color=Color("white"),
-           pattern=PatternBuilder(PatternType.DENSE_HEX),
-       ).titled("DENSE"),
+           pattern=PatternBuilder(PatternType.DENSE_HEX, border=0.0),
+       ),
    )
-   box.compartment("Well", holds_pieces=True)
-   project.show(show_lids=True)
+   project.show(lids_only=True)
 
 
 Square Grid (``PatternType.SQUARE``)
@@ -72,20 +70,18 @@ Orthogonal square cutouts aligned to a Cartesian grid.
 .. pythonscad-example::
 
    project = Project("SquarePatternDemo")
-   box = project.box(
+   project.box(
        BoxType.SLIDING,
-       "SquareBox",
-       size=(70.0, 55.0, 20.0),
+       "SquareLid",
+       size=(80.0, 60.0, 20.0),
        color=Color("darkslategray"),
+       fingernail_catch=False,
+       catch_radius=0.0,
        lid=LidBuilder(
-           label_mode=LabelMode.FRAMED,
-           frame_color=Color("coral"),
-           text_color=Color("white"),
-           pattern=PatternBuilder(PatternType.SQUARE, spacing=9.0),
-       ).titled("SQUARE"),
+           pattern=PatternBuilder(PatternType.SQUARE, spacing=9.0, border=0.0),
+       ),
    )
-   box.compartment("Well", holds_pieces=True)
-   project.show(show_lids=True)
+   project.show(lids_only=True)
 
 
 Circular Grid (``PatternType.CIRCLE``)
@@ -96,20 +92,18 @@ Circular perforations arranged on an orthogonal grid.
 .. pythonscad-example::
 
    project = Project("CirclePatternDemo")
-   box = project.box(
+   project.box(
        BoxType.SLIDING,
-       "CircleBox",
-       size=(70.0, 55.0, 20.0),
+       "CircleLid",
+       size=(80.0, 60.0, 20.0),
        color=Color("royalblue"),
+       fingernail_catch=False,
+       catch_radius=0.0,
        lid=LidBuilder(
-           label_mode=LabelMode.FRAMED,
-           frame_color=Color("gold"),
-           text_color=Color("white"),
-           pattern=PatternBuilder(PatternType.CIRCLE, spacing=9.0),
-       ).titled("CIRCLE"),
+           pattern=PatternBuilder(PatternType.CIRCLE, spacing=9.0, border=0.0),
+       ),
    )
-   box.compartment("Well", holds_pieces=True)
-   project.show(show_lids=True)
+   project.show(lids_only=True)
 
 
 Alternating Triangle Truss (``PatternType.TRIANGLE``)
@@ -120,20 +114,18 @@ Equilateral triangular cutouts alternating point-up and point-down to form a dia
 .. pythonscad-example::
 
    project = Project("TrianglePatternDemo")
-   box = project.box(
+   project.box(
        BoxType.SLIDING,
-       "TriangleBox",
-       size=(70.0, 55.0, 20.0),
+       "TriangleLid",
+       size=(80.0, 60.0, 20.0),
        color=Color("crimson"),
+       fingernail_catch=False,
+       catch_radius=0.0,
        lid=LidBuilder(
-           label_mode=LabelMode.FRAMED,
-           frame_color=Color("silver"),
-           text_color=Color("white"),
-           pattern=PatternBuilder(PatternType.TRIANGLE, spacing=9.0),
-       ).titled("TRUSS"),
+           pattern=PatternBuilder(PatternType.TRIANGLE, spacing=9.0, border=0.0),
+       ),
    )
-   box.compartment("Well", holds_pieces=True)
-   project.show(show_lids=True)
+   project.show(lids_only=True)
 
 
 Dense Triangle Truss (``PatternType.DENSE_TRIANGLE``)
@@ -144,20 +136,18 @@ The alternating triangular truss lattice at a finer pitch.
 .. pythonscad-example::
 
    project = Project("DenseTrianglePatternDemo")
-   box = project.box(
+   project.box(
        BoxType.SLIDING,
-       "DenseTriangleBox",
-       size=(70.0, 55.0, 20.0),
+       "DenseTriangleLid",
+       size=(80.0, 60.0, 20.0),
        color=Color("firebrick"),
+       fingernail_catch=False,
+       catch_radius=0.0,
        lid=LidBuilder(
-           label_mode=LabelMode.FRAMED,
-           frame_color=Color("gold"),
-           text_color=Color("white"),
-           pattern=PatternBuilder(PatternType.DENSE_TRIANGLE),
-       ).titled("DENSE TRI"),
+           pattern=PatternBuilder(PatternType.DENSE_TRIANGLE, border=0.0),
+       ),
    )
-   box.compartment("Well", holds_pieces=True)
-   project.show(show_lids=True)
+   project.show(lids_only=True)
 
 
 Octagonal Lattice (``PatternType.OCTAGON``)
@@ -168,20 +158,18 @@ Regular octagonal openings leaving diagonal-cross webs between neighboring cells
 .. pythonscad-example::
 
    project = Project("OctagonPatternDemo")
-   box = project.box(
+   project.box(
        BoxType.SLIDING,
-       "OctagonBox",
-       size=(70.0, 55.0, 20.0),
+       "OctagonLid",
+       size=(80.0, 60.0, 20.0),
        color=Color("darkgreen"),
+       fingernail_catch=False,
+       catch_radius=0.0,
        lid=LidBuilder(
-           label_mode=LabelMode.FRAMED,
-           frame_color=Color("gold"),
-           text_color=Color("white"),
-           pattern=PatternBuilder(PatternType.OCTAGON, spacing=9.0),
-       ).titled("OCTAGON"),
+           pattern=PatternBuilder(PatternType.OCTAGON, spacing=9.0, border=0.0),
+       ),
    )
-   box.compartment("Well", holds_pieces=True)
-   project.show(show_lids=True)
+   project.show(lids_only=True)
 
 
 Organic & Botanical Patterns
@@ -195,20 +183,18 @@ Deterministic organic scatter of varying-radius cells on a jittered grid.
 .. pythonscad-example::
 
    project = Project("VoronoiPatternDemo")
-   box = project.box(
+   project.box(
        BoxType.SLIDING,
-       "VoronoiBox",
-       size=(70.0, 55.0, 20.0),
+       "VoronoiLid",
+       size=(80.0, 60.0, 20.0),
        color=Color("seagreen"),
+       fingernail_catch=False,
+       catch_radius=0.0,
        lid=LidBuilder(
-           label_mode=LabelMode.FRAMED,
-           frame_color=Color("gold"),
-           text_color=Color("white"),
-           pattern=PatternBuilder(PatternType.VORONOI, spacing=9.0),
-       ).titled("VORONOI"),
+           pattern=PatternBuilder(PatternType.VORONOI, spacing=9.0, border=0.0),
+       ),
    )
-   box.compartment("Well", holds_pieces=True)
-   project.show(show_lids=True)
+   project.show(lids_only=True)
 
 
 Interlocking Midrib Leaves (``PatternType.LEAF``)
@@ -219,20 +205,18 @@ Pointed-oval botanical leaves, each divided by a central midrib, arranged in off
 .. pythonscad-example::
 
    project = Project("LeafPatternDemo")
-   box = project.box(
+   project.box(
        BoxType.SLIDING,
-       "LeafBox",
-       size=(70.0, 55.0, 20.0),
+       "LeafLid",
+       size=(80.0, 60.0, 20.0),
        color=Color("forestgreen"),
+       fingernail_catch=False,
+       catch_radius=0.0,
        lid=LidBuilder(
-           label_mode=LabelMode.FRAMED,
-           frame_color=Color("gold"),
-           text_color=Color("white"),
-           pattern=PatternBuilder(PatternType.LEAF, spacing=12.0),
-       ).titled("LEAF"),
+           pattern=PatternBuilder(PatternType.LEAF, spacing=12.0, border=0.0),
+       ),
    )
-   box.compartment("Well", holds_pieces=True)
-   project.show(show_lids=True)
+   project.show(lids_only=True)
 
 
 Edge-to-Edge Leaf Tessellation (``PatternType.LEAF_TESSELLATION``)
@@ -243,20 +227,18 @@ Tessellating leaf silhouettes that tile the plane edge-to-edge so the remaining 
 .. pythonscad-example::
 
    project = Project("LeafTessPatternDemo")
-   box = project.box(
+   project.box(
        BoxType.SLIDING,
-       "LeafTessBox",
-       size=(70.0, 55.0, 20.0),
+       "LeafTessLid",
+       size=(80.0, 60.0, 20.0),
        color=Color("darkolivegreen"),
+       fingernail_catch=False,
+       catch_radius=0.0,
        lid=LidBuilder(
-           label_mode=LabelMode.FRAMED,
-           frame_color=Color("gold"),
-           text_color=Color("white"),
-           pattern=PatternBuilder(PatternType.LEAF_TESSELLATION, spacing=14.0),
-       ).titled("CANOPY"),
+           pattern=PatternBuilder(PatternType.LEAF_TESSELLATION, spacing=14.0, border=0.0),
+       ),
    )
-   box.compartment("Well", holds_pieces=True)
-   project.show(show_lids=True)
+   project.show(lids_only=True)
 
 
 Veined Leaf Tessellation (``PatternType.LEAF_VEINS``)
@@ -267,20 +249,18 @@ The edge-to-edge leaf tessellation enriched with a central midrib and branching 
 .. pythonscad-example::
 
    project = Project("LeafVeinsPatternDemo")
-   box = project.box(
+   project.box(
        BoxType.SLIDING,
-       "LeafVeinsBox",
-       size=(70.0, 55.0, 20.0),
+       "LeafVeinsLid",
+       size=(80.0, 60.0, 20.0),
        color=Color("olivedrab"),
+       fingernail_catch=False,
+       catch_radius=0.0,
        lid=LidBuilder(
-           label_mode=LabelMode.FRAMED,
-           frame_color=Color("gold"),
-           text_color=Color("white"),
-           pattern=PatternBuilder(PatternType.LEAF_VEINS, spacing=16.0),
-       ).titled("FLORA"),
+           pattern=PatternBuilder(PatternType.LEAF_VEINS, spacing=16.0, border=0.0),
+       ),
    )
-   box.compartment("Well", holds_pieces=True)
-   project.show(show_lids=True)
+   project.show(lids_only=True)
 
 
 Multi-Color Rhombic & Quasicrystal Tessellations
@@ -302,27 +282,26 @@ Configure colors via :meth:`~pyboxbuilder.lid.builder.PatternBuilder.stepped_cub
 
 .. pythonscad-example::
 
-   project = Project("SteppedCubeDemo")
-   box = project.box(
+   project = Project("SteppedCubeLidDemo")
+   project.box(
        BoxType.SLIDING,
-       "CubeLidBox",
-       size=(80.0, 65.0, 22.0),
+       "CubeLid",
+       size=(80.0, 60.0, 20.0),
        color=Color("#1e1e2e"),
+       fingernail_catch=False,
+       catch_radius=0.0,
        lid=LidBuilder(
-           label_mode=LabelMode.FRAMED,
-           frame_color=Color("gold"),
-           text_color=Color("white"),
            pattern=PatternBuilder.stepped_cube(
                peak_color=Color("#f7f749"),
                valley_color=Color("#6366cf"),
                left_color=Color("#23c48e"),
                right_color=Color("#5c5d99"),
                spacing=11.0,
+               border=0.0,
            ),
-       ).titled("CUBES"),
+       ),
    )
-   box.compartment("Tokens", holds_pieces=True)
-   project.show(show_lids=True)
+   project.show(lids_only=True)
 
 
 Ten-Fold Quasiperiodic Penrose Tessellation (``PatternType.PENROSE``)
@@ -332,16 +311,15 @@ A non-repeating 10-fold quasiperiodic Penrose rhombus tiling generated via de Br
 
 .. pythonscad-example::
 
-   project = Project("PenroseDemo")
-   box = project.box(
+   project = Project("PenroseLidDemo")
+   project.box(
        BoxType.SLIDING,
-       "PenroseLidBox",
-       size=(80.0, 65.0, 22.0),
+       "PenroseLid",
+       size=(80.0, 60.0, 20.0),
        color=Color("#1b263b"),
+       fingernail_catch=False,
+       catch_radius=0.0,
        lid=LidBuilder(
-           label_mode=LabelMode.FRAMED,
-           frame_color=Color("#f4d35e"),
-           text_color=Color("white"),
            pattern=PatternBuilder.penrose(
                colors=(
                    Color("#f4d35e"),
@@ -350,11 +328,11 @@ A non-repeating 10-fold quasiperiodic Penrose rhombus tiling generated via de Br
                    Color("#4cc9f0"),
                ),
                spacing=10.0,
+               border=0.0,
            ),
-       ).titled("PENROSE"),
+       ),
    )
-   box.compartment("Tiles", holds_pieces=True)
-   project.show(show_lids=True)
+   project.show(lids_only=True)
 
 
 Eight-Fold Ammann–Beenker Quasicrystal (``PatternType.AMMANN_BEENKER``)
@@ -364,16 +342,15 @@ An 8-fold quasiperiodic tiling of 45°/135° rhombi and 90° squares generated b
 
 .. pythonscad-example::
 
-   project = Project("AmmannBeenkerDemo")
-   box = project.box(
+   project = Project("AmmannBeenkerLidDemo")
+   project.box(
        BoxType.SLIDING,
-       "OctagridBox",
-       size=(80.0, 65.0, 22.0),
+       "OctagridLid",
+       size=(80.0, 60.0, 20.0),
        color=Color("#1d3557"),
+       fingernail_catch=False,
+       catch_radius=0.0,
        lid=LidBuilder(
-           label_mode=LabelMode.FRAMED,
-           frame_color=Color("#f4d35e"),
-           text_color=Color("white"),
            pattern=PatternBuilder(
                PatternType.AMMANN_BEENKER,
                colors=(
@@ -383,11 +360,11 @@ An 8-fold quasiperiodic tiling of 45°/135° rhombi and 90° squares generated b
                    Color("#457b9d"),
                ),
                spacing=10.0,
+               border=0.0,
            ),
-       ).titled("OCTAGRID"),
+       ),
    )
-   box.compartment("Well", holds_pieces=True)
-   project.show(show_lids=True)
+   project.show(lids_only=True)
 
 
 Isometric Tumbling Blocks (``PatternType.TUMBLING_BLOCKS``)
@@ -397,16 +374,15 @@ The classic 3-color isometric cube tessellation where each regular hexagon is su
 
 .. pythonscad-example::
 
-   project = Project("TumblingBlocksDemo")
-   box = project.box(
+   project = Project("TumblingBlocksLidDemo")
+   project.box(
        BoxType.SLIDING,
-       "TumblingBox",
-       size=(80.0, 65.0, 22.0),
+       "TumblingLid",
+       size=(80.0, 60.0, 20.0),
        color=Color("#22223b"),
+       fingernail_catch=False,
+       catch_radius=0.0,
        lid=LidBuilder(
-           label_mode=LabelMode.FRAMED,
-           frame_color=Color("#f5e663"),
-           text_color=Color("white"),
            pattern=PatternBuilder(
                PatternType.TUMBLING_BLOCKS,
                colors=(
@@ -415,11 +391,11 @@ The classic 3-color isometric cube tessellation where each regular hexagon is su
                    Color("#3b5284"),
                ),
                spacing=11.0,
+               border=0.0,
            ),
-       ).titled("BLOCKS"),
+       ),
    )
-   box.compartment("Well", holds_pieces=True)
-   project.show(show_lids=True)
+   project.show(lids_only=True)
 
 
 Herringbone Chevron Tessellation (``PatternType.CHEVRON``)
@@ -429,25 +405,24 @@ A 2-color interlocking 60°/120° herringbone chevron rhombus tiling with altern
 
 .. pythonscad-example::
 
-   project = Project("ChevronDemo")
-   box = project.box(
+   project = Project("ChevronLidDemo")
+   project.box(
        BoxType.SLIDING,
-       "ChevronBox",
-       size=(80.0, 65.0, 22.0),
+       "ChevronLid",
+       size=(80.0, 60.0, 20.0),
        color=Color("#264653"),
+       fingernail_catch=False,
+       catch_radius=0.0,
        lid=LidBuilder(
-           label_mode=LabelMode.FRAMED,
-           frame_color=Color("#f4a261"),
-           text_color=Color("white"),
            pattern=PatternBuilder(
                PatternType.CHEVRON,
                colors=(Color("#f4a261"), Color("#2a9d8f")),
                spacing=11.0,
+               border=0.0,
            ),
-       ).titled("CHEVRON"),
+       ),
    )
-   box.compartment("Well", holds_pieces=True)
-   project.show(show_lids=True)
+   project.show(lids_only=True)
 
 
 Multi-Color Thematic & Geometric Inlays
@@ -460,25 +435,24 @@ Rounded D6 die faces (1 through 6) with contrasting inlaid pips (or through-hole
 
 .. pythonscad-example::
 
-   project = Project("DicePatternDemo")
-   box = project.box(
+   project = Project("DicePatternLidDemo")
+   project.box(
        BoxType.SLIDING,
-       "DiceLidBox",
-       size=(80.0, 65.0, 22.0),
+       "DiceLid",
+       size=(80.0, 60.0, 20.0),
        color=Color("indigo"),
+       fingernail_catch=False,
+       catch_radius=0.0,
        lid=LidBuilder(
-           label_mode=LabelMode.FRAMED,
-           frame_color=Color("gold"),
-           text_color=Color("white"),
            pattern=PatternBuilder(
                PatternType.DICE,
                colors=(Color("white"), Color("crimson")),
                spacing=14.0,
+               border=0.0,
            ),
-       ).titled("DICE"),
+       ),
    )
-   box.compartment("Well", holds_pieces=True)
-   project.show(show_lids=True)
+   project.show(lids_only=True)
 
 
 Concentric Rings (``PatternType.RING``)
@@ -488,26 +462,25 @@ Concentric outer rings and inner discs (customizable via ``hole_ratio`` and ``th
 
 .. pythonscad-example::
 
-   project = Project("RingPatternDemo")
-   box = project.box(
+   project = Project("RingPatternLidDemo")
+   project.box(
        BoxType.SLIDING,
-       "RingLidBox",
-       size=(80.0, 65.0, 22.0),
+       "RingLid",
+       size=(80.0, 60.0, 20.0),
        color=Color("midnightblue"),
+       fingernail_catch=False,
+       catch_radius=0.0,
        lid=LidBuilder(
-           label_mode=LabelMode.FRAMED,
-           frame_color=Color("gold"),
-           text_color=Color("white"),
            pattern=PatternBuilder(
                PatternType.RING,
                colors=(Color("gold"), Color("teal")),
                spacing=12.0,
                hole_ratio=0.5,
+               border=0.0,
            ),
-       ).titled("RINGS"),
+       ),
    )
-   box.compartment("Well", holds_pieces=True)
-   project.show(show_lids=True)
+   project.show(lids_only=True)
 
 
 Two-Color Checkerboard (``PatternType.CHECKER``)
@@ -517,25 +490,24 @@ Alternating checkerboard tiles on an orthogonal grid:
 
 .. pythonscad-example::
 
-   project = Project("CheckerPatternDemo")
-   box = project.box(
+   project = Project("CheckerPatternLidDemo")
+   project.box(
        BoxType.SLIDING,
-       "CheckerLidBox",
-       size=(80.0, 65.0, 22.0),
+       "CheckerLid",
+       size=(80.0, 60.0, 20.0),
        color=Color("darkslategray"),
+       fingernail_catch=False,
+       catch_radius=0.0,
        lid=LidBuilder(
-           label_mode=LabelMode.FRAMED,
-           frame_color=Color("gold"),
-           text_color=Color("white"),
            pattern=PatternBuilder(
                PatternType.CHECKER,
                colors=(Color("ivory"), Color("coral")),
                spacing=10.0,
+               border=0.0,
            ),
-       ).titled("CHECKER"),
+       ),
    )
-   box.compartment("Well", holds_pieces=True)
-   project.show(show_lids=True)
+   project.show(lids_only=True)
 
 
 Solid Lids (``PatternType.SOLID`` & ``PatternType.NONE``)
@@ -545,19 +517,16 @@ Use ``PatternType.SOLID`` or ``PatternType.NONE`` when a completely closed, unpe
 
 .. pythonscad-example::
 
-   project = Project("SolidPatternDemo")
-   box = project.box(
+   project = Project("SolidPatternLidDemo")
+   project.box(
        BoxType.SLIDING,
-       "SolidLidBox",
-       size=(70.0, 55.0, 20.0),
+       "SolidLid",
+       size=(80.0, 60.0, 20.0),
        color=Color("darkslateblue"),
+       fingernail_catch=False,
+       catch_radius=0.0,
        lid=LidBuilder(
-           label_mode=LabelMode.FRAMED,
-           frame_color=Color("gold"),
-           text_color=Color("white"),
-           pattern=PatternBuilder(PatternType.SOLID),
-       ).titled("SOLID"),
+           pattern=PatternBuilder(PatternType.SOLID, border=0.0),
+       ),
    )
-   box.compartment("Well", holds_pieces=True)
-   project.show(show_lids=True)
-
+   project.show(lids_only=True)
