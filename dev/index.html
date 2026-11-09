@@ -317,6 +317,30 @@
   
   
     <li class="md-nav__item">
+      <a href="lid_patterns.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Lid Patterns Guide &amp; Gallery</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="layout_and_spacers.html" class="md-nav__link">
         
   
@@ -817,7 +841,7 @@
 <td><p>Ratio-based compartment division (<code class="docutils literal notranslate"><span class="pre">box.compartment(...)</span></code>), ergonomic rounded token scoops (<code class="docutils literal notranslate"><span class="pre">holds_pieces=True</span></code>), full-depth push-through holes, hex grids, and arbitrary SVG pocket silhouettes.</p></td>
 </tr>
 <tr class="row-even"><td><p><strong>Lid Decoration</strong></p></td>
-<td><p>11 surface patterns (hex, dense hex, triangles, voronoi, leaf tessellations), multi-color MMU inlays, and embossed/engraved labels with automatic font scaling (<a class="reference internal" href="_autosummary/pyboxbuilder.lid.builder.LidBuilder.html#pyboxbuilder.lid.builder.LidBuilder" title="pyboxbuilder.lid.builder.LidBuilder (Python class) — Bases: object"><code class="xref py py-class docutils literal notranslate"><span class="pre">LidBuilder</span></code></a>).</p></td>
+<td><p>20 surface patterns and multi-color tessellations (hex, dense hex, triangles, octagons, voronoi, leaf tessellations, dice, rings, checkerboards, stepped 3D cubes, tumbling blocks, chevrons, Penrose, and Ammann–Beenker tilings — see <a class="reference internal" href="lid_patterns.html"><span class="doc">Lid Patterns Guide &amp; Gallery</span></a>), thin multi-color MMU inlays with a selectable backing lattice, and embossed/engraved labels with automatic font scaling (<a class="reference internal" href="_autosummary/pyboxbuilder.lid.builder.LidBuilder.html#pyboxbuilder.lid.builder.LidBuilder" title="pyboxbuilder.lid.builder.LidBuilder (Python class) — Bases: object"><code class="xref py py-class docutils literal notranslate"><span class="pre">LidBuilder</span></code></a>).</p></td>
 </tr>
 <tr class="row-odd"><td><p><strong>Layout &amp; 3D Packing</strong></p></td>
 <td><p>Declarative relative layout trees (<a class="reference internal" href="_autosummary/pyboxbuilder.layout.columns.html#pyboxbuilder.layout.columns" title="pyboxbuilder.layout.columns (Python function) — Lay children out left to right along X."><code class="xref py py-func docutils literal notranslate"><span class="pre">columns()</span></code></a>, <a class="reference internal" href="_autosummary/pyboxbuilder.layout.rows.html#pyboxbuilder.layout.rows" title="pyboxbuilder.layout.rows (Python function) — Lay children out front to back along Y."><code class="xref py py-func docutils literal notranslate"><span class="pre">rows()</span></code></a>, <a class="reference internal" href="_autosummary/pyboxbuilder.layout.stack.html#pyboxbuilder.layout.stack" title="pyboxbuilder.layout.stack (Python function) — Lay children out bottom to top along Z."><code class="xref py py-func docutils literal notranslate"><span class="pre">stack()</span></code></a>) or automated 3D skyline bin packing within the declared <a class="reference internal" href="_autosummary/pyboxbuilder.project.core.Project.html#pyboxbuilder.project.core.Project.game_box_size" title="pyboxbuilder.project.core.Project.game_box_size (Python attribute) — Outer game box dimensions [W, L, H] in mm. None = standalone boxes (no game box)."><code class="xref py py-attr docutils literal notranslate"><span class="pre">game_box_size</span></code></a>.</p></td>
@@ -888,9 +912,16 @@ mypy<span class="w"> </span>pyboxbuilder/
 <li class="toctree-l2"><a class="reference internal" href="box_types.html#monolithic-print-in-place-hinge-box-boxtype-print-in-place-hinge">Monolithic Print-In-Place Hinge Box (<code class="docutils literal notranslate"><span class="pre">BoxType.PRINT_IN_PLACE_HINGE</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="box_types.html#print-in-place-inset-hinge-box-boxtype-inset-hinge">Print-In-Place Inset Hinge Box (<code class="docutils literal notranslate"><span class="pre">BoxType.INSET_HINGE</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="box_types.html#sliding-spin-catch-hinge-box-boxtype-sliding-hinge">Sliding &amp; Spin Catch Hinge Box (<code class="docutils literal notranslate"><span class="pre">BoxType.SLIDING_HINGE</span></code>)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="box_types.html#multi-color-rhombic-penrose-lid-tessellations">Multi-Color Rhombic &amp; Penrose Lid Tessellations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="box_types.html#lid-retention-catches-catchtype">Lid Retention Catches (<code class="docutils literal notranslate"><span class="pre">CatchType</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="box_types.html#universal-stacking-architecture-stackablemode">Universal Stacking Architecture (<code class="docutils literal notranslate"><span class="pre">StackableMode</span></code>)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="lid_patterns.html">Lid Patterns Guide &amp; Gallery</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="lid_patterns.html#classic-geometric-lattices">Classic Geometric Lattices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lid_patterns.html#organic-botanical-patterns">Organic &amp; Botanical Patterns</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lid_patterns.html#multi-color-rhombic-quasicrystal-tessellations">Multi-Color Rhombic &amp; Quasicrystal Tessellations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lid_patterns.html#multi-color-thematic-geometric-inlays">Multi-Color Thematic &amp; Geometric Inlays</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lid_patterns.html#solid-lids-patterntype-solid-patterntype-none">Solid Lids (<code class="docutils literal notranslate"><span class="pre">PatternType.SOLID</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">PatternType.NONE</span></code>)</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="layout_and_spacers.html">Auto-Layout &amp; Automatic Spacers</a><ul>

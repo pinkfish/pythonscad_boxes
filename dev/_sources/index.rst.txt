@@ -237,7 +237,7 @@ Core System Architecture
    * - **Compartments & Ergonomics**
      - Ratio-based compartment division (``box.compartment(...)``), ergonomic rounded token scoops (``holds_pieces=True``), full-depth push-through holes, hex grids, and arbitrary SVG pocket silhouettes.
    * - **Lid Decoration**
-     - 11 surface patterns (hex, dense hex, triangles, voronoi, leaf tessellations), multi-color MMU inlays, and embossed/engraved labels with automatic font scaling (:class:`~pyboxbuilder.lid.builder.LidBuilder`).
+     - 20 surface patterns and multi-color tessellations (hex, dense hex, triangles, octagons, voronoi, leaf tessellations, dice, rings, checkerboards, stepped 3D cubes, tumbling blocks, chevrons, Penrose, and Ammann–Beenker tilings — see :doc:`lid_patterns`), thin multi-color MMU inlays with a selectable backing lattice, and embossed/engraved labels with automatic font scaling (:class:`~pyboxbuilder.lid.builder.LidBuilder`).
    * - **Layout & 3D Packing**
      - Declarative relative layout trees (:func:`~pyboxbuilder.layout.columns`, :func:`~pyboxbuilder.layout.rows`, :func:`~pyboxbuilder.layout.stack`) or automated 3D skyline bin packing within the declared :attr:`~pyboxbuilder.project.core.Project.game_box_size`.
    * - **Automatic Spacers**
@@ -273,6 +273,7 @@ Documentation Index
    quickstart
    getting_started
    box_types
+   lid_patterns
    layout_and_spacers
 
 .. toctree::
