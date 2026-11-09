@@ -213,7 +213,7 @@ def decorate_lid(
         res_pat is not None
         and res_pat.type not in (PatternType.NONE, PatternType.SOLID)
     ):
-        if res_pat.inlay:
+        if res_pat.inlay or bool(resolved.pattern_colors):
             _apply_inlaid_pattern(
                 result,
                 resolved,
