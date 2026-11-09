@@ -1051,9 +1051,10 @@
 <p><code class="docutils literal notranslate"><span class="pre">pyboxbuilder</span></code> provides 20 lid surface patterns and multi-color tessellations via <a class="reference internal" href="_autosummary/pyboxbuilder.enums.PatternType.html#pyboxbuilder.enums.PatternType" title="pyboxbuilder.enums.PatternType (Python class) — Bases: Enum"><code class="xref py py-class docutils literal notranslate"><span class="pre">PatternType</span></code></a> and <a class="reference internal" href="_autosummary/pyboxbuilder.lid.builder.PatternBuilder.html#pyboxbuilder.lid.builder.PatternBuilder" title="pyboxbuilder.lid.builder.PatternBuilder (Python class) — Bases: object"><code class="xref py py-class docutils literal notranslate"><span class="pre">PatternBuilder</span></code></a>.</p>
 <p>Patterns fall into two architectural categories:</p>
 <ol class="arabic simple">
-<li><p><strong>Perforated Through-Hole Lattices &amp; Botanical Tilings</strong> (<code class="docutils literal notranslate"><span class="pre">HEX</span></code>, <code class="docutils literal notranslate"><span class="pre">DENSE_HEX</span></code>, <code class="docutils literal notranslate"><span class="pre">SQUARE</span></code>, <code class="docutils literal notranslate"><span class="pre">CIRCLE</span></code>, <code class="docutils literal notranslate"><span class="pre">TRIANGLE</span></code>, <code class="docutils literal notranslate"><span class="pre">DENSE_TRIANGLE</span></code>, <code class="docutils literal notranslate"><span class="pre">OCTAGON</span></code>, <code class="docutils literal notranslate"><span class="pre">VORONOI</span></code>, <code class="docutils literal notranslate"><span class="pre">LEAF</span></code>, <code class="docutils literal notranslate"><span class="pre">LEAF_TESSELLATION</span></code>, <code class="docutils literal notranslate"><span class="pre">LEAF_VEINS</span></code>): Cut open lattices through the lid within the solid perimeter border, saving filament while keeping contents visible and ventilated. Any of these can also be inlaid as a colored top layer by setting <code class="docutils literal notranslate"><span class="pre">inlay=True</span></code> or passing <code class="docutils literal notranslate"><span class="pre">colors=(...)</span></code>.</p></li>
+<li><p><strong>Perforated Through-Hole Lattices &amp; Botanical Tilings</strong> (<code class="docutils literal notranslate"><span class="pre">HEX</span></code>, <code class="docutils literal notranslate"><span class="pre">DENSE_HEX</span></code>, <code class="docutils literal notranslate"><span class="pre">SQUARE</span></code>, <code class="docutils literal notranslate"><span class="pre">CIRCLE</span></code>, <code class="docutils literal notranslate"><span class="pre">TRIANGLE</span></code>, <code class="docutils literal notranslate"><span class="pre">DENSE_TRIANGLE</span></code>, <code class="docutils literal notranslate"><span class="pre">OCTAGON</span></code>, <code class="docutils literal notranslate"><span class="pre">VORONOI</span></code>, <code class="docutils literal notranslate"><span class="pre">LEAF</span></code>, <code class="docutils literal notranslate"><span class="pre">LEAF_TESSELLATION</span></code>, <code class="docutils literal notranslate"><span class="pre">LEAF_VEINS</span></code>): Cut open lattices through the lid, saving filament while keeping contents visible and ventilated. Any of these can also be inlaid as a colored top layer by setting <code class="docutils literal notranslate"><span class="pre">inlay=True</span></code> or passing <code class="docutils literal notranslate"><span class="pre">colors=(...)</span></code>.</p></li>
 <li><p><strong>Multi-Color Inlays &amp; Rhombic / Quasicrystal Tessellations</strong> (<code class="docutils literal notranslate"><span class="pre">STEPPED_CUBE</span></code>, <code class="docutils literal notranslate"><span class="pre">PENROSE</span></code>, <code class="docutils literal notranslate"><span class="pre">AMMANN_BEENKER</span></code>, <code class="docutils literal notranslate"><span class="pre">TUMBLING_BLOCKS</span></code>, <code class="docutils literal notranslate"><span class="pre">CHEVRON</span></code>, <code class="docutils literal notranslate"><span class="pre">DICE</span></code>, <code class="docutils literal notranslate"><span class="pre">RING</span></code>, <code class="docutils literal notranslate"><span class="pre">CHECKER</span></code>): Inlay a thin <code class="docutils literal notranslate"><span class="pre">0.6</span> <span class="pre">mm</span></code> colored tile skin into the top face of the lid above a continuous <code class="docutils literal notranslate"><span class="pre">0.8</span> <span class="pre">mm</span></code> structural floor and a selectable underside backing lattice (defaulting to <code class="docutils literal notranslate"><span class="pre">PatternType.HEX</span></code> via <code class="docutils literal notranslate"><span class="pre">backing_pattern</span></code>) to minimize plastic use while preserving full lid strength.</p></li>
 </ol>
+<p>Every example below renders <strong>only the sliding lid</strong> (<code class="docutils literal notranslate"><span class="pre">project.show(lids_only=True)</span></code>) with <code class="docutils literal notranslate"><span class="pre">border=0.0</span></code> and <code class="docutils literal notranslate"><span class="pre">fingernail_catch=False</span></code> so the pattern fills the lid edge-to-edge.</p>
 <nav class="contents local" id="on-this-page">
 <p class="topic-title">On this page</p>
 <ul class="simple">
@@ -1099,224 +1100,202 @@
 <h3 id="honeycomb-hexagonal-grid-patterntype-hex"><a class="toc-backref" href="#id2" role="doc-backlink">Honeycomb Hexagonal Grid (<code class="docutils literal notranslate"><span class="pre">PatternType.HEX</span></code>)</a><a class="headerlink" href="#honeycomb-hexagonal-grid-patterntype-hex" title="Link to this heading">¶</a></h3>
 <p>Staggered rows of regular hexagons separated by a constant-width structural web. This is the default lid pattern and default underside backing lattice across <code class="docutils literal notranslate"><span class="pre">pyboxbuilder</span></code>.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="n">project</span> <span class="o">=</span> <span class="n">Project</span><span class="p">(</span><span class="s2">"HexPatternDemo"</span><span class="p">)</span>
-<span class="n">box</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">box</span><span class="p">(</span>
+<span class="n">project</span><span class="o">.</span><span class="n">box</span><span class="p">(</span>
     <span class="n">BoxType</span><span class="o">.</span><span class="n">SLIDING</span><span class="p">,</span>
-    <span class="s2">"HexBox"</span><span class="p">,</span>
-    <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mf">70.0</span><span class="p">,</span> <span class="mf">55.0</span><span class="p">,</span> <span class="mf">20.0</span><span class="p">),</span>
+    <span class="s2">"HexLid"</span><span class="p">,</span>
+    <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mf">80.0</span><span class="p">,</span> <span class="mf">60.0</span><span class="p">,</span> <span class="mf">20.0</span><span class="p">),</span>
     <span class="n">color</span><span class="o">=</span><span class="n">Color</span><span class="p">(</span><span class="s2">"darkslateblue"</span><span class="p">),</span>
+    <span class="n">fingernail_catch</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">catch_radius</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
     <span class="n">lid</span><span class="o">=</span><span class="n">LidBuilder</span><span class="p">(</span>
-        <span class="n">label_mode</span><span class="o">=</span><span class="n">LabelMode</span><span class="o">.</span><span class="n">FRAMED</span><span class="p">,</span>
-        <span class="n">frame_color</span><span class="o">=</span><span class="n">Color</span><span class="p">(</span><span class="s2">"gold"</span><span class="p">),</span>
-        <span class="n">text_color</span><span class="o">=</span><span class="n">Color</span><span class="p">(</span><span class="s2">"white"</span><span class="p">),</span>
-        <span class="n">pattern</span><span class="o">=</span><span class="n">PatternBuilder</span><span class="p">(</span><span class="n">PatternType</span><span class="o">.</span><span class="n">HEX</span><span class="p">,</span> <span class="n">spacing</span><span class="o">=</span><span class="mf">9.0</span><span class="p">),</span>
-    <span class="p">)</span><span class="o">.</span><span class="n">titled</span><span class="p">(</span><span class="s2">"HEX"</span><span class="p">),</span>
+        <span class="n">pattern</span><span class="o">=</span><span class="n">PatternBuilder</span><span class="p">(</span><span class="n">PatternType</span><span class="o">.</span><span class="n">HEX</span><span class="p">,</span> <span class="n">spacing</span><span class="o">=</span><span class="mf">9.0</span><span class="p">,</span> <span class="n">border</span><span class="o">=</span><span class="mf">0.0</span><span class="p">),</span>
+    <span class="p">),</span>
 <span class="p">)</span>
-<span class="n">box</span><span class="o">.</span><span class="n">compartment</span><span class="p">(</span><span class="s2">"Well"</span><span class="p">,</span> <span class="n">holds_pieces</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">project</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">show_lids</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">project</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">lids_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </code></pre></div>
 </div>
-<div class="stl-viewer" data-stl-uri="_stl/87800e766f17b170.stl" data-stl-color="#6f9ac9" style="width:100%;height:360px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a class="reference external" href="_stl/87800e766f17b170.stl">⬇ Download STL mesh</a></p>
+<div class="stl-viewer" data-stl-uri="_stl/bee947a9f0441b13.stl" data-stl-color="#6f9ac9" style="width:100%;height:360px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a class="reference external" href="_stl/bee947a9f0441b13.stl">⬇ Download STL mesh</a></p>
 <h3 id="dense-honeycomb-grid-patterntype-dense-hex"><a class="toc-backref" href="#id3" role="doc-backlink">Dense Honeycomb Grid (<code class="docutils literal notranslate"><span class="pre">PatternType.DENSE_HEX</span></code>)</a><a class="headerlink" href="#dense-honeycomb-grid-patterntype-dense-hex" title="Link to this heading">¶</a></h3>
 <p>A tighter-pitch hexagonal honeycomb that keeps smaller game pieces safely enclosed while maximizing open area.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="n">project</span> <span class="o">=</span> <span class="n">Project</span><span class="p">(</span><span class="s2">"DenseHexPatternDemo"</span><span class="p">)</span>
-<span class="n">box</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">box</span><span class="p">(</span>
+<span class="n">project</span><span class="o">.</span><span class="n">box</span><span class="p">(</span>
     <span class="n">BoxType</span><span class="o">.</span><span class="n">SLIDING</span><span class="p">,</span>
-    <span class="s2">"DenseHexBox"</span><span class="p">,</span>
-    <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mf">70.0</span><span class="p">,</span> <span class="mf">55.0</span><span class="p">,</span> <span class="mf">20.0</span><span class="p">),</span>
+    <span class="s2">"DenseHexLid"</span><span class="p">,</span>
+    <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mf">80.0</span><span class="p">,</span> <span class="mf">60.0</span><span class="p">,</span> <span class="mf">20.0</span><span class="p">),</span>
     <span class="n">color</span><span class="o">=</span><span class="n">Color</span><span class="p">(</span><span class="s2">"teal"</span><span class="p">),</span>
+    <span class="n">fingernail_catch</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">catch_radius</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
     <span class="n">lid</span><span class="o">=</span><span class="n">LidBuilder</span><span class="p">(</span>
-        <span class="n">label_mode</span><span class="o">=</span><span class="n">LabelMode</span><span class="o">.</span><span class="n">FRAMED</span><span class="p">,</span>
-        <span class="n">frame_color</span><span class="o">=</span><span class="n">Color</span><span class="p">(</span><span class="s2">"gold"</span><span class="p">),</span>
-        <span class="n">text_color</span><span class="o">=</span><span class="n">Color</span><span class="p">(</span><span class="s2">"white"</span><span class="p">),</span>
-        <span class="n">pattern</span><span class="o">=</span><span class="n">PatternBuilder</span><span class="p">(</span><span class="n">PatternType</span><span class="o">.</span><span class="n">DENSE_HEX</span><span class="p">),</span>
-    <span class="p">)</span><span class="o">.</span><span class="n">titled</span><span class="p">(</span><span class="s2">"DENSE"</span><span class="p">),</span>
+        <span class="n">pattern</span><span class="o">=</span><span class="n">PatternBuilder</span><span class="p">(</span><span class="n">PatternType</span><span class="o">.</span><span class="n">DENSE_HEX</span><span class="p">,</span> <span class="n">border</span><span class="o">=</span><span class="mf">0.0</span><span class="p">),</span>
+    <span class="p">),</span>
 <span class="p">)</span>
-<span class="n">box</span><span class="o">.</span><span class="n">compartment</span><span class="p">(</span><span class="s2">"Well"</span><span class="p">,</span> <span class="n">holds_pieces</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">project</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">show_lids</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">project</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">lids_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </code></pre></div>
 </div>
-<div class="stl-viewer" data-stl-uri="_stl/dd2013b49b8c9bcb.stl" data-stl-color="#6f9ac9" style="width:100%;height:360px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a class="reference external" href="_stl/dd2013b49b8c9bcb.stl">⬇ Download STL mesh</a></p>
+<div class="stl-viewer" data-stl-uri="_stl/5376fb03e0456d85.stl" data-stl-color="#6f9ac9" style="width:100%;height:360px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a class="reference external" href="_stl/5376fb03e0456d85.stl">⬇ Download STL mesh</a></p>
 <h3 id="square-grid-patterntype-square"><a class="toc-backref" href="#id4" role="doc-backlink">Square Grid (<code class="docutils literal notranslate"><span class="pre">PatternType.SQUARE</span></code>)</a><a class="headerlink" href="#square-grid-patterntype-square" title="Link to this heading">¶</a></h3>
 <p>Orthogonal square cutouts aligned to a Cartesian grid.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="n">project</span> <span class="o">=</span> <span class="n">Project</span><span class="p">(</span><span class="s2">"SquarePatternDemo"</span><span class="p">)</span>
-<span class="n">box</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">box</span><span class="p">(</span>
+<span class="n">project</span><span class="o">.</span><span class="n">box</span><span class="p">(</span>
     <span class="n">BoxType</span><span class="o">.</span><span class="n">SLIDING</span><span class="p">,</span>
-    <span class="s2">"SquareBox"</span><span class="p">,</span>
-    <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mf">70.0</span><span class="p">,</span> <span class="mf">55.0</span><span class="p">,</span> <span class="mf">20.0</span><span class="p">),</span>
+    <span class="s2">"SquareLid"</span><span class="p">,</span>
+    <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mf">80.0</span><span class="p">,</span> <span class="mf">60.0</span><span class="p">,</span> <span class="mf">20.0</span><span class="p">),</span>
     <span class="n">color</span><span class="o">=</span><span class="n">Color</span><span class="p">(</span><span class="s2">"darkslategray"</span><span class="p">),</span>
+    <span class="n">fingernail_catch</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">catch_radius</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
     <span class="n">lid</span><span class="o">=</span><span class="n">LidBuilder</span><span class="p">(</span>
-        <span class="n">label_mode</span><span class="o">=</span><span class="n">LabelMode</span><span class="o">.</span><span class="n">FRAMED</span><span class="p">,</span>
-        <span class="n">frame_color</span><span class="o">=</span><span class="n">Color</span><span class="p">(</span><span class="s2">"coral"</span><span class="p">),</span>
-        <span class="n">text_color</span><span class="o">=</span><span class="n">Color</span><span class="p">(</span><span class="s2">"white"</span><span class="p">),</span>
-        <span class="n">pattern</span><span class="o">=</span><span class="n">PatternBuilder</span><span class="p">(</span><span class="n">PatternType</span><span class="o">.</span><span class="n">SQUARE</span><span class="p">,</span> <span class="n">spacing</span><span class="o">=</span><span class="mf">9.0</span><span class="p">),</span>
-    <span class="p">)</span><span class="o">.</span><span class="n">titled</span><span class="p">(</span><span class="s2">"SQUARE"</span><span class="p">),</span>
+        <span class="n">pattern</span><span class="o">=</span><span class="n">PatternBuilder</span><span class="p">(</span><span class="n">PatternType</span><span class="o">.</span><span class="n">SQUARE</span><span class="p">,</span> <span class="n">spacing</span><span class="o">=</span><span class="mf">9.0</span><span class="p">,</span> <span class="n">border</span><span class="o">=</span><span class="mf">0.0</span><span class="p">),</span>
+    <span class="p">),</span>
 <span class="p">)</span>
-<span class="n">box</span><span class="o">.</span><span class="n">compartment</span><span class="p">(</span><span class="s2">"Well"</span><span class="p">,</span> <span class="n">holds_pieces</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">project</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">show_lids</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">project</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">lids_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </code></pre></div>
 </div>
-<div class="stl-viewer" data-stl-uri="_stl/ce61d999854c0d5a.stl" data-stl-color="#6f9ac9" style="width:100%;height:360px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a class="reference external" href="_stl/ce61d999854c0d5a.stl">⬇ Download STL mesh</a></p>
+<div class="stl-viewer" data-stl-uri="_stl/e4245ccecb88e4c6.stl" data-stl-color="#6f9ac9" style="width:100%;height:360px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a class="reference external" href="_stl/e4245ccecb88e4c6.stl">⬇ Download STL mesh</a></p>
 <h3 id="circular-grid-patterntype-circle"><a class="toc-backref" href="#id5" role="doc-backlink">Circular Grid (<code class="docutils literal notranslate"><span class="pre">PatternType.CIRCLE</span></code>)</a><a class="headerlink" href="#circular-grid-patterntype-circle" title="Link to this heading">¶</a></h3>
 <p>Circular perforations arranged on an orthogonal grid.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="n">project</span> <span class="o">=</span> <span class="n">Project</span><span class="p">(</span><span class="s2">"CirclePatternDemo"</span><span class="p">)</span>
-<span class="n">box</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">box</span><span class="p">(</span>
+<span class="n">project</span><span class="o">.</span><span class="n">box</span><span class="p">(</span>
     <span class="n">BoxType</span><span class="o">.</span><span class="n">SLIDING</span><span class="p">,</span>
-    <span class="s2">"CircleBox"</span><span class="p">,</span>
-    <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mf">70.0</span><span class="p">,</span> <span class="mf">55.0</span><span class="p">,</span> <span class="mf">20.0</span><span class="p">),</span>
+    <span class="s2">"CircleLid"</span><span class="p">,</span>
+    <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mf">80.0</span><span class="p">,</span> <span class="mf">60.0</span><span class="p">,</span> <span class="mf">20.0</span><span class="p">),</span>
     <span class="n">color</span><span class="o">=</span><span class="n">Color</span><span class="p">(</span><span class="s2">"royalblue"</span><span class="p">),</span>
+    <span class="n">fingernail_catch</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">catch_radius</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
     <span class="n">lid</span><span class="o">=</span><span class="n">LidBuilder</span><span class="p">(</span>
-        <span class="n">label_mode</span><span class="o">=</span><span class="n">LabelMode</span><span class="o">.</span><span class="n">FRAMED</span><span class="p">,</span>
-        <span class="n">frame_color</span><span class="o">=</span><span class="n">Color</span><span class="p">(</span><span class="s2">"gold"</span><span class="p">),</span>
-        <span class="n">text_color</span><span class="o">=</span><span class="n">Color</span><span class="p">(</span><span class="s2">"white"</span><span class="p">),</span>
-        <span class="n">pattern</span><span class="o">=</span><span class="n">PatternBuilder</span><span class="p">(</span><span class="n">PatternType</span><span class="o">.</span><span class="n">CIRCLE</span><span class="p">,</span> <span class="n">spacing</span><span class="o">=</span><span class="mf">9.0</span><span class="p">),</span>
-    <span class="p">)</span><span class="o">.</span><span class="n">titled</span><span class="p">(</span><span class="s2">"CIRCLE"</span><span class="p">),</span>
+        <span class="n">pattern</span><span class="o">=</span><span class="n">PatternBuilder</span><span class="p">(</span><span class="n">PatternType</span><span class="o">.</span><span class="n">CIRCLE</span><span class="p">,</span> <span class="n">spacing</span><span class="o">=</span><span class="mf">9.0</span><span class="p">,</span> <span class="n">border</span><span class="o">=</span><span class="mf">0.0</span><span class="p">),</span>
+    <span class="p">),</span>
 <span class="p">)</span>
-<span class="n">box</span><span class="o">.</span><span class="n">compartment</span><span class="p">(</span><span class="s2">"Well"</span><span class="p">,</span> <span class="n">holds_pieces</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">project</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">show_lids</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">project</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">lids_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </code></pre></div>
 </div>
-<div class="stl-viewer" data-stl-uri="_stl/f673b5a80abf802e.stl" data-stl-color="#6f9ac9" style="width:100%;height:360px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a class="reference external" href="_stl/f673b5a80abf802e.stl">⬇ Download STL mesh</a></p>
+<div class="stl-viewer" data-stl-uri="_stl/08b9266c861964c0.stl" data-stl-color="#6f9ac9" style="width:100%;height:360px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a class="reference external" href="_stl/08b9266c861964c0.stl">⬇ Download STL mesh</a></p>
 <h3 id="alternating-triangle-truss-patterntype-triangle"><a class="toc-backref" href="#id6" role="doc-backlink">Alternating Triangle Truss (<code class="docutils literal notranslate"><span class="pre">PatternType.TRIANGLE</span></code>)</a><a class="headerlink" href="#alternating-triangle-truss-patterntype-triangle" title="Link to this heading">¶</a></h3>
 <p>Equilateral triangular cutouts alternating point-up and point-down to form a diagonal truss web.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="n">project</span> <span class="o">=</span> <span class="n">Project</span><span class="p">(</span><span class="s2">"TrianglePatternDemo"</span><span class="p">)</span>
-<span class="n">box</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">box</span><span class="p">(</span>
+<span class="n">project</span><span class="o">.</span><span class="n">box</span><span class="p">(</span>
     <span class="n">BoxType</span><span class="o">.</span><span class="n">SLIDING</span><span class="p">,</span>
-    <span class="s2">"TriangleBox"</span><span class="p">,</span>
-    <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mf">70.0</span><span class="p">,</span> <span class="mf">55.0</span><span class="p">,</span> <span class="mf">20.0</span><span class="p">),</span>
+    <span class="s2">"TriangleLid"</span><span class="p">,</span>
+    <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mf">80.0</span><span class="p">,</span> <span class="mf">60.0</span><span class="p">,</span> <span class="mf">20.0</span><span class="p">),</span>
     <span class="n">color</span><span class="o">=</span><span class="n">Color</span><span class="p">(</span><span class="s2">"crimson"</span><span class="p">),</span>
+    <span class="n">fingernail_catch</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">catch_radius</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
     <span class="n">lid</span><span class="o">=</span><span class="n">LidBuilder</span><span class="p">(</span>
-        <span class="n">label_mode</span><span class="o">=</span><span class="n">LabelMode</span><span class="o">.</span><span class="n">FRAMED</span><span class="p">,</span>
-        <span class="n">frame_color</span><span class="o">=</span><span class="n">Color</span><span class="p">(</span><span class="s2">"silver"</span><span class="p">),</span>
-        <span class="n">text_color</span><span class="o">=</span><span class="n">Color</span><span class="p">(</span><span class="s2">"white"</span><span class="p">),</span>
-        <span class="n">pattern</span><span class="o">=</span><span class="n">PatternBuilder</span><span class="p">(</span><span class="n">PatternType</span><span class="o">.</span><span class="n">TRIANGLE</span><span class="p">,</span> <span class="n">spacing</span><span class="o">=</span><span class="mf">9.0</span><span class="p">),</span>
-    <span class="p">)</span><span class="o">.</span><span class="n">titled</span><span class="p">(</span><span class="s2">"TRUSS"</span><span class="p">),</span>
+        <span class="n">pattern</span><span class="o">=</span><span class="n">PatternBuilder</span><span class="p">(</span><span class="n">PatternType</span><span class="o">.</span><span class="n">TRIANGLE</span><span class="p">,</span> <span class="n">spacing</span><span class="o">=</span><span class="mf">9.0</span><span class="p">,</span> <span class="n">border</span><span class="o">=</span><span class="mf">0.0</span><span class="p">),</span>
+    <span class="p">),</span>
 <span class="p">)</span>
-<span class="n">box</span><span class="o">.</span><span class="n">compartment</span><span class="p">(</span><span class="s2">"Well"</span><span class="p">,</span> <span class="n">holds_pieces</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">project</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">show_lids</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">project</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">lids_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </code></pre></div>
 </div>
-<div class="stl-viewer" data-stl-uri="_stl/2628230d9abf6f46.stl" data-stl-color="#6f9ac9" style="width:100%;height:360px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a class="reference external" href="_stl/2628230d9abf6f46.stl">⬇ Download STL mesh</a></p>
+<div class="stl-viewer" data-stl-uri="_stl/8a9827f3d1a2ceea.stl" data-stl-color="#6f9ac9" style="width:100%;height:360px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a class="reference external" href="_stl/8a9827f3d1a2ceea.stl">⬇ Download STL mesh</a></p>
 <h3 id="dense-triangle-truss-patterntype-dense-triangle"><a class="toc-backref" href="#id7" role="doc-backlink">Dense Triangle Truss (<code class="docutils literal notranslate"><span class="pre">PatternType.DENSE_TRIANGLE</span></code>)</a><a class="headerlink" href="#dense-triangle-truss-patterntype-dense-triangle" title="Link to this heading">¶</a></h3>
 <p>The alternating triangular truss lattice at a finer pitch.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="n">project</span> <span class="o">=</span> <span class="n">Project</span><span class="p">(</span><span class="s2">"DenseTrianglePatternDemo"</span><span class="p">)</span>
-<span class="n">box</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">box</span><span class="p">(</span>
+<span class="n">project</span><span class="o">.</span><span class="n">box</span><span class="p">(</span>
     <span class="n">BoxType</span><span class="o">.</span><span class="n">SLIDING</span><span class="p">,</span>
-    <span class="s2">"DenseTriangleBox"</span><span class="p">,</span>
-    <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mf">70.0</span><span class="p">,</span> <span class="mf">55.0</span><span class="p">,</span> <span class="mf">20.0</span><span class="p">),</span>
+    <span class="s2">"DenseTriangleLid"</span><span class="p">,</span>
+    <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mf">80.0</span><span class="p">,</span> <span class="mf">60.0</span><span class="p">,</span> <span class="mf">20.0</span><span class="p">),</span>
     <span class="n">color</span><span class="o">=</span><span class="n">Color</span><span class="p">(</span><span class="s2">"firebrick"</span><span class="p">),</span>
+    <span class="n">fingernail_catch</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">catch_radius</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
     <span class="n">lid</span><span class="o">=</span><span class="n">LidBuilder</span><span class="p">(</span>
-        <span class="n">label_mode</span><span class="o">=</span><span class="n">LabelMode</span><span class="o">.</span><span class="n">FRAMED</span><span class="p">,</span>
-        <span class="n">frame_color</span><span class="o">=</span><span class="n">Color</span><span class="p">(</span><span class="s2">"gold"</span><span class="p">),</span>
-        <span class="n">text_color</span><span class="o">=</span><span class="n">Color</span><span class="p">(</span><span class="s2">"white"</span><span class="p">),</span>
-        <span class="n">pattern</span><span class="o">=</span><span class="n">PatternBuilder</span><span class="p">(</span><span class="n">PatternType</span><span class="o">.</span><span class="n">DENSE_TRIANGLE</span><span class="p">),</span>
-    <span class="p">)</span><span class="o">.</span><span class="n">titled</span><span class="p">(</span><span class="s2">"DENSE TRI"</span><span class="p">),</span>
+        <span class="n">pattern</span><span class="o">=</span><span class="n">PatternBuilder</span><span class="p">(</span><span class="n">PatternType</span><span class="o">.</span><span class="n">DENSE_TRIANGLE</span><span class="p">,</span> <span class="n">border</span><span class="o">=</span><span class="mf">0.0</span><span class="p">),</span>
+    <span class="p">),</span>
 <span class="p">)</span>
-<span class="n">box</span><span class="o">.</span><span class="n">compartment</span><span class="p">(</span><span class="s2">"Well"</span><span class="p">,</span> <span class="n">holds_pieces</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">project</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">show_lids</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">project</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">lids_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </code></pre></div>
 </div>
-<div class="stl-viewer" data-stl-uri="_stl/65d4cfbe1f489f2c.stl" data-stl-color="#6f9ac9" style="width:100%;height:360px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a class="reference external" href="_stl/65d4cfbe1f489f2c.stl">⬇ Download STL mesh</a></p>
+<div class="stl-viewer" data-stl-uri="_stl/0ab5cd3787051fd7.stl" data-stl-color="#6f9ac9" style="width:100%;height:360px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a class="reference external" href="_stl/0ab5cd3787051fd7.stl">⬇ Download STL mesh</a></p>
 <h3 id="octagonal-lattice-patterntype-octagon"><a class="toc-backref" href="#id8" role="doc-backlink">Octagonal Lattice (<code class="docutils literal notranslate"><span class="pre">PatternType.OCTAGON</span></code>)</a><a class="headerlink" href="#octagonal-lattice-patterntype-octagon" title="Link to this heading">¶</a></h3>
 <p>Regular octagonal openings leaving diagonal-cross webs between neighboring cells.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="n">project</span> <span class="o">=</span> <span class="n">Project</span><span class="p">(</span><span class="s2">"OctagonPatternDemo"</span><span class="p">)</span>
-<span class="n">box</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">box</span><span class="p">(</span>
+<span class="n">project</span><span class="o">.</span><span class="n">box</span><span class="p">(</span>
     <span class="n">BoxType</span><span class="o">.</span><span class="n">SLIDING</span><span class="p">,</span>
-    <span class="s2">"OctagonBox"</span><span class="p">,</span>
-    <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mf">70.0</span><span class="p">,</span> <span class="mf">55.0</span><span class="p">,</span> <span class="mf">20.0</span><span class="p">),</span>
+    <span class="s2">"OctagonLid"</span><span class="p">,</span>
+    <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mf">80.0</span><span class="p">,</span> <span class="mf">60.0</span><span class="p">,</span> <span class="mf">20.0</span><span class="p">),</span>
     <span class="n">color</span><span class="o">=</span><span class="n">Color</span><span class="p">(</span><span class="s2">"darkgreen"</span><span class="p">),</span>
+    <span class="n">fingernail_catch</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">catch_radius</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
     <span class="n">lid</span><span class="o">=</span><span class="n">LidBuilder</span><span class="p">(</span>
-        <span class="n">label_mode</span><span class="o">=</span><span class="n">LabelMode</span><span class="o">.</span><span class="n">FRAMED</span><span class="p">,</span>
-        <span class="n">frame_color</span><span class="o">=</span><span class="n">Color</span><span class="p">(</span><span class="s2">"gold"</span><span class="p">),</span>
-        <span class="n">text_color</span><span class="o">=</span><span class="n">Color</span><span class="p">(</span><span class="s2">"white"</span><span class="p">),</span>
-        <span class="n">pattern</span><span class="o">=</span><span class="n">PatternBuilder</span><span class="p">(</span><span class="n">PatternType</span><span class="o">.</span><span class="n">OCTAGON</span><span class="p">,</span> <span class="n">spacing</span><span class="o">=</span><span class="mf">9.0</span><span class="p">),</span>
-    <span class="p">)</span><span class="o">.</span><span class="n">titled</span><span class="p">(</span><span class="s2">"OCTAGON"</span><span class="p">),</span>
+        <span class="n">pattern</span><span class="o">=</span><span class="n">PatternBuilder</span><span class="p">(</span><span class="n">PatternType</span><span class="o">.</span><span class="n">OCTAGON</span><span class="p">,</span> <span class="n">spacing</span><span class="o">=</span><span class="mf">9.0</span><span class="p">,</span> <span class="n">border</span><span class="o">=</span><span class="mf">0.0</span><span class="p">),</span>
+    <span class="p">),</span>
 <span class="p">)</span>
-<span class="n">box</span><span class="o">.</span><span class="n">compartment</span><span class="p">(</span><span class="s2">"Well"</span><span class="p">,</span> <span class="n">holds_pieces</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">project</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">show_lids</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">project</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">lids_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </code></pre></div>
 </div>
-<div class="stl-viewer" data-stl-uri="_stl/838c7ea10ebc35be.stl" data-stl-color="#6f9ac9" style="width:100%;height:360px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a class="reference external" href="_stl/838c7ea10ebc35be.stl">⬇ Download STL mesh</a></p>
+<div class="stl-viewer" data-stl-uri="_stl/606a142d161edf9f.stl" data-stl-color="#6f9ac9" style="width:100%;height:360px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a class="reference external" href="_stl/606a142d161edf9f.stl">⬇ Download STL mesh</a></p>
 <h2 id="organic-botanical-patterns"><a class="toc-backref" href="#id9" role="doc-backlink">Organic &amp; Botanical Patterns</a><a class="headerlink" href="#organic-botanical-patterns" title="Link to this heading">¶</a></h2>
 <h3 id="organic-voronoi-scatter-patterntype-voronoi"><a class="toc-backref" href="#id10" role="doc-backlink">Organic Voronoi Scatter (<code class="docutils literal notranslate"><span class="pre">PatternType.VORONOI</span></code>)</a><a class="headerlink" href="#organic-voronoi-scatter-patterntype-voronoi" title="Link to this heading">¶</a></h3>
 <p>Deterministic organic scatter of varying-radius cells on a jittered grid.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="n">project</span> <span class="o">=</span> <span class="n">Project</span><span class="p">(</span><span class="s2">"VoronoiPatternDemo"</span><span class="p">)</span>
-<span class="n">box</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">box</span><span class="p">(</span>
+<span class="n">project</span><span class="o">.</span><span class="n">box</span><span class="p">(</span>
     <span class="n">BoxType</span><span class="o">.</span><span class="n">SLIDING</span><span class="p">,</span>
-    <span class="s2">"VoronoiBox"</span><span class="p">,</span>
-    <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mf">70.0</span><span class="p">,</span> <span class="mf">55.0</span><span class="p">,</span> <span class="mf">20.0</span><span class="p">),</span>
+    <span class="s2">"VoronoiLid"</span><span class="p">,</span>
+    <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mf">80.0</span><span class="p">,</span> <span class="mf">60.0</span><span class="p">,</span> <span class="mf">20.0</span><span class="p">),</span>
     <span class="n">color</span><span class="o">=</span><span class="n">Color</span><span class="p">(</span><span class="s2">"seagreen"</span><span class="p">),</span>
+    <span class="n">fingernail_catch</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">catch_radius</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
     <span class="n">lid</span><span class="o">=</span><span class="n">LidBuilder</span><span class="p">(</span>
-        <span class="n">label_mode</span><span class="o">=</span><span class="n">LabelMode</span><span class="o">.</span><span class="n">FRAMED</span><span class="p">,</span>
-        <span class="n">frame_color</span><span class="o">=</span><span class="n">Color</span><span class="p">(</span><span class="s2">"gold"</span><span class="p">),</span>
-        <span class="n">text_color</span><span class="o">=</span><span class="n">Color</span><span class="p">(</span><span class="s2">"white"</span><span class="p">),</span>
-        <span class="n">pattern</span><span class="o">=</span><span class="n">PatternBuilder</span><span class="p">(</span><span class="n">PatternType</span><span class="o">.</span><span class="n">VORONOI</span><span class="p">,</span> <span class="n">spacing</span><span class="o">=</span><span class="mf">9.0</span><span class="p">),</span>
-    <span class="p">)</span><span class="o">.</span><span class="n">titled</span><span class="p">(</span><span class="s2">"VORONOI"</span><span class="p">),</span>
+        <span class="n">pattern</span><span class="o">=</span><span class="n">PatternBuilder</span><span class="p">(</span><span class="n">PatternType</span><span class="o">.</span><span class="n">VORONOI</span><span class="p">,</span> <span class="n">spacing</span><span class="o">=</span><span class="mf">9.0</span><span class="p">,</span> <span class="n">border</span><span class="o">=</span><span class="mf">0.0</span><span class="p">),</span>
+    <span class="p">),</span>
 <span class="p">)</span>
-<span class="n">box</span><span class="o">.</span><span class="n">compartment</span><span class="p">(</span><span class="s2">"Well"</span><span class="p">,</span> <span class="n">holds_pieces</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">project</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">show_lids</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">project</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">lids_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </code></pre></div>
 </div>
-<div class="stl-viewer" data-stl-uri="_stl/b36e3fd652589609.stl" data-stl-color="#6f9ac9" style="width:100%;height:360px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a class="reference external" href="_stl/b36e3fd652589609.stl">⬇ Download STL mesh</a></p>
+<div class="stl-viewer" data-stl-uri="_stl/c234e4d694b888aa.stl" data-stl-color="#6f9ac9" style="width:100%;height:360px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a class="reference external" href="_stl/c234e4d694b888aa.stl">⬇ Download STL mesh</a></p>
 <h3 id="interlocking-midrib-leaves-patterntype-leaf"><a class="toc-backref" href="#id11" role="doc-backlink">Interlocking Midrib Leaves (<code class="docutils literal notranslate"><span class="pre">PatternType.LEAF</span></code>)</a><a class="headerlink" href="#interlocking-midrib-leaves-patterntype-leaf" title="Link to this heading">¶</a></h3>
 <p>Pointed-oval botanical leaves, each divided by a central midrib, arranged in offset rows.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="n">project</span> <span class="o">=</span> <span class="n">Project</span><span class="p">(</span><span class="s2">"LeafPatternDemo"</span><span class="p">)</span>
-<span class="n">box</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">box</span><span class="p">(</span>
+<span class="n">project</span><span class="o">.</span><span class="n">box</span><span class="p">(</span>
     <span class="n">BoxType</span><span class="o">.</span><span class="n">SLIDING</span><span class="p">,</span>
-    <span class="s2">"LeafBox"</span><span class="p">,</span>
-    <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mf">70.0</span><span class="p">,</span> <span class="mf">55.0</span><span class="p">,</span> <span class="mf">20.0</span><span class="p">),</span>
+    <span class="s2">"LeafLid"</span><span class="p">,</span>
+    <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mf">80.0</span><span class="p">,</span> <span class="mf">60.0</span><span class="p">,</span> <span class="mf">20.0</span><span class="p">),</span>
     <span class="n">color</span><span class="o">=</span><span class="n">Color</span><span class="p">(</span><span class="s2">"forestgreen"</span><span class="p">),</span>
+    <span class="n">fingernail_catch</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">catch_radius</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
     <span class="n">lid</span><span class="o">=</span><span class="n">LidBuilder</span><span class="p">(</span>
-        <span class="n">label_mode</span><span class="o">=</span><span class="n">LabelMode</span><span class="o">.</span><span class="n">FRAMED</span><span class="p">,</span>
-        <span class="n">frame_color</span><span class="o">=</span><span class="n">Color</span><span class="p">(</span><span class="s2">"gold"</span><span class="p">),</span>
-        <span class="n">text_color</span><span class="o">=</span><span class="n">Color</span><span class="p">(</span><span class="s2">"white"</span><span class="p">),</span>
-        <span class="n">pattern</span><span class="o">=</span><span class="n">PatternBuilder</span><span class="p">(</span><span class="n">PatternType</span><span class="o">.</span><span class="n">LEAF</span><span class="p">,</span> <span class="n">spacing</span><span class="o">=</span><span class="mf">12.0</span><span class="p">),</span>
-    <span class="p">)</span><span class="o">.</span><span class="n">titled</span><span class="p">(</span><span class="s2">"LEAF"</span><span class="p">),</span>
+        <span class="n">pattern</span><span class="o">=</span><span class="n">PatternBuilder</span><span class="p">(</span><span class="n">PatternType</span><span class="o">.</span><span class="n">LEAF</span><span class="p">,</span> <span class="n">spacing</span><span class="o">=</span><span class="mf">12.0</span><span class="p">,</span> <span class="n">border</span><span class="o">=</span><span class="mf">0.0</span><span class="p">),</span>
+    <span class="p">),</span>
 <span class="p">)</span>
-<span class="n">box</span><span class="o">.</span><span class="n">compartment</span><span class="p">(</span><span class="s2">"Well"</span><span class="p">,</span> <span class="n">holds_pieces</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">project</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">show_lids</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">project</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">lids_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </code></pre></div>
 </div>
-<div class="stl-viewer" data-stl-uri="_stl/87487f77b8799243.stl" data-stl-color="#6f9ac9" style="width:100%;height:360px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a class="reference external" href="_stl/87487f77b8799243.stl">⬇ Download STL mesh</a></p>
+<div class="stl-viewer" data-stl-uri="_stl/824ca30ba2cf918d.stl" data-stl-color="#6f9ac9" style="width:100%;height:360px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a class="reference external" href="_stl/824ca30ba2cf918d.stl">⬇ Download STL mesh</a></p>
 <h3 id="edge-to-edge-leaf-tessellation-patterntype-leaf-tessellation"><a class="toc-backref" href="#id12" role="doc-backlink">Edge-to-Edge Leaf Tessellation (<code class="docutils literal notranslate"><span class="pre">PatternType.LEAF_TESSELLATION</span></code>)</a><a class="headerlink" href="#edge-to-edge-leaf-tessellation-patterntype-leaf-tessellation" title="Link to this heading">¶</a></h3>
 <p>Tessellating leaf silhouettes that tile the plane edge-to-edge so the remaining material forms a continuous net of leaf outlines.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="n">project</span> <span class="o">=</span> <span class="n">Project</span><span class="p">(</span><span class="s2">"LeafTessPatternDemo"</span><span class="p">)</span>
-<span class="n">box</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">box</span><span class="p">(</span>
+<span class="n">project</span><span class="o">.</span><span class="n">box</span><span class="p">(</span>
     <span class="n">BoxType</span><span class="o">.</span><span class="n">SLIDING</span><span class="p">,</span>
-    <span class="s2">"LeafTessBox"</span><span class="p">,</span>
-    <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mf">70.0</span><span class="p">,</span> <span class="mf">55.0</span><span class="p">,</span> <span class="mf">20.0</span><span class="p">),</span>
+    <span class="s2">"LeafTessLid"</span><span class="p">,</span>
+    <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mf">80.0</span><span class="p">,</span> <span class="mf">60.0</span><span class="p">,</span> <span class="mf">20.0</span><span class="p">),</span>
     <span class="n">color</span><span class="o">=</span><span class="n">Color</span><span class="p">(</span><span class="s2">"darkolivegreen"</span><span class="p">),</span>
+    <span class="n">fingernail_catch</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">catch_radius</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
     <span class="n">lid</span><span class="o">=</span><span class="n">LidBuilder</span><span class="p">(</span>
-        <span class="n">label_mode</span><span class="o">=</span><span class="n">LabelMode</span><span class="o">.</span><span class="n">FRAMED</span><span class="p">,</span>
-        <span class="n">frame_color</span><span class="o">=</span><span class="n">Color</span><span class="p">(</span><span class="s2">"gold"</span><span class="p">),</span>
-        <span class="n">text_color</span><span class="o">=</span><span class="n">Color</span><span class="p">(</span><span class="s2">"white"</span><span class="p">),</span>
-        <span class="n">pattern</span><span class="o">=</span><span class="n">PatternBuilder</span><span class="p">(</span><span class="n">PatternType</span><span class="o">.</span><span class="n">LEAF_TESSELLATION</span><span class="p">,</span> <span class="n">spacing</span><span class="o">=</span><span class="mf">14.0</span><span class="p">),</span>
-    <span class="p">)</span><span class="o">.</span><span class="n">titled</span><span class="p">(</span><span class="s2">"CANOPY"</span><span class="p">),</span>
+        <span class="n">pattern</span><span class="o">=</span><span class="n">PatternBuilder</span><span class="p">(</span><span class="n">PatternType</span><span class="o">.</span><span class="n">LEAF_TESSELLATION</span><span class="p">,</span> <span class="n">spacing</span><span class="o">=</span><span class="mf">14.0</span><span class="p">,</span> <span class="n">border</span><span class="o">=</span><span class="mf">0.0</span><span class="p">),</span>
+    <span class="p">),</span>
 <span class="p">)</span>
-<span class="n">box</span><span class="o">.</span><span class="n">compartment</span><span class="p">(</span><span class="s2">"Well"</span><span class="p">,</span> <span class="n">holds_pieces</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">project</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">show_lids</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">project</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">lids_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </code></pre></div>
 </div>
-<div class="stl-viewer" data-stl-uri="_stl/f18df958e0d3033f.stl" data-stl-color="#6f9ac9" style="width:100%;height:360px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a class="reference external" href="_stl/f18df958e0d3033f.stl">⬇ Download STL mesh</a></p>
+<div class="stl-viewer" data-stl-uri="_stl/175c68f5e56ce3d4.stl" data-stl-color="#6f9ac9" style="width:100%;height:360px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a class="reference external" href="_stl/175c68f5e56ce3d4.stl">⬇ Download STL mesh</a></p>
 <h3 id="veined-leaf-tessellation-patterntype-leaf-veins"><a class="toc-backref" href="#id13" role="doc-backlink">Veined Leaf Tessellation (<code class="docutils literal notranslate"><span class="pre">PatternType.LEAF_VEINS</span></code>)</a><a class="headerlink" href="#veined-leaf-tessellation-patterntype-leaf-veins" title="Link to this heading">¶</a></h3>
 <p>The edge-to-edge leaf tessellation enriched with a central midrib and branching lateral veins inside every leaf.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="n">project</span> <span class="o">=</span> <span class="n">Project</span><span class="p">(</span><span class="s2">"LeafVeinsPatternDemo"</span><span class="p">)</span>
-<span class="n">box</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">box</span><span class="p">(</span>
+<span class="n">project</span><span class="o">.</span><span class="n">box</span><span class="p">(</span>
     <span class="n">BoxType</span><span class="o">.</span><span class="n">SLIDING</span><span class="p">,</span>
-    <span class="s2">"LeafVeinsBox"</span><span class="p">,</span>
-    <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mf">70.0</span><span class="p">,</span> <span class="mf">55.0</span><span class="p">,</span> <span class="mf">20.0</span><span class="p">),</span>
+    <span class="s2">"LeafVeinsLid"</span><span class="p">,</span>
+    <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mf">80.0</span><span class="p">,</span> <span class="mf">60.0</span><span class="p">,</span> <span class="mf">20.0</span><span class="p">),</span>
     <span class="n">color</span><span class="o">=</span><span class="n">Color</span><span class="p">(</span><span class="s2">"olivedrab"</span><span class="p">),</span>
+    <span class="n">fingernail_catch</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">catch_radius</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
     <span class="n">lid</span><span class="o">=</span><span class="n">LidBuilder</span><span class="p">(</span>
-        <span class="n">label_mode</span><span class="o">=</span><span class="n">LabelMode</span><span class="o">.</span><span class="n">FRAMED</span><span class="p">,</span>
-        <span class="n">frame_color</span><span class="o">=</span><span class="n">Color</span><span class="p">(</span><span class="s2">"gold"</span><span class="p">),</span>
-        <span class="n">text_color</span><span class="o">=</span><span class="n">Color</span><span class="p">(</span><span class="s2">"white"</span><span class="p">),</span>
-        <span class="n">pattern</span><span class="o">=</span><span class="n">PatternBuilder</span><span class="p">(</span><span class="n">PatternType</span><span class="o">.</span><span class="n">LEAF_VEINS</span><span class="p">,</span> <span class="n">spacing</span><span class="o">=</span><span class="mf">16.0</span><span class="p">),</span>
-    <span class="p">)</span><span class="o">.</span><span class="n">titled</span><span class="p">(</span><span class="s2">"FLORA"</span><span class="p">),</span>
+        <span class="n">pattern</span><span class="o">=</span><span class="n">PatternBuilder</span><span class="p">(</span><span class="n">PatternType</span><span class="o">.</span><span class="n">LEAF_VEINS</span><span class="p">,</span> <span class="n">spacing</span><span class="o">=</span><span class="mf">16.0</span><span class="p">,</span> <span class="n">border</span><span class="o">=</span><span class="mf">0.0</span><span class="p">),</span>
+    <span class="p">),</span>
 <span class="p">)</span>
-<span class="n">box</span><span class="o">.</span><span class="n">compartment</span><span class="p">(</span><span class="s2">"Well"</span><span class="p">,</span> <span class="n">holds_pieces</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">project</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">show_lids</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">project</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">lids_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </code></pre></div>
 </div>
-<div class="stl-viewer" data-stl-uri="_stl/f5edd25b489e866d.stl" data-stl-color="#6f9ac9" style="width:100%;height:360px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a class="reference external" href="_stl/f5edd25b489e866d.stl">⬇ Download STL mesh</a></p>
+<div class="stl-viewer" data-stl-uri="_stl/b53900ae346cf4f5.stl" data-stl-color="#6f9ac9" style="width:100%;height:360px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a class="reference external" href="_stl/b53900ae346cf4f5.stl">⬇ Download STL mesh</a></p>
 <h2 id="multi-color-rhombic-quasicrystal-tessellations"><a class="toc-backref" href="#id14" role="doc-backlink">Multi-Color Rhombic &amp; Quasicrystal Tessellations</a><a class="headerlink" href="#multi-color-rhombic-quasicrystal-tessellations" title="Link to this heading">¶</a></h2>
 <p>All multi-color tessellations automatically inlay a thin <code class="docutils literal notranslate"><span class="pre">0.6</span> <span class="pre">mm</span></code> colored tile skin into the top face of the lid above a continuous <code class="docutils literal notranslate"><span class="pre">0.8</span> <span class="pre">mm</span></code> structural floor, backed by a selectable underside lattice (defaulting to <code class="docutils literal notranslate"><span class="pre">PatternType.HEX</span></code>).</p>
 <h3 id="stepped-3d-cube-diamond-tessellation-patterntype-stepped-cube"><a class="toc-backref" href="#id15" role="doc-backlink">Stepped 3D Cube &amp; Diamond Tessellation (<code class="docutils literal notranslate"><span class="pre">PatternType.STEPPED_CUBE</span></code>)</a><a class="headerlink" href="#stepped-3d-cube-diamond-tessellation-patterntype-stepped-cube" title="Link to this heading">¶</a></h3>
@@ -1328,42 +1307,40 @@
 <li><p><strong>Color 3 (``right_color``)</strong>: Right-leaning vertical rhombi (right face of each 3D cube).</p></li>
 </ul>
 <p>Configure colors via <a class="reference internal" href="_autosummary/pyboxbuilder.lid.builder.PatternBuilder.html#pyboxbuilder.lid.builder.PatternBuilder.stepped_cube" title="pyboxbuilder.lid.builder.PatternBuilder.stepped_cube (Python method) — Create a 4-colour stepped 3D cube &amp; diamond tessellation pattern."><code class="xref py py-meth docutils literal notranslate"><span class="pre">stepped_cube()</span></code></a> or <code class="docutils literal notranslate"><span class="pre">colors=(peak,</span> <span class="pre">valley,</span> <span class="pre">left,</span> <span class="pre">right)</span></code>:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="n">project</span> <span class="o">=</span> <span class="n">Project</span><span class="p">(</span><span class="s2">"SteppedCubeDemo"</span><span class="p">)</span>
-<span class="n">box</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">box</span><span class="p">(</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="n">project</span> <span class="o">=</span> <span class="n">Project</span><span class="p">(</span><span class="s2">"SteppedCubeLidDemo"</span><span class="p">)</span>
+<span class="n">project</span><span class="o">.</span><span class="n">box</span><span class="p">(</span>
     <span class="n">BoxType</span><span class="o">.</span><span class="n">SLIDING</span><span class="p">,</span>
-    <span class="s2">"CubeLidBox"</span><span class="p">,</span>
-    <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mf">80.0</span><span class="p">,</span> <span class="mf">65.0</span><span class="p">,</span> <span class="mf">22.0</span><span class="p">),</span>
+    <span class="s2">"CubeLid"</span><span class="p">,</span>
+    <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mf">80.0</span><span class="p">,</span> <span class="mf">60.0</span><span class="p">,</span> <span class="mf">20.0</span><span class="p">),</span>
     <span class="n">color</span><span class="o">=</span><span class="n">Color</span><span class="p">(</span><span class="s2">"#1e1e2e"</span><span class="p">),</span>
+    <span class="n">fingernail_catch</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">catch_radius</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
     <span class="n">lid</span><span class="o">=</span><span class="n">LidBuilder</span><span class="p">(</span>
-        <span class="n">label_mode</span><span class="o">=</span><span class="n">LabelMode</span><span class="o">.</span><span class="n">FRAMED</span><span class="p">,</span>
-        <span class="n">frame_color</span><span class="o">=</span><span class="n">Color</span><span class="p">(</span><span class="s2">"gold"</span><span class="p">),</span>
-        <span class="n">text_color</span><span class="o">=</span><span class="n">Color</span><span class="p">(</span><span class="s2">"white"</span><span class="p">),</span>
         <span class="n">pattern</span><span class="o">=</span><span class="n">PatternBuilder</span><span class="o">.</span><span class="n">stepped_cube</span><span class="p">(</span>
             <span class="n">peak_color</span><span class="o">=</span><span class="n">Color</span><span class="p">(</span><span class="s2">"#f7f749"</span><span class="p">),</span>
             <span class="n">valley_color</span><span class="o">=</span><span class="n">Color</span><span class="p">(</span><span class="s2">"#6366cf"</span><span class="p">),</span>
             <span class="n">left_color</span><span class="o">=</span><span class="n">Color</span><span class="p">(</span><span class="s2">"#23c48e"</span><span class="p">),</span>
             <span class="n">right_color</span><span class="o">=</span><span class="n">Color</span><span class="p">(</span><span class="s2">"#5c5d99"</span><span class="p">),</span>
             <span class="n">spacing</span><span class="o">=</span><span class="mf">11.0</span><span class="p">,</span>
+            <span class="n">border</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
         <span class="p">),</span>
-    <span class="p">)</span><span class="o">.</span><span class="n">titled</span><span class="p">(</span><span class="s2">"CUBES"</span><span class="p">),</span>
+    <span class="p">),</span>
 <span class="p">)</span>
-<span class="n">box</span><span class="o">.</span><span class="n">compartment</span><span class="p">(</span><span class="s2">"Tokens"</span><span class="p">,</span> <span class="n">holds_pieces</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">project</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">show_lids</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">project</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">lids_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </code></pre></div>
 </div>
-<div class="stl-viewer" data-stl-uri="_stl/97e4cebd6a5de2b8.stl" data-stl-color="#6f9ac9" style="width:100%;height:360px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a class="reference external" href="_stl/97e4cebd6a5de2b8.stl">⬇ Download STL mesh</a></p>
+<div class="stl-viewer" data-stl-uri="_stl/ed76b60c4109c528.stl" data-stl-color="#6f9ac9" style="width:100%;height:360px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a class="reference external" href="_stl/ed76b60c4109c528.stl">⬇ Download STL mesh</a></p>
 <h3 id="ten-fold-quasiperiodic-penrose-tessellation-patterntype-penrose"><a class="toc-backref" href="#id16" role="doc-backlink">Ten-Fold Quasiperiodic Penrose Tessellation (<code class="docutils literal notranslate"><span class="pre">PatternType.PENROSE</span></code>)</a><a class="headerlink" href="#ten-fold-quasiperiodic-penrose-tessellation-patterntype-penrose" title="Link to this heading">¶</a></h3>
 <p>A non-repeating 10-fold quasiperiodic Penrose rhombus tiling generated via de Bruijn’s pentagrid. By default it uses 4 colors separating both thick (72°/108°) and thin (36°/144°) rhombi across alternating pentagrid index parity levels, and accepts 2, 3, 4, 5, or more custom colors via <a class="reference internal" href="_autosummary/pyboxbuilder.lid.builder.PatternBuilder.html#pyboxbuilder.lid.builder.PatternBuilder.penrose" title="pyboxbuilder.lid.builder.PatternBuilder.penrose (Python method) — Create a multi-colour 10-fold quasiperiodic Penrose rhombus tessellation pattern."><code class="xref py py-meth docutils literal notranslate"><span class="pre">penrose()</span></code></a> or <code class="docutils literal notranslate"><span class="pre">colors=(...)</span></code>:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="n">project</span> <span class="o">=</span> <span class="n">Project</span><span class="p">(</span><span class="s2">"PenroseDemo"</span><span class="p">)</span>
-<span class="n">box</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">box</span><span class="p">(</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="n">project</span> <span class="o">=</span> <span class="n">Project</span><span class="p">(</span><span class="s2">"PenroseLidDemo"</span><span class="p">)</span>
+<span class="n">project</span><span class="o">.</span><span class="n">box</span><span class="p">(</span>
     <span class="n">BoxType</span><span class="o">.</span><span class="n">SLIDING</span><span class="p">,</span>
-    <span class="s2">"PenroseLidBox"</span><span class="p">,</span>
-    <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mf">80.0</span><span class="p">,</span> <span class="mf">65.0</span><span class="p">,</span> <span class="mf">22.0</span><span class="p">),</span>
+    <span class="s2">"PenroseLid"</span><span class="p">,</span>
+    <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mf">80.0</span><span class="p">,</span> <span class="mf">60.0</span><span class="p">,</span> <span class="mf">20.0</span><span class="p">),</span>
     <span class="n">color</span><span class="o">=</span><span class="n">Color</span><span class="p">(</span><span class="s2">"#1b263b"</span><span class="p">),</span>
+    <span class="n">fingernail_catch</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">catch_radius</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
     <span class="n">lid</span><span class="o">=</span><span class="n">LidBuilder</span><span class="p">(</span>
-        <span class="n">label_mode</span><span class="o">=</span><span class="n">LabelMode</span><span class="o">.</span><span class="n">FRAMED</span><span class="p">,</span>
-        <span class="n">frame_color</span><span class="o">=</span><span class="n">Color</span><span class="p">(</span><span class="s2">"#f4d35e"</span><span class="p">),</span>
-        <span class="n">text_color</span><span class="o">=</span><span class="n">Color</span><span class="p">(</span><span class="s2">"white"</span><span class="p">),</span>
         <span class="n">pattern</span><span class="o">=</span><span class="n">PatternBuilder</span><span class="o">.</span><span class="n">penrose</span><span class="p">(</span>
             <span class="n">colors</span><span class="o">=</span><span class="p">(</span>
                 <span class="n">Color</span><span class="p">(</span><span class="s2">"#f4d35e"</span><span class="p">),</span>
@@ -1372,26 +1349,25 @@
                 <span class="n">Color</span><span class="p">(</span><span class="s2">"#4cc9f0"</span><span class="p">),</span>
             <span class="p">),</span>
             <span class="n">spacing</span><span class="o">=</span><span class="mf">10.0</span><span class="p">,</span>
+            <span class="n">border</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
         <span class="p">),</span>
-    <span class="p">)</span><span class="o">.</span><span class="n">titled</span><span class="p">(</span><span class="s2">"PENROSE"</span><span class="p">),</span>
+    <span class="p">),</span>
 <span class="p">)</span>
-<span class="n">box</span><span class="o">.</span><span class="n">compartment</span><span class="p">(</span><span class="s2">"Tiles"</span><span class="p">,</span> <span class="n">holds_pieces</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">project</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">show_lids</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">project</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">lids_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </code></pre></div>
 </div>
-<div class="stl-viewer" data-stl-uri="_stl/b7807d71046a4b7b.stl" data-stl-color="#6f9ac9" style="width:100%;height:360px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a class="reference external" href="_stl/b7807d71046a4b7b.stl">⬇ Download STL mesh</a></p>
+<div class="stl-viewer" data-stl-uri="_stl/6ecf089826053193.stl" data-stl-color="#6f9ac9" style="width:100%;height:360px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a class="reference external" href="_stl/6ecf089826053193.stl">⬇ Download STL mesh</a></p>
 <h3 id="eight-fold-ammannbeenker-quasicrystal-patterntype-ammann-beenker"><a class="toc-backref" href="#id17" role="doc-backlink">Eight-Fold Ammann–Beenker Quasicrystal (<code class="docutils literal notranslate"><span class="pre">PatternType.AMMANN_BEENKER</span></code>)</a><a class="headerlink" href="#eight-fold-ammannbeenker-quasicrystal-patterntype-ammann-beenker" title="Link to this heading">¶</a></h3>
 <p>An 8-fold quasiperiodic tiling of 45°/135° rhombi and 90° squares generated by de Bruijn’s octagrid, defaulting to a 4-color palette across shape and octagrid parity levels:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="n">project</span> <span class="o">=</span> <span class="n">Project</span><span class="p">(</span><span class="s2">"AmmannBeenkerDemo"</span><span class="p">)</span>
-<span class="n">box</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">box</span><span class="p">(</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="n">project</span> <span class="o">=</span> <span class="n">Project</span><span class="p">(</span><span class="s2">"AmmannBeenkerLidDemo"</span><span class="p">)</span>
+<span class="n">project</span><span class="o">.</span><span class="n">box</span><span class="p">(</span>
     <span class="n">BoxType</span><span class="o">.</span><span class="n">SLIDING</span><span class="p">,</span>
-    <span class="s2">"OctagridBox"</span><span class="p">,</span>
-    <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mf">80.0</span><span class="p">,</span> <span class="mf">65.0</span><span class="p">,</span> <span class="mf">22.0</span><span class="p">),</span>
+    <span class="s2">"OctagridLid"</span><span class="p">,</span>
+    <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mf">80.0</span><span class="p">,</span> <span class="mf">60.0</span><span class="p">,</span> <span class="mf">20.0</span><span class="p">),</span>
     <span class="n">color</span><span class="o">=</span><span class="n">Color</span><span class="p">(</span><span class="s2">"#1d3557"</span><span class="p">),</span>
+    <span class="n">fingernail_catch</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">catch_radius</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
     <span class="n">lid</span><span class="o">=</span><span class="n">LidBuilder</span><span class="p">(</span>
-        <span class="n">label_mode</span><span class="o">=</span><span class="n">LabelMode</span><span class="o">.</span><span class="n">FRAMED</span><span class="p">,</span>
-        <span class="n">frame_color</span><span class="o">=</span><span class="n">Color</span><span class="p">(</span><span class="s2">"#f4d35e"</span><span class="p">),</span>
-        <span class="n">text_color</span><span class="o">=</span><span class="n">Color</span><span class="p">(</span><span class="s2">"white"</span><span class="p">),</span>
         <span class="n">pattern</span><span class="o">=</span><span class="n">PatternBuilder</span><span class="p">(</span>
             <span class="n">PatternType</span><span class="o">.</span><span class="n">AMMANN_BEENKER</span><span class="p">,</span>
             <span class="n">colors</span><span class="o">=</span><span class="p">(</span>
@@ -1401,26 +1377,25 @@
                 <span class="n">Color</span><span class="p">(</span><span class="s2">"#457b9d"</span><span class="p">),</span>
             <span class="p">),</span>
             <span class="n">spacing</span><span class="o">=</span><span class="mf">10.0</span><span class="p">,</span>
+            <span class="n">border</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
         <span class="p">),</span>
-    <span class="p">)</span><span class="o">.</span><span class="n">titled</span><span class="p">(</span><span class="s2">"OCTAGRID"</span><span class="p">),</span>
+    <span class="p">),</span>
 <span class="p">)</span>
-<span class="n">box</span><span class="o">.</span><span class="n">compartment</span><span class="p">(</span><span class="s2">"Well"</span><span class="p">,</span> <span class="n">holds_pieces</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">project</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">show_lids</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">project</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">lids_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </code></pre></div>
 </div>
-<div class="stl-viewer" data-stl-uri="_stl/54e66516a17c9081.stl" data-stl-color="#6f9ac9" style="width:100%;height:360px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a class="reference external" href="_stl/54e66516a17c9081.stl">⬇ Download STL mesh</a></p>
+<div class="stl-viewer" data-stl-uri="_stl/531e1bb1d5b7b725.stl" data-stl-color="#6f9ac9" style="width:100%;height:360px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a class="reference external" href="_stl/531e1bb1d5b7b725.stl">⬇ Download STL mesh</a></p>
 <h3 id="isometric-tumbling-blocks-patterntype-tumbling-blocks"><a class="toc-backref" href="#id18" role="doc-backlink">Isometric Tumbling Blocks (<code class="docutils literal notranslate"><span class="pre">PatternType.TUMBLING_BLOCKS</span></code>)</a><a class="headerlink" href="#isometric-tumbling-blocks-patterntype-tumbling-blocks" title="Link to this heading">¶</a></h3>
 <p>The classic 3-color isometric cube tessellation where each regular hexagon is subdivided into three 60°/120° rhombi (top diamond, left vertical face, right vertical face):</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="n">project</span> <span class="o">=</span> <span class="n">Project</span><span class="p">(</span><span class="s2">"TumblingBlocksDemo"</span><span class="p">)</span>
-<span class="n">box</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">box</span><span class="p">(</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="n">project</span> <span class="o">=</span> <span class="n">Project</span><span class="p">(</span><span class="s2">"TumblingBlocksLidDemo"</span><span class="p">)</span>
+<span class="n">project</span><span class="o">.</span><span class="n">box</span><span class="p">(</span>
     <span class="n">BoxType</span><span class="o">.</span><span class="n">SLIDING</span><span class="p">,</span>
-    <span class="s2">"TumblingBox"</span><span class="p">,</span>
-    <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mf">80.0</span><span class="p">,</span> <span class="mf">65.0</span><span class="p">,</span> <span class="mf">22.0</span><span class="p">),</span>
+    <span class="s2">"TumblingLid"</span><span class="p">,</span>
+    <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mf">80.0</span><span class="p">,</span> <span class="mf">60.0</span><span class="p">,</span> <span class="mf">20.0</span><span class="p">),</span>
     <span class="n">color</span><span class="o">=</span><span class="n">Color</span><span class="p">(</span><span class="s2">"#22223b"</span><span class="p">),</span>
+    <span class="n">fingernail_catch</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">catch_radius</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
     <span class="n">lid</span><span class="o">=</span><span class="n">LidBuilder</span><span class="p">(</span>
-        <span class="n">label_mode</span><span class="o">=</span><span class="n">LabelMode</span><span class="o">.</span><span class="n">FRAMED</span><span class="p">,</span>
-        <span class="n">frame_color</span><span class="o">=</span><span class="n">Color</span><span class="p">(</span><span class="s2">"#f5e663"</span><span class="p">),</span>
-        <span class="n">text_color</span><span class="o">=</span><span class="n">Color</span><span class="p">(</span><span class="s2">"white"</span><span class="p">),</span>
         <span class="n">pattern</span><span class="o">=</span><span class="n">PatternBuilder</span><span class="p">(</span>
             <span class="n">PatternType</span><span class="o">.</span><span class="n">TUMBLING_BLOCKS</span><span class="p">,</span>
             <span class="n">colors</span><span class="o">=</span><span class="p">(</span>
@@ -1429,132 +1404,126 @@
                 <span class="n">Color</span><span class="p">(</span><span class="s2">"#3b5284"</span><span class="p">),</span>
             <span class="p">),</span>
             <span class="n">spacing</span><span class="o">=</span><span class="mf">11.0</span><span class="p">,</span>
+            <span class="n">border</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
         <span class="p">),</span>
-    <span class="p">)</span><span class="o">.</span><span class="n">titled</span><span class="p">(</span><span class="s2">"BLOCKS"</span><span class="p">),</span>
+    <span class="p">),</span>
 <span class="p">)</span>
-<span class="n">box</span><span class="o">.</span><span class="n">compartment</span><span class="p">(</span><span class="s2">"Well"</span><span class="p">,</span> <span class="n">holds_pieces</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">project</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">show_lids</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">project</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">lids_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </code></pre></div>
 </div>
-<div class="stl-viewer" data-stl-uri="_stl/a9e0b24e6aba398a.stl" data-stl-color="#6f9ac9" style="width:100%;height:360px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a class="reference external" href="_stl/a9e0b24e6aba398a.stl">⬇ Download STL mesh</a></p>
+<div class="stl-viewer" data-stl-uri="_stl/1f61b428c1dc4130.stl" data-stl-color="#6f9ac9" style="width:100%;height:360px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a class="reference external" href="_stl/1f61b428c1dc4130.stl">⬇ Download STL mesh</a></p>
 <h3 id="herringbone-chevron-tessellation-patterntype-chevron"><a class="toc-backref" href="#id19" role="doc-backlink">Herringbone Chevron Tessellation (<code class="docutils literal notranslate"><span class="pre">PatternType.CHEVRON</span></code>)</a><a class="headerlink" href="#herringbone-chevron-tessellation-patterntype-chevron" title="Link to this heading">¶</a></h3>
 <p>A 2-color interlocking 60°/120° herringbone chevron rhombus tiling with alternating up-sloping and down-sloping columns:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="n">project</span> <span class="o">=</span> <span class="n">Project</span><span class="p">(</span><span class="s2">"ChevronDemo"</span><span class="p">)</span>
-<span class="n">box</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">box</span><span class="p">(</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="n">project</span> <span class="o">=</span> <span class="n">Project</span><span class="p">(</span><span class="s2">"ChevronLidDemo"</span><span class="p">)</span>
+<span class="n">project</span><span class="o">.</span><span class="n">box</span><span class="p">(</span>
     <span class="n">BoxType</span><span class="o">.</span><span class="n">SLIDING</span><span class="p">,</span>
-    <span class="s2">"ChevronBox"</span><span class="p">,</span>
-    <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mf">80.0</span><span class="p">,</span> <span class="mf">65.0</span><span class="p">,</span> <span class="mf">22.0</span><span class="p">),</span>
+    <span class="s2">"ChevronLid"</span><span class="p">,</span>
+    <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mf">80.0</span><span class="p">,</span> <span class="mf">60.0</span><span class="p">,</span> <span class="mf">20.0</span><span class="p">),</span>
     <span class="n">color</span><span class="o">=</span><span class="n">Color</span><span class="p">(</span><span class="s2">"#264653"</span><span class="p">),</span>
+    <span class="n">fingernail_catch</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">catch_radius</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
     <span class="n">lid</span><span class="o">=</span><span class="n">LidBuilder</span><span class="p">(</span>
-        <span class="n">label_mode</span><span class="o">=</span><span class="n">LabelMode</span><span class="o">.</span><span class="n">FRAMED</span><span class="p">,</span>
-        <span class="n">frame_color</span><span class="o">=</span><span class="n">Color</span><span class="p">(</span><span class="s2">"#f4a261"</span><span class="p">),</span>
-        <span class="n">text_color</span><span class="o">=</span><span class="n">Color</span><span class="p">(</span><span class="s2">"white"</span><span class="p">),</span>
         <span class="n">pattern</span><span class="o">=</span><span class="n">PatternBuilder</span><span class="p">(</span>
             <span class="n">PatternType</span><span class="o">.</span><span class="n">CHEVRON</span><span class="p">,</span>
             <span class="n">colors</span><span class="o">=</span><span class="p">(</span><span class="n">Color</span><span class="p">(</span><span class="s2">"#f4a261"</span><span class="p">),</span> <span class="n">Color</span><span class="p">(</span><span class="s2">"#2a9d8f"</span><span class="p">)),</span>
             <span class="n">spacing</span><span class="o">=</span><span class="mf">11.0</span><span class="p">,</span>
+            <span class="n">border</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
         <span class="p">),</span>
-    <span class="p">)</span><span class="o">.</span><span class="n">titled</span><span class="p">(</span><span class="s2">"CHEVRON"</span><span class="p">),</span>
+    <span class="p">),</span>
 <span class="p">)</span>
-<span class="n">box</span><span class="o">.</span><span class="n">compartment</span><span class="p">(</span><span class="s2">"Well"</span><span class="p">,</span> <span class="n">holds_pieces</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">project</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">show_lids</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">project</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">lids_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </code></pre></div>
 </div>
-<div class="stl-viewer" data-stl-uri="_stl/df4b4efad3bbe95b.stl" data-stl-color="#6f9ac9" style="width:100%;height:360px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a class="reference external" href="_stl/df4b4efad3bbe95b.stl">⬇ Download STL mesh</a></p>
+<div class="stl-viewer" data-stl-uri="_stl/36c2be7e4cda5d03.stl" data-stl-color="#6f9ac9" style="width:100%;height:360px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a class="reference external" href="_stl/36c2be7e4cda5d03.stl">⬇ Download STL mesh</a></p>
 <h2 id="multi-color-thematic-geometric-inlays"><a class="toc-backref" href="#id20" role="doc-backlink">Multi-Color Thematic &amp; Geometric Inlays</a><a class="headerlink" href="#multi-color-thematic-geometric-inlays" title="Link to this heading">¶</a></h2>
 <h3 id="gaming-dice-faces-pips-patterntype-dice"><a class="toc-backref" href="#id21" role="doc-backlink">Gaming Dice Faces &amp; Pips (<code class="docutils literal notranslate"><span class="pre">PatternType.DICE</span></code>)</a><a class="headerlink" href="#gaming-dice-faces-pips-patterntype-dice" title="Link to this heading">¶</a></h3>
 <p>Rounded D6 die faces (1 through 6) with contrasting inlaid pips (or through-hole pips when <code class="docutils literal notranslate"><span class="pre">through_holes=True</span></code>):</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="n">project</span> <span class="o">=</span> <span class="n">Project</span><span class="p">(</span><span class="s2">"DicePatternDemo"</span><span class="p">)</span>
-<span class="n">box</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">box</span><span class="p">(</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="n">project</span> <span class="o">=</span> <span class="n">Project</span><span class="p">(</span><span class="s2">"DicePatternLidDemo"</span><span class="p">)</span>
+<span class="n">project</span><span class="o">.</span><span class="n">box</span><span class="p">(</span>
     <span class="n">BoxType</span><span class="o">.</span><span class="n">SLIDING</span><span class="p">,</span>
-    <span class="s2">"DiceLidBox"</span><span class="p">,</span>
-    <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mf">80.0</span><span class="p">,</span> <span class="mf">65.0</span><span class="p">,</span> <span class="mf">22.0</span><span class="p">),</span>
+    <span class="s2">"DiceLid"</span><span class="p">,</span>
+    <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mf">80.0</span><span class="p">,</span> <span class="mf">60.0</span><span class="p">,</span> <span class="mf">20.0</span><span class="p">),</span>
     <span class="n">color</span><span class="o">=</span><span class="n">Color</span><span class="p">(</span><span class="s2">"indigo"</span><span class="p">),</span>
+    <span class="n">fingernail_catch</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">catch_radius</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
     <span class="n">lid</span><span class="o">=</span><span class="n">LidBuilder</span><span class="p">(</span>
-        <span class="n">label_mode</span><span class="o">=</span><span class="n">LabelMode</span><span class="o">.</span><span class="n">FRAMED</span><span class="p">,</span>
-        <span class="n">frame_color</span><span class="o">=</span><span class="n">Color</span><span class="p">(</span><span class="s2">"gold"</span><span class="p">),</span>
-        <span class="n">text_color</span><span class="o">=</span><span class="n">Color</span><span class="p">(</span><span class="s2">"white"</span><span class="p">),</span>
         <span class="n">pattern</span><span class="o">=</span><span class="n">PatternBuilder</span><span class="p">(</span>
             <span class="n">PatternType</span><span class="o">.</span><span class="n">DICE</span><span class="p">,</span>
             <span class="n">colors</span><span class="o">=</span><span class="p">(</span><span class="n">Color</span><span class="p">(</span><span class="s2">"white"</span><span class="p">),</span> <span class="n">Color</span><span class="p">(</span><span class="s2">"crimson"</span><span class="p">)),</span>
             <span class="n">spacing</span><span class="o">=</span><span class="mf">14.0</span><span class="p">,</span>
+            <span class="n">border</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
         <span class="p">),</span>
-    <span class="p">)</span><span class="o">.</span><span class="n">titled</span><span class="p">(</span><span class="s2">"DICE"</span><span class="p">),</span>
+    <span class="p">),</span>
 <span class="p">)</span>
-<span class="n">box</span><span class="o">.</span><span class="n">compartment</span><span class="p">(</span><span class="s2">"Well"</span><span class="p">,</span> <span class="n">holds_pieces</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">project</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">show_lids</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">project</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">lids_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </code></pre></div>
 </div>
-<div class="stl-viewer" data-stl-uri="_stl/f369005709fa0743.stl" data-stl-color="#6f9ac9" style="width:100%;height:360px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a class="reference external" href="_stl/f369005709fa0743.stl">⬇ Download STL mesh</a></p>
+<div class="stl-viewer" data-stl-uri="_stl/67ca0a982e6d61a1.stl" data-stl-color="#6f9ac9" style="width:100%;height:360px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a class="reference external" href="_stl/67ca0a982e6d61a1.stl">⬇ Download STL mesh</a></p>
 <h3 id="concentric-rings-patterntype-ring"><a class="toc-backref" href="#id22" role="doc-backlink">Concentric Rings (<code class="docutils literal notranslate"><span class="pre">PatternType.RING</span></code>)</a><a class="headerlink" href="#concentric-rings-patterntype-ring" title="Link to this heading">¶</a></h3>
 <p>Concentric outer rings and inner discs (customizable via <code class="docutils literal notranslate"><span class="pre">hole_ratio</span></code> and <code class="docutils literal notranslate"><span class="pre">through_holes</span></code>):</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="n">project</span> <span class="o">=</span> <span class="n">Project</span><span class="p">(</span><span class="s2">"RingPatternDemo"</span><span class="p">)</span>
-<span class="n">box</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">box</span><span class="p">(</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="n">project</span> <span class="o">=</span> <span class="n">Project</span><span class="p">(</span><span class="s2">"RingPatternLidDemo"</span><span class="p">)</span>
+<span class="n">project</span><span class="o">.</span><span class="n">box</span><span class="p">(</span>
     <span class="n">BoxType</span><span class="o">.</span><span class="n">SLIDING</span><span class="p">,</span>
-    <span class="s2">"RingLidBox"</span><span class="p">,</span>
-    <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mf">80.0</span><span class="p">,</span> <span class="mf">65.0</span><span class="p">,</span> <span class="mf">22.0</span><span class="p">),</span>
+    <span class="s2">"RingLid"</span><span class="p">,</span>
+    <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mf">80.0</span><span class="p">,</span> <span class="mf">60.0</span><span class="p">,</span> <span class="mf">20.0</span><span class="p">),</span>
     <span class="n">color</span><span class="o">=</span><span class="n">Color</span><span class="p">(</span><span class="s2">"midnightblue"</span><span class="p">),</span>
+    <span class="n">fingernail_catch</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">catch_radius</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
     <span class="n">lid</span><span class="o">=</span><span class="n">LidBuilder</span><span class="p">(</span>
-        <span class="n">label_mode</span><span class="o">=</span><span class="n">LabelMode</span><span class="o">.</span><span class="n">FRAMED</span><span class="p">,</span>
-        <span class="n">frame_color</span><span class="o">=</span><span class="n">Color</span><span class="p">(</span><span class="s2">"gold"</span><span class="p">),</span>
-        <span class="n">text_color</span><span class="o">=</span><span class="n">Color</span><span class="p">(</span><span class="s2">"white"</span><span class="p">),</span>
         <span class="n">pattern</span><span class="o">=</span><span class="n">PatternBuilder</span><span class="p">(</span>
             <span class="n">PatternType</span><span class="o">.</span><span class="n">RING</span><span class="p">,</span>
             <span class="n">colors</span><span class="o">=</span><span class="p">(</span><span class="n">Color</span><span class="p">(</span><span class="s2">"gold"</span><span class="p">),</span> <span class="n">Color</span><span class="p">(</span><span class="s2">"teal"</span><span class="p">)),</span>
             <span class="n">spacing</span><span class="o">=</span><span class="mf">12.0</span><span class="p">,</span>
             <span class="n">hole_ratio</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+            <span class="n">border</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
         <span class="p">),</span>
-    <span class="p">)</span><span class="o">.</span><span class="n">titled</span><span class="p">(</span><span class="s2">"RINGS"</span><span class="p">),</span>
+    <span class="p">),</span>
 <span class="p">)</span>
-<span class="n">box</span><span class="o">.</span><span class="n">compartment</span><span class="p">(</span><span class="s2">"Well"</span><span class="p">,</span> <span class="n">holds_pieces</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">project</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">show_lids</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">project</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">lids_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </code></pre></div>
 </div>
-<div class="stl-viewer" data-stl-uri="_stl/2a38914f11f3f948.stl" data-stl-color="#6f9ac9" style="width:100%;height:360px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a class="reference external" href="_stl/2a38914f11f3f948.stl">⬇ Download STL mesh</a></p>
+<div class="stl-viewer" data-stl-uri="_stl/8fb7772288366049.stl" data-stl-color="#6f9ac9" style="width:100%;height:360px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a class="reference external" href="_stl/8fb7772288366049.stl">⬇ Download STL mesh</a></p>
 <h3 id="two-color-checkerboard-patterntype-checker"><a class="toc-backref" href="#id23" role="doc-backlink">Two-Color Checkerboard (<code class="docutils literal notranslate"><span class="pre">PatternType.CHECKER</span></code>)</a><a class="headerlink" href="#two-color-checkerboard-patterntype-checker" title="Link to this heading">¶</a></h3>
 <p>Alternating checkerboard tiles on an orthogonal grid:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="n">project</span> <span class="o">=</span> <span class="n">Project</span><span class="p">(</span><span class="s2">"CheckerPatternDemo"</span><span class="p">)</span>
-<span class="n">box</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">box</span><span class="p">(</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="n">project</span> <span class="o">=</span> <span class="n">Project</span><span class="p">(</span><span class="s2">"CheckerPatternLidDemo"</span><span class="p">)</span>
+<span class="n">project</span><span class="o">.</span><span class="n">box</span><span class="p">(</span>
     <span class="n">BoxType</span><span class="o">.</span><span class="n">SLIDING</span><span class="p">,</span>
-    <span class="s2">"CheckerLidBox"</span><span class="p">,</span>
-    <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mf">80.0</span><span class="p">,</span> <span class="mf">65.0</span><span class="p">,</span> <span class="mf">22.0</span><span class="p">),</span>
+    <span class="s2">"CheckerLid"</span><span class="p">,</span>
+    <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mf">80.0</span><span class="p">,</span> <span class="mf">60.0</span><span class="p">,</span> <span class="mf">20.0</span><span class="p">),</span>
     <span class="n">color</span><span class="o">=</span><span class="n">Color</span><span class="p">(</span><span class="s2">"darkslategray"</span><span class="p">),</span>
+    <span class="n">fingernail_catch</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">catch_radius</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
     <span class="n">lid</span><span class="o">=</span><span class="n">LidBuilder</span><span class="p">(</span>
-        <span class="n">label_mode</span><span class="o">=</span><span class="n">LabelMode</span><span class="o">.</span><span class="n">FRAMED</span><span class="p">,</span>
-        <span class="n">frame_color</span><span class="o">=</span><span class="n">Color</span><span class="p">(</span><span class="s2">"gold"</span><span class="p">),</span>
-        <span class="n">text_color</span><span class="o">=</span><span class="n">Color</span><span class="p">(</span><span class="s2">"white"</span><span class="p">),</span>
         <span class="n">pattern</span><span class="o">=</span><span class="n">PatternBuilder</span><span class="p">(</span>
             <span class="n">PatternType</span><span class="o">.</span><span class="n">CHECKER</span><span class="p">,</span>
             <span class="n">colors</span><span class="o">=</span><span class="p">(</span><span class="n">Color</span><span class="p">(</span><span class="s2">"ivory"</span><span class="p">),</span> <span class="n">Color</span><span class="p">(</span><span class="s2">"coral"</span><span class="p">)),</span>
             <span class="n">spacing</span><span class="o">=</span><span class="mf">10.0</span><span class="p">,</span>
+            <span class="n">border</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
         <span class="p">),</span>
-    <span class="p">)</span><span class="o">.</span><span class="n">titled</span><span class="p">(</span><span class="s2">"CHECKER"</span><span class="p">),</span>
+    <span class="p">),</span>
 <span class="p">)</span>
-<span class="n">box</span><span class="o">.</span><span class="n">compartment</span><span class="p">(</span><span class="s2">"Well"</span><span class="p">,</span> <span class="n">holds_pieces</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">project</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">show_lids</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">project</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">lids_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </code></pre></div>
 </div>
-<div class="stl-viewer" data-stl-uri="_stl/03fb838ff2dfd092.stl" data-stl-color="#6f9ac9" style="width:100%;height:360px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a class="reference external" href="_stl/03fb838ff2dfd092.stl">⬇ Download STL mesh</a></p>
+<div class="stl-viewer" data-stl-uri="_stl/c284c09834477d6e.stl" data-stl-color="#6f9ac9" style="width:100%;height:360px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a class="reference external" href="_stl/c284c09834477d6e.stl">⬇ Download STL mesh</a></p>
 <h2 id="solid-lids-patterntype-solid-patterntype-none"><a class="toc-backref" href="#id24" role="doc-backlink">Solid Lids (<code class="docutils literal notranslate"><span class="pre">PatternType.SOLID</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">PatternType.NONE</span></code>)</a><a class="headerlink" href="#solid-lids-patterntype-solid-patterntype-none" title="Link to this heading">¶</a></h2>
 <p>Use <code class="docutils literal notranslate"><span class="pre">PatternType.SOLID</span></code> or <code class="docutils literal notranslate"><span class="pre">PatternType.NONE</span></code> when a completely closed, unperforated lid surface is desired:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="n">project</span> <span class="o">=</span> <span class="n">Project</span><span class="p">(</span><span class="s2">"SolidPatternDemo"</span><span class="p">)</span>
-<span class="n">box</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">box</span><span class="p">(</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="n">project</span> <span class="o">=</span> <span class="n">Project</span><span class="p">(</span><span class="s2">"SolidPatternLidDemo"</span><span class="p">)</span>
+<span class="n">project</span><span class="o">.</span><span class="n">box</span><span class="p">(</span>
     <span class="n">BoxType</span><span class="o">.</span><span class="n">SLIDING</span><span class="p">,</span>
-    <span class="s2">"SolidLidBox"</span><span class="p">,</span>
-    <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mf">70.0</span><span class="p">,</span> <span class="mf">55.0</span><span class="p">,</span> <span class="mf">20.0</span><span class="p">),</span>
+    <span class="s2">"SolidLid"</span><span class="p">,</span>
+    <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mf">80.0</span><span class="p">,</span> <span class="mf">60.0</span><span class="p">,</span> <span class="mf">20.0</span><span class="p">),</span>
     <span class="n">color</span><span class="o">=</span><span class="n">Color</span><span class="p">(</span><span class="s2">"darkslateblue"</span><span class="p">),</span>
+    <span class="n">fingernail_catch</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">catch_radius</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
     <span class="n">lid</span><span class="o">=</span><span class="n">LidBuilder</span><span class="p">(</span>
-        <span class="n">label_mode</span><span class="o">=</span><span class="n">LabelMode</span><span class="o">.</span><span class="n">FRAMED</span><span class="p">,</span>
-        <span class="n">frame_color</span><span class="o">=</span><span class="n">Color</span><span class="p">(</span><span class="s2">"gold"</span><span class="p">),</span>
-        <span class="n">text_color</span><span class="o">=</span><span class="n">Color</span><span class="p">(</span><span class="s2">"white"</span><span class="p">),</span>
-        <span class="n">pattern</span><span class="o">=</span><span class="n">PatternBuilder</span><span class="p">(</span><span class="n">PatternType</span><span class="o">.</span><span class="n">SOLID</span><span class="p">),</span>
-    <span class="p">)</span><span class="o">.</span><span class="n">titled</span><span class="p">(</span><span class="s2">"SOLID"</span><span class="p">),</span>
+        <span class="n">pattern</span><span class="o">=</span><span class="n">PatternBuilder</span><span class="p">(</span><span class="n">PatternType</span><span class="o">.</span><span class="n">SOLID</span><span class="p">,</span> <span class="n">border</span><span class="o">=</span><span class="mf">0.0</span><span class="p">),</span>
+    <span class="p">),</span>
 <span class="p">)</span>
-<span class="n">box</span><span class="o">.</span><span class="n">compartment</span><span class="p">(</span><span class="s2">"Well"</span><span class="p">,</span> <span class="n">holds_pieces</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">project</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">show_lids</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">project</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">lids_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </code></pre></div>
 </div>
-<div class="stl-viewer" data-stl-uri="_stl/534740f96c346578.stl" data-stl-color="#6f9ac9" style="width:100%;height:360px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a class="reference external" href="_stl/534740f96c346578.stl">⬇ Download STL mesh</a></p>
+<div class="stl-viewer" data-stl-uri="_stl/5be492a52e4f2fe5.stl" data-stl-color="#6f9ac9" style="width:100%;height:360px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a class="reference external" href="_stl/5be492a52e4f2fe5.stl">⬇ Download STL mesh</a></p>
 
 
 
