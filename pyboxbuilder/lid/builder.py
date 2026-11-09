@@ -60,7 +60,7 @@ class PatternBuilder:
 
     type: PatternType | str = PatternType.HEX
     """Which pattern to cut. See :class:`~pyboxbuilder.enums.PatternType`."""
-    colors: tuple[Color, ...] = ()
+    colors: tuple[Color | str, ...] | list[Color | str] = ()
     """Accent colours for the pattern's top layer, if any."""
     spacing: float | None = None
     """Centre-to-centre distance between holes, in mm.
@@ -79,8 +79,8 @@ class PatternBuilder:
 
     ``None`` uses :data:`PATTERN_BORDER_MM`. ``0`` runs the pattern to the
     lid's edge, which is rarely what a lid wants — see that constant."""
-    inlay: bool = False
-    """When True, inlay the pattern flush into the lid surface."""
+    inlay: bool | None = None
+    """When True, inlay the pattern flush into the lid; ``None`` defaults to ``True`` for multi-colour patterns."""
     through_inlay: bool | tuple[int, ...] = False
     """When True, colored inlays extend completely through the lid thickness instead of just the top layer.
     Can also be a tuple of color indices (e.g. (0,)) that extend through the lid while others remain top-layer."""
@@ -115,6 +115,112 @@ class PatternBuilder:
                 "colors",
                 tuple(c if isinstance(c, Color) else Color(c) for c in self.colors),
             )
+        if self.inlay is None:
+            is_multicolor_tessellation = self.type in (
+                PatternType.STEPPED_CUBE,
+                PatternType.TUMBLING_BLOCKS,
+                PatternType.CHEVRON,
+                PatternType.PENROSE,
+                PatternType.AMMANN_BEENKER,
+            )
+            object.__setattr__(self, "inlay", bool(self.colors) or is_multicolor_tessellation)
+
+    @classmethod
+    def stepped_cube(
+        cls,
+        colors: tuple[Color | str, ...] | list[Color | str] = (),
+        *,
+        peak_color: Color | str | None = None,
+        valley_color: Color | str | None = None,
+        left_color: Color | str | None = None,
+        right_color: Color | str | None = None,
+        spacing: float | None = None,
+        web: float | None = None,
+        border: float | None = None,
+        backing_pattern: PatternType | str | None = PatternType.HEX,
+        **kwargs: Any,
+    ) -> PatternBuilder:
+        """Create a 4-colour stepped 3D cube & diamond tessellation pattern.
+
+        Colours can be passed as a sequence ``colors=(peak, valley, left, right)``
+        or individually via ``peak_color``, ``valley_color``, ``left_color``, and
+        ``right_color`` (any omitted face falls back to the default stepped-cube palette).
+        """
+        from pybosl2 import Color
+
+        from pyboxbuilder.lid.pattern import _DEFAULT_TESSELLATION_PALETTES
+
+        resolved_colors: tuple[Color | str, ...] | list[Color | str] = colors
+        if not resolved_colors and any(
+            c is not None for c in (peak_color, valley_color, left_color, right_color)
+        ):
+            defaults = _DEFAULT_TESSELLATION_PALETTES["stepped_cube"]
+            resolved_colors = (
+                Color(peak_color) if isinstance(peak_color, str) else (peak_color or defaults[0]),
+                Color(valley_color) if isinstance(valley_color, str) else (valley_color or defaults[1]),
+                Color(left_color) if isinstance(left_color, str) else (left_color or defaults[2]),
+                Color(right_color) if isinstance(right_color, str) else (right_color or defaults[3]),
+            )
+        return cls(
+            type=PatternType.STEPPED_CUBE,
+            colors=resolved_colors,
+            spacing=spacing,
+            web=web,
+            border=border,
+            inlay=kwargs.pop("inlay", True),
+            backing_pattern=backing_pattern,
+            **kwargs,
+        )
+
+    @classmethod
+    def penrose(
+        cls,
+        colors: tuple[Color | str, ...] | list[Color | str] = (),
+        *,
+        thick_colors: tuple[Color | str, ...] | list[Color | str] | Color | str | None = None,
+        thin_colors: tuple[Color | str, ...] | list[Color | str] | Color | str | None = None,
+        spacing: float | None = None,
+        web: float | None = None,
+        border: float | None = None,
+        backing_pattern: PatternType | str | None = PatternType.HEX,
+        **kwargs: Any,
+    ) -> PatternBuilder:
+        """Create a multi-colour 10-fold quasiperiodic Penrose rhombus tessellation pattern.
+
+        Supports 2, 3, 4, 5 or more colours via ``colors=(...)``, or separate
+        ``thick_colors`` (72° rhombi) and ``thin_colors`` (36° rhombi).
+        """
+        from pybosl2 import Color
+
+        from pyboxbuilder.lid.pattern import _DEFAULT_TESSELLATION_PALETTES
+
+        def _norm_list(val: Any, fallback: tuple[Color, ...]) -> list[Color]:
+            if val is None:
+                return list(fallback)
+            if isinstance(val, (str, Color)):
+                c = val if isinstance(val, Color) else Color(val)
+                return [c, c]
+            items = [x if isinstance(x, Color) else Color(x) for x in val]
+            if len(items) == 1:
+                return [items[0], items[0]]
+            return items
+
+        resolved_colors: tuple[Color | str, ...] | list[Color | str] = colors
+        if not resolved_colors and (thick_colors is not None or thin_colors is not None):
+            defaults = _DEFAULT_TESSELLATION_PALETTES["penrose"]
+            tk = _norm_list(thick_colors, defaults[:2])
+            tn = _norm_list(thin_colors, defaults[2:4])
+            resolved_colors = (*tk[:2], *tn[:2])
+        return cls(
+            type=PatternType.PENROSE,
+            colors=resolved_colors,
+            spacing=spacing,
+            web=web,
+            border=border,
+            inlay=kwargs.pop("inlay", True),
+            backing_pattern=backing_pattern,
+            **kwargs,
+        )
 
     @property
     def border_width(self) -> float:
@@ -180,9 +286,9 @@ class LidBuilder:
     colour here (FR-022)."""
     pattern: PatternBuilder | PatternType | str | None = PatternBuilder(PatternType.HEX)
     """Through-hole pattern, or ``None`` for a plain lid."""
-    pattern_color: Color | None = None
+    pattern_color: Color | str | None = None
     """Colour of the pattern's top layer; ``None`` contrasts with the body."""
-    pattern_colors: tuple[Color, ...] | None = None
+    pattern_colors: tuple[Color | str, ...] | list[Color | str] | None = None
     """Palette of colours for multi-colour patterns; falls back to pattern.colors or pattern_color."""
     pattern_through_inlay: bool | tuple[int, ...] | None = None
     """Override for whether pattern inlays extend completely through the lid thickness."""
@@ -247,6 +353,10 @@ class LidBuilder:
             object.__setattr__(self, "backing_pattern", PatternType(self.backing_pattern.lower()))
         if isinstance(self.pattern_through_inlay, list):
             object.__setattr__(self, "pattern_through_inlay", tuple(self.pattern_through_inlay))
+        if isinstance(self.pattern_color, str):
+            from pybosl2 import Color
+
+            object.__setattr__(self, "pattern_color", Color(self.pattern_color))
         if isinstance(self.pattern_colors, (list, tuple)):
             from pybosl2 import Color
 

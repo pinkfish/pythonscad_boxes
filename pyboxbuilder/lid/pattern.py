@@ -1280,11 +1280,15 @@ _DEFAULT_TESSELLATION_PALETTES: dict[str, tuple[Color, ...]] = {
         Color("#2a9d8f"),
     ),
     "penrose": (
-        Color("#e9c46a"),
+        Color("#f4d35e"),
+        Color("#ee964b"),
+        Color("#2a9d8f"),
         Color("#264653"),
     ),
     "ammann_beenker": (
-        Color("#a8dadc"),
+        Color("#f4d35e"),
+        Color("#4ecdc4"),
+        Color("#e76f51"),
         Color("#1d3557"),
     ),
 }
@@ -1340,16 +1344,24 @@ def _rhombic_tessellation_fill(
         tumbling_blocks_tiling,
     )
 
+    default_palette = _DEFAULT_TESSELLATION_PALETTES[kind]
+    use_custom_palette = bool(colors and len(colors) >= 2)
+    target_colors = (
+        len(colors)
+        if (colors is not None and len(colors) >= 2)
+        else (2 if (colors and len(colors) == 1 and through_holes) else len(default_palette))
+    )
+
     gap = DEFAULT_WEB_MM if web is None else max(web, MIN_WEB_MM)
     # Derive rhombus side length so the narrowest tile holds both the web and MIN_HOLE_MM
     if kind == "penrose":
         min_sin = math.sin(math.pi / 5.0)
         edge = max(spacing * 0.75, (gap + MIN_HOLE_MM) / min_sin)
-        raw_tiles = multigrid_colored_tiling(width, length, 5, edge)
+        raw_tiles = multigrid_colored_tiling(width, length, 5, edge, num_colors=target_colors)
     elif kind == "ammann_beenker":
         min_sin = math.sin(math.pi / 4.0)
         edge = max(spacing * 0.75, (gap + MIN_HOLE_MM) / min_sin)
-        raw_tiles = multigrid_colored_tiling(width, length, 4, edge)
+        raw_tiles = multigrid_colored_tiling(width, length, 4, edge, num_colors=target_colors)
     elif kind == "stepped_cube":
         min_sin = ROOT_THREE / 2.0
         edge = max(spacing * 0.70, (gap + MIN_HOLE_MM) / min_sin)
@@ -1371,7 +1383,7 @@ def _rhombic_tessellation_fill(
     grouped_2d: dict[int, Bosl2Shape2D] = {}
     all_2d: Bosl2Shape2D | None = None
 
-    for pts, c_idx in raw_tiles:
+    for pts, raw_idx in raw_tiles:
         xs = [p[0] for p in pts]
         ys = [p[1] for p in pts]
         if max(xs) < -margin_pad or min(xs) > width + margin_pad:
@@ -1385,6 +1397,15 @@ def _rhombic_tessellation_fill(
         if not inlay:
             all_2d = poly_2d if all_2d is None else all_2d | poly_2d
         else:
+            if kind == "stepped_cube" and use_custom_palette and not through_holes and colors is not None:
+                if len(colors) == 2:
+                    c_idx = 0 if raw_idx in (0, 1) else 1
+                elif len(colors) == 3:
+                    c_idx = 0 if raw_idx in (0, 1) else (raw_idx - 1)
+                else:
+                    c_idx = raw_idx % len(colors)
+            else:
+                c_idx = raw_idx
             grouped_2d[c_idx] = poly_2d if c_idx not in grouped_2d else (grouped_2d[c_idx] | poly_2d)
 
     height = thickness * DEPTH_OVERSHOOT
@@ -1401,8 +1422,6 @@ def _rhombic_tessellation_fill(
     through_z0 = thickness - actual_lid_t - (through_h - actual_lid_t) / 2.0
     top_z0 = -(height - thickness) / 2.0
 
-    default_palette = _DEFAULT_TESSELLATION_PALETTES[kind]
-    use_custom_palette = bool(colors and len(colors) >= 2)
     sorted_keys = sorted(grouped_2d.keys())
     hole_group_key = sorted_keys[-1] if (through_holes and len(sorted_keys) >= 2) else None
 
@@ -1423,10 +1442,10 @@ def _rhombic_tessellation_fill(
         ext_z = through_z0 if is_thru else top_z0
         part_3d = shape_2d.linear_extrude(height=ext_h).translate([0.0, 0.0, ext_z])
 
-        if use_custom_palette:
-            color_key: int | Color | None = c_idx
+        if use_custom_palette and colors is not None:
+            color_key: int | Color | None = colors[c_idx % len(colors)]
         elif colors and len(colors) == 1 and through_holes:
-            color_key = 0
+            color_key = colors[0]
         else:
             color_key = default_palette[c_idx % len(default_palette)]
         inlays.append((part_3d, color_key))

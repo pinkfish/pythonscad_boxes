@@ -182,17 +182,91 @@ def _multigrid_cell(
     return out
 
 
+def _multigrid_colored_cell(
+    j: int,
+    k: int,
+    pair_idx: int,
+    symmetry: int,
+    normals: list[Point],
+    offsets: list[float],
+    centre: Point,
+    reach: float,
+    edge: float,
+    num_colors: int,
+) -> list[tuple[list[Point], int]]:
+    """Every coloured rhombus formed where family `j` crosses family `k`."""
+    ej, ek = normals[j], normals[k]
+    det = ej[0] * ek[1] - ej[1] * ek[0]
+
+    mid_j = centre[0] * ej[0] + centre[1] * ej[1] - offsets[j]
+    mid_k = centre[0] * ek[0] + centre[1] * ek[1] - offsets[k]
+
+    shape_idx = min(k - j, symmetry - (k - j)) - 1
+    orient_idx = (j + k) % symmetry
+
+    out: list[tuple[list[Point], int]] = []
+    for a in range(math.floor(mid_j - reach), math.ceil(mid_j + reach) + 1):
+        for b in range(math.floor(mid_k - reach), math.ceil(mid_k + reach) + 1):
+            pj, pk = a + offsets[j], b + offsets[k]
+            x = (pj * ek[1] - pk * ej[1]) / det
+            y = (pk * ej[0] - pj * ek[0]) / det
+            if math.hypot(x - centre[0], y - centre[1]) > reach:
+                continue
+
+            base_x = base_y = 0.0
+            index_sum = 0
+            for m, (ex, ey) in enumerate(normals):
+                index = a if m == j else b if m == k else math.ceil(
+                    x * ex + y * ey - offsets[m]
+                )
+                base_x += index * ex
+                base_y += index * ey
+                index_sum += index
+
+            parity = (index_sum + j + k) % 2
+            if num_colors <= 1:
+                color_idx = 0
+            elif num_colors == 2:
+                color_idx = shape_idx % 2
+            elif num_colors == 3:
+                color_idx = parity if shape_idx == 0 else 2
+            elif num_colors == 4:
+                color_idx = (2 * (shape_idx % 2) + parity) % 4
+            elif num_colors == 5:
+                color_idx = orient_idx if symmetry == 5 else (2 * shape_idx + parity + j) % 5
+            else:
+                color_idx = (2 * pair_idx + parity) % num_colors
+
+            poly = [
+                ((base_x + da * ej[0] + db * ek[0]) * edge,
+                 (base_y + da * ej[1] + db * ek[1]) * edge)
+                for da, db in ((0, 0), (1, 0), (1, 1), (0, 1))
+            ]
+            out.append((poly, color_idx))
+    return out
+
+
 def multigrid_colored_tiling(
     width: float,
     length: float,
     symmetry: int,
     edge: float,
+    num_colors: int = 4,
 ) -> list[tuple[list[Point], int]]:
     """Return ``(vertices, color_idx)`` for each rhombus in de Bruijn's multigrid tiling.
 
-    Classifies each rhombus by the acute angle between its two generating line
-    families ``j`` and ``k``: ``min(k - j, symmetry - (k - j)) - 1``, which
-    separates thin and thick rhombi into distinct colour groups.
+    Supports multi-colour quasiperiodic tilings (such as Penrose at ``symmetry=5``
+    and Ammann–Beenker at ``symmetry=4``):
+
+    * ``num_colors == 2``: Separates thick and thin rhombi by acute angle
+      ``min(k - j, symmetry - (k - j)) - 1``.
+    * ``num_colors == 3``: Splits thick rhombi into two alternating de Bruijn
+      pentagrid parity levels (``0`` and ``1``) while keeping thin rhombi as ``2``.
+    * ``num_colors == 4`` (default): Splits both thick and thin rhombi into two
+      alternating pentagrid parity levels (``0, 1`` for thick; ``2, 3`` for thin).
+    * ``num_colors == 5``: Colours by the 5 rotational orientations ``(j + k) % 5``.
+    * ``num_colors >= 6``: Colours by family pair and lattice parity across all
+      ``num_colors`` groups.
     """
     if symmetry < 4:
         raise ValueError(
@@ -211,11 +285,15 @@ def multigrid_colored_tiling(
     centre = (width / (2.0 * edge), length / (2.0 * edge))
 
     tiles: list[tuple[list[Point], int]] = []
+    pair_idx = 0
     for j in range(symmetry):
         for k in range(j + 1, symmetry):
-            color_idx = min(k - j, symmetry - (k - j)) - 1
-            for poly in _multigrid_cell(j, k, normals, offsets, centre, reach, edge):
-                tiles.append((poly, color_idx))
+            tiles.extend(
+                _multigrid_colored_cell(
+                    j, k, pair_idx, symmetry, normals, offsets, centre, reach, edge, num_colors
+                )
+            )
+            pair_idx += 1
     return tiles
 
 

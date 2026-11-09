@@ -97,6 +97,10 @@ class BoxBuilder:
     """Lid decoration configuration."""
     pattern: PatternBuilder | PatternType | str | None = None
     """Lid through-hole or surface pattern shortcut; sets or overrides lid.pattern."""
+    pattern_color: Color | str | None = None
+    """Colour of the lid pattern's top layer; sets or overrides lid.pattern_color."""
+    pattern_colors: tuple[Color | str, ...] | list[Color | str] | None = None
+    """Palette of colours for multi-colour lid patterns; sets or overrides lid.pattern_colors."""
     backing_pattern: PatternBuilder | PatternType | str | None = None
     """Backing lattice pattern on the underside of the lid behind top-layer inlays (defaults to HEX)."""
     color: Color | None = None
@@ -191,6 +195,18 @@ class BoxBuilder:
                 from pyboxbuilder.lid.builder import LidBuilder, PatternBuilder
 
                 object.__setattr__(self, "lid", LidBuilder(pattern=PatternBuilder(PatternType.HEX)))
+
+        if self.pattern_color is not None and self.lid is not None:
+            from dataclasses import replace
+
+            pc = Color(self.pattern_color) if isinstance(self.pattern_color, str) else self.pattern_color
+            object.__setattr__(self, "lid", replace(self.lid, pattern_color=pc))
+
+        if self.pattern_colors is not None and self.lid is not None:
+            from dataclasses import replace
+
+            pcs = tuple(c if isinstance(c, Color) else Color(c) for c in self.pattern_colors)
+            object.__setattr__(self, "lid", replace(self.lid, pattern_colors=pcs))
 
         if self.backing_pattern is not None and self.lid is not None:
             from dataclasses import replace

@@ -197,8 +197,15 @@ class RhombicTessellationTests(unittest.TestCase):
         expected = self.WIDTH * self.LENGTH
         self.assertAlmostEqual(covered, expected, delta=expected * 1e-6)
 
-    def test_multigrid_colored_tiling_separates_thin_and_thick_rhombi(self) -> None:
+    def test_multigrid_colored_tiling_supports_multiple_colors(self) -> None:
         for sym in (4, 5):
-            tiles = multigrid_colored_tiling(self.WIDTH, self.LENGTH, sym, self.EDGE)
-            self.assertEqual({c for _, c in tiles}, {0, 1})
+            # Default is 4-color tiling
+            tiles_default = multigrid_colored_tiling(self.WIDTH, self.LENGTH, sym, self.EDGE)
+            self.assertEqual({c for _, c in tiles_default}, {0, 1, 2, 3})
+
+            for num_colors in (2, 3, 4, 5, 6):
+                tiles = multigrid_colored_tiling(
+                    self.WIDTH, self.LENGTH, sym, self.EDGE, num_colors=num_colors
+                )
+                self.assertEqual({c for _, c in tiles}, set(range(num_colors)))
 

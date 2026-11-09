@@ -814,7 +814,7 @@ class InsertColourTests(unittest.TestCase):
         self.assertLess(volume(dec_hex_back.solid), volume(dec_solid_back.solid) - 200.0)
 
     def test_stepped_cube_and_rhombic_tessellations_with_backing_lattice(self) -> None:
-        """Stepped-cube and rhombic tessellations inlay thin multi-color tiles on top with a backing lattice underneath."""
+        """Stepped-cube and rhombic tessellations inlay thin multi-color tiles with a backing lattice."""
         from pybosl2 import Color
 
         from pyboxbuilder.lid.decorate import INLAY_DEPTH_MM
@@ -849,17 +849,17 @@ class InsertColourTests(unittest.TestCase):
         )
         self.assertLess(volume(dec_stepped.solid), volume(dec_stepped_solid_back.solid) * 0.85)
 
-        # 2. Tumbling blocks (3-color), Chevron (2-color), Penrose (2-color), Ammann-Beenker (2-color)
+        # 2. Tumbling blocks (3-color), Chevron (2-color), Penrose (4-color), Ammann-Beenker (4-color)
         for pt, expected_inserts in (
             (PatternType.TUMBLING_BLOCKS, 3),
             (PatternType.CHEVRON, 2),
-            (PatternType.PENROSE, 2),
-            (PatternType.AMMANN_BEENKER, 2),
+            (PatternType.PENROSE, 4),
+            (PatternType.AMMANN_BEENKER, 4),
         ):
             with self.subTest(pattern=pt.name):
                 dec = decorate_lid(
                     lid,
-                    LidBuilder(pattern=PatternBuilder(pt, spacing=12.0, inlay=True)),
+                    LidBuilder(pattern=PatternBuilder(pt, spacing=12.0)),
                     2.0,
                     "mmu",
                 )
@@ -868,7 +868,53 @@ class InsertColourTests(unittest.TestCase):
                     (_, _, _), (_, _, h) = _bounds_cs(ins.solid)
                     self.assertAlmostEqual(h, INLAY_DEPTH_MM, places=4)
 
-        # 3. Custom palette override and hybrid through_holes mode
+        # 3. Custom palette override on PENROSE (2, 3, 4, and 5 colors) and STEPPED_CUBE
+        penrose_5_colors = (
+            Color("gold"),
+            Color("coral"),
+            Color("mediumseagreen"),
+            Color("royalblue"),
+            Color("darkslateblue"),
+        )
+        dec_penrose_5 = decorate_lid(
+            lid,
+            LidBuilder(
+                pattern=PatternBuilder.penrose(
+                    colors=penrose_5_colors,
+                    spacing=12.0,
+                ),
+            ),
+            2.0,
+            "mmu",
+        )
+        self.assertEqual(len(dec_penrose_5.inserts), 5)
+        self.assertEqual(tuple(ins.color for ins in dec_penrose_5.inserts), penrose_5_colors)
+
+        dec_stepped_named = decorate_lid(
+            lid,
+            LidBuilder(
+                pattern=PatternBuilder.stepped_cube(
+                    peak_color="gold",
+                    valley_color="slateblue",
+                    left_color="mediumseagreen",
+                    right_color="darkslateblue",
+                    spacing=12.0,
+                ),
+            ),
+            2.0,
+            "mmu",
+        )
+        self.assertEqual(
+            tuple(ins.color for ins in dec_stepped_named.inserts),
+            (
+                Color("gold"),
+                Color("slateblue"),
+                Color("mediumseagreen"),
+                Color("darkslateblue"),
+            ),
+        )
+
+        # 4. Hybrid through_holes mode with custom palette
         custom_colors = (Color("gold"), Color("royalblue"), Color("mediumseagreen"), Color("indigo"))
         dec_custom = decorate_lid(
             lid,
@@ -876,7 +922,6 @@ class InsertColourTests(unittest.TestCase):
                 pattern=PatternBuilder(
                     PatternType.STEPPED_CUBE,
                     spacing=12.0,
-                    inlay=True,
                     colors=custom_colors,
                     through_holes=True,
                 ),
