@@ -23,7 +23,7 @@ from pyboxbuilder.project import Project
 
 class EnumTests(unittest.TestCase):
     def test_box_type_has_all_members(self) -> None:
-        types = {t for t in BoxType}
+        types = set(BoxType)
         self.assertIn(BoxType.SLIDING, types)
         self.assertIn(BoxType.CAP, types)
         self.assertIn(BoxType.FILAMENT_HINGE, types)
@@ -143,7 +143,11 @@ class CategoricalEnumTests(unittest.TestCase):
             {m.name for m in HingeCatchType},
             {
                 "RIDGE",
+                "WEDGE",
                 "BUMP",
+                "LOOP",
+                "MAGNET",
+                "LEAF_SPRING",
                 "SLIDE_ACROSS",
                 "SLIDE_UP",
                 "SPIN",
@@ -214,6 +218,7 @@ class CategoricalEnumTests(unittest.TestCase):
 
     def test_color_mode_in_lid_builder_and_decorate(self) -> None:
         from pybosl2.shapes3d import cube
+
         from pyboxbuilder.lid.builder import LidBuilder
         from pyboxbuilder.lid.decorate import decorate_lid
 

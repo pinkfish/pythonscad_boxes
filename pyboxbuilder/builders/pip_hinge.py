@@ -5,7 +5,7 @@ from dataclasses import dataclass
 from typing import ClassVar
 
 from pyboxbuilder.builders._base import BoxBuilder
-from pyboxbuilder.enums import BoxType
+from pyboxbuilder.enums import BoxType, CatchType, HingeCatchType
 
 
 @dataclass(frozen=True)
@@ -44,10 +44,21 @@ class PrintInPlaceHingeBoxBuilder(BoxBuilder):
     pip_bridge_thickness: float = 0.4
     """Vertical thickness of the print-in-place bridge in mm (default 0.4mm)."""
     pip_snap_catch: bool = True
-    """Include pybosl2 SnapLock and SnapSocket catches on front rims."""
+    """Include front retention catch on the front rims."""
     pip_snap_width: float = 12.0
     """Length of the snap catch tab in mm."""
     pip_snap_diameter: float = 3.0
     """Diameter of the snap ridge in mm."""
     pip_gap_mm: float = 1.0
     """Gap between the two box halves on the print bed in mm (default 1.0mm, matching OpenSCAD toolkit)."""
+    hinge_catch_type: HingeCatchType | None = None
+    """Optional hinge catch mechanism override (all HingeCatchType / CatchType values supported)."""
+
+    def __post_init__(self) -> None:
+        """Coerce hinge_catch_type if provided."""
+        if self.hinge_catch_type is not None:
+            if isinstance(self.hinge_catch_type, CatchType):
+                object.__setattr__(self, "hinge_catch_type", HingeCatchType(self.hinge_catch_type.value))
+            elif isinstance(self.hinge_catch_type, str):
+                object.__setattr__(self, "hinge_catch_type", HingeCatchType(self.hinge_catch_type.lower()))
+        super().__post_init__()

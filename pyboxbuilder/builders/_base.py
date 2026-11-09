@@ -130,9 +130,11 @@ class BoxBuilder:
     ribbon_channel: bool | None = None
     """Cut bottom groove for lifting ribbon."""
     catch_type: CatchType | None = None
-    """Lid retention mechanism — NONE, BUMP, LOOP, WEDGE, or None for type default (FR-099)."""
+    """Lid retention mechanism — any CatchType enum member or None for type default (FR-099)."""
     catch_size: float | None = None
     """Primary dimension for the catch (bump radius, wedge depth, or loop size); None derives from wall thickness."""
+    slide_catch_style: str = "front"
+    """Style for CatchType.SLIDE_ACROSS ('front', 'card_library', or 'vertical')."""
     interlock_type: InterlockType | None = None
     """Horizontal interlock joint type (dovetail, magnet, clip, gridfinity, none) (FR-089, FR-102)."""
     interlock_clearance: float = 0.15
@@ -157,6 +159,16 @@ class BoxBuilder:
             TypeError: If ``stackable``, ``magnet_type``, ``catch_type``, or ``interlock_type`` is not its enum.
 
         """
+        from pyboxbuilder.enums import HingeCatchType
+
+        if isinstance(self.catch_type, HingeCatchType):
+            coerced_ct = (
+                CatchType.WEDGE
+                if self.catch_type == HingeCatchType.RIDGE
+                else CatchType(self.catch_type.value)
+            )
+            object.__setattr__(self, "catch_type", coerced_ct)
+
         for name, enum_cls in (
             ("stackable", StackableMode),
             ("magnet_type", MagnetType),

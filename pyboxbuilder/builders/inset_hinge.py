@@ -5,7 +5,7 @@ from dataclasses import dataclass
 from typing import ClassVar
 
 from pyboxbuilder.builders._base import BoxBuilder
-from pyboxbuilder.enums import BoxType
+from pyboxbuilder.enums import BoxType, CatchType, HingeCatchType
 
 
 @dataclass(frozen=True)
@@ -43,9 +43,20 @@ class InsetHingeBoxBuilder(BoxBuilder):
     inset_hinge_side_gap: float = 3.0
     """End wall margin at the front and back of the inset hinge pocket in mm."""
     pip_snap_catch: bool = True
-    """Include the front snap latch tab and catch recess (MakeLidTab)."""
+    """Include the front retention catch on the outer wall."""
     pip_snap_width: float = 10.0
     """Length of the front snap latch tab along the Y axis in mm."""
     inset_hinge_tab_height: float = 6.0
     """Height of the front snap latch tab in mm."""
+    hinge_catch_type: HingeCatchType | None = None
+    """Optional hinge catch mechanism override (all HingeCatchType / CatchType values supported)."""
+
+    def __post_init__(self) -> None:
+        """Coerce hinge_catch_type if provided."""
+        if self.hinge_catch_type is not None:
+            if isinstance(self.hinge_catch_type, CatchType):
+                object.__setattr__(self, "hinge_catch_type", HingeCatchType(self.hinge_catch_type.value))
+            elif isinstance(self.hinge_catch_type, str):
+                object.__setattr__(self, "hinge_catch_type", HingeCatchType(self.hinge_catch_type.lower()))
+        super().__post_init__()
 

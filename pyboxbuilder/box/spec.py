@@ -65,14 +65,22 @@ def _coerce_enum(val: Any, enum_cls: type[Any], name: str, allow_none: bool = Fa
 def _coerce_box_spec_enums(spec: Any) -> None:
     """Ensure all categorical options on a BoxSpec or ResolvedBoxSpec are canonical enums."""
     if getattr(spec, "catch_type", None) is not None:
+        ct_val = spec.catch_type
+        if isinstance(ct_val, HingeCatchType):
+            ct_val = CatchType.WEDGE if ct_val == HingeCatchType.RIDGE else CatchType(ct_val.value)
+        elif isinstance(ct_val, str) and ct_val.lower() == "ridge":
+            ct_val = CatchType.WEDGE
         object.__setattr__(
-            spec, "catch_type", _coerce_enum(spec.catch_type, CatchType, "catch_type", allow_none=True)
+            spec, "catch_type", _coerce_enum(ct_val, CatchType, "catch_type", allow_none=True)
         )
     if getattr(spec, "hinge_catch_type", None) is not None:
+        hct_val = spec.hinge_catch_type
+        if isinstance(hct_val, CatchType):
+            hct_val = HingeCatchType(hct_val.value)
         object.__setattr__(
             spec,
             "hinge_catch_type",
-            _coerce_enum(spec.hinge_catch_type, HingeCatchType, "hinge_catch_type", allow_none=True),
+            _coerce_enum(hct_val, HingeCatchType, "hinge_catch_type", allow_none=True),
         )
     if getattr(spec, "interlock_type", None) is not None:
         object.__setattr__(

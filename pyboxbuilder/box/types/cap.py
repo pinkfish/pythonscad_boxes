@@ -69,9 +69,9 @@ class CapBox(BoxTypeBase):
 
         lid = cap_lid(spec)
         catch = cap_slipover_catch(spec, is_slipover=False)
-        if catch.lid is not None:
-            lid = lid | catch.lid
         if catch.lid_cut is not None:
             lid = lid - catch.lid_cut
+        if catch.lid is not None:
+            lid = lid | catch.lid
         return apply_stackable_lid(lid, spec)
 

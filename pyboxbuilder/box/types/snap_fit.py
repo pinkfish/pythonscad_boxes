@@ -212,14 +212,52 @@ class SnapFitBox(BoxTypeBase):
         body_spec = self._body_spec(spec)
         body = build_shell(body_spec)
 
-        bosses = self._build_backing_bosses(spec)
-        if bosses is not None:
-            body = body | bosses
-
         m = self._latch_metrics(spec)
         is_y = bool(m["is_y"])
         catch_type = m["catch_type"]
         body_h = float(m["body_h"])
+
+        if catch_type in (
+            CatchType.SLIDE_ACROSS,
+            CatchType.SLIDE_UP,
+            CatchType.SPIN,
+            CatchType.PUSH_BUTTON,
+            CatchType.TOGGLE_LATCH,
+            CatchType.PINCH_SLIDE,
+            CatchType.ROTARY_BOLT,
+        ):
+            from pyboxbuilder.box.features import apply_stackable_body, hinge_catch
+
+            c_spec = spec if is_y else replace(spec, width=spec.length, length=spec.width)
+            catch = hinge_catch(c_spec)
+
+            def _place_walls(solid: Bosl2Solid) -> Bosl2Solid:
+                if is_y:
+                    s_neg = solid
+                    s_pos = solid.rotate([0, 0, 180]).translate([spec.width, spec.length, 0.0])
+                else:
+                    s_neg = solid.rotate([0, 0, -90]).translate([0.0, spec.length, 0.0])
+                    s_pos = solid.rotate([0, 0, 90]).translate([spec.width, 0.0, 0.0])
+                return s_neg | s_pos
+
+            radius = body_rounding(spec)
+            if radius > 0:
+                body = round_edges(
+                    body,
+                    [spec.width, spec.length, body_h],
+                    radius,
+                    list(vertical_edges()),
+                )
+            if catch.body_cut is not None:
+                body = body - _place_walls(catch.body_cut)
+            if catch.body is not None:
+                body = body | _place_walls(catch.body)
+            return apply_stackable_body(body, spec)
+
+        bosses = self._build_backing_bosses(spec)
+        if bosses is not None:
+            body = body | bosses
+
         wall_dist = float(m["wall_dist"])
         s_c = float(m["s_c"])
         c_w = float(m["c_w"])
@@ -377,6 +415,44 @@ class SnapFitBox(BoxTypeBase):
         m = self._latch_metrics(spec)
         is_y = bool(m["is_y"])
         catch_type = m["catch_type"]
+
+        if catch_type in (
+            CatchType.SLIDE_ACROSS,
+            CatchType.SLIDE_UP,
+            CatchType.SPIN,
+            CatchType.PUSH_BUTTON,
+            CatchType.TOGGLE_LATCH,
+            CatchType.PINCH_SLIDE,
+            CatchType.ROTARY_BOLT,
+        ):
+            from pyboxbuilder.box.features import apply_stackable_lid, hinge_catch
+
+            c_spec = spec if is_y else replace(spec, width=spec.length, length=spec.width)
+            catch = hinge_catch(c_spec)
+
+            def _place_walls(solid: Bosl2Solid) -> Bosl2Solid:
+                if is_y:
+                    s_neg = solid
+                    s_pos = solid.rotate([0, 0, 180]).translate([spec.width, spec.length, 0.0])
+                else:
+                    s_neg = solid.rotate([0, 0, -90]).translate([0.0, spec.length, 0.0])
+                    s_pos = solid.rotate([0, 0, 90]).translate([spec.width, 0.0, 0.0])
+                return s_neg | s_pos
+
+            radius = body_rounding(spec)
+            if radius > 0:
+                lid = round_edges(
+                    lid,
+                    [spec.width, spec.length, lt],
+                    radius,
+                    list(vertical_edges()),
+                )
+            if catch.lid_cut is not None:
+                lid = lid - _place_walls(catch.lid_cut)
+            if catch.lid is not None:
+                lid = lid | _place_walls(catch.lid)
+            return apply_stackable_lid(lid, spec)
+
         wall_dist = float(m["wall_dist"])
         s_c = float(m["s_c"])
         c_w = float(m["c_w"])

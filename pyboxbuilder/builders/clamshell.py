@@ -5,7 +5,7 @@ from dataclasses import dataclass
 from typing import ClassVar
 
 from pyboxbuilder.builders._base import BoxBuilder
-from pyboxbuilder.enums import BoxType
+from pyboxbuilder.enums import BoxType, CatchType, HingeCatchType
 
 
 @dataclass(frozen=True)
@@ -42,3 +42,14 @@ class ClamshellBoxBuilder(BoxBuilder):
     """Radius of the spine hinge knuckle barrel in mm."""
     closure_latch: bool = True
     """Add front retention catch to keep the clamshell closed."""
+    hinge_catch_type: HingeCatchType | None = None
+    """Optional hinge catch mechanism override (all HingeCatchType / CatchType values supported)."""
+
+    def __post_init__(self) -> None:
+        """Coerce hinge_catch_type if provided."""
+        if self.hinge_catch_type is not None:
+            if isinstance(self.hinge_catch_type, CatchType):
+                object.__setattr__(self, "hinge_catch_type", HingeCatchType(self.hinge_catch_type.value))
+            elif isinstance(self.hinge_catch_type, str):
+                object.__setattr__(self, "hinge_catch_type", HingeCatchType(self.hinge_catch_type.lower()))
+        super().__post_init__()
