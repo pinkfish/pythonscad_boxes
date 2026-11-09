@@ -467,7 +467,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">ClassVar</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.builders._base</span><span class="w"> </span><span class="kn">import</span> <span class="n">BoxBuilder</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">BoxType</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">BoxType</span><span class="p">,</span> <span class="n">CatchType</span><span class="p">,</span> <span class="n">HingeCatchType</span>
 
 
 <div class="viewcode-block" id="PrintInPlaceHingeBoxBuilder">
@@ -508,13 +508,24 @@
     <span class="n">pip_bridge_thickness</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.4</span>
 <span class="w">    </span><span class="sd">"""Vertical thickness of the print-in-place bridge in mm (default 0.4mm)."""</span>
     <span class="n">pip_snap_catch</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
-<span class="w">    </span><span class="sd">"""Include pybosl2 SnapLock and SnapSocket catches on front rims."""</span>
+<span class="w">    </span><span class="sd">"""Include front retention catch on the front rims."""</span>
     <span class="n">pip_snap_width</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">12.0</span>
 <span class="w">    </span><span class="sd">"""Length of the snap catch tab in mm."""</span>
     <span class="n">pip_snap_diameter</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">3.0</span>
 <span class="w">    </span><span class="sd">"""Diameter of the snap ridge in mm."""</span>
     <span class="n">pip_gap_mm</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span>
-<span class="w">    </span><span class="sd">"""Gap between the two box halves on the print bed in mm (default 1.0mm, matching OpenSCAD toolkit)."""</span></div>
+<span class="w">    </span><span class="sd">"""Gap between the two box halves on the print bed in mm (default 1.0mm, matching OpenSCAD toolkit)."""</span>
+    <span class="n">hinge_catch_type</span><span class="p">:</span> <span class="n">HingeCatchType</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">"""Optional hinge catch mechanism override (all HingeCatchType / CatchType values supported)."""</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Coerce hinge_catch_type if provided."""</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">hinge_catch_type</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hinge_catch_type</span><span class="p">,</span> <span class="n">CatchType</span><span class="p">):</span>
+                <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">"hinge_catch_type"</span><span class="p">,</span> <span class="n">HingeCatchType</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hinge_catch_type</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hinge_catch_type</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+                <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">"hinge_catch_type"</span><span class="p">,</span> <span class="n">HingeCatchType</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hinge_catch_type</span><span class="o">.</span><span class="n">lower</span><span class="p">()))</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__post_init__</span><span class="p">()</span></div>
 
 </code></pre></div>
 

@@ -684,14 +684,52 @@
         <span class="n">body_spec</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_body_spec</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
         <span class="n">body</span> <span class="o">=</span> <span class="n">build_shell</span><span class="p">(</span><span class="n">body_spec</span><span class="p">)</span>
 
-        <span class="n">bosses</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_build_backing_bosses</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">bosses</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">body</span> <span class="o">=</span> <span class="n">body</span> <span class="o">|</span> <span class="n">bosses</span>
-
         <span class="n">m</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_latch_metrics</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
         <span class="n">is_y</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">m</span><span class="p">[</span><span class="s2">"is_y"</span><span class="p">])</span>
         <span class="n">catch_type</span> <span class="o">=</span> <span class="n">m</span><span class="p">[</span><span class="s2">"catch_type"</span><span class="p">]</span>
         <span class="n">body_h</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">m</span><span class="p">[</span><span class="s2">"body_h"</span><span class="p">])</span>
+
+        <span class="k">if</span> <span class="n">catch_type</span> <span class="ow">in</span> <span class="p">(</span>
+            <span class="n">CatchType</span><span class="o">.</span><span class="n">SLIDE_ACROSS</span><span class="p">,</span>
+            <span class="n">CatchType</span><span class="o">.</span><span class="n">SLIDE_UP</span><span class="p">,</span>
+            <span class="n">CatchType</span><span class="o">.</span><span class="n">SPIN</span><span class="p">,</span>
+            <span class="n">CatchType</span><span class="o">.</span><span class="n">PUSH_BUTTON</span><span class="p">,</span>
+            <span class="n">CatchType</span><span class="o">.</span><span class="n">TOGGLE_LATCH</span><span class="p">,</span>
+            <span class="n">CatchType</span><span class="o">.</span><span class="n">PINCH_SLIDE</span><span class="p">,</span>
+            <span class="n">CatchType</span><span class="o">.</span><span class="n">ROTARY_BOLT</span><span class="p">,</span>
+        <span class="p">):</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.features</span><span class="w"> </span><span class="kn">import</span> <span class="n">apply_stackable_body</span><span class="p">,</span> <span class="n">hinge_catch</span>
+
+            <span class="n">c_spec</span> <span class="o">=</span> <span class="n">spec</span> <span class="k">if</span> <span class="n">is_y</span> <span class="k">else</span> <span class="n">replace</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="n">spec</span><span class="o">.</span><span class="n">length</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="n">spec</span><span class="o">.</span><span class="n">width</span><span class="p">)</span>
+            <span class="n">catch</span> <span class="o">=</span> <span class="n">hinge_catch</span><span class="p">(</span><span class="n">c_spec</span><span class="p">)</span>
+
+            <span class="k">def</span><span class="w"> </span><span class="nf">_place_walls</span><span class="p">(</span><span class="n">solid</span><span class="p">:</span> <span class="n">Bosl2Solid</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">is_y</span><span class="p">:</span>
+                    <span class="n">s_neg</span> <span class="o">=</span> <span class="n">solid</span>
+                    <span class="n">s_pos</span> <span class="o">=</span> <span class="n">solid</span><span class="o">.</span><span class="n">rotate</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">180</span><span class="p">])</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">spec</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">])</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">s_neg</span> <span class="o">=</span> <span class="n">solid</span><span class="o">.</span><span class="n">rotate</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">90</span><span class="p">])</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">])</span>
+                    <span class="n">s_pos</span> <span class="o">=</span> <span class="n">solid</span><span class="o">.</span><span class="n">rotate</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">90</span><span class="p">])</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">spec</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">])</span>
+                <span class="k">return</span> <span class="n">s_neg</span> <span class="o">|</span> <span class="n">s_pos</span>
+
+            <span class="n">radius</span> <span class="o">=</span> <span class="n">body_rounding</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">radius</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">body</span> <span class="o">=</span> <span class="n">round_edges</span><span class="p">(</span>
+                    <span class="n">body</span><span class="p">,</span>
+                    <span class="p">[</span><span class="n">spec</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span><span class="p">,</span> <span class="n">body_h</span><span class="p">],</span>
+                    <span class="n">radius</span><span class="p">,</span>
+                    <span class="nb">list</span><span class="p">(</span><span class="n">vertical_edges</span><span class="p">()),</span>
+                <span class="p">)</span>
+            <span class="k">if</span> <span class="n">catch</span><span class="o">.</span><span class="n">body_cut</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">body</span> <span class="o">=</span> <span class="n">body</span> <span class="o">-</span> <span class="n">_place_walls</span><span class="p">(</span><span class="n">catch</span><span class="o">.</span><span class="n">body_cut</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">catch</span><span class="o">.</span><span class="n">body</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">body</span> <span class="o">=</span> <span class="n">body</span> <span class="o">|</span> <span class="n">_place_walls</span><span class="p">(</span><span class="n">catch</span><span class="o">.</span><span class="n">body</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">apply_stackable_body</span><span class="p">(</span><span class="n">body</span><span class="p">,</span> <span class="n">spec</span><span class="p">)</span>
+
+        <span class="n">bosses</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_build_backing_bosses</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">bosses</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">body</span> <span class="o">=</span> <span class="n">body</span> <span class="o">|</span> <span class="n">bosses</span>
+
         <span class="n">wall_dist</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">m</span><span class="p">[</span><span class="s2">"wall_dist"</span><span class="p">])</span>
         <span class="n">s_c</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">m</span><span class="p">[</span><span class="s2">"s_c"</span><span class="p">])</span>
         <span class="n">c_w</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">m</span><span class="p">[</span><span class="s2">"c_w"</span><span class="p">])</span>
@@ -852,6 +890,44 @@
         <span class="n">m</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_latch_metrics</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
         <span class="n">is_y</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">m</span><span class="p">[</span><span class="s2">"is_y"</span><span class="p">])</span>
         <span class="n">catch_type</span> <span class="o">=</span> <span class="n">m</span><span class="p">[</span><span class="s2">"catch_type"</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">catch_type</span> <span class="ow">in</span> <span class="p">(</span>
+            <span class="n">CatchType</span><span class="o">.</span><span class="n">SLIDE_ACROSS</span><span class="p">,</span>
+            <span class="n">CatchType</span><span class="o">.</span><span class="n">SLIDE_UP</span><span class="p">,</span>
+            <span class="n">CatchType</span><span class="o">.</span><span class="n">SPIN</span><span class="p">,</span>
+            <span class="n">CatchType</span><span class="o">.</span><span class="n">PUSH_BUTTON</span><span class="p">,</span>
+            <span class="n">CatchType</span><span class="o">.</span><span class="n">TOGGLE_LATCH</span><span class="p">,</span>
+            <span class="n">CatchType</span><span class="o">.</span><span class="n">PINCH_SLIDE</span><span class="p">,</span>
+            <span class="n">CatchType</span><span class="o">.</span><span class="n">ROTARY_BOLT</span><span class="p">,</span>
+        <span class="p">):</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.features</span><span class="w"> </span><span class="kn">import</span> <span class="n">apply_stackable_lid</span><span class="p">,</span> <span class="n">hinge_catch</span>
+
+            <span class="n">c_spec</span> <span class="o">=</span> <span class="n">spec</span> <span class="k">if</span> <span class="n">is_y</span> <span class="k">else</span> <span class="n">replace</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="n">spec</span><span class="o">.</span><span class="n">length</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="n">spec</span><span class="o">.</span><span class="n">width</span><span class="p">)</span>
+            <span class="n">catch</span> <span class="o">=</span> <span class="n">hinge_catch</span><span class="p">(</span><span class="n">c_spec</span><span class="p">)</span>
+
+            <span class="k">def</span><span class="w"> </span><span class="nf">_place_walls</span><span class="p">(</span><span class="n">solid</span><span class="p">:</span> <span class="n">Bosl2Solid</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">is_y</span><span class="p">:</span>
+                    <span class="n">s_neg</span> <span class="o">=</span> <span class="n">solid</span>
+                    <span class="n">s_pos</span> <span class="o">=</span> <span class="n">solid</span><span class="o">.</span><span class="n">rotate</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">180</span><span class="p">])</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">spec</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">])</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">s_neg</span> <span class="o">=</span> <span class="n">solid</span><span class="o">.</span><span class="n">rotate</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">90</span><span class="p">])</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">])</span>
+                    <span class="n">s_pos</span> <span class="o">=</span> <span class="n">solid</span><span class="o">.</span><span class="n">rotate</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">90</span><span class="p">])</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">spec</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">])</span>
+                <span class="k">return</span> <span class="n">s_neg</span> <span class="o">|</span> <span class="n">s_pos</span>
+
+            <span class="n">radius</span> <span class="o">=</span> <span class="n">body_rounding</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">radius</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">lid</span> <span class="o">=</span> <span class="n">round_edges</span><span class="p">(</span>
+                    <span class="n">lid</span><span class="p">,</span>
+                    <span class="p">[</span><span class="n">spec</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span><span class="p">,</span> <span class="n">lt</span><span class="p">],</span>
+                    <span class="n">radius</span><span class="p">,</span>
+                    <span class="nb">list</span><span class="p">(</span><span class="n">vertical_edges</span><span class="p">()),</span>
+                <span class="p">)</span>
+            <span class="k">if</span> <span class="n">catch</span><span class="o">.</span><span class="n">lid_cut</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">lid</span> <span class="o">=</span> <span class="n">lid</span> <span class="o">-</span> <span class="n">_place_walls</span><span class="p">(</span><span class="n">catch</span><span class="o">.</span><span class="n">lid_cut</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">catch</span><span class="o">.</span><span class="n">lid</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">lid</span> <span class="o">=</span> <span class="n">lid</span> <span class="o">|</span> <span class="n">_place_walls</span><span class="p">(</span><span class="n">catch</span><span class="o">.</span><span class="n">lid</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">apply_stackable_lid</span><span class="p">(</span><span class="n">lid</span><span class="p">,</span> <span class="n">spec</span><span class="p">)</span>
+
         <span class="n">wall_dist</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">m</span><span class="p">[</span><span class="s2">"wall_dist"</span><span class="p">])</span>
         <span class="n">s_c</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">m</span><span class="p">[</span><span class="s2">"s_c"</span><span class="p">])</span>
         <span class="n">c_w</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">m</span><span class="p">[</span><span class="s2">"c_w"</span><span class="p">])</span>

@@ -1840,6 +1840,126 @@
                 <span class="n">lid_solids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">bump</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="n">l_pt</span><span class="p">))</span>
                 <span class="n">lid_cuts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">s1</span> <span class="o">|</span> <span class="n">s2</span><span class="p">)</span>
 
+    <span class="k">elif</span> <span class="n">catch_type</span> <span class="ow">in</span> <span class="p">(</span>
+        <span class="n">CatchType</span><span class="o">.</span><span class="n">SLIDE_ACROSS</span><span class="p">,</span>
+        <span class="n">CatchType</span><span class="o">.</span><span class="n">SLIDE_UP</span><span class="p">,</span>
+        <span class="n">CatchType</span><span class="o">.</span><span class="n">SPIN</span><span class="p">,</span>
+        <span class="n">CatchType</span><span class="o">.</span><span class="n">PUSH_BUTTON</span><span class="p">,</span>
+        <span class="n">CatchType</span><span class="o">.</span><span class="n">TOGGLE_LATCH</span><span class="p">,</span>
+        <span class="n">CatchType</span><span class="o">.</span><span class="n">PINCH_SLIDE</span><span class="p">,</span>
+        <span class="n">CatchType</span><span class="o">.</span><span class="n">ROTARY_BOLT</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">cylinder</span>
+
+        <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.shell</span><span class="w"> </span><span class="kn">import</span> <span class="n">block</span>
+
+        <span class="n">pip_clr</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.22</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="mf">0.35</span><span class="p">,</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="s2">"pip_radial_clearance"</span><span class="p">,</span> <span class="mf">0.28</span><span class="p">)))</span>
+        <span class="n">skirt_t</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">inset</span> <span class="o">-</span> <span class="n">slack</span><span class="p">)</span>
+        <span class="n">mort_d</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">wall_thickness</span> <span class="o">*</span> <span class="mf">0.55</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.65</span><span class="p">,</span> <span class="n">radius</span> <span class="o">*</span> <span class="mf">0.8</span><span class="p">))</span>
+        <span class="n">win_w</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">L</span> <span class="o">*</span> <span class="mf">0.25</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mf">8.0</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">wall_thickness</span> <span class="o">*</span> <span class="mf">4.5</span><span class="p">))</span>
+        <span class="n">win_h</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mf">4.0</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">lt</span> <span class="o">*</span> <span class="mf">1.4</span><span class="p">))</span>
+        <span class="n">slider_w</span> <span class="o">=</span> <span class="n">win_w</span> <span class="o">*</span> <span class="mf">0.58</span>
+        <span class="n">slider_h</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">1.2</span><span class="p">,</span> <span class="n">win_h</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">pip_clr</span><span class="p">)</span>
+        <span class="n">lug_w</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">1.8</span><span class="p">,</span> <span class="n">slider_w</span> <span class="o">*</span> <span class="mf">0.55</span><span class="p">)</span>
+        <span class="n">lug_h</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.9</span><span class="p">,</span> <span class="n">slider_h</span> <span class="o">*</span> <span class="mf">0.65</span><span class="p">)</span>
+        <span class="n">pos_long</span> <span class="o">=</span> <span class="n">L</span> <span class="o">/</span> <span class="mf">2.0</span>
+
+        <span class="k">for</span> <span class="n">face</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"low"</span><span class="p">,</span> <span class="s2">"high"</span><span class="p">):</span>
+            <span class="c1"># Body mortise cut on the body band's outer face, and captive mechanism on the lid skirt</span>
+            <span class="k">if</span> <span class="n">long_axis</span> <span class="o">==</span> <span class="s2">"x"</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">face</span> <span class="o">==</span> <span class="s2">"low"</span><span class="p">:</span>
+                    <span class="n">b_mort</span> <span class="o">=</span> <span class="n">block</span><span class="p">(</span>
+                        <span class="p">[</span><span class="n">win_w</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">pip_clr</span><span class="p">,</span> <span class="n">mort_d</span> <span class="o">+</span> <span class="n">pip_clr</span> <span class="o">+</span> <span class="mf">0.1</span><span class="p">,</span> <span class="n">lug_h</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">pip_clr</span><span class="p">],</span>
+                        <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="n">pos_long</span> <span class="o">-</span> <span class="n">win_w</span> <span class="o">/</span> <span class="mf">2.0</span> <span class="o">-</span> <span class="n">pip_clr</span><span class="p">,</span> <span class="n">inset</span> <span class="o">-</span> <span class="mf">0.05</span><span class="p">,</span> <span class="n">z</span> <span class="o">-</span> <span class="n">lug_h</span> <span class="o">/</span> <span class="mf">2.0</span> <span class="o">-</span> <span class="n">pip_clr</span><span class="p">),</span>
+                    <span class="p">)</span>
+                    <span class="n">l_win</span> <span class="o">=</span> <span class="n">block</span><span class="p">(</span>
+                        <span class="p">[</span><span class="n">win_w</span><span class="p">,</span> <span class="n">skirt_t</span> <span class="o">+</span> <span class="mf">0.2</span><span class="p">,</span> <span class="n">win_h</span><span class="p">],</span>
+                        <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="n">pos_long</span> <span class="o">-</span> <span class="n">win_w</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">z</span> <span class="o">-</span> <span class="n">win_h</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">),</span>
+                    <span class="p">)</span>
+                    <span class="k">if</span> <span class="n">catch_type</span> <span class="ow">in</span> <span class="p">(</span><span class="n">CatchType</span><span class="o">.</span><span class="n">SPIN</span><span class="p">,</span> <span class="n">CatchType</span><span class="o">.</span><span class="n">ROTARY_BOLT</span><span class="p">):</span>
+                        <span class="n">r_cam</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">win_h</span> <span class="o">*</span> <span class="mf">0.45</span><span class="p">,</span> <span class="mf">1.8</span><span class="p">)</span>
+                        <span class="n">l_mech</span> <span class="o">=</span> <span class="p">(</span>
+                            <span class="n">cylinder</span><span class="p">(</span><span class="n">height</span><span class="o">=</span><span class="n">skirt_t</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="n">r_cam</span><span class="p">,</span> <span class="o">**</span><span class="n">precision_kwargs</span><span class="p">())</span>
+                            <span class="o">.</span><span class="n">rotate</span><span class="p">([</span><span class="o">-</span><span class="mi">90</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+                            <span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">pos_long</span><span class="p">,</span> <span class="n">skirt_t</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">z</span><span class="p">])</span>
+                        <span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">l_mech</span> <span class="o">=</span> <span class="n">block</span><span class="p">(</span>
+                            <span class="p">[</span><span class="n">slider_w</span><span class="p">,</span> <span class="n">skirt_t</span><span class="p">,</span> <span class="n">slider_h</span><span class="p">],</span>
+                            <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="n">pos_long</span> <span class="o">-</span> <span class="n">slider_w</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">z</span> <span class="o">-</span> <span class="n">slider_h</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">),</span>
+                        <span class="p">)</span>
+                    <span class="n">l_lug</span> <span class="o">=</span> <span class="n">block</span><span class="p">(</span>
+                        <span class="p">[</span><span class="n">lug_w</span><span class="p">,</span> <span class="n">slack</span> <span class="o">+</span> <span class="n">mort_d</span> <span class="o">-</span> <span class="n">pip_clr</span> <span class="o">+</span> <span class="mf">0.2</span><span class="p">,</span> <span class="n">lug_h</span><span class="p">],</span>
+                        <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="n">pos_long</span> <span class="o">-</span> <span class="n">lug_w</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">skirt_t</span> <span class="o">-</span> <span class="mf">0.2</span><span class="p">,</span> <span class="n">z</span> <span class="o">-</span> <span class="n">lug_h</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">),</span>
+                    <span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">y_b0</span> <span class="o">=</span> <span class="n">across_val</span> <span class="o">-</span> <span class="n">inset</span> <span class="o">-</span> <span class="n">mort_d</span> <span class="o">-</span> <span class="n">pip_clr</span>
+                    <span class="n">y_l0</span> <span class="o">=</span> <span class="n">across_val</span> <span class="o">-</span> <span class="n">skirt_t</span>
+                    <span class="n">b_mort</span> <span class="o">=</span> <span class="n">block</span><span class="p">(</span>
+                        <span class="p">[</span><span class="n">win_w</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">pip_clr</span><span class="p">,</span> <span class="n">mort_d</span> <span class="o">+</span> <span class="n">pip_clr</span> <span class="o">+</span> <span class="mf">0.1</span><span class="p">,</span> <span class="n">lug_h</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">pip_clr</span><span class="p">],</span>
+                        <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="n">pos_long</span> <span class="o">-</span> <span class="n">win_w</span> <span class="o">/</span> <span class="mf">2.0</span> <span class="o">-</span> <span class="n">pip_clr</span><span class="p">,</span> <span class="n">y_b0</span><span class="p">,</span> <span class="n">z</span> <span class="o">-</span> <span class="n">lug_h</span> <span class="o">/</span> <span class="mf">2.0</span> <span class="o">-</span> <span class="n">pip_clr</span><span class="p">),</span>
+                    <span class="p">)</span>
+                    <span class="n">l_win</span> <span class="o">=</span> <span class="n">block</span><span class="p">(</span>
+                        <span class="p">[</span><span class="n">win_w</span><span class="p">,</span> <span class="n">skirt_t</span> <span class="o">+</span> <span class="mf">0.2</span><span class="p">,</span> <span class="n">win_h</span><span class="p">],</span>
+                        <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="n">pos_long</span> <span class="o">-</span> <span class="n">win_w</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">y_l0</span> <span class="o">-</span> <span class="mf">0.1</span><span class="p">,</span> <span class="n">z</span> <span class="o">-</span> <span class="n">win_h</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">),</span>
+                    <span class="p">)</span>
+                    <span class="k">if</span> <span class="n">catch_type</span> <span class="ow">in</span> <span class="p">(</span><span class="n">CatchType</span><span class="o">.</span><span class="n">SPIN</span><span class="p">,</span> <span class="n">CatchType</span><span class="o">.</span><span class="n">ROTARY_BOLT</span><span class="p">):</span>
+                        <span class="n">r_cam</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">win_h</span> <span class="o">*</span> <span class="mf">0.45</span><span class="p">,</span> <span class="mf">1.8</span><span class="p">)</span>
+                        <span class="n">l_mech</span> <span class="o">=</span> <span class="p">(</span>
+                            <span class="n">cylinder</span><span class="p">(</span><span class="n">height</span><span class="o">=</span><span class="n">skirt_t</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="n">r_cam</span><span class="p">,</span> <span class="o">**</span><span class="n">precision_kwargs</span><span class="p">())</span>
+                            <span class="o">.</span><span class="n">rotate</span><span class="p">([</span><span class="o">-</span><span class="mi">90</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+                            <span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">pos_long</span><span class="p">,</span> <span class="n">y_l0</span> <span class="o">+</span> <span class="n">skirt_t</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">z</span><span class="p">])</span>
+                        <span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">l_mech</span> <span class="o">=</span> <span class="n">block</span><span class="p">(</span>
+                            <span class="p">[</span><span class="n">slider_w</span><span class="p">,</span> <span class="n">skirt_t</span><span class="p">,</span> <span class="n">slider_h</span><span class="p">],</span>
+                            <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="n">pos_long</span> <span class="o">-</span> <span class="n">slider_w</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">y_l0</span><span class="p">,</span> <span class="n">z</span> <span class="o">-</span> <span class="n">slider_h</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">),</span>
+                        <span class="p">)</span>
+                    <span class="n">l_lug</span> <span class="o">=</span> <span class="n">block</span><span class="p">(</span>
+                        <span class="p">[</span><span class="n">lug_w</span><span class="p">,</span> <span class="n">slack</span> <span class="o">+</span> <span class="n">mort_d</span> <span class="o">-</span> <span class="n">pip_clr</span> <span class="o">+</span> <span class="mf">0.2</span><span class="p">,</span> <span class="n">lug_h</span><span class="p">],</span>
+                        <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="n">pos_long</span> <span class="o">-</span> <span class="n">lug_w</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">across_val</span> <span class="o">-</span> <span class="n">inset</span> <span class="o">-</span> <span class="n">mort_d</span> <span class="o">+</span> <span class="n">pip_clr</span><span class="p">,</span> <span class="n">z</span> <span class="o">-</span> <span class="n">lug_h</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">),</span>
+                    <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">face</span> <span class="o">==</span> <span class="s2">"low"</span><span class="p">:</span>
+                    <span class="n">b_mort</span> <span class="o">=</span> <span class="n">block</span><span class="p">(</span>
+                        <span class="p">[</span><span class="n">mort_d</span> <span class="o">+</span> <span class="n">pip_clr</span> <span class="o">+</span> <span class="mf">0.1</span><span class="p">,</span> <span class="n">win_w</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">pip_clr</span><span class="p">,</span> <span class="n">lug_h</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">pip_clr</span><span class="p">],</span>
+                        <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="n">inset</span> <span class="o">-</span> <span class="mf">0.05</span><span class="p">,</span> <span class="n">pos_long</span> <span class="o">-</span> <span class="n">win_w</span> <span class="o">/</span> <span class="mf">2.0</span> <span class="o">-</span> <span class="n">pip_clr</span><span class="p">,</span> <span class="n">z</span> <span class="o">-</span> <span class="n">lug_h</span> <span class="o">/</span> <span class="mf">2.0</span> <span class="o">-</span> <span class="n">pip_clr</span><span class="p">),</span>
+                    <span class="p">)</span>
+                    <span class="n">l_win</span> <span class="o">=</span> <span class="n">block</span><span class="p">(</span>
+                        <span class="p">[</span><span class="n">skirt_t</span> <span class="o">+</span> <span class="mf">0.2</span><span class="p">,</span> <span class="n">win_w</span><span class="p">,</span> <span class="n">win_h</span><span class="p">],</span>
+                        <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">pos_long</span> <span class="o">-</span> <span class="n">win_w</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">z</span> <span class="o">-</span> <span class="n">win_h</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">),</span>
+                    <span class="p">)</span>
+                    <span class="n">l_mech</span> <span class="o">=</span> <span class="n">block</span><span class="p">(</span>
+                        <span class="p">[</span><span class="n">skirt_t</span><span class="p">,</span> <span class="n">slider_w</span><span class="p">,</span> <span class="n">slider_h</span><span class="p">],</span>
+                        <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">pos_long</span> <span class="o">-</span> <span class="n">slider_w</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">z</span> <span class="o">-</span> <span class="n">slider_h</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">),</span>
+                    <span class="p">)</span>
+                    <span class="n">l_lug</span> <span class="o">=</span> <span class="n">block</span><span class="p">(</span>
+                        <span class="p">[</span><span class="n">slack</span> <span class="o">+</span> <span class="n">mort_d</span> <span class="o">-</span> <span class="n">pip_clr</span> <span class="o">+</span> <span class="mf">0.2</span><span class="p">,</span> <span class="n">lug_w</span><span class="p">,</span> <span class="n">lug_h</span><span class="p">],</span>
+                        <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="n">skirt_t</span> <span class="o">-</span> <span class="mf">0.2</span><span class="p">,</span> <span class="n">pos_long</span> <span class="o">-</span> <span class="n">lug_w</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">z</span> <span class="o">-</span> <span class="n">lug_h</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">),</span>
+                    <span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">x_b0</span> <span class="o">=</span> <span class="n">across_val</span> <span class="o">-</span> <span class="n">inset</span> <span class="o">-</span> <span class="n">mort_d</span> <span class="o">-</span> <span class="n">pip_clr</span>
+                    <span class="n">x_l0</span> <span class="o">=</span> <span class="n">across_val</span> <span class="o">-</span> <span class="n">skirt_t</span>
+                    <span class="n">b_mort</span> <span class="o">=</span> <span class="n">block</span><span class="p">(</span>
+                        <span class="p">[</span><span class="n">mort_d</span> <span class="o">+</span> <span class="n">pip_clr</span> <span class="o">+</span> <span class="mf">0.1</span><span class="p">,</span> <span class="n">win_w</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">pip_clr</span><span class="p">,</span> <span class="n">lug_h</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">pip_clr</span><span class="p">],</span>
+                        <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="n">x_b0</span><span class="p">,</span> <span class="n">pos_long</span> <span class="o">-</span> <span class="n">win_w</span> <span class="o">/</span> <span class="mf">2.0</span> <span class="o">-</span> <span class="n">pip_clr</span><span class="p">,</span> <span class="n">z</span> <span class="o">-</span> <span class="n">lug_h</span> <span class="o">/</span> <span class="mf">2.0</span> <span class="o">-</span> <span class="n">pip_clr</span><span class="p">),</span>
+                    <span class="p">)</span>
+                    <span class="n">l_win</span> <span class="o">=</span> <span class="n">block</span><span class="p">(</span>
+                        <span class="p">[</span><span class="n">skirt_t</span> <span class="o">+</span> <span class="mf">0.2</span><span class="p">,</span> <span class="n">win_w</span><span class="p">,</span> <span class="n">win_h</span><span class="p">],</span>
+                        <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="n">x_l0</span> <span class="o">-</span> <span class="mf">0.1</span><span class="p">,</span> <span class="n">pos_long</span> <span class="o">-</span> <span class="n">win_w</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">z</span> <span class="o">-</span> <span class="n">win_h</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">),</span>
+                    <span class="p">)</span>
+                    <span class="n">l_mech</span> <span class="o">=</span> <span class="n">block</span><span class="p">(</span>
+                        <span class="p">[</span><span class="n">skirt_t</span><span class="p">,</span> <span class="n">slider_w</span><span class="p">,</span> <span class="n">slider_h</span><span class="p">],</span>
+                        <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="n">x_l0</span><span class="p">,</span> <span class="n">pos_long</span> <span class="o">-</span> <span class="n">slider_w</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">z</span> <span class="o">-</span> <span class="n">slider_h</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">),</span>
+                    <span class="p">)</span>
+                    <span class="n">l_lug</span> <span class="o">=</span> <span class="n">block</span><span class="p">(</span>
+                        <span class="p">[</span><span class="n">slack</span> <span class="o">+</span> <span class="n">mort_d</span> <span class="o">-</span> <span class="n">pip_clr</span> <span class="o">+</span> <span class="mf">0.2</span><span class="p">,</span> <span class="n">lug_w</span><span class="p">,</span> <span class="n">lug_h</span><span class="p">],</span>
+                        <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="n">across_val</span> <span class="o">-</span> <span class="n">inset</span> <span class="o">-</span> <span class="n">mort_d</span> <span class="o">+</span> <span class="n">pip_clr</span><span class="p">,</span> <span class="n">pos_long</span> <span class="o">-</span> <span class="n">lug_w</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">z</span> <span class="o">-</span> <span class="n">lug_h</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">),</span>
+                    <span class="p">)</span>
+            <span class="n">body_solids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">b_mort</span><span class="p">)</span>
+            <span class="n">lid_cuts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">l_win</span><span class="p">)</span>
+            <span class="n">lid_solids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">l_mech</span> <span class="o">|</span> <span class="n">l_lug</span><span class="p">)</span>
+
     <span class="k">return</span> <span class="n">Closure</span><span class="p">(</span>
         <span class="n">body</span><span class="o">=</span><span class="n">union_all</span><span class="p">(</span><span class="n">body_solids</span><span class="p">),</span>
         <span class="n">lid</span><span class="o">=</span><span class="n">union_all</span><span class="p">(</span><span class="n">lid_solids</span><span class="p">),</span>
@@ -2501,10 +2621,12 @@
 
 <div class="viewcode-block" id="hinge_catch">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.features.hinge_catch.html#pyboxbuilder.box.features.hinge_catch">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">hinge_catch</span><span class="p">(</span><span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Closure</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""Return the front snap-fit catch for a hinged box (FR-002v, FR-099).</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">hinge_catch</span><span class="p">(</span><span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">vertical_wall</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Closure</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Return the front snap-fit or print-in-place catch for a hinged box (FR-002v, FR-099).</span>
 
-<span class="sd">    Supports CatchType.WEDGE (default ridge), CatchType.BUMP, CatchType.LOOP, and CatchType.NONE.</span>
+<span class="sd">    When ``vertical_wall=True`` (or ``slide_catch_style="vertical"``), all catches are</span>
+<span class="sd">    built to mount on vertical front/side walls where the lid may be a hollow upper tray</span>
+<span class="sd">    or unfolded 180° on the print bed (`PrintInPlaceHingeBox`, `InsetHingeBox`, `ClamshellBox`).</span>
 <span class="sd">    """</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2.shapes2d</span><span class="w"> </span><span class="kn">import</span> <span class="n">polygon</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2.shapes3d</span><span class="w"> </span><span class="kn">import</span> <span class="n">sphere</span>
@@ -2516,19 +2638,72 @@
     <span class="k">if</span> <span class="n">catch_type</span> <span class="o">==</span> <span class="n">CatchType</span><span class="o">.</span><span class="n">NONE</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">Closure</span><span class="p">()</span>
 
+    <span class="n">is_vertical</span> <span class="o">=</span> <span class="n">vertical_wall</span> <span class="ow">or</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="s2">"slide_catch_style"</span><span class="p">,</span> <span class="s2">"front"</span><span class="p">)</span> <span class="ow">in</span> <span class="p">(</span>
+        <span class="s2">"vertical"</span><span class="p">,</span>
+        <span class="s2">"card_library_vertical"</span><span class="p">,</span>
+    <span class="p">)</span>
+
     <span class="k">if</span> <span class="n">catch_type</span> <span class="o">==</span> <span class="n">CatchType</span><span class="o">.</span><span class="n">SLIDE_ACROSS</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">is_vertical</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">build_vertical_slide_across_hinge_catch</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">build_slide_across_hinge_catch</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">catch_type</span> <span class="o">==</span> <span class="n">CatchType</span><span class="o">.</span><span class="n">SLIDE_UP</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">build_slide_up_hinge_catch</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="n">build_slide_up_hinge_catch</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">is_vertical</span> <span class="ow">and</span> <span class="n">c</span><span class="o">.</span><span class="n">lid_cut</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">wt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">wall_thickness</span>
+            <span class="n">track_w</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">width</span> <span class="o">*</span> <span class="mf">0.35</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mf">10.0</span><span class="p">,</span> <span class="n">wt</span> <span class="o">*</span> <span class="mf">5.0</span><span class="p">))</span>
+            <span class="n">track_d</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">wt</span> <span class="o">*</span> <span class="mf">0.75</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mf">1.2</span><span class="p">,</span> <span class="n">wt</span> <span class="o">-</span> <span class="mf">0.5</span><span class="p">))</span>
+            <span class="n">l_boss</span> <span class="o">=</span> <span class="n">_lid_front_wall_backing_boss</span><span class="p">(</span>
+                <span class="n">spec</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">width</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">track_w</span> <span class="o">+</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">wt</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="n">wt</span><span class="p">,</span> <span class="n">track_d</span> <span class="o">+</span> <span class="mf">1.2</span><span class="p">)</span>
+            <span class="p">)</span>
+            <span class="k">if</span> <span class="n">l_boss</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">Closure</span><span class="p">(</span>
+                    <span class="n">body</span><span class="o">=</span><span class="n">c</span><span class="o">.</span><span class="n">body</span><span class="p">,</span>
+                    <span class="n">body_cut</span><span class="o">=</span><span class="n">c</span><span class="o">.</span><span class="n">body_cut</span><span class="p">,</span>
+                    <span class="n">lid</span><span class="o">=</span><span class="n">l_boss</span> <span class="o">-</span> <span class="n">c</span><span class="o">.</span><span class="n">lid_cut</span><span class="p">,</span>
+                    <span class="n">lid_cut</span><span class="o">=</span><span class="n">c</span><span class="o">.</span><span class="n">lid_cut</span><span class="p">,</span>
+                <span class="p">)</span>
+        <span class="k">return</span> <span class="n">c</span>
     <span class="k">if</span> <span class="n">catch_type</span> <span class="o">==</span> <span class="n">CatchType</span><span class="o">.</span><span class="n">SPIN</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">build_spin_hinge_catch</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="n">build_spin_hinge_catch</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">is_vertical</span> <span class="ow">and</span> <span class="n">c</span><span class="o">.</span><span class="n">lid_cut</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">wt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">wall_thickness</span>
+            <span class="n">l_boss</span> <span class="o">=</span> <span class="n">_lid_front_wall_backing_boss</span><span class="p">(</span>
+                <span class="n">spec</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">width</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mf">12.0</span><span class="p">,</span> <span class="mf">4.0</span> <span class="o">*</span> <span class="n">wt</span><span class="p">),</span> <span class="nb">max</span><span class="p">(</span><span class="n">wt</span><span class="p">,</span> <span class="n">wt</span> <span class="o">*</span> <span class="mf">1.4</span><span class="p">)</span>
+            <span class="p">)</span>
+            <span class="k">if</span> <span class="n">l_boss</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">Closure</span><span class="p">(</span>
+                    <span class="n">body</span><span class="o">=</span><span class="n">c</span><span class="o">.</span><span class="n">body</span><span class="p">,</span>
+                    <span class="n">body_cut</span><span class="o">=</span><span class="n">c</span><span class="o">.</span><span class="n">body_cut</span><span class="p">,</span>
+                    <span class="n">lid</span><span class="o">=</span><span class="n">l_boss</span> <span class="o">-</span> <span class="n">c</span><span class="o">.</span><span class="n">lid_cut</span><span class="p">,</span>
+                    <span class="n">lid_cut</span><span class="o">=</span><span class="n">c</span><span class="o">.</span><span class="n">lid_cut</span><span class="p">,</span>
+                <span class="p">)</span>
+        <span class="k">return</span> <span class="n">c</span>
     <span class="k">if</span> <span class="n">catch_type</span> <span class="o">==</span> <span class="n">CatchType</span><span class="o">.</span><span class="n">PUSH_BUTTON</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">build_push_button_hinge_catch</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">build_push_button_hinge_catch</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="n">vertical_wall</span><span class="o">=</span><span class="n">is_vertical</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">catch_type</span> <span class="o">==</span> <span class="n">CatchType</span><span class="o">.</span><span class="n">TOGGLE_LATCH</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">build_toggle_latch_hinge_catch</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="n">build_toggle_latch_hinge_catch</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">is_vertical</span> <span class="ow">and</span> <span class="n">c</span><span class="o">.</span><span class="n">lid_cut</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">wt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">wall_thickness</span>
+            <span class="n">bail_w</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">width</span> <span class="o">*</span> <span class="mf">0.34</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mf">10.0</span><span class="p">,</span> <span class="n">wt</span> <span class="o">*</span> <span class="mf">5.0</span><span class="p">))</span>
+            <span class="n">l_boss</span> <span class="o">=</span> <span class="n">_lid_front_wall_backing_boss</span><span class="p">(</span>
+                <span class="n">spec</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">width</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">bail_w</span> <span class="o">+</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">wt</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="n">wt</span><span class="p">,</span> <span class="n">wt</span> <span class="o">*</span> <span class="mf">1.4</span><span class="p">)</span>
+            <span class="p">)</span>
+            <span class="k">if</span> <span class="n">l_boss</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">Closure</span><span class="p">(</span>
+                    <span class="n">body</span><span class="o">=</span><span class="n">c</span><span class="o">.</span><span class="n">body</span><span class="p">,</span>
+                    <span class="n">body_cut</span><span class="o">=</span><span class="n">c</span><span class="o">.</span><span class="n">body_cut</span><span class="p">,</span>
+                    <span class="n">lid</span><span class="o">=</span><span class="n">l_boss</span> <span class="o">-</span> <span class="n">c</span><span class="o">.</span><span class="n">lid_cut</span><span class="p">,</span>
+                    <span class="n">lid_cut</span><span class="o">=</span><span class="n">c</span><span class="o">.</span><span class="n">lid_cut</span><span class="p">,</span>
+                <span class="p">)</span>
+        <span class="k">return</span> <span class="n">c</span>
     <span class="k">if</span> <span class="n">catch_type</span> <span class="o">==</span> <span class="n">CatchType</span><span class="o">.</span><span class="n">PINCH_SLIDE</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">is_vertical</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">build_vertical_pinch_slide_hinge_catch</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">build_pinch_slide_hinge_catch</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">catch_type</span> <span class="o">==</span> <span class="n">CatchType</span><span class="o">.</span><span class="n">ROTARY_BOLT</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">is_vertical</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">build_vertical_rotary_bolt_hinge_catch</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">build_rotary_bolt_hinge_catch</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
 
     <span class="n">eff_size</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">resolved_catch_size</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span>
@@ -2540,8 +2715,12 @@
     <span class="n">body_height</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">height</span> <span class="o">-</span> <span class="n">lt</span>
 
     <span class="c1"># Catch dimensions</span>
-    <span class="n">catch_height</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">height</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">10.0</span><span class="p">)</span>
-    <span class="n">catch_width</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">width</span> <span class="o">*</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">15.0</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">is_vertical</span><span class="p">:</span>
+        <span class="n">catch_height</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">body_height</span> <span class="o">*</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">)</span>
+        <span class="n">catch_width</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="s2">"pip_snap_width"</span><span class="p">,</span> <span class="mf">12.0</span><span class="p">),</span> <span class="n">spec</span><span class="o">.</span><span class="n">width</span> <span class="o">*</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">15.0</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">catch_height</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">height</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">10.0</span><span class="p">)</span>
+        <span class="n">catch_width</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">width</span> <span class="o">*</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">15.0</span><span class="p">)</span>
     <span class="n">gap</span> <span class="o">=</span> <span class="mf">0.1</span>
     <span class="n">fillet_r</span> <span class="o">=</span> <span class="n">wt</span> <span class="o">/</span> <span class="mf">2.0</span>  <span class="c1"># default rounding is wall_thickness/2</span>
 
@@ -2551,7 +2730,10 @@
     <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2.shapes2d</span><span class="w"> </span><span class="kn">import</span> <span class="n">rect</span>
 
     <span class="n">tab_2d</span> <span class="o">=</span> <span class="n">rect</span><span class="p">([</span><span class="n">catch_width</span><span class="p">,</span> <span class="n">wt</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">],</span> <span class="n">rounding</span><span class="o">=</span><span class="p">[</span><span class="n">fillet_r</span><span class="p">,</span> <span class="n">fillet_r</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">anchor</span><span class="o">=</span><span class="n">FRONT</span><span class="p">)</span>
-    <span class="n">lid_tab</span> <span class="o">=</span> <span class="n">tab_2d</span><span class="o">.</span><span class="n">linear_extrude</span><span class="p">(</span><span class="n">height</span><span class="o">=</span><span class="n">catch_height</span><span class="p">)</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">x_center</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">body_height</span> <span class="o">-</span> <span class="n">catch_height</span><span class="p">])</span>
+    <span class="n">tab_top_extra</span> <span class="o">=</span> <span class="n">lt</span> <span class="k">if</span> <span class="n">is_vertical</span> <span class="k">else</span> <span class="mf">0.0</span>
+    <span class="n">lid_tab</span> <span class="o">=</span> <span class="n">tab_2d</span><span class="o">.</span><span class="n">linear_extrude</span><span class="p">(</span><span class="n">height</span><span class="o">=</span><span class="n">catch_height</span> <span class="o">+</span> <span class="n">tab_top_extra</span><span class="p">)</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span>
+        <span class="p">[</span><span class="n">x_center</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">body_height</span> <span class="o">-</span> <span class="n">catch_height</span><span class="p">]</span>
+    <span class="p">)</span>
 
     <span class="n">body_cut_width</span> <span class="o">=</span> <span class="n">catch_width</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">gap</span>
     <span class="n">body_cut_y</span> <span class="o">=</span> <span class="n">wt</span> <span class="o">/</span> <span class="mf">2.0</span> <span class="o">+</span> <span class="n">gap</span>
@@ -2592,11 +2774,12 @@
         <span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">x_center</span> <span class="o">-</span> <span class="n">catch_width</span> <span class="o">/</span> <span class="mf">2.0</span> <span class="o">-</span> <span class="n">gap</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">body_height</span><span class="p">])</span>
     <span class="p">)</span>
 
-    <span class="n">body_cut</span> <span class="o">=</span> <span class="n">body_cut</span> <span class="o">|</span> <span class="n">pocket_cut</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">is_vertical</span><span class="p">:</span>
+        <span class="n">body_cut</span> <span class="o">=</span> <span class="n">body_cut</span> <span class="o">|</span> <span class="n">pocket_cut</span>
     <span class="n">lid_tab</span> <span class="o">=</span> <span class="n">lid_tab</span> <span class="o">|</span> <span class="n">gusset</span>
 
     <span class="n">z_peak</span> <span class="o">=</span> <span class="n">body_height</span> <span class="o">-</span> <span class="n">catch_height</span> <span class="o">/</span> <span class="mf">2.0</span>
-    <span class="n">slope_height</span> <span class="o">=</span> <span class="mf">2.0</span>
+    <span class="n">slope_height</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mf">1.2</span><span class="p">,</span> <span class="n">catch_height</span> <span class="o">*</span> <span class="mf">0.45</span><span class="p">)</span> <span class="k">if</span> <span class="n">is_vertical</span> <span class="k">else</span> <span class="mf">2.0</span>
 
     <span class="k">if</span> <span class="n">catch_type</span> <span class="o">==</span> <span class="n">CatchType</span><span class="o">.</span><span class="n">WEDGE</span><span class="p">:</span>
         <span class="n">bead_depth</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">eff_size</span><span class="p">,</span> <span class="n">wt</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">)</span>
@@ -2765,6 +2948,492 @@
         <span class="o">.</span><span class="n">scale</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">])</span>
         <span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">x_center</span> <span class="o">-</span> <span class="n">w_clamped</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">])</span>
     <span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_lid_front_wall_backing_boss</span><span class="p">(</span>
+    <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">,</span>
+    <span class="n">x_center</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">boss_w</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">boss_t</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">z_flat_top</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Return a support-free 45°-tapered internal backing boss on the lid's front wall (z &gt;= body_h)."""</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path2D</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2.shapes2d</span><span class="w"> </span><span class="kn">import</span> <span class="n">polygon</span>
+
+    <span class="n">wt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">wall_thickness</span>
+    <span class="n">lt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">lid_thickness</span>
+    <span class="n">body_h</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">height</span> <span class="o">-</span> <span class="n">lt</span>
+    <span class="k">if</span> <span class="n">boss_t</span> <span class="o">&lt;=</span> <span class="n">wt</span> <span class="o">+</span> <span class="mf">0.05</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+    <span class="n">w_clamped</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">width</span> <span class="o">-</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">wt</span><span class="p">,</span> <span class="n">boss_w</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">w_clamped</span> <span class="o">&lt;=</span> <span class="mf">1.0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+    <span class="n">z_f</span> <span class="o">=</span> <span class="n">body_h</span> <span class="o">+</span> <span class="n">lt</span> <span class="k">if</span> <span class="n">z_flat_top</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="nb">max</span><span class="p">(</span><span class="n">body_h</span> <span class="o">+</span> <span class="n">lt</span> <span class="o">*</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">z_flat_top</span><span class="p">)</span>
+    <span class="n">z_top</span> <span class="o">=</span> <span class="n">z_f</span> <span class="o">+</span> <span class="p">(</span><span class="n">boss_t</span> <span class="o">-</span> <span class="n">wt</span><span class="p">)</span>
+    <span class="n">pts</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">(</span><span class="n">wt</span> <span class="o">*</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">body_h</span><span class="p">),</span>
+        <span class="p">(</span><span class="n">boss_t</span><span class="p">,</span> <span class="n">body_h</span><span class="p">),</span>
+        <span class="p">(</span><span class="n">boss_t</span><span class="p">,</span> <span class="n">z_f</span><span class="p">),</span>
+        <span class="p">(</span><span class="n">wt</span><span class="p">,</span> <span class="n">z_top</span><span class="p">),</span>
+        <span class="p">(</span><span class="n">wt</span> <span class="o">*</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">z_top</span><span class="p">),</span>
+    <span class="p">]</span>
+    <span class="n">poly</span> <span class="o">=</span> <span class="n">polygon</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">Path2D</span><span class="p">(</span><span class="n">pts</span><span class="p">))</span>
+    <span class="k">return</span> <span class="p">(</span>
+        <span class="n">poly</span><span class="o">.</span><span class="n">linear_extrude</span><span class="p">(</span><span class="n">height</span><span class="o">=</span><span class="n">w_clamped</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">rotate</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">90</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+        <span class="o">.</span><span class="n">rotate</span><span class="p">([</span><span class="o">-</span><span class="mi">90</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+        <span class="o">.</span><span class="n">scale</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+        <span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">x_center</span> <span class="o">-</span> <span class="n">w_clamped</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">])</span>
+    <span class="p">)</span>
+
+
+<div class="viewcode-block" id="build_vertical_slide_across_hinge_catch">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.features.build_vertical_slide_across_hinge_catch.html#pyboxbuilder.box.features.build_vertical_slide_across_hinge_catch">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">build_vertical_slide_across_hinge_catch</span><span class="p">(</span><span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Closure</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Return a vertical-wall print-in-place horizontal dovetail sliding bolt catch.</span>
+
+<span class="sd">    Places the captive dovetail slider inside the upright body wall below ``body_h``</span>
+<span class="sd">    with an upward L-hook that engages a strike mortise in the vertical lid wall.</span>
+<span class="sd">    Supports both ``slide_catch_style="front"`` and ``slide_catch_style="card_library"``.</span>
+<span class="sd">    """</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path2D</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2.shapes2d</span><span class="w"> </span><span class="kn">import</span> <span class="n">polygon</span>
+
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.shell</span><span class="w"> </span><span class="kn">import</span> <span class="n">block</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.compartments.element</span><span class="w"> </span><span class="kn">import</span> <span class="n">union_all</span>
+
+    <span class="n">wt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">wall_thickness</span>
+    <span class="n">lt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">lid_thickness</span>
+    <span class="n">ft</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">floor_thickness</span>
+    <span class="n">body_h</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">height</span> <span class="o">-</span> <span class="n">lt</span>
+    <span class="n">pip_clr</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.22</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="mf">0.35</span><span class="p">,</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="s2">"pip_radial_clearance"</span><span class="p">,</span> <span class="mf">0.28</span><span class="p">)))</span>
+    <span class="n">style</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="s2">"slide_catch_style"</span><span class="p">,</span> <span class="s2">"front"</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">style</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"card_library"</span><span class="p">,</span> <span class="s2">"card_library_vertical"</span><span class="p">):</span>
+        <span class="c1"># Dual side-wall vertical-face horizontal dovetail sliders along Y + front step</span>
+        <span class="n">y_latch</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">length</span> <span class="o">*</span> <span class="mf">0.35</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="n">wt</span> <span class="o">*</span> <span class="mf">4.0</span><span class="p">,</span> <span class="mf">14.0</span><span class="p">))</span>
+        <span class="n">chan_len</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">length</span> <span class="o">*</span> <span class="mf">0.35</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mf">12.0</span><span class="p">,</span> <span class="n">wt</span> <span class="o">*</span> <span class="mf">5.0</span><span class="p">))</span>
+        <span class="n">slider_len</span> <span class="o">=</span> <span class="n">chan_len</span> <span class="o">*</span> <span class="mf">0.56</span>
+        <span class="n">travel</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">1.8</span><span class="p">,</span> <span class="p">(</span><span class="n">chan_len</span> <span class="o">-</span> <span class="n">slider_len</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.5</span> <span class="o">-</span> <span class="n">pip_clr</span><span class="p">)</span>
+        <span class="n">track_h</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="mf">4.5</span><span class="p">,</span> <span class="p">(</span><span class="n">body_h</span> <span class="o">-</span> <span class="n">ft</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.42</span><span class="p">),</span> <span class="mf">7.5</span><span class="p">)</span>
+        <span class="n">track_d</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">wt</span> <span class="o">*</span> <span class="mf">0.72</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mf">1.1</span><span class="p">,</span> <span class="n">wt</span> <span class="o">-</span> <span class="mf">0.5</span><span class="p">))</span>
+        <span class="n">z_track_bot</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">ft</span> <span class="o">+</span> <span class="mf">0.8</span><span class="p">,</span> <span class="n">body_h</span> <span class="o">-</span> <span class="n">track_h</span><span class="p">)</span>
+        <span class="n">lug_len</span> <span class="o">=</span> <span class="n">slider_len</span> <span class="o">*</span> <span class="mf">0.45</span>
+        <span class="n">ledge_h</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.55</span><span class="p">,</span> <span class="n">lt</span> <span class="o">*</span> <span class="mf">0.35</span><span class="p">)</span>
+        <span class="n">z_hook_top</span> <span class="o">=</span> <span class="n">body_h</span> <span class="o">+</span> <span class="n">lt</span> <span class="o">*</span> <span class="mf">0.75</span>
+        <span class="n">bridge_t</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mf">0.65</span><span class="p">,</span> <span class="n">track_d</span> <span class="o">*</span> <span class="mf">0.35</span><span class="p">)</span>
+        <span class="n">s_depth</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.75</span><span class="p">,</span> <span class="n">track_d</span> <span class="o">-</span> <span class="n">pip_clr</span><span class="p">)</span>
+
+        <span class="n">body_cuts</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">body_sliders</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">lid_cuts</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">is_right</span> <span class="ow">in</span> <span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">):</span>
+            <span class="n">x_cut0</span> <span class="o">=</span> <span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">width</span> <span class="o">-</span> <span class="n">track_d</span><span class="p">)</span> <span class="k">if</span> <span class="n">is_right</span> <span class="k">else</span> <span class="o">-</span><span class="mf">0.1</span>
+            <span class="n">x_s0</span> <span class="o">=</span> <span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">width</span> <span class="o">-</span> <span class="n">s_depth</span><span class="p">)</span> <span class="k">if</span> <span class="n">is_right</span> <span class="k">else</span> <span class="mf">0.0</span>
+            <span class="n">x_hook0</span> <span class="o">=</span> <span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">width</span> <span class="o">-</span> <span class="n">s_depth</span><span class="p">)</span> <span class="k">if</span> <span class="n">is_right</span> <span class="k">else</span> <span class="p">(</span><span class="n">bridge_t</span> <span class="o">+</span> <span class="n">pip_clr</span><span class="p">)</span>
+            <span class="n">x_mort0</span> <span class="o">=</span> <span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">width</span> <span class="o">-</span> <span class="n">s_depth</span> <span class="o">-</span> <span class="n">pip_clr</span><span class="p">)</span> <span class="k">if</span> <span class="n">is_right</span> <span class="k">else</span> <span class="n">bridge_t</span>
+
+            <span class="n">b_track</span> <span class="o">=</span> <span class="n">block</span><span class="p">(</span>
+                <span class="p">[</span><span class="n">track_d</span> <span class="o">+</span> <span class="mf">0.1</span><span class="p">,</span> <span class="n">chan_len</span><span class="p">,</span> <span class="n">track_h</span> <span class="o">+</span> <span class="mf">0.1</span><span class="p">],</span>
+                <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="n">x_cut0</span><span class="p">,</span> <span class="n">y_latch</span> <span class="o">-</span> <span class="n">chan_len</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">z_track_bot</span><span class="p">),</span>
+            <span class="p">)</span>
+            <span class="n">body_cuts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">b_track</span><span class="p">)</span>
+
+            <span class="n">s_core</span> <span class="o">=</span> <span class="n">block</span><span class="p">(</span>
+                <span class="p">[</span><span class="n">s_depth</span><span class="p">,</span> <span class="n">slider_len</span><span class="p">,</span> <span class="n">track_h</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">pip_clr</span><span class="p">],</span>
+                <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="n">x_s0</span><span class="p">,</span> <span class="n">y_latch</span> <span class="o">-</span> <span class="n">slider_len</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">z_track_bot</span> <span class="o">+</span> <span class="n">pip_clr</span><span class="p">),</span>
+            <span class="p">)</span>
+            <span class="n">stalk_len</span> <span class="o">=</span> <span class="n">lug_len</span> <span class="o">*</span> <span class="mf">0.55</span>
+            <span class="n">s_stalk</span> <span class="o">=</span> <span class="n">block</span><span class="p">(</span>
+                <span class="p">[</span><span class="n">s_depth</span> <span class="o">-</span> <span class="n">bridge_t</span> <span class="o">-</span> <span class="n">pip_clr</span><span class="p">,</span> <span class="n">stalk_len</span><span class="p">,</span> <span class="n">z_hook_top</span> <span class="o">-</span> <span class="p">(</span><span class="n">z_track_bot</span> <span class="o">+</span> <span class="n">pip_clr</span><span class="p">)],</span>
+                <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="n">x_hook0</span><span class="p">,</span> <span class="n">y_latch</span> <span class="o">-</span> <span class="n">lug_len</span> <span class="o">*</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">z_track_bot</span> <span class="o">+</span> <span class="n">pip_clr</span><span class="p">),</span>
+            <span class="p">)</span>
+            <span class="n">s_finger</span> <span class="o">=</span> <span class="n">block</span><span class="p">(</span>
+                <span class="p">[</span><span class="n">s_depth</span> <span class="o">-</span> <span class="n">bridge_t</span> <span class="o">-</span> <span class="n">pip_clr</span><span class="p">,</span> <span class="n">lug_len</span><span class="p">,</span> <span class="n">z_hook_top</span> <span class="o">-</span> <span class="p">(</span><span class="n">body_h</span> <span class="o">+</span> <span class="n">ledge_h</span> <span class="o">+</span> <span class="n">pip_clr</span><span class="p">)],</span>
+                <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="n">x_hook0</span><span class="p">,</span> <span class="n">y_latch</span> <span class="o">-</span> <span class="n">lug_len</span> <span class="o">*</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">body_h</span> <span class="o">+</span> <span class="n">ledge_h</span> <span class="o">+</span> <span class="n">pip_clr</span><span class="p">),</span>
+            <span class="p">)</span>
+            <span class="n">body_sliders</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">s_core</span> <span class="o">|</span> <span class="n">s_stalk</span> <span class="o">|</span> <span class="n">s_finger</span><span class="p">)</span>
+
+            <span class="n">l_entry</span> <span class="o">=</span> <span class="n">block</span><span class="p">(</span>
+                <span class="p">[</span><span class="n">s_depth</span> <span class="o">-</span> <span class="n">bridge_t</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">pip_clr</span><span class="p">,</span> <span class="n">stalk_len</span> <span class="o">+</span> <span class="n">travel</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">pip_clr</span><span class="p">,</span> <span class="n">lt</span> <span class="o">*</span> <span class="mf">0.8</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">pip_clr</span><span class="p">],</span>
+                <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="n">x_mort0</span><span class="p">,</span> <span class="n">y_latch</span> <span class="o">-</span> <span class="n">lug_len</span> <span class="o">*</span> <span class="mf">0.5</span> <span class="o">-</span> <span class="n">travel</span> <span class="o">-</span> <span class="n">pip_clr</span><span class="p">,</span> <span class="n">body_h</span> <span class="o">-</span> <span class="mf">0.1</span><span class="p">),</span>
+            <span class="p">)</span>
+            <span class="n">l_locked</span> <span class="o">=</span> <span class="n">block</span><span class="p">(</span>
+                <span class="p">[</span>
+                    <span class="n">s_depth</span> <span class="o">-</span> <span class="n">bridge_t</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">pip_clr</span><span class="p">,</span>
+                    <span class="n">lug_len</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">pip_clr</span><span class="p">,</span>
+                    <span class="p">(</span><span class="n">z_hook_top</span> <span class="o">-</span> <span class="p">(</span><span class="n">body_h</span> <span class="o">+</span> <span class="n">ledge_h</span><span class="p">))</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">pip_clr</span><span class="p">,</span>
+                <span class="p">],</span>
+                <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="n">x_mort0</span><span class="p">,</span> <span class="n">y_latch</span> <span class="o">-</span> <span class="n">lug_len</span> <span class="o">*</span> <span class="mf">0.5</span> <span class="o">-</span> <span class="n">pip_clr</span><span class="p">,</span> <span class="n">body_h</span> <span class="o">+</span> <span class="n">ledge_h</span><span class="p">),</span>
+            <span class="p">)</span>
+            <span class="n">lid_cuts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">l_entry</span> <span class="o">|</span> <span class="n">l_locked</span><span class="p">)</span>
+
+        <span class="n">all_body_cut</span> <span class="o">=</span> <span class="n">union_all</span><span class="p">(</span><span class="n">body_cuts</span><span class="p">)</span>
+        <span class="n">all_sliders</span> <span class="o">=</span> <span class="n">union_all</span><span class="p">(</span><span class="n">body_sliders</span><span class="p">)</span>
+        <span class="n">all_lid_cut</span> <span class="o">=</span> <span class="n">union_all</span><span class="p">(</span><span class="n">lid_cuts</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">Closure</span><span class="p">(</span>
+            <span class="n">body</span><span class="o">=</span><span class="n">all_sliders</span><span class="p">,</span>
+            <span class="n">body_cut</span><span class="o">=</span><span class="n">all_body_cut</span><span class="p">,</span>
+            <span class="n">lid_cut</span><span class="o">=</span><span class="n">all_lid_cut</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="c1"># Front vertical-wall dovetail slide-across catch</span>
+    <span class="n">x_center</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">width</span> <span class="o">/</span> <span class="mf">2.0</span>
+    <span class="n">chan_w</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">width</span> <span class="o">*</span> <span class="mf">0.45</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mf">14.0</span><span class="p">,</span> <span class="n">wt</span> <span class="o">*</span> <span class="mf">7.0</span><span class="p">))</span>
+    <span class="n">slider_w</span> <span class="o">=</span> <span class="n">chan_w</span> <span class="o">*</span> <span class="mf">0.54</span>
+    <span class="n">travel</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">2.0</span><span class="p">,</span> <span class="p">(</span><span class="n">chan_w</span> <span class="o">-</span> <span class="n">slider_w</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.5</span> <span class="o">-</span> <span class="n">pip_clr</span><span class="p">)</span>
+    <span class="n">track_h</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="mf">4.8</span><span class="p">,</span> <span class="p">(</span><span class="n">body_h</span> <span class="o">-</span> <span class="n">ft</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.42</span><span class="p">),</span> <span class="mf">8.0</span><span class="p">)</span>
+    <span class="n">track_d</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">wt</span> <span class="o">*</span> <span class="mf">0.75</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mf">1.2</span><span class="p">,</span> <span class="n">wt</span> <span class="o">-</span> <span class="mf">0.5</span><span class="p">))</span>
+    <span class="n">z_track_bot</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">ft</span> <span class="o">+</span> <span class="mf">0.8</span><span class="p">,</span> <span class="n">body_h</span> <span class="o">-</span> <span class="n">track_h</span><span class="p">)</span>
+    <span class="n">z_mid</span> <span class="o">=</span> <span class="p">(</span><span class="n">z_track_bot</span> <span class="o">+</span> <span class="n">body_h</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span>
+    <span class="n">dovetail_flare</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mf">0.65</span><span class="p">,</span> <span class="n">track_h</span> <span class="o">*</span> <span class="mf">0.18</span><span class="p">)</span>
+
+    <span class="n">boss_t</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">wt</span><span class="p">,</span> <span class="n">track_d</span> <span class="o">+</span> <span class="mf">1.2</span><span class="p">)</span>
+    <span class="n">boss</span> <span class="o">=</span> <span class="n">_front_wall_backing_boss</span><span class="p">(</span>
+        <span class="n">spec</span><span class="p">,</span>
+        <span class="n">x_center</span><span class="o">=</span><span class="n">x_center</span><span class="p">,</span>
+        <span class="n">boss_w</span><span class="o">=</span><span class="n">chan_w</span> <span class="o">+</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">wt</span><span class="p">,</span>
+        <span class="n">boss_t</span><span class="o">=</span><span class="n">boss_t</span><span class="p">,</span>
+        <span class="n">z_flat</span><span class="o">=</span><span class="n">z_track_bot</span> <span class="o">-</span> <span class="mf">1.0</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_horiz_dovetail_x</span><span class="p">(</span><span class="n">x0</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">w_x</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">depth_y</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">h_front</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">h_back</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
+        <span class="n">pts</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">z_mid</span> <span class="o">-</span> <span class="n">h_front</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">),</span>
+            <span class="p">(</span><span class="n">depth_y</span><span class="p">,</span> <span class="n">z_mid</span> <span class="o">-</span> <span class="n">h_back</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">),</span>
+            <span class="p">(</span><span class="n">depth_y</span><span class="p">,</span> <span class="n">z_mid</span> <span class="o">+</span> <span class="n">h_back</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">),</span>
+            <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">z_mid</span> <span class="o">+</span> <span class="n">h_front</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">),</span>
+        <span class="p">]</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="n">polygon</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">Path2D</span><span class="p">(</span><span class="n">pts</span><span class="p">))</span>
+            <span class="o">.</span><span class="n">linear_extrude</span><span class="p">(</span><span class="n">height</span><span class="o">=</span><span class="n">w_x</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">rotate</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">90</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+            <span class="o">.</span><span class="n">rotate</span><span class="p">([</span><span class="o">-</span><span class="mi">90</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+            <span class="o">.</span><span class="n">scale</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+            <span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">x0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">])</span>
+        <span class="p">)</span>
+
+    <span class="n">h_front_cut</span> <span class="o">=</span> <span class="n">track_h</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">dovetail_flare</span>
+    <span class="n">track_cut</span> <span class="o">=</span> <span class="n">_horiz_dovetail_x</span><span class="p">(</span>
+        <span class="n">x_center</span> <span class="o">-</span> <span class="n">chan_w</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">chan_w</span><span class="p">,</span> <span class="n">track_d</span><span class="p">,</span> <span class="n">h_front_cut</span><span class="p">,</span> <span class="n">track_h</span>
+    <span class="p">)</span>
+    <span class="n">front_clear</span> <span class="o">=</span> <span class="n">block</span><span class="p">(</span>
+        <span class="p">[</span><span class="n">chan_w</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="n">h_front_cut</span><span class="p">],</span>
+        <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="n">x_center</span> <span class="o">-</span> <span class="n">chan_w</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">z_mid</span> <span class="o">-</span> <span class="n">h_front_cut</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">),</span>
+    <span class="p">)</span>
+
+    <span class="n">lug_w</span> <span class="o">=</span> <span class="n">slider_w</span> <span class="o">*</span> <span class="mf">0.52</span>
+    <span class="n">stalk_w</span> <span class="o">=</span> <span class="n">lug_w</span> <span class="o">*</span> <span class="mf">0.55</span>
+    <span class="n">lid_bridge_t</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">track_d</span> <span class="o">*</span> <span class="mf">0.35</span><span class="p">)</span>
+    <span class="n">s_depth</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">track_d</span> <span class="o">-</span> <span class="n">pip_clr</span><span class="p">)</span>
+    <span class="n">top_neck_slot</span> <span class="o">=</span> <span class="n">block</span><span class="p">(</span>
+        <span class="p">[</span><span class="n">lug_w</span> <span class="o">+</span> <span class="n">travel</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">pip_clr</span><span class="p">,</span> <span class="n">track_d</span> <span class="o">-</span> <span class="n">lid_bridge_t</span> <span class="o">+</span> <span class="mf">0.1</span><span class="p">,</span> <span class="p">(</span><span class="n">body_h</span> <span class="o">-</span> <span class="n">z_mid</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.2</span><span class="p">],</span>
+        <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="n">x_center</span> <span class="o">-</span> <span class="n">lug_w</span> <span class="o">*</span> <span class="mf">0.5</span> <span class="o">-</span> <span class="n">travel</span> <span class="o">-</span> <span class="n">pip_clr</span><span class="p">,</span> <span class="n">lid_bridge_t</span><span class="p">,</span> <span class="n">z_mid</span><span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">body_cut</span> <span class="o">=</span> <span class="n">track_cut</span> <span class="o">|</span> <span class="n">front_clear</span> <span class="o">|</span> <span class="n">top_neck_slot</span>
+
+    <span class="c1"># Captive dovetail slider + upward L-hook</span>
+    <span class="n">slider_core</span> <span class="o">=</span> <span class="n">_horiz_dovetail_x</span><span class="p">(</span>
+        <span class="n">x_center</span> <span class="o">-</span> <span class="n">slider_w</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span>
+        <span class="n">slider_w</span><span class="p">,</span>
+        <span class="n">s_depth</span><span class="p">,</span>
+        <span class="nb">max</span><span class="p">(</span><span class="mf">1.2</span><span class="p">,</span> <span class="n">h_front_cut</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">pip_clr</span><span class="p">),</span>
+        <span class="nb">max</span><span class="p">(</span><span class="mf">1.6</span><span class="p">,</span> <span class="n">track_h</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">pip_clr</span><span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">ledge_h</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.55</span><span class="p">,</span> <span class="n">lt</span> <span class="o">*</span> <span class="mf">0.35</span><span class="p">)</span>
+    <span class="n">z_hook_top</span> <span class="o">=</span> <span class="n">body_h</span> <span class="o">+</span> <span class="n">lt</span> <span class="o">*</span> <span class="mf">0.75</span>
+    <span class="n">hook_y_span</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">s_depth</span> <span class="o">-</span> <span class="n">lid_bridge_t</span> <span class="o">-</span> <span class="n">pip_clr</span><span class="p">)</span>
+    <span class="n">hook_stalk</span> <span class="o">=</span> <span class="n">block</span><span class="p">(</span>
+        <span class="p">[</span><span class="n">stalk_w</span><span class="p">,</span> <span class="n">hook_y_span</span><span class="p">,</span> <span class="n">z_hook_top</span> <span class="o">-</span> <span class="n">z_mid</span><span class="p">],</span>
+        <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="n">x_center</span> <span class="o">-</span> <span class="n">lug_w</span> <span class="o">*</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">lid_bridge_t</span> <span class="o">+</span> <span class="n">pip_clr</span><span class="p">,</span> <span class="n">z_mid</span><span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">hook_finger</span> <span class="o">=</span> <span class="n">block</span><span class="p">(</span>
+        <span class="p">[</span><span class="n">lug_w</span><span class="p">,</span> <span class="n">hook_y_span</span><span class="p">,</span> <span class="n">z_hook_top</span> <span class="o">-</span> <span class="p">(</span><span class="n">body_h</span> <span class="o">+</span> <span class="n">ledge_h</span> <span class="o">+</span> <span class="n">pip_clr</span><span class="p">)],</span>
+        <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="n">x_center</span> <span class="o">-</span> <span class="n">lug_w</span> <span class="o">*</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">lid_bridge_t</span> <span class="o">+</span> <span class="n">pip_clr</span><span class="p">,</span> <span class="n">body_h</span> <span class="o">+</span> <span class="n">ledge_h</span> <span class="o">+</span> <span class="n">pip_clr</span><span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">slider</span> <span class="o">=</span> <span class="n">slider_core</span> <span class="o">|</span> <span class="n">hook_stalk</span> <span class="o">|</span> <span class="n">hook_finger</span>
+    <span class="n">body_solid</span> <span class="o">=</span> <span class="n">slider</span> <span class="k">if</span> <span class="n">boss</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="p">((</span><span class="n">boss</span> <span class="o">-</span> <span class="n">body_cut</span><span class="p">)</span> <span class="o">|</span> <span class="n">slider</span><span class="p">)</span>
+
+    <span class="c1"># Lid strike mortise (open entry slot at x - travel, undercut locked pocket at x_center)</span>
+    <span class="n">lid_entry_slot</span> <span class="o">=</span> <span class="n">block</span><span class="p">(</span>
+        <span class="p">[</span><span class="n">stalk_w</span> <span class="o">+</span> <span class="n">travel</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">pip_clr</span><span class="p">,</span> <span class="n">hook_y_span</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">pip_clr</span><span class="p">,</span> <span class="n">lt</span> <span class="o">*</span> <span class="mf">0.8</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">pip_clr</span><span class="p">],</span>
+        <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="n">x_center</span> <span class="o">-</span> <span class="n">lug_w</span> <span class="o">*</span> <span class="mf">0.5</span> <span class="o">-</span> <span class="n">travel</span> <span class="o">-</span> <span class="n">pip_clr</span><span class="p">,</span> <span class="n">lid_bridge_t</span><span class="p">,</span> <span class="n">body_h</span> <span class="o">-</span> <span class="mf">0.1</span><span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">lid_locked_mortise</span> <span class="o">=</span> <span class="n">block</span><span class="p">(</span>
+        <span class="p">[</span>
+            <span class="n">lug_w</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">pip_clr</span><span class="p">,</span>
+            <span class="n">hook_y_span</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">pip_clr</span><span class="p">,</span>
+            <span class="p">(</span><span class="n">z_hook_top</span> <span class="o">-</span> <span class="p">(</span><span class="n">body_h</span> <span class="o">+</span> <span class="n">ledge_h</span><span class="p">))</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">pip_clr</span><span class="p">,</span>
+        <span class="p">],</span>
+        <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="n">x_center</span> <span class="o">-</span> <span class="n">lug_w</span> <span class="o">*</span> <span class="mf">0.5</span> <span class="o">-</span> <span class="n">pip_clr</span><span class="p">,</span> <span class="n">lid_bridge_t</span><span class="p">,</span> <span class="n">body_h</span> <span class="o">+</span> <span class="n">ledge_h</span><span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">lid_cut</span> <span class="o">=</span> <span class="n">lid_entry_slot</span> <span class="o">|</span> <span class="n">lid_locked_mortise</span>
+    <span class="n">lid_boss</span> <span class="o">=</span> <span class="n">_lid_front_wall_backing_boss</span><span class="p">(</span>
+        <span class="n">spec</span><span class="p">,</span> <span class="n">x_center</span><span class="o">=</span><span class="n">x_center</span><span class="p">,</span> <span class="n">boss_w</span><span class="o">=</span><span class="n">chan_w</span> <span class="o">+</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">wt</span><span class="p">,</span> <span class="n">boss_t</span><span class="o">=</span><span class="n">boss_t</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">Closure</span><span class="p">(</span>
+        <span class="n">body</span><span class="o">=</span><span class="n">body_solid</span><span class="p">,</span>
+        <span class="n">body_cut</span><span class="o">=</span><span class="n">body_cut</span><span class="p">,</span>
+        <span class="n">lid</span><span class="o">=</span><span class="kc">None</span> <span class="k">if</span> <span class="n">lid_boss</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="p">(</span><span class="n">lid_boss</span> <span class="o">-</span> <span class="n">lid_cut</span><span class="p">),</span>
+        <span class="n">lid_cut</span><span class="o">=</span><span class="n">lid_cut</span><span class="p">,</span>
+    <span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="build_vertical_pinch_slide_hinge_catch">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.features.build_vertical_pinch_slide_hinge_catch.html#pyboxbuilder.box.features.build_vertical_pinch_slide_hinge_catch">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">build_vertical_pinch_slide_hinge_catch</span><span class="p">(</span><span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Closure</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Return dual opposing captive horizontal dovetail sliders in the vertical body wall."""</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path2D</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2.shapes2d</span><span class="w"> </span><span class="kn">import</span> <span class="n">polygon</span>
+
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.shell</span><span class="w"> </span><span class="kn">import</span> <span class="n">block</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.compartments.element</span><span class="w"> </span><span class="kn">import</span> <span class="n">union_all</span>
+
+    <span class="n">wt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">wall_thickness</span>
+    <span class="n">lt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">lid_thickness</span>
+    <span class="n">ft</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">floor_thickness</span>
+    <span class="n">body_h</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">height</span> <span class="o">-</span> <span class="n">lt</span>
+    <span class="n">pip_clr</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.22</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="mf">0.35</span><span class="p">,</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="s2">"pip_radial_clearance"</span><span class="p">,</span> <span class="mf">0.28</span><span class="p">)))</span>
+    <span class="n">x_center</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">width</span> <span class="o">/</span> <span class="mf">2.0</span>
+
+    <span class="n">chan_w</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">width</span> <span class="o">*</span> <span class="mf">0.62</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mf">20.0</span><span class="p">,</span> <span class="n">wt</span> <span class="o">*</span> <span class="mf">10.0</span><span class="p">))</span>
+    <span class="n">half_span</span> <span class="o">=</span> <span class="p">(</span><span class="n">chan_w</span> <span class="o">-</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">wt</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span>
+    <span class="n">slider_w</span> <span class="o">=</span> <span class="n">half_span</span> <span class="o">*</span> <span class="mf">0.62</span>
+    <span class="n">travel</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">1.8</span><span class="p">,</span> <span class="n">half_span</span> <span class="o">-</span> <span class="n">slider_w</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">pip_clr</span><span class="p">)</span>
+    <span class="n">track_h</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="mf">4.8</span><span class="p">,</span> <span class="p">(</span><span class="n">body_h</span> <span class="o">-</span> <span class="n">ft</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.42</span><span class="p">),</span> <span class="mf">8.0</span><span class="p">)</span>
+    <span class="n">track_d</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">wt</span> <span class="o">*</span> <span class="mf">0.75</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mf">1.2</span><span class="p">,</span> <span class="n">wt</span> <span class="o">-</span> <span class="mf">0.5</span><span class="p">))</span>
+    <span class="n">z_track_bot</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">ft</span> <span class="o">+</span> <span class="mf">0.8</span><span class="p">,</span> <span class="n">body_h</span> <span class="o">-</span> <span class="n">track_h</span><span class="p">)</span>
+    <span class="n">z_mid</span> <span class="o">=</span> <span class="p">(</span><span class="n">z_track_bot</span> <span class="o">+</span> <span class="n">body_h</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span>
+    <span class="n">dovetail_flare</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mf">0.65</span><span class="p">,</span> <span class="n">track_h</span> <span class="o">*</span> <span class="mf">0.18</span><span class="p">)</span>
+
+    <span class="n">boss_t</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">wt</span><span class="p">,</span> <span class="n">track_d</span> <span class="o">+</span> <span class="mf">1.2</span><span class="p">)</span>
+    <span class="n">boss</span> <span class="o">=</span> <span class="n">_front_wall_backing_boss</span><span class="p">(</span>
+        <span class="n">spec</span><span class="p">,</span>
+        <span class="n">x_center</span><span class="o">=</span><span class="n">x_center</span><span class="p">,</span>
+        <span class="n">boss_w</span><span class="o">=</span><span class="n">chan_w</span> <span class="o">+</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">wt</span><span class="p">,</span>
+        <span class="n">boss_t</span><span class="o">=</span><span class="n">boss_t</span><span class="p">,</span>
+        <span class="n">z_flat</span><span class="o">=</span><span class="n">z_track_bot</span> <span class="o">-</span> <span class="mf">1.0</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_horiz_dovetail_x</span><span class="p">(</span><span class="n">x0</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">w_x</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">depth_y</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">h_front</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">h_back</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
+        <span class="n">pts</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">z_mid</span> <span class="o">-</span> <span class="n">h_front</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">),</span>
+            <span class="p">(</span><span class="n">depth_y</span><span class="p">,</span> <span class="n">z_mid</span> <span class="o">-</span> <span class="n">h_back</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">),</span>
+            <span class="p">(</span><span class="n">depth_y</span><span class="p">,</span> <span class="n">z_mid</span> <span class="o">+</span> <span class="n">h_back</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">),</span>
+            <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">z_mid</span> <span class="o">+</span> <span class="n">h_front</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">),</span>
+        <span class="p">]</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="n">polygon</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">Path2D</span><span class="p">(</span><span class="n">pts</span><span class="p">))</span>
+            <span class="o">.</span><span class="n">linear_extrude</span><span class="p">(</span><span class="n">height</span><span class="o">=</span><span class="n">w_x</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">rotate</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">90</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+            <span class="o">.</span><span class="n">rotate</span><span class="p">([</span><span class="o">-</span><span class="mi">90</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+            <span class="o">.</span><span class="n">scale</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+            <span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">x0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">])</span>
+        <span class="p">)</span>
+
+    <span class="n">h_front_cut</span> <span class="o">=</span> <span class="n">track_h</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">dovetail_flare</span>
+    <span class="n">track_cut</span> <span class="o">=</span> <span class="n">_horiz_dovetail_x</span><span class="p">(</span>
+        <span class="n">x_center</span> <span class="o">-</span> <span class="n">chan_w</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">chan_w</span><span class="p">,</span> <span class="n">track_d</span><span class="p">,</span> <span class="n">h_front_cut</span><span class="p">,</span> <span class="n">track_h</span>
+    <span class="p">)</span>
+    <span class="n">front_clear</span> <span class="o">=</span> <span class="n">block</span><span class="p">(</span>
+        <span class="p">[</span><span class="n">chan_w</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="n">h_front_cut</span><span class="p">],</span>
+        <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="n">x_center</span> <span class="o">-</span> <span class="n">chan_w</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">z_mid</span> <span class="o">-</span> <span class="n">h_front_cut</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">),</span>
+    <span class="p">)</span>
+
+    <span class="n">lug_w</span> <span class="o">=</span> <span class="n">slider_w</span> <span class="o">*</span> <span class="mf">0.52</span>
+    <span class="n">stalk_w</span> <span class="o">=</span> <span class="n">lug_w</span> <span class="o">*</span> <span class="mf">0.55</span>
+    <span class="n">lid_bridge_t</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">track_d</span> <span class="o">*</span> <span class="mf">0.35</span><span class="p">)</span>
+    <span class="n">s_depth</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">track_d</span> <span class="o">-</span> <span class="n">pip_clr</span><span class="p">)</span>
+    <span class="n">hook_y_span</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">s_depth</span> <span class="o">-</span> <span class="n">lid_bridge_t</span> <span class="o">-</span> <span class="n">pip_clr</span><span class="p">)</span>
+    <span class="n">ledge_h</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.55</span><span class="p">,</span> <span class="n">lt</span> <span class="o">*</span> <span class="mf">0.35</span><span class="p">)</span>
+    <span class="n">z_hook_top</span> <span class="o">=</span> <span class="n">body_h</span> <span class="o">+</span> <span class="n">lt</span> <span class="o">*</span> <span class="mf">0.75</span>
+
+    <span class="n">top_slots</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">sliders</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">lid_cuts</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">sign</span> <span class="ow">in</span> <span class="p">(</span><span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">):</span>
+        <span class="n">x_locked</span> <span class="o">=</span> <span class="n">x_center</span> <span class="o">+</span> <span class="n">sign</span> <span class="o">*</span> <span class="p">(</span><span class="n">wt</span> <span class="o">*</span> <span class="mf">0.4</span> <span class="o">+</span> <span class="n">travel</span> <span class="o">+</span> <span class="n">slider_w</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">)</span>
+        <span class="n">s_core</span> <span class="o">=</span> <span class="n">_horiz_dovetail_x</span><span class="p">(</span>
+            <span class="n">x_locked</span> <span class="o">-</span> <span class="n">slider_w</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span>
+            <span class="n">slider_w</span><span class="p">,</span>
+            <span class="n">s_depth</span><span class="p">,</span>
+            <span class="nb">max</span><span class="p">(</span><span class="mf">1.2</span><span class="p">,</span> <span class="n">h_front_cut</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">pip_clr</span><span class="p">),</span>
+            <span class="nb">max</span><span class="p">(</span><span class="mf">1.6</span><span class="p">,</span> <span class="n">track_h</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">pip_clr</span><span class="p">),</span>
+        <span class="p">)</span>
+        <span class="c1"># Stalk sits on the inner side of lug_w, finger reaches outward</span>
+        <span class="k">if</span> <span class="n">sign</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">x_stalk0</span> <span class="o">=</span> <span class="n">x_locked</span> <span class="o">+</span> <span class="n">lug_w</span> <span class="o">*</span> <span class="mf">0.5</span> <span class="o">-</span> <span class="n">stalk_w</span>
+            <span class="n">x_finger0</span> <span class="o">=</span> <span class="n">x_locked</span> <span class="o">-</span> <span class="n">lug_w</span> <span class="o">*</span> <span class="mf">0.5</span>
+            <span class="n">x_slot_min</span> <span class="o">=</span> <span class="n">x_finger0</span> <span class="o">-</span> <span class="n">pip_clr</span>
+            <span class="n">x_entry_min</span> <span class="o">=</span> <span class="n">x_stalk0</span> <span class="o">-</span> <span class="n">pip_clr</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">x_stalk0</span> <span class="o">=</span> <span class="n">x_locked</span> <span class="o">-</span> <span class="n">lug_w</span> <span class="o">*</span> <span class="mf">0.5</span>
+            <span class="n">x_finger0</span> <span class="o">=</span> <span class="n">x_locked</span> <span class="o">-</span> <span class="n">lug_w</span> <span class="o">*</span> <span class="mf">0.5</span>
+            <span class="n">x_slot_min</span> <span class="o">=</span> <span class="n">x_finger0</span> <span class="o">-</span> <span class="n">travel</span> <span class="o">-</span> <span class="n">pip_clr</span>
+            <span class="n">x_entry_min</span> <span class="o">=</span> <span class="n">x_stalk0</span> <span class="o">-</span> <span class="n">travel</span> <span class="o">-</span> <span class="n">pip_clr</span>
+
+        <span class="n">top_slots</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="n">block</span><span class="p">(</span>
+                <span class="p">[</span><span class="n">lug_w</span> <span class="o">+</span> <span class="n">travel</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">pip_clr</span><span class="p">,</span> <span class="n">track_d</span> <span class="o">-</span> <span class="n">lid_bridge_t</span> <span class="o">+</span> <span class="mf">0.1</span><span class="p">,</span> <span class="p">(</span><span class="n">body_h</span> <span class="o">-</span> <span class="n">z_mid</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.2</span><span class="p">],</span>
+                <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="n">x_slot_min</span><span class="p">,</span> <span class="n">lid_bridge_t</span><span class="p">,</span> <span class="n">z_mid</span><span class="p">),</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">h_stalk</span> <span class="o">=</span> <span class="n">block</span><span class="p">(</span>
+            <span class="p">[</span><span class="n">stalk_w</span><span class="p">,</span> <span class="n">hook_y_span</span><span class="p">,</span> <span class="n">z_hook_top</span> <span class="o">-</span> <span class="n">z_mid</span><span class="p">],</span>
+            <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="n">x_stalk0</span><span class="p">,</span> <span class="n">lid_bridge_t</span> <span class="o">+</span> <span class="n">pip_clr</span><span class="p">,</span> <span class="n">z_mid</span><span class="p">),</span>
+        <span class="p">)</span>
+        <span class="n">h_finger</span> <span class="o">=</span> <span class="n">block</span><span class="p">(</span>
+            <span class="p">[</span><span class="n">lug_w</span><span class="p">,</span> <span class="n">hook_y_span</span><span class="p">,</span> <span class="n">z_hook_top</span> <span class="o">-</span> <span class="p">(</span><span class="n">body_h</span> <span class="o">+</span> <span class="n">ledge_h</span> <span class="o">+</span> <span class="n">pip_clr</span><span class="p">)],</span>
+            <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="n">x_finger0</span><span class="p">,</span> <span class="n">lid_bridge_t</span> <span class="o">+</span> <span class="n">pip_clr</span><span class="p">,</span> <span class="n">body_h</span> <span class="o">+</span> <span class="n">ledge_h</span> <span class="o">+</span> <span class="n">pip_clr</span><span class="p">),</span>
+        <span class="p">)</span>
+        <span class="n">sliders</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">s_core</span> <span class="o">|</span> <span class="n">h_stalk</span> <span class="o">|</span> <span class="n">h_finger</span><span class="p">)</span>
+
+        <span class="n">l_entry</span> <span class="o">=</span> <span class="n">block</span><span class="p">(</span>
+            <span class="p">[</span><span class="n">stalk_w</span> <span class="o">+</span> <span class="n">travel</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">pip_clr</span><span class="p">,</span> <span class="n">hook_y_span</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">pip_clr</span><span class="p">,</span> <span class="n">lt</span> <span class="o">*</span> <span class="mf">0.8</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">pip_clr</span><span class="p">],</span>
+            <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="n">x_entry_min</span><span class="p">,</span> <span class="n">lid_bridge_t</span><span class="p">,</span> <span class="n">body_h</span> <span class="o">-</span> <span class="mf">0.1</span><span class="p">),</span>
+        <span class="p">)</span>
+        <span class="n">l_locked</span> <span class="o">=</span> <span class="n">block</span><span class="p">(</span>
+            <span class="p">[</span>
+                <span class="n">lug_w</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">pip_clr</span><span class="p">,</span>
+                <span class="n">hook_y_span</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">pip_clr</span><span class="p">,</span>
+                <span class="p">(</span><span class="n">z_hook_top</span> <span class="o">-</span> <span class="p">(</span><span class="n">body_h</span> <span class="o">+</span> <span class="n">ledge_h</span><span class="p">))</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">pip_clr</span><span class="p">,</span>
+            <span class="p">],</span>
+            <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="n">x_finger0</span> <span class="o">-</span> <span class="n">pip_clr</span><span class="p">,</span> <span class="n">lid_bridge_t</span><span class="p">,</span> <span class="n">body_h</span> <span class="o">+</span> <span class="n">ledge_h</span><span class="p">),</span>
+        <span class="p">)</span>
+        <span class="n">lid_cuts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">l_entry</span> <span class="o">|</span> <span class="n">l_locked</span><span class="p">)</span>
+
+    <span class="n">body_cut</span> <span class="o">=</span> <span class="n">track_cut</span> <span class="o">|</span> <span class="n">front_clear</span> <span class="o">|</span> <span class="n">union_all</span><span class="p">(</span><span class="n">top_slots</span><span class="p">)</span>
+    <span class="n">all_sliders</span> <span class="o">=</span> <span class="n">union_all</span><span class="p">(</span><span class="n">sliders</span><span class="p">)</span>
+    <span class="n">body_solid</span> <span class="o">=</span> <span class="n">all_sliders</span> <span class="k">if</span> <span class="n">boss</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="p">((</span><span class="n">boss</span> <span class="o">-</span> <span class="n">body_cut</span><span class="p">)</span> <span class="o">|</span> <span class="n">all_sliders</span><span class="p">)</span>
+    <span class="n">all_lid_cut</span> <span class="o">=</span> <span class="n">union_all</span><span class="p">(</span><span class="n">lid_cuts</span><span class="p">)</span>
+    <span class="n">lid_boss</span> <span class="o">=</span> <span class="n">_lid_front_wall_backing_boss</span><span class="p">(</span>
+        <span class="n">spec</span><span class="p">,</span> <span class="n">x_center</span><span class="o">=</span><span class="n">x_center</span><span class="p">,</span> <span class="n">boss_w</span><span class="o">=</span><span class="n">chan_w</span> <span class="o">+</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">wt</span><span class="p">,</span> <span class="n">boss_t</span><span class="o">=</span><span class="n">boss_t</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">Closure</span><span class="p">(</span>
+        <span class="n">body</span><span class="o">=</span><span class="n">body_solid</span><span class="p">,</span>
+        <span class="n">body_cut</span><span class="o">=</span><span class="n">body_cut</span><span class="p">,</span>
+        <span class="n">lid</span><span class="o">=</span><span class="kc">None</span> <span class="k">if</span> <span class="n">lid_boss</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="p">(</span><span class="n">lid_boss</span> <span class="o">-</span> <span class="n">all_lid_cut</span><span class="p">),</span>
+        <span class="n">lid_cut</span><span class="o">=</span><span class="n">all_lid_cut</span><span class="p">,</span>
+    <span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="build_vertical_rotary_bolt_hinge_catch">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.features.build_vertical_rotary_bolt_hinge_catch.html#pyboxbuilder.box.features.build_vertical_rotary_bolt_hinge_catch">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">build_vertical_rotary_bolt_hinge_catch</span><span class="p">(</span><span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Closure</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Return a flush quarter-turn rotary cam disk mounted in the vertical body front wall."""</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">cylinder</span>
+
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.shell</span><span class="w"> </span><span class="kn">import</span> <span class="n">block</span>
+
+    <span class="n">wt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">wall_thickness</span>
+    <span class="n">lt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">lid_thickness</span>
+    <span class="n">ft</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">floor_thickness</span>
+    <span class="n">body_h</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">height</span> <span class="o">-</span> <span class="n">lt</span>
+    <span class="n">pip_clr</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.22</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="mf">0.35</span><span class="p">,</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="s2">"pip_radial_clearance"</span><span class="p">,</span> <span class="mf">0.28</span><span class="p">)))</span>
+    <span class="n">x_center</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">width</span> <span class="o">/</span> <span class="mf">2.0</span>
+
+    <span class="n">pivot_drop</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="mf">2.6</span><span class="p">,</span> <span class="p">(</span><span class="n">body_h</span> <span class="o">-</span> <span class="n">ft</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.24</span><span class="p">),</span> <span class="mf">4.2</span><span class="p">)</span>
+    <span class="n">z_pivot</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">ft</span> <span class="o">+</span> <span class="mf">2.2</span><span class="p">,</span> <span class="n">body_h</span> <span class="o">-</span> <span class="n">pivot_drop</span><span class="p">)</span>
+    <span class="n">r_disk</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">pivot_drop</span> <span class="o">-</span> <span class="mf">0.35</span><span class="p">,</span> <span class="mf">2.4</span><span class="p">)</span>
+    <span class="n">r_waist</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">1.1</span><span class="p">,</span> <span class="n">r_disk</span> <span class="o">-</span> <span class="mf">0.85</span><span class="p">)</span>
+    <span class="n">recess_d</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mf">0.9</span><span class="p">,</span> <span class="n">wt</span> <span class="o">*</span> <span class="mf">0.42</span><span class="p">)</span>
+    <span class="n">cone_len</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">r_disk</span> <span class="o">-</span> <span class="n">r_waist</span><span class="p">)</span>
+    <span class="n">boss_t</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">wt</span><span class="p">,</span> <span class="n">recess_d</span> <span class="o">+</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">cone_len</span> <span class="o">+</span> <span class="mf">0.8</span><span class="p">)</span>
+    <span class="n">y_waist</span> <span class="o">=</span> <span class="n">recess_d</span> <span class="o">+</span> <span class="n">cone_len</span>
+
+    <span class="n">boss</span> <span class="o">=</span> <span class="n">_front_wall_backing_boss</span><span class="p">(</span>
+        <span class="n">spec</span><span class="p">,</span>
+        <span class="n">x_center</span><span class="o">=</span><span class="n">x_center</span><span class="p">,</span>
+        <span class="n">boss_w</span><span class="o">=</span><span class="nb">max</span><span class="p">(</span><span class="mf">12.0</span><span class="p">,</span> <span class="mf">4.0</span> <span class="o">*</span> <span class="n">r_disk</span> <span class="o">+</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">wt</span><span class="p">),</span>
+        <span class="n">boss_t</span><span class="o">=</span><span class="n">boss_t</span><span class="p">,</span>
+        <span class="n">z_flat</span><span class="o">=</span><span class="n">z_pivot</span> <span class="o">-</span> <span class="n">r_disk</span> <span class="o">-</span> <span class="mf">1.2</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">bore_front_cone</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">cylinder</span><span class="p">(</span>
+            <span class="n">height</span><span class="o">=</span><span class="n">cone_len</span> <span class="o">+</span> <span class="n">pip_clr</span><span class="p">,</span>
+            <span class="n">radius1</span><span class="o">=</span><span class="n">r_disk</span> <span class="o">+</span> <span class="n">pip_clr</span><span class="p">,</span>
+            <span class="n">radius2</span><span class="o">=</span><span class="n">r_waist</span> <span class="o">+</span> <span class="n">pip_clr</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">precision_kwargs</span><span class="p">(),</span>
+        <span class="p">)</span>
+        <span class="o">.</span><span class="n">rotate</span><span class="p">([</span><span class="o">-</span><span class="mi">90</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+        <span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">x_center</span><span class="p">,</span> <span class="n">recess_d</span> <span class="o">+</span> <span class="p">(</span><span class="n">cone_len</span> <span class="o">-</span> <span class="n">pip_clr</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">z_pivot</span><span class="p">])</span>
+    <span class="p">)</span>
+    <span class="n">bore_back_cone</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">cylinder</span><span class="p">(</span>
+            <span class="n">height</span><span class="o">=</span><span class="n">cone_len</span> <span class="o">+</span> <span class="n">pip_clr</span><span class="p">,</span>
+            <span class="n">radius1</span><span class="o">=</span><span class="n">r_waist</span> <span class="o">+</span> <span class="n">pip_clr</span><span class="p">,</span>
+            <span class="n">radius2</span><span class="o">=</span><span class="n">r_disk</span> <span class="o">+</span> <span class="n">pip_clr</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">precision_kwargs</span><span class="p">(),</span>
+        <span class="p">)</span>
+        <span class="o">.</span><span class="n">rotate</span><span class="p">([</span><span class="o">-</span><span class="mi">90</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+        <span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">x_center</span><span class="p">,</span> <span class="n">y_waist</span> <span class="o">+</span> <span class="p">(</span><span class="n">cone_len</span> <span class="o">+</span> <span class="n">pip_clr</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">z_pivot</span><span class="p">])</span>
+    <span class="p">)</span>
+    <span class="n">front_bore</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">cylinder</span><span class="p">(</span><span class="n">height</span><span class="o">=</span><span class="n">recess_d</span> <span class="o">+</span> <span class="n">pip_clr</span> <span class="o">+</span> <span class="mf">0.1</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="n">r_disk</span> <span class="o">+</span> <span class="n">pip_clr</span><span class="p">,</span> <span class="o">**</span><span class="n">precision_kwargs</span><span class="p">())</span>
+        <span class="o">.</span><span class="n">rotate</span><span class="p">([</span><span class="o">-</span><span class="mi">90</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+        <span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">x_center</span><span class="p">,</span> <span class="p">(</span><span class="n">recess_d</span> <span class="o">+</span> <span class="n">pip_clr</span> <span class="o">-</span> <span class="mf">0.1</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">z_pivot</span><span class="p">])</span>
+    <span class="p">)</span>
+    <span class="n">cam_w</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mf">3.8</span><span class="p">,</span> <span class="n">r_disk</span> <span class="o">*</span> <span class="mf">1.5</span><span class="p">)</span>
+    <span class="n">lid_bridge_t</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mf">0.75</span><span class="p">,</span> <span class="n">recess_d</span><span class="p">)</span>
+    <span class="n">cam_y1</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">boss_t</span> <span class="o">-</span> <span class="mf">0.4</span><span class="p">,</span> <span class="n">recess_d</span> <span class="o">+</span> <span class="mf">1.4</span><span class="p">)</span>
+    <span class="n">upper_slot_body</span> <span class="o">=</span> <span class="n">block</span><span class="p">(</span>
+        <span class="p">[</span><span class="n">cam_w</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">pip_clr</span><span class="p">,</span> <span class="p">(</span><span class="n">cam_y1</span> <span class="o">-</span> <span class="n">lid_bridge_t</span><span class="p">)</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">pip_clr</span><span class="p">,</span> <span class="n">body_h</span> <span class="o">-</span> <span class="n">z_pivot</span> <span class="o">+</span> <span class="mf">0.2</span><span class="p">],</span>
+        <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="n">x_center</span> <span class="o">-</span> <span class="n">cam_w</span> <span class="o">/</span> <span class="mf">2.0</span> <span class="o">-</span> <span class="n">pip_clr</span><span class="p">,</span> <span class="n">lid_bridge_t</span><span class="p">,</span> <span class="n">z_pivot</span><span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">body_cut</span> <span class="o">=</span> <span class="n">bore_front_cone</span> <span class="o">|</span> <span class="n">bore_back_cone</span> <span class="o">|</span> <span class="n">front_bore</span> <span class="o">|</span> <span class="n">upper_slot_body</span>
+
+    <span class="n">shaft_front</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">cylinder</span><span class="p">(</span><span class="n">height</span><span class="o">=</span><span class="n">cone_len</span><span class="p">,</span> <span class="n">radius1</span><span class="o">=</span><span class="n">r_disk</span><span class="p">,</span> <span class="n">radius2</span><span class="o">=</span><span class="n">r_waist</span><span class="p">,</span> <span class="o">**</span><span class="n">precision_kwargs</span><span class="p">())</span>
+        <span class="o">.</span><span class="n">rotate</span><span class="p">([</span><span class="o">-</span><span class="mi">90</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+        <span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">x_center</span><span class="p">,</span> <span class="n">recess_d</span> <span class="o">+</span> <span class="n">cone_len</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">z_pivot</span><span class="p">])</span>
+    <span class="p">)</span>
+    <span class="n">shaft_back</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">cylinder</span><span class="p">(</span><span class="n">height</span><span class="o">=</span><span class="n">cone_len</span><span class="p">,</span> <span class="n">radius1</span><span class="o">=</span><span class="n">r_waist</span><span class="p">,</span> <span class="n">radius2</span><span class="o">=</span><span class="n">r_disk</span><span class="p">,</span> <span class="o">**</span><span class="n">precision_kwargs</span><span class="p">())</span>
+        <span class="o">.</span><span class="n">rotate</span><span class="p">([</span><span class="o">-</span><span class="mi">90</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+        <span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">x_center</span><span class="p">,</span> <span class="n">y_waist</span> <span class="o">+</span> <span class="n">cone_len</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">z_pivot</span><span class="p">])</span>
+    <span class="p">)</span>
+    <span class="n">face_t</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.55</span><span class="p">,</span> <span class="n">recess_d</span> <span class="o">-</span> <span class="n">pip_clr</span><span class="p">)</span>
+    <span class="n">face_disk</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">cylinder</span><span class="p">(</span><span class="n">height</span><span class="o">=</span><span class="n">face_t</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="n">r_disk</span><span class="p">,</span> <span class="o">**</span><span class="n">precision_kwargs</span><span class="p">())</span>
+        <span class="o">.</span><span class="n">rotate</span><span class="p">([</span><span class="o">-</span><span class="mi">90</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+        <span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">x_center</span><span class="p">,</span> <span class="n">face_t</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">z_pivot</span><span class="p">])</span>
+    <span class="p">)</span>
+    <span class="n">coin_slot</span> <span class="o">=</span> <span class="n">block</span><span class="p">(</span>
+        <span class="p">[</span><span class="n">r_disk</span> <span class="o">*</span> <span class="mf">1.4</span><span class="p">,</span> <span class="n">face_t</span> <span class="o">*</span> <span class="mf">0.65</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">],</span>
+        <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="n">x_center</span> <span class="o">-</span> <span class="n">r_disk</span> <span class="o">*</span> <span class="mf">0.7</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">z_pivot</span> <span class="o">-</span> <span class="mf">0.4</span><span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">z_cam_top</span> <span class="o">=</span> <span class="n">body_h</span> <span class="o">+</span> <span class="nb">max</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">lt</span> <span class="o">*</span> <span class="mf">0.75</span><span class="p">)</span>
+    <span class="n">cam_bolt</span> <span class="o">=</span> <span class="n">block</span><span class="p">(</span>
+        <span class="p">[</span><span class="n">cam_w</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.55</span><span class="p">,</span> <span class="n">cam_y1</span> <span class="o">-</span> <span class="p">(</span><span class="n">lid_bridge_t</span> <span class="o">+</span> <span class="n">pip_clr</span><span class="p">)),</span> <span class="n">z_cam_top</span> <span class="o">-</span> <span class="n">z_pivot</span><span class="p">],</span>
+        <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="n">x_center</span> <span class="o">-</span> <span class="n">cam_w</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">lid_bridge_t</span> <span class="o">+</span> <span class="n">pip_clr</span><span class="p">,</span> <span class="n">z_pivot</span><span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">rotor</span> <span class="o">=</span> <span class="p">(</span><span class="n">face_disk</span> <span class="o">-</span> <span class="n">coin_slot</span><span class="p">)</span> <span class="o">|</span> <span class="n">shaft_front</span> <span class="o">|</span> <span class="n">shaft_back</span> <span class="o">|</span> <span class="n">cam_bolt</span>
+    <span class="n">body_solid</span> <span class="o">=</span> <span class="n">rotor</span> <span class="k">if</span> <span class="n">boss</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="p">((</span><span class="n">boss</span> <span class="o">-</span> <span class="n">body_cut</span><span class="p">)</span> <span class="o">|</span> <span class="n">rotor</span><span class="p">)</span>
+
+    <span class="n">lid_cut</span> <span class="o">=</span> <span class="n">block</span><span class="p">(</span>
+        <span class="p">[</span>
+            <span class="n">cam_w</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">pip_clr</span><span class="p">,</span>
+            <span class="p">(</span><span class="n">cam_y1</span> <span class="o">-</span> <span class="n">lid_bridge_t</span><span class="p">)</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">pip_clr</span><span class="p">,</span>
+            <span class="p">(</span><span class="n">z_cam_top</span> <span class="o">-</span> <span class="n">body_h</span><span class="p">)</span> <span class="o">+</span> <span class="n">pip_clr</span> <span class="o">+</span> <span class="mf">0.1</span><span class="p">,</span>
+        <span class="p">],</span>
+        <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="n">x_center</span> <span class="o">-</span> <span class="n">cam_w</span> <span class="o">/</span> <span class="mf">2.0</span> <span class="o">-</span> <span class="n">pip_clr</span><span class="p">,</span> <span class="n">lid_bridge_t</span><span class="p">,</span> <span class="n">body_h</span> <span class="o">-</span> <span class="mf">0.05</span><span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">lid_boss</span> <span class="o">=</span> <span class="n">_lid_front_wall_backing_boss</span><span class="p">(</span>
+        <span class="n">spec</span><span class="p">,</span> <span class="n">x_center</span><span class="o">=</span><span class="n">x_center</span><span class="p">,</span> <span class="n">boss_w</span><span class="o">=</span><span class="nb">max</span><span class="p">(</span><span class="mf">12.0</span><span class="p">,</span> <span class="mf">4.0</span> <span class="o">*</span> <span class="n">r_disk</span> <span class="o">+</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">wt</span><span class="p">),</span> <span class="n">boss_t</span><span class="o">=</span><span class="n">boss_t</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">Closure</span><span class="p">(</span>
+        <span class="n">body</span><span class="o">=</span><span class="n">body_solid</span><span class="p">,</span>
+        <span class="n">body_cut</span><span class="o">=</span><span class="n">body_cut</span><span class="p">,</span>
+        <span class="n">lid</span><span class="o">=</span><span class="kc">None</span> <span class="k">if</span> <span class="n">lid_boss</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="p">(</span><span class="n">lid_boss</span> <span class="o">-</span> <span class="n">lid_cut</span><span class="p">),</span>
+        <span class="n">lid_cut</span><span class="o">=</span><span class="n">lid_cut</span><span class="p">,</span>
+    <span class="p">)</span></div>
+
 
 
 <div class="viewcode-block" id="build_slide_across_hinge_catch">
@@ -3345,7 +4014,7 @@
 
 <div class="viewcode-block" id="build_push_button_hinge_catch">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.features.build_push_button_hinge_catch.html#pyboxbuilder.box.features.build_push_button_hinge_catch">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">build_push_button_hinge_catch</span><span class="p">(</span><span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Closure</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">build_push_button_hinge_catch</span><span class="p">(</span><span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">vertical_wall</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Closure</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Return a compliant thumb-press push-button release catch on the front wall."""</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.shell</span><span class="w"> </span><span class="kn">import</span> <span class="n">block</span>
 
@@ -3406,10 +4075,21 @@
     <span class="p">)</span>
     <span class="n">body_cut</span> <span class="o">=</span> <span class="n">body_cut</span> <span class="o">|</span> <span class="n">beam_hook_cut</span>
 
+    <span class="n">lid_part</span> <span class="o">=</span> <span class="n">lid_stalk</span> <span class="o">|</span> <span class="n">lid_barb</span>
+    <span class="k">if</span> <span class="n">vertical_wall</span><span class="p">:</span>
+        <span class="n">l_boss</span> <span class="o">=</span> <span class="n">_lid_front_wall_backing_boss</span><span class="p">(</span>
+            <span class="n">spec</span><span class="p">,</span>
+            <span class="n">x_center</span><span class="o">=</span><span class="n">x_center</span><span class="p">,</span>
+            <span class="n">boss_w</span><span class="o">=</span><span class="n">btn_w</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">wt</span><span class="p">,</span>
+            <span class="n">boss_t</span><span class="o">=</span><span class="nb">max</span><span class="p">(</span><span class="n">wt</span><span class="p">,</span> <span class="n">beam_t</span> <span class="o">+</span> <span class="n">clr</span> <span class="o">+</span> <span class="n">loop_d</span> <span class="o">+</span> <span class="mf">0.4</span><span class="p">),</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">l_boss</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">lid_part</span> <span class="o">=</span> <span class="n">lid_part</span> <span class="o">|</span> <span class="n">l_boss</span>
+
     <span class="k">return</span> <span class="n">Closure</span><span class="p">(</span>
         <span class="n">body</span><span class="o">=</span><span class="kc">None</span> <span class="k">if</span> <span class="n">boss</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="p">(</span><span class="n">boss</span> <span class="o">-</span> <span class="n">body_cut</span><span class="p">),</span>
         <span class="n">body_cut</span><span class="o">=</span><span class="n">body_cut</span><span class="p">,</span>
-        <span class="n">lid</span><span class="o">=</span><span class="n">lid_stalk</span> <span class="o">|</span> <span class="n">lid_barb</span><span class="p">,</span>
+        <span class="n">lid</span><span class="o">=</span><span class="n">lid_part</span><span class="p">,</span>
     <span class="p">)</span></div>
 
 

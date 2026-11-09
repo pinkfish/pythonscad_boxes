@@ -467,7 +467,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">ClassVar</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.builders._base</span><span class="w"> </span><span class="kn">import</span> <span class="n">BoxBuilder</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">BoxType</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">BoxType</span><span class="p">,</span> <span class="n">CatchType</span><span class="p">,</span> <span class="n">HingeCatchType</span>
 
 
 <div class="viewcode-block" id="ClamshellBoxBuilder">
@@ -505,7 +505,18 @@
     <span class="n">clamshell_hinge_radius</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">2.5</span>
 <span class="w">    </span><span class="sd">"""Radius of the spine hinge knuckle barrel in mm."""</span>
     <span class="n">closure_latch</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
-<span class="w">    </span><span class="sd">"""Add front retention catch to keep the clamshell closed."""</span></div>
+<span class="w">    </span><span class="sd">"""Add front retention catch to keep the clamshell closed."""</span>
+    <span class="n">hinge_catch_type</span><span class="p">:</span> <span class="n">HingeCatchType</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">"""Optional hinge catch mechanism override (all HingeCatchType / CatchType values supported)."""</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Coerce hinge_catch_type if provided."""</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">hinge_catch_type</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hinge_catch_type</span><span class="p">,</span> <span class="n">CatchType</span><span class="p">):</span>
+                <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">"hinge_catch_type"</span><span class="p">,</span> <span class="n">HingeCatchType</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hinge_catch_type</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hinge_catch_type</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+                <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">"hinge_catch_type"</span><span class="p">,</span> <span class="n">HingeCatchType</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hinge_catch_type</span><span class="o">.</span><span class="n">lower</span><span class="p">()))</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__post_init__</span><span class="p">()</span></div>
 
 </code></pre></div>
 

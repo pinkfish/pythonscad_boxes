@@ -465,12 +465,14 @@
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
+<span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">replace</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2.constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">Anchor</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2.shapes3d</span><span class="w"> </span><span class="kn">import</span> <span class="n">cuboid</span><span class="p">,</span> <span class="n">cylinder</span><span class="p">,</span> <span class="n">wedge</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">BoxTypeBase</span><span class="p">,</span> <span class="n">Interior</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.features</span><span class="w"> </span><span class="kn">import</span> <span class="n">hinge_catch</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.registry</span><span class="w"> </span><span class="kn">import</span> <span class="n">register_box</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.shell</span><span class="w"> </span><span class="kn">import</span> <span class="n">block</span><span class="p">,</span> <span class="n">body_rounding</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.spec</span><span class="w"> </span><span class="kn">import</span> <span class="n">BoxSpec</span>
@@ -655,22 +657,22 @@
     <span class="n">h</span> <span class="o">=</span> <span class="n">height</span>
 
     <span class="n">base_part</span> <span class="o">=</span> <span class="n">block</span><span class="p">(</span>
-        <span class="p">[</span><span class="n">L</span><span class="p">,</span> <span class="n">wt</span> <span class="o">+</span> <span class="n">offset</span> <span class="o">*</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">lt</span> <span class="o">+</span> <span class="n">offset</span> <span class="o">*</span> <span class="mf">2.0</span><span class="p">],</span>
-        <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="n">offset</span><span class="p">,</span> <span class="o">-</span><span class="n">offset</span><span class="p">,</span> <span class="o">-</span><span class="n">offset</span><span class="p">),</span>
+        <span class="p">[</span><span class="n">L</span><span class="p">,</span> <span class="n">wt</span> <span class="o">+</span> <span class="n">offset</span> <span class="o">*</span> <span class="mf">4.0</span><span class="p">,</span> <span class="n">lt</span> <span class="o">+</span> <span class="n">offset</span> <span class="o">*</span> <span class="mf">4.0</span><span class="p">],</span>
+        <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="n">offset</span><span class="p">,</span> <span class="o">-</span><span class="n">offset</span> <span class="o">*</span> <span class="mf">2.0</span><span class="p">,</span> <span class="o">-</span><span class="n">offset</span> <span class="o">*</span> <span class="mf">2.0</span><span class="p">),</span>
     <span class="p">)</span>
     <span class="n">stalk</span> <span class="o">=</span> <span class="n">block</span><span class="p">(</span>
-        <span class="p">[</span><span class="n">L</span><span class="p">,</span> <span class="n">wt</span> <span class="o">/</span> <span class="mf">2.0</span> <span class="o">+</span> <span class="n">offset</span> <span class="o">*</span> <span class="mf">2.0</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">h</span> <span class="o">-</span> <span class="n">wt</span> <span class="o">+</span> <span class="mf">0.1</span><span class="p">)</span> <span class="o">+</span> <span class="n">offset</span> <span class="o">*</span> <span class="mf">2.0</span><span class="p">],</span>
-        <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="n">offset</span><span class="p">,</span> <span class="o">-</span><span class="n">offset</span><span class="p">,</span> <span class="o">-</span><span class="n">offset</span><span class="p">),</span>
+        <span class="p">[</span><span class="n">L</span><span class="p">,</span> <span class="n">wt</span> <span class="o">/</span> <span class="mf">2.0</span> <span class="o">+</span> <span class="n">offset</span> <span class="o">*</span> <span class="mf">2.0</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">h</span> <span class="o">-</span> <span class="n">wt</span> <span class="o">+</span> <span class="mf">0.1</span><span class="p">)</span> <span class="o">+</span> <span class="n">offset</span> <span class="o">*</span> <span class="mf">3.0</span><span class="p">],</span>
+        <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="n">offset</span><span class="p">,</span> <span class="o">-</span><span class="n">offset</span><span class="p">,</span> <span class="o">-</span><span class="n">offset</span> <span class="o">*</span> <span class="mf">2.0</span><span class="p">),</span>
     <span class="p">)</span>
 
     <span class="n">barb</span> <span class="o">=</span> <span class="n">wedge</span><span class="p">(</span>
         <span class="n">size</span><span class="o">=</span><span class="p">[</span>
             <span class="n">L</span><span class="p">,</span>
-            <span class="n">wt</span> <span class="o">*</span> <span class="n">prism_width</span> <span class="o">+</span> <span class="n">offset</span> <span class="o">*</span> <span class="mf">2.0</span><span class="p">,</span>
-            <span class="n">wt</span> <span class="o">+</span> <span class="n">offset</span> <span class="o">*</span> <span class="mf">2.0</span><span class="p">,</span>
+            <span class="n">wt</span> <span class="o">*</span> <span class="n">prism_width</span> <span class="o">+</span> <span class="n">offset</span> <span class="o">*</span> <span class="mf">3.0</span><span class="p">,</span>
+            <span class="n">wt</span> <span class="o">+</span> <span class="n">offset</span> <span class="o">*</span> <span class="mf">4.0</span><span class="p">,</span>
         <span class="p">],</span>
         <span class="n">anchor</span><span class="o">=</span><span class="n">Anchor</span><span class="o">.</span><span class="n">BOTTOM</span> <span class="o">+</span> <span class="n">Anchor</span><span class="o">.</span><span class="n">FRONT</span> <span class="o">+</span> <span class="n">Anchor</span><span class="o">.</span><span class="n">LEFT</span><span class="p">,</span>
-    <span class="p">)</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="o">-</span><span class="n">offset</span><span class="p">,</span> <span class="o">-</span><span class="n">offset</span><span class="p">,</span> <span class="n">h</span> <span class="o">-</span> <span class="n">wt</span> <span class="o">-</span> <span class="n">offset</span><span class="p">])</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="o">-</span><span class="n">offset</span><span class="p">,</span> <span class="o">-</span><span class="n">offset</span><span class="p">,</span> <span class="n">h</span> <span class="o">-</span> <span class="n">wt</span> <span class="o">-</span> <span class="n">offset</span> <span class="o">*</span> <span class="mf">2.0</span><span class="p">])</span>
 
     <span class="k">return</span> <span class="p">(</span><span class="n">base_part</span> <span class="o">|</span> <span class="n">stalk</span> <span class="o">|</span> <span class="n">barb</span><span class="p">)</span><span class="o">.</span><span class="n">mirror</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
 
@@ -730,6 +732,31 @@
             <span class="n">origin_y</span><span class="o">=</span><span class="n">wt</span><span class="p">,</span>
             <span class="n">origin_z</span><span class="o">=</span><span class="n">ft</span><span class="p">,</span>
         <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="InsetHingeBox.interior_mask">
+<a class="viewcode-back" href="../../../../_autosummary/pyboxbuilder.box.types.inset_hinge.InsetHingeBox.html#pyboxbuilder.box.types.inset_hinge.InsetHingeBox.interior_mask">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">interior_mask</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Return the base half interior mask, excluding any outer-wall catch backing boss."""</span>
+        <span class="n">wt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">wall_thickness</span>
+        <span class="n">ft</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">floor_thickness</span>
+        <span class="n">lt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">lid_thickness</span>
+        <span class="n">half_h</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">height</span> <span class="o">/</span> <span class="mf">2.0</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">hinge_width</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_hinge_metrics</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
+        <span class="n">inner_w</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">4.0</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">width</span> <span class="o">-</span> <span class="n">wt</span> <span class="o">-</span> <span class="n">hinge_width</span><span class="p">)</span>
+        <span class="n">inner_l</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">4.0</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span> <span class="o">-</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">wt</span><span class="p">)</span>
+        <span class="n">mask</span> <span class="o">=</span> <span class="n">block</span><span class="p">(</span>
+            <span class="p">[</span><span class="n">inner_w</span><span class="p">,</span> <span class="n">inner_l</span><span class="p">,</span> <span class="n">half_h</span><span class="p">],</span>
+            <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="n">wt</span><span class="p">,</span> <span class="n">wt</span><span class="p">,</span> <span class="n">ft</span><span class="p">),</span>
+        <span class="p">)</span>
+        <span class="n">catch_type</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">resolved_catch_type</span><span class="p">(</span><span class="n">CatchType</span><span class="o">.</span><span class="n">WEDGE</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">pip_snap_catch</span> <span class="ow">and</span> <span class="n">catch_type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="n">CatchType</span><span class="o">.</span><span class="n">NONE</span><span class="p">,</span> <span class="n">CatchType</span><span class="o">.</span><span class="n">WEDGE</span><span class="p">):</span>
+            <span class="n">swapped_spec</span> <span class="o">=</span> <span class="n">replace</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="n">spec</span><span class="o">.</span><span class="n">length</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="n">spec</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">half_h</span> <span class="o">+</span> <span class="n">lt</span><span class="p">)</span>
+            <span class="n">catch</span> <span class="o">=</span> <span class="n">hinge_catch</span><span class="p">(</span><span class="n">swapped_spec</span><span class="p">,</span> <span class="n">vertical_wall</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">catch</span><span class="o">.</span><span class="n">body</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">mapped_body</span> <span class="o">=</span> <span class="n">catch</span><span class="o">.</span><span class="n">body</span><span class="o">.</span><span class="n">rotate</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">90.0</span><span class="p">])</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">])</span>
+                <span class="n">mask</span> <span class="o">=</span> <span class="n">mask</span> <span class="o">-</span> <span class="n">mapped_body</span>
+        <span class="k">return</span> <span class="n">mask</span></div>
 
 
 <div class="viewcode-block" id="InsetHingeBox.build_body">
@@ -880,49 +907,93 @@
         <span class="n">monolithic</span> <span class="o">=</span> <span class="n">shell</span> <span class="o">|</span> <span class="n">hinge_asm</span>
 
         <span class="c1"># 5. Front latch tab on base outer wall (x=0) and matching catch cutout on lid outer wall</span>
-        <span class="k">if</span> <span class="p">(</span>
-            <span class="n">spec</span><span class="o">.</span><span class="n">pip_snap_catch</span>
-            <span class="ow">and</span> <span class="n">spec</span><span class="o">.</span><span class="n">resolved_catch_type</span><span class="p">(</span><span class="n">CatchType</span><span class="o">.</span><span class="n">WEDGE</span><span class="p">)</span> <span class="o">!=</span> <span class="n">CatchType</span><span class="o">.</span><span class="n">NONE</span>
-        <span class="p">):</span>
-            <span class="n">tab_length</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">pip_snap_width</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span> <span class="o">*</span> <span class="mf">0.4</span><span class="p">)</span>
-            <span class="n">tab_height</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span>
-                <span class="nb">getattr</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="s2">"inset_hinge_tab_height"</span><span class="p">,</span> <span class="mf">6.0</span><span class="p">),</span>
-                <span class="nb">max</span><span class="p">(</span><span class="mf">2.5</span><span class="p">,</span> <span class="n">half_h</span> <span class="o">-</span> <span class="n">ft</span> <span class="o">-</span> <span class="mf">1.0</span><span class="p">),</span>
-            <span class="p">)</span>
-            <span class="n">lid_tab</span> <span class="o">=</span> <span class="p">(</span>
-                <span class="n">_make_lid_tab</span><span class="p">(</span>
-                    <span class="n">length</span><span class="o">=</span><span class="n">tab_length</span><span class="p">,</span>
-                    <span class="n">height</span><span class="o">=</span><span class="n">tab_height</span><span class="p">,</span>
-                    <span class="n">lid_thickness</span><span class="o">=</span><span class="n">lt</span><span class="p">,</span>
-                    <span class="n">prism_width</span><span class="o">=</span><span class="mf">0.75</span><span class="p">,</span>
-                    <span class="n">wall_thickness</span><span class="o">=</span><span class="n">wt</span><span class="p">,</span>
+        <span class="n">catch_type</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">resolved_catch_type</span><span class="p">(</span><span class="n">CatchType</span><span class="o">.</span><span class="n">WEDGE</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">pip_snap_catch</span> <span class="ow">and</span> <span class="n">catch_type</span> <span class="o">!=</span> <span class="n">CatchType</span><span class="o">.</span><span class="n">NONE</span><span class="p">:</span>
+            <span class="n">x_pivot</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">width</span> <span class="o">+</span> <span class="n">gap</span> <span class="o">/</span> <span class="mf">2.0</span>
+
+            <span class="k">def</span><span class="w"> </span><span class="nf">_unfold_inset_lid</span><span class="p">(</span><span class="n">solid</span><span class="p">:</span> <span class="n">Bosl2Solid</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
+                <span class="k">return</span> <span class="p">(</span>
+                    <span class="n">solid</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="o">-</span><span class="n">x_pivot</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="o">-</span><span class="n">half_h</span><span class="p">])</span>
+                    <span class="o">.</span><span class="n">rotate</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">180.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">])</span>
+                    <span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">x_pivot</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">half_h</span><span class="p">])</span>
                 <span class="p">)</span>
-                <span class="o">.</span><span class="n">mirror</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
-                <span class="o">.</span><span class="n">rotate</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">270</span><span class="p">])</span>
-                <span class="o">.</span><span class="n">translate</span><span class="p">([</span>
-                    <span class="mf">0.0</span><span class="p">,</span>
-                    <span class="n">spec</span><span class="o">.</span><span class="n">length</span> <span class="o">/</span> <span class="mf">2.0</span> <span class="o">+</span> <span class="n">tab_length</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span>
-                    <span class="n">half_h</span> <span class="o">-</span> <span class="n">lt</span><span class="p">,</span>
-                <span class="p">])</span>
-            <span class="p">)</span>
-            <span class="n">lid_catch_cut</span> <span class="o">=</span> <span class="p">(</span>
-                <span class="n">_make_lid_tab</span><span class="p">(</span>
-                    <span class="n">length</span><span class="o">=</span><span class="n">tab_length</span><span class="p">,</span>
-                    <span class="n">height</span><span class="o">=</span><span class="n">tab_height</span><span class="p">,</span>
-                    <span class="n">lid_thickness</span><span class="o">=</span><span class="n">lt</span><span class="p">,</span>
-                    <span class="n">prism_width</span><span class="o">=</span><span class="mf">0.75</span><span class="p">,</span>
-                    <span class="n">wall_thickness</span><span class="o">=</span><span class="n">wt</span><span class="p">,</span>
-                    <span class="n">offset</span><span class="o">=</span><span class="n">offset</span><span class="p">,</span>
+
+            <span class="k">if</span> <span class="n">catch_type</span> <span class="o">==</span> <span class="n">CatchType</span><span class="o">.</span><span class="n">WEDGE</span><span class="p">:</span>
+                <span class="n">tab_length</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">pip_snap_width</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span> <span class="o">*</span> <span class="mf">0.4</span><span class="p">)</span>
+                <span class="n">tab_height</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span>
+                    <span class="nb">getattr</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="s2">"inset_hinge_tab_height"</span><span class="p">,</span> <span class="mf">6.0</span><span class="p">),</span>
+                    <span class="nb">max</span><span class="p">(</span><span class="mf">2.5</span><span class="p">,</span> <span class="n">half_h</span> <span class="o">-</span> <span class="n">ft</span> <span class="o">-</span> <span class="mf">1.0</span><span class="p">),</span>
                 <span class="p">)</span>
-                <span class="o">.</span><span class="n">mirror</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
-                <span class="o">.</span><span class="n">rotate</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">270</span><span class="p">])</span>
-                <span class="o">.</span><span class="n">translate</span><span class="p">([</span>
-                    <span class="n">spec</span><span class="o">.</span><span class="n">width</span> <span class="o">*</span> <span class="mf">2.0</span> <span class="o">+</span> <span class="n">gap</span> <span class="o">-</span> <span class="n">wt</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span>
-                    <span class="n">spec</span><span class="o">.</span><span class="n">length</span> <span class="o">/</span> <span class="mf">2.0</span> <span class="o">+</span> <span class="n">tab_length</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span>
-                    <span class="n">half_h</span> <span class="o">+</span> <span class="n">lt</span><span class="p">,</span>
-                <span class="p">])</span>
-            <span class="p">)</span>
-            <span class="n">monolithic</span> <span class="o">=</span> <span class="p">(</span><span class="n">monolithic</span> <span class="o">|</span> <span class="n">lid_tab</span><span class="p">)</span> <span class="o">-</span> <span class="n">lid_catch_cut</span>
+                <span class="n">lid_tab</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="n">_make_lid_tab</span><span class="p">(</span>
+                        <span class="n">length</span><span class="o">=</span><span class="n">tab_length</span><span class="p">,</span>
+                        <span class="n">height</span><span class="o">=</span><span class="n">tab_height</span><span class="p">,</span>
+                        <span class="n">lid_thickness</span><span class="o">=</span><span class="n">lt</span><span class="p">,</span>
+                        <span class="n">prism_width</span><span class="o">=</span><span class="mf">0.75</span><span class="p">,</span>
+                        <span class="n">wall_thickness</span><span class="o">=</span><span class="n">wt</span><span class="p">,</span>
+                    <span class="p">)</span>
+                    <span class="o">.</span><span class="n">mirror</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+                    <span class="o">.</span><span class="n">rotate</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">270</span><span class="p">])</span>
+                    <span class="o">.</span><span class="n">translate</span><span class="p">([</span>
+                        <span class="mf">0.0</span><span class="p">,</span>
+                        <span class="n">spec</span><span class="o">.</span><span class="n">length</span> <span class="o">/</span> <span class="mf">2.0</span> <span class="o">+</span> <span class="n">tab_length</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span>
+                        <span class="n">half_h</span> <span class="o">-</span> <span class="n">lt</span><span class="p">,</span>
+                    <span class="p">])</span>
+                <span class="p">)</span>
+                <span class="n">lid_tab_clear</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="n">_make_lid_tab</span><span class="p">(</span>
+                        <span class="n">length</span><span class="o">=</span><span class="n">tab_length</span><span class="p">,</span>
+                        <span class="n">height</span><span class="o">=</span><span class="n">tab_height</span><span class="p">,</span>
+                        <span class="n">lid_thickness</span><span class="o">=</span><span class="n">lt</span><span class="p">,</span>
+                        <span class="n">prism_width</span><span class="o">=</span><span class="mf">0.75</span><span class="p">,</span>
+                        <span class="n">wall_thickness</span><span class="o">=</span><span class="n">wt</span><span class="p">,</span>
+                        <span class="n">offset</span><span class="o">=</span><span class="n">offset</span><span class="p">,</span>
+                    <span class="p">)</span>
+                    <span class="o">.</span><span class="n">mirror</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+                    <span class="o">.</span><span class="n">rotate</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">270</span><span class="p">])</span>
+                    <span class="o">.</span><span class="n">translate</span><span class="p">([</span>
+                        <span class="mf">0.0</span><span class="p">,</span>
+                        <span class="n">spec</span><span class="o">.</span><span class="n">length</span> <span class="o">/</span> <span class="mf">2.0</span> <span class="o">+</span> <span class="n">tab_length</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span>
+                        <span class="n">half_h</span> <span class="o">-</span> <span class="n">lt</span><span class="p">,</span>
+                    <span class="p">])</span>
+                <span class="p">)</span>
+                <span class="n">lid_catch_cut</span> <span class="o">=</span> <span class="n">_unfold_inset_lid</span><span class="p">(</span><span class="n">lid_tab_clear</span><span class="p">)</span>
+                <span class="n">monolithic</span> <span class="o">=</span> <span class="p">(</span><span class="n">monolithic</span> <span class="o">|</span> <span class="n">lid_tab</span><span class="p">)</span> <span class="o">-</span> <span class="n">lid_catch_cut</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">swapped_spec</span> <span class="o">=</span> <span class="n">replace</span><span class="p">(</span>
+                    <span class="n">spec</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="n">spec</span><span class="o">.</span><span class="n">length</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="n">spec</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">half_h</span> <span class="o">+</span> <span class="n">lt</span>
+                <span class="p">)</span>
+                <span class="n">catch</span> <span class="o">=</span> <span class="n">hinge_catch</span><span class="p">(</span><span class="n">swapped_spec</span><span class="p">,</span> <span class="n">vertical_wall</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+                <span class="k">def</span><span class="w"> </span><span class="nf">_to_left_wall</span><span class="p">(</span><span class="n">solid</span><span class="p">:</span> <span class="n">Bosl2Solid</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="n">solid</span><span class="o">.</span><span class="n">rotate</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">90.0</span><span class="p">])</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">])</span>
+
+                <span class="c1"># Restore flat rim on x=0 base wall and trim raised lip on x=2*width+gap lid wall</span>
+                <span class="c1"># in the catch span so all vertical-wall catch mechanisms mate flush at z=half_h</span>
+                <span class="n">catch_zone_y</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">16.0</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span> <span class="o">-</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">wt</span><span class="p">)</span>
+                <span class="n">y0_zone</span> <span class="o">=</span> <span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">length</span> <span class="o">-</span> <span class="n">catch_zone_y</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span>
+                <span class="n">base_rim_fill</span> <span class="o">=</span> <span class="n">block</span><span class="p">(</span>
+                    <span class="p">[</span><span class="n">wt</span> <span class="o">+</span> <span class="n">offset</span><span class="p">,</span> <span class="n">catch_zone_y</span><span class="p">,</span> <span class="n">wt</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">],</span>
+                    <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">y0_zone</span><span class="p">,</span> <span class="n">half_h</span> <span class="o">-</span> <span class="n">wt</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">),</span>
+                <span class="p">)</span>
+                <span class="n">lid_rim_trim</span> <span class="o">=</span> <span class="n">block</span><span class="p">(</span>
+                    <span class="p">[</span><span class="n">wt</span> <span class="o">+</span> <span class="n">offset</span> <span class="o">+</span> <span class="mf">0.4</span><span class="p">,</span> <span class="n">catch_zone_y</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">offset</span><span class="p">,</span> <span class="n">wt</span><span class="p">],</span>
+                    <span class="n">at</span><span class="o">=</span><span class="p">(</span>
+                        <span class="n">spec</span><span class="o">.</span><span class="n">width</span> <span class="o">*</span> <span class="mf">2.0</span> <span class="o">+</span> <span class="n">gap</span> <span class="o">-</span> <span class="n">wt</span> <span class="o">-</span> <span class="n">offset</span> <span class="o">-</span> <span class="mf">0.2</span><span class="p">,</span>
+                        <span class="n">y0_zone</span> <span class="o">-</span> <span class="n">offset</span><span class="p">,</span>
+                        <span class="n">half_h</span><span class="p">,</span>
+                    <span class="p">),</span>
+                <span class="p">)</span>
+                <span class="n">monolithic</span> <span class="o">=</span> <span class="p">(</span><span class="n">monolithic</span> <span class="o">|</span> <span class="n">base_rim_fill</span><span class="p">)</span> <span class="o">-</span> <span class="n">lid_rim_trim</span>
+
+                <span class="k">if</span> <span class="n">catch</span><span class="o">.</span><span class="n">body_cut</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">monolithic</span> <span class="o">=</span> <span class="n">monolithic</span> <span class="o">-</span> <span class="n">_to_left_wall</span><span class="p">(</span><span class="n">catch</span><span class="o">.</span><span class="n">body_cut</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">catch</span><span class="o">.</span><span class="n">body</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">monolithic</span> <span class="o">=</span> <span class="n">monolithic</span> <span class="o">|</span> <span class="n">_to_left_wall</span><span class="p">(</span><span class="n">catch</span><span class="o">.</span><span class="n">body</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">catch</span><span class="o">.</span><span class="n">lid</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">monolithic</span> <span class="o">=</span> <span class="n">monolithic</span> <span class="o">|</span> <span class="n">_unfold_inset_lid</span><span class="p">(</span><span class="n">_to_left_wall</span><span class="p">(</span><span class="n">catch</span><span class="o">.</span><span class="n">lid</span><span class="p">))</span>
+                <span class="k">if</span> <span class="n">catch</span><span class="o">.</span><span class="n">lid_cut</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">monolithic</span> <span class="o">=</span> <span class="n">monolithic</span> <span class="o">-</span> <span class="n">_unfold_inset_lid</span><span class="p">(</span><span class="n">_to_left_wall</span><span class="p">(</span><span class="n">catch</span><span class="o">.</span><span class="n">lid_cut</span><span class="p">))</span>
 
         <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.features</span><span class="w"> </span><span class="kn">import</span> <span class="n">apply_stackable_body</span>
 
