@@ -3,12 +3,14 @@
 
 from __future__ import annotations
 
+from dataclasses import replace
 from typing import TYPE_CHECKING
 
 from pybosl2.constants import Anchor
 from pybosl2.shapes3d import cylinder, wedge
 
 from pyboxbuilder.box.base import BoxTypeBase, Interior
+from pyboxbuilder.box.features import hinge_catch
 from pyboxbuilder.box.registry import register_box
 from pyboxbuilder.box.shell import block, body_rounding
 from pyboxbuilder.box.spec import BoxSpec
@@ -41,6 +43,23 @@ class PrintInPlaceHingeBox(BoxTypeBase):
             origin_y=wt,
             origin_z=ft,
         )
+
+    def interior_mask(self, spec: BoxSpec) -> Bosl2Solid:
+        """Return the base tray interior mask, excluding any front catch backing boss."""
+        wt = spec.wall_thickness
+        ft = spec.floor_thickness
+        lt = spec.lid_thickness
+        half_h = spec.height / 2.0
+        mask = block(
+            [spec.width - 2 * wt, spec.length - 2 * wt, half_h],
+            at=(wt, wt, ft),
+        )
+        catch_type = spec.resolved_catch_type(CatchType.WEDGE)
+        if spec.pip_snap_catch and catch_type not in (CatchType.NONE, CatchType.WEDGE):
+            catch = hinge_catch(replace(spec, height=half_h + lt), vertical_wall=True)
+            if catch.body is not None:
+                mask = mask - catch.body
+        return mask
 
     def build_body(self, spec: BoxSpec) -> Bosl2Solid:
         """Return the monolithic print with body, lid, middle knuckle hinge, and front snap catch."""
@@ -228,43 +247,62 @@ class PrintInPlaceHingeBox(BoxTypeBase):
                 at=(0.0, lid_origin_y, 0.0),
             )
 
-        # 4. Snap-fit catch on the front walls (CatchType.WEDGE or BUMP)
-        # Sits on the front rims: flat tab with triangular ridge on lid, recessed pocket on body
-        if spec.pip_snap_catch and spec.resolved_catch_type(CatchType.WEDGE) != CatchType.NONE:
-            catch_w = min(spec.pip_snap_width, spec.width * 0.4)
-            catch_h = min(half_h * 0.4, 4.0)
-            tab_th = min(1.2, wt / 2.0)
-            c_gap = 0.15
-            ridge_d = 0.5
-            ridge_h = 1.0
-            x_center = spec.width / 2.0
-            lid_front_y = lid_origin_y + spec.length
+        # 4. Front retention catch on the front walls (all CatchTypes supported)
+        catch_type = spec.resolved_catch_type(CatchType.WEDGE)
+        if spec.pip_snap_catch and catch_type != CatchType.NONE:
+            if catch_type == CatchType.WEDGE:
+                catch_w = min(spec.pip_snap_width, spec.width * 0.4)
+                catch_h = min(half_h * 0.4, 4.0)
+                tab_th = min(1.2, wt / 2.0)
+                c_gap = 0.15
+                ridge_d = 0.5
+                ridge_h = 1.0
+                x_center = spec.width / 2.0
+                lid_front_y = lid_origin_y + spec.length
 
-            # Lid tab with triangular ridge
-            tab = block([catch_w, tab_th, catch_h], at=(x_center - catch_w / 2.0, lid_front_y - tab_th, half_h))
-            ridge = (
-                wedge(
-                    size=[catch_w, ridge_d, ridge_h],
-                    anchor=Anchor.FRONT + Anchor.LEFT + Anchor.BOTTOM,
+                # Lid tab with triangular ridge
+                tab = block([catch_w, tab_th, catch_h], at=(x_center - catch_w / 2.0, lid_front_y - tab_th, half_h))
+                ridge = (
+                    wedge(
+                        size=[catch_w, ridge_d, ridge_h],
+                        anchor=Anchor.FRONT + Anchor.LEFT + Anchor.BOTTOM,
+                    )
+                    .translate([
+                        x_center - catch_w / 2.0,
+                        lid_front_y - tab_th - ridge_d,
+                        half_h + catch_h - ridge_h,
+                    ])
                 )
-                .translate([
-                    x_center - catch_w / 2.0,
-                    lid_front_y - tab_th - ridge_d,
-                    half_h + catch_h - ridge_h,
-                ])
-            )
-            lid = lid | tab | ridge
+                lid = lid | tab | ridge
 
-            # Body pocket with matching groove
-            pocket = block(
-                [catch_w + 2 * c_gap, tab_th + 2 * c_gap, catch_h + c_gap + 0.5],
-                at=(x_center - catch_w / 2.0 - c_gap, -c_gap, half_h - catch_h - c_gap),
-            )
-            groove = block(
-                [catch_w + 2 * c_gap, ridge_d + 2 * c_gap, ridge_h + 2 * c_gap],
-                at=(x_center - catch_w / 2.0 - c_gap, tab_th - c_gap, half_h - catch_h - c_gap),
-            )
-            body = body - (pocket | groove)
+                # Body pocket with matching groove
+                pocket = block(
+                    [catch_w + 2 * c_gap, tab_th + 2 * c_gap, catch_h + c_gap + 0.5],
+                    at=(x_center - catch_w / 2.0 - c_gap, -c_gap, half_h - catch_h - c_gap),
+                )
+                groove = block(
+                    [catch_w + 2 * c_gap, ridge_d + 2 * c_gap, ridge_h + 2 * c_gap],
+                    at=(x_center - catch_w / 2.0 - c_gap, tab_th - c_gap, half_h - catch_h - c_gap),
+                )
+                body = body - (pocket | groove)
+            else:
+                catch = hinge_catch(replace(spec, height=half_h + lt), vertical_wall=True)
+                if catch.body_cut is not None:
+                    body = body - catch.body_cut
+                if catch.body is not None:
+                    body = body | catch.body
+
+                def _unfold_pip_lid(solid: Bosl2Solid) -> Bosl2Solid:
+                    return (
+                        solid.translate([0.0, -y_pivot, -half_h])
+                        .rotate([180.0, 0.0, 0.0])
+                        .translate([0.0, y_pivot, half_h])
+                    )
+
+                if catch.lid is not None:
+                    lid = lid | _unfold_pip_lid(catch.lid)
+                if catch.lid_cut is not None:
+                    lid = lid - _unfold_pip_lid(catch.lid_cut)
 
         monolithic = body | lid
 

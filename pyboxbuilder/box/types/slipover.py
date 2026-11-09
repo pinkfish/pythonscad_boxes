@@ -182,10 +182,10 @@ class SlipoverBox(BoxTypeBase):
         from pyboxbuilder.box.features import cap_slipover_catch
 
         catch = cap_slipover_catch(spec, is_slipover=True)
-        if catch.lid is not None:
-            sleeve = sleeve | catch.lid
         if catch.lid_cut is not None:
             sleeve = sleeve - catch.lid_cut
+        if catch.lid is not None:
+            sleeve = sleeve | catch.lid
         notches = self._finger_notches(spec)
         if notches is not None:
             sleeve = sleeve - notches

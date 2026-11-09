@@ -3,12 +3,14 @@
 
 from __future__ import annotations
 
+from dataclasses import replace
 from typing import TYPE_CHECKING
 
 from pybosl2.constants import Anchor
 from pybosl2.shapes3d import cuboid, cylinder, wedge
 
 from pyboxbuilder.box.base import BoxTypeBase, Interior
+from pyboxbuilder.box.features import hinge_catch
 from pyboxbuilder.box.registry import register_box
 from pyboxbuilder.box.shell import block, body_rounding
 from pyboxbuilder.box.spec import BoxSpec
@@ -193,22 +195,22 @@ def _make_lid_tab(
     h = height
 
     base_part = block(
-        [L, wt + offset * 2.0, lt + offset * 2.0],
-        at=(-offset, -offset, -offset),
+        [L, wt + offset * 4.0, lt + offset * 4.0],
+        at=(-offset, -offset * 2.0, -offset * 2.0),
     )
     stalk = block(
-        [L, wt / 2.0 + offset * 2.0, max(0.2, h - wt + 0.1) + offset * 2.0],
-        at=(-offset, -offset, -offset),
+        [L, wt / 2.0 + offset * 2.0, max(0.2, h - wt + 0.1) + offset * 3.0],
+        at=(-offset, -offset, -offset * 2.0),
     )
 
     barb = wedge(
         size=[
             L,
-            wt * prism_width + offset * 2.0,
-            wt + offset * 2.0,
+            wt * prism_width + offset * 3.0,
+            wt + offset * 4.0,
         ],
         anchor=Anchor.BOTTOM + Anchor.FRONT + Anchor.LEFT,
-    ).translate([-offset, -offset, h - wt - offset])
+    ).translate([-offset, -offset, h - wt - offset * 2.0])
 
     return (base_part | stalk | barb).mirror([0, 0, 1])
 
@@ -264,6 +266,28 @@ class InsetHingeBox(BoxTypeBase):
             origin_y=wt,
             origin_z=ft,
         )
+
+    def interior_mask(self, spec: BoxSpec) -> Bosl2Solid:
+        """Return the base half interior mask, excluding any outer-wall catch backing boss."""
+        wt = spec.wall_thickness
+        ft = spec.floor_thickness
+        lt = spec.lid_thickness
+        half_h = spec.height / 2.0
+        _, hinge_width, _, _, _ = self._hinge_metrics(spec)
+        inner_w = max(4.0, spec.width - wt - hinge_width)
+        inner_l = max(4.0, spec.length - 2.0 * wt)
+        mask = block(
+            [inner_w, inner_l, half_h],
+            at=(wt, wt, ft),
+        )
+        catch_type = spec.resolved_catch_type(CatchType.WEDGE)
+        if spec.pip_snap_catch and catch_type not in (CatchType.NONE, CatchType.WEDGE):
+            swapped_spec = replace(spec, width=spec.length, length=spec.width, height=half_h + lt)
+            catch = hinge_catch(swapped_spec, vertical_wall=True)
+            if catch.body is not None:
+                mapped_body = catch.body.rotate([0.0, 0.0, -90.0]).translate([0.0, spec.length, 0.0])
+                mask = mask - mapped_body
+        return mask
 
     def build_body(self, spec: BoxSpec) -> Bosl2Solid:
         """Return the monolithic side-by-side print with inset hinge, rim, and latch tab."""
@@ -411,49 +435,93 @@ class InsetHingeBox(BoxTypeBase):
         monolithic = shell | hinge_asm
 
         # 5. Front latch tab on base outer wall (x=0) and matching catch cutout on lid outer wall
-        if (
-            spec.pip_snap_catch
-            and spec.resolved_catch_type(CatchType.WEDGE) != CatchType.NONE
-        ):
-            tab_length = min(spec.pip_snap_width, spec.length * 0.4)
-            tab_height = min(
-                getattr(spec, "inset_hinge_tab_height", 6.0),
-                max(2.5, half_h - ft - 1.0),
-            )
-            lid_tab = (
-                _make_lid_tab(
-                    length=tab_length,
-                    height=tab_height,
-                    lid_thickness=lt,
-                    prism_width=0.75,
-                    wall_thickness=wt,
+        catch_type = spec.resolved_catch_type(CatchType.WEDGE)
+        if spec.pip_snap_catch and catch_type != CatchType.NONE:
+            x_pivot = spec.width + gap / 2.0
+
+            def _unfold_inset_lid(solid: Bosl2Solid) -> Bosl2Solid:
+                return (
+                    solid.translate([-x_pivot, 0.0, -half_h])
+                    .rotate([0.0, 180.0, 0.0])
+                    .translate([x_pivot, 0.0, half_h])
                 )
-                .mirror([0, 0, 1])
-                .rotate([0, 0, 270])
-                .translate([
-                    0.0,
-                    spec.length / 2.0 + tab_length / 2.0,
-                    half_h - lt,
-                ])
-            )
-            lid_catch_cut = (
-                _make_lid_tab(
-                    length=tab_length,
-                    height=tab_height,
-                    lid_thickness=lt,
-                    prism_width=0.75,
-                    wall_thickness=wt,
-                    offset=offset,
+
+            if catch_type == CatchType.WEDGE:
+                tab_length = min(spec.pip_snap_width, spec.length * 0.4)
+                tab_height = min(
+                    getattr(spec, "inset_hinge_tab_height", 6.0),
+                    max(2.5, half_h - ft - 1.0),
                 )
-                .mirror([0, 1, 0])
-                .rotate([0, 0, 270])
-                .translate([
-                    spec.width * 2.0 + gap - wt / 2.0,
-                    spec.length / 2.0 + tab_length / 2.0,
-                    half_h + lt,
-                ])
-            )
-            monolithic = (monolithic | lid_tab) - lid_catch_cut
+                lid_tab = (
+                    _make_lid_tab(
+                        length=tab_length,
+                        height=tab_height,
+                        lid_thickness=lt,
+                        prism_width=0.75,
+                        wall_thickness=wt,
+                    )
+                    .mirror([0, 0, 1])
+                    .rotate([0, 0, 270])
+                    .translate([
+                        0.0,
+                        spec.length / 2.0 + tab_length / 2.0,
+                        half_h - lt,
+                    ])
+                )
+                lid_tab_clear = (
+                    _make_lid_tab(
+                        length=tab_length,
+                        height=tab_height,
+                        lid_thickness=lt,
+                        prism_width=0.75,
+                        wall_thickness=wt,
+                        offset=offset,
+                    )
+                    .mirror([0, 0, 1])
+                    .rotate([0, 0, 270])
+                    .translate([
+                        0.0,
+                        spec.length / 2.0 + tab_length / 2.0,
+                        half_h - lt,
+                    ])
+                )
+                lid_catch_cut = _unfold_inset_lid(lid_tab_clear)
+                monolithic = (monolithic | lid_tab) - lid_catch_cut
+            else:
+                swapped_spec = replace(
+                    spec, width=spec.length, length=spec.width, height=half_h + lt
+                )
+                catch = hinge_catch(swapped_spec, vertical_wall=True)
+
+                def _to_left_wall(solid: Bosl2Solid) -> Bosl2Solid:
+                    return solid.rotate([0.0, 0.0, -90.0]).translate([0.0, spec.length, 0.0])
+
+                # Restore flat rim on x=0 base wall and trim raised lip on x=2*width+gap lid wall
+                # in the catch span so all vertical-wall catch mechanisms mate flush at z=half_h
+                catch_zone_y = max(16.0, spec.length - 2.0 * wt)
+                y0_zone = (spec.length - catch_zone_y) / 2.0
+                base_rim_fill = block(
+                    [wt + offset, catch_zone_y, wt / 2.0],
+                    at=(0.0, y0_zone, half_h - wt / 2.0),
+                )
+                lid_rim_trim = block(
+                    [wt + offset + 0.4, catch_zone_y + 2 * offset, wt],
+                    at=(
+                        spec.width * 2.0 + gap - wt - offset - 0.2,
+                        y0_zone - offset,
+                        half_h,
+                    ),
+                )
+                monolithic = (monolithic | base_rim_fill) - lid_rim_trim
+
+                if catch.body_cut is not None:
+                    monolithic = monolithic - _to_left_wall(catch.body_cut)
+                if catch.body is not None:
+                    monolithic = monolithic | _to_left_wall(catch.body)
+                if catch.lid is not None:
+                    monolithic = monolithic | _unfold_inset_lid(_to_left_wall(catch.lid))
+                if catch.lid_cut is not None:
+                    monolithic = monolithic - _unfold_inset_lid(_to_left_wall(catch.lid_cut))
 
         from pyboxbuilder.box.features import apply_stackable_body
 

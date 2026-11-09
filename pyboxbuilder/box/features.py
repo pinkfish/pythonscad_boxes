@@ -1307,6 +1307,126 @@ def cap_slipover_catch(spec: BoxSpec, is_slipover: bool = False) -> Closure:
                 lid_solids.append(bump.translate(l_pt))
                 lid_cuts.append(s1 | s2)
 
+    elif catch_type in (
+        CatchType.SLIDE_ACROSS,
+        CatchType.SLIDE_UP,
+        CatchType.SPIN,
+        CatchType.PUSH_BUTTON,
+        CatchType.TOGGLE_LATCH,
+        CatchType.PINCH_SLIDE,
+        CatchType.ROTARY_BOLT,
+    ):
+        from pybosl2 import cylinder
+
+        from pyboxbuilder.box.shell import block
+
+        pip_clr = max(0.22, min(0.35, getattr(spec, "pip_radial_clearance", 0.28)))
+        skirt_t = max(0.7, inset - slack)
+        mort_d = min(spec.wall_thickness * 0.55, max(0.65, radius * 0.8))
+        win_w = min(L * 0.25, max(8.0, spec.wall_thickness * 4.5))
+        win_h = min(4.0, max(2.0, lt * 1.4))
+        slider_w = win_w * 0.58
+        slider_h = max(1.2, win_h - 2 * pip_clr)
+        lug_w = max(1.8, slider_w * 0.55)
+        lug_h = max(0.9, slider_h * 0.65)
+        pos_long = L / 2.0
+
+        for face in ("low", "high"):
+            # Body mortise cut on the body band's outer face, and captive mechanism on the lid skirt
+            if long_axis == "x":
+                if face == "low":
+                    b_mort = block(
+                        [win_w + 2 * pip_clr, mort_d + pip_clr + 0.1, lug_h + 2 * pip_clr],
+                        at=(pos_long - win_w / 2.0 - pip_clr, inset - 0.05, z - lug_h / 2.0 - pip_clr),
+                    )
+                    l_win = block(
+                        [win_w, skirt_t + 0.2, win_h],
+                        at=(pos_long - win_w / 2.0, -0.1, z - win_h / 2.0),
+                    )
+                    if catch_type in (CatchType.SPIN, CatchType.ROTARY_BOLT):
+                        r_cam = min(win_h * 0.45, 1.8)
+                        l_mech = (
+                            cylinder(height=skirt_t, radius=r_cam, **precision_kwargs())
+                            .rotate([-90, 0, 0])
+                            .translate([pos_long, skirt_t / 2.0, z])
+                        )
+                    else:
+                        l_mech = block(
+                            [slider_w, skirt_t, slider_h],
+                            at=(pos_long - slider_w / 2.0, 0.0, z - slider_h / 2.0),
+                        )
+                    l_lug = block(
+                        [lug_w, slack + mort_d - pip_clr + 0.2, lug_h],
+                        at=(pos_long - lug_w / 2.0, skirt_t - 0.2, z - lug_h / 2.0),
+                    )
+                else:
+                    y_b0 = across_val - inset - mort_d - pip_clr
+                    y_l0 = across_val - skirt_t
+                    b_mort = block(
+                        [win_w + 2 * pip_clr, mort_d + pip_clr + 0.1, lug_h + 2 * pip_clr],
+                        at=(pos_long - win_w / 2.0 - pip_clr, y_b0, z - lug_h / 2.0 - pip_clr),
+                    )
+                    l_win = block(
+                        [win_w, skirt_t + 0.2, win_h],
+                        at=(pos_long - win_w / 2.0, y_l0 - 0.1, z - win_h / 2.0),
+                    )
+                    if catch_type in (CatchType.SPIN, CatchType.ROTARY_BOLT):
+                        r_cam = min(win_h * 0.45, 1.8)
+                        l_mech = (
+                            cylinder(height=skirt_t, radius=r_cam, **precision_kwargs())
+                            .rotate([-90, 0, 0])
+                            .translate([pos_long, y_l0 + skirt_t / 2.0, z])
+                        )
+                    else:
+                        l_mech = block(
+                            [slider_w, skirt_t, slider_h],
+                            at=(pos_long - slider_w / 2.0, y_l0, z - slider_h / 2.0),
+                        )
+                    l_lug = block(
+                        [lug_w, slack + mort_d - pip_clr + 0.2, lug_h],
+                        at=(pos_long - lug_w / 2.0, across_val - inset - mort_d + pip_clr, z - lug_h / 2.0),
+                    )
+            else:
+                if face == "low":
+                    b_mort = block(
+                        [mort_d + pip_clr + 0.1, win_w + 2 * pip_clr, lug_h + 2 * pip_clr],
+                        at=(inset - 0.05, pos_long - win_w / 2.0 - pip_clr, z - lug_h / 2.0 - pip_clr),
+                    )
+                    l_win = block(
+                        [skirt_t + 0.2, win_w, win_h],
+                        at=(-0.1, pos_long - win_w / 2.0, z - win_h / 2.0),
+                    )
+                    l_mech = block(
+                        [skirt_t, slider_w, slider_h],
+                        at=(0.0, pos_long - slider_w / 2.0, z - slider_h / 2.0),
+                    )
+                    l_lug = block(
+                        [slack + mort_d - pip_clr + 0.2, lug_w, lug_h],
+                        at=(skirt_t - 0.2, pos_long - lug_w / 2.0, z - lug_h / 2.0),
+                    )
+                else:
+                    x_b0 = across_val - inset - mort_d - pip_clr
+                    x_l0 = across_val - skirt_t
+                    b_mort = block(
+                        [mort_d + pip_clr + 0.1, win_w + 2 * pip_clr, lug_h + 2 * pip_clr],
+                        at=(x_b0, pos_long - win_w / 2.0 - pip_clr, z - lug_h / 2.0 - pip_clr),
+                    )
+                    l_win = block(
+                        [skirt_t + 0.2, win_w, win_h],
+                        at=(x_l0 - 0.1, pos_long - win_w / 2.0, z - win_h / 2.0),
+                    )
+                    l_mech = block(
+                        [skirt_t, slider_w, slider_h],
+                        at=(x_l0, pos_long - slider_w / 2.0, z - slider_h / 2.0),
+                    )
+                    l_lug = block(
+                        [slack + mort_d - pip_clr + 0.2, lug_w, lug_h],
+                        at=(across_val - inset - mort_d + pip_clr, pos_long - lug_w / 2.0, z - lug_h / 2.0),
+                    )
+            body_solids.append(b_mort)
+            lid_cuts.append(l_win)
+            lid_solids.append(l_mech | l_lug)
+
     return Closure(
         body=union_all(body_solids),
         lid=union_all(lid_solids),
@@ -1929,10 +2049,12 @@ def fingernail_dish(spec: BoxSpec, catch: FingernailCatch) -> Bosl2Solid:
     return dish & block(size, at=at)
 
 
-def hinge_catch(spec: BoxSpec) -> Closure:
-    """Return the front snap-fit catch for a hinged box (FR-002v, FR-099).
+def hinge_catch(spec: BoxSpec, *, vertical_wall: bool = False) -> Closure:
+    """Return the front snap-fit or print-in-place catch for a hinged box (FR-002v, FR-099).
 
-    Supports CatchType.WEDGE (default ridge), CatchType.BUMP, CatchType.LOOP, and CatchType.NONE.
+    When ``vertical_wall=True`` (or ``slide_catch_style="vertical"``), all catches are
+    built to mount on vertical front/side walls where the lid may be a hollow upper tray
+    or unfolded 180° on the print bed (`PrintInPlaceHingeBox`, `InsetHingeBox`, `ClamshellBox`).
     """
     from pybosl2.shapes2d import polygon
     from pybosl2.shapes3d import sphere
@@ -1944,19 +2066,72 @@ def hinge_catch(spec: BoxSpec) -> Closure:
     if catch_type == CatchType.NONE:
         return Closure()
 
+    is_vertical = vertical_wall or getattr(spec, "slide_catch_style", "front") in (
+        "vertical",
+        "card_library_vertical",
+    )
+
     if catch_type == CatchType.SLIDE_ACROSS:
+        if is_vertical:
+            return build_vertical_slide_across_hinge_catch(spec)
         return build_slide_across_hinge_catch(spec)
     if catch_type == CatchType.SLIDE_UP:
-        return build_slide_up_hinge_catch(spec)
+        c = build_slide_up_hinge_catch(spec)
+        if is_vertical and c.lid_cut is not None:
+            wt = spec.wall_thickness
+            track_w = min(spec.width * 0.35, max(10.0, wt * 5.0))
+            track_d = min(wt * 0.75, max(1.2, wt - 0.5))
+            l_boss = _lid_front_wall_backing_boss(
+                spec, spec.width / 2.0, track_w + 2.0 * wt, max(wt, track_d + 1.2)
+            )
+            if l_boss is not None:
+                return Closure(
+                    body=c.body,
+                    body_cut=c.body_cut,
+                    lid=l_boss - c.lid_cut,
+                    lid_cut=c.lid_cut,
+                )
+        return c
     if catch_type == CatchType.SPIN:
-        return build_spin_hinge_catch(spec)
+        c = build_spin_hinge_catch(spec)
+        if is_vertical and c.lid_cut is not None:
+            wt = spec.wall_thickness
+            l_boss = _lid_front_wall_backing_boss(
+                spec, spec.width / 2.0, max(12.0, 4.0 * wt), max(wt, wt * 1.4)
+            )
+            if l_boss is not None:
+                return Closure(
+                    body=c.body,
+                    body_cut=c.body_cut,
+                    lid=l_boss - c.lid_cut,
+                    lid_cut=c.lid_cut,
+                )
+        return c
     if catch_type == CatchType.PUSH_BUTTON:
-        return build_push_button_hinge_catch(spec)
+        return build_push_button_hinge_catch(spec, vertical_wall=is_vertical)
     if catch_type == CatchType.TOGGLE_LATCH:
-        return build_toggle_latch_hinge_catch(spec)
+        c = build_toggle_latch_hinge_catch(spec)
+        if is_vertical and c.lid_cut is not None:
+            wt = spec.wall_thickness
+            bail_w = min(spec.width * 0.34, max(10.0, wt * 5.0))
+            l_boss = _lid_front_wall_backing_boss(
+                spec, spec.width / 2.0, bail_w + 2.0 * wt, max(wt, wt * 1.4)
+            )
+            if l_boss is not None:
+                return Closure(
+                    body=c.body,
+                    body_cut=c.body_cut,
+                    lid=l_boss - c.lid_cut,
+                    lid_cut=c.lid_cut,
+                )
+        return c
     if catch_type == CatchType.PINCH_SLIDE:
+        if is_vertical:
+            return build_vertical_pinch_slide_hinge_catch(spec)
         return build_pinch_slide_hinge_catch(spec)
     if catch_type == CatchType.ROTARY_BOLT:
+        if is_vertical:
+            return build_vertical_rotary_bolt_hinge_catch(spec)
         return build_rotary_bolt_hinge_catch(spec)
 
     eff_size = spec.resolved_catch_size(1.0)
@@ -1968,8 +2143,12 @@ def hinge_catch(spec: BoxSpec) -> Closure:
     body_height = spec.height - lt
 
     # Catch dimensions
-    catch_height = min(spec.height / 2.0, 10.0)
-    catch_width = min(spec.width * 0.4, 15.0)
+    if is_vertical:
+        catch_height = min(body_height * 0.4, 4.0)
+        catch_width = min(getattr(spec, "pip_snap_width", 12.0), spec.width * 0.4, 15.0)
+    else:
+        catch_height = min(spec.height / 2.0, 10.0)
+        catch_width = min(spec.width * 0.4, 15.0)
     gap = 0.1
     fillet_r = wt / 2.0  # default rounding is wall_thickness/2
 
@@ -1979,7 +2158,10 @@ def hinge_catch(spec: BoxSpec) -> Closure:
     from pybosl2.shapes2d import rect
 
     tab_2d = rect([catch_width, wt / 2.0], rounding=[fillet_r, fillet_r, 0, 0], anchor=FRONT)
-    lid_tab = tab_2d.linear_extrude(height=catch_height).translate([x_center, 0.0, body_height - catch_height])
+    tab_top_extra = lt if is_vertical else 0.0
+    lid_tab = tab_2d.linear_extrude(height=catch_height + tab_top_extra).translate(
+        [x_center, 0.0, body_height - catch_height]
+    )
 
     body_cut_width = catch_width + 2 * gap
     body_cut_y = wt / 2.0 + gap
@@ -2020,11 +2202,12 @@ def hinge_catch(spec: BoxSpec) -> Closure:
         .translate([x_center - catch_width / 2.0 - gap, 0, body_height])
     )
 
-    body_cut = body_cut | pocket_cut
+    if not is_vertical:
+        body_cut = body_cut | pocket_cut
     lid_tab = lid_tab | gusset
 
     z_peak = body_height - catch_height / 2.0
-    slope_height = 2.0
+    slope_height = min(1.2, catch_height * 0.45) if is_vertical else 2.0
 
     if catch_type == CatchType.WEDGE:
         bead_depth = min(eff_size, wt / 2.0)
@@ -2191,6 +2374,483 @@ def _front_wall_backing_boss(
         .rotate([-90, 0, 0])
         .scale([1, -1, -1])
         .translate([x_center - w_clamped / 2.0, 0.0, 0.0])
+    )
+
+
+def _lid_front_wall_backing_boss(
+    spec: BoxSpec,
+    x_center: float,
+    boss_w: float,
+    boss_t: float,
+    z_flat_top: float | None = None,
+) -> Bosl2Solid | None:
+    """Return a support-free 45°-tapered internal backing boss on the lid's front wall (z >= body_h)."""
+    from pybosl2 import Path2D
+    from pybosl2.shapes2d import polygon
+
+    wt = spec.wall_thickness
+    lt = spec.lid_thickness
+    body_h = spec.height - lt
+    if boss_t <= wt + 0.05:
+        return None
+    w_clamped = min(spec.width - 2.0 * wt, boss_w)
+    if w_clamped <= 1.0:
+        return None
+    z_f = body_h + lt if z_flat_top is None else max(body_h + lt * 0.5, z_flat_top)
+    z_top = z_f + (boss_t - wt)
+    pts = [
+        (wt * 0.5, body_h),
+        (boss_t, body_h),
+        (boss_t, z_f),
+        (wt, z_top),
+        (wt * 0.5, z_top),
+    ]
+    poly = polygon(path=Path2D(pts))
+    return (
+        poly.linear_extrude(height=w_clamped)
+        .rotate([0, 90, 0])
+        .rotate([-90, 0, 0])
+        .scale([1, -1, -1])
+        .translate([x_center - w_clamped / 2.0, 0.0, 0.0])
+    )
+
+
+def build_vertical_slide_across_hinge_catch(spec: BoxSpec) -> Closure:
+    """Return a vertical-wall print-in-place horizontal dovetail sliding bolt catch.
+
+    Places the captive dovetail slider inside the upright body wall below ``body_h``
+    with an upward L-hook that engages a strike mortise in the vertical lid wall.
+    Supports both ``slide_catch_style="front"`` and ``slide_catch_style="card_library"``.
+    """
+    from pybosl2 import Path2D
+    from pybosl2.shapes2d import polygon
+
+    from pyboxbuilder.box.shell import block
+    from pyboxbuilder.compartments.element import union_all
+
+    wt = spec.wall_thickness
+    lt = spec.lid_thickness
+    ft = spec.floor_thickness
+    body_h = spec.height - lt
+    pip_clr = max(0.22, min(0.35, getattr(spec, "pip_radial_clearance", 0.28)))
+    style = getattr(spec, "slide_catch_style", "front")
+
+    if style in ("card_library", "card_library_vertical"):
+        # Dual side-wall vertical-face horizontal dovetail sliders along Y + front step
+        y_latch = min(spec.length * 0.35, max(wt * 4.0, 14.0))
+        chan_len = min(spec.length * 0.35, max(12.0, wt * 5.0))
+        slider_len = chan_len * 0.56
+        travel = max(1.8, (chan_len - slider_len) * 0.5 - pip_clr)
+        track_h = min(max(4.5, (body_h - ft) * 0.42), 7.5)
+        track_d = min(wt * 0.72, max(1.1, wt - 0.5))
+        z_track_bot = max(ft + 0.8, body_h - track_h)
+        lug_len = slider_len * 0.45
+        ledge_h = max(0.55, lt * 0.35)
+        z_hook_top = body_h + lt * 0.75
+        bridge_t = min(0.65, track_d * 0.35)
+        s_depth = max(0.75, track_d - pip_clr)
+
+        body_cuts = []
+        body_sliders = []
+        lid_cuts = []
+
+        for is_right in (False, True):
+            x_cut0 = (spec.width - track_d) if is_right else -0.1
+            x_s0 = (spec.width - s_depth) if is_right else 0.0
+            x_hook0 = (spec.width - s_depth) if is_right else (bridge_t + pip_clr)
+            x_mort0 = (spec.width - s_depth - pip_clr) if is_right else bridge_t
+
+            b_track = block(
+                [track_d + 0.1, chan_len, track_h + 0.1],
+                at=(x_cut0, y_latch - chan_len / 2.0, z_track_bot),
+            )
+            body_cuts.append(b_track)
+
+            s_core = block(
+                [s_depth, slider_len, track_h - 2 * pip_clr],
+                at=(x_s0, y_latch - slider_len / 2.0, z_track_bot + pip_clr),
+            )
+            stalk_len = lug_len * 0.55
+            s_stalk = block(
+                [s_depth - bridge_t - pip_clr, stalk_len, z_hook_top - (z_track_bot + pip_clr)],
+                at=(x_hook0, y_latch - lug_len * 0.5, z_track_bot + pip_clr),
+            )
+            s_finger = block(
+                [s_depth - bridge_t - pip_clr, lug_len, z_hook_top - (body_h + ledge_h + pip_clr)],
+                at=(x_hook0, y_latch - lug_len * 0.5, body_h + ledge_h + pip_clr),
+            )
+            body_sliders.append(s_core | s_stalk | s_finger)
+
+            l_entry = block(
+                [s_depth - bridge_t + 2 * pip_clr, stalk_len + travel + 2 * pip_clr, lt * 0.8 + 2 * pip_clr],
+                at=(x_mort0, y_latch - lug_len * 0.5 - travel - pip_clr, body_h - 0.1),
+            )
+            l_locked = block(
+                [
+                    s_depth - bridge_t + 2 * pip_clr,
+                    lug_len + 2 * pip_clr,
+                    (z_hook_top - (body_h + ledge_h)) + 2 * pip_clr,
+                ],
+                at=(x_mort0, y_latch - lug_len * 0.5 - pip_clr, body_h + ledge_h),
+            )
+            lid_cuts.append(l_entry | l_locked)
+
+        all_body_cut = union_all(body_cuts)
+        all_sliders = union_all(body_sliders)
+        all_lid_cut = union_all(lid_cuts)
+        return Closure(
+            body=all_sliders,
+            body_cut=all_body_cut,
+            lid_cut=all_lid_cut,
+        )
+
+    # Front vertical-wall dovetail slide-across catch
+    x_center = spec.width / 2.0
+    chan_w = min(spec.width * 0.45, max(14.0, wt * 7.0))
+    slider_w = chan_w * 0.54
+    travel = max(2.0, (chan_w - slider_w) * 0.5 - pip_clr)
+    track_h = min(max(4.8, (body_h - ft) * 0.42), 8.0)
+    track_d = min(wt * 0.75, max(1.2, wt - 0.5))
+    z_track_bot = max(ft + 0.8, body_h - track_h)
+    z_mid = (z_track_bot + body_h) / 2.0
+    dovetail_flare = min(0.65, track_h * 0.18)
+
+    boss_t = max(wt, track_d + 1.2)
+    boss = _front_wall_backing_boss(
+        spec,
+        x_center=x_center,
+        boss_w=chan_w + 2.0 * wt,
+        boss_t=boss_t,
+        z_flat=z_track_bot - 1.0,
+    )
+
+    def _horiz_dovetail_x(x0: float, w_x: float, depth_y: float, h_front: float, h_back: float) -> Bosl2Solid:
+        pts = [
+            (0.0, z_mid - h_front / 2.0),
+            (depth_y, z_mid - h_back / 2.0),
+            (depth_y, z_mid + h_back / 2.0),
+            (0.0, z_mid + h_front / 2.0),
+        ]
+        return (
+            polygon(path=Path2D(pts))
+            .linear_extrude(height=w_x)
+            .rotate([0, 90, 0])
+            .rotate([-90, 0, 0])
+            .scale([1, -1, -1])
+            .translate([x0, 0.0, 0.0])
+        )
+
+    h_front_cut = track_h - 2 * dovetail_flare
+    track_cut = _horiz_dovetail_x(
+        x_center - chan_w / 2.0, chan_w, track_d, h_front_cut, track_h
+    )
+    front_clear = block(
+        [chan_w, 0.1, h_front_cut],
+        at=(x_center - chan_w / 2.0, -0.1, z_mid - h_front_cut / 2.0),
+    )
+
+    lug_w = slider_w * 0.52
+    stalk_w = lug_w * 0.55
+    lid_bridge_t = min(0.7, track_d * 0.35)
+    s_depth = max(0.8, track_d - pip_clr)
+    top_neck_slot = block(
+        [lug_w + travel + 2 * pip_clr, track_d - lid_bridge_t + 0.1, (body_h - z_mid) + 0.2],
+        at=(x_center - lug_w * 0.5 - travel - pip_clr, lid_bridge_t, z_mid),
+    )
+    body_cut = track_cut | front_clear | top_neck_slot
+
+    # Captive dovetail slider + upward L-hook
+    slider_core = _horiz_dovetail_x(
+        x_center - slider_w / 2.0,
+        slider_w,
+        s_depth,
+        max(1.2, h_front_cut - 2 * pip_clr),
+        max(1.6, track_h - 2 * pip_clr),
+    )
+    ledge_h = max(0.55, lt * 0.35)
+    z_hook_top = body_h + lt * 0.75
+    hook_y_span = max(0.5, s_depth - lid_bridge_t - pip_clr)
+    hook_stalk = block(
+        [stalk_w, hook_y_span, z_hook_top - z_mid],
+        at=(x_center - lug_w * 0.5, lid_bridge_t + pip_clr, z_mid),
+    )
+    hook_finger = block(
+        [lug_w, hook_y_span, z_hook_top - (body_h + ledge_h + pip_clr)],
+        at=(x_center - lug_w * 0.5, lid_bridge_t + pip_clr, body_h + ledge_h + pip_clr),
+    )
+    slider = slider_core | hook_stalk | hook_finger
+    body_solid = slider if boss is None else ((boss - body_cut) | slider)
+
+    # Lid strike mortise (open entry slot at x - travel, undercut locked pocket at x_center)
+    lid_entry_slot = block(
+        [stalk_w + travel + 2 * pip_clr, hook_y_span + 2 * pip_clr, lt * 0.8 + 2 * pip_clr],
+        at=(x_center - lug_w * 0.5 - travel - pip_clr, lid_bridge_t, body_h - 0.1),
+    )
+    lid_locked_mortise = block(
+        [
+            lug_w + 2 * pip_clr,
+            hook_y_span + 2 * pip_clr,
+            (z_hook_top - (body_h + ledge_h)) + 2 * pip_clr,
+        ],
+        at=(x_center - lug_w * 0.5 - pip_clr, lid_bridge_t, body_h + ledge_h),
+    )
+    lid_cut = lid_entry_slot | lid_locked_mortise
+    lid_boss = _lid_front_wall_backing_boss(
+        spec, x_center=x_center, boss_w=chan_w + 2.0 * wt, boss_t=boss_t
+    )
+    return Closure(
+        body=body_solid,
+        body_cut=body_cut,
+        lid=None if lid_boss is None else (lid_boss - lid_cut),
+        lid_cut=lid_cut,
+    )
+
+
+def build_vertical_pinch_slide_hinge_catch(spec: BoxSpec) -> Closure:
+    """Return dual opposing captive horizontal dovetail sliders in the vertical body wall."""
+    from pybosl2 import Path2D
+    from pybosl2.shapes2d import polygon
+
+    from pyboxbuilder.box.shell import block
+    from pyboxbuilder.compartments.element import union_all
+
+    wt = spec.wall_thickness
+    lt = spec.lid_thickness
+    ft = spec.floor_thickness
+    body_h = spec.height - lt
+    pip_clr = max(0.22, min(0.35, getattr(spec, "pip_radial_clearance", 0.28)))
+    x_center = spec.width / 2.0
+
+    chan_w = min(spec.width * 0.62, max(20.0, wt * 10.0))
+    half_span = (chan_w - 2.0 * wt) / 2.0
+    slider_w = half_span * 0.62
+    travel = max(1.8, half_span - slider_w - 2 * pip_clr)
+    track_h = min(max(4.8, (body_h - ft) * 0.42), 8.0)
+    track_d = min(wt * 0.75, max(1.2, wt - 0.5))
+    z_track_bot = max(ft + 0.8, body_h - track_h)
+    z_mid = (z_track_bot + body_h) / 2.0
+    dovetail_flare = min(0.65, track_h * 0.18)
+
+    boss_t = max(wt, track_d + 1.2)
+    boss = _front_wall_backing_boss(
+        spec,
+        x_center=x_center,
+        boss_w=chan_w + 2.0 * wt,
+        boss_t=boss_t,
+        z_flat=z_track_bot - 1.0,
+    )
+
+    def _horiz_dovetail_x(x0: float, w_x: float, depth_y: float, h_front: float, h_back: float) -> Bosl2Solid:
+        pts = [
+            (0.0, z_mid - h_front / 2.0),
+            (depth_y, z_mid - h_back / 2.0),
+            (depth_y, z_mid + h_back / 2.0),
+            (0.0, z_mid + h_front / 2.0),
+        ]
+        return (
+            polygon(path=Path2D(pts))
+            .linear_extrude(height=w_x)
+            .rotate([0, 90, 0])
+            .rotate([-90, 0, 0])
+            .scale([1, -1, -1])
+            .translate([x0, 0.0, 0.0])
+        )
+
+    h_front_cut = track_h - 2 * dovetail_flare
+    track_cut = _horiz_dovetail_x(
+        x_center - chan_w / 2.0, chan_w, track_d, h_front_cut, track_h
+    )
+    front_clear = block(
+        [chan_w, 0.1, h_front_cut],
+        at=(x_center - chan_w / 2.0, -0.1, z_mid - h_front_cut / 2.0),
+    )
+
+    lug_w = slider_w * 0.52
+    stalk_w = lug_w * 0.55
+    lid_bridge_t = min(0.7, track_d * 0.35)
+    s_depth = max(0.8, track_d - pip_clr)
+    hook_y_span = max(0.5, s_depth - lid_bridge_t - pip_clr)
+    ledge_h = max(0.55, lt * 0.35)
+    z_hook_top = body_h + lt * 0.75
+
+    top_slots = []
+    sliders = []
+    lid_cuts = []
+
+    for sign in (-1.0, 1.0):
+        x_locked = x_center + sign * (wt * 0.4 + travel + slider_w / 2.0)
+        s_core = _horiz_dovetail_x(
+            x_locked - slider_w / 2.0,
+            slider_w,
+            s_depth,
+            max(1.2, h_front_cut - 2 * pip_clr),
+            max(1.6, track_h - 2 * pip_clr),
+        )
+        # Stalk sits on the inner side of lug_w, finger reaches outward
+        if sign < 0:
+            x_stalk0 = x_locked + lug_w * 0.5 - stalk_w
+            x_finger0 = x_locked - lug_w * 0.5
+            x_slot_min = x_finger0 - pip_clr
+            x_entry_min = x_stalk0 - pip_clr
+        else:
+            x_stalk0 = x_locked - lug_w * 0.5
+            x_finger0 = x_locked - lug_w * 0.5
+            x_slot_min = x_finger0 - travel - pip_clr
+            x_entry_min = x_stalk0 - travel - pip_clr
+
+        top_slots.append(
+            block(
+                [lug_w + travel + 2 * pip_clr, track_d - lid_bridge_t + 0.1, (body_h - z_mid) + 0.2],
+                at=(x_slot_min, lid_bridge_t, z_mid),
+            )
+        )
+        h_stalk = block(
+            [stalk_w, hook_y_span, z_hook_top - z_mid],
+            at=(x_stalk0, lid_bridge_t + pip_clr, z_mid),
+        )
+        h_finger = block(
+            [lug_w, hook_y_span, z_hook_top - (body_h + ledge_h + pip_clr)],
+            at=(x_finger0, lid_bridge_t + pip_clr, body_h + ledge_h + pip_clr),
+        )
+        sliders.append(s_core | h_stalk | h_finger)
+
+        l_entry = block(
+            [stalk_w + travel + 2 * pip_clr, hook_y_span + 2 * pip_clr, lt * 0.8 + 2 * pip_clr],
+            at=(x_entry_min, lid_bridge_t, body_h - 0.1),
+        )
+        l_locked = block(
+            [
+                lug_w + 2 * pip_clr,
+                hook_y_span + 2 * pip_clr,
+                (z_hook_top - (body_h + ledge_h)) + 2 * pip_clr,
+            ],
+            at=(x_finger0 - pip_clr, lid_bridge_t, body_h + ledge_h),
+        )
+        lid_cuts.append(l_entry | l_locked)
+
+    body_cut = track_cut | front_clear | union_all(top_slots)
+    all_sliders = union_all(sliders)
+    body_solid = all_sliders if boss is None else ((boss - body_cut) | all_sliders)
+    all_lid_cut = union_all(lid_cuts)
+    lid_boss = _lid_front_wall_backing_boss(
+        spec, x_center=x_center, boss_w=chan_w + 2.0 * wt, boss_t=boss_t
+    )
+    return Closure(
+        body=body_solid,
+        body_cut=body_cut,
+        lid=None if lid_boss is None else (lid_boss - all_lid_cut),
+        lid_cut=all_lid_cut,
+    )
+
+
+def build_vertical_rotary_bolt_hinge_catch(spec: BoxSpec) -> Closure:
+    """Return a flush quarter-turn rotary cam disk mounted in the vertical body front wall."""
+    from pybosl2 import cylinder
+
+    from pyboxbuilder.box.shell import block
+
+    wt = spec.wall_thickness
+    lt = spec.lid_thickness
+    ft = spec.floor_thickness
+    body_h = spec.height - lt
+    pip_clr = max(0.22, min(0.35, getattr(spec, "pip_radial_clearance", 0.28)))
+    x_center = spec.width / 2.0
+
+    pivot_drop = min(max(2.6, (body_h - ft) * 0.24), 4.2)
+    z_pivot = max(ft + 2.2, body_h - pivot_drop)
+    r_disk = min(pivot_drop - 0.35, 2.4)
+    r_waist = max(1.1, r_disk - 0.85)
+    recess_d = min(0.9, wt * 0.42)
+    cone_len = max(1.0, r_disk - r_waist)
+    boss_t = max(wt, recess_d + 2.0 * cone_len + 0.8)
+    y_waist = recess_d + cone_len
+
+    boss = _front_wall_backing_boss(
+        spec,
+        x_center=x_center,
+        boss_w=max(12.0, 4.0 * r_disk + 2.0 * wt),
+        boss_t=boss_t,
+        z_flat=z_pivot - r_disk - 1.2,
+    )
+
+    bore_front_cone = (
+        cylinder(
+            height=cone_len + pip_clr,
+            radius1=r_disk + pip_clr,
+            radius2=r_waist + pip_clr,
+            **precision_kwargs(),
+        )
+        .rotate([-90, 0, 0])
+        .translate([x_center, recess_d + (cone_len - pip_clr) / 2.0, z_pivot])
+    )
+    bore_back_cone = (
+        cylinder(
+            height=cone_len + pip_clr,
+            radius1=r_waist + pip_clr,
+            radius2=r_disk + pip_clr,
+            **precision_kwargs(),
+        )
+        .rotate([-90, 0, 0])
+        .translate([x_center, y_waist + (cone_len + pip_clr) / 2.0, z_pivot])
+    )
+    front_bore = (
+        cylinder(height=recess_d + pip_clr + 0.1, radius=r_disk + pip_clr, **precision_kwargs())
+        .rotate([-90, 0, 0])
+        .translate([x_center, (recess_d + pip_clr - 0.1) / 2.0, z_pivot])
+    )
+    cam_w = min(3.8, r_disk * 1.5)
+    lid_bridge_t = min(0.75, recess_d)
+    cam_y1 = min(boss_t - 0.4, recess_d + 1.4)
+    upper_slot_body = block(
+        [cam_w + 2 * pip_clr, (cam_y1 - lid_bridge_t) + 2 * pip_clr, body_h - z_pivot + 0.2],
+        at=(x_center - cam_w / 2.0 - pip_clr, lid_bridge_t, z_pivot),
+    )
+    body_cut = bore_front_cone | bore_back_cone | front_bore | upper_slot_body
+
+    shaft_front = (
+        cylinder(height=cone_len, radius1=r_disk, radius2=r_waist, **precision_kwargs())
+        .rotate([-90, 0, 0])
+        .translate([x_center, recess_d + cone_len / 2.0, z_pivot])
+    )
+    shaft_back = (
+        cylinder(height=cone_len, radius1=r_waist, radius2=r_disk, **precision_kwargs())
+        .rotate([-90, 0, 0])
+        .translate([x_center, y_waist + cone_len / 2.0, z_pivot])
+    )
+    face_t = max(0.55, recess_d - pip_clr)
+    face_disk = (
+        cylinder(height=face_t, radius=r_disk, **precision_kwargs())
+        .rotate([-90, 0, 0])
+        .translate([x_center, face_t / 2.0, z_pivot])
+    )
+    coin_slot = block(
+        [r_disk * 1.4, face_t * 0.65, 0.8],
+        at=(x_center - r_disk * 0.7, -0.05, z_pivot - 0.4),
+    )
+    z_cam_top = body_h + max(1.0, lt * 0.75)
+    cam_bolt = block(
+        [cam_w, max(0.55, cam_y1 - (lid_bridge_t + pip_clr)), z_cam_top - z_pivot],
+        at=(x_center - cam_w / 2.0, lid_bridge_t + pip_clr, z_pivot),
+    )
+    rotor = (face_disk - coin_slot) | shaft_front | shaft_back | cam_bolt
+    body_solid = rotor if boss is None else ((boss - body_cut) | rotor)
+
+    lid_cut = block(
+        [
+            cam_w + 2 * pip_clr,
+            (cam_y1 - lid_bridge_t) + 2 * pip_clr,
+            (z_cam_top - body_h) + pip_clr + 0.1,
+        ],
+        at=(x_center - cam_w / 2.0 - pip_clr, lid_bridge_t, body_h - 0.05),
+    )
+    lid_boss = _lid_front_wall_backing_boss(
+        spec, x_center=x_center, boss_w=max(12.0, 4.0 * r_disk + 2.0 * wt), boss_t=boss_t
+    )
+    return Closure(
+        body=body_solid,
+        body_cut=body_cut,
+        lid=None if lid_boss is None else (lid_boss - lid_cut),
+        lid_cut=lid_cut,
     )
 
 
@@ -2761,7 +3421,7 @@ def build_spin_hinge_catch(spec: BoxSpec) -> Closure:
     )
 
 
-def build_push_button_hinge_catch(spec: BoxSpec) -> Closure:
+def build_push_button_hinge_catch(spec: BoxSpec, *, vertical_wall: bool = False) -> Closure:
     """Return a compliant thumb-press push-button release catch on the front wall."""
     from pyboxbuilder.box.shell import block
 
@@ -2822,10 +3482,21 @@ def build_push_button_hinge_catch(spec: BoxSpec) -> Closure:
     )
     body_cut = body_cut | beam_hook_cut
 
+    lid_part = lid_stalk | lid_barb
+    if vertical_wall:
+        l_boss = _lid_front_wall_backing_boss(
+            spec,
+            x_center=x_center,
+            boss_w=btn_w + 2 * wt,
+            boss_t=max(wt, beam_t + clr + loop_d + 0.4),
+        )
+        if l_boss is not None:
+            lid_part = lid_part | l_boss
+
     return Closure(
         body=None if boss is None else (boss - body_cut),
         body_cut=body_cut,
-        lid=lid_stalk | lid_barb,
+        lid=lid_part,
     )
 
 

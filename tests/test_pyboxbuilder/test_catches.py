@@ -11,12 +11,14 @@ from mesh import volume
 from pyboxbuilder import (
     BoxSpec,
     BoxType,
-    CatchType,
     CapBoxBuilder,
     CapPathBoxBuilder,
     CardLibraryBoxBuilder,
+    CatchType,
     ClamshellBoxBuilder,
     FilamentHingeBoxBuilder,
+    InsetBoxBuilder,
+    InsetHingeBoxBuilder,
     PrintInPlaceHingeBoxBuilder,
     SlidingBoxBuilder,
     SlidingCatchBoxBuilder,
@@ -27,13 +29,13 @@ from pyboxbuilder import (
 )
 from pyboxbuilder.box.features import (
     build_bump_detent,
-    build_wedge_detent,
+    build_leaf_spring_detent,
     build_loop_detent,
     build_magnet_detent,
-    build_leaf_spring_detent,
-    sliding_catch,
+    build_wedge_detent,
     cap_slipover_catch,
     hinge_catch,
+    sliding_catch,
 )
 from pyboxbuilder.box.registry import BOX_IMPL_REGISTRY
 from pyboxbuilder.box.spec import build_spec
@@ -259,7 +261,7 @@ ALL_CATCHES = (
 
 
 class AllBoxTypesCatchMatingMatrixTests(unittest.TestCase):
-    """Exhaustive basic piece test: every box type and catch type combination must mate cleanly with 0 collision volume (FR-100, SC-100)."""
+    """Every box type and catch type combination must mate cleanly with 0 collision volume (FR-100, SC-100)."""
 
     def test_sliding_family_catches(self) -> None:
         for bt in (BoxType.SLIDING, BoxType.SLIDING_CATCH, BoxType.CARD_LIBRARY):
@@ -336,7 +338,14 @@ class AllBoxTypesCatchMatingMatrixTests(unittest.TestCase):
             CatchType.PINCH_SLIDE,
             CatchType.ROTARY_BOLT,
         )
-        for bt in (BoxType.FILAMENT_HINGE, BoxType.SLIDING_HINGE):
+        for bt in (
+            BoxType.FILAMENT_HINGE,
+            BoxType.SLIDING_HINGE,
+            BoxType.CLAMSHELL,
+            BoxType.INSET,
+            BoxType.CAP,
+            BoxType.SLIPOVER,
+        ):
             impl = BOX_IMPL_REGISTRY[bt]()
             for ct in new_catches:
                 with self.subTest(box_type=bt.value, catch_type=ct.value):
@@ -350,30 +359,99 @@ class AllBoxTypesCatchMatingMatrixTests(unittest.TestCase):
                         0.05,
                         f"{bt.value} ({ct.value}) closed lid intersects body",
                     )
-            # Also verify card_library dual-side slide_across style
-            with self.subTest(box_type=bt.value, catch_type="slide_across_card_library"):
-                spec_cl = replace(SPEC, catch_type=CatchType.SLIDE_ACROSS, slide_catch_style="card_library")
-                body_cl = impl.build_body(spec_cl)
-                lid_cl = impl.build_lid(spec_cl)
-                self.assertIsNotNone(body_cl)
-                self.assertIsNotNone(lid_cl)
-                self.assertLess(
-                    volume(body_cl & lid_cl),
-                    0.05,
-                    f"{bt.value} (slide_across card_library) closed lid intersects body",
-                )
+            if bt in (BoxType.FILAMENT_HINGE, BoxType.SLIDING_HINGE, BoxType.CLAMSHELL):
+                # Also verify card_library dual-side slide_across style
+                with self.subTest(box_type=bt.value, catch_type="slide_across_card_library"):
+                    spec_cl = replace(SPEC, catch_type=CatchType.SLIDE_ACROSS, slide_catch_style="card_library")
+                    body_cl = impl.build_body(spec_cl)
+                    lid_cl = impl.build_lid(spec_cl)
+                    self.assertIsNotNone(body_cl)
+                    self.assertIsNotNone(lid_cl)
+                    self.assertLess(
+                        volume(body_cl & lid_cl),
+                        0.05,
+                        f"{bt.value} (slide_across card_library) closed lid intersects body",
+                    )
 
     def test_pip_hinge_catches(self) -> None:
-        impl = BOX_IMPL_REGISTRY[BoxType.PRINT_IN_PLACE_HINGE]()
-        for ct in (CatchType.WEDGE, CatchType.MAGNET, CatchType.LEAF_SPRING, CatchType.NONE):
-            with self.subTest(catch_type=ct.value):
+        from pyboxbuilder.box.shell import block
+
+        all_pip_catches = (
+            CatchType.WEDGE,
+            CatchType.BUMP,
+            CatchType.LOOP,
+            CatchType.MAGNET,
+            CatchType.LEAF_SPRING,
+            CatchType.SLIDE_ACROSS,
+            CatchType.SLIDE_UP,
+            CatchType.SPIN,
+            CatchType.PUSH_BUTTON,
+            CatchType.TOGGLE_LATCH,
+            CatchType.PINCH_SLIDE,
+            CatchType.ROTARY_BOLT,
+            CatchType.NONE,
+        )
+        pip_impl = BOX_IMPL_REGISTRY[BoxType.PRINT_IN_PLACE_HINGE]()
+        inset_hinge_impl = BOX_IMPL_REGISTRY[BoxType.INSET_HINGE]()
+        half_h = SPEC.height / 2.0
+
+        for ct in all_pip_catches:
+            with self.subTest(box_type="print_in_place_hinge", catch_type=ct.value):
                 spec = replace(SPEC, catch_type=ct)
-                body = impl.build_body(spec)
-                self.assertIsNotNone(body)
+                mono = pip_impl.build_body(spec)
+                self.assertIsNotNone(mono)
+                # Verify front catch halves do not collide when folded 180° closed
+                y_pivot = spec.length + spec.pip_gap_mm / 2.0
+                front_body = mono & block([spec.width, 15.0, SPEC.height], at=(0.0, -5.0, 0.0))
+                front_lid_unfolded = mono & block(
+                    [spec.width, 15.0, SPEC.height],
+                    at=(0.0, 2 * spec.length + spec.pip_gap_mm - 10.0, 0.0),
+                )
+                front_lid_closed = (
+                    front_lid_unfolded.translate([0.0, -y_pivot, -half_h])
+                    .rotate([180.0, 0.0, 0.0])
+                    .translate([0.0, y_pivot, half_h])
+                )
+                self.assertLess(
+                    volume(front_body & front_lid_closed),
+                    0.05,
+                    f"PRINT_IN_PLACE_HINGE ({ct.value}) folded front catch collides",
+                )
+
+            with self.subTest(box_type="inset_hinge", catch_type=ct.value):
+                spec = replace(SPEC, catch_type=ct)
+                mono = inset_hinge_impl.build_body(spec)
+                self.assertIsNotNone(mono)
+                gap = 2.0 * spec.pip_radial_clearance
+                x_pivot = spec.width + gap / 2.0
+                left_body = mono & block([15.0, spec.length, SPEC.height], at=(-5.0, 0.0, 0.0))
+                right_lid_unfolded = mono & block(
+                    [15.0, spec.length, SPEC.height],
+                    at=(2 * spec.width + gap - 10.0, 0.0, 0.0),
+                )
+                right_lid_closed = (
+                    right_lid_unfolded.translate([-x_pivot, 0.0, -half_h])
+                    .rotate([0.0, 180.0, 0.0])
+                    .translate([x_pivot, 0.0, half_h])
+                )
+                self.assertLess(
+                    volume(left_body & right_lid_closed),
+                    0.05,
+                    f"INSET_HINGE ({ct.value}) folded outer catch collides",
+                )
 
     def test_snap_fit_axes_and_catches(self) -> None:
         impl = BOX_IMPL_REGISTRY[BoxType.SNAP_FIT]()
-        for ct in ALL_CATCHES:
+        for ct in (
+            *ALL_CATCHES,
+            CatchType.SLIDE_ACROSS,
+            CatchType.SLIDE_UP,
+            CatchType.SPIN,
+            CatchType.PUSH_BUTTON,
+            CatchType.TOGGLE_LATCH,
+            CatchType.PINCH_SLIDE,
+            CatchType.ROTARY_BOLT,
+        ):
             for axis in ("x", "y"):
                 with self.subTest(catch_type=ct.value, latch_axis=axis):
                     spec = replace(SPEC, catch_type=ct, latch_axis=axis)
@@ -402,7 +480,9 @@ class BuilderCatchMatrixTests(unittest.TestCase):
             SlipoverPathBoxBuilder(label="b7", path=POLY_L, catch_type=CatchType.LOOP, catch_size=1.0),
             FilamentHingeBoxBuilder(label="b9", catch_type=CatchType.LEAF_SPRING, catch_size=0.8),
             SlidingHingeBoxBuilder(label="b9_slide", catch_type=CatchType.SPIN, catch_size=1.0),
-            PrintInPlaceHingeBoxBuilder(label="b10", catch_type=CatchType.NONE),
+            PrintInPlaceHingeBoxBuilder(label="b10", catch_type=CatchType.SLIDE_UP),
+            InsetHingeBoxBuilder(label="b10_inset", catch_type=CatchType.SPIN),
+            InsetBoxBuilder(label="b10_inset_box", catch_type=CatchType.SLIDE_ACROSS),
             ClamshellBoxBuilder(label="b11", catch_type=CatchType.BUMP, catch_size=0.9),
             SnapFitBoxBuilder(label="b12", catch_type=CatchType.LOOP, catch_size=1.0),
         ]

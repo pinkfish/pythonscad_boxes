@@ -188,7 +188,7 @@ class ClamshellBox(BoxTypeBase):
         )
         mask = available - hinge_intrusion(self._body_spec(spec), spec.filament_diameter)
         if spec.closure_latch:
-            catch = hinge_catch(replace(spec, height=half_h + lt))
+            catch = hinge_catch(replace(spec, height=half_h + lt), vertical_wall=True)
             if catch.body is not None:
                 mask = mask - catch.body
         return mask
@@ -218,7 +218,7 @@ class ClamshellBox(BoxTypeBase):
             )
 
         if spec.closure_latch:
-            catch = hinge_catch(replace(spec, height=half_h + lt))
+            catch = hinge_catch(replace(spec, height=half_h + lt), vertical_wall=True)
             if catch.body_cut is not None:
                 body = body - catch.body_cut
             if catch.body is not None:
@@ -260,7 +260,7 @@ class ClamshellBox(BoxTypeBase):
             lid = lid - closure.pin
 
         if spec.closure_latch:
-            catch = hinge_catch(replace(spec, height=half_h + lt))
+            catch = hinge_catch(replace(spec, height=half_h + lt), vertical_wall=True)
             if catch.lid_cut is not None:
                 lid = lid - catch.lid_cut
             if catch.lid is not None:
