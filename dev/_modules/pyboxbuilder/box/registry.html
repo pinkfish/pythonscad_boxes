@@ -469,7 +469,7 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">pkgutil</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Any</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">BoxType</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">BoxType</span><span class="p">,</span> <span class="n">StackableMode</span>
 
 <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">BoxTypeBase</span>
@@ -598,12 +598,23 @@
     <span class="n">BoxType</span><span class="o">.</span><span class="n">NO_LID</span><span class="p">,</span>
     <span class="n">BoxType</span><span class="o">.</span><span class="n">PATH</span><span class="p">,</span>
 <span class="p">})</span>
-<span class="sd">"""Box types that support vertical stacking (``stackable``).</span>
+<span class="sd">"""Box types that support passive top/bottom vertical stacking (``stackable``).</span>
 
 <span class="sd">Only lidless open trays and box types whose lids have a flat underside</span>
 <span class="sd">(allowing the lid to print right-side up on the build plate) can carry</span>
 <span class="sd">raised top stacking features without floating in mid-air when flipped for printing.</span>
 <span class="sd">"""</span>
+
+<span class="n">LATCH_STACKABLE_MODES</span><span class="p">:</span> <span class="nb">frozenset</span><span class="p">[</span><span class="n">StackableMode</span><span class="p">]</span> <span class="o">=</span> <span class="nb">frozenset</span><span class="p">({</span>
+    <span class="n">StackableMode</span><span class="o">.</span><span class="n">SLIDE_LATCH</span><span class="p">,</span>
+    <span class="n">StackableMode</span><span class="o">.</span><span class="n">LATCH</span><span class="p">,</span>
+<span class="p">})</span>
+<span class="sd">"""Active side-wall push-up latch stacking modes that keep the box bottom and lid top flat on the bed."""</span>
+
+<span class="n">LATCH_STACKABLE_BOX_TYPES</span><span class="p">:</span> <span class="nb">frozenset</span><span class="p">[</span><span class="n">BoxType</span><span class="p">]</span> <span class="o">=</span> <span class="nb">frozenset</span><span class="p">(</span>
+    <span class="nb">set</span><span class="p">(</span><span class="n">BoxType</span><span class="p">)</span> <span class="o">-</span> <span class="p">{</span><span class="n">BoxType</span><span class="o">.</span><span class="n">BAYONET</span><span class="p">,</span> <span class="n">BoxType</span><span class="o">.</span><span class="n">THREADED</span><span class="p">}</span>
+<span class="p">)</span>
+<span class="sd">"""Box types that support side-wall push-up stacking latches (``SLIDE_LATCH`` / ``LATCH``)."""</span>
 </code></pre></div>
 
 

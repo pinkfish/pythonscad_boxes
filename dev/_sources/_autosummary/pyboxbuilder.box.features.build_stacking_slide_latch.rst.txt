@@ -1,0 +1,6 @@
+pyboxbuilder.box.features.build\_stacking\_slide\_latch
+=======================================================
+
+.. currentmodule:: pyboxbuilder.box.features
+
+.. autofunction:: build_stacking_slide_latch

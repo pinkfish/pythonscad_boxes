@@ -5339,9 +5339,251 @@
     <span class="k">return</span> <span class="n">cap</span> <span class="o">|</span> <span class="p">(</span><span class="n">corbel_outer</span> <span class="o">-</span> <span class="n">corbel_inner</span><span class="p">)</span>
 
 
+<span class="k">def</span><span class="w"> </span><span class="nf">_build_single_side_slide_latch_uv</span><span class="p">(</span>
+    <span class="n">height</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">span</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">wall_thickness</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">floor_thickness</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">clearance</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">anchor_top_z</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Bosl2Solid</span><span class="p">,</span> <span class="n">Bosl2Solid</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">"""Build one captive print-in-place vertical dovetail push-up latch unit in local (u, v, z) space.</span>
+
+<span class="sd">    Local coordinates:</span>
+<span class="sd">    - ``u &gt;= 0`` extends outward from the nominal outer wall plane (``u = 0``);</span>
+<span class="sd">      ``u &lt; 0`` anchors into the box wall below ``anchor_z``.</span>
+<span class="sd">    - ``v`` runs along the wall centered at ``v = 0``.</span>
+<span class="sd">    - ``z`` runs from ``0`` (build plate) to ``height`` (top of closed box), with the</span>
+<span class="sd">      captive dovetail slider's upper tongue extending to ``height + tongue_h`` to</span>
+<span class="sd">      lock into the upper box's bottom receiver socket.</span>
+<span class="sd">    """</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path2D</span><span class="p">,</span> <span class="n">prismoid</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2.shapes2d</span><span class="w"> </span><span class="kn">import</span> <span class="n">polygon</span>
+
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.shell</span><span class="w"> </span><span class="kn">import</span> <span class="n">block</span>
+
+    <span class="n">clr</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.12</span><span class="p">,</span> <span class="n">clearance</span><span class="p">)</span>
+    <span class="n">pip_gap</span> <span class="o">=</span> <span class="mf">0.30</span>
+    <span class="n">u_anchor</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">wall_thickness</span> <span class="o">*</span> <span class="mf">0.35</span><span class="p">)</span>
+    <span class="n">u_gap</span> <span class="o">=</span> <span class="mf">0.20</span>
+    <span class="n">u_slot_in</span> <span class="o">=</span> <span class="mf">1.00</span>
+    <span class="n">u_neck_in</span> <span class="o">=</span> <span class="mf">2.10</span>
+    <span class="n">u_outer</span> <span class="o">=</span> <span class="mf">3.10</span>
+    <span class="n">dovetail_d</span> <span class="o">=</span> <span class="n">u_neck_in</span> <span class="o">-</span> <span class="n">u_slot_in</span>  <span class="c1"># 1.10 mm</span>
+
+    <span class="n">l_unit</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mf">10.5</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mf">7.6</span><span class="p">,</span> <span class="n">span</span> <span class="o">*</span> <span class="mf">0.16</span><span class="p">))</span>
+    <span class="n">neck_w</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">3.0</span><span class="p">,</span> <span class="n">l_unit</span> <span class="o">-</span> <span class="mf">4.4</span><span class="p">)</span>
+    <span class="n">base_w</span> <span class="o">=</span> <span class="n">neck_w</span> <span class="o">+</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">dovetail_d</span>
+    <span class="n">nw</span> <span class="o">=</span> <span class="n">neck_w</span> <span class="o">/</span> <span class="mf">2.0</span>
+    <span class="n">bw</span> <span class="o">=</span> <span class="n">base_w</span> <span class="o">/</span> <span class="mf">2.0</span>
+
+    <span class="c1"># Anchor height where the body owns the outer wall at u = 0 without colliding with any lid skirt</span>
+    <span class="n">default_anchor</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">floor_thickness</span><span class="p">,</span> <span class="mf">1.4</span><span class="p">)</span>
+    <span class="n">anchor_z</span> <span class="o">=</span> <span class="n">default_anchor</span> <span class="k">if</span> <span class="n">anchor_top_z</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="nb">max</span><span class="p">(</span><span class="n">default_anchor</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="n">anchor_top_z</span><span class="p">,</span> <span class="n">height</span> <span class="o">-</span> <span class="mf">1.5</span><span class="p">))</span>
+    <span class="n">z_bevel_bot</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">anchor_z</span> <span class="o">-</span> <span class="p">(</span><span class="n">u_anchor</span> <span class="o">+</span> <span class="n">u_gap</span><span class="p">))</span>
+
+    <span class="c1"># 1. Outer housing blank starting flat on the build plate at z = 0</span>
+    <span class="n">xz_pts</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">(</span><span class="o">-</span><span class="n">u_anchor</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span>
+        <span class="p">(</span><span class="n">u_outer</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span>
+        <span class="p">(</span><span class="n">u_outer</span><span class="p">,</span> <span class="n">height</span><span class="p">),</span>
+        <span class="p">(</span><span class="n">u_gap</span><span class="p">,</span> <span class="n">height</span><span class="p">),</span>
+        <span class="p">(</span><span class="n">u_gap</span><span class="p">,</span> <span class="n">anchor_z</span><span class="p">),</span>
+        <span class="p">(</span><span class="o">-</span><span class="n">u_anchor</span><span class="p">,</span> <span class="n">z_bevel_bot</span><span class="p">),</span>
+    <span class="p">]</span>
+    <span class="n">housing_blank</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">polygon</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">Path2D</span><span class="p">(</span><span class="n">xz_pts</span><span class="p">))</span>
+        <span class="o">.</span><span class="n">linear_extrude</span><span class="p">(</span><span class="n">height</span><span class="o">=</span><span class="n">l_unit</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">rotate</span><span class="p">([</span><span class="mi">90</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+        <span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">l_unit</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">])</span>
+    <span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_dovetail_poly</span><span class="p">(</span><span class="n">delta</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">u_max</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
+        <span class="n">u0</span> <span class="o">=</span> <span class="n">u_slot_in</span> <span class="o">-</span> <span class="n">delta</span>
+        <span class="n">u1</span> <span class="o">=</span> <span class="n">u_neck_in</span> <span class="o">+</span> <span class="n">delta</span>
+        <span class="n">bw_d</span> <span class="o">=</span> <span class="n">bw</span> <span class="o">+</span> <span class="mf">3.0</span> <span class="o">*</span> <span class="n">delta</span>
+        <span class="n">nw_d</span> <span class="o">=</span> <span class="n">nw</span> <span class="o">+</span> <span class="n">delta</span>
+        <span class="n">pts</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="p">(</span><span class="n">u0</span><span class="p">,</span> <span class="o">-</span><span class="n">bw_d</span><span class="p">),</span>
+            <span class="p">(</span><span class="n">u0</span><span class="p">,</span> <span class="n">bw_d</span><span class="p">),</span>
+            <span class="p">(</span><span class="n">u1</span><span class="p">,</span> <span class="n">nw_d</span><span class="p">),</span>
+            <span class="p">(</span><span class="n">u_max</span><span class="p">,</span> <span class="n">nw_d</span><span class="p">),</span>
+            <span class="p">(</span><span class="n">u_max</span><span class="p">,</span> <span class="o">-</span><span class="n">nw_d</span><span class="p">),</span>
+            <span class="p">(</span><span class="n">u1</span><span class="p">,</span> <span class="o">-</span><span class="n">nw_d</span><span class="p">),</span>
+        <span class="p">]</span>
+        <span class="k">return</span> <span class="n">polygon</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">Path2D</span><span class="p">(</span><span class="n">pts</span><span class="p">))</span>
+
+    <span class="c1"># Vertical zone dimensions</span>
+    <span class="n">tongue_h</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mf">1.8</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">height</span> <span class="o">*</span> <span class="mf">0.07</span><span class="p">))</span>
+    <span class="n">rec_straight_top</span> <span class="o">=</span> <span class="n">tongue_h</span> <span class="o">+</span> <span class="n">clr</span>
+    <span class="n">roof_h</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mf">1.4</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">height</span> <span class="o">*</span> <span class="mf">0.05</span><span class="p">))</span>
+    <span class="n">divider_h</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mf">0.8</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">height</span> <span class="o">*</span> <span class="mf">0.03</span><span class="p">))</span>
+    <span class="n">ch_z0</span> <span class="o">=</span> <span class="n">rec_straight_top</span> <span class="o">+</span> <span class="n">roof_h</span> <span class="o">+</span> <span class="n">divider_h</span>
+    <span class="n">ch_slope_h</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">height</span> <span class="o">*</span> <span class="mf">0.04</span><span class="p">))</span>
+    <span class="n">ch_flat_z0</span> <span class="o">=</span> <span class="n">ch_z0</span> <span class="o">+</span> <span class="n">ch_slope_h</span>
+    <span class="n">travel_stroke</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mf">1.8</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.6</span><span class="p">,</span> <span class="p">(</span><span class="n">height</span> <span class="o">-</span> <span class="n">ch_flat_z0</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.20</span><span class="p">))</span>
+    <span class="n">slider_z0</span> <span class="o">=</span> <span class="n">ch_flat_z0</span> <span class="o">+</span> <span class="n">pip_gap</span> <span class="o">+</span> <span class="n">travel_stroke</span>
+
+    <span class="c1"># 2. Bottom receiver socket cut (open at z = 0, 45° gable roof above rec_straight_top)</span>
+    <span class="n">rec_cut_2d</span> <span class="o">=</span> <span class="n">_dovetail_poly</span><span class="p">(</span><span class="n">clr</span><span class="p">,</span> <span class="n">u_outer</span> <span class="o">+</span> <span class="mf">0.2</span><span class="p">)</span>
+    <span class="n">rec_straight</span> <span class="o">=</span> <span class="n">rec_cut_2d</span><span class="o">.</span><span class="n">linear_extrude</span><span class="p">(</span><span class="n">height</span><span class="o">=</span><span class="n">rec_straight_top</span><span class="p">)</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">])</span>
+    <span class="n">rec_u0</span> <span class="o">=</span> <span class="n">u_slot_in</span> <span class="o">-</span> <span class="n">clr</span>
+    <span class="n">rec_u_span</span> <span class="o">=</span> <span class="p">(</span><span class="n">u_outer</span> <span class="o">+</span> <span class="mf">0.2</span><span class="p">)</span> <span class="o">-</span> <span class="n">rec_u0</span>
+    <span class="n">rec_v_bot</span> <span class="o">=</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="p">(</span><span class="n">bw</span> <span class="o">+</span> <span class="mf">3.0</span> <span class="o">*</span> <span class="n">clr</span><span class="p">)</span>
+    <span class="n">rec_roof</span> <span class="o">=</span> <span class="n">prismoid</span><span class="p">(</span>
+        <span class="p">[</span><span class="n">rec_u_span</span><span class="p">,</span> <span class="n">rec_v_bot</span><span class="p">],</span>
+        <span class="p">[</span><span class="n">rec_u_span</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">],</span>
+        <span class="n">height</span><span class="o">=</span><span class="n">roof_h</span> <span class="o">+</span> <span class="mf">0.05</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">precision_kwargs</span><span class="p">(),</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">rec_u0</span> <span class="o">+</span> <span class="n">rec_u_span</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">rec_straight_top</span> <span class="o">-</span> <span class="mf">0.025</span><span class="p">])</span>
+    <span class="n">receiver_cut</span> <span class="o">=</span> <span class="n">rec_straight</span> <span class="o">|</span> <span class="n">rec_roof</span>
+
+    <span class="c1"># 3. Upper captive dovetail channel cut (45° bottom slope + full height channel to z = height)</span>
+    <span class="n">ch_cut_2d</span> <span class="o">=</span> <span class="n">_dovetail_poly</span><span class="p">(</span><span class="n">pip_gap</span><span class="p">,</span> <span class="n">u_outer</span> <span class="o">+</span> <span class="mf">0.2</span><span class="p">)</span>
+    <span class="n">ch_main</span> <span class="o">=</span> <span class="n">ch_cut_2d</span><span class="o">.</span><span class="n">linear_extrude</span><span class="p">(</span><span class="n">height</span><span class="o">=</span><span class="n">height</span> <span class="o">-</span> <span class="n">ch_flat_z0</span> <span class="o">+</span> <span class="mf">0.1</span><span class="p">)</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">ch_flat_z0</span><span class="p">])</span>
+    <span class="n">ch_u0</span> <span class="o">=</span> <span class="n">u_slot_in</span> <span class="o">-</span> <span class="n">pip_gap</span>
+    <span class="n">ch_u_span</span> <span class="o">=</span> <span class="p">(</span><span class="n">u_outer</span> <span class="o">+</span> <span class="mf">0.2</span><span class="p">)</span> <span class="o">-</span> <span class="n">ch_u0</span>
+    <span class="n">ch_v_top</span> <span class="o">=</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="p">(</span><span class="n">bw</span> <span class="o">+</span> <span class="mf">3.0</span> <span class="o">*</span> <span class="n">pip_gap</span><span class="p">)</span>
+    <span class="n">ch_bot_trough</span> <span class="o">=</span> <span class="n">prismoid</span><span class="p">(</span>
+        <span class="p">[</span><span class="n">ch_u_span</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">],</span>
+        <span class="p">[</span><span class="n">ch_u_span</span><span class="p">,</span> <span class="n">ch_v_top</span><span class="p">],</span>
+        <span class="n">height</span><span class="o">=</span><span class="n">ch_slope_h</span> <span class="o">+</span> <span class="mf">0.05</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">precision_kwargs</span><span class="p">(),</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">ch_u0</span> <span class="o">+</span> <span class="n">ch_u_span</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">ch_z0</span><span class="p">])</span>
+    <span class="n">channel_cut</span> <span class="o">=</span> <span class="n">ch_main</span> <span class="o">|</span> <span class="n">ch_bot_trough</span>
+
+    <span class="c1"># Snap-detent grooves on the inner wall of the channel (retracted &amp; engaged positions)</span>
+    <span class="n">det_depth</span> <span class="o">=</span> <span class="mf">0.28</span>
+    <span class="n">det_h</span> <span class="o">=</span> <span class="mf">0.8</span>
+    <span class="n">z_det_up</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">slider_z0</span> <span class="o">+</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">height</span> <span class="o">-</span> <span class="mf">1.8</span><span class="p">)</span>
+    <span class="n">z_det_down</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">ch_flat_z0</span> <span class="o">+</span> <span class="mf">0.8</span><span class="p">,</span> <span class="n">z_det_up</span> <span class="o">-</span> <span class="n">travel_stroke</span><span class="p">)</span>
+    <span class="n">det_groove_up</span> <span class="o">=</span> <span class="n">prismoid</span><span class="p">(</span>
+        <span class="p">[</span><span class="n">det_depth</span> <span class="o">*</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">neck_w</span><span class="p">],</span>
+        <span class="p">[</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">neck_w</span><span class="p">],</span>
+        <span class="n">height</span><span class="o">=</span><span class="n">det_h</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">precision_kwargs</span><span class="p">(),</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">rotate</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">90</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">ch_u0</span> <span class="o">+</span> <span class="mf">0.02</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">z_det_up</span><span class="p">])</span>
+    <span class="n">det_groove_down</span> <span class="o">=</span> <span class="n">prismoid</span><span class="p">(</span>
+        <span class="p">[</span><span class="n">det_depth</span> <span class="o">*</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">neck_w</span><span class="p">],</span>
+        <span class="p">[</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">neck_w</span><span class="p">],</span>
+        <span class="n">height</span><span class="o">=</span><span class="n">det_h</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">precision_kwargs</span><span class="p">(),</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">rotate</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">90</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">ch_u0</span> <span class="o">+</span> <span class="mf">0.02</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">z_det_down</span><span class="p">])</span>
+
+    <span class="n">housing</span> <span class="o">=</span> <span class="n">housing_blank</span> <span class="o">-</span> <span class="n">receiver_cut</span> <span class="o">-</span> <span class="n">channel_cut</span> <span class="o">-</span> <span class="n">det_groove_up</span> <span class="o">-</span> <span class="n">det_groove_down</span>
+    <span class="c1"># Clip any negative-z boundary epsilon so housing is strictly in z &gt;= 0</span>
+    <span class="n">housing</span> <span class="o">=</span> <span class="n">housing</span> <span class="o">-</span> <span class="n">block</span><span class="p">([</span><span class="mf">20.0</span><span class="p">,</span> <span class="n">l_unit</span> <span class="o">+</span> <span class="mf">4.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">],</span> <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mf">5.0</span><span class="p">,</span> <span class="o">-</span><span class="p">(</span><span class="n">l_unit</span> <span class="o">/</span> <span class="mf">2.0</span> <span class="o">+</span> <span class="mf">2.0</span><span class="p">),</span> <span class="o">-</span><span class="mf">2.0</span><span class="p">))</span>
+
+    <span class="c1"># 4. Captive print-in-place vertical dovetail slider (separated by pip_gap = 0.30 mm)</span>
+    <span class="n">slider_2d</span> <span class="o">=</span> <span class="n">_dovetail_poly</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">u_outer</span><span class="p">)</span>
+    <span class="n">slider_total_h</span> <span class="o">=</span> <span class="p">(</span><span class="n">height</span> <span class="o">+</span> <span class="n">tongue_h</span><span class="p">)</span> <span class="o">-</span> <span class="n">slider_z0</span>
+    <span class="n">slider</span> <span class="o">=</span> <span class="n">slider_2d</span><span class="o">.</span><span class="n">linear_extrude</span><span class="p">(</span><span class="n">height</span><span class="o">=</span><span class="n">slider_total_h</span><span class="p">)</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">slider_z0</span><span class="p">])</span>
+
+    <span class="c1"># Ergonomic thumb-push handle outside the housing neck (u &gt;= u_outer + pip_gap)</span>
+    <span class="n">handle_z0</span> <span class="o">=</span> <span class="n">slider_z0</span> <span class="o">+</span> <span class="mf">0.4</span>
+    <span class="n">handle_z1</span> <span class="o">=</span> <span class="n">height</span> <span class="o">-</span> <span class="mf">0.5</span>
+    <span class="n">handle_h</span> <span class="o">=</span> <span class="n">handle_z1</span> <span class="o">-</span> <span class="n">handle_z0</span>
+    <span class="k">if</span> <span class="n">handle_h</span> <span class="o">&gt;</span> <span class="mf">2.2</span><span class="p">:</span>
+        <span class="n">stem_d</span> <span class="o">=</span> <span class="n">pip_gap</span> <span class="o">+</span> <span class="mf">0.1</span>
+        <span class="n">knob_d</span> <span class="o">=</span> <span class="mf">0.85</span>
+        <span class="n">knob_w</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">2.2</span><span class="p">,</span> <span class="n">neck_w</span> <span class="o">-</span> <span class="mf">0.4</span><span class="p">)</span>
+        <span class="n">stem</span> <span class="o">=</span> <span class="n">block</span><span class="p">(</span>
+            <span class="p">[</span><span class="n">stem_d</span><span class="p">,</span> <span class="n">knob_w</span><span class="p">,</span> <span class="n">handle_h</span> <span class="o">-</span> <span class="mf">1.2</span><span class="p">],</span>
+            <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="n">u_outer</span> <span class="o">-</span> <span class="mf">0.05</span><span class="p">,</span> <span class="o">-</span><span class="n">knob_w</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">handle_z0</span> <span class="o">+</span> <span class="mf">0.6</span><span class="p">),</span>
+        <span class="p">)</span>
+        <span class="n">knob</span> <span class="o">=</span> <span class="n">prismoid</span><span class="p">(</span>
+            <span class="p">[</span><span class="n">handle_h</span> <span class="o">-</span> <span class="mf">1.2</span><span class="p">,</span> <span class="n">knob_w</span><span class="p">],</span>
+            <span class="p">[</span><span class="nb">max</span><span class="p">(</span><span class="mf">0.6</span><span class="p">,</span> <span class="n">handle_h</span> <span class="o">-</span> <span class="mf">2.6</span><span class="p">),</span> <span class="n">knob_w</span><span class="p">],</span>
+            <span class="n">height</span><span class="o">=</span><span class="n">knob_d</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">precision_kwargs</span><span class="p">(),</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">rotate</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">90</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">u_outer</span> <span class="o">+</span> <span class="n">pip_gap</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="p">(</span><span class="n">handle_z0</span> <span class="o">+</span> <span class="n">handle_z1</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">])</span>
+        <span class="n">slider</span> <span class="o">=</span> <span class="n">slider</span> <span class="o">|</span> <span class="n">stem</span> <span class="o">|</span> <span class="n">knob</span>
+
+    <span class="k">return</span> <span class="n">housing</span><span class="p">,</span> <span class="n">slider</span>
+
+
+<div class="viewcode-block" id="build_stacking_slide_latch_parts">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.features.build_stacking_slide_latch_parts.html#pyboxbuilder.box.features.build_stacking_slide_latch_parts">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">build_stacking_slide_latch_parts</span><span class="p">(</span>
+    <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">,</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">anchor_top_z</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">axis</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"x"</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Bosl2Solid</span><span class="p">,</span> <span class="n">Bosl2Solid</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">"""Return ``(housings, sliders)`` for the side-wall print-in-place push-up stacking latches.</span>
+
+<span class="sd">    Places captive vertical dovetail push-up latches on opposing walls (left/right ``x = 0, width``</span>
+<span class="sd">    by default, or front/back ``y = 0, length`` when ``axis == 'y'``). Each housing and its</span>
+<span class="sd">    captive slider have zero intersection volume (``0.30 mm`` print-in-place clearance).</span>
+<span class="sd">    """</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.compartments.element</span><span class="w"> </span><span class="kn">import</span> <span class="n">union_all</span>
+
+    <span class="n">span</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span> <span class="k">if</span> <span class="n">axis</span> <span class="o">==</span> <span class="s2">"x"</span> <span class="k">else</span> <span class="n">spec</span><span class="o">.</span><span class="n">width</span>
+    <span class="n">unit_h</span><span class="p">,</span> <span class="n">unit_s</span> <span class="o">=</span> <span class="n">_build_single_side_slide_latch_uv</span><span class="p">(</span>
+        <span class="n">height</span><span class="o">=</span><span class="n">spec</span><span class="o">.</span><span class="n">height</span><span class="p">,</span>
+        <span class="n">span</span><span class="o">=</span><span class="n">span</span><span class="p">,</span>
+        <span class="n">wall_thickness</span><span class="o">=</span><span class="n">spec</span><span class="o">.</span><span class="n">wall_thickness</span><span class="p">,</span>
+        <span class="n">floor_thickness</span><span class="o">=</span><span class="n">spec</span><span class="o">.</span><span class="n">floor_thickness</span><span class="p">,</span>
+        <span class="n">clearance</span><span class="o">=</span><span class="n">spec</span><span class="o">.</span><span class="n">stackable_fit_offset</span><span class="p">,</span>
+        <span class="n">anchor_top_z</span><span class="o">=</span><span class="n">anchor_top_z</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">offsets</span> <span class="o">=</span> <span class="p">(</span><span class="n">span</span> <span class="o">*</span> <span class="mf">0.24</span><span class="p">,</span> <span class="n">span</span> <span class="o">*</span> <span class="mf">0.76</span><span class="p">)</span> <span class="k">if</span> <span class="n">span</span> <span class="o">&gt;=</span> <span class="mf">42.0</span> <span class="k">else</span> <span class="p">(</span><span class="n">span</span> <span class="o">*</span> <span class="mf">0.50</span><span class="p">,)</span>
+
+    <span class="n">housings</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Bosl2Solid</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">sliders</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Bosl2Solid</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">if</span> <span class="n">axis</span> <span class="o">==</span> <span class="s2">"x"</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">y_c</span> <span class="ow">in</span> <span class="n">offsets</span><span class="p">:</span>
+            <span class="c1"># Left wall (x = 0, outward is -X)</span>
+            <span class="n">housings</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">unit_h</span><span class="o">.</span><span class="n">mirror</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">y_c</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]))</span>
+            <span class="n">sliders</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">unit_s</span><span class="o">.</span><span class="n">mirror</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">y_c</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]))</span>
+            <span class="c1"># Right wall (x = width, outward is +X)</span>
+            <span class="n">housings</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">unit_h</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">spec</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="n">y_c</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]))</span>
+            <span class="n">sliders</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">unit_s</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">spec</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="n">y_c</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># Rotate (u, v, z) so u points along +Y (or -Y) and v runs along X</span>
+        <span class="n">unit_h_y</span> <span class="o">=</span> <span class="n">unit_h</span><span class="o">.</span><span class="n">rotate</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">90</span><span class="p">])</span>
+        <span class="n">unit_s_y</span> <span class="o">=</span> <span class="n">unit_s</span><span class="o">.</span><span class="n">rotate</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">90</span><span class="p">])</span>
+        <span class="k">for</span> <span class="n">x_c</span> <span class="ow">in</span> <span class="n">offsets</span><span class="p">:</span>
+            <span class="c1"># Front wall (y = 0, outward is -Y)</span>
+            <span class="n">housings</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">unit_h_y</span><span class="o">.</span><span class="n">mirror</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">x_c</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]))</span>
+            <span class="n">sliders</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">unit_s_y</span><span class="o">.</span><span class="n">mirror</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">x_c</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]))</span>
+            <span class="c1"># Back wall (y = length, outward is +Y)</span>
+            <span class="n">housings</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">unit_h_y</span><span class="o">.</span><span class="n">mirror</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">x_c</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]))</span>
+            <span class="n">sliders</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">unit_s_y</span><span class="o">.</span><span class="n">mirror</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">x_c</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]))</span>
+
+    <span class="k">return</span> <span class="n">union_all</span><span class="p">(</span><span class="n">housings</span><span class="p">),</span> <span class="n">union_all</span><span class="p">(</span><span class="n">sliders</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="build_stacking_slide_latch">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.features.build_stacking_slide_latch.html#pyboxbuilder.box.features.build_stacking_slide_latch">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">build_stacking_slide_latch</span><span class="p">(</span>
+    <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">,</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">anchor_top_z</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">axis</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"x"</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Return the combined housing and captive vertical dovetail slider assembly for ``spec``."""</span>
+    <span class="n">housings</span><span class="p">,</span> <span class="n">sliders</span> <span class="o">=</span> <span class="n">build_stacking_slide_latch_parts</span><span class="p">(</span>
+        <span class="n">spec</span><span class="p">,</span>
+        <span class="n">anchor_top_z</span><span class="o">=</span><span class="n">anchor_top_z</span><span class="p">,</span>
+        <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">housings</span> <span class="o">|</span> <span class="n">sliders</span></div>
+
+
+
 <div class="viewcode-block" id="apply_stackable_body">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.features.apply_stackable_body.html#pyboxbuilder.box.features.apply_stackable_body">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">apply_stackable_body</span><span class="p">(</span><span class="n">body</span><span class="p">:</span> <span class="n">Bosl2Solid</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">apply_stackable_body</span><span class="p">(</span>
+    <span class="n">body</span><span class="p">:</span> <span class="n">Bosl2Solid</span><span class="p">,</span>
+    <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">,</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">anchor_top_z</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">latch_axis</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"x"</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Apply stacking features to a box body according to spec.stackable (FR-101)."""</span>
     <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">stackable</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">body</span>
@@ -5349,6 +5591,14 @@
     <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">StackableMode</span>
 
     <span class="n">mode</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">stackable</span>
+    <span class="k">if</span> <span class="n">mode</span> <span class="ow">in</span> <span class="p">(</span><span class="n">StackableMode</span><span class="o">.</span><span class="n">SLIDE_LATCH</span><span class="p">,</span> <span class="n">StackableMode</span><span class="o">.</span><span class="n">LATCH</span><span class="p">):</span>
+        <span class="n">latch</span> <span class="o">=</span> <span class="n">build_stacking_slide_latch</span><span class="p">(</span>
+            <span class="n">spec</span><span class="p">,</span>
+            <span class="n">anchor_top_z</span><span class="o">=</span><span class="n">anchor_top_z</span><span class="p">,</span>
+            <span class="n">axis</span><span class="o">=</span><span class="n">latch_axis</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">body</span> <span class="o">|</span> <span class="n">latch</span>
+
     <span class="n">wt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">wall_thickness</span>
     <span class="n">foot_size</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">stackable_foot_size</span> <span class="ow">or</span> <span class="nb">max</span><span class="p">(</span><span class="mf">6.0</span><span class="p">,</span> <span class="n">wt</span> <span class="o">*</span> <span class="mf">2.5</span><span class="p">)</span>
     <span class="n">foot_height</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">stackable_foot_height</span>

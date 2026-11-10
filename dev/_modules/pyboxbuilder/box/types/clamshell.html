@@ -695,7 +695,9 @@
                 <span class="n">body</span> <span class="o">=</span> <span class="n">body</span> <span class="o">|</span> <span class="n">catch</span><span class="o">.</span><span class="n">body</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_reject_stackable</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">body</span></div>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.features</span><span class="w"> </span><span class="kn">import</span> <span class="n">apply_stackable_body</span>
+
+        <span class="k">return</span> <span class="n">apply_stackable_body</span><span class="p">(</span><span class="n">body</span><span class="p">,</span> <span class="n">spec</span><span class="p">,</span> <span class="n">anchor_top_z</span><span class="o">=</span><span class="n">half_h</span> <span class="o">-</span> <span class="mf">0.2</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="ClamshellBox.build_lid">

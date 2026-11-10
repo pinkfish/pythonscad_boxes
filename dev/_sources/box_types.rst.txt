@@ -709,8 +709,9 @@ All lidless open trays (``NO_LID``, ``PATH``) and box types whose lids have a fl
 
 .. note::
 
-   Box types whose lids have downward walls, skirts, hinge knuckles, or cantilever latches (such as ``CAP``, ``SLIPOVER``, ``CLAMSHELL``, ``FILAMENT_HINGE``, ``SNAP_FIT``, and ``PRINT_IN_PLACE_HINGE``) must be flipped upside down on the build plate to print. Because both the upside-down lid's top face and the upright box's bottom face are build-plate planes, neither can protrude across the contact plane without lifting the rest of the part into mid-air (unless a separate detachable coupler piece is used). Requesting ``stackable`` on those flipped-lid box types raises a ``ValueError``.
+   Box types whose lids have downward walls, skirts, hinge knuckles, or cantilever latches (such as ``CAP``, ``SLIPOVER``, ``CLAMSHELL``, ``FILAMENT_HINGE``, ``SNAP_FIT``, and ``PRINT_IN_PLACE_HINGE``) must be flipped upside down on the build plate to print. Because both the upside-down lid's top face and the upright box's bottom face are build-plate planes, passive top-boss stacking modes (``PYRAMIDS``, ``PYRAMID``, ``INDENTS``, ``FEET``, ``PERIMETER``, ``PATTERN``) raise a ``ValueError`` on those flipped-lid box types. Instead, use **``StackableMode.SLIDE_LATCH``** (or ``StackableMode.LATCH``) to stack flipped-lid boxes via captive print-in-place vertical dovetail push-up latches on the side walls!
 
+* **``StackableMode.SLIDE_LATCH``** / **``StackableMode.LATCH``** (``"slide_latch"`` / ``"latch"``): **Captive print-in-place vertical dovetail push-up stacking latches** mounted on the opposing side walls of the box body (:data:`~pyboxbuilder.box.registry.LATCH_STACKABLE_BOX_TYPES`). Because the latch mechanism sits on the exterior side walls of the upright box body (with ``0.30 mm`` print-in-place clearance and 45° self-supporting slopes), both the box bottom (``z = 0``) and any flipped lid's top face (``z = height``) remain 100% flat on the print bed. When a second box is placed on top, pushing the side dovetail sliders upward bridges the seam and snaps into the matching bottom dovetail receiver sockets of the upper box.
 * **``StackableMode.PATTERN``** (``"pattern"``): **Pattern-matched stacking** where the decorative pattern on the lid (e.g. ``PatternType.HEX``, ``TRIANGLE``, ``SQUARE``, ``PENROSE``, or whatever pattern is configured on the box/lid) is matched on the underside of the box body. On the bottom of the box (``z = 0``), the entire outer perimeter border and all the pattern tiles sit flat on the print bed while only the narrow web channels between the tiles are recessed with a 45° bevel; on top of the lid, a matching raised pattern web ridge locks into the bottom of the box stacked above it.
 * **``StackableMode.PYRAMIDS``** (``"pyramids"``): A set/grid of $N \times N$ 45° square pyramid socket indents recessed into the flat ``z = 0`` bottom floor, mating with a matching grid of upward-pointing 45° pyramids on the lid/top rim. Eliminates wide unsupported bridges while keeping indentation depth shallow enough for standard floors and lids.
 * **``StackableMode.PYRAMID``** (``"pyramid"``): A single 45° square pyramid socket recessed into each corner of the flat ``z = 0`` bottom floor, mating with a matching 45° pyramid boss on the lid/top rim.
@@ -733,7 +734,7 @@ Configuration parameters available on all box builders:
      - Description
    * - ``stackable``
      - ``None``
-     - :class:`~pyboxbuilder.enums.StackableMode` (``PATTERN``, ``PYRAMIDS``, ``PYRAMID``, ``INDENTS``, ``FEET``, ``PERIMETER``, ``INSIDE``, ``OUTSIDE``).
+     - :class:`~pyboxbuilder.enums.StackableMode` (``SLIDE_LATCH``, ``LATCH``, ``PATTERN``, ``PYRAMIDS``, ``PYRAMID``, ``INDENTS``, ``FEET``, ``PERIMETER``, ``INSIDE``, ``OUTSIDE``).
    * - ``stackable_shape``
      - ``None`` (auto)
      - :class:`~pyboxbuilder.enums.StackableShape` (``PATTERN`` for pattern-matched stacking, ``PYRAMIDS`` for a set of 45° pyramids, ``PYRAMID`` for a single 45° pyramid, ``CONE`` for 45° cones, or ``FLAT``).
@@ -836,6 +837,37 @@ When ``stackable=StackableMode.PATTERN`` is configured, the decorative pattern o
    )
    b_upper.compartment("UpperWell", holds_pieces=True)
    project.show(show_lids=True)
+
+
+Push-Up Slide-Latch Stacking for Flipped-Lid Boxes (``StackableMode.SLIDE_LATCH``)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+For box types whose lids must be printed upside down (such as ``FILAMENT_HINGE``, ``CLAMSHELL``, ``PRINT_IN_PLACE_HINGE``, ``CAP``, ``SLIPOVER``, and ``SNAP_FIT``), ``StackableMode.SLIDE_LATCH`` (or ``StackableMode.LATCH``) places captive print-in-place vertical dovetail sliders and bottom receiver sockets on the left and right side walls so you can push the latches up to link the top and bottom boxes together:
+
+.. pythonscad-example::
+
+   project = Project("StackDemoSlideLatch")
+   b_hinge_low = project.box(
+       BoxType.FILAMENT_HINGE,
+       "LowerHingeBox",
+       size=(60.0, 75.0, 24.0),
+       color=Color("darkslategray"),
+       position=(0.0, 0.0, 0.0),
+       stackable=StackableMode.SLIDE_LATCH,
+   )
+   b_hinge_low.compartment("LowerDice", width_ratio=0.5, holds_pieces=True)
+   b_hinge_low.compartment("LowerGems", width_ratio=0.5, holds_pieces=True)
+   b_hinge_top = project.box(
+       BoxType.FILAMENT_HINGE,
+       "UpperHingeBox",
+       size=(60.0, 75.0, 24.0),
+       color=Color("peru"),
+       position=(0.0, 0.0, 30.0),
+       stackable=StackableMode.SLIDE_LATCH,
+   )
+   b_hinge_top.compartment("UpperCards", holds_pieces=True)
+   project.show(show_lids=True)
+
 
 
 

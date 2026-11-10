@@ -626,6 +626,16 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#push-up-slide-latch-stacking-for-flipped-lid-boxes-stackablemode-slide-latch" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span title="box_types:push-up slide-latch stacking for flipped-lid boxes (``stackablemode.slide_latch``) (reference label)"><span>Push-<wbr>Up Slide-<wbr>Latch Stacking for Flipped-<wbr>Lid Boxes <wbr>(Stackable<wbr>Mode.<wbr>SLIDE_<wbr>LATCH)</span></span>
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1070,6 +1080,16 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#push-up-slide-latch-stacking-for-flipped-lid-boxes-stackablemode-slide-latch" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span title="box_types:push-up slide-latch stacking for flipped-lid boxes (``stackablemode.slide_latch``) (reference label)"><span>Push-<wbr>Up Slide-<wbr>Latch Stacking for Flipped-<wbr>Lid Boxes <wbr>(Stackable<wbr>Mode.<wbr>SLIDE_<wbr>LATCH)</span></span>
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1126,6 +1146,7 @@
 <li><p><a class="reference internal" href="#universal-stacking-architecture-stackablemode" id="id27">Universal Stacking Architecture (<code class="docutils literal notranslate"><span class="pre">StackableMode</span></code>)</a></p>
 <ul>
 <li><p><a class="reference internal" href="#pattern-matched-stacking-stackablemode-pattern" id="id28">Pattern-Matched Stacking (<code class="docutils literal notranslate"><span class="pre">StackableMode.PATTERN</span></code>)</a></p></li>
+<li><p><a class="reference internal" href="#push-up-slide-latch-stacking-for-flipped-lid-boxes-stackablemode-slide-latch" id="id29">Push-Up Slide-Latch Stacking for Flipped-Lid Boxes (<code class="docutils literal notranslate"><span class="pre">StackableMode.SLIDE_LATCH</span></code>)</a></p></li>
 </ul>
 </li>
 </ul>
@@ -1692,9 +1713,10 @@
 <p>All lidless open trays (<code class="docutils literal notranslate"><span class="pre">NO_LID</span></code>, <code class="docutils literal notranslate"><span class="pre">PATH</span></code>) and box types whose lids have a flat underside and print right-side up on the build plate (<code class="docutils literal notranslate"><span class="pre">SLIDING</span></code>, <code class="docutils literal notranslate"><span class="pre">SLIDING_CATCH</span></code>, <code class="docutils literal notranslate"><span class="pre">CARD_LIBRARY</span></code>, <code class="docutils literal notranslate"><span class="pre">INSET</span></code> without a front catch, <code class="docutils literal notranslate"><span class="pre">MAGNETIC</span></code>, <code class="docutils literal notranslate"><span class="pre">MODULAR_INTERLOCK</span></code>, and <code class="docutils literal notranslate"><span class="pre">SLEEVE_DRAWER</span></code>) support the 3D-printer-safe <a class="reference internal" href="_autosummary/pyboxbuilder.enums.StackableMode.html#pyboxbuilder.enums.StackableMode" title="pyboxbuilder.enums.StackableMode (Python class) — Bases: Enum"><code class="xref py py-class docutils literal notranslate"><span class="pre">StackableMode</span></code></a> and <a class="reference internal" href="_autosummary/pyboxbuilder.enums.StackableShape.html#pyboxbuilder.enums.StackableShape" title="pyboxbuilder.enums.StackableShape (Python class) — Bases: Enum"><code class="xref py py-class docutils literal notranslate"><span class="pre">StackableShape</span></code></a> architecture (<strong>FR-101</strong>, <strong>SC-101</strong>, <code class="xref py py-data docutils literal notranslate"><span class="pre">STACKABLE_BOX_TYPES</span></code>):</p>
 <div class="note admonition">
 <p class="admonition-title">Note</p>
-<p>Box types whose lids have downward walls, skirts, hinge knuckles, or cantilever latches (such as <code class="docutils literal notranslate"><span class="pre">CAP</span></code>, <code class="docutils literal notranslate"><span class="pre">SLIPOVER</span></code>, <code class="docutils literal notranslate"><span class="pre">CLAMSHELL</span></code>, <code class="docutils literal notranslate"><span class="pre">FILAMENT_HINGE</span></code>, <code class="docutils literal notranslate"><span class="pre">SNAP_FIT</span></code>, and <code class="docutils literal notranslate"><span class="pre">PRINT_IN_PLACE_HINGE</span></code>) must be flipped upside down on the build plate to print. Because both the upside-down lid’s top face and the upright box’s bottom face are build-plate planes, neither can protrude across the contact plane without lifting the rest of the part into mid-air (unless a separate detachable coupler piece is used). Requesting <code class="docutils literal notranslate"><span class="pre">stackable</span></code> on those flipped-lid box types raises a <code class="docutils literal notranslate"><span class="pre">ValueError</span></code>.</p>
+<p>Box types whose lids have downward walls, skirts, hinge knuckles, or cantilever latches (such as <code class="docutils literal notranslate"><span class="pre">CAP</span></code>, <code class="docutils literal notranslate"><span class="pre">SLIPOVER</span></code>, <code class="docutils literal notranslate"><span class="pre">CLAMSHELL</span></code>, <code class="docutils literal notranslate"><span class="pre">FILAMENT_HINGE</span></code>, <code class="docutils literal notranslate"><span class="pre">SNAP_FIT</span></code>, and <code class="docutils literal notranslate"><span class="pre">PRINT_IN_PLACE_HINGE</span></code>) must be flipped upside down on the build plate to print. Because both the upside-down lid’s top face and the upright box’s bottom face are build-plate planes, passive top-boss stacking modes (<code class="docutils literal notranslate"><span class="pre">PYRAMIDS</span></code>, <code class="docutils literal notranslate"><span class="pre">PYRAMID</span></code>, <code class="docutils literal notranslate"><span class="pre">INDENTS</span></code>, <code class="docutils literal notranslate"><span class="pre">FEET</span></code>, <code class="docutils literal notranslate"><span class="pre">PERIMETER</span></code>, <code class="docutils literal notranslate"><span class="pre">PATTERN</span></code>) raise a <code class="docutils literal notranslate"><span class="pre">ValueError</span></code> on those flipped-lid box types. Instead, use <strong>``StackableMode.SLIDE_LATCH``</strong> (or <code class="docutils literal notranslate"><span class="pre">StackableMode.LATCH</span></code>) to stack flipped-lid boxes via captive print-in-place vertical dovetail push-up latches on the side walls!</p>
 </div>
 <ul class="simple">
+<li><p><strong>``StackableMode.SLIDE_LATCH``</strong> / <strong>``StackableMode.LATCH``</strong> (<code class="docutils literal notranslate"><span class="pre">&quot;slide_latch&quot;</span></code> / <code class="docutils literal notranslate"><span class="pre">&quot;latch&quot;</span></code>): <strong>Captive print-in-place vertical dovetail push-up stacking latches</strong> mounted on the opposing side walls of the box body (<code class="xref py py-data docutils literal notranslate"><span class="pre">LATCH_STACKABLE_BOX_TYPES</span></code>). Because the latch mechanism sits on the exterior side walls of the upright box body (with <code class="docutils literal notranslate"><span class="pre">0.30</span> <span class="pre">mm</span></code> print-in-place clearance and 45° self-supporting slopes), both the box bottom (<code class="docutils literal notranslate"><span class="pre">z</span> <span class="pre">=</span> <span class="pre">0</span></code>) and any flipped lid’s top face (<code class="docutils literal notranslate"><span class="pre">z</span> <span class="pre">=</span> <span class="pre">height</span></code>) remain 100% flat on the print bed. When a second box is placed on top, pushing the side dovetail sliders upward bridges the seam and snaps into the matching bottom dovetail receiver sockets of the upper box.</p></li>
 <li><p><strong>``StackableMode.PATTERN``</strong> (<code class="docutils literal notranslate"><span class="pre">&quot;pattern&quot;</span></code>): <strong>Pattern-matched stacking</strong> where the decorative pattern on the lid (e.g. <code class="docutils literal notranslate"><span class="pre">PatternType.HEX</span></code>, <code class="docutils literal notranslate"><span class="pre">TRIANGLE</span></code>, <code class="docutils literal notranslate"><span class="pre">SQUARE</span></code>, <code class="docutils literal notranslate"><span class="pre">PENROSE</span></code>, or whatever pattern is configured on the box/lid) is matched on the underside of the box body. On the bottom of the box (<code class="docutils literal notranslate"><span class="pre">z</span> <span class="pre">=</span> <span class="pre">0</span></code>), the entire outer perimeter border and all the pattern tiles sit flat on the print bed while only the narrow web channels between the tiles are recessed with a 45° bevel; on top of the lid, a matching raised pattern web ridge locks into the bottom of the box stacked above it.</p></li>
 <li><p><strong>``StackableMode.PYRAMIDS``</strong> (<code class="docutils literal notranslate"><span class="pre">&quot;pyramids&quot;</span></code>): A set/grid of $N times N$ 45° square pyramid socket indents recessed into the flat <code class="docutils literal notranslate"><span class="pre">z</span> <span class="pre">=</span> <span class="pre">0</span></code> bottom floor, mating with a matching grid of upward-pointing 45° pyramids on the lid/top rim. Eliminates wide unsupported bridges while keeping indentation depth shallow enough for standard floors and lids.</p></li>
 <li><p><strong>``StackableMode.PYRAMID``</strong> (<code class="docutils literal notranslate"><span class="pre">&quot;pyramid&quot;</span></code>): A single 45° square pyramid socket recessed into each corner of the flat <code class="docutils literal notranslate"><span class="pre">z</span> <span class="pre">=</span> <span class="pre">0</span></code> bottom floor, mating with a matching 45° pyramid boss on the lid/top rim.</p></li>
@@ -1721,7 +1743,7 @@
 <tbody>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">stackable</span></code></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">None</span></code></p></td>
-<td><p><a class="reference internal" href="_autosummary/pyboxbuilder.enums.StackableMode.html#pyboxbuilder.enums.StackableMode" title="pyboxbuilder.enums.StackableMode (Python class) — Bases: Enum"><code class="xref py py-class docutils literal notranslate"><span class="pre">StackableMode</span></code></a> (<code class="docutils literal notranslate"><span class="pre">PATTERN</span></code>, <code class="docutils literal notranslate"><span class="pre">PYRAMIDS</span></code>, <code class="docutils literal notranslate"><span class="pre">PYRAMID</span></code>, <code class="docutils literal notranslate"><span class="pre">INDENTS</span></code>, <code class="docutils literal notranslate"><span class="pre">FEET</span></code>, <code class="docutils literal notranslate"><span class="pre">PERIMETER</span></code>, <code class="docutils literal notranslate"><span class="pre">INSIDE</span></code>, <code class="docutils literal notranslate"><span class="pre">OUTSIDE</span></code>).</p></td>
+<td><p><a class="reference internal" href="_autosummary/pyboxbuilder.enums.StackableMode.html#pyboxbuilder.enums.StackableMode" title="pyboxbuilder.enums.StackableMode (Python class) — Bases: Enum"><code class="xref py py-class docutils literal notranslate"><span class="pre">StackableMode</span></code></a> (<code class="docutils literal notranslate"><span class="pre">SLIDE_LATCH</span></code>, <code class="docutils literal notranslate"><span class="pre">LATCH</span></code>, <code class="docutils literal notranslate"><span class="pre">PATTERN</span></code>, <code class="docutils literal notranslate"><span class="pre">PYRAMIDS</span></code>, <code class="docutils literal notranslate"><span class="pre">PYRAMID</span></code>, <code class="docutils literal notranslate"><span class="pre">INDENTS</span></code>, <code class="docutils literal notranslate"><span class="pre">FEET</span></code>, <code class="docutils literal notranslate"><span class="pre">PERIMETER</span></code>, <code class="docutils literal notranslate"><span class="pre">INSIDE</span></code>, <code class="docutils literal notranslate"><span class="pre">OUTSIDE</span></code>).</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">stackable_shape</span></code></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">None</span></code> (auto)</p></td>
@@ -1831,6 +1853,32 @@
 </code></pre></div>
 </div>
 <div class="stl-viewer" data-stl-uri="_stl/a66bcabc727dac7b.stl" data-stl-color="#6f9ac9" style="width:100%;height:360px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a class="reference external" href="_stl/a66bcabc727dac7b.stl">⬇ Download STL mesh</a></p>
+<h3 id="push-up-slide-latch-stacking-for-flipped-lid-boxes-stackablemode-slide-latch"><a class="toc-backref" href="#id29" role="doc-backlink">Push-Up Slide-Latch Stacking for Flipped-Lid Boxes (<code class="docutils literal notranslate"><span class="pre">StackableMode.SLIDE_LATCH</span></code>)</a><a class="headerlink" href="#push-up-slide-latch-stacking-for-flipped-lid-boxes-stackablemode-slide-latch" title="Link to this heading">¶</a></h3>
+<p>For box types whose lids must be printed upside down (such as <code class="docutils literal notranslate"><span class="pre">FILAMENT_HINGE</span></code>, <code class="docutils literal notranslate"><span class="pre">CLAMSHELL</span></code>, <code class="docutils literal notranslate"><span class="pre">PRINT_IN_PLACE_HINGE</span></code>, <code class="docutils literal notranslate"><span class="pre">CAP</span></code>, <code class="docutils literal notranslate"><span class="pre">SLIPOVER</span></code>, and <code class="docutils literal notranslate"><span class="pre">SNAP_FIT</span></code>), <code class="docutils literal notranslate"><span class="pre">StackableMode.SLIDE_LATCH</span></code> (or <code class="docutils literal notranslate"><span class="pre">StackableMode.LATCH</span></code>) places captive print-in-place vertical dovetail sliders and bottom receiver sockets on the left and right side walls so you can push the latches up to link the top and bottom boxes together:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="n">project</span> <span class="o">=</span> <span class="n">Project</span><span class="p">(</span><span class="s2">"StackDemoSlideLatch"</span><span class="p">)</span>
+<span class="n">b_hinge_low</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">box</span><span class="p">(</span>
+    <span class="n">BoxType</span><span class="o">.</span><span class="n">FILAMENT_HINGE</span><span class="p">,</span>
+    <span class="s2">"LowerHingeBox"</span><span class="p">,</span>
+    <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mf">60.0</span><span class="p">,</span> <span class="mf">75.0</span><span class="p">,</span> <span class="mf">24.0</span><span class="p">),</span>
+    <span class="n">color</span><span class="o">=</span><span class="n">Color</span><span class="p">(</span><span class="s2">"darkslategray"</span><span class="p">),</span>
+    <span class="n">position</span><span class="o">=</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span>
+    <span class="n">stackable</span><span class="o">=</span><span class="n">StackableMode</span><span class="o">.</span><span class="n">SLIDE_LATCH</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">b_hinge_low</span><span class="o">.</span><span class="n">compartment</span><span class="p">(</span><span class="s2">"LowerDice"</span><span class="p">,</span> <span class="n">width_ratio</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">holds_pieces</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">b_hinge_low</span><span class="o">.</span><span class="n">compartment</span><span class="p">(</span><span class="s2">"LowerGems"</span><span class="p">,</span> <span class="n">width_ratio</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">holds_pieces</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">b_hinge_top</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">box</span><span class="p">(</span>
+    <span class="n">BoxType</span><span class="o">.</span><span class="n">FILAMENT_HINGE</span><span class="p">,</span>
+    <span class="s2">"UpperHingeBox"</span><span class="p">,</span>
+    <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mf">60.0</span><span class="p">,</span> <span class="mf">75.0</span><span class="p">,</span> <span class="mf">24.0</span><span class="p">),</span>
+    <span class="n">color</span><span class="o">=</span><span class="n">Color</span><span class="p">(</span><span class="s2">"peru"</span><span class="p">),</span>
+    <span class="n">position</span><span class="o">=</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">30.0</span><span class="p">),</span>
+    <span class="n">stackable</span><span class="o">=</span><span class="n">StackableMode</span><span class="o">.</span><span class="n">SLIDE_LATCH</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">b_hinge_top</span><span class="o">.</span><span class="n">compartment</span><span class="p">(</span><span class="s2">"UpperCards"</span><span class="p">,</span> <span class="n">holds_pieces</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">project</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">show_lids</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</code></pre></div>
+</div>
+<div class="stl-viewer" data-stl-uri="_stl/1b99a34766004ffa.stl" data-stl-color="#6f9ac9" style="width:100%;height:360px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a class="reference external" href="_stl/1b99a34766004ffa.stl">⬇ Download STL mesh</a></p>
 
 
 
