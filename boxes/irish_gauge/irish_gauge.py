@@ -26,7 +26,6 @@ from pyboxbuilder import (
     PatternBuilder,
     PatternType,
     Project,
-    StackableMode,
     run,
 )
 
@@ -91,9 +90,10 @@ for idx, (company_id, title, color_name) in enumerate(companies):
             frame_color=Color(color_name),
         ),
         position=(col * company_box_width, 0.0, tier * company_box_height),
-        stackable=StackableMode.PYRAMIDS,
     )
     c_box.compartment("SharesAndLocos", cut=FingerCut.SCOOP)
+
+project.stack_order("CompanyBox_Belfast", "CompanyBox_GreatSouthern")
 
 # ── 2. Bank Money & Dividend Cubes Box (Y = company_box_length) ───
 y_money = company_box_length

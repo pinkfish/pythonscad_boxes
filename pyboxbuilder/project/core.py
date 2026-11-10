@@ -12,12 +12,12 @@ per-side wall tops and their interior masks while the preview kept all three.
 
 from __future__ import annotations
 
-from collections.abc import Iterable
+from collections.abc import Iterable, Sequence
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import TYPE_CHECKING, Any
 
-from pyboxbuilder.enums import BoxType, FingerCut, InterlockType, ScoopSide
+from pyboxbuilder.enums import BoxType, FingerCut, InterlockType, ScoopSide, StackableMode
 from pyboxbuilder.helpers import CardSize, SleeveType
 from pyboxbuilder.project.compiler import LayoutCompiler
 from pyboxbuilder.project.manifest import ProjectManifest
@@ -318,6 +318,62 @@ class Project:
 
         """
         return self._compiler.arrange(self._manifest, layout, origin)
+
+    def stack_order(
+        self,
+        *boxes: BoxBuilder | str,
+        mode: StackableMode = StackableMode.PYRAMIDS,
+        configs: Sequence[int | tuple[int, ...]] | None = None,
+    ) -> list[BoxBuilder]:
+        """Configure a bottom-to-top sequence of boxes with keyed pyramid configurations.
+
+        Ensures the boxes can only be stacked in the specified bottom-to-top order:
+        the bottom box has a flat floor (``stackable_bottom=False``), each interface
+        between box ``i``'s top lid and box ``i + 1``'s bottom floor receives a distinct
+        pyramid configuration (e.g. ``2``, ``3``, ``(2, 3, 3, 2)``, ``(3, 2, 2, 3)``),
+        and the top box has a flat lid (``stackable_top=False``).
+
+        Args:
+            *boxes: Two or more :class:`BoxBuilder` instances or box label strings,
+                ordered from bottom to top.
+            mode: Stacking mode to set on each box (defaults to ``StackableMode.PYRAMIDS``).
+            configs: Optional explicit sequence of pyramid configurations for each interface.
+
+        Returns:
+            The resolved list of :class:`BoxBuilder` objects in bottom-to-top order.
+        """
+        from pyboxbuilder.box.features import stacking_order_pyramid_config
+
+        resolved: list[BoxBuilder] = []
+        for item in boxes:
+            if isinstance(item, str):
+                b = self._manifest.get_by_label(item)
+                if b is None:
+                    raise ValueError(f"Project '{self._manifest.name}' has no box named {item!r}")
+                resolved.append(b)
+            else:
+                resolved.append(item)
+
+        if len(resolved) < 2:
+            return resolved
+
+        for b in resolved:
+            object.__setattr__(b, "stackable", mode)
+
+        object.__setattr__(resolved[0], "stackable_bottom", False)
+        object.__setattr__(resolved[-1], "stackable_top", False)
+        for idx in range(len(resolved) - 1):
+            cfg = (
+                configs[idx % len(configs)]
+                if configs
+                else stacking_order_pyramid_config(idx)
+            )
+            object.__setattr__(resolved[idx], "stackable_top", True)
+            object.__setattr__(resolved[idx], "stackable_top_pyramid_count", cfg)
+            object.__setattr__(resolved[idx + 1], "stackable_bottom", True)
+            object.__setattr__(resolved[idx + 1], "stackable_bottom_pyramid_count", cfg)
+
+        return resolved
 
     def build(self) -> Build:
         """Resolve the layout and describe every piece of this project.

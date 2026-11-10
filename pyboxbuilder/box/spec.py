@@ -288,8 +288,16 @@ class BoxSpec:
     """Interlocking rim mode; ``None`` means not stackable."""
     stackable_shape: StackableShape | None = None
     """3D-printable geometry profile for feet/indents (PYRAMIDS, PYRAMID, CONE, PATTERN, FLAT)."""
-    stackable_pyramid_count: int | None = None
-    """Number of pyramids per side in each corner pad when using PYRAMIDS; None auto-computes for 45-degree walls."""
+    stackable_pyramid_count: int | tuple[int, ...] | None = None
+    """Pyramid grid config per corner pad (int N, 2-tuple (nx, ny), or 4-tuple (c_fl, c_fr, c_bl, c_br))."""
+    stackable_top_pyramid_count: int | tuple[int, ...] | None = None
+    """Pyramid grid configuration for the top lid/rim; ``None`` falls back to ``stackable_pyramid_count``."""
+    stackable_bottom_pyramid_count: int | tuple[int, ...] | None = None
+    """Pyramid grid configuration for the bottom floor sockets; ``None`` falls back to ``stackable_pyramid_count``."""
+    stackable_top: bool = True
+    """Whether to generate top stacking bosses/ridges on the lid or top rim."""
+    stackable_bottom: bool = True
+    """Whether to cut bottom stacking sockets/grooves into the floor."""
     stackable_printer_safe: bool = True
     """Keep the box bottom flat on the print bed (z = 0) with recessed 45-degree sockets and top bosses."""
     stackable_pattern: PatternType | None = None
@@ -618,7 +626,11 @@ class UnresolvedBoxSpec:
     # Stacking
     stackable: StackableMode | None = None
     stackable_shape: StackableShape | None = None
-    stackable_pyramid_count: int | None = None
+    stackable_pyramid_count: int | tuple[int, ...] | None = None
+    stackable_top_pyramid_count: int | tuple[int, ...] | None = None
+    stackable_bottom_pyramid_count: int | tuple[int, ...] | None = None
+    stackable_top: bool = True
+    stackable_bottom: bool = True
     stackable_printer_safe: bool = True
     stackable_pattern: PatternType | None = None
     stackable_pattern_spacing: float | None = None

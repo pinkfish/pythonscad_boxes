@@ -185,6 +185,8 @@ project.box(
     position=(x_res, y_row1 + resource_box_length, 0.0),
 ).compartment("MeatTokens", cut=FingerCut.SCOOP)
 
+project.stack_order("HunterCardsBox", "SoloCardsBox")
+
 # ── Export ────────────────────────────────────────────────────────
 if __name__ == "__main__":
     run(project)

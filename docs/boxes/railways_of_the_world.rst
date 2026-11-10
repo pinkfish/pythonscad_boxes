@@ -441,6 +441,7 @@ PlayerBoxTrains_red
 - **Outer Dimensions**: ``70 × 95.3333 × 28 mm``
 - **Packed Position**: ``(47, 97, 22)``
 - **Stackable Mode**: ``StackableMode.PYRAMIDS``
+- **Stacking Order Key**: bottom ``flat (bottom of stack)``, top ``pyramids=2``
 - **Compartments (1)**: ``Trains`` (full interior)
 
 **Assembled Box (PlayerBoxTrains_red — Body + Lid)**
@@ -479,6 +480,7 @@ PlayerBoxTrains_blue
 - **Outer Dimensions**: ``70 × 95.3333 × 28 mm``
 - **Packed Position**: ``(47, 192.333, 22)``
 - **Stackable Mode**: ``StackableMode.PYRAMIDS``
+- **Stacking Order Key**: bottom ``flat (bottom of stack)``, top ``pyramids=2``
 - **Compartments (1)**: ``Trains`` (full interior)
 
 **Assembled Box (PlayerBoxTrains_blue — Body + Lid)**
@@ -517,6 +519,7 @@ PlayerBoxTrains_green
 - **Outer Dimensions**: ``70 × 95.3333 × 28 mm``
 - **Packed Position**: ``(47, 287.667, 22)``
 - **Stackable Mode**: ``StackableMode.PYRAMIDS``
+- **Stacking Order Key**: bottom ``flat (bottom of stack)``, top ``pyramids=2``
 - **Compartments (1)**: ``Trains`` (full interior)
 
 **Assembled Box (PlayerBoxTrains_green — Body + Lid)**
@@ -555,6 +558,7 @@ PlayerBoxTrains_yellow
 - **Outer Dimensions**: ``70 × 95.3333 × 28 mm``
 - **Packed Position**: ``(47, 97, 50)``
 - **Stackable Mode**: ``StackableMode.PYRAMIDS``
+- **Stacking Order Key**: bottom ``pyramids=2``, top ``flat (top of stack)``
 - **Compartments (1)**: ``Trains`` (full interior)
 
 **Assembled Box (PlayerBoxTrains_yellow — Body + Lid)**
@@ -593,6 +597,7 @@ PlayerBoxTrains_black
 - **Outer Dimensions**: ``70 × 95.3333 × 28 mm``
 - **Packed Position**: ``(47, 192.333, 50)``
 - **Stackable Mode**: ``StackableMode.PYRAMIDS``
+- **Stacking Order Key**: bottom ``pyramids=2``, top ``flat (top of stack)``
 - **Compartments (1)**: ``Trains`` (full interior)
 
 **Assembled Box (PlayerBoxTrains_black — Body + Lid)**
@@ -631,6 +636,7 @@ PlayerBoxTrains_purple
 - **Outer Dimensions**: ``70 × 95.3333 × 28 mm``
 - **Packed Position**: ``(47, 287.667, 50)``
 - **Stackable Mode**: ``StackableMode.PYRAMIDS``
+- **Stacking Order Key**: bottom ``pyramids=2``, top ``flat (top of stack)``
 - **Compartments (1)**: ``Trains`` (full interior)
 
 **Assembled Box (PlayerBoxTrains_purple — Body + Lid)**

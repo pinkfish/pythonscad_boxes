@@ -192,6 +192,10 @@ class BoxTypeBase:
         if catch is not None:
             keepouts.append((catch.centre[0], catch.centre[1], catch.keepout_radius))
 
+        from pyboxbuilder.box.features import (
+            _has_active_top_stackable,
+            _resolve_corner_pyramid_grids,
+        )
         from pyboxbuilder.enums import StackableMode, StackableShape
 
         if (
@@ -203,6 +207,7 @@ class BoxTypeBase:
                 StackableMode.PYRAMIDS,
             )
             and spec.stackable_shape is not StackableShape.PATTERN
+            and _has_active_top_stackable(spec)
         ):
             import math
 
@@ -211,14 +216,27 @@ class BoxTypeBase:
             foot_inset = (
                 spec.stackable_foot_inset if spec.stackable_foot_inset is not None else (wt + 1.0)
             )
+            top_pyr = (
+                spec.stackable_top_pyramid_count
+                if getattr(spec, "stackable_top_pyramid_count", None) is not None
+                else getattr(spec, "stackable_pyramid_count", None)
+            )
+            corner_grids = _resolve_corner_pyramid_grids(
+                foot_size,
+                spec.stackable_foot_height,
+                pyramid_count=top_pyr,
+                single_pyramid=(spec.stackable is StackableMode.PYRAMID),
+            )
             r_pad = (foot_size * math.sqrt(2.0)) / 2.0 + 0.5
-            for x0, y0 in (
+            corners = (
                 (foot_inset, foot_inset),
                 (spec.width - foot_inset - foot_size, foot_inset),
                 (foot_inset, spec.length - foot_inset - foot_size),
                 (spec.width - foot_inset - foot_size, spec.length - foot_inset - foot_size),
-            ):
-                keepouts.append((x0 + foot_size / 2.0, y0 + foot_size / 2.0, r_pad))
+            )
+            for (x0, y0), (nx, ny) in zip(corners, corner_grids, strict=False):
+                if nx > 0 and ny > 0:
+                    keepouts.append((x0 + foot_size / 2.0, y0 + foot_size / 2.0, r_pad))
 
         return keepouts
 

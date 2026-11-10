@@ -14,7 +14,7 @@ at the bed. pybosl2 primitives are centre-anchored, so placement goes through
 from __future__ import annotations
 
 from dataclasses import dataclass, replace
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 from pyboxbuilder.box.spec import BoxSpec
 from pyboxbuilder.enums import CatchType, PatternType, StackableShape
@@ -4101,6 +4101,142 @@ def build_pattern_stacking_groove(
     return main_groove | bevel_groove
 
 
+STACKING_ORDER_PYRAMID_CONFIGS: tuple[int | tuple[int, int, int, int], ...] = (
+    2,
+    3,
+    (2, 3, 3, 2),
+    (3, 2, 2, 3),
+    (2, 2, 3, 3),
+    (3, 3, 2, 2),
+    4,
+)
+"""Keyed 45-degree pyramid configurations for sequential vertical stacking interfaces.
+
+Interface 0 (between box 0's lid and box 1's bottom) uses ``2`` (2×2 on all 4 corners),
+Interface 1 (between box 1's lid and box 2's bottom) uses ``3`` (3×3 on all 4 corners),
+Interface 2 uses ``(2, 3, 3, 2)`` (diagonal 2×2 and 3×3 corners),
+Interface 3 uses ``(3, 2, 2, 3)`` (opposite diagonal 3×3 and 2×2 corners), etc.
+Each configuration mates cleanly with its own female socket while physically colliding
+with any other configuration in the sequence, enforcing the intended stacking order.
+"""
+
+
+def stacking_order_pyramid_config(interface_index: int) -> int | tuple[int, int, int, int]:
+    """Return the keyed pyramid configuration for the given 0-based vertical stacking interface."""
+    return STACKING_ORDER_PYRAMID_CONFIGS[interface_index % len(STACKING_ORDER_PYRAMID_CONFIGS)]
+
+
+def _is_active_pyramid_config(
+    pyramid_count: int | tuple[Any, ...] | list[Any] | bool | None,
+) -> bool:
+    """Return True when ``pyramid_count`` produces at least one active corner pyramid."""
+    if pyramid_count is None or pyramid_count is True:
+        return True
+    if pyramid_count is False:
+        return False
+    if isinstance(pyramid_count, int):
+        return pyramid_count > 0
+    if isinstance(pyramid_count, (tuple, list)):
+        if len(pyramid_count) == 2 and all(
+            isinstance(x, int) and not isinstance(x, bool) for x in pyramid_count
+        ):
+            return int(pyramid_count[0]) > 0 and int(pyramid_count[1]) > 0
+        return any(_is_active_pyramid_config(x) for x in pyramid_count)
+    return True
+
+
+def _has_active_top_stackable(spec: BoxSpec) -> bool:
+    """Return True when ``spec`` has active stacking features on its top lid/rim."""
+    if not getattr(spec, "stackable_top", True):
+        return False
+    top_pyr = (
+        spec.stackable_top_pyramid_count
+        if getattr(spec, "stackable_top_pyramid_count", None) is not None
+        else getattr(spec, "stackable_pyramid_count", None)
+    )
+    return _is_active_pyramid_config(top_pyr)
+
+
+def _has_active_bottom_stackable(spec: BoxSpec) -> bool:
+    """Return True when ``spec`` has active stacking features on its bottom floor."""
+    if not getattr(spec, "stackable_bottom", True):
+        return False
+    bot_pyr = (
+        spec.stackable_bottom_pyramid_count
+        if getattr(spec, "stackable_bottom_pyramid_count", None) is not None
+        else getattr(spec, "stackable_pyramid_count", None)
+    )
+    return _is_active_pyramid_config(bot_pyr)
+
+
+def _resolve_corner_pyramid_grids(
+    foot_size: float,
+    depth: float,
+    pyramid_count: int | tuple[Any, ...] | list[Any] | bool | None = None,
+    single_pyramid: bool = False,
+) -> list[tuple[int, int]]:
+    """Resolve per-corner ``(nx, ny)`` pyramid grid counts for the 4 corners (FL, FR, BL, BR)."""
+    import math
+
+    w_tip = min(0.4, max(0.15, foot_size * 0.08))
+    default_n = (
+        1
+        if single_pyramid
+        else max(2, math.ceil((foot_size - w_tip) / max(0.4, 2.0 * depth)))
+    )
+
+    if single_pyramid:
+        return [(1, 1)] * 4
+    if pyramid_count is None or pyramid_count is True:
+        return [(default_n, default_n)] * 4
+    if pyramid_count is False:
+        return [(0, 0)] * 4
+    if isinstance(pyramid_count, int):
+        n = max(0, int(pyramid_count))
+        return [(n, n)] * 4
+    if isinstance(pyramid_count, (tuple, list)):
+        if len(pyramid_count) == 2 and all(
+            isinstance(x, int) and not isinstance(x, bool) for x in pyramid_count
+        ):
+            nx, ny = max(0, int(pyramid_count[0])), max(0, int(pyramid_count[1]))
+            return [(nx, ny)] * 4
+        if len(pyramid_count) == 4:
+            corners: list[tuple[int, int]] = []
+            for item in pyramid_count:
+                if item is False or item is None:
+                    corners.append((0, 0))
+                elif item is True:
+                    corners.append((default_n, default_n))
+                elif isinstance(item, int):
+                    c = max(0, int(item))
+                    corners.append((c, c))
+                elif isinstance(item, (tuple, list)) and len(item) == 2:
+                    corners.append((max(0, int(item[0])), max(0, int(item[1]))))
+                else:
+                    corners.append((default_n, default_n))
+            return corners
+    return [(default_n, default_n)] * 4
+
+
+def _corner_grid_cell_metrics(
+    foot_size: float,
+    depth: float,
+    clearance: float,
+    nx: int,
+    ny: int,
+) -> tuple[float, float, float, float, float, float, float]:
+    """Compute ``(pitch_x, pitch_y, b_female, h_female, b_male, h_male, w_tip)`` for an ``nx × ny`` corner pad."""
+    w_tip = min(0.4, max(0.15, foot_size * 0.08))
+    pitch_x = foot_size / float(max(1, nx))
+    pitch_y = foot_size / float(max(1, ny))
+    pitch_min = min(pitch_x, pitch_y)
+    b_female = min(pitch_min, 2.0 * depth + w_tip)
+    h_female = max(0.3, (b_female - w_tip) / 2.0)
+    b_male = max(w_tip + 0.2, b_female - 2.0 * clearance)
+    h_male = max(0.2, h_female - clearance)
+    return pitch_x, pitch_y, b_female, h_female, b_male, h_male, w_tip
+
+
 def _pyramid_grid_metrics(
     foot_size: float,
     depth: float,
@@ -4121,7 +4257,7 @@ def _pyramid_grid_metrics(
     w_tip = min(0.4, max(0.15, foot_size * 0.08))
     if single_pyramid:
         n = 1
-    elif pyramid_count is not None and pyramid_count >= 1:
+    elif isinstance(pyramid_count, int) and pyramid_count >= 1:
         n = int(pyramid_count)
     else:
         n = max(2, math.ceil((foot_size - w_tip) / max(0.4, 2.0 * depth)))
@@ -4142,7 +4278,7 @@ def build_stacking_pyramids(
     foot_inset: float,
     clearance: float = 0.15,
     base_z: float = 0.0,
-    pyramid_count: int | None = None,
+    pyramid_count: int | tuple[int, ...] | None = None,
     single_pyramid: bool = False,
     cone: bool = False,
     point_up: bool = True,
@@ -4160,7 +4296,9 @@ def build_stacking_pyramids(
             pyramids protrude upward from ``base_z`` to ``base_z + h_male``.
             When ``point_up=False``, pyramids protrude downward from ``base_z``
             to ``base_z - h_male``.
-        pyramid_count: Number of pyramids per side (N for an N x N grid per corner).
+        pyramid_count: Pyramid grid configuration: an ``int`` N (N×N on all 4 corners),
+            a 2-tuple ``(nx, ny)`` (nx×ny on all 4 corners), or a 4-tuple
+            ``(c_fl, c_fr, c_bl, c_br)`` specifying the grid per corner.
             When None, auto-computes N so every wall is at 45 degrees.
         single_pyramid: If True, builds a single 45-degree pyramid per corner (N=1).
         cone: If True, uses 45-degree conical frustums instead of square pyramids.
@@ -4171,16 +4309,13 @@ def build_stacking_pyramids(
 
     from pyboxbuilder.compartments.element import union_all
 
-    n, pitch, _bf, _hf, b_male, h_male, w_tip = _pyramid_grid_metrics(
+    corner_grids = _resolve_corner_pyramid_grids(
         foot_size,
         foot_height,
-        clearance,
         pyramid_count=pyramid_count,
         single_pyramid=single_pyramid,
     )
     eps = 0.05
-    b_root = b_male + 2.0 * eps
-    h_total = h_male + eps
 
     positions = [
         (foot_inset, foot_inset),
@@ -4189,11 +4324,18 @@ def build_stacking_pyramids(
         (width - foot_inset - foot_size, length - foot_inset - foot_size),
     ]
     solids = []
-    for x0, y0 in positions:
-        for i in range(n):
-            for j in range(n):
-                cx = x0 + (i + 0.5) * pitch
-                cy = y0 + (j + 0.5) * pitch
+    for (x0, y0), (nx, ny) in zip(positions, corner_grids, strict=False):
+        if nx <= 0 or ny <= 0:
+            continue
+        pitch_x, pitch_y, _bf, _hf, b_male, h_male, w_tip = _corner_grid_cell_metrics(
+            foot_size, foot_height, clearance, nx, ny
+        )
+        b_root = b_male + 2.0 * eps
+        h_total = h_male + eps
+        for i in range(nx):
+            for j in range(ny):
+                cx = x0 + (i + 0.5) * pitch_x
+                cy = y0 + (j + 0.5) * pitch_y
                 if point_up:
                     if cone:
                         p = cylinder(
@@ -4238,7 +4380,7 @@ def build_stacking_pyramid_indents(
     foot_inset: float,
     clearance: float = 0.15,
     surface_z: float = 0.0,
-    pyramid_count: int | None = None,
+    pyramid_count: int | tuple[int, ...] | None = None,
     single_pyramid: bool = False,
     cone: bool = False,
     point_up: bool = True,
@@ -4255,16 +4397,13 @@ def build_stacking_pyramid_indents(
 
     from pyboxbuilder.compartments.element import union_all
 
-    n, pitch, b_female, h_female, _bm, _hm, w_tip = _pyramid_grid_metrics(
+    corner_grids = _resolve_corner_pyramid_grids(
         foot_size,
         indent_depth,
-        clearance,
         pyramid_count=pyramid_count,
         single_pyramid=single_pyramid,
     )
     eps = 0.05
-    b_open = b_female + 2.0 * eps
-    h_total = h_female + eps
 
     positions = [
         (foot_inset, foot_inset),
@@ -4273,11 +4412,18 @@ def build_stacking_pyramid_indents(
         (width - foot_inset - foot_size, length - foot_inset - foot_size),
     ]
     solids = []
-    for x0, y0 in positions:
-        for i in range(n):
-            for j in range(n):
-                cx = x0 + (i + 0.5) * pitch
-                cy = y0 + (j + 0.5) * pitch
+    for (x0, y0), (nx, ny) in zip(positions, corner_grids, strict=False):
+        if nx <= 0 or ny <= 0:
+            continue
+        pitch_x, pitch_y, b_female, h_female, _bm, _hm, w_tip = _corner_grid_cell_metrics(
+            foot_size, indent_depth, clearance, nx, ny
+        )
+        b_open = b_female + 2.0 * eps
+        h_total = h_female + eps
+        for i in range(nx):
+            for j in range(ny):
+                cx = x0 + (i + 0.5) * pitch_x
+                cy = y0 + (j + 0.5) * pitch_y
                 if point_up:
                     if cone:
                         p = cylinder(
@@ -4324,7 +4470,7 @@ def build_stacking_feet(
     chamfer: float = 0.6,
     shape: StackableShape | None = None,
     clearance: float = 0.15,
-    pyramid_count: int | None = None,
+    pyramid_count: int | tuple[int, ...] | None = None,
     point_up: bool = False,
 ) -> Bosl2Solid:
     """Return 4 corner locator feet (FR-101).
@@ -4402,7 +4548,7 @@ def build_stacking_indents(
     clearance: float = 0.15,
     top_z: float = 0.0,
     shape: StackableShape | None = None,
-    pyramid_count: int | None = None,
+    pyramid_count: int | tuple[int, ...] | None = None,
     point_up: bool = False,
 ) -> Bosl2Solid:
     """Return 4 corner indent cutter solids to be subtracted from floor or lid/rim (FR-101).
@@ -4966,20 +5112,33 @@ def apply_stackable_body(
     clearance = spec.stackable_fit_offset
     has_lid = spec.lid_thickness > 0.0
     shape = _resolve_stackable_shape(spec)
-    pyr_count = getattr(spec, "stackable_pyramid_count", None)
+    default_pyr = getattr(spec, "stackable_pyramid_count", None)
+    bot_pyr = (
+        spec.stackable_bottom_pyramid_count
+        if getattr(spec, "stackable_bottom_pyramid_count", None) is not None
+        else default_pyr
+    )
+    top_pyr = (
+        spec.stackable_top_pyramid_count
+        if getattr(spec, "stackable_top_pyramid_count", None) is not None
+        else default_pyr
+    )
+    enable_bottom = _has_active_bottom_stackable(spec)
+    enable_top = _has_active_top_stackable(spec)
 
     if mode is StackableMode.PATTERN or shape is StackableShape.PATTERN:
         depth = min(foot_height, max(0.8, spec.floor_thickness - 0.4))
-        groove = build_pattern_stacking_groove(
-            spec,
-            surface_z=0.0,
-            depth=depth,
-            clearance=clearance,
-            point_up=True,
-        )
-        if groove is not None:
-            body = body - groove
-        if not has_lid:
+        if enable_bottom:
+            groove = build_pattern_stacking_groove(
+                spec,
+                surface_z=0.0,
+                depth=depth,
+                clearance=clearance,
+                point_up=True,
+            )
+            if groove is not None:
+                body = body - groove
+        if not has_lid and enable_top:
             _pat_type, margin, _spacing, _web = _resolve_stackable_pattern_params(spec)
             ledge_w = margin + clearance + 0.6
             corbel = _build_top_perimeter_corbel(
@@ -5012,20 +5171,21 @@ def apply_stackable_body(
         StackableMode.PYRAMIDS,
     ):
         depth = min(foot_height, max(0.8, spec.floor_thickness - 0.4))
-        indents = build_stacking_indents(
-            spec.width,
-            spec.length,
-            foot_size,
-            depth,
-            foot_inset,
-            clearance=clearance,
-            top_z=depth,
-            shape=shape,
-            pyramid_count=pyr_count,
-            point_up=True,
-        )
-        body = body - indents
-        if not has_lid:
+        if enable_bottom:
+            indents = build_stacking_indents(
+                spec.width,
+                spec.length,
+                foot_size,
+                depth,
+                foot_inset,
+                clearance=clearance,
+                top_z=depth,
+                shape=shape,
+                pyramid_count=bot_pyr,
+                point_up=True,
+            )
+            body = body - indents
+        if not has_lid and enable_top:
             ledge_s = foot_inset + foot_size + clearance + 0.6
             corbels = _build_top_corner_corbels(
                 spec.width,
@@ -5045,26 +5205,27 @@ def apply_stackable_body(
                 base_z=spec.height,
                 shape=shape,
                 clearance=clearance,
-                pyramid_count=pyr_count,
+                pyramid_count=top_pyr,
                 point_up=True,
             )
             body = body | corbels | feet
         return body
     elif mode is StackableMode.PERIMETER:
         depth = min(foot_height, max(0.8, spec.floor_thickness - 0.4))
-        channel = build_perimeter_stacking_indent(
-            spec.width,
-            spec.length,
-            rim_thickness,
-            depth,
-            foot_inset,
-            clearance=clearance,
-            top_z=depth,
-            shape=shape,
-            point_up=True,
-        )
-        body = body - channel
-        if not has_lid:
+        if enable_bottom:
+            channel = build_perimeter_stacking_indent(
+                spec.width,
+                spec.length,
+                rim_thickness,
+                depth,
+                foot_inset,
+                clearance=clearance,
+                top_z=depth,
+                shape=shape,
+                point_up=True,
+            )
+            body = body - channel
+        if not has_lid and enable_top:
             ledge_w = foot_inset + rim_thickness + clearance + 0.6
             corbel = _build_top_perimeter_corbel(
                 spec.width,
@@ -5089,6 +5250,8 @@ def apply_stackable_body(
             body = body | corbel | foot_rim
         return body
     elif mode is StackableMode.OUTSIDE:
+        if not enable_bottom:
+            return body
         from pyboxbuilder.box.shell import block
 
         fit = spec.stackable_fit_offset
@@ -5102,7 +5265,7 @@ def apply_stackable_body(
 
 def apply_stackable_lid(lid: Bosl2Solid, spec: BoxSpec, top_z: float | None = None) -> Bosl2Solid:
     """Apply matching stacking features to a box lid according to spec.stackable (FR-101)."""
-    if spec.stackable is None:
+    if spec.stackable is None or not _has_active_top_stackable(spec):
         return lid
 
     from pyboxbuilder.enums import StackableMode
@@ -5116,7 +5279,12 @@ def apply_stackable_lid(lid: Bosl2Solid, spec: BoxSpec, top_z: float | None = No
     rim_thickness = spec.stackable_thickness or wt
     clearance = spec.stackable_fit_offset
     shape = _resolve_stackable_shape(spec)
-    pyr_count = getattr(spec, "stackable_pyramid_count", None)
+    default_pyr = getattr(spec, "stackable_pyramid_count", None)
+    top_pyr = (
+        spec.stackable_top_pyramid_count
+        if getattr(spec, "stackable_top_pyramid_count", None) is not None
+        else default_pyr
+    )
 
     if mode is StackableMode.PATTERN or shape is StackableShape.PATTERN:
         socket_depth = min(foot_height, max(0.8, spec.floor_thickness - 0.4))
@@ -5145,7 +5313,7 @@ def apply_stackable_lid(lid: Bosl2Solid, spec: BoxSpec, top_z: float | None = No
             base_z=z_top,
             shape=shape,
             clearance=clearance,
-            pyramid_count=pyr_count,
+            pyramid_count=top_pyr,
             point_up=True,
         )
         return lid | feet

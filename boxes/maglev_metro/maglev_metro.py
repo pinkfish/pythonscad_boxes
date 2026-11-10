@@ -151,6 +151,11 @@ for idx, f_name in enumerate(factory_types):
         cut=FingerCut.SCOOP,
     )
 
+project.stack_order("CardBox_Connections", "CardBox_Tracks")
+project.stack_order("CardBox_Passengers", "CardBox_PlayerObjectives")
+project.stack_order("PlayerBox_green", "PlayerBox_cyan")
+project.stack_order("PlayerBox_deeppink", "PlayerBox_darkorange")
+
 # ── Export ────────────────────────────────────────────────────────
 if __name__ == "__main__":
     run(project)

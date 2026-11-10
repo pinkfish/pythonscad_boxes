@@ -282,12 +282,21 @@ class GeometryValidator:
                     message=f"Stackable foot height must be positive, got {spec.stackable_foot_height}mm.",
                     guidance="Set stackable_foot_height to a positive value (e.g. 1.6mm).",
                 )
-            if spec.stackable_pyramid_count is not None and spec.stackable_pyramid_count < 1:
+            if isinstance(spec.stackable_pyramid_count, int) and spec.stackable_pyramid_count < 1:
                 raise GeometryValidationError(
                     label=spec.label,
                     invariant="positive_stackable_pyramid_count",
                     message=f"Stackable pyramid count must be >= 1, got {spec.stackable_pyramid_count}.",
                     guidance="Set stackable_pyramid_count to a positive integer (e.g. 1, 2, or 3).",
+                )
+            if isinstance(spec.stackable_pyramid_count, tuple) and any(
+                isinstance(x, int) and x < 0 for x in spec.stackable_pyramid_count
+            ):
+                raise GeometryValidationError(
+                    label=spec.label,
+                    invariant="positive_stackable_pyramid_count",
+                    message=f"Stackable pyramid count entries must be >= 0, got {spec.stackable_pyramid_count}.",
+                    guidance="Use positive integer counts per corner or axis.",
                 )
 
     @classmethod

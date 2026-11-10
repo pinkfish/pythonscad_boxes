@@ -167,6 +167,10 @@ p_box = project.box(
 )
 p_box.compartment("Markers", cut=FingerCut.SCOOP)
 
+project.stack_order("HexBox_1", "HexBox_2", "HexBox_3")
+project.stack_order("MoneyBox_1", "MoneyBox_2", "MoneyBox_3")
+project.stack_order("SharesBox_1", "SharesBox_2")
+
 # ── Export ────────────────────────────────────────────────────────
 if __name__ == "__main__":
     run(project)

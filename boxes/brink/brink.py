@@ -153,6 +153,9 @@ for idx, (deck_id, title, color_name) in enumerate(card_types):
         cut=FingerCut.SCOOP,
     )
 
+project.stack_order("CardBox_Actions", "CardBox_Ambassadors")
+project.stack_order("CardBox_Riders", "CardBox_Factions")
+
 # ── Export ────────────────────────────────────────────────────────
 if __name__ == "__main__":
     run(project)

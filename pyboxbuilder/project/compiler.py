@@ -225,7 +225,52 @@ class LayoutCompiler:
             val = resolved_sizes.get(builder.label) or resolved_min_sizes[builder.label]
             object.__setattr__(builder, "final_size", val)
 
+        cls._apply_stacking_order_configs(manifest, packing.placements)
+
         return packing
+
+    @classmethod
+    def _apply_stacking_order_configs(
+        cls, manifest: ProjectManifest, placements: list[Placement]
+    ) -> None:
+        """Assign keyed pyramid configurations to vertical stacks of PYRAMIDS boxes."""
+        from pyboxbuilder.box.features import stacking_order_pyramid_config
+        from pyboxbuilder.enums import StackableMode
+
+        by_footprint: dict[tuple[float, float, float, float], list[tuple[float, BoxBuilder]]] = {}
+        for p in placements:
+            b = manifest.get_by_label(p.label)
+            if b is None or b.stackable is not StackableMode.PYRAMIDS:
+                continue
+            key = (
+                round(p.position[0], 1),
+                round(p.position[1], 1),
+                round(p.size[0], 1),
+                round(p.size[1], 1),
+            )
+            by_footprint.setdefault(key, []).append((p.position[2], b))
+
+        for items in by_footprint.values():
+            if len(items) < 2:
+                continue
+            ordered = [b for _z, b in sorted(items, key=lambda x: x[0])]
+            # Only auto-assign if none of the boxes in the column already have explicit
+            # top/bottom pyramid overrides.
+            if any(
+                b.stackable_top_pyramid_count is not None
+                or b.stackable_bottom_pyramid_count is not None
+                for b in ordered
+            ):
+                continue
+
+            object.__setattr__(ordered[0], "stackable_bottom", False)
+            object.__setattr__(ordered[-1], "stackable_top", False)
+            for idx in range(len(ordered) - 1):
+                cfg = stacking_order_pyramid_config(idx)
+                object.__setattr__(ordered[idx], "stackable_top", True)
+                object.__setattr__(ordered[idx], "stackable_top_pyramid_count", cfg)
+                object.__setattr__(ordered[idx + 1], "stackable_bottom", True)
+                object.__setattr__(ordered[idx + 1], "stackable_bottom_pyramid_count", cfg)
 
     @classmethod
     def spacer_placements(

@@ -87,6 +87,7 @@ CompanyBox_Belfast
 - **Outer Dimensions**: ``53.5 × 133.8 × 14.25 mm``
 - **Packed Position**: ``(0, 0, 0)``
 - **Stackable Mode**: ``StackableMode.PYRAMIDS``
+- **Stacking Order Key**: bottom ``flat (bottom of stack)``, top ``pyramids=2``
 - **Compartments (1)**: ``SharesAndLocos`` (full interior)
 
 **Assembled Box (CompanyBox_Belfast — Body + Lid)**
@@ -124,7 +125,6 @@ CompanyBox_Cork
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``53.5 × 133.8 × 14.25 mm``
 - **Packed Position**: ``(53.5, 0, 0)``
-- **Stackable Mode**: ``StackableMode.PYRAMIDS``
 - **Compartments (1)**: ``SharesAndLocos`` (full interior)
 
 **Assembled Box (CompanyBox_Cork — Body + Lid)**
@@ -162,7 +162,6 @@ CompanyBox_Midland
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``53.5 × 133.8 × 14.25 mm``
 - **Packed Position**: ``(107, 0, 0)``
-- **Stackable Mode**: ``StackableMode.PYRAMIDS``
 - **Compartments (1)**: ``SharesAndLocos`` (full interior)
 
 **Assembled Box (CompanyBox_Midland — Body + Lid)**
@@ -200,7 +199,6 @@ CompanyBox_Waterford
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``53.5 × 133.8 × 14.25 mm``
 - **Packed Position**: ``(160.5, 0, 0)``
-- **Stackable Mode**: ``StackableMode.PYRAMIDS``
 - **Compartments (1)**: ``SharesAndLocos`` (full interior)
 
 **Assembled Box (CompanyBox_Waterford — Body + Lid)**
@@ -239,6 +237,7 @@ CompanyBox_GreatSouthern
 - **Outer Dimensions**: ``53.5 × 133.8 × 14.25 mm``
 - **Packed Position**: ``(0, 0, 14.25)``
 - **Stackable Mode**: ``StackableMode.PYRAMIDS``
+- **Stacking Order Key**: bottom ``pyramids=2``, top ``flat (top of stack)``
 - **Compartments (1)**: ``SharesAndLocos`` (full interior)
 
 **Assembled Box (CompanyBox_GreatSouthern — Body + Lid)**

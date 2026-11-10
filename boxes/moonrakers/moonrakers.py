@@ -26,6 +26,7 @@ from pyboxbuilder import (
     PatternBuilder,
     PatternType,
     Project,
+    StackableMode,
     run,
 )
 
@@ -121,6 +122,8 @@ dice_box = project.box(
     position=(card_box_width, 0.0, card_box_height),
 )
 dice_box.compartment("Dice", cut=FingerCut.SCOOP)
+
+project.stack_order("CardBox_Thrusters", "CardBox_Objectives", mode=StackableMode.PYRAMIDS)
 
 # ── Export ────────────────────────────────────────────────────────
 if __name__ == "__main__":
