@@ -102,6 +102,7 @@ HexBox_1
 - **Outer Dimensions**: ``135 × 107.5 × 11.6667 mm``
 - **Packed Position**: ``(0, 0, 0)``
 - **Stackable Mode**: ``StackableMode.PYRAMIDS``
+- **Stacking Order Key**: bottom ``flat (bottom of stack)``, top ``pyramids=2``
 - **Compartments (3)**: ``Col_1`` (W=33%), ``Col_2`` (W=33%), ``Col_3`` (W=33%)
 
 **Assembled Box (HexBox_1 — Body + Lid)**
@@ -140,6 +141,7 @@ HexBox_2
 - **Outer Dimensions**: ``135 × 107.5 × 11.6667 mm``
 - **Packed Position**: ``(0, 0, 11.6667)``
 - **Stackable Mode**: ``StackableMode.PYRAMIDS``
+- **Stacking Order Key**: bottom ``pyramids=2``, top ``pyramids=3``
 - **Compartments (3)**: ``Col_1`` (W=33%), ``Col_2`` (W=33%), ``Col_3`` (W=33%)
 
 **Assembled Box (HexBox_2 — Body + Lid)**
@@ -178,6 +180,7 @@ HexBox_3
 - **Outer Dimensions**: ``135 × 107.5 × 11.6667 mm``
 - **Packed Position**: ``(0, 0, 23.3333)``
 - **Stackable Mode**: ``StackableMode.PYRAMIDS``
+- **Stacking Order Key**: bottom ``pyramids=3``, top ``flat (top of stack)``
 - **Compartments (3)**: ``Col_1`` (W=33%), ``Col_2`` (W=33%), ``Col_3`` (W=33%)
 
 **Assembled Box (HexBox_3 — Body + Lid)**
@@ -216,6 +219,7 @@ MoneyBox_1
 - **Outer Dimensions**: ``135 × 107.5 × 11.6667 mm``
 - **Packed Position**: ``(0, 107.5, 0)``
 - **Stackable Mode**: ``StackableMode.PYRAMIDS``
+- **Stacking Order Key**: bottom ``flat (bottom of stack)``, top ``pyramids=2``
 - **Compartments (3)**: ``Slot_1`` (W=33%), ``Slot_2`` (W=33%), ``Slot_3`` (W=33%)
 
 **Assembled Box (MoneyBox_1 — Body + Lid)**
@@ -254,6 +258,7 @@ MoneyBox_2
 - **Outer Dimensions**: ``135 × 107.5 × 11.6667 mm``
 - **Packed Position**: ``(0, 107.5, 11.6667)``
 - **Stackable Mode**: ``StackableMode.PYRAMIDS``
+- **Stacking Order Key**: bottom ``pyramids=2``, top ``pyramids=3``
 - **Compartments (3)**: ``Slot_1`` (W=33%), ``Slot_2`` (W=33%), ``Slot_3`` (W=33%)
 
 **Assembled Box (MoneyBox_2 — Body + Lid)**
@@ -292,6 +297,7 @@ MoneyBox_3
 - **Outer Dimensions**: ``135 × 107.5 × 11.6667 mm``
 - **Packed Position**: ``(0, 107.5, 23.3333)``
 - **Stackable Mode**: ``StackableMode.PYRAMIDS``
+- **Stacking Order Key**: bottom ``pyramids=3``, top ``flat (top of stack)``
 - **Compartments (3)**: ``Slot_1`` (W=33%), ``Slot_2`` (W=33%), ``Slot_3`` (W=33%)
 
 **Assembled Box (MoneyBox_3 — Body + Lid)**
@@ -330,6 +336,7 @@ SharesBox_1
 - **Outer Dimensions**: ``81 × 138 × 17.5 mm``
 - **Packed Position**: ``(135, 0, 0)``
 - **Stackable Mode**: ``StackableMode.PYRAMIDS``
+- **Stacking Order Key**: bottom ``flat (bottom of stack)``, top ``pyramids=2``
 - **Compartments (2)**: ``Shares_1`` (L=50%), ``Shares_2`` (L=50%)
 
 **Assembled Box (SharesBox_1 — Body + Lid)**
@@ -368,6 +375,7 @@ SharesBox_2
 - **Outer Dimensions**: ``81 × 138 × 17.5 mm``
 - **Packed Position**: ``(135, 0, 17.5)``
 - **Stackable Mode**: ``StackableMode.PYRAMIDS``
+- **Stacking Order Key**: bottom ``pyramids=2``, top ``flat (top of stack)``
 - **Compartments (2)**: ``Shares_1`` (L=50%), ``Shares_2`` (L=50%)
 
 **Assembled Box (SharesBox_2 — Body + Lid)**

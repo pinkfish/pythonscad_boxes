@@ -198,6 +198,8 @@ ErieCardBox
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``79.875 × 98.5 × 8.6 mm``
 - **Packed Position**: ``(79.875, 0, 28)``
+- **Stackable Mode**: ``StackableMode.PYRAMIDS``
+- **Stacking Order Key**: bottom ``flat (bottom of stack)``, top ``pyramids=2``
 - **Compartments (1)**: ``Cards`` (75.875 × 94.5 mm)
 
 **Assembled Box (ErieCardBox — Body + Lid)**
@@ -235,6 +237,8 @@ VagabondCardBox
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``79.875 × 98.5 × 19.4 mm``
 - **Packed Position**: ``(79.875, 0, 36.6)``
+- **Stackable Mode**: ``StackableMode.PYRAMIDS``
+- **Stacking Order Key**: bottom ``pyramids=2``, top ``pyramids=3``
 - **Compartments (1)**: ``Cards`` (75.875 × 94.5 mm)
 
 **Assembled Box (VagabondCardBox — Body + Lid)**
@@ -272,6 +276,8 @@ OverviewCardBox
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``79.875 × 98.5 × 11 mm``
 - **Packed Position**: ``(79.875, 0, 56)``
+- **Stackable Mode**: ``StackableMode.PYRAMIDS``
+- **Stacking Order Key**: bottom ``pyramids=3``, top ``flat (top of stack)``
 - **Compartments (1)**: ``Cards`` (75.875 × 94.5 mm)
 
 **Assembled Box (OverviewCardBox — Body + Lid)**
@@ -309,6 +315,8 @@ ItemsBoxBottom
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``53.25 × 103.5 × 10 mm``
 - **Packed Position**: ``(159.75, 0, 28)``
+- **Stackable Mode**: ``StackableMode.PYRAMIDS``
+- **Stacking Order Key**: bottom ``flat (bottom of stack)``, top ``pyramids=2``
 - **Compartments (1)**: ``Items`` (D=6 mm, 22 elements)
 
 **Assembled Box (ItemsBoxBottom — Body + Lid)**
@@ -346,6 +354,8 @@ ItemsBoxMiddle
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``53.25 × 103.5 × 9 mm``
 - **Packed Position**: ``(159.75, 0, 38)``
+- **Stackable Mode**: ``StackableMode.PYRAMIDS``
+- **Stacking Order Key**: bottom ``pyramids=2``, top ``pyramids=3``
 - **Compartments (1)**: ``Items`` (D=5 mm, 20 elements)
 
 **Assembled Box (ItemsBoxMiddle — Body + Lid)**
@@ -383,6 +393,8 @@ ItemsBoxWinter
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``53.25 × 103.5 × 9 mm``
 - **Packed Position**: ``(159.75, 0, 47)``
+- **Stackable Mode**: ``StackableMode.PYRAMIDS``
+- **Stacking Order Key**: bottom ``pyramids=3``, top ``pyramids=(2, 3, 3, 2)``
 - **Compartments (1)**: ``WinterTokens`` (D=5 mm, 12 elements)
 
 **Assembled Box (ItemsBoxWinter — Body + Lid)**
@@ -420,6 +432,8 @@ ItemsBoxExtras
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``53.25 × 103.5 × 11 mm``
 - **Packed Position**: ``(159.75, 0, 56)``
+- **Stackable Mode**: ``StackableMode.PYRAMIDS``
+- **Stacking Order Key**: bottom ``pyramids=(2, 3, 3, 2)``, top ``flat (top of stack)``
 - **Compartments (1)**: ``Extras`` (D=7 mm, 16 elements)
 
 **Assembled Box (ItemsBoxExtras — Body + Lid)**
@@ -827,6 +841,8 @@ VagabondBox
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``53.25 × 59.833 × 16 mm``
 - **Packed Position**: ``(106.5, 158.333, 28)``
+- **Stackable Mode**: ``StackableMode.PYRAMIDS``
+- **Stacking Order Key**: bottom ``flat (bottom of stack)``, top ``pyramids=2``
 - **Compartments (1)**: ``ItemsAndScore`` (3 elements)
 
 **Assembled Box (VagabondBox — Body + Lid)**
@@ -864,6 +880,8 @@ DiceBox
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``53.25 × 59.833 × 23 mm``
 - **Packed Position**: ``(106.5, 158.333, 44)``
+- **Stackable Mode**: ``StackableMode.PYRAMIDS``
+- **Stacking Order Key**: bottom ``pyramids=2``, top ``flat (top of stack)``
 - **Compartments (1)**: ``Dice`` (2 elements)
 
 **Assembled Box (DiceBox — Body + Lid)**

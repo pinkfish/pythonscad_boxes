@@ -876,7 +876,19 @@ Configuration parameters available on all box builders:
      - :class:`~pyboxbuilder.enums.PatternType` used when ``stackable=StackableMode.PATTERN`` (automatically inherits from ``pattern`` / ``lid.pattern``, or defaults to ``PatternType.HEX``).
    * - ``stackable_pyramid_count``
      - ``None`` (auto)
-     - Number of pyramids per side ($N$ for an $N \times N$ grid per corner) when using ``StackableShape.PYRAMIDS``.
+     - Pyramid configuration per corner when using ``StackableShape.PYRAMIDS``: an ``int`` $N$ ($N \times N$ on all 4 corners), a 2-tuple ``(nx, ny)`` ($n_x \times n_y$ on all 4 corners), or a 4-tuple ``(c_fl, c_fr, c_bl, c_br)`` specifying the pyramid grid per corner ``(front_left, front_right, back_left, back_right)``.
+   * - ``stackable_top_pyramid_count``
+     - ``None`` (from ``stackable_pyramid_count``)
+     - Override the pyramid configuration on the **top** face (lid or open-tray top rim) independently of the bottom face to key specific pairs of boxes together.
+   * - ``stackable_bottom_pyramid_count``
+     - ``None`` (from ``stackable_pyramid_count``)
+     - Override the pyramid configuration on the **bottom** floor independently of the top face to match the box directly beneath it.
+   * - ``stackable_top``
+     - ``True``
+     - Whether to generate raised stacking bosses on the top face (set ``False`` on the top-most box of a stack so its lid is completely flush).
+   * - ``stackable_bottom``
+     - ``True``
+     - Whether to generate recessed stacking sockets in the bottom floor (set ``False`` on the bottom-most box of a stack so its floor is solid).
    * - ``stackable_printer_safe``
      - ``True``
      - Keeps the box bottom flat on the build plate (``z = 0``) with recessed 45° sockets and top bosses so the floor never prints suspended in mid-air.
@@ -1000,6 +1012,67 @@ For box types whose lids must be printed upside down (such as ``FILAMENT_HINGE``
    )
    b_hinge_top.compartment("UpperCards", holds_pieces=True)
    project.show(show_lids=True)
+
+
+Keyed Pyramid Configurations for Enforcing Stacking Order (``project.stack_order``)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+When multiple similar slip-on/sliding-lid boxes (``BoxType.SLIDING``, e.g. card decks or tiered item trays) are stacked in a vertical column, you can configure **keyed pyramid ridges** on the top of each lid and the bottom of the box above it so the boxes physically lock only in the exact bottom-to-top order:
+
+- **Bottom box** (``box[0]``): ``stackable_bottom=False`` (solid flat floor) and ``stackable_top_pyramid_count=2`` ($2 \times 2$ pyramids per corner on its lid).
+- **Middle boxes** (``box[i]``): ``stackable_bottom_pyramid_count`` matches ``box[i - 1]``'s lid, while ``stackable_top_pyramid_count`` advances to the next mutually incompatible pyramid grid in ``STACKING_ORDER_PYRAMID_CONFIGS`` (``2``, ``3``, ``(2, 3, 3, 2)``, ``(3, 2, 2, 3)``, ``(2, 2, 3, 3)``, ``(3, 3, 2, 2)``, ``4``). Because the peaks of a $2 \times 2$ corner pad hit the solid floor webs of a $3 \times 3$ socket (and vice versa), out-of-order boxes physically interfere and refuse to seat flush.
+- **Top box** (``box[-1]``): ``stackable_bottom_pyramid_count`` matches the lid below it, and ``stackable_top=False`` keeps the top lid completely flat.
+
+Use :meth:`~pyboxbuilder.project.core.Project.stack_order` (or let :class:`~pyboxbuilder.project.compiler.LayoutCompiler` auto-assign keyed pyramid configs to vertical ``StackableMode.PYRAMIDS`` columns):
+
+.. pythonscad-example::
+
+   project = Project("StackOrderDemo")
+   c1 = project.box(
+       BoxType.SLIDING,
+       "DeckTier1_Bottom",
+       size=(65.0, 90.0, 16.0),
+       color=Color("darkred"),
+       position=(0.0, 0.0, 0.0),
+       lid=LidBuilder(
+           label_mode=LabelMode.FRAMED,
+           frame_color=Color("gold"),
+           text_color=Color("white"),
+           pattern=PatternBuilder(PatternType.DENSE_HEX),
+       ).titled("TIER 1"),
+   )
+   c1.compartment("Cards", holds_pieces=True)
+   c2 = project.box(
+       BoxType.SLIDING,
+       "DeckTier2_Middle",
+       size=(65.0, 90.0, 16.0),
+       color=Color("forestgreen"),
+       position=(0.0, 0.0, 20.0),
+       lid=LidBuilder(
+           label_mode=LabelMode.FRAMED,
+           frame_color=Color("gold"),
+           text_color=Color("white"),
+           pattern=PatternBuilder(PatternType.DENSE_HEX),
+       ).titled("TIER 2"),
+   )
+   c2.compartment("Cards", holds_pieces=True)
+   c3 = project.box(
+       BoxType.SLIDING,
+       "DeckTier3_Top",
+       size=(65.0, 90.0, 16.0),
+       color=Color("royalblue"),
+       position=(0.0, 0.0, 40.0),
+       lid=LidBuilder(
+           label_mode=LabelMode.FRAMED,
+           frame_color=Color("gold"),
+           text_color=Color("white"),
+           pattern=PatternBuilder(PatternType.DENSE_HEX),
+       ).titled("TIER 3"),
+   )
+   c3.compartment("Cards", holds_pieces=True)
+   project.stack_order(c1, c2, c3)
+   project.show(show_lids=True)
+
 
 
 

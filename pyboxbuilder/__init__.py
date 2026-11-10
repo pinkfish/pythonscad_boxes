@@ -6,6 +6,7 @@ from importlib.metadata import version as _distribution_version
 
 from pybosl2 import Color
 
+from pyboxbuilder.box.features import STACKING_ORDER_PYRAMID_CONFIGS, stacking_order_pyramid_config
 from pyboxbuilder.box.registry import register_box
 from pyboxbuilder.box.spec import BoxSpec, ResolvedBoxSpec, UnresolvedBoxSpec
 from pyboxbuilder.box.validation import GeometryValidationError, GeometryValidator
@@ -79,6 +80,7 @@ except PackageNotFoundError:
 __all__ = [
     "BRANDS",
     "SLEEVE_CATALOG",
+    "STACKING_ORDER_PYRAMID_CONFIGS",
     "BayonetBoxBuilder",
     "BoxSpec",
     "BoxType",
@@ -151,4 +153,5 @@ __all__ = [
     "sleeve_by_sku",
     "sleeves_for_card",
     "stack",
+    "stacking_order_pyramid_config",
 ]

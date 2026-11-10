@@ -525,5 +525,9 @@ project.box(
 # Spacers are automatically derived from the leftover 3D space by pyboxbuilder
 # (FR-014 / FR-014f) with automatic finger scoops along their longer walls.
 
+project.stack_order("PlayerBoxTrains_red", "PlayerBoxTrains_yellow")
+project.stack_order("PlayerBoxTrains_blue", "PlayerBoxTrains_black")
+project.stack_order("PlayerBoxTrains_green", "PlayerBoxTrains_purple")
+
 if __name__ == "__main__":
     run(project)

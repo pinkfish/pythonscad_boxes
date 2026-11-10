@@ -139,6 +139,7 @@ CardBox_Base
 - **Outer Dimensions**: ``73 × 98 × 29.5 mm``
 - **Packed Position**: ``(0, 100, 0)``
 - **Stackable Mode**: ``StackableMode.PYRAMIDS``
+- **Stacking Order Key**: bottom ``flat (bottom of stack)``, top ``pyramids=2``
 - **Compartments (1)**: ``Cards`` (full interior)
 
 **Assembled Box (CardBox_Base — Body + Lid)**
@@ -177,6 +178,7 @@ CardBox_Expansion
 - **Outer Dimensions**: ``73 × 98 × 29.5 mm``
 - **Packed Position**: ``(0, 100, 29.5)``
 - **Stackable Mode**: ``StackableMode.PYRAMIDS``
+- **Stacking Order Key**: bottom ``pyramids=2``, top ``flat (top of stack)``
 - **Compartments (1)**: ``Cards`` (full interior)
 
 **Assembled Box (CardBox_Expansion — Body + Lid)**

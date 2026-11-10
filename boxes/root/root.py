@@ -33,6 +33,7 @@ from pyboxbuilder import (
     PatternBuilder,
     PatternType,
     Project,
+    StackableMode,
     centered,
     run,
 )
@@ -1501,6 +1502,25 @@ project.box(
             pull_out=True,
         ),
     ],
+)
+
+project.stack_order(
+    "ErieCardBox",
+    "VagabondCardBox",
+    "OverviewCardBox",
+    mode=StackableMode.PYRAMIDS,
+)
+project.stack_order(
+    "ItemsBoxBottom",
+    "ItemsBoxMiddle",
+    "ItemsBoxWinter",
+    "ItemsBoxExtras",
+    mode=StackableMode.PYRAMIDS,
+)
+project.stack_order(
+    "VagabondBox",
+    "DiceBox",
+    mode=StackableMode.PYRAMIDS,
 )
 
 if __name__ == "__main__":

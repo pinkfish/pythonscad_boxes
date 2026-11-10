@@ -372,6 +372,28 @@ def process_game(game_slug: str) -> dict[str, Any]:
         stackable = getattr(b, "stackable", None)
         if isinstance(stackable, StackableMode):
             rst_lines.append(f"- **Stackable Mode**: ``StackableMode.{stackable.name}``")
+            top_active = getattr(b, "stackable_top", True)
+            bot_active = getattr(b, "stackable_bottom", True)
+            top_cfg = getattr(b, "stackable_top_pyramid_count", None) or getattr(
+                b, "stackable_pyramid_count", None
+            )
+            bot_cfg = getattr(b, "stackable_bottom_pyramid_count", None) or getattr(
+                b, "stackable_pyramid_count", None
+            )
+            if not top_active or not bot_active or top_cfg is not None or bot_cfg is not None:
+                top_desc = (
+                    f"pyramids={top_cfg!r}"
+                    if (top_active and top_cfg is not None)
+                    else ("enabled" if top_active else "flat (top of stack)")
+                )
+                bot_desc = (
+                    f"pyramids={bot_cfg!r}"
+                    if (bot_active and bot_cfg is not None)
+                    else ("enabled" if bot_active else "flat (bottom of stack)")
+                )
+                rst_lines.append(
+                    f"- **Stacking Order Key**: bottom ``{bot_desc}``, top ``{top_desc}``"
+                )
         elif stackable is True:
             rst_lines.append("- **Stackable**: ``True``")
 

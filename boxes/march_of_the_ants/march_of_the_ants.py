@@ -180,6 +180,8 @@ for idx, (p_name, color_name) in enumerate(player_factions):
     )
     p_box.compartment("Cubes", cut=FingerCut.SCOOP)
 
+project.stack_order("CardBox_Base", "CardBox_Expansion")
+
 # ── Export ────────────────────────────────────────────────────────
 if __name__ == "__main__":
     run(project)

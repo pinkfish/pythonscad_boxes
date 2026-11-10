@@ -247,6 +247,10 @@ project.box(
     position=(0.0, y_row2 + card_box_length / 2.0, 0.0),
 ).compartment("Books", cut=FingerCut.SCOOP)
 
+project.stack_order("PlayerBox_Red", "PlayerBox_Green", "ScoringBox")
+project.stack_order("PlayerBox_Blue", "PlayerBox_Purple", "MoneyBox")
+project.stack_order("OtherCardBox", "TierCardBox")
+
 # ── Export ────────────────────────────────────────────────────────
 if __name__ == "__main__":
     run(project)

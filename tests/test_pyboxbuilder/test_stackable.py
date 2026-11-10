@@ -535,6 +535,132 @@ class StackingBoxMatingTests(unittest.TestCase):
         self.assertEqual(resolved.stackable_pattern_spacing, 10.0)
         self.assertEqual(resolved.stackable_pattern_web, 1.8)
 
+    def test_changeable_pyramid_configurations_and_stacking_order(self) -> None:
+        """Verify keyed pyramid configurations enforce bottom-to-top stacking order."""
+        from pyboxbuilder.box.features import STACKING_ORDER_PYRAMID_CONFIGS
+        from pyboxbuilder.box.shell import block
+        from pyboxbuilder.box.spec import build_spec
+        from pyboxbuilder.project import Project
+
+        handler = BOX_IMPL_REGISTRY[BoxType.SLIDING]()
+
+        # 1. Verify each pyramid configuration in STACKING_ORDER_PYRAMID_CONFIGS mates with itself
+        for cfg in (*STACKING_ORDER_PYRAMID_CONFIGS, (2, 3), (3, 2)):
+            with self.subTest(config=cfg):
+                spec = BoxSpec(
+                    label=f"PyramidCfg_{cfg}",
+                    width=60.0,
+                    length=80.0,
+                    height=20.0,
+                    wall_thickness=2.0,
+                    floor_thickness=1.6,
+                    lid_thickness=2.0,
+                    stackable=StackableMode.PYRAMIDS,
+                    stackable_pyramid_count=cfg,
+                    stackable_foot_size=7.0,
+                    stackable_foot_height=1.2,
+                    stackable_fit_offset=0.15,
+                )
+                self._assert_stacking_mating(BoxType.SLIDING, spec)
+
+        # 2. Verify a 4-box stack configured via Project.stack_order enforces exact stacking order
+        proj = Project("StackOrderTest")
+        names = ["CardBox_1", "CardBox_2", "CardBox_3", "CardBox_4"]
+        builders = [
+            proj.box(
+                BoxType.SLIDING,
+                name,
+                size=(60.0, 80.0, 15.0),
+                position=(0.0, 0.0, idx * 15.0),
+            )
+            for idx, name in enumerate(names)
+        ]
+        proj.stack_order(*builders)
+
+        specs = [build_spec(proj, b, (60.0, 80.0, 15.0)) for b in builders]
+
+        # Bottom box has flat floor (stackable_bottom=False), top box has flat lid (stackable_top=False)
+        self.assertFalse(specs[0].stackable_bottom)
+        self.assertTrue(specs[0].stackable_top)
+        self.assertTrue(specs[1].stackable_bottom)
+        self.assertTrue(specs[1].stackable_top)
+        self.assertTrue(specs[2].stackable_bottom)
+        self.assertTrue(specs[2].stackable_top)
+        self.assertTrue(specs[3].stackable_bottom)
+        self.assertFalse(specs[3].stackable_top)
+
+        # Interface configs match pairwise: box[i].top == box[i+1].bottom == STACKING_ORDER_PYRAMID_CONFIGS[i]
+        for i in range(3):
+            self.assertEqual(specs[i].stackable_top_pyramid_count, STACKING_ORDER_PYRAMID_CONFIGS[i])
+            self.assertEqual(specs[i + 1].stackable_bottom_pyramid_count, STACKING_ORDER_PYRAMID_CONFIGS[i])
+
+        bodies = [handler.build_body(s) for s in specs]
+        lids = [handler.build_lid(s) for s in specs]
+        assemblies = [b | l for b, l in zip(bodies, lids, strict=True)]
+
+        # Top box lid has zero bosses protruding above z = 15.0
+        above_top_probe = block([100.0, 100.0, 5.0], at=(-10.0, -10.0, 15.01))
+        self.assertGreater(volume(lids[0] & above_top_probe), 5.0)
+        self.assertLess(volume(lids[3] & above_top_probe), 1e-4)
+
+        # Valid adjacent pairs (i -> i + 1) mate with zero collision and lock horizontally
+        for i in range(3):
+            lower = assemblies[i]
+            upper = assemblies[i + 1].translate([0.0, 0.0, 15.0])
+            self.assertLess(
+                volume(lower & upper),
+                0.05,
+                f"Valid pair ({names[i]} -> {names[i + 1]}) should mate without collision",
+            )
+            shifted = upper.translate([0.35, 0.0, 0.0])
+            self.assertGreater(
+                volume(lower & shifted),
+                0.1,
+                f"Valid pair ({names[i]} -> {names[i + 1]}) should lock horizontally",
+            )
+
+        # Invalid out-of-order combinations physically collide (cannot seat at z = 15.0)
+        invalid_pairs = [
+            (0, 0),  # box 0 has flat bottom, collides with box 0's lid bosses
+            (0, 2),  # interface 0 lid (2x2) vs interface 1 bottom (3x3)
+            (0, 3),  # interface 0 lid (2x2) vs interface 2 bottom ((2,3,3,2))
+            (1, 0),  # interface 1 lid (3x3) vs box 0 flat bottom
+            (1, 1),  # interface 1 lid (3x3) vs interface 0 bottom (2x2)
+            (1, 3),  # interface 1 lid (3x3) vs interface 2 bottom ((2,3,3,2))
+            (2, 0),  # interface 2 lid ((2,3,3,2)) vs box 0 flat bottom
+            (2, 1),  # interface 2 lid ((2,3,3,2)) vs interface 0 bottom (2x2)
+            (2, 2),  # interface 2 lid ((2,3,3,2)) vs interface 1 bottom (3x3)
+        ]
+        for lower_idx, upper_idx in invalid_pairs:
+            with self.subTest(lower=names[lower_idx], upper=names[upper_idx]):
+                lower = assemblies[lower_idx]
+                upper = assemblies[upper_idx].translate([0.0, 0.0, 15.0])
+                collision = volume(lower & upper)
+                self.assertGreater(
+                    collision,
+                    0.5,
+                    f"Out-of-order pair ({names[lower_idx]} -> {names[upper_idx]}) "
+                    f"failed to interfere (collision={collision:.4f}mm³)",
+                )
+
+        # 3. Verify LayoutCompiler automatically assigns keyed pyramid configs to vertical columns
+        auto_proj = Project("AutoStackOrderCompiler", game_box_size=(100.0, 100.0, 60.0))
+        for idx in range(3):
+            auto_proj.box(
+                BoxType.SLIDING,
+                f"AutoTier_{idx + 1}",
+                size=(60.0, 80.0, 15.0),
+                position=(0.0, 0.0, idx * 15.0),
+                stackable=StackableMode.PYRAMIDS,
+            )
+        auto_proj.build()
+        self.assertFalse(auto_proj.boxes[0].stackable_bottom)
+        self.assertEqual(auto_proj.boxes[0].stackable_top_pyramid_count, 2)
+        self.assertEqual(auto_proj.boxes[1].stackable_bottom_pyramid_count, 2)
+        self.assertEqual(auto_proj.boxes[1].stackable_top_pyramid_count, 3)
+        self.assertEqual(auto_proj.boxes[2].stackable_bottom_pyramid_count, 3)
+        self.assertFalse(auto_proj.boxes[2].stackable_top)
+
 
 if __name__ == "__main__":
     unittest.main()
