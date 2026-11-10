@@ -535,7 +535,7 @@ Use ``PatternType.SOLID`` or ``PatternType.NONE`` when a completely closed, unpe
 Pattern-Matched Stacking (``StackableMode.PATTERN``)
 ----------------------------------------------------
 
-Setting ``stackable=StackableMode.PATTERN`` (:class:`~pyboxbuilder.enums.StackableMode`) matches the lid's pattern directly onto the underside of the box body. The lid's pattern web is raised above the lid surface with 45° self-supporting draft chamfers, while a matching 45°-drafted recessed pattern groove is carved into the underside of the box floor so stacked boxes lock into the exact same pattern grid without support material.
+Setting ``stackable=StackableMode.PATTERN`` (:class:`~pyboxbuilder.enums.StackableMode`) matches the lid's pattern directly onto the underside of the box body. Between stacked boxes, the lower lid's pattern web is raised above the lid surface with 45° self-supporting draft chamfers while a matching 45°-drafted recessed pattern groove is carved into the underside of the upper box floor. The box on the very bottom of the stack keeps a solid flat floor (``stackable_bottom=False``), and the lid on the very top of the stack has no stacking ridge on top (``stackable_top=False``).
 
 Unlike the standalone lid gallery above, the stacking setup below renders **both the lid and the box** (``project.show(show_lids=True)``) with an exploded vertical separation so the patterned lid, the box compartments, and the matching underside pattern lattice can all be inspected together:
 
@@ -549,6 +549,8 @@ Unlike the standalone lid gallery above, the stacking setup below renders **both
        color=Color("darkslateblue"),
        position=(0.0, 0.0, 0.0),
        stackable=StackableMode.PATTERN,
+       stackable_bottom=False,
+       stackable_top=True,
        stackable_foot_height=1.2,
        lid=LidBuilder(
            pattern=PatternBuilder(PatternType.HEX, spacing=9.0),
@@ -563,6 +565,8 @@ Unlike the standalone lid gallery above, the stacking setup below renders **both
        color=Color("teal"),
        position=(0.0, 0.0, 28.0),
        stackable=StackableMode.PATTERN,
+       stackable_bottom=True,
+       stackable_top=False,
        stackable_foot_height=1.2,
        lid=LidBuilder(
            pattern=PatternBuilder(PatternType.HEX, spacing=9.0),

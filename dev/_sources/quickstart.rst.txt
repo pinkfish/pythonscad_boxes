@@ -449,6 +449,8 @@ Open & Stackable Trays (``BoxType.NO_LID``)
        size=(60.0, 60.0, 16.0),
        position=(0.0, 0.0, 0.0),
        stackable=StackableMode.INSIDE,
+       stackable_bottom=False,
+       stackable_top=True,
    )
    b2 = project.box(
        BoxType.NO_LID,
@@ -456,6 +458,8 @@ Open & Stackable Trays (``BoxType.NO_LID``)
        size=(60.0, 60.0, 16.0),
        position=(0.0, 0.0, 16.0),
        stackable=StackableMode.INSIDE,
+       stackable_bottom=True,
+       stackable_top=False,
    )
    project.show()
 
