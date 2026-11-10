@@ -1,0 +1,1938 @@
+
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="canvas.html">
+      
+      
+        <link rel="next" href="dominion.html">
+      
+      
+      <link rel="icon" href="">
+    
+    
+      
+        <title>Cascadero (cascadero) - pyboxbuilder</title>
+      
+    
+    
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+    
+        <link rel="stylesheet" type="text/css" href="../_static/sphinx_immaterial_theme.6f0d2a77b1b821632.min.css?v=27a6e6bb" />
+        <link rel="stylesheet" type="text/css" href="../_static/stl_viewer.css?v=abc98148" />
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#full-box-packing" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../index.html" title="pyboxbuilder" class="md-header__button md-logo" aria-label="pyboxbuilder" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            pyboxbuilder
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Cascadero (cascadero)
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/pinkfish/pythonscad_boxes" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    pinkfish/pythonscad_boxes
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../index.html" title="pyboxbuilder" class="md-nav__button md-logo" aria-label="pyboxbuilder" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+    </a>
+    pyboxbuilder
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/pinkfish/pythonscad_boxes" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    pinkfish/pythonscad_boxes
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    <span>User Guide</span>
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            <span>User Guide</span>
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../quickstart.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Quickstart Guide</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../getting_started.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Getting Started</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../box_types.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Box Types Guide &amp; Gallery</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lid_patterns.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Lid Patterns Guide &amp; Gallery</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../layout_and_spacers.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Auto-<wbr>Layout &amp; Automatic Spacers</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_6" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="index.html" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    <span>Board-<wbr>Game Insert Gallery</span>
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_1_6" id="__nav_1_6_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_1_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_1_6">
+            <span class="md-nav__icon md-icon"></span>
+            <span>Board-<wbr>Game Insert Gallery</span>
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="1835.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Eighteen<wbr>Thirty<wbr>Five <wbr>(1835)</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="1899_daihan.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>1899Daihan <wbr>(1899_<wbr>daihan)</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="18_cuba.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>18Cuba <wbr>(18_<wbr>cuba)</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="adas_dream.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Adas<wbr>Dream <wbr>(adas_<wbr>dream)</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="arkham_horror.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Arkham<wbr>Horror<wbr>LCG <wbr>(arkham_<wbr>horror)</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="biome.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Biome <wbr>(biome)</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="brink.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Brink <wbr>(brink)</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="brink_long.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Brink<wbr>Long <wbr>(brink_<wbr>long)</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="bucket_king.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Bucket<wbr>King <wbr>(bucket_<wbr>king)</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="canvas.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Canvas <wbr>(canvas)</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    <span>Cascadero <wbr>(cascadero)</span>
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="#" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Cascadero <wbr>(cascadero)</span>
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+  
+
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      On this page
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#full-box-packing" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span title="boxes/cascadero:full box packing (reference label)"><span>Full Box Packing</span></span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parts-overview" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span title="boxes/cascadero:parts overview (reference label)"><span>Parts Overview</span></span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#individual-boxes-parts" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span title="boxes/cascadero:individual boxes &amp; parts (reference label)"><span>Individual Boxes &amp; Parts</span></span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Individual Boxes &amp; Parts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#playerbox-1" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span title="boxes/cascadero:playerbox_1 (reference label)"><span>Player<wbr>Box_<wbr>1</span></span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#playerbox-2" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span title="boxes/cascadero:playerbox_2 (reference label)"><span>Player<wbr>Box_<wbr>2</span></span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#playerbox-3" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span title="boxes/cascadero:playerbox_3 (reference label)"><span>Player<wbr>Box_<wbr>3</span></span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#playerbox-4" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span title="boxes/cascadero:playerbox_4 (reference label)"><span>Player<wbr>Box_<wbr>4</span></span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sealsbox" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span title="boxes/cascadero:sealsbox (reference label)"><span>Seals<wbr>Box</span></span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#heraldbox" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span title="boxes/cascadero:heraldbox (reference label)"><span>Herald<wbr>Box</span></span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#farmerbox" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span title="boxes/cascadero:farmerbox (reference label)"><span>Farmer<wbr>Box</span></span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="dominion.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Dominion<wbr>Big<wbr>Box <wbr>(dominion)</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="earth.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Earth <wbr>(earth)</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="earth_animal_kingdom.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Earth<wbr>Animal<wbr>Kingdom <wbr>(earth_<wbr>animal_<wbr>kingdom)</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="emberleaf.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Emberleaf <wbr>(emberleaf)</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="explorers_of_navoria.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Explorers<wbr>Of<wbr>Navoria <wbr>(explorers_<wbr>of_<wbr>navoria)</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="explorers_of_navoria_forgotten_lands.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Explorers<wbr>Of<wbr>Navoria<wbr>Forgotten<wbr>Lands <wbr>(explorers_<wbr>of_<wbr>navoria_<wbr>forgotten_<wbr>lands)</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="first_class.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>First<wbr>Class <wbr>(first_<wbr>class)</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="gulf_mobile_and_ohio.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Gulf<wbr>Mobile<wbr>And<wbr>Ohio <wbr>(gulf_<wbr>mobile_<wbr>and_<wbr>ohio)</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="irish_gauge.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Irish<wbr>Gauge <wbr>(irish_<wbr>gauge)</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="isle_of_trains.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Isle<wbr>Of<wbr>Trains <wbr>(isle_<wbr>of_<wbr>trains)</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="kenmore_gold.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Kenmore<wbr>Gold <wbr>(kenmore_<wbr>gold)</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="magical_athlete.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Magical<wbr>Athlete <wbr>(magical_<wbr>athlete)</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="maglev_metro.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Maglev<wbr>Metro <wbr>(maglev_<wbr>metro)</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="maglev_metro_vol2.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Maglev<wbr>Metro<wbr>Vol2 <wbr>(maglev_<wbr>metro_<wbr>vol2)</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="march_of_the_ants.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>March<wbr>Of<wbr>The<wbr>Ants <wbr>(march_<wbr>of_<wbr>the_<wbr>ants)</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="modern_art.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Modern<wbr>Art <wbr>(modern_<wbr>art)</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="moonrakers.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Moonrakers <wbr>(moonrakers)</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="nature.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Nature <wbr>(nature)</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="nippon.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Nippon <wbr>(nippon)</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pioneer_rails.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Pioneer<wbr>Rails <wbr>(pioneer_<wbr>rails)</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="railroad_tiles.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Railroad<wbr>Tiles <wbr>(railroad_<wbr>tiles)</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="railway_boom.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Railway<wbr>Boom <wbr>(railway_<wbr>boom)</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="railways_of_the_world.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Railways of the World <wbr>(railways_<wbr>of_<wbr>the_<wbr>world)</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="root.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Root <wbr>(root)</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="russian_railroads.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Russian<wbr>Railroads <wbr>(russian_<wbr>railroads)</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="stackable_hexes.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Stackable<wbr>Hexes <wbr>(stackable_<wbr>hexes)</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="the_crew_deep_sea.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>The<wbr>Crew<wbr>Deep<wbr>Sea <wbr>(the_<wbr>crew_<wbr>deep_<wbr>sea)</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="the_crew_deep_sea_sleeved.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>The<wbr>Crew<wbr>Deep<wbr>Sea<wbr>Sleeved <wbr>(the_<wbr>crew_<wbr>deep_<wbr>sea_<wbr>sleeved)</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    <span>API Reference</span>
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            <span>API Reference</span>
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>API Reference</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+<nav class="md-nav md-nav--secondary">
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      On this page
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#full-box-packing" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span title="boxes/cascadero:full box packing (reference label)"><span>Full Box Packing</span></span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parts-overview" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span title="boxes/cascadero:parts overview (reference label)"><span>Parts Overview</span></span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#individual-boxes-parts" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span title="boxes/cascadero:individual boxes &amp; parts (reference label)"><span>Individual Boxes &amp; Parts</span></span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Individual Boxes &amp; Parts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#playerbox-1" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span title="boxes/cascadero:playerbox_1 (reference label)"><span>Player<wbr>Box_<wbr>1</span></span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#playerbox-2" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span title="boxes/cascadero:playerbox_2 (reference label)"><span>Player<wbr>Box_<wbr>2</span></span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#playerbox-3" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span title="boxes/cascadero:playerbox_3 (reference label)"><span>Player<wbr>Box_<wbr>3</span></span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#playerbox-4" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span title="boxes/cascadero:playerbox_4 (reference label)"><span>Player<wbr>Box_<wbr>4</span></span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sealsbox" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span title="boxes/cascadero:sealsbox (reference label)"><span>Seals<wbr>Box</span></span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#heraldbox" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span title="boxes/cascadero:heraldbox (reference label)"><span>Herald<wbr>Box</span></span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#farmerbox" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span title="boxes/cascadero:farmerbox (reference label)"><span>Farmer<wbr>Box</span></span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset" role="main">
+                
+                
+                  
+
+
+<h1 id="cascadero-cascadero"><span id="box-insert-cascadero"></span>Cascadero (cascadero)<a class="headerlink" href="#cascadero-cascadero" title="Link to this heading">¶</a></h1>
+<p>Cascadero board game organizer.</p>
+<ul class="simple">
+<li><p><strong>Source Script</strong>: <code class="docutils literal notranslate"><span class="pre">boxes/cascadero/cascadero.py</span></code></p></li>
+<li><p><strong>Game Box Dimensions</strong>: <code class="docutils literal notranslate"><span class="pre">212</span> <span class="pre">×</span> <span class="pre">304</span> <span class="pre">×</span> <span class="pre">40</span> <span class="pre">mm</span></code> (usable height <code class="docutils literal notranslate"><span class="pre">26</span> <span class="pre">mm</span></code> with <code class="docutils literal notranslate"><span class="pre">14</span> <span class="pre">mm</span></code> board storage)</p></li>
+<li><p><strong>Boxes</strong>: 7 sub-box(es)</p></li>
+<li><p><strong>Box Types Used</strong>: <a class="reference internal" href="../box_types.html#box-type-sliding"><span class="std std-ref">BoxType.SLIDING</span></a></p></li>
+</ul>
+<h2 id="full-box-packing">Full Box Packing<a class="headerlink" href="#full-box-packing" title="Link to this heading">¶</a></h2>
+<p>Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:</p>
+<div class="stl-viewer" data-stl-uri="../_stl/boxes/cascadero/PlayerBox_1_body.stl,../_stl/boxes/cascadero/PlayerBox_1_lid.stl,../_stl/boxes/cascadero/PlayerBox_2_body.stl,../_stl/boxes/cascadero/PlayerBox_2_lid.stl,../_stl/boxes/cascadero/PlayerBox_3_body.stl,../_stl/boxes/cascadero/PlayerBox_3_lid.stl,../_stl/boxes/cascadero/PlayerBox_4_body.stl,../_stl/boxes/cascadero/PlayerBox_4_lid.stl,../_stl/boxes/cascadero/SealsBox_body.stl,../_stl/boxes/cascadero/SealsBox_lid.stl,../_stl/boxes/cascadero/HeraldBox_body.stl,../_stl/boxes/cascadero/HeraldBox_lid.stl,../_stl/boxes/cascadero/FarmerBox_body.stl,../_stl/boxes/cascadero/FarmerBox_lid.stl" data-stl-color="#6f9ac9" style="width:100%;height:440px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a href="../_stl/boxes/cascadero/PlayerBox_1_body.stl" data-stl-combine="../_stl/boxes/cascadero/PlayerBox_1_body.stl,../_stl/boxes/cascadero/PlayerBox_1_lid.stl,../_stl/boxes/cascadero/PlayerBox_2_body.stl,../_stl/boxes/cascadero/PlayerBox_2_lid.stl,../_stl/boxes/cascadero/PlayerBox_3_body.stl,../_stl/boxes/cascadero/PlayerBox_3_lid.stl,../_stl/boxes/cascadero/PlayerBox_4_body.stl,../_stl/boxes/cascadero/PlayerBox_4_lid.stl,../_stl/boxes/cascadero/SealsBox_body.stl,../_stl/boxes/cascadero/SealsBox_lid.stl,../_stl/boxes/cascadero/HeraldBox_body.stl,../_stl/boxes/cascadero/HeraldBox_lid.stl,../_stl/boxes/cascadero/FarmerBox_body.stl,../_stl/boxes/cascadero/FarmerBox_lid.stl" download="Cascadero_full_packing.stl">⬇ Download Full Box Packing STL (<code>Cascadero_full_packing.stl</code>)</a></p><h2 id="parts-overview">Parts Overview<a class="headerlink" href="#parts-overview" title="Link to this heading">¶</a></h2>
+<table class="docutils data align-default">
+<colgroup>
+<col style="width: 26.0%" />
+<col style="width: 24.0%" />
+<col style="width: 20.0%" />
+<col style="width: 18.0%" />
+<col style="width: 12.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Box / Spacer</p></th>
+<th class="head"><p>Box Type</p></th>
+<th class="head"><p>Dimensions (W × L × H)</p></th>
+<th class="head"><p>Packed Position</p></th>
+<th class="head"><p>Compartments</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><a class="reference internal" href="#box-cascadero-playerbox-1"><span class="std std-ref">PlayerBox_1</span></a></p></td>
+<td><p><a class="reference internal" href="../box_types.html#box-type-sliding"><span class="std std-ref">BoxType.SLIDING</span></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">105</span> <span class="pre">×</span> <span class="pre">105</span> <span class="pre">×</span> <span class="pre">26</span> <span class="pre">mm</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">(0,</span> <span class="pre">0,</span> <span class="pre">0)</span></code></p></td>
+<td><p>2</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#box-cascadero-playerbox-2"><span class="std std-ref">PlayerBox_2</span></a></p></td>
+<td><p><a class="reference internal" href="../box_types.html#box-type-sliding"><span class="std std-ref">BoxType.SLIDING</span></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">105</span> <span class="pre">×</span> <span class="pre">105</span> <span class="pre">×</span> <span class="pre">26</span> <span class="pre">mm</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">(105,</span> <span class="pre">0,</span> <span class="pre">0)</span></code></p></td>
+<td><p>2</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#box-cascadero-playerbox-3"><span class="std std-ref">PlayerBox_3</span></a></p></td>
+<td><p><a class="reference internal" href="../box_types.html#box-type-sliding"><span class="std std-ref">BoxType.SLIDING</span></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">105</span> <span class="pre">×</span> <span class="pre">105</span> <span class="pre">×</span> <span class="pre">26</span> <span class="pre">mm</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">(0,</span> <span class="pre">105,</span> <span class="pre">0)</span></code></p></td>
+<td><p>2</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#box-cascadero-playerbox-4"><span class="std std-ref">PlayerBox_4</span></a></p></td>
+<td><p><a class="reference internal" href="../box_types.html#box-type-sliding"><span class="std std-ref">BoxType.SLIDING</span></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">105</span> <span class="pre">×</span> <span class="pre">105</span> <span class="pre">×</span> <span class="pre">26</span> <span class="pre">mm</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">(105,</span> <span class="pre">105,</span> <span class="pre">0)</span></code></p></td>
+<td><p>2</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#box-cascadero-sealsbox"><span class="std std-ref">SealsBox</span></a></p></td>
+<td><p><a class="reference internal" href="../box_types.html#box-type-sliding"><span class="std std-ref">BoxType.SLIDING</span></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">85</span> <span class="pre">×</span> <span class="pre">94</span> <span class="pre">×</span> <span class="pre">26</span> <span class="pre">mm</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">(0,</span> <span class="pre">210,</span> <span class="pre">0)</span></code></p></td>
+<td><p>1</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#box-cascadero-heraldbox"><span class="std std-ref">HeraldBox</span></a></p></td>
+<td><p><a class="reference internal" href="../box_types.html#box-type-sliding"><span class="std std-ref">BoxType.SLIDING</span></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">40</span> <span class="pre">×</span> <span class="pre">94</span> <span class="pre">×</span> <span class="pre">26</span> <span class="pre">mm</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">(85,</span> <span class="pre">210,</span> <span class="pre">0)</span></code></p></td>
+<td><p>1</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#box-cascadero-farmerbox"><span class="std std-ref">FarmerBox</span></a></p></td>
+<td><p><a class="reference internal" href="../box_types.html#box-type-sliding"><span class="std std-ref">BoxType.SLIDING</span></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">85</span> <span class="pre">×</span> <span class="pre">94</span> <span class="pre">×</span> <span class="pre">26</span> <span class="pre">mm</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">(125,</span> <span class="pre">210,</span> <span class="pre">0)</span></code></p></td>
+<td><p>1</p></td>
+</tr>
+</tbody>
+</table>
+<h2 id="individual-boxes-parts">Individual Boxes &amp; Parts<a class="headerlink" href="#individual-boxes-parts" title="Link to this heading">¶</a></h2>
+<h3 id="playerbox-1"><span id="box-cascadero-playerbox-1"></span>PlayerBox_1<a class="headerlink" href="#playerbox-1" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p><strong>Box Type</strong>: <a class="reference internal" href="../box_types.html#box-type-sliding"><span class="std std-ref">BoxType.SLIDING</span></a></p></li>
+<li><p><strong>Outer Dimensions</strong>: <code class="docutils literal notranslate"><span class="pre">105</span> <span class="pre">×</span> <span class="pre">105</span> <span class="pre">×</span> <span class="pre">26</span> <span class="pre">mm</span></code></p></li>
+<li><p><strong>Packed Position</strong>: <code class="docutils literal notranslate"><span class="pre">(0,</span> <span class="pre">0,</span> <span class="pre">0)</span></code></p></li>
+<li><p><strong>Compartments (2)</strong>: <code class="docutils literal notranslate"><span class="pre">Envoys</span></code> (L=60%), <code class="docutils literal notranslate"><span class="pre">Markers</span></code> (L=40%)</p></li>
+</ul>
+<p><strong>Assembled Box (PlayerBox_1 — Body + Lid)</strong></p>
+<div class="stl-viewer" data-stl-uri="../_stl/boxes/cascadero/PlayerBox_1_body.stl,../_stl/boxes/cascadero/PlayerBox_1_lid.stl" data-stl-color="#6f9ac9" style="width:100%;height:320px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a href="../_stl/boxes/cascadero/PlayerBox_1_body.stl" data-stl-combine="../_stl/boxes/cascadero/PlayerBox_1_body.stl,../_stl/boxes/cascadero/PlayerBox_1_lid.stl" download="PlayerBox_1_assembled.stl">⬇ Download Assembled PlayerBox_1 STL (<code>PlayerBox_1_assembled.stl</code>)</a></p><p><strong>Part: PlayerBox_1 Body</strong></p>
+<div class="stl-viewer" data-stl-uri="../_stl/boxes/cascadero/PlayerBox_1_body.stl" data-stl-color="#6f9ac9" style="width:100%;height:280px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a href="../_stl/boxes/cascadero/PlayerBox_1_body.stl" download="PlayerBox_1_body.stl">⬇ Download PlayerBox_1 Body STL (<code>PlayerBox_1_body.stl</code>)</a></p><p><strong>Part: PlayerBox_1 Lid</strong></p>
+<div class="stl-viewer" data-stl-uri="../_stl/boxes/cascadero/PlayerBox_1_lid.stl" data-stl-color="#6f9ac9" style="width:100%;height:280px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a href="../_stl/boxes/cascadero/PlayerBox_1_lid.stl" download="PlayerBox_1_lid.stl">⬇ Download PlayerBox_1 Lid STL (<code>PlayerBox_1_lid.stl</code>)</a></p><h3 id="playerbox-2"><span id="box-cascadero-playerbox-2"></span>PlayerBox_2<a class="headerlink" href="#playerbox-2" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p><strong>Box Type</strong>: <a class="reference internal" href="../box_types.html#box-type-sliding"><span class="std std-ref">BoxType.SLIDING</span></a></p></li>
+<li><p><strong>Outer Dimensions</strong>: <code class="docutils literal notranslate"><span class="pre">105</span> <span class="pre">×</span> <span class="pre">105</span> <span class="pre">×</span> <span class="pre">26</span> <span class="pre">mm</span></code></p></li>
+<li><p><strong>Packed Position</strong>: <code class="docutils literal notranslate"><span class="pre">(105,</span> <span class="pre">0,</span> <span class="pre">0)</span></code></p></li>
+<li><p><strong>Compartments (2)</strong>: <code class="docutils literal notranslate"><span class="pre">Envoys</span></code> (L=60%), <code class="docutils literal notranslate"><span class="pre">Markers</span></code> (L=40%)</p></li>
+</ul>
+<p><strong>Assembled Box (PlayerBox_2 — Body + Lid)</strong></p>
+<div class="stl-viewer" data-stl-uri="../_stl/boxes/cascadero/PlayerBox_2_body.stl,../_stl/boxes/cascadero/PlayerBox_2_lid.stl" data-stl-color="#6f9ac9" style="width:100%;height:320px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a href="../_stl/boxes/cascadero/PlayerBox_2_body.stl" data-stl-combine="../_stl/boxes/cascadero/PlayerBox_2_body.stl,../_stl/boxes/cascadero/PlayerBox_2_lid.stl" download="PlayerBox_2_assembled.stl">⬇ Download Assembled PlayerBox_2 STL (<code>PlayerBox_2_assembled.stl</code>)</a></p><p><strong>Part: PlayerBox_2 Body</strong></p>
+<div class="stl-viewer" data-stl-uri="../_stl/boxes/cascadero/PlayerBox_2_body.stl" data-stl-color="#6f9ac9" style="width:100%;height:280px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a href="../_stl/boxes/cascadero/PlayerBox_2_body.stl" download="PlayerBox_2_body.stl">⬇ Download PlayerBox_2 Body STL (<code>PlayerBox_2_body.stl</code>)</a></p><p><strong>Part: PlayerBox_2 Lid</strong></p>
+<div class="stl-viewer" data-stl-uri="../_stl/boxes/cascadero/PlayerBox_2_lid.stl" data-stl-color="#6f9ac9" style="width:100%;height:280px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a href="../_stl/boxes/cascadero/PlayerBox_2_lid.stl" download="PlayerBox_2_lid.stl">⬇ Download PlayerBox_2 Lid STL (<code>PlayerBox_2_lid.stl</code>)</a></p><h3 id="playerbox-3"><span id="box-cascadero-playerbox-3"></span>PlayerBox_3<a class="headerlink" href="#playerbox-3" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p><strong>Box Type</strong>: <a class="reference internal" href="../box_types.html#box-type-sliding"><span class="std std-ref">BoxType.SLIDING</span></a></p></li>
+<li><p><strong>Outer Dimensions</strong>: <code class="docutils literal notranslate"><span class="pre">105</span> <span class="pre">×</span> <span class="pre">105</span> <span class="pre">×</span> <span class="pre">26</span> <span class="pre">mm</span></code></p></li>
+<li><p><strong>Packed Position</strong>: <code class="docutils literal notranslate"><span class="pre">(0,</span> <span class="pre">105,</span> <span class="pre">0)</span></code></p></li>
+<li><p><strong>Compartments (2)</strong>: <code class="docutils literal notranslate"><span class="pre">Envoys</span></code> (L=60%), <code class="docutils literal notranslate"><span class="pre">Markers</span></code> (L=40%)</p></li>
+</ul>
+<p><strong>Assembled Box (PlayerBox_3 — Body + Lid)</strong></p>
+<div class="stl-viewer" data-stl-uri="../_stl/boxes/cascadero/PlayerBox_3_body.stl,../_stl/boxes/cascadero/PlayerBox_3_lid.stl" data-stl-color="#6f9ac9" style="width:100%;height:320px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a href="../_stl/boxes/cascadero/PlayerBox_3_body.stl" data-stl-combine="../_stl/boxes/cascadero/PlayerBox_3_body.stl,../_stl/boxes/cascadero/PlayerBox_3_lid.stl" download="PlayerBox_3_assembled.stl">⬇ Download Assembled PlayerBox_3 STL (<code>PlayerBox_3_assembled.stl</code>)</a></p><p><strong>Part: PlayerBox_3 Body</strong></p>
+<div class="stl-viewer" data-stl-uri="../_stl/boxes/cascadero/PlayerBox_3_body.stl" data-stl-color="#6f9ac9" style="width:100%;height:280px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a href="../_stl/boxes/cascadero/PlayerBox_3_body.stl" download="PlayerBox_3_body.stl">⬇ Download PlayerBox_3 Body STL (<code>PlayerBox_3_body.stl</code>)</a></p><p><strong>Part: PlayerBox_3 Lid</strong></p>
+<div class="stl-viewer" data-stl-uri="../_stl/boxes/cascadero/PlayerBox_3_lid.stl" data-stl-color="#6f9ac9" style="width:100%;height:280px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a href="../_stl/boxes/cascadero/PlayerBox_3_lid.stl" download="PlayerBox_3_lid.stl">⬇ Download PlayerBox_3 Lid STL (<code>PlayerBox_3_lid.stl</code>)</a></p><h3 id="playerbox-4"><span id="box-cascadero-playerbox-4"></span>PlayerBox_4<a class="headerlink" href="#playerbox-4" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p><strong>Box Type</strong>: <a class="reference internal" href="../box_types.html#box-type-sliding"><span class="std std-ref">BoxType.SLIDING</span></a></p></li>
+<li><p><strong>Outer Dimensions</strong>: <code class="docutils literal notranslate"><span class="pre">105</span> <span class="pre">×</span> <span class="pre">105</span> <span class="pre">×</span> <span class="pre">26</span> <span class="pre">mm</span></code></p></li>
+<li><p><strong>Packed Position</strong>: <code class="docutils literal notranslate"><span class="pre">(105,</span> <span class="pre">105,</span> <span class="pre">0)</span></code></p></li>
+<li><p><strong>Compartments (2)</strong>: <code class="docutils literal notranslate"><span class="pre">Envoys</span></code> (L=60%), <code class="docutils literal notranslate"><span class="pre">Markers</span></code> (L=40%)</p></li>
+</ul>
+<p><strong>Assembled Box (PlayerBox_4 — Body + Lid)</strong></p>
+<div class="stl-viewer" data-stl-uri="../_stl/boxes/cascadero/PlayerBox_4_body.stl,../_stl/boxes/cascadero/PlayerBox_4_lid.stl" data-stl-color="#6f9ac9" style="width:100%;height:320px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a href="../_stl/boxes/cascadero/PlayerBox_4_body.stl" data-stl-combine="../_stl/boxes/cascadero/PlayerBox_4_body.stl,../_stl/boxes/cascadero/PlayerBox_4_lid.stl" download="PlayerBox_4_assembled.stl">⬇ Download Assembled PlayerBox_4 STL (<code>PlayerBox_4_assembled.stl</code>)</a></p><p><strong>Part: PlayerBox_4 Body</strong></p>
+<div class="stl-viewer" data-stl-uri="../_stl/boxes/cascadero/PlayerBox_4_body.stl" data-stl-color="#6f9ac9" style="width:100%;height:280px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a href="../_stl/boxes/cascadero/PlayerBox_4_body.stl" download="PlayerBox_4_body.stl">⬇ Download PlayerBox_4 Body STL (<code>PlayerBox_4_body.stl</code>)</a></p><p><strong>Part: PlayerBox_4 Lid</strong></p>
+<div class="stl-viewer" data-stl-uri="../_stl/boxes/cascadero/PlayerBox_4_lid.stl" data-stl-color="#6f9ac9" style="width:100%;height:280px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a href="../_stl/boxes/cascadero/PlayerBox_4_lid.stl" download="PlayerBox_4_lid.stl">⬇ Download PlayerBox_4 Lid STL (<code>PlayerBox_4_lid.stl</code>)</a></p><h3 id="sealsbox"><span id="box-cascadero-sealsbox"></span>SealsBox<a class="headerlink" href="#sealsbox" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p><strong>Box Type</strong>: <a class="reference internal" href="../box_types.html#box-type-sliding"><span class="std std-ref">BoxType.SLIDING</span></a></p></li>
+<li><p><strong>Outer Dimensions</strong>: <code class="docutils literal notranslate"><span class="pre">85</span> <span class="pre">×</span> <span class="pre">94</span> <span class="pre">×</span> <span class="pre">26</span> <span class="pre">mm</span></code></p></li>
+<li><p><strong>Packed Position</strong>: <code class="docutils literal notranslate"><span class="pre">(0,</span> <span class="pre">210,</span> <span class="pre">0)</span></code></p></li>
+<li><p><strong>Compartments (1)</strong>: <code class="docutils literal notranslate"><span class="pre">Seals</span></code> (full interior)</p></li>
+</ul>
+<p><strong>Assembled Box (SealsBox — Body + Lid)</strong></p>
+<div class="stl-viewer" data-stl-uri="../_stl/boxes/cascadero/SealsBox_body.stl,../_stl/boxes/cascadero/SealsBox_lid.stl" data-stl-color="#6f9ac9" style="width:100%;height:320px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a href="../_stl/boxes/cascadero/SealsBox_body.stl" data-stl-combine="../_stl/boxes/cascadero/SealsBox_body.stl,../_stl/boxes/cascadero/SealsBox_lid.stl" download="SealsBox_assembled.stl">⬇ Download Assembled SealsBox STL (<code>SealsBox_assembled.stl</code>)</a></p><p><strong>Part: SealsBox Body</strong></p>
+<div class="stl-viewer" data-stl-uri="../_stl/boxes/cascadero/SealsBox_body.stl" data-stl-color="#6f9ac9" style="width:100%;height:280px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a href="../_stl/boxes/cascadero/SealsBox_body.stl" download="SealsBox_body.stl">⬇ Download SealsBox Body STL (<code>SealsBox_body.stl</code>)</a></p><p><strong>Part: SealsBox Lid</strong></p>
+<div class="stl-viewer" data-stl-uri="../_stl/boxes/cascadero/SealsBox_lid.stl" data-stl-color="#6f9ac9" style="width:100%;height:280px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a href="../_stl/boxes/cascadero/SealsBox_lid.stl" download="SealsBox_lid.stl">⬇ Download SealsBox Lid STL (<code>SealsBox_lid.stl</code>)</a></p><h3 id="heraldbox"><span id="box-cascadero-heraldbox"></span>HeraldBox<a class="headerlink" href="#heraldbox" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p><strong>Box Type</strong>: <a class="reference internal" href="../box_types.html#box-type-sliding"><span class="std std-ref">BoxType.SLIDING</span></a></p></li>
+<li><p><strong>Outer Dimensions</strong>: <code class="docutils literal notranslate"><span class="pre">40</span> <span class="pre">×</span> <span class="pre">94</span> <span class="pre">×</span> <span class="pre">26</span> <span class="pre">mm</span></code></p></li>
+<li><p><strong>Packed Position</strong>: <code class="docutils literal notranslate"><span class="pre">(85,</span> <span class="pre">210,</span> <span class="pre">0)</span></code></p></li>
+<li><p><strong>Compartments (1)</strong>: <code class="docutils literal notranslate"><span class="pre">Heralds</span></code> (full interior)</p></li>
+</ul>
+<p><strong>Assembled Box (HeraldBox — Body + Lid)</strong></p>
+<div class="stl-viewer" data-stl-uri="../_stl/boxes/cascadero/HeraldBox_body.stl,../_stl/boxes/cascadero/HeraldBox_lid.stl" data-stl-color="#6f9ac9" style="width:100%;height:320px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a href="../_stl/boxes/cascadero/HeraldBox_body.stl" data-stl-combine="../_stl/boxes/cascadero/HeraldBox_body.stl,../_stl/boxes/cascadero/HeraldBox_lid.stl" download="HeraldBox_assembled.stl">⬇ Download Assembled HeraldBox STL (<code>HeraldBox_assembled.stl</code>)</a></p><p><strong>Part: HeraldBox Body</strong></p>
+<div class="stl-viewer" data-stl-uri="../_stl/boxes/cascadero/HeraldBox_body.stl" data-stl-color="#6f9ac9" style="width:100%;height:280px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a href="../_stl/boxes/cascadero/HeraldBox_body.stl" download="HeraldBox_body.stl">⬇ Download HeraldBox Body STL (<code>HeraldBox_body.stl</code>)</a></p><p><strong>Part: HeraldBox Lid</strong></p>
+<div class="stl-viewer" data-stl-uri="../_stl/boxes/cascadero/HeraldBox_lid.stl" data-stl-color="#6f9ac9" style="width:100%;height:280px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a href="../_stl/boxes/cascadero/HeraldBox_lid.stl" download="HeraldBox_lid.stl">⬇ Download HeraldBox Lid STL (<code>HeraldBox_lid.stl</code>)</a></p><h3 id="farmerbox"><span id="box-cascadero-farmerbox"></span>FarmerBox<a class="headerlink" href="#farmerbox" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p><strong>Box Type</strong>: <a class="reference internal" href="../box_types.html#box-type-sliding"><span class="std std-ref">BoxType.SLIDING</span></a></p></li>
+<li><p><strong>Outer Dimensions</strong>: <code class="docutils literal notranslate"><span class="pre">85</span> <span class="pre">×</span> <span class="pre">94</span> <span class="pre">×</span> <span class="pre">26</span> <span class="pre">mm</span></code></p></li>
+<li><p><strong>Packed Position</strong>: <code class="docutils literal notranslate"><span class="pre">(125,</span> <span class="pre">210,</span> <span class="pre">0)</span></code></p></li>
+<li><p><strong>Compartments (1)</strong>: <code class="docutils literal notranslate"><span class="pre">Farmers</span></code> (full interior)</p></li>
+</ul>
+<p><strong>Assembled Box (FarmerBox — Body + Lid)</strong></p>
+<div class="stl-viewer" data-stl-uri="../_stl/boxes/cascadero/FarmerBox_body.stl,../_stl/boxes/cascadero/FarmerBox_lid.stl" data-stl-color="#6f9ac9" style="width:100%;height:320px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a href="../_stl/boxes/cascadero/FarmerBox_body.stl" data-stl-combine="../_stl/boxes/cascadero/FarmerBox_body.stl,../_stl/boxes/cascadero/FarmerBox_lid.stl" download="FarmerBox_assembled.stl">⬇ Download Assembled FarmerBox STL (<code>FarmerBox_assembled.stl</code>)</a></p><p><strong>Part: FarmerBox Body</strong></p>
+<div class="stl-viewer" data-stl-uri="../_stl/boxes/cascadero/FarmerBox_body.stl" data-stl-color="#6f9ac9" style="width:100%;height:280px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a href="../_stl/boxes/cascadero/FarmerBox_body.stl" download="FarmerBox_body.stl">⬇ Download FarmerBox Body STL (<code>FarmerBox_body.stl</code>)</a></p><p><strong>Part: FarmerBox Lid</strong></p>
+<div class="stl-viewer" data-stl-uri="../_stl/boxes/cascadero/FarmerBox_lid.stl" data-stl-color="#6f9ac9" style="width:100%;height:280px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a href="../_stl/boxes/cascadero/FarmerBox_lid.stl" download="FarmerBox_lid.stl">⬇ Download FarmerBox Lid STL (<code>FarmerBox_lid.stl</code>)</a></p>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  
+  
+  <div class="md-footer-meta md-typeset">
+    
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-footer-copyright__highlight">
+        &#169; Copyright pyboxbuilder contributors.
+        
+    </div>
+  
+    Created using
+    <a href="https://www.sphinx-doc.org/" target="_blank" rel="noopener">Sphinx</a>
+    8.2.3.
+     and
+    <a href="https://github.com/jbms/sphinx-immaterial/" target="_blank" rel="noopener">Sphinx-Immaterial</a>
+  
+</div>
+      
+    </div>
+    
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.top", "content.code.copy", "search.highlight", "toc.follow", "toc.sticky"], "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+      
+        <script src="../_static/sphinx_immaterial_theme.32136f45f91ae6956.min.js?v=a7a9472a"></script>
+        <script type="module" src="../_static/stl_viewer.js?v=ae9e688a"></script>
+    
+  </body>
+</html>

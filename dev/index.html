@@ -357,6 +357,30 @@
 
               
             
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="boxes/index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Board-<wbr>Game Insert Gallery</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -706,13 +730,14 @@
 </code></pre></div>
 </div>
 <h3 id="choose-box-types-closure-mechanics">2. Choose Box Types &amp; Closure Mechanics<a class="headerlink" href="#choose-box-types-closure-mechanics" title="Link to this heading">¶</a></h3>
-<p><code class="docutils literal notranslate"><span class="pre">pyboxbuilder</span></code> supports <strong>24 specialized box types</strong> spanning 5 closure families:</p>
+<p><code class="docutils literal notranslate"><span class="pre">pyboxbuilder</span></code> supports <strong>25 specialized box types</strong> spanning 6 closure families (see the <a class="reference internal" href="box_types.html"><span class="doc">Box Types Guide &amp; Gallery</span></a>):</p>
 <ul class="simple">
-<li><p><strong>Sliding &amp; Friction</strong>: Dovetail sliding lids (<code class="docutils literal notranslate"><span class="pre">BoxType.SLIDING</span></code>), snap-lock sliding catches (<code class="docutils literal notranslate"><span class="pre">BoxType.SLIDING_CATCH</span></code>), drop-on friction caps (<code class="docutils literal notranslate"><span class="pre">BoxType.CAP</span></code>), telescoping slipovers (<code class="docutils literal notranslate"><span class="pre">BoxType.SLIPOVER</span></code>), internal rabbet insets (<code class="docutils literal notranslate"><span class="pre">BoxType.INSET</span></code>), and matchbox sleeves (<code class="docutils literal notranslate"><span class="pre">BoxType.SLEEVE_DRAWER</span></code>).</p></li>
-<li><p><strong>Hinges &amp; Bifolds</strong>: Monolithic 1-piece print-in-place hinged boxes (<code class="docutils literal notranslate"><span class="pre">BoxType.PRINT_IN_PLACE_HINGE</span></code> and <code class="docutils literal notranslate"><span class="pre">BoxType.INSET_HINGE</span></code>), dual-tray clamshell book boxes (<code class="docutils literal notranslate"><span class="pre">BoxType.CLAMSHELL</span></code>), precision filament-pin knuckle hinges (<code class="docutils literal notranslate"><span class="pre">BoxType.FILAMENT_HINGE</span></code>), and magnetic-catch filament-hinged boxes (<code class="docutils literal notranslate"><span class="pre">BoxType.MAGNETIC_HINGE</span></code>).</p></li>
-<li><p><strong>Mechanical &amp; Magnetic</strong>: Cantilever snap-fit latches (<code class="docutils literal notranslate"><span class="pre">BoxType.SNAP_FIT</span></code>), quarter-turn bayonets (<code class="docutils literal notranslate"><span class="pre">BoxType.BAYONET</span></code>), coarse screw threads (<code class="docutils literal notranslate"><span class="pre">BoxType.THREADED</span></code>), and concealed neodymium magnet vaults (<code class="docutils literal notranslate"><span class="pre">BoxType.MAGNETIC</span></code>).</p></li>
-<li><p><strong>Tabletop Utilities</strong>: Gravity-slide token dispensers (<code class="docutils literal notranslate"><span class="pre">BoxType.DISPENSER</span></code>), angled card dealer shoes (<code class="docutils literal notranslate"><span class="pre">BoxType.CARD_SHOE</span></code>), deep dice rolling arenas (<code class="docutils literal notranslate"><span class="pre">BoxType.DICE_TRAY</span></code>), and modular interlocking trays (<code class="docutils literal notranslate"><span class="pre">BoxType.MODULAR_INTERLOCK</span></code>).</p></li>
-<li><p><strong>Custom Polygons</strong>: Arbitrary 2D footprint extrusions with matching cap or slipover lids (<code class="docutils literal notranslate"><span class="pre">BoxType.PATH</span></code>, <code class="docutils literal notranslate"><span class="pre">BoxType.CAP_PATH</span></code>, <code class="docutils literal notranslate"><span class="pre">BoxType.SLIPOVER_PATH</span></code>).</p></li>
+<li><p><strong>Sliding &amp; Friction</strong>: Dovetail sliding lids (<a class="reference internal" href="box_types.html#box-type-sliding"><span class="std std-ref">BoxType.SLIDING</span></a>), snap-lock sliding catches (<a class="reference internal" href="box_types.html#box-type-sliding-catch"><span class="std std-ref">BoxType.SLIDING_CATCH</span></a>), drop-on friction caps (<a class="reference internal" href="box_types.html#box-type-cap"><span class="std std-ref">BoxType.CAP</span></a>), telescoping slipovers (<a class="reference internal" href="box_types.html#box-type-slipover"><span class="std std-ref">BoxType.SLIPOVER</span></a>), internal rabbet insets (<a class="reference internal" href="box_types.html#box-type-inset"><span class="std std-ref">BoxType.INSET</span></a>), and matchbox sleeves (<a class="reference internal" href="box_types.html#box-type-sleeve-drawer"><span class="std std-ref">BoxType.SLEEVE_DRAWER</span></a>).</p></li>
+<li><p><strong>Hinges &amp; Bifolds</strong>: Monolithic 1-piece print-in-place hinged boxes (<a class="reference internal" href="box_types.html#box-type-print-in-place-hinge"><span class="std std-ref">BoxType.PRINT_IN_PLACE_HINGE</span></a> and <a class="reference internal" href="box_types.html#box-type-inset-hinge"><span class="std std-ref">BoxType.INSET_HINGE</span></a>), dual-tray clamshell book boxes (<a class="reference internal" href="box_types.html#box-type-clamshell"><span class="std std-ref">BoxType.CLAMSHELL</span></a>), precision filament-pin knuckle hinges (<a class="reference internal" href="box_types.html#box-type-filament-hinge"><span class="std std-ref">BoxType.FILAMENT_HINGE</span></a>), magnetic-catch filament-hinged boxes (<a class="reference internal" href="box_types.html#box-type-magnetic-hinge"><span class="std std-ref">BoxType.MAGNETIC_HINGE</span></a>), and sliding/spin-catch hinged boxes (<a class="reference internal" href="box_types.html#box-type-sliding-hinge"><span class="std std-ref">BoxType.SLIDING_HINGE</span></a>).</p></li>
+<li><p><strong>Mechanical &amp; Magnetic</strong>: Cantilever snap-fit latches (<a class="reference internal" href="box_types.html#box-type-snap-fit"><span class="std std-ref">BoxType.SNAP_FIT</span></a>), quarter-turn bayonets (<a class="reference internal" href="box_types.html#box-type-bayonet"><span class="std std-ref">BoxType.BAYONET</span></a>), coarse screw threads (<a class="reference internal" href="box_types.html#box-type-threaded"><span class="std std-ref">BoxType.THREADED</span></a>), and concealed neodymium magnet vaults (<a class="reference internal" href="box_types.html#box-type-magnetic"><span class="std std-ref">BoxType.MAGNETIC</span></a>).</p></li>
+<li><p><strong>Tabletop Utilities</strong>: Dedicated card deck libraries (<a class="reference internal" href="box_types.html#box-type-card-library"><span class="std std-ref">BoxType.CARD_LIBRARY</span></a>), gravity-slide token dispensers (<a class="reference internal" href="box_types.html#box-type-dispenser"><span class="std std-ref">BoxType.DISPENSER</span></a>), angled card dealer shoes (<a class="reference internal" href="box_types.html#box-type-card-shoe"><span class="std std-ref">BoxType.CARD_SHOE</span></a>), deep dice rolling arenas (<a class="reference internal" href="box_types.html#box-type-dice-tray"><span class="std std-ref">BoxType.DICE_TRAY</span></a>), and modular interlocking trays (<a class="reference internal" href="box_types.html#box-type-modular-interlock"><span class="std std-ref">BoxType.MODULAR_INTERLOCK</span></a>).</p></li>
+<li><p><strong>Open &amp; Stackable Trays</strong>: Lidless open and nesting trays (<a class="reference internal" href="box_types.html#box-type-no-lid"><span class="std std-ref">BoxType.NO_LID</span></a>).</p></li>
+<li><p><strong>Custom Polygons</strong>: Arbitrary 2D footprint extrusions with open rims or matching cap/slipover lids (<a class="reference internal" href="box_types.html#box-type-path"><span class="std std-ref">BoxType.PATH</span></a>, <a class="reference internal" href="box_types.html#box-type-cap-path"><span class="std std-ref">BoxType.CAP_PATH</span></a>, <a class="reference internal" href="box_types.html#box-type-slipover-path"><span class="std std-ref">BoxType.SLIPOVER_PATH</span></a>).</p></li>
 </ul>
 <h3 id="divide-into-ergonomic-compartments">3. Divide into Ergonomic Compartments<a class="headerlink" href="#divide-into-ergonomic-compartments" title="Link to this heading">¶</a></h3>
 <p>Subdivide box interiors by ratio without tedious wall arithmetic. Set <code class="docutils literal notranslate"><span class="pre">holds_pieces=True</span></code> to generate smooth cylindrical corner fillets, allowing small chits, cubes, and tokens to scoop effortlessly into fingertips:</p>
@@ -835,7 +860,7 @@
 </thead>
 <tbody>
 <tr class="row-even"><td><p><strong>Box Builders</strong></p></td>
-<td><p>23 typed builders in <a class="reference internal" href="_autosummary/pyboxbuilder.builders.html#module-pyboxbuilder.builders" title="pyboxbuilder.builders (Python module)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyboxbuilder.builders</span></code></a> supporting sliding dovetails with snap catches, friction caps, telescoping slipovers, print-in-place, filament-pin, and magnetic-catch hinges, magnetic vaults, inset lids, stackable open bins, card libraries, dispensers, card shoes, dice arenas, modular interlocks, and polygon path footprints.</p></td>
+<td><p>25 typed builders in <a class="reference internal" href="_autosummary/pyboxbuilder.builders.html#module-pyboxbuilder.builders" title="pyboxbuilder.builders (Python module)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyboxbuilder.builders</span></code></a> (see <a class="reference internal" href="box_types.html"><span class="doc">Box Types Guide &amp; Gallery</span></a>) supporting sliding dovetails (<a class="reference internal" href="box_types.html#box-type-sliding"><span class="std std-ref">SLIDING</span></a>, <a class="reference internal" href="box_types.html#box-type-sliding-catch"><span class="std std-ref">SLIDING_CATCH</span></a>), friction caps (<a class="reference internal" href="box_types.html#box-type-cap"><span class="std std-ref">CAP</span></a>), telescoping slipovers (<a class="reference internal" href="box_types.html#box-type-slipover"><span class="std std-ref">SLIPOVER</span></a>), print-in-place, filament-pin, magnetic-catch, and sliding-catch hinges (<a class="reference internal" href="box_types.html#box-type-print-in-place-hinge"><span class="std std-ref">PRINT_IN_PLACE_HINGE</span></a>, <a class="reference internal" href="box_types.html#box-type-inset-hinge"><span class="std std-ref">INSET_HINGE</span></a>, <a class="reference internal" href="box_types.html#box-type-clamshell"><span class="std std-ref">CLAMSHELL</span></a>, <a class="reference internal" href="box_types.html#box-type-filament-hinge"><span class="std std-ref">FILAMENT_HINGE</span></a>, <a class="reference internal" href="box_types.html#box-type-magnetic-hinge"><span class="std std-ref">MAGNETIC_HINGE</span></a>, <a class="reference internal" href="box_types.html#box-type-sliding-hinge"><span class="std std-ref">SLIDING_HINGE</span></a>), mechanical/magnetic closures (<a class="reference internal" href="box_types.html#box-type-snap-fit"><span class="std std-ref">SNAP_FIT</span></a>, <a class="reference internal" href="box_types.html#box-type-bayonet"><span class="std std-ref">BAYONET</span></a>, <a class="reference internal" href="box_types.html#box-type-threaded"><span class="std std-ref">THREADED</span></a>, <a class="reference internal" href="box_types.html#box-type-magnetic"><span class="std std-ref">MAGNETIC</span></a>, <a class="reference internal" href="box_types.html#box-type-inset"><span class="std std-ref">INSET</span></a>, <a class="reference internal" href="box_types.html#box-type-sleeve-drawer"><span class="std std-ref">SLEEVE_DRAWER</span></a>), stackable open bins (<a class="reference internal" href="box_types.html#box-type-no-lid"><span class="std std-ref">NO_LID</span></a>), tabletop utilities (<a class="reference internal" href="box_types.html#box-type-card-library"><span class="std std-ref">CARD_LIBRARY</span></a>, <a class="reference internal" href="box_types.html#box-type-dispenser"><span class="std std-ref">DISPENSER</span></a>, <a class="reference internal" href="box_types.html#box-type-card-shoe"><span class="std std-ref">CARD_SHOE</span></a>, <a class="reference internal" href="box_types.html#box-type-dice-tray"><span class="std std-ref">DICE_TRAY</span></a>, <a class="reference internal" href="box_types.html#box-type-modular-interlock"><span class="std std-ref">MODULAR_INTERLOCK</span></a>), and polygon path footprints (<a class="reference internal" href="box_types.html#box-type-path"><span class="std std-ref">PATH</span></a>, <a class="reference internal" href="box_types.html#box-type-cap-path"><span class="std std-ref">CAP_PATH</span></a>, <a class="reference internal" href="box_types.html#box-type-slipover-path"><span class="std std-ref">SLIPOVER_PATH</span></a>).</p></td>
 </tr>
 <tr class="row-odd"><td><p><strong>Compartments &amp; Ergonomics</strong></p></td>
 <td><p>Ratio-based compartment division (<code class="docutils literal notranslate"><span class="pre">box.compartment(...)</span></code>), ergonomic rounded token scoops (<code class="docutils literal notranslate"><span class="pre">holds_pieces=True</span></code>), full-depth push-through holes, hex grids, and arbitrary SVG pocket silhouettes.</p></td>
@@ -932,6 +957,48 @@ mypy<span class="w"> </span>pyboxbuilder/
 <li class="toctree-l2"><a class="reference internal" href="layout_and_spacers.html#inspecting-spacer-pieces-in-python">Inspecting Spacer Pieces in Python</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="boxes/index.html">Board-Game Insert Gallery</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="boxes/1835.html">EighteenThirtyFive (1835)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boxes/1899_daihan.html">1899Daihan (1899_daihan)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boxes/18_cuba.html">18Cuba (18_cuba)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boxes/adas_dream.html">AdasDream (adas_dream)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boxes/arkham_horror.html">ArkhamHorrorLCG (arkham_horror)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boxes/biome.html">Biome (biome)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boxes/brink.html">Brink (brink)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boxes/brink_long.html">BrinkLong (brink_long)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boxes/bucket_king.html">BucketKing (bucket_king)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boxes/canvas.html">Canvas (canvas)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boxes/cascadero.html">Cascadero (cascadero)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boxes/dominion.html">DominionBigBox (dominion)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boxes/earth.html">Earth (earth)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boxes/earth_animal_kingdom.html">EarthAnimalKingdom (earth_animal_kingdom)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boxes/emberleaf.html">Emberleaf (emberleaf)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boxes/explorers_of_navoria.html">ExplorersOfNavoria (explorers_of_navoria)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boxes/explorers_of_navoria_forgotten_lands.html">ExplorersOfNavoriaForgottenLands (explorers_of_navoria_forgotten_lands)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boxes/first_class.html">FirstClass (first_class)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boxes/gulf_mobile_and_ohio.html">GulfMobileAndOhio (gulf_mobile_and_ohio)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boxes/irish_gauge.html">IrishGauge (irish_gauge)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boxes/isle_of_trains.html">IsleOfTrains (isle_of_trains)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boxes/kenmore_gold.html">KenmoreGold (kenmore_gold)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boxes/magical_athlete.html">MagicalAthlete (magical_athlete)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boxes/maglev_metro.html">MaglevMetro (maglev_metro)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boxes/maglev_metro_vol2.html">MaglevMetroVol2 (maglev_metro_vol2)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boxes/march_of_the_ants.html">MarchOfTheAnts (march_of_the_ants)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boxes/modern_art.html">ModernArt (modern_art)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boxes/moonrakers.html">Moonrakers (moonrakers)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boxes/nature.html">Nature (nature)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boxes/nippon.html">Nippon (nippon)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boxes/pioneer_rails.html">PioneerRails (pioneer_rails)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boxes/railroad_tiles.html">RailroadTiles (railroad_tiles)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boxes/railway_boom.html">RailwayBoom (railway_boom)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boxes/railways_of_the_world.html">Railways of the World (railways_of_the_world)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boxes/root.html">Root (root)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boxes/russian_railroads.html">RussianRailroads (russian_railroads)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boxes/stackable_hexes.html">StackableHexes (stackable_hexes)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boxes/the_crew_deep_sea.html">TheCrewDeepSea (the_crew_deep_sea)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boxes/the_crew_deep_sea_sleeved.html">TheCrewDeepSeaSleeved (the_crew_deep_sea_sleeved)</a></li>
+</ul>
+</li>
 </ul>
 </div>
 <div class="toctree-wrapper compound">
@@ -1010,7 +1077,7 @@ mypy<span class="w"> </span>pyboxbuilder/
     
       
         <script src="_static/sphinx_immaterial_theme.32136f45f91ae6956.min.js?v=a7a9472a"></script>
-        <script type="module" src="_static/stl_viewer.js?v=33eae823"></script>
+        <script type="module" src="_static/stl_viewer.js?v=ae9e688a"></script>
     
   </body>
 </html>

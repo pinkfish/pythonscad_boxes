@@ -408,8 +408,65 @@ function init() {
   }
 }
 
+function initCombinedDownloads() {
+  document.addEventListener("click", async (e) => {
+    const link = e.target.closest("a[data-stl-combine]");
+    if (!link) return;
+    e.preventDefault();
+    const uris = (link.dataset.stlCombine || "")
+      .split(",")
+      .map((s) => s.trim())
+      .filter(Boolean);
+    if (!uris.length) return;
+    const filename = link.getAttribute("download") || "combined.stl";
+    const origText = link.textContent;
+    try {
+      link.textContent = "Preparing STL…";
+      const buffers = await Promise.all(
+        uris.map(async (u) => {
+          const resp = await fetch(u);
+          if (!resp.ok) throw new Error(`HTTP ${resp.status} for ${u}`);
+          return resp.arrayBuffer();
+        }),
+      );
+      let totalTris = 0;
+      const slices = [];
+      for (const buf of buffers) {
+        if (buf.byteLength < 84) continue;
+        const count = new DataView(buf).getUint32(80, true);
+        const byteLen = Math.min(count * 50, buf.byteLength - 84);
+        const actualCount = Math.floor(byteLen / 50);
+        totalTris += actualCount;
+        slices.push(new Uint8Array(buf, 84, actualCount * 50));
+      }
+      const header = new Uint8Array(84);
+      if (buffers[0] && buffers[0].byteLength >= 80) {
+        header.set(new Uint8Array(buffers[0], 0, 80), 0);
+      }
+      new DataView(header.buffer).setUint32(80, totalTris, true);
+      const blob = new Blob([header, ...slices], { type: "model/stl" });
+      const url = URL.createObjectURL(blob);
+      const tmp = document.createElement("a");
+      tmp.href = url;
+      tmp.download = filename;
+      document.body.appendChild(tmp);
+      tmp.click();
+      tmp.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 5000);
+    } catch {
+      window.location.href = uris[0];
+    } finally {
+      link.textContent = origText;
+    }
+  });
+}
+
 if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", init);
+  document.addEventListener("DOMContentLoaded", () => {
+    init();
+    initCombinedDownloads();
+  });
 } else {
   init();
+  initCombinedDownloads();
 }

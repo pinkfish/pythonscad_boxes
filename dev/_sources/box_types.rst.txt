@@ -1,14 +1,99 @@
 Box Types Guide & Gallery
 ==========================
 
-``pyboxbuilder`` provides a comprehensive family of 23 box closure mechanisms, tray configurations, and custom footprint types. Each box type (:class:`~pyboxbuilder.enums.BoxType`) is coupled with a dedicated typed builder in :mod:`pyboxbuilder.builders` tailored for specific physical 3D printing requirements, component security, and ease of access during gameplay.
+``pyboxbuilder`` provides a comprehensive family of 25 box closure mechanisms, tray configurations, and custom footprint types. Each box type (:class:`~pyboxbuilder.enums.BoxType`) is coupled with a dedicated typed builder in :mod:`pyboxbuilder.builders` tailored for specific physical 3D printing requirements, component security, and ease of access during gameplay.
 
 This gallery demonstrates each box type with an interactive 3D STL viewer powered by PythonSCAD. You can rotate, pan, and zoom each model directly in your browser.
+
+.. list-table:: Quick Reference: All 25 Box Types
+   :widths: 30 30 40
+   :header-rows: 1
+
+   * - Box Type
+     - Closure Family
+     - Typed Builder
+   * - :ref:`BoxType.SLIDING <box-type-sliding>`
+     - Sliding & Friction
+     - :class:`~pyboxbuilder.builders.sliding.SlidingBoxBuilder`
+   * - :ref:`BoxType.SLIDING_CATCH <box-type-sliding-catch>`
+     - Sliding & Friction
+     - :class:`~pyboxbuilder.builders.sliding_catch.SlidingCatchBoxBuilder`
+   * - :ref:`BoxType.CAP <box-type-cap>`
+     - Sliding & Friction
+     - :class:`~pyboxbuilder.builders.cap.CapBoxBuilder`
+   * - :ref:`BoxType.CAP_PATH <box-type-cap-path>`
+     - Custom Polygons
+     - :class:`~pyboxbuilder.builders.cap_path.CapPathBoxBuilder`
+   * - :ref:`BoxType.SLIPOVER <box-type-slipover>`
+     - Sliding & Friction
+     - :class:`~pyboxbuilder.builders.slipover.SlipoverBoxBuilder`
+   * - :ref:`BoxType.SLIPOVER_PATH <box-type-slipover-path>`
+     - Custom Polygons
+     - :class:`~pyboxbuilder.builders.slipover_path.SlipoverPathBoxBuilder`
+   * - :ref:`BoxType.FILAMENT_HINGE <box-type-filament-hinge>`
+     - Hinges & Bifolds
+     - :class:`~pyboxbuilder.builders.filament_hinge.FilamentHingeBoxBuilder`
+   * - :ref:`BoxType.MAGNETIC_HINGE <box-type-magnetic-hinge>`
+     - Hinges & Bifolds
+     - :class:`~pyboxbuilder.builders.magnetic_hinge.MagneticHingeBoxBuilder`
+   * - :ref:`BoxType.MAGNETIC <box-type-magnetic>`
+     - Mechanical & Magnetic
+     - :class:`~pyboxbuilder.builders.magnetic.MagneticBoxBuilder`
+   * - :ref:`BoxType.INSET <box-type-inset>`
+     - Sliding & Friction
+     - :class:`~pyboxbuilder.builders.inset.InsetBoxBuilder`
+   * - :ref:`BoxType.NO_LID <box-type-no-lid>`
+     - Open & Stackable Trays
+     - :class:`~pyboxbuilder.builders.no_lid.NoLidBoxBuilder`
+   * - :ref:`BoxType.CARD_LIBRARY <box-type-card-library>`
+     - Tabletop Utilities
+     - :class:`~pyboxbuilder.builders.card_library.CardLibraryBoxBuilder`
+   * - :ref:`BoxType.PATH <box-type-path>`
+     - Custom Polygons
+     - :class:`~pyboxbuilder.builders.path.PathBoxBuilder`
+   * - :ref:`BoxType.SNAP_FIT <box-type-snap-fit>`
+     - Mechanical & Magnetic
+     - :class:`~pyboxbuilder.builders.snap_fit.SnapFitBoxBuilder`
+   * - :ref:`BoxType.BAYONET <box-type-bayonet>`
+     - Mechanical & Magnetic
+     - :class:`~pyboxbuilder.builders.bayonet.BayonetBoxBuilder`
+   * - :ref:`BoxType.THREADED <box-type-threaded>`
+     - Mechanical & Magnetic
+     - :class:`~pyboxbuilder.builders.threaded.ThreadedBoxBuilder`
+   * - :ref:`BoxType.DISPENSER <box-type-dispenser>`
+     - Tabletop Utilities
+     - :class:`~pyboxbuilder.builders.dispenser.DispenserBoxBuilder`
+   * - :ref:`BoxType.CARD_SHOE <box-type-card-shoe>`
+     - Tabletop Utilities
+     - :class:`~pyboxbuilder.builders.card_shoe.CardShoeBoxBuilder`
+   * - :ref:`BoxType.DICE_TRAY <box-type-dice-tray>`
+     - Tabletop Utilities
+     - :class:`~pyboxbuilder.builders.dice_tray.DiceTrayBoxBuilder`
+   * - :ref:`BoxType.SLEEVE_DRAWER <box-type-sleeve-drawer>`
+     - Sliding & Friction
+     - :class:`~pyboxbuilder.builders.sleeve_drawer.SleeveDrawerBoxBuilder`
+   * - :ref:`BoxType.CLAMSHELL <box-type-clamshell>`
+     - Hinges & Bifolds
+     - :class:`~pyboxbuilder.builders.clamshell.ClamshellBoxBuilder`
+   * - :ref:`BoxType.MODULAR_INTERLOCK <box-type-modular-interlock>`
+     - Tabletop Utilities
+     - :class:`~pyboxbuilder.builders.modular_interlock.ModularInterlockBoxBuilder`
+   * - :ref:`BoxType.PRINT_IN_PLACE_HINGE <box-type-print-in-place-hinge>`
+     - Hinges & Bifolds
+     - :class:`~pyboxbuilder.builders.pip_hinge.PrintInPlaceHingeBoxBuilder`
+   * - :ref:`BoxType.INSET_HINGE <box-type-inset-hinge>`
+     - Hinges & Bifolds
+     - :class:`~pyboxbuilder.builders.inset_hinge.InsetHingeBoxBuilder`
+   * - :ref:`BoxType.SLIDING_HINGE <box-type-sliding-hinge>`
+     - Hinges & Bifolds
+     - :class:`~pyboxbuilder.builders.sliding_hinge.SlidingHingeBoxBuilder`
 
 .. contents:: On this page
    :local:
    :depth: 2
 
+
+.. _box-type-sliding:
 
 Sliding Lid (``BoxType.SLIDING``)
 ---------------------------------
@@ -39,6 +124,8 @@ It is ideal for token boxes, card decks, and trays where the lid should remain c
    project.show(show_lids=True)
 
 
+.. _box-type-sliding-catch:
+
 Sliding Catch Lid (``BoxType.SLIDING_CATCH``)
 ---------------------------------------------
 
@@ -65,6 +152,8 @@ A variant of the sliding dovetail box equipped with a detent bump and fingernail
    box.compartment("Crystals", width_ratio=0.5, holds_pieces=True)
    project.show(show_lids=True)
 
+
+.. _box-type-cap:
 
 Drop-On Cap Lid (``BoxType.CAP``)
 ---------------------------------
@@ -94,6 +183,8 @@ Cap boxes are well-suited for player trays, resource banks, and modular organize
    box.compartment("RightWell", width_ratio=0.5, holds_pieces=True)
    project.show(show_lids=True)
 
+
+.. _box-type-cap-path:
 
 Cap Lid on Polygon Footprint (``BoxType.CAP_PATH``)
 ---------------------------------------------------
@@ -130,6 +221,8 @@ Combines the drop-on friction cap lid with an arbitrary 2D polygon footprint. Th
    project.show(show_lids=True)
 
 
+.. _box-type-slipover:
+
 Telescoping Slipover Lid (``BoxType.SLIPOVER``)
 -----------------------------------------------
 
@@ -157,6 +250,8 @@ Slipover lids provide high structural rigidity and a clean exterior finish.
    box.compartment("Deck", holds_pieces=True)
    project.show(show_lids=True)
 
+
+.. _box-type-slipover-path:
 
 Slipover on Polygon Footprint (``BoxType.SLIPOVER_PATH``)
 ---------------------------------------------------------
@@ -186,6 +281,8 @@ A polygonal sleeve enclosure designed to slide over a custom 2D polygon body tra
    project.show(show_lids=True)
 
 
+.. _box-type-filament-hinge:
+
 Filament Pin Hinge (``BoxType.FILAMENT_HINGE``)
 -----------------------------------------------
 
@@ -211,6 +308,8 @@ A compact, durable two-piece hinged box whose interleaving rear knuckles are bor
    box.compartment("Dice", holds_pieces=True)
    project.show(show_lids=True)
 
+
+.. _box-type-magnetic-hinge:
 
 Magnetic Pin Hinge (``BoxType.MAGNETIC_HINGE``)
 -----------------------------------------------
@@ -240,6 +339,8 @@ Combines a rear filament pin hinge with a support-free front magnet boss and mat
    box.compartment("Loot", width_ratio=0.5, holds_pieces=True)
    project.show(show_lids=True)
 
+
+.. _box-type-magnetic:
 
 Magnetic Closure Lid (``BoxType.MAGNETIC``)
 -------------------------------------------
@@ -271,6 +372,8 @@ Recesses precision magnet cavities (:class:`~pyboxbuilder.enums.MagnetType`) int
    project.show(show_lids=True)
 
 
+.. _box-type-inset:
+
 Inset Flush Lid (``BoxType.INSET``)
 -----------------------------------
 
@@ -298,6 +401,8 @@ Inset boxes maximize usable height in tight game boxes where external lid rims w
    box.compartment("Tiles", holds_pieces=True)
    project.show(show_lids=True)
 
+
+.. _box-type-no-lid:
 
 Open & Stackable Trays (``BoxType.NO_LID``)
 -------------------------------------------
@@ -336,6 +441,8 @@ Stacked trays cannot slide off each other during play or transport.
    project.show()
 
 
+.. _box-type-card-library:
+
 Card Library Box (``BoxType.CARD_LIBRARY``)
 -------------------------------------------
 
@@ -354,6 +461,8 @@ A specialized card storage box optimized for card decks. It supports standard ca
    )
    project.show(show_lids=True)
 
+
+.. _box-type-path:
 
 Polygon Footprint Path Box (``BoxType.PATH``)
 ---------------------------------------------
@@ -382,6 +491,8 @@ When rectangular boxes cannot fit around game boards, player mats, or non-rectan
    )
    project.show()
 
+
+.. _box-type-snap-fit:
 
 Snap-Fit Cantilever Latch (``BoxType.SNAP_FIT``)
 ------------------------------------------------
@@ -412,6 +523,8 @@ Features integrated downward-extending cantilever spring arms on opposing walls 
    project.show(show_lids=True)
 
 
+.. _box-type-bayonet:
+
 Twist-Lock Bayonet Container (``BoxType.BAYONET``)
 --------------------------------------------------
 
@@ -432,6 +545,8 @@ Designed for cylindrical or rounded footprints, the lid and body mate via a quar
    )
    project.show(show_lids=True)
 
+
+.. _box-type-threaded:
 
 Threaded Screw Box (``BoxType.THREADED``)
 -----------------------------------------
@@ -454,6 +569,8 @@ Container with helical male/female screw threads on a circular cylindrical profi
    project.show(show_lids=True)
 
 
+.. _box-type-dispenser:
+
 Gravity Tile & Token Dispenser (``BoxType.DISPENSER``)
 ------------------------------------------------------
 
@@ -473,6 +590,8 @@ Designed for cardboard tiles (e.g. Carcassonne, Catan), poker chips, or resource
    )
    project.show(show_lids=True)
 
+
+.. _box-type-card-shoe:
 
 Angled Draw & Discard Card Shoe (``BoxType.CARD_SHOE``)
 -------------------------------------------------------
@@ -496,6 +615,8 @@ In-game tabletop utility tray with adjacent draw and discard wells. The draw wel
    project.show(show_lids=True)
 
 
+.. _box-type-dice-tray:
+
 Dice Tray & Rolling Arena (``BoxType.DICE_TRAY``)
 -------------------------------------------------
 
@@ -518,6 +639,8 @@ A dual-purpose container where the body stores dice or tokens and the deep nesti
    project.show(show_lids=True)
 
 
+.. _box-type-sleeve-drawer:
+
 Matchbox Sleeve & Drawer (``BoxType.SLEEVE_DRAWER``)
 ----------------------------------------------------
 
@@ -539,6 +662,8 @@ A two-piece matchbox assembly consisting of a hollow 4-sided outer perimeter sle
    box.compartment("Cards", holds_pieces=True)
    project.show(show_lids=True)
 
+
+.. _box-type-clamshell:
 
 Bifold Clamshell Book Box (``BoxType.CLAMSHELL``)
 -------------------------------------------------
@@ -567,6 +692,8 @@ Two symmetrical tray halves joined along a central filament-pin spine hinge, unf
    project.show(show_lids=True)
 
 
+.. _box-type-modular-interlock:
+
 Modular Interlocking Play Trays (``BoxType.MODULAR_INTERLOCK``)
 ---------------------------------------------------------------
 
@@ -589,6 +716,8 @@ Trays featuring perimeter interlocking joints on outer walls to lock multiple bo
    box.compartment("Items", holds_pieces=True)
    project.show(show_lids=True)
 
+
+.. _box-type-print-in-place-hinge:
 
 Monolithic Print-In-Place Hinge Box (``BoxType.PRINT_IN_PLACE_HINGE``)
 ----------------------------------------------------------------------
@@ -618,6 +747,8 @@ A single-piece, zero-assembly hinged box where body and lid are laid flat at 180
    project.show(show_lids=True)
 
 
+.. _box-type-inset-hinge:
+
 Print-In-Place Inset Hinge Box (``BoxType.INSET_HINGE``)
 --------------------------------------------------------
 
@@ -639,6 +770,8 @@ A second print-in-place hinged box variant based on ``MakeBoxAndLidWithInsetHing
    box.compartment("Tokens", holds_pieces=True)
    project.show(show_lids=True)
 
+
+.. _box-type-sliding-hinge:
 
 Sliding & Spin Catch Hinge Box (``BoxType.SLIDING_HINGE``)
 ----------------------------------------------------------
@@ -705,13 +838,13 @@ Configure catches via ``catch_type`` and ``catch_size`` on any box builder:
 Universal Stacking Architecture (``StackableMode``)
 ---------------------------------------------------
 
-All lidless open trays (``NO_LID``, ``PATH``) and box types whose lids have a flat underside and print right-side up on the build plate (``SLIDING``, ``SLIDING_CATCH``, ``CARD_LIBRARY``, ``INSET`` without a front catch, ``MAGNETIC``, ``MODULAR_INTERLOCK``, and ``SLEEVE_DRAWER``) support the 3D-printer-safe :class:`~pyboxbuilder.enums.StackableMode` and :class:`~pyboxbuilder.enums.StackableShape` architecture (**FR-101**, **SC-101**, :data:`~pyboxbuilder.box.registry.STACKABLE_BOX_TYPES`):
+All lidless open trays (``NO_LID``, ``PATH``) and box types whose lids have a flat underside and print right-side up on the build plate (``SLIDING``, ``SLIDING_CATCH``, ``CARD_LIBRARY``, ``INSET`` without a front catch, ``MAGNETIC``, ``MODULAR_INTERLOCK``, and ``SLEEVE_DRAWER``) support the 3D-printer-safe :class:`~pyboxbuilder.enums.StackableMode` and :class:`~pyboxbuilder.enums.StackableShape` architecture (**FR-101**, **SC-101**, ``STACKABLE_BOX_TYPES``):
 
 .. note::
 
    Box types whose lids have downward walls, skirts, hinge knuckles, or cantilever latches (such as ``CAP``, ``SLIPOVER``, ``CLAMSHELL``, ``FILAMENT_HINGE``, ``SNAP_FIT``, and ``PRINT_IN_PLACE_HINGE``) must be flipped upside down on the build plate to print. Because both the upside-down lid's top face and the upright box's bottom face are build-plate planes, passive top-boss stacking modes (``PYRAMIDS``, ``PYRAMID``, ``INDENTS``, ``FEET``, ``PERIMETER``, ``PATTERN``) raise a ``ValueError`` on those flipped-lid box types. Instead, use **``StackableMode.SLIDE_LATCH``** (or ``StackableMode.LATCH``) to stack flipped-lid boxes via captive print-in-place vertical dovetail push-up latches on the side walls!
 
-* **``StackableMode.SLIDE_LATCH``** / **``StackableMode.LATCH``** (``"slide_latch"`` / ``"latch"``): **Captive print-in-place vertical dovetail push-up stacking latches** mounted on the opposing side walls of the box body (:data:`~pyboxbuilder.box.registry.LATCH_STACKABLE_BOX_TYPES`). Because the latch mechanism sits on the exterior side walls of the upright box body (with ``0.30 mm`` print-in-place clearance and 45° self-supporting slopes), both the box bottom (``z = 0``) and any flipped lid's top face (``z = height``) remain 100% flat on the print bed. When a second box is placed on top, pushing the side dovetail sliders upward bridges the seam and snaps into the matching bottom dovetail receiver sockets of the upper box.
+* **``StackableMode.SLIDE_LATCH``** / **``StackableMode.LATCH``** (``"slide_latch"`` / ``"latch"``): **Captive print-in-place vertical dovetail push-up stacking latches** mounted on the opposing side walls of the box body (``LATCH_STACKABLE_BOX_TYPES``). Because the latch mechanism sits on the exterior side walls of the upright box body (with ``0.30 mm`` print-in-place clearance and 45° self-supporting slopes), both the box bottom (``z = 0``) and any flipped lid's top face (``z = height``) remain 100% flat on the print bed. When a second box is placed on top, pushing the side dovetail sliders upward bridges the seam and snaps into the matching bottom dovetail receiver sockets of the upper box.
 * **``StackableMode.PATTERN``** (``"pattern"``): **Pattern-matched stacking** where the decorative pattern on the lid (e.g. ``PatternType.HEX``, ``TRIANGLE``, ``SQUARE``, ``PENROSE``, or whatever pattern is configured on the box/lid) is matched on the underside of the box body. On the bottom of the box (``z = 0``), the entire outer perimeter border and all the pattern tiles sit flat on the print bed while only the narrow web channels between the tiles are recessed with a 45° bevel; on top of the lid, a matching raised pattern web ridge locks into the bottom of the box stacked above it.
 * **``StackableMode.PYRAMIDS``** (``"pyramids"``): A set/grid of $N \times N$ 45° square pyramid socket indents recessed into the flat ``z = 0`` bottom floor, mating with a matching grid of upward-pointing 45° pyramids on the lid/top rim. Eliminates wide unsupported bridges while keeping indentation depth shallow enough for standard floors and lids.
 * **``StackableMode.PYRAMID``** (``"pyramid"``): A single 45° square pyramid socket recessed into each corner of the flat ``z = 0`` bottom floor, mating with a matching 45° pyramid boss on the lid/top rim.
