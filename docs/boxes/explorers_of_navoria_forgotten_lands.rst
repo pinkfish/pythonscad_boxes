@@ -15,12 +15,12 @@ Full Box Packing
 
 Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
-.. stl:: ../_stl/boxes/explorers_of_navoria_forgotten_lands/PlayerBox_White_body.stl,../_stl/boxes/explorers_of_navoria_forgotten_lands/PlayerBox_White_lid.stl,../_stl/boxes/explorers_of_navoria_forgotten_lands/SpeciesTokensBox_body.stl,../_stl/boxes/explorers_of_navoria_forgotten_lands/SpeciesTokensBox_lid.stl,../_stl/boxes/explorers_of_navoria_forgotten_lands/FactionSkillBox_body.stl,../_stl/boxes/explorers_of_navoria_forgotten_lands/FactionSkillBox_lid.stl,../_stl/boxes/explorers_of_navoria_forgotten_lands/ExplorationBitsBox_body.stl,../_stl/boxes/explorers_of_navoria_forgotten_lands/ExplorationBitsBox_lid.stl,../_stl/boxes/explorers_of_navoria_forgotten_lands/ExpansionCardsBox_body.stl,../_stl/boxes/explorers_of_navoria_forgotten_lands/ExpansionCardsBox_lid.stl,../_stl/boxes/explorers_of_navoria_forgotten_lands/spacer_1.stl
+.. stl:: ../_stl/boxes/explorers_of_navoria_forgotten_lands/PlayerBox_White_body.stl?v=2f0c6e8f,../_stl/boxes/explorers_of_navoria_forgotten_lands/PlayerBox_White_lid.stl?v=eb1fddc7,../_stl/boxes/explorers_of_navoria_forgotten_lands/SpeciesTokensBox_body.stl?v=68fe8dd0,../_stl/boxes/explorers_of_navoria_forgotten_lands/SpeciesTokensBox_lid.stl?v=6799707e,../_stl/boxes/explorers_of_navoria_forgotten_lands/FactionSkillBox_body.stl?v=57855ba2,../_stl/boxes/explorers_of_navoria_forgotten_lands/FactionSkillBox_lid.stl?v=029b6f04,../_stl/boxes/explorers_of_navoria_forgotten_lands/ExplorationBitsBox_body.stl?v=ad544b44,../_stl/boxes/explorers_of_navoria_forgotten_lands/ExplorationBitsBox_lid.stl?v=3b5e683d,../_stl/boxes/explorers_of_navoria_forgotten_lands/ExpansionCardsBox_body.stl?v=06c0c97c,../_stl/boxes/explorers_of_navoria_forgotten_lands/ExpansionCardsBox_lid.stl?v=0e374606,../_stl/boxes/explorers_of_navoria_forgotten_lands/spacer_1.stl?v=8e7ac279
    :height: 440px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/explorers_of_navoria_forgotten_lands/PlayerBox_White_body.stl" data-stl-combine="../_stl/boxes/explorers_of_navoria_forgotten_lands/PlayerBox_White_body.stl,../_stl/boxes/explorers_of_navoria_forgotten_lands/PlayerBox_White_lid.stl,../_stl/boxes/explorers_of_navoria_forgotten_lands/SpeciesTokensBox_body.stl,../_stl/boxes/explorers_of_navoria_forgotten_lands/SpeciesTokensBox_lid.stl,../_stl/boxes/explorers_of_navoria_forgotten_lands/FactionSkillBox_body.stl,../_stl/boxes/explorers_of_navoria_forgotten_lands/FactionSkillBox_lid.stl,../_stl/boxes/explorers_of_navoria_forgotten_lands/ExplorationBitsBox_body.stl,../_stl/boxes/explorers_of_navoria_forgotten_lands/ExplorationBitsBox_lid.stl,../_stl/boxes/explorers_of_navoria_forgotten_lands/ExpansionCardsBox_body.stl,../_stl/boxes/explorers_of_navoria_forgotten_lands/ExpansionCardsBox_lid.stl,../_stl/boxes/explorers_of_navoria_forgotten_lands/spacer_1.stl" download="ExplorersOfNavoriaForgottenLands_full_packing.stl">⬇ Download Full Box Packing STL (<code>ExplorersOfNavoriaForgottenLands_full_packing.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/explorers_of_navoria_forgotten_lands/PlayerBox_White_body.stl?v=2f0c6e8f" data-stl-combine="../_stl/boxes/explorers_of_navoria_forgotten_lands/PlayerBox_White_body.stl?v=2f0c6e8f,../_stl/boxes/explorers_of_navoria_forgotten_lands/PlayerBox_White_lid.stl?v=eb1fddc7,../_stl/boxes/explorers_of_navoria_forgotten_lands/SpeciesTokensBox_body.stl?v=68fe8dd0,../_stl/boxes/explorers_of_navoria_forgotten_lands/SpeciesTokensBox_lid.stl?v=6799707e,../_stl/boxes/explorers_of_navoria_forgotten_lands/FactionSkillBox_body.stl?v=57855ba2,../_stl/boxes/explorers_of_navoria_forgotten_lands/FactionSkillBox_lid.stl?v=029b6f04,../_stl/boxes/explorers_of_navoria_forgotten_lands/ExplorationBitsBox_body.stl?v=ad544b44,../_stl/boxes/explorers_of_navoria_forgotten_lands/ExplorationBitsBox_lid.stl?v=3b5e683d,../_stl/boxes/explorers_of_navoria_forgotten_lands/ExpansionCardsBox_body.stl?v=06c0c97c,../_stl/boxes/explorers_of_navoria_forgotten_lands/ExpansionCardsBox_lid.stl?v=0e374606,../_stl/boxes/explorers_of_navoria_forgotten_lands/spacer_1.stl?v=8e7ac279" download="ExplorersOfNavoriaForgottenLands_full_packing.stl">⬇ Download Full Box Packing STL (<code>ExplorersOfNavoriaForgottenLands_full_packing.stl</code>)</a></p>
 
 Parts Overview
 --------------
@@ -80,30 +80,30 @@ PlayerBox_White
 
 **Assembled Box (PlayerBox_White — Body + Lid)**
 
-.. stl:: ../_stl/boxes/explorers_of_navoria_forgotten_lands/PlayerBox_White_body.stl,../_stl/boxes/explorers_of_navoria_forgotten_lands/PlayerBox_White_lid.stl
+.. stl:: ../_stl/boxes/explorers_of_navoria_forgotten_lands/PlayerBox_White_body.stl?v=2f0c6e8f,../_stl/boxes/explorers_of_navoria_forgotten_lands/PlayerBox_White_lid.stl?v=eb1fddc7
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/explorers_of_navoria_forgotten_lands/PlayerBox_White_body.stl" data-stl-combine="../_stl/boxes/explorers_of_navoria_forgotten_lands/PlayerBox_White_body.stl,../_stl/boxes/explorers_of_navoria_forgotten_lands/PlayerBox_White_lid.stl" download="PlayerBox_White_assembled.stl">⬇ Download Assembled PlayerBox_White STL (<code>PlayerBox_White_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/explorers_of_navoria_forgotten_lands/PlayerBox_White_body.stl?v=2f0c6e8f" data-stl-combine="../_stl/boxes/explorers_of_navoria_forgotten_lands/PlayerBox_White_body.stl?v=2f0c6e8f,../_stl/boxes/explorers_of_navoria_forgotten_lands/PlayerBox_White_lid.stl?v=eb1fddc7" download="PlayerBox_White_assembled.stl">⬇ Download Assembled PlayerBox_White STL (<code>PlayerBox_White_assembled.stl</code>)</a></p>
 
 **Part: PlayerBox_White Body**
 
-.. stl:: ../_stl/boxes/explorers_of_navoria_forgotten_lands/PlayerBox_White_body.stl
+.. stl:: ../_stl/boxes/explorers_of_navoria_forgotten_lands/PlayerBox_White_body.stl?v=2f0c6e8f
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/explorers_of_navoria_forgotten_lands/PlayerBox_White_body.stl" download="PlayerBox_White_body.stl">⬇ Download PlayerBox_White Body STL (<code>PlayerBox_White_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/explorers_of_navoria_forgotten_lands/PlayerBox_White_body.stl?v=2f0c6e8f" download="PlayerBox_White_body.stl">⬇ Download PlayerBox_White Body STL (<code>PlayerBox_White_body.stl</code>)</a></p>
 
 **Part: PlayerBox_White Lid**
 
-.. stl:: ../_stl/boxes/explorers_of_navoria_forgotten_lands/PlayerBox_White_lid.stl
+.. stl:: ../_stl/boxes/explorers_of_navoria_forgotten_lands/PlayerBox_White_lid.stl?v=eb1fddc7
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/explorers_of_navoria_forgotten_lands/PlayerBox_White_lid.stl" download="PlayerBox_White_lid.stl">⬇ Download PlayerBox_White Lid STL (<code>PlayerBox_White_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/explorers_of_navoria_forgotten_lands/PlayerBox_White_lid.stl?v=eb1fddc7" download="PlayerBox_White_lid.stl">⬇ Download PlayerBox_White Lid STL (<code>PlayerBox_White_lid.stl</code>)</a></p>
 
 .. _box-explorers_of_navoria_forgotten_lands-speciestokensbox:
 
@@ -117,30 +117,30 @@ SpeciesTokensBox
 
 **Assembled Box (SpeciesTokensBox — Body + Lid)**
 
-.. stl:: ../_stl/boxes/explorers_of_navoria_forgotten_lands/SpeciesTokensBox_body.stl,../_stl/boxes/explorers_of_navoria_forgotten_lands/SpeciesTokensBox_lid.stl
+.. stl:: ../_stl/boxes/explorers_of_navoria_forgotten_lands/SpeciesTokensBox_body.stl?v=68fe8dd0,../_stl/boxes/explorers_of_navoria_forgotten_lands/SpeciesTokensBox_lid.stl?v=6799707e
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/explorers_of_navoria_forgotten_lands/SpeciesTokensBox_body.stl" data-stl-combine="../_stl/boxes/explorers_of_navoria_forgotten_lands/SpeciesTokensBox_body.stl,../_stl/boxes/explorers_of_navoria_forgotten_lands/SpeciesTokensBox_lid.stl" download="SpeciesTokensBox_assembled.stl">⬇ Download Assembled SpeciesTokensBox STL (<code>SpeciesTokensBox_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/explorers_of_navoria_forgotten_lands/SpeciesTokensBox_body.stl?v=68fe8dd0" data-stl-combine="../_stl/boxes/explorers_of_navoria_forgotten_lands/SpeciesTokensBox_body.stl?v=68fe8dd0,../_stl/boxes/explorers_of_navoria_forgotten_lands/SpeciesTokensBox_lid.stl?v=6799707e" download="SpeciesTokensBox_assembled.stl">⬇ Download Assembled SpeciesTokensBox STL (<code>SpeciesTokensBox_assembled.stl</code>)</a></p>
 
 **Part: SpeciesTokensBox Body**
 
-.. stl:: ../_stl/boxes/explorers_of_navoria_forgotten_lands/SpeciesTokensBox_body.stl
+.. stl:: ../_stl/boxes/explorers_of_navoria_forgotten_lands/SpeciesTokensBox_body.stl?v=68fe8dd0
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/explorers_of_navoria_forgotten_lands/SpeciesTokensBox_body.stl" download="SpeciesTokensBox_body.stl">⬇ Download SpeciesTokensBox Body STL (<code>SpeciesTokensBox_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/explorers_of_navoria_forgotten_lands/SpeciesTokensBox_body.stl?v=68fe8dd0" download="SpeciesTokensBox_body.stl">⬇ Download SpeciesTokensBox Body STL (<code>SpeciesTokensBox_body.stl</code>)</a></p>
 
 **Part: SpeciesTokensBox Lid**
 
-.. stl:: ../_stl/boxes/explorers_of_navoria_forgotten_lands/SpeciesTokensBox_lid.stl
+.. stl:: ../_stl/boxes/explorers_of_navoria_forgotten_lands/SpeciesTokensBox_lid.stl?v=6799707e
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/explorers_of_navoria_forgotten_lands/SpeciesTokensBox_lid.stl" download="SpeciesTokensBox_lid.stl">⬇ Download SpeciesTokensBox Lid STL (<code>SpeciesTokensBox_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/explorers_of_navoria_forgotten_lands/SpeciesTokensBox_lid.stl?v=6799707e" download="SpeciesTokensBox_lid.stl">⬇ Download SpeciesTokensBox Lid STL (<code>SpeciesTokensBox_lid.stl</code>)</a></p>
 
 .. _box-explorers_of_navoria_forgotten_lands-factionskillbox:
 
@@ -154,30 +154,30 @@ FactionSkillBox
 
 **Assembled Box (FactionSkillBox — Body + Lid)**
 
-.. stl:: ../_stl/boxes/explorers_of_navoria_forgotten_lands/FactionSkillBox_body.stl,../_stl/boxes/explorers_of_navoria_forgotten_lands/FactionSkillBox_lid.stl
+.. stl:: ../_stl/boxes/explorers_of_navoria_forgotten_lands/FactionSkillBox_body.stl?v=57855ba2,../_stl/boxes/explorers_of_navoria_forgotten_lands/FactionSkillBox_lid.stl?v=029b6f04
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/explorers_of_navoria_forgotten_lands/FactionSkillBox_body.stl" data-stl-combine="../_stl/boxes/explorers_of_navoria_forgotten_lands/FactionSkillBox_body.stl,../_stl/boxes/explorers_of_navoria_forgotten_lands/FactionSkillBox_lid.stl" download="FactionSkillBox_assembled.stl">⬇ Download Assembled FactionSkillBox STL (<code>FactionSkillBox_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/explorers_of_navoria_forgotten_lands/FactionSkillBox_body.stl?v=57855ba2" data-stl-combine="../_stl/boxes/explorers_of_navoria_forgotten_lands/FactionSkillBox_body.stl?v=57855ba2,../_stl/boxes/explorers_of_navoria_forgotten_lands/FactionSkillBox_lid.stl?v=029b6f04" download="FactionSkillBox_assembled.stl">⬇ Download Assembled FactionSkillBox STL (<code>FactionSkillBox_assembled.stl</code>)</a></p>
 
 **Part: FactionSkillBox Body**
 
-.. stl:: ../_stl/boxes/explorers_of_navoria_forgotten_lands/FactionSkillBox_body.stl
+.. stl:: ../_stl/boxes/explorers_of_navoria_forgotten_lands/FactionSkillBox_body.stl?v=57855ba2
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/explorers_of_navoria_forgotten_lands/FactionSkillBox_body.stl" download="FactionSkillBox_body.stl">⬇ Download FactionSkillBox Body STL (<code>FactionSkillBox_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/explorers_of_navoria_forgotten_lands/FactionSkillBox_body.stl?v=57855ba2" download="FactionSkillBox_body.stl">⬇ Download FactionSkillBox Body STL (<code>FactionSkillBox_body.stl</code>)</a></p>
 
 **Part: FactionSkillBox Lid**
 
-.. stl:: ../_stl/boxes/explorers_of_navoria_forgotten_lands/FactionSkillBox_lid.stl
+.. stl:: ../_stl/boxes/explorers_of_navoria_forgotten_lands/FactionSkillBox_lid.stl?v=029b6f04
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/explorers_of_navoria_forgotten_lands/FactionSkillBox_lid.stl" download="FactionSkillBox_lid.stl">⬇ Download FactionSkillBox Lid STL (<code>FactionSkillBox_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/explorers_of_navoria_forgotten_lands/FactionSkillBox_lid.stl?v=029b6f04" download="FactionSkillBox_lid.stl">⬇ Download FactionSkillBox Lid STL (<code>FactionSkillBox_lid.stl</code>)</a></p>
 
 .. _box-explorers_of_navoria_forgotten_lands-explorationbitsbox:
 
@@ -191,30 +191,30 @@ ExplorationBitsBox
 
 **Assembled Box (ExplorationBitsBox — Body + Lid)**
 
-.. stl:: ../_stl/boxes/explorers_of_navoria_forgotten_lands/ExplorationBitsBox_body.stl,../_stl/boxes/explorers_of_navoria_forgotten_lands/ExplorationBitsBox_lid.stl
+.. stl:: ../_stl/boxes/explorers_of_navoria_forgotten_lands/ExplorationBitsBox_body.stl?v=ad544b44,../_stl/boxes/explorers_of_navoria_forgotten_lands/ExplorationBitsBox_lid.stl?v=3b5e683d
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/explorers_of_navoria_forgotten_lands/ExplorationBitsBox_body.stl" data-stl-combine="../_stl/boxes/explorers_of_navoria_forgotten_lands/ExplorationBitsBox_body.stl,../_stl/boxes/explorers_of_navoria_forgotten_lands/ExplorationBitsBox_lid.stl" download="ExplorationBitsBox_assembled.stl">⬇ Download Assembled ExplorationBitsBox STL (<code>ExplorationBitsBox_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/explorers_of_navoria_forgotten_lands/ExplorationBitsBox_body.stl?v=ad544b44" data-stl-combine="../_stl/boxes/explorers_of_navoria_forgotten_lands/ExplorationBitsBox_body.stl?v=ad544b44,../_stl/boxes/explorers_of_navoria_forgotten_lands/ExplorationBitsBox_lid.stl?v=3b5e683d" download="ExplorationBitsBox_assembled.stl">⬇ Download Assembled ExplorationBitsBox STL (<code>ExplorationBitsBox_assembled.stl</code>)</a></p>
 
 **Part: ExplorationBitsBox Body**
 
-.. stl:: ../_stl/boxes/explorers_of_navoria_forgotten_lands/ExplorationBitsBox_body.stl
+.. stl:: ../_stl/boxes/explorers_of_navoria_forgotten_lands/ExplorationBitsBox_body.stl?v=ad544b44
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/explorers_of_navoria_forgotten_lands/ExplorationBitsBox_body.stl" download="ExplorationBitsBox_body.stl">⬇ Download ExplorationBitsBox Body STL (<code>ExplorationBitsBox_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/explorers_of_navoria_forgotten_lands/ExplorationBitsBox_body.stl?v=ad544b44" download="ExplorationBitsBox_body.stl">⬇ Download ExplorationBitsBox Body STL (<code>ExplorationBitsBox_body.stl</code>)</a></p>
 
 **Part: ExplorationBitsBox Lid**
 
-.. stl:: ../_stl/boxes/explorers_of_navoria_forgotten_lands/ExplorationBitsBox_lid.stl
+.. stl:: ../_stl/boxes/explorers_of_navoria_forgotten_lands/ExplorationBitsBox_lid.stl?v=3b5e683d
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/explorers_of_navoria_forgotten_lands/ExplorationBitsBox_lid.stl" download="ExplorationBitsBox_lid.stl">⬇ Download ExplorationBitsBox Lid STL (<code>ExplorationBitsBox_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/explorers_of_navoria_forgotten_lands/ExplorationBitsBox_lid.stl?v=3b5e683d" download="ExplorationBitsBox_lid.stl">⬇ Download ExplorationBitsBox Lid STL (<code>ExplorationBitsBox_lid.stl</code>)</a></p>
 
 .. _box-explorers_of_navoria_forgotten_lands-expansioncardsbox:
 
@@ -228,30 +228,30 @@ ExpansionCardsBox
 
 **Assembled Box (ExpansionCardsBox — Body + Lid)**
 
-.. stl:: ../_stl/boxes/explorers_of_navoria_forgotten_lands/ExpansionCardsBox_body.stl,../_stl/boxes/explorers_of_navoria_forgotten_lands/ExpansionCardsBox_lid.stl
+.. stl:: ../_stl/boxes/explorers_of_navoria_forgotten_lands/ExpansionCardsBox_body.stl?v=06c0c97c,../_stl/boxes/explorers_of_navoria_forgotten_lands/ExpansionCardsBox_lid.stl?v=0e374606
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/explorers_of_navoria_forgotten_lands/ExpansionCardsBox_body.stl" data-stl-combine="../_stl/boxes/explorers_of_navoria_forgotten_lands/ExpansionCardsBox_body.stl,../_stl/boxes/explorers_of_navoria_forgotten_lands/ExpansionCardsBox_lid.stl" download="ExpansionCardsBox_assembled.stl">⬇ Download Assembled ExpansionCardsBox STL (<code>ExpansionCardsBox_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/explorers_of_navoria_forgotten_lands/ExpansionCardsBox_body.stl?v=06c0c97c" data-stl-combine="../_stl/boxes/explorers_of_navoria_forgotten_lands/ExpansionCardsBox_body.stl?v=06c0c97c,../_stl/boxes/explorers_of_navoria_forgotten_lands/ExpansionCardsBox_lid.stl?v=0e374606" download="ExpansionCardsBox_assembled.stl">⬇ Download Assembled ExpansionCardsBox STL (<code>ExpansionCardsBox_assembled.stl</code>)</a></p>
 
 **Part: ExpansionCardsBox Body**
 
-.. stl:: ../_stl/boxes/explorers_of_navoria_forgotten_lands/ExpansionCardsBox_body.stl
+.. stl:: ../_stl/boxes/explorers_of_navoria_forgotten_lands/ExpansionCardsBox_body.stl?v=06c0c97c
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/explorers_of_navoria_forgotten_lands/ExpansionCardsBox_body.stl" download="ExpansionCardsBox_body.stl">⬇ Download ExpansionCardsBox Body STL (<code>ExpansionCardsBox_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/explorers_of_navoria_forgotten_lands/ExpansionCardsBox_body.stl?v=06c0c97c" download="ExpansionCardsBox_body.stl">⬇ Download ExpansionCardsBox Body STL (<code>ExpansionCardsBox_body.stl</code>)</a></p>
 
 **Part: ExpansionCardsBox Lid**
 
-.. stl:: ../_stl/boxes/explorers_of_navoria_forgotten_lands/ExpansionCardsBox_lid.stl
+.. stl:: ../_stl/boxes/explorers_of_navoria_forgotten_lands/ExpansionCardsBox_lid.stl?v=0e374606
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/explorers_of_navoria_forgotten_lands/ExpansionCardsBox_lid.stl" download="ExpansionCardsBox_lid.stl">⬇ Download ExpansionCardsBox Lid STL (<code>ExpansionCardsBox_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/explorers_of_navoria_forgotten_lands/ExpansionCardsBox_lid.stl?v=0e374606" download="ExpansionCardsBox_lid.stl">⬇ Download ExpansionCardsBox Lid STL (<code>ExpansionCardsBox_lid.stl</code>)</a></p>
 
 Spacer Trays
 ------------
@@ -265,9 +265,9 @@ spacer_1
 - **Outer Dimensions**: ``98 × 135 × 46 mm``
 - **Packed Position**: ``(0, 133, 0)``
 
-.. stl:: ../_stl/boxes/explorers_of_navoria_forgotten_lands/spacer_1.stl
+.. stl:: ../_stl/boxes/explorers_of_navoria_forgotten_lands/spacer_1.stl?v=8e7ac279
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/explorers_of_navoria_forgotten_lands/spacer_1.stl" download="spacer_1.stl">⬇ Download spacer_1 STL (<code>spacer_1.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/explorers_of_navoria_forgotten_lands/spacer_1.stl?v=8e7ac279" download="spacer_1.stl">⬇ Download spacer_1 STL (<code>spacer_1.stl</code>)</a></p>

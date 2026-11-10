@@ -18,6 +18,7 @@ For each ``boxes/<game>/<game>.py`` project, this script:
 from __future__ import annotations
 
 import ast
+import hashlib
 import struct
 import sys
 import time
@@ -224,7 +225,6 @@ def process_game(game_slug: str) -> dict[str, Any]:
 
         missing_keys: set[tuple[str, str]] = set()
         for key, fname, stl_path in expected_files:
-            part_uris[key] = f"../_stl/boxes/{game_slug}/{fname}"
             part_filenames[key] = fname
             if stl_path.is_file() and stl_path.stat().st_size > 84:
                 with open(stl_path, "rb") as f:
@@ -273,6 +273,10 @@ def process_game(game_slug: str) -> dict[str, Any]:
                 fname = f"{label}.stl" if kind == "spacer" else f"{label}_{kind}.stl"
                 stl_path = out_stl_dir / fname
                 total_tris += write_colored_stl(stl_path, solids)
+
+        for key, fname, stl_path in expected_files:
+            digest = hashlib.sha256(stl_path.read_bytes()).hexdigest()[:8] if stl_path.is_file() else "0"
+            part_uris[key] = f"../_stl/boxes/{game_slug}/{fname}?v={digest}"
 
     # Collect box and spacer metadata from build.pieces
     body_pieces = {p.label: p for p in build.of_kind("body")}
