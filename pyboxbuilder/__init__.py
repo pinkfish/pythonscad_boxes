@@ -54,6 +54,7 @@ from pyboxbuilder.enums import (
     PatternType,
     ScoopSide,
     StackableMode,
+    StackableShape,
 )
 from pyboxbuilder.export.result import ExportResult
 from pyboxbuilder.helpers import CardSize, CardSpec, SleeveType
@@ -135,6 +136,7 @@ __all__ = [
     "SlipoverPathBoxBuilder",
     "SnapFitBoxBuilder",
     "StackableMode",
+    "StackableShape",
     "ThreadedBoxBuilder",
     "UnresolvedBoxSpec",
     "__version__",

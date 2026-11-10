@@ -17,6 +17,7 @@ from pyboxbuilder.enums import (
     PatternType,
     ScoopSide,
     StackableMode,
+    StackableShape,
 )
 
 if TYPE_CHECKING:
@@ -55,6 +56,12 @@ class BoxBuilder:
     """Manual packing position override [X, Y, Z] in mm."""
     stackable: StackableMode | None = None
     """Interlocking rim / stacking mode; ``None`` means not stackable."""
+    stackable_shape: StackableShape | None = None
+    """3D-printable geometry profile for feet/indents (PYRAMIDS, PYRAMID, CONE, FLAT)."""
+    stackable_pyramid_count: int | None = None
+    """Number of pyramids per side in each corner pad when using PYRAMIDS; None auto-computes for 45-degree walls."""
+    stackable_printer_safe: bool = True
+    """Keep the box bottom flat on the print bed (z = 0) with recessed 45-degree sockets and top bosses."""
     stackable_thickness: float | None = None
     """Interlocking rim thickness for stackable boxes."""
     stackable_fit_offset: float = 0.15
@@ -171,6 +178,7 @@ class BoxBuilder:
 
         for name, enum_cls in (
             ("stackable", StackableMode),
+            ("stackable_shape", StackableShape),
             ("magnet_type", MagnetType),
             ("catch_type", CatchType),
             ("interlock_type", InterlockType),

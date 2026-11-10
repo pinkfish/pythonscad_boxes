@@ -29,6 +29,7 @@ from pyboxbuilder.enums import (
     MagnetType,
     ScoopSide,
     StackableMode,
+    StackableShape,
 )
 
 if TYPE_CHECKING:
@@ -95,6 +96,12 @@ def _coerce_box_spec_enums(spec: Any) -> None:
     if getattr(spec, "stackable", None) is not None:
         object.__setattr__(
             spec, "stackable", _coerce_enum(spec.stackable, StackableMode, "stackable", allow_none=True)
+        )
+    if getattr(spec, "stackable_shape", None) is not None:
+        object.__setattr__(
+            spec,
+            "stackable_shape",
+            _coerce_enum(spec.stackable_shape, StackableShape, "stackable_shape", allow_none=True),
         )
     if getattr(spec, "dispenser_mode", None) is not None:
         object.__setattr__(
@@ -272,6 +279,12 @@ class BoxSpec:
     # ── Stacking (FR-038, FR-101) ────────────────────────────────────────
     stackable: StackableMode | None = None
     """Interlocking rim mode; ``None`` means not stackable."""
+    stackable_shape: StackableShape | None = None
+    """3D-printable geometry profile for feet/indents (PYRAMIDS, PYRAMID, CONE, FLAT)."""
+    stackable_pyramid_count: int | None = None
+    """Number of pyramids per side in each corner pad when using PYRAMIDS; None auto-computes for 45-degree walls."""
+    stackable_printer_safe: bool = True
+    """Keep the box bottom flat on the print bed (z = 0) with recessed 45-degree sockets and top bosses."""
     stackable_thickness: float | None = None
     """Interlocking rim thickness; ``None`` derives it from the wall."""
     stackable_fit_offset: float = 0.15
@@ -589,6 +602,9 @@ class UnresolvedBoxSpec:
 
     # Stacking
     stackable: StackableMode | None = None
+    stackable_shape: StackableShape | None = None
+    stackable_pyramid_count: int | None = None
+    stackable_printer_safe: bool = True
     stackable_thickness: float | None = None
     stackable_fit_offset: float = 0.15
     stackable_foot_size: float | None = None

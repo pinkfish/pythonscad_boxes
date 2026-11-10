@@ -705,11 +705,13 @@ Configure catches via ``catch_type`` and ``catch_size`` on any box builder:
 Universal Stacking Architecture (``StackableMode``)
 ---------------------------------------------------
 
-All box types across both open trays and lidded box families (sliding, cap, slipover, hinged, clamshell, snap-fit) support the universal :class:`~pyboxbuilder.enums.StackableMode` architecture (**FR-101**, **SC-101**):
+All box types across both open trays and lidded box families (sliding, cap, slipover, hinged, clamshell, snap-fit) support the 3D-printer-safe universal :class:`~pyboxbuilder.enums.StackableMode` and :class:`~pyboxbuilder.enums.StackableShape` architecture (**FR-101**, **SC-101**):
 
-* **``StackableMode.FEET``** (``"feet"``): Chamfered locator feet protruding downward from the box floor at corners, dropping into matching oversized registration indent sockets in the top lid surface or top rim.
-* **``StackableMode.INDENTS``** (``"indents"``): Inverted stacking where sockets are recessed into the underside floor of the box body, and raised locator bosses/feet project upward from the lid top deck or top rim.
-* **``StackableMode.PERIMETER``** (``"perimeter"``): Continuous perimeter rim foot around the base perimeter that drops into a matching perimeter channel/step on the box top or lid.
+* **``StackableMode.PYRAMIDS``** (``"pyramids"``): A set/grid of $N \times N$ 45° square pyramid socket indents recessed into the flat ``z = 0`` bottom floor, mating with a matching grid of upward-pointing 45° pyramids on the lid/top rim. Eliminates wide unsupported bridges while keeping indentation depth shallow enough for standard floors and lids.
+* **``StackableMode.PYRAMID``** (``"pyramid"``): A single 45° square pyramid socket recessed into each corner of the flat ``z = 0`` bottom floor, mating with a matching 45° pyramid boss on the lid/top rim.
+* **``StackableMode.INDENTS``** (``"indents"``): Recessed corner sockets in the underside floor of the box body, and raised locator bosses projecting upward from the lid top deck or top rim (defaults to 45° ``StackableShape.PYRAMIDS``).
+* **``StackableMode.FEET``** (``"feet"``): Corner locator pads and matching sockets. By default (``stackable_printer_safe=True``), keeps the box bottom flat on the build plate (``z = 0``) with recessed 45° pyramid sockets and upward-pointing top bosses so the box floor never prints in mid-air; set ``stackable_printer_safe=False`` for downward-protruding bottom feet.
+* **``StackableMode.PERIMETER``** (``"perimeter"``): Continuous 45° V-groove / V-ridge perimeter channel and matching rim around the box perimeter.
 * **``StackableMode.INSIDE``** (``"inside"``): Stepped inner recess in the top rim that the tray above nests down into (standard for open trays).
 * **``StackableMode.OUTSIDE``** (``"outside"``): Perimeter skirt around the outside base that fits over the tray below.
 
@@ -726,19 +728,28 @@ Configuration parameters available on all box builders:
      - Description
    * - ``stackable``
      - ``None``
-     - :class:`~pyboxbuilder.enums.StackableMode` or string (``"feet"``, ``"indents"``, ``"perimeter"``, ``"inside"``, ``"outside"``).
+     - :class:`~pyboxbuilder.enums.StackableMode` (``PYRAMIDS``, ``PYRAMID``, ``INDENTS``, ``FEET``, ``PERIMETER``, ``INSIDE``, ``OUTSIDE``).
+   * - ``stackable_shape``
+     - ``None`` (auto)
+     - :class:`~pyboxbuilder.enums.StackableShape` (``PYRAMIDS`` for a set of 45° pyramids, ``PYRAMID`` for a single 45° pyramid, ``CONE`` for 45° cones, or ``FLAT``).
+   * - ``stackable_pyramid_count``
+     - ``None`` (auto)
+     - Number of pyramids per side ($N$ for an $N \times N$ grid per corner) when using ``StackableShape.PYRAMIDS``.
+   * - ``stackable_printer_safe``
+     - ``True``
+     - Keeps the box bottom flat on the build plate (``z = 0``) with recessed 45° sockets and top bosses so the floor never prints suspended in mid-air.
    * - ``stackable_foot_size``
      - ``max(6.0, wall * 2.5)``
-     - Width and length (mm) of each square corner foot.
+     - Width and length (mm) of each square corner pad.
    * - ``stackable_foot_height``
      - ``1.2``
-     - Protrusion height (mm) of feet, bounded by floor/lid thickness.
+     - Target height/depth (mm) of pyramids/feet, bounded by floor/lid thickness.
    * - ``stackable_foot_inset``
      - ``wall + 1.0``
      - Inset distance (mm) from outer box corners.
    * - ``stackable_fit_offset``
      - ``0.15``
-     - Lateral fit clearance (mm) between foot and indent walls.
+     - Lateral fit clearance (mm) between boss and socket walls.
 
 .. pythonscad-example::
 
@@ -749,7 +760,7 @@ Configuration parameters available on all box builders:
        size=(60.0, 80.0, 22.0),
        color=Color("midnightblue"),
        position=(0.0, 0.0, 0.0),
-       stackable=StackableMode.FEET,
+       stackable=StackableMode.PYRAMIDS,
        stackable_foot_size=7.0,
        stackable_foot_height=1.2,
    )
@@ -759,7 +770,7 @@ Configuration parameters available on all box builders:
        size=(60.0, 80.0, 22.0),
        color=Color("coral"),
        position=(0.0, 0.0, 22.0),
-       stackable=StackableMode.FEET,
+       stackable=StackableMode.PYRAMIDS,
        stackable_foot_size=7.0,
        stackable_foot_height=1.2,
    )

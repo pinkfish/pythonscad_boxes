@@ -21,6 +21,7 @@ from pyboxbuilder.enums import (
     LatchAxis,
     MagnetType,
     StackableMode,
+    StackableShape,
 )
 
 if TYPE_CHECKING:
@@ -253,7 +254,13 @@ class GeometryValidator:
             return
         from pyboxbuilder.enums import StackableMode
 
-        if spec.stackable in (StackableMode.FEET, StackableMode.INDENTS, StackableMode.PERIMETER):
+        if spec.stackable in (
+            StackableMode.FEET,
+            StackableMode.INDENTS,
+            StackableMode.PYRAMID,
+            StackableMode.PYRAMIDS,
+            StackableMode.PERIMETER,
+        ):
             foot_size = spec.stackable_foot_size or max(6.0, spec.wall_thickness * 2.5)
             min_span = min(spec.width, spec.length)
             if foot_size >= min_span / 2.0:
@@ -272,6 +279,13 @@ class GeometryValidator:
                     invariant="positive_stackable_foot_height",
                     message=f"Stackable foot height must be positive, got {spec.stackable_foot_height}mm.",
                     guidance="Set stackable_foot_height to a positive value (e.g. 1.6mm).",
+                )
+            if spec.stackable_pyramid_count is not None and spec.stackable_pyramid_count < 1:
+                raise GeometryValidationError(
+                    label=spec.label,
+                    invariant="positive_stackable_pyramid_count",
+                    message=f"Stackable pyramid count must be >= 1, got {spec.stackable_pyramid_count}.",
+                    guidance="Set stackable_pyramid_count to a positive integer (e.g. 1, 2, or 3).",
                 )
 
     @classmethod
@@ -320,6 +334,7 @@ class GeometryValidator:
             (spec.interlock_type, InterlockType, "interlock_type", True),
             (spec.magnet_type, MagnetType, "magnet_type", True),
             (spec.stackable, StackableMode, "stackable", True),
+            (spec.stackable_shape, StackableShape, "stackable_shape", True),
             (spec.dispenser_mode, DispenserExtractionMode, "dispenser_mode", False),
             (spec.drawer_handle_style, DrawerHandleStyle, "drawer_handle_style", False),
             (spec.latch_axis, LatchAxis, "latch_axis", False),

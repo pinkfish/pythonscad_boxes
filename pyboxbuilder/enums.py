@@ -147,7 +147,11 @@ class StackableMode(Enum):
     - OUTSIDE: A ridge around the outside base that fits over the box below.
     - FEET: Protruding locator feet on the bottom floor, matching socket indents on the lid/top.
     - INDENTS: Recessed socket indents on the bottom floor, matching locator feet on the lid/top.
-    - PERIMETER: Continuous or segmented perimeter foot rim on bottom, matching channel on lid/top.
+    - FEET: Corner locator pads/pyramids, matching socket indents.
+    - INDENTS: Recessed socket indents on bottom floor, matching locator bosses on lid/top.
+    - PYRAMID: 3D-printer-safe single 45-degree pyramid sockets on bottom, matching pyramids on top.
+    - PYRAMIDS: 3D-printer-safe multi-pyramid grid (45-degree pyramids) on bottom, matching grid on top.
+    - PERIMETER: Continuous or segmented perimeter foot/V-ridge rim, matching perimeter channel on lid/top.
     """
 
     INSIDE = "inside"
@@ -155,11 +159,28 @@ class StackableMode(Enum):
     OUTSIDE = "outside"
     """A ridge around the outside that fits over the box below."""
     FEET = "feet"
-    """Protruding locator feet on the bottom floor, matching socket indents on the lid/top."""
+    """Protruding locator feet on the bottom floor (or top when printer-safe), matching socket indents."""
     INDENTS = "indents"
     """Recessed socket indents on the bottom floor, matching locator feet on the lid/top."""
+    PYRAMID = "pyramid"
+    """Single 45-degree pyramid socket indents on the bottom floor, matching 45-degree pyramids on top."""
+    PYRAMIDS = "pyramids"
+    """Set/grid of 45-degree pyramid socket indents on the bottom floor, matching pyramid grid on top."""
     PERIMETER = "perimeter"
-    """Perimeter foot rim on the bottom floor, matching recessed channel on the lid/top."""
+    """Perimeter foot/V-ridge rim and matching recessed perimeter channel."""
+
+
+class StackableShape(Enum):
+    """3D-printable geometry profile for stacking feet and socket indents."""
+
+    PYRAMIDS = "pyramids"
+    """Grid/set of 45-degree square pyramids filling each corner pad (3D-printer safe, shallow depth)."""
+    PYRAMID = "pyramid"
+    """Single 45-degree square pyramid per corner pad (or 45-degree V-ridge for perimeter)."""
+    CONE = "cone"
+    """45-degree conical boss and socket profile (or grid of 45-degree cones)."""
+    FLAT = "flat"
+    """Classic flat-topped/flat-bottomed rectangular pad with edge chamfer."""
 
 
 class MagnetType(Enum):
