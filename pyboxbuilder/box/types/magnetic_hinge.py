@@ -47,7 +47,7 @@ class MagneticHingeBox(BoxTypeBase):
         from pyboxbuilder.box.features import magnetic_hinge_catch_metrics
 
         cx, cy, r_boss = magnetic_hinge_catch_metrics(spec)
-        return [(cx, cy, r_boss)]
+        return [*super().lid_keepouts(spec), (cx, cy, r_boss)]
 
     def interior_mask(self, spec: BoxSpec) -> Bosl2Solid:
         """Return the usable interior volume, less the rear hinge and front magnet boss."""

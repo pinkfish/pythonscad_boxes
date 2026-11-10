@@ -337,6 +337,124 @@ class StackingBoxMatingTests(unittest.TestCase):
         self.assertGreater(volume(legacy_body & below_bed_probe), 1.0)
         self._assert_stacking_mating(BoxType.SLIDING, legacy_spec)
 
+    def test_pattern_matched_stacking_across_box_families_and_patterns(self) -> None:
+        """Verify StackableMode.PATTERN / StackableShape.PATTERN locks into the lid pattern."""
+        from pyboxbuilder.box.shell import block
+        from pyboxbuilder.enums import PatternType
+        from pyboxbuilder.lid.builder import LidBuilder, PatternBuilder
+        from pyboxbuilder.lid.decorate import decorate_lid
+
+        below_bed_probe = block([100.0, 100.0, 10.0], at=(-10.0, -10.0, -10.0))
+
+        # 1. Test multiple pattern types on SLIDING box
+        for pat_type in (
+            PatternType.HEX,
+            PatternType.TRIANGLE,
+            PatternType.SQUARE,
+            PatternType.CIRCLE,
+            PatternType.PENROSE,
+        ):
+            with self.subTest(pattern=pat_type.value):
+                spec = BoxSpec(
+                    label=f"PatternStack_{pat_type.value}",
+                    width=60.0,
+                    length=70.0,
+                    height=25.0,
+                    wall_thickness=2.0,
+                    floor_thickness=1.6,
+                    lid_thickness=2.0,
+                    stackable=StackableMode.PATTERN,
+                    stackable_pattern=pat_type,
+                    stackable_foot_height=1.2,
+                    stackable_fit_offset=0.15,
+                )
+                handler = BOX_IMPL_REGISTRY[BoxType.SLIDING]()
+                body = handler.build_body(spec)
+                # Verify flat bed contact at z=0 with zero protrusion below z=0
+                self.assertLess(volume(body & below_bed_probe), 1e-4)
+                # Verify the pattern tiles and outer border sit on the bed at z in [0, 0.2]
+                bed_slice = block([60.0, 70.0, 0.2], at=(0.0, 0.0, 0.0))
+                self.assertGreater(volume(body & bed_slice), 60.0 * 70.0 * 0.2 * 0.3)
+                self._assert_stacking_mating(BoxType.SLIDING, spec)
+
+        # 2. Test across all box families (including NO_LID and decorated through-hole lids)
+        for bt in (
+            BoxType.SLIDING,
+            BoxType.CAP,
+            BoxType.SLIPOVER,
+            BoxType.FILAMENT_HINGE,
+            BoxType.CLAMSHELL,
+            BoxType.SNAP_FIT,
+            BoxType.NO_LID,
+        ):
+            with self.subTest(box_type=bt.value):
+                lt = 0.0 if bt is BoxType.NO_LID else 2.0
+                spec = BoxSpec(
+                    label=f"PatternStack_{bt.value}",
+                    width=60.0,
+                    length=70.0,
+                    height=30.0,
+                    wall_thickness=2.0,
+                    floor_thickness=1.6,
+                    lid_thickness=lt,
+                    stackable=StackableMode.PATTERN,
+                    stackable_pattern=PatternType.HEX,
+                    stackable_foot_height=1.2,
+                    stackable_fit_offset=0.15,
+                )
+                self._assert_stacking_mating(bt, spec)
+
+        # 3. Verify decorated lid with through-hole HEX pattern mates cleanly with box above
+        spec_dec = BoxSpec(
+            label="DecoratedPatternStack",
+            width=60.0,
+            length=70.0,
+            height=25.0,
+            wall_thickness=2.0,
+            floor_thickness=1.6,
+            lid_thickness=2.0,
+            stackable=StackableMode.PATTERN,
+            stackable_pattern=PatternType.HEX,
+            stackable_foot_height=1.2,
+            stackable_fit_offset=0.15,
+        )
+        handler = BOX_IMPL_REGISTRY[BoxType.SLIDING]()
+        body_a = handler.build_body(spec_dec)
+        raw_lid_a = handler.build_lid(spec_dec)
+        dec_lid_a = decorate_lid(
+            raw_lid_a,
+            LidBuilder(pattern=PatternBuilder(PatternType.HEX)),
+            spec_dec.lid_thickness,
+            reserved=handler.lid_keepouts(spec_dec),
+            top_z=spec_dec.height,
+        ).solid
+        lower_dec = body_a | dec_lid_a
+        upper_b = body_a.translate([0.0, 0.0, spec_dec.height])
+        self.assertLess(volume(lower_dec & upper_b), 1e-3)
+        shifted_b = upper_b.translate([0.6, 0.0, 0.0])
+        self.assertGreater(volume(lower_dec & shifted_b), 0.05)
+
+    def test_builder_propagates_lid_pattern_to_stackable_spec(self) -> None:
+        """Verify UnresolvedBoxSpec.from_builder inherits pattern settings for pattern stacking."""
+        from pyboxbuilder.box.spec import build_spec
+        from pyboxbuilder.enums import PatternType
+        from pyboxbuilder.lid.builder import LidBuilder, PatternBuilder
+        from pyboxbuilder.project import Project
+
+        proj = Project("PatternStackProj")
+        b = proj.box(
+            BoxType.SLIDING,
+            "HexStack",
+            size=(60, 70, 25),
+            stackable=StackableMode.PATTERN,
+            lid=LidBuilder(pattern=PatternBuilder(PatternType.TRIANGLE, spacing=10.0, web=1.8)),
+        )
+        resolved = build_spec(proj, b, (60.0, 70.0, 25.0))
+        self.assertEqual(resolved.stackable, StackableMode.PATTERN)
+        self.assertEqual(resolved.stackable_pattern, PatternType.TRIANGLE)
+        self.assertEqual(resolved.stackable_pattern_spacing, 10.0)
+        self.assertEqual(resolved.stackable_pattern_web, 1.8)
+
 
 if __name__ == "__main__":
     unittest.main()

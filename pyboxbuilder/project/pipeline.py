@@ -340,6 +340,7 @@ class GeometryPipeline:
 
             lid_builder = LidBuilder(pattern=PatternBuilder(PatternType.HEX))
         path = getattr(builder, "path", None)
+        lid_top_z = builder.final_size[2] if builder.final_size is not None else None
         decorated = decorate_lid(
             piece.solid,
             lid_builder,
@@ -348,6 +349,7 @@ class GeometryPipeline:
             body_color=builder.color,
             reserved=self._lid_keepouts(manifest, builder),
             path=path,
+            top_z=lid_top_z,
         )
         return decorated.solid, decorated.inserts or None
 

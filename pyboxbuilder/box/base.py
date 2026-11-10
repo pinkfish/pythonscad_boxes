@@ -175,7 +175,9 @@ class BoxTypeBase:
         A type declares these when its lid carries a feature of its own that a
         pattern would otherwise cut into — a sliding lid's fingernail dish is
         the case (FR-002e5): it is a thinned spot that gets pulled on, so it
-        needs whole material around it to pull against.
+        needs whole material around it to pull against. Corner stacking pads
+        are likewise kept solid so through-hole lid patterns do not undercut
+        the 4 corner locator pyramids/indents.
 
         Args:
             spec: The box's resolved description.
@@ -185,10 +187,40 @@ class BoxTypeBase:
             lid is a plain plate.
 
         """
+        keepouts: list[tuple[float, float, float]] = []
         catch = self._fingernail_catch(spec)
-        if catch is None:
-            return []
-        return [(catch.centre[0], catch.centre[1], catch.keepout_radius)]
+        if catch is not None:
+            keepouts.append((catch.centre[0], catch.centre[1], catch.keepout_radius))
+
+        from pyboxbuilder.enums import StackableMode, StackableShape
+
+        if (
+            spec.stackable
+            in (
+                StackableMode.FEET,
+                StackableMode.INDENTS,
+                StackableMode.PYRAMID,
+                StackableMode.PYRAMIDS,
+            )
+            and spec.stackable_shape is not StackableShape.PATTERN
+        ):
+            import math
+
+            wt = spec.wall_thickness
+            foot_size = spec.stackable_foot_size or max(6.0, wt * 2.5)
+            foot_inset = (
+                spec.stackable_foot_inset if spec.stackable_foot_inset is not None else (wt + 1.0)
+            )
+            r_pad = (foot_size * math.sqrt(2.0)) / 2.0 + 0.5
+            for x0, y0 in (
+                (foot_inset, foot_inset),
+                (spec.width - foot_inset - foot_size, foot_inset),
+                (foot_inset, spec.length - foot_inset - foot_size),
+                (spec.width - foot_inset - foot_size, spec.length - foot_inset - foot_size),
+            ):
+                keepouts.append((x0 + foot_size / 2.0, y0 + foot_size / 2.0, r_pad))
+
+        return keepouts
 
     def _fingernail_catch(self, spec: BoxSpec) -> FingernailCatch | None:
         """Return this type's fingernail dish, or ``None`` if it has none."""

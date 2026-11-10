@@ -68,6 +68,7 @@ class NoLidBox(BoxTypeBase):
             StackableMode.INDENTS,
             StackableMode.PYRAMID,
             StackableMode.PYRAMIDS,
+            StackableMode.PATTERN,
             StackableMode.PERIMETER,
         ):
             from pyboxbuilder.box.features import apply_stackable_body

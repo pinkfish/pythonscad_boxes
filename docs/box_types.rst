@@ -707,6 +707,7 @@ Universal Stacking Architecture (``StackableMode``)
 
 All box types across both open trays and lidded box families (sliding, cap, slipover, hinged, clamshell, snap-fit) support the 3D-printer-safe universal :class:`~pyboxbuilder.enums.StackableMode` and :class:`~pyboxbuilder.enums.StackableShape` architecture (**FR-101**, **SC-101**):
 
+* **``StackableMode.PATTERN``** (``"pattern"``): **Pattern-matched stacking** where the decorative pattern on the lid (e.g. ``PatternType.HEX``, ``TRIANGLE``, ``SQUARE``, ``PENROSE``, or whatever pattern is configured on the box/lid) is matched on the underside of the box body. On the bottom of the box (``z = 0``), the entire outer perimeter border and all the pattern tiles sit flat on the print bed while only the narrow web channels between the tiles are recessed with a 45° bevel; on top of the lid, a matching raised pattern web ridge locks into the bottom of the box stacked above it.
 * **``StackableMode.PYRAMIDS``** (``"pyramids"``): A set/grid of $N \times N$ 45° square pyramid socket indents recessed into the flat ``z = 0`` bottom floor, mating with a matching grid of upward-pointing 45° pyramids on the lid/top rim. Eliminates wide unsupported bridges while keeping indentation depth shallow enough for standard floors and lids.
 * **``StackableMode.PYRAMID``** (``"pyramid"``): A single 45° square pyramid socket recessed into each corner of the flat ``z = 0`` bottom floor, mating with a matching 45° pyramid boss on the lid/top rim.
 * **``StackableMode.INDENTS``** (``"indents"``): Recessed corner sockets in the underside floor of the box body, and raised locator bosses projecting upward from the lid top deck or top rim (defaults to 45° ``StackableShape.PYRAMIDS``).
@@ -728,10 +729,13 @@ Configuration parameters available on all box builders:
      - Description
    * - ``stackable``
      - ``None``
-     - :class:`~pyboxbuilder.enums.StackableMode` (``PYRAMIDS``, ``PYRAMID``, ``INDENTS``, ``FEET``, ``PERIMETER``, ``INSIDE``, ``OUTSIDE``).
+     - :class:`~pyboxbuilder.enums.StackableMode` (``PATTERN``, ``PYRAMIDS``, ``PYRAMID``, ``INDENTS``, ``FEET``, ``PERIMETER``, ``INSIDE``, ``OUTSIDE``).
    * - ``stackable_shape``
      - ``None`` (auto)
-     - :class:`~pyboxbuilder.enums.StackableShape` (``PYRAMIDS`` for a set of 45° pyramids, ``PYRAMID`` for a single 45° pyramid, ``CONE`` for 45° cones, or ``FLAT``).
+     - :class:`~pyboxbuilder.enums.StackableShape` (``PATTERN`` for pattern-matched stacking, ``PYRAMIDS`` for a set of 45° pyramids, ``PYRAMID`` for a single 45° pyramid, ``CONE`` for 45° cones, or ``FLAT``).
+   * - ``stackable_pattern``
+     - ``None`` (from lid / ``HEX``)
+     - :class:`~pyboxbuilder.enums.PatternType` used when ``stackable=StackableMode.PATTERN`` (automatically inherits from ``pattern`` / ``lid.pattern``, or defaults to ``PatternType.HEX``).
    * - ``stackable_pyramid_count``
      - ``None`` (auto)
      - Number of pyramids per side ($N$ for an $N \times N$ grid per corner) when using ``StackableShape.PYRAMIDS``.
