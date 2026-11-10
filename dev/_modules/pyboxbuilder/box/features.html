@@ -500,7 +500,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">replace</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Any</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.spec</span><span class="w"> </span><span class="kn">import</span> <span class="n">BoxSpec</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">CatchType</span><span class="p">,</span> <span class="n">PatternType</span><span class="p">,</span> <span class="n">StackableShape</span>
@@ -4740,6 +4740,145 @@
 
 
 
+<span class="n">STACKING_ORDER_PYRAMID_CONFIGS</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span> <span class="o">|</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="mi">2</span><span class="p">,</span>
+    <span class="mi">3</span><span class="p">,</span>
+    <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+    <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
+    <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
+    <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+    <span class="mi">4</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="sd">"""Keyed 45-degree pyramid configurations for sequential vertical stacking interfaces.</span>
+
+<span class="sd">Interface 0 (between box 0's lid and box 1's bottom) uses ``2`` (2×2 on all 4 corners),</span>
+<span class="sd">Interface 1 (between box 1's lid and box 2's bottom) uses ``3`` (3×3 on all 4 corners),</span>
+<span class="sd">Interface 2 uses ``(2, 3, 3, 2)`` (diagonal 2×2 and 3×3 corners),</span>
+<span class="sd">Interface 3 uses ``(3, 2, 2, 3)`` (opposite diagonal 3×3 and 2×2 corners), etc.</span>
+<span class="sd">Each configuration mates cleanly with its own female socket while physically colliding</span>
+<span class="sd">with any other configuration in the sequence, enforcing the intended stacking order.</span>
+<span class="sd">"""</span>
+
+
+<div class="viewcode-block" id="stacking_order_pyramid_config">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.features.stacking_order_pyramid_config.html#pyboxbuilder.box.features.stacking_order_pyramid_config">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">stacking_order_pyramid_config</span><span class="p">(</span><span class="n">interface_index</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">"""Return the keyed pyramid configuration for the given 0-based vertical stacking interface."""</span>
+    <span class="k">return</span> <span class="n">STACKING_ORDER_PYRAMID_CONFIGS</span><span class="p">[</span><span class="n">interface_index</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">STACKING_ORDER_PYRAMID_CONFIGS</span><span class="p">)]</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_is_active_pyramid_config</span><span class="p">(</span>
+    <span class="n">pyramid_count</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span> <span class="o">|</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Return True when ``pyramid_count`` produces at least one active corner pyramid."""</span>
+    <span class="k">if</span> <span class="n">pyramid_count</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">pyramid_count</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">if</span> <span class="n">pyramid_count</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">pyramid_count</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">pyramid_count</span> <span class="o">&gt;</span> <span class="mi">0</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">pyramid_count</span><span class="p">,</span> <span class="p">(</span><span class="nb">tuple</span><span class="p">,</span> <span class="nb">list</span><span class="p">)):</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">pyramid_count</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span> <span class="ow">and</span> <span class="nb">all</span><span class="p">(</span>
+            <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">bool</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">pyramid_count</span>
+        <span class="p">):</span>
+            <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">pyramid_count</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="nb">int</span><span class="p">(</span><span class="n">pyramid_count</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">0</span>
+        <span class="k">return</span> <span class="nb">any</span><span class="p">(</span><span class="n">_is_active_pyramid_config</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">pyramid_count</span><span class="p">)</span>
+    <span class="k">return</span> <span class="kc">True</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_has_active_top_stackable</span><span class="p">(</span><span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Return True when ``spec`` has active stacking features on its top lid/rim."""</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="s2">"stackable_top"</span><span class="p">,</span> <span class="kc">True</span><span class="p">):</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="n">top_pyr</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">spec</span><span class="o">.</span><span class="n">stackable_top_pyramid_count</span>
+        <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="s2">"stackable_top_pyramid_count"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+        <span class="k">else</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="s2">"stackable_pyramid_count"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">_is_active_pyramid_config</span><span class="p">(</span><span class="n">top_pyr</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_has_active_bottom_stackable</span><span class="p">(</span><span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Return True when ``spec`` has active stacking features on its bottom floor."""</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="s2">"stackable_bottom"</span><span class="p">,</span> <span class="kc">True</span><span class="p">):</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="n">bot_pyr</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">spec</span><span class="o">.</span><span class="n">stackable_bottom_pyramid_count</span>
+        <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="s2">"stackable_bottom_pyramid_count"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+        <span class="k">else</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="s2">"stackable_pyramid_count"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">_is_active_pyramid_config</span><span class="p">(</span><span class="n">bot_pyr</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_resolve_corner_pyramid_grids</span><span class="p">(</span>
+    <span class="n">foot_size</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">depth</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">pyramid_count</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span> <span class="o">|</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">single_pyramid</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sd">"""Resolve per-corner ``(nx, ny)`` pyramid grid counts for the 4 corners (FL, FR, BL, BR)."""</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
+
+    <span class="n">w_tip</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mf">0.4</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.15</span><span class="p">,</span> <span class="n">foot_size</span> <span class="o">*</span> <span class="mf">0.08</span><span class="p">))</span>
+    <span class="n">default_n</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="mi">1</span>
+        <span class="k">if</span> <span class="n">single_pyramid</span>
+        <span class="k">else</span> <span class="nb">max</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">((</span><span class="n">foot_size</span> <span class="o">-</span> <span class="n">w_tip</span><span class="p">)</span> <span class="o">/</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.4</span><span class="p">,</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">depth</span><span class="p">)))</span>
+    <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">single_pyramid</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)]</span> <span class="o">*</span> <span class="mi">4</span>
+    <span class="k">if</span> <span class="n">pyramid_count</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">pyramid_count</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">[(</span><span class="n">default_n</span><span class="p">,</span> <span class="n">default_n</span><span class="p">)]</span> <span class="o">*</span> <span class="mi">4</span>
+    <span class="k">if</span> <span class="n">pyramid_count</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)]</span> <span class="o">*</span> <span class="mi">4</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">pyramid_count</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">pyramid_count</span><span class="p">))</span>
+        <span class="k">return</span> <span class="p">[(</span><span class="n">n</span><span class="p">,</span> <span class="n">n</span><span class="p">)]</span> <span class="o">*</span> <span class="mi">4</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">pyramid_count</span><span class="p">,</span> <span class="p">(</span><span class="nb">tuple</span><span class="p">,</span> <span class="nb">list</span><span class="p">)):</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">pyramid_count</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span> <span class="ow">and</span> <span class="nb">all</span><span class="p">(</span>
+            <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">bool</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">pyramid_count</span>
+        <span class="p">):</span>
+            <span class="n">nx</span><span class="p">,</span> <span class="n">ny</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">pyramid_count</span><span class="p">[</span><span class="mi">0</span><span class="p">])),</span> <span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">pyramid_count</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+            <span class="k">return</span> <span class="p">[(</span><span class="n">nx</span><span class="p">,</span> <span class="n">ny</span><span class="p">)]</span> <span class="o">*</span> <span class="mi">4</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">pyramid_count</span><span class="p">)</span> <span class="o">==</span> <span class="mi">4</span><span class="p">:</span>
+            <span class="n">corners</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">pyramid_count</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">item</span> <span class="ow">is</span> <span class="kc">False</span> <span class="ow">or</span> <span class="n">item</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">corners</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+                <span class="k">elif</span> <span class="n">item</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+                    <span class="n">corners</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">default_n</span><span class="p">,</span> <span class="n">default_n</span><span class="p">))</span>
+                <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+                    <span class="n">c</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">item</span><span class="p">))</span>
+                    <span class="n">corners</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">c</span><span class="p">,</span> <span class="n">c</span><span class="p">))</span>
+                <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="p">(</span><span class="nb">tuple</span><span class="p">,</span> <span class="nb">list</span><span class="p">))</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+                    <span class="n">corners</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">item</span><span class="p">[</span><span class="mi">0</span><span class="p">])),</span> <span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">item</span><span class="p">[</span><span class="mi">1</span><span class="p">]))))</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">corners</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">default_n</span><span class="p">,</span> <span class="n">default_n</span><span class="p">))</span>
+            <span class="k">return</span> <span class="n">corners</span>
+    <span class="k">return</span> <span class="p">[(</span><span class="n">default_n</span><span class="p">,</span> <span class="n">default_n</span><span class="p">)]</span> <span class="o">*</span> <span class="mi">4</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_corner_grid_cell_metrics</span><span class="p">(</span>
+    <span class="n">foot_size</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">depth</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">clearance</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">nx</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">ny</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">"""Compute ``(pitch_x, pitch_y, b_female, h_female, b_male, h_male, w_tip)`` for an ``nx × ny`` corner pad."""</span>
+    <span class="n">w_tip</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mf">0.4</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.15</span><span class="p">,</span> <span class="n">foot_size</span> <span class="o">*</span> <span class="mf">0.08</span><span class="p">))</span>
+    <span class="n">pitch_x</span> <span class="o">=</span> <span class="n">foot_size</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">nx</span><span class="p">))</span>
+    <span class="n">pitch_y</span> <span class="o">=</span> <span class="n">foot_size</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">ny</span><span class="p">))</span>
+    <span class="n">pitch_min</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">pitch_x</span><span class="p">,</span> <span class="n">pitch_y</span><span class="p">)</span>
+    <span class="n">b_female</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">pitch_min</span><span class="p">,</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">depth</span> <span class="o">+</span> <span class="n">w_tip</span><span class="p">)</span>
+    <span class="n">h_female</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.3</span><span class="p">,</span> <span class="p">(</span><span class="n">b_female</span> <span class="o">-</span> <span class="n">w_tip</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">)</span>
+    <span class="n">b_male</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">w_tip</span> <span class="o">+</span> <span class="mf">0.2</span><span class="p">,</span> <span class="n">b_female</span> <span class="o">-</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">clearance</span><span class="p">)</span>
+    <span class="n">h_male</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">h_female</span> <span class="o">-</span> <span class="n">clearance</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">pitch_x</span><span class="p">,</span> <span class="n">pitch_y</span><span class="p">,</span> <span class="n">b_female</span><span class="p">,</span> <span class="n">h_female</span><span class="p">,</span> <span class="n">b_male</span><span class="p">,</span> <span class="n">h_male</span><span class="p">,</span> <span class="n">w_tip</span>
+
+
 <span class="k">def</span><span class="w"> </span><span class="nf">_pyramid_grid_metrics</span><span class="p">(</span>
     <span class="n">foot_size</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">depth</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
@@ -4760,7 +4899,7 @@
     <span class="n">w_tip</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mf">0.4</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.15</span><span class="p">,</span> <span class="n">foot_size</span> <span class="o">*</span> <span class="mf">0.08</span><span class="p">))</span>
     <span class="k">if</span> <span class="n">single_pyramid</span><span class="p">:</span>
         <span class="n">n</span> <span class="o">=</span> <span class="mi">1</span>
-    <span class="k">elif</span> <span class="n">pyramid_count</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">pyramid_count</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">:</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">pyramid_count</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="ow">and</span> <span class="n">pyramid_count</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">:</span>
         <span class="n">n</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">pyramid_count</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">n</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">((</span><span class="n">foot_size</span> <span class="o">-</span> <span class="n">w_tip</span><span class="p">)</span> <span class="o">/</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.4</span><span class="p">,</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">depth</span><span class="p">)))</span>
@@ -4783,7 +4922,7 @@
     <span class="n">foot_inset</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">clearance</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.15</span><span class="p">,</span>
     <span class="n">base_z</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
-    <span class="n">pyramid_count</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">pyramid_count</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">single_pyramid</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">cone</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">point_up</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
@@ -4801,7 +4940,9 @@
 <span class="sd">            pyramids protrude upward from ``base_z`` to ``base_z + h_male``.</span>
 <span class="sd">            When ``point_up=False``, pyramids protrude downward from ``base_z``</span>
 <span class="sd">            to ``base_z - h_male``.</span>
-<span class="sd">        pyramid_count: Number of pyramids per side (N for an N x N grid per corner).</span>
+<span class="sd">        pyramid_count: Pyramid grid configuration: an ``int`` N (N×N on all 4 corners),</span>
+<span class="sd">            a 2-tuple ``(nx, ny)`` (nx×ny on all 4 corners), or a 4-tuple</span>
+<span class="sd">            ``(c_fl, c_fr, c_bl, c_br)`` specifying the grid per corner.</span>
 <span class="sd">            When None, auto-computes N so every wall is at 45 degrees.</span>
 <span class="sd">        single_pyramid: If True, builds a single 45-degree pyramid per corner (N=1).</span>
 <span class="sd">        cone: If True, uses 45-degree conical frustums instead of square pyramids.</span>
@@ -4812,16 +4953,13 @@
 
     <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.compartments.element</span><span class="w"> </span><span class="kn">import</span> <span class="n">union_all</span>
 
-    <span class="n">n</span><span class="p">,</span> <span class="n">pitch</span><span class="p">,</span> <span class="n">_bf</span><span class="p">,</span> <span class="n">_hf</span><span class="p">,</span> <span class="n">b_male</span><span class="p">,</span> <span class="n">h_male</span><span class="p">,</span> <span class="n">w_tip</span> <span class="o">=</span> <span class="n">_pyramid_grid_metrics</span><span class="p">(</span>
+    <span class="n">corner_grids</span> <span class="o">=</span> <span class="n">_resolve_corner_pyramid_grids</span><span class="p">(</span>
         <span class="n">foot_size</span><span class="p">,</span>
         <span class="n">foot_height</span><span class="p">,</span>
-        <span class="n">clearance</span><span class="p">,</span>
         <span class="n">pyramid_count</span><span class="o">=</span><span class="n">pyramid_count</span><span class="p">,</span>
         <span class="n">single_pyramid</span><span class="o">=</span><span class="n">single_pyramid</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">eps</span> <span class="o">=</span> <span class="mf">0.05</span>
-    <span class="n">b_root</span> <span class="o">=</span> <span class="n">b_male</span> <span class="o">+</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">eps</span>
-    <span class="n">h_total</span> <span class="o">=</span> <span class="n">h_male</span> <span class="o">+</span> <span class="n">eps</span>
 
     <span class="n">positions</span> <span class="o">=</span> <span class="p">[</span>
         <span class="p">(</span><span class="n">foot_inset</span><span class="p">,</span> <span class="n">foot_inset</span><span class="p">),</span>
@@ -4830,11 +4968,18 @@
         <span class="p">(</span><span class="n">width</span> <span class="o">-</span> <span class="n">foot_inset</span> <span class="o">-</span> <span class="n">foot_size</span><span class="p">,</span> <span class="n">length</span> <span class="o">-</span> <span class="n">foot_inset</span> <span class="o">-</span> <span class="n">foot_size</span><span class="p">),</span>
     <span class="p">]</span>
     <span class="n">solids</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">x0</span><span class="p">,</span> <span class="n">y0</span> <span class="ow">in</span> <span class="n">positions</span><span class="p">:</span>
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
-            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
-                <span class="n">cx</span> <span class="o">=</span> <span class="n">x0</span> <span class="o">+</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">)</span> <span class="o">*</span> <span class="n">pitch</span>
-                <span class="n">cy</span> <span class="o">=</span> <span class="n">y0</span> <span class="o">+</span> <span class="p">(</span><span class="n">j</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">)</span> <span class="o">*</span> <span class="n">pitch</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">x0</span><span class="p">,</span> <span class="n">y0</span><span class="p">),</span> <span class="p">(</span><span class="n">nx</span><span class="p">,</span> <span class="n">ny</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">positions</span><span class="p">,</span> <span class="n">corner_grids</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">nx</span> <span class="o">&lt;=</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">ny</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="n">pitch_x</span><span class="p">,</span> <span class="n">pitch_y</span><span class="p">,</span> <span class="n">_bf</span><span class="p">,</span> <span class="n">_hf</span><span class="p">,</span> <span class="n">b_male</span><span class="p">,</span> <span class="n">h_male</span><span class="p">,</span> <span class="n">w_tip</span> <span class="o">=</span> <span class="n">_corner_grid_cell_metrics</span><span class="p">(</span>
+            <span class="n">foot_size</span><span class="p">,</span> <span class="n">foot_height</span><span class="p">,</span> <span class="n">clearance</span><span class="p">,</span> <span class="n">nx</span><span class="p">,</span> <span class="n">ny</span>
+        <span class="p">)</span>
+        <span class="n">b_root</span> <span class="o">=</span> <span class="n">b_male</span> <span class="o">+</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">eps</span>
+        <span class="n">h_total</span> <span class="o">=</span> <span class="n">h_male</span> <span class="o">+</span> <span class="n">eps</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nx</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ny</span><span class="p">):</span>
+                <span class="n">cx</span> <span class="o">=</span> <span class="n">x0</span> <span class="o">+</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">)</span> <span class="o">*</span> <span class="n">pitch_x</span>
+                <span class="n">cy</span> <span class="o">=</span> <span class="n">y0</span> <span class="o">+</span> <span class="p">(</span><span class="n">j</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">)</span> <span class="o">*</span> <span class="n">pitch_y</span>
                 <span class="k">if</span> <span class="n">point_up</span><span class="p">:</span>
                     <span class="k">if</span> <span class="n">cone</span><span class="p">:</span>
                         <span class="n">p</span> <span class="o">=</span> <span class="n">cylinder</span><span class="p">(</span>
@@ -4882,7 +5027,7 @@
     <span class="n">foot_inset</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">clearance</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.15</span><span class="p">,</span>
     <span class="n">surface_z</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
-    <span class="n">pyramid_count</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">pyramid_count</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">single_pyramid</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">cone</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">point_up</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
@@ -4899,16 +5044,13 @@
 
     <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.compartments.element</span><span class="w"> </span><span class="kn">import</span> <span class="n">union_all</span>
 
-    <span class="n">n</span><span class="p">,</span> <span class="n">pitch</span><span class="p">,</span> <span class="n">b_female</span><span class="p">,</span> <span class="n">h_female</span><span class="p">,</span> <span class="n">_bm</span><span class="p">,</span> <span class="n">_hm</span><span class="p">,</span> <span class="n">w_tip</span> <span class="o">=</span> <span class="n">_pyramid_grid_metrics</span><span class="p">(</span>
+    <span class="n">corner_grids</span> <span class="o">=</span> <span class="n">_resolve_corner_pyramid_grids</span><span class="p">(</span>
         <span class="n">foot_size</span><span class="p">,</span>
         <span class="n">indent_depth</span><span class="p">,</span>
-        <span class="n">clearance</span><span class="p">,</span>
         <span class="n">pyramid_count</span><span class="o">=</span><span class="n">pyramid_count</span><span class="p">,</span>
         <span class="n">single_pyramid</span><span class="o">=</span><span class="n">single_pyramid</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">eps</span> <span class="o">=</span> <span class="mf">0.05</span>
-    <span class="n">b_open</span> <span class="o">=</span> <span class="n">b_female</span> <span class="o">+</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">eps</span>
-    <span class="n">h_total</span> <span class="o">=</span> <span class="n">h_female</span> <span class="o">+</span> <span class="n">eps</span>
 
     <span class="n">positions</span> <span class="o">=</span> <span class="p">[</span>
         <span class="p">(</span><span class="n">foot_inset</span><span class="p">,</span> <span class="n">foot_inset</span><span class="p">),</span>
@@ -4917,11 +5059,18 @@
         <span class="p">(</span><span class="n">width</span> <span class="o">-</span> <span class="n">foot_inset</span> <span class="o">-</span> <span class="n">foot_size</span><span class="p">,</span> <span class="n">length</span> <span class="o">-</span> <span class="n">foot_inset</span> <span class="o">-</span> <span class="n">foot_size</span><span class="p">),</span>
     <span class="p">]</span>
     <span class="n">solids</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">x0</span><span class="p">,</span> <span class="n">y0</span> <span class="ow">in</span> <span class="n">positions</span><span class="p">:</span>
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
-            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
-                <span class="n">cx</span> <span class="o">=</span> <span class="n">x0</span> <span class="o">+</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">)</span> <span class="o">*</span> <span class="n">pitch</span>
-                <span class="n">cy</span> <span class="o">=</span> <span class="n">y0</span> <span class="o">+</span> <span class="p">(</span><span class="n">j</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">)</span> <span class="o">*</span> <span class="n">pitch</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">x0</span><span class="p">,</span> <span class="n">y0</span><span class="p">),</span> <span class="p">(</span><span class="n">nx</span><span class="p">,</span> <span class="n">ny</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">positions</span><span class="p">,</span> <span class="n">corner_grids</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">nx</span> <span class="o">&lt;=</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">ny</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="n">pitch_x</span><span class="p">,</span> <span class="n">pitch_y</span><span class="p">,</span> <span class="n">b_female</span><span class="p">,</span> <span class="n">h_female</span><span class="p">,</span> <span class="n">_bm</span><span class="p">,</span> <span class="n">_hm</span><span class="p">,</span> <span class="n">w_tip</span> <span class="o">=</span> <span class="n">_corner_grid_cell_metrics</span><span class="p">(</span>
+            <span class="n">foot_size</span><span class="p">,</span> <span class="n">indent_depth</span><span class="p">,</span> <span class="n">clearance</span><span class="p">,</span> <span class="n">nx</span><span class="p">,</span> <span class="n">ny</span>
+        <span class="p">)</span>
+        <span class="n">b_open</span> <span class="o">=</span> <span class="n">b_female</span> <span class="o">+</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">eps</span>
+        <span class="n">h_total</span> <span class="o">=</span> <span class="n">h_female</span> <span class="o">+</span> <span class="n">eps</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nx</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ny</span><span class="p">):</span>
+                <span class="n">cx</span> <span class="o">=</span> <span class="n">x0</span> <span class="o">+</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">)</span> <span class="o">*</span> <span class="n">pitch_x</span>
+                <span class="n">cy</span> <span class="o">=</span> <span class="n">y0</span> <span class="o">+</span> <span class="p">(</span><span class="n">j</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">)</span> <span class="o">*</span> <span class="n">pitch_y</span>
                 <span class="k">if</span> <span class="n">point_up</span><span class="p">:</span>
                     <span class="k">if</span> <span class="n">cone</span><span class="p">:</span>
                         <span class="n">p</span> <span class="o">=</span> <span class="n">cylinder</span><span class="p">(</span>
@@ -4971,7 +5120,7 @@
     <span class="n">chamfer</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.6</span><span class="p">,</span>
     <span class="n">shape</span><span class="p">:</span> <span class="n">StackableShape</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">clearance</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.15</span><span class="p">,</span>
-    <span class="n">pyramid_count</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">pyramid_count</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">point_up</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Return 4 corner locator feet (FR-101).</span>
@@ -5052,7 +5201,7 @@
     <span class="n">clearance</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.15</span><span class="p">,</span>
     <span class="n">top_z</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
     <span class="n">shape</span><span class="p">:</span> <span class="n">StackableShape</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">pyramid_count</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">pyramid_count</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">point_up</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Return 4 corner indent cutter solids to be subtracted from floor or lid/rim (FR-101).</span>
@@ -5631,20 +5780,33 @@
     <span class="n">clearance</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">stackable_fit_offset</span>
     <span class="n">has_lid</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">lid_thickness</span> <span class="o">&gt;</span> <span class="mf">0.0</span>
     <span class="n">shape</span> <span class="o">=</span> <span class="n">_resolve_stackable_shape</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
-    <span class="n">pyr_count</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="s2">"stackable_pyramid_count"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="n">default_pyr</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="s2">"stackable_pyramid_count"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="n">bot_pyr</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">spec</span><span class="o">.</span><span class="n">stackable_bottom_pyramid_count</span>
+        <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="s2">"stackable_bottom_pyramid_count"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+        <span class="k">else</span> <span class="n">default_pyr</span>
+    <span class="p">)</span>
+    <span class="n">top_pyr</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">spec</span><span class="o">.</span><span class="n">stackable_top_pyramid_count</span>
+        <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="s2">"stackable_top_pyramid_count"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+        <span class="k">else</span> <span class="n">default_pyr</span>
+    <span class="p">)</span>
+    <span class="n">enable_bottom</span> <span class="o">=</span> <span class="n">_has_active_bottom_stackable</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
+    <span class="n">enable_top</span> <span class="o">=</span> <span class="n">_has_active_top_stackable</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">mode</span> <span class="ow">is</span> <span class="n">StackableMode</span><span class="o">.</span><span class="n">PATTERN</span> <span class="ow">or</span> <span class="n">shape</span> <span class="ow">is</span> <span class="n">StackableShape</span><span class="o">.</span><span class="n">PATTERN</span><span class="p">:</span>
         <span class="n">depth</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">foot_height</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">floor_thickness</span> <span class="o">-</span> <span class="mf">0.4</span><span class="p">))</span>
-        <span class="n">groove</span> <span class="o">=</span> <span class="n">build_pattern_stacking_groove</span><span class="p">(</span>
-            <span class="n">spec</span><span class="p">,</span>
-            <span class="n">surface_z</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
-            <span class="n">depth</span><span class="o">=</span><span class="n">depth</span><span class="p">,</span>
-            <span class="n">clearance</span><span class="o">=</span><span class="n">clearance</span><span class="p">,</span>
-            <span class="n">point_up</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-        <span class="p">)</span>
-        <span class="k">if</span> <span class="n">groove</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">body</span> <span class="o">=</span> <span class="n">body</span> <span class="o">-</span> <span class="n">groove</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">has_lid</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">enable_bottom</span><span class="p">:</span>
+            <span class="n">groove</span> <span class="o">=</span> <span class="n">build_pattern_stacking_groove</span><span class="p">(</span>
+                <span class="n">spec</span><span class="p">,</span>
+                <span class="n">surface_z</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+                <span class="n">depth</span><span class="o">=</span><span class="n">depth</span><span class="p">,</span>
+                <span class="n">clearance</span><span class="o">=</span><span class="n">clearance</span><span class="p">,</span>
+                <span class="n">point_up</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="k">if</span> <span class="n">groove</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">body</span> <span class="o">=</span> <span class="n">body</span> <span class="o">-</span> <span class="n">groove</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">has_lid</span> <span class="ow">and</span> <span class="n">enable_top</span><span class="p">:</span>
             <span class="n">_pat_type</span><span class="p">,</span> <span class="n">margin</span><span class="p">,</span> <span class="n">_spacing</span><span class="p">,</span> <span class="n">_web</span> <span class="o">=</span> <span class="n">_resolve_stackable_pattern_params</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
             <span class="n">ledge_w</span> <span class="o">=</span> <span class="n">margin</span> <span class="o">+</span> <span class="n">clearance</span> <span class="o">+</span> <span class="mf">0.6</span>
             <span class="n">corbel</span> <span class="o">=</span> <span class="n">_build_top_perimeter_corbel</span><span class="p">(</span>
@@ -5677,20 +5839,21 @@
         <span class="n">StackableMode</span><span class="o">.</span><span class="n">PYRAMIDS</span><span class="p">,</span>
     <span class="p">):</span>
         <span class="n">depth</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">foot_height</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">floor_thickness</span> <span class="o">-</span> <span class="mf">0.4</span><span class="p">))</span>
-        <span class="n">indents</span> <span class="o">=</span> <span class="n">build_stacking_indents</span><span class="p">(</span>
-            <span class="n">spec</span><span class="o">.</span><span class="n">width</span><span class="p">,</span>
-            <span class="n">spec</span><span class="o">.</span><span class="n">length</span><span class="p">,</span>
-            <span class="n">foot_size</span><span class="p">,</span>
-            <span class="n">depth</span><span class="p">,</span>
-            <span class="n">foot_inset</span><span class="p">,</span>
-            <span class="n">clearance</span><span class="o">=</span><span class="n">clearance</span><span class="p">,</span>
-            <span class="n">top_z</span><span class="o">=</span><span class="n">depth</span><span class="p">,</span>
-            <span class="n">shape</span><span class="o">=</span><span class="n">shape</span><span class="p">,</span>
-            <span class="n">pyramid_count</span><span class="o">=</span><span class="n">pyr_count</span><span class="p">,</span>
-            <span class="n">point_up</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-        <span class="p">)</span>
-        <span class="n">body</span> <span class="o">=</span> <span class="n">body</span> <span class="o">-</span> <span class="n">indents</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">has_lid</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">enable_bottom</span><span class="p">:</span>
+            <span class="n">indents</span> <span class="o">=</span> <span class="n">build_stacking_indents</span><span class="p">(</span>
+                <span class="n">spec</span><span class="o">.</span><span class="n">width</span><span class="p">,</span>
+                <span class="n">spec</span><span class="o">.</span><span class="n">length</span><span class="p">,</span>
+                <span class="n">foot_size</span><span class="p">,</span>
+                <span class="n">depth</span><span class="p">,</span>
+                <span class="n">foot_inset</span><span class="p">,</span>
+                <span class="n">clearance</span><span class="o">=</span><span class="n">clearance</span><span class="p">,</span>
+                <span class="n">top_z</span><span class="o">=</span><span class="n">depth</span><span class="p">,</span>
+                <span class="n">shape</span><span class="o">=</span><span class="n">shape</span><span class="p">,</span>
+                <span class="n">pyramid_count</span><span class="o">=</span><span class="n">bot_pyr</span><span class="p">,</span>
+                <span class="n">point_up</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">body</span> <span class="o">=</span> <span class="n">body</span> <span class="o">-</span> <span class="n">indents</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">has_lid</span> <span class="ow">and</span> <span class="n">enable_top</span><span class="p">:</span>
             <span class="n">ledge_s</span> <span class="o">=</span> <span class="n">foot_inset</span> <span class="o">+</span> <span class="n">foot_size</span> <span class="o">+</span> <span class="n">clearance</span> <span class="o">+</span> <span class="mf">0.6</span>
             <span class="n">corbels</span> <span class="o">=</span> <span class="n">_build_top_corner_corbels</span><span class="p">(</span>
                 <span class="n">spec</span><span class="o">.</span><span class="n">width</span><span class="p">,</span>
@@ -5710,26 +5873,27 @@
                 <span class="n">base_z</span><span class="o">=</span><span class="n">spec</span><span class="o">.</span><span class="n">height</span><span class="p">,</span>
                 <span class="n">shape</span><span class="o">=</span><span class="n">shape</span><span class="p">,</span>
                 <span class="n">clearance</span><span class="o">=</span><span class="n">clearance</span><span class="p">,</span>
-                <span class="n">pyramid_count</span><span class="o">=</span><span class="n">pyr_count</span><span class="p">,</span>
+                <span class="n">pyramid_count</span><span class="o">=</span><span class="n">top_pyr</span><span class="p">,</span>
                 <span class="n">point_up</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
             <span class="p">)</span>
             <span class="n">body</span> <span class="o">=</span> <span class="n">body</span> <span class="o">|</span> <span class="n">corbels</span> <span class="o">|</span> <span class="n">feet</span>
         <span class="k">return</span> <span class="n">body</span>
     <span class="k">elif</span> <span class="n">mode</span> <span class="ow">is</span> <span class="n">StackableMode</span><span class="o">.</span><span class="n">PERIMETER</span><span class="p">:</span>
         <span class="n">depth</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">foot_height</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">floor_thickness</span> <span class="o">-</span> <span class="mf">0.4</span><span class="p">))</span>
-        <span class="n">channel</span> <span class="o">=</span> <span class="n">build_perimeter_stacking_indent</span><span class="p">(</span>
-            <span class="n">spec</span><span class="o">.</span><span class="n">width</span><span class="p">,</span>
-            <span class="n">spec</span><span class="o">.</span><span class="n">length</span><span class="p">,</span>
-            <span class="n">rim_thickness</span><span class="p">,</span>
-            <span class="n">depth</span><span class="p">,</span>
-            <span class="n">foot_inset</span><span class="p">,</span>
-            <span class="n">clearance</span><span class="o">=</span><span class="n">clearance</span><span class="p">,</span>
-            <span class="n">top_z</span><span class="o">=</span><span class="n">depth</span><span class="p">,</span>
-            <span class="n">shape</span><span class="o">=</span><span class="n">shape</span><span class="p">,</span>
-            <span class="n">point_up</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-        <span class="p">)</span>
-        <span class="n">body</span> <span class="o">=</span> <span class="n">body</span> <span class="o">-</span> <span class="n">channel</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">has_lid</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">enable_bottom</span><span class="p">:</span>
+            <span class="n">channel</span> <span class="o">=</span> <span class="n">build_perimeter_stacking_indent</span><span class="p">(</span>
+                <span class="n">spec</span><span class="o">.</span><span class="n">width</span><span class="p">,</span>
+                <span class="n">spec</span><span class="o">.</span><span class="n">length</span><span class="p">,</span>
+                <span class="n">rim_thickness</span><span class="p">,</span>
+                <span class="n">depth</span><span class="p">,</span>
+                <span class="n">foot_inset</span><span class="p">,</span>
+                <span class="n">clearance</span><span class="o">=</span><span class="n">clearance</span><span class="p">,</span>
+                <span class="n">top_z</span><span class="o">=</span><span class="n">depth</span><span class="p">,</span>
+                <span class="n">shape</span><span class="o">=</span><span class="n">shape</span><span class="p">,</span>
+                <span class="n">point_up</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">body</span> <span class="o">=</span> <span class="n">body</span> <span class="o">-</span> <span class="n">channel</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">has_lid</span> <span class="ow">and</span> <span class="n">enable_top</span><span class="p">:</span>
             <span class="n">ledge_w</span> <span class="o">=</span> <span class="n">foot_inset</span> <span class="o">+</span> <span class="n">rim_thickness</span> <span class="o">+</span> <span class="n">clearance</span> <span class="o">+</span> <span class="mf">0.6</span>
             <span class="n">corbel</span> <span class="o">=</span> <span class="n">_build_top_perimeter_corbel</span><span class="p">(</span>
                 <span class="n">spec</span><span class="o">.</span><span class="n">width</span><span class="p">,</span>
@@ -5754,6 +5918,8 @@
             <span class="n">body</span> <span class="o">=</span> <span class="n">body</span> <span class="o">|</span> <span class="n">corbel</span> <span class="o">|</span> <span class="n">foot_rim</span>
         <span class="k">return</span> <span class="n">body</span>
     <span class="k">elif</span> <span class="n">mode</span> <span class="ow">is</span> <span class="n">StackableMode</span><span class="o">.</span><span class="n">OUTSIDE</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">enable_bottom</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">body</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.shell</span><span class="w"> </span><span class="kn">import</span> <span class="n">block</span>
 
         <span class="n">fit</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">stackable_fit_offset</span>
@@ -5770,7 +5936,7 @@
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.features.apply_stackable_lid.html#pyboxbuilder.box.features.apply_stackable_lid">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">apply_stackable_lid</span><span class="p">(</span><span class="n">lid</span><span class="p">:</span> <span class="n">Bosl2Solid</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">,</span> <span class="n">top_z</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Apply matching stacking features to a box lid according to spec.stackable (FR-101)."""</span>
-    <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">stackable</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">stackable</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">_has_active_top_stackable</span><span class="p">(</span><span class="n">spec</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">lid</span>
 
     <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">StackableMode</span>
@@ -5784,7 +5950,12 @@
     <span class="n">rim_thickness</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">stackable_thickness</span> <span class="ow">or</span> <span class="n">wt</span>
     <span class="n">clearance</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">stackable_fit_offset</span>
     <span class="n">shape</span> <span class="o">=</span> <span class="n">_resolve_stackable_shape</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
-    <span class="n">pyr_count</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="s2">"stackable_pyramid_count"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="n">default_pyr</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="s2">"stackable_pyramid_count"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="n">top_pyr</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">spec</span><span class="o">.</span><span class="n">stackable_top_pyramid_count</span>
+        <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="s2">"stackable_top_pyramid_count"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+        <span class="k">else</span> <span class="n">default_pyr</span>
+    <span class="p">)</span>
 
     <span class="k">if</span> <span class="n">mode</span> <span class="ow">is</span> <span class="n">StackableMode</span><span class="o">.</span><span class="n">PATTERN</span> <span class="ow">or</span> <span class="n">shape</span> <span class="ow">is</span> <span class="n">StackableShape</span><span class="o">.</span><span class="n">PATTERN</span><span class="p">:</span>
         <span class="n">socket_depth</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">foot_height</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">floor_thickness</span> <span class="o">-</span> <span class="mf">0.4</span><span class="p">))</span>
@@ -5813,7 +5984,7 @@
             <span class="n">base_z</span><span class="o">=</span><span class="n">z_top</span><span class="p">,</span>
             <span class="n">shape</span><span class="o">=</span><span class="n">shape</span><span class="p">,</span>
             <span class="n">clearance</span><span class="o">=</span><span class="n">clearance</span><span class="p">,</span>
-            <span class="n">pyramid_count</span><span class="o">=</span><span class="n">pyr_count</span><span class="p">,</span>
+            <span class="n">pyramid_count</span><span class="o">=</span><span class="n">top_pyr</span><span class="p">,</span>
             <span class="n">point_up</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="k">return</span> <span class="n">lid</span> <span class="o">|</span> <span class="n">feet</span>

@@ -127,6 +127,7 @@ PlayerBox_Red
 - **Outer Dimensions**: ``72 × 97 × 19.6667 mm``
 - **Packed Position**: ``(0, 0, 0)``
 - **Stackable Mode**: ``StackableMode.PYRAMIDS``
+- **Stacking Order Key**: bottom ``flat (bottom of stack)``, top ``pyramids=2``
 - **Compartments (1)**: ``Bits`` (full interior)
 
 **Assembled Box (PlayerBox_Red — Body + Lid)**
@@ -165,6 +166,7 @@ PlayerBox_Green
 - **Outer Dimensions**: ``72 × 97 × 19.6667 mm``
 - **Packed Position**: ``(0, 0, 19.6667)``
 - **Stackable Mode**: ``StackableMode.PYRAMIDS``
+- **Stacking Order Key**: bottom ``pyramids=2``, top ``pyramids=3``
 - **Compartments (1)**: ``Bits`` (full interior)
 
 **Assembled Box (PlayerBox_Green — Body + Lid)**
@@ -203,6 +205,7 @@ ScoringBox
 - **Outer Dimensions**: ``72 × 97 × 19.6667 mm``
 - **Packed Position**: ``(0, 0, 39.3333)``
 - **Stackable Mode**: ``StackableMode.PYRAMIDS``
+- **Stacking Order Key**: bottom ``pyramids=3``, top ``flat (top of stack)``
 - **Compartments (1)**: ``Bits`` (full interior)
 
 **Assembled Box (ScoringBox — Body + Lid)**
@@ -241,6 +244,7 @@ PlayerBox_Blue
 - **Outer Dimensions**: ``72 × 97 × 19.6667 mm``
 - **Packed Position**: ``(72, 0, 0)``
 - **Stackable Mode**: ``StackableMode.PYRAMIDS``
+- **Stacking Order Key**: bottom ``flat (bottom of stack)``, top ``pyramids=2``
 - **Compartments (1)**: ``Bits`` (full interior)
 
 **Assembled Box (PlayerBox_Blue — Body + Lid)**
@@ -279,6 +283,7 @@ PlayerBox_Purple
 - **Outer Dimensions**: ``72 × 97 × 19.6667 mm``
 - **Packed Position**: ``(72, 0, 19.6667)``
 - **Stackable Mode**: ``StackableMode.PYRAMIDS``
+- **Stacking Order Key**: bottom ``pyramids=2``, top ``pyramids=3``
 - **Compartments (1)**: ``Bits`` (full interior)
 
 **Assembled Box (PlayerBox_Purple — Body + Lid)**
@@ -317,6 +322,7 @@ MoneyBox
 - **Outer Dimensions**: ``72 × 97 × 19.6667 mm``
 - **Packed Position**: ``(72, 0, 39.3333)``
 - **Stackable Mode**: ``StackableMode.PYRAMIDS``
+- **Stacking Order Key**: bottom ``pyramids=3``, top ``flat (top of stack)``
 - **Compartments (1)**: ``Money`` (full interior)
 
 **Assembled Box (MoneyBox — Body + Lid)**
@@ -355,6 +361,7 @@ OtherCardBox
 - **Outer Dimensions**: ``72 × 97 × 29.5 mm``
 - **Packed Position**: ``(72, 97, 0)``
 - **Stackable Mode**: ``StackableMode.PYRAMIDS``
+- **Stacking Order Key**: bottom ``flat (bottom of stack)``, top ``pyramids=2``
 - **Compartments (1)**: ``Cards`` (full interior)
 
 **Assembled Box (OtherCardBox — Body + Lid)**
@@ -393,6 +400,7 @@ TierCardBox
 - **Outer Dimensions**: ``72 × 97 × 29.5 mm``
 - **Packed Position**: ``(72, 97, 29.5)``
 - **Stackable Mode**: ``StackableMode.PYRAMIDS``
+- **Stacking Order Key**: bottom ``pyramids=2``, top ``flat (top of stack)``
 - **Compartments (1)**: ``Cards`` (full interior)
 
 **Assembled Box (TierCardBox — Body + Lid)**

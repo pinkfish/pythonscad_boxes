@@ -1481,6 +1481,44 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#pyboxbuilder.project.core.Project.stack_order" class="md-nav__link">
+    
+      <span aria-label="Python method" class="objinfo-icon objinfo-icon__procedure" title="Python method">M</span>
+    
+    <span class="md-ellipsis">
+      <span title="pyboxbuilder.project.core.Project.stack_order (Python method) — Configure a bottom-to-top sequence of boxes with keyed pyramid configurations."><span>stack_<wbr>order</span></span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="stack_order">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pyboxbuilder.project.core.Project.stack_order-parameters" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span>Parameters</span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pyboxbuilder.project.core.Project.stack_order-returns" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span>Returns</span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#pyboxbuilder.project.core.Project.token_tray" class="md-nav__link">
     
       <span aria-label="Python method" class="objinfo-icon objinfo-icon__procedure" title="Python method">M</span>
@@ -2247,6 +2285,44 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#pyboxbuilder.project.core.Project.stack_order" class="md-nav__link">
+    
+      <span aria-label="Python method" class="objinfo-icon objinfo-icon__procedure" title="Python method">M</span>
+    
+    <span class="md-ellipsis">
+      <span title="pyboxbuilder.project.core.Project.stack_order (Python method) — Configure a bottom-to-top sequence of boxes with keyed pyramid configurations."><span>stack_<wbr>order</span></span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="stack_order">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pyboxbuilder.project.core.Project.stack_order-parameters" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span>Parameters</span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pyboxbuilder.project.core.Project.stack_order-returns" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span>Returns</span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#pyboxbuilder.project.core.Project.token_tray" class="md-nav__link">
     
       <span aria-label="Python method" class="objinfo-icon objinfo-icon__procedure" title="Python method">M</span>
@@ -2755,6 +2831,33 @@ export precision.</p>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/builtins/exceptions.html#ValueError" title="(in Python v3.15)"><strong>ValueError</strong></a> – If <code class="docutils literal notranslate"><span class="pre">remove_layers</span></code> is negative, <code class="docutils literal notranslate"><span class="pre">only</span></code> names a box
     this project does not have, or a precision setting is out of
     range.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method objdesc">
+<dt class="sig sig-object highlight sig-wrap py" id="pyboxbuilder.project.core.Project.stack_order">
+<span class="sig-name descname"><span class="pre">stack_order</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">*</span></span><a class="n reference internal" href="#pyboxbuilder.project.core.Project.stack_order.boxes" title="pyboxbuilder.project.core.Project.stack_order.boxes (Python parameter) — Two or more BoxBuilder instances or box label strings, ordered from bottom to top."><span class="n"><span class="pre">boxes</span></span></a><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="desctype"><span class="pre">BoxBuilder</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><span class="pre">str</span></a></span></span></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#pyboxbuilder.project.core.Project.stack_order.mode" title="pyboxbuilder.project.core.Project.stack_order.mode (Python parameter) — Stacking mode to set on each box (defaults to StackableMode.PYRAMIDS)."><span class="n"><span class="pre">mode</span></span></a><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference internal" href="pyboxbuilder.enums.StackableMode.html#pyboxbuilder.enums.StackableMode" title="pyboxbuilder.enums.StackableMode (Python class) — Bases: Enum"><span class="pre">StackableMode</span></a></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><code class="code python default_value docutils literal highlight highlight-python"><span class="n">StackableMode</span><span class="o">.</span><span class="n">PYRAMIDS</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#pyboxbuilder.project.core.Project.stack_order.configs" title="pyboxbuilder.project.core.Project.stack_order.configs (Python parameter) — Optional explicit sequence of pyramid configurations for each interface."><span class="n"><span class="pre">configs</span></span></a><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Sequence" title="(in Python v3.15)"><span class="pre">collections.abc.Sequence</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.15)"><span class="pre">int</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#tuple" title="(in Python v3.15)"><span class="pre">tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.15)"><span class="pre">int</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.15)"><span class="pre">None</span></a></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em></span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.15)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><span class="pre">BoxBuilder</span><span class="p"><span class="pre">]</span></span></span></span></span><a class="reference internal" href="../_modules/pyboxbuilder/project/core.html#Project.stack_order"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyboxbuilder.project.core.Project.stack_order" title="Link to this definition">¶</a></dt>
+<dd><p>Configure a bottom-to-top sequence of boxes with keyed pyramid configurations.</p>
+<p>Ensures the boxes can only be stacked in the specified bottom-to-top order:
+the bottom box has a flat floor (<code class="docutils literal notranslate"><span class="pre">stackable_bottom=False</span></code>), each interface
+between box <code class="docutils literal notranslate"><span class="pre">i</span></code>’s top lid and box <code class="docutils literal notranslate"><span class="pre">i</span> <span class="pre">+</span> <span class="pre">1</span></code>’s bottom floor receives a distinct
+pyramid configuration (e.g. <code class="docutils literal notranslate"><span class="pre">2</span></code>, <code class="docutils literal notranslate"><span class="pre">3</span></code>, <code class="docutils literal notranslate"><span class="pre">(2,</span> <span class="pre">3,</span> <span class="pre">3,</span> <span class="pre">2)</span></code>, <code class="docutils literal notranslate"><span class="pre">(3,</span> <span class="pre">2,</span> <span class="pre">2,</span> <span class="pre">3)</span></code>),
+and the top box has a flat lid (<code class="docutils literal notranslate"><span class="pre">stackable_top=False</span></code>).</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="pyboxbuilder.project.core.Project.stack_order-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#pyboxbuilder.project.core.Project.stack_order-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt id="pyboxbuilder.project.core.Project.stack_order.boxes"><span class="o">*</span><span class="n sig-name">boxes</span><span class="p">:</span><span class="w"> </span><span class="n"><span class="desctype">BoxBuilder<span class="w"> </span><span class="p">|</span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)">str</a></span></span><a class="headerlink" href="#pyboxbuilder.project.core.Project.stack_order.boxes" title="Permalink to this definition">¶</a></dt><dd><p>Two or more <code class="xref py py-class docutils literal notranslate"><span class="pre">BoxBuilder</span></code> instances or box label strings,
+ordered from bottom to top.</p>
+</dd>
+<dt id="pyboxbuilder.project.core.Project.stack_order.mode"><span class="n sig-name">mode</span><span class="p">:</span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference internal" href="pyboxbuilder.enums.StackableMode.html#pyboxbuilder.enums.StackableMode" title="pyboxbuilder.enums.StackableMode (Python class) — Bases: Enum">StackableMode</a></span></span><span class="w"> </span><span class="o">=</span><span class="w"> </span><code class="code python default_value docutils literal highlight highlight-python"><span class="n">StackableMode</span><span class="o">.</span><span class="n">PYRAMIDS</span></code><a class="headerlink" href="#pyboxbuilder.project.core.Project.stack_order.mode" title="Permalink to this definition">¶</a></dt><dd><p>Stacking mode to set on each box (defaults to <code class="docutils literal notranslate"><span class="pre">StackableMode.PYRAMIDS</span></code>).</p>
+</dd>
+<dt id="pyboxbuilder.project.core.Project.stack_order.configs"><span class="n sig-name">configs</span><span class="p">:</span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Sequence" title="(in Python v3.15)">collections.abc.Sequence</a><span class="p">[</span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.15)">int</a><span class="w"> </span><span class="p">|</span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#tuple" title="(in Python v3.15)">tuple</a><span class="p">[</span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.15)">int</a><span class="p">,</span><span class="w"> </span><span class="p">...</span><span class="p">]</span><span class="p">]</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.15)">None</a></span></span><span class="w"> </span><span class="o">=</span><span class="w"> </span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code><a class="headerlink" href="#pyboxbuilder.project.core.Project.stack_order.configs" title="Permalink to this definition">¶</a></dt><dd><p>Optional explicit sequence of pyramid configurations for each interface.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even" id="pyboxbuilder.project.core.Project.stack_order-returns">Returns<span class="colon">:</span><a class="headerlink" href="#pyboxbuilder.project.core.Project.stack_order-returns" title="Permalink to this headline">¶</a></dt>
+<dd class="field-even"><p>The resolved list of <code class="xref py py-class docutils literal notranslate"><span class="pre">BoxBuilder</span></code> objects in bottom-to-top order.</p>
 </dd>
 </dl>
 </dd></dl>

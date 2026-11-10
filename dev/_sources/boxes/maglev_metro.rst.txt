@@ -132,6 +132,7 @@ CardBox_Connections
 - **Outer Dimensions**: ``73 × 96 × 23.9 mm``
 - **Packed Position**: ``(0, 0, 0)``
 - **Stackable Mode**: ``StackableMode.PYRAMIDS``
+- **Stacking Order Key**: bottom ``flat (bottom of stack)``, top ``pyramids=2``
 - **Compartments (1)**: ``Cards`` (full interior)
 
 **Assembled Box (CardBox_Connections — Body + Lid)**
@@ -170,6 +171,7 @@ CardBox_Passengers
 - **Outer Dimensions**: ``73 × 96 × 23.9 mm``
 - **Packed Position**: ``(0, 96, 0)``
 - **Stackable Mode**: ``StackableMode.PYRAMIDS``
+- **Stacking Order Key**: bottom ``flat (bottom of stack)``, top ``pyramids=2``
 - **Compartments (1)**: ``Cards`` (full interior)
 
 **Assembled Box (CardBox_Passengers — Body + Lid)**
@@ -208,6 +210,7 @@ CardBox_Tracks
 - **Outer Dimensions**: ``73 × 96 × 23.9 mm``
 - **Packed Position**: ``(0, 0, 23.9)``
 - **Stackable Mode**: ``StackableMode.PYRAMIDS``
+- **Stacking Order Key**: bottom ``pyramids=2``, top ``flat (top of stack)``
 - **Compartments (1)**: ``Cards`` (full interior)
 
 **Assembled Box (CardBox_Tracks — Body + Lid)**
@@ -246,6 +249,7 @@ CardBox_PlayerObjectives
 - **Outer Dimensions**: ``73 × 96 × 23.9 mm``
 - **Packed Position**: ``(0, 96, 23.9)``
 - **Stackable Mode**: ``StackableMode.PYRAMIDS``
+- **Stacking Order Key**: bottom ``pyramids=2``, top ``flat (top of stack)``
 - **Compartments (1)**: ``Cards`` (full interior)
 
 **Assembled Box (CardBox_PlayerObjectives — Body + Lid)**
@@ -284,6 +288,7 @@ PlayerBox_green
 - **Outer Dimensions**: ``61.5 × 143 × 23.9 mm``
 - **Packed Position**: ``(73, 0, 0)``
 - **Stackable Mode**: ``StackableMode.PYRAMIDS``
+- **Stacking Order Key**: bottom ``flat (bottom of stack)``, top ``pyramids=2``
 - **Compartments (2)**: ``TrackHexes`` (L=60%), ``TrainsAndBits`` (L=40%)
 
 **Assembled Box (PlayerBox_green — Body + Lid)**
@@ -322,6 +327,7 @@ PlayerBox_deeppink
 - **Outer Dimensions**: ``61.5 × 143 × 23.9 mm``
 - **Packed Position**: ``(73, 143, 0)``
 - **Stackable Mode**: ``StackableMode.PYRAMIDS``
+- **Stacking Order Key**: bottom ``flat (bottom of stack)``, top ``pyramids=2``
 - **Compartments (2)**: ``TrackHexes`` (L=60%), ``TrainsAndBits`` (L=40%)
 
 **Assembled Box (PlayerBox_deeppink — Body + Lid)**
@@ -360,6 +366,7 @@ PlayerBox_cyan
 - **Outer Dimensions**: ``61.5 × 143 × 23.9 mm``
 - **Packed Position**: ``(73, 0, 23.9)``
 - **Stackable Mode**: ``StackableMode.PYRAMIDS``
+- **Stacking Order Key**: bottom ``pyramids=2``, top ``flat (top of stack)``
 - **Compartments (2)**: ``TrackHexes`` (L=60%), ``TrainsAndBits`` (L=40%)
 
 **Assembled Box (PlayerBox_cyan — Body + Lid)**
@@ -398,6 +405,7 @@ PlayerBox_darkorange
 - **Outer Dimensions**: ``61.5 × 143 × 23.9 mm``
 - **Packed Position**: ``(73, 143, 23.9)``
 - **Stackable Mode**: ``StackableMode.PYRAMIDS``
+- **Stacking Order Key**: bottom ``pyramids=2``, top ``flat (top of stack)``
 - **Compartments (2)**: ``TrackHexes`` (L=60%), ``TrainsAndBits`` (L=40%)
 
 **Assembled Box (PlayerBox_darkorange — Body + Lid)**

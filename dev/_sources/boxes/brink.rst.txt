@@ -292,6 +292,7 @@ CardBox_Actions
 - **Outer Dimensions**: ``106.5 × 77.5 × 26 mm``
 - **Packed Position**: ``(0, 200, 0)``
 - **Stackable Mode**: ``StackableMode.PYRAMIDS``
+- **Stacking Order Key**: bottom ``flat (bottom of stack)``, top ``pyramids=2``
 - **Compartments (1)**: ``Cards`` (full interior)
 
 **Assembled Box (CardBox_Actions — Body + Lid)**
@@ -330,6 +331,7 @@ CardBox_Riders
 - **Outer Dimensions**: ``106.5 × 77.5 × 26 mm``
 - **Packed Position**: ``(106.5, 200, 0)``
 - **Stackable Mode**: ``StackableMode.PYRAMIDS``
+- **Stacking Order Key**: bottom ``flat (bottom of stack)``, top ``pyramids=2``
 - **Compartments (1)**: ``Cards`` (full interior)
 
 **Assembled Box (CardBox_Riders — Body + Lid)**
@@ -368,6 +370,7 @@ CardBox_Ambassadors
 - **Outer Dimensions**: ``106.5 × 77.5 × 26 mm``
 - **Packed Position**: ``(0, 200, 26)``
 - **Stackable Mode**: ``StackableMode.PYRAMIDS``
+- **Stacking Order Key**: bottom ``pyramids=2``, top ``flat (top of stack)``
 - **Compartments (1)**: ``Cards`` (full interior)
 
 **Assembled Box (CardBox_Ambassadors — Body + Lid)**
@@ -406,6 +409,7 @@ CardBox_Factions
 - **Outer Dimensions**: ``106.5 × 77.5 × 26 mm``
 - **Packed Position**: ``(106.5, 200, 26)``
 - **Stackable Mode**: ``StackableMode.PYRAMIDS``
+- **Stacking Order Key**: bottom ``pyramids=2``, top ``flat (top of stack)``
 - **Compartments (1)**: ``Cards`` (full interior)
 
 **Assembled Box (CardBox_Factions — Body + Lid)**

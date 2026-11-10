@@ -91,5 +91,6 @@ pyboxbuilder.box.features
       sliding_track
       slipover_gap
       slipover_metrics
+      stacking_order_pyramid_config
    
    

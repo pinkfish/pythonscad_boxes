@@ -636,6 +636,16 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#keyed-pyramid-configurations-for-enforcing-stacking-order-project-stack-order" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span title="box_types:keyed pyramid configurations for enforcing stacking order (``project.stack_order``) (reference label)"><span>Keyed Pyramid Configurations for Enforcing Stacking Order <wbr>(project.<wbr>stack_<wbr>order)</span></span>
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1114,6 +1124,16 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#keyed-pyramid-configurations-for-enforcing-stacking-order-project-stack-order" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span title="box_types:keyed pyramid configurations for enforcing stacking order (``project.stack_order``) (reference label)"><span>Keyed Pyramid Configurations for Enforcing Stacking Order <wbr>(project.<wbr>stack_<wbr>order)</span></span>
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1287,6 +1307,7 @@
 <ul>
 <li><p><a class="reference internal" href="#pattern-matched-stacking-stackablemode-pattern" id="id29">Pattern-Matched Stacking (<code class="docutils literal notranslate"><span class="pre">StackableMode.PATTERN</span></code>)</a></p></li>
 <li><p><a class="reference internal" href="#push-up-slide-latch-stacking-for-flipped-lid-boxes-stackablemode-slide-latch" id="id30">Push-Up Slide-Latch Stacking for Flipped-Lid Boxes (<code class="docutils literal notranslate"><span class="pre">StackableMode.SLIDE_LATCH</span></code>)</a></p></li>
+<li><p><a class="reference internal" href="#keyed-pyramid-configurations-for-enforcing-stacking-order-project-stack-order" id="id31">Keyed Pyramid Configurations for Enforcing Stacking Order (<code class="docutils literal notranslate"><span class="pre">project.stack_order</span></code>)</a></p></li>
 </ul>
 </li>
 </ul>
@@ -1895,7 +1916,23 @@
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">stackable_pyramid_count</span></code></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">None</span></code> (auto)</p></td>
-<td><p>Number of pyramids per side ($N$ for an $N times N$ grid per corner) when using <code class="docutils literal notranslate"><span class="pre">StackableShape.PYRAMIDS</span></code>.</p></td>
+<td><p>Pyramid configuration per corner when using <code class="docutils literal notranslate"><span class="pre">StackableShape.PYRAMIDS</span></code>: an <code class="docutils literal notranslate"><span class="pre">int</span></code> $N$ ($N times N$ on all 4 corners), a 2-tuple <code class="docutils literal notranslate"><span class="pre">(nx,</span> <span class="pre">ny)</span></code> ($n_x times n_y$ on all 4 corners), or a 4-tuple <code class="docutils literal notranslate"><span class="pre">(c_fl,</span> <span class="pre">c_fr,</span> <span class="pre">c_bl,</span> <span class="pre">c_br)</span></code> specifying the pyramid grid per corner <code class="docutils literal notranslate"><span class="pre">(front_left,</span> <span class="pre">front_right,</span> <span class="pre">back_left,</span> <span class="pre">back_right)</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">stackable_top_pyramid_count</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">None</span></code> (from <code class="docutils literal notranslate"><span class="pre">stackable_pyramid_count</span></code>)</p></td>
+<td><p>Override the pyramid configuration on the <strong>top</strong> face (lid or open-tray top rim) independently of the bottom face to key specific pairs of boxes together.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">stackable_bottom_pyramid_count</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">None</span></code> (from <code class="docutils literal notranslate"><span class="pre">stackable_pyramid_count</span></code>)</p></td>
+<td><p>Override the pyramid configuration on the <strong>bottom</strong> floor independently of the top face to match the box directly beneath it.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">stackable_top</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">True</span></code></p></td>
+<td><p>Whether to generate raised stacking bosses on the top face (set <code class="docutils literal notranslate"><span class="pre">False</span></code> on the top-most box of a stack so its lid is completely flush).</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">stackable_bottom</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">True</span></code></p></td>
+<td><p>Whether to generate recessed stacking sockets in the bottom floor (set <code class="docutils literal notranslate"><span class="pre">False</span></code> on the bottom-most box of a stack so its floor is solid).</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">stackable_printer_safe</span></code></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">True</span></code></p></td>
@@ -2019,6 +2056,62 @@
 </code></pre></div>
 </div>
 <div class="stl-viewer" data-stl-uri="_stl/1b99a34766004ffa.stl" data-stl-color="#6f9ac9" style="width:100%;height:360px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a class="reference external" href="_stl/1b99a34766004ffa.stl">⬇ Download STL mesh</a></p>
+<h3 id="keyed-pyramid-configurations-for-enforcing-stacking-order-project-stack-order"><a class="toc-backref" href="#id31" role="doc-backlink">Keyed Pyramid Configurations for Enforcing Stacking Order (<code class="docutils literal notranslate"><span class="pre">project.stack_order</span></code>)</a><a class="headerlink" href="#keyed-pyramid-configurations-for-enforcing-stacking-order-project-stack-order" title="Link to this heading">¶</a></h3>
+<p>When multiple similar slip-on/sliding-lid boxes (<code class="docutils literal notranslate"><span class="pre">BoxType.SLIDING</span></code>, e.g. card decks or tiered item trays) are stacked in a vertical column, you can configure <strong>keyed pyramid ridges</strong> on the top of each lid and the bottom of the box above it so the boxes physically lock only in the exact bottom-to-top order:</p>
+<ul class="simple">
+<li><p><strong>Bottom box</strong> (<code class="docutils literal notranslate"><span class="pre">box[0]</span></code>): <code class="docutils literal notranslate"><span class="pre">stackable_bottom=False</span></code> (solid flat floor) and <code class="docutils literal notranslate"><span class="pre">stackable_top_pyramid_count=2</span></code> ($2 times 2$ pyramids per corner on its lid).</p></li>
+<li><p><strong>Middle boxes</strong> (<code class="docutils literal notranslate"><span class="pre">box[i]</span></code>): <code class="docutils literal notranslate"><span class="pre">stackable_bottom_pyramid_count</span></code> matches <code class="docutils literal notranslate"><span class="pre">box[i</span> <span class="pre">-</span> <span class="pre">1]</span></code>’s lid, while <code class="docutils literal notranslate"><span class="pre">stackable_top_pyramid_count</span></code> advances to the next mutually incompatible pyramid grid in <code class="docutils literal notranslate"><span class="pre">STACKING_ORDER_PYRAMID_CONFIGS</span></code> (<code class="docutils literal notranslate"><span class="pre">2</span></code>, <code class="docutils literal notranslate"><span class="pre">3</span></code>, <code class="docutils literal notranslate"><span class="pre">(2,</span> <span class="pre">3,</span> <span class="pre">3,</span> <span class="pre">2)</span></code>, <code class="docutils literal notranslate"><span class="pre">(3,</span> <span class="pre">2,</span> <span class="pre">2,</span> <span class="pre">3)</span></code>, <code class="docutils literal notranslate"><span class="pre">(2,</span> <span class="pre">2,</span> <span class="pre">3,</span> <span class="pre">3)</span></code>, <code class="docutils literal notranslate"><span class="pre">(3,</span> <span class="pre">3,</span> <span class="pre">2,</span> <span class="pre">2)</span></code>, <code class="docutils literal notranslate"><span class="pre">4</span></code>). Because the peaks of a $2 times 2$ corner pad hit the solid floor webs of a $3 times 3$ socket (and vice versa), out-of-order boxes physically interfere and refuse to seat flush.</p></li>
+<li><p><strong>Top box</strong> (<code class="docutils literal notranslate"><span class="pre">box[-1]</span></code>): <code class="docutils literal notranslate"><span class="pre">stackable_bottom_pyramid_count</span></code> matches the lid below it, and <code class="docutils literal notranslate"><span class="pre">stackable_top=False</span></code> keeps the top lid completely flat.</p></li>
+</ul>
+<p>Use <a class="reference internal" href="_autosummary/pyboxbuilder.project.core.Project.html#pyboxbuilder.project.core.Project.stack_order" title="pyboxbuilder.project.core.Project.stack_order (Python method) — Configure a bottom-to-top sequence of boxes with keyed pyramid configurations."><code class="xref py py-meth docutils literal notranslate"><span class="pre">stack_order()</span></code></a> (or let <a class="reference internal" href="_autosummary/pyboxbuilder.project.compiler.LayoutCompiler.html#pyboxbuilder.project.compiler.LayoutCompiler" title="pyboxbuilder.project.compiler.LayoutCompiler (Python class) — Bases: object"><code class="xref py py-class docutils literal notranslate"><span class="pre">LayoutCompiler</span></code></a> auto-assign keyed pyramid configs to vertical <code class="docutils literal notranslate"><span class="pre">StackableMode.PYRAMIDS</span></code> columns):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="n">project</span> <span class="o">=</span> <span class="n">Project</span><span class="p">(</span><span class="s2">"StackOrderDemo"</span><span class="p">)</span>
+<span class="n">c1</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">box</span><span class="p">(</span>
+    <span class="n">BoxType</span><span class="o">.</span><span class="n">SLIDING</span><span class="p">,</span>
+    <span class="s2">"DeckTier1_Bottom"</span><span class="p">,</span>
+    <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mf">65.0</span><span class="p">,</span> <span class="mf">90.0</span><span class="p">,</span> <span class="mf">16.0</span><span class="p">),</span>
+    <span class="n">color</span><span class="o">=</span><span class="n">Color</span><span class="p">(</span><span class="s2">"darkred"</span><span class="p">),</span>
+    <span class="n">position</span><span class="o">=</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span>
+    <span class="n">lid</span><span class="o">=</span><span class="n">LidBuilder</span><span class="p">(</span>
+        <span class="n">label_mode</span><span class="o">=</span><span class="n">LabelMode</span><span class="o">.</span><span class="n">FRAMED</span><span class="p">,</span>
+        <span class="n">frame_color</span><span class="o">=</span><span class="n">Color</span><span class="p">(</span><span class="s2">"gold"</span><span class="p">),</span>
+        <span class="n">text_color</span><span class="o">=</span><span class="n">Color</span><span class="p">(</span><span class="s2">"white"</span><span class="p">),</span>
+        <span class="n">pattern</span><span class="o">=</span><span class="n">PatternBuilder</span><span class="p">(</span><span class="n">PatternType</span><span class="o">.</span><span class="n">DENSE_HEX</span><span class="p">),</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">titled</span><span class="p">(</span><span class="s2">"TIER 1"</span><span class="p">),</span>
+<span class="p">)</span>
+<span class="n">c1</span><span class="o">.</span><span class="n">compartment</span><span class="p">(</span><span class="s2">"Cards"</span><span class="p">,</span> <span class="n">holds_pieces</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">c2</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">box</span><span class="p">(</span>
+    <span class="n">BoxType</span><span class="o">.</span><span class="n">SLIDING</span><span class="p">,</span>
+    <span class="s2">"DeckTier2_Middle"</span><span class="p">,</span>
+    <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mf">65.0</span><span class="p">,</span> <span class="mf">90.0</span><span class="p">,</span> <span class="mf">16.0</span><span class="p">),</span>
+    <span class="n">color</span><span class="o">=</span><span class="n">Color</span><span class="p">(</span><span class="s2">"forestgreen"</span><span class="p">),</span>
+    <span class="n">position</span><span class="o">=</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">20.0</span><span class="p">),</span>
+    <span class="n">lid</span><span class="o">=</span><span class="n">LidBuilder</span><span class="p">(</span>
+        <span class="n">label_mode</span><span class="o">=</span><span class="n">LabelMode</span><span class="o">.</span><span class="n">FRAMED</span><span class="p">,</span>
+        <span class="n">frame_color</span><span class="o">=</span><span class="n">Color</span><span class="p">(</span><span class="s2">"gold"</span><span class="p">),</span>
+        <span class="n">text_color</span><span class="o">=</span><span class="n">Color</span><span class="p">(</span><span class="s2">"white"</span><span class="p">),</span>
+        <span class="n">pattern</span><span class="o">=</span><span class="n">PatternBuilder</span><span class="p">(</span><span class="n">PatternType</span><span class="o">.</span><span class="n">DENSE_HEX</span><span class="p">),</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">titled</span><span class="p">(</span><span class="s2">"TIER 2"</span><span class="p">),</span>
+<span class="p">)</span>
+<span class="n">c2</span><span class="o">.</span><span class="n">compartment</span><span class="p">(</span><span class="s2">"Cards"</span><span class="p">,</span> <span class="n">holds_pieces</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">c3</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">box</span><span class="p">(</span>
+    <span class="n">BoxType</span><span class="o">.</span><span class="n">SLIDING</span><span class="p">,</span>
+    <span class="s2">"DeckTier3_Top"</span><span class="p">,</span>
+    <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mf">65.0</span><span class="p">,</span> <span class="mf">90.0</span><span class="p">,</span> <span class="mf">16.0</span><span class="p">),</span>
+    <span class="n">color</span><span class="o">=</span><span class="n">Color</span><span class="p">(</span><span class="s2">"royalblue"</span><span class="p">),</span>
+    <span class="n">position</span><span class="o">=</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">40.0</span><span class="p">),</span>
+    <span class="n">lid</span><span class="o">=</span><span class="n">LidBuilder</span><span class="p">(</span>
+        <span class="n">label_mode</span><span class="o">=</span><span class="n">LabelMode</span><span class="o">.</span><span class="n">FRAMED</span><span class="p">,</span>
+        <span class="n">frame_color</span><span class="o">=</span><span class="n">Color</span><span class="p">(</span><span class="s2">"gold"</span><span class="p">),</span>
+        <span class="n">text_color</span><span class="o">=</span><span class="n">Color</span><span class="p">(</span><span class="s2">"white"</span><span class="p">),</span>
+        <span class="n">pattern</span><span class="o">=</span><span class="n">PatternBuilder</span><span class="p">(</span><span class="n">PatternType</span><span class="o">.</span><span class="n">DENSE_HEX</span><span class="p">),</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">titled</span><span class="p">(</span><span class="s2">"TIER 3"</span><span class="p">),</span>
+<span class="p">)</span>
+<span class="n">c3</span><span class="o">.</span><span class="n">compartment</span><span class="p">(</span><span class="s2">"Cards"</span><span class="p">,</span> <span class="n">holds_pieces</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">project</span><span class="o">.</span><span class="n">stack_order</span><span class="p">(</span><span class="n">c1</span><span class="p">,</span> <span class="n">c2</span><span class="p">,</span> <span class="n">c3</span><span class="p">)</span>
+<span class="n">project</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">show_lids</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</code></pre></div>
+</div>
+<div class="stl-viewer" data-stl-uri="_stl/8737bc5a81a4d5bd.stl" data-stl-color="#6f9ac9" style="width:100%;height:360px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a class="reference external" href="_stl/8737bc5a81a4d5bd.stl">⬇ Download STL mesh</a></p>
 
 
 

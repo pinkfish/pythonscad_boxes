@@ -730,8 +730,53 @@
             <span class="n">val</span> <span class="o">=</span> <span class="n">resolved_sizes</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">builder</span><span class="o">.</span><span class="n">label</span><span class="p">)</span> <span class="ow">or</span> <span class="n">resolved_min_sizes</span><span class="p">[</span><span class="n">builder</span><span class="o">.</span><span class="n">label</span><span class="p">]</span>
             <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="n">builder</span><span class="p">,</span> <span class="s2">"final_size"</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span>
 
+        <span class="bp">cls</span><span class="o">.</span><span class="n">_apply_stacking_order_configs</span><span class="p">(</span><span class="n">manifest</span><span class="p">,</span> <span class="n">packing</span><span class="o">.</span><span class="n">placements</span><span class="p">)</span>
+
         <span class="k">return</span> <span class="n">packing</span></div>
 
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_apply_stacking_order_configs</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span> <span class="n">manifest</span><span class="p">:</span> <span class="n">ProjectManifest</span><span class="p">,</span> <span class="n">placements</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Placement</span><span class="p">]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Assign keyed pyramid configurations to vertical stacks of PYRAMIDS boxes."""</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.features</span><span class="w"> </span><span class="kn">import</span> <span class="n">stacking_order_pyramid_config</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">StackableMode</span>
+
+        <span class="n">by_footprint</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">BoxBuilder</span><span class="p">]]]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">placements</span><span class="p">:</span>
+            <span class="n">b</span> <span class="o">=</span> <span class="n">manifest</span><span class="o">.</span><span class="n">get_by_label</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">label</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">b</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">b</span><span class="o">.</span><span class="n">stackable</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">StackableMode</span><span class="o">.</span><span class="n">PYRAMIDS</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="n">key</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="nb">round</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">),</span>
+                <span class="nb">round</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">1</span><span class="p">),</span>
+                <span class="nb">round</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">),</span>
+                <span class="nb">round</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">1</span><span class="p">),</span>
+            <span class="p">)</span>
+            <span class="n">by_footprint</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="p">[])</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">p</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">b</span><span class="p">))</span>
+
+        <span class="k">for</span> <span class="n">items</span> <span class="ow">in</span> <span class="n">by_footprint</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">items</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="n">ordered</span> <span class="o">=</span> <span class="p">[</span><span class="n">b</span> <span class="k">for</span> <span class="n">_z</span><span class="p">,</span> <span class="n">b</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">items</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">])]</span>
+            <span class="c1"># Only auto-assign if none of the boxes in the column already have explicit</span>
+            <span class="c1"># top/bottom pyramid overrides.</span>
+            <span class="k">if</span> <span class="nb">any</span><span class="p">(</span>
+                <span class="n">b</span><span class="o">.</span><span class="n">stackable_top_pyramid_count</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+                <span class="ow">or</span> <span class="n">b</span><span class="o">.</span><span class="n">stackable_bottom_pyramid_count</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+                <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">ordered</span>
+            <span class="p">):</span>
+                <span class="k">continue</span>
+
+            <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="n">ordered</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s2">"stackable_bottom"</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+            <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="n">ordered</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="s2">"stackable_top"</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">ordered</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+                <span class="n">cfg</span> <span class="o">=</span> <span class="n">stacking_order_pyramid_config</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span>
+                <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="n">ordered</span><span class="p">[</span><span class="n">idx</span><span class="p">],</span> <span class="s2">"stackable_top"</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+                <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="n">ordered</span><span class="p">[</span><span class="n">idx</span><span class="p">],</span> <span class="s2">"stackable_top_pyramid_count"</span><span class="p">,</span> <span class="n">cfg</span><span class="p">)</span>
+                <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="n">ordered</span><span class="p">[</span><span class="n">idx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">],</span> <span class="s2">"stackable_bottom"</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+                <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="n">ordered</span><span class="p">[</span><span class="n">idx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">],</span> <span class="s2">"stackable_bottom_pyramid_count"</span><span class="p">,</span> <span class="n">cfg</span><span class="p">)</span>
 
 <div class="viewcode-block" id="LayoutCompiler.spacer_placements">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.project.compiler.LayoutCompiler.html#pyboxbuilder.project.compiler.LayoutCompiler.spacer_placements">[docs]</a>

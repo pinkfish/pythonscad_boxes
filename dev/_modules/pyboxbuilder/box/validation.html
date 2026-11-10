@@ -773,12 +773,21 @@
                     <span class="n">message</span><span class="o">=</span><span class="sa">f</span><span class="s2">"Stackable foot height must be positive, got </span><span class="si">{</span><span class="n">spec</span><span class="o">.</span><span class="n">stackable_foot_height</span><span class="si">}</span><span class="s2">mm."</span><span class="p">,</span>
                     <span class="n">guidance</span><span class="o">=</span><span class="s2">"Set stackable_foot_height to a positive value (e.g. 1.6mm)."</span><span class="p">,</span>
                 <span class="p">)</span>
-            <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">stackable_pyramid_count</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">spec</span><span class="o">.</span><span class="n">stackable_pyramid_count</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">stackable_pyramid_count</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="ow">and</span> <span class="n">spec</span><span class="o">.</span><span class="n">stackable_pyramid_count</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="n">GeometryValidationError</span><span class="p">(</span>
                     <span class="n">label</span><span class="o">=</span><span class="n">spec</span><span class="o">.</span><span class="n">label</span><span class="p">,</span>
                     <span class="n">invariant</span><span class="o">=</span><span class="s2">"positive_stackable_pyramid_count"</span><span class="p">,</span>
                     <span class="n">message</span><span class="o">=</span><span class="sa">f</span><span class="s2">"Stackable pyramid count must be &gt;= 1, got </span><span class="si">{</span><span class="n">spec</span><span class="o">.</span><span class="n">stackable_pyramid_count</span><span class="si">}</span><span class="s2">."</span><span class="p">,</span>
                     <span class="n">guidance</span><span class="o">=</span><span class="s2">"Set stackable_pyramid_count to a positive integer (e.g. 1, 2, or 3)."</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">stackable_pyramid_count</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">any</span><span class="p">(</span>
+                <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="ow">and</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">spec</span><span class="o">.</span><span class="n">stackable_pyramid_count</span>
+            <span class="p">):</span>
+                <span class="k">raise</span> <span class="n">GeometryValidationError</span><span class="p">(</span>
+                    <span class="n">label</span><span class="o">=</span><span class="n">spec</span><span class="o">.</span><span class="n">label</span><span class="p">,</span>
+                    <span class="n">invariant</span><span class="o">=</span><span class="s2">"positive_stackable_pyramid_count"</span><span class="p">,</span>
+                    <span class="n">message</span><span class="o">=</span><span class="sa">f</span><span class="s2">"Stackable pyramid count entries must be &gt;= 0, got </span><span class="si">{</span><span class="n">spec</span><span class="o">.</span><span class="n">stackable_pyramid_count</span><span class="si">}</span><span class="s2">."</span><span class="p">,</span>
+                    <span class="n">guidance</span><span class="o">=</span><span class="s2">"Use positive integer counts per corner or axis."</span><span class="p">,</span>
                 <span class="p">)</span>
 
     <span class="nd">@classmethod</span>

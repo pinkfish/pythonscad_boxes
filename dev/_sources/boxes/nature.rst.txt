@@ -139,6 +139,7 @@ HunterCardsBox
 - **Outer Dimensions**: ``104 × 73 × 20 mm``
 - **Packed Position**: ``(104, 0, 0)``
 - **Stackable Mode**: ``StackableMode.PYRAMIDS``
+- **Stacking Order Key**: bottom ``flat (bottom of stack)``, top ``pyramids=2``
 - **Compartments (1)**: ``Cards`` (full interior)
 
 **Assembled Box (HunterCardsBox — Body + Lid)**
@@ -177,6 +178,7 @@ SoloCardsBox
 - **Outer Dimensions**: ``104 × 73 × 20 mm``
 - **Packed Position**: ``(104, 0, 20)``
 - **Stackable Mode**: ``StackableMode.PYRAMIDS``
+- **Stacking Order Key**: bottom ``pyramids=2``, top ``flat (top of stack)``
 - **Compartments (1)**: ``Cards`` (full interior)
 
 **Assembled Box (SoloCardsBox — Body + Lid)**

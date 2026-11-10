@@ -106,6 +106,8 @@ CardBox_Thrusters
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``96 × 73 × 27.75 mm``
 - **Packed Position**: ``(0, 0, 0)``
+- **Stackable Mode**: ``StackableMode.PYRAMIDS``
+- **Stacking Order Key**: bottom ``flat (bottom of stack)``, top ``pyramids=2``
 - **Compartments (1)**: ``Cards`` (full interior)
 
 **Assembled Box (CardBox_Thrusters — Body + Lid)**
@@ -402,6 +404,8 @@ CardBox_Objectives
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``96 × 73 × 27.75 mm``
 - **Packed Position**: ``(0, 0, 27.75)``
+- **Stackable Mode**: ``StackableMode.PYRAMIDS``
+- **Stacking Order Key**: bottom ``pyramids=2``, top ``flat (top of stack)``
 - **Compartments (1)**: ``Cards`` (full interior)
 
 **Assembled Box (CardBox_Objectives — Body + Lid)**
