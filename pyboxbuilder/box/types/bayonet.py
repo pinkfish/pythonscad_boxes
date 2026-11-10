@@ -45,7 +45,7 @@ class BayonetBox(BoxTypeBase):
 
     def build_body(self, spec: BoxSpec) -> Bosl2Solid:
         """Return the container body with bayonet entry keyways and channels."""
-        self._reject_stackable(spec)
+        self._reject_stackable(spec, allow_slide_latch=False)
         wt = spec.wall_thickness
         ft = spec.floor_thickness
         lt = spec.lid_thickness
@@ -112,7 +112,7 @@ class BayonetBox(BoxTypeBase):
 
     def build_lid(self, spec: BoxSpec, decoration: object = None) -> Bosl2Solid:
         """Return the bayonet cap with internal engagement lugs."""
-        self._reject_stackable(spec)
+        self._reject_stackable(spec, allow_slide_latch=False)
         wt = spec.wall_thickness
         lt = spec.lid_thickness
         body_h = spec.height - lt

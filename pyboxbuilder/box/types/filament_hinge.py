@@ -108,7 +108,7 @@ class FilamentHingeBox(BoxTypeBase):
                 list(vertical_edges()),
             )
 
-        from pyboxbuilder.box.features import hinge_catch
+        from pyboxbuilder.box.features import apply_stackable_body, hinge_catch
 
         self._reject_stackable(spec)
         catch = hinge_catch(spec)
@@ -117,7 +117,7 @@ class FilamentHingeBox(BoxTypeBase):
         if catch.body is not None:
             body = body | catch.body
 
-        return body
+        return apply_stackable_body(body, spec)
 
     def build_lid(self, spec: BoxSpec, decoration: object = None) -> Bosl2Solid:
         """Return a plate carrying the interleaving knuckles, on the same pin axis.

@@ -102,7 +102,9 @@ class CapPathBox(BoxTypeBase):
 
             body = apply_horizontal_interlock(body, spec)
         self._reject_stackable(spec)
-        return body
+        from pyboxbuilder.box.features import apply_stackable_body
+
+        return apply_stackable_body(body, spec)
 
     def _finger_cutouts(
         self,

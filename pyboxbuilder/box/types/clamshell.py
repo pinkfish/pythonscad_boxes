@@ -223,7 +223,9 @@ class ClamshellBox(BoxTypeBase):
                 body = body | catch.body
 
         self._reject_stackable(spec)
-        return body
+        from pyboxbuilder.box.features import apply_stackable_body
+
+        return apply_stackable_body(body, spec, anchor_top_z=half_h - 0.2)
 
     def build_lid(self, spec: BoxSpec, decoration: object = None) -> Bosl2Solid:
         """Return the upper tray half with interleaving filament-hinge knuckles and front catch."""

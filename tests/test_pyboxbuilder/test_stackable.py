@@ -251,7 +251,7 @@ class StackingBoxMatingTests(unittest.TestCase):
                 with self.assertRaises(ValueError):
                     handler.build_body(spec)
 
-        # InsetBox with an active catch_type also requires flipping the lid and rejects stackable
+        # InsetBox with an active catch_type also requires flipping the lid and rejects passive stackable
         proj_inset = Project("RejectInsetCatch")
         with self.assertRaises(ValueError):
             from pyboxbuilder.enums import CatchType
@@ -263,6 +263,84 @@ class StackingBoxMatingTests(unittest.TestCase):
                 catch_type=CatchType.WEDGE,
                 stackable=StackableMode.PYRAMIDS,
             )
+
+    def test_slide_latch_stacking_across_flipped_and_flat_lid_boxes(self) -> None:
+        """Verify StackableMode.SLIDE_LATCH / LATCH works on flipped-lid and flat-lid boxes."""
+        from pyboxbuilder.box.features import (
+            build_stacking_slide_latch,
+            build_stacking_slide_latch_parts,
+        )
+        from pyboxbuilder.box.shell import block
+        from pyboxbuilder.enums import CatchType
+        from pyboxbuilder.project import Project
+
+        base_spec = BoxSpec(
+            label="SlideLatchParts",
+            width=60.0,
+            length=70.0,
+            height=26.0,
+            wall_thickness=2.0,
+            floor_thickness=1.6,
+            lid_thickness=2.0,
+            stackable=StackableMode.SLIDE_LATCH,
+            stackable_fit_offset=0.15,
+        )
+        housings, sliders = build_stacking_slide_latch_parts(base_spec)
+        self.assertGreater(volume(housings), 100.0)
+        self.assertGreater(volume(sliders), 40.0)
+        # Captive print-in-place slider must have zero intersection with its housing
+        self.assertLess(volume(housings & sliders), 1e-4)
+
+        below_bed_probe = block([160.0, 200.0, 10.0], at=(-20.0, -20.0, -10.0))
+        above_top_probe = block([160.0, 200.0, 10.0], at=(-20.0, -20.0, 26.0))
+
+        for bt in (
+            BoxType.FILAMENT_HINGE,
+            BoxType.CLAMSHELL,
+            BoxType.PRINT_IN_PLACE_HINGE,
+            BoxType.CAP,
+            BoxType.SLIPOVER,
+            BoxType.SNAP_FIT,
+            BoxType.INSET,
+            BoxType.SLIDING,
+        ):
+            with self.subTest(box_type=bt.value):
+                proj = Project(f"LatchProj_{bt.value}")
+                proj.box(bt, f"Box_{bt.value}", size=(60, 70, 26), stackable=StackableMode.SLIDE_LATCH)
+
+                spec = BoxSpec(
+                    label=f"SlideLatch_{bt.value}",
+                    width=60.0,
+                    length=70.0,
+                    height=26.0,
+                    wall_thickness=2.0,
+                    floor_thickness=1.6,
+                    lid_thickness=2.0,
+                    catch_type=CatchType.WEDGE if bt is BoxType.INSET else None,
+                    stackable=StackableMode.SLIDE_LATCH,
+                    stackable_fit_offset=0.15,
+                )
+                handler = BOX_IMPL_REGISTRY[bt]()
+                body = handler.build_body(spec)
+                self.assertLess(
+                    volume(body & below_bed_probe),
+                    1e-4,
+                    f"{bt.value} with SLIDE_LATCH protrudes below z=0 build plate",
+                )
+                lid = handler.build_lid(spec)
+                if lid is not None:
+                    self.assertLess(
+                        volume(lid & above_top_probe),
+                        1e-4,
+                        f"{bt.value} lid with SLIDE_LATCH protrudes above z=height",
+                    )
+                    latch_only = build_stacking_slide_latch(spec)
+                    self.assertLess(
+                        volume(latch_only & lid),
+                        1e-4,
+                        f"{bt.value} slide latch collides with lid",
+                    )
+                self._assert_stacking_mating(bt, spec)
 
     def test_open_tray_no_lid_stacking(self) -> None:
         for mode in (

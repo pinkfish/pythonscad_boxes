@@ -171,6 +171,10 @@ class StackableMode(Enum):
     """Pattern-matched stacking: recessed pattern lattice on the bottom floor, matching pattern ridge on the lid/top."""
     PERIMETER = "perimeter"
     """Perimeter foot/V-ridge rim and matching recessed perimeter channel."""
+    SLIDE_LATCH = "slide_latch"
+    """Captive print-in-place vertical dovetail push-up latches on the side walls that lock into the box above."""
+    LATCH = "latch"
+    """Alias for SLIDE_LATCH: captive print-in-place vertical dovetail push-up stacking latches on the side walls."""
 
 
 class StackableShape(Enum):

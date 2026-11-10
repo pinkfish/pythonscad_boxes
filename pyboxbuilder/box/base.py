@@ -232,10 +232,19 @@ class BoxTypeBase:
 
         return fingernail_catch(spec, axis)
 
-    def _reject_stackable(self, spec: BoxSpec, reason: str | None = None) -> None:
-        """Raise ValueError if stacking is requested on a box type whose lid must be flipped to print."""
+    def _reject_stackable(
+        self,
+        spec: BoxSpec,
+        reason: str | None = None,
+        *,
+        allow_slide_latch: bool = True,
+    ) -> None:
+        """Raise ValueError if passive top-boss stacking is requested on a flipped-lid box type."""
         if spec.stackable is not None:
-            from pyboxbuilder.box.registry import STACKABLE_BOX_TYPES
+            from pyboxbuilder.box.registry import LATCH_STACKABLE_MODES, STACKABLE_BOX_TYPES
+
+            if allow_slide_latch and spec.stackable in LATCH_STACKABLE_MODES:
+                return
 
             allowed = ", ".join(
                 f"BoxType.{m.name}"
@@ -247,7 +256,8 @@ class BoxTypeBase:
             )
             raise ValueError(
                 f"Box '{spec.label}': stackable ({spec.stackable.value!r}) is not supported because "
-                f"{why}. Supported stackable box types are: {allowed}."
+                f"{why} (use StackableMode.SLIDE_LATCH for side-wall push-up stacking latches). "
+                f"Supported passive stackable box types are: {allowed}."
             )
 
     def interior_mask(self, spec: BoxSpec) -> Bosl2Solid | None:
