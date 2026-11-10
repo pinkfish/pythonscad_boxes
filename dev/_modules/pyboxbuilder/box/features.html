@@ -5358,7 +5358,6 @@
     <span class="n">has_lid</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">lid_thickness</span> <span class="o">&gt;</span> <span class="mf">0.0</span>
     <span class="n">shape</span> <span class="o">=</span> <span class="n">_resolve_stackable_shape</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
     <span class="n">pyr_count</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="s2">"stackable_pyramid_count"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
-    <span class="n">printer_safe</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="s2">"stackable_printer_safe"</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">mode</span> <span class="ow">is</span> <span class="n">StackableMode</span><span class="o">.</span><span class="n">PATTERN</span> <span class="ow">or</span> <span class="n">shape</span> <span class="ow">is</span> <span class="n">StackableShape</span><span class="o">.</span><span class="n">PATTERN</span><span class="p">:</span>
         <span class="n">depth</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">foot_height</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">floor_thickness</span> <span class="o">-</span> <span class="mf">0.4</span><span class="p">))</span>
@@ -5393,11 +5392,15 @@
             <span class="n">body</span> <span class="o">=</span> <span class="p">(</span><span class="n">body</span> <span class="o">|</span> <span class="n">corbel</span> <span class="o">|</span> <span class="n">ridge</span><span class="p">)</span> <span class="k">if</span> <span class="n">ridge</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="p">(</span><span class="n">body</span> <span class="o">|</span> <span class="n">corbel</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">body</span>
 
-    <span class="c1"># In printer-safe mode (or INDENTS / PYRAMID / PYRAMIDS), the box floor stays</span>
-    <span class="c1"># flat on the build plate (z = 0) with recessed 45-degree indents in z in [0, depth],</span>
-    <span class="c1"># and the matching 45-degree bosses protrude upward from the top of the lid/rim.</span>
-    <span class="k">if</span> <span class="n">mode</span> <span class="ow">in</span> <span class="p">(</span><span class="n">StackableMode</span><span class="o">.</span><span class="n">INDENTS</span><span class="p">,</span> <span class="n">StackableMode</span><span class="o">.</span><span class="n">PYRAMID</span><span class="p">,</span> <span class="n">StackableMode</span><span class="o">.</span><span class="n">PYRAMIDS</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span>
-        <span class="n">mode</span> <span class="ow">is</span> <span class="n">StackableMode</span><span class="o">.</span><span class="n">FEET</span> <span class="ow">and</span> <span class="n">printer_safe</span>
+    <span class="c1"># The box floor always stays flat on the build plate (z = 0) with recessed</span>
+    <span class="c1"># 45-degree indents in z in [0, depth] so the bottom of the box is never raised</span>
+    <span class="c1"># into mid-air, and the matching 45-degree bosses protrude upward from the top</span>
+    <span class="c1"># of the lid/rim.</span>
+    <span class="k">if</span> <span class="n">mode</span> <span class="ow">in</span> <span class="p">(</span>
+        <span class="n">StackableMode</span><span class="o">.</span><span class="n">FEET</span><span class="p">,</span>
+        <span class="n">StackableMode</span><span class="o">.</span><span class="n">INDENTS</span><span class="p">,</span>
+        <span class="n">StackableMode</span><span class="o">.</span><span class="n">PYRAMID</span><span class="p">,</span>
+        <span class="n">StackableMode</span><span class="o">.</span><span class="n">PYRAMIDS</span><span class="p">,</span>
     <span class="p">):</span>
         <span class="n">depth</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">foot_height</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">floor_thickness</span> <span class="o">-</span> <span class="mf">0.4</span><span class="p">))</span>
         <span class="n">indents</span> <span class="o">=</span> <span class="n">build_stacking_indents</span><span class="p">(</span>
@@ -5438,112 +5441,8 @@
             <span class="p">)</span>
             <span class="n">body</span> <span class="o">=</span> <span class="n">body</span> <span class="o">|</span> <span class="n">corbels</span> <span class="o">|</span> <span class="n">feet</span>
         <span class="k">return</span> <span class="n">body</span>
-    <span class="k">elif</span> <span class="n">mode</span> <span class="ow">is</span> <span class="n">StackableMode</span><span class="o">.</span><span class="n">FEET</span><span class="p">:</span>
-        <span class="c1"># Legacy downward feet (stackable_printer_safe=False)</span>
-        <span class="n">depth</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">foot_height</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.8</span><span class="p">,</span> <span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">lid_thickness</span> <span class="k">if</span> <span class="n">has_lid</span> <span class="k">else</span> <span class="n">spec</span><span class="o">.</span><span class="n">floor_thickness</span><span class="p">)</span> <span class="o">-</span> <span class="mf">0.6</span><span class="p">))</span>
-        <span class="n">feet</span> <span class="o">=</span> <span class="n">build_stacking_feet</span><span class="p">(</span>
-            <span class="n">spec</span><span class="o">.</span><span class="n">width</span><span class="p">,</span>
-            <span class="n">spec</span><span class="o">.</span><span class="n">length</span><span class="p">,</span>
-            <span class="n">foot_size</span><span class="p">,</span>
-            <span class="n">depth</span><span class="p">,</span>
-            <span class="n">foot_inset</span><span class="p">,</span>
-            <span class="n">base_z</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
-            <span class="n">shape</span><span class="o">=</span><span class="n">shape</span><span class="p">,</span>
-            <span class="n">clearance</span><span class="o">=</span><span class="n">clearance</span><span class="p">,</span>
-            <span class="n">pyramid_count</span><span class="o">=</span><span class="n">pyr_count</span><span class="p">,</span>
-            <span class="n">point_up</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-        <span class="p">)</span>
-        <span class="n">body</span> <span class="o">=</span> <span class="n">body</span> <span class="o">|</span> <span class="n">feet</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">has_lid</span><span class="p">:</span>
-            <span class="n">ledge_s</span> <span class="o">=</span> <span class="n">foot_inset</span> <span class="o">+</span> <span class="n">foot_size</span> <span class="o">+</span> <span class="n">clearance</span> <span class="o">+</span> <span class="mf">1.0</span>
-            <span class="n">corbels</span> <span class="o">=</span> <span class="n">_build_top_corner_corbels</span><span class="p">(</span>
-                <span class="n">spec</span><span class="o">.</span><span class="n">width</span><span class="p">,</span>
-                <span class="n">spec</span><span class="o">.</span><span class="n">length</span><span class="p">,</span>
-                <span class="n">wt</span><span class="p">,</span>
-                <span class="n">spec</span><span class="o">.</span><span class="n">floor_thickness</span><span class="p">,</span>
-                <span class="n">ledge_s</span><span class="p">,</span>
-                <span class="n">rim_h</span><span class="o">=</span><span class="n">depth</span> <span class="o">+</span> <span class="mf">0.4</span><span class="p">,</span>
-                <span class="n">top_z</span><span class="o">=</span><span class="n">spec</span><span class="o">.</span><span class="n">height</span><span class="p">,</span>
-            <span class="p">)</span>
-            <span class="n">body</span> <span class="o">=</span> <span class="n">body</span> <span class="o">|</span> <span class="n">corbels</span>
-        <span class="n">indents</span> <span class="o">=</span> <span class="n">build_stacking_indents</span><span class="p">(</span>
-            <span class="n">spec</span><span class="o">.</span><span class="n">width</span><span class="p">,</span>
-            <span class="n">spec</span><span class="o">.</span><span class="n">length</span><span class="p">,</span>
-            <span class="n">foot_size</span><span class="p">,</span>
-            <span class="n">depth</span><span class="p">,</span>
-            <span class="n">foot_inset</span><span class="p">,</span>
-            <span class="n">clearance</span><span class="o">=</span><span class="n">clearance</span><span class="p">,</span>
-            <span class="n">top_z</span><span class="o">=</span><span class="n">spec</span><span class="o">.</span><span class="n">height</span><span class="p">,</span>
-            <span class="n">shape</span><span class="o">=</span><span class="n">shape</span><span class="p">,</span>
-            <span class="n">pyramid_count</span><span class="o">=</span><span class="n">pyr_count</span><span class="p">,</span>
-            <span class="n">point_up</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-        <span class="p">)</span>
-        <span class="k">return</span> <span class="n">body</span> <span class="o">-</span> <span class="n">indents</span>
     <span class="k">elif</span> <span class="n">mode</span> <span class="ow">is</span> <span class="n">StackableMode</span><span class="o">.</span><span class="n">PERIMETER</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">printer_safe</span><span class="p">:</span>
-            <span class="n">depth</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">foot_height</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">floor_thickness</span> <span class="o">-</span> <span class="mf">0.4</span><span class="p">))</span>
-            <span class="n">channel</span> <span class="o">=</span> <span class="n">build_perimeter_stacking_indent</span><span class="p">(</span>
-                <span class="n">spec</span><span class="o">.</span><span class="n">width</span><span class="p">,</span>
-                <span class="n">spec</span><span class="o">.</span><span class="n">length</span><span class="p">,</span>
-                <span class="n">rim_thickness</span><span class="p">,</span>
-                <span class="n">depth</span><span class="p">,</span>
-                <span class="n">foot_inset</span><span class="p">,</span>
-                <span class="n">clearance</span><span class="o">=</span><span class="n">clearance</span><span class="p">,</span>
-                <span class="n">top_z</span><span class="o">=</span><span class="n">depth</span><span class="p">,</span>
-                <span class="n">shape</span><span class="o">=</span><span class="n">shape</span><span class="p">,</span>
-                <span class="n">point_up</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-            <span class="p">)</span>
-            <span class="n">body</span> <span class="o">=</span> <span class="n">body</span> <span class="o">-</span> <span class="n">channel</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">has_lid</span><span class="p">:</span>
-                <span class="n">ledge_w</span> <span class="o">=</span> <span class="n">foot_inset</span> <span class="o">+</span> <span class="n">rim_thickness</span> <span class="o">+</span> <span class="n">clearance</span> <span class="o">+</span> <span class="mf">0.6</span>
-                <span class="n">corbel</span> <span class="o">=</span> <span class="n">_build_top_perimeter_corbel</span><span class="p">(</span>
-                    <span class="n">spec</span><span class="o">.</span><span class="n">width</span><span class="p">,</span>
-                    <span class="n">spec</span><span class="o">.</span><span class="n">length</span><span class="p">,</span>
-                    <span class="n">wt</span><span class="p">,</span>
-                    <span class="n">spec</span><span class="o">.</span><span class="n">floor_thickness</span><span class="p">,</span>
-                    <span class="n">ledge_w</span><span class="p">,</span>
-                    <span class="n">rim_h</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span>
-                    <span class="n">top_z</span><span class="o">=</span><span class="n">spec</span><span class="o">.</span><span class="n">height</span><span class="p">,</span>
-                <span class="p">)</span>
-                <span class="n">foot_rim</span> <span class="o">=</span> <span class="n">build_perimeter_stacking_foot</span><span class="p">(</span>
-                    <span class="n">spec</span><span class="o">.</span><span class="n">width</span><span class="p">,</span>
-                    <span class="n">spec</span><span class="o">.</span><span class="n">length</span><span class="p">,</span>
-                    <span class="n">rim_thickness</span><span class="p">,</span>
-                    <span class="n">depth</span><span class="p">,</span>
-                    <span class="n">foot_inset</span><span class="p">,</span>
-                    <span class="n">base_z</span><span class="o">=</span><span class="n">spec</span><span class="o">.</span><span class="n">height</span><span class="p">,</span>
-                    <span class="n">shape</span><span class="o">=</span><span class="n">shape</span><span class="p">,</span>
-                    <span class="n">clearance</span><span class="o">=</span><span class="n">clearance</span><span class="p">,</span>
-                    <span class="n">point_up</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-                <span class="p">)</span>
-                <span class="n">body</span> <span class="o">=</span> <span class="n">body</span> <span class="o">|</span> <span class="n">corbel</span> <span class="o">|</span> <span class="n">foot_rim</span>
-            <span class="k">return</span> <span class="n">body</span>
-
-        <span class="n">depth</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">foot_height</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.8</span><span class="p">,</span> <span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">lid_thickness</span> <span class="k">if</span> <span class="n">has_lid</span> <span class="k">else</span> <span class="n">spec</span><span class="o">.</span><span class="n">floor_thickness</span><span class="p">)</span> <span class="o">-</span> <span class="mf">0.8</span><span class="p">))</span>
-        <span class="n">foot_rim</span> <span class="o">=</span> <span class="n">build_perimeter_stacking_foot</span><span class="p">(</span>
-            <span class="n">spec</span><span class="o">.</span><span class="n">width</span><span class="p">,</span>
-            <span class="n">spec</span><span class="o">.</span><span class="n">length</span><span class="p">,</span>
-            <span class="n">rim_thickness</span><span class="p">,</span>
-            <span class="n">depth</span><span class="p">,</span>
-            <span class="n">foot_inset</span><span class="p">,</span>
-            <span class="n">base_z</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
-            <span class="n">shape</span><span class="o">=</span><span class="n">shape</span><span class="p">,</span>
-            <span class="n">clearance</span><span class="o">=</span><span class="n">clearance</span><span class="p">,</span>
-            <span class="n">point_up</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-        <span class="p">)</span>
-        <span class="n">body</span> <span class="o">=</span> <span class="n">body</span> <span class="o">|</span> <span class="n">foot_rim</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">has_lid</span><span class="p">:</span>
-            <span class="n">ledge_w</span> <span class="o">=</span> <span class="n">foot_inset</span> <span class="o">+</span> <span class="n">rim_thickness</span> <span class="o">+</span> <span class="n">clearance</span> <span class="o">+</span> <span class="mf">1.0</span>
-            <span class="n">corbel</span> <span class="o">=</span> <span class="n">_build_top_perimeter_corbel</span><span class="p">(</span>
-                <span class="n">spec</span><span class="o">.</span><span class="n">width</span><span class="p">,</span>
-                <span class="n">spec</span><span class="o">.</span><span class="n">length</span><span class="p">,</span>
-                <span class="n">wt</span><span class="p">,</span>
-                <span class="n">spec</span><span class="o">.</span><span class="n">floor_thickness</span><span class="p">,</span>
-                <span class="n">ledge_w</span><span class="p">,</span>
-                <span class="n">rim_h</span><span class="o">=</span><span class="n">depth</span> <span class="o">+</span> <span class="mf">0.4</span><span class="p">,</span>
-                <span class="n">top_z</span><span class="o">=</span><span class="n">spec</span><span class="o">.</span><span class="n">height</span><span class="p">,</span>
-            <span class="p">)</span>
-            <span class="n">body</span> <span class="o">=</span> <span class="n">body</span> <span class="o">|</span> <span class="n">corbel</span>
+        <span class="n">depth</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">foot_height</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">floor_thickness</span> <span class="o">-</span> <span class="mf">0.4</span><span class="p">))</span>
         <span class="n">channel</span> <span class="o">=</span> <span class="n">build_perimeter_stacking_indent</span><span class="p">(</span>
             <span class="n">spec</span><span class="o">.</span><span class="n">width</span><span class="p">,</span>
             <span class="n">spec</span><span class="o">.</span><span class="n">length</span><span class="p">,</span>
@@ -5551,11 +5450,35 @@
             <span class="n">depth</span><span class="p">,</span>
             <span class="n">foot_inset</span><span class="p">,</span>
             <span class="n">clearance</span><span class="o">=</span><span class="n">clearance</span><span class="p">,</span>
-            <span class="n">top_z</span><span class="o">=</span><span class="n">spec</span><span class="o">.</span><span class="n">height</span><span class="p">,</span>
+            <span class="n">top_z</span><span class="o">=</span><span class="n">depth</span><span class="p">,</span>
             <span class="n">shape</span><span class="o">=</span><span class="n">shape</span><span class="p">,</span>
-            <span class="n">point_up</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">point_up</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="p">)</span>
-        <span class="k">return</span> <span class="n">body</span> <span class="o">-</span> <span class="n">channel</span>
+        <span class="n">body</span> <span class="o">=</span> <span class="n">body</span> <span class="o">-</span> <span class="n">channel</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">has_lid</span><span class="p">:</span>
+            <span class="n">ledge_w</span> <span class="o">=</span> <span class="n">foot_inset</span> <span class="o">+</span> <span class="n">rim_thickness</span> <span class="o">+</span> <span class="n">clearance</span> <span class="o">+</span> <span class="mf">0.6</span>
+            <span class="n">corbel</span> <span class="o">=</span> <span class="n">_build_top_perimeter_corbel</span><span class="p">(</span>
+                <span class="n">spec</span><span class="o">.</span><span class="n">width</span><span class="p">,</span>
+                <span class="n">spec</span><span class="o">.</span><span class="n">length</span><span class="p">,</span>
+                <span class="n">wt</span><span class="p">,</span>
+                <span class="n">spec</span><span class="o">.</span><span class="n">floor_thickness</span><span class="p">,</span>
+                <span class="n">ledge_w</span><span class="p">,</span>
+                <span class="n">rim_h</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span>
+                <span class="n">top_z</span><span class="o">=</span><span class="n">spec</span><span class="o">.</span><span class="n">height</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">foot_rim</span> <span class="o">=</span> <span class="n">build_perimeter_stacking_foot</span><span class="p">(</span>
+                <span class="n">spec</span><span class="o">.</span><span class="n">width</span><span class="p">,</span>
+                <span class="n">spec</span><span class="o">.</span><span class="n">length</span><span class="p">,</span>
+                <span class="n">rim_thickness</span><span class="p">,</span>
+                <span class="n">depth</span><span class="p">,</span>
+                <span class="n">foot_inset</span><span class="p">,</span>
+                <span class="n">base_z</span><span class="o">=</span><span class="n">spec</span><span class="o">.</span><span class="n">height</span><span class="p">,</span>
+                <span class="n">shape</span><span class="o">=</span><span class="n">shape</span><span class="p">,</span>
+                <span class="n">clearance</span><span class="o">=</span><span class="n">clearance</span><span class="p">,</span>
+                <span class="n">point_up</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">body</span> <span class="o">=</span> <span class="n">body</span> <span class="o">|</span> <span class="n">corbel</span> <span class="o">|</span> <span class="n">foot_rim</span>
+        <span class="k">return</span> <span class="n">body</span>
     <span class="k">elif</span> <span class="n">mode</span> <span class="ow">is</span> <span class="n">StackableMode</span><span class="o">.</span><span class="n">OUTSIDE</span><span class="p">:</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.shell</span><span class="w"> </span><span class="kn">import</span> <span class="n">block</span>
 
@@ -5580,7 +5503,6 @@
 
     <span class="n">mode</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">stackable</span>
     <span class="n">wt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">wall_thickness</span>
-    <span class="n">lt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">lid_thickness</span>
     <span class="n">z_top</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">height</span> <span class="k">if</span> <span class="n">top_z</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">top_z</span>
     <span class="n">foot_size</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">stackable_foot_size</span> <span class="ow">or</span> <span class="nb">max</span><span class="p">(</span><span class="mf">6.0</span><span class="p">,</span> <span class="n">wt</span> <span class="o">*</span> <span class="mf">2.5</span><span class="p">)</span>
     <span class="n">foot_height</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">stackable_foot_height</span>
@@ -5589,7 +5511,6 @@
     <span class="n">clearance</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">stackable_fit_offset</span>
     <span class="n">shape</span> <span class="o">=</span> <span class="n">_resolve_stackable_shape</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
     <span class="n">pyr_count</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="s2">"stackable_pyramid_count"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
-    <span class="n">printer_safe</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="s2">"stackable_printer_safe"</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">mode</span> <span class="ow">is</span> <span class="n">StackableMode</span><span class="o">.</span><span class="n">PATTERN</span> <span class="ow">or</span> <span class="n">shape</span> <span class="ow">is</span> <span class="n">StackableShape</span><span class="o">.</span><span class="n">PATTERN</span><span class="p">:</span>
         <span class="n">socket_depth</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">foot_height</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">floor_thickness</span> <span class="o">-</span> <span class="mf">0.4</span><span class="p">))</span>
@@ -5602,8 +5523,11 @@
         <span class="p">)</span>
         <span class="k">return</span> <span class="p">(</span><span class="n">lid</span> <span class="o">|</span> <span class="n">ridge</span><span class="p">)</span> <span class="k">if</span> <span class="n">ridge</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">lid</span>
 
-    <span class="k">if</span> <span class="n">mode</span> <span class="ow">in</span> <span class="p">(</span><span class="n">StackableMode</span><span class="o">.</span><span class="n">INDENTS</span><span class="p">,</span> <span class="n">StackableMode</span><span class="o">.</span><span class="n">PYRAMID</span><span class="p">,</span> <span class="n">StackableMode</span><span class="o">.</span><span class="n">PYRAMIDS</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span>
-        <span class="n">mode</span> <span class="ow">is</span> <span class="n">StackableMode</span><span class="o">.</span><span class="n">FEET</span> <span class="ow">and</span> <span class="n">printer_safe</span>
+    <span class="k">if</span> <span class="n">mode</span> <span class="ow">in</span> <span class="p">(</span>
+        <span class="n">StackableMode</span><span class="o">.</span><span class="n">FEET</span><span class="p">,</span>
+        <span class="n">StackableMode</span><span class="o">.</span><span class="n">INDENTS</span><span class="p">,</span>
+        <span class="n">StackableMode</span><span class="o">.</span><span class="n">PYRAMID</span><span class="p">,</span>
+        <span class="n">StackableMode</span><span class="o">.</span><span class="n">PYRAMIDS</span><span class="p">,</span>
     <span class="p">):</span>
         <span class="n">socket_depth</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">foot_height</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">floor_thickness</span> <span class="o">-</span> <span class="mf">0.4</span><span class="p">))</span>
         <span class="n">feet</span> <span class="o">=</span> <span class="n">build_stacking_feet</span><span class="p">(</span>
@@ -5619,50 +5543,20 @@
             <span class="n">point_up</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="k">return</span> <span class="n">lid</span> <span class="o">|</span> <span class="n">feet</span>
-    <span class="k">elif</span> <span class="n">mode</span> <span class="ow">is</span> <span class="n">StackableMode</span><span class="o">.</span><span class="n">FEET</span><span class="p">:</span>
-        <span class="n">depth</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">foot_height</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">lt</span> <span class="o">-</span> <span class="mf">0.6</span><span class="p">))</span>
-        <span class="n">indents</span> <span class="o">=</span> <span class="n">build_stacking_indents</span><span class="p">(</span>
-            <span class="n">spec</span><span class="o">.</span><span class="n">width</span><span class="p">,</span>
-            <span class="n">spec</span><span class="o">.</span><span class="n">length</span><span class="p">,</span>
-            <span class="n">foot_size</span><span class="p">,</span>
-            <span class="n">depth</span><span class="p">,</span>
-            <span class="n">foot_inset</span><span class="p">,</span>
-            <span class="n">clearance</span><span class="o">=</span><span class="n">clearance</span><span class="p">,</span>
-            <span class="n">top_z</span><span class="o">=</span><span class="n">z_top</span><span class="p">,</span>
-            <span class="n">shape</span><span class="o">=</span><span class="n">shape</span><span class="p">,</span>
-            <span class="n">pyramid_count</span><span class="o">=</span><span class="n">pyr_count</span><span class="p">,</span>
-            <span class="n">point_up</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-        <span class="p">)</span>
-        <span class="k">return</span> <span class="n">lid</span> <span class="o">-</span> <span class="n">indents</span>
     <span class="k">elif</span> <span class="n">mode</span> <span class="ow">is</span> <span class="n">StackableMode</span><span class="o">.</span><span class="n">PERIMETER</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">printer_safe</span><span class="p">:</span>
-            <span class="n">socket_depth</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">foot_height</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">floor_thickness</span> <span class="o">-</span> <span class="mf">0.4</span><span class="p">))</span>
-            <span class="n">foot_rim</span> <span class="o">=</span> <span class="n">build_perimeter_stacking_foot</span><span class="p">(</span>
-                <span class="n">spec</span><span class="o">.</span><span class="n">width</span><span class="p">,</span>
-                <span class="n">spec</span><span class="o">.</span><span class="n">length</span><span class="p">,</span>
-                <span class="n">rim_thickness</span><span class="p">,</span>
-                <span class="n">socket_depth</span><span class="p">,</span>
-                <span class="n">foot_inset</span><span class="p">,</span>
-                <span class="n">base_z</span><span class="o">=</span><span class="n">z_top</span><span class="p">,</span>
-                <span class="n">shape</span><span class="o">=</span><span class="n">shape</span><span class="p">,</span>
-                <span class="n">clearance</span><span class="o">=</span><span class="n">clearance</span><span class="p">,</span>
-                <span class="n">point_up</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-            <span class="p">)</span>
-            <span class="k">return</span> <span class="n">lid</span> <span class="o">|</span> <span class="n">foot_rim</span>
-
-        <span class="n">depth</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">foot_height</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">lt</span> <span class="o">-</span> <span class="mf">0.8</span><span class="p">))</span>
-        <span class="n">channel</span> <span class="o">=</span> <span class="n">build_perimeter_stacking_indent</span><span class="p">(</span>
+        <span class="n">socket_depth</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">foot_height</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">floor_thickness</span> <span class="o">-</span> <span class="mf">0.4</span><span class="p">))</span>
+        <span class="n">foot_rim</span> <span class="o">=</span> <span class="n">build_perimeter_stacking_foot</span><span class="p">(</span>
             <span class="n">spec</span><span class="o">.</span><span class="n">width</span><span class="p">,</span>
             <span class="n">spec</span><span class="o">.</span><span class="n">length</span><span class="p">,</span>
             <span class="n">rim_thickness</span><span class="p">,</span>
-            <span class="n">depth</span><span class="p">,</span>
+            <span class="n">socket_depth</span><span class="p">,</span>
             <span class="n">foot_inset</span><span class="p">,</span>
-            <span class="n">clearance</span><span class="o">=</span><span class="n">clearance</span><span class="p">,</span>
-            <span class="n">top_z</span><span class="o">=</span><span class="n">z_top</span><span class="p">,</span>
+            <span class="n">base_z</span><span class="o">=</span><span class="n">z_top</span><span class="p">,</span>
             <span class="n">shape</span><span class="o">=</span><span class="n">shape</span><span class="p">,</span>
-            <span class="n">point_up</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">clearance</span><span class="o">=</span><span class="n">clearance</span><span class="p">,</span>
+            <span class="n">point_up</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="p">)</span>
-        <span class="k">return</span> <span class="n">lid</span> <span class="o">-</span> <span class="n">channel</span>
+        <span class="k">return</span> <span class="n">lid</span> <span class="o">|</span> <span class="n">foot_rim</span>
     <span class="k">return</span> <span class="n">lid</span></div>
 
 
