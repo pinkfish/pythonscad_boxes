@@ -151,6 +151,7 @@ class StackableMode(Enum):
     - INDENTS: Recessed socket indents on bottom floor, matching locator bosses on lid/top.
     - PYRAMID: 3D-printer-safe single 45-degree pyramid sockets on bottom, matching pyramids on top.
     - PYRAMIDS: 3D-printer-safe multi-pyramid grid (45-degree pyramids) on bottom, matching grid on top.
+    - PATTERN: Pattern-matched stacking where the box bottom matches the lid's decorative pattern.
     - PERIMETER: Continuous or segmented perimeter foot/V-ridge rim, matching perimeter channel on lid/top.
     """
 
@@ -166,6 +167,8 @@ class StackableMode(Enum):
     """Single 45-degree pyramid socket indents on the bottom floor, matching 45-degree pyramids on top."""
     PYRAMIDS = "pyramids"
     """Set/grid of 45-degree pyramid socket indents on the bottom floor, matching pyramid grid on top."""
+    PATTERN = "pattern"
+    """Pattern-matched stacking: recessed pattern lattice on the bottom floor, matching pattern ridge on the lid/top."""
     PERIMETER = "perimeter"
     """Perimeter foot/V-ridge rim and matching recessed perimeter channel."""
 
@@ -179,6 +182,8 @@ class StackableShape(Enum):
     """Single 45-degree square pyramid per corner pad (or 45-degree V-ridge for perimeter)."""
     CONE = "cone"
     """45-degree conical boss and socket profile (or grid of 45-degree cones)."""
+    PATTERN = "pattern"
+    """Pattern-matched stacking profile matching the lid's decorative pattern."""
     FLAT = "flat"
     """Classic flat-topped/flat-bottomed rectangular pad with edge chamfer."""
 

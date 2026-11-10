@@ -20,6 +20,7 @@ from pyboxbuilder.enums import (
     InterlockType,
     LatchAxis,
     MagnetType,
+    PatternType,
     StackableMode,
     StackableShape,
 )
@@ -259,6 +260,7 @@ class GeometryValidator:
             StackableMode.INDENTS,
             StackableMode.PYRAMID,
             StackableMode.PYRAMIDS,
+            StackableMode.PATTERN,
             StackableMode.PERIMETER,
         ):
             foot_size = spec.stackable_foot_size or max(6.0, spec.wall_thickness * 2.5)
@@ -335,6 +337,7 @@ class GeometryValidator:
             (spec.magnet_type, MagnetType, "magnet_type", True),
             (spec.stackable, StackableMode, "stackable", True),
             (spec.stackable_shape, StackableShape, "stackable_shape", True),
+            (spec.stackable_pattern, PatternType, "stackable_pattern", True),
             (spec.dispenser_mode, DispenserExtractionMode, "dispenser_mode", False),
             (spec.drawer_handle_style, DrawerHandleStyle, "drawer_handle_style", False),
             (spec.latch_axis, LatchAxis, "latch_axis", False),

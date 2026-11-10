@@ -66,7 +66,7 @@ class StackableAndMagnetEnumTests(unittest.TestCase):
 
         self.assertEqual(
             {m.name for m in StackableMode},
-            {"INSIDE", "OUTSIDE", "FEET", "INDENTS", "PYRAMID", "PYRAMIDS", "PERIMETER"},
+            {"INSIDE", "OUTSIDE", "FEET", "INDENTS", "PYRAMID", "PYRAMIDS", "PATTERN", "PERIMETER"},
         )
         self.assertEqual(StackableMode.INSIDE.value, "inside")
         self.assertEqual(StackableMode.OUTSIDE.value, "outside")
@@ -74,10 +74,11 @@ class StackableAndMagnetEnumTests(unittest.TestCase):
         self.assertEqual(StackableMode.INDENTS.value, "indents")
         self.assertEqual(StackableMode.PYRAMID.value, "pyramid")
         self.assertEqual(StackableMode.PYRAMIDS.value, "pyramids")
+        self.assertEqual(StackableMode.PATTERN.value, "pattern")
         self.assertEqual(StackableMode.PERIMETER.value, "perimeter")
         self.assertEqual(
             {m.name for m in StackableShape},
-            {"PYRAMIDS", "PYRAMID", "CONE", "FLAT"},
+            {"PYRAMIDS", "PYRAMID", "CONE", "PATTERN", "FLAT"},
         )
 
     def test_magnet_members(self) -> None:

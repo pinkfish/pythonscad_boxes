@@ -27,6 +27,7 @@ from pyboxbuilder.enums import (
     InterlockType,
     LatchAxis,
     MagnetType,
+    PatternType,
     ScoopSide,
     StackableMode,
     StackableShape,
@@ -102,6 +103,12 @@ def _coerce_box_spec_enums(spec: Any) -> None:
             spec,
             "stackable_shape",
             _coerce_enum(spec.stackable_shape, StackableShape, "stackable_shape", allow_none=True),
+        )
+    if getattr(spec, "stackable_pattern", None) is not None:
+        object.__setattr__(
+            spec,
+            "stackable_pattern",
+            _coerce_enum(spec.stackable_pattern, PatternType, "stackable_pattern", allow_none=True),
         )
     if getattr(spec, "dispenser_mode", None) is not None:
         object.__setattr__(
@@ -280,11 +287,19 @@ class BoxSpec:
     stackable: StackableMode | None = None
     """Interlocking rim mode; ``None`` means not stackable."""
     stackable_shape: StackableShape | None = None
-    """3D-printable geometry profile for feet/indents (PYRAMIDS, PYRAMID, CONE, FLAT)."""
+    """3D-printable geometry profile for feet/indents (PYRAMIDS, PYRAMID, CONE, PATTERN, FLAT)."""
     stackable_pyramid_count: int | None = None
     """Number of pyramids per side in each corner pad when using PYRAMIDS; None auto-computes for 45-degree walls."""
     stackable_printer_safe: bool = True
     """Keep the box bottom flat on the print bed (z = 0) with recessed 45-degree sockets and top bosses."""
+    stackable_pattern: PatternType | None = None
+    """Pattern type used for pattern-matched stacking; ``None`` derives from lid pattern or defaults to HEX."""
+    stackable_pattern_spacing: float | None = None
+    """Cell spacing in mm for pattern-matched stacking; ``None`` derives from lid pattern or footprint."""
+    stackable_pattern_web: float | None = None
+    """Rib web width in mm for pattern-matched stacking; ``None`` derives from lid pattern or DEFAULT_WEB_MM."""
+    stackable_pattern_border: float | None = None
+    """Border margin in mm for pattern-matched stacking; ``None`` derives from lid pattern or LID_BORDER_MM."""
     stackable_thickness: float | None = None
     """Interlocking rim thickness; ``None`` derives it from the wall."""
     stackable_fit_offset: float = 0.15
@@ -605,6 +620,10 @@ class UnresolvedBoxSpec:
     stackable_shape: StackableShape | None = None
     stackable_pyramid_count: int | None = None
     stackable_printer_safe: bool = True
+    stackable_pattern: PatternType | None = None
+    stackable_pattern_spacing: float | None = None
+    stackable_pattern_web: float | None = None
+    stackable_pattern_border: float | None = None
     stackable_thickness: float | None = None
     stackable_fit_offset: float = 0.15
     stackable_foot_size: float | None = None
@@ -801,6 +820,40 @@ class UnresolvedBoxSpec:
             if (isinstance(builder.lid, LidBuilder) and builder.lid.border_margin_mm is not None)
             else None
         )
+
+        # Propagate lid pattern parameters for pattern-matched stacking when not explicitly set
+        from pyboxbuilder.lid.builder import PatternBuilder
+
+        raw_pat = getattr(builder, "pattern", None)
+        if raw_pat is None and isinstance(builder.lid, LidBuilder):
+            raw_pat = builder.lid.pattern
+        if raw_pat is not None:
+            if isinstance(raw_pat, PatternBuilder):
+                if "stackable_pattern" not in overrides and raw_pat.type not in (
+                    PatternType.NONE,
+                    PatternType.SOLID,
+                ):
+                    overrides["stackable_pattern"] = raw_pat.type
+                if "stackable_pattern_spacing" not in overrides and raw_pat.spacing is not None:
+                    overrides["stackable_pattern_spacing"] = raw_pat.spacing
+                if "stackable_pattern_web" not in overrides and raw_pat.web is not None:
+                    overrides["stackable_pattern_web"] = raw_pat.web
+                if "stackable_pattern_border" not in overrides and raw_pat.border is not None:
+                    overrides["stackable_pattern_border"] = raw_pat.border
+            elif isinstance(raw_pat, PatternType):
+                if "stackable_pattern" not in overrides and raw_pat not in (
+                    PatternType.NONE,
+                    PatternType.SOLID,
+                ):
+                    overrides["stackable_pattern"] = raw_pat
+            elif isinstance(raw_pat, str):
+                p_type = _coerce_enum(raw_pat, PatternType, "pattern", allow_none=True)
+                if "stackable_pattern" not in overrides and p_type not in (
+                    None,
+                    PatternType.NONE,
+                    PatternType.SOLID,
+                ):
+                    overrides["stackable_pattern"] = p_type
 
         w, l_dim, h = (None, None, None)
         if builder.size is not None:

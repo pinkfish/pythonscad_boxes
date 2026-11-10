@@ -57,11 +57,19 @@ class BoxBuilder:
     stackable: StackableMode | None = None
     """Interlocking rim / stacking mode; ``None`` means not stackable."""
     stackable_shape: StackableShape | None = None
-    """3D-printable geometry profile for feet/indents (PYRAMIDS, PYRAMID, CONE, FLAT)."""
+    """3D-printable geometry profile for feet/indents (PYRAMIDS, PYRAMID, CONE, PATTERN, FLAT)."""
     stackable_pyramid_count: int | None = None
     """Number of pyramids per side in each corner pad when using PYRAMIDS; None auto-computes for 45-degree walls."""
     stackable_printer_safe: bool = True
     """Keep the box bottom flat on the print bed (z = 0) with recessed 45-degree sockets and top bosses."""
+    stackable_pattern: PatternType | None = None
+    """Pattern type used for pattern-matched stacking; ``None`` derives from lid pattern or defaults to HEX."""
+    stackable_pattern_spacing: float | None = None
+    """Cell spacing in mm for pattern-matched stacking; ``None`` derives from lid pattern or footprint."""
+    stackable_pattern_web: float | None = None
+    """Rib web width in mm for pattern-matched stacking; ``None`` derives from lid pattern or DEFAULT_WEB_MM."""
+    stackable_pattern_border: float | None = None
+    """Border margin in mm for pattern-matched stacking; ``None`` derives from lid pattern or LID_BORDER_MM."""
     stackable_thickness: float | None = None
     """Interlocking rim thickness for stackable boxes."""
     stackable_fit_offset: float = 0.15

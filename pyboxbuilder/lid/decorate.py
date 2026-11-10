@@ -110,6 +110,7 @@ def decorate_lid(
     body_color: Color | None = None,
     reserved: Sequence[tuple[float, float, float]] = (),
     path: tuple[tuple[float, float], ...] | None = None,
+    top_z: float | None = None,
 ) -> DecoratedLid:
     """Apply a lid's label, pattern and colours to its geometry.
 
@@ -124,6 +125,8 @@ def decorate_lid(
             leave solid — a box type's own lid features, such as a sliding
             lid's fingernail dish (FR-002e5).
         path: Optional closed 2D polygon outline for polygon-footprint lids.
+        top_z: Explicit Z coordinate of the lid's flat deck when upward-protruding
+            features (such as stacking bosses) sit above the lid surface.
 
     Returns:
         The decorated lid and its coloured inserts.
@@ -138,7 +141,8 @@ def decorate_lid(
     if face is None:
         return DecoratedLid(solid=lid)
 
-    width, length, origin_x, origin_y, top_z = face
+    width, length, origin_x, origin_y, measured_top_z = face
+    top_z = measured_top_z if top_z is None else float(top_z)
     result = DecoratedLid(solid=lid)
 
     label_w, label_l = width, length

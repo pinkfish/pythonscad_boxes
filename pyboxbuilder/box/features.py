@@ -17,7 +17,7 @@ from dataclasses import dataclass, replace
 from typing import TYPE_CHECKING
 
 from pyboxbuilder.box.spec import BoxSpec
-from pyboxbuilder.enums import CatchType, StackableShape
+from pyboxbuilder.enums import CatchType, PatternType, StackableShape
 from pyboxbuilder.precision import kwargs as precision_kwargs
 
 if TYPE_CHECKING:
@@ -3912,9 +3912,186 @@ def _resolve_stackable_shape(spec: BoxSpec) -> StackableShape:
 
     if spec.stackable_shape is not None:
         return spec.stackable_shape
+    if spec.stackable is StackableMode.PATTERN:
+        return StackableShape.PATTERN
     if spec.stackable in (StackableMode.PYRAMID, StackableMode.PERIMETER):
         return StackableShape.PYRAMID
     return StackableShape.PYRAMIDS
+
+
+def _grown_xy(solid: Bosl2Solid, by: float, directions: int = 8) -> Bosl2Solid:
+    """Return ``solid`` widened horizontally in XY by ``by`` mm."""
+    if by <= 0.0:
+        return solid
+    import math
+
+    grown = solid
+    for i in range(directions):
+        angle = 2.0 * math.pi * i / directions
+        grown = grown | solid.translate([by * math.cos(angle), by * math.sin(angle), 0.0])
+    return grown
+
+
+def _resolve_stackable_pattern_params(
+    spec: BoxSpec,
+) -> tuple[PatternType, float, float | None, float]:
+    """Return ``(pattern_type, border_mm, spacing, web)`` for pattern-matched stacking."""
+    from pyboxbuilder.lid.builder import LID_BORDER_MM
+    from pyboxbuilder.lid.pattern import DEFAULT_WEB_MM
+
+    pat_type = getattr(spec, "stackable_pattern", None)
+    if pat_type is None or pat_type in (PatternType.NONE, PatternType.SOLID):
+        pat_type = PatternType.HEX
+
+    wt = spec.wall_thickness
+    req_border = getattr(spec, "stackable_pattern_border", None)
+    base_border = LID_BORDER_MM if req_border is None else float(req_border)
+    min_margin = wt + 1.5
+    max_margin = max(min_margin, min(spec.width, spec.length) * 0.28)
+    border = max(min_margin, min(base_border, max_margin))
+
+    spacing = getattr(spec, "stackable_pattern_spacing", None)
+    req_web = getattr(spec, "stackable_pattern_web", None)
+    web = DEFAULT_WEB_MM if req_web is None else float(req_web)
+    return pat_type, border, spacing, web
+
+
+def _build_pattern_web_unit_slice(spec: BoxSpec) -> Bosl2Solid | None:
+    """Build a 1.0 mm tall (z in [0, 1]) solid slice of the pattern web lattice for stacking."""
+    from pybosl2 import cylinder
+
+    from pyboxbuilder.box.shell import block
+    from pyboxbuilder.lid.pattern import build_pattern
+
+    pat_type, margin, spacing, web = _resolve_stackable_pattern_params(spec)
+    area_w = spec.width - 2.0 * margin
+    area_l = spec.length - 2.0 * margin
+    if area_w < 4.0 or area_l < 4.0:
+        return None
+
+    h_slice = 2.0
+    z_slice = -0.5
+    holes = build_pattern(
+        area_w,
+        area_l,
+        h_slice,
+        pat_type,
+        spacing=spacing,
+        web=web,
+        inlay=False,
+        lid_thickness=h_slice,
+    )
+    if holes is None:
+        return None
+
+    hole_solid = holes.solid if hasattr(holes, "solid") and holes.solid is not None else holes
+    if hole_solid is None:
+        return None
+
+    hole_solid = hole_solid.translate([margin, margin, z_slice])
+    area_box = block([area_w, area_l, 1.0], at=(margin, margin, 0.0))
+    web_slice = area_box - hole_solid
+
+    # Keep clear of any sliding lid fingernail catch on both axes so the male ridge
+    # never enters the nail dish and the female groove matches the ridge footprint.
+    for axis in ("x", "y"):
+        catch = fingernail_catch(spec, axis)
+        if catch is not None:
+            keepout = cylinder(
+                height=3.0,
+                radius=catch.keepout_radius + 0.4,
+                **precision_kwargs(),
+            ).translate([catch.centre[0], catch.centre[1], 0.5])
+            web_slice = web_slice - keepout
+
+    return web_slice
+
+
+def build_pattern_stacking_ridge(
+    spec: BoxSpec,
+    base_z: float,
+    depth: float | None = None,
+    clearance: float | None = None,
+    point_up: bool = True,
+) -> Bosl2Solid | None:
+    """Build the male pattern-matched stacking lattice ridge for a lid or tray top."""
+    from pyboxbuilder.box.shell import block
+
+    web_unit = _build_pattern_web_unit_slice(spec)
+    if web_unit is None:
+        return None
+
+    clr = spec.stackable_fit_offset if clearance is None else clearance
+    req_d = spec.stackable_foot_height if depth is None else depth
+    h_female = min(req_d, max(0.6, spec.floor_thickness - 0.4))
+    h_male = max(0.35, h_female - clr)
+    eps = 0.05
+    h_total = h_male + eps
+
+    _pat_type, margin, _spacing, _web = _resolve_stackable_pattern_params(spec)
+    inner_m = margin + clr
+    inner_w = spec.width - 2.0 * inner_m
+    inner_l = spec.length - 2.0 * inner_m
+    if inner_w <= 1.0 or inner_l <= 1.0:
+        return None
+
+    clipped = web_unit & block([inner_w, inner_l, 2.0], at=(inner_m, inner_m, -0.5))
+    z0 = (base_z - eps) if point_up else (base_z - h_male)
+    return clipped.scale([1.0, 1.0, h_total]).translate([0.0, 0.0, z0])
+
+
+def build_pattern_stacking_groove(
+    spec: BoxSpec,
+    surface_z: float = 0.0,
+    depth: float | None = None,
+    clearance: float | None = None,
+    point_up: bool = True,
+) -> Bosl2Solid | None:
+    """Build the female pattern-matched stacking groove cutter for a box floor or lid.
+
+    When ``point_up=True`` and ``surface_z=0.0``, the outer perimeter border AND all
+    pattern tiles (hexagons, triangles, squares, rhombuses, etc.) sit 100% flat on
+    the build plate at ``z = 0``, while only the narrow web channels between tiles
+    are recessed into ``z in [0, h_female]`` with a 45-degree entry bevel.
+    """
+    from pyboxbuilder.box.shell import block
+
+    web_unit = _build_pattern_web_unit_slice(spec)
+    if web_unit is None:
+        return None
+
+    clr = spec.stackable_fit_offset if clearance is None else clearance
+    req_d = spec.stackable_foot_height if depth is None else depth
+    h_female = min(req_d, max(0.6, spec.floor_thickness - 0.4))
+    eps = 0.05
+
+    _pat_type, margin, _spacing, _web = _resolve_stackable_pattern_params(spec)
+    inner_m = margin + clr
+    inner_w = spec.width - 2.0 * inner_m
+    inner_l = spec.length - 2.0 * inner_m
+    if inner_w <= 1.0 or inner_l <= 1.0:
+        return None
+
+    male_xy = web_unit & block([inner_w, inner_l, 2.0], at=(inner_m, inner_m, -0.5))
+    female_xy = _grown_xy(male_xy, clr + 0.03)
+    bevel_h = min(0.35, h_female * 0.45)
+    bevel_xy = _grown_xy(female_xy, bevel_h)
+
+    if point_up:
+        main_groove = female_xy.scale([1.0, 1.0, h_female + eps]).translate(
+            [0.0, 0.0, surface_z - eps]
+        )
+        bevel_groove = bevel_xy.scale([1.0, 1.0, bevel_h + eps]).translate(
+            [0.0, 0.0, surface_z - eps]
+        )
+    else:
+        main_groove = female_xy.scale([1.0, 1.0, h_female + eps]).translate(
+            [0.0, 0.0, surface_z - h_female]
+        )
+        bevel_groove = bevel_xy.scale([1.0, 1.0, bevel_h + eps]).translate(
+            [0.0, 0.0, surface_z - bevel_h]
+        )
+    return main_groove | bevel_groove
 
 
 def _pyramid_grid_metrics(
@@ -4541,6 +4718,39 @@ def apply_stackable_body(body: Bosl2Solid, spec: BoxSpec) -> Bosl2Solid:
     pyr_count = getattr(spec, "stackable_pyramid_count", None)
     printer_safe = getattr(spec, "stackable_printer_safe", True)
 
+    if mode is StackableMode.PATTERN or shape is StackableShape.PATTERN:
+        depth = min(foot_height, max(0.8, spec.floor_thickness - 0.4))
+        groove = build_pattern_stacking_groove(
+            spec,
+            surface_z=0.0,
+            depth=depth,
+            clearance=clearance,
+            point_up=True,
+        )
+        if groove is not None:
+            body = body - groove
+        if not has_lid:
+            _pat_type, margin, _spacing, _web = _resolve_stackable_pattern_params(spec)
+            ledge_w = margin + clearance + 0.6
+            corbel = _build_top_perimeter_corbel(
+                spec.width,
+                spec.length,
+                wt,
+                spec.floor_thickness,
+                ledge_w,
+                rim_h=0.6,
+                top_z=spec.height,
+            )
+            ridge = build_pattern_stacking_ridge(
+                spec,
+                base_z=spec.height,
+                depth=depth,
+                clearance=clearance,
+                point_up=True,
+            )
+            body = (body | corbel | ridge) if ridge is not None else (body | corbel)
+        return body
+
     # In printer-safe mode (or INDENTS / PYRAMID / PYRAMIDS), the box floor stays
     # flat on the build plate (z = 0) with recessed 45-degree indents in z in [0, depth],
     # and the matching 45-degree bosses protrude upward from the top of the lid/rim.
@@ -4735,6 +4945,17 @@ def apply_stackable_lid(lid: Bosl2Solid, spec: BoxSpec, top_z: float | None = No
     shape = _resolve_stackable_shape(spec)
     pyr_count = getattr(spec, "stackable_pyramid_count", None)
     printer_safe = getattr(spec, "stackable_printer_safe", True)
+
+    if mode is StackableMode.PATTERN or shape is StackableShape.PATTERN:
+        socket_depth = min(foot_height, max(0.8, spec.floor_thickness - 0.4))
+        ridge = build_pattern_stacking_ridge(
+            spec,
+            base_z=z_top,
+            depth=socket_depth,
+            clearance=clearance,
+            point_up=True,
+        )
+        return (lid | ridge) if ridge is not None else lid
 
     if mode in (StackableMode.INDENTS, StackableMode.PYRAMID, StackableMode.PYRAMIDS) or (
         mode is StackableMode.FEET and printer_safe
