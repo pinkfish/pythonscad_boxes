@@ -45,7 +45,7 @@ class ThreadedBox(BoxTypeBase):
 
     def build_body(self, spec: BoxSpec) -> Bosl2Solid:
         """Return the cylindrical container with threaded male neck and seating shoulder."""
-        self._reject_stackable(spec)
+        self._reject_stackable(spec, allow_slide_latch=False)
         wt = spec.wall_thickness
         ft = spec.floor_thickness
         lt = spec.lid_thickness
@@ -102,7 +102,7 @@ class ThreadedBox(BoxTypeBase):
 
     def build_lid(self, spec: BoxSpec, decoration: object = None) -> Bosl2Solid:
         """Return the female threaded cap with flush seating rim."""
-        self._reject_stackable(spec)
+        self._reject_stackable(spec, allow_slide_latch=False)
         wt = spec.wall_thickness
         lt = spec.lid_thickness
         body_h = spec.height - lt

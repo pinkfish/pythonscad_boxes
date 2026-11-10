@@ -136,7 +136,13 @@ class SlipoverBox(BoxTypeBase):
 
             body = apply_horizontal_interlock(body, spec)
         self._reject_stackable(spec)
-        return body
+        from pyboxbuilder.box.features import apply_stackable_body, slipover_gap
+
+        return apply_stackable_body(
+            body,
+            spec,
+            anchor_top_z=spec.foot + min(slipover_gap(spec), spec.height - spec.foot - spec.lid_thickness) - 0.2,
+        )
 
     def build_lid(self, spec: BoxSpec, decoration: object = None) -> Bosl2Solid:
         """Return a sleeve that slips down over the body, stopping at the foot."""

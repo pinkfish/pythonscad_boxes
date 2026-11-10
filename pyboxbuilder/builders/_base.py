@@ -201,25 +201,38 @@ class BoxBuilder:
 
         bt = getattr(self, "box_type", None)
         if self.stackable is not None and bt is not None:
-            from pyboxbuilder.box.registry import STACKABLE_BOX_TYPES
+            from pyboxbuilder.box.registry import (
+                LATCH_STACKABLE_BOX_TYPES,
+                LATCH_STACKABLE_MODES,
+                STACKABLE_BOX_TYPES,
+            )
 
-            if bt not in STACKABLE_BOX_TYPES:
-                allowed = ", ".join(
-                    f"BoxType.{m.name}"
-                    for m in sorted(STACKABLE_BOX_TYPES, key=lambda x: x.value)
-                )
-                raise ValueError(
-                    f"Box '{self.label}': stackable ({self.stackable.value!r}) is not supported for "
-                    f"BoxType.{bt.name} because its lid has downward walls/features and must be "
-                    f"printed upside down on the build plate. Supported stackable box types are: "
-                    f"{allowed}."
-                )
-            if bt == BoxType.INSET and self.catch_type not in (None, CatchType.NONE):
-                raise ValueError(
-                    f"Box '{self.label}': stackable ({self.stackable.value!r}) is not supported for "
-                    "BoxType.INSET when catch_type is enabled because the front catch adds downward "
-                    "lid features that require printing the lid upside down."
-                )
+            if self.stackable in LATCH_STACKABLE_MODES:
+                if bt not in LATCH_STACKABLE_BOX_TYPES:
+                    raise ValueError(
+                        f"Box '{self.label}': stackable ({self.stackable.value!r}) is not supported "
+                        f"for cylindrical twist-off BoxType.{bt.name}."
+                    )
+            else:
+                if bt not in STACKABLE_BOX_TYPES:
+                    allowed = ", ".join(
+                        f"BoxType.{m.name}"
+                        for m in sorted(STACKABLE_BOX_TYPES, key=lambda x: x.value)
+                    )
+                    raise ValueError(
+                        f"Box '{self.label}': stackable ({self.stackable.value!r}) is not supported for "
+                        f"BoxType.{bt.name} because its lid has downward walls/features and must be "
+                        f"printed upside down on the build plate (use StackableMode.SLIDE_LATCH for "
+                        f"side-wall push-up stacking latches). Supported passive stackable box types are: "
+                        f"{allowed}."
+                    )
+                if bt == BoxType.INSET and self.catch_type not in (None, CatchType.NONE):
+                    raise ValueError(
+                        f"Box '{self.label}': stackable ({self.stackable.value!r}) is not supported for "
+                        "BoxType.INSET when catch_type is enabled because the front catch adds downward "
+                        "lid features that require printing the lid upside down (use "
+                        "StackableMode.SLIDE_LATCH instead)."
+                    )
         if self.pattern is not None:
             pat = self.pattern
             if isinstance(pat, str):

@@ -307,7 +307,9 @@ class PrintInPlaceHingeBox(BoxTypeBase):
         monolithic = body | lid
 
         self._reject_stackable(spec)
-        return monolithic
+        from pyboxbuilder.box.features import apply_stackable_body
+
+        return apply_stackable_body(monolithic, spec)
 
     def build_lid(self, spec: BoxSpec, decoration: object = None) -> Bosl2Solid | None:
         """Return None since PRINT_IN_PLACE_HINGE is a monolithic 1-piece print."""

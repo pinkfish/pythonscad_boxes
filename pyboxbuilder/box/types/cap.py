@@ -45,7 +45,7 @@ class CapBox(BoxTypeBase):
             return CapPathBox().build_body(spec)
 
         self._reject_stackable(spec)
-        from pyboxbuilder.box.features import cap_body, cap_slipover_catch
+        from pyboxbuilder.box.features import apply_stackable_body, cap_body, cap_slipover_catch
 
         body = cap_body(spec)
         catch = cap_slipover_catch(spec, is_slipover=False)
@@ -57,7 +57,7 @@ class CapBox(BoxTypeBase):
             from pyboxbuilder.box.features import apply_horizontal_interlock
 
             body = apply_horizontal_interlock(body, spec)
-        return body
+        return apply_stackable_body(body, spec)
 
     def build_lid(self, spec: BoxSpec, decoration: object = None) -> Bosl2Solid:
         """Return a cap: a top plate with a skirt that grips the body's stepped-in band."""

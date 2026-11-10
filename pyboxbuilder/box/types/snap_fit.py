@@ -399,7 +399,9 @@ class SnapFitBox(BoxTypeBase):
                 list(vertical_edges()),
             )
         self._reject_stackable(spec)
-        return body
+        from pyboxbuilder.box.features import apply_stackable_body
+
+        return apply_stackable_body(body, spec)
 
     def build_lid(self, spec: BoxSpec, decoration: object = None) -> Bosl2Solid:
         """Return the lid plate with root-filleted cantilever arms and ramped retention detents."""

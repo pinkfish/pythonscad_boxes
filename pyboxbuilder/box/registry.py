@@ -7,7 +7,7 @@ import importlib
 import pkgutil
 from typing import TYPE_CHECKING, Any
 
-from pyboxbuilder.enums import BoxType
+from pyboxbuilder.enums import BoxType, StackableMode
 
 if TYPE_CHECKING:
     from pyboxbuilder.box.base import BoxTypeBase
@@ -130,9 +130,20 @@ STACKABLE_BOX_TYPES: frozenset[BoxType] = frozenset({
     BoxType.NO_LID,
     BoxType.PATH,
 })
-"""Box types that support vertical stacking (``stackable``).
+"""Box types that support passive top/bottom vertical stacking (``stackable``).
 
 Only lidless open trays and box types whose lids have a flat underside
 (allowing the lid to print right-side up on the build plate) can carry
 raised top stacking features without floating in mid-air when flipped for printing.
 """
+
+LATCH_STACKABLE_MODES: frozenset[StackableMode] = frozenset({
+    StackableMode.SLIDE_LATCH,
+    StackableMode.LATCH,
+})
+"""Active side-wall push-up latch stacking modes that keep the box bottom and lid top flat on the bed."""
+
+LATCH_STACKABLE_BOX_TYPES: frozenset[BoxType] = frozenset(
+    set(BoxType) - {BoxType.BAYONET, BoxType.THREADED}
+)
+"""Box types that support side-wall push-up stacking latches (``SLIDE_LATCH`` / ``LATCH``)."""

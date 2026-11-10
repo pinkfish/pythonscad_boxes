@@ -71,6 +71,7 @@ class MagneticHingeBox(BoxTypeBase):
     def build_body(self, spec: BoxSpec) -> Bosl2Solid:
         """Return the shell with rear hinge knuckles and a front magnet boss and socket."""
         from pyboxbuilder.box.features import (
+            apply_stackable_body,
             filament_hinge,
             magnetic_hinge_catch,
         )
@@ -106,7 +107,7 @@ class MagneticHingeBox(BoxTypeBase):
                 list(vertical_edges()),
             )
 
-        return body
+        return apply_stackable_body(body, spec)
 
     def build_lid(self, spec: BoxSpec, decoration: object = None) -> Bosl2Solid:
         """Return a hinged lid carrying rear knuckles and a front underside magnet socket."""
