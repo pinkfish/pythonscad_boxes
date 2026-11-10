@@ -17,10 +17,9 @@ for _sp in ROOT.glob(".venv/lib/*/site-packages"):
 for _sp in ROOT.glob("venv/*/lib/*/site-packages"):
     sys.path.insert(0, str(_sp))
 
-from pybosl2 import Color
-
 from pyboxbuilder import (
     BoxType,
+    Color,
     FingerCut,
     LabelMode,
     LidBuilder,
@@ -72,6 +71,7 @@ project = Project(
     lid_thickness=lid_thickness,
     clearance_slack=0.0,
     generate_spacers=True,
+    box_defaults={"no_rotate": True},
 )
 
 TRAIN_PATTERN = PatternBuilder(PatternType.DENSE_HEX)
@@ -89,18 +89,15 @@ dest_box = project.box(
         frame_color=Color("darkgreen"),
     ),
     position=(0.0, 0.0, 0.0),
-    no_rotate=True,
 )
 dest_box.compartment(
     "Destinations",
     width_ratio=0.5,
-    depth=destination_box_height - floor_thickness - 1.0,
     cut=FingerCut.SCOOP,
 )
 dest_box.compartment(
     "Tracks",
     width_ratio=0.5,
-    depth=destination_box_height - floor_thickness - 1.0,
     cut=FingerCut.SCOOP,
 )
 
@@ -116,13 +113,11 @@ vic_box = project.box(
         frame_color=Color("gold"),
     ),
     position=(0.0, 0.0, destination_box_height),
-    no_rotate=True,
 )
 for slot in range(4):
     vic_box.compartment(
         f"HexTokens_{slot + 1}",
         width_ratio=0.25,
-        depth=victory_box_height - floor_thickness - 1.0,
         cut=FingerCut.SCOOP,
     )
 
@@ -139,11 +134,9 @@ mid_box = project.box(
         frame_color=Color("darkslategray"),
     ),
     position=(0.0, destination_box_length, 0.0),
-    no_rotate=True,
 )
 mid_box.compartment(
     "Tokens",
-    depth=middle_box_height - floor_thickness - 1.0,
     cut=FingerCut.SCOOP,
 )
 
@@ -162,11 +155,9 @@ card_box = project.box(
         frame_color=Color("navy"),
     ),
     position=(0.0, y_cards, 0.0),
-    no_rotate=True,
 )
 card_box.compartment(
     "Cards",
-    depth=card_box_height - floor_thickness - 1.0,
     cut=FingerCut.SCOOP,
 )
 
@@ -183,18 +174,15 @@ tick_box = project.box(
         frame_color=Color("firebrick"),
     ),
     position=(card_box_width, destination_box_length, 0.0),
-    no_rotate=True,
 )
 tick_box.compartment(
     "TicketTiles",
     length_ratio=0.7,
-    depth=ticket_box_height - floor_thickness - 1.0,
     cut=FingerCut.SCOOP,
 )
 tick_box.compartment(
     "TrainMarker",
     length_ratio=0.3,
-    depth=ticket_box_height - floor_thickness - 1.0,
     cut=FingerCut.SCOOP,
 )
 

@@ -17,16 +17,16 @@ for _sp in ROOT.glob(".venv/lib/*/site-packages"):
 for _sp in ROOT.glob("venv/*/lib/*/site-packages"):
     sys.path.insert(0, str(_sp))
 
-from pybosl2 import Color
-
 from pyboxbuilder import (
     BoxType,
+    Color,
     FingerCut,
     LabelMode,
     LidBuilder,
     PatternBuilder,
     PatternType,
     Project,
+    StackableMode,
     run,
 )
 
@@ -70,6 +70,7 @@ project = Project(
     clearance_slack=0.0,
     board_thickness=board_thickness,
     generate_spacers=True,
+    box_defaults={"no_rotate": True},
 )
 
 NATURE_PATTERN = PatternBuilder(PatternType.DENSE_HEX)
@@ -87,8 +88,7 @@ project.box(
         frame_color=Color("forestgreen"),
     ),
     position=(0.0, 0.0, 0.0),
-    no_rotate=True,
-).compartment("Cards", depth=card_box_height - lid_thickness, cut=FingerCut.SCOOP)
+).compartment("Cards", cut=FingerCut.SCOOP)
 
 # ── 2. Small Decks (Hunter & Solo) (Column 1, X = card_box_width) ──
 x_col1 = card_box_width
@@ -105,8 +105,8 @@ project.box(
         frame_color=Color("darkred"),
     ),
     position=(x_col1, 0.0, 0.0),
-    no_rotate=True,
-).compartment("Cards", depth=hunter_card_box_height - lid_thickness, cut=FingerCut.SCOOP)
+    stackable=StackableMode.PYRAMIDS,
+).compartment("Cards", cut=FingerCut.SCOOP)
 
 project.box(
     BoxType.SLIDING,
@@ -120,8 +120,8 @@ project.box(
         frame_color=Color("royalblue"),
     ),
     position=(x_col1, 0.0, hunter_card_box_height),
-    no_rotate=True,
-).compartment("Cards", depth=hunter_card_box_height - lid_thickness, cut=FingerCut.SCOOP)
+    stackable=StackableMode.PYRAMIDS,
+).compartment("Cards", cut=FingerCut.SCOOP)
 
 # ── 3. Population Dials & Leopard Box (Row 1, Y = card_box_length)
 y_row1 = card_box_length
@@ -138,8 +138,7 @@ project.box(
         frame_color=Color("darkgoldenrod"),
     ),
     position=(0.0, y_row1, 0.0),
-    no_rotate=True,
-).compartment("Dials", depth=dial_box_height - floor_thickness - 1.0, cut=FingerCut.SCOOP)
+).compartment("Dials", cut=FingerCut.SCOOP)
 
 project.box(
     BoxType.CAP,
@@ -153,8 +152,7 @@ project.box(
         frame_color=Color("peru"),
     ),
     position=(0.0, y_row1 + dial_box_length, 0.0),
-    no_rotate=True,
-).compartment("Leopard", depth=dial_box_height - floor_thickness - 1.0, cut=FingerCut.SCOOP)
+).compartment("Leopard", cut=FingerCut.SCOOP)
 
 # ── 4. Food Resource Trays (Grass & Meat) (X = dial_box_width) ────
 x_res = dial_box_width
@@ -171,8 +169,7 @@ project.box(
         frame_color=Color("green"),
     ),
     position=(x_res, y_row1, 0.0),
-    no_rotate=True,
-).compartment("GrassTokens", depth=resource_box_height - floor_thickness - 1.0, cut=FingerCut.SCOOP)
+).compartment("GrassTokens", cut=FingerCut.SCOOP)
 
 project.box(
     BoxType.CAP,
@@ -186,8 +183,7 @@ project.box(
         frame_color=Color("firebrick"),
     ),
     position=(x_res, y_row1 + resource_box_length, 0.0),
-    no_rotate=True,
-).compartment("MeatTokens", depth=resource_box_height - floor_thickness - 1.0, cut=FingerCut.SCOOP)
+).compartment("MeatTokens", cut=FingerCut.SCOOP)
 
 # ── Export ────────────────────────────────────────────────────────
 if __name__ == "__main__":

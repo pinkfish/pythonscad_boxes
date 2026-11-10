@@ -17,10 +17,9 @@ for _sp in ROOT.glob(".venv/lib/*/site-packages"):
 for _sp in ROOT.glob("venv/*/lib/*/site-packages"):
     sys.path.insert(0, str(_sp))
 
-from pybosl2 import Color
-
 from pyboxbuilder import (
     BoxType,
+    Color,
     FingerCut,
     LabelMode,
     LidBuilder,
@@ -100,10 +99,10 @@ for label, pos, color_name in player_configs:
         position=pos,
     )
     p_box.compartment(
-        "Meeples", length_ratio=0.6, depth=PLAYER_BOX_HEIGHT - floor_thickness - 1.0, cut=FingerCut.SCOOP
+        "Meeples", length_ratio=0.6, cut=FingerCut.SCOOP
     )
     p_box.compartment(
-        "DiscsAndTrophies", length_ratio=0.4, depth=PLAYER_BOX_HEIGHT - floor_thickness - 1.0, cut=FingerCut.SCOOP
+        "DiscsAndTrophies", length_ratio=0.4, cut=FingerCut.SCOOP
     )
 
 # ── 2. Card Boxes (Column 1, X = PLAYER_BOX_WIDTH) ────────────────
@@ -127,7 +126,7 @@ for label, pos, text, color_name in card_configs:
         ),
         position=pos,
     )
-    c_box.compartment("Cards", depth=CARD_BOX_HEIGHT - lid_thickness, cut=FingerCut.SCOOP)
+    c_box.compartment("Cards", cut=FingerCut.SCOOP)
 
 # ── 3. Player Card Boxes (Column 2, X = PLAYER_BOX_WIDTH * 2) ─────
 # Shallow box (10.5mm) uses SLIPOVER to support finger cutouts at this height
@@ -146,7 +145,7 @@ h_box = project.box(
     ),
     position=(x_col2, 0.0, 0.0),
 )
-h_box.compartment("Cards", depth=PLAYER_CARD_BOX_HEIGHT - floor_thickness - 1.0, cut=FingerCut.SCOOP)
+h_box.compartment("Cards", cut=FingerCut.SCOOP)
 
 # ── 4. Common Box (Column 2, Y = PLAYER_CARD_BOX_LENGTH) ──────────
 com_box = project.box(
@@ -166,7 +165,6 @@ for slot in range(3):
     com_box.compartment(
         f"Bin_{slot + 1}",
         length_ratio=1.0 / 3.0,
-        depth=COMMON_BOX_HEIGHT - floor_thickness - 1.0,
         cut=FingerCut.SCOOP,
     )
 

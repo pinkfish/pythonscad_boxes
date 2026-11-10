@@ -17,16 +17,16 @@ for _sp in ROOT.glob(".venv/lib/*/site-packages"):
 for _sp in ROOT.glob("venv/*/lib/*/site-packages"):
     sys.path.insert(0, str(_sp))
 
-from pybosl2 import Color
-
 from pyboxbuilder import (
     BoxType,
+    Color,
     FingerCut,
     LabelMode,
     LidBuilder,
     PatternBuilder,
     PatternType,
     Project,
+    StackableMode,
     run,
 )
 
@@ -67,6 +67,7 @@ project = Project(
     clearance_slack=0.0,
     board_thickness=total_board_reserve,
     generate_spacers=True,
+    box_defaults={"no_rotate": True},
 )
 
 METRO_PATTERN = PatternBuilder(PatternType.DENSE_HEX)
@@ -88,11 +89,10 @@ for idx, title in enumerate(card_titles):
             frame_color=Color("royalblue"),
         ),
         position=(0.0, col * card_box_length, tier * card_box_height),
-        no_rotate=True,
+        stackable=StackableMode.PYRAMIDS,
     )
     c_box.compartment(
         "Cards",
-        depth=card_box_height - lid_thickness,
         cut=FingerCut.SCOOP,
     )
 
@@ -113,18 +113,16 @@ for idx, color_name in enumerate(player_colors):
             frame_color=Color(color_name),
         ),
         position=(card_box_width, col * player_box_length, tier * player_box_height),
-        no_rotate=True,
+        stackable=StackableMode.PYRAMIDS,
     )
     p_box.compartment(
         "TrackHexes",
         length_ratio=0.6,
-        depth=player_box_height - lid_thickness,
         cut=FingerCut.SCOOP,
     )
     p_box.compartment(
         "TrainsAndBits",
         length_ratio=0.4,
-        depth=player_box_height - lid_thickness,
         cut=FingerCut.SCOOP,
     )
 
@@ -147,11 +145,9 @@ for idx, f_name in enumerate(factory_types):
             frame_color=Color("goldenrod"),
         ),
         position=(x_factories + col * factory_box_width, row * factory_box_length, 0.0),
-        no_rotate=True,
     )
     f_box.compartment(
         "StationHexes",
-        depth=factory_box_height - lid_thickness,
         cut=FingerCut.SCOOP,
     )
 

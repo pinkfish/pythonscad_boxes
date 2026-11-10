@@ -17,10 +17,9 @@ for _sp in ROOT.glob(".venv/lib/*/site-packages"):
 for _sp in ROOT.glob("venv/*/lib/*/site-packages"):
     sys.path.insert(0, str(_sp))
 
-from pybosl2 import Color
-
 from pyboxbuilder import (
     BoxType,
+    Color,
     FingerCut,
     LabelMode,
     LidBuilder,
@@ -65,6 +64,7 @@ project = Project(
     lid_thickness=lid_thickness,
     clearance_slack=0.0,
     generate_spacers=True,
+    box_defaults={"no_rotate": True},
 )
 
 ANIMAL_PATTERN = PatternBuilder(PatternType.DENSE_HEX)
@@ -82,10 +82,8 @@ project.box(
         frame_color=Color("maroon"),
     ),
     position=(0.0, 0.0, 0.0),
-    no_rotate=True,
 ).compartment(
     "Cards",
-    depth=card_box_height - lid_thickness,
     cut=FingerCut.SCOOP,
 )
 
@@ -101,10 +99,8 @@ project.box(
         frame_color=Color("forestgreen"),
     ),
     position=(0.0, 0.0, card_box_height),
-    no_rotate=True,
 ).compartment(
     "Cubes",
-    depth=sprout_box_height - floor_thickness - 1.0,
     cut=FingerCut.SCOOP,
 )
 
@@ -121,10 +117,8 @@ project.box(
         frame_color=Color("peru"),
     ),
     position=(card_box_width, 0.0, 0.0),
-    no_rotate=True,
 ).compartment(
     "Canopies",
-    depth=canopy_box_height - floor_thickness - 1.0,
     cut=FingerCut.SCOOP,
 )
 
@@ -144,13 +138,11 @@ for tier in range(2):
             frame_color=Color("darkgoldenrod"),
         ),
         position=(x_animals, 0.0, tier * animal_box_height),
-        no_rotate=True,
     )
     for slot in range(3):
         a_box.compartment(
             f"Species_{slot + 1}",
             width_ratio=1.0 / 3.0,
-            depth=animal_box_height - floor_thickness - 1.0,
             cut=FingerCut.SCOOP,
         )
 

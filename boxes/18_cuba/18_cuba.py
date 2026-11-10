@@ -17,10 +17,9 @@ for _sp in ROOT.glob(".venv/lib/*/site-packages"):
 for _sp in ROOT.glob("venv/*/lib/*/site-packages"):
     sys.path.insert(0, str(_sp))
 
-from pybosl2 import Color
-
 from pyboxbuilder import (
     BoxType,
+    Color,
     FingerCut,
     LabelMode,
     LidBuilder,
@@ -64,6 +63,7 @@ project = Project(
     clearance_slack=0.0,
     board_thickness=total_board_thickness,
     generate_spacers=True,
+    box_defaults={"no_rotate": True},
 )
 
 CUBA_PATTERN = PatternBuilder(PatternType.DENSE_HEX)
@@ -84,13 +84,11 @@ for i in range(2):
             frame_color=Color("gold"),
         ),
         position=(i * half_width, 0.0, 0.0),
-        no_rotate=True,
     )
     for slot in range(4):
         m_box.compartment(
             f"Denom_{slot + 1}",
             width_ratio=0.25,
-            depth=tray_height - floor_thickness - 1.0,
             cut=FingerCut.SCOOP,
         )
 
@@ -107,13 +105,11 @@ t_box = project.box(
         frame_color=Color("blue"),
     ),
     position=(0.0, money_box_len, 0.0),
-    no_rotate=True,
 )
 for slot in range(5):
     t_box.compartment(
         f"TrainSlot_{slot + 1}",
         width_ratio=0.2,
-        depth=tray_height - floor_thickness - 1.0,
         cut=FingerCut.SCOOP,
     )
 
@@ -133,13 +129,11 @@ for i in range(2):
             frame_color=Color("royalblue"),
         ),
         position=(i * half_width, y_shares, 0.0),
-        no_rotate=True,
     )
     for slot in range(4):
         s_box.compartment(
             f"ShareSlot_{slot + 1}",
             width_ratio=0.25,
-            depth=tray_height - floor_thickness - 1.0,
             cut=FingerCut.SCOOP,
         )
 

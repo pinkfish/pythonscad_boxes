@@ -147,7 +147,12 @@ def pack_in_columns(
 SVG_DIR = Path("boxes/root/svg")
 
 # Project Setup
-project = Project("Root", game_box_size=(214.0, 278.0, 67.0), generate_spacers=True)
+project = Project(
+    "Root",
+    game_box_size=(214.0, 278.0, 67.0),
+    generate_spacers=True,
+    box_defaults={"no_rotate": True},
+)
 
 from pybosl2.shapes3d.base import CsgSolid
 
@@ -304,7 +309,6 @@ project.card_box(
     size=card_size,
     lid=replace(LID_BASE, text="Shared"),
     position=(0.0, 0.0, 28.0),
-    no_rotate=True,
 )
 
 card_erie_size = (79.875, 98.5, 8.6)
@@ -314,7 +318,6 @@ project.card_box(
     size=card_erie_size,
     lid=replace(LID_ERIE, text="Erie"),
     position=(79.875, 0.0, 28.0),
-    no_rotate=True,
 )
 
 card_vagabond_size = (79.875, 98.5, 19.4)
@@ -325,7 +328,6 @@ project.card_box(
     lid=LID_VAGABOND,
     color=Color("green"),
     position=(79.875, 0.0, 28.0 + 8.6),
-    no_rotate=True,
 )
 
 card_overview_size = (79.875, 98.5, 11.0)
@@ -335,7 +337,6 @@ project.card_box(
     size=card_overview_size,
     lid=LID_BASE.titled("Overview"),
     position=(79.875, 0.0, 28.0 + 8.6 + 19.4),
-    no_rotate=True,
 )
 
 # Stacked Item Boxes
@@ -349,7 +350,6 @@ project.box(
     size=(53.25, item_box_length, 10.0),
     lid=LID_BASE.titled("Items Bot"),
     position=(159.75, 0.0, 28.0),
-    no_rotate=True,
 ).compartment(
     "Items",
     depth=6.0,
@@ -385,7 +385,6 @@ project.box(
     size=(53.25, item_box_length, 9.0),
     lid=LID_BASE.titled("Items Mid"),
     position=(159.75, 0.0, 28.0 + 10.0),
-    no_rotate=True,
 ).compartment(
     "Items",
     depth=5.0,
@@ -420,7 +419,6 @@ project.box(
     size=(53.25, item_box_length, 9.0),
     lid=LID_BASE.titled("Winter"),
     position=(159.75, 0.0, 28.0 + 10.0 + 9.0),
-    no_rotate=True,
 ).compartment(
     "WinterTokens",
     depth=5.0,
@@ -507,7 +505,6 @@ project.box(
     size=(53.25, item_box_length, 11.0),
     lid=LID_BASE.titled("Extras"),
     position=(159.75, 0.0, 28.0 + 10.0 + 9.0 + 9.0),
-    no_rotate=True,
 ).compartment(
     "Extras",
     depth=7.0,
@@ -587,7 +584,6 @@ project.box(
     lid=LID_MARQUIS,
     color=Color("orange"),
     position=(0.0, 98.5, 28.0),
-    no_rotate=True,
 ).compartment(
     "Warriors",
     elements=[
@@ -658,7 +654,6 @@ project.box(
     lid=LID_MARQUIS,
     color=Color("orange"),
     position=(0.0, 98.5, 28.0 + 24.5),
-    no_rotate=True,
 ).compartment(
     "WoodAndBuildings",
     elements=[
@@ -856,7 +851,6 @@ project.box(
     lid=LID_ERIE,
     color=Color("blue"),
     position=(0.0, 158.333, 28.0),
-    no_rotate=True,
 ).compartment(
     "Warriors",
     elements=[
@@ -909,7 +903,6 @@ project.box(
     lid=LID_ERIE,
     color=Color("blue"),
     position=(0.0, 158.333, 28.0 + 24.5),
-    no_rotate=True,
 ).compartment(
     "Roosts",
     elements=[
@@ -979,7 +972,6 @@ project.box(
     lid=LID_ALLIANCE,
     color=Color("green"),
     position=(106.5, 98.5, 28.0),
-    no_rotate=True,
 ).compartment(
     "Warriors",
     elements=[
@@ -1032,7 +1024,6 @@ project.box(
     lid=LID_ALLIANCE,
     color=Color("green"),
     position=(106.5, 98.5, 28.0 + 25.5),
-    no_rotate=True,
 ).compartment(
     "BasesAndSympathy",
     elements=[
@@ -1105,7 +1096,6 @@ project.box(
     lid=LID_LIZARD,
     color=Color("yellow"),
     position=(0.0, 218.166, 28.0),
-    no_rotate=True,
 ).compartment(
     "Warriors",
     elements=[
@@ -1133,7 +1123,6 @@ project.box(
     lid=LID_LIZARD,
     color=Color("yellow"),
     position=(0.0, 218.166, 28.0 + 26.5),
-    no_rotate=True,
 ).compartment(
     "Gardens",
     elements=[
@@ -1257,7 +1246,6 @@ project.box(
     lid=LID_RIVERFOLK,
     color=Color("teal"),
     position=(106.5, 218.166, 28.0),
-    no_rotate=True,
 ).compartment(
     "Warriors",
     elements=[
@@ -1328,7 +1316,6 @@ project.box(
     lid=LID_RIVERFOLK,
     color=Color("teal"),
     position=(79.875, 218.166, 28.0 + 26.5),
-    no_rotate=True,
 ).compartment(
     "TradePosts",
     elements=[
@@ -1456,7 +1443,6 @@ project.box(
     lid=LID_VAGABOND,
     color=Color("green"),
     position=(106.5, 158.333, 28.0),
-    no_rotate=True,
 ).compartment(
     "ItemsAndScore",
     elements=[
@@ -1495,7 +1481,6 @@ project.box(
     size=(53.25, 59.833, 23.0),
     lid=LID_BASE.titled("Dice"),
     position=(106.5, 158.333, 28.0 + 16.0),
-    no_rotate=True,
 ).compartment(
     "Dice",
     elements=[

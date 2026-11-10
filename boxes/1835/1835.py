@@ -17,16 +17,16 @@ for _sp in ROOT.glob(".venv/lib/*/site-packages"):
 for _sp in ROOT.glob("venv/*/lib/*/site-packages"):
     sys.path.insert(0, str(_sp))
 
-from pybosl2 import Color
-
 from pyboxbuilder import (
     BoxType,
+    Color,
     FingerCut,
     LabelMode,
     LidBuilder,
     PatternBuilder,
     PatternType,
     Project,
+    StackableMode,
     run,
 )
 
@@ -68,6 +68,7 @@ project = Project(
     clearance_slack=0.0,
     board_thickness=board_thickness,
     generate_spacers=True,
+    box_defaults={"no_rotate": True},
 )
 
 TRAIN_PATTERN = PatternBuilder(PatternType.DENSE_HEX)
@@ -86,13 +87,12 @@ for tier in range(3):
             frame_color=Color("goldenrod" if tier == 0 else "forestgreen" if tier == 1 else "saddlebrown"),
         ),
         position=(0.0, 0.0, tier * hex_box_height),
-        no_rotate=True,
+        stackable=StackableMode.PYRAMIDS,
     )
     for slot in range(3):
         h_box.compartment(
             f"Col_{slot + 1}",
             width_ratio=1.0 / 3.0,
-            depth=hex_box_height - lid_thickness,
             cut=FingerCut.SCOOP,
         )
 
@@ -113,13 +113,12 @@ for tier, denom in enumerate(money_denoms):
             frame_color=Color("darkgreen"),
         ),
         position=(0.0, y_money, tier * hex_box_height),
-        no_rotate=True,
+        stackable=StackableMode.PYRAMIDS,
     )
     for slot in range(3):
         m_box.compartment(
             f"Slot_{slot + 1}",
             width_ratio=1.0 / 3.0,
-            depth=hex_box_height - lid_thickness,
             cut=FingerCut.SCOOP,
         )
 
@@ -139,18 +138,16 @@ for tier in range(2):
             frame_color=Color("darkred"),
         ),
         position=(x_shares, 0.0, tier * shares_box_height),
-        no_rotate=True,
+        stackable=StackableMode.PYRAMIDS,
     )
     s_box.compartment(
         "Shares_1",
         length_ratio=0.5,
-        depth=shares_box_height - lid_thickness,
         cut=FingerCut.SCOOP,
     )
     s_box.compartment(
         "Shares_2",
         length_ratio=0.5,
-        depth=shares_box_height - lid_thickness,
         cut=FingerCut.SCOOP,
     )
 
@@ -167,9 +164,8 @@ p_box = project.box(
         frame_color=Color("navy"),
     ),
     position=(x_shares, shares_box_length, 0.0),
-    no_rotate=True,
 )
-p_box.compartment("Markers", depth=marker_box_height - lid_thickness, cut=FingerCut.SCOOP)
+p_box.compartment("Markers", cut=FingerCut.SCOOP)
 
 # ── Export ────────────────────────────────────────────────────────
 if __name__ == "__main__":

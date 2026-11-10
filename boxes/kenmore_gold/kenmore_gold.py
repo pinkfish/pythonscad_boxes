@@ -17,10 +17,9 @@ for _sp in ROOT.glob(".venv/lib/*/site-packages"):
 for _sp in ROOT.glob("venv/*/lib/*/site-packages"):
     sys.path.insert(0, str(_sp))
 
-from pybosl2 import Color
-
 from pyboxbuilder import (
     BoxType,
+    Color,
     FingerCut,
     LabelMode,
     LidBuilder,
@@ -60,6 +59,7 @@ project = Project(
     lid_thickness=lid_thickness,
     clearance_slack=0.0,
     generate_spacers=True,
+    box_defaults={"no_rotate": True},
 )
 
 GOLD_PATTERN = PatternBuilder(PatternType.DENSE_HEX)
@@ -77,18 +77,15 @@ t_box = project.box(
         frame_color=Color("goldenrod"),
     ),
     position=(0.0, 0.0, 0.0),
-    no_rotate=True,
 )
 t_box.compartment(
     "Tiles_A",
     width_ratio=0.5,
-    depth=tile_box_height - floor_thickness - 1.0,
     cut=FingerCut.SCOOP,
 )
 t_box.compartment(
     "Tiles_B",
     width_ratio=0.5,
-    depth=tile_box_height - floor_thickness - 1.0,
     cut=FingerCut.SCOOP,
 )
 
@@ -107,10 +104,8 @@ project.box(
         frame_color=Color("saddlebrown"),
     ),
     position=(0.0, y_cave, 0.0),
-    no_rotate=True,
 ).compartment(
     "CaveTile",
-    depth=start_cave_box_height - floor_thickness - 1.0,
     cut=FingerCut.SCOOP,
 )
 
@@ -126,10 +121,8 @@ project.box(
         frame_color=Color("gold"),
     ),
     position=(0.0, y_cave, start_cave_box_height),
-    no_rotate=True,
 ).compartment(
     "LootTokens",
-    depth=loot_box_height - floor_thickness - 1.0,
     cut=FingerCut.SCOOP,
 )
 

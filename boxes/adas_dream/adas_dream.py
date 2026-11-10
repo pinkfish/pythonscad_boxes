@@ -17,16 +17,16 @@ for _sp in ROOT.glob(".venv/lib/*/site-packages"):
 for _sp in ROOT.glob("venv/*/lib/*/site-packages"):
     sys.path.insert(0, str(_sp))
 
-from pybosl2 import Color
-
 from pyboxbuilder import (
     BoxType,
+    Color,
     FingerCut,
     LabelMode,
     LidBuilder,
     PatternBuilder,
     PatternType,
     Project,
+    StackableMode,
     run,
 )
 
@@ -83,7 +83,8 @@ project.box(
         frame_color=Color("darkred"),
     ),
     position=(0.0, 0.0, 0.0),
-).compartment("Bits", depth=player_box_height - lid_thickness, cut=FingerCut.SCOOP)
+    stackable=StackableMode.PYRAMIDS,
+).compartment("Bits", cut=FingerCut.SCOOP)
 
 project.box(
     BoxType.SLIDING,
@@ -97,7 +98,8 @@ project.box(
         frame_color=Color("forestgreen"),
     ),
     position=(0.0, 0.0, player_box_height),
-).compartment("Bits", depth=player_box_height - lid_thickness, cut=FingerCut.SCOOP)
+    stackable=StackableMode.PYRAMIDS,
+).compartment("Bits", cut=FingerCut.SCOOP)
 
 project.box(
     BoxType.SLIDING,
@@ -111,7 +113,8 @@ project.box(
         frame_color=Color("gold"),
     ),
     position=(0.0, 0.0, player_box_height * 2.0),
-).compartment("Bits", depth=player_box_height - lid_thickness, cut=FingerCut.SCOOP)
+    stackable=StackableMode.PYRAMIDS,
+).compartment("Bits", cut=FingerCut.SCOOP)
 
 # Right column (X = card_box_width = 72mm)
 project.box(
@@ -126,7 +129,8 @@ project.box(
         frame_color=Color("navy"),
     ),
     position=(card_box_width, 0.0, 0.0),
-).compartment("Bits", depth=player_box_height - lid_thickness, cut=FingerCut.SCOOP)
+    stackable=StackableMode.PYRAMIDS,
+).compartment("Bits", cut=FingerCut.SCOOP)
 
 project.box(
     BoxType.SLIDING,
@@ -140,7 +144,8 @@ project.box(
         frame_color=Color("purple"),
     ),
     position=(card_box_width, 0.0, player_box_height),
-).compartment("Bits", depth=player_box_height - lid_thickness, cut=FingerCut.SCOOP)
+    stackable=StackableMode.PYRAMIDS,
+).compartment("Bits", cut=FingerCut.SCOOP)
 
 project.box(
     BoxType.SLIDING,
@@ -154,7 +159,8 @@ project.box(
         frame_color=Color("silver"),
     ),
     position=(card_box_width, 0.0, player_box_height * 2.0),
-).compartment("Money", depth=player_box_height - lid_thickness, cut=FingerCut.SCOOP)
+    stackable=StackableMode.PYRAMIDS,
+).compartment("Money", cut=FingerCut.SCOOP)
 
 # ── 2. Card Boxes (Row 2, Y = card_box_length = 97mm) ─────────────
 y_row2 = card_box_length
@@ -171,7 +177,8 @@ project.box(
         frame_color=Color("royalblue"),
     ),
     position=(card_box_width, y_row2, 0.0),
-).compartment("Cards", depth=usable_height / 2.0 - lid_thickness, cut=FingerCut.SCOOP)
+    stackable=StackableMode.PYRAMIDS,
+).compartment("Cards", cut=FingerCut.SCOOP)
 
 project.box(
     BoxType.SLIDING,
@@ -185,7 +192,8 @@ project.box(
         frame_color=Color("darkorange"),
     ),
     position=(card_box_width, y_row2, usable_height / 2.0),
-).compartment("Cards", depth=usable_height / 2.0 - lid_thickness, cut=FingerCut.SCOOP)
+    stackable=StackableMode.PYRAMIDS,
+).compartment("Cards", cut=FingerCut.SCOOP)
 
 # ── 3. Gear / Cog Boxes (Stacked 3 high at Y = 97 + 97 = 194mm) ───
 y_row3 = card_box_length * 2.0  # 194.0mm
@@ -207,7 +215,6 @@ for idx, label in enumerate(gear_labels):
     )
     g_box.compartment(
         "Gears",
-        depth=gear_box_height - floor_thickness - 1.0,
         cut=FingerCut.SCOOP,
     )
 
@@ -224,7 +231,7 @@ project.box(
         frame_color=Color("firebrick"),
     ),
     position=(0.0, y_row2, 0.0),
-).compartment("Dice", depth=usable_height / 2.0 - floor_thickness - 1.0, cut=FingerCut.SCOOP)
+).compartment("Dice", cut=FingerCut.SCOOP)
 
 project.box(
     BoxType.CAP,
@@ -238,7 +245,7 @@ project.box(
         frame_color=Color("teal"),
     ),
     position=(0.0, y_row2 + card_box_length / 2.0, 0.0),
-).compartment("Books", depth=usable_height / 2.0 - floor_thickness - 1.0, cut=FingerCut.SCOOP)
+).compartment("Books", cut=FingerCut.SCOOP)
 
 # ── Export ────────────────────────────────────────────────────────
 if __name__ == "__main__":

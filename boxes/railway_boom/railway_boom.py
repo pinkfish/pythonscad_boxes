@@ -17,10 +17,9 @@ for _sp in ROOT.glob(".venv/lib/*/site-packages"):
 for _sp in ROOT.glob("venv/*/lib/*/site-packages"):
     sys.path.insert(0, str(_sp))
 
-from pybosl2 import Color
-
 from pyboxbuilder import (
     BoxType,
+    Color,
     FingerCut,
     LabelMode,
     LidBuilder,
@@ -67,6 +66,7 @@ project = Project(
     clearance_slack=0.0,
     board_thickness=board_thickness + player_board_thickness,
     generate_spacers=True,
+    box_defaults={"no_rotate": True},
 )
 
 BOOM_PATTERN = PatternBuilder(PatternType.DENSE_HEX)
@@ -88,18 +88,15 @@ for idx, color_name in enumerate(player_colors):
             frame_color=Color(color_name),
         ),
         position=(col * player_box_width, 0.0, tier * player_box_height),
-        no_rotate=True,
     )
     p_box.compartment(
         "TrainsAndStations",
         width_ratio=0.6,
-        depth=player_box_height - floor_thickness - 1.0,
         cut=FingerCut.SCOOP,
     )
     p_box.compartment(
         "CubesAndDiscs",
         width_ratio=0.4,
-        depth=player_box_height - floor_thickness - 1.0,
         cut=FingerCut.SCOOP,
     )
 
@@ -118,10 +115,8 @@ project.box(
         frame_color=Color("navy"),
     ),
     position=(0.0, y_cards, 0.0),
-    no_rotate=True,
 ).compartment(
     "StationCards",
-    depth=card_box_height - lid_thickness,
     cut=FingerCut.SCOOP,
 )
 
@@ -137,10 +132,8 @@ project.box(
         frame_color=Color("darkorange"),
     ),
     position=(card_box_width, y_cards, 0.0),
-    no_rotate=True,
 ).compartment(
     "ObjectiveCards",
-    depth=card_box_height - lid_thickness,
     cut=FingerCut.SCOOP,
 )
 
@@ -165,11 +158,9 @@ for idx, (deck_id, title, color_name) in enumerate(small_decks):
             frame_color=Color(color_name),
         ),
         position=(idx * small_card_box_width, y_small, 0.0),
-        no_rotate=True,
     )
     s_box.compartment(
         "Cards",
-        depth=usable_height - lid_thickness,
         cut=FingerCut.SCOOP,
     )
 
@@ -186,10 +177,8 @@ project.box(
         frame_color=Color("dimgray"),
     ),
     position=(small_card_box_width * 2.0, y_small, 0.0),
-    no_rotate=True,
 ).compartment(
     "CityTiles",
-    depth=usable_height - lid_thickness,
     cut=FingerCut.SCOOP,
 )
 

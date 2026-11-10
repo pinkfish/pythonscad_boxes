@@ -17,10 +17,9 @@ for _sp in ROOT.glob(".venv/lib/*/site-packages"):
 for _sp in ROOT.glob("venv/*/lib/*/site-packages"):
     sys.path.insert(0, str(_sp))
 
-from pybosl2 import Color
-
 from pyboxbuilder import (
     BoxType,
+    Color,
     FingerCut,
     LabelMode,
     LidBuilder,
@@ -66,6 +65,7 @@ project = Project(
     clearance_slack=0.0,
     board_thickness=board_thickness,
     generate_spacers=True,
+    box_defaults={"no_rotate": True},
 )
 
 BIOME_PATTERN = PatternBuilder(PatternType.DENSE_HEX)
@@ -83,10 +83,8 @@ project.box(
         frame_color=Color("peru"),
     ),
     position=(0.0, 0.0, 0.0),
-    no_rotate=True,
 ).compartment(
     "NestBoards",
-    depth=nest_box_height - floor_thickness - 1.0,
     cut=FingerCut.SCOOP,
 )
 
@@ -135,11 +133,9 @@ for col_idx, col_items in enumerate(resources):
                 frame_color=Color(color_name),
             ),
             position=(nest_box_width, y_pos, z_pos),
-            no_rotate=True,
         )
         bx.compartment(
             "Tokens",
-            depth=res_box_height - floor_thickness - 1.0,
             cut=FingerCut.SCOOP,
         )
 
@@ -164,11 +160,9 @@ for idx, (deck_id, title, color_name) in enumerate(card_decks):
             frame_color=Color(color_name),
         ),
         position=(x_cards, idx * card_box_length, 0.0),
-        no_rotate=True,
     )
     c_box.compartment(
         "Cards",
-        depth=card_box_height - floor_thickness - 1.0,
         cut=FingerCut.SCOOP,
     )
 

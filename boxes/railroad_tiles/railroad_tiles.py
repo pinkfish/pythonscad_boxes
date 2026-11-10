@@ -17,10 +17,9 @@ for _sp in ROOT.glob(".venv/lib/*/site-packages"):
 for _sp in ROOT.glob("venv/*/lib/*/site-packages"):
     sys.path.insert(0, str(_sp))
 
-from pybosl2 import Color
-
 from pyboxbuilder import (
     BoxType,
+    Color,
     FingerCut,
     LabelMode,
     LidBuilder,
@@ -66,6 +65,7 @@ project = Project(
     clearance_slack=0.0,
     board_thickness=board_thickness,
     generate_spacers=True,
+    box_defaults={"no_rotate": True},
 )
 
 TILE_PATTERN = PatternBuilder(PatternType.DENSE_HEX)
@@ -86,11 +86,9 @@ for idx, label in enumerate(token_labels):
                 frame_color=Color("navy"),
             ),
             position=(idx * token_box_width, 0.0, tier * token_box_height),
-            no_rotate=True,
         )
         t_box.compartment(
             "Tokens",
-            depth=token_box_height - floor_thickness - 1.0,
             cut=FingerCut.SCOOP,
         )
 
@@ -109,10 +107,8 @@ project.box(
         frame_color=Color("darkgreen"),
     ),
     position=(0.0, 0.0, z_top),
-    no_rotate=True,
 ).compartment(
     "Markers",
-    depth=player_box_height - floor_thickness - 1.0,
     cut=FingerCut.SCOOP,
 )
 
@@ -128,10 +124,8 @@ project.box(
         frame_color=Color("gold"),
     ),
     position=(player_box_width, 0.0, z_top),
-    no_rotate=True,
 ).compartment(
     "Clocks",
-    depth=player_box_height - floor_thickness - 1.0,
     cut=FingerCut.SCOOP,
 )
 
@@ -149,18 +143,15 @@ for i in range(5):
             frame_color=Color("darkorange"),
         ),
         position=(0.0, token_box_length, i * objective_box_height),
-        no_rotate=True,
     )
     obj_box.compartment(
         "ObjectiveTiles_Left",
         width_ratio=0.5,
-        depth=objective_box_height - floor_thickness - 1.0,
         cut=FingerCut.SCOOP,
     )
     obj_box.compartment(
         "ObjectiveTiles_Right",
         width_ratio=0.5,
-        depth=objective_box_height - floor_thickness - 1.0,
         cut=FingerCut.SCOOP,
     )
 
