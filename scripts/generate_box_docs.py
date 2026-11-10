@@ -218,31 +218,61 @@ def process_game(game_slug: str) -> dict[str, Any]:
             fname = f"{piece.label}.stl" if piece.kind == "spacer" else f"{piece.label}_{piece.kind}.stl"
             expected_files.append(((piece.label, piece.kind), fname, out_stl_dir / fname))
 
-        all_cached = all(p.is_file() and p.stat().st_size > 84 for _, _, p in expected_files)
-
         part_uris: dict[tuple[str, str], str] = {}
         part_filenames: dict[tuple[str, str], str] = {}
         total_tris = 0
 
-        if all_cached:
-            for key, fname, stl_path in expected_files:
+        missing_keys: set[tuple[str, str]] = set()
+        for key, fname, stl_path in expected_files:
+            part_uris[key] = f"../_stl/boxes/{game_slug}/{fname}"
+            part_filenames[key] = fname
+            if stl_path.is_file() and stl_path.stat().st_size > 84:
                 with open(stl_path, "rb") as f:
                     hdr = f.read(84)
                     total_tris += struct.unpack("<I", hdr[80:84])[0]
-                part_uris[key] = f"../_stl/boxes/{game_slug}/{fname}"
-                part_filenames[key] = fname
-        else:
-            preview_list = proj.preview_pieces(show_lids=True)
+            else:
+                missing_keys.add(key)
+
+        if missing_keys:
+            only_lids_missing = all(kind == "lid" for _, kind in missing_keys)
+            missing_labels = {label for label, _ in missing_keys}
+            if only_lids_missing:
+                from pyboxbuilder.rounding import lid_rounding, round_edges
+
+                def _build_lid_only(builder: Any) -> tuple[Any, Any, Any, list[Any]]:
+                    resolved = proj.pipeline._resolve_box(proj._manifest, builder)
+                    size = builder.final_size
+                    assert size is not None
+                    box, spec = resolved.box, resolved.spec
+                    if box is None:
+                        return None, None, size, []
+                    lid = box.build_lid(spec)
+                    if lid is not None:
+                        lid = round_edges(
+                            lid, list(size), lid_rounding(spec), box.lid_rounded_edges(spec)
+                        )
+                    return None, lid, size, []
+
+                preview_list = proj.pipeline.preview_pieces(
+                    proj._manifest,
+                    show_lids=True,
+                    lids_only=True,
+                    only=missing_labels,
+                    build_box_solids_fn=_build_lid_only,
+                )
+            else:
+                preview_list = proj.preview_pieces(show_lids=True)
+
             grouped: dict[tuple[str, str], list[tuple[Any, Any]]] = {}
             for p in preview_list:
                 grouped.setdefault((p.label, p.kind), []).append((p.solid, p.color))
 
             for (label, kind), solids in grouped.items():
+                if (label, kind) not in missing_keys:
+                    continue
                 fname = f"{label}.stl" if kind == "spacer" else f"{label}_{kind}.stl"
                 stl_path = out_stl_dir / fname
                 total_tris += write_colored_stl(stl_path, solids)
-                part_uris[(label, kind)] = f"../_stl/boxes/{game_slug}/{fname}"
-                part_filenames[(label, kind)] = fname
 
     # Collect box and spacer metadata from build.pieces
     body_pieces = {p.label: p for p in build.of_kind("body")}

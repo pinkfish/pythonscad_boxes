@@ -351,7 +351,8 @@ class GeometryPipeline:
             from pyboxbuilder.lid.builder import LidBuilder, PatternBuilder
 
             lid_builder = LidBuilder(pattern=PatternBuilder(PatternType.HEX))
-        path = getattr(builder, "path", None)
+        raw_path = getattr(builder, "path", None)
+        path = raw_path if (raw_path is not None and len(raw_path) >= 3) else None
         lid_top_z = builder.final_size[2] if builder.final_size is not None else None
         from pyboxbuilder.enums import StackableMode, StackableShape
 

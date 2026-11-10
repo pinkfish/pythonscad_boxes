@@ -933,5 +933,87 @@ class InsertColourTests(unittest.TestCase):
         self.assertEqual(len(dec_custom.inserts), 3)
         self.assertLess(volume(dec_custom.solid), volume(dec_stepped.solid))
 
+    def test_cap_and_slipover_lids_keep_default_10mm_border_and_cap_max_font_size(self) -> None:
+        """Rectangular CAP and SLIPOVER lids (path=()) keep 10mm border and cap font at MAX_TEXT_HEIGHT_MM."""
+        from pybosl2 import Color
+
+        from pyboxbuilder.lid.builder import BORDER_MARGIN_MM, MAX_TEXT_HEIGHT_MM
+        from pyboxbuilder.lid.label import text_height_for
+        from pyboxbuilder.project import Project
+
+        # 1. text_height_for caps short words on large lids at MAX_TEXT_HEIGHT_MM (16.0mm)
+        h_default = text_height_for(76.4, 258.0, "Money")
+        self.assertAlmostEqual(h_default, MAX_TEXT_HEIGHT_MM, places=4)
+
+        h_uncapped = text_height_for(76.4, 258.0, "Money", max_text_height_mm=None)
+        self.assertGreater(h_uncapped, 35.0)
+
+        h_custom = text_height_for(76.4, 258.0, "Money", max_text_height_mm=12.0)
+        self.assertAlmostEqual(h_custom, 12.0, places=4)
+
+        # 2. decorate_lid with path=() keeps the 10mm BORDER_MARGIN_MM on all sides
+        from pyboxbuilder.box.shell import block
+
+        dec_empty_path = decorate_lid(
+            block([76.4, 258.0, 2.0]),
+            LidBuilder(
+                text="Money",
+                label_mode=LabelMode.FRAMED,
+                frame_color=Color("gold"),
+                text_color=Color("black"),
+                pattern=PatternBuilder(PatternType.VORONOI),
+            ),
+            2.0,
+            "mmu",
+            path=(),
+        )
+        for ins in dec_empty_path.inserts:
+            (cx, cy, _), (sx, sy, _) = _bounds_cs(ins.solid)
+            self.assertGreaterEqual(cx - sx / 2, BORDER_MARGIN_MM - 1e-3)
+            self.assertLessEqual(cx + sx / 2, 76.4 - BORDER_MARGIN_MM + 1e-3)
+            self.assertGreaterEqual(cy - sy / 2, BORDER_MARGIN_MM - 1e-3)
+            self.assertLessEqual(cy + sy / 2, 258.0 - BORDER_MARGIN_MM + 1e-3)
+
+        # 3. Full Project pipeline with BoxType.CAP and BoxType.SLIPOVER preserves 10mm border
+        proj = Project("BorderCheck", game_box_size=(200, 300, 60), clearance_slack=0.0)
+        proj.box(
+            BoxType.CAP,
+            "MoneyBox",
+            size=(76.4, 258.0, 26.7),
+            expandable=False,
+            position=(0.0, 0.0, 0.0),
+            lid=LidBuilder(
+                text="Money",
+                label_mode=LabelMode.FRAMED,
+                frame_color=Color("gold"),
+                text_color=Color("black"),
+            ),
+        )
+        proj.box(
+            BoxType.SLIPOVER,
+            "SlipCards",
+            size=(76.4, 120.0, 30.0),
+            expandable=False,
+            position=(80.0, 0.0, 0.0),
+            lid=LidBuilder(
+                text="Cards",
+                label_mode=LabelMode.FRAMED,
+                frame_color=Color("gold"),
+                text_color=Color("black"),
+            ),
+        )
+        build_res = proj.build()
+        for label_name, expected_w, expected_l in (("MoneyBox", 76.4, 258.0), ("SlipCards", 76.4, 120.0)):
+            lid_piece = next(p for p in build_res.pieces if p.label == label_name and p.kind == "lid")
+            _, inserts = proj.pipeline._decorated_lid(proj._manifest, lid_piece, "mmu")
+            self.assertTrue(inserts)
+            for ins in inserts:
+                (cx, cy, _), (sx, sy, _) = _bounds_cs(ins.solid)
+                self.assertGreaterEqual(cx - sx / 2, BORDER_MARGIN_MM - 1e-3)
+                self.assertLessEqual(cx + sx / 2, expected_w - BORDER_MARGIN_MM + 1e-3)
+                self.assertGreaterEqual(cy - sy / 2, BORDER_MARGIN_MM - 1e-3)
+                self.assertLessEqual(cy + sy / 2, expected_l - BORDER_MARGIN_MM + 1e-3)
+
+
 
 

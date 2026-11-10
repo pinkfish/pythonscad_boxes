@@ -156,8 +156,12 @@ def decorate_lid(
     center_x: float | None = None
     center_y: float | None = None
 
-    if path is not None and len(path) >= 3 and resolved.text:
-        margin = resolved.border_margin_mm if resolved.border_margin_mm is not None else 5.0
+    has_path = path is not None and len(path) >= 3
+    if not has_path:
+        path = None
+
+    if has_path and path is not None and resolved.text:
+        margin = resolved.border_margin
 
         if resolved.label_area is not None:
             lx, ly, lw, ll = resolved.label_area
@@ -172,6 +176,8 @@ def decorate_lid(
             from pyboxbuilder.paths import longest_inscribed_rectangle
 
             open_path = offset_footprint(path, margin)
+            if len(open_path) < 3 and resolved.border_margin_mm is None:
+                open_path = offset_footprint(path, 5.0)
             if len(open_path) >= 3:
                 rx, ry, rw, rl = longest_inscribed_rectangle(open_path)
                 label_w, label_l = rw, rl
@@ -182,15 +188,21 @@ def decorate_lid(
             from pyboxbuilder.paths import longest_inscribed_rectangle
 
             open_path = offset_footprint(path, margin)
+            if len(open_path) < 3 and resolved.border_margin_mm is None:
+                open_path = offset_footprint(path, 5.0)
             if len(open_path) >= 3:
                 rx, ry, rw, rl = longest_inscribed_rectangle(open_path)
+                if (rw <= 0 or rl <= 0) and resolved.border_margin_mm is None:
+                    open_path_fallback = offset_footprint(path, 5.0)
+                    if len(open_path_fallback) >= 3:
+                        rx, ry, rw, rl = longest_inscribed_rectangle(open_path_fallback)
                 if rw > 0 and rl > 0:
                     center_x = (rx + rw / 2) - origin_x
                     center_y = (ry + rl / 2) - origin_y
                     label_w, label_l = rw, rl
 
     margin_override = resolved.border_margin_mm
-    if margin_override is None and path is not None and (label_w > 0 and label_l > 0):
+    if margin_override is None and has_path and (label_w > 0 and label_l > 0):
         margin_override = 0.0
 
     # The label is built first even though it is applied last, because the
@@ -206,7 +218,7 @@ def decorate_lid(
             mode_str,
             center_x=center_x,
             center_y=center_y,
-            border_margin_mm=0.0 if (path is not None and len(path) >= 3) else margin_override,
+            border_margin_mm=0.0 if has_path else margin_override,
             path=path,
             origin_x=origin_x,
             origin_y=origin_y,
@@ -334,6 +346,7 @@ def _build_label(
         label_rounding_mm=builder.label_rounding_mm,
         center_x=center_x,
         center_y=center_y,
+        max_text_height_mm=builder.max_text_height,
     )
 
 
