@@ -13,6 +13,7 @@ from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
 from pyboxbuilder.enums import LabelMode
+from pyboxbuilder.lid.builder import BORDER_MARGIN_MM, MAX_TEXT_HEIGHT_MM
 
 if TYPE_CHECKING:
     from pybosl2.shapes3d import Bosl2Solid
@@ -91,11 +92,12 @@ def text_height_for(
     width: float,
     length: float,
     text: str,
-    border_margin_mm: float = 5.0,
+    border_margin_mm: float = BORDER_MARGIN_MM,
     diagonal: bool = False,
     label_mode: LabelMode = LabelMode.FRAMED,
     label_border_mm: float = LABEL_BORDER_MM,
     label_text_gap_mm: float = LABEL_TEXT_GAP_MM,
+    max_text_height_mm: float | None = MAX_TEXT_HEIGHT_MM,
 ) -> float:
     """Cap height the label text will be set at, in mm.
 
@@ -123,7 +125,8 @@ def text_height_for(
     set_l = float(b.size[1]) if hasattr(b, "size") else float(b[1][1])
     if set_w <= 0 or set_l <= 0:
         return 0.0
-    return NOMINAL_SIZE_MM * min(target_w / set_w, target_l / set_l)
+    raw = NOMINAL_SIZE_MM * min(target_w / set_w, target_l / set_l)
+    return min(raw, max_text_height_mm) if max_text_height_mm is not None else raw
 
 
 def build_label(
@@ -134,12 +137,13 @@ def build_label(
     label_mode: LabelMode = LabelMode.FRAMED,
     diagonal: bool = False,
     min_text_height_mm: float = 4.0,
-    border_margin_mm: float = 5.0,
+    border_margin_mm: float = BORDER_MARGIN_MM,
     label_border_mm: float | None = None,
     label_text_gap_mm: float | None = None,
     label_rounding_mm: float | None = None,
     center_x: float | None = None,
     center_y: float | None = None,
+    max_text_height_mm: float | None = MAX_TEXT_HEIGHT_MM,
 ) -> Label | None:
     """Build a label for a lid face, or None if it would be illegible.
 
@@ -159,6 +163,7 @@ def build_label(
         label_rounding_mm: Corner rounding radius of the backing plate in mm.
         center_x: Explicit X center for the label in the face frame (defaults to width / 2).
         center_y: Explicit Y center for the label in the face frame (defaults to length / 2).
+        max_text_height_mm: Maximum cap height for the label text in mm.
 
     Returns:
         A `Label`, or None when the text would come out under the minimum.
@@ -176,8 +181,15 @@ def build_label(
         return None
 
     size = text_height_for(
-        width, length, text, border_margin_mm, diagonal,
-        label_mode, border, gap
+        width,
+        length,
+        text,
+        border_margin_mm,
+        diagonal,
+        label_mode,
+        border,
+        gap,
+        max_text_height_mm=max_text_height_mm,
     )
     if size < min_text_height_mm:
         return None

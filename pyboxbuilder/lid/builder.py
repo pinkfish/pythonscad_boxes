@@ -19,6 +19,9 @@ Below this an FDM printer cannot hold the strokes of a letter apart, so the
 label comes out as a smudge; skipping it leaves a clean lid instead.
 """
 
+MAX_TEXT_HEIGHT_MM = 16.0
+"""Tallest a label is scaled to by default so short words on large lids do not look overwhelming."""
+
 LID_BORDER_MM = 8.0
 """Solid margin around everything on a lid — its pattern and its label alike.
 
@@ -306,6 +309,9 @@ class LidBuilder:
     """Below this the label is skipped rather than printed illegibly (FR-020).
 
     ``None`` uses :data:`MIN_TEXT_HEIGHT_MM`."""
+    max_text_height_mm: float | None = None
+    """Maximum cap height for auto-sized label text in mm; ``None`` uses
+    :data:`MAX_TEXT_HEIGHT_MM`."""
     border_margin_mm: float | None = None
     """Margin the auto-sized label keeps clear of the lid's edge; ``None`` uses
     :data:`BORDER_MARGIN_MM`."""
@@ -394,6 +400,11 @@ class LidBuilder:
     def min_text_height(self) -> float:
         """The shortest printable label, resolved."""
         return self.min_text_height_mm if self.min_text_height_mm is not None else MIN_TEXT_HEIGHT_MM
+
+    @property
+    def max_text_height(self) -> float:
+        """The tallest auto-sized label cap height, resolved."""
+        return self.max_text_height_mm if self.max_text_height_mm is not None else MAX_TEXT_HEIGHT_MM
 
     @property
     def label_clearance(self) -> float:
