@@ -17,10 +17,9 @@ for _sp in ROOT.glob(".venv/lib/*/site-packages"):
 for _sp in ROOT.glob("venv/*/lib/*/site-packages"):
     sys.path.insert(0, str(_sp))
 
-from pybosl2 import Color
-
 from pyboxbuilder import (
     BoxType,
+    Color,
     FingerCut,
     LabelMode,
     LidBuilder,
@@ -91,6 +90,7 @@ project = Project(
     lid_thickness=lid_thickness,
     clearance_slack=0.0,
     generate_spacers=True,
+    box_defaults={"no_rotate": True},
 )
 
 ARKHAM_PATTERN = PatternBuilder(PatternType.VORONOI)
@@ -108,11 +108,9 @@ player_box = project.box(
         frame_color=Color("teal"),
     ),
     position=(0.0, 0.0, 0.0),
-    no_rotate=True,
 )
 player_box.compartment(
     "Investigators",
-    depth=all_boxes_height - lid_thickness,
     cut=FingerCut.SCOOP,
 )
 
@@ -129,11 +127,9 @@ scenario_box = project.box(
         frame_color=Color("midnightblue"),
     ),
     position=(0.0, player_box_len, 0.0),
-    no_rotate=True,
 )
 scenario_box.compartment(
     "Encounters",
-    depth=all_boxes_height - lid_thickness,
     cut=FingerCut.SCOOP,
 )
 
@@ -154,13 +150,11 @@ for idx, label in enumerate(["ChaosTokens", "DamageAndHorror", "CluesAndResource
             frame_color=Color("darkred"),
         ),
         position=(card_box_width, 0.0, (idx - 1) * token_tray_height),
-        no_rotate=True,
     )
     for c_idx in range(4):
         tray.compartment(
             f"Pocket_{c_idx + 1}",
             width_ratio=0.25,
-            depth=token_tray_height - floor_thickness - 1.0,
             cut=FingerCut.SCOOP,
         )
 
@@ -176,18 +170,15 @@ accessory_box = project.box(
         text_color=Color("white"),
     ),
     position=(card_box_width, player_box_len, 0.0),
-    no_rotate=True,
 )
 accessory_box.compartment(
     "MinisAndDials",
     width_ratio=0.5,
-    depth=all_boxes_height / 2.0 - floor_thickness - 1.0,
     cut=FingerCut.SCOOP,
 )
 accessory_box.compartment(
     "StandsAndMarkers",
     width_ratio=0.5,
-    depth=all_boxes_height / 2.0 - floor_thickness - 1.0,
     cut=FingerCut.SCOOP,
 )
 

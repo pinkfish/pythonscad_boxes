@@ -17,10 +17,9 @@ for _sp in ROOT.glob(".venv/lib/*/site-packages"):
 for _sp in ROOT.glob("venv/*/lib/*/site-packages"):
     sys.path.insert(0, str(_sp))
 
-from pybosl2 import Color
-
 from pyboxbuilder import (
     BoxType,
+    Color,
     FingerCut,
     LabelMode,
     LidBuilder,
@@ -67,6 +66,7 @@ project = Project(
     clearance_slack=0.0,
     board_thickness=total_board_reserve,
     generate_spacers=True,
+    box_defaults={"no_rotate": True},
 )
 
 EARTH_PATTERN = PatternBuilder(PatternType.DENSE_HEX)
@@ -92,11 +92,9 @@ for idx, (deck_id, title, color_name) in enumerate(decks):
             frame_color=Color(color_name),
         ),
         position=(idx * card_box_width, 0.0, 0.0),
-        no_rotate=True,
     )
     c_box.compartment(
         "Cards",
-        depth=card_box_height - lid_thickness,
         cut=FingerCut.SCOOP,
     )
 
@@ -115,10 +113,8 @@ project.box(
         frame_color=Color("peru"),
     ),
     position=(0.0, y_row1, 0.0),
-    no_rotate=True,
 ).compartment(
     "CanopiesAndTrunks",
-    depth=canopy_box_height - floor_thickness - 1.0,
     cut=FingerCut.SCOOP,
 )
 
@@ -134,10 +130,8 @@ project.box(
         frame_color=Color("limegreen"),
     ),
     position=(canopy_box_width, y_row1, 0.0),
-    no_rotate=True,
 ).compartment(
     "SproutCubes",
-    depth=sprout_box_height - floor_thickness - 1.0,
     cut=FingerCut.SCOOP,
 )
 
@@ -162,11 +156,9 @@ for idx, color_name in enumerate(player_colors):
             frame_color=Color(color_name),
         ),
         position=(canopy_box_width * 2.0 + col * p_width, y_row1, tier * p_height),
-        no_rotate=True,
     )
     p_box.compartment(
         "LeafTokens",
-        depth=p_height - floor_thickness - 1.0,
         cut=FingerCut.SCOOP,
     )
 

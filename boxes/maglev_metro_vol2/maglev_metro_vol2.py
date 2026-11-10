@@ -17,10 +17,9 @@ for _sp in ROOT.glob(".venv/lib/*/site-packages"):
 for _sp in ROOT.glob("venv/*/lib/*/site-packages"):
     sys.path.insert(0, str(_sp))
 
-from pybosl2 import Color
-
 from pyboxbuilder import (
     BoxType,
+    Color,
     FingerCut,
     LabelMode,
     LidBuilder,
@@ -68,6 +67,7 @@ project = Project(
     clearance_slack=0.0,
     board_thickness=game_board_thickness + player_board_thickness,
     generate_spacers=True,
+    box_defaults={"no_rotate": True},
 )
 
 METRO_PATTERN = PatternBuilder(PatternType.DENSE_HEX)
@@ -85,11 +85,9 @@ c_box = project.box(
         frame_color=Color("darkorange"),
     ),
     position=(0.0, 0.0, 0.0),
-    no_rotate=True,
 )
 c_box.compartment(
     "Cards",
-    depth=card_box_height - lid_thickness,
     cut=FingerCut.SCOOP,
 )
 
@@ -106,13 +104,11 @@ u_box = project.box(
         frame_color=Color("seagreen"),
     ),
     position=(0.0, card_box_length, 0.0),
-    no_rotate=True,
 )
 for slot in range(3):
     u_box.compartment(
         f"Upgrade_{slot + 1}",
         length_ratio=1.0 / 3.0,
-        depth=upgrade_box_height - floor_thickness - 1.0,
         cut=FingerCut.SCOOP,
     )
 
@@ -129,18 +125,15 @@ t_box = project.box(
         frame_color=Color("darkviolet"),
     ),
     position=(card_box_width, 0.0, 0.0),
-    no_rotate=True,
 )
 t_box.compartment(
     "OutbackHexes",
     width_ratio=0.5,
-    depth=tile_box_height - floor_thickness - 1.0,
     cut=FingerCut.SCOOP,
 )
 t_box.compartment(
     "GhostHexes",
     width_ratio=0.5,
-    depth=tile_box_height - floor_thickness - 1.0,
     cut=FingerCut.SCOOP,
 )
 
@@ -157,18 +150,15 @@ tok_box = project.box(
         frame_color=Color("gold"),
     ),
     position=(card_box_width, 0.0, tile_box_height),
-    no_rotate=True,
 )
 tok_box.compartment(
     "Tickets",
     width_ratio=0.5,
-    depth=tile_box_height - floor_thickness - 1.0,
     cut=FingerCut.SCOOP,
 )
 tok_box.compartment(
     "Nanobots",
     width_ratio=0.5,
-    depth=tile_box_height - floor_thickness - 1.0,
     cut=FingerCut.SCOOP,
 )
 

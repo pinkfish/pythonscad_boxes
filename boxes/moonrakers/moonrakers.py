@@ -17,10 +17,9 @@ for _sp in ROOT.glob(".venv/lib/*/site-packages"):
 for _sp in ROOT.glob("venv/*/lib/*/site-packages"):
     sys.path.insert(0, str(_sp))
 
-from pybosl2 import Color
-
 from pyboxbuilder import (
     BoxType,
+    Color,
     FingerCut,
     LabelMode,
     LidBuilder,
@@ -58,6 +57,7 @@ project = Project(
     clearance_slack=0.0,
     board_thickness=board_thickness,
     generate_spacers=True,
+    box_defaults={"no_rotate": True},
 )
 
 MOON_PATTERN = PatternBuilder(PatternType.DENSE_HEX)
@@ -87,9 +87,8 @@ for row_idx, row_pair in enumerate(command_decks):
                 frame_color=Color(color_name),
             ),
             position=(col_idx * card_box_width, y_pos, 0.0),
-            no_rotate=True,
         )
-        c_box.compartment("Cards", depth=card_box_height - lid_thickness, cut=FingerCut.SCOOP)
+        c_box.compartment("Cards", cut=FingerCut.SCOOP)
 
 # ── 2. Objectives & Hazard Dice Tray (Stacked at Z = card_box_height)
 # Tier 2 at row 0 & 1
@@ -105,9 +104,8 @@ obj_box = project.box(
         frame_color=Color("teal"),
     ),
     position=(0.0, 0.0, card_box_height),
-    no_rotate=True,
 )
-obj_box.compartment("Cards", depth=card_box_height - lid_thickness, cut=FingerCut.SCOOP)
+obj_box.compartment("Cards", cut=FingerCut.SCOOP)
 
 dice_box = project.box(
     BoxType.CAP,
@@ -121,9 +119,8 @@ dice_box = project.box(
         frame_color=Color("firebrick"),
     ),
     position=(card_box_width, 0.0, card_box_height),
-    no_rotate=True,
 )
-dice_box.compartment("Dice", depth=card_box_height - floor_thickness - 1.0, cut=FingerCut.SCOOP)
+dice_box.compartment("Dice", cut=FingerCut.SCOOP)
 
 # ── Export ────────────────────────────────────────────────────────
 if __name__ == "__main__":

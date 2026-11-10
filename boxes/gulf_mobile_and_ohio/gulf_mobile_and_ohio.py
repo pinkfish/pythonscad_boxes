@@ -17,10 +17,9 @@ for _sp in ROOT.glob(".venv/lib/*/site-packages"):
 for _sp in ROOT.glob("venv/*/lib/*/site-packages"):
     sys.path.insert(0, str(_sp))
 
-from pybosl2 import Color
-
 from pyboxbuilder import (
     BoxType,
+    Color,
     FingerCut,
     LabelMode,
     LidBuilder,
@@ -68,6 +67,7 @@ project = Project(
     clearance_slack=0.0,
     board_thickness=board_thickness,
     generate_spacers=True,
+    box_defaults={"no_rotate": True},
 )
 
 GMO_PATTERN = PatternBuilder(PatternType.DENSE_HEX)
@@ -85,13 +85,11 @@ money_box = project.box(
         frame_color=Color("gold"),
     ),
     position=(0.0, 0.0, 0.0),
-    no_rotate=True,
 )
 for slot in range(3):
     money_box.compartment(
         f"Denom_{slot + 1}",
         width_ratio=1.0 / 3.0,
-        depth=money_box_height - lid_thickness,
         cut=FingerCut.SCOOP,
     )
 
@@ -109,11 +107,9 @@ for i in range(2):
             frame_color=Color("navy"),
         ),
         position=(i * company_box_width, money_box_length, 0.0),
-        no_rotate=True,
     )
     c_box.compartment(
         "Cards",
-        depth=company_box_height - lid_thickness,
         cut=FingerCut.SCOOP,
     )
 
@@ -136,11 +132,9 @@ for idx, color_name in enumerate(cube_colors):
             frame_color=Color(color_name),
         ),
         position=(col * cube_box_width, y_cubes, tier * cube_box_height),
-        no_rotate=True,
     )
     bx.compartment(
         "Cubes",
-        depth=cube_box_height - floor_thickness - 1.0,
         cut=FingerCut.SCOOP,
     )
 
@@ -157,11 +151,9 @@ tok_box = project.box(
         frame_color=Color("darkslategray"),
     ),
     position=(cube_box_width * 3.0, y_cubes, 0.0),
-    no_rotate=True,
 )
 tok_box.compartment(
     "Tokens",
-    depth=usable_height - floor_thickness - 1.0,
     cut=FingerCut.SCOOP,
 )
 

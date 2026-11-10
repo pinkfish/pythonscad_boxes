@@ -17,10 +17,9 @@ for _sp in ROOT.glob(".venv/lib/*/site-packages"):
 for _sp in ROOT.glob("venv/*/lib/*/site-packages"):
     sys.path.insert(0, str(_sp))
 
-from pybosl2 import Color
-
 from pyboxbuilder import (
     BoxType,
+    Color,
     FingerCut,
     LabelMode,
     LidBuilder,
@@ -61,6 +60,7 @@ project = Project(
     clearance_slack=0.0,
     board_thickness=total_board_reserve,
     generate_spacers=True,
+    box_defaults={"no_rotate": True},
 )
 
 NIPPON_PATTERN = PatternBuilder(PatternType.DENSE_HEX)
@@ -81,20 +81,17 @@ for idx, color_name in enumerate(player_colors):
             frame_color=Color(color_name if color_name != "white" else "silver"),
         ),
         position=(idx * player_box_width, 0.0, 0.0),
-        no_rotate=True,
     )
     # Ships & Trains compartment
     box.compartment(
         "TrainsAndShips",
         width_ratio=0.6,
-        depth=player_box_height - floor_thickness - 1.0,
         cut=FingerCut.SCOOP,
     )
     # Scoring discs & markers
     box.compartment(
         "DiscsAndMarkers",
         width_ratio=0.4,
-        depth=player_box_height - floor_thickness - 1.0,
         cut=FingerCut.SCOOP,
     )
 
@@ -123,10 +120,8 @@ for idx, (label, text) in enumerate(tile_boxes):
             frame_color=Color("navy"),
         ),
         position=(idx * tile_box_width, y_offset, 0.0),
-        no_rotate=True,
     ).compartment(
         "Tiles",
-        depth=usable_height - lid_thickness,
         cut=FingerCut.SCOOP,
     )
 
@@ -152,10 +147,8 @@ for idx, (label, text, color) in enumerate([
             frame_color=Color(color),
         ),
         position=(idx * res_width, y_offset_3, 0.0),
-        no_rotate=True,
     ).compartment(
         "Resources",
-        depth=usable_height / 2.0 - floor_thickness - 1.0,
         cut=FingerCut.SCOOP,
     )
 

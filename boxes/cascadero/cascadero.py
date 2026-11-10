@@ -17,10 +17,9 @@ for _sp in ROOT.glob(".venv/lib/*/site-packages"):
 for _sp in ROOT.glob("venv/*/lib/*/site-packages"):
     sys.path.insert(0, str(_sp))
 
-from pybosl2 import Color
-
 from pyboxbuilder import (
     BoxType,
+    Color,
     FingerCut,
     LabelMode,
     LidBuilder,
@@ -59,6 +58,7 @@ project = Project(
     clearance_slack=0.0,
     board_thickness=board_thickness,
     generate_spacers=True,
+    box_defaults={"no_rotate": True},
 )
 
 CASCADERO_PATTERN = PatternBuilder(PatternType.DENSE_HEX)
@@ -80,18 +80,15 @@ for idx, color_name in enumerate(player_colors):
             frame_color=Color(color_name),
         ),
         position=(col * player_width, row * player_length, 0.0),
-        no_rotate=True,
     )
     p_box.compartment(
         "Envoys",
         length_ratio=0.6,
-        depth=section_height - lid_thickness,
         cut=FingerCut.SCOOP,
     )
     p_box.compartment(
         "Markers",
         length_ratio=0.4,
-        depth=section_height - lid_thickness,
         cut=FingerCut.SCOOP,
     )
 
@@ -110,10 +107,8 @@ project.box(
         frame_color=Color("firebrick"),
     ),
     position=(0.0, y_utility, 0.0),
-    no_rotate=True,
 ).compartment(
     "Seals",
-    depth=section_height - lid_thickness,
     cut=FingerCut.SCOOP,
 )
 
@@ -129,10 +124,8 @@ project.box(
         frame_color=Color("goldenrod"),
     ),
     position=(top_width, y_utility, 0.0),
-    no_rotate=True,
 ).compartment(
     "Heralds",
-    depth=section_height - lid_thickness,
     cut=FingerCut.SCOOP,
 )
 
@@ -148,10 +141,8 @@ project.box(
         frame_color=Color("seagreen"),
     ),
     position=(top_width + herald_width, y_utility, 0.0),
-    no_rotate=True,
 ).compartment(
     "Farmers",
-    depth=section_height - lid_thickness,
     cut=FingerCut.SCOOP,
 )
 

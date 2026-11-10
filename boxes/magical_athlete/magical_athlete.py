@@ -17,10 +17,9 @@ for _sp in ROOT.glob(".venv/lib/*/site-packages"):
 for _sp in ROOT.glob("venv/*/lib/*/site-packages"):
     sys.path.insert(0, str(_sp))
 
-from pybosl2 import Color
-
 from pyboxbuilder import (
     BoxType,
+    Color,
     FingerCut,
     LabelMode,
     LidBuilder,
@@ -73,6 +72,7 @@ project = Project(
     clearance_slack=0.0,
     board_thickness=board_thickness,
     generate_spacers=True,
+    box_defaults={"no_rotate": True},
 )
 
 ATHLETE_PATTERN = PatternBuilder(PatternType.DENSE_HEX)
@@ -90,10 +90,8 @@ project.box(
         frame_color=Color("darkblue"),
     ),
     position=(0.0, 0.0, 0.0),
-    no_rotate=True,
 ).compartment(
     "Cards",
-    depth=card_box_height - lid_thickness,
     cut=FingerCut.SCOOP,
 )
 
@@ -110,10 +108,8 @@ project.box(
         frame_color=Color("crimson"),
     ),
     position=(card_box_width, 0.0, 0.0),
-    no_rotate=True,
 ).compartment(
     "Dice",
-    depth=dice_box_height - floor_thickness - 1.0,
     cut=FingerCut.SCOOP,
 )
 
@@ -129,10 +125,8 @@ project.box(
         frame_color=Color("gold"),
     ),
     position=(card_box_width, 0.0, dice_box_height),
-    no_rotate=True,
 ).compartment(
     "Medals",
-    depth=award_box_height - floor_thickness - 1.0,
     cut=FingerCut.SCOOP,
 )
 
@@ -150,13 +144,11 @@ for i in range(2):
             frame_color=Color("darkorange"),
         ),
         position=(0.0, card_box_length + i * piece_box_length, 0.0),
-        no_rotate=True,
     )
     for slot in range(4):
         p_box.compartment(
             f"AthleteSlot_{slot + 1}",
             width_ratio=0.25,
-            depth=piece_box_height - floor_thickness - 1.0,
             cut=FingerCut.SCOOP,
         )
 
@@ -173,10 +165,8 @@ project.box(
         frame_color=Color("purple"),
     ),
     position=(0.0, card_box_length + piece_box_length * 2.0, 0.0),
-    no_rotate=True,
 ).compartment(
     "BigBaby",
-    depth=usable_height - floor_thickness - 1.0,
     cut=FingerCut.SCOOP,
 )
 

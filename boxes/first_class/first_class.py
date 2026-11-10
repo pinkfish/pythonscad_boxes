@@ -17,10 +17,9 @@ for _sp in ROOT.glob(".venv/lib/*/site-packages"):
 for _sp in ROOT.glob("venv/*/lib/*/site-packages"):
     sys.path.insert(0, str(_sp))
 
-from pybosl2 import Color
-
 from pyboxbuilder import (
     BoxType,
+    Color,
     FingerCut,
     LabelMode,
     LidBuilder,
@@ -66,6 +65,7 @@ project = Project(
     clearance_slack=0.0,
     board_thickness=board_thickness + rule_book_thickness,
     generate_spacers=True,
+    box_defaults={"no_rotate": True},
 )
 
 ORIENT_PATTERN = PatternBuilder(PatternType.DENSE_HEX)
@@ -88,20 +88,17 @@ for idx, color_name in enumerate(player_colors):
             frame_color=Color(color_name),
         ),
         position=(col * player_box_width, row * player_box_length, 0.0),
-        no_rotate=True,
     )
     # Meeple slot
     box.compartment(
         "MeeplesAndTrains",
         width_ratio=0.6,
-        depth=player_box_height - floor_thickness - 1.0,
         cut=FingerCut.SCOOP,
     )
     # Player cubes slot
     box.compartment(
         "Cubes",
         width_ratio=0.4,
-        depth=player_box_height - floor_thickness - 1.0,
         cut=FingerCut.SCOOP,
     )
 
@@ -132,10 +129,8 @@ for idx, (deck_id, label_text) in enumerate(card_decks):
             frame_color=Color("darkblue"),
         ),
         position=(col * card_box_width, y_offset + tier * card_box_length, 0.0),
-        no_rotate=True,
     ).compartment(
         "Cards",
-        depth=module_box_height - lid_thickness,
         cut=FingerCut.SCOOP,
     )
 
@@ -156,10 +151,8 @@ project.box(
         frame_color=Color("gold"),
     ),
     position=(card_box_width * 2.0, y_offset + card_box_length, 0.0),
-    no_rotate=True,
 ).compartment(
     "Tiles",
-    depth=loco_height - floor_thickness - 1.0,
     cut=FingerCut.SCOOP,
 )
 

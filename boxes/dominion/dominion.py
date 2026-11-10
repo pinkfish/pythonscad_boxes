@@ -17,10 +17,9 @@ for _sp in ROOT.glob(".venv/lib/*/site-packages"):
 for _sp in ROOT.glob("venv/*/lib/*/site-packages"):
     sys.path.insert(0, str(_sp))
 
-from pybosl2 import Color
-
 from pyboxbuilder import (
     BoxType,
+    Color,
     FingerCut,
     LabelMode,
     LidBuilder,
@@ -79,7 +78,6 @@ base_box = project.box(
 )
 base_box.compartment(
     "KingdomDecks",
-    depth=all_boxes_height - lid_thickness,
     cut=FingerCut.SCOOP,
 )
 
@@ -99,7 +97,6 @@ treasure_box = project.box(
 )
 treasure_box.compartment(
     "TreasuresAndVictory",
-    depth=all_boxes_height - lid_thickness,
     cut=FingerCut.SCOOP,
 )
 
@@ -119,7 +116,6 @@ alchemy_box = project.box(
 )
 alchemy_box.compartment(
     "AlchemyCards",
-    depth=all_boxes_height - lid_thickness,
     cut=FingerCut.SCOOP,
 )
 
@@ -145,13 +141,11 @@ for idx, label in enumerate(["CoinAndDebtTokens", "MatsAndSpecialTokens"], start
     tray.compartment(
         "Tokens_Left",
         width_ratio=0.5,
-        depth=token_tray_height - floor_thickness - 1.0,
         cut=FingerCut.SCOOP,
     )
     tray.compartment(
         "Tokens_Right",
         width_ratio=0.5,
-        depth=token_tray_height - floor_thickness - 1.0,
         cut=FingerCut.SCOOP,
     )
 

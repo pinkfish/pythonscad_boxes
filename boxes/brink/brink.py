@@ -17,16 +17,16 @@ for _sp in ROOT.glob(".venv/lib/*/site-packages"):
 for _sp in ROOT.glob("venv/*/lib/*/site-packages"):
     sys.path.insert(0, str(_sp))
 
-from pybosl2 import Color
-
 from pyboxbuilder import (
     BoxType,
+    Color,
     FingerCut,
     LabelMode,
     LidBuilder,
     PatternBuilder,
     PatternType,
     Project,
+    StackableMode,
     run,
 )
 
@@ -93,7 +93,6 @@ for h in range(3):
     hex_box.compartment(
         f"Sector_{h + 1}",
         width_ratio=1.0 / 3.0,
-        depth=hex_box_height - floor_thickness - 1.0,
         cut=FingerCut.SCOOP,
     )
 
@@ -119,7 +118,6 @@ for idx, faction in enumerate(player_factions):
     )
     p_box.compartment(
         "ShipsAndUpgrades",
-        depth=player_box_height - floor_thickness - 1.0,
         cut=FingerCut.SCOOP,
     )
 
@@ -148,10 +146,10 @@ for idx, (deck_id, title, color_name) in enumerate(card_types):
             frame_color=Color(color_name),
         ),
         position=(col * ambassador_box_width, y_cards, tier * (usable_height / 3.0)),
+        stackable=StackableMode.PYRAMIDS,
     )
     c_box.compartment(
         "Cards",
-        depth=usable_height / 3.0 - lid_thickness,
         cut=FingerCut.SCOOP,
     )
 

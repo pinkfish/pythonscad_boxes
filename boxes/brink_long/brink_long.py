@@ -17,10 +17,9 @@ for _sp in ROOT.glob(".venv/lib/*/site-packages"):
 for _sp in ROOT.glob("venv/*/lib/*/site-packages"):
     sys.path.insert(0, str(_sp))
 
-from pybosl2 import Color
-
 from pyboxbuilder import (
     BoxType,
+    Color,
     FingerCut,
     LabelMode,
     LidBuilder,
@@ -63,6 +62,7 @@ project = Project(
     clearance_slack=0.0,
     board_thickness=board_thickness,
     generate_spacers=True,
+    box_defaults={"no_rotate": True},
 )
 
 BRINK_PATTERN = PatternBuilder(PatternType.DENSE_HEX)
@@ -83,13 +83,12 @@ for tier, (label, title, color_name) in enumerate(player_fleets):
             frame_color=Color(color_name),
         ),
         position=(0.0, 0.0, tier * long_player_box_height),
-        no_rotate=True,
     )
     p_box.compartment(
-        "LongShips", length_ratio=0.5, depth=long_player_box_height - floor_thickness - 1.0, cut=FingerCut.SCOOP
+        "LongShips", length_ratio=0.5, cut=FingerCut.SCOOP
     )
     p_box.compartment(
-        "Upgrades", length_ratio=0.5, depth=long_player_box_height - floor_thickness - 1.0, cut=FingerCut.SCOOP
+        "Upgrades", length_ratio=0.5, cut=FingerCut.SCOOP
     )
 
 # ── 2. Card Boxes (Column 1, X = long_player_box_width) ───────────
@@ -114,9 +113,8 @@ for idx, (deck_id, title, color_name) in enumerate(card_decks):
             frame_color=Color(color_name),
         ),
         position=(x_col1, idx * card_box_length, 0.0),
-        no_rotate=True,
     )
-    c_box.compartment("Cards", depth=card_box_height - lid_thickness, cut=FingerCut.SCOOP)
+    c_box.compartment("Cards", cut=FingerCut.SCOOP)
 
 # ── 3. Sector Hex Box (Column 1, Y = card_box_length * 3) ─────────
 y_hex = card_box_length * 3.0  # 232.5mm
@@ -133,9 +131,8 @@ h_box = project.box(
         frame_color=Color("dimgray"),
     ),
     position=(x_col1, y_hex, 0.0),
-    no_rotate=True,
 )
-h_box.compartment("Hexes", depth=hex_box_height - floor_thickness - 1.0, cut=FingerCut.SCOOP)
+h_box.compartment("Hexes", cut=FingerCut.SCOOP)
 
 # ── Export ────────────────────────────────────────────────────────
 if __name__ == "__main__":

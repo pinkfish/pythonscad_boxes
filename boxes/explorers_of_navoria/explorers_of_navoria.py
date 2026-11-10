@@ -17,10 +17,9 @@ for _sp in ROOT.glob(".venv/lib/*/site-packages"):
 for _sp in ROOT.glob("venv/*/lib/*/site-packages"):
     sys.path.insert(0, str(_sp))
 
-from pybosl2 import Color
-
 from pyboxbuilder import (
     BoxType,
+    Color,
     FingerCut,
     LabelMode,
     LidBuilder,
@@ -69,6 +68,7 @@ project = Project(
     clearance_slack=0.0,
     board_thickness=board_thickness,
     generate_spacers=True,
+    box_defaults={"no_rotate": True},
 )
 
 NAVORIA_PATTERN = PatternBuilder(PatternType.DENSE_HEX)
@@ -92,18 +92,15 @@ for idx, (faction, color_name) in enumerate(zip(player_factions, player_colors, 
             frame_color=Color(color_name),
         ),
         position=(0.0, row * player_box_length, tier * player_box_height),
-        no_rotate=True,
     )
     p_box.compartment(
         "TradingPosts",
         length_ratio=0.6,
-        depth=player_box_height - floor_thickness - 1.0,
         cut=FingerCut.SCOOP,
     )
     p_box.compartment(
         "Explorers",
         length_ratio=0.4,
-        depth=player_box_height - floor_thickness - 1.0,
         cut=FingerCut.SCOOP,
     )
 
@@ -122,10 +119,8 @@ project.box(
         frame_color=Color("navy"),
     ),
     position=(x_col1, 0.0, 0.0),
-    no_rotate=True,
 ).compartment(
     "AdventureCards",
-    depth=card_box_height - lid_thickness,
     cut=FingerCut.SCOOP,
 )
 
@@ -143,11 +138,9 @@ for tier in range(2):
             frame_color=Color("darkorange"),
         ),
         position=(x_col1, card_box_length, tier * favour_box_height),
-        no_rotate=True,
     )
     f_box.compartment(
         "Tiles",
-        depth=favour_box_height - floor_thickness - 1.0,
         cut=FingerCut.SCOOP,
     )
 
@@ -166,10 +159,8 @@ project.box(
         frame_color=Color("peru"),
     ),
     position=(x_col1, y_bag, 0.0),
-    no_rotate=True,
 ).compartment(
     "BagAndBits",
-    depth=bag_box_height - floor_thickness - 1.0,
     cut=FingerCut.SCOOP,
 )
 

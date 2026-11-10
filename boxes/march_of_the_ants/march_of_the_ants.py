@@ -17,16 +17,16 @@ for _sp in ROOT.glob(".venv/lib/*/site-packages"):
 for _sp in ROOT.glob("venv/*/lib/*/site-packages"):
     sys.path.insert(0, str(_sp))
 
-from pybosl2 import Color
-
 from pyboxbuilder import (
     BoxType,
+    Color,
     FingerCut,
     LabelMode,
     LidBuilder,
     PatternBuilder,
     PatternType,
     Project,
+    StackableMode,
     run,
 )
 
@@ -68,6 +68,7 @@ project = Project(
     clearance_slack=0.0,
     board_thickness=board_thickness,
     generate_spacers=True,
+    box_defaults={"no_rotate": True},
 )
 
 ANT_PATTERN = PatternBuilder(PatternType.DENSE_HEX)
@@ -85,10 +86,9 @@ t_box = project.box(
         frame_color=Color("saddlebrown"),
     ),
     position=(0.0, 0.0, 0.0),
-    no_rotate=True,
 )
-t_box.compartment("Hexes_Left", width_ratio=0.5, depth=tile_box_height - floor_thickness - 1.0, cut=FingerCut.SCOOP)
-t_box.compartment("Hexes_Right", width_ratio=0.5, depth=tile_box_height - floor_thickness - 1.0, cut=FingerCut.SCOOP)
+t_box.compartment("Hexes_Left", width_ratio=0.5, cut=FingerCut.SCOOP)
+t_box.compartment("Hexes_Right", width_ratio=0.5, cut=FingerCut.SCOOP)
 
 # ── 2. Card Boxes & Resource Trays (Row 1, Y = tile_box_length) ───
 y_cards = tile_box_length
@@ -105,8 +105,8 @@ project.box(
         frame_color=Color("royalblue"),
     ),
     position=(0.0, y_cards, 0.0),
-    no_rotate=True,
-).compartment("Cards", depth=card_box_height - lid_thickness, cut=FingerCut.SCOOP)
+    stackable=StackableMode.PYRAMIDS,
+).compartment("Cards", cut=FingerCut.SCOOP)
 
 project.box(
     BoxType.SLIDING,
@@ -120,8 +120,8 @@ project.box(
         frame_color=Color("purple"),
     ),
     position=(0.0, y_cards, card_box_height),
-    no_rotate=True,
-).compartment("Cards", depth=card_box_height - lid_thickness, cut=FingerCut.SCOOP)
+    stackable=StackableMode.PYRAMIDS,
+).compartment("Cards", cut=FingerCut.SCOOP)
 
 project.box(
     BoxType.CAP,
@@ -135,8 +135,7 @@ project.box(
         frame_color=Color("forestgreen"),
     ),
     position=(card_box_width, y_cards, 0.0),
-    no_rotate=True,
-).compartment("Food", depth=res_box_height - floor_thickness - 1.0, cut=FingerCut.SCOOP)
+).compartment("Food", cut=FingerCut.SCOOP)
 
 project.box(
     BoxType.CAP,
@@ -150,8 +149,7 @@ project.box(
         frame_color=Color("darkred"),
     ),
     position=(card_box_width, y_cards, res_box_height),
-    no_rotate=True,
-).compartment("Predators", depth=res_box_height - floor_thickness - 1.0, cut=FingerCut.SCOOP)
+).compartment("Predators", cut=FingerCut.SCOOP)
 
 # ── 3. Player Ant Colony Boxes (Row 2, Y = tile + card = 198mm) ───
 y_players = tile_box_length + card_box_length
@@ -179,9 +177,8 @@ for idx, (p_name, color_name) in enumerate(player_factions):
             frame_color=Color(color_name),
         ),
         position=(col * player_box_width, y_players, tier * player_box_height),
-        no_rotate=True,
     )
-    p_box.compartment("Cubes", depth=player_box_height - floor_thickness - 1.0, cut=FingerCut.SCOOP)
+    p_box.compartment("Cubes", cut=FingerCut.SCOOP)
 
 # ── Export ────────────────────────────────────────────────────────
 if __name__ == "__main__":

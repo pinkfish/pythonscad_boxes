@@ -17,10 +17,9 @@ for _sp in ROOT.glob(".venv/lib/*/site-packages"):
 for _sp in ROOT.glob("venv/*/lib/*/site-packages"):
     sys.path.insert(0, str(_sp))
 
-from pybosl2 import Color
-
 from pyboxbuilder import (
     BoxType,
+    Color,
     FingerCut,
     LabelMode,
     LidBuilder,
@@ -59,6 +58,7 @@ project = Project(
     clearance_slack=0.0,
     board_thickness=board_thickness,
     generate_spacers=True,
+    box_defaults={"no_rotate": True},
 )
 
 CANVAS_PATTERN = PatternBuilder(PatternType.DENSE_HEX)
@@ -89,11 +89,9 @@ for idx, (token_id, title, color_name) in enumerate(ribbons):
             frame_color=Color(color_name),
         ),
         position=(col * piece_box_width, row * piece_box_length, 0.0),
-        no_rotate=True,
     )
     r_box.compartment(
         "Ribbons",
-        depth=piece_box_height - floor_thickness - 1.0,
         cut=FingerCut.SCOOP,
     )
 
@@ -110,18 +108,15 @@ c_tray = project.box(
         frame_color=Color("darkslateblue"),
     ),
     position=(0.0, piece_box_length * 2.0, 0.0),
-    no_rotate=True,
 )
 c_tray.compartment(
     "ArtCards_Left",
     width_ratio=0.5,
-    depth=card_tray_height - floor_thickness - 1.0,
     cut=FingerCut.SCOOP,
 )
 c_tray.compartment(
     "ArtCards_Right",
     width_ratio=0.5,
-    depth=card_tray_height - floor_thickness - 1.0,
     cut=FingerCut.SCOOP,
 )
 

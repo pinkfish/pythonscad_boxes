@@ -17,10 +17,9 @@ for _sp in ROOT.glob(".venv/lib/*/site-packages"):
 for _sp in ROOT.glob("venv/*/lib/*/site-packages"):
     sys.path.insert(0, str(_sp))
 
-from pybosl2 import Color
-
 from pyboxbuilder import (
     BoxType,
+    Color,
     FingerCut,
     LabelMode,
     LidBuilder,
@@ -99,13 +98,11 @@ for name, title, color_name, col, tier in trays:
     p_box.compartment(
         "Workers",
         width_ratio=0.6,
-        depth=player_box_height - floor_thickness - 1.0,
         cut=FingerCut.SCOOP,
     )
     p_box.compartment(
         "Markers",
         width_ratio=0.4,
-        depth=player_box_height - floor_thickness - 1.0,
         cut=FingerCut.SCOOP,
     )
 
@@ -126,7 +123,6 @@ project.box(
     position=(train_box_width, y_trains, 0.0),
 ).compartment(
     "Cards",
-    depth=card_box_height - lid_thickness,
     cut=FingerCut.SCOOP,
 )
 
@@ -145,7 +141,6 @@ project.box(
     position=(0.0, y_trains, 0.0),
 ).compartment(
     "TrainTiles",
-    depth=train_box_height - floor_thickness - 1.0,
     cut=FingerCut.SCOOP,
 )
 
@@ -163,7 +158,6 @@ project.box(
     position=(0.0, y_trains, train_box_height),
 ).compartment(
     "EngineerTiles",
-    depth=engineer_box_height - floor_thickness - 1.0,
     cut=FingerCut.SCOOP,
 )
 
@@ -181,7 +175,6 @@ project.box(
     position=(0.0, y_trains, train_box_height + engineer_box_height),
 ).compartment(
     "WoodenTracks",
-    depth=track_box_height - floor_thickness - 1.0,
     cut=FingerCut.SCOOP,
 )
 

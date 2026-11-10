@@ -18,10 +18,9 @@ for _sp in ROOT.glob(".venv/lib/*/site-packages"):
 for _sp in ROOT.glob("venv/*/lib/*/site-packages"):
     sys.path.insert(0, str(_sp))
 
-from pybosl2 import Color
-
 from pyboxbuilder import (
     BoxType,
+    Color,
     FingerCut,
     LabelMode,
     LidBuilder,
@@ -99,6 +98,7 @@ project = Project(
     clearance_slack=0.0,
     board_thickness=board_thickness,
     generate_spacers=True,
+    box_defaults={"no_rotate": True},
 )
 
 HEX_PATTERN = PatternBuilder(PatternType.DENSE_HEX)
@@ -121,11 +121,9 @@ for col in range(2):
                 frame_color=Color("darkgreen"),
             ),
             position=(0.0, y_pos, z_pos),
-            no_rotate=True,
         )
         box.compartment(
             "Tiles",
-            depth=hex_box_height - floor_thickness - 1.0,
             cut=FingerCut.SCOOP,
         )
 
@@ -143,13 +141,11 @@ for i in range(2):
             frame_color=Color("navy"),
         ),
         position=(hex_box_width, 0.0, i * share_box_height),
-        no_rotate=True,
     )
     for slot in range(4):
         s_box.compartment(
             f"Slot_{slot + 1}",
             length_ratio=0.25,
-            depth=share_box_height - floor_thickness - 1.0,
             cut=FingerCut.SCOOP,
         )
 
@@ -165,13 +161,11 @@ m_box = project.box(
         frame_color=Color("gold"),
     ),
     position=(hex_box_width, 0.0, share_box_height * 2.0),
-    no_rotate=True,
 )
 for slot in range(5):
     m_box.compartment(
         f"Denom_{slot + 1}",
         length_ratio=0.2,
-        depth=money_box_height - floor_thickness - 1.0,
         cut=FingerCut.SCOOP,
     )
 
@@ -190,11 +184,9 @@ for i in range(2):
             text_color=Color("white"),
         ),
         position=(0.0, i * company_marker_box_length, z_top),
-        no_rotate=True,
     )
     c_box.compartment(
         "Tokens",
-        depth=company_marker_box_height - floor_thickness - 1.0,
         cut=FingerCut.SCOOP,
     )
 
@@ -209,10 +201,8 @@ project.box(
         text_color=Color("white"),
     ),
     position=(0.0, company_marker_box_length * 2.0, z_top),
-    no_rotate=True,
 ).compartment(
     "Cards",
-    depth=private_card_box_height - lid_thickness,
     cut=FingerCut.SCOOP,
 )
 
@@ -227,10 +217,8 @@ project.box(
         text_color=Color("white"),
     ),
     position=(private_card_box_width, company_marker_box_length * 2.0, z_top),
-    no_rotate=True,
 ).compartment(
     "Tokens",
-    depth=extra_bits_box_height - floor_thickness - 1.0,
     cut=FingerCut.SCOOP,
 )
 
@@ -247,7 +235,6 @@ project.box(
         frame_color=Color("darkred"),
     ),
     position=(0.0, hex_box_length * 2.0, 0.0),
-    no_rotate=True,
 ).compartment(
     "TrainCards",
     depth=min(train_card_box_height, usable_height) - lid_thickness,

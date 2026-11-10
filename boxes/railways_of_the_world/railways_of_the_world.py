@@ -18,15 +18,15 @@ for _sp in ROOT.glob(".venv/lib/*/site-packages"):
 for _sp in ROOT.glob("venv/*/lib/*/site-packages"):
     sys.path.insert(0, str(_sp))
 
-from pybosl2 import Color
-
 from pyboxbuilder import (
     BoxType,
+    Color,
     ElementShape,
     FingerCut,
     LabelMode,
     LidBuilder,
     Project,
+    StackableMode,
     centered,
     run,
 )
@@ -152,6 +152,7 @@ project = Project(
     clearance_slack=0.0,
     board_thickness=total_board_thickness,
     generate_spacers=True,
+    box_defaults={"no_rotate": True},
 )
 
 # ── 1. Card Boxes ──────────────────────────────────────────────────
@@ -164,7 +165,6 @@ project.box(
     lid=LidBuilder(text="Eastern US", label_mode=LabelMode.FRAMED, text_color=Color("black")),
     color=Color("purple"),
     position=(0.0, 0.0, total_board_thickness),
-    no_rotate=True,
 ).compartment(
     "CardsAndBonds",
     elements=[
@@ -179,7 +179,6 @@ project.box(
                 card_box_width_calc(eastern_us_cards) - wall_thickness * 2.0,
                 card_box_width - wall_thickness * 2.0,
             ),
-            depth=all_boxes_height - lid_thickness,
             pull_out=True,
             pull_out_width=25.0,
             pull_out_depth=(all_boxes_height - lid_thickness) / 2.0,
@@ -213,10 +212,8 @@ project.box(
     ),
     color=Color("purple"),
     position=(eastern_us_card_box_length, 0.0, total_board_thickness),
-    no_rotate=True,
 ).compartment(
     "Cards",
-    depth=all_boxes_height - lid_thickness,
     cut=FingerCut.SCOOP,
 )
 
@@ -234,10 +231,8 @@ project.box(
     ),
     color=Color("purple"),
     position=(eastern_us_card_box_length + card_aus_len, 0.0, total_board_thickness),
-    no_rotate=True,
 ).compartment(
     "Cards",
-    depth=all_boxes_height - lid_thickness,
     cut=FingerCut.SCOOP,
 )
 
@@ -250,10 +245,8 @@ project.box(
     lid=LidBuilder(text="Mexico", label_mode=LabelMode.FRAMED, text_color=Color("black")),
     color=Color("purple"),
     position=(eastern_us_card_box_length + card_aus_len + card_swe_len, 0.0, total_board_thickness),
-    no_rotate=True,
 ).compartment(
     "Cards",
-    depth=all_boxes_height - lid_thickness,
     cut=FingerCut.SCOOP,
 )
 
@@ -275,10 +268,8 @@ project.box(
         0.0,
         total_board_thickness,
     ),
-    no_rotate=True,
 ).compartment(
     "Cards",
-    depth=all_boxes_height - lid_thickness,
     cut=FingerCut.SCOOP,
 )
 
@@ -291,10 +282,8 @@ for idx, y_pos in enumerate([card_box_width, card_box_width + empty_city_length]
         lid=LidBuilder(text="Empty City", label_mode=LabelMode.FRAMED, text_color=Color("black")),
         color=Color("purple"),
         position=(0.0, y_pos, total_board_thickness),
-        no_rotate=True,
     ).compartment(
         "Markers",
-        depth=empty_city_height - floor_thickness,
         cut=FingerCut.SCOOP,
     )
 
@@ -314,10 +303,9 @@ for i, color_name in enumerate(PLAYER_COLORS):
         lid=LidBuilder(text=f"Trains ({color_name.title()})", label_mode=LabelMode.FRAMED, text_color=Color("black")),
         color=Color(color_name if color_name != "black" else "gray"),
         position=(empty_city_width, y_pos, z_pos),
-        no_rotate=True,
+        stackable=StackableMode.PYRAMIDS,
     ).compartment(
         "Trains",
-        depth=player_box_height - floor_thickness,
         cut=FingerCut.SCOOP,
     )
 
@@ -334,7 +322,6 @@ for i, color_name in enumerate(PLAYER_COLORS):
         lid=LidBuilder(text=f"Player ({color_name.title()})", label_mode=LabelMode.FRAMED, text_color=Color("black")),
         color=Color(color_name if color_name != "black" else "gray"),
         position=(x_pos, card_box_width, z_pos),
-        no_rotate=True,
     ).compartment(
         "CardsAndMarker",
         elements=[
@@ -380,10 +367,8 @@ for i in range(2):
             card_box_width + player_box_width,
             total_board_thickness + i * hex_box_height,
         ),
-        no_rotate=True,
     ).compartment(
         "HexGrid",
-        depth=hex_box_height - floor_thickness,
     )
 
 # ── 5. Money Box & New City Box ────────────────────────────────────
@@ -399,10 +384,8 @@ project.box(
         card_box_width + player_box_width,
         money_z_pos,
     ),
-    no_rotate=True,
 ).compartment(
     "Money",
-    depth=top_section_height - floor_thickness,
     cut=FingerCut.SCOOP,
 )
 
@@ -417,7 +400,6 @@ project.box(
         card_box_width + player_box_width,
         money_z_pos,
     ),
-    no_rotate=True,
 ).compartment(
     "NewCities",
     elements=[
@@ -463,7 +445,6 @@ project.box(
     ),
     color=Color("purple"),
     position=(0.0, card_box_width, total_board_thickness + empty_city_height),
-    no_rotate=True,
 ).compartment(
     "AustraliaExpansion",
     elements=[
@@ -472,7 +453,6 @@ project.box(
             None,
             ((australia_box_width - wall_thickness * 2.0) / 2.0, 38.0),
             (australia_box_width - wall_thickness * 2.0, 70.0),
-            depth=top_section_height - floor_thickness,
             pull_out=True,
         ),
         # Bonus tiles
@@ -514,7 +494,6 @@ project.box(
     ),
     color=Color("purple"),
     position=(0.0, card_box_width + australia_box_length, total_board_thickness + empty_city_height),
-    no_rotate=True,
 ).compartment(
     "SwedenExpansion",
     elements=[
@@ -523,7 +502,6 @@ project.box(
             None,
             ((sweden_box_width - wall_thickness * 2.0) / 2.0, 42.0),
             (sweden_box_width - wall_thickness * 2.0, 75.0),
-            depth=top_section_height - floor_thickness,
             pull_out=True,
         ),
         # 2 Bonus tile wells

@@ -55,7 +55,6 @@ def stackable_hex(
         stackable_thickness=2.0,
         magnet_type=magnet_type,         # round or rect (FR-039)
         magnet_size=magnet_size,
-        no_rotate=True,                # hex is rotationally symmetric
     )
     if divisions > 1:
         # Partition the hex into N equal compartments. The ratio is a share of
@@ -71,6 +70,7 @@ project = Project(
     game_box_size=None,   # standalone: no enclosing game box (FR-037)
     wall_thickness=wall_thickness,
     floor_thickness=wall_thickness,
+    box_defaults={"no_rotate": True},
 )
 
 # 8 variants: 1–4 divisions × round/rect magnets

@@ -17,10 +17,9 @@ for _sp in ROOT.glob(".venv/lib/*/site-packages"):
 for _sp in ROOT.glob("venv/*/lib/*/site-packages"):
     sys.path.insert(0, str(_sp))
 
-from pybosl2 import Color
-
 from pyboxbuilder import (
     BoxType,
+    Color,
     FingerCut,
     LabelMode,
     LidBuilder,
@@ -58,6 +57,7 @@ project = Project(
     lid_thickness=lid_thickness,
     clearance_slack=0.0,
     generate_spacers=True,
+    box_defaults={"no_rotate": True},
 )
 
 BUCKET_PATTERN = PatternBuilder(PatternType.DENSE_HEX)
@@ -75,18 +75,15 @@ c_box = project.box(
         frame_color=Color("royalblue"),
     ),
     position=(0.0, 0.0, 0.0),
-    no_rotate=True,
 )
 c_box.compartment(
     "Deck_Left",
     width_ratio=0.5,
-    depth=card_box_height - floor_thickness - 1.0,
     cut=FingerCut.SCOOP,
 )
 c_box.compartment(
     "Deck_Right",
     width_ratio=0.5,
-    depth=card_box_height - floor_thickness - 1.0,
     cut=FingerCut.SCOOP,
 )
 
@@ -113,11 +110,9 @@ for idx, _name in enumerate(player_names):
             frame_color=Color("darkorange"),
         ),
         position=(col * player_box_width, y_players + (idx // 2) * player_box_length, 0.0),
-        no_rotate=True,
     )
     p_box.compartment(
         "Buckets",
-        depth=player_box_height - floor_thickness - 1.0,
         cut=FingerCut.SCOOP,
     )
 

@@ -17,16 +17,16 @@ for _sp in ROOT.glob(".venv/lib/*/site-packages"):
 for _sp in ROOT.glob("venv/*/lib/*/site-packages"):
     sys.path.insert(0, str(_sp))
 
-from pybosl2 import Color
-
 from pyboxbuilder import (
     BoxType,
+    Color,
     FingerCut,
     LabelMode,
     LidBuilder,
     PatternBuilder,
     PatternType,
     Project,
+    StackableMode,
     run,
 )
 
@@ -62,6 +62,7 @@ project = Project(
     clearance_slack=0.0,
     board_thickness=board_thickness,
     generate_spacers=True,
+    box_defaults={"no_rotate": True},
 )
 
 IRISH_PATTERN = PatternBuilder(PatternType.DENSE_HEX)
@@ -90,9 +91,9 @@ for idx, (company_id, title, color_name) in enumerate(companies):
             frame_color=Color(color_name),
         ),
         position=(col * company_box_width, 0.0, tier * company_box_height),
-        no_rotate=True,
+        stackable=StackableMode.PYRAMIDS,
     )
-    c_box.compartment("SharesAndLocos", depth=company_box_height - lid_thickness, cut=FingerCut.SCOOP)
+    c_box.compartment("SharesAndLocos", cut=FingerCut.SCOOP)
 
 # ── 2. Bank Money & Dividend Cubes Box (Y = company_box_length) ───
 y_money = company_box_length
@@ -109,13 +110,11 @@ m_box = project.box(
         frame_color=Color("forestgreen"),
     ),
     position=(0.0, y_money, 0.0),
-    no_rotate=True,
 )
 for name in ["Money_1", "Money_5", "Money_10", "DividendCubes"]:
     m_box.compartment(
         name,
         width_ratio=0.25,
-        depth=money_box_height - lid_thickness,
         cut=FingerCut.SCOOP,
     )
 

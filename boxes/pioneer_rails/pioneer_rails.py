@@ -17,10 +17,9 @@ for _sp in ROOT.glob(".venv/lib/*/site-packages"):
 for _sp in ROOT.glob("venv/*/lib/*/site-packages"):
     sys.path.insert(0, str(_sp))
 
-from pybosl2 import Color
-
 from pyboxbuilder import (
     BoxType,
+    Color,
     FingerCut,
     LabelMode,
     LidBuilder,
@@ -83,7 +82,6 @@ p_box = project.box(
 )
 p_box.compartment(
     "PencilsAndErasers",
-    depth=pencil_box_height - floor_thickness - 1.0,
     cut=FingerCut.SCOOP,
 )
 
@@ -111,7 +109,6 @@ for idx, (deck_id, title, color_name) in enumerate(decks):
     )
     c_box.compartment(
         "Cards",
-        depth=card_box_height - lid_thickness,
         cut=FingerCut.SCOOP,
     )
 
