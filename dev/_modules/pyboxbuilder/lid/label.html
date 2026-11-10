@@ -499,6 +499,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">LabelMode</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.lid.builder</span><span class="w"> </span><span class="kn">import</span> <span class="n">BORDER_MARGIN_MM</span><span class="p">,</span> <span class="n">MAX_TEXT_HEIGHT_MM</span>
 
 <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2.shapes3d</span><span class="w"> </span><span class="kn">import</span> <span class="n">Bosl2Solid</span>
@@ -585,11 +586,12 @@
     <span class="n">width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-    <span class="n">border_margin_mm</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">5.0</span><span class="p">,</span>
+    <span class="n">border_margin_mm</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">BORDER_MARGIN_MM</span><span class="p">,</span>
     <span class="n">diagonal</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">label_mode</span><span class="p">:</span> <span class="n">LabelMode</span> <span class="o">=</span> <span class="n">LabelMode</span><span class="o">.</span><span class="n">FRAMED</span><span class="p">,</span>
     <span class="n">label_border_mm</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">LABEL_BORDER_MM</span><span class="p">,</span>
     <span class="n">label_text_gap_mm</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">LABEL_TEXT_GAP_MM</span><span class="p">,</span>
+    <span class="n">max_text_height_mm</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">MAX_TEXT_HEIGHT_MM</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Cap height the label text will be set at, in mm.</span>
 
@@ -617,7 +619,8 @@
     <span class="n">set_l</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="s2">"size"</span><span class="p">)</span> <span class="k">else</span> <span class="nb">float</span><span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
     <span class="k">if</span> <span class="n">set_w</span> <span class="o">&lt;=</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">set_l</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">return</span> <span class="mf">0.0</span>
-    <span class="k">return</span> <span class="n">NOMINAL_SIZE_MM</span> <span class="o">*</span> <span class="nb">min</span><span class="p">(</span><span class="n">target_w</span> <span class="o">/</span> <span class="n">set_w</span><span class="p">,</span> <span class="n">target_l</span> <span class="o">/</span> <span class="n">set_l</span><span class="p">)</span></div>
+    <span class="n">raw</span> <span class="o">=</span> <span class="n">NOMINAL_SIZE_MM</span> <span class="o">*</span> <span class="nb">min</span><span class="p">(</span><span class="n">target_w</span> <span class="o">/</span> <span class="n">set_w</span><span class="p">,</span> <span class="n">target_l</span> <span class="o">/</span> <span class="n">set_l</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">min</span><span class="p">(</span><span class="n">raw</span><span class="p">,</span> <span class="n">max_text_height_mm</span><span class="p">)</span> <span class="k">if</span> <span class="n">max_text_height_mm</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">raw</span></div>
 
 
 
@@ -631,12 +634,13 @@
     <span class="n">label_mode</span><span class="p">:</span> <span class="n">LabelMode</span> <span class="o">=</span> <span class="n">LabelMode</span><span class="o">.</span><span class="n">FRAMED</span><span class="p">,</span>
     <span class="n">diagonal</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">min_text_height_mm</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">4.0</span><span class="p">,</span>
-    <span class="n">border_margin_mm</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">5.0</span><span class="p">,</span>
+    <span class="n">border_margin_mm</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">BORDER_MARGIN_MM</span><span class="p">,</span>
     <span class="n">label_border_mm</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">label_text_gap_mm</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">label_rounding_mm</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">center_x</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">center_y</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">max_text_height_mm</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">MAX_TEXT_HEIGHT_MM</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Label</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Build a label for a lid face, or None if it would be illegible.</span>
 
@@ -656,6 +660,7 @@
 <span class="sd">        label_rounding_mm: Corner rounding radius of the backing plate in mm.</span>
 <span class="sd">        center_x: Explicit X center for the label in the face frame (defaults to width / 2).</span>
 <span class="sd">        center_y: Explicit Y center for the label in the face frame (defaults to length / 2).</span>
+<span class="sd">        max_text_height_mm: Maximum cap height for the label text in mm.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        A `Label`, or None when the text would come out under the minimum.</span>
@@ -673,8 +678,15 @@
         <span class="k">return</span> <span class="kc">None</span>
 
     <span class="n">size</span> <span class="o">=</span> <span class="n">text_height_for</span><span class="p">(</span>
-        <span class="n">width</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">border_margin_mm</span><span class="p">,</span> <span class="n">diagonal</span><span class="p">,</span>
-        <span class="n">label_mode</span><span class="p">,</span> <span class="n">border</span><span class="p">,</span> <span class="n">gap</span>
+        <span class="n">width</span><span class="p">,</span>
+        <span class="n">length</span><span class="p">,</span>
+        <span class="n">text</span><span class="p">,</span>
+        <span class="n">border_margin_mm</span><span class="p">,</span>
+        <span class="n">diagonal</span><span class="p">,</span>
+        <span class="n">label_mode</span><span class="p">,</span>
+        <span class="n">border</span><span class="p">,</span>
+        <span class="n">gap</span><span class="p">,</span>
+        <span class="n">max_text_height_mm</span><span class="o">=</span><span class="n">max_text_height_mm</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="k">if</span> <span class="n">size</span> <span class="o">&lt;</span> <span class="n">min_text_height_mm</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">None</span>

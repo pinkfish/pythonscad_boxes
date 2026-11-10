@@ -505,6 +505,9 @@
 <span class="sd">label comes out as a smudge; skipping it leaves a clean lid instead.</span>
 <span class="sd">"""</span>
 
+<span class="n">MAX_TEXT_HEIGHT_MM</span> <span class="o">=</span> <span class="mf">16.0</span>
+<span class="sd">"""Tallest a label is scaled to by default so short words on large lids do not look overwhelming."""</span>
+
 <span class="n">LID_BORDER_MM</span> <span class="o">=</span> <span class="mf">8.0</span>
 <span class="sd">"""Solid margin around everything on a lid — its pattern and its label alike.</span>
 
@@ -803,6 +806,9 @@
 <span class="w">    </span><span class="sd">"""Below this the label is skipped rather than printed illegibly (FR-020).</span>
 
 <span class="sd">    ``None`` uses :data:`MIN_TEXT_HEIGHT_MM`."""</span>
+    <span class="n">max_text_height_mm</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">"""Maximum cap height for auto-sized label text in mm; ``None`` uses</span>
+<span class="sd">    :data:`MAX_TEXT_HEIGHT_MM`."""</span>
     <span class="n">border_margin_mm</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="w">    </span><span class="sd">"""Margin the auto-sized label keeps clear of the lid's edge; ``None`` uses</span>
 <span class="sd">    :data:`BORDER_MARGIN_MM`."""</span>
@@ -894,6 +900,11 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">min_text_height</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""The shortest printable label, resolved."""</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">min_text_height_mm</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">min_text_height_mm</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">MIN_TEXT_HEIGHT_MM</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">max_text_height</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""The tallest auto-sized label cap height, resolved."""</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_text_height_mm</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_text_height_mm</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">MAX_TEXT_HEIGHT_MM</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">label_clearance</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
