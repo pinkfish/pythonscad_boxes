@@ -633,6 +633,16 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#pattern-matched-stacking-stackablemode-pattern" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span title="lid_patterns:pattern-matched stacking (``stackablemode.pattern``) (reference label)"><span>Pattern-<wbr>Matched Stacking <wbr>(Stackable<wbr>Mode.<wbr>PATTERN)</span></span>
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1031,6 +1041,16 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#pattern-matched-stacking-stackablemode-pattern" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span title="lid_patterns:pattern-matched stacking (``stackablemode.pattern``) (reference label)"><span>Pattern-<wbr>Matched Stacking <wbr>(Stackable<wbr>Mode.<wbr>PATTERN)</span></span>
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1054,7 +1074,7 @@
 <li><p><strong>Perforated Through-Hole Lattices &amp; Botanical Tilings</strong> (<code class="docutils literal notranslate"><span class="pre">HEX</span></code>, <code class="docutils literal notranslate"><span class="pre">DENSE_HEX</span></code>, <code class="docutils literal notranslate"><span class="pre">SQUARE</span></code>, <code class="docutils literal notranslate"><span class="pre">CIRCLE</span></code>, <code class="docutils literal notranslate"><span class="pre">TRIANGLE</span></code>, <code class="docutils literal notranslate"><span class="pre">DENSE_TRIANGLE</span></code>, <code class="docutils literal notranslate"><span class="pre">OCTAGON</span></code>, <code class="docutils literal notranslate"><span class="pre">VORONOI</span></code>, <code class="docutils literal notranslate"><span class="pre">LEAF</span></code>, <code class="docutils literal notranslate"><span class="pre">LEAF_TESSELLATION</span></code>, <code class="docutils literal notranslate"><span class="pre">LEAF_VEINS</span></code>): Cut open lattices through the lid, saving filament while keeping contents visible and ventilated. Any of these can also be inlaid as a colored top layer by setting <code class="docutils literal notranslate"><span class="pre">inlay=True</span></code> or passing <code class="docutils literal notranslate"><span class="pre">colors=(...)</span></code>.</p></li>
 <li><p><strong>Multi-Color Inlays &amp; Rhombic / Quasicrystal Tessellations</strong> (<code class="docutils literal notranslate"><span class="pre">STEPPED_CUBE</span></code>, <code class="docutils literal notranslate"><span class="pre">PENROSE</span></code>, <code class="docutils literal notranslate"><span class="pre">AMMANN_BEENKER</span></code>, <code class="docutils literal notranslate"><span class="pre">TUMBLING_BLOCKS</span></code>, <code class="docutils literal notranslate"><span class="pre">CHEVRON</span></code>, <code class="docutils literal notranslate"><span class="pre">DICE</span></code>, <code class="docutils literal notranslate"><span class="pre">RING</span></code>, <code class="docutils literal notranslate"><span class="pre">CHECKER</span></code>): Inlay a thin <code class="docutils literal notranslate"><span class="pre">0.6</span> <span class="pre">mm</span></code> colored tile skin into the top face of the lid above a continuous <code class="docutils literal notranslate"><span class="pre">0.8</span> <span class="pre">mm</span></code> structural floor and a selectable underside backing lattice (defaulting to <code class="docutils literal notranslate"><span class="pre">PatternType.HEX</span></code> via <code class="docutils literal notranslate"><span class="pre">backing_pattern</span></code>) to minimize plastic use while preserving full lid strength.</p></li>
 </ol>
-<p>Every example below renders <strong>only the sliding lid</strong> (<code class="docutils literal notranslate"><span class="pre">project.show(lids_only=True)</span></code>) with <code class="docutils literal notranslate"><span class="pre">border=0.0</span></code> and <code class="docutils literal notranslate"><span class="pre">fingernail_catch=False</span></code> so the pattern fills the lid edge-to-edge.</p>
+<p>The pattern gallery examples below render <strong>only the sliding lid</strong> (<code class="docutils literal notranslate"><span class="pre">project.show(lids_only=True)</span></code>) with <code class="docutils literal notranslate"><span class="pre">border=0.0</span></code> and <code class="docutils literal notranslate"><span class="pre">fingernail_catch=False</span></code> so the pattern fills the lid edge-to-edge, while the stacking setup at the end renders <strong>both the lid and the box</strong> (<code class="docutils literal notranslate"><span class="pre">project.show(show_lids=True)</span></code>).</p>
 <nav class="contents local" id="on-this-page">
 <p class="topic-title">On this page</p>
 <ul class="simple">
@@ -1094,6 +1114,7 @@
 </ul>
 </li>
 <li><p><a class="reference internal" href="#solid-lids-patterntype-solid-patterntype-none" id="id24">Solid Lids (<code class="docutils literal notranslate"><span class="pre">PatternType.SOLID</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">PatternType.NONE</span></code>)</a></p></li>
+<li><p><a class="reference internal" href="#pattern-matched-stacking-stackablemode-pattern" id="id25">Pattern-Matched Stacking (<code class="docutils literal notranslate"><span class="pre">StackableMode.PATTERN</span></code>)</a></p></li>
 </ul>
 </nav>
 <h2 id="classic-geometric-lattices"><a class="toc-backref" href="#id1" role="doc-backlink">Classic Geometric Lattices</a><a class="headerlink" href="#classic-geometric-lattices" title="Link to this heading">¶</a></h2>
@@ -1524,6 +1545,41 @@
 </code></pre></div>
 </div>
 <div class="stl-viewer" data-stl-uri="_stl/5be492a52e4f2fe5.stl" data-stl-color="#6f9ac9" style="width:100%;height:360px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a class="reference external" href="_stl/5be492a52e4f2fe5.stl">⬇ Download STL mesh</a></p>
+<h2 id="pattern-matched-stacking-stackablemode-pattern"><a class="toc-backref" href="#id25" role="doc-backlink">Pattern-Matched Stacking (<code class="docutils literal notranslate"><span class="pre">StackableMode.PATTERN</span></code>)</a><a class="headerlink" href="#pattern-matched-stacking-stackablemode-pattern" title="Link to this heading">¶</a></h2>
+<p>Setting <code class="docutils literal notranslate"><span class="pre">stackable=StackableMode.PATTERN</span></code> (<a class="reference internal" href="_autosummary/pyboxbuilder.enums.StackableMode.html#pyboxbuilder.enums.StackableMode" title="pyboxbuilder.enums.StackableMode (Python class) — Bases: Enum"><code class="xref py py-class docutils literal notranslate"><span class="pre">StackableMode</span></code></a>) matches the lid’s pattern directly onto the underside of the box body. The lid’s pattern web is raised above the lid surface with 45° self-supporting draft chamfers, while a matching 45°-drafted recessed pattern groove is carved into the underside of the box floor so stacked boxes lock into the exact same pattern grid without support material.</p>
+<p>Unlike the standalone lid gallery above, the stacking setup below renders <strong>both the lid and the box</strong> (<code class="docutils literal notranslate"><span class="pre">project.show(show_lids=True)</span></code>) with an exploded vertical separation so the patterned lid, the box compartments, and the matching underside pattern lattice can all be inspected together:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="n">project</span> <span class="o">=</span> <span class="n">Project</span><span class="p">(</span><span class="s2">"PatternMatchedStackingDemo"</span><span class="p">)</span>
+<span class="n">lower_box</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">box</span><span class="p">(</span>
+    <span class="n">BoxType</span><span class="o">.</span><span class="n">SLIDING</span><span class="p">,</span>
+    <span class="s2">"LowerPatternBox"</span><span class="p">,</span>
+    <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mf">60.0</span><span class="p">,</span> <span class="mf">75.0</span><span class="p">,</span> <span class="mf">22.0</span><span class="p">),</span>
+    <span class="n">color</span><span class="o">=</span><span class="n">Color</span><span class="p">(</span><span class="s2">"darkslateblue"</span><span class="p">),</span>
+    <span class="n">position</span><span class="o">=</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span>
+    <span class="n">stackable</span><span class="o">=</span><span class="n">StackableMode</span><span class="o">.</span><span class="n">PATTERN</span><span class="p">,</span>
+    <span class="n">stackable_foot_height</span><span class="o">=</span><span class="mf">1.2</span><span class="p">,</span>
+    <span class="n">lid</span><span class="o">=</span><span class="n">LidBuilder</span><span class="p">(</span>
+        <span class="n">pattern</span><span class="o">=</span><span class="n">PatternBuilder</span><span class="p">(</span><span class="n">PatternType</span><span class="o">.</span><span class="n">HEX</span><span class="p">,</span> <span class="n">spacing</span><span class="o">=</span><span class="mf">9.0</span><span class="p">),</span>
+    <span class="p">),</span>
+<span class="p">)</span>
+<span class="n">lower_box</span><span class="o">.</span><span class="n">compartment</span><span class="p">(</span><span class="s2">"TokensA"</span><span class="p">,</span> <span class="n">width_ratio</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">holds_pieces</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">lower_box</span><span class="o">.</span><span class="n">compartment</span><span class="p">(</span><span class="s2">"TokensB"</span><span class="p">,</span> <span class="n">width_ratio</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">holds_pieces</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">upper_box</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">box</span><span class="p">(</span>
+    <span class="n">BoxType</span><span class="o">.</span><span class="n">SLIDING</span><span class="p">,</span>
+    <span class="s2">"UpperPatternBox"</span><span class="p">,</span>
+    <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mf">60.0</span><span class="p">,</span> <span class="mf">75.0</span><span class="p">,</span> <span class="mf">22.0</span><span class="p">),</span>
+    <span class="n">color</span><span class="o">=</span><span class="n">Color</span><span class="p">(</span><span class="s2">"teal"</span><span class="p">),</span>
+    <span class="n">position</span><span class="o">=</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">28.0</span><span class="p">),</span>
+    <span class="n">stackable</span><span class="o">=</span><span class="n">StackableMode</span><span class="o">.</span><span class="n">PATTERN</span><span class="p">,</span>
+    <span class="n">stackable_foot_height</span><span class="o">=</span><span class="mf">1.2</span><span class="p">,</span>
+    <span class="n">lid</span><span class="o">=</span><span class="n">LidBuilder</span><span class="p">(</span>
+        <span class="n">pattern</span><span class="o">=</span><span class="n">PatternBuilder</span><span class="p">(</span><span class="n">PatternType</span><span class="o">.</span><span class="n">HEX</span><span class="p">,</span> <span class="n">spacing</span><span class="o">=</span><span class="mf">9.0</span><span class="p">),</span>
+    <span class="p">),</span>
+<span class="p">)</span>
+<span class="n">upper_box</span><span class="o">.</span><span class="n">compartment</span><span class="p">(</span><span class="s2">"Cards"</span><span class="p">,</span> <span class="n">holds_pieces</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">project</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">show_lids</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</code></pre></div>
+</div>
+<div class="stl-viewer" data-stl-uri="_stl/6c5b1129b869ca9b.stl" data-stl-color="#6f9ac9" style="width:100%;height:360px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a class="reference external" href="_stl/6c5b1129b869ca9b.stl">⬇ Download STL mesh</a></p>
 
 
 

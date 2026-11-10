@@ -4570,19 +4570,26 @@
     <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">cylinder</span>
 
     <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.shell</span><span class="w"> </span><span class="kn">import</span> <span class="n">block</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.lid.builder</span><span class="w"> </span><span class="kn">import</span> <span class="n">LID_BORDER_MM</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.lid.pattern</span><span class="w"> </span><span class="kn">import</span> <span class="n">build_pattern</span>
 
-    <span class="n">pat_type</span><span class="p">,</span> <span class="n">margin</span><span class="p">,</span> <span class="n">spacing</span><span class="p">,</span> <span class="n">web</span> <span class="o">=</span> <span class="n">_resolve_stackable_pattern_params</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
-    <span class="n">area_w</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">width</span> <span class="o">-</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">margin</span>
-    <span class="n">area_l</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span> <span class="o">-</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">margin</span>
-    <span class="k">if</span> <span class="n">area_w</span> <span class="o">&lt;</span> <span class="mf">4.0</span> <span class="ow">or</span> <span class="n">area_l</span> <span class="o">&lt;</span> <span class="mf">4.0</span><span class="p">:</span>
+    <span class="n">pat_type</span><span class="p">,</span> <span class="n">safe_margin</span><span class="p">,</span> <span class="n">spacing</span><span class="p">,</span> <span class="n">web</span> <span class="o">=</span> <span class="n">_resolve_stackable_pattern_params</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
+    <span class="n">req_border</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="s2">"stackable_pattern_border"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="n">raw_margin</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">LID_BORDER_MM</span> <span class="k">if</span> <span class="n">req_border</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="nb">float</span><span class="p">(</span><span class="n">req_border</span><span class="p">))</span>
+    <span class="n">raw_margin</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">raw_margin</span><span class="p">,</span> <span class="n">safe_margin</span><span class="p">)</span>
+
+    <span class="n">raw_w</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">width</span> <span class="o">-</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">raw_margin</span>
+    <span class="n">raw_l</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span> <span class="o">-</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">raw_margin</span>
+    <span class="n">safe_w</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">width</span> <span class="o">-</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">safe_margin</span>
+    <span class="n">safe_l</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span> <span class="o">-</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">safe_margin</span>
+    <span class="k">if</span> <span class="n">safe_w</span> <span class="o">&lt;</span> <span class="mf">4.0</span> <span class="ow">or</span> <span class="n">safe_l</span> <span class="o">&lt;</span> <span class="mf">4.0</span> <span class="ow">or</span> <span class="n">raw_w</span> <span class="o">&lt;</span> <span class="mf">4.0</span> <span class="ow">or</span> <span class="n">raw_l</span> <span class="o">&lt;</span> <span class="mf">4.0</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">None</span>
 
     <span class="n">h_slice</span> <span class="o">=</span> <span class="mf">2.0</span>
     <span class="n">z_slice</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.5</span>
     <span class="n">holes</span> <span class="o">=</span> <span class="n">build_pattern</span><span class="p">(</span>
-        <span class="n">area_w</span><span class="p">,</span>
-        <span class="n">area_l</span><span class="p">,</span>
+        <span class="n">raw_w</span><span class="p">,</span>
+        <span class="n">raw_l</span><span class="p">,</span>
         <span class="n">h_slice</span><span class="p">,</span>
         <span class="n">pat_type</span><span class="p">,</span>
         <span class="n">spacing</span><span class="o">=</span><span class="n">spacing</span><span class="p">,</span>
@@ -4597,8 +4604,8 @@
     <span class="k">if</span> <span class="n">hole_solid</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">None</span>
 
-    <span class="n">hole_solid</span> <span class="o">=</span> <span class="n">hole_solid</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">margin</span><span class="p">,</span> <span class="n">margin</span><span class="p">,</span> <span class="n">z_slice</span><span class="p">])</span>
-    <span class="n">area_box</span> <span class="o">=</span> <span class="n">block</span><span class="p">([</span><span class="n">area_w</span><span class="p">,</span> <span class="n">area_l</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span> <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="n">margin</span><span class="p">,</span> <span class="n">margin</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">))</span>
+    <span class="n">hole_solid</span> <span class="o">=</span> <span class="n">hole_solid</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">raw_margin</span><span class="p">,</span> <span class="n">raw_margin</span><span class="p">,</span> <span class="n">z_slice</span><span class="p">])</span>
+    <span class="n">area_box</span> <span class="o">=</span> <span class="n">block</span><span class="p">([</span><span class="n">safe_w</span><span class="p">,</span> <span class="n">safe_l</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span> <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="n">safe_margin</span><span class="p">,</span> <span class="n">safe_margin</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">))</span>
     <span class="n">web_slice</span> <span class="o">=</span> <span class="n">area_box</span> <span class="o">-</span> <span class="n">hole_solid</span>
 
     <span class="c1"># Keep clear of any sliding lid fingernail catch on both axes so the male ridge</span>

@@ -581,6 +581,7 @@
     <span class="n">reserved</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="p">(),</span>
     <span class="n">path</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="o">...</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">top_z</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">face_size</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DecoratedLid</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Apply a lid's label, pattern and colours to its geometry.</span>
 
@@ -597,6 +598,9 @@
 <span class="sd">        path: Optional closed 2D polygon outline for polygon-footprint lids.</span>
 <span class="sd">        top_z: Explicit Z coordinate of the lid's flat deck when upward-protruding</span>
 <span class="sd">            features (such as stacking bosses) sit above the lid surface.</span>
+<span class="sd">        face_size: Optional ``(width, length)`` outer box footprint when the</span>
+<span class="sd">            lid's pattern grid must align with the box body's outer frame (e.g.</span>
+<span class="sd">            ``StackableMode.PATTERN``).</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        The decorated lid and its coloured inserts.</span>
@@ -612,6 +616,9 @@
         <span class="k">return</span> <span class="n">DecoratedLid</span><span class="p">(</span><span class="n">solid</span><span class="o">=</span><span class="n">lid</span><span class="p">)</span>
 
     <span class="n">width</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">origin_x</span><span class="p">,</span> <span class="n">origin_y</span><span class="p">,</span> <span class="n">measured_top_z</span> <span class="o">=</span> <span class="n">face</span>
+    <span class="k">if</span> <span class="n">face_size</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">width</span><span class="p">,</span> <span class="n">length</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">face_size</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="nb">float</span><span class="p">(</span><span class="n">face_size</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">origin_x</span><span class="p">,</span> <span class="n">origin_y</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span>
     <span class="n">top_z</span> <span class="o">=</span> <span class="n">measured_top_z</span> <span class="k">if</span> <span class="n">top_z</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="nb">float</span><span class="p">(</span><span class="n">top_z</span><span class="p">)</span>
     <span class="n">result</span> <span class="o">=</span> <span class="n">DecoratedLid</span><span class="p">(</span><span class="n">solid</span><span class="o">=</span><span class="n">lid</span><span class="p">)</span>
 

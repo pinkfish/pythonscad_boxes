@@ -8,7 +8,7 @@ Patterns fall into two architectural categories:
 1. **Perforated Through-Hole Lattices & Botanical Tilings** (``HEX``, ``DENSE_HEX``, ``SQUARE``, ``CIRCLE``, ``TRIANGLE``, ``DENSE_TRIANGLE``, ``OCTAGON``, ``VORONOI``, ``LEAF``, ``LEAF_TESSELLATION``, ``LEAF_VEINS``): Cut open lattices through the lid, saving filament while keeping contents visible and ventilated. Any of these can also be inlaid as a colored top layer by setting ``inlay=True`` or passing ``colors=(...)``.
 2. **Multi-Color Inlays & Rhombic / Quasicrystal Tessellations** (``STEPPED_CUBE``, ``PENROSE``, ``AMMANN_BEENKER``, ``TUMBLING_BLOCKS``, ``CHEVRON``, ``DICE``, ``RING``, ``CHECKER``): Inlay a thin ``0.6 mm`` colored tile skin into the top face of the lid above a continuous ``0.8 mm`` structural floor and a selectable underside backing lattice (defaulting to ``PatternType.HEX`` via ``backing_pattern``) to minimize plastic use while preserving full lid strength.
 
-Every example below renders **only the sliding lid** (``project.show(lids_only=True)``) with ``border=0.0`` and ``fingernail_catch=False`` so the pattern fills the lid edge-to-edge.
+The pattern gallery examples below render **only the sliding lid** (``project.show(lids_only=True)``) with ``border=0.0`` and ``fingernail_catch=False`` so the pattern fills the lid edge-to-edge, while the stacking setup at the end renders **both the lid and the box** (``project.show(show_lids=True)``).
 
 .. contents:: On this page
    :local:
@@ -530,3 +530,44 @@ Use ``PatternType.SOLID`` or ``PatternType.NONE`` when a completely closed, unpe
        ),
    )
    project.show(lids_only=True)
+
+
+Pattern-Matched Stacking (``StackableMode.PATTERN``)
+----------------------------------------------------
+
+Setting ``stackable=StackableMode.PATTERN`` (:class:`~pyboxbuilder.enums.StackableMode`) matches the lid's pattern directly onto the underside of the box body. The lid's pattern web is raised above the lid surface with 45° self-supporting draft chamfers, while a matching 45°-drafted recessed pattern groove is carved into the underside of the box floor so stacked boxes lock into the exact same pattern grid without support material.
+
+Unlike the standalone lid gallery above, the stacking setup below renders **both the lid and the box** (``project.show(show_lids=True)``) with an exploded vertical separation so the patterned lid, the box compartments, and the matching underside pattern lattice can all be inspected together:
+
+.. pythonscad-example::
+
+   project = Project("PatternMatchedStackingDemo")
+   lower_box = project.box(
+       BoxType.SLIDING,
+       "LowerPatternBox",
+       size=(60.0, 75.0, 22.0),
+       color=Color("darkslateblue"),
+       position=(0.0, 0.0, 0.0),
+       stackable=StackableMode.PATTERN,
+       stackable_foot_height=1.2,
+       lid=LidBuilder(
+           pattern=PatternBuilder(PatternType.HEX, spacing=9.0),
+       ),
+   )
+   lower_box.compartment("TokensA", width_ratio=0.5, holds_pieces=True)
+   lower_box.compartment("TokensB", width_ratio=0.5, holds_pieces=True)
+   upper_box = project.box(
+       BoxType.SLIDING,
+       "UpperPatternBox",
+       size=(60.0, 75.0, 22.0),
+       color=Color("teal"),
+       position=(0.0, 0.0, 28.0),
+       stackable=StackableMode.PATTERN,
+       stackable_foot_height=1.2,
+       lid=LidBuilder(
+           pattern=PatternBuilder(PatternType.HEX, spacing=9.0),
+       ),
+   )
+   upper_box.compartment("Cards", holds_pieces=True)
+   project.show(show_lids=True)
+

@@ -613,6 +613,22 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Universal Stacking Architecture (StackableMode)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pattern-matched-stacking-stackablemode-pattern" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span title="box_types:pattern-matched stacking (``stackablemode.pattern``) (reference label)"><span>Pattern-<wbr>Matched Stacking <wbr>(Stackable<wbr>Mode.<wbr>PATTERN)</span></span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
     </ul>
@@ -1041,6 +1057,22 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Universal Stacking Architecture (StackableMode)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pattern-matched-stacking-stackablemode-pattern" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span title="box_types:pattern-matched stacking (``stackablemode.pattern``) (reference label)"><span>Pattern-<wbr>Matched Stacking <wbr>(Stackable<wbr>Mode.<wbr>PATTERN)</span></span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
     </ul>
@@ -1091,7 +1123,11 @@
 <li><p><a class="reference internal" href="#print-in-place-inset-hinge-box-boxtype-inset-hinge" id="id24">Print-In-Place Inset Hinge Box (<code class="docutils literal notranslate"><span class="pre">BoxType.INSET_HINGE</span></code>)</a></p></li>
 <li><p><a class="reference internal" href="#sliding-spin-catch-hinge-box-boxtype-sliding-hinge" id="id25">Sliding &amp; Spin Catch Hinge Box (<code class="docutils literal notranslate"><span class="pre">BoxType.SLIDING_HINGE</span></code>)</a></p></li>
 <li><p><a class="reference internal" href="#lid-retention-catches-catchtype" id="id26">Lid Retention Catches (<code class="docutils literal notranslate"><span class="pre">CatchType</span></code>)</a></p></li>
-<li><p><a class="reference internal" href="#universal-stacking-architecture-stackablemode" id="id27">Universal Stacking Architecture (<code class="docutils literal notranslate"><span class="pre">StackableMode</span></code>)</a></p></li>
+<li><p><a class="reference internal" href="#universal-stacking-architecture-stackablemode" id="id27">Universal Stacking Architecture (<code class="docutils literal notranslate"><span class="pre">StackableMode</span></code>)</a></p>
+<ul>
+<li><p><a class="reference internal" href="#pattern-matched-stacking-stackablemode-pattern" id="id28">Pattern-Matched Stacking (<code class="docutils literal notranslate"><span class="pre">StackableMode.PATTERN</span></code>)</a></p></li>
+</ul>
+</li>
 </ul>
 </nav>
 <h2 id="sliding-lid-boxtype-sliding"><a class="toc-backref" href="#id1" role="doc-backlink">Sliding Lid (<code class="docutils literal notranslate"><span class="pre">BoxType.SLIDING</span></code>)</a><a class="headerlink" href="#sliding-lid-boxtype-sliding" title="Link to this heading">¶</a></h2>
@@ -1727,20 +1763,70 @@
     <span class="n">stackable</span><span class="o">=</span><span class="n">StackableMode</span><span class="o">.</span><span class="n">PYRAMIDS</span><span class="p">,</span>
     <span class="n">stackable_foot_size</span><span class="o">=</span><span class="mf">7.0</span><span class="p">,</span>
     <span class="n">stackable_foot_height</span><span class="o">=</span><span class="mf">1.2</span><span class="p">,</span>
+    <span class="n">lid</span><span class="o">=</span><span class="n">LidBuilder</span><span class="p">(</span>
+        <span class="n">label_mode</span><span class="o">=</span><span class="n">LabelMode</span><span class="o">.</span><span class="n">FRAMED</span><span class="p">,</span>
+        <span class="n">frame_color</span><span class="o">=</span><span class="n">Color</span><span class="p">(</span><span class="s2">"gold"</span><span class="p">),</span>
+        <span class="n">text_color</span><span class="o">=</span><span class="n">Color</span><span class="p">(</span><span class="s2">"white"</span><span class="p">),</span>
+        <span class="n">pattern</span><span class="o">=</span><span class="n">PatternBuilder</span><span class="p">(</span><span class="n">PatternType</span><span class="o">.</span><span class="n">HEX</span><span class="p">,</span> <span class="n">spacing</span><span class="o">=</span><span class="mf">9.0</span><span class="p">),</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">titled</span><span class="p">(</span><span class="s2">"LOWER"</span><span class="p">),</span>
 <span class="p">)</span>
+<span class="n">b1</span><span class="o">.</span><span class="n">compartment</span><span class="p">(</span><span class="s2">"Cubes"</span><span class="p">,</span> <span class="n">width_ratio</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">holds_pieces</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">b1</span><span class="o">.</span><span class="n">compartment</span><span class="p">(</span><span class="s2">"Tokens"</span><span class="p">,</span> <span class="n">width_ratio</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">holds_pieces</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">b2</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">box</span><span class="p">(</span>
     <span class="n">BoxType</span><span class="o">.</span><span class="n">SLIDING</span><span class="p">,</span>
     <span class="s2">"TopBox"</span><span class="p">,</span>
     <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mf">60.0</span><span class="p">,</span> <span class="mf">80.0</span><span class="p">,</span> <span class="mf">22.0</span><span class="p">),</span>
     <span class="n">color</span><span class="o">=</span><span class="n">Color</span><span class="p">(</span><span class="s2">"coral"</span><span class="p">),</span>
-    <span class="n">position</span><span class="o">=</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">22.0</span><span class="p">),</span>
+    <span class="n">position</span><span class="o">=</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">28.0</span><span class="p">),</span>
     <span class="n">stackable</span><span class="o">=</span><span class="n">StackableMode</span><span class="o">.</span><span class="n">PYRAMIDS</span><span class="p">,</span>
     <span class="n">stackable_foot_size</span><span class="o">=</span><span class="mf">7.0</span><span class="p">,</span>
     <span class="n">stackable_foot_height</span><span class="o">=</span><span class="mf">1.2</span><span class="p">,</span>
+    <span class="n">lid</span><span class="o">=</span><span class="n">LidBuilder</span><span class="p">(</span>
+        <span class="n">label_mode</span><span class="o">=</span><span class="n">LabelMode</span><span class="o">.</span><span class="n">FRAMED</span><span class="p">,</span>
+        <span class="n">frame_color</span><span class="o">=</span><span class="n">Color</span><span class="p">(</span><span class="s2">"white"</span><span class="p">),</span>
+        <span class="n">text_color</span><span class="o">=</span><span class="n">Color</span><span class="p">(</span><span class="s2">"midnightblue"</span><span class="p">),</span>
+        <span class="n">pattern</span><span class="o">=</span><span class="n">PatternBuilder</span><span class="p">(</span><span class="n">PatternType</span><span class="o">.</span><span class="n">HEX</span><span class="p">,</span> <span class="n">spacing</span><span class="o">=</span><span class="mf">9.0</span><span class="p">),</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">titled</span><span class="p">(</span><span class="s2">"UPPER"</span><span class="p">),</span>
 <span class="p">)</span>
+<span class="n">b2</span><span class="o">.</span><span class="n">compartment</span><span class="p">(</span><span class="s2">"Cards"</span><span class="p">,</span> <span class="n">holds_pieces</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">project</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">show_lids</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </code></pre></div>
 </div>
+<div class="stl-viewer" data-stl-uri="_stl/811ff29e7839c6ec.stl" data-stl-color="#6f9ac9" style="width:100%;height:360px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a class="reference external" href="_stl/811ff29e7839c6ec.stl">⬇ Download STL mesh</a></p>
+<h3 id="pattern-matched-stacking-stackablemode-pattern"><a class="toc-backref" href="#id28" role="doc-backlink">Pattern-Matched Stacking (<code class="docutils literal notranslate"><span class="pre">StackableMode.PATTERN</span></code>)</a><a class="headerlink" href="#pattern-matched-stacking-stackablemode-pattern" title="Link to this heading">¶</a></h3>
+<p>When <code class="docutils literal notranslate"><span class="pre">stackable=StackableMode.PATTERN</span></code> is configured, the decorative pattern on the lid is matched directly onto the underside of the box body. Both the lid and the box are shown below (<code class="docutils literal notranslate"><span class="pre">project.show(show_lids=True)</span></code>) with a vertical exploded gap so the raised 45°-drafted pattern web ridge on the lid, the interior compartments, and the matching recessed pattern lattice on the underside of the upper box are all clearly visible:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="n">project</span> <span class="o">=</span> <span class="n">Project</span><span class="p">(</span><span class="s2">"StackDemoPattern"</span><span class="p">)</span>
+<span class="n">b_lower</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">box</span><span class="p">(</span>
+    <span class="n">BoxType</span><span class="o">.</span><span class="n">SLIDING</span><span class="p">,</span>
+    <span class="s2">"LowerPatternBox"</span><span class="p">,</span>
+    <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mf">60.0</span><span class="p">,</span> <span class="mf">75.0</span><span class="p">,</span> <span class="mf">22.0</span><span class="p">),</span>
+    <span class="n">color</span><span class="o">=</span><span class="n">Color</span><span class="p">(</span><span class="s2">"darkslateblue"</span><span class="p">),</span>
+    <span class="n">position</span><span class="o">=</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span>
+    <span class="n">stackable</span><span class="o">=</span><span class="n">StackableMode</span><span class="o">.</span><span class="n">PATTERN</span><span class="p">,</span>
+    <span class="n">stackable_foot_height</span><span class="o">=</span><span class="mf">1.2</span><span class="p">,</span>
+    <span class="n">lid</span><span class="o">=</span><span class="n">LidBuilder</span><span class="p">(</span>
+        <span class="n">pattern</span><span class="o">=</span><span class="n">PatternBuilder</span><span class="p">(</span><span class="n">PatternType</span><span class="o">.</span><span class="n">HEX</span><span class="p">,</span> <span class="n">spacing</span><span class="o">=</span><span class="mf">9.0</span><span class="p">),</span>
+    <span class="p">),</span>
+<span class="p">)</span>
+<span class="n">b_lower</span><span class="o">.</span><span class="n">compartment</span><span class="p">(</span><span class="s2">"LowerWell"</span><span class="p">,</span> <span class="n">width_ratio</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">holds_pieces</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">b_lower</span><span class="o">.</span><span class="n">compartment</span><span class="p">(</span><span class="s2">"LowerTokens"</span><span class="p">,</span> <span class="n">width_ratio</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">holds_pieces</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">b_upper</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">box</span><span class="p">(</span>
+    <span class="n">BoxType</span><span class="o">.</span><span class="n">SLIDING</span><span class="p">,</span>
+    <span class="s2">"UpperPatternBox"</span><span class="p">,</span>
+    <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mf">60.0</span><span class="p">,</span> <span class="mf">75.0</span><span class="p">,</span> <span class="mf">22.0</span><span class="p">),</span>
+    <span class="n">color</span><span class="o">=</span><span class="n">Color</span><span class="p">(</span><span class="s2">"teal"</span><span class="p">),</span>
+    <span class="n">position</span><span class="o">=</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">28.0</span><span class="p">),</span>
+    <span class="n">stackable</span><span class="o">=</span><span class="n">StackableMode</span><span class="o">.</span><span class="n">PATTERN</span><span class="p">,</span>
+    <span class="n">stackable_foot_height</span><span class="o">=</span><span class="mf">1.2</span><span class="p">,</span>
+    <span class="n">lid</span><span class="o">=</span><span class="n">LidBuilder</span><span class="p">(</span>
+        <span class="n">pattern</span><span class="o">=</span><span class="n">PatternBuilder</span><span class="p">(</span><span class="n">PatternType</span><span class="o">.</span><span class="n">HEX</span><span class="p">,</span> <span class="n">spacing</span><span class="o">=</span><span class="mf">9.0</span><span class="p">),</span>
+    <span class="p">),</span>
+<span class="p">)</span>
+<span class="n">b_upper</span><span class="o">.</span><span class="n">compartment</span><span class="p">(</span><span class="s2">"UpperWell"</span><span class="p">,</span> <span class="n">holds_pieces</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">project</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">show_lids</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</code></pre></div>
+</div>
+<div class="stl-viewer" data-stl-uri="_stl/a66bcabc727dac7b.stl" data-stl-color="#6f9ac9" style="width:100%;height:360px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a class="reference external" href="_stl/a66bcabc727dac7b.stl">⬇ Download STL mesh</a></p>
 
 
 
