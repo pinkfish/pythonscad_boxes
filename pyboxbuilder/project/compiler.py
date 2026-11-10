@@ -233,14 +233,14 @@ class LayoutCompiler:
     def _apply_stacking_order_configs(
         cls, manifest: ProjectManifest, placements: list[Placement]
     ) -> None:
-        """Assign keyed pyramid configurations to vertical stacks of PYRAMIDS boxes."""
+        """Suppress top/bottom stack ends and assign keyed pyramid configs to vertical stacks."""
         from pyboxbuilder.box.features import stacking_order_pyramid_config
         from pyboxbuilder.enums import StackableMode
 
         by_footprint: dict[tuple[float, float, float, float], list[tuple[float, BoxBuilder]]] = {}
         for p in placements:
             b = manifest.get_by_label(p.label)
-            if b is None or b.stackable is not StackableMode.PYRAMIDS:
+            if b is None or b.stackable is None:
                 continue
             key = (
                 round(p.position[0], 1),
@@ -254,23 +254,26 @@ class LayoutCompiler:
             if len(items) < 2:
                 continue
             ordered = [b for _z, b in sorted(items, key=lambda x: x[0])]
-            # Only auto-assign if none of the boxes in the column already have explicit
-            # top/bottom pyramid overrides.
-            if any(
+            # Always suppress bottom insert on the very bottom box and top stacking
+            # format on the very top box of a vertical stack, and enable intermediate
+            # interfaces.
+            object.__setattr__(ordered[0], "stackable_bottom", False)
+            object.__setattr__(ordered[-1], "stackable_top", False)
+            for idx in range(len(ordered) - 1):
+                object.__setattr__(ordered[idx], "stackable_top", True)
+                object.__setattr__(ordered[idx + 1], "stackable_bottom", True)
+
+            # Only auto-assign keyed pyramid counts when all boxes in the column use
+            # PYRAMIDS and none already have explicit top/bottom pyramid overrides.
+            if all(b.stackable is StackableMode.PYRAMIDS for b in ordered) and not any(
                 b.stackable_top_pyramid_count is not None
                 or b.stackable_bottom_pyramid_count is not None
                 for b in ordered
             ):
-                continue
-
-            object.__setattr__(ordered[0], "stackable_bottom", False)
-            object.__setattr__(ordered[-1], "stackable_top", False)
-            for idx in range(len(ordered) - 1):
-                cfg = stacking_order_pyramid_config(idx)
-                object.__setattr__(ordered[idx], "stackable_top", True)
-                object.__setattr__(ordered[idx], "stackable_top_pyramid_count", cfg)
-                object.__setattr__(ordered[idx + 1], "stackable_bottom", True)
-                object.__setattr__(ordered[idx + 1], "stackable_bottom_pyramid_count", cfg)
+                for idx in range(len(ordered) - 1):
+                    cfg = stacking_order_pyramid_config(idx)
+                    object.__setattr__(ordered[idx], "stackable_top_pyramid_count", cfg)
+                    object.__setattr__(ordered[idx + 1], "stackable_bottom_pyramid_count", cfg)
 
     @classmethod
     def spacer_placements(

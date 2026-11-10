@@ -50,20 +50,32 @@ class GeometryPipeline:
         if manifest.game_box_size is None:
             # Standalone: nothing is packed, so line the boxes up side by side
             # for a preview (unless explicit positions are given). There are no layers and no spacers.
+            from pyboxbuilder.packing.layout import Placement
+
             x = 0.0
+            standalone_placements: list[Placement] = []
             for builder in manifest.boxes:
                 size = comp.standalone_size(manifest, builder)
                 at = builder.position if builder.position is not None else (x, 0.0, 0.0)
+                standalone_placements.append(
+                    Placement(label=builder.label, size=size, position=at)
+                )
+                if builder.position is None:
+                    x += size[0] + STANDALONE_GAP_MM
+
+            comp._apply_stacking_order_configs(manifest, standalone_placements)
+
+            for builder, placement in zip(
+                manifest.boxes, standalone_placements, strict=True
+            ):
                 pieces.extend(
                     self._box_pieces(
                         manifest,
                         builder,
-                        at,
+                        placement.position,
                         build_box_solids_fn=build_box_solids_fn,
                     )
                 )
-                if builder.position is None:
-                    x += size[0] + STANDALONE_GAP_MM
             return Build(pieces=tuple(pieces))
 
         packing = comp.resolve_final_layout(manifest)
@@ -346,6 +358,7 @@ class GeometryPipeline:
         face_size = (
             (builder.final_size[0], builder.final_size[1])
             if builder.final_size is not None
+            and getattr(builder, "stackable_top", True)
             and (
                 getattr(builder, "stackable", None) == StackableMode.PATTERN
                 or getattr(builder, "stackable_shape", None) == StackableShape.PATTERN

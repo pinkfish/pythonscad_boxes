@@ -426,6 +426,8 @@ Stacked trays cannot slide off each other during play or transport.
        color=Color("darkcyan"),
        position=(0.0, 0.0, 0.0),
        stackable=StackableMode.INSIDE,
+       stackable_bottom=False,
+       stackable_top=True,
    )
    b1.compartment("CubesA", width_ratio=0.5, holds_pieces=True)
    b1.compartment("CubesB", width_ratio=0.5, holds_pieces=True)
@@ -436,6 +438,8 @@ Stacked trays cannot slide off each other during play or transport.
        color=Color("coral"),
        position=(0.0, 0.0, 16.0),
        stackable=StackableMode.INSIDE,
+       stackable_bottom=True,
+       stackable_top=False,
    )
    b2.compartment("Tokens", holds_pieces=True)
    project.show()
@@ -915,6 +919,8 @@ Configuration parameters available on all box builders:
        color=Color("midnightblue"),
        position=(0.0, 0.0, 0.0),
        stackable=StackableMode.PYRAMIDS,
+       stackable_bottom=False,
+       stackable_top=True,
        stackable_foot_size=7.0,
        stackable_foot_height=1.2,
        lid=LidBuilder(
@@ -933,6 +939,8 @@ Configuration parameters available on all box builders:
        color=Color("coral"),
        position=(0.0, 0.0, 28.0),
        stackable=StackableMode.PYRAMIDS,
+       stackable_bottom=True,
+       stackable_top=False,
        stackable_foot_size=7.0,
        stackable_foot_height=1.2,
        lid=LidBuilder(
@@ -949,7 +957,7 @@ Configuration parameters available on all box builders:
 Pattern-Matched Stacking (``StackableMode.PATTERN``)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-When ``stackable=StackableMode.PATTERN`` is configured, the decorative pattern on the lid is matched directly onto the underside of the box body. Both the lid and the box are shown below (``project.show(show_lids=True)``) with a vertical exploded gap so the raised 45°-drafted pattern web ridge on the lid, the interior compartments, and the matching recessed pattern lattice on the underside of the upper box are all clearly visible:
+When ``stackable=StackableMode.PATTERN`` is configured, the decorative pattern on the lower lid is matched directly onto the underside of the upper box body, while the bottom box's floor stays solid (``stackable_bottom=False``) and the top box's lid has no stacking ridge on top (``stackable_top=False``). Both the lid and the box are shown below (``project.show(show_lids=True)``) with a vertical exploded gap so the raised 45°-drafted pattern web ridge on the lower lid, the interior compartments, and the matching recessed pattern lattice on the underside of the upper box are all clearly visible:
 
 .. pythonscad-example::
 
@@ -961,6 +969,8 @@ When ``stackable=StackableMode.PATTERN`` is configured, the decorative pattern o
        color=Color("darkslateblue"),
        position=(0.0, 0.0, 0.0),
        stackable=StackableMode.PATTERN,
+       stackable_bottom=False,
+       stackable_top=True,
        stackable_foot_height=1.2,
        lid=LidBuilder(
            pattern=PatternBuilder(PatternType.HEX, spacing=9.0),
@@ -975,6 +985,8 @@ When ``stackable=StackableMode.PATTERN`` is configured, the decorative pattern o
        color=Color("teal"),
        position=(0.0, 0.0, 28.0),
        stackable=StackableMode.PATTERN,
+       stackable_bottom=True,
+       stackable_top=False,
        stackable_foot_height=1.2,
        lid=LidBuilder(
            pattern=PatternBuilder(PatternType.HEX, spacing=9.0),
@@ -987,7 +999,7 @@ When ``stackable=StackableMode.PATTERN`` is configured, the decorative pattern o
 Push-Up Slide-Latch Stacking for Flipped-Lid Boxes (``StackableMode.SLIDE_LATCH``)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-For box types whose lids must be printed upside down (such as ``FILAMENT_HINGE``, ``CLAMSHELL``, ``PRINT_IN_PLACE_HINGE``, ``CAP``, ``SLIPOVER``, and ``SNAP_FIT``), ``StackableMode.SLIDE_LATCH`` (or ``StackableMode.LATCH``) places captive print-in-place vertical dovetail sliders and bottom receiver sockets on the left and right side walls so you can push the latches up to link the top and bottom boxes together:
+For box types whose lids must be printed upside down (such as ``FILAMENT_HINGE``, ``CLAMSHELL``, ``PRINT_IN_PLACE_HINGE``, ``CAP``, ``SLIPOVER``, and ``SNAP_FIT``), ``StackableMode.SLIDE_LATCH`` (or ``StackableMode.LATCH``) places captive print-in-place vertical dovetail sliders on the lower box and bottom receiver sockets on the upper box along the left and right side walls so you can push the latches up to link the top and bottom boxes together:
 
 .. pythonscad-example::
 
@@ -999,6 +1011,8 @@ For box types whose lids must be printed upside down (such as ``FILAMENT_HINGE``
        color=Color("darkslategray"),
        position=(0.0, 0.0, 0.0),
        stackable=StackableMode.SLIDE_LATCH,
+       stackable_bottom=False,
+       stackable_top=True,
    )
    b_hinge_low.compartment("LowerDice", width_ratio=0.5, holds_pieces=True)
    b_hinge_low.compartment("LowerGems", width_ratio=0.5, holds_pieces=True)
@@ -1009,6 +1023,8 @@ For box types whose lids must be printed upside down (such as ``FILAMENT_HINGE``
        color=Color("peru"),
        position=(0.0, 0.0, 30.0),
        stackable=StackableMode.SLIDE_LATCH,
+       stackable_bottom=True,
+       stackable_top=False,
    )
    b_hinge_top.compartment("UpperCards", holds_pieces=True)
    project.show(show_lids=True)

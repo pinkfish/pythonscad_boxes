@@ -661,6 +661,124 @@ class StackingBoxMatingTests(unittest.TestCase):
         self.assertEqual(auto_proj.boxes[2].stackable_bottom_pyramid_count, 3)
         self.assertFalse(auto_proj.boxes[2].stackable_top)
 
+    def test_top_lid_and_bottom_box_have_no_stacking_features_across_modes(self) -> None:
+        """Verify bottom box has no bottom insert and top box lid has no top stacking format."""
+        from pyboxbuilder.box.shell import block
+        from pyboxbuilder.enums import PatternType
+        from pyboxbuilder.lid.builder import LidBuilder, PatternBuilder
+        from pyboxbuilder.project import Project
+
+        # 1. Standalone project with StackableMode.PATTERN (matching docs/lid_patterns.rst)
+        proj_pat = Project("StandalonePatternStack")
+        low_pat = proj_pat.box(
+            BoxType.SLIDING,
+            "LowerPatternBox",
+            size=(60.0, 75.0, 22.0),
+            position=(0.0, 0.0, 0.0),
+            stackable=StackableMode.PATTERN,
+            lid=LidBuilder(pattern=PatternBuilder(PatternType.HEX, spacing=9.0)),
+        )
+        top_pat = proj_pat.box(
+            BoxType.SLIDING,
+            "UpperPatternBox",
+            size=(60.0, 75.0, 22.0),
+            position=(0.0, 0.0, 28.0),
+            stackable=StackableMode.PATTERN,
+            lid=LidBuilder(pattern=PatternBuilder(PatternType.HEX, spacing=9.0)),
+        )
+        build_pat = proj_pat.build()
+        self.assertFalse(low_pat.stackable_bottom)
+        self.assertTrue(low_pat.stackable_top)
+        self.assertTrue(top_pat.stackable_bottom)
+        self.assertFalse(top_pat.stackable_top)
+
+        floor_probe = block([60.0, 75.0, 1.4], at=(0.0, 0.0, 0.0))
+        above_lid_probe = block([80.0, 95.0, 5.0], at=(-10.0, -10.0, 22.01))
+
+        low_body = next(p.solid for p in build_pat.pieces if p.label == "LowerPatternBox" and p.kind == "body")
+        low_lid = next(p.solid for p in build_pat.pieces if p.label == "LowerPatternBox" and p.kind == "lid")
+        top_body = next(p.solid for p in build_pat.pieces if p.label == "UpperPatternBox" and p.kind == "body")
+        top_lid = next(p.solid for p in build_pat.pieces if p.label == "UpperPatternBox" and p.kind == "lid")
+
+        # Bottom box floor has no pattern groove cut into it (more solid floor volume than upper box)
+        self.assertGreater(volume(low_body & floor_probe), volume(top_body & floor_probe) + 50.0)
+        # Lower lid has raised pattern ridge above z = 22, while top lid is completely flat (0 above z = 22)
+        self.assertGreater(volume(low_lid & above_lid_probe), 10.0)
+        self.assertLess(volume(top_lid & above_lid_probe), 1e-4)
+
+        # Also verify decorated top lid in preview_pieces has no stacking format above z = 22
+        preview_pat = proj_pat.pipeline.preview_pieces(proj_pat._manifest, show_lids=True)
+        top_lid_preview = next(
+            pp.solid for pp in preview_pat if pp.label == "UpperPatternBox" and pp.kind == "lid"
+        )
+        # In preview, UpperPatternBox is translated to z = 28, so its lid top is at z = 28 + 22 = 50
+        above_preview_top = block([80.0, 95.0, 5.0], at=(-10.0, -10.0, 50.01))
+        self.assertLess(volume(top_lid_preview & above_preview_top), 1e-4)
+
+        # 2. Standalone project with StackableMode.SLIDE_LATCH
+        proj_latch = Project("StandaloneLatchStack")
+        low_latch = proj_latch.box(
+            BoxType.FILAMENT_HINGE,
+            "LowerHingeBox",
+            size=(60.0, 75.0, 24.0),
+            position=(0.0, 0.0, 0.0),
+            stackable=StackableMode.SLIDE_LATCH,
+        )
+        top_latch = proj_latch.box(
+            BoxType.FILAMENT_HINGE,
+            "UpperHingeBox",
+            size=(60.0, 75.0, 24.0),
+            position=(0.0, 0.0, 30.0),
+            stackable=StackableMode.SLIDE_LATCH,
+        )
+        build_latch = proj_latch.build()
+        self.assertFalse(low_latch.stackable_bottom)
+        self.assertTrue(low_latch.stackable_top)
+        self.assertTrue(top_latch.stackable_bottom)
+        self.assertFalse(top_latch.stackable_top)
+
+        low_latch_body = next(p.solid for p in build_latch.pieces if p.label == "LowerHingeBox" and p.kind == "body")
+        top_latch_body = next(p.solid for p in build_latch.pieces if p.label == "UpperHingeBox" and p.kind == "body")
+        above_latch_probe = block([100.0, 100.0, 5.0], at=(-20.0, -10.0, 24.01))
+        # Lower box has push-up slider tongue extending above z = 24, top box has none
+        self.assertGreater(volume(low_latch_body & above_latch_probe), 1.0)
+        self.assertLess(volume(top_latch_body & above_latch_probe), 1e-4)
+
+        # 3. Standalone project with BoxType.NO_LID and StackableMode.INSIDE / OUTSIDE
+        for mode in (StackableMode.INSIDE, StackableMode.OUTSIDE):
+            with self.subTest(no_lid_mode=mode.value):
+                proj_nl = Project(f"NoLidStack_{mode.value}")
+                b_low = proj_nl.box(
+                    BoxType.NO_LID,
+                    "TrayLow",
+                    size=(60.0, 60.0, 16.0),
+                    position=(0.0, 0.0, 0.0),
+                    stackable=mode,
+                )
+                b_top = proj_nl.box(
+                    BoxType.NO_LID,
+                    "TrayTop",
+                    size=(60.0, 60.0, 16.0),
+                    position=(0.0, 0.0, 16.0),
+                    stackable=mode,
+                )
+                build_nl = proj_nl.build()
+                self.assertFalse(b_low.stackable_bottom)
+                self.assertTrue(b_low.stackable_top)
+                self.assertTrue(b_top.stackable_bottom)
+                self.assertFalse(b_top.stackable_top)
+
+                low_nl_body = next(p.solid for p in build_nl.pieces if p.label == "TrayLow")
+                top_nl_body = next(p.solid for p in build_nl.pieces if p.label == "TrayTop")
+                if mode is StackableMode.INSIDE:
+                    # Top tray has no inner recess carved into its top rim (more volume near top rim)
+                    rim_probe = block([60.0, 60.0, 2.0], at=(0.0, 0.0, 14.0))
+                    self.assertGreater(volume(top_nl_body & rim_probe), volume(low_nl_body & rim_probe) + 20.0)
+                else:
+                    # Bottom tray has no outer skirt ridge at z = 0 (less volume near base)
+                    base_probe = block([70.0, 70.0, 2.0], at=(-5.0, -5.0, 0.0))
+                    self.assertGreater(volume(top_nl_body & base_probe), volume(low_nl_body & base_probe) + 20.0)
+
 
 if __name__ == "__main__":
     unittest.main()
