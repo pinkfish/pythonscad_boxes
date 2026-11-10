@@ -111,6 +111,7 @@ def decorate_lid(
     reserved: Sequence[tuple[float, float, float]] = (),
     path: tuple[tuple[float, float], ...] | None = None,
     top_z: float | None = None,
+    face_size: tuple[float, float] | None = None,
 ) -> DecoratedLid:
     """Apply a lid's label, pattern and colours to its geometry.
 
@@ -127,6 +128,9 @@ def decorate_lid(
         path: Optional closed 2D polygon outline for polygon-footprint lids.
         top_z: Explicit Z coordinate of the lid's flat deck when upward-protruding
             features (such as stacking bosses) sit above the lid surface.
+        face_size: Optional ``(width, length)`` outer box footprint when the
+            lid's pattern grid must align with the box body's outer frame (e.g.
+            ``StackableMode.PATTERN``).
 
     Returns:
         The decorated lid and its coloured inserts.
@@ -142,6 +146,9 @@ def decorate_lid(
         return DecoratedLid(solid=lid)
 
     width, length, origin_x, origin_y, measured_top_z = face
+    if face_size is not None:
+        width, length = float(face_size[0]), float(face_size[1])
+        origin_x, origin_y = 0.0, 0.0
     top_z = measured_top_z if top_z is None else float(top_z)
     result = DecoratedLid(solid=lid)
 

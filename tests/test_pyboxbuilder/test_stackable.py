@@ -427,7 +427,15 @@ class StackingBoxMatingTests(unittest.TestCase):
             spec_dec.lid_thickness,
             reserved=handler.lid_keepouts(spec_dec),
             top_z=spec_dec.height,
+            face_size=(spec_dec.width, spec_dec.length),
         ).solid
+        # Verify the raised pattern ridge above z = spec_dec.height is preserved intact
+        above_probe = block([60.0, 70.0, 5.0], at=(0.0, 0.0, spec_dec.height + 0.01))
+        self.assertAlmostEqual(
+            volume(raw_lid_a & above_probe),
+            volume(dec_lid_a & above_probe),
+            places=2,
+        )
         lower_dec = body_a | dec_lid_a
         upper_b = body_a.translate([0.0, 0.0, spec_dec.height])
         self.assertLess(volume(lower_dec & upper_b), 1e-3)
