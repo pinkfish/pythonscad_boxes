@@ -571,6 +571,7 @@
                 <span class="n">radius</span><span class="p">,</span>
                 <span class="nb">list</span><span class="p">(</span><span class="n">vertical_edges</span><span class="p">()),</span>
             <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_reject_stackable</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">body</span></div>
 
 
@@ -578,6 +579,7 @@
 <a class="viewcode-back" href="../../../../_autosummary/pyboxbuilder.box.types.card_shoe.CardShoeBox.html#pyboxbuilder.box.types.card_shoe.CardShoeBox.build_lid">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">build_lid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">,</span> <span class="n">decoration</span><span class="p">:</span> <span class="nb">object</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Return the protective cover lid."""</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_reject_stackable</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
         <span class="n">wt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">wall_thickness</span>
         <span class="n">lt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">lid_thickness</span>
         <span class="n">body_h</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">height</span> <span class="o">-</span> <span class="n">lt</span>

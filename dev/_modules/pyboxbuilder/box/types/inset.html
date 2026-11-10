@@ -516,6 +516,13 @@
         <span class="n">closure</span> <span class="o">=</span> <span class="n">rabbet</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="n">inset</span><span class="o">=</span><span class="n">spec</span><span class="o">.</span><span class="n">inset</span><span class="p">)</span>
         <span class="n">body</span> <span class="o">=</span> <span class="n">build_shell</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span> <span class="o">-</span> <span class="n">closure</span><span class="o">.</span><span class="n">body</span>
         <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">resolved_catch_type</span><span class="p">(</span><span class="n">CatchType</span><span class="o">.</span><span class="n">NONE</span><span class="p">)</span> <span class="o">!=</span> <span class="n">CatchType</span><span class="o">.</span><span class="n">NONE</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_reject_stackable</span><span class="p">(</span>
+                <span class="n">spec</span><span class="p">,</span>
+                <span class="n">reason</span><span class="o">=</span><span class="p">(</span>
+                    <span class="s2">"InsetBox with an active catch_type adds downward lid features "</span>
+                    <span class="s2">"that require printing the lid upside down"</span>
+                <span class="p">),</span>
+            <span class="p">)</span>
             <span class="n">wt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">wall_thickness</span>
             <span class="n">lt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">lid_thickness</span>
             <span class="n">ledge</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">wt</span> <span class="o">-</span> <span class="n">spec</span><span class="o">.</span><span class="n">inset</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
@@ -548,6 +555,13 @@
 
         <span class="n">lid</span> <span class="o">=</span> <span class="n">rabbet</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="n">inset</span><span class="o">=</span><span class="n">spec</span><span class="o">.</span><span class="n">inset</span><span class="p">)</span><span class="o">.</span><span class="n">lid</span>
         <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">resolved_catch_type</span><span class="p">(</span><span class="n">CatchType</span><span class="o">.</span><span class="n">NONE</span><span class="p">)</span> <span class="o">!=</span> <span class="n">CatchType</span><span class="o">.</span><span class="n">NONE</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_reject_stackable</span><span class="p">(</span>
+                <span class="n">spec</span><span class="p">,</span>
+                <span class="n">reason</span><span class="o">=</span><span class="p">(</span>
+                    <span class="s2">"InsetBox with an active catch_type adds downward lid features "</span>
+                    <span class="s2">"that require printing the lid upside down"</span>
+                <span class="p">),</span>
+            <span class="p">)</span>
             <span class="n">wt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">wall_thickness</span>
             <span class="n">lt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">lid_thickness</span>
             <span class="n">ledge</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">wt</span> <span class="o">-</span> <span class="n">spec</span><span class="o">.</span><span class="n">inset</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>

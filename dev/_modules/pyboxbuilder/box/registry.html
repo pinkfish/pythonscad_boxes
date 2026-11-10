@@ -585,6 +585,25 @@
     <span class="n">BoxType</span><span class="o">.</span><span class="n">INSET_HINGE</span><span class="p">,</span>
 <span class="p">})</span>
 <span class="sd">"""Box types that produce a body file only — no lid geometry, no `_lid.3mf`."""</span>
+
+
+<span class="n">STACKABLE_BOX_TYPES</span><span class="p">:</span> <span class="nb">frozenset</span><span class="p">[</span><span class="n">BoxType</span><span class="p">]</span> <span class="o">=</span> <span class="nb">frozenset</span><span class="p">({</span>
+    <span class="n">BoxType</span><span class="o">.</span><span class="n">SLIDING</span><span class="p">,</span>
+    <span class="n">BoxType</span><span class="o">.</span><span class="n">SLIDING_CATCH</span><span class="p">,</span>
+    <span class="n">BoxType</span><span class="o">.</span><span class="n">CARD_LIBRARY</span><span class="p">,</span>
+    <span class="n">BoxType</span><span class="o">.</span><span class="n">INSET</span><span class="p">,</span>
+    <span class="n">BoxType</span><span class="o">.</span><span class="n">MAGNETIC</span><span class="p">,</span>
+    <span class="n">BoxType</span><span class="o">.</span><span class="n">MODULAR_INTERLOCK</span><span class="p">,</span>
+    <span class="n">BoxType</span><span class="o">.</span><span class="n">SLEEVE_DRAWER</span><span class="p">,</span>
+    <span class="n">BoxType</span><span class="o">.</span><span class="n">NO_LID</span><span class="p">,</span>
+    <span class="n">BoxType</span><span class="o">.</span><span class="n">PATH</span><span class="p">,</span>
+<span class="p">})</span>
+<span class="sd">"""Box types that support vertical stacking (``stackable``).</span>
+
+<span class="sd">Only lidless open trays and box types whose lids have a flat underside</span>
+<span class="sd">(allowing the lid to print right-side up on the build plate) can carry</span>
+<span class="sd">raised top stacking features without floating in mid-air when flipped for printing.</span>
+<span class="sd">"""</span>
 </code></pre></div>
 
 
