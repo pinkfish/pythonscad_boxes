@@ -110,15 +110,14 @@ class FilamentHingeBox(BoxTypeBase):
 
         from pyboxbuilder.box.features import hinge_catch
 
+        self._reject_stackable(spec)
         catch = hinge_catch(spec)
         if catch.body_cut is not None:
             body = body - catch.body_cut
         if catch.body is not None:
             body = body | catch.body
 
-        from pyboxbuilder.box.features import apply_stackable_body
-
-        return apply_stackable_body(body, spec)
+        return body
 
     def build_lid(self, spec: BoxSpec, decoration: object = None) -> Bosl2Solid:
         """Return a plate carrying the interleaving knuckles, on the same pin axis.
@@ -126,9 +125,10 @@ class FilamentHingeBox(BoxTypeBase):
         The hinge pin is a length of filament threaded through after printing,
         so the two halves stay separate parts.
         """
-        from pyboxbuilder.box.features import filament_hinge
+        from pyboxbuilder.box.features import filament_hinge, hinge_catch
         from pyboxbuilder.box.shell import block
 
+        self._reject_stackable(spec)
         lt = spec.lid_thickness
         body_spec = self._body_spec(spec)
         radius = max(spec.wall_thickness, spec.filament_diameter)
@@ -147,11 +147,9 @@ class FilamentHingeBox(BoxTypeBase):
         if closure.pin is not None:
             lid = lid - closure.pin
 
-        from pyboxbuilder.box.features import apply_stackable_lid, hinge_catch
-
         catch = hinge_catch(spec)
         if catch.lid_cut is not None:
             lid = lid - catch.lid_cut
         if catch.lid is not None:
             lid = lid | catch.lid
-        return apply_stackable_lid(lid, spec)
+        return lid

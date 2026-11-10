@@ -101,9 +101,8 @@ class CapPathBox(BoxTypeBase):
             from pyboxbuilder.box.features import apply_horizontal_interlock
 
             body = apply_horizontal_interlock(body, spec)
-        from pyboxbuilder.box.features import apply_stackable_body
-
-        return apply_stackable_body(body, spec)
+        self._reject_stackable(spec)
+        return body
 
     def _finger_cutouts(
         self,
@@ -248,12 +247,12 @@ class CapPathBox(BoxTypeBase):
 
     def build_lid(self, spec: BoxSpec, decoration: object = None) -> Bosl2Solid:
         """Return a cap whose skirt follows the same outline as the body."""
-        from pyboxbuilder.box.features import apply_stackable_lid, path_cap
+        from pyboxbuilder.box.features import path_cap
 
+        self._reject_stackable(spec)
         path = spec.path or ()
         if not path:
             from pyboxbuilder.box.types.cap import CapBox
 
             return CapBox().build_lid(spec)
-        lid = path_cap(spec, path, spec.cap_height or min(10.0, spec.height / 2))
-        return apply_stackable_lid(lid, spec)
+        return path_cap(spec, path, spec.cap_height or min(10.0, spec.height / 2))

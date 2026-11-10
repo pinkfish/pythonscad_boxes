@@ -117,3 +117,22 @@ LIDLESS_BOX_TYPES: frozenset[BoxType] = frozenset({
     BoxType.INSET_HINGE,
 })
 """Box types that produce a body file only — no lid geometry, no `_lid.3mf`."""
+
+
+STACKABLE_BOX_TYPES: frozenset[BoxType] = frozenset({
+    BoxType.SLIDING,
+    BoxType.SLIDING_CATCH,
+    BoxType.CARD_LIBRARY,
+    BoxType.INSET,
+    BoxType.MAGNETIC,
+    BoxType.MODULAR_INTERLOCK,
+    BoxType.SLEEVE_DRAWER,
+    BoxType.NO_LID,
+    BoxType.PATH,
+})
+"""Box types that support vertical stacking (``stackable``).
+
+Only lidless open trays and box types whose lids have a flat underside
+(allowing the lid to print right-side up on the build plate) can carry
+raised top stacking features without floating in mid-air when flipped for printing.
+"""

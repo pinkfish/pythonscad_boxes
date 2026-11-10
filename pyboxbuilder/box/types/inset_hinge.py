@@ -523,9 +523,8 @@ class InsetHingeBox(BoxTypeBase):
                 if catch.lid_cut is not None:
                     monolithic = monolithic - _unfold_inset_lid(_to_left_wall(catch.lid_cut))
 
-        from pyboxbuilder.box.features import apply_stackable_body
-
-        return apply_stackable_body(monolithic, spec)
+        self._reject_stackable(spec)
+        return monolithic
 
     def build_lid(self, spec: BoxSpec, decoration: object = None) -> Bosl2Solid | None:
         """Return None since INSET_HINGE is a monolithic 1-piece print."""

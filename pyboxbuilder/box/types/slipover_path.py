@@ -86,17 +86,14 @@ class SlipoverPathBox(BoxTypeBase):
                 r_bottom=r_inner,
             )
             body = outer - inner
-        from pyboxbuilder.box.features import apply_stackable_body
-
-        return apply_stackable_body(body, spec)
+        self._reject_stackable(spec)
+        return body
 
     def build_lid(self, spec: BoxSpec, decoration: object = None) -> Bosl2Solid:
         """Return a sleeve following the body's outline, stopping at the foot."""
-        from pyboxbuilder.box.features import (
-            apply_stackable_lid,
-            path_sleeve,
-        )
+        from pyboxbuilder.box.features import path_sleeve
 
+        self._reject_stackable(spec)
         path = spec.path or ()
         if not path:
             from pyboxbuilder.box.types.slipover import SlipoverBox
@@ -106,7 +103,7 @@ class SlipoverPathBox(BoxTypeBase):
         notches = self._finger_notches(spec, path)
         if notches is not None:
             lid = lid - notches
-        return apply_stackable_lid(lid, spec)
+        return lid
 
     def _finger_notches(
         self, spec: BoxSpec, path: tuple[tuple[float, float], ...]

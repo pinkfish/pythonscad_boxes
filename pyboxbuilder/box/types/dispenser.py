@@ -179,12 +179,12 @@ class DispenserBox(BoxTypeBase):
                 radius,
                 list(vertical_edges()),
             )
-        from pyboxbuilder.box.features import apply_stackable_body
-
-        return apply_stackable_body(body, spec)
+        self._reject_stackable(spec)
+        return body
 
     def build_lid(self, spec: BoxSpec, decoration: object = None) -> Bosl2Solid:
         """Return the top loading chute cover lid."""
+        self._reject_stackable(spec)
         wt = spec.wall_thickness
         lt = spec.lid_thickness
         body_h = spec.height - lt
@@ -213,6 +213,4 @@ class DispenserBox(BoxTypeBase):
                 radius,
                 list(vertical_edges()),
             )
-        from pyboxbuilder.box.features import apply_stackable_lid
-
-        return apply_stackable_lid(lid, spec)
+        return lid

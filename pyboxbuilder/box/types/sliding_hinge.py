@@ -74,13 +74,13 @@ class SlidingHingeBox(BoxTypeBase):
     def build_body(self, spec: BoxSpec) -> Bosl2Solid:
         """Return the box body with rear filament hinge knuckles and front/side catch."""
         from pyboxbuilder.box.features import (
-            apply_stackable_body,
             filament_hinge,
             hinge_catch,
         )
         from pyboxbuilder.box.shell import body_rounding, build_shell
         from pyboxbuilder.rounding import round_edges, vertical_edges
 
+        self._reject_stackable(spec)
         eff_spec = self._effective_spec(spec)
         body_spec = self._body_spec(eff_spec)
         closure = filament_hinge(
@@ -110,17 +110,17 @@ class SlidingHingeBox(BoxTypeBase):
         if catch.body is not None:
             body = body | catch.body
 
-        return apply_stackable_body(body, eff_spec)
+        return body
 
     def build_lid(self, spec: BoxSpec, decoration: object = None) -> Bosl2Solid:
         """Return the hinged lid carrying the interleaving knuckles and captive catch."""
         from pyboxbuilder.box.features import (
-            apply_stackable_lid,
             filament_hinge,
             hinge_catch,
         )
         from pyboxbuilder.box.shell import block
 
+        self._reject_stackable(spec)
         eff_spec = self._effective_spec(spec)
         lt = eff_spec.lid_thickness
         body_spec = self._body_spec(eff_spec)
@@ -145,5 +145,5 @@ class SlidingHingeBox(BoxTypeBase):
         if catch.lid is not None:
             lid = lid | catch.lid
 
-        return apply_stackable_lid(lid, eff_spec)
+        return lid
 

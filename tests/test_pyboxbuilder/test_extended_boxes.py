@@ -622,7 +622,7 @@ class ExtendedBoxGeometryTests(unittest.TestCase):
         self.assertAlmostEqual(volume(body & probe), 0.0, delta=0.01)
 
     def test_dispenser_stackable(self) -> None:
-        """Verify dispenser supports modular stacking mode."""
+        """Verify dispenser rejects stackable because its lid has a downward plug flange."""
         from pyboxbuilder.enums import StackableMode
 
         impl = BOX_IMPL_REGISTRY[BoxType.DISPENSER]()
@@ -633,10 +633,10 @@ class ExtendedBoxGeometryTests(unittest.TestCase):
             height=70.0,
             stackable=StackableMode.FEET,
         )
-        body = impl.build_body(spec)
-        lid = impl.build_lid(spec)
-        self.assertIsNotNone(body)
-        self.assertIsNotNone(lid)
+        with self.assertRaises(ValueError):
+            impl.build_body(spec)
+        with self.assertRaises(ValueError):
+            impl.build_lid(spec)
 
     def test_dispenser_default_flat_and_configurable_angle(self) -> None:
         """Verify dispenser defaults to a flat floor with finger cutouts and supports configurable tile_angle."""
