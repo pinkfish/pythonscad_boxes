@@ -767,17 +767,70 @@ Configuration parameters available on all box builders:
        stackable=StackableMode.PYRAMIDS,
        stackable_foot_size=7.0,
        stackable_foot_height=1.2,
+       lid=LidBuilder(
+           label_mode=LabelMode.FRAMED,
+           frame_color=Color("gold"),
+           text_color=Color("white"),
+           pattern=PatternBuilder(PatternType.HEX, spacing=9.0),
+       ).titled("LOWER"),
    )
+   b1.compartment("Cubes", width_ratio=0.5, holds_pieces=True)
+   b1.compartment("Tokens", width_ratio=0.5, holds_pieces=True)
    b2 = project.box(
        BoxType.SLIDING,
        "TopBox",
        size=(60.0, 80.0, 22.0),
        color=Color("coral"),
-       position=(0.0, 0.0, 22.0),
+       position=(0.0, 0.0, 28.0),
        stackable=StackableMode.PYRAMIDS,
        stackable_foot_size=7.0,
        stackable_foot_height=1.2,
+       lid=LidBuilder(
+           label_mode=LabelMode.FRAMED,
+           frame_color=Color("white"),
+           text_color=Color("midnightblue"),
+           pattern=PatternBuilder(PatternType.HEX, spacing=9.0),
+       ).titled("UPPER"),
    )
+   b2.compartment("Cards", holds_pieces=True)
+   project.show(show_lids=True)
+
+
+Pattern-Matched Stacking (``StackableMode.PATTERN``)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+When ``stackable=StackableMode.PATTERN`` is configured, the decorative pattern on the lid is matched directly onto the underside of the box body. Both the lid and the box are shown below (``project.show(show_lids=True)``) with a vertical exploded gap so the raised 45°-drafted pattern web ridge on the lid, the interior compartments, and the matching recessed pattern lattice on the underside of the upper box are all clearly visible:
+
+.. pythonscad-example::
+
+   project = Project("StackDemoPattern")
+   b_lower = project.box(
+       BoxType.SLIDING,
+       "LowerPatternBox",
+       size=(60.0, 75.0, 22.0),
+       color=Color("darkslateblue"),
+       position=(0.0, 0.0, 0.0),
+       stackable=StackableMode.PATTERN,
+       stackable_foot_height=1.2,
+       lid=LidBuilder(
+           pattern=PatternBuilder(PatternType.HEX, spacing=9.0),
+       ),
+   )
+   b_lower.compartment("LowerWell", width_ratio=0.5, holds_pieces=True)
+   b_lower.compartment("LowerTokens", width_ratio=0.5, holds_pieces=True)
+   b_upper = project.box(
+       BoxType.SLIDING,
+       "UpperPatternBox",
+       size=(60.0, 75.0, 22.0),
+       color=Color("teal"),
+       position=(0.0, 0.0, 28.0),
+       stackable=StackableMode.PATTERN,
+       stackable_foot_height=1.2,
+       lid=LidBuilder(
+           pattern=PatternBuilder(PatternType.HEX, spacing=9.0),
+       ),
+   )
+   b_upper.compartment("UpperWell", holds_pieces=True)
    project.show(show_lids=True)
 
 

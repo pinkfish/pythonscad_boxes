@@ -3961,19 +3961,26 @@ def _build_pattern_web_unit_slice(spec: BoxSpec) -> Bosl2Solid | None:
     from pybosl2 import cylinder
 
     from pyboxbuilder.box.shell import block
+    from pyboxbuilder.lid.builder import LID_BORDER_MM
     from pyboxbuilder.lid.pattern import build_pattern
 
-    pat_type, margin, spacing, web = _resolve_stackable_pattern_params(spec)
-    area_w = spec.width - 2.0 * margin
-    area_l = spec.length - 2.0 * margin
-    if area_w < 4.0 or area_l < 4.0:
+    pat_type, safe_margin, spacing, web = _resolve_stackable_pattern_params(spec)
+    req_border = getattr(spec, "stackable_pattern_border", None)
+    raw_margin = max(0.0, LID_BORDER_MM if req_border is None else float(req_border))
+    raw_margin = min(raw_margin, safe_margin)
+
+    raw_w = spec.width - 2.0 * raw_margin
+    raw_l = spec.length - 2.0 * raw_margin
+    safe_w = spec.width - 2.0 * safe_margin
+    safe_l = spec.length - 2.0 * safe_margin
+    if safe_w < 4.0 or safe_l < 4.0 or raw_w < 4.0 or raw_l < 4.0:
         return None
 
     h_slice = 2.0
     z_slice = -0.5
     holes = build_pattern(
-        area_w,
-        area_l,
+        raw_w,
+        raw_l,
         h_slice,
         pat_type,
         spacing=spacing,
@@ -3988,8 +3995,8 @@ def _build_pattern_web_unit_slice(spec: BoxSpec) -> Bosl2Solid | None:
     if hole_solid is None:
         return None
 
-    hole_solid = hole_solid.translate([margin, margin, z_slice])
-    area_box = block([area_w, area_l, 1.0], at=(margin, margin, 0.0))
+    hole_solid = hole_solid.translate([raw_margin, raw_margin, z_slice])
+    area_box = block([safe_w, safe_l, 1.0], at=(safe_margin, safe_margin, 0.0))
     web_slice = area_box - hole_solid
 
     # Keep clear of any sliding lid fingernail catch on both axes so the male ridge

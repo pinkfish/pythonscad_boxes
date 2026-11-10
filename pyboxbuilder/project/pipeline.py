@@ -341,6 +341,17 @@ class GeometryPipeline:
             lid_builder = LidBuilder(pattern=PatternBuilder(PatternType.HEX))
         path = getattr(builder, "path", None)
         lid_top_z = builder.final_size[2] if builder.final_size is not None else None
+        from pyboxbuilder.enums import StackableMode, StackableShape
+
+        face_size = (
+            (builder.final_size[0], builder.final_size[1])
+            if builder.final_size is not None
+            and (
+                getattr(builder, "stackable", None) == StackableMode.PATTERN
+                or getattr(builder, "stackable_shape", None) == StackableShape.PATTERN
+            )
+            else None
+        )
         decorated = decorate_lid(
             piece.solid,
             lid_builder,
@@ -350,6 +361,7 @@ class GeometryPipeline:
             reserved=self._lid_keepouts(manifest, builder),
             path=path,
             top_z=lid_top_z,
+            face_size=face_size,
         )
         return decorated.solid, decorated.inserts or None
 
