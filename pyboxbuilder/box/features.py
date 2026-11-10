@@ -4723,7 +4723,6 @@ def apply_stackable_body(body: Bosl2Solid, spec: BoxSpec) -> Bosl2Solid:
     has_lid = spec.lid_thickness > 0.0
     shape = _resolve_stackable_shape(spec)
     pyr_count = getattr(spec, "stackable_pyramid_count", None)
-    printer_safe = getattr(spec, "stackable_printer_safe", True)
 
     if mode is StackableMode.PATTERN or shape is StackableShape.PATTERN:
         depth = min(foot_height, max(0.8, spec.floor_thickness - 0.4))
@@ -4758,11 +4757,15 @@ def apply_stackable_body(body: Bosl2Solid, spec: BoxSpec) -> Bosl2Solid:
             body = (body | corbel | ridge) if ridge is not None else (body | corbel)
         return body
 
-    # In printer-safe mode (or INDENTS / PYRAMID / PYRAMIDS), the box floor stays
-    # flat on the build plate (z = 0) with recessed 45-degree indents in z in [0, depth],
-    # and the matching 45-degree bosses protrude upward from the top of the lid/rim.
-    if mode in (StackableMode.INDENTS, StackableMode.PYRAMID, StackableMode.PYRAMIDS) or (
-        mode is StackableMode.FEET and printer_safe
+    # The box floor always stays flat on the build plate (z = 0) with recessed
+    # 45-degree indents in z in [0, depth] so the bottom of the box is never raised
+    # into mid-air, and the matching 45-degree bosses protrude upward from the top
+    # of the lid/rim.
+    if mode in (
+        StackableMode.FEET,
+        StackableMode.INDENTS,
+        StackableMode.PYRAMID,
+        StackableMode.PYRAMIDS,
     ):
         depth = min(foot_height, max(0.8, spec.floor_thickness - 0.4))
         indents = build_stacking_indents(
@@ -4803,112 +4806,8 @@ def apply_stackable_body(body: Bosl2Solid, spec: BoxSpec) -> Bosl2Solid:
             )
             body = body | corbels | feet
         return body
-    elif mode is StackableMode.FEET:
-        # Legacy downward feet (stackable_printer_safe=False)
-        depth = min(foot_height, max(0.8, (spec.lid_thickness if has_lid else spec.floor_thickness) - 0.6))
-        feet = build_stacking_feet(
-            spec.width,
-            spec.length,
-            foot_size,
-            depth,
-            foot_inset,
-            base_z=0.0,
-            shape=shape,
-            clearance=clearance,
-            pyramid_count=pyr_count,
-            point_up=False,
-        )
-        body = body | feet
-        if not has_lid:
-            ledge_s = foot_inset + foot_size + clearance + 1.0
-            corbels = _build_top_corner_corbels(
-                spec.width,
-                spec.length,
-                wt,
-                spec.floor_thickness,
-                ledge_s,
-                rim_h=depth + 0.4,
-                top_z=spec.height,
-            )
-            body = body | corbels
-        indents = build_stacking_indents(
-            spec.width,
-            spec.length,
-            foot_size,
-            depth,
-            foot_inset,
-            clearance=clearance,
-            top_z=spec.height,
-            shape=shape,
-            pyramid_count=pyr_count,
-            point_up=False,
-        )
-        return body - indents
     elif mode is StackableMode.PERIMETER:
-        if printer_safe:
-            depth = min(foot_height, max(0.8, spec.floor_thickness - 0.4))
-            channel = build_perimeter_stacking_indent(
-                spec.width,
-                spec.length,
-                rim_thickness,
-                depth,
-                foot_inset,
-                clearance=clearance,
-                top_z=depth,
-                shape=shape,
-                point_up=True,
-            )
-            body = body - channel
-            if not has_lid:
-                ledge_w = foot_inset + rim_thickness + clearance + 0.6
-                corbel = _build_top_perimeter_corbel(
-                    spec.width,
-                    spec.length,
-                    wt,
-                    spec.floor_thickness,
-                    ledge_w,
-                    rim_h=0.6,
-                    top_z=spec.height,
-                )
-                foot_rim = build_perimeter_stacking_foot(
-                    spec.width,
-                    spec.length,
-                    rim_thickness,
-                    depth,
-                    foot_inset,
-                    base_z=spec.height,
-                    shape=shape,
-                    clearance=clearance,
-                    point_up=True,
-                )
-                body = body | corbel | foot_rim
-            return body
-
-        depth = min(foot_height, max(0.8, (spec.lid_thickness if has_lid else spec.floor_thickness) - 0.8))
-        foot_rim = build_perimeter_stacking_foot(
-            spec.width,
-            spec.length,
-            rim_thickness,
-            depth,
-            foot_inset,
-            base_z=0.0,
-            shape=shape,
-            clearance=clearance,
-            point_up=False,
-        )
-        body = body | foot_rim
-        if not has_lid:
-            ledge_w = foot_inset + rim_thickness + clearance + 1.0
-            corbel = _build_top_perimeter_corbel(
-                spec.width,
-                spec.length,
-                wt,
-                spec.floor_thickness,
-                ledge_w,
-                rim_h=depth + 0.4,
-                top_z=spec.height,
-            )
-            body = body | corbel
+        depth = min(foot_height, max(0.8, spec.floor_thickness - 0.4))
         channel = build_perimeter_stacking_indent(
             spec.width,
             spec.length,
@@ -4916,11 +4815,35 @@ def apply_stackable_body(body: Bosl2Solid, spec: BoxSpec) -> Bosl2Solid:
             depth,
             foot_inset,
             clearance=clearance,
-            top_z=spec.height,
+            top_z=depth,
             shape=shape,
-            point_up=False,
+            point_up=True,
         )
-        return body - channel
+        body = body - channel
+        if not has_lid:
+            ledge_w = foot_inset + rim_thickness + clearance + 0.6
+            corbel = _build_top_perimeter_corbel(
+                spec.width,
+                spec.length,
+                wt,
+                spec.floor_thickness,
+                ledge_w,
+                rim_h=0.6,
+                top_z=spec.height,
+            )
+            foot_rim = build_perimeter_stacking_foot(
+                spec.width,
+                spec.length,
+                rim_thickness,
+                depth,
+                foot_inset,
+                base_z=spec.height,
+                shape=shape,
+                clearance=clearance,
+                point_up=True,
+            )
+            body = body | corbel | foot_rim
+        return body
     elif mode is StackableMode.OUTSIDE:
         from pyboxbuilder.box.shell import block
 
@@ -4942,7 +4865,6 @@ def apply_stackable_lid(lid: Bosl2Solid, spec: BoxSpec, top_z: float | None = No
 
     mode = spec.stackable
     wt = spec.wall_thickness
-    lt = spec.lid_thickness
     z_top = spec.height if top_z is None else top_z
     foot_size = spec.stackable_foot_size or max(6.0, wt * 2.5)
     foot_height = spec.stackable_foot_height
@@ -4951,7 +4873,6 @@ def apply_stackable_lid(lid: Bosl2Solid, spec: BoxSpec, top_z: float | None = No
     clearance = spec.stackable_fit_offset
     shape = _resolve_stackable_shape(spec)
     pyr_count = getattr(spec, "stackable_pyramid_count", None)
-    printer_safe = getattr(spec, "stackable_printer_safe", True)
 
     if mode is StackableMode.PATTERN or shape is StackableShape.PATTERN:
         socket_depth = min(foot_height, max(0.8, spec.floor_thickness - 0.4))
@@ -4964,8 +4885,11 @@ def apply_stackable_lid(lid: Bosl2Solid, spec: BoxSpec, top_z: float | None = No
         )
         return (lid | ridge) if ridge is not None else lid
 
-    if mode in (StackableMode.INDENTS, StackableMode.PYRAMID, StackableMode.PYRAMIDS) or (
-        mode is StackableMode.FEET and printer_safe
+    if mode in (
+        StackableMode.FEET,
+        StackableMode.INDENTS,
+        StackableMode.PYRAMID,
+        StackableMode.PYRAMIDS,
     ):
         socket_depth = min(foot_height, max(0.8, spec.floor_thickness - 0.4))
         feet = build_stacking_feet(
@@ -4981,50 +4905,20 @@ def apply_stackable_lid(lid: Bosl2Solid, spec: BoxSpec, top_z: float | None = No
             point_up=True,
         )
         return lid | feet
-    elif mode is StackableMode.FEET:
-        depth = min(foot_height, max(0.8, lt - 0.6))
-        indents = build_stacking_indents(
-            spec.width,
-            spec.length,
-            foot_size,
-            depth,
-            foot_inset,
-            clearance=clearance,
-            top_z=z_top,
-            shape=shape,
-            pyramid_count=pyr_count,
-            point_up=False,
-        )
-        return lid - indents
     elif mode is StackableMode.PERIMETER:
-        if printer_safe:
-            socket_depth = min(foot_height, max(0.8, spec.floor_thickness - 0.4))
-            foot_rim = build_perimeter_stacking_foot(
-                spec.width,
-                spec.length,
-                rim_thickness,
-                socket_depth,
-                foot_inset,
-                base_z=z_top,
-                shape=shape,
-                clearance=clearance,
-                point_up=True,
-            )
-            return lid | foot_rim
-
-        depth = min(foot_height, max(0.8, lt - 0.8))
-        channel = build_perimeter_stacking_indent(
+        socket_depth = min(foot_height, max(0.8, spec.floor_thickness - 0.4))
+        foot_rim = build_perimeter_stacking_foot(
             spec.width,
             spec.length,
             rim_thickness,
-            depth,
+            socket_depth,
             foot_inset,
-            clearance=clearance,
-            top_z=z_top,
+            base_z=z_top,
             shape=shape,
-            point_up=False,
+            clearance=clearance,
+            point_up=True,
         )
-        return lid - channel
+        return lid | foot_rim
     return lid
 
 
