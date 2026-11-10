@@ -102,10 +102,12 @@ class CardShoeBox(BoxTypeBase):
                 radius,
                 list(vertical_edges()),
             )
+        self._reject_stackable(spec)
         return body
 
     def build_lid(self, spec: BoxSpec, decoration: object = None) -> Bosl2Solid:
         """Return the protective cover lid."""
+        self._reject_stackable(spec)
         wt = spec.wall_thickness
         lt = spec.lid_thickness
         body_h = spec.height - lt

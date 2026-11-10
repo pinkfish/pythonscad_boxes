@@ -45,6 +45,7 @@ class ThreadedBox(BoxTypeBase):
 
     def build_body(self, spec: BoxSpec) -> Bosl2Solid:
         """Return the cylindrical container with threaded male neck and seating shoulder."""
+        self._reject_stackable(spec)
         wt = spec.wall_thickness
         ft = spec.floor_thickness
         lt = spec.lid_thickness
@@ -96,14 +97,12 @@ class ThreadedBox(BoxTypeBase):
             [x_c, y_c, ft + inner_h / 2.0]
         )
         body = body - cavity
-        from pyboxbuilder.box.features import apply_stackable_body
-
-        return apply_stackable_body(body, spec)
+        self._reject_stackable(spec)
+        return body
 
     def build_lid(self, spec: BoxSpec, decoration: object = None) -> Bosl2Solid:
         """Return the female threaded cap with flush seating rim."""
-        from pyboxbuilder.box.features import apply_stackable_lid
-
+        self._reject_stackable(spec)
         wt = spec.wall_thickness
         lt = spec.lid_thickness
         body_h = spec.height - lt
@@ -118,7 +117,7 @@ class ThreadedBox(BoxTypeBase):
                     radius,
                     list(vertical_edges()),
                 )
-            return apply_stackable_lid(lid, spec)
+            return lid
 
         d = min(spec.width, spec.length)
         r = d / 2.0
@@ -147,4 +146,4 @@ class ThreadedBox(BoxTypeBase):
         ).shape().translate([x_c, y_c, shoulder_z + (neck_h + 1.0) / 2.0 - 0.5])
 
         lid = lid_cyl - tap
-        return apply_stackable_lid(lid, spec)
+        return lid

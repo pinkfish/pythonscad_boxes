@@ -45,6 +45,7 @@ class BayonetBox(BoxTypeBase):
 
     def build_body(self, spec: BoxSpec) -> Bosl2Solid:
         """Return the container body with bayonet entry keyways and channels."""
+        self._reject_stackable(spec)
         wt = spec.wall_thickness
         ft = spec.floor_thickness
         lt = spec.lid_thickness
@@ -106,12 +107,12 @@ class BayonetBox(BoxTypeBase):
                 radius,
                 list(vertical_edges()),
             )
-        from pyboxbuilder.box.features import apply_stackable_body
-
-        return apply_stackable_body(body, spec)
+        self._reject_stackable(spec)
+        return body
 
     def build_lid(self, spec: BoxSpec, decoration: object = None) -> Bosl2Solid:
         """Return the bayonet cap with internal engagement lugs."""
+        self._reject_stackable(spec)
         wt = spec.wall_thickness
         lt = spec.lid_thickness
         body_h = spec.height - lt
@@ -154,9 +155,7 @@ class BayonetBox(BoxTypeBase):
             for lg in lugs:
                 lid = lid | lg
 
-            from pyboxbuilder.box.features import apply_stackable_lid
-
-            return apply_stackable_lid(lid & lid_outer, spec)
+            return lid & lid_outer
 
         # Rectangular fallback cap
         lid = block([spec.width, spec.length, lt], at=(0, 0, body_h))
@@ -168,6 +167,4 @@ class BayonetBox(BoxTypeBase):
                 radius,
                 list(vertical_edges()),
             )
-        from pyboxbuilder.box.features import apply_stackable_lid
-
-        return apply_stackable_lid(lid, spec)
+        return lid

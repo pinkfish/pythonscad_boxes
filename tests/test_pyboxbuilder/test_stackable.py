@@ -194,8 +194,8 @@ class StackingBoxMatingTests(unittest.TestCase):
                     )
                     self._assert_stacking_mating(bt, spec)
 
-    def test_cap_and_slipover_family_stacking(self) -> None:
-        for bt in (BoxType.CAP, BoxType.SLIPOVER):
+    def test_flat_underside_lid_family_stacking(self) -> None:
+        for bt in (BoxType.INSET, BoxType.MAGNETIC, BoxType.MODULAR_INTERLOCK):
             for mode in (StackableMode.FEET, StackableMode.INDENTS, StackableMode.PERIMETER):
                 with self.subTest(box_type=bt.value, mode=mode.value):
                     spec = BoxSpec(
@@ -213,42 +213,56 @@ class StackingBoxMatingTests(unittest.TestCase):
                     )
                     self._assert_stacking_mating(bt, spec)
 
-    def test_hinged_and_clamshell_family_stacking(self) -> None:
-        for bt in (BoxType.FILAMENT_HINGE, BoxType.CLAMSHELL):
-            for mode in (StackableMode.FEET, StackableMode.INDENTS, StackableMode.PERIMETER):
-                with self.subTest(box_type=bt.value, mode=mode.value):
-                    spec = BoxSpec(
-                        label=f"Stack_{bt.value}",
-                        width=60.0,
-                        length=70.0,
-                        height=30.0,
-                        wall_thickness=2.0,
-                        floor_thickness=1.6,
-                        lid_thickness=2.0,
-                        stackable=mode,
-                        stackable_foot_size=6.0,
-                        stackable_foot_height=1.2,
-                        stackable_fit_offset=0.15,
-                    )
-                    self._assert_stacking_mating(bt, spec)
+    def test_flipped_lid_box_types_reject_stackable(self) -> None:
+        """Lids with downward walls/skirts/hinges/latches must be flipped to print and reject stackable."""
+        from pyboxbuilder.project import Project
 
-    def test_snap_fit_stacking(self) -> None:
-        for mode in (StackableMode.FEET, StackableMode.INDENTS, StackableMode.PERIMETER):
-            with self.subTest(mode=mode.value):
+        flipped_types = (
+            BoxType.CAP,
+            BoxType.CAP_PATH,
+            BoxType.SLIPOVER,
+            BoxType.SLIPOVER_PATH,
+            BoxType.CLAMSHELL,
+            BoxType.FILAMENT_HINGE,
+            BoxType.SLIDING_HINGE,
+            BoxType.MAGNETIC_HINGE,
+            BoxType.INSET_HINGE,
+            BoxType.PRINT_IN_PLACE_HINGE,
+            BoxType.SNAP_FIT,
+            BoxType.DISPENSER,
+            BoxType.CARD_SHOE,
+            BoxType.DICE_TRAY,
+            BoxType.BAYONET,
+            BoxType.THREADED,
+        )
+        for bt in flipped_types:
+            with self.subTest(box_type=bt.value):
+                proj = Project("RejectFlippedLid")
+                with self.assertRaises(ValueError):
+                    proj.box(bt, f"Flipped_{bt.value}", size=(60, 70, 25), stackable=StackableMode.PYRAMIDS)
                 spec = BoxSpec(
-                    label="Stack_SnapFit",
+                    label=f"FlippedSpec_{bt.value}",
                     width=60.0,
                     length=70.0,
-                    height=30.0,
-                    wall_thickness=2.0,
-                    floor_thickness=1.6,
-                    lid_thickness=2.0,
-                    stackable=mode,
-                    stackable_foot_size=6.0,
-                    stackable_foot_height=1.2,
-                    stackable_fit_offset=0.15,
+                    height=25.0,
+                    stackable=StackableMode.PYRAMIDS,
                 )
-                self._assert_stacking_mating(BoxType.SNAP_FIT, spec)
+                handler = BOX_IMPL_REGISTRY[bt]()
+                with self.assertRaises(ValueError):
+                    handler.build_body(spec)
+
+        # InsetBox with an active catch_type also requires flipping the lid and rejects stackable
+        proj_inset = Project("RejectInsetCatch")
+        with self.assertRaises(ValueError):
+            from pyboxbuilder.enums import CatchType
+
+            proj_inset.box(
+                BoxType.INSET,
+                "InsetWithCatch",
+                size=(60, 70, 25),
+                catch_type=CatchType.WEDGE,
+                stackable=StackableMode.PYRAMIDS,
+            )
 
     def test_open_tray_no_lid_stacking(self) -> None:
         for mode in (
@@ -377,14 +391,14 @@ class StackingBoxMatingTests(unittest.TestCase):
                 self.assertGreater(volume(body & bed_slice), 60.0 * 70.0 * 0.2 * 0.3)
                 self._assert_stacking_mating(BoxType.SLIDING, spec)
 
-        # 2. Test across all box families (including NO_LID and decorated through-hole lids)
+        # 2. Test across supported flat-lid and lidless box families
         for bt in (
             BoxType.SLIDING,
-            BoxType.CAP,
-            BoxType.SLIPOVER,
-            BoxType.FILAMENT_HINGE,
-            BoxType.CLAMSHELL,
-            BoxType.SNAP_FIT,
+            BoxType.SLIDING_CATCH,
+            BoxType.CARD_LIBRARY,
+            BoxType.INSET,
+            BoxType.MAGNETIC,
+            BoxType.MODULAR_INTERLOCK,
             BoxType.NO_LID,
         ):
             with self.subTest(box_type=bt.value):

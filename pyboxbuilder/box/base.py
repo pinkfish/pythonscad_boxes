@@ -232,6 +232,24 @@ class BoxTypeBase:
 
         return fingernail_catch(spec, axis)
 
+    def _reject_stackable(self, spec: BoxSpec, reason: str | None = None) -> None:
+        """Raise ValueError if stacking is requested on a box type whose lid must be flipped to print."""
+        if spec.stackable is not None:
+            from pyboxbuilder.box.registry import STACKABLE_BOX_TYPES
+
+            allowed = ", ".join(
+                f"BoxType.{m.name}"
+                for m in sorted(STACKABLE_BOX_TYPES, key=lambda x: x.value)
+            )
+            why = reason or (
+                f"{type(self).__name__} has a lid with downward walls/features that must be "
+                "printed upside down on the build plate"
+            )
+            raise ValueError(
+                f"Box '{spec.label}': stackable ({spec.stackable.value!r}) is not supported because "
+                f"{why}. Supported stackable box types are: {allowed}."
+            )
+
     def interior_mask(self, spec: BoxSpec) -> Bosl2Solid | None:
         """Return the volume inside the box that contents may actually occupy.
 

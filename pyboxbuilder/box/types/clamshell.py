@@ -9,9 +9,7 @@ from typing import TYPE_CHECKING
 from pyboxbuilder.box.base import BoxTypeBase, Interior
 from pyboxbuilder.box.features import (
     PRINT_IN_PLACE_GAP_MM,
-     Closure,
-    apply_stackable_body,
-    apply_stackable_lid,
+    Closure,
     hinge_catch,
     hinge_intrusion,
 )
@@ -224,7 +222,8 @@ class ClamshellBox(BoxTypeBase):
             if catch.body is not None:
                 body = body | catch.body
 
-        return apply_stackable_body(body, spec)
+        self._reject_stackable(spec)
+        return body
 
     def build_lid(self, spec: BoxSpec, decoration: object = None) -> Bosl2Solid:
         """Return the upper tray half with interleaving filament-hinge knuckles and front catch."""
@@ -266,4 +265,5 @@ class ClamshellBox(BoxTypeBase):
             if catch.lid is not None:
                 lid = lid | catch.lid
 
-        return apply_stackable_lid(lid, spec, top_z=spec.height)
+        self._reject_stackable(spec)
+        return lid

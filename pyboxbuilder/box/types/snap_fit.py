@@ -226,8 +226,9 @@ class SnapFitBox(BoxTypeBase):
             CatchType.PINCH_SLIDE,
             CatchType.ROTARY_BOLT,
         ):
-            from pyboxbuilder.box.features import apply_stackable_body, hinge_catch
+            from pyboxbuilder.box.features import hinge_catch
 
+            self._reject_stackable(spec)
             c_spec = spec if is_y else replace(spec, width=spec.length, length=spec.width)
             catch = hinge_catch(c_spec)
 
@@ -252,7 +253,7 @@ class SnapFitBox(BoxTypeBase):
                 body = body - _place_walls(catch.body_cut)
             if catch.body is not None:
                 body = body | _place_walls(catch.body)
-            return apply_stackable_body(body, spec)
+            return body
 
         bosses = self._build_backing_bosses(spec)
         if bosses is not None:
@@ -397,9 +398,8 @@ class SnapFitBox(BoxTypeBase):
                 radius,
                 list(vertical_edges()),
             )
-        from pyboxbuilder.box.features import apply_stackable_body
-
-        return apply_stackable_body(body, spec)
+        self._reject_stackable(spec)
+        return body
 
     def build_lid(self, spec: BoxSpec, decoration: object = None) -> Bosl2Solid:
         """Return the lid plate with root-filleted cantilever arms and ramped retention detents."""
@@ -408,6 +408,7 @@ class SnapFitBox(BoxTypeBase):
 
         from pyboxbuilder.precision import kwargs as precision_kwargs
 
+        self._reject_stackable(spec)
         lt = spec.lid_thickness
         body_h = spec.height - lt
         lid = block([spec.width, spec.length, lt], at=(0, 0, body_h))
@@ -425,7 +426,7 @@ class SnapFitBox(BoxTypeBase):
             CatchType.PINCH_SLIDE,
             CatchType.ROTARY_BOLT,
         ):
-            from pyboxbuilder.box.features import apply_stackable_lid, hinge_catch
+            from pyboxbuilder.box.features import hinge_catch
 
             c_spec = spec if is_y else replace(spec, width=spec.length, length=spec.width)
             catch = hinge_catch(c_spec)
@@ -451,7 +452,7 @@ class SnapFitBox(BoxTypeBase):
                 lid = lid - _place_walls(catch.lid_cut)
             if catch.lid is not None:
                 lid = lid | _place_walls(catch.lid)
-            return apply_stackable_lid(lid, spec)
+            return lid
 
         wall_dist = float(m["wall_dist"])
         s_c = float(m["s_c"])
@@ -591,6 +592,4 @@ class SnapFitBox(BoxTypeBase):
                 radius,
                 list(vertical_edges()),
             )
-        from pyboxbuilder.box.features import apply_stackable_lid
-
-        return apply_stackable_lid(lid, spec)
+        return lid

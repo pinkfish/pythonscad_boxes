@@ -47,6 +47,13 @@ class InsetBox(BoxTypeBase):
         closure = rabbet(spec, inset=spec.inset)
         body = build_shell(spec) - closure.body
         if spec.resolved_catch_type(CatchType.NONE) != CatchType.NONE:
+            self._reject_stackable(
+                spec,
+                reason=(
+                    "InsetBox with an active catch_type adds downward lid features "
+                    "that require printing the lid upside down"
+                ),
+            )
             wt = spec.wall_thickness
             lt = spec.lid_thickness
             ledge = max(wt - spec.inset, 0.0)
@@ -76,6 +83,13 @@ class InsetBox(BoxTypeBase):
 
         lid = rabbet(spec, inset=spec.inset).lid
         if spec.resolved_catch_type(CatchType.NONE) != CatchType.NONE:
+            self._reject_stackable(
+                spec,
+                reason=(
+                    "InsetBox with an active catch_type adds downward lid features "
+                    "that require printing the lid upside down"
+                ),
+            )
             wt = spec.wall_thickness
             lt = spec.lid_thickness
             ledge = max(wt - spec.inset, 0.0)

@@ -705,7 +705,11 @@ Configure catches via ``catch_type`` and ``catch_size`` on any box builder:
 Universal Stacking Architecture (``StackableMode``)
 ---------------------------------------------------
 
-All box types across both open trays and lidded box families (sliding, cap, slipover, hinged, clamshell, snap-fit) support the 3D-printer-safe universal :class:`~pyboxbuilder.enums.StackableMode` and :class:`~pyboxbuilder.enums.StackableShape` architecture (**FR-101**, **SC-101**):
+All lidless open trays (``NO_LID``, ``PATH``) and box types whose lids have a flat underside and print right-side up on the build plate (``SLIDING``, ``SLIDING_CATCH``, ``CARD_LIBRARY``, ``INSET`` without a front catch, ``MAGNETIC``, ``MODULAR_INTERLOCK``, and ``SLEEVE_DRAWER``) support the 3D-printer-safe :class:`~pyboxbuilder.enums.StackableMode` and :class:`~pyboxbuilder.enums.StackableShape` architecture (**FR-101**, **SC-101**, :data:`~pyboxbuilder.box.registry.STACKABLE_BOX_TYPES`):
+
+.. note::
+
+   Box types whose lids have downward walls, skirts, hinge knuckles, or cantilever latches (such as ``CAP``, ``SLIPOVER``, ``CLAMSHELL``, ``FILAMENT_HINGE``, ``SNAP_FIT``, and ``PRINT_IN_PLACE_HINGE``) must be flipped upside down on the build plate to print. Because both the upside-down lid's top face and the upright box's bottom face are build-plate planes, neither can protrude across the contact plane without lifting the rest of the part into mid-air (unless a separate detachable coupler piece is used). Requesting ``stackable`` on those flipped-lid box types raises a ``ValueError``.
 
 * **``StackableMode.PATTERN``** (``"pattern"``): **Pattern-matched stacking** where the decorative pattern on the lid (e.g. ``PatternType.HEX``, ``TRIANGLE``, ``SQUARE``, ``PENROSE``, or whatever pattern is configured on the box/lid) is matched on the underside of the box body. On the bottom of the box (``z = 0``), the entire outer perimeter border and all the pattern tiles sit flat on the print bed while only the narrow web channels between the tiles are recessed with a 45° bevel; on top of the lid, a matching raised pattern web ridge locks into the bottom of the box stacked above it.
 * **``StackableMode.PYRAMIDS``** (``"pyramids"``): A set/grid of $N \times N$ 45° square pyramid socket indents recessed into the flat ``z = 0`` bottom floor, mating with a matching grid of upward-pointing 45° pyramids on the lid/top rim. Eliminates wide unsupported bridges while keeping indentation depth shallow enough for standard floors and lids.
