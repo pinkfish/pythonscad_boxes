@@ -62,15 +62,23 @@ class StackableAndMagnetEnumTests(unittest.TestCase):
     """T259–T261: type selections are enums, never bare strings."""
 
     def test_stackable_members(self) -> None:
+        from pyboxbuilder.enums import StackableShape
+
         self.assertEqual(
             {m.name for m in StackableMode},
-            {"INSIDE", "OUTSIDE", "FEET", "INDENTS", "PERIMETER"},
+            {"INSIDE", "OUTSIDE", "FEET", "INDENTS", "PYRAMID", "PYRAMIDS", "PERIMETER"},
         )
         self.assertEqual(StackableMode.INSIDE.value, "inside")
         self.assertEqual(StackableMode.OUTSIDE.value, "outside")
         self.assertEqual(StackableMode.FEET.value, "feet")
         self.assertEqual(StackableMode.INDENTS.value, "indents")
+        self.assertEqual(StackableMode.PYRAMID.value, "pyramid")
+        self.assertEqual(StackableMode.PYRAMIDS.value, "pyramids")
         self.assertEqual(StackableMode.PERIMETER.value, "perimeter")
+        self.assertEqual(
+            {m.name for m in StackableShape},
+            {"PYRAMIDS", "PYRAMID", "CONE", "FLAT"},
+        )
 
     def test_magnet_members(self) -> None:
         self.assertEqual({m.name for m in MagnetType}, {"NONE", "ROUND", "RECT"})

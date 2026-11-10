@@ -17,7 +17,7 @@ from dataclasses import dataclass, replace
 from typing import TYPE_CHECKING
 
 from pyboxbuilder.box.spec import BoxSpec
-from pyboxbuilder.enums import CatchType
+from pyboxbuilder.enums import CatchType, StackableShape
 from pyboxbuilder.precision import kwargs as precision_kwargs
 
 if TYPE_CHECKING:
@@ -3906,6 +3906,230 @@ def magnetic_hinge_catch(spec: BoxSpec) -> Closure:
 # --------------------------------------------------------- stackable features (FR-101)
 
 
+def _resolve_stackable_shape(spec: BoxSpec) -> StackableShape:
+    """Return the effective StackableShape for a BoxSpec."""
+    from pyboxbuilder.enums import StackableMode, StackableShape
+
+    if spec.stackable_shape is not None:
+        return spec.stackable_shape
+    if spec.stackable in (StackableMode.PYRAMID, StackableMode.PERIMETER):
+        return StackableShape.PYRAMID
+    return StackableShape.PYRAMIDS
+
+
+def _pyramid_grid_metrics(
+    foot_size: float,
+    depth: float,
+    clearance: float,
+    pyramid_count: int | None = None,
+    single_pyramid: bool = False,
+) -> tuple[int, float, float, float, float, float, float]:
+    """Compute 45-degree self-supporting pyramid grid parameters.
+
+    Returns:
+        (n, pitch, b_female, h_female, b_male, h_male, w_tip)
+        where every pyramid wall slopes at >= 45 degrees from horizontal
+        (<= 45 degrees overhang from vertical) and terminates at a tiny
+        ``w_tip`` apex (<= 0.4 mm) so zero unsupported bridging occurs.
+    """
+    import math
+
+    w_tip = min(0.4, max(0.15, foot_size * 0.08))
+    if single_pyramid:
+        n = 1
+    elif pyramid_count is not None and pyramid_count >= 1:
+        n = int(pyramid_count)
+    else:
+        n = max(2, math.ceil((foot_size - w_tip) / max(0.4, 2.0 * depth)))
+
+    pitch = foot_size / float(n)
+    b_female = min(pitch, 2.0 * depth + w_tip)
+    h_female = max(0.3, (b_female - w_tip) / 2.0)
+    b_male = max(w_tip + 0.2, b_female - 2.0 * clearance)
+    h_male = max(0.2, h_female - clearance)
+    return n, pitch, b_female, h_female, b_male, h_male, w_tip
+
+
+def build_stacking_pyramids(
+    width: float,
+    length: float,
+    foot_size: float,
+    foot_height: float,
+    foot_inset: float,
+    clearance: float = 0.15,
+    base_z: float = 0.0,
+    pyramid_count: int | None = None,
+    single_pyramid: bool = False,
+    cone: bool = False,
+    point_up: bool = True,
+) -> Bosl2Solid:
+    """Return 4 corner 45-degree pyramid (or multi-pyramid grid / cone) male bosses.
+
+    Args:
+        width: Box width in mm.
+        length: Box length in mm.
+        foot_size: Corner pad footprint width/length in mm.
+        foot_height: Target height of pyramids in mm.
+        foot_inset: Inset from outer box walls in mm.
+        clearance: Lateral fit clearance offset per side in mm.
+        base_z: Z coordinate of the mounting surface. When ``point_up=True``,
+            pyramids protrude upward from ``base_z`` to ``base_z + h_male``.
+            When ``point_up=False``, pyramids protrude downward from ``base_z``
+            to ``base_z - h_male``.
+        pyramid_count: Number of pyramids per side (N for an N x N grid per corner).
+            When None, auto-computes N so every wall is at 45 degrees.
+        single_pyramid: If True, builds a single 45-degree pyramid per corner (N=1).
+        cone: If True, uses 45-degree conical frustums instead of square pyramids.
+        point_up: If True, pyramids taper upward (+Z); if False, taper downward (-Z).
+    """
+    from pybosl2 import Anchor, cylinder
+    from pybosl2.shapes3d import prismoid
+
+    from pyboxbuilder.compartments.element import union_all
+
+    n, pitch, _bf, _hf, b_male, h_male, w_tip = _pyramid_grid_metrics(
+        foot_size,
+        foot_height,
+        clearance,
+        pyramid_count=pyramid_count,
+        single_pyramid=single_pyramid,
+    )
+    eps = 0.05
+    b_root = b_male + 2.0 * eps
+    h_total = h_male + eps
+
+    positions = [
+        (foot_inset, foot_inset),
+        (width - foot_inset - foot_size, foot_inset),
+        (foot_inset, length - foot_inset - foot_size),
+        (width - foot_inset - foot_size, length - foot_inset - foot_size),
+    ]
+    solids = []
+    for x0, y0 in positions:
+        for i in range(n):
+            for j in range(n):
+                cx = x0 + (i + 0.5) * pitch
+                cy = y0 + (j + 0.5) * pitch
+                if point_up:
+                    if cone:
+                        p = cylinder(
+                            height=h_total,
+                            radius1=b_root / 2.0,
+                            radius2=w_tip / 2.0,
+                            anchor=Anchor.BOTTOM,
+                            **precision_kwargs(),
+                        ).translate([cx, cy, base_z - eps])
+                    else:
+                        p = prismoid(
+                            [b_root, b_root],
+                            [w_tip, w_tip],
+                            height=h_total,
+                            **precision_kwargs(),
+                        ).translate([cx, cy, base_z - eps])
+                else:
+                    if cone:
+                        p = cylinder(
+                            height=h_total,
+                            radius1=w_tip / 2.0,
+                            radius2=b_root / 2.0,
+                            anchor=Anchor.BOTTOM,
+                            **precision_kwargs(),
+                        ).translate([cx, cy, base_z - h_male])
+                    else:
+                        p = prismoid(
+                            [w_tip, w_tip],
+                            [b_root, b_root],
+                            height=h_total,
+                            **precision_kwargs(),
+                        ).translate([cx, cy, base_z - h_male])
+                solids.append(p)
+    return union_all(solids)
+
+
+def build_stacking_pyramid_indents(
+    width: float,
+    length: float,
+    foot_size: float,
+    indent_depth: float,
+    foot_inset: float,
+    clearance: float = 0.15,
+    surface_z: float = 0.0,
+    pyramid_count: int | None = None,
+    single_pyramid: bool = False,
+    cone: bool = False,
+    point_up: bool = True,
+) -> Bosl2Solid:
+    """Return 4 corner 45-degree pyramid (or multi-pyramid grid / cone) female indent cutters.
+
+    When ``point_up=True`` and ``surface_z=0.0``, the indents cut upward into the
+    bottom floor from ``z = 0`` to ``z = h_female`` with 45-degree self-supporting
+    walls and zero flat horizontal ceiling, making them 100% 3D-printer safe on the
+    build plate without supports.
+    """
+    from pybosl2 import Anchor, cylinder
+    from pybosl2.shapes3d import prismoid
+
+    from pyboxbuilder.compartments.element import union_all
+
+    n, pitch, b_female, h_female, _bm, _hm, w_tip = _pyramid_grid_metrics(
+        foot_size,
+        indent_depth,
+        clearance,
+        pyramid_count=pyramid_count,
+        single_pyramid=single_pyramid,
+    )
+    eps = 0.05
+    b_open = b_female + 2.0 * eps
+    h_total = h_female + eps
+
+    positions = [
+        (foot_inset, foot_inset),
+        (width - foot_inset - foot_size, foot_inset),
+        (foot_inset, length - foot_inset - foot_size),
+        (width - foot_inset - foot_size, length - foot_inset - foot_size),
+    ]
+    solids = []
+    for x0, y0 in positions:
+        for i in range(n):
+            for j in range(n):
+                cx = x0 + (i + 0.5) * pitch
+                cy = y0 + (j + 0.5) * pitch
+                if point_up:
+                    if cone:
+                        p = cylinder(
+                            height=h_total,
+                            radius1=b_open / 2.0,
+                            radius2=w_tip / 2.0,
+                            anchor=Anchor.BOTTOM,
+                            **precision_kwargs(),
+                        ).translate([cx, cy, surface_z - eps])
+                    else:
+                        p = prismoid(
+                            [b_open, b_open],
+                            [w_tip, w_tip],
+                            height=h_total,
+                            **precision_kwargs(),
+                        ).translate([cx, cy, surface_z - eps])
+                else:
+                    if cone:
+                        p = cylinder(
+                            height=h_total,
+                            radius1=w_tip / 2.0,
+                            radius2=b_open / 2.0,
+                            anchor=Anchor.BOTTOM,
+                            **precision_kwargs(),
+                        ).translate([cx, cy, surface_z - h_female])
+                    else:
+                        p = prismoid(
+                            [w_tip, w_tip],
+                            [b_open, b_open],
+                            height=h_total,
+                            **precision_kwargs(),
+                        ).translate([cx, cy, surface_z - h_female])
+                solids.append(p)
+    return union_all(solids)
+
+
 def build_stacking_feet(
     width: float,
     length: float,
@@ -3914,8 +4138,12 @@ def build_stacking_feet(
     foot_inset: float,
     base_z: float = 0.0,
     chamfer: float = 0.6,
+    shape: StackableShape | None = None,
+    clearance: float = 0.15,
+    pyramid_count: int | None = None,
+    point_up: bool = False,
 ) -> Bosl2Solid:
-    """Return 4 corner locator feet protruding from the bottom floor (FR-101).
+    """Return 4 corner locator feet (FR-101).
 
     Args:
         width: Box width in mm.
@@ -3923,9 +4151,14 @@ def build_stacking_feet(
         foot_size: Width/length of each foot pad in mm.
         foot_height: Height of each foot in mm.
         foot_inset: Inset from box edges in mm.
-        base_z: Z coordinate of the base floor (typically 0.0). Feet extend from
-            ``base_z - foot_height`` to ``base_z``.
-        chamfer: Bottom chamfer size in mm for support-free print and self-locating fit.
+        base_z: Z coordinate of the mounting face.
+        chamfer: Edge chamfer size in mm when ``shape`` is ``StackableShape.FLAT``.
+        shape: Geometry profile (``FLAT``, ``PYRAMID``, ``PYRAMIDS``, ``CONE``).
+            Defaults to ``StackableShape.FLAT`` when called directly.
+        clearance: Lateral fit clearance in mm for pyramid/cone sizing.
+        pyramid_count: Number of pyramids per side when ``shape`` is ``PYRAMIDS``.
+        point_up: When True, feet protrude upward (+Z) from ``base_z``; when False,
+            feet protrude downward (-Z) from ``base_z``.
 
     Returns:
         Bosl2Solid: Union of the 4 corner feet.
@@ -3934,6 +4167,23 @@ def build_stacking_feet(
 
     from pyboxbuilder.box.shell import block, corner
     from pyboxbuilder.compartments.element import union_all
+    from pyboxbuilder.enums import StackableShape
+
+    eff_shape = StackableShape.FLAT if shape is None else shape
+    if eff_shape in (StackableShape.PYRAMID, StackableShape.PYRAMIDS, StackableShape.CONE):
+        return build_stacking_pyramids(
+            width=width,
+            length=length,
+            foot_size=foot_size,
+            foot_height=foot_height,
+            foot_inset=foot_inset,
+            clearance=clearance,
+            base_z=base_z,
+            pyramid_count=pyramid_count,
+            single_pyramid=(eff_shape is StackableShape.PYRAMID),
+            cone=(eff_shape is StackableShape.CONE),
+            point_up=point_up,
+        )
 
     c = min(chamfer, foot_height * 0.45, foot_size * 0.45)
     solids = []
@@ -3943,11 +4193,12 @@ def build_stacking_feet(
         (foot_inset, length - foot_inset - foot_size),
         (width - foot_inset - foot_size, length - foot_inset - foot_size),
     ]
-    z_bottom = base_z - foot_height
+    z_bottom = base_z if point_up else (base_z - foot_height)
+    edge_anchor = Anchor.TOP if point_up else Anchor.BOTTOM
     for x, y in positions:
         if c > 0.05:
             f = corner(
-                cuboid([foot_size, foot_size, foot_height], chamfer=c, edges=[Anchor.BOTTOM]),
+                cuboid([foot_size, foot_size, foot_height], chamfer=c, edges=[edge_anchor]),
                 [foot_size, foot_size, foot_height],
                 (x, y, z_bottom),
             )
@@ -3966,8 +4217,11 @@ def build_stacking_indents(
     foot_inset: float,
     clearance: float = 0.15,
     top_z: float = 0.0,
+    shape: StackableShape | None = None,
+    pyramid_count: int | None = None,
+    point_up: bool = False,
 ) -> Bosl2Solid:
-    """Return 4 corner indent cutter solids to be subtracted from lid/rim (FR-101).
+    """Return 4 corner indent cutter solids to be subtracted from floor or lid/rim (FR-101).
 
     Args:
         width: Box width in mm.
@@ -3976,13 +4230,37 @@ def build_stacking_indents(
         indent_depth: Depth of each indent socket in mm.
         foot_inset: Inset from box edges in mm.
         clearance: Fit clearance offset per side in mm.
-        top_z: Z coordinate of the top deck (indents cut from top_z - indent_depth to top_z + 0.1).
+        top_z: Z coordinate of the reference surface.
+        shape: Geometry profile (``FLAT``, ``PYRAMID``, ``PYRAMIDS``, ``CONE``).
+            Defaults to ``StackableShape.FLAT`` when called directly.
+        pyramid_count: Number of pyramids per side when ``shape`` is ``PYRAMIDS``.
+        point_up: When True, indents cut upward (+Z) from ``surface_z = top_z - indent_depth``
+            (or ``0.0`` when ``top_z == indent_depth``); when False, indents cut downward
+            from ``top_z``.
 
     Returns:
         Bosl2Solid: Union of the 4 corner indent cutters.
     """
     from pyboxbuilder.box.shell import block
     from pyboxbuilder.compartments.element import union_all
+    from pyboxbuilder.enums import StackableShape
+
+    eff_shape = StackableShape.FLAT if shape is None else shape
+    if eff_shape in (StackableShape.PYRAMID, StackableShape.PYRAMIDS, StackableShape.CONE):
+        surface_z = (top_z - indent_depth) if point_up else top_z
+        return build_stacking_pyramid_indents(
+            width=width,
+            length=length,
+            foot_size=foot_size,
+            indent_depth=indent_depth,
+            foot_inset=foot_inset,
+            clearance=clearance,
+            surface_z=surface_z,
+            pyramid_count=pyramid_count,
+            single_pyramid=(eff_shape is StackableShape.PYRAMID),
+            cone=(eff_shape is StackableShape.CONE),
+            point_up=point_up,
+        )
 
     s = foot_size + 2 * clearance
     h = indent_depth + clearance + 0.1
@@ -3997,6 +4275,67 @@ def build_stacking_indents(
     return union_all(solids)
 
 
+def _perimeter_v_metrics(
+    rim_thickness: float,
+    depth: float,
+    clearance: float,
+) -> tuple[float, float, float, float, float]:
+    """Compute 45-degree V-groove / V-ridge perimeter cross-section metrics."""
+    w_tip = min(0.4, max(0.15, rim_thickness * 0.15))
+    b_female = min(rim_thickness + 2.0 * clearance, 2.0 * depth + w_tip)
+    h_female = max(0.3, (b_female - w_tip) / 2.0)
+    b_male = max(w_tip + 0.2, b_female - 2.0 * clearance)
+    h_male = max(0.2, h_female - clearance)
+    return b_female, h_female, b_male, h_male, w_tip
+
+
+def _build_perimeter_v_loop(
+    width: float,
+    length: float,
+    rim_thickness: float,
+    inset: float,
+    base_w: float,
+    tip_w: float,
+    height: float,
+    surface_z: float,
+    point_up: bool = True,
+) -> Bosl2Solid:
+    """Build a 4-bar 45-degree V-ridge or V-groove loop around the box perimeter."""
+    from pybosl2.shapes3d import prismoid
+
+    from pyboxbuilder.compartments.element import union_all
+
+    eps = 0.05
+    b_open = base_w + 2.0 * eps
+    h_total = height + eps
+
+    x_l = inset + rim_thickness / 2.0
+    x_r = width - inset - rim_thickness / 2.0
+    y_f = inset + rim_thickness / 2.0
+    y_b = length - inset - rim_thickness / 2.0
+    dx = max(0.4, x_r - x_l)
+    dy = max(0.4, y_b - y_f)
+    xc = width / 2.0
+    yc = length / 2.0
+
+    if point_up:
+        z0 = surface_z - eps
+        s1_x, s2_x = [dx + b_open, b_open], [dx + tip_w, tip_w]
+        s1_y, s2_y = [b_open, dy + b_open], [tip_w, dy + tip_w]
+    else:
+        z0 = surface_z - height
+        s1_x, s2_x = [dx + tip_w, tip_w], [dx + b_open, b_open]
+        s1_y, s2_y = [tip_w, dy + tip_w], [b_open, dy + b_open]
+
+    bars = [
+        prismoid(s1_x, s2_x, height=h_total, **precision_kwargs()).translate([xc, y_f, z0]),
+        prismoid(s1_x, s2_x, height=h_total, **precision_kwargs()).translate([xc, y_b, z0]),
+        prismoid(s1_y, s2_y, height=h_total, **precision_kwargs()).translate([x_l, yc, z0]),
+        prismoid(s1_y, s2_y, height=h_total, **precision_kwargs()).translate([x_r, yc, z0]),
+    ]
+    return union_all(bars)
+
+
 def build_perimeter_stacking_foot(
     width: float,
     length: float,
@@ -4004,15 +4343,36 @@ def build_perimeter_stacking_foot(
     foot_height: float,
     inset: float,
     base_z: float = 0.0,
+    shape: StackableShape | None = None,
+    clearance: float = 0.15,
+    point_up: bool = False,
 ) -> Bosl2Solid:
-    """Return an inset perimeter foot rim extending from base_z - foot_height to base_z (FR-101)."""
+    """Return an inset perimeter foot/V-ridge rim (FR-101)."""
     from pyboxbuilder.box.shell import block
+    from pyboxbuilder.enums import StackableShape
+
+    eff_shape = StackableShape.FLAT if shape is None else shape
+    if eff_shape in (StackableShape.PYRAMID, StackableShape.PYRAMIDS, StackableShape.CONE):
+        _bf, _hf, b_male, h_male, w_tip = _perimeter_v_metrics(
+            rim_thickness, foot_height, clearance
+        )
+        return _build_perimeter_v_loop(
+            width=width,
+            length=length,
+            rim_thickness=rim_thickness,
+            inset=inset,
+            base_w=b_male,
+            tip_w=w_tip,
+            height=h_male,
+            surface_z=base_z,
+            point_up=point_up,
+        )
 
     outer_w = width - 2 * inset
     outer_l = length - 2 * inset
     inner_w = outer_w - 2 * rim_thickness
     inner_l = outer_l - 2 * rim_thickness
-    z = base_z - foot_height
+    z = base_z if point_up else (base_z - foot_height)
 
     outer = block([outer_w, outer_l, foot_height], at=(inset, inset, z))
     inner = block([inner_w, inner_l, foot_height + 0.2], at=(inset + rim_thickness, inset + rim_thickness, z - 0.1))
@@ -4027,9 +4387,30 @@ def build_perimeter_stacking_indent(
     inset: float,
     clearance: float = 0.15,
     top_z: float = 0.0,
+    shape: StackableShape | None = None,
+    point_up: bool = False,
 ) -> Bosl2Solid:
-    """Return a perimeter channel cutter to be subtracted from lid top (FR-101)."""
+    """Return a perimeter channel/V-groove cutter to be subtracted from floor or lid top (FR-101)."""
     from pyboxbuilder.box.shell import block
+    from pyboxbuilder.enums import StackableShape
+
+    eff_shape = StackableShape.FLAT if shape is None else shape
+    if eff_shape in (StackableShape.PYRAMID, StackableShape.PYRAMIDS, StackableShape.CONE):
+        b_female, h_female, _bm, _hm, w_tip = _perimeter_v_metrics(
+            rim_thickness, indent_depth, clearance
+        )
+        surface_z = (top_z - indent_depth) if point_up else top_z
+        return _build_perimeter_v_loop(
+            width=width,
+            length=length,
+            rim_thickness=rim_thickness,
+            inset=inset,
+            base_w=b_female,
+            tip_w=w_tip,
+            height=h_female,
+            surface_z=surface_z,
+            point_up=point_up,
+        )
 
     outer_w = width - 2 * inset + 2 * clearance
     outer_l = length - 2 * inset + 2 * clearance
@@ -4044,6 +4425,101 @@ def build_perimeter_stacking_indent(
         at=(inset + rim_thickness + clearance, inset + rim_thickness + clearance, z - 0.1),
     )
     return outer - inner
+
+
+def _build_top_corner_corbels(
+    width: float,
+    length: float,
+    wt: float,
+    floor_thickness: float,
+    ledge_s: float,
+    rim_h: float,
+    top_z: float,
+) -> Bosl2Solid:
+    """Build 45-degree self-supporting corner corbel shelves at the top of an open tray."""
+    from pybosl2.shapes3d import prismoid
+
+    from pyboxbuilder.box.shell import block
+    from pyboxbuilder.compartments.element import union_all
+
+    margin = wt * 0.5
+    top_span = max(0.6, ledge_s - margin)
+    bot_span = max(0.4, wt * 0.5)
+    corbel_h = min(max(0.2, top_span - bot_span), max(0.2, top_z - rim_h - floor_thickness))
+    z_corbel = top_z - rim_h - corbel_h
+
+    corners = [
+        (margin, margin, 1.0, 1.0),
+        (width - margin, margin, -1.0, 1.0),
+        (margin, length - margin, 1.0, -1.0),
+        (width - margin, length - margin, -1.0, -1.0),
+    ]
+    solids = []
+    for x_wall, y_wall, sx, sy in corners:
+        bx = x_wall + sx * (bot_span / 2.0)
+        by = y_wall + sy * (bot_span / 2.0)
+        tx = x_wall + sx * (top_span / 2.0)
+        ty = y_wall + sy * (top_span / 2.0)
+        corbel = prismoid(
+            [bot_span, bot_span],
+            [top_span, top_span],
+            height=corbel_h + 0.05,
+            shift=[tx - bx, ty - by],
+            **precision_kwargs(),
+        ).translate([bx, by, z_corbel])
+        cap = block(
+            [top_span, top_span, rim_h],
+            at=(
+                min(x_wall, x_wall + sx * top_span),
+                min(y_wall, y_wall + sy * top_span),
+                top_z - rim_h,
+            ),
+        )
+        solids.append(corbel | cap)
+    return union_all(solids)
+
+
+def _build_top_perimeter_corbel(
+    width: float,
+    length: float,
+    wt: float,
+    floor_thickness: float,
+    ledge_w: float,
+    rim_h: float,
+    top_z: float,
+) -> Bosl2Solid:
+    """Build a 45-degree self-supporting interior perimeter corbel shelf for an open tray."""
+    from pybosl2.shapes3d import prismoid
+
+    from pyboxbuilder.box.shell import block
+
+    margin = wt * 0.5
+    outer_w = width - 2.0 * margin
+    outer_l = length - 2.0 * margin
+    inner_top_w = max(1.0, width - 2.0 * ledge_w)
+    inner_top_l = max(1.0, length - 2.0 * ledge_w)
+    inner_bot_w = max(inner_top_w, width - 2.0 * wt)
+    inner_bot_l = max(inner_top_l, length - 2.0 * wt)
+
+    overhang = max(0.2, (inner_bot_w - inner_top_w) / 2.0)
+    corbel_h = min(overhang, max(0.2, top_z - rim_h - floor_thickness))
+    z_corbel = top_z - rim_h - corbel_h
+
+    cap_outer = block([outer_w, outer_l, rim_h], at=(margin, margin, top_z - rim_h))
+    cap_inner = block(
+        [inner_top_w, inner_top_l, rim_h + 0.2],
+        at=(ledge_w, ledge_w, top_z - rim_h - 0.1),
+    )
+    cap = cap_outer - cap_inner
+
+    corbel_outer = block([outer_w, outer_l, corbel_h + 0.05], at=(margin, margin, z_corbel))
+    corbel_inner = prismoid(
+        [inner_bot_w, inner_bot_l],
+        [inner_top_w, inner_top_l],
+        height=corbel_h + 0.1,
+        **precision_kwargs(),
+    ).translate([width / 2.0, length / 2.0, z_corbel - 0.025])
+    return cap | (corbel_outer - corbel_inner)
 
 
 def apply_stackable_body(body: Bosl2Solid, spec: BoxSpec) -> Bosl2Solid:
@@ -4061,36 +4537,17 @@ def apply_stackable_body(body: Bosl2Solid, spec: BoxSpec) -> Bosl2Solid:
     rim_thickness = spec.stackable_thickness or wt
     clearance = spec.stackable_fit_offset
     has_lid = spec.lid_thickness > 0.0
+    shape = _resolve_stackable_shape(spec)
+    pyr_count = getattr(spec, "stackable_pyramid_count", None)
+    printer_safe = getattr(spec, "stackable_printer_safe", True)
 
-    if mode is StackableMode.FEET:
-        depth = min(foot_height, max(0.8, (spec.lid_thickness if has_lid else spec.floor_thickness) - 0.8))
-        feet = build_stacking_feet(spec.width, spec.length, foot_size, depth, foot_inset, base_z=0.0)
-        body = body | feet
-        if not has_lid:
-            from pyboxbuilder.box.shell import block
-            from pyboxbuilder.compartments.element import union_all
-
-            ledge_s = foot_inset + foot_size + clearance + 1.0
-            ledges = [
-                block([ledge_s, ledge_s, depth], at=(0, 0, spec.height - depth)),
-                block([ledge_s, ledge_s, depth], at=(spec.width - ledge_s, 0, spec.height - depth)),
-                block([ledge_s, ledge_s, depth], at=(0, spec.length - ledge_s, spec.height - depth)),
-                block([ledge_s, ledge_s, depth], at=(spec.width - ledge_s, spec.length - ledge_s, spec.height - depth)),
-            ]
-            body = body | union_all(ledges)
-        # Subtract socket indents at top rim so lidless boxes or body knuckles do not collide
-        indents = build_stacking_indents(
-            spec.width,
-            spec.length,
-            foot_size,
-            depth,
-            foot_inset,
-            clearance=clearance,
-            top_z=spec.height,
-        )
-        return body - indents
-    elif mode is StackableMode.INDENTS:
-        depth = min(foot_height, max(0.8, spec.floor_thickness - 0.8))
+    # In printer-safe mode (or INDENTS / PYRAMID / PYRAMIDS), the box floor stays
+    # flat on the build plate (z = 0) with recessed 45-degree indents in z in [0, depth],
+    # and the matching 45-degree bosses protrude upward from the top of the lid/rim.
+    if mode in (StackableMode.INDENTS, StackableMode.PYRAMID, StackableMode.PYRAMIDS) or (
+        mode is StackableMode.FEET and printer_safe
+    ):
+        depth = min(foot_height, max(0.8, spec.floor_thickness - 0.4))
         indents = build_stacking_indents(
             spec.width,
             spec.length,
@@ -4099,36 +4556,142 @@ def apply_stackable_body(body: Bosl2Solid, spec: BoxSpec) -> Bosl2Solid:
             foot_inset,
             clearance=clearance,
             top_z=depth,
+            shape=shape,
+            pyramid_count=pyr_count,
+            point_up=True,
         )
         body = body - indents
         if not has_lid:
-            # Lidless box carries locator bosses on its top rim
+            ledge_s = foot_inset + foot_size + clearance + 0.6
+            corbels = _build_top_corner_corbels(
+                spec.width,
+                spec.length,
+                wt,
+                spec.floor_thickness,
+                ledge_s,
+                rim_h=0.6,
+                top_z=spec.height,
+            )
             feet = build_stacking_feet(
                 spec.width,
                 spec.length,
                 foot_size,
                 depth,
                 foot_inset,
-                base_z=spec.height + depth,
+                base_z=spec.height,
+                shape=shape,
+                clearance=clearance,
+                pyramid_count=pyr_count,
+                point_up=True,
             )
-            body = body | feet
+            body = body | corbels | feet
         return body
+    elif mode is StackableMode.FEET:
+        # Legacy downward feet (stackable_printer_safe=False)
+        depth = min(foot_height, max(0.8, (spec.lid_thickness if has_lid else spec.floor_thickness) - 0.6))
+        feet = build_stacking_feet(
+            spec.width,
+            spec.length,
+            foot_size,
+            depth,
+            foot_inset,
+            base_z=0.0,
+            shape=shape,
+            clearance=clearance,
+            pyramid_count=pyr_count,
+            point_up=False,
+        )
+        body = body | feet
+        if not has_lid:
+            ledge_s = foot_inset + foot_size + clearance + 1.0
+            corbels = _build_top_corner_corbels(
+                spec.width,
+                spec.length,
+                wt,
+                spec.floor_thickness,
+                ledge_s,
+                rim_h=depth + 0.4,
+                top_z=spec.height,
+            )
+            body = body | corbels
+        indents = build_stacking_indents(
+            spec.width,
+            spec.length,
+            foot_size,
+            depth,
+            foot_inset,
+            clearance=clearance,
+            top_z=spec.height,
+            shape=shape,
+            pyramid_count=pyr_count,
+            point_up=False,
+        )
+        return body - indents
     elif mode is StackableMode.PERIMETER:
+        if printer_safe:
+            depth = min(foot_height, max(0.8, spec.floor_thickness - 0.4))
+            channel = build_perimeter_stacking_indent(
+                spec.width,
+                spec.length,
+                rim_thickness,
+                depth,
+                foot_inset,
+                clearance=clearance,
+                top_z=depth,
+                shape=shape,
+                point_up=True,
+            )
+            body = body - channel
+            if not has_lid:
+                ledge_w = foot_inset + rim_thickness + clearance + 0.6
+                corbel = _build_top_perimeter_corbel(
+                    spec.width,
+                    spec.length,
+                    wt,
+                    spec.floor_thickness,
+                    ledge_w,
+                    rim_h=0.6,
+                    top_z=spec.height,
+                )
+                foot_rim = build_perimeter_stacking_foot(
+                    spec.width,
+                    spec.length,
+                    rim_thickness,
+                    depth,
+                    foot_inset,
+                    base_z=spec.height,
+                    shape=shape,
+                    clearance=clearance,
+                    point_up=True,
+                )
+                body = body | corbel | foot_rim
+            return body
+
         depth = min(foot_height, max(0.8, (spec.lid_thickness if has_lid else spec.floor_thickness) - 0.8))
         foot_rim = build_perimeter_stacking_foot(
-            spec.width, spec.length, rim_thickness, depth, foot_inset, base_z=0.0
+            spec.width,
+            spec.length,
+            rim_thickness,
+            depth,
+            foot_inset,
+            base_z=0.0,
+            shape=shape,
+            clearance=clearance,
+            point_up=False,
         )
         body = body | foot_rim
         if not has_lid:
-            from pyboxbuilder.box.shell import block
-
             ledge_w = foot_inset + rim_thickness + clearance + 1.0
-            ledge_outer = block([spec.width, spec.length, depth], at=(0, 0, spec.height - depth))
-            ledge_inner = block(
-                [spec.width - 2 * ledge_w, spec.length - 2 * ledge_w, depth + 0.2],
-                at=(ledge_w, ledge_w, spec.height - depth - 0.1),
+            corbel = _build_top_perimeter_corbel(
+                spec.width,
+                spec.length,
+                wt,
+                spec.floor_thickness,
+                ledge_w,
+                rim_h=depth + 0.4,
+                top_z=spec.height,
             )
-            body = body | (ledge_outer - ledge_inner)
+            body = body | corbel
         channel = build_perimeter_stacking_indent(
             spec.width,
             spec.length,
@@ -4137,6 +4700,8 @@ def apply_stackable_body(body: Bosl2Solid, spec: BoxSpec) -> Bosl2Solid:
             foot_inset,
             clearance=clearance,
             top_z=spec.height,
+            shape=shape,
+            point_up=False,
         )
         return body - channel
     elif mode is StackableMode.OUTSIDE:
@@ -4167,9 +4732,29 @@ def apply_stackable_lid(lid: Bosl2Solid, spec: BoxSpec, top_z: float | None = No
     foot_inset = spec.stackable_foot_inset if spec.stackable_foot_inset is not None else (wt + 1.0)
     rim_thickness = spec.stackable_thickness or wt
     clearance = spec.stackable_fit_offset
+    shape = _resolve_stackable_shape(spec)
+    pyr_count = getattr(spec, "stackable_pyramid_count", None)
+    printer_safe = getattr(spec, "stackable_printer_safe", True)
 
-    if mode is StackableMode.FEET:
-        depth = min(foot_height, max(0.8, lt - 0.8))
+    if mode in (StackableMode.INDENTS, StackableMode.PYRAMID, StackableMode.PYRAMIDS) or (
+        mode is StackableMode.FEET and printer_safe
+    ):
+        socket_depth = min(foot_height, max(0.8, spec.floor_thickness - 0.4))
+        feet = build_stacking_feet(
+            spec.width,
+            spec.length,
+            foot_size,
+            socket_depth,
+            foot_inset,
+            base_z=z_top,
+            shape=shape,
+            clearance=clearance,
+            pyramid_count=pyr_count,
+            point_up=True,
+        )
+        return lid | feet
+    elif mode is StackableMode.FEET:
+        depth = min(foot_height, max(0.8, lt - 0.6))
         indents = build_stacking_indents(
             spec.width,
             spec.length,
@@ -4178,20 +4763,27 @@ def apply_stackable_lid(lid: Bosl2Solid, spec: BoxSpec, top_z: float | None = No
             foot_inset,
             clearance=clearance,
             top_z=z_top,
+            shape=shape,
+            pyramid_count=pyr_count,
+            point_up=False,
         )
         return lid - indents
-    elif mode is StackableMode.INDENTS:
-        socket_depth = min(foot_height, max(0.8, spec.floor_thickness - 0.8))
-        feet = build_stacking_feet(
-            spec.width,
-            spec.length,
-            foot_size,
-            socket_depth,
-            foot_inset,
-            base_z=z_top + socket_depth,
-        )
-        return lid | feet
     elif mode is StackableMode.PERIMETER:
+        if printer_safe:
+            socket_depth = min(foot_height, max(0.8, spec.floor_thickness - 0.4))
+            foot_rim = build_perimeter_stacking_foot(
+                spec.width,
+                spec.length,
+                rim_thickness,
+                socket_depth,
+                foot_inset,
+                base_z=z_top,
+                shape=shape,
+                clearance=clearance,
+                point_up=True,
+            )
+            return lid | foot_rim
+
         depth = min(foot_height, max(0.8, lt - 0.8))
         channel = build_perimeter_stacking_indent(
             spec.width,
@@ -4201,6 +4793,8 @@ def apply_stackable_lid(lid: Bosl2Solid, spec: BoxSpec, top_z: float | None = No
             foot_inset,
             clearance=clearance,
             top_z=z_top,
+            shape=shape,
+            point_up=False,
         )
         return lid - channel
     return lid

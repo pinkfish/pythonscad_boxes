@@ -76,7 +76,7 @@ _PREAMBLE = (
     "    BoxType, CatchType, Color, ColorMode, CompartmentElement, Cut, DrawerHandleStyle,\n"
     "    ElementShape, FingerCut, HingeCatchType, InterlockType, LabelMode, LatchAxis,\n"
     "    LidBuilder, MagnetType, PatternBuilder, PatternType, Project, ScoopSide,\n"
-    "    StackableMode, columns, grid_pack, rows, run, stack,\n"
+    "    StackableMode, StackableShape, columns, grid_pack, rows, run, stack,\n"
     ")\n"
     "\n"
     "try:\n"

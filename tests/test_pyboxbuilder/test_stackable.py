@@ -2,21 +2,21 @@
 """Unit and integration tests for universal stackable box architecture (FR-101, SC-101)."""
 
 import unittest
-from dataclasses import replace
 
 from mesh import volume
+
 from pyboxbuilder.box.features import (
-    apply_stackable_body,
-    apply_stackable_lid,
     build_perimeter_stacking_foot,
     build_perimeter_stacking_indent,
     build_stacking_feet,
     build_stacking_indents,
+    build_stacking_pyramid_indents,
+    build_stacking_pyramids,
 )
 from pyboxbuilder.box.registry import BOX_IMPL_REGISTRY
 from pyboxbuilder.box.spec import BoxSpec
 from pyboxbuilder.box.validation import GeometryValidationError, GeometryValidator
-from pyboxbuilder.enums import BoxType, StackableMode
+from pyboxbuilder.enums import BoxType, StackableMode, StackableShape
 
 
 class StackingFeaturePrimitivesTests(unittest.TestCase):
@@ -74,6 +74,36 @@ class StackingFeaturePrimitivesTests(unittest.TestCase):
         self.assertIsNotNone(indent_ch)
         self.assertGreater(volume(indent_ch), 500.0)
 
+    def test_build_stacking_pyramids_and_indents(self) -> None:
+        for single in (False, True):
+            for cone in (False, True):
+                pyramids = build_stacking_pyramids(
+                    width=60.0,
+                    length=80.0,
+                    foot_size=7.0,
+                    foot_height=1.2,
+                    foot_inset=3.0,
+                    clearance=0.15,
+                    base_z=25.0,
+                    single_pyramid=single,
+                    cone=cone,
+                    point_up=True,
+                )
+                indents = build_stacking_pyramid_indents(
+                    width=60.0,
+                    length=80.0,
+                    foot_size=7.0,
+                    indent_depth=1.2,
+                    foot_inset=3.0,
+                    clearance=0.15,
+                    surface_z=0.0,
+                    single_pyramid=single,
+                    cone=cone,
+                    point_up=True,
+                )
+                self.assertGreater(volume(pyramids), 5.0)
+                self.assertGreater(volume(indents), volume(pyramids))
+
 
 class StackablePreCSGValidationTests(unittest.TestCase):
     """Test fail-fast validation for invalid stackable configurations."""
@@ -114,11 +144,7 @@ class StackingBoxMatingTests(unittest.TestCase):
 
         body_a = handler.build_body(spec)
         lid_a = handler.build_lid(spec)
-        if lid_a is None:
-            # Monolithic or open tray
-            lower_assembly = body_a
-        else:
-            lower_assembly = body_a | lid_a
+        lower_assembly = body_a if lid_a is None else (body_a | lid_a)
 
         body_b = handler.build_body(spec)
         lid_b = handler.build_lid(spec)
@@ -132,7 +158,10 @@ class StackingBoxMatingTests(unittest.TestCase):
         self.assertLess(
             collision_vol,
             0.05,
-            f"Box type {box_type.value} mode {spec.stackable.value} has {collision_vol:.4f}mm³ collision volume when stacked",
+            (
+                f"Box type {box_type.value} mode {spec.stackable.value} "
+                f"has {collision_vol:.4f}mm³ collision volume when stacked"
+            ),
         )
 
         # 2. Verify horizontal locking: shifting upper box horizontally by (clearance + 0.2mm)
@@ -222,7 +251,13 @@ class StackingBoxMatingTests(unittest.TestCase):
                 self._assert_stacking_mating(BoxType.SNAP_FIT, spec)
 
     def test_open_tray_no_lid_stacking(self) -> None:
-        for mode in (StackableMode.FEET, StackableMode.INDENTS, StackableMode.PERIMETER):
+        for mode in (
+            StackableMode.FEET,
+            StackableMode.INDENTS,
+            StackableMode.PYRAMID,
+            StackableMode.PYRAMIDS,
+            StackableMode.PERIMETER,
+        ):
             with self.subTest(mode=mode.value):
                 spec = BoxSpec(
                     label="Stack_NoLid",
@@ -238,6 +273,69 @@ class StackingBoxMatingTests(unittest.TestCase):
                     stackable_fit_offset=0.15,
                 )
                 self._assert_stacking_mating(BoxType.NO_LID, spec)
+
+    def test_pyramid_modes_and_shapes_printer_safe_flat_bed(self) -> None:
+        """Verify 45-degree pyramid and pyramid-grid modes keep the box floor flat on z=0."""
+        from pyboxbuilder.box.shell import block
+
+        below_bed_probe = block([100.0, 100.0, 10.0], at=(-10.0, -10.0, -10.0))
+        for mode in (
+            StackableMode.PYRAMID,
+            StackableMode.PYRAMIDS,
+            StackableMode.INDENTS,
+            StackableMode.FEET,
+            StackableMode.PERIMETER,
+        ):
+            for shape in (
+                StackableShape.PYRAMIDS,
+                StackableShape.PYRAMID,
+                StackableShape.CONE,
+                StackableShape.FLAT,
+            ):
+                with self.subTest(mode=mode.value, shape=shape.value):
+                    spec = BoxSpec(
+                        label="PrinterSafeStack",
+                        width=60.0,
+                        length=70.0,
+                        height=25.0,
+                        wall_thickness=2.0,
+                        floor_thickness=1.6,
+                        lid_thickness=2.0,
+                        stackable=mode,
+                        stackable_shape=shape,
+                        stackable_foot_size=6.5,
+                        stackable_foot_height=1.2,
+                        stackable_fit_offset=0.15,
+                    )
+                    handler = BOX_IMPL_REGISTRY[BoxType.SLIDING]()
+                    body = handler.build_body(spec)
+                    # Verify zero material protrudes below the build plate (z < 0)
+                    self.assertLess(
+                        volume(body & below_bed_probe),
+                        1e-4,
+                        f"Mode {mode.value} shape {shape.value} protrudes below z=0 build plate",
+                    )
+                    self._assert_stacking_mating(BoxType.SLIDING, spec)
+
+        # Also verify explicit legacy downward feet when stackable_printer_safe=False
+        legacy_spec = BoxSpec(
+            label="LegacyBottomFeet",
+            width=60.0,
+            length=70.0,
+            height=25.0,
+            wall_thickness=2.0,
+            floor_thickness=1.6,
+            lid_thickness=2.0,
+            stackable=StackableMode.FEET,
+            stackable_shape=StackableShape.PYRAMIDS,
+            stackable_printer_safe=False,
+            stackable_foot_size=6.5,
+            stackable_foot_height=1.2,
+            stackable_fit_offset=0.15,
+        )
+        legacy_body = BOX_IMPL_REGISTRY[BoxType.SLIDING]().build_body(legacy_spec)
+        self.assertGreater(volume(legacy_body & below_bed_probe), 1.0)
+        self._assert_stacking_mating(BoxType.SLIDING, legacy_spec)
 
 
 if __name__ == "__main__":
