@@ -14,7 +14,7 @@
         <link rel="prev" href="pyboxbuilder.enums.ScoopSide.html">
       
       
-        <link rel="next" href="pyboxbuilder.export.html">
+        <link rel="next" href="pyboxbuilder.enums.StackableShape.html">
       
       
       <link rel="icon" href="">
@@ -1073,6 +1073,30 @@
 
               
             
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pyboxbuilder.enums.StackableShape.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>enums.<wbr>Stackable<wbr>Shape</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -1460,11 +1484,15 @@
 - OUTSIDE: A ridge around the outside base that fits over the box below.
 - FEET: Protruding locator feet on the bottom floor, matching socket indents on the lid/top.
 - INDENTS: Recessed socket indents on the bottom floor, matching locator feet on the lid/top.
-- PERIMETER: Continuous or segmented perimeter foot rim on bottom, matching channel on lid/top.</p>
+- FEET: Corner locator pads/pyramids, matching socket indents.
+- INDENTS: Recessed socket indents on bottom floor, matching locator bosses on lid/top.
+- PYRAMID: 3D-printer-safe single 45-degree pyramid sockets on bottom, matching pyramids on top.
+- PYRAMIDS: 3D-printer-safe multi-pyramid grid (45-degree pyramids) on bottom, matching grid on top.
+- PERIMETER: Continuous or segmented perimeter foot/V-ridge rim, matching perimeter channel on lid/top.</p>
 <dl class="py attribute objdesc">
 <dt class="sig sig-object highlight py" id="pyboxbuilder.enums.StackableMode.FEET">
 <span class="sig-name descname"><span class="pre">FEET</span></span><span class="p"> <span class="pre">=</span> </span><code class="code python docutils literal highlight highlight-python"><span class="s1">'feet'</span></code><a class="headerlink" href="#pyboxbuilder.enums.StackableMode.FEET" title="Link to this definition">¶</a></dt>
-<dd><p>Protruding locator feet on the bottom floor, matching socket indents on the lid/top.</p>
+<dd><p>Protruding locator feet on the bottom floor (or top when printer-safe), matching socket indents.</p>
 </dd></dl>
 
 <dl class="py attribute objdesc">
@@ -1488,7 +1516,19 @@
 <dl class="py attribute objdesc">
 <dt class="sig sig-object highlight py" id="pyboxbuilder.enums.StackableMode.PERIMETER">
 <span class="sig-name descname"><span class="pre">PERIMETER</span></span><span class="p"> <span class="pre">=</span> </span><code class="code python docutils literal highlight highlight-python"><span class="s1">'perimeter'</span></code><a class="headerlink" href="#pyboxbuilder.enums.StackableMode.PERIMETER" title="Link to this definition">¶</a></dt>
-<dd><p>Perimeter foot rim on the bottom floor, matching recessed channel on the lid/top.</p>
+<dd><p>Perimeter foot/V-ridge rim and matching recessed perimeter channel.</p>
+</dd></dl>
+
+<dl class="py attribute objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.enums.StackableMode.PYRAMID">
+<span class="sig-name descname"><span class="pre">PYRAMID</span></span><span class="p"> <span class="pre">=</span> </span><code class="code python docutils literal highlight highlight-python"><span class="s1">'pyramid'</span></code><a class="headerlink" href="#pyboxbuilder.enums.StackableMode.PYRAMID" title="Link to this definition">¶</a></dt>
+<dd><p>Single 45-degree pyramid socket indents on the bottom floor, matching 45-degree pyramids on top.</p>
+</dd></dl>
+
+<dl class="py attribute objdesc">
+<dt class="sig sig-object highlight py" id="pyboxbuilder.enums.StackableMode.PYRAMIDS">
+<span class="sig-name descname"><span class="pre">PYRAMIDS</span></span><span class="p"> <span class="pre">=</span> </span><code class="code python docutils literal highlight highlight-python"><span class="s1">'pyramids'</span></code><a class="headerlink" href="#pyboxbuilder.enums.StackableMode.PYRAMIDS" title="Link to this definition">¶</a></dt>
+<dd><p>Set/grid of 45-degree pyramid socket indents on the bottom floor, matching pyramid grid on top.</p>
 </dd></dl>
 
 </dd></dl>

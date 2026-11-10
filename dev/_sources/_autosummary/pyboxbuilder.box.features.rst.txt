@@ -49,6 +49,8 @@ pyboxbuilder.box.features
       build_spin_hinge_catch
       build_stacking_feet
       build_stacking_indents
+      build_stacking_pyramid_indents
+      build_stacking_pyramids
       build_toggle_latch_hinge_catch
       build_vertical_pinch_slide_hinge_catch
       build_vertical_rotary_bolt_hinge_catch

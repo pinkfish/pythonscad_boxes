@@ -1653,11 +1653,13 @@
 </code></pre></div>
 </div>
 <h2 id="universal-stacking-architecture-stackablemode"><a class="toc-backref" href="#id27" role="doc-backlink">Universal Stacking Architecture (<code class="docutils literal notranslate"><span class="pre">StackableMode</span></code>)</a><a class="headerlink" href="#universal-stacking-architecture-stackablemode" title="Link to this heading">¶</a></h2>
-<p>All box types across both open trays and lidded box families (sliding, cap, slipover, hinged, clamshell, snap-fit) support the universal <a class="reference internal" href="_autosummary/pyboxbuilder.enums.StackableMode.html#pyboxbuilder.enums.StackableMode" title="pyboxbuilder.enums.StackableMode (Python class) — Bases: Enum"><code class="xref py py-class docutils literal notranslate"><span class="pre">StackableMode</span></code></a> architecture (<strong>FR-101</strong>, <strong>SC-101</strong>):</p>
+<p>All box types across both open trays and lidded box families (sliding, cap, slipover, hinged, clamshell, snap-fit) support the 3D-printer-safe universal <a class="reference internal" href="_autosummary/pyboxbuilder.enums.StackableMode.html#pyboxbuilder.enums.StackableMode" title="pyboxbuilder.enums.StackableMode (Python class) — Bases: Enum"><code class="xref py py-class docutils literal notranslate"><span class="pre">StackableMode</span></code></a> and <a class="reference internal" href="_autosummary/pyboxbuilder.enums.StackableShape.html#pyboxbuilder.enums.StackableShape" title="pyboxbuilder.enums.StackableShape (Python class) — Bases: Enum"><code class="xref py py-class docutils literal notranslate"><span class="pre">StackableShape</span></code></a> architecture (<strong>FR-101</strong>, <strong>SC-101</strong>):</p>
 <ul class="simple">
-<li><p><strong>``StackableMode.FEET``</strong> (<code class="docutils literal notranslate"><span class="pre">&quot;feet&quot;</span></code>): Chamfered locator feet protruding downward from the box floor at corners, dropping into matching oversized registration indent sockets in the top lid surface or top rim.</p></li>
-<li><p><strong>``StackableMode.INDENTS``</strong> (<code class="docutils literal notranslate"><span class="pre">&quot;indents&quot;</span></code>): Inverted stacking where sockets are recessed into the underside floor of the box body, and raised locator bosses/feet project upward from the lid top deck or top rim.</p></li>
-<li><p><strong>``StackableMode.PERIMETER``</strong> (<code class="docutils literal notranslate"><span class="pre">&quot;perimeter&quot;</span></code>): Continuous perimeter rim foot around the base perimeter that drops into a matching perimeter channel/step on the box top or lid.</p></li>
+<li><p><strong>``StackableMode.PYRAMIDS``</strong> (<code class="docutils literal notranslate"><span class="pre">&quot;pyramids&quot;</span></code>): A set/grid of $N times N$ 45° square pyramid socket indents recessed into the flat <code class="docutils literal notranslate"><span class="pre">z</span> <span class="pre">=</span> <span class="pre">0</span></code> bottom floor, mating with a matching grid of upward-pointing 45° pyramids on the lid/top rim. Eliminates wide unsupported bridges while keeping indentation depth shallow enough for standard floors and lids.</p></li>
+<li><p><strong>``StackableMode.PYRAMID``</strong> (<code class="docutils literal notranslate"><span class="pre">&quot;pyramid&quot;</span></code>): A single 45° square pyramid socket recessed into each corner of the flat <code class="docutils literal notranslate"><span class="pre">z</span> <span class="pre">=</span> <span class="pre">0</span></code> bottom floor, mating with a matching 45° pyramid boss on the lid/top rim.</p></li>
+<li><p><strong>``StackableMode.INDENTS``</strong> (<code class="docutils literal notranslate"><span class="pre">&quot;indents&quot;</span></code>): Recessed corner sockets in the underside floor of the box body, and raised locator bosses projecting upward from the lid top deck or top rim (defaults to 45° <code class="docutils literal notranslate"><span class="pre">StackableShape.PYRAMIDS</span></code>).</p></li>
+<li><p><strong>``StackableMode.FEET``</strong> (<code class="docutils literal notranslate"><span class="pre">&quot;feet&quot;</span></code>): Corner locator pads and matching sockets. By default (<code class="docutils literal notranslate"><span class="pre">stackable_printer_safe=True</span></code>), keeps the box bottom flat on the build plate (<code class="docutils literal notranslate"><span class="pre">z</span> <span class="pre">=</span> <span class="pre">0</span></code>) with recessed 45° pyramid sockets and upward-pointing top bosses so the box floor never prints in mid-air; set <code class="docutils literal notranslate"><span class="pre">stackable_printer_safe=False</span></code> for downward-protruding bottom feet.</p></li>
+<li><p><strong>``StackableMode.PERIMETER``</strong> (<code class="docutils literal notranslate"><span class="pre">&quot;perimeter&quot;</span></code>): Continuous 45° V-groove / V-ridge perimeter channel and matching rim around the box perimeter.</p></li>
 <li><p><strong>``StackableMode.INSIDE``</strong> (<code class="docutils literal notranslate"><span class="pre">&quot;inside&quot;</span></code>): Stepped inner recess in the top rim that the tray above nests down into (standard for open trays).</p></li>
 <li><p><strong>``StackableMode.OUTSIDE``</strong> (<code class="docutils literal notranslate"><span class="pre">&quot;outside&quot;</span></code>): Perimeter skirt around the outside base that fits over the tray below.</p></li>
 </ul>
@@ -1678,23 +1680,35 @@
 <tbody>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">stackable</span></code></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">None</span></code></p></td>
-<td><p><a class="reference internal" href="_autosummary/pyboxbuilder.enums.StackableMode.html#pyboxbuilder.enums.StackableMode" title="pyboxbuilder.enums.StackableMode (Python class) — Bases: Enum"><code class="xref py py-class docutils literal notranslate"><span class="pre">StackableMode</span></code></a> or string (<code class="docutils literal notranslate"><span class="pre">&quot;feet&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;indents&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;perimeter&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;inside&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;outside&quot;</span></code>).</p></td>
+<td><p><a class="reference internal" href="_autosummary/pyboxbuilder.enums.StackableMode.html#pyboxbuilder.enums.StackableMode" title="pyboxbuilder.enums.StackableMode (Python class) — Bases: Enum"><code class="xref py py-class docutils literal notranslate"><span class="pre">StackableMode</span></code></a> (<code class="docutils literal notranslate"><span class="pre">PYRAMIDS</span></code>, <code class="docutils literal notranslate"><span class="pre">PYRAMID</span></code>, <code class="docutils literal notranslate"><span class="pre">INDENTS</span></code>, <code class="docutils literal notranslate"><span class="pre">FEET</span></code>, <code class="docutils literal notranslate"><span class="pre">PERIMETER</span></code>, <code class="docutils literal notranslate"><span class="pre">INSIDE</span></code>, <code class="docutils literal notranslate"><span class="pre">OUTSIDE</span></code>).</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">stackable_foot_size</span></code></p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">stackable_shape</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">None</span></code> (auto)</p></td>
+<td><p><a class="reference internal" href="_autosummary/pyboxbuilder.enums.StackableShape.html#pyboxbuilder.enums.StackableShape" title="pyboxbuilder.enums.StackableShape (Python class) — Bases: Enum"><code class="xref py py-class docutils literal notranslate"><span class="pre">StackableShape</span></code></a> (<code class="docutils literal notranslate"><span class="pre">PYRAMIDS</span></code> for a set of 45° pyramids, <code class="docutils literal notranslate"><span class="pre">PYRAMID</span></code> for a single 45° pyramid, <code class="docutils literal notranslate"><span class="pre">CONE</span></code> for 45° cones, or <code class="docutils literal notranslate"><span class="pre">FLAT</span></code>).</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">stackable_pyramid_count</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">None</span></code> (auto)</p></td>
+<td><p>Number of pyramids per side ($N$ for an $N times N$ grid per corner) when using <code class="docutils literal notranslate"><span class="pre">StackableShape.PYRAMIDS</span></code>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">stackable_printer_safe</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">True</span></code></p></td>
+<td><p>Keeps the box bottom flat on the build plate (<code class="docutils literal notranslate"><span class="pre">z</span> <span class="pre">=</span> <span class="pre">0</span></code>) with recessed 45° sockets and top bosses so the floor never prints suspended in mid-air.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">stackable_foot_size</span></code></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">max(6.0,</span> <span class="pre">wall</span> <span class="pre">*</span> <span class="pre">2.5)</span></code></p></td>
-<td><p>Width and length (mm) of each square corner foot.</p></td>
+<td><p>Width and length (mm) of each square corner pad.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">stackable_foot_height</span></code></p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">stackable_foot_height</span></code></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">1.2</span></code></p></td>
-<td><p>Protrusion height (mm) of feet, bounded by floor/lid thickness.</p></td>
+<td><p>Target height/depth (mm) of pyramids/feet, bounded by floor/lid thickness.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">stackable_foot_inset</span></code></p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">stackable_foot_inset</span></code></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">wall</span> <span class="pre">+</span> <span class="pre">1.0</span></code></p></td>
 <td><p>Inset distance (mm) from outer box corners.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">stackable_fit_offset</span></code></p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">stackable_fit_offset</span></code></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">0.15</span></code></p></td>
-<td><p>Lateral fit clearance (mm) between foot and indent walls.</p></td>
+<td><p>Lateral fit clearance (mm) between boss and socket walls.</p></td>
 </tr>
 </tbody>
 </table>
@@ -1705,7 +1719,7 @@
     <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mf">60.0</span><span class="p">,</span> <span class="mf">80.0</span><span class="p">,</span> <span class="mf">22.0</span><span class="p">),</span>
     <span class="n">color</span><span class="o">=</span><span class="n">Color</span><span class="p">(</span><span class="s2">"midnightblue"</span><span class="p">),</span>
     <span class="n">position</span><span class="o">=</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span>
-    <span class="n">stackable</span><span class="o">=</span><span class="n">StackableMode</span><span class="o">.</span><span class="n">FEET</span><span class="p">,</span>
+    <span class="n">stackable</span><span class="o">=</span><span class="n">StackableMode</span><span class="o">.</span><span class="n">PYRAMIDS</span><span class="p">,</span>
     <span class="n">stackable_foot_size</span><span class="o">=</span><span class="mf">7.0</span><span class="p">,</span>
     <span class="n">stackable_foot_height</span><span class="o">=</span><span class="mf">1.2</span><span class="p">,</span>
 <span class="p">)</span>
@@ -1715,14 +1729,13 @@
     <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mf">60.0</span><span class="p">,</span> <span class="mf">80.0</span><span class="p">,</span> <span class="mf">22.0</span><span class="p">),</span>
     <span class="n">color</span><span class="o">=</span><span class="n">Color</span><span class="p">(</span><span class="s2">"coral"</span><span class="p">),</span>
     <span class="n">position</span><span class="o">=</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">22.0</span><span class="p">),</span>
-    <span class="n">stackable</span><span class="o">=</span><span class="n">StackableMode</span><span class="o">.</span><span class="n">FEET</span><span class="p">,</span>
+    <span class="n">stackable</span><span class="o">=</span><span class="n">StackableMode</span><span class="o">.</span><span class="n">PYRAMIDS</span><span class="p">,</span>
     <span class="n">stackable_foot_size</span><span class="o">=</span><span class="mf">7.0</span><span class="p">,</span>
     <span class="n">stackable_foot_height</span><span class="o">=</span><span class="mf">1.2</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="n">project</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">show_lids</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </code></pre></div>
 </div>
-<div class="stl-viewer" data-stl-uri="_stl/c2bd783ec1edaf37.stl" data-stl-color="#6f9ac9" style="width:100%;height:360px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a class="reference external" href="_stl/c2bd783ec1edaf37.stl">⬇ Download STL mesh</a></p>
 
 
 

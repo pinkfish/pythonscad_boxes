@@ -483,6 +483,7 @@
     <span class="n">LatchAxis</span><span class="p">,</span>
     <span class="n">MagnetType</span><span class="p">,</span>
     <span class="n">StackableMode</span><span class="p">,</span>
+    <span class="n">StackableShape</span><span class="p">,</span>
 <span class="p">)</span>
 
 <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
@@ -720,7 +721,13 @@
             <span class="k">return</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">StackableMode</span>
 
-        <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">stackable</span> <span class="ow">in</span> <span class="p">(</span><span class="n">StackableMode</span><span class="o">.</span><span class="n">FEET</span><span class="p">,</span> <span class="n">StackableMode</span><span class="o">.</span><span class="n">INDENTS</span><span class="p">,</span> <span class="n">StackableMode</span><span class="o">.</span><span class="n">PERIMETER</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">stackable</span> <span class="ow">in</span> <span class="p">(</span>
+            <span class="n">StackableMode</span><span class="o">.</span><span class="n">FEET</span><span class="p">,</span>
+            <span class="n">StackableMode</span><span class="o">.</span><span class="n">INDENTS</span><span class="p">,</span>
+            <span class="n">StackableMode</span><span class="o">.</span><span class="n">PYRAMID</span><span class="p">,</span>
+            <span class="n">StackableMode</span><span class="o">.</span><span class="n">PYRAMIDS</span><span class="p">,</span>
+            <span class="n">StackableMode</span><span class="o">.</span><span class="n">PERIMETER</span><span class="p">,</span>
+        <span class="p">):</span>
             <span class="n">foot_size</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">stackable_foot_size</span> <span class="ow">or</span> <span class="nb">max</span><span class="p">(</span><span class="mf">6.0</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">wall_thickness</span> <span class="o">*</span> <span class="mf">2.5</span><span class="p">)</span>
             <span class="n">min_span</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">foot_size</span> <span class="o">&gt;=</span> <span class="n">min_span</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">:</span>
@@ -739,6 +746,13 @@
                     <span class="n">invariant</span><span class="o">=</span><span class="s2">"positive_stackable_foot_height"</span><span class="p">,</span>
                     <span class="n">message</span><span class="o">=</span><span class="sa">f</span><span class="s2">"Stackable foot height must be positive, got </span><span class="si">{</span><span class="n">spec</span><span class="o">.</span><span class="n">stackable_foot_height</span><span class="si">}</span><span class="s2">mm."</span><span class="p">,</span>
                     <span class="n">guidance</span><span class="o">=</span><span class="s2">"Set stackable_foot_height to a positive value (e.g. 1.6mm)."</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">stackable_pyramid_count</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">spec</span><span class="o">.</span><span class="n">stackable_pyramid_count</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">GeometryValidationError</span><span class="p">(</span>
+                    <span class="n">label</span><span class="o">=</span><span class="n">spec</span><span class="o">.</span><span class="n">label</span><span class="p">,</span>
+                    <span class="n">invariant</span><span class="o">=</span><span class="s2">"positive_stackable_pyramid_count"</span><span class="p">,</span>
+                    <span class="n">message</span><span class="o">=</span><span class="sa">f</span><span class="s2">"Stackable pyramid count must be &gt;= 1, got </span><span class="si">{</span><span class="n">spec</span><span class="o">.</span><span class="n">stackable_pyramid_count</span><span class="si">}</span><span class="s2">."</span><span class="p">,</span>
+                    <span class="n">guidance</span><span class="o">=</span><span class="s2">"Set stackable_pyramid_count to a positive integer (e.g. 1, 2, or 3)."</span><span class="p">,</span>
                 <span class="p">)</span>
 
     <span class="nd">@classmethod</span>
@@ -787,6 +801,7 @@
             <span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">interlock_type</span><span class="p">,</span> <span class="n">InterlockType</span><span class="p">,</span> <span class="s2">"interlock_type"</span><span class="p">,</span> <span class="kc">True</span><span class="p">),</span>
             <span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">magnet_type</span><span class="p">,</span> <span class="n">MagnetType</span><span class="p">,</span> <span class="s2">"magnet_type"</span><span class="p">,</span> <span class="kc">True</span><span class="p">),</span>
             <span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">stackable</span><span class="p">,</span> <span class="n">StackableMode</span><span class="p">,</span> <span class="s2">"stackable"</span><span class="p">,</span> <span class="kc">True</span><span class="p">),</span>
+            <span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">stackable_shape</span><span class="p">,</span> <span class="n">StackableShape</span><span class="p">,</span> <span class="s2">"stackable_shape"</span><span class="p">,</span> <span class="kc">True</span><span class="p">),</span>
             <span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">dispenser_mode</span><span class="p">,</span> <span class="n">DispenserExtractionMode</span><span class="p">,</span> <span class="s2">"dispenser_mode"</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span>
             <span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">drawer_handle_style</span><span class="p">,</span> <span class="n">DrawerHandleStyle</span><span class="p">,</span> <span class="s2">"drawer_handle_style"</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span>
             <span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">latch_axis</span><span class="p">,</span> <span class="n">LatchAxis</span><span class="p">,</span> <span class="s2">"latch_axis"</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span>

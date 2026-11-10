@@ -491,6 +491,7 @@
     <span class="n">MagnetType</span><span class="p">,</span>
     <span class="n">ScoopSide</span><span class="p">,</span>
     <span class="n">StackableMode</span><span class="p">,</span>
+    <span class="n">StackableShape</span><span class="p">,</span>
 <span class="p">)</span>
 
 <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
@@ -557,6 +558,12 @@
     <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="s2">"stackable"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span>
             <span class="n">spec</span><span class="p">,</span> <span class="s2">"stackable"</span><span class="p">,</span> <span class="n">_coerce_enum</span><span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">stackable</span><span class="p">,</span> <span class="n">StackableMode</span><span class="p">,</span> <span class="s2">"stackable"</span><span class="p">,</span> <span class="n">allow_none</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="p">)</span>
+    <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="s2">"stackable_shape"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span>
+            <span class="n">spec</span><span class="p">,</span>
+            <span class="s2">"stackable_shape"</span><span class="p">,</span>
+            <span class="n">_coerce_enum</span><span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">stackable_shape</span><span class="p">,</span> <span class="n">StackableShape</span><span class="p">,</span> <span class="s2">"stackable_shape"</span><span class="p">,</span> <span class="n">allow_none</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
         <span class="p">)</span>
     <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="s2">"dispenser_mode"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span>
@@ -736,6 +743,12 @@
     <span class="c1"># ── Stacking (FR-038, FR-101) ────────────────────────────────────────</span>
     <span class="n">stackable</span><span class="p">:</span> <span class="n">StackableMode</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="w">    </span><span class="sd">"""Interlocking rim mode; ``None`` means not stackable."""</span>
+    <span class="n">stackable_shape</span><span class="p">:</span> <span class="n">StackableShape</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">"""3D-printable geometry profile for feet/indents (PYRAMIDS, PYRAMID, CONE, FLAT)."""</span>
+    <span class="n">stackable_pyramid_count</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">"""Number of pyramids per side in each corner pad when using PYRAMIDS; None auto-computes for 45-degree walls."""</span>
+    <span class="n">stackable_printer_safe</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="w">    </span><span class="sd">"""Keep the box bottom flat on the print bed (z = 0) with recessed 45-degree sockets and top bosses."""</span>
     <span class="n">stackable_thickness</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="w">    </span><span class="sd">"""Interlocking rim thickness; ``None`` derives it from the wall."""</span>
     <span class="n">stackable_fit_offset</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.15</span>
@@ -1077,6 +1090,9 @@
 
     <span class="c1"># Stacking</span>
     <span class="n">stackable</span><span class="p">:</span> <span class="n">StackableMode</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">stackable_shape</span><span class="p">:</span> <span class="n">StackableShape</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">stackable_pyramid_count</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">stackable_printer_safe</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
     <span class="n">stackable_thickness</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">stackable_fit_offset</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.15</span>
     <span class="n">stackable_foot_size</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>

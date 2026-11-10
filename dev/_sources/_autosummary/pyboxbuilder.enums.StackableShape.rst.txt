@@ -1,0 +1,8 @@
+pyboxbuilder.enums.StackableShape
+=================================
+
+.. currentmodule:: pyboxbuilder.enums
+
+.. autoclass:: StackableShape
+   :members:
+   :show-inheritance:

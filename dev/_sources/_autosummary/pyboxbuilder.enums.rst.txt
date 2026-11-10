@@ -30,6 +30,7 @@ pyboxbuilder.enums
       PatternType
       ScoopSide
       StackableMode
+      StackableShape
    
    
 

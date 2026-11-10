@@ -479,7 +479,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.spec</span><span class="w"> </span><span class="kn">import</span> <span class="n">BoxSpec</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">CatchType</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">CatchType</span><span class="p">,</span> <span class="n">StackableShape</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.precision</span><span class="w"> </span><span class="kn">import</span> <span class="n">kwargs</span> <span class="k">as</span> <span class="n">precision_kwargs</span>
 
 <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
@@ -4515,6 +4515,236 @@
 <span class="c1"># --------------------------------------------------------- stackable features (FR-101)</span>
 
 
+<span class="k">def</span><span class="w"> </span><span class="nf">_resolve_stackable_shape</span><span class="p">(</span><span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">StackableShape</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Return the effective StackableShape for a BoxSpec."""</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">StackableMode</span><span class="p">,</span> <span class="n">StackableShape</span>
+
+    <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">stackable_shape</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">spec</span><span class="o">.</span><span class="n">stackable_shape</span>
+    <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">stackable</span> <span class="ow">in</span> <span class="p">(</span><span class="n">StackableMode</span><span class="o">.</span><span class="n">PYRAMID</span><span class="p">,</span> <span class="n">StackableMode</span><span class="o">.</span><span class="n">PERIMETER</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">StackableShape</span><span class="o">.</span><span class="n">PYRAMID</span>
+    <span class="k">return</span> <span class="n">StackableShape</span><span class="o">.</span><span class="n">PYRAMIDS</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_pyramid_grid_metrics</span><span class="p">(</span>
+    <span class="n">foot_size</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">depth</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">clearance</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">pyramid_count</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">single_pyramid</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">"""Compute 45-degree self-supporting pyramid grid parameters.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        (n, pitch, b_female, h_female, b_male, h_male, w_tip)</span>
+<span class="sd">        where every pyramid wall slopes at &gt;= 45 degrees from horizontal</span>
+<span class="sd">        (&lt;= 45 degrees overhang from vertical) and terminates at a tiny</span>
+<span class="sd">        ``w_tip`` apex (&lt;= 0.4 mm) so zero unsupported bridging occurs.</span>
+<span class="sd">    """</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
+
+    <span class="n">w_tip</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mf">0.4</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.15</span><span class="p">,</span> <span class="n">foot_size</span> <span class="o">*</span> <span class="mf">0.08</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">single_pyramid</span><span class="p">:</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">elif</span> <span class="n">pyramid_count</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">pyramid_count</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">pyramid_count</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">((</span><span class="n">foot_size</span> <span class="o">-</span> <span class="n">w_tip</span><span class="p">)</span> <span class="o">/</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.4</span><span class="p">,</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">depth</span><span class="p">)))</span>
+
+    <span class="n">pitch</span> <span class="o">=</span> <span class="n">foot_size</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+    <span class="n">b_female</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">pitch</span><span class="p">,</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">depth</span> <span class="o">+</span> <span class="n">w_tip</span><span class="p">)</span>
+    <span class="n">h_female</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.3</span><span class="p">,</span> <span class="p">(</span><span class="n">b_female</span> <span class="o">-</span> <span class="n">w_tip</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">)</span>
+    <span class="n">b_male</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">w_tip</span> <span class="o">+</span> <span class="mf">0.2</span><span class="p">,</span> <span class="n">b_female</span> <span class="o">-</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">clearance</span><span class="p">)</span>
+    <span class="n">h_male</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">h_female</span> <span class="o">-</span> <span class="n">clearance</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">n</span><span class="p">,</span> <span class="n">pitch</span><span class="p">,</span> <span class="n">b_female</span><span class="p">,</span> <span class="n">h_female</span><span class="p">,</span> <span class="n">b_male</span><span class="p">,</span> <span class="n">h_male</span><span class="p">,</span> <span class="n">w_tip</span>
+
+
+<div class="viewcode-block" id="build_stacking_pyramids">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.features.build_stacking_pyramids.html#pyboxbuilder.box.features.build_stacking_pyramids">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">build_stacking_pyramids</span><span class="p">(</span>
+    <span class="n">width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">foot_size</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">foot_height</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">foot_inset</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">clearance</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.15</span><span class="p">,</span>
+    <span class="n">base_z</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+    <span class="n">pyramid_count</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">single_pyramid</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">cone</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">point_up</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Return 4 corner 45-degree pyramid (or multi-pyramid grid / cone) male bosses.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        width: Box width in mm.</span>
+<span class="sd">        length: Box length in mm.</span>
+<span class="sd">        foot_size: Corner pad footprint width/length in mm.</span>
+<span class="sd">        foot_height: Target height of pyramids in mm.</span>
+<span class="sd">        foot_inset: Inset from outer box walls in mm.</span>
+<span class="sd">        clearance: Lateral fit clearance offset per side in mm.</span>
+<span class="sd">        base_z: Z coordinate of the mounting surface. When ``point_up=True``,</span>
+<span class="sd">            pyramids protrude upward from ``base_z`` to ``base_z + h_male``.</span>
+<span class="sd">            When ``point_up=False``, pyramids protrude downward from ``base_z``</span>
+<span class="sd">            to ``base_z - h_male``.</span>
+<span class="sd">        pyramid_count: Number of pyramids per side (N for an N x N grid per corner).</span>
+<span class="sd">            When None, auto-computes N so every wall is at 45 degrees.</span>
+<span class="sd">        single_pyramid: If True, builds a single 45-degree pyramid per corner (N=1).</span>
+<span class="sd">        cone: If True, uses 45-degree conical frustums instead of square pyramids.</span>
+<span class="sd">        point_up: If True, pyramids taper upward (+Z); if False, taper downward (-Z).</span>
+<span class="sd">    """</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">Anchor</span><span class="p">,</span> <span class="n">cylinder</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2.shapes3d</span><span class="w"> </span><span class="kn">import</span> <span class="n">prismoid</span>
+
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.compartments.element</span><span class="w"> </span><span class="kn">import</span> <span class="n">union_all</span>
+
+    <span class="n">n</span><span class="p">,</span> <span class="n">pitch</span><span class="p">,</span> <span class="n">_bf</span><span class="p">,</span> <span class="n">_hf</span><span class="p">,</span> <span class="n">b_male</span><span class="p">,</span> <span class="n">h_male</span><span class="p">,</span> <span class="n">w_tip</span> <span class="o">=</span> <span class="n">_pyramid_grid_metrics</span><span class="p">(</span>
+        <span class="n">foot_size</span><span class="p">,</span>
+        <span class="n">foot_height</span><span class="p">,</span>
+        <span class="n">clearance</span><span class="p">,</span>
+        <span class="n">pyramid_count</span><span class="o">=</span><span class="n">pyramid_count</span><span class="p">,</span>
+        <span class="n">single_pyramid</span><span class="o">=</span><span class="n">single_pyramid</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">eps</span> <span class="o">=</span> <span class="mf">0.05</span>
+    <span class="n">b_root</span> <span class="o">=</span> <span class="n">b_male</span> <span class="o">+</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">eps</span>
+    <span class="n">h_total</span> <span class="o">=</span> <span class="n">h_male</span> <span class="o">+</span> <span class="n">eps</span>
+
+    <span class="n">positions</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">(</span><span class="n">foot_inset</span><span class="p">,</span> <span class="n">foot_inset</span><span class="p">),</span>
+        <span class="p">(</span><span class="n">width</span> <span class="o">-</span> <span class="n">foot_inset</span> <span class="o">-</span> <span class="n">foot_size</span><span class="p">,</span> <span class="n">foot_inset</span><span class="p">),</span>
+        <span class="p">(</span><span class="n">foot_inset</span><span class="p">,</span> <span class="n">length</span> <span class="o">-</span> <span class="n">foot_inset</span> <span class="o">-</span> <span class="n">foot_size</span><span class="p">),</span>
+        <span class="p">(</span><span class="n">width</span> <span class="o">-</span> <span class="n">foot_inset</span> <span class="o">-</span> <span class="n">foot_size</span><span class="p">,</span> <span class="n">length</span> <span class="o">-</span> <span class="n">foot_inset</span> <span class="o">-</span> <span class="n">foot_size</span><span class="p">),</span>
+    <span class="p">]</span>
+    <span class="n">solids</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">x0</span><span class="p">,</span> <span class="n">y0</span> <span class="ow">in</span> <span class="n">positions</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+                <span class="n">cx</span> <span class="o">=</span> <span class="n">x0</span> <span class="o">+</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">)</span> <span class="o">*</span> <span class="n">pitch</span>
+                <span class="n">cy</span> <span class="o">=</span> <span class="n">y0</span> <span class="o">+</span> <span class="p">(</span><span class="n">j</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">)</span> <span class="o">*</span> <span class="n">pitch</span>
+                <span class="k">if</span> <span class="n">point_up</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">cone</span><span class="p">:</span>
+                        <span class="n">p</span> <span class="o">=</span> <span class="n">cylinder</span><span class="p">(</span>
+                            <span class="n">height</span><span class="o">=</span><span class="n">h_total</span><span class="p">,</span>
+                            <span class="n">radius1</span><span class="o">=</span><span class="n">b_root</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span>
+                            <span class="n">radius2</span><span class="o">=</span><span class="n">w_tip</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span>
+                            <span class="n">anchor</span><span class="o">=</span><span class="n">Anchor</span><span class="o">.</span><span class="n">BOTTOM</span><span class="p">,</span>
+                            <span class="o">**</span><span class="n">precision_kwargs</span><span class="p">(),</span>
+                        <span class="p">)</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">cx</span><span class="p">,</span> <span class="n">cy</span><span class="p">,</span> <span class="n">base_z</span> <span class="o">-</span> <span class="n">eps</span><span class="p">])</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">p</span> <span class="o">=</span> <span class="n">prismoid</span><span class="p">(</span>
+                            <span class="p">[</span><span class="n">b_root</span><span class="p">,</span> <span class="n">b_root</span><span class="p">],</span>
+                            <span class="p">[</span><span class="n">w_tip</span><span class="p">,</span> <span class="n">w_tip</span><span class="p">],</span>
+                            <span class="n">height</span><span class="o">=</span><span class="n">h_total</span><span class="p">,</span>
+                            <span class="o">**</span><span class="n">precision_kwargs</span><span class="p">(),</span>
+                        <span class="p">)</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">cx</span><span class="p">,</span> <span class="n">cy</span><span class="p">,</span> <span class="n">base_z</span> <span class="o">-</span> <span class="n">eps</span><span class="p">])</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">cone</span><span class="p">:</span>
+                        <span class="n">p</span> <span class="o">=</span> <span class="n">cylinder</span><span class="p">(</span>
+                            <span class="n">height</span><span class="o">=</span><span class="n">h_total</span><span class="p">,</span>
+                            <span class="n">radius1</span><span class="o">=</span><span class="n">w_tip</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span>
+                            <span class="n">radius2</span><span class="o">=</span><span class="n">b_root</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span>
+                            <span class="n">anchor</span><span class="o">=</span><span class="n">Anchor</span><span class="o">.</span><span class="n">BOTTOM</span><span class="p">,</span>
+                            <span class="o">**</span><span class="n">precision_kwargs</span><span class="p">(),</span>
+                        <span class="p">)</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">cx</span><span class="p">,</span> <span class="n">cy</span><span class="p">,</span> <span class="n">base_z</span> <span class="o">-</span> <span class="n">h_male</span><span class="p">])</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">p</span> <span class="o">=</span> <span class="n">prismoid</span><span class="p">(</span>
+                            <span class="p">[</span><span class="n">w_tip</span><span class="p">,</span> <span class="n">w_tip</span><span class="p">],</span>
+                            <span class="p">[</span><span class="n">b_root</span><span class="p">,</span> <span class="n">b_root</span><span class="p">],</span>
+                            <span class="n">height</span><span class="o">=</span><span class="n">h_total</span><span class="p">,</span>
+                            <span class="o">**</span><span class="n">precision_kwargs</span><span class="p">(),</span>
+                        <span class="p">)</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">cx</span><span class="p">,</span> <span class="n">cy</span><span class="p">,</span> <span class="n">base_z</span> <span class="o">-</span> <span class="n">h_male</span><span class="p">])</span>
+                <span class="n">solids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">union_all</span><span class="p">(</span><span class="n">solids</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="build_stacking_pyramid_indents">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.features.build_stacking_pyramid_indents.html#pyboxbuilder.box.features.build_stacking_pyramid_indents">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">build_stacking_pyramid_indents</span><span class="p">(</span>
+    <span class="n">width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">foot_size</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">indent_depth</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">foot_inset</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">clearance</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.15</span><span class="p">,</span>
+    <span class="n">surface_z</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+    <span class="n">pyramid_count</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">single_pyramid</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">cone</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">point_up</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Return 4 corner 45-degree pyramid (or multi-pyramid grid / cone) female indent cutters.</span>
+
+<span class="sd">    When ``point_up=True`` and ``surface_z=0.0``, the indents cut upward into the</span>
+<span class="sd">    bottom floor from ``z = 0`` to ``z = h_female`` with 45-degree self-supporting</span>
+<span class="sd">    walls and zero flat horizontal ceiling, making them 100% 3D-printer safe on the</span>
+<span class="sd">    build plate without supports.</span>
+<span class="sd">    """</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">Anchor</span><span class="p">,</span> <span class="n">cylinder</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2.shapes3d</span><span class="w"> </span><span class="kn">import</span> <span class="n">prismoid</span>
+
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.compartments.element</span><span class="w"> </span><span class="kn">import</span> <span class="n">union_all</span>
+
+    <span class="n">n</span><span class="p">,</span> <span class="n">pitch</span><span class="p">,</span> <span class="n">b_female</span><span class="p">,</span> <span class="n">h_female</span><span class="p">,</span> <span class="n">_bm</span><span class="p">,</span> <span class="n">_hm</span><span class="p">,</span> <span class="n">w_tip</span> <span class="o">=</span> <span class="n">_pyramid_grid_metrics</span><span class="p">(</span>
+        <span class="n">foot_size</span><span class="p">,</span>
+        <span class="n">indent_depth</span><span class="p">,</span>
+        <span class="n">clearance</span><span class="p">,</span>
+        <span class="n">pyramid_count</span><span class="o">=</span><span class="n">pyramid_count</span><span class="p">,</span>
+        <span class="n">single_pyramid</span><span class="o">=</span><span class="n">single_pyramid</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">eps</span> <span class="o">=</span> <span class="mf">0.05</span>
+    <span class="n">b_open</span> <span class="o">=</span> <span class="n">b_female</span> <span class="o">+</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">eps</span>
+    <span class="n">h_total</span> <span class="o">=</span> <span class="n">h_female</span> <span class="o">+</span> <span class="n">eps</span>
+
+    <span class="n">positions</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">(</span><span class="n">foot_inset</span><span class="p">,</span> <span class="n">foot_inset</span><span class="p">),</span>
+        <span class="p">(</span><span class="n">width</span> <span class="o">-</span> <span class="n">foot_inset</span> <span class="o">-</span> <span class="n">foot_size</span><span class="p">,</span> <span class="n">foot_inset</span><span class="p">),</span>
+        <span class="p">(</span><span class="n">foot_inset</span><span class="p">,</span> <span class="n">length</span> <span class="o">-</span> <span class="n">foot_inset</span> <span class="o">-</span> <span class="n">foot_size</span><span class="p">),</span>
+        <span class="p">(</span><span class="n">width</span> <span class="o">-</span> <span class="n">foot_inset</span> <span class="o">-</span> <span class="n">foot_size</span><span class="p">,</span> <span class="n">length</span> <span class="o">-</span> <span class="n">foot_inset</span> <span class="o">-</span> <span class="n">foot_size</span><span class="p">),</span>
+    <span class="p">]</span>
+    <span class="n">solids</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">x0</span><span class="p">,</span> <span class="n">y0</span> <span class="ow">in</span> <span class="n">positions</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+                <span class="n">cx</span> <span class="o">=</span> <span class="n">x0</span> <span class="o">+</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">)</span> <span class="o">*</span> <span class="n">pitch</span>
+                <span class="n">cy</span> <span class="o">=</span> <span class="n">y0</span> <span class="o">+</span> <span class="p">(</span><span class="n">j</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">)</span> <span class="o">*</span> <span class="n">pitch</span>
+                <span class="k">if</span> <span class="n">point_up</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">cone</span><span class="p">:</span>
+                        <span class="n">p</span> <span class="o">=</span> <span class="n">cylinder</span><span class="p">(</span>
+                            <span class="n">height</span><span class="o">=</span><span class="n">h_total</span><span class="p">,</span>
+                            <span class="n">radius1</span><span class="o">=</span><span class="n">b_open</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span>
+                            <span class="n">radius2</span><span class="o">=</span><span class="n">w_tip</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span>
+                            <span class="n">anchor</span><span class="o">=</span><span class="n">Anchor</span><span class="o">.</span><span class="n">BOTTOM</span><span class="p">,</span>
+                            <span class="o">**</span><span class="n">precision_kwargs</span><span class="p">(),</span>
+                        <span class="p">)</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">cx</span><span class="p">,</span> <span class="n">cy</span><span class="p">,</span> <span class="n">surface_z</span> <span class="o">-</span> <span class="n">eps</span><span class="p">])</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">p</span> <span class="o">=</span> <span class="n">prismoid</span><span class="p">(</span>
+                            <span class="p">[</span><span class="n">b_open</span><span class="p">,</span> <span class="n">b_open</span><span class="p">],</span>
+                            <span class="p">[</span><span class="n">w_tip</span><span class="p">,</span> <span class="n">w_tip</span><span class="p">],</span>
+                            <span class="n">height</span><span class="o">=</span><span class="n">h_total</span><span class="p">,</span>
+                            <span class="o">**</span><span class="n">precision_kwargs</span><span class="p">(),</span>
+                        <span class="p">)</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">cx</span><span class="p">,</span> <span class="n">cy</span><span class="p">,</span> <span class="n">surface_z</span> <span class="o">-</span> <span class="n">eps</span><span class="p">])</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">cone</span><span class="p">:</span>
+                        <span class="n">p</span> <span class="o">=</span> <span class="n">cylinder</span><span class="p">(</span>
+                            <span class="n">height</span><span class="o">=</span><span class="n">h_total</span><span class="p">,</span>
+                            <span class="n">radius1</span><span class="o">=</span><span class="n">w_tip</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span>
+                            <span class="n">radius2</span><span class="o">=</span><span class="n">b_open</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span>
+                            <span class="n">anchor</span><span class="o">=</span><span class="n">Anchor</span><span class="o">.</span><span class="n">BOTTOM</span><span class="p">,</span>
+                            <span class="o">**</span><span class="n">precision_kwargs</span><span class="p">(),</span>
+                        <span class="p">)</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">cx</span><span class="p">,</span> <span class="n">cy</span><span class="p">,</span> <span class="n">surface_z</span> <span class="o">-</span> <span class="n">h_female</span><span class="p">])</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">p</span> <span class="o">=</span> <span class="n">prismoid</span><span class="p">(</span>
+                            <span class="p">[</span><span class="n">w_tip</span><span class="p">,</span> <span class="n">w_tip</span><span class="p">],</span>
+                            <span class="p">[</span><span class="n">b_open</span><span class="p">,</span> <span class="n">b_open</span><span class="p">],</span>
+                            <span class="n">height</span><span class="o">=</span><span class="n">h_total</span><span class="p">,</span>
+                            <span class="o">**</span><span class="n">precision_kwargs</span><span class="p">(),</span>
+                        <span class="p">)</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">cx</span><span class="p">,</span> <span class="n">cy</span><span class="p">,</span> <span class="n">surface_z</span> <span class="o">-</span> <span class="n">h_female</span><span class="p">])</span>
+                <span class="n">solids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">union_all</span><span class="p">(</span><span class="n">solids</span><span class="p">)</span></div>
+
+
+
 <div class="viewcode-block" id="build_stacking_feet">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.features.build_stacking_feet.html#pyboxbuilder.box.features.build_stacking_feet">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">build_stacking_feet</span><span class="p">(</span>
@@ -4525,8 +4755,12 @@
     <span class="n">foot_inset</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">base_z</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
     <span class="n">chamfer</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.6</span><span class="p">,</span>
+    <span class="n">shape</span><span class="p">:</span> <span class="n">StackableShape</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">clearance</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.15</span><span class="p">,</span>
+    <span class="n">pyramid_count</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">point_up</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""Return 4 corner locator feet protruding from the bottom floor (FR-101).</span>
+<span class="w">    </span><span class="sd">"""Return 4 corner locator feet (FR-101).</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        width: Box width in mm.</span>
@@ -4534,9 +4768,14 @@
 <span class="sd">        foot_size: Width/length of each foot pad in mm.</span>
 <span class="sd">        foot_height: Height of each foot in mm.</span>
 <span class="sd">        foot_inset: Inset from box edges in mm.</span>
-<span class="sd">        base_z: Z coordinate of the base floor (typically 0.0). Feet extend from</span>
-<span class="sd">            ``base_z - foot_height`` to ``base_z``.</span>
-<span class="sd">        chamfer: Bottom chamfer size in mm for support-free print and self-locating fit.</span>
+<span class="sd">        base_z: Z coordinate of the mounting face.</span>
+<span class="sd">        chamfer: Edge chamfer size in mm when ``shape`` is ``StackableShape.FLAT``.</span>
+<span class="sd">        shape: Geometry profile (``FLAT``, ``PYRAMID``, ``PYRAMIDS``, ``CONE``).</span>
+<span class="sd">            Defaults to ``StackableShape.FLAT`` when called directly.</span>
+<span class="sd">        clearance: Lateral fit clearance in mm for pyramid/cone sizing.</span>
+<span class="sd">        pyramid_count: Number of pyramids per side when ``shape`` is ``PYRAMIDS``.</span>
+<span class="sd">        point_up: When True, feet protrude upward (+Z) from ``base_z``; when False,</span>
+<span class="sd">            feet protrude downward (-Z) from ``base_z``.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        Bosl2Solid: Union of the 4 corner feet.</span>
@@ -4545,6 +4784,23 @@
 
     <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.shell</span><span class="w"> </span><span class="kn">import</span> <span class="n">block</span><span class="p">,</span> <span class="n">corner</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.compartments.element</span><span class="w"> </span><span class="kn">import</span> <span class="n">union_all</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">StackableShape</span>
+
+    <span class="n">eff_shape</span> <span class="o">=</span> <span class="n">StackableShape</span><span class="o">.</span><span class="n">FLAT</span> <span class="k">if</span> <span class="n">shape</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">shape</span>
+    <span class="k">if</span> <span class="n">eff_shape</span> <span class="ow">in</span> <span class="p">(</span><span class="n">StackableShape</span><span class="o">.</span><span class="n">PYRAMID</span><span class="p">,</span> <span class="n">StackableShape</span><span class="o">.</span><span class="n">PYRAMIDS</span><span class="p">,</span> <span class="n">StackableShape</span><span class="o">.</span><span class="n">CONE</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">build_stacking_pyramids</span><span class="p">(</span>
+            <span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span>
+            <span class="n">length</span><span class="o">=</span><span class="n">length</span><span class="p">,</span>
+            <span class="n">foot_size</span><span class="o">=</span><span class="n">foot_size</span><span class="p">,</span>
+            <span class="n">foot_height</span><span class="o">=</span><span class="n">foot_height</span><span class="p">,</span>
+            <span class="n">foot_inset</span><span class="o">=</span><span class="n">foot_inset</span><span class="p">,</span>
+            <span class="n">clearance</span><span class="o">=</span><span class="n">clearance</span><span class="p">,</span>
+            <span class="n">base_z</span><span class="o">=</span><span class="n">base_z</span><span class="p">,</span>
+            <span class="n">pyramid_count</span><span class="o">=</span><span class="n">pyramid_count</span><span class="p">,</span>
+            <span class="n">single_pyramid</span><span class="o">=</span><span class="p">(</span><span class="n">eff_shape</span> <span class="ow">is</span> <span class="n">StackableShape</span><span class="o">.</span><span class="n">PYRAMID</span><span class="p">),</span>
+            <span class="n">cone</span><span class="o">=</span><span class="p">(</span><span class="n">eff_shape</span> <span class="ow">is</span> <span class="n">StackableShape</span><span class="o">.</span><span class="n">CONE</span><span class="p">),</span>
+            <span class="n">point_up</span><span class="o">=</span><span class="n">point_up</span><span class="p">,</span>
+        <span class="p">)</span>
 
     <span class="n">c</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">chamfer</span><span class="p">,</span> <span class="n">foot_height</span> <span class="o">*</span> <span class="mf">0.45</span><span class="p">,</span> <span class="n">foot_size</span> <span class="o">*</span> <span class="mf">0.45</span><span class="p">)</span>
     <span class="n">solids</span> <span class="o">=</span> <span class="p">[]</span>
@@ -4554,11 +4810,12 @@
         <span class="p">(</span><span class="n">foot_inset</span><span class="p">,</span> <span class="n">length</span> <span class="o">-</span> <span class="n">foot_inset</span> <span class="o">-</span> <span class="n">foot_size</span><span class="p">),</span>
         <span class="p">(</span><span class="n">width</span> <span class="o">-</span> <span class="n">foot_inset</span> <span class="o">-</span> <span class="n">foot_size</span><span class="p">,</span> <span class="n">length</span> <span class="o">-</span> <span class="n">foot_inset</span> <span class="o">-</span> <span class="n">foot_size</span><span class="p">),</span>
     <span class="p">]</span>
-    <span class="n">z_bottom</span> <span class="o">=</span> <span class="n">base_z</span> <span class="o">-</span> <span class="n">foot_height</span>
+    <span class="n">z_bottom</span> <span class="o">=</span> <span class="n">base_z</span> <span class="k">if</span> <span class="n">point_up</span> <span class="k">else</span> <span class="p">(</span><span class="n">base_z</span> <span class="o">-</span> <span class="n">foot_height</span><span class="p">)</span>
+    <span class="n">edge_anchor</span> <span class="o">=</span> <span class="n">Anchor</span><span class="o">.</span><span class="n">TOP</span> <span class="k">if</span> <span class="n">point_up</span> <span class="k">else</span> <span class="n">Anchor</span><span class="o">.</span><span class="n">BOTTOM</span>
     <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">positions</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">c</span> <span class="o">&gt;</span> <span class="mf">0.05</span><span class="p">:</span>
             <span class="n">f</span> <span class="o">=</span> <span class="n">corner</span><span class="p">(</span>
-                <span class="n">cuboid</span><span class="p">([</span><span class="n">foot_size</span><span class="p">,</span> <span class="n">foot_size</span><span class="p">,</span> <span class="n">foot_height</span><span class="p">],</span> <span class="n">chamfer</span><span class="o">=</span><span class="n">c</span><span class="p">,</span> <span class="n">edges</span><span class="o">=</span><span class="p">[</span><span class="n">Anchor</span><span class="o">.</span><span class="n">BOTTOM</span><span class="p">]),</span>
+                <span class="n">cuboid</span><span class="p">([</span><span class="n">foot_size</span><span class="p">,</span> <span class="n">foot_size</span><span class="p">,</span> <span class="n">foot_height</span><span class="p">],</span> <span class="n">chamfer</span><span class="o">=</span><span class="n">c</span><span class="p">,</span> <span class="n">edges</span><span class="o">=</span><span class="p">[</span><span class="n">edge_anchor</span><span class="p">]),</span>
                 <span class="p">[</span><span class="n">foot_size</span><span class="p">,</span> <span class="n">foot_size</span><span class="p">,</span> <span class="n">foot_height</span><span class="p">],</span>
                 <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z_bottom</span><span class="p">),</span>
             <span class="p">)</span>
@@ -4580,8 +4837,11 @@
     <span class="n">foot_inset</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">clearance</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.15</span><span class="p">,</span>
     <span class="n">top_z</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+    <span class="n">shape</span><span class="p">:</span> <span class="n">StackableShape</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">pyramid_count</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">point_up</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""Return 4 corner indent cutter solids to be subtracted from lid/rim (FR-101).</span>
+<span class="w">    </span><span class="sd">"""Return 4 corner indent cutter solids to be subtracted from floor or lid/rim (FR-101).</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        width: Box width in mm.</span>
@@ -4590,13 +4850,37 @@
 <span class="sd">        indent_depth: Depth of each indent socket in mm.</span>
 <span class="sd">        foot_inset: Inset from box edges in mm.</span>
 <span class="sd">        clearance: Fit clearance offset per side in mm.</span>
-<span class="sd">        top_z: Z coordinate of the top deck (indents cut from top_z - indent_depth to top_z + 0.1).</span>
+<span class="sd">        top_z: Z coordinate of the reference surface.</span>
+<span class="sd">        shape: Geometry profile (``FLAT``, ``PYRAMID``, ``PYRAMIDS``, ``CONE``).</span>
+<span class="sd">            Defaults to ``StackableShape.FLAT`` when called directly.</span>
+<span class="sd">        pyramid_count: Number of pyramids per side when ``shape`` is ``PYRAMIDS``.</span>
+<span class="sd">        point_up: When True, indents cut upward (+Z) from ``surface_z = top_z - indent_depth``</span>
+<span class="sd">            (or ``0.0`` when ``top_z == indent_depth``); when False, indents cut downward</span>
+<span class="sd">            from ``top_z``.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        Bosl2Solid: Union of the 4 corner indent cutters.</span>
 <span class="sd">    """</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.shell</span><span class="w"> </span><span class="kn">import</span> <span class="n">block</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.compartments.element</span><span class="w"> </span><span class="kn">import</span> <span class="n">union_all</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">StackableShape</span>
+
+    <span class="n">eff_shape</span> <span class="o">=</span> <span class="n">StackableShape</span><span class="o">.</span><span class="n">FLAT</span> <span class="k">if</span> <span class="n">shape</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">shape</span>
+    <span class="k">if</span> <span class="n">eff_shape</span> <span class="ow">in</span> <span class="p">(</span><span class="n">StackableShape</span><span class="o">.</span><span class="n">PYRAMID</span><span class="p">,</span> <span class="n">StackableShape</span><span class="o">.</span><span class="n">PYRAMIDS</span><span class="p">,</span> <span class="n">StackableShape</span><span class="o">.</span><span class="n">CONE</span><span class="p">):</span>
+        <span class="n">surface_z</span> <span class="o">=</span> <span class="p">(</span><span class="n">top_z</span> <span class="o">-</span> <span class="n">indent_depth</span><span class="p">)</span> <span class="k">if</span> <span class="n">point_up</span> <span class="k">else</span> <span class="n">top_z</span>
+        <span class="k">return</span> <span class="n">build_stacking_pyramid_indents</span><span class="p">(</span>
+            <span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span>
+            <span class="n">length</span><span class="o">=</span><span class="n">length</span><span class="p">,</span>
+            <span class="n">foot_size</span><span class="o">=</span><span class="n">foot_size</span><span class="p">,</span>
+            <span class="n">indent_depth</span><span class="o">=</span><span class="n">indent_depth</span><span class="p">,</span>
+            <span class="n">foot_inset</span><span class="o">=</span><span class="n">foot_inset</span><span class="p">,</span>
+            <span class="n">clearance</span><span class="o">=</span><span class="n">clearance</span><span class="p">,</span>
+            <span class="n">surface_z</span><span class="o">=</span><span class="n">surface_z</span><span class="p">,</span>
+            <span class="n">pyramid_count</span><span class="o">=</span><span class="n">pyramid_count</span><span class="p">,</span>
+            <span class="n">single_pyramid</span><span class="o">=</span><span class="p">(</span><span class="n">eff_shape</span> <span class="ow">is</span> <span class="n">StackableShape</span><span class="o">.</span><span class="n">PYRAMID</span><span class="p">),</span>
+            <span class="n">cone</span><span class="o">=</span><span class="p">(</span><span class="n">eff_shape</span> <span class="ow">is</span> <span class="n">StackableShape</span><span class="o">.</span><span class="n">CONE</span><span class="p">),</span>
+            <span class="n">point_up</span><span class="o">=</span><span class="n">point_up</span><span class="p">,</span>
+        <span class="p">)</span>
 
     <span class="n">s</span> <span class="o">=</span> <span class="n">foot_size</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">clearance</span>
     <span class="n">h</span> <span class="o">=</span> <span class="n">indent_depth</span> <span class="o">+</span> <span class="n">clearance</span> <span class="o">+</span> <span class="mf">0.1</span>
@@ -4612,6 +4896,67 @@
 
 
 
+<span class="k">def</span><span class="w"> </span><span class="nf">_perimeter_v_metrics</span><span class="p">(</span>
+    <span class="n">rim_thickness</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">depth</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">clearance</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">"""Compute 45-degree V-groove / V-ridge perimeter cross-section metrics."""</span>
+    <span class="n">w_tip</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mf">0.4</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.15</span><span class="p">,</span> <span class="n">rim_thickness</span> <span class="o">*</span> <span class="mf">0.15</span><span class="p">))</span>
+    <span class="n">b_female</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">rim_thickness</span> <span class="o">+</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">clearance</span><span class="p">,</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">depth</span> <span class="o">+</span> <span class="n">w_tip</span><span class="p">)</span>
+    <span class="n">h_female</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.3</span><span class="p">,</span> <span class="p">(</span><span class="n">b_female</span> <span class="o">-</span> <span class="n">w_tip</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">)</span>
+    <span class="n">b_male</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">w_tip</span> <span class="o">+</span> <span class="mf">0.2</span><span class="p">,</span> <span class="n">b_female</span> <span class="o">-</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">clearance</span><span class="p">)</span>
+    <span class="n">h_male</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">h_female</span> <span class="o">-</span> <span class="n">clearance</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">b_female</span><span class="p">,</span> <span class="n">h_female</span><span class="p">,</span> <span class="n">b_male</span><span class="p">,</span> <span class="n">h_male</span><span class="p">,</span> <span class="n">w_tip</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_build_perimeter_v_loop</span><span class="p">(</span>
+    <span class="n">width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">rim_thickness</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">inset</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">base_w</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">tip_w</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">height</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">surface_z</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">point_up</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Build a 4-bar 45-degree V-ridge or V-groove loop around the box perimeter."""</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2.shapes3d</span><span class="w"> </span><span class="kn">import</span> <span class="n">prismoid</span>
+
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.compartments.element</span><span class="w"> </span><span class="kn">import</span> <span class="n">union_all</span>
+
+    <span class="n">eps</span> <span class="o">=</span> <span class="mf">0.05</span>
+    <span class="n">b_open</span> <span class="o">=</span> <span class="n">base_w</span> <span class="o">+</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">eps</span>
+    <span class="n">h_total</span> <span class="o">=</span> <span class="n">height</span> <span class="o">+</span> <span class="n">eps</span>
+
+    <span class="n">x_l</span> <span class="o">=</span> <span class="n">inset</span> <span class="o">+</span> <span class="n">rim_thickness</span> <span class="o">/</span> <span class="mf">2.0</span>
+    <span class="n">x_r</span> <span class="o">=</span> <span class="n">width</span> <span class="o">-</span> <span class="n">inset</span> <span class="o">-</span> <span class="n">rim_thickness</span> <span class="o">/</span> <span class="mf">2.0</span>
+    <span class="n">y_f</span> <span class="o">=</span> <span class="n">inset</span> <span class="o">+</span> <span class="n">rim_thickness</span> <span class="o">/</span> <span class="mf">2.0</span>
+    <span class="n">y_b</span> <span class="o">=</span> <span class="n">length</span> <span class="o">-</span> <span class="n">inset</span> <span class="o">-</span> <span class="n">rim_thickness</span> <span class="o">/</span> <span class="mf">2.0</span>
+    <span class="n">dx</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">x_r</span> <span class="o">-</span> <span class="n">x_l</span><span class="p">)</span>
+    <span class="n">dy</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">y_b</span> <span class="o">-</span> <span class="n">y_f</span><span class="p">)</span>
+    <span class="n">xc</span> <span class="o">=</span> <span class="n">width</span> <span class="o">/</span> <span class="mf">2.0</span>
+    <span class="n">yc</span> <span class="o">=</span> <span class="n">length</span> <span class="o">/</span> <span class="mf">2.0</span>
+
+    <span class="k">if</span> <span class="n">point_up</span><span class="p">:</span>
+        <span class="n">z0</span> <span class="o">=</span> <span class="n">surface_z</span> <span class="o">-</span> <span class="n">eps</span>
+        <span class="n">s1_x</span><span class="p">,</span> <span class="n">s2_x</span> <span class="o">=</span> <span class="p">[</span><span class="n">dx</span> <span class="o">+</span> <span class="n">b_open</span><span class="p">,</span> <span class="n">b_open</span><span class="p">],</span> <span class="p">[</span><span class="n">dx</span> <span class="o">+</span> <span class="n">tip_w</span><span class="p">,</span> <span class="n">tip_w</span><span class="p">]</span>
+        <span class="n">s1_y</span><span class="p">,</span> <span class="n">s2_y</span> <span class="o">=</span> <span class="p">[</span><span class="n">b_open</span><span class="p">,</span> <span class="n">dy</span> <span class="o">+</span> <span class="n">b_open</span><span class="p">],</span> <span class="p">[</span><span class="n">tip_w</span><span class="p">,</span> <span class="n">dy</span> <span class="o">+</span> <span class="n">tip_w</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">z0</span> <span class="o">=</span> <span class="n">surface_z</span> <span class="o">-</span> <span class="n">height</span>
+        <span class="n">s1_x</span><span class="p">,</span> <span class="n">s2_x</span> <span class="o">=</span> <span class="p">[</span><span class="n">dx</span> <span class="o">+</span> <span class="n">tip_w</span><span class="p">,</span> <span class="n">tip_w</span><span class="p">],</span> <span class="p">[</span><span class="n">dx</span> <span class="o">+</span> <span class="n">b_open</span><span class="p">,</span> <span class="n">b_open</span><span class="p">]</span>
+        <span class="n">s1_y</span><span class="p">,</span> <span class="n">s2_y</span> <span class="o">=</span> <span class="p">[</span><span class="n">tip_w</span><span class="p">,</span> <span class="n">dy</span> <span class="o">+</span> <span class="n">tip_w</span><span class="p">],</span> <span class="p">[</span><span class="n">b_open</span><span class="p">,</span> <span class="n">dy</span> <span class="o">+</span> <span class="n">b_open</span><span class="p">]</span>
+
+    <span class="n">bars</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">prismoid</span><span class="p">(</span><span class="n">s1_x</span><span class="p">,</span> <span class="n">s2_x</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">h_total</span><span class="p">,</span> <span class="o">**</span><span class="n">precision_kwargs</span><span class="p">())</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">xc</span><span class="p">,</span> <span class="n">y_f</span><span class="p">,</span> <span class="n">z0</span><span class="p">]),</span>
+        <span class="n">prismoid</span><span class="p">(</span><span class="n">s1_x</span><span class="p">,</span> <span class="n">s2_x</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">h_total</span><span class="p">,</span> <span class="o">**</span><span class="n">precision_kwargs</span><span class="p">())</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">xc</span><span class="p">,</span> <span class="n">y_b</span><span class="p">,</span> <span class="n">z0</span><span class="p">]),</span>
+        <span class="n">prismoid</span><span class="p">(</span><span class="n">s1_y</span><span class="p">,</span> <span class="n">s2_y</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">h_total</span><span class="p">,</span> <span class="o">**</span><span class="n">precision_kwargs</span><span class="p">())</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">x_l</span><span class="p">,</span> <span class="n">yc</span><span class="p">,</span> <span class="n">z0</span><span class="p">]),</span>
+        <span class="n">prismoid</span><span class="p">(</span><span class="n">s1_y</span><span class="p">,</span> <span class="n">s2_y</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">h_total</span><span class="p">,</span> <span class="o">**</span><span class="n">precision_kwargs</span><span class="p">())</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">x_r</span><span class="p">,</span> <span class="n">yc</span><span class="p">,</span> <span class="n">z0</span><span class="p">]),</span>
+    <span class="p">]</span>
+    <span class="k">return</span> <span class="n">union_all</span><span class="p">(</span><span class="n">bars</span><span class="p">)</span>
+
+
 <div class="viewcode-block" id="build_perimeter_stacking_foot">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.features.build_perimeter_stacking_foot.html#pyboxbuilder.box.features.build_perimeter_stacking_foot">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">build_perimeter_stacking_foot</span><span class="p">(</span>
@@ -4621,15 +4966,36 @@
     <span class="n">foot_height</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">inset</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">base_z</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+    <span class="n">shape</span><span class="p">:</span> <span class="n">StackableShape</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">clearance</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.15</span><span class="p">,</span>
+    <span class="n">point_up</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""Return an inset perimeter foot rim extending from base_z - foot_height to base_z (FR-101)."""</span>
+<span class="w">    </span><span class="sd">"""Return an inset perimeter foot/V-ridge rim (FR-101)."""</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.shell</span><span class="w"> </span><span class="kn">import</span> <span class="n">block</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">StackableShape</span>
+
+    <span class="n">eff_shape</span> <span class="o">=</span> <span class="n">StackableShape</span><span class="o">.</span><span class="n">FLAT</span> <span class="k">if</span> <span class="n">shape</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">shape</span>
+    <span class="k">if</span> <span class="n">eff_shape</span> <span class="ow">in</span> <span class="p">(</span><span class="n">StackableShape</span><span class="o">.</span><span class="n">PYRAMID</span><span class="p">,</span> <span class="n">StackableShape</span><span class="o">.</span><span class="n">PYRAMIDS</span><span class="p">,</span> <span class="n">StackableShape</span><span class="o">.</span><span class="n">CONE</span><span class="p">):</span>
+        <span class="n">_bf</span><span class="p">,</span> <span class="n">_hf</span><span class="p">,</span> <span class="n">b_male</span><span class="p">,</span> <span class="n">h_male</span><span class="p">,</span> <span class="n">w_tip</span> <span class="o">=</span> <span class="n">_perimeter_v_metrics</span><span class="p">(</span>
+            <span class="n">rim_thickness</span><span class="p">,</span> <span class="n">foot_height</span><span class="p">,</span> <span class="n">clearance</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">_build_perimeter_v_loop</span><span class="p">(</span>
+            <span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span>
+            <span class="n">length</span><span class="o">=</span><span class="n">length</span><span class="p">,</span>
+            <span class="n">rim_thickness</span><span class="o">=</span><span class="n">rim_thickness</span><span class="p">,</span>
+            <span class="n">inset</span><span class="o">=</span><span class="n">inset</span><span class="p">,</span>
+            <span class="n">base_w</span><span class="o">=</span><span class="n">b_male</span><span class="p">,</span>
+            <span class="n">tip_w</span><span class="o">=</span><span class="n">w_tip</span><span class="p">,</span>
+            <span class="n">height</span><span class="o">=</span><span class="n">h_male</span><span class="p">,</span>
+            <span class="n">surface_z</span><span class="o">=</span><span class="n">base_z</span><span class="p">,</span>
+            <span class="n">point_up</span><span class="o">=</span><span class="n">point_up</span><span class="p">,</span>
+        <span class="p">)</span>
 
     <span class="n">outer_w</span> <span class="o">=</span> <span class="n">width</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">inset</span>
     <span class="n">outer_l</span> <span class="o">=</span> <span class="n">length</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">inset</span>
     <span class="n">inner_w</span> <span class="o">=</span> <span class="n">outer_w</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">rim_thickness</span>
     <span class="n">inner_l</span> <span class="o">=</span> <span class="n">outer_l</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">rim_thickness</span>
-    <span class="n">z</span> <span class="o">=</span> <span class="n">base_z</span> <span class="o">-</span> <span class="n">foot_height</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="n">base_z</span> <span class="k">if</span> <span class="n">point_up</span> <span class="k">else</span> <span class="p">(</span><span class="n">base_z</span> <span class="o">-</span> <span class="n">foot_height</span><span class="p">)</span>
 
     <span class="n">outer</span> <span class="o">=</span> <span class="n">block</span><span class="p">([</span><span class="n">outer_w</span><span class="p">,</span> <span class="n">outer_l</span><span class="p">,</span> <span class="n">foot_height</span><span class="p">],</span> <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="n">inset</span><span class="p">,</span> <span class="n">inset</span><span class="p">,</span> <span class="n">z</span><span class="p">))</span>
     <span class="n">inner</span> <span class="o">=</span> <span class="n">block</span><span class="p">([</span><span class="n">inner_w</span><span class="p">,</span> <span class="n">inner_l</span><span class="p">,</span> <span class="n">foot_height</span> <span class="o">+</span> <span class="mf">0.2</span><span class="p">],</span> <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="n">inset</span> <span class="o">+</span> <span class="n">rim_thickness</span><span class="p">,</span> <span class="n">inset</span> <span class="o">+</span> <span class="n">rim_thickness</span><span class="p">,</span> <span class="n">z</span> <span class="o">-</span> <span class="mf">0.1</span><span class="p">))</span>
@@ -4647,9 +5013,30 @@
     <span class="n">inset</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">clearance</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.15</span><span class="p">,</span>
     <span class="n">top_z</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+    <span class="n">shape</span><span class="p">:</span> <span class="n">StackableShape</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">point_up</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""Return a perimeter channel cutter to be subtracted from lid top (FR-101)."""</span>
+<span class="w">    </span><span class="sd">"""Return a perimeter channel/V-groove cutter to be subtracted from floor or lid top (FR-101)."""</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.shell</span><span class="w"> </span><span class="kn">import</span> <span class="n">block</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">StackableShape</span>
+
+    <span class="n">eff_shape</span> <span class="o">=</span> <span class="n">StackableShape</span><span class="o">.</span><span class="n">FLAT</span> <span class="k">if</span> <span class="n">shape</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">shape</span>
+    <span class="k">if</span> <span class="n">eff_shape</span> <span class="ow">in</span> <span class="p">(</span><span class="n">StackableShape</span><span class="o">.</span><span class="n">PYRAMID</span><span class="p">,</span> <span class="n">StackableShape</span><span class="o">.</span><span class="n">PYRAMIDS</span><span class="p">,</span> <span class="n">StackableShape</span><span class="o">.</span><span class="n">CONE</span><span class="p">):</span>
+        <span class="n">b_female</span><span class="p">,</span> <span class="n">h_female</span><span class="p">,</span> <span class="n">_bm</span><span class="p">,</span> <span class="n">_hm</span><span class="p">,</span> <span class="n">w_tip</span> <span class="o">=</span> <span class="n">_perimeter_v_metrics</span><span class="p">(</span>
+            <span class="n">rim_thickness</span><span class="p">,</span> <span class="n">indent_depth</span><span class="p">,</span> <span class="n">clearance</span>
+        <span class="p">)</span>
+        <span class="n">surface_z</span> <span class="o">=</span> <span class="p">(</span><span class="n">top_z</span> <span class="o">-</span> <span class="n">indent_depth</span><span class="p">)</span> <span class="k">if</span> <span class="n">point_up</span> <span class="k">else</span> <span class="n">top_z</span>
+        <span class="k">return</span> <span class="n">_build_perimeter_v_loop</span><span class="p">(</span>
+            <span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span>
+            <span class="n">length</span><span class="o">=</span><span class="n">length</span><span class="p">,</span>
+            <span class="n">rim_thickness</span><span class="o">=</span><span class="n">rim_thickness</span><span class="p">,</span>
+            <span class="n">inset</span><span class="o">=</span><span class="n">inset</span><span class="p">,</span>
+            <span class="n">base_w</span><span class="o">=</span><span class="n">b_female</span><span class="p">,</span>
+            <span class="n">tip_w</span><span class="o">=</span><span class="n">w_tip</span><span class="p">,</span>
+            <span class="n">height</span><span class="o">=</span><span class="n">h_female</span><span class="p">,</span>
+            <span class="n">surface_z</span><span class="o">=</span><span class="n">surface_z</span><span class="p">,</span>
+            <span class="n">point_up</span><span class="o">=</span><span class="n">point_up</span><span class="p">,</span>
+        <span class="p">)</span>
 
     <span class="n">outer_w</span> <span class="o">=</span> <span class="n">width</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">inset</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">clearance</span>
     <span class="n">outer_l</span> <span class="o">=</span> <span class="n">length</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">inset</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">clearance</span>
@@ -4665,6 +5052,101 @@
     <span class="p">)</span>
     <span class="k">return</span> <span class="n">outer</span> <span class="o">-</span> <span class="n">inner</span></div>
 
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_build_top_corner_corbels</span><span class="p">(</span>
+    <span class="n">width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">wt</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">floor_thickness</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">ledge_s</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">rim_h</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">top_z</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Build 45-degree self-supporting corner corbel shelves at the top of an open tray."""</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2.shapes3d</span><span class="w"> </span><span class="kn">import</span> <span class="n">prismoid</span>
+
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.shell</span><span class="w"> </span><span class="kn">import</span> <span class="n">block</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.compartments.element</span><span class="w"> </span><span class="kn">import</span> <span class="n">union_all</span>
+
+    <span class="n">margin</span> <span class="o">=</span> <span class="n">wt</span> <span class="o">*</span> <span class="mf">0.5</span>
+    <span class="n">top_span</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.6</span><span class="p">,</span> <span class="n">ledge_s</span> <span class="o">-</span> <span class="n">margin</span><span class="p">)</span>
+    <span class="n">bot_span</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">wt</span> <span class="o">*</span> <span class="mf">0.5</span><span class="p">)</span>
+    <span class="n">corbel_h</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">top_span</span> <span class="o">-</span> <span class="n">bot_span</span><span class="p">),</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">top_z</span> <span class="o">-</span> <span class="n">rim_h</span> <span class="o">-</span> <span class="n">floor_thickness</span><span class="p">))</span>
+    <span class="n">z_corbel</span> <span class="o">=</span> <span class="n">top_z</span> <span class="o">-</span> <span class="n">rim_h</span> <span class="o">-</span> <span class="n">corbel_h</span>
+
+    <span class="n">corners</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">(</span><span class="n">margin</span><span class="p">,</span> <span class="n">margin</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span>
+        <span class="p">(</span><span class="n">width</span> <span class="o">-</span> <span class="n">margin</span><span class="p">,</span> <span class="n">margin</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span>
+        <span class="p">(</span><span class="n">margin</span><span class="p">,</span> <span class="n">length</span> <span class="o">-</span> <span class="n">margin</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">),</span>
+        <span class="p">(</span><span class="n">width</span> <span class="o">-</span> <span class="n">margin</span><span class="p">,</span> <span class="n">length</span> <span class="o">-</span> <span class="n">margin</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">),</span>
+    <span class="p">]</span>
+    <span class="n">solids</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">x_wall</span><span class="p">,</span> <span class="n">y_wall</span><span class="p">,</span> <span class="n">sx</span><span class="p">,</span> <span class="n">sy</span> <span class="ow">in</span> <span class="n">corners</span><span class="p">:</span>
+        <span class="n">bx</span> <span class="o">=</span> <span class="n">x_wall</span> <span class="o">+</span> <span class="n">sx</span> <span class="o">*</span> <span class="p">(</span><span class="n">bot_span</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">)</span>
+        <span class="n">by</span> <span class="o">=</span> <span class="n">y_wall</span> <span class="o">+</span> <span class="n">sy</span> <span class="o">*</span> <span class="p">(</span><span class="n">bot_span</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">)</span>
+        <span class="n">tx</span> <span class="o">=</span> <span class="n">x_wall</span> <span class="o">+</span> <span class="n">sx</span> <span class="o">*</span> <span class="p">(</span><span class="n">top_span</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">)</span>
+        <span class="n">ty</span> <span class="o">=</span> <span class="n">y_wall</span> <span class="o">+</span> <span class="n">sy</span> <span class="o">*</span> <span class="p">(</span><span class="n">top_span</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">)</span>
+        <span class="n">corbel</span> <span class="o">=</span> <span class="n">prismoid</span><span class="p">(</span>
+            <span class="p">[</span><span class="n">bot_span</span><span class="p">,</span> <span class="n">bot_span</span><span class="p">],</span>
+            <span class="p">[</span><span class="n">top_span</span><span class="p">,</span> <span class="n">top_span</span><span class="p">],</span>
+            <span class="n">height</span><span class="o">=</span><span class="n">corbel_h</span> <span class="o">+</span> <span class="mf">0.05</span><span class="p">,</span>
+            <span class="n">shift</span><span class="o">=</span><span class="p">[</span><span class="n">tx</span> <span class="o">-</span> <span class="n">bx</span><span class="p">,</span> <span class="n">ty</span> <span class="o">-</span> <span class="n">by</span><span class="p">],</span>
+            <span class="o">**</span><span class="n">precision_kwargs</span><span class="p">(),</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">bx</span><span class="p">,</span> <span class="n">by</span><span class="p">,</span> <span class="n">z_corbel</span><span class="p">])</span>
+        <span class="n">cap</span> <span class="o">=</span> <span class="n">block</span><span class="p">(</span>
+            <span class="p">[</span><span class="n">top_span</span><span class="p">,</span> <span class="n">top_span</span><span class="p">,</span> <span class="n">rim_h</span><span class="p">],</span>
+            <span class="n">at</span><span class="o">=</span><span class="p">(</span>
+                <span class="nb">min</span><span class="p">(</span><span class="n">x_wall</span><span class="p">,</span> <span class="n">x_wall</span> <span class="o">+</span> <span class="n">sx</span> <span class="o">*</span> <span class="n">top_span</span><span class="p">),</span>
+                <span class="nb">min</span><span class="p">(</span><span class="n">y_wall</span><span class="p">,</span> <span class="n">y_wall</span> <span class="o">+</span> <span class="n">sy</span> <span class="o">*</span> <span class="n">top_span</span><span class="p">),</span>
+                <span class="n">top_z</span> <span class="o">-</span> <span class="n">rim_h</span><span class="p">,</span>
+            <span class="p">),</span>
+        <span class="p">)</span>
+        <span class="n">solids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">corbel</span> <span class="o">|</span> <span class="n">cap</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">union_all</span><span class="p">(</span><span class="n">solids</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_build_top_perimeter_corbel</span><span class="p">(</span>
+    <span class="n">width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">wt</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">floor_thickness</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">ledge_w</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">rim_h</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">top_z</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Build a 45-degree self-supporting interior perimeter corbel shelf for an open tray."""</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2.shapes3d</span><span class="w"> </span><span class="kn">import</span> <span class="n">prismoid</span>
+
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.shell</span><span class="w"> </span><span class="kn">import</span> <span class="n">block</span>
+
+    <span class="n">margin</span> <span class="o">=</span> <span class="n">wt</span> <span class="o">*</span> <span class="mf">0.5</span>
+    <span class="n">outer_w</span> <span class="o">=</span> <span class="n">width</span> <span class="o">-</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">margin</span>
+    <span class="n">outer_l</span> <span class="o">=</span> <span class="n">length</span> <span class="o">-</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">margin</span>
+    <span class="n">inner_top_w</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">width</span> <span class="o">-</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">ledge_w</span><span class="p">)</span>
+    <span class="n">inner_top_l</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">length</span> <span class="o">-</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">ledge_w</span><span class="p">)</span>
+    <span class="n">inner_bot_w</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">inner_top_w</span><span class="p">,</span> <span class="n">width</span> <span class="o">-</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">wt</span><span class="p">)</span>
+    <span class="n">inner_bot_l</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">inner_top_l</span><span class="p">,</span> <span class="n">length</span> <span class="o">-</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">wt</span><span class="p">)</span>
+
+    <span class="n">overhang</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.2</span><span class="p">,</span> <span class="p">(</span><span class="n">inner_bot_w</span> <span class="o">-</span> <span class="n">inner_top_w</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">)</span>
+    <span class="n">corbel_h</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">overhang</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">top_z</span> <span class="o">-</span> <span class="n">rim_h</span> <span class="o">-</span> <span class="n">floor_thickness</span><span class="p">))</span>
+    <span class="n">z_corbel</span> <span class="o">=</span> <span class="n">top_z</span> <span class="o">-</span> <span class="n">rim_h</span> <span class="o">-</span> <span class="n">corbel_h</span>
+
+    <span class="n">cap_outer</span> <span class="o">=</span> <span class="n">block</span><span class="p">([</span><span class="n">outer_w</span><span class="p">,</span> <span class="n">outer_l</span><span class="p">,</span> <span class="n">rim_h</span><span class="p">],</span> <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="n">margin</span><span class="p">,</span> <span class="n">margin</span><span class="p">,</span> <span class="n">top_z</span> <span class="o">-</span> <span class="n">rim_h</span><span class="p">))</span>
+    <span class="n">cap_inner</span> <span class="o">=</span> <span class="n">block</span><span class="p">(</span>
+        <span class="p">[</span><span class="n">inner_top_w</span><span class="p">,</span> <span class="n">inner_top_l</span><span class="p">,</span> <span class="n">rim_h</span> <span class="o">+</span> <span class="mf">0.2</span><span class="p">],</span>
+        <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="n">ledge_w</span><span class="p">,</span> <span class="n">ledge_w</span><span class="p">,</span> <span class="n">top_z</span> <span class="o">-</span> <span class="n">rim_h</span> <span class="o">-</span> <span class="mf">0.1</span><span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">cap</span> <span class="o">=</span> <span class="n">cap_outer</span> <span class="o">-</span> <span class="n">cap_inner</span>
+
+    <span class="n">corbel_outer</span> <span class="o">=</span> <span class="n">block</span><span class="p">([</span><span class="n">outer_w</span><span class="p">,</span> <span class="n">outer_l</span><span class="p">,</span> <span class="n">corbel_h</span> <span class="o">+</span> <span class="mf">0.05</span><span class="p">],</span> <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="n">margin</span><span class="p">,</span> <span class="n">margin</span><span class="p">,</span> <span class="n">z_corbel</span><span class="p">))</span>
+    <span class="n">corbel_inner</span> <span class="o">=</span> <span class="n">prismoid</span><span class="p">(</span>
+        <span class="p">[</span><span class="n">inner_bot_w</span><span class="p">,</span> <span class="n">inner_bot_l</span><span class="p">],</span>
+        <span class="p">[</span><span class="n">inner_top_w</span><span class="p">,</span> <span class="n">inner_top_l</span><span class="p">],</span>
+        <span class="n">height</span><span class="o">=</span><span class="n">corbel_h</span> <span class="o">+</span> <span class="mf">0.1</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">precision_kwargs</span><span class="p">(),</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">width</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">length</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">z_corbel</span> <span class="o">-</span> <span class="mf">0.025</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">cap</span> <span class="o">|</span> <span class="p">(</span><span class="n">corbel_outer</span> <span class="o">-</span> <span class="n">corbel_inner</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="apply_stackable_body">
@@ -4684,36 +5166,17 @@
     <span class="n">rim_thickness</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">stackable_thickness</span> <span class="ow">or</span> <span class="n">wt</span>
     <span class="n">clearance</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">stackable_fit_offset</span>
     <span class="n">has_lid</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">lid_thickness</span> <span class="o">&gt;</span> <span class="mf">0.0</span>
+    <span class="n">shape</span> <span class="o">=</span> <span class="n">_resolve_stackable_shape</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
+    <span class="n">pyr_count</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="s2">"stackable_pyramid_count"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="n">printer_safe</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="s2">"stackable_printer_safe"</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">mode</span> <span class="ow">is</span> <span class="n">StackableMode</span><span class="o">.</span><span class="n">FEET</span><span class="p">:</span>
-        <span class="n">depth</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">foot_height</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.8</span><span class="p">,</span> <span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">lid_thickness</span> <span class="k">if</span> <span class="n">has_lid</span> <span class="k">else</span> <span class="n">spec</span><span class="o">.</span><span class="n">floor_thickness</span><span class="p">)</span> <span class="o">-</span> <span class="mf">0.8</span><span class="p">))</span>
-        <span class="n">feet</span> <span class="o">=</span> <span class="n">build_stacking_feet</span><span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span><span class="p">,</span> <span class="n">foot_size</span><span class="p">,</span> <span class="n">depth</span><span class="p">,</span> <span class="n">foot_inset</span><span class="p">,</span> <span class="n">base_z</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span>
-        <span class="n">body</span> <span class="o">=</span> <span class="n">body</span> <span class="o">|</span> <span class="n">feet</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">has_lid</span><span class="p">:</span>
-            <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.shell</span><span class="w"> </span><span class="kn">import</span> <span class="n">block</span>
-            <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.compartments.element</span><span class="w"> </span><span class="kn">import</span> <span class="n">union_all</span>
-
-            <span class="n">ledge_s</span> <span class="o">=</span> <span class="n">foot_inset</span> <span class="o">+</span> <span class="n">foot_size</span> <span class="o">+</span> <span class="n">clearance</span> <span class="o">+</span> <span class="mf">1.0</span>
-            <span class="n">ledges</span> <span class="o">=</span> <span class="p">[</span>
-                <span class="n">block</span><span class="p">([</span><span class="n">ledge_s</span><span class="p">,</span> <span class="n">ledge_s</span><span class="p">,</span> <span class="n">depth</span><span class="p">],</span> <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">height</span> <span class="o">-</span> <span class="n">depth</span><span class="p">)),</span>
-                <span class="n">block</span><span class="p">([</span><span class="n">ledge_s</span><span class="p">,</span> <span class="n">ledge_s</span><span class="p">,</span> <span class="n">depth</span><span class="p">],</span> <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">width</span> <span class="o">-</span> <span class="n">ledge_s</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">height</span> <span class="o">-</span> <span class="n">depth</span><span class="p">)),</span>
-                <span class="n">block</span><span class="p">([</span><span class="n">ledge_s</span><span class="p">,</span> <span class="n">ledge_s</span><span class="p">,</span> <span class="n">depth</span><span class="p">],</span> <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span> <span class="o">-</span> <span class="n">ledge_s</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">height</span> <span class="o">-</span> <span class="n">depth</span><span class="p">)),</span>
-                <span class="n">block</span><span class="p">([</span><span class="n">ledge_s</span><span class="p">,</span> <span class="n">ledge_s</span><span class="p">,</span> <span class="n">depth</span><span class="p">],</span> <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">width</span> <span class="o">-</span> <span class="n">ledge_s</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span> <span class="o">-</span> <span class="n">ledge_s</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">height</span> <span class="o">-</span> <span class="n">depth</span><span class="p">)),</span>
-            <span class="p">]</span>
-            <span class="n">body</span> <span class="o">=</span> <span class="n">body</span> <span class="o">|</span> <span class="n">union_all</span><span class="p">(</span><span class="n">ledges</span><span class="p">)</span>
-        <span class="c1"># Subtract socket indents at top rim so lidless boxes or body knuckles do not collide</span>
-        <span class="n">indents</span> <span class="o">=</span> <span class="n">build_stacking_indents</span><span class="p">(</span>
-            <span class="n">spec</span><span class="o">.</span><span class="n">width</span><span class="p">,</span>
-            <span class="n">spec</span><span class="o">.</span><span class="n">length</span><span class="p">,</span>
-            <span class="n">foot_size</span><span class="p">,</span>
-            <span class="n">depth</span><span class="p">,</span>
-            <span class="n">foot_inset</span><span class="p">,</span>
-            <span class="n">clearance</span><span class="o">=</span><span class="n">clearance</span><span class="p">,</span>
-            <span class="n">top_z</span><span class="o">=</span><span class="n">spec</span><span class="o">.</span><span class="n">height</span><span class="p">,</span>
-        <span class="p">)</span>
-        <span class="k">return</span> <span class="n">body</span> <span class="o">-</span> <span class="n">indents</span>
-    <span class="k">elif</span> <span class="n">mode</span> <span class="ow">is</span> <span class="n">StackableMode</span><span class="o">.</span><span class="n">INDENTS</span><span class="p">:</span>
-        <span class="n">depth</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">foot_height</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">floor_thickness</span> <span class="o">-</span> <span class="mf">0.8</span><span class="p">))</span>
+    <span class="c1"># In printer-safe mode (or INDENTS / PYRAMID / PYRAMIDS), the box floor stays</span>
+    <span class="c1"># flat on the build plate (z = 0) with recessed 45-degree indents in z in [0, depth],</span>
+    <span class="c1"># and the matching 45-degree bosses protrude upward from the top of the lid/rim.</span>
+    <span class="k">if</span> <span class="n">mode</span> <span class="ow">in</span> <span class="p">(</span><span class="n">StackableMode</span><span class="o">.</span><span class="n">INDENTS</span><span class="p">,</span> <span class="n">StackableMode</span><span class="o">.</span><span class="n">PYRAMID</span><span class="p">,</span> <span class="n">StackableMode</span><span class="o">.</span><span class="n">PYRAMIDS</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span>
+        <span class="n">mode</span> <span class="ow">is</span> <span class="n">StackableMode</span><span class="o">.</span><span class="n">FEET</span> <span class="ow">and</span> <span class="n">printer_safe</span>
+    <span class="p">):</span>
+        <span class="n">depth</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">foot_height</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">floor_thickness</span> <span class="o">-</span> <span class="mf">0.4</span><span class="p">))</span>
         <span class="n">indents</span> <span class="o">=</span> <span class="n">build_stacking_indents</span><span class="p">(</span>
             <span class="n">spec</span><span class="o">.</span><span class="n">width</span><span class="p">,</span>
             <span class="n">spec</span><span class="o">.</span><span class="n">length</span><span class="p">,</span>
@@ -4722,36 +5185,142 @@
             <span class="n">foot_inset</span><span class="p">,</span>
             <span class="n">clearance</span><span class="o">=</span><span class="n">clearance</span><span class="p">,</span>
             <span class="n">top_z</span><span class="o">=</span><span class="n">depth</span><span class="p">,</span>
+            <span class="n">shape</span><span class="o">=</span><span class="n">shape</span><span class="p">,</span>
+            <span class="n">pyramid_count</span><span class="o">=</span><span class="n">pyr_count</span><span class="p">,</span>
+            <span class="n">point_up</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="n">body</span> <span class="o">=</span> <span class="n">body</span> <span class="o">-</span> <span class="n">indents</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">has_lid</span><span class="p">:</span>
-            <span class="c1"># Lidless box carries locator bosses on its top rim</span>
+            <span class="n">ledge_s</span> <span class="o">=</span> <span class="n">foot_inset</span> <span class="o">+</span> <span class="n">foot_size</span> <span class="o">+</span> <span class="n">clearance</span> <span class="o">+</span> <span class="mf">0.6</span>
+            <span class="n">corbels</span> <span class="o">=</span> <span class="n">_build_top_corner_corbels</span><span class="p">(</span>
+                <span class="n">spec</span><span class="o">.</span><span class="n">width</span><span class="p">,</span>
+                <span class="n">spec</span><span class="o">.</span><span class="n">length</span><span class="p">,</span>
+                <span class="n">wt</span><span class="p">,</span>
+                <span class="n">spec</span><span class="o">.</span><span class="n">floor_thickness</span><span class="p">,</span>
+                <span class="n">ledge_s</span><span class="p">,</span>
+                <span class="n">rim_h</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span>
+                <span class="n">top_z</span><span class="o">=</span><span class="n">spec</span><span class="o">.</span><span class="n">height</span><span class="p">,</span>
+            <span class="p">)</span>
             <span class="n">feet</span> <span class="o">=</span> <span class="n">build_stacking_feet</span><span class="p">(</span>
                 <span class="n">spec</span><span class="o">.</span><span class="n">width</span><span class="p">,</span>
                 <span class="n">spec</span><span class="o">.</span><span class="n">length</span><span class="p">,</span>
                 <span class="n">foot_size</span><span class="p">,</span>
                 <span class="n">depth</span><span class="p">,</span>
                 <span class="n">foot_inset</span><span class="p">,</span>
-                <span class="n">base_z</span><span class="o">=</span><span class="n">spec</span><span class="o">.</span><span class="n">height</span> <span class="o">+</span> <span class="n">depth</span><span class="p">,</span>
+                <span class="n">base_z</span><span class="o">=</span><span class="n">spec</span><span class="o">.</span><span class="n">height</span><span class="p">,</span>
+                <span class="n">shape</span><span class="o">=</span><span class="n">shape</span><span class="p">,</span>
+                <span class="n">clearance</span><span class="o">=</span><span class="n">clearance</span><span class="p">,</span>
+                <span class="n">pyramid_count</span><span class="o">=</span><span class="n">pyr_count</span><span class="p">,</span>
+                <span class="n">point_up</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
             <span class="p">)</span>
-            <span class="n">body</span> <span class="o">=</span> <span class="n">body</span> <span class="o">|</span> <span class="n">feet</span>
+            <span class="n">body</span> <span class="o">=</span> <span class="n">body</span> <span class="o">|</span> <span class="n">corbels</span> <span class="o">|</span> <span class="n">feet</span>
         <span class="k">return</span> <span class="n">body</span>
+    <span class="k">elif</span> <span class="n">mode</span> <span class="ow">is</span> <span class="n">StackableMode</span><span class="o">.</span><span class="n">FEET</span><span class="p">:</span>
+        <span class="c1"># Legacy downward feet (stackable_printer_safe=False)</span>
+        <span class="n">depth</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">foot_height</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.8</span><span class="p">,</span> <span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">lid_thickness</span> <span class="k">if</span> <span class="n">has_lid</span> <span class="k">else</span> <span class="n">spec</span><span class="o">.</span><span class="n">floor_thickness</span><span class="p">)</span> <span class="o">-</span> <span class="mf">0.6</span><span class="p">))</span>
+        <span class="n">feet</span> <span class="o">=</span> <span class="n">build_stacking_feet</span><span class="p">(</span>
+            <span class="n">spec</span><span class="o">.</span><span class="n">width</span><span class="p">,</span>
+            <span class="n">spec</span><span class="o">.</span><span class="n">length</span><span class="p">,</span>
+            <span class="n">foot_size</span><span class="p">,</span>
+            <span class="n">depth</span><span class="p">,</span>
+            <span class="n">foot_inset</span><span class="p">,</span>
+            <span class="n">base_z</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+            <span class="n">shape</span><span class="o">=</span><span class="n">shape</span><span class="p">,</span>
+            <span class="n">clearance</span><span class="o">=</span><span class="n">clearance</span><span class="p">,</span>
+            <span class="n">pyramid_count</span><span class="o">=</span><span class="n">pyr_count</span><span class="p">,</span>
+            <span class="n">point_up</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">body</span> <span class="o">=</span> <span class="n">body</span> <span class="o">|</span> <span class="n">feet</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">has_lid</span><span class="p">:</span>
+            <span class="n">ledge_s</span> <span class="o">=</span> <span class="n">foot_inset</span> <span class="o">+</span> <span class="n">foot_size</span> <span class="o">+</span> <span class="n">clearance</span> <span class="o">+</span> <span class="mf">1.0</span>
+            <span class="n">corbels</span> <span class="o">=</span> <span class="n">_build_top_corner_corbels</span><span class="p">(</span>
+                <span class="n">spec</span><span class="o">.</span><span class="n">width</span><span class="p">,</span>
+                <span class="n">spec</span><span class="o">.</span><span class="n">length</span><span class="p">,</span>
+                <span class="n">wt</span><span class="p">,</span>
+                <span class="n">spec</span><span class="o">.</span><span class="n">floor_thickness</span><span class="p">,</span>
+                <span class="n">ledge_s</span><span class="p">,</span>
+                <span class="n">rim_h</span><span class="o">=</span><span class="n">depth</span> <span class="o">+</span> <span class="mf">0.4</span><span class="p">,</span>
+                <span class="n">top_z</span><span class="o">=</span><span class="n">spec</span><span class="o">.</span><span class="n">height</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">body</span> <span class="o">=</span> <span class="n">body</span> <span class="o">|</span> <span class="n">corbels</span>
+        <span class="n">indents</span> <span class="o">=</span> <span class="n">build_stacking_indents</span><span class="p">(</span>
+            <span class="n">spec</span><span class="o">.</span><span class="n">width</span><span class="p">,</span>
+            <span class="n">spec</span><span class="o">.</span><span class="n">length</span><span class="p">,</span>
+            <span class="n">foot_size</span><span class="p">,</span>
+            <span class="n">depth</span><span class="p">,</span>
+            <span class="n">foot_inset</span><span class="p">,</span>
+            <span class="n">clearance</span><span class="o">=</span><span class="n">clearance</span><span class="p">,</span>
+            <span class="n">top_z</span><span class="o">=</span><span class="n">spec</span><span class="o">.</span><span class="n">height</span><span class="p">,</span>
+            <span class="n">shape</span><span class="o">=</span><span class="n">shape</span><span class="p">,</span>
+            <span class="n">pyramid_count</span><span class="o">=</span><span class="n">pyr_count</span><span class="p">,</span>
+            <span class="n">point_up</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">body</span> <span class="o">-</span> <span class="n">indents</span>
     <span class="k">elif</span> <span class="n">mode</span> <span class="ow">is</span> <span class="n">StackableMode</span><span class="o">.</span><span class="n">PERIMETER</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">printer_safe</span><span class="p">:</span>
+            <span class="n">depth</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">foot_height</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">floor_thickness</span> <span class="o">-</span> <span class="mf">0.4</span><span class="p">))</span>
+            <span class="n">channel</span> <span class="o">=</span> <span class="n">build_perimeter_stacking_indent</span><span class="p">(</span>
+                <span class="n">spec</span><span class="o">.</span><span class="n">width</span><span class="p">,</span>
+                <span class="n">spec</span><span class="o">.</span><span class="n">length</span><span class="p">,</span>
+                <span class="n">rim_thickness</span><span class="p">,</span>
+                <span class="n">depth</span><span class="p">,</span>
+                <span class="n">foot_inset</span><span class="p">,</span>
+                <span class="n">clearance</span><span class="o">=</span><span class="n">clearance</span><span class="p">,</span>
+                <span class="n">top_z</span><span class="o">=</span><span class="n">depth</span><span class="p">,</span>
+                <span class="n">shape</span><span class="o">=</span><span class="n">shape</span><span class="p">,</span>
+                <span class="n">point_up</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">body</span> <span class="o">=</span> <span class="n">body</span> <span class="o">-</span> <span class="n">channel</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">has_lid</span><span class="p">:</span>
+                <span class="n">ledge_w</span> <span class="o">=</span> <span class="n">foot_inset</span> <span class="o">+</span> <span class="n">rim_thickness</span> <span class="o">+</span> <span class="n">clearance</span> <span class="o">+</span> <span class="mf">0.6</span>
+                <span class="n">corbel</span> <span class="o">=</span> <span class="n">_build_top_perimeter_corbel</span><span class="p">(</span>
+                    <span class="n">spec</span><span class="o">.</span><span class="n">width</span><span class="p">,</span>
+                    <span class="n">spec</span><span class="o">.</span><span class="n">length</span><span class="p">,</span>
+                    <span class="n">wt</span><span class="p">,</span>
+                    <span class="n">spec</span><span class="o">.</span><span class="n">floor_thickness</span><span class="p">,</span>
+                    <span class="n">ledge_w</span><span class="p">,</span>
+                    <span class="n">rim_h</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span>
+                    <span class="n">top_z</span><span class="o">=</span><span class="n">spec</span><span class="o">.</span><span class="n">height</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="n">foot_rim</span> <span class="o">=</span> <span class="n">build_perimeter_stacking_foot</span><span class="p">(</span>
+                    <span class="n">spec</span><span class="o">.</span><span class="n">width</span><span class="p">,</span>
+                    <span class="n">spec</span><span class="o">.</span><span class="n">length</span><span class="p">,</span>
+                    <span class="n">rim_thickness</span><span class="p">,</span>
+                    <span class="n">depth</span><span class="p">,</span>
+                    <span class="n">foot_inset</span><span class="p">,</span>
+                    <span class="n">base_z</span><span class="o">=</span><span class="n">spec</span><span class="o">.</span><span class="n">height</span><span class="p">,</span>
+                    <span class="n">shape</span><span class="o">=</span><span class="n">shape</span><span class="p">,</span>
+                    <span class="n">clearance</span><span class="o">=</span><span class="n">clearance</span><span class="p">,</span>
+                    <span class="n">point_up</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="n">body</span> <span class="o">=</span> <span class="n">body</span> <span class="o">|</span> <span class="n">corbel</span> <span class="o">|</span> <span class="n">foot_rim</span>
+            <span class="k">return</span> <span class="n">body</span>
+
         <span class="n">depth</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">foot_height</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.8</span><span class="p">,</span> <span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">lid_thickness</span> <span class="k">if</span> <span class="n">has_lid</span> <span class="k">else</span> <span class="n">spec</span><span class="o">.</span><span class="n">floor_thickness</span><span class="p">)</span> <span class="o">-</span> <span class="mf">0.8</span><span class="p">))</span>
         <span class="n">foot_rim</span> <span class="o">=</span> <span class="n">build_perimeter_stacking_foot</span><span class="p">(</span>
-            <span class="n">spec</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span><span class="p">,</span> <span class="n">rim_thickness</span><span class="p">,</span> <span class="n">depth</span><span class="p">,</span> <span class="n">foot_inset</span><span class="p">,</span> <span class="n">base_z</span><span class="o">=</span><span class="mf">0.0</span>
+            <span class="n">spec</span><span class="o">.</span><span class="n">width</span><span class="p">,</span>
+            <span class="n">spec</span><span class="o">.</span><span class="n">length</span><span class="p">,</span>
+            <span class="n">rim_thickness</span><span class="p">,</span>
+            <span class="n">depth</span><span class="p">,</span>
+            <span class="n">foot_inset</span><span class="p">,</span>
+            <span class="n">base_z</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+            <span class="n">shape</span><span class="o">=</span><span class="n">shape</span><span class="p">,</span>
+            <span class="n">clearance</span><span class="o">=</span><span class="n">clearance</span><span class="p">,</span>
+            <span class="n">point_up</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="n">body</span> <span class="o">=</span> <span class="n">body</span> <span class="o">|</span> <span class="n">foot_rim</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">has_lid</span><span class="p">:</span>
-            <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.shell</span><span class="w"> </span><span class="kn">import</span> <span class="n">block</span>
-
             <span class="n">ledge_w</span> <span class="o">=</span> <span class="n">foot_inset</span> <span class="o">+</span> <span class="n">rim_thickness</span> <span class="o">+</span> <span class="n">clearance</span> <span class="o">+</span> <span class="mf">1.0</span>
-            <span class="n">ledge_outer</span> <span class="o">=</span> <span class="n">block</span><span class="p">([</span><span class="n">spec</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span><span class="p">,</span> <span class="n">depth</span><span class="p">],</span> <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">height</span> <span class="o">-</span> <span class="n">depth</span><span class="p">))</span>
-            <span class="n">ledge_inner</span> <span class="o">=</span> <span class="n">block</span><span class="p">(</span>
-                <span class="p">[</span><span class="n">spec</span><span class="o">.</span><span class="n">width</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">ledge_w</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">ledge_w</span><span class="p">,</span> <span class="n">depth</span> <span class="o">+</span> <span class="mf">0.2</span><span class="p">],</span>
-                <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="n">ledge_w</span><span class="p">,</span> <span class="n">ledge_w</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">height</span> <span class="o">-</span> <span class="n">depth</span> <span class="o">-</span> <span class="mf">0.1</span><span class="p">),</span>
+            <span class="n">corbel</span> <span class="o">=</span> <span class="n">_build_top_perimeter_corbel</span><span class="p">(</span>
+                <span class="n">spec</span><span class="o">.</span><span class="n">width</span><span class="p">,</span>
+                <span class="n">spec</span><span class="o">.</span><span class="n">length</span><span class="p">,</span>
+                <span class="n">wt</span><span class="p">,</span>
+                <span class="n">spec</span><span class="o">.</span><span class="n">floor_thickness</span><span class="p">,</span>
+                <span class="n">ledge_w</span><span class="p">,</span>
+                <span class="n">rim_h</span><span class="o">=</span><span class="n">depth</span> <span class="o">+</span> <span class="mf">0.4</span><span class="p">,</span>
+                <span class="n">top_z</span><span class="o">=</span><span class="n">spec</span><span class="o">.</span><span class="n">height</span><span class="p">,</span>
             <span class="p">)</span>
-            <span class="n">body</span> <span class="o">=</span> <span class="n">body</span> <span class="o">|</span> <span class="p">(</span><span class="n">ledge_outer</span> <span class="o">-</span> <span class="n">ledge_inner</span><span class="p">)</span>
+            <span class="n">body</span> <span class="o">=</span> <span class="n">body</span> <span class="o">|</span> <span class="n">corbel</span>
         <span class="n">channel</span> <span class="o">=</span> <span class="n">build_perimeter_stacking_indent</span><span class="p">(</span>
             <span class="n">spec</span><span class="o">.</span><span class="n">width</span><span class="p">,</span>
             <span class="n">spec</span><span class="o">.</span><span class="n">length</span><span class="p">,</span>
@@ -4760,6 +5329,8 @@
             <span class="n">foot_inset</span><span class="p">,</span>
             <span class="n">clearance</span><span class="o">=</span><span class="n">clearance</span><span class="p">,</span>
             <span class="n">top_z</span><span class="o">=</span><span class="n">spec</span><span class="o">.</span><span class="n">height</span><span class="p">,</span>
+            <span class="n">shape</span><span class="o">=</span><span class="n">shape</span><span class="p">,</span>
+            <span class="n">point_up</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="k">return</span> <span class="n">body</span> <span class="o">-</span> <span class="n">channel</span>
     <span class="k">elif</span> <span class="n">mode</span> <span class="ow">is</span> <span class="n">StackableMode</span><span class="o">.</span><span class="n">OUTSIDE</span><span class="p">:</span>
@@ -4793,9 +5364,29 @@
     <span class="n">foot_inset</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">stackable_foot_inset</span> <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">stackable_foot_inset</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="p">(</span><span class="n">wt</span> <span class="o">+</span> <span class="mf">1.0</span><span class="p">)</span>
     <span class="n">rim_thickness</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">stackable_thickness</span> <span class="ow">or</span> <span class="n">wt</span>
     <span class="n">clearance</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">stackable_fit_offset</span>
+    <span class="n">shape</span> <span class="o">=</span> <span class="n">_resolve_stackable_shape</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
+    <span class="n">pyr_count</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="s2">"stackable_pyramid_count"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="n">printer_safe</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="s2">"stackable_printer_safe"</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">mode</span> <span class="ow">is</span> <span class="n">StackableMode</span><span class="o">.</span><span class="n">FEET</span><span class="p">:</span>
-        <span class="n">depth</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">foot_height</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">lt</span> <span class="o">-</span> <span class="mf">0.8</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">mode</span> <span class="ow">in</span> <span class="p">(</span><span class="n">StackableMode</span><span class="o">.</span><span class="n">INDENTS</span><span class="p">,</span> <span class="n">StackableMode</span><span class="o">.</span><span class="n">PYRAMID</span><span class="p">,</span> <span class="n">StackableMode</span><span class="o">.</span><span class="n">PYRAMIDS</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span>
+        <span class="n">mode</span> <span class="ow">is</span> <span class="n">StackableMode</span><span class="o">.</span><span class="n">FEET</span> <span class="ow">and</span> <span class="n">printer_safe</span>
+    <span class="p">):</span>
+        <span class="n">socket_depth</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">foot_height</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">floor_thickness</span> <span class="o">-</span> <span class="mf">0.4</span><span class="p">))</span>
+        <span class="n">feet</span> <span class="o">=</span> <span class="n">build_stacking_feet</span><span class="p">(</span>
+            <span class="n">spec</span><span class="o">.</span><span class="n">width</span><span class="p">,</span>
+            <span class="n">spec</span><span class="o">.</span><span class="n">length</span><span class="p">,</span>
+            <span class="n">foot_size</span><span class="p">,</span>
+            <span class="n">socket_depth</span><span class="p">,</span>
+            <span class="n">foot_inset</span><span class="p">,</span>
+            <span class="n">base_z</span><span class="o">=</span><span class="n">z_top</span><span class="p">,</span>
+            <span class="n">shape</span><span class="o">=</span><span class="n">shape</span><span class="p">,</span>
+            <span class="n">clearance</span><span class="o">=</span><span class="n">clearance</span><span class="p">,</span>
+            <span class="n">pyramid_count</span><span class="o">=</span><span class="n">pyr_count</span><span class="p">,</span>
+            <span class="n">point_up</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">lid</span> <span class="o">|</span> <span class="n">feet</span>
+    <span class="k">elif</span> <span class="n">mode</span> <span class="ow">is</span> <span class="n">StackableMode</span><span class="o">.</span><span class="n">FEET</span><span class="p">:</span>
+        <span class="n">depth</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">foot_height</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">lt</span> <span class="o">-</span> <span class="mf">0.6</span><span class="p">))</span>
         <span class="n">indents</span> <span class="o">=</span> <span class="n">build_stacking_indents</span><span class="p">(</span>
             <span class="n">spec</span><span class="o">.</span><span class="n">width</span><span class="p">,</span>
             <span class="n">spec</span><span class="o">.</span><span class="n">length</span><span class="p">,</span>
@@ -4804,20 +5395,27 @@
             <span class="n">foot_inset</span><span class="p">,</span>
             <span class="n">clearance</span><span class="o">=</span><span class="n">clearance</span><span class="p">,</span>
             <span class="n">top_z</span><span class="o">=</span><span class="n">z_top</span><span class="p">,</span>
+            <span class="n">shape</span><span class="o">=</span><span class="n">shape</span><span class="p">,</span>
+            <span class="n">pyramid_count</span><span class="o">=</span><span class="n">pyr_count</span><span class="p">,</span>
+            <span class="n">point_up</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="k">return</span> <span class="n">lid</span> <span class="o">-</span> <span class="n">indents</span>
-    <span class="k">elif</span> <span class="n">mode</span> <span class="ow">is</span> <span class="n">StackableMode</span><span class="o">.</span><span class="n">INDENTS</span><span class="p">:</span>
-        <span class="n">socket_depth</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">foot_height</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">floor_thickness</span> <span class="o">-</span> <span class="mf">0.8</span><span class="p">))</span>
-        <span class="n">feet</span> <span class="o">=</span> <span class="n">build_stacking_feet</span><span class="p">(</span>
-            <span class="n">spec</span><span class="o">.</span><span class="n">width</span><span class="p">,</span>
-            <span class="n">spec</span><span class="o">.</span><span class="n">length</span><span class="p">,</span>
-            <span class="n">foot_size</span><span class="p">,</span>
-            <span class="n">socket_depth</span><span class="p">,</span>
-            <span class="n">foot_inset</span><span class="p">,</span>
-            <span class="n">base_z</span><span class="o">=</span><span class="n">z_top</span> <span class="o">+</span> <span class="n">socket_depth</span><span class="p">,</span>
-        <span class="p">)</span>
-        <span class="k">return</span> <span class="n">lid</span> <span class="o">|</span> <span class="n">feet</span>
     <span class="k">elif</span> <span class="n">mode</span> <span class="ow">is</span> <span class="n">StackableMode</span><span class="o">.</span><span class="n">PERIMETER</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">printer_safe</span><span class="p">:</span>
+            <span class="n">socket_depth</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">foot_height</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">floor_thickness</span> <span class="o">-</span> <span class="mf">0.4</span><span class="p">))</span>
+            <span class="n">foot_rim</span> <span class="o">=</span> <span class="n">build_perimeter_stacking_foot</span><span class="p">(</span>
+                <span class="n">spec</span><span class="o">.</span><span class="n">width</span><span class="p">,</span>
+                <span class="n">spec</span><span class="o">.</span><span class="n">length</span><span class="p">,</span>
+                <span class="n">rim_thickness</span><span class="p">,</span>
+                <span class="n">socket_depth</span><span class="p">,</span>
+                <span class="n">foot_inset</span><span class="p">,</span>
+                <span class="n">base_z</span><span class="o">=</span><span class="n">z_top</span><span class="p">,</span>
+                <span class="n">shape</span><span class="o">=</span><span class="n">shape</span><span class="p">,</span>
+                <span class="n">clearance</span><span class="o">=</span><span class="n">clearance</span><span class="p">,</span>
+                <span class="n">point_up</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="k">return</span> <span class="n">lid</span> <span class="o">|</span> <span class="n">foot_rim</span>
+
         <span class="n">depth</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">foot_height</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">lt</span> <span class="o">-</span> <span class="mf">0.8</span><span class="p">))</span>
         <span class="n">channel</span> <span class="o">=</span> <span class="n">build_perimeter_stacking_indent</span><span class="p">(</span>
             <span class="n">spec</span><span class="o">.</span><span class="n">width</span><span class="p">,</span>
@@ -4827,6 +5425,8 @@
             <span class="n">foot_inset</span><span class="p">,</span>
             <span class="n">clearance</span><span class="o">=</span><span class="n">clearance</span><span class="p">,</span>
             <span class="n">top_z</span><span class="o">=</span><span class="n">z_top</span><span class="p">,</span>
+            <span class="n">shape</span><span class="o">=</span><span class="n">shape</span><span class="p">,</span>
+            <span class="n">point_up</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="k">return</span> <span class="n">lid</span> <span class="o">-</span> <span class="n">channel</span>
     <span class="k">return</span> <span class="n">lid</span></div>
