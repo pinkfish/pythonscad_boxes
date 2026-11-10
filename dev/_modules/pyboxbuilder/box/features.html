@@ -479,7 +479,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.spec</span><span class="w"> </span><span class="kn">import</span> <span class="n">BoxSpec</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">CatchType</span><span class="p">,</span> <span class="n">StackableShape</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">CatchType</span><span class="p">,</span> <span class="n">PatternType</span><span class="p">,</span> <span class="n">StackableShape</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.precision</span><span class="w"> </span><span class="kn">import</span> <span class="n">kwargs</span> <span class="k">as</span> <span class="n">precision_kwargs</span>
 
 <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
@@ -4521,9 +4521,192 @@
 
     <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">stackable_shape</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">spec</span><span class="o">.</span><span class="n">stackable_shape</span>
+    <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">stackable</span> <span class="ow">is</span> <span class="n">StackableMode</span><span class="o">.</span><span class="n">PATTERN</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">StackableShape</span><span class="o">.</span><span class="n">PATTERN</span>
     <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">stackable</span> <span class="ow">in</span> <span class="p">(</span><span class="n">StackableMode</span><span class="o">.</span><span class="n">PYRAMID</span><span class="p">,</span> <span class="n">StackableMode</span><span class="o">.</span><span class="n">PERIMETER</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">StackableShape</span><span class="o">.</span><span class="n">PYRAMID</span>
     <span class="k">return</span> <span class="n">StackableShape</span><span class="o">.</span><span class="n">PYRAMIDS</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_grown_xy</span><span class="p">(</span><span class="n">solid</span><span class="p">:</span> <span class="n">Bosl2Solid</span><span class="p">,</span> <span class="n">by</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">directions</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">8</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Return ``solid`` widened horizontally in XY by ``by`` mm."""</span>
+    <span class="k">if</span> <span class="n">by</span> <span class="o">&lt;=</span> <span class="mf">0.0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">solid</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
+
+    <span class="n">grown</span> <span class="o">=</span> <span class="n">solid</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">directions</span><span class="p">):</span>
+        <span class="n">angle</span> <span class="o">=</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">i</span> <span class="o">/</span> <span class="n">directions</span>
+        <span class="n">grown</span> <span class="o">=</span> <span class="n">grown</span> <span class="o">|</span> <span class="n">solid</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">by</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">angle</span><span class="p">),</span> <span class="n">by</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">angle</span><span class="p">),</span> <span class="mf">0.0</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">grown</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_resolve_stackable_pattern_params</span><span class="p">(</span>
+    <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">PatternType</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">"""Return ``(pattern_type, border_mm, spacing, web)`` for pattern-matched stacking."""</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.lid.builder</span><span class="w"> </span><span class="kn">import</span> <span class="n">LID_BORDER_MM</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.lid.pattern</span><span class="w"> </span><span class="kn">import</span> <span class="n">DEFAULT_WEB_MM</span>
+
+    <span class="n">pat_type</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="s2">"stackable_pattern"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">pat_type</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">pat_type</span> <span class="ow">in</span> <span class="p">(</span><span class="n">PatternType</span><span class="o">.</span><span class="n">NONE</span><span class="p">,</span> <span class="n">PatternType</span><span class="o">.</span><span class="n">SOLID</span><span class="p">):</span>
+        <span class="n">pat_type</span> <span class="o">=</span> <span class="n">PatternType</span><span class="o">.</span><span class="n">HEX</span>
+
+    <span class="n">wt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">wall_thickness</span>
+    <span class="n">req_border</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="s2">"stackable_pattern_border"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="n">base_border</span> <span class="o">=</span> <span class="n">LID_BORDER_MM</span> <span class="k">if</span> <span class="n">req_border</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="nb">float</span><span class="p">(</span><span class="n">req_border</span><span class="p">)</span>
+    <span class="n">min_margin</span> <span class="o">=</span> <span class="n">wt</span> <span class="o">+</span> <span class="mf">1.5</span>
+    <span class="n">max_margin</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">min_margin</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.28</span><span class="p">)</span>
+    <span class="n">border</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">min_margin</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="n">base_border</span><span class="p">,</span> <span class="n">max_margin</span><span class="p">))</span>
+
+    <span class="n">spacing</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="s2">"stackable_pattern_spacing"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="n">req_web</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="s2">"stackable_pattern_web"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="n">web</span> <span class="o">=</span> <span class="n">DEFAULT_WEB_MM</span> <span class="k">if</span> <span class="n">req_web</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="nb">float</span><span class="p">(</span><span class="n">req_web</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">pat_type</span><span class="p">,</span> <span class="n">border</span><span class="p">,</span> <span class="n">spacing</span><span class="p">,</span> <span class="n">web</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_build_pattern_web_unit_slice</span><span class="p">(</span><span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Build a 1.0 mm tall (z in [0, 1]) solid slice of the pattern web lattice for stacking."""</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">cylinder</span>
+
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.shell</span><span class="w"> </span><span class="kn">import</span> <span class="n">block</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.lid.pattern</span><span class="w"> </span><span class="kn">import</span> <span class="n">build_pattern</span>
+
+    <span class="n">pat_type</span><span class="p">,</span> <span class="n">margin</span><span class="p">,</span> <span class="n">spacing</span><span class="p">,</span> <span class="n">web</span> <span class="o">=</span> <span class="n">_resolve_stackable_pattern_params</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
+    <span class="n">area_w</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">width</span> <span class="o">-</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">margin</span>
+    <span class="n">area_l</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span> <span class="o">-</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">margin</span>
+    <span class="k">if</span> <span class="n">area_w</span> <span class="o">&lt;</span> <span class="mf">4.0</span> <span class="ow">or</span> <span class="n">area_l</span> <span class="o">&lt;</span> <span class="mf">4.0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="n">h_slice</span> <span class="o">=</span> <span class="mf">2.0</span>
+    <span class="n">z_slice</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.5</span>
+    <span class="n">holes</span> <span class="o">=</span> <span class="n">build_pattern</span><span class="p">(</span>
+        <span class="n">area_w</span><span class="p">,</span>
+        <span class="n">area_l</span><span class="p">,</span>
+        <span class="n">h_slice</span><span class="p">,</span>
+        <span class="n">pat_type</span><span class="p">,</span>
+        <span class="n">spacing</span><span class="o">=</span><span class="n">spacing</span><span class="p">,</span>
+        <span class="n">web</span><span class="o">=</span><span class="n">web</span><span class="p">,</span>
+        <span class="n">inlay</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">lid_thickness</span><span class="o">=</span><span class="n">h_slice</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">if</span> <span class="n">holes</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="n">hole_solid</span> <span class="o">=</span> <span class="n">holes</span><span class="o">.</span><span class="n">solid</span> <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">holes</span><span class="p">,</span> <span class="s2">"solid"</span><span class="p">)</span> <span class="ow">and</span> <span class="n">holes</span><span class="o">.</span><span class="n">solid</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">holes</span>
+    <span class="k">if</span> <span class="n">hole_solid</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="n">hole_solid</span> <span class="o">=</span> <span class="n">hole_solid</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">margin</span><span class="p">,</span> <span class="n">margin</span><span class="p">,</span> <span class="n">z_slice</span><span class="p">])</span>
+    <span class="n">area_box</span> <span class="o">=</span> <span class="n">block</span><span class="p">([</span><span class="n">area_w</span><span class="p">,</span> <span class="n">area_l</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span> <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="n">margin</span><span class="p">,</span> <span class="n">margin</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">))</span>
+    <span class="n">web_slice</span> <span class="o">=</span> <span class="n">area_box</span> <span class="o">-</span> <span class="n">hole_solid</span>
+
+    <span class="c1"># Keep clear of any sliding lid fingernail catch on both axes so the male ridge</span>
+    <span class="c1"># never enters the nail dish and the female groove matches the ridge footprint.</span>
+    <span class="k">for</span> <span class="n">axis</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"x"</span><span class="p">,</span> <span class="s2">"y"</span><span class="p">):</span>
+        <span class="n">catch</span> <span class="o">=</span> <span class="n">fingernail_catch</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="n">axis</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">catch</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">keepout</span> <span class="o">=</span> <span class="n">cylinder</span><span class="p">(</span>
+                <span class="n">height</span><span class="o">=</span><span class="mf">3.0</span><span class="p">,</span>
+                <span class="n">radius</span><span class="o">=</span><span class="n">catch</span><span class="o">.</span><span class="n">keepout_radius</span> <span class="o">+</span> <span class="mf">0.4</span><span class="p">,</span>
+                <span class="o">**</span><span class="n">precision_kwargs</span><span class="p">(),</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">catch</span><span class="o">.</span><span class="n">centre</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">catch</span><span class="o">.</span><span class="n">centre</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mf">0.5</span><span class="p">])</span>
+            <span class="n">web_slice</span> <span class="o">=</span> <span class="n">web_slice</span> <span class="o">-</span> <span class="n">keepout</span>
+
+    <span class="k">return</span> <span class="n">web_slice</span>
+
+
+<div class="viewcode-block" id="build_pattern_stacking_ridge">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.features.build_pattern_stacking_ridge.html#pyboxbuilder.box.features.build_pattern_stacking_ridge">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">build_pattern_stacking_ridge</span><span class="p">(</span>
+    <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">,</span>
+    <span class="n">base_z</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">depth</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">clearance</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">point_up</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Build the male pattern-matched stacking lattice ridge for a lid or tray top."""</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.shell</span><span class="w"> </span><span class="kn">import</span> <span class="n">block</span>
+
+    <span class="n">web_unit</span> <span class="o">=</span> <span class="n">_build_pattern_web_unit_slice</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">web_unit</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="n">clr</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">stackable_fit_offset</span> <span class="k">if</span> <span class="n">clearance</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">clearance</span>
+    <span class="n">req_d</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">stackable_foot_height</span> <span class="k">if</span> <span class="n">depth</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">depth</span>
+    <span class="n">h_female</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">req_d</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.6</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">floor_thickness</span> <span class="o">-</span> <span class="mf">0.4</span><span class="p">))</span>
+    <span class="n">h_male</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.35</span><span class="p">,</span> <span class="n">h_female</span> <span class="o">-</span> <span class="n">clr</span><span class="p">)</span>
+    <span class="n">eps</span> <span class="o">=</span> <span class="mf">0.05</span>
+    <span class="n">h_total</span> <span class="o">=</span> <span class="n">h_male</span> <span class="o">+</span> <span class="n">eps</span>
+
+    <span class="n">_pat_type</span><span class="p">,</span> <span class="n">margin</span><span class="p">,</span> <span class="n">_spacing</span><span class="p">,</span> <span class="n">_web</span> <span class="o">=</span> <span class="n">_resolve_stackable_pattern_params</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
+    <span class="n">inner_m</span> <span class="o">=</span> <span class="n">margin</span> <span class="o">+</span> <span class="n">clr</span>
+    <span class="n">inner_w</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">width</span> <span class="o">-</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">inner_m</span>
+    <span class="n">inner_l</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span> <span class="o">-</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">inner_m</span>
+    <span class="k">if</span> <span class="n">inner_w</span> <span class="o">&lt;=</span> <span class="mf">1.0</span> <span class="ow">or</span> <span class="n">inner_l</span> <span class="o">&lt;=</span> <span class="mf">1.0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="n">clipped</span> <span class="o">=</span> <span class="n">web_unit</span> <span class="o">&amp;</span> <span class="n">block</span><span class="p">([</span><span class="n">inner_w</span><span class="p">,</span> <span class="n">inner_l</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">],</span> <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="n">inner_m</span><span class="p">,</span> <span class="n">inner_m</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">))</span>
+    <span class="n">z0</span> <span class="o">=</span> <span class="p">(</span><span class="n">base_z</span> <span class="o">-</span> <span class="n">eps</span><span class="p">)</span> <span class="k">if</span> <span class="n">point_up</span> <span class="k">else</span> <span class="p">(</span><span class="n">base_z</span> <span class="o">-</span> <span class="n">h_male</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">clipped</span><span class="o">.</span><span class="n">scale</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">h_total</span><span class="p">])</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">z0</span><span class="p">])</span></div>
+
+
+
+<div class="viewcode-block" id="build_pattern_stacking_groove">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.features.build_pattern_stacking_groove.html#pyboxbuilder.box.features.build_pattern_stacking_groove">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">build_pattern_stacking_groove</span><span class="p">(</span>
+    <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">,</span>
+    <span class="n">surface_z</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+    <span class="n">depth</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">clearance</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">point_up</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Build the female pattern-matched stacking groove cutter for a box floor or lid.</span>
+
+<span class="sd">    When ``point_up=True`` and ``surface_z=0.0``, the outer perimeter border AND all</span>
+<span class="sd">    pattern tiles (hexagons, triangles, squares, rhombuses, etc.) sit 100% flat on</span>
+<span class="sd">    the build plate at ``z = 0``, while only the narrow web channels between tiles</span>
+<span class="sd">    are recessed into ``z in [0, h_female]`` with a 45-degree entry bevel.</span>
+<span class="sd">    """</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.shell</span><span class="w"> </span><span class="kn">import</span> <span class="n">block</span>
+
+    <span class="n">web_unit</span> <span class="o">=</span> <span class="n">_build_pattern_web_unit_slice</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">web_unit</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="n">clr</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">stackable_fit_offset</span> <span class="k">if</span> <span class="n">clearance</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">clearance</span>
+    <span class="n">req_d</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">stackable_foot_height</span> <span class="k">if</span> <span class="n">depth</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">depth</span>
+    <span class="n">h_female</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">req_d</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.6</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">floor_thickness</span> <span class="o">-</span> <span class="mf">0.4</span><span class="p">))</span>
+    <span class="n">eps</span> <span class="o">=</span> <span class="mf">0.05</span>
+
+    <span class="n">_pat_type</span><span class="p">,</span> <span class="n">margin</span><span class="p">,</span> <span class="n">_spacing</span><span class="p">,</span> <span class="n">_web</span> <span class="o">=</span> <span class="n">_resolve_stackable_pattern_params</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
+    <span class="n">inner_m</span> <span class="o">=</span> <span class="n">margin</span> <span class="o">+</span> <span class="n">clr</span>
+    <span class="n">inner_w</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">width</span> <span class="o">-</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">inner_m</span>
+    <span class="n">inner_l</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span> <span class="o">-</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">inner_m</span>
+    <span class="k">if</span> <span class="n">inner_w</span> <span class="o">&lt;=</span> <span class="mf">1.0</span> <span class="ow">or</span> <span class="n">inner_l</span> <span class="o">&lt;=</span> <span class="mf">1.0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="n">male_xy</span> <span class="o">=</span> <span class="n">web_unit</span> <span class="o">&amp;</span> <span class="n">block</span><span class="p">([</span><span class="n">inner_w</span><span class="p">,</span> <span class="n">inner_l</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">],</span> <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="n">inner_m</span><span class="p">,</span> <span class="n">inner_m</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">))</span>
+    <span class="n">female_xy</span> <span class="o">=</span> <span class="n">_grown_xy</span><span class="p">(</span><span class="n">male_xy</span><span class="p">,</span> <span class="n">clr</span> <span class="o">+</span> <span class="mf">0.03</span><span class="p">)</span>
+    <span class="n">bevel_h</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mf">0.35</span><span class="p">,</span> <span class="n">h_female</span> <span class="o">*</span> <span class="mf">0.45</span><span class="p">)</span>
+    <span class="n">bevel_xy</span> <span class="o">=</span> <span class="n">_grown_xy</span><span class="p">(</span><span class="n">female_xy</span><span class="p">,</span> <span class="n">bevel_h</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">point_up</span><span class="p">:</span>
+        <span class="n">main_groove</span> <span class="o">=</span> <span class="n">female_xy</span><span class="o">.</span><span class="n">scale</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">h_female</span> <span class="o">+</span> <span class="n">eps</span><span class="p">])</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span>
+            <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">surface_z</span> <span class="o">-</span> <span class="n">eps</span><span class="p">]</span>
+        <span class="p">)</span>
+        <span class="n">bevel_groove</span> <span class="o">=</span> <span class="n">bevel_xy</span><span class="o">.</span><span class="n">scale</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">bevel_h</span> <span class="o">+</span> <span class="n">eps</span><span class="p">])</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span>
+            <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">surface_z</span> <span class="o">-</span> <span class="n">eps</span><span class="p">]</span>
+        <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">main_groove</span> <span class="o">=</span> <span class="n">female_xy</span><span class="o">.</span><span class="n">scale</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">h_female</span> <span class="o">+</span> <span class="n">eps</span><span class="p">])</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span>
+            <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">surface_z</span> <span class="o">-</span> <span class="n">h_female</span><span class="p">]</span>
+        <span class="p">)</span>
+        <span class="n">bevel_groove</span> <span class="o">=</span> <span class="n">bevel_xy</span><span class="o">.</span><span class="n">scale</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">bevel_h</span> <span class="o">+</span> <span class="n">eps</span><span class="p">])</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span>
+            <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">surface_z</span> <span class="o">-</span> <span class="n">bevel_h</span><span class="p">]</span>
+        <span class="p">)</span>
+    <span class="k">return</span> <span class="n">main_groove</span> <span class="o">|</span> <span class="n">bevel_groove</span></div>
+
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_pyramid_grid_metrics</span><span class="p">(</span>
@@ -5170,6 +5353,39 @@
     <span class="n">pyr_count</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="s2">"stackable_pyramid_count"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
     <span class="n">printer_safe</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="s2">"stackable_printer_safe"</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
 
+    <span class="k">if</span> <span class="n">mode</span> <span class="ow">is</span> <span class="n">StackableMode</span><span class="o">.</span><span class="n">PATTERN</span> <span class="ow">or</span> <span class="n">shape</span> <span class="ow">is</span> <span class="n">StackableShape</span><span class="o">.</span><span class="n">PATTERN</span><span class="p">:</span>
+        <span class="n">depth</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">foot_height</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">floor_thickness</span> <span class="o">-</span> <span class="mf">0.4</span><span class="p">))</span>
+        <span class="n">groove</span> <span class="o">=</span> <span class="n">build_pattern_stacking_groove</span><span class="p">(</span>
+            <span class="n">spec</span><span class="p">,</span>
+            <span class="n">surface_z</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+            <span class="n">depth</span><span class="o">=</span><span class="n">depth</span><span class="p">,</span>
+            <span class="n">clearance</span><span class="o">=</span><span class="n">clearance</span><span class="p">,</span>
+            <span class="n">point_up</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">groove</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">body</span> <span class="o">=</span> <span class="n">body</span> <span class="o">-</span> <span class="n">groove</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">has_lid</span><span class="p">:</span>
+            <span class="n">_pat_type</span><span class="p">,</span> <span class="n">margin</span><span class="p">,</span> <span class="n">_spacing</span><span class="p">,</span> <span class="n">_web</span> <span class="o">=</span> <span class="n">_resolve_stackable_pattern_params</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
+            <span class="n">ledge_w</span> <span class="o">=</span> <span class="n">margin</span> <span class="o">+</span> <span class="n">clearance</span> <span class="o">+</span> <span class="mf">0.6</span>
+            <span class="n">corbel</span> <span class="o">=</span> <span class="n">_build_top_perimeter_corbel</span><span class="p">(</span>
+                <span class="n">spec</span><span class="o">.</span><span class="n">width</span><span class="p">,</span>
+                <span class="n">spec</span><span class="o">.</span><span class="n">length</span><span class="p">,</span>
+                <span class="n">wt</span><span class="p">,</span>
+                <span class="n">spec</span><span class="o">.</span><span class="n">floor_thickness</span><span class="p">,</span>
+                <span class="n">ledge_w</span><span class="p">,</span>
+                <span class="n">rim_h</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span>
+                <span class="n">top_z</span><span class="o">=</span><span class="n">spec</span><span class="o">.</span><span class="n">height</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">ridge</span> <span class="o">=</span> <span class="n">build_pattern_stacking_ridge</span><span class="p">(</span>
+                <span class="n">spec</span><span class="p">,</span>
+                <span class="n">base_z</span><span class="o">=</span><span class="n">spec</span><span class="o">.</span><span class="n">height</span><span class="p">,</span>
+                <span class="n">depth</span><span class="o">=</span><span class="n">depth</span><span class="p">,</span>
+                <span class="n">clearance</span><span class="o">=</span><span class="n">clearance</span><span class="p">,</span>
+                <span class="n">point_up</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">body</span> <span class="o">=</span> <span class="p">(</span><span class="n">body</span> <span class="o">|</span> <span class="n">corbel</span> <span class="o">|</span> <span class="n">ridge</span><span class="p">)</span> <span class="k">if</span> <span class="n">ridge</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="p">(</span><span class="n">body</span> <span class="o">|</span> <span class="n">corbel</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">body</span>
+
     <span class="c1"># In printer-safe mode (or INDENTS / PYRAMID / PYRAMIDS), the box floor stays</span>
     <span class="c1"># flat on the build plate (z = 0) with recessed 45-degree indents in z in [0, depth],</span>
     <span class="c1"># and the matching 45-degree bosses protrude upward from the top of the lid/rim.</span>
@@ -5367,6 +5583,17 @@
     <span class="n">shape</span> <span class="o">=</span> <span class="n">_resolve_stackable_shape</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
     <span class="n">pyr_count</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="s2">"stackable_pyramid_count"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
     <span class="n">printer_safe</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="s2">"stackable_printer_safe"</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">mode</span> <span class="ow">is</span> <span class="n">StackableMode</span><span class="o">.</span><span class="n">PATTERN</span> <span class="ow">or</span> <span class="n">shape</span> <span class="ow">is</span> <span class="n">StackableShape</span><span class="o">.</span><span class="n">PATTERN</span><span class="p">:</span>
+        <span class="n">socket_depth</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">foot_height</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">floor_thickness</span> <span class="o">-</span> <span class="mf">0.4</span><span class="p">))</span>
+        <span class="n">ridge</span> <span class="o">=</span> <span class="n">build_pattern_stacking_ridge</span><span class="p">(</span>
+            <span class="n">spec</span><span class="p">,</span>
+            <span class="n">base_z</span><span class="o">=</span><span class="n">z_top</span><span class="p">,</span>
+            <span class="n">depth</span><span class="o">=</span><span class="n">socket_depth</span><span class="p">,</span>
+            <span class="n">clearance</span><span class="o">=</span><span class="n">clearance</span><span class="p">,</span>
+            <span class="n">point_up</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">lid</span> <span class="o">|</span> <span class="n">ridge</span><span class="p">)</span> <span class="k">if</span> <span class="n">ridge</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">lid</span>
 
     <span class="k">if</span> <span class="n">mode</span> <span class="ow">in</span> <span class="p">(</span><span class="n">StackableMode</span><span class="o">.</span><span class="n">INDENTS</span><span class="p">,</span> <span class="n">StackableMode</span><span class="o">.</span><span class="n">PYRAMID</span><span class="p">,</span> <span class="n">StackableMode</span><span class="o">.</span><span class="n">PYRAMIDS</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span>
         <span class="n">mode</span> <span class="ow">is</span> <span class="n">StackableMode</span><span class="o">.</span><span class="n">FEET</span> <span class="ow">and</span> <span class="n">printer_safe</span>

@@ -1,0 +1,6 @@
+pyboxbuilder.box.features.build\_pattern\_stacking\_groove
+==========================================================
+
+.. currentmodule:: pyboxbuilder.box.features
+
+.. autofunction:: build_pattern_stacking_groove

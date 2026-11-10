@@ -665,7 +665,9 @@
 <span class="sd">        A type declares these when its lid carries a feature of its own that a</span>
 <span class="sd">        pattern would otherwise cut into — a sliding lid's fingernail dish is</span>
 <span class="sd">        the case (FR-002e5): it is a thinned spot that gets pulled on, so it</span>
-<span class="sd">        needs whole material around it to pull against.</span>
+<span class="sd">        needs whole material around it to pull against. Corner stacking pads</span>
+<span class="sd">        are likewise kept solid so through-hole lid patterns do not undercut</span>
+<span class="sd">        the 4 corner locator pyramids/indents.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            spec: The box's resolved description.</span>
@@ -675,10 +677,40 @@
 <span class="sd">            lid is a plain plate.</span>
 
 <span class="sd">        """</span>
+        <span class="n">keepouts</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">catch</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fingernail_catch</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">catch</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">return</span> <span class="p">[]</span>
-        <span class="k">return</span> <span class="p">[(</span><span class="n">catch</span><span class="o">.</span><span class="n">centre</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">catch</span><span class="o">.</span><span class="n">centre</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">catch</span><span class="o">.</span><span class="n">keepout_radius</span><span class="p">)]</span></div>
+        <span class="k">if</span> <span class="n">catch</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">keepouts</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">catch</span><span class="o">.</span><span class="n">centre</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">catch</span><span class="o">.</span><span class="n">centre</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">catch</span><span class="o">.</span><span class="n">keepout_radius</span><span class="p">))</span>
+
+        <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">StackableMode</span><span class="p">,</span> <span class="n">StackableShape</span>
+
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="n">spec</span><span class="o">.</span><span class="n">stackable</span>
+            <span class="ow">in</span> <span class="p">(</span>
+                <span class="n">StackableMode</span><span class="o">.</span><span class="n">FEET</span><span class="p">,</span>
+                <span class="n">StackableMode</span><span class="o">.</span><span class="n">INDENTS</span><span class="p">,</span>
+                <span class="n">StackableMode</span><span class="o">.</span><span class="n">PYRAMID</span><span class="p">,</span>
+                <span class="n">StackableMode</span><span class="o">.</span><span class="n">PYRAMIDS</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="ow">and</span> <span class="n">spec</span><span class="o">.</span><span class="n">stackable_shape</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">StackableShape</span><span class="o">.</span><span class="n">PATTERN</span>
+        <span class="p">):</span>
+            <span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
+
+            <span class="n">wt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">wall_thickness</span>
+            <span class="n">foot_size</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">stackable_foot_size</span> <span class="ow">or</span> <span class="nb">max</span><span class="p">(</span><span class="mf">6.0</span><span class="p">,</span> <span class="n">wt</span> <span class="o">*</span> <span class="mf">2.5</span><span class="p">)</span>
+            <span class="n">foot_inset</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">spec</span><span class="o">.</span><span class="n">stackable_foot_inset</span> <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">stackable_foot_inset</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="p">(</span><span class="n">wt</span> <span class="o">+</span> <span class="mf">1.0</span><span class="p">)</span>
+            <span class="p">)</span>
+            <span class="n">r_pad</span> <span class="o">=</span> <span class="p">(</span><span class="n">foot_size</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">2.0</span><span class="p">))</span> <span class="o">/</span> <span class="mf">2.0</span> <span class="o">+</span> <span class="mf">0.5</span>
+            <span class="k">for</span> <span class="n">x0</span><span class="p">,</span> <span class="n">y0</span> <span class="ow">in</span> <span class="p">(</span>
+                <span class="p">(</span><span class="n">foot_inset</span><span class="p">,</span> <span class="n">foot_inset</span><span class="p">),</span>
+                <span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">width</span> <span class="o">-</span> <span class="n">foot_inset</span> <span class="o">-</span> <span class="n">foot_size</span><span class="p">,</span> <span class="n">foot_inset</span><span class="p">),</span>
+                <span class="p">(</span><span class="n">foot_inset</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span> <span class="o">-</span> <span class="n">foot_inset</span> <span class="o">-</span> <span class="n">foot_size</span><span class="p">),</span>
+                <span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">width</span> <span class="o">-</span> <span class="n">foot_inset</span> <span class="o">-</span> <span class="n">foot_size</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span> <span class="o">-</span> <span class="n">foot_inset</span> <span class="o">-</span> <span class="n">foot_size</span><span class="p">),</span>
+            <span class="p">):</span>
+                <span class="n">keepouts</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">x0</span> <span class="o">+</span> <span class="n">foot_size</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">y0</span> <span class="o">+</span> <span class="n">foot_size</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">r_pad</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="n">keepouts</span></div>
 
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_fingernail_catch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">FingernailCatch</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>

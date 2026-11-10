@@ -516,7 +516,7 @@
         <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.features</span><span class="w"> </span><span class="kn">import</span> <span class="n">magnetic_hinge_catch_metrics</span>
 
         <span class="n">cx</span><span class="p">,</span> <span class="n">cy</span><span class="p">,</span> <span class="n">r_boss</span> <span class="o">=</span> <span class="n">magnetic_hinge_catch_metrics</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
-        <span class="k">return</span> <span class="p">[(</span><span class="n">cx</span><span class="p">,</span> <span class="n">cy</span><span class="p">,</span> <span class="n">r_boss</span><span class="p">)]</span></div>
+        <span class="k">return</span> <span class="p">[</span><span class="o">*</span><span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">lid_keepouts</span><span class="p">(</span><span class="n">spec</span><span class="p">),</span> <span class="p">(</span><span class="n">cx</span><span class="p">,</span> <span class="n">cy</span><span class="p">,</span> <span class="n">r_boss</span><span class="p">)]</span></div>
 
 
 <div class="viewcode-block" id="MagneticHingeBox.interior_mask">
