@@ -4859,7 +4859,10 @@ def _build_single_side_slide_latch_uv(
     floor_thickness: float,
     clearance: float,
     anchor_top_z: float | None = None,
-) -> tuple[Bosl2Solid, Bosl2Solid]:
+    *,
+    enable_bottom: bool = True,
+    enable_top: bool = True,
+) -> tuple[Bosl2Solid, Bosl2Solid | None]:
     """Build one captive print-in-place vertical dovetail push-up latch unit in local (u, v, z) space.
 
     Local coordinates:
@@ -4895,14 +4898,26 @@ def _build_single_side_slide_latch_uv(
     anchor_z = default_anchor if anchor_top_z is None else max(default_anchor, min(anchor_top_z, height - 1.5))
     z_bevel_bot = max(0.2, anchor_z - (u_anchor + u_gap))
 
+    # Vertical zone dimensions
+    tongue_h = min(1.8, max(1.0, height * 0.07))
+    rec_straight_top = tongue_h + clr
+    roof_h = min(1.4, max(0.7, height * 0.05))
+    divider_h = min(0.8, max(0.4, height * 0.03))
+    ch_z0 = rec_straight_top + roof_h + divider_h
+    ch_slope_h = min(1.0, max(0.5, height * 0.04))
+    ch_flat_z0 = ch_z0 + ch_slope_h
+    travel_stroke = min(1.8, max(0.6, (height - ch_flat_z0) * 0.20))
+    slider_z0 = ch_flat_z0 + pip_gap + travel_stroke
+
     # 1. Outer housing blank starting flat on the build plate at z = 0
+    housing_top_z = height if enable_top else min(height, max(anchor_z + 0.5, ch_z0))
     xz_pts = [
         (-u_anchor, 0.0),
         (u_outer, 0.0),
-        (u_outer, height),
-        (u_gap, height),
-        (u_gap, anchor_z),
-        (-u_anchor, z_bevel_bot),
+        (u_outer, housing_top_z),
+        (u_gap, housing_top_z),
+        (u_gap, min(anchor_z, housing_top_z)),
+        (-u_anchor, min(z_bevel_bot, housing_top_z)),
     ]
     housing_blank = (
         polygon(path=Path2D(xz_pts))
@@ -4926,30 +4941,27 @@ def _build_single_side_slide_latch_uv(
         ]
         return polygon(path=Path2D(pts))
 
-    # Vertical zone dimensions
-    tongue_h = min(1.8, max(1.0, height * 0.07))
-    rec_straight_top = tongue_h + clr
-    roof_h = min(1.4, max(0.7, height * 0.05))
-    divider_h = min(0.8, max(0.4, height * 0.03))
-    ch_z0 = rec_straight_top + roof_h + divider_h
-    ch_slope_h = min(1.0, max(0.5, height * 0.04))
-    ch_flat_z0 = ch_z0 + ch_slope_h
-    travel_stroke = min(1.8, max(0.6, (height - ch_flat_z0) * 0.20))
-    slider_z0 = ch_flat_z0 + pip_gap + travel_stroke
+    housing = housing_blank
 
     # 2. Bottom receiver socket cut (open at z = 0, 45° gable roof above rec_straight_top)
-    rec_cut_2d = _dovetail_poly(clr, u_outer + 0.2)
-    rec_straight = rec_cut_2d.linear_extrude(height=rec_straight_top).translate([0.0, 0.0, 0.0])
-    rec_u0 = u_slot_in - clr
-    rec_u_span = (u_outer + 0.2) - rec_u0
-    rec_v_bot = 2.0 * (bw + 3.0 * clr)
-    rec_roof = prismoid(
-        [rec_u_span, rec_v_bot],
-        [rec_u_span, 0.4],
-        height=roof_h + 0.05,
-        **precision_kwargs(),
-    ).translate([rec_u0 + rec_u_span / 2.0, 0.0, rec_straight_top - 0.025])
-    receiver_cut = rec_straight | rec_roof
+    if enable_bottom:
+        rec_cut_2d = _dovetail_poly(clr, u_outer + 0.2)
+        rec_straight = rec_cut_2d.linear_extrude(height=rec_straight_top).translate([0.0, 0.0, 0.0])
+        rec_u0 = u_slot_in - clr
+        rec_u_span = (u_outer + 0.2) - rec_u0
+        rec_v_bot = 2.0 * (bw + 3.0 * clr)
+        rec_roof = prismoid(
+            [rec_u_span, rec_v_bot],
+            [rec_u_span, 0.4],
+            height=roof_h + 0.05,
+            **precision_kwargs(),
+        ).translate([rec_u0 + rec_u_span / 2.0, 0.0, rec_straight_top - 0.025])
+        receiver_cut = rec_straight | rec_roof
+        housing = housing - receiver_cut
+
+    if not enable_top:
+        housing = housing - block([20.0, l_unit + 4.0, 2.0], at=(-5.0, -(l_unit / 2.0 + 2.0), -2.0))
+        return housing, None
 
     # 3. Upper captive dovetail channel cut (45° bottom slope + full height channel to z = height)
     ch_cut_2d = _dovetail_poly(pip_gap, u_outer + 0.2)
@@ -4983,7 +4995,7 @@ def _build_single_side_slide_latch_uv(
         **precision_kwargs(),
     ).rotate([0, -90, 0]).translate([ch_u0 + 0.02, 0.0, z_det_down])
 
-    housing = housing_blank - receiver_cut - channel_cut - det_groove_up - det_groove_down
+    housing = housing - channel_cut - det_groove_up - det_groove_down
     # Clip any negative-z boundary epsilon so housing is strictly in z >= 0
     housing = housing - block([20.0, l_unit + 4.0, 2.0], at=(-5.0, -(l_unit / 2.0 + 2.0), -2.0))
 
@@ -5020,7 +5032,9 @@ def build_stacking_slide_latch_parts(
     *,
     anchor_top_z: float | None = None,
     axis: str = "x",
-) -> tuple[Bosl2Solid, Bosl2Solid]:
+    enable_bottom: bool | None = None,
+    enable_top: bool | None = None,
+) -> tuple[Bosl2Solid, Bosl2Solid | None]:
     """Return ``(housings, sliders)`` for the side-wall print-in-place push-up stacking latches.
 
     Places captive vertical dovetail push-up latches on opposing walls (left/right ``x = 0, width``
@@ -5028,6 +5042,9 @@ def build_stacking_slide_latch_parts(
     captive slider have zero intersection volume (``0.30 mm`` print-in-place clearance).
     """
     from pyboxbuilder.compartments.element import union_all
+
+    bot_active = _has_active_bottom_stackable(spec) if enable_bottom is None else enable_bottom
+    top_active = _has_active_top_stackable(spec) if enable_top is None else enable_top
 
     span = spec.length if axis == "x" else spec.width
     unit_h, unit_s = _build_single_side_slide_latch_uv(
@@ -5037,6 +5054,8 @@ def build_stacking_slide_latch_parts(
         floor_thickness=spec.floor_thickness,
         clearance=spec.stackable_fit_offset,
         anchor_top_z=anchor_top_z,
+        enable_bottom=bot_active,
+        enable_top=top_active,
     )
 
     offsets = (span * 0.24, span * 0.76) if span >= 42.0 else (span * 0.50,)
@@ -5048,23 +5067,27 @@ def build_stacking_slide_latch_parts(
         for y_c in offsets:
             # Left wall (x = 0, outward is -X)
             housings.append(unit_h.mirror([1, 0, 0]).translate([0.0, y_c, 0.0]))
-            sliders.append(unit_s.mirror([1, 0, 0]).translate([0.0, y_c, 0.0]))
+            if unit_s is not None:
+                sliders.append(unit_s.mirror([1, 0, 0]).translate([0.0, y_c, 0.0]))
             # Right wall (x = width, outward is +X)
             housings.append(unit_h.translate([spec.width, y_c, 0.0]))
-            sliders.append(unit_s.translate([spec.width, y_c, 0.0]))
+            if unit_s is not None:
+                sliders.append(unit_s.translate([spec.width, y_c, 0.0]))
     else:
         # Rotate (u, v, z) so u points along +Y (or -Y) and v runs along X
         unit_h_y = unit_h.rotate([0, 0, 90])
-        unit_s_y = unit_s.rotate([0, 0, 90])
+        unit_s_y = unit_s.rotate([0, 0, 90]) if unit_s is not None else None
         for x_c in offsets:
             # Front wall (y = 0, outward is -Y)
             housings.append(unit_h_y.mirror([0, 1, 0]).translate([x_c, 0.0, 0.0]))
-            sliders.append(unit_s_y.mirror([0, 1, 0]).translate([x_c, 0.0, 0.0]))
+            if unit_s_y is not None:
+                sliders.append(unit_s_y.mirror([0, 1, 0]).translate([x_c, 0.0, 0.0]))
             # Back wall (y = length, outward is +Y)
             housings.append(unit_h_y.mirror([1, 0, 0]).translate([x_c, spec.length, 0.0]))
-            sliders.append(unit_s_y.mirror([1, 0, 0]).translate([x_c, spec.length, 0.0]))
+            if unit_s_y is not None:
+                sliders.append(unit_s_y.mirror([1, 0, 0]).translate([x_c, spec.length, 0.0]))
 
-    return union_all(housings), union_all(sliders)
+    return union_all(housings), (union_all(sliders) if sliders else None)
 
 
 def build_stacking_slide_latch(
@@ -5072,14 +5095,18 @@ def build_stacking_slide_latch(
     *,
     anchor_top_z: float | None = None,
     axis: str = "x",
+    enable_bottom: bool | None = None,
+    enable_top: bool | None = None,
 ) -> Bosl2Solid:
     """Return the combined housing and captive vertical dovetail slider assembly for ``spec``."""
     housings, sliders = build_stacking_slide_latch_parts(
         spec,
         anchor_top_z=anchor_top_z,
         axis=axis,
+        enable_bottom=enable_bottom,
+        enable_top=enable_top,
     )
-    return housings | sliders
+    return (housings | sliders) if sliders is not None else housings
 
 
 def apply_stackable_body(
@@ -5095,12 +5122,19 @@ def apply_stackable_body(
 
     from pyboxbuilder.enums import StackableMode
 
+    enable_bottom = _has_active_bottom_stackable(spec)
+    enable_top = _has_active_top_stackable(spec)
+
     mode = spec.stackable
     if mode in (StackableMode.SLIDE_LATCH, StackableMode.LATCH):
+        if not enable_bottom and not enable_top:
+            return body
         latch = build_stacking_slide_latch(
             spec,
             anchor_top_z=anchor_top_z,
             axis=latch_axis,
+            enable_bottom=enable_bottom,
+            enable_top=enable_top,
         )
         return body | latch
 
@@ -5123,8 +5157,6 @@ def apply_stackable_body(
         if getattr(spec, "stackable_top_pyramid_count", None) is not None
         else default_pyr
     )
-    enable_bottom = _has_active_bottom_stackable(spec)
-    enable_top = _has_active_top_stackable(spec)
 
     if mode is StackableMode.PATTERN or shape is StackableShape.PATTERN:
         depth = min(foot_height, max(0.8, spec.floor_thickness - 0.4))

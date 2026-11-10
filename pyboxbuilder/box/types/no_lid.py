@@ -75,22 +75,33 @@ class NoLidBox(BoxTypeBase):
 
             return apply_stackable_body(body, spec)
 
+        from pyboxbuilder.box.features import (
+            _has_active_bottom_stackable,
+            _has_active_top_stackable,
+        )
+
         if spec.path:
             from pyboxbuilder.box.features import extrude_footprint, offset_footprint
 
             if mode is StackableMode.INSIDE:
+                if not _has_active_top_stackable(spec):
+                    return body
                 recess_path = offset_footprint(spec.path, wt - fit)
                 recess = extrude_footprint(
                     recess_path, stack + 0.5, base_z=spec.height - stack
                 )
                 return body - recess
             elif mode == "outside" or mode is StackableMode.OUTSIDE:
+                if not _has_active_bottom_stackable(spec):
+                    return body
                 ridge_path = offset_footprint(spec.path, -(stack - fit))
                 ridge = extrude_footprint(ridge_path, stack, base_z=0.0)
                 return body | ridge
             return body
 
         if mode is StackableMode.INSIDE:
+            if not _has_active_top_stackable(spec):
+                return body
             # Carve a recess around the top rim, so the box above nests into it.
             recess_w = spec.width - 2 * (wt - fit)
             recess_l = spec.length - 2 * (wt - fit)
@@ -104,6 +115,8 @@ class NoLidBox(BoxTypeBase):
             )
             return body - recess
         elif mode == "outside" or mode is StackableMode.OUTSIDE:
+            if not _has_active_bottom_stackable(spec):
+                return body
             # Add a ridge around the bottom outside, so it grips the box below.
             ridge_w = spec.width + 2 * (stack - fit)
             ridge_l = spec.length + 2 * (stack - fit)
