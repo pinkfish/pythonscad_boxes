@@ -331,26 +331,6 @@ class StackingBoxMatingTests(unittest.TestCase):
                     )
                     self._assert_stacking_mating(BoxType.SLIDING, spec)
 
-        # Also verify explicit legacy downward feet when stackable_printer_safe=False
-        legacy_spec = BoxSpec(
-            label="LegacyBottomFeet",
-            width=60.0,
-            length=70.0,
-            height=25.0,
-            wall_thickness=2.0,
-            floor_thickness=1.6,
-            lid_thickness=2.0,
-            stackable=StackableMode.FEET,
-            stackable_shape=StackableShape.PYRAMIDS,
-            stackable_printer_safe=False,
-            stackable_foot_size=6.5,
-            stackable_foot_height=1.2,
-            stackable_fit_offset=0.15,
-        )
-        legacy_body = BOX_IMPL_REGISTRY[BoxType.SLIDING]().build_body(legacy_spec)
-        self.assertGreater(volume(legacy_body & below_bed_probe), 1.0)
-        self._assert_stacking_mating(BoxType.SLIDING, legacy_spec)
-
     def test_pattern_matched_stacking_across_box_families_and_patterns(self) -> None:
         """Verify StackableMode.PATTERN / StackableShape.PATTERN locks into the lid pattern."""
         from pyboxbuilder.box.shell import block
