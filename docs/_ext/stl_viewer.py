@@ -111,4 +111,6 @@ def setup(app) -> dict:
     # without a .stl-viewer element. ``type="module"`` also makes it defer, so the DOM is ready.
     app.add_js_file("stl_viewer.js", type="module")
     app.add_css_file("stl_viewer.css")
+    app.add_js_file("box_selector.js", type="module")
+    app.add_css_file("box_selector.css")
     return {"version": "0.1", "parallel_read_safe": True, "parallel_write_safe": True}

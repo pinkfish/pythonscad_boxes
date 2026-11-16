@@ -338,6 +338,56 @@ class Viewer {
     this.frame();
   }
 
+  /** Replace displayed mesh URIs dynamically and reload the viewer. */
+  setUris(newUris, newColors = null) {
+    const cleaned = (Array.isArray(newUris) ? newUris : String(newUris || "").split(","))
+      .map((s) => s.trim())
+      .filter(Boolean);
+    if (cleaned.join(",") === this.uris.join(",")) return;
+
+    if (this.mesh) {
+      this.scene.remove(this.mesh);
+      this.mesh.traverse((obj) => {
+        if (obj.geometry) obj.geometry.dispose();
+        if (obj.material) {
+          const mats = Array.isArray(obj.material) ? obj.material : [obj.material];
+          for (const m of mats) m.dispose();
+        }
+      });
+      this.mesh = null;
+    }
+
+    this.uris = cleaned;
+    this.uri = cleaned[0] || "";
+    if (newColors !== null) {
+      this.colors = Array.isArray(newColors)
+        ? newColors
+        : String(newColors).split(",").map((s) => s.trim()).filter(Boolean);
+      this.color = this.colors[0] || "#6f9ac9";
+    }
+    this.el.dataset.stlUri = cleaned.join(",");
+    this.requested = false;
+
+    if (!this.status) {
+      this.status = document.createElement("div");
+      this.status.className = "stl-viewer-status";
+      this.el.appendChild(this.status);
+    } else if (!this.status.parentNode) {
+      this.el.appendChild(this.status);
+    }
+    this.status.className = "stl-viewer-status";
+
+    if (!cleaned.length) {
+      this.status.textContent = "Select at least one box to preview.";
+      this.dirty = true;
+      return;
+    }
+
+    this.status.textContent = "Loading 3-D preview\u2026";
+    this.visible = true;
+    this.load();
+  }
+
   fail(message) {
     if (this.status) {
       if (this.uri) {

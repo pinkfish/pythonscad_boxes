@@ -19,9 +19,11 @@ from __future__ import annotations
 
 import ast
 import hashlib
+import json
 import struct
 import sys
 import time
+import types
 from concurrent.futures import ProcessPoolExecutor, as_completed
 from pathlib import Path
 from typing import Any
@@ -206,8 +208,16 @@ def process_game(game_slug: str) -> dict[str, Any]:
     # Execute project definition without running __main__ CLI
     _rounding.MIN_ROUNDING_FACETS = 8
     with precision.use(fn=8):
-        ns: dict[str, Any] = {"__file__": str(script_path), "__name__": "__docgen__"}
-        exec(compile(source, str(script_path), "exec"), ns)
+        mod_name = f"__docgen_{game_slug}__"
+        mod = types.ModuleType(mod_name)
+        mod.__file__ = str(script_path)
+        mod.__name__ = mod_name
+        ns: dict[str, Any] = mod.__dict__
+        sys.modules[mod_name] = mod
+        try:
+            exec(compile(source, str(script_path), "exec"), ns)
+        finally:
+            sys.modules.pop(mod_name, None)
         proj = ns["project"]
         build = proj.build()
 
@@ -322,6 +332,41 @@ def process_game(game_slug: str) -> dict[str, Any]:
         f"- **Box Types Used**: {bt_links}",
         "",
     ])
+
+    # Optional interactive expansion & box-type selector (e.g., Root)
+    build_selector_fn = ns.get("build_doc_selector")
+    if callable(build_selector_fn):
+        selector_cfg = build_selector_fn(
+            game_slug=game_slug,
+            proj=proj,
+            build=build,
+            out_stl_dir=out_stl_dir,
+            part_uris=part_uris,
+            part_filenames=part_filenames,
+            body_pieces=body_pieces,
+            write_colored_stl_fn=write_colored_stl,
+        )
+        selector_json = json.dumps(selector_cfg, separators=(",", ":")).replace("</", "<\\/")
+        all_uris_str = ",".join(part_uris.values())
+        rst_lines.extend([
+            "Box & Expansion Selector",
+            "------------------------",
+            "",
+            "Select the Root expansions or individual factions you own to see a live breakdown ",
+            "by box type, inspect the matching layout in 3-D, and download ready-to-print ZIP archives:",
+            "",
+            ".. raw:: html",
+            "",
+            '   <div class="box-selector" data-box-selector>',
+            f'     <script type="application/json" data-box-selector-config>{selector_json}</script>',
+            "     <div data-box-selector-mount></div>",
+            f'     <div class="stl-viewer" data-stl-uri="{all_uris_str}" data-stl-color="#6f9ac9" '
+            'style="width:100%;height:420px">',
+            '       <div class="stl-viewer-status">Loading 3-D preview&hellip;</div>',
+            "     </div>",
+            "   </div>",
+            "",
+        ])
 
     # 1. Full Box Packing viewer + download
     all_uris = list(part_uris.values())

@@ -1,0 +1,340 @@
+/* SPDX-License-Identifier: Apache-2.0 */
+/* Styling for the interactive board-game insert expansion & box-type selector. */
+
+.box-selector {
+  margin: 1rem 0 1.75rem;
+}
+
+.bs-root {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.bs-section {
+  border: 1px solid var(--md-default-fg-color--lightest, #dcdce0);
+  border-radius: 6px;
+  padding: 0.9rem 1rem;
+  background: var(--md-default-bg-color, transparent);
+}
+
+.bs-title {
+  margin: 0 0 0.6rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.bs-preset-buttons {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 0.6rem;
+}
+
+.bs-preset-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.2rem;
+  padding: 0.65rem 0.85rem;
+  border-radius: 6px;
+  border: 1px solid var(--md-default-fg-color--lightest, #ccc);
+  background: var(--md-code-bg-color, #f6f7f9);
+  color: inherit;
+  cursor: pointer;
+  text-align: left;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.bs-preset-btn:hover {
+  border-color: var(--md-primary-fg-color, #4051b5);
+}
+
+.bs-preset-btn.is-active {
+  border-color: var(--md-primary-fg-color, #4051b5);
+  box-shadow: 0 0 0 1px var(--md-primary-fg-color, #4051b5);
+}
+
+.bs-preset-name {
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.bs-preset-desc {
+  font-size: 0.78rem;
+  opacity: 0.8;
+}
+
+.bs-exp-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+  gap: 0.75rem;
+}
+
+.bs-exp-card {
+  border: 1px solid var(--md-default-fg-color--lightest, #dcdce0);
+  border-radius: 6px;
+  padding: 0.7rem 0.85rem;
+  background: var(--md-code-bg-color, #f8f9fa);
+}
+
+.bs-exp-card.is-planned {
+  opacity: 0.72;
+}
+
+.bs-exp-header {
+  display: flex;
+  gap: 0.55rem;
+  align-items: flex-start;
+  cursor: pointer;
+}
+
+.bs-exp-card.is-planned .bs-exp-header {
+  cursor: default;
+}
+
+.bs-exp-title-line {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.bs-exp-desc,
+.bs-exp-notes {
+  font-size: 0.78rem;
+  opacity: 0.85;
+  margin-top: 0.25rem;
+}
+
+.bs-exp-notes {
+  font-style: italic;
+  opacity: 0.75;
+}
+
+.bs-subgroups {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 0.75rem;
+  margin-top: 0.65rem;
+  padding-top: 0.55rem;
+  border-top: 1px dashed var(--md-default-fg-color--lightest, #dcdce0);
+}
+
+.bs-subgroup-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.bs-badge {
+  display: inline-block;
+  padding: 0.1rem 0.45rem;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  background: var(--md-default-fg-color--lightest, #e2e5ea);
+}
+
+.bs-badge.is-core {
+  background: rgba(46, 125, 50, 0.15);
+  color: #2e7d32;
+}
+
+.bs-badge.is-ready {
+  background: rgba(25, 118, 210, 0.15);
+  color: #1976d2;
+}
+
+.bs-badge.is-planned {
+  background: rgba(120, 120, 120, 0.16);
+}
+
+.bs-breakdown-top {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.bs-breakdown-top .bs-title {
+  margin: 0;
+}
+
+.bs-master-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.bs-spacer-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.82rem;
+  cursor: pointer;
+}
+
+.bs-summary-note {
+  font-size: 0.84rem;
+  margin-bottom: 0.75rem;
+}
+
+.bs-category-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 0.75rem;
+}
+
+.bs-cat-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  border: 1px solid var(--md-default-fg-color--lightest, #dcdce0);
+  border-radius: 6px;
+  padding: 0.7rem 0.8rem;
+  background: var(--md-code-bg-color, #f8f9fa);
+}
+
+.bs-cat-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.bs-cat-name {
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.bs-cat-desc {
+  font-size: 0.76rem;
+  opacity: 0.8;
+}
+
+.bs-cat-items {
+  font-size: 0.74rem;
+  opacity: 0.85;
+  flex-grow: 1;
+}
+
+.bs-btn {
+  padding: 0.42rem 0.7rem;
+  border-radius: 5px;
+  border: 1px solid transparent;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.bs-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.bs-btn-primary {
+  background: var(--md-primary-fg-color, #4051b5);
+  color: var(--md-primary-bg-color, #fff);
+}
+
+.bs-btn-secondary {
+  background: transparent;
+  color: var(--md-typeset-a-color, #1a73e8);
+  border-color: var(--md-typeset-a-color, #1a73e8);
+}
+
+.bs-btn-secondary:hover:not(:disabled) {
+  background: rgba(26, 115, 232, 0.08);
+}
+
+.bs-lid-breakdown {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.45rem;
+  margin-top: 0.8rem;
+  font-size: 0.8rem;
+}
+
+.bs-lid-label {
+  font-weight: 600;
+  opacity: 0.85;
+}
+
+.bs-pill-btn {
+  padding: 0.22rem 0.55rem;
+  border-radius: 999px;
+  border: 1px solid var(--md-default-fg-color--lightest, #ccc);
+  background: var(--md-code-bg-color, #f6f7f9);
+  color: inherit;
+  font-size: 0.75rem;
+  cursor: pointer;
+}
+
+.bs-pill-btn:hover {
+  border-color: var(--md-typeset-a-color, #1a73e8);
+}
+
+.bs-status {
+  margin-top: 0.55rem;
+  min-height: 1.1em;
+  font-size: 0.8rem;
+  opacity: 0.85;
+}
+
+.bs-status.is-error {
+  color: #c62828;
+  opacity: 1;
+}
+
+.bs-detail-summary {
+  cursor: pointer;
+}
+
+.bs-table-wrap {
+  overflow-x: auto;
+  margin-top: 0.6rem;
+}
+
+.bs-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8rem;
+}
+
+.bs-table th,
+.bs-table td {
+  padding: 0.42rem 0.55rem;
+  border-bottom: 1px solid var(--md-default-fg-color--lightest, #e5e5ea);
+  text-align: left;
+  vertical-align: top;
+}
+
+.bs-table tr.is-muted {
+  opacity: 0.5;
+}
+
+.bs-table-sub {
+  font-size: 0.72rem;
+  opacity: 0.75;
+}
+
+.bs-mono {
+  font-family: var(--md-code-font-family, monospace);
+  white-space: nowrap;
+}
+
+.bs-files-cell {
+  white-space: nowrap;
+}
+
+.bs-file-link {
+  display: inline-block;
+  margin-right: 0.45rem;
+  font-size: 0.76rem;
+}
