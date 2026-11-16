@@ -6,8 +6,8 @@ Root (root)
 Root board game insert — pyboxbuilder port of `examples/root.scad`.
 
 - **Source Script**: ``boxes/root/root.py``
-- **Game Box Dimensions**: ``214 × 278 × 67 mm``
-- **Boxes**: 20 sub-box(es), 3 spacer tray(s)
+- **Game Box Dimensions**: ``214 × 278 × 67 mm`` (usable height ``39 mm`` with ``28 mm`` board storage)
+- **Boxes**: 20 sub-box(es), 2 spacer tray(s)
 - **Box Types Used**: :ref:`BoxType.SLIDING <box-type-sliding>`, :ref:`BoxType.CAP <box-type-cap>`, :ref:`BoxType.NO_LID <box-type-no-lid>`
 
 Full Box Packing
@@ -15,12 +15,12 @@ Full Box Packing
 
 Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
-.. stl:: ../_stl/boxes/root/BaseCardBox_body.stl?v=87cdf4b3,../_stl/boxes/root/BaseCardBox_lid.stl?v=6400a200,../_stl/boxes/root/ErieCardBox_body.stl?v=dc3a6360,../_stl/boxes/root/ErieCardBox_lid.stl?v=6e40804b,../_stl/boxes/root/VagabondCardBox_body.stl?v=24f41ab7,../_stl/boxes/root/VagabondCardBox_lid.stl?v=d7404c7a,../_stl/boxes/root/OverviewCardBox_body.stl?v=d0207bc6,../_stl/boxes/root/OverviewCardBox_lid.stl?v=fb93103c,../_stl/boxes/root/ItemsBoxBottom_body.stl?v=409e33c7,../_stl/boxes/root/ItemsBoxBottom_lid.stl?v=3fb8b4e3,../_stl/boxes/root/ItemsBoxMiddle_body.stl?v=97d6e033,../_stl/boxes/root/ItemsBoxMiddle_lid.stl?v=880668d5,../_stl/boxes/root/ItemsBoxWinter_body.stl?v=6cf0eda1,../_stl/boxes/root/ItemsBoxWinter_lid.stl?v=1dc51b5e,../_stl/boxes/root/ItemsBoxExtras_body.stl?v=9b03fa0a,../_stl/boxes/root/ItemsBoxExtras_lid.stl?v=e288042e,../_stl/boxes/root/MarquisBoxBottom_body.stl?v=b22d8106,../_stl/boxes/root/MarquisBoxBottom_lid.stl?v=c2a73e8e,../_stl/boxes/root/MarquisBoxTop_body.stl?v=16295e09,../_stl/boxes/root/MarquisBoxTop_lid.stl?v=bbeaeb4c,../_stl/boxes/root/ErieBoxBottom_body.stl?v=5b0ab23f,../_stl/boxes/root/ErieBoxBottom_lid.stl?v=34cbb8b7,../_stl/boxes/root/ErieBoxTop_body.stl?v=3c4319e9,../_stl/boxes/root/ErieBoxTop_lid.stl?v=e87a5d4c,../_stl/boxes/root/AllianceBoxBottom_body.stl?v=5eed719b,../_stl/boxes/root/AllianceBoxBottom_lid.stl?v=b6a8cd64,../_stl/boxes/root/AllianceBoxTop_body.stl?v=600177c8,../_stl/boxes/root/AllianceBoxTop_lid.stl?v=100c4853,../_stl/boxes/root/LizardBoxBottom_body.stl?v=7405a2e9,../_stl/boxes/root/LizardBoxBottom_lid.stl?v=137fb469,../_stl/boxes/root/LizardBoxTop_body.stl?v=88b67de2,../_stl/boxes/root/LizardBoxTop_lid.stl?v=1c527786,../_stl/boxes/root/RiverfolkBoxBottom_body.stl?v=35e4239a,../_stl/boxes/root/RiverfolkBoxBottom_lid.stl?v=ca2fe393,../_stl/boxes/root/RiverfolkBoxTop_body.stl?v=921c02ff,../_stl/boxes/root/RiverfolkBoxTop_lid.stl?v=7db92c32,../_stl/boxes/root/VagabondBox_body.stl?v=3cbf1628,../_stl/boxes/root/VagabondBox_lid.stl?v=a3eddb5f,../_stl/boxes/root/DiceBox_body.stl?v=2f5e1e2d,../_stl/boxes/root/DiceBox_lid.stl?v=4f31d62c,../_stl/boxes/root/spacer_1.stl?v=d9a8f56f,../_stl/boxes/root/spacer_2.stl?v=d12207d8,../_stl/boxes/root/spacer_3.stl?v=a44cf160
+.. stl:: ../_stl/boxes/root/BaseCardBox_body.stl?v=87cdf4b3,../_stl/boxes/root/BaseCardBox_lid.stl?v=6400a200,../_stl/boxes/root/ErieCardBox_body.stl?v=dc3a6360,../_stl/boxes/root/ErieCardBox_lid.stl?v=6e40804b,../_stl/boxes/root/VagabondCardBox_body.stl?v=24f41ab7,../_stl/boxes/root/VagabondCardBox_lid.stl?v=d7404c7a,../_stl/boxes/root/OverviewCardBox_body.stl?v=d0207bc6,../_stl/boxes/root/OverviewCardBox_lid.stl?v=fb93103c,../_stl/boxes/root/ItemsBoxBottom_body.stl?v=409e33c7,../_stl/boxes/root/ItemsBoxBottom_lid.stl?v=3fb8b4e3,../_stl/boxes/root/ItemsBoxMiddle_body.stl?v=97d6e033,../_stl/boxes/root/ItemsBoxMiddle_lid.stl?v=880668d5,../_stl/boxes/root/ItemsBoxWinter_body.stl?v=6cf0eda1,../_stl/boxes/root/ItemsBoxWinter_lid.stl?v=1dc51b5e,../_stl/boxes/root/ItemsBoxExtras_body.stl?v=9b03fa0a,../_stl/boxes/root/ItemsBoxExtras_lid.stl?v=e288042e,../_stl/boxes/root/MarquisBoxBottom_body.stl?v=b22d8106,../_stl/boxes/root/MarquisBoxBottom_lid.stl?v=c2a73e8e,../_stl/boxes/root/MarquisBoxTop_body.stl?v=16295e09,../_stl/boxes/root/MarquisBoxTop_lid.stl?v=bbeaeb4c,../_stl/boxes/root/ErieBoxBottom_body.stl?v=5b0ab23f,../_stl/boxes/root/ErieBoxBottom_lid.stl?v=34cbb8b7,../_stl/boxes/root/ErieBoxTop_body.stl?v=3c4319e9,../_stl/boxes/root/ErieBoxTop_lid.stl?v=e87a5d4c,../_stl/boxes/root/AllianceBoxBottom_body.stl?v=5eed719b,../_stl/boxes/root/AllianceBoxBottom_lid.stl?v=b6a8cd64,../_stl/boxes/root/AllianceBoxTop_body.stl?v=600177c8,../_stl/boxes/root/AllianceBoxTop_lid.stl?v=100c4853,../_stl/boxes/root/LizardBoxBottom_body.stl?v=7405a2e9,../_stl/boxes/root/LizardBoxBottom_lid.stl?v=137fb469,../_stl/boxes/root/LizardBoxTop_body.stl?v=88b67de2,../_stl/boxes/root/LizardBoxTop_lid.stl?v=1c527786,../_stl/boxes/root/RiverfolkBoxBottom_body.stl?v=35e4239a,../_stl/boxes/root/RiverfolkBoxBottom_lid.stl?v=ca2fe393,../_stl/boxes/root/RiverfolkBoxTop_body.stl?v=921c02ff,../_stl/boxes/root/RiverfolkBoxTop_lid.stl?v=7db92c32,../_stl/boxes/root/VagabondBox_body.stl?v=3cbf1628,../_stl/boxes/root/VagabondBox_lid.stl?v=a3eddb5f,../_stl/boxes/root/DiceBox_body.stl?v=2f5e1e2d,../_stl/boxes/root/DiceBox_lid.stl?v=4f31d62c,../_stl/boxes/root/spacer_1.stl?v=a6f6e5a4,../_stl/boxes/root/spacer_2.stl?v=a44cf160
    :height: 440px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/root/BaseCardBox_body.stl?v=87cdf4b3" data-stl-combine="../_stl/boxes/root/BaseCardBox_body.stl?v=87cdf4b3,../_stl/boxes/root/BaseCardBox_lid.stl?v=6400a200,../_stl/boxes/root/ErieCardBox_body.stl?v=dc3a6360,../_stl/boxes/root/ErieCardBox_lid.stl?v=6e40804b,../_stl/boxes/root/VagabondCardBox_body.stl?v=24f41ab7,../_stl/boxes/root/VagabondCardBox_lid.stl?v=d7404c7a,../_stl/boxes/root/OverviewCardBox_body.stl?v=d0207bc6,../_stl/boxes/root/OverviewCardBox_lid.stl?v=fb93103c,../_stl/boxes/root/ItemsBoxBottom_body.stl?v=409e33c7,../_stl/boxes/root/ItemsBoxBottom_lid.stl?v=3fb8b4e3,../_stl/boxes/root/ItemsBoxMiddle_body.stl?v=97d6e033,../_stl/boxes/root/ItemsBoxMiddle_lid.stl?v=880668d5,../_stl/boxes/root/ItemsBoxWinter_body.stl?v=6cf0eda1,../_stl/boxes/root/ItemsBoxWinter_lid.stl?v=1dc51b5e,../_stl/boxes/root/ItemsBoxExtras_body.stl?v=9b03fa0a,../_stl/boxes/root/ItemsBoxExtras_lid.stl?v=e288042e,../_stl/boxes/root/MarquisBoxBottom_body.stl?v=b22d8106,../_stl/boxes/root/MarquisBoxBottom_lid.stl?v=c2a73e8e,../_stl/boxes/root/MarquisBoxTop_body.stl?v=16295e09,../_stl/boxes/root/MarquisBoxTop_lid.stl?v=bbeaeb4c,../_stl/boxes/root/ErieBoxBottom_body.stl?v=5b0ab23f,../_stl/boxes/root/ErieBoxBottom_lid.stl?v=34cbb8b7,../_stl/boxes/root/ErieBoxTop_body.stl?v=3c4319e9,../_stl/boxes/root/ErieBoxTop_lid.stl?v=e87a5d4c,../_stl/boxes/root/AllianceBoxBottom_body.stl?v=5eed719b,../_stl/boxes/root/AllianceBoxBottom_lid.stl?v=b6a8cd64,../_stl/boxes/root/AllianceBoxTop_body.stl?v=600177c8,../_stl/boxes/root/AllianceBoxTop_lid.stl?v=100c4853,../_stl/boxes/root/LizardBoxBottom_body.stl?v=7405a2e9,../_stl/boxes/root/LizardBoxBottom_lid.stl?v=137fb469,../_stl/boxes/root/LizardBoxTop_body.stl?v=88b67de2,../_stl/boxes/root/LizardBoxTop_lid.stl?v=1c527786,../_stl/boxes/root/RiverfolkBoxBottom_body.stl?v=35e4239a,../_stl/boxes/root/RiverfolkBoxBottom_lid.stl?v=ca2fe393,../_stl/boxes/root/RiverfolkBoxTop_body.stl?v=921c02ff,../_stl/boxes/root/RiverfolkBoxTop_lid.stl?v=7db92c32,../_stl/boxes/root/VagabondBox_body.stl?v=3cbf1628,../_stl/boxes/root/VagabondBox_lid.stl?v=a3eddb5f,../_stl/boxes/root/DiceBox_body.stl?v=2f5e1e2d,../_stl/boxes/root/DiceBox_lid.stl?v=4f31d62c,../_stl/boxes/root/spacer_1.stl?v=d9a8f56f,../_stl/boxes/root/spacer_2.stl?v=d12207d8,../_stl/boxes/root/spacer_3.stl?v=a44cf160" download="Root_full_packing.stl">⬇ Download Full Box Packing STL (<code>Root_full_packing.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/root/BaseCardBox_body.stl?v=87cdf4b3" data-stl-combine="../_stl/boxes/root/BaseCardBox_body.stl?v=87cdf4b3,../_stl/boxes/root/BaseCardBox_lid.stl?v=6400a200,../_stl/boxes/root/ErieCardBox_body.stl?v=dc3a6360,../_stl/boxes/root/ErieCardBox_lid.stl?v=6e40804b,../_stl/boxes/root/VagabondCardBox_body.stl?v=24f41ab7,../_stl/boxes/root/VagabondCardBox_lid.stl?v=d7404c7a,../_stl/boxes/root/OverviewCardBox_body.stl?v=d0207bc6,../_stl/boxes/root/OverviewCardBox_lid.stl?v=fb93103c,../_stl/boxes/root/ItemsBoxBottom_body.stl?v=409e33c7,../_stl/boxes/root/ItemsBoxBottom_lid.stl?v=3fb8b4e3,../_stl/boxes/root/ItemsBoxMiddle_body.stl?v=97d6e033,../_stl/boxes/root/ItemsBoxMiddle_lid.stl?v=880668d5,../_stl/boxes/root/ItemsBoxWinter_body.stl?v=6cf0eda1,../_stl/boxes/root/ItemsBoxWinter_lid.stl?v=1dc51b5e,../_stl/boxes/root/ItemsBoxExtras_body.stl?v=9b03fa0a,../_stl/boxes/root/ItemsBoxExtras_lid.stl?v=e288042e,../_stl/boxes/root/MarquisBoxBottom_body.stl?v=b22d8106,../_stl/boxes/root/MarquisBoxBottom_lid.stl?v=c2a73e8e,../_stl/boxes/root/MarquisBoxTop_body.stl?v=16295e09,../_stl/boxes/root/MarquisBoxTop_lid.stl?v=bbeaeb4c,../_stl/boxes/root/ErieBoxBottom_body.stl?v=5b0ab23f,../_stl/boxes/root/ErieBoxBottom_lid.stl?v=34cbb8b7,../_stl/boxes/root/ErieBoxTop_body.stl?v=3c4319e9,../_stl/boxes/root/ErieBoxTop_lid.stl?v=e87a5d4c,../_stl/boxes/root/AllianceBoxBottom_body.stl?v=5eed719b,../_stl/boxes/root/AllianceBoxBottom_lid.stl?v=b6a8cd64,../_stl/boxes/root/AllianceBoxTop_body.stl?v=600177c8,../_stl/boxes/root/AllianceBoxTop_lid.stl?v=100c4853,../_stl/boxes/root/LizardBoxBottom_body.stl?v=7405a2e9,../_stl/boxes/root/LizardBoxBottom_lid.stl?v=137fb469,../_stl/boxes/root/LizardBoxTop_body.stl?v=88b67de2,../_stl/boxes/root/LizardBoxTop_lid.stl?v=1c527786,../_stl/boxes/root/RiverfolkBoxBottom_body.stl?v=35e4239a,../_stl/boxes/root/RiverfolkBoxBottom_lid.stl?v=ca2fe393,../_stl/boxes/root/RiverfolkBoxTop_body.stl?v=921c02ff,../_stl/boxes/root/RiverfolkBoxTop_lid.stl?v=7db92c32,../_stl/boxes/root/VagabondBox_body.stl?v=3cbf1628,../_stl/boxes/root/VagabondBox_lid.stl?v=a3eddb5f,../_stl/boxes/root/DiceBox_body.stl?v=2f5e1e2d,../_stl/boxes/root/DiceBox_lid.stl?v=4f31d62c,../_stl/boxes/root/spacer_1.stl?v=a6f6e5a4,../_stl/boxes/root/spacer_2.stl?v=a44cf160" download="Root_full_packing.stl">⬇ Download Full Box Packing STL (<code>Root_full_packing.stl</code>)</a></p>
 
 Parts Overview
 --------------
@@ -136,15 +136,10 @@ Parts Overview
      - 1
    * - :ref:`spacer_1 <spacer-root-spacer_1>`
      - :ref:`BoxType.NO_LID <box-type-no-lid>` (spacer)
-     - ``210.72 × 274.72 × 28 mm``
-     - ``(1.64, 1.64, 0)``
-     - —
-   * - :ref:`spacer_2 <spacer-root-spacer_2>`
-     - :ref:`BoxType.NO_LID <box-type-no-lid>` (spacer)
      - ``50.97 × 171.22 × 39 mm``
      - ``(161.39, 105.14, 28)``
      - —
-   * - :ref:`spacer_3 <spacer-root-spacer_3>`
+   * - :ref:`spacer_2 <spacer-root-spacer_2>`
      - :ref:`BoxType.NO_LID <box-type-no-lid>` (spacer)
      - ``49.97 × 56.553 × 14.5 mm``
      - ``(54.89, 159.973, 52.5)``
@@ -920,15 +915,15 @@ spacer_1
 ^^^^^^^^
 
 - **Type**: :ref:`BoxType.NO_LID <box-type-no-lid>` filler spacer tray
-- **Outer Dimensions**: ``210.72 × 274.72 × 28 mm``
-- **Packed Position**: ``(1.64, 1.64, 0)``
+- **Outer Dimensions**: ``50.97 × 171.22 × 39 mm``
+- **Packed Position**: ``(161.39, 105.14, 28)``
 
-.. stl:: ../_stl/boxes/root/spacer_1.stl?v=d9a8f56f
+.. stl:: ../_stl/boxes/root/spacer_1.stl?v=a6f6e5a4
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/root/spacer_1.stl?v=d9a8f56f" download="spacer_1.stl">⬇ Download spacer_1 STL (<code>spacer_1.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/root/spacer_1.stl?v=a6f6e5a4" download="spacer_1.stl">⬇ Download spacer_1 STL (<code>spacer_1.stl</code>)</a></p>
 
 .. _spacer-root-spacer_2:
 
@@ -936,28 +931,12 @@ spacer_2
 ^^^^^^^^
 
 - **Type**: :ref:`BoxType.NO_LID <box-type-no-lid>` filler spacer tray
-- **Outer Dimensions**: ``50.97 × 171.22 × 39 mm``
-- **Packed Position**: ``(161.39, 105.14, 28)``
-
-.. stl:: ../_stl/boxes/root/spacer_2.stl?v=d12207d8
-   :height: 280px
-
-.. raw:: html
-
-   <p><a href="../_stl/boxes/root/spacer_2.stl?v=d12207d8" download="spacer_2.stl">⬇ Download spacer_2 STL (<code>spacer_2.stl</code>)</a></p>
-
-.. _spacer-root-spacer_3:
-
-spacer_3
-^^^^^^^^
-
-- **Type**: :ref:`BoxType.NO_LID <box-type-no-lid>` filler spacer tray
 - **Outer Dimensions**: ``49.97 × 56.553 × 14.5 mm``
 - **Packed Position**: ``(54.89, 159.973, 52.5)``
 
-.. stl:: ../_stl/boxes/root/spacer_3.stl?v=a44cf160
+.. stl:: ../_stl/boxes/root/spacer_2.stl?v=a44cf160
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/root/spacer_3.stl?v=a44cf160" download="spacer_3.stl">⬇ Download spacer_3 STL (<code>spacer_3.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/root/spacer_2.stl?v=a44cf160" download="spacer_2.stl">⬇ Download spacer_2 STL (<code>spacer_2.stl</code>)</a></p>

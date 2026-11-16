@@ -103,6 +103,10 @@ Here is an example with two trays in a game box; ``pyboxbuilder`` automatically 
    # project.show() renders both boxes AND the auto-generated spacer pieces!
    project.show(show_lids=True)
 
+.. note::
+
+   Use ``board_thickness`` to exclude board/rulebook storage height from auto-packing and spacer generation. By default this reserves space at the top of the box; set ``board_on_bottom=True`` when the game boards sit at the bottom (``z = 0..board_thickness``) underneath the trays.
+
 
 Inspecting Spacer Pieces in Python
 ----------------------------------

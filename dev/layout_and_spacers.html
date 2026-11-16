@@ -739,6 +739,10 @@
 </code></pre></div>
 </div>
 <div class="stl-viewer" data-stl-uri="_stl/a0f83ca6f5bc776e.stl" data-stl-color="#6f9ac9" style="width:100%;height:360px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a class="reference external" href="_stl/a0f83ca6f5bc776e.stl">⬇ Download STL mesh</a></p>
+<div class="note admonition">
+<p class="admonition-title">Note</p>
+<p>Use <code class="docutils literal notranslate"><span class="pre">board_thickness</span></code> to exclude board/rulebook storage height from auto-packing and spacer generation. By default this reserves space at the top of the box; set <code class="docutils literal notranslate"><span class="pre">board_on_bottom=True</span></code> when the game boards sit at the bottom (<code class="docutils literal notranslate"><span class="pre">z</span> <span class="pre">=</span> <span class="pre">0..board_thickness</span></code>) underneath the trays.</p>
+</div>
 <h2 id="inspecting-spacer-pieces-in-python"><a class="toc-backref" href="#id4" role="doc-backlink">Inspecting Spacer Pieces in Python</a><a class="headerlink" href="#inspecting-spacer-pieces-in-python" title="Link to this heading">¶</a></h2>
 <p>You can also inspect the generated spacer pieces programmatically via <a class="reference internal" href="_autosummary/pyboxbuilder.project.core.Project.html#pyboxbuilder.project.core.Project.build" title="pyboxbuilder.project.core.Project.build (Python method) — Resolve the layout and describe every piece of this project."><code class="xref py py-meth docutils literal notranslate"><span class="pre">build()</span></code></a>:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="n">build</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">build</span><span class="p">()</span>

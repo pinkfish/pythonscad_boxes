@@ -551,7 +551,9 @@
 <span class="w">    </span><span class="sd">"""Clearance slack on each side of the game box in the X/Y directions (mm)."""</span>
 
     <span class="n">board_thickness</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span>
-<span class="w">    </span><span class="sd">"""Thickness of the game board (mm) reserved at the top of the game box."""</span>
+<span class="w">    </span><span class="sd">"""Thickness of the game board (mm) reserved at the top (or bottom if ``board_on_bottom``)."""</span>
+    <span class="n">board_on_bottom</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="w">    </span><span class="sd">"""Whether reserved board space sits at the bottom (``z = 0..board_thickness``)."""</span>
     <span class="n">ribbon_channels</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
 <span class="w">    </span><span class="sd">"""Cut bottom groove for lifting ribbon on all sub-boxes by default."""</span>
     <span class="n">generate_spacers</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
@@ -581,6 +583,11 @@
             <span class="k">return</span> <span class="mf">1.5</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="nb">min</span><span class="p">(</span><span class="mf">2.5</span><span class="p">,</span> <span class="mf">1.5</span> <span class="o">+</span> <span class="p">(</span><span class="n">max_dim</span> <span class="o">-</span> <span class="mf">250.0</span><span class="p">)</span> <span class="o">/</span> <span class="mf">100.0</span> <span class="o">*</span> <span class="mf">0.5</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">board_z_offset</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Starting Z height (mm) of usable insert space above bottom-stored boards."""</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">board_thickness</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">board_on_bottom</span> <span class="k">else</span> <span class="mf">0.0</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">effective_game_box_size</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>

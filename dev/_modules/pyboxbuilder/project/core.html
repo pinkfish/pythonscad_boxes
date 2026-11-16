@@ -622,8 +622,11 @@
     <span class="n">board_thickness</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span>
 <span class="w">    </span><span class="sd">"""Thickness of the game board (mm).</span>
 
-<span class="sd">    Reserved at the TOP of the box: the board sits on top of the sub-boxes and</span>
-<span class="sd">    is the first thing out, so this is not a spacer gap."""</span>
+<span class="sd">    Reserved at the TOP of the box by default (or at the BOTTOM when</span>
+<span class="sd">    :attr:`board_on_bottom` is ``True``), so this region is not filled with</span>
+<span class="sd">    auto-generated spacers."""</span>
+    <span class="n">board_on_bottom</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="w">    </span><span class="sd">"""Whether the reserved :attr:`board_thickness` space sits at the bottom (``z = 0..board_thickness``)."""</span>
     <span class="n">ribbon_channels</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
 <span class="w">    </span><span class="sd">"""Cut bottom groove for lifting ribbon on all sub-boxes by default."""</span>
     <span class="n">generate_spacers</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
@@ -666,6 +669,7 @@
             <span class="n">min_spacer_height</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">min_spacer_height</span><span class="p">,</span>
             <span class="n">clearance_slack</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">clearance_slack</span><span class="p">,</span>
             <span class="n">board_thickness</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">board_thickness</span><span class="p">,</span>
+            <span class="n">board_on_bottom</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">board_on_bottom</span><span class="p">,</span>
             <span class="n">ribbon_channels</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">ribbon_channels</span><span class="p">,</span>
             <span class="n">generate_spacers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">generate_spacers</span><span class="p">,</span>
             <span class="n">box_defaults</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">box_defaults</span><span class="p">,</span>
@@ -795,7 +799,7 @@
 <div class="viewcode-block" id="Project.arrange">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.project.core.Project.html#pyboxbuilder.project.core.Project.arrange">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">arrange</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">layout</span><span class="p">:</span> <span class="n">Node</span><span class="p">,</span> <span class="n">origin</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">layout</span><span class="p">:</span> <span class="n">Node</span><span class="p">,</span> <span class="n">origin</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Arrangement</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Position boxes from a declarative layout tree (T186).</span>
 
@@ -809,7 +813,9 @@
 
 <span class="sd">        Args:</span>
 <span class="sd">            layout: A `pyboxbuilder.layout` group, or a single box label.</span>
-<span class="sd">            origin: Where the arrangement's minimum corner goes.</span>
+<span class="sd">            origin: Where the arrangement's minimum corner goes. Defaults to</span>
+<span class="sd">                ``(0.0, 0.0, board_thickness)`` when ``board_on_bottom=True``,</span>
+<span class="sd">                or ``(0.0, 0.0, 0.0)`` otherwise.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            The `Arrangement`, so a caller can inspect the resolved extent.</span>
@@ -837,7 +843,10 @@
 <span class="sd">                project.show()</span>
 
 <span class="sd">        """</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_compiler</span><span class="o">.</span><span class="n">arrange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_manifest</span><span class="p">,</span> <span class="n">layout</span><span class="p">,</span> <span class="n">origin</span><span class="p">)</span></div>
+        <span class="n">resolved_origin</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">origin</span> <span class="k">if</span> <span class="n">origin</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_manifest</span><span class="o">.</span><span class="n">board_z_offset</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_compiler</span><span class="o">.</span><span class="n">arrange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_manifest</span><span class="p">,</span> <span class="n">layout</span><span class="p">,</span> <span class="n">resolved_origin</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="Project.stack_order">
