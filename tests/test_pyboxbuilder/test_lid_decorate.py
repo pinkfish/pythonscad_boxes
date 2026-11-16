@@ -1144,6 +1144,24 @@ class InsertColourTests(unittest.TestCase):
                 self.assertAlmostEqual(ih, INLAY_DEPTH_MM, places=4)
                 self.assertGreaterEqual(icz - ih / 2.0, 2.0 - INLAY_DEPTH_MM - 1e-4)
 
+        # 5. Overlapping concentric multi-color shapes keep foreground colors visible on top
+        emblem = [
+            (pybosl2.shapes3d.cylinder(height=0.6, radius=14.0), Color("gold")),
+            (pybosl2.shapes3d.cuboid([14.0, 14.0, 0.6]), Color("crimson")),
+            (pybosl2.shapes3d.cylinder(height=0.6, radius=4.0), Color("white")),
+        ]
+        dec_emblem = decorate_lid(lid, LidBuilder(logo=emblem, pattern=None), 2.0, "mmu")
+        self.assertEqual(len(dec_emblem.inserts), 3)
+        for ins in dec_emblem.inserts:
+            self.assertGreater(volume(ins.solid), 20.0)
+            (_, _, icz), (_, _, ih) = _bounds_cs(ins.solid)
+            self.assertAlmostEqual(ih, INLAY_DEPTH_MM, places=4)
+            self.assertGreaterEqual(icz - ih / 2.0, 2.0 - INLAY_DEPTH_MM - 1e-4)
+        for i in range(len(dec_emblem.inserts)):
+            for j in range(i + 1, len(dec_emblem.inserts)):
+                self.assertAlmostEqual(volume(dec_emblem.inserts[i].solid & dec_emblem.inserts[j].solid), 0.0, places=3)
+
+
     def test_framed_label_strip_spaces_are_always_through_holes(self) -> None:
         """Spaces between framed-label diagonal strips stay through-holes even when frame_color is set."""
         from pybosl2 import Color
