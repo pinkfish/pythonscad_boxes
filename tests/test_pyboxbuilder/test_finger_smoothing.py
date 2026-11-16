@@ -567,6 +567,24 @@ class NoLidFingerHoleTests(unittest.TestCase):
         kept = with_no_lid_finger_holes(self.spec(finger_holes=(object(),)))
         self.assertEqual(len(kept.finger_holes), 1)
 
+    def test_compartmented_tray_skips_blind_auto_finger_holes(self) -> None:
+        from mesh import volume
+
+        from pyboxbuilder import BoxType, Project
+        from pyboxbuilder.box.shell import block, with_no_lid_finger_holes
+
+        # A compartmented shell (hollow=False) cannot pierce into wells via 1*wall_thickness rim dips.
+        self.assertEqual(with_no_lid_finger_holes(self.spec(hollow=False)).finger_holes, ())
+
+        proj = Project("DividedTrayCleanWalls", game_box_size=None)
+        tray = proj.box(BoxType.NO_LID, "ResourceTray", size=(85.0, 55.0, 22.0), wall_thickness=2.0)
+        tray.compartment("Wood", width_ratio=0.5, holds_pieces=True)
+        tray.compartment("Stone", width_ratio=0.5, holds_pieces=True)
+        body = proj.build().pieces[0].solid
+        # Front wall center (where no_lid_finger_holes would have cut into the divider) stays solid.
+        probe = block([10.0, 1.5, 4.0], at=(37.5, 0.25, 17.5))
+        self.assertAlmostEqual(volume(body & probe), 60.0, places=1)
+
 
 if __name__ == "__main__":
     unittest.main()
