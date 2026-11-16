@@ -317,7 +317,7 @@ project.card_box(
     "ErieCardBox",
     card_size=(74.875, 93.5),
     size=card_erie_size,
-    lid=replace(LID_ERIE, text="Erie"),
+    lid=LID_ERIE,
     position=(79.875, 0.0, 28.0),
 )
 
