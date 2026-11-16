@@ -842,6 +842,14 @@
 <span class="w">    </span><span class="sd">"""Gap between label text and inside of the border; ``None`` uses defaults."""</span>
     <span class="n">label_rounding_mm</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="w">    </span><span class="sd">"""Corner rounding radius of the label backing plate; ``None`` uses defaults."""</span>
+    <span class="n">label_solid_background</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">"""Use a solid unperforated background inside a framed label instead of</span>
+<span class="sd">    diagonal hatching slots; ``None`` uses open through-hole strips unless</span>
+<span class="sd">    ``label_background_color`` is set."""</span>
+    <span class="n">label_background_color</span><span class="p">:</span> <span class="n">Color</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">"""Top-layer colour for the solid interior background inside a framed label's</span>
+<span class="sd">    border ring. Setting a colour automatically enables a solid background (no</span>
+<span class="sd">    hatching holes); ``None`` leaves a solid background in the lid's own colour."""</span>
     <span class="n">label_clearance_mm</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="w">    </span><span class="sd">"""Solid margin kept around the **lettering** where a pattern meets it.</span>
 
@@ -886,6 +894,10 @@
             <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">Color</span>
 
             <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">"pattern_color"</span><span class="p">,</span> <span class="n">Color</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pattern_color</span><span class="p">))</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">label_background_color</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">Color</span>
+
+            <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">"label_background_color"</span><span class="p">,</span> <span class="n">Color</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">label_background_color</span><span class="p">))</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pattern_colors</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
             <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">Color</span>
 

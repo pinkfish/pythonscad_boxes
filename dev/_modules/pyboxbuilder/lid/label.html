@@ -570,6 +570,8 @@
 <span class="sd">    """</span>
     <span class="n">frame</span><span class="p">:</span> <span class="n">Bosl2Solid</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="w">    </span><span class="sd">"""Framed mode only — the outer border ring around the label perimeter."""</span>
+    <span class="n">background</span><span class="p">:</span> <span class="n">Bosl2Solid</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">"""Framed mode with solid background only — the interior plaque inside the border."""</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">backing</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
@@ -696,6 +698,7 @@
     <span class="n">center_x</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">center_y</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">max_text_height_mm</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">MAX_TEXT_HEIGHT_MM</span><span class="p">,</span>
+    <span class="n">solid_background</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Label</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Build a label for a lid face, or None if it would be illegible.</span>
 
@@ -716,6 +719,8 @@
 <span class="sd">        center_x: Explicit X center for the label in the face frame (defaults to width / 2).</span>
 <span class="sd">        center_y: Explicit Y center for the label in the face frame (defaults to length / 2).</span>
 <span class="sd">        max_text_height_mm: Maximum cap height for the label text in mm.</span>
+<span class="sd">        solid_background: Keep the framed label's interior solid rather than</span>
+<span class="sd">            cutting diagonal hatching slots.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        A `Label`, or None when the text would come out under the minimum.</span>
@@ -800,6 +805,27 @@
         <span class="p">[</span><span class="n">plate_w</span><span class="p">,</span> <span class="n">plate_l</span><span class="p">,</span> <span class="n">BACKING_HEIGHT_MM</span><span class="p">],</span>
         <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="n">plate_x</span><span class="p">,</span> <span class="n">plate_y</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span>
     <span class="p">)</span>
+    <span class="k">if</span> <span class="n">solid_background</span><span class="p">:</span>
+        <span class="n">clip_solid</span> <span class="o">=</span> <span class="n">_build_clip_solid</span><span class="p">(</span>
+            <span class="n">plate_w</span><span class="p">,</span>
+            <span class="n">plate_l</span><span class="p">,</span>
+            <span class="n">border</span><span class="o">=</span><span class="n">border</span><span class="p">,</span>
+            <span class="n">rounding</span><span class="o">=</span><span class="n">rounding_val</span><span class="p">,</span>
+            <span class="n">text_gap</span><span class="o">=</span><span class="n">gap</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">bg_solid</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">corner</span><span class="p">(</span><span class="n">clip_solid</span><span class="p">,</span> <span class="p">[</span><span class="n">plate_w</span><span class="p">,</span> <span class="n">plate_l</span><span class="p">,</span> <span class="n">BACKING_HEIGHT_MM</span><span class="p">],</span> <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="n">plate_x</span><span class="p">,</span> <span class="n">plate_y</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">clip_solid</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+            <span class="k">else</span> <span class="kc">None</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">Label</span><span class="p">(</span>
+            <span class="n">text</span><span class="o">=</span><span class="n">solid</span><span class="p">,</span>
+            <span class="n">hatching</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">plate</span><span class="o">=</span><span class="n">plate</span><span class="p">,</span>
+            <span class="n">frame</span><span class="o">=</span><span class="n">frame_ring</span><span class="p">,</span>
+            <span class="n">background</span><span class="o">=</span><span class="n">bg_solid</span> <span class="o">-</span> <span class="n">solid</span> <span class="k">if</span> <span class="n">bg_solid</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="p">)</span>
+
     <span class="n">raw_hatching</span> <span class="o">=</span> <span class="n">_build_hatching</span><span class="p">(</span><span class="n">plate_w</span><span class="p">,</span> <span class="n">plate_l</span><span class="p">,</span> <span class="n">border</span><span class="o">=</span><span class="n">border</span><span class="p">,</span> <span class="n">rounding</span><span class="o">=</span><span class="n">rounding_val</span><span class="p">,</span> <span class="n">text_gap</span><span class="o">=</span><span class="n">gap</span><span class="p">)</span>
     <span class="n">hatching</span> <span class="o">=</span> <span class="p">(</span>
         <span class="n">corner</span><span class="p">(</span><span class="n">raw_hatching</span><span class="p">,</span> <span class="p">[</span><span class="n">plate_w</span><span class="p">,</span> <span class="n">plate_l</span><span class="p">,</span> <span class="n">BACKING_HEIGHT_MM</span><span class="p">],</span> <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="n">plate_x</span><span class="p">,</span> <span class="n">plate_y</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">))</span>
