@@ -697,5 +697,6 @@ Next Steps
 ----------
 
 * Explore all available lid mechanisms and box styles in :doc:`box_types`.
+* Browse framed, frameless, diagonal, and multi-color top-layer lid labels in :doc:`lid_labels`, and lid surface patterns in :doc:`lid_patterns`.
 * Learn advanced multi-column layouts and custom spacer options in :doc:`layout_and_spacers`.
 * Browse the full class and method documentation in the :doc:`api`.

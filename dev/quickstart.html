@@ -758,6 +758,30 @@
   
   
     <li class="md-nav__item">
+      <a href="lid_labels.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Lid Labels Guide &amp; Showcase</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="layout_and_spacers.html" class="md-nav__link">
         
   
@@ -1371,7 +1395,7 @@ pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </s
 <div class="stl-viewer" data-stl-uri="_stl/12c581b03ec3be64.stl" data-stl-color="#6f9ac9" style="width:100%;height:360px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a class="reference external" href="_stl/12c581b03ec3be64.stl">⬇ Download STL mesh</a></p>
 <h3 id="scenario-6-manual-spatial-arrangement">Scenario 6: Manual Spatial Arrangement<a class="headerlink" href="#scenario-6-manual-spatial-arrangement" title="Link to this heading">¶</a></h3>
 <p>Compose relative spatial layouts using <a class="reference internal" href="_autosummary/pyboxbuilder.layout.columns.html#pyboxbuilder.layout.columns" title="pyboxbuilder.layout.columns (Python function) — Lay children out left to right along X."><code class="xref py py-func docutils literal notranslate"><span class="pre">columns()</span></code></a>, <a class="reference internal" href="_autosummary/pyboxbuilder.layout.rows.html#pyboxbuilder.layout.rows" title="pyboxbuilder.layout.rows (Python function) — Lay children out front to back along Y."><code class="xref py py-func docutils literal notranslate"><span class="pre">rows()</span></code></a>, and <a class="reference internal" href="_autosummary/pyboxbuilder.layout.stack.html#pyboxbuilder.layout.stack" title="pyboxbuilder.layout.stack (Python function) — Lay children out bottom to top along Z."><code class="xref py py-func docutils literal notranslate"><span class="pre">stack()</span></code></a>:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="n">project</span> <span class="o">=</span> <span class="n">Project</span><span class="p">(</span><span class="s2">"BigGame"</span><span class="p">,</span> <span class="n">game_box_size</span><span class="o">=</span><span class="p">(</span><span class="mf">300.0</span><span class="p">,</span> <span class="mf">200.0</span><span class="p">,</span> <span class="mf">80.0</span><span class="p">))</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="n">project</span> <span class="o">=</span> <span class="n">Project</span><span class="p">(</span><span class="s2">"BigGame"</span><span class="p">,</span> <span class="n">game_box_size</span><span class="o">=</span><span class="p">(</span><span class="mf">300.0</span><span class="p">,</span> <span class="mf">200.0</span><span class="p">,</span> <span class="mf">80.0</span><span class="p">),</span> <span class="n">generate_spacers</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="n">project</span><span class="o">.</span><span class="n">box</span><span class="p">(</span><span class="n">BoxType</span><span class="o">.</span><span class="n">SLIDING</span><span class="p">,</span> <span class="s2">"CardBox"</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mf">110.0</span><span class="p">,</span> <span class="mf">75.0</span><span class="p">,</span> <span class="mf">50.0</span><span class="p">))</span>
 <span class="n">project</span><span class="o">.</span><span class="n">box</span><span class="p">(</span><span class="n">BoxType</span><span class="o">.</span><span class="n">CAP</span><span class="p">,</span> <span class="s2">"TokenBox"</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mf">60.0</span><span class="p">,</span> <span class="mf">50.0</span><span class="p">,</span> <span class="mf">30.0</span><span class="p">))</span>
 <span class="n">project</span><span class="o">.</span><span class="n">box</span><span class="p">(</span><span class="n">BoxType</span><span class="o">.</span><span class="n">CAP</span><span class="p">,</span> <span class="s2">"DiceBox"</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mf">60.0</span><span class="p">,</span> <span class="mf">50.0</span><span class="p">,</span> <span class="mf">30.0</span><span class="p">))</span>
@@ -1380,7 +1404,7 @@ pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </s
 <span class="n">project</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">show_lids</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </code></pre></div>
 </div>
-<div class="stl-viewer" data-stl-uri="_stl/f652bdbea1da4827.stl" data-stl-color="#6f9ac9" style="width:100%;height:360px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a class="reference external" href="_stl/f652bdbea1da4827.stl">⬇ Download STL mesh</a></p>
+<div class="stl-viewer" data-stl-uri="_stl/f9d4372b450b88a1.stl" data-stl-color="#6f9ac9" style="width:100%;height:360px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a class="reference external" href="_stl/f9d4372b450b88a1.stl">⬇ Download STL mesh</a></p>
 <h3 id="scenario-7-box-sized-entirely-by-its-contents">Scenario 7: Box Sized Entirely by its Contents<a class="headerlink" href="#scenario-7-box-sized-entirely-by-its-contents" title="Link to this heading">¶</a></h3>
 <p>Omit the outer size entirely and let the box’s footprint and height follow automatically from internal compartment dimensions and push-through holes:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="n">project</span> <span class="o">=</span> <span class="n">Project</span><span class="p">(</span><span class="s2">"ComputedBox"</span><span class="p">,</span> <span class="n">game_box_size</span><span class="o">=</span><span class="p">(</span><span class="mf">200.0</span><span class="p">,</span> <span class="mf">150.0</span><span class="p">,</span> <span class="mf">60.0</span><span class="p">))</span>

@@ -11,7 +11,7 @@
       
       
       
-        <link rel="prev" href="lid_patterns.html">
+        <link rel="prev" href="lid_labels.html">
       
       
         <link rel="next" href="boxes/index.html">
@@ -341,6 +341,30 @@
                 
   
   
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="lid_labels.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Lid Labels Guide &amp; Showcase</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
     
   
     
@@ -649,7 +673,7 @@
 <li><p><a class="reference internal" href="_autosummary/pyboxbuilder.layout.stack.html#pyboxbuilder.layout.stack" title="pyboxbuilder.layout.stack (Python function) — Lay children out bottom to top along Z."><code class="xref py py-func docutils literal notranslate"><span class="pre">stack()</span></code></a>: Arranges children bottom-to-top along the Z-axis (height).</p></li>
 </ul>
 <p>Groups can be nested arbitrarily, and you can specify a <code class="docutils literal notranslate"><span class="pre">gap</span></code> (in mm) between adjacent boxes to ensure clearance for easy removal.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="n">project</span> <span class="o">=</span> <span class="n">Project</span><span class="p">(</span><span class="s2">"ArrangeDemo"</span><span class="p">,</span> <span class="n">game_box_size</span><span class="o">=</span><span class="p">(</span><span class="mf">130.0</span><span class="p">,</span> <span class="mf">90.0</span><span class="p">,</span> <span class="mf">30.0</span><span class="p">))</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="n">project</span> <span class="o">=</span> <span class="n">Project</span><span class="p">(</span><span class="s2">"ArrangeDemo"</span><span class="p">,</span> <span class="n">game_box_size</span><span class="o">=</span><span class="p">(</span><span class="mf">130.0</span><span class="p">,</span> <span class="mf">90.0</span><span class="p">,</span> <span class="mf">30.0</span><span class="p">),</span> <span class="n">generate_spacers</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
 <span class="c1"># Define the boxes by size without specifying (x, y, z) positions:</span>
 <span class="n">project</span><span class="o">.</span><span class="n">box</span><span class="p">(</span><span class="n">BoxType</span><span class="o">.</span><span class="n">CAP</span><span class="p">,</span> <span class="s2">"P1"</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mf">40.0</span><span class="p">,</span> <span class="mf">40.0</span><span class="p">,</span> <span class="mf">20.0</span><span class="p">),</span> <span class="n">lid</span><span class="o">=</span><span class="n">LidBuilder</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="s2">"P1"</span><span class="p">))</span>
@@ -673,7 +697,7 @@
 <span class="n">project</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">show_lids</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </code></pre></div>
 </div>
-<div class="stl-viewer" data-stl-uri="_stl/ad642ffba9cde4a3.stl" data-stl-color="#6f9ac9" style="width:100%;height:360px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a class="reference external" href="_stl/ad642ffba9cde4a3.stl">⬇ Download STL mesh</a></p>
+<div class="stl-viewer" data-stl-uri="_stl/8ed1f3c1ee029585.stl" data-stl-color="#6f9ac9" style="width:100%;height:360px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a class="reference external" href="_stl/8ed1f3c1ee029585.stl">⬇ Download STL mesh</a></p>
 <h2 id="automatic-3d-bin-packing"><a class="toc-backref" href="#id2" role="doc-backlink">Automatic 3D Bin Packing</a><a class="headerlink" href="#automatic-3d-bin-packing" title="Link to this heading">¶</a></h2>
 <p>If you do not call <a class="reference internal" href="_autosummary/pyboxbuilder.project.core.Project.html#pyboxbuilder.project.core.Project.arrange" title="pyboxbuilder.project.core.Project.arrange (Python method) — Position boxes from a declarative layout tree (T186)."><code class="xref py py-meth docutils literal notranslate"><span class="pre">arrange()</span></code></a> and omit explicit <code class="docutils literal notranslate"><span class="pre">position=(x,</span> <span class="pre">y,</span> <span class="pre">z)</span></code> coordinates, <code class="docutils literal notranslate"><span class="pre">pyboxbuilder</span></code> automatically runs its 3D guillotine bin packer (<a class="reference internal" href="_autosummary/pyboxbuilder.packing.guillotine.html#module-pyboxbuilder.packing.guillotine" title="pyboxbuilder.packing.guillotine (Python module)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyboxbuilder.packing.guillotine</span></code></a>).</p>
 <p>The packer optimizes the placement of all boxes to fit inside the declared <a class="reference internal" href="_autosummary/pyboxbuilder.project.core.Project.html#pyboxbuilder.project.core.Project.game_box_size" title="pyboxbuilder.project.core.Project.game_box_size (Python attribute) — Outer game box dimensions [W, L, H] in mm. None = standalone boxes (no game box)."><code class="xref py py-attr docutils literal notranslate"><span class="pre">game_box_size</span></code></a>. If the boxes cannot fit, it reports a <code class="xref py py-class docutils literal notranslate"><span class="pre">PackingError</span></code> identifying the overflow.</p>
@@ -690,6 +714,7 @@
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="n">project</span> <span class="o">=</span> <span class="n">Project</span><span class="p">(</span>
     <span class="s2">"SpacerDemo"</span><span class="p">,</span>
     <span class="n">game_box_size</span><span class="o">=</span><span class="p">(</span><span class="mf">90.0</span><span class="p">,</span> <span class="mf">90.0</span><span class="p">,</span> <span class="mf">25.0</span><span class="p">),</span>
+    <span class="n">board_thickness</span><span class="o">=</span><span class="mf">5.0</span><span class="p">,</span>
     <span class="n">generate_spacers</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
 <span class="p">)</span>
 
@@ -713,7 +738,7 @@
 <span class="n">project</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">show_lids</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </code></pre></div>
 </div>
-<div class="stl-viewer" data-stl-uri="_stl/bc14866e7377d626.stl" data-stl-color="#6f9ac9" style="width:100%;height:360px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a class="reference external" href="_stl/bc14866e7377d626.stl">⬇ Download STL mesh</a></p>
+<div class="stl-viewer" data-stl-uri="_stl/a0f83ca6f5bc776e.stl" data-stl-color="#6f9ac9" style="width:100%;height:360px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a class="reference external" href="_stl/a0f83ca6f5bc776e.stl">⬇ Download STL mesh</a></p>
 <h2 id="inspecting-spacer-pieces-in-python"><a class="toc-backref" href="#id4" role="doc-backlink">Inspecting Spacer Pieces in Python</a><a class="headerlink" href="#inspecting-spacer-pieces-in-python" title="Link to this heading">¶</a></h2>
 <p>You can also inspect the generated spacer pieces programmatically via <a class="reference internal" href="_autosummary/pyboxbuilder.project.core.Project.html#pyboxbuilder.project.core.Project.build" title="pyboxbuilder.project.core.Project.build (Python method) — Resolve the layout and describe every piece of this project."><code class="xref py py-meth docutils literal notranslate"><span class="pre">build()</span></code></a>:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="n">build</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">build</span><span class="p">()</span>

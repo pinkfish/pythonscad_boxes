@@ -29,7 +29,7 @@ Groups can be nested arbitrarily, and you can specify a ``gap`` (in mm) between 
 
 .. pythonscad-example::
 
-   project = Project("ArrangeDemo", game_box_size=(130.0, 90.0, 30.0))
+   project = Project("ArrangeDemo", game_box_size=(130.0, 90.0, 30.0), generate_spacers=False)
 
    # Define the boxes by size without specifying (x, y, z) positions:
    project.box(BoxType.CAP, "P1", size=(40.0, 40.0, 20.0), lid=LidBuilder(text="P1"))
@@ -80,6 +80,7 @@ Here is an example with two trays in a game box; ``pyboxbuilder`` automatically 
    project = Project(
        "SpacerDemo",
        game_box_size=(90.0, 90.0, 25.0),
+       board_thickness=5.0,
        generate_spacers=True,
    )
 
