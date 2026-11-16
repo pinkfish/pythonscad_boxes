@@ -647,24 +647,26 @@ def _apply_logo_parts(
         at=(origin_x - 2.0, origin_y - 2.0, top_z - INLAY_DEPTH_MM),
     )
 
-    # Group by color in order of appearance so identical colors share a single cutout/insert
+    # Apply in reverse (painter's) order so foreground/later shapes cut and claim
+    # their top-layer volume before earlier background shapes fill around them.
+    # Group carved inlays by color so each color emits one consolidated insert.
     grouped: dict[tuple[float, float, float, float] | None, tuple[Bosl2Solid, Color | None]] = {}
     order: list[tuple[float, float, float, float] | None] = []
-    for part_solid, part_color in logo_parts:
+    for part_solid, part_color in reversed(logo_parts):
+        inlay = onto_face(part_solid) & top_slab & result.solid
+        result.solid = result.solid - inlay
         c = part_color if part_color is not None else builder.logo_color
         k = _color_key(c)
         if k not in grouped:
             order.append(k)
-            grouped[k] = (part_solid, c)
+            grouped[k] = (inlay, c)
         else:
             prev_solid, prev_col = grouped[k]
-            grouped[k] = (prev_solid | part_solid, prev_col)
+            grouped[k] = (prev_solid | inlay, prev_col)
 
-    for k in order:
-        part_solid, colour = grouped[k]
-        inlay = onto_face(part_solid) & top_slab & result.solid
-        result.solid = result.solid - inlay
-        result.inserts.append(LidInsert(_coloured(inlay, colour), colour))
+    for k in reversed(order):
+        inlay_solid, colour = grouped[k]
+        result.inserts.append(LidInsert(_coloured(inlay_solid, colour), colour))
 
 
 KEEPOUT_DIRECTIONS = 12
