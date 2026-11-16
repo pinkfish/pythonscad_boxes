@@ -620,9 +620,15 @@ def with_no_lid_finger_holes(spec: BoxSpec) -> BoxSpec:
     a second call to this changes nothing. A spec that sets
     ``auto_finger_holes`` to ``False`` opts out entirely (FR-047b).
 
+    A **compartmented** tray (``hollow=False``) is skipped: its outer rim is
+    backed by inner gutter walls and compartment dividers, so an edge dip only
+    one ``wall_thickness`` deep forms a blind pocket in the side wall instead of
+    opening into a well (use per-compartment ``cut=FingerCut.SCOOP`` where side
+    access is wanted).
+
     A **polygon** footprint gets none either (FR-047c). The rule names four
     walls and a longer side, and a polygon has neither — `no_lid_finger_holes`
-    would read the bounding box and place a cut on a wall that need not exist.
+    would read the bounding box and cut into a wall that need not exist.
     The test is the footprint rather than the box type, because that is what
     the rule is actually about; an explicit `finger_hole(side)` still works,
     since the caller can see the outline.
@@ -634,7 +640,7 @@ def with_no_lid_finger_holes(spec: BoxSpec) -> BoxSpec:
         The spec, or a copy carrying the automatic pair.
 
     """
-    if spec.auto_finger_holes and not spec.finger_holes and not spec.path:
+    if spec.auto_finger_holes and spec.hollow and not spec.finger_holes and not spec.path:
         return replace(spec, finger_holes=no_lid_finger_holes(spec))
     return spec
 
