@@ -1144,3 +1144,42 @@ class InsertColourTests(unittest.TestCase):
                 self.assertAlmostEqual(ih, INLAY_DEPTH_MM, places=4)
                 self.assertGreaterEqual(icz - ih / 2.0, 2.0 - INLAY_DEPTH_MM - 1e-4)
 
+    def test_framed_label_strip_spaces_are_always_through_holes(self) -> None:
+        """Spaces between framed-label diagonal strips stay through-holes even when frame_color is set."""
+        from pybosl2 import Color
+
+        from pyboxbuilder.lid.decorate import INLAY_DEPTH_MM
+
+        lid = bare_lid()
+        lbl = build_label(100.0, 70.0, 0.0, "Cards", label_mode=LabelMode.FRAMED)
+        assert lbl is not None and lbl.hatching is not None and lbl.plate is not None
+
+        dec = decorate_lid(
+            lid,
+            LidBuilder(
+                text="Cards",
+                label_mode=LabelMode.FRAMED,
+                text_color=Color("white"),
+                frame_color=Color("gold"),
+            ),
+            2.0,
+            "mmu",
+        )
+        self.assertEqual(len(dec.inserts), 2)
+
+        # Diagonal gaps between strips must be open holes completely through the lid,
+        # and no colored insert may fill those through-hole spaces.
+        hatch_mid = lbl.hatching.translate([0.0, 0.0, 0.5])
+        hatch_top = lbl.hatching.translate([0.0, 0.0, 2.0 - INLAY_DEPTH_MM])
+        self.assertAlmostEqual(volume(dec.solid & hatch_mid), 0.0, places=3)
+        for ins in dec.inserts:
+            self.assertAlmostEqual(volume(ins.solid & hatch_top), 0.0, places=3)
+
+        # The two colored inserts (text + frame/strips) must be disjoint and top-layer only.
+        self.assertAlmostEqual(volume(dec.inserts[0].solid & dec.inserts[1].solid), 0.0, places=3)
+        for ins in dec.inserts:
+            (_, _, icz), (_, _, ih) = _bounds_cs(ins.solid)
+            self.assertAlmostEqual(ih, INLAY_DEPTH_MM, places=4)
+            self.assertGreaterEqual(icz - ih / 2.0, 2.0 - INLAY_DEPTH_MM - 1e-4)
+
+

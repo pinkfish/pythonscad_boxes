@@ -15,12 +15,12 @@ Full Box Packing
 
 Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
-.. stl:: ../_stl/boxes/russian_railroads/PlayerBox_Red_body.stl?v=c7252d93,../_stl/boxes/russian_railroads/PlayerBox_Red_lid.stl?v=6652a65b,../_stl/boxes/russian_railroads/PlayerBox_Blue_body.stl?v=00bdfafb,../_stl/boxes/russian_railroads/PlayerBox_Blue_lid.stl?v=8236e93b,../_stl/boxes/russian_railroads/ExtraTokensBox_body.stl?v=4f9aefa2,../_stl/boxes/russian_railroads/ExtraTokensBox_lid.stl?v=07682bf7,../_stl/boxes/russian_railroads/PlayerBox_Green_body.stl?v=1c8dd2b3,../_stl/boxes/russian_railroads/PlayerBox_Green_lid.stl?v=a060f751,../_stl/boxes/russian_railroads/PlayerBox_Yellow_body.stl?v=58505fc3,../_stl/boxes/russian_railroads/PlayerBox_Yellow_lid.stl?v=02071d31,../_stl/boxes/russian_railroads/MoneyBox_body.stl?v=9839b4af,../_stl/boxes/russian_railroads/MoneyBox_lid.stl?v=0530360a,../_stl/boxes/russian_railroads/CardBox_body.stl?v=adde987c,../_stl/boxes/russian_railroads/CardBox_lid.stl?v=d119d379,../_stl/boxes/russian_railroads/TrainBox_body.stl?v=50bc1f5b,../_stl/boxes/russian_railroads/TrainBox_lid.stl?v=da52e51b,../_stl/boxes/russian_railroads/EngineerBox_body.stl?v=f685d3a1,../_stl/boxes/russian_railroads/EngineerBox_lid.stl?v=881a0836,../_stl/boxes/russian_railroads/TrackBox_body.stl?v=90eb7c2d,../_stl/boxes/russian_railroads/TrackBox_lid.stl?v=7b9fe9d5,../_stl/boxes/russian_railroads/spacer_1.stl?v=0f00f23a
+.. stl:: ../_stl/boxes/russian_railroads/PlayerBox_Red_body.stl?v=c7252d93,../_stl/boxes/russian_railroads/PlayerBox_Red_lid.stl?v=6c7def13,../_stl/boxes/russian_railroads/PlayerBox_Blue_body.stl?v=00bdfafb,../_stl/boxes/russian_railroads/PlayerBox_Blue_lid.stl?v=6bc5842d,../_stl/boxes/russian_railroads/ExtraTokensBox_body.stl?v=4f9aefa2,../_stl/boxes/russian_railroads/ExtraTokensBox_lid.stl?v=00d47e85,../_stl/boxes/russian_railroads/PlayerBox_Green_body.stl?v=1c8dd2b3,../_stl/boxes/russian_railroads/PlayerBox_Green_lid.stl?v=deb8132d,../_stl/boxes/russian_railroads/PlayerBox_Yellow_body.stl?v=58505fc3,../_stl/boxes/russian_railroads/PlayerBox_Yellow_lid.stl?v=7e073b13,../_stl/boxes/russian_railroads/MoneyBox_body.stl?v=9839b4af,../_stl/boxes/russian_railroads/MoneyBox_lid.stl?v=a92c0896,../_stl/boxes/russian_railroads/CardBox_body.stl?v=adde987c,../_stl/boxes/russian_railroads/CardBox_lid.stl?v=d119d379,../_stl/boxes/russian_railroads/TrainBox_body.stl?v=50bc1f5b,../_stl/boxes/russian_railroads/TrainBox_lid.stl?v=82bf3888,../_stl/boxes/russian_railroads/EngineerBox_body.stl?v=f685d3a1,../_stl/boxes/russian_railroads/EngineerBox_lid.stl?v=d59e497c,../_stl/boxes/russian_railroads/TrackBox_body.stl?v=90eb7c2d,../_stl/boxes/russian_railroads/TrackBox_lid.stl?v=fc56e805,../_stl/boxes/russian_railroads/spacer_1.stl?v=0f00f23a
    :height: 440px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/russian_railroads/PlayerBox_Red_body.stl?v=c7252d93" data-stl-combine="../_stl/boxes/russian_railroads/PlayerBox_Red_body.stl?v=c7252d93,../_stl/boxes/russian_railroads/PlayerBox_Red_lid.stl?v=6652a65b,../_stl/boxes/russian_railroads/PlayerBox_Blue_body.stl?v=00bdfafb,../_stl/boxes/russian_railroads/PlayerBox_Blue_lid.stl?v=8236e93b,../_stl/boxes/russian_railroads/ExtraTokensBox_body.stl?v=4f9aefa2,../_stl/boxes/russian_railroads/ExtraTokensBox_lid.stl?v=07682bf7,../_stl/boxes/russian_railroads/PlayerBox_Green_body.stl?v=1c8dd2b3,../_stl/boxes/russian_railroads/PlayerBox_Green_lid.stl?v=a060f751,../_stl/boxes/russian_railroads/PlayerBox_Yellow_body.stl?v=58505fc3,../_stl/boxes/russian_railroads/PlayerBox_Yellow_lid.stl?v=02071d31,../_stl/boxes/russian_railroads/MoneyBox_body.stl?v=9839b4af,../_stl/boxes/russian_railroads/MoneyBox_lid.stl?v=0530360a,../_stl/boxes/russian_railroads/CardBox_body.stl?v=adde987c,../_stl/boxes/russian_railroads/CardBox_lid.stl?v=d119d379,../_stl/boxes/russian_railroads/TrainBox_body.stl?v=50bc1f5b,../_stl/boxes/russian_railroads/TrainBox_lid.stl?v=da52e51b,../_stl/boxes/russian_railroads/EngineerBox_body.stl?v=f685d3a1,../_stl/boxes/russian_railroads/EngineerBox_lid.stl?v=881a0836,../_stl/boxes/russian_railroads/TrackBox_body.stl?v=90eb7c2d,../_stl/boxes/russian_railroads/TrackBox_lid.stl?v=7b9fe9d5,../_stl/boxes/russian_railroads/spacer_1.stl?v=0f00f23a" download="RussianRailroads_full_packing.stl">⬇ Download Full Box Packing STL (<code>RussianRailroads_full_packing.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/russian_railroads/PlayerBox_Red_body.stl?v=c7252d93" data-stl-combine="../_stl/boxes/russian_railroads/PlayerBox_Red_body.stl?v=c7252d93,../_stl/boxes/russian_railroads/PlayerBox_Red_lid.stl?v=6c7def13,../_stl/boxes/russian_railroads/PlayerBox_Blue_body.stl?v=00bdfafb,../_stl/boxes/russian_railroads/PlayerBox_Blue_lid.stl?v=6bc5842d,../_stl/boxes/russian_railroads/ExtraTokensBox_body.stl?v=4f9aefa2,../_stl/boxes/russian_railroads/ExtraTokensBox_lid.stl?v=00d47e85,../_stl/boxes/russian_railroads/PlayerBox_Green_body.stl?v=1c8dd2b3,../_stl/boxes/russian_railroads/PlayerBox_Green_lid.stl?v=deb8132d,../_stl/boxes/russian_railroads/PlayerBox_Yellow_body.stl?v=58505fc3,../_stl/boxes/russian_railroads/PlayerBox_Yellow_lid.stl?v=7e073b13,../_stl/boxes/russian_railroads/MoneyBox_body.stl?v=9839b4af,../_stl/boxes/russian_railroads/MoneyBox_lid.stl?v=a92c0896,../_stl/boxes/russian_railroads/CardBox_body.stl?v=adde987c,../_stl/boxes/russian_railroads/CardBox_lid.stl?v=d119d379,../_stl/boxes/russian_railroads/TrainBox_body.stl?v=50bc1f5b,../_stl/boxes/russian_railroads/TrainBox_lid.stl?v=82bf3888,../_stl/boxes/russian_railroads/EngineerBox_body.stl?v=f685d3a1,../_stl/boxes/russian_railroads/EngineerBox_lid.stl?v=d59e497c,../_stl/boxes/russian_railroads/TrackBox_body.stl?v=90eb7c2d,../_stl/boxes/russian_railroads/TrackBox_lid.stl?v=fc56e805,../_stl/boxes/russian_railroads/spacer_1.stl?v=0f00f23a" download="RussianRailroads_full_packing.stl">⬇ Download Full Box Packing STL (<code>RussianRailroads_full_packing.stl</code>)</a></p>
 
 Parts Overview
 --------------
@@ -105,12 +105,12 @@ PlayerBox_Red
 
 **Assembled Box (PlayerBox_Red — Body + Lid)**
 
-.. stl:: ../_stl/boxes/russian_railroads/PlayerBox_Red_body.stl?v=c7252d93,../_stl/boxes/russian_railroads/PlayerBox_Red_lid.stl?v=6652a65b
+.. stl:: ../_stl/boxes/russian_railroads/PlayerBox_Red_body.stl?v=c7252d93,../_stl/boxes/russian_railroads/PlayerBox_Red_lid.stl?v=6c7def13
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/russian_railroads/PlayerBox_Red_body.stl?v=c7252d93" data-stl-combine="../_stl/boxes/russian_railroads/PlayerBox_Red_body.stl?v=c7252d93,../_stl/boxes/russian_railroads/PlayerBox_Red_lid.stl?v=6652a65b" download="PlayerBox_Red_assembled.stl">⬇ Download Assembled PlayerBox_Red STL (<code>PlayerBox_Red_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/russian_railroads/PlayerBox_Red_body.stl?v=c7252d93" data-stl-combine="../_stl/boxes/russian_railroads/PlayerBox_Red_body.stl?v=c7252d93,../_stl/boxes/russian_railroads/PlayerBox_Red_lid.stl?v=6c7def13" download="PlayerBox_Red_assembled.stl">⬇ Download Assembled PlayerBox_Red STL (<code>PlayerBox_Red_assembled.stl</code>)</a></p>
 
 **Part: PlayerBox_Red Body**
 
@@ -123,12 +123,12 @@ PlayerBox_Red
 
 **Part: PlayerBox_Red Lid**
 
-.. stl:: ../_stl/boxes/russian_railroads/PlayerBox_Red_lid.stl?v=6652a65b
+.. stl:: ../_stl/boxes/russian_railroads/PlayerBox_Red_lid.stl?v=6c7def13
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/russian_railroads/PlayerBox_Red_lid.stl?v=6652a65b" download="PlayerBox_Red_lid.stl">⬇ Download PlayerBox_Red Lid STL (<code>PlayerBox_Red_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/russian_railroads/PlayerBox_Red_lid.stl?v=6c7def13" download="PlayerBox_Red_lid.stl">⬇ Download PlayerBox_Red Lid STL (<code>PlayerBox_Red_lid.stl</code>)</a></p>
 
 .. _box-russian_railroads-playerbox_blue:
 
@@ -142,12 +142,12 @@ PlayerBox_Blue
 
 **Assembled Box (PlayerBox_Blue — Body + Lid)**
 
-.. stl:: ../_stl/boxes/russian_railroads/PlayerBox_Blue_body.stl?v=00bdfafb,../_stl/boxes/russian_railroads/PlayerBox_Blue_lid.stl?v=8236e93b
+.. stl:: ../_stl/boxes/russian_railroads/PlayerBox_Blue_body.stl?v=00bdfafb,../_stl/boxes/russian_railroads/PlayerBox_Blue_lid.stl?v=6bc5842d
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/russian_railroads/PlayerBox_Blue_body.stl?v=00bdfafb" data-stl-combine="../_stl/boxes/russian_railroads/PlayerBox_Blue_body.stl?v=00bdfafb,../_stl/boxes/russian_railroads/PlayerBox_Blue_lid.stl?v=8236e93b" download="PlayerBox_Blue_assembled.stl">⬇ Download Assembled PlayerBox_Blue STL (<code>PlayerBox_Blue_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/russian_railroads/PlayerBox_Blue_body.stl?v=00bdfafb" data-stl-combine="../_stl/boxes/russian_railroads/PlayerBox_Blue_body.stl?v=00bdfafb,../_stl/boxes/russian_railroads/PlayerBox_Blue_lid.stl?v=6bc5842d" download="PlayerBox_Blue_assembled.stl">⬇ Download Assembled PlayerBox_Blue STL (<code>PlayerBox_Blue_assembled.stl</code>)</a></p>
 
 **Part: PlayerBox_Blue Body**
 
@@ -160,12 +160,12 @@ PlayerBox_Blue
 
 **Part: PlayerBox_Blue Lid**
 
-.. stl:: ../_stl/boxes/russian_railroads/PlayerBox_Blue_lid.stl?v=8236e93b
+.. stl:: ../_stl/boxes/russian_railroads/PlayerBox_Blue_lid.stl?v=6bc5842d
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/russian_railroads/PlayerBox_Blue_lid.stl?v=8236e93b" download="PlayerBox_Blue_lid.stl">⬇ Download PlayerBox_Blue Lid STL (<code>PlayerBox_Blue_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/russian_railroads/PlayerBox_Blue_lid.stl?v=6bc5842d" download="PlayerBox_Blue_lid.stl">⬇ Download PlayerBox_Blue Lid STL (<code>PlayerBox_Blue_lid.stl</code>)</a></p>
 
 .. _box-russian_railroads-extratokensbox:
 
@@ -179,12 +179,12 @@ ExtraTokensBox
 
 **Assembled Box (ExtraTokensBox — Body + Lid)**
 
-.. stl:: ../_stl/boxes/russian_railroads/ExtraTokensBox_body.stl?v=4f9aefa2,../_stl/boxes/russian_railroads/ExtraTokensBox_lid.stl?v=07682bf7
+.. stl:: ../_stl/boxes/russian_railroads/ExtraTokensBox_body.stl?v=4f9aefa2,../_stl/boxes/russian_railroads/ExtraTokensBox_lid.stl?v=00d47e85
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/russian_railroads/ExtraTokensBox_body.stl?v=4f9aefa2" data-stl-combine="../_stl/boxes/russian_railroads/ExtraTokensBox_body.stl?v=4f9aefa2,../_stl/boxes/russian_railroads/ExtraTokensBox_lid.stl?v=07682bf7" download="ExtraTokensBox_assembled.stl">⬇ Download Assembled ExtraTokensBox STL (<code>ExtraTokensBox_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/russian_railroads/ExtraTokensBox_body.stl?v=4f9aefa2" data-stl-combine="../_stl/boxes/russian_railroads/ExtraTokensBox_body.stl?v=4f9aefa2,../_stl/boxes/russian_railroads/ExtraTokensBox_lid.stl?v=00d47e85" download="ExtraTokensBox_assembled.stl">⬇ Download Assembled ExtraTokensBox STL (<code>ExtraTokensBox_assembled.stl</code>)</a></p>
 
 **Part: ExtraTokensBox Body**
 
@@ -197,12 +197,12 @@ ExtraTokensBox
 
 **Part: ExtraTokensBox Lid**
 
-.. stl:: ../_stl/boxes/russian_railroads/ExtraTokensBox_lid.stl?v=07682bf7
+.. stl:: ../_stl/boxes/russian_railroads/ExtraTokensBox_lid.stl?v=00d47e85
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/russian_railroads/ExtraTokensBox_lid.stl?v=07682bf7" download="ExtraTokensBox_lid.stl">⬇ Download ExtraTokensBox Lid STL (<code>ExtraTokensBox_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/russian_railroads/ExtraTokensBox_lid.stl?v=00d47e85" download="ExtraTokensBox_lid.stl">⬇ Download ExtraTokensBox Lid STL (<code>ExtraTokensBox_lid.stl</code>)</a></p>
 
 .. _box-russian_railroads-playerbox_green:
 
@@ -216,12 +216,12 @@ PlayerBox_Green
 
 **Assembled Box (PlayerBox_Green — Body + Lid)**
 
-.. stl:: ../_stl/boxes/russian_railroads/PlayerBox_Green_body.stl?v=1c8dd2b3,../_stl/boxes/russian_railroads/PlayerBox_Green_lid.stl?v=a060f751
+.. stl:: ../_stl/boxes/russian_railroads/PlayerBox_Green_body.stl?v=1c8dd2b3,../_stl/boxes/russian_railroads/PlayerBox_Green_lid.stl?v=deb8132d
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/russian_railroads/PlayerBox_Green_body.stl?v=1c8dd2b3" data-stl-combine="../_stl/boxes/russian_railroads/PlayerBox_Green_body.stl?v=1c8dd2b3,../_stl/boxes/russian_railroads/PlayerBox_Green_lid.stl?v=a060f751" download="PlayerBox_Green_assembled.stl">⬇ Download Assembled PlayerBox_Green STL (<code>PlayerBox_Green_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/russian_railroads/PlayerBox_Green_body.stl?v=1c8dd2b3" data-stl-combine="../_stl/boxes/russian_railroads/PlayerBox_Green_body.stl?v=1c8dd2b3,../_stl/boxes/russian_railroads/PlayerBox_Green_lid.stl?v=deb8132d" download="PlayerBox_Green_assembled.stl">⬇ Download Assembled PlayerBox_Green STL (<code>PlayerBox_Green_assembled.stl</code>)</a></p>
 
 **Part: PlayerBox_Green Body**
 
@@ -234,12 +234,12 @@ PlayerBox_Green
 
 **Part: PlayerBox_Green Lid**
 
-.. stl:: ../_stl/boxes/russian_railroads/PlayerBox_Green_lid.stl?v=a060f751
+.. stl:: ../_stl/boxes/russian_railroads/PlayerBox_Green_lid.stl?v=deb8132d
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/russian_railroads/PlayerBox_Green_lid.stl?v=a060f751" download="PlayerBox_Green_lid.stl">⬇ Download PlayerBox_Green Lid STL (<code>PlayerBox_Green_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/russian_railroads/PlayerBox_Green_lid.stl?v=deb8132d" download="PlayerBox_Green_lid.stl">⬇ Download PlayerBox_Green Lid STL (<code>PlayerBox_Green_lid.stl</code>)</a></p>
 
 .. _box-russian_railroads-playerbox_yellow:
 
@@ -253,12 +253,12 @@ PlayerBox_Yellow
 
 **Assembled Box (PlayerBox_Yellow — Body + Lid)**
 
-.. stl:: ../_stl/boxes/russian_railroads/PlayerBox_Yellow_body.stl?v=58505fc3,../_stl/boxes/russian_railroads/PlayerBox_Yellow_lid.stl?v=02071d31
+.. stl:: ../_stl/boxes/russian_railroads/PlayerBox_Yellow_body.stl?v=58505fc3,../_stl/boxes/russian_railroads/PlayerBox_Yellow_lid.stl?v=7e073b13
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/russian_railroads/PlayerBox_Yellow_body.stl?v=58505fc3" data-stl-combine="../_stl/boxes/russian_railroads/PlayerBox_Yellow_body.stl?v=58505fc3,../_stl/boxes/russian_railroads/PlayerBox_Yellow_lid.stl?v=02071d31" download="PlayerBox_Yellow_assembled.stl">⬇ Download Assembled PlayerBox_Yellow STL (<code>PlayerBox_Yellow_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/russian_railroads/PlayerBox_Yellow_body.stl?v=58505fc3" data-stl-combine="../_stl/boxes/russian_railroads/PlayerBox_Yellow_body.stl?v=58505fc3,../_stl/boxes/russian_railroads/PlayerBox_Yellow_lid.stl?v=7e073b13" download="PlayerBox_Yellow_assembled.stl">⬇ Download Assembled PlayerBox_Yellow STL (<code>PlayerBox_Yellow_assembled.stl</code>)</a></p>
 
 **Part: PlayerBox_Yellow Body**
 
@@ -271,12 +271,12 @@ PlayerBox_Yellow
 
 **Part: PlayerBox_Yellow Lid**
 
-.. stl:: ../_stl/boxes/russian_railroads/PlayerBox_Yellow_lid.stl?v=02071d31
+.. stl:: ../_stl/boxes/russian_railroads/PlayerBox_Yellow_lid.stl?v=7e073b13
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/russian_railroads/PlayerBox_Yellow_lid.stl?v=02071d31" download="PlayerBox_Yellow_lid.stl">⬇ Download PlayerBox_Yellow Lid STL (<code>PlayerBox_Yellow_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/russian_railroads/PlayerBox_Yellow_lid.stl?v=7e073b13" download="PlayerBox_Yellow_lid.stl">⬇ Download PlayerBox_Yellow Lid STL (<code>PlayerBox_Yellow_lid.stl</code>)</a></p>
 
 .. _box-russian_railroads-moneybox:
 
@@ -290,12 +290,12 @@ MoneyBox
 
 **Assembled Box (MoneyBox — Body + Lid)**
 
-.. stl:: ../_stl/boxes/russian_railroads/MoneyBox_body.stl?v=9839b4af,../_stl/boxes/russian_railroads/MoneyBox_lid.stl?v=0530360a
+.. stl:: ../_stl/boxes/russian_railroads/MoneyBox_body.stl?v=9839b4af,../_stl/boxes/russian_railroads/MoneyBox_lid.stl?v=a92c0896
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/russian_railroads/MoneyBox_body.stl?v=9839b4af" data-stl-combine="../_stl/boxes/russian_railroads/MoneyBox_body.stl?v=9839b4af,../_stl/boxes/russian_railroads/MoneyBox_lid.stl?v=0530360a" download="MoneyBox_assembled.stl">⬇ Download Assembled MoneyBox STL (<code>MoneyBox_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/russian_railroads/MoneyBox_body.stl?v=9839b4af" data-stl-combine="../_stl/boxes/russian_railroads/MoneyBox_body.stl?v=9839b4af,../_stl/boxes/russian_railroads/MoneyBox_lid.stl?v=a92c0896" download="MoneyBox_assembled.stl">⬇ Download Assembled MoneyBox STL (<code>MoneyBox_assembled.stl</code>)</a></p>
 
 **Part: MoneyBox Body**
 
@@ -308,12 +308,12 @@ MoneyBox
 
 **Part: MoneyBox Lid**
 
-.. stl:: ../_stl/boxes/russian_railroads/MoneyBox_lid.stl?v=0530360a
+.. stl:: ../_stl/boxes/russian_railroads/MoneyBox_lid.stl?v=a92c0896
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/russian_railroads/MoneyBox_lid.stl?v=0530360a" download="MoneyBox_lid.stl">⬇ Download MoneyBox Lid STL (<code>MoneyBox_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/russian_railroads/MoneyBox_lid.stl?v=a92c0896" download="MoneyBox_lid.stl">⬇ Download MoneyBox Lid STL (<code>MoneyBox_lid.stl</code>)</a></p>
 
 .. _box-russian_railroads-cardbox:
 
@@ -364,12 +364,12 @@ TrainBox
 
 **Assembled Box (TrainBox — Body + Lid)**
 
-.. stl:: ../_stl/boxes/russian_railroads/TrainBox_body.stl?v=50bc1f5b,../_stl/boxes/russian_railroads/TrainBox_lid.stl?v=da52e51b
+.. stl:: ../_stl/boxes/russian_railroads/TrainBox_body.stl?v=50bc1f5b,../_stl/boxes/russian_railroads/TrainBox_lid.stl?v=82bf3888
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/russian_railroads/TrainBox_body.stl?v=50bc1f5b" data-stl-combine="../_stl/boxes/russian_railroads/TrainBox_body.stl?v=50bc1f5b,../_stl/boxes/russian_railroads/TrainBox_lid.stl?v=da52e51b" download="TrainBox_assembled.stl">⬇ Download Assembled TrainBox STL (<code>TrainBox_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/russian_railroads/TrainBox_body.stl?v=50bc1f5b" data-stl-combine="../_stl/boxes/russian_railroads/TrainBox_body.stl?v=50bc1f5b,../_stl/boxes/russian_railroads/TrainBox_lid.stl?v=82bf3888" download="TrainBox_assembled.stl">⬇ Download Assembled TrainBox STL (<code>TrainBox_assembled.stl</code>)</a></p>
 
 **Part: TrainBox Body**
 
@@ -382,12 +382,12 @@ TrainBox
 
 **Part: TrainBox Lid**
 
-.. stl:: ../_stl/boxes/russian_railroads/TrainBox_lid.stl?v=da52e51b
+.. stl:: ../_stl/boxes/russian_railroads/TrainBox_lid.stl?v=82bf3888
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/russian_railroads/TrainBox_lid.stl?v=da52e51b" download="TrainBox_lid.stl">⬇ Download TrainBox Lid STL (<code>TrainBox_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/russian_railroads/TrainBox_lid.stl?v=82bf3888" download="TrainBox_lid.stl">⬇ Download TrainBox Lid STL (<code>TrainBox_lid.stl</code>)</a></p>
 
 .. _box-russian_railroads-engineerbox:
 
@@ -401,12 +401,12 @@ EngineerBox
 
 **Assembled Box (EngineerBox — Body + Lid)**
 
-.. stl:: ../_stl/boxes/russian_railroads/EngineerBox_body.stl?v=f685d3a1,../_stl/boxes/russian_railroads/EngineerBox_lid.stl?v=881a0836
+.. stl:: ../_stl/boxes/russian_railroads/EngineerBox_body.stl?v=f685d3a1,../_stl/boxes/russian_railroads/EngineerBox_lid.stl?v=d59e497c
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/russian_railroads/EngineerBox_body.stl?v=f685d3a1" data-stl-combine="../_stl/boxes/russian_railroads/EngineerBox_body.stl?v=f685d3a1,../_stl/boxes/russian_railroads/EngineerBox_lid.stl?v=881a0836" download="EngineerBox_assembled.stl">⬇ Download Assembled EngineerBox STL (<code>EngineerBox_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/russian_railroads/EngineerBox_body.stl?v=f685d3a1" data-stl-combine="../_stl/boxes/russian_railroads/EngineerBox_body.stl?v=f685d3a1,../_stl/boxes/russian_railroads/EngineerBox_lid.stl?v=d59e497c" download="EngineerBox_assembled.stl">⬇ Download Assembled EngineerBox STL (<code>EngineerBox_assembled.stl</code>)</a></p>
 
 **Part: EngineerBox Body**
 
@@ -419,12 +419,12 @@ EngineerBox
 
 **Part: EngineerBox Lid**
 
-.. stl:: ../_stl/boxes/russian_railroads/EngineerBox_lid.stl?v=881a0836
+.. stl:: ../_stl/boxes/russian_railroads/EngineerBox_lid.stl?v=d59e497c
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/russian_railroads/EngineerBox_lid.stl?v=881a0836" download="EngineerBox_lid.stl">⬇ Download EngineerBox Lid STL (<code>EngineerBox_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/russian_railroads/EngineerBox_lid.stl?v=d59e497c" download="EngineerBox_lid.stl">⬇ Download EngineerBox Lid STL (<code>EngineerBox_lid.stl</code>)</a></p>
 
 .. _box-russian_railroads-trackbox:
 
@@ -438,12 +438,12 @@ TrackBox
 
 **Assembled Box (TrackBox — Body + Lid)**
 
-.. stl:: ../_stl/boxes/russian_railroads/TrackBox_body.stl?v=90eb7c2d,../_stl/boxes/russian_railroads/TrackBox_lid.stl?v=7b9fe9d5
+.. stl:: ../_stl/boxes/russian_railroads/TrackBox_body.stl?v=90eb7c2d,../_stl/boxes/russian_railroads/TrackBox_lid.stl?v=fc56e805
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/russian_railroads/TrackBox_body.stl?v=90eb7c2d" data-stl-combine="../_stl/boxes/russian_railroads/TrackBox_body.stl?v=90eb7c2d,../_stl/boxes/russian_railroads/TrackBox_lid.stl?v=7b9fe9d5" download="TrackBox_assembled.stl">⬇ Download Assembled TrackBox STL (<code>TrackBox_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/russian_railroads/TrackBox_body.stl?v=90eb7c2d" data-stl-combine="../_stl/boxes/russian_railroads/TrackBox_body.stl?v=90eb7c2d,../_stl/boxes/russian_railroads/TrackBox_lid.stl?v=fc56e805" download="TrackBox_assembled.stl">⬇ Download Assembled TrackBox STL (<code>TrackBox_assembled.stl</code>)</a></p>
 
 **Part: TrackBox Body**
 
@@ -456,12 +456,12 @@ TrackBox
 
 **Part: TrackBox Lid**
 
-.. stl:: ../_stl/boxes/russian_railroads/TrackBox_lid.stl?v=7b9fe9d5
+.. stl:: ../_stl/boxes/russian_railroads/TrackBox_lid.stl?v=fc56e805
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/russian_railroads/TrackBox_lid.stl?v=7b9fe9d5" download="TrackBox_lid.stl">⬇ Download TrackBox Lid STL (<code>TrackBox_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/russian_railroads/TrackBox_lid.stl?v=fc56e805" download="TrackBox_lid.stl">⬇ Download TrackBox Lid STL (<code>TrackBox_lid.stl</code>)</a></p>
 
 Spacer Trays
 ------------

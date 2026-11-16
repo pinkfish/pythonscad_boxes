@@ -1278,21 +1278,30 @@ def _apply_label(
         result.solid = result.solid - cut
         return
 
-    # If frame_color is None, hatching is cut as a through-hole.
-    # Otherwise, it is inlaid as a second color.
-    if builder.frame_color is None and label.hatching is not None:
+    # In framed mode, the diagonal hatching spaces between strips are always cut
+    # as through-holes in the lid. If frame_color is set, it colours the outer
+    # frame border and solid strips themselves on the top layer rather than
+    # filling the through-hole spaces.
+    if label.hatching is not None:
         hatching_cut = _as_depth(label.hatching, lid_thickness + 2.0)
         hatching_cut = hatching_cut.translate([origin_x, origin_y, top_z - lid_thickness - 1.0])
         result.solid = result.solid - hatching_cut
 
+    frame_part: Bosl2Solid | None = None
+    if builder.frame_color is not None and label.plate is not None:
+        frame_part = label.plate
+        if label.hatching is not None:
+            frame_part = frame_part - label.hatching
+        frame_part = frame_part - label.text
+
     # Inlaid, not embossed (FR-022a): each coloured part is cut out of the lid
     # and put back in its own colour, exactly as deep as the recess, so the
     # lid's top face stays flat. Only the parts that change colour are cut —
-    # the plate between them is left alone, which is what makes it the box's
-    # own material without an insert of its own (FR-022).
+    # when frame_color is None the frame border and strips stay the box's own
+    # material without an insert of their own (FR-022).
     for part, colour in (
         (label.text, builder.text_color),
-        (label.hatching, builder.frame_color),
+        (frame_part, builder.frame_color),
     ):
         if part is None or colour is None:
             continue
