@@ -1190,5 +1190,39 @@ class InsertColourTests(unittest.TestCase):
         self.assertAlmostEqual(volume(frame_insert.solid & interior_zone), 0.0, places=3)
         self.assertGreater(volume(frame_insert.solid), 0.0)
 
+    def test_multiline_label_splits_and_centers_diagonal_and_horizontal(self) -> None:
+        """Newlines split into separate centered lines in both horizontal and diagonal modes."""
+        for diagonal in (False, True):
+            lbl_multi = build_label(
+                95.0,
+                95.0,
+                2.0,
+                "PLAYER\nCARDS",
+                label_mode=LabelMode.FRAMELESS,
+                diagonal=diagonal,
+                max_text_height_mm=14.0,
+            )
+            lbl_single = build_label(
+                95.0,
+                95.0,
+                2.0,
+                "PLAYER CARDS",
+                label_mode=LabelMode.FRAMELESS,
+                diagonal=diagonal,
+                max_text_height_mm=14.0,
+            )
+            assert lbl_multi is not None and lbl_single is not None
+            (mcx, mcy, _), (mw, ml, _) = _bounds_cs(lbl_multi.text)
+            self.assertAlmostEqual(mcx, 47.5, places=3)
+            self.assertAlmostEqual(mcy, 47.5, places=3)
+            self.assertGreaterEqual(mcx - mw / 2.0, 10.0 - 1e-3)
+            self.assertLessEqual(mcx + mw / 2.0, 85.0 + 1e-3)
+            self.assertGreaterEqual(mcy - ml / 2.0, 10.0 - 1e-3)
+            self.assertLessEqual(mcy + ml / 2.0, 85.0 + 1e-3)
+            if not diagonal:
+                (_, _, _), (_, sl, _) = _bounds_cs(lbl_single.text)
+                self.assertGreater(ml, sl * 1.5)
+
+
 
 
