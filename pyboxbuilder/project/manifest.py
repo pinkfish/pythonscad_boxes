@@ -39,7 +39,9 @@ class ProjectManifest:
     """Clearance slack on each side of the game box in the X/Y directions (mm)."""
 
     board_thickness: float = 0.0
-    """Thickness of the game board (mm) reserved at the top of the game box."""
+    """Thickness of the game board (mm) reserved at the top (or bottom if ``board_on_bottom``)."""
+    board_on_bottom: bool = False
+    """Whether reserved board space sits at the bottom (``z = 0..board_thickness``)."""
     ribbon_channels: bool = False
     """Cut bottom groove for lifting ribbon on all sub-boxes by default."""
     generate_spacers: bool = True
@@ -69,6 +71,11 @@ class ProjectManifest:
             return 1.5
         else:
             return min(2.5, 1.5 + (max_dim - 250.0) / 100.0 * 0.5)
+
+    @property
+    def board_z_offset(self) -> float:
+        """Starting Z height (mm) of usable insert space above bottom-stored boards."""
+        return self.board_thickness if self.board_on_bottom else 0.0
 
     @property
     def effective_game_box_size(self) -> tuple[float, float, float] | None:

@@ -136,4 +136,45 @@ class ExportTests(unittest.TestCase):
             spacer_files = [f for f in result.written if "spacer" in f]
             self.assertGreater(len(spacer_files), 0, "Expected a spacer for the z=20..35 gap")
 
+    def test_bottom_board_thickness_excluded_from_spacers(self) -> None:
+        """A bottom-stored board (z=0..board_thickness) is excluded from spacers."""
+        p = Project(
+            "BottomBoardTest",
+            game_box_size=(100, 100, 50),
+            clearance_slack=0.0,
+            board_thickness=15,
+            board_on_bottom=True,
+        )
+        # Fill z=15..50, leaving z=0..15 open for boards on the bottom.
+        p.box(BoxType.NO_LID, "FullTray", size=(100, 100, 35), position=(0, 0, 15))
+
+        build = p.build()
+        spacers = [piece for piece in build.pieces if piece.kind == "spacer"]
+        self.assertEqual(spacers, [])
+
+    def test_bottom_board_auto_pack_and_upper_gap_spacer(self) -> None:
+        """Auto-packed boxes start above bottom boards, and gaps above them still get spacers."""
+        p = Project(
+            "BottomGapTest",
+            game_box_size=(100, 100, 50),
+            clearance_slack=0.0,
+            board_thickness=15,
+            board_on_bottom=True,
+        )
+        p.box(BoxType.NO_LID, "ShortTray", size=(100, 100, 20))
+
+        build = p.build()
+        tray = next(piece for piece in build.pieces if piece.label == "ShortTray")
+        self.assertIsNotNone(tray.position)
+        assert tray.position is not None
+        self.assertAlmostEqual(tray.position[2], 15.0, places=3)
+
+        spacers = [piece for piece in build.pieces if piece.kind == "spacer"]
+        self.assertEqual(len(spacers), 1)
+        assert spacers[0].position is not None
+        assert spacers[0].size is not None
+        self.assertAlmostEqual(spacers[0].position[2], 35.0, places=3)
+        self.assertAlmostEqual(spacers[0].size[2], 15.0, places=3)
+
+
 
