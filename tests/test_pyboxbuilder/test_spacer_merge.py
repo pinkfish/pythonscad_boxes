@@ -236,6 +236,30 @@ class RectilinearMergeTests(unittest.TestCase):
         self.assertAlmostEqual(size[0], spacer.size[0], places=2)
         self.assertAlmostEqual(size[1], spacer.size[1], places=2)
 
+    def test_thin_armed_l_spacer_preserves_full_bounds(self) -> None:
+        from pyboxbuilder.box.registry import BOX_IMPL_REGISTRY
+        from pyboxbuilder.enums import BoxType
+
+        placements = [box("A", (0, 0, 0), (124, 80, 20))]
+        spacers = generate_spacer_placements((130, 90, 20), placements, clearance=1.0)
+        self.assertEqual(len(spacers), 1)
+        spacer = spacers[0]
+        body = BOX_IMPL_REGISTRY[BoxType.PATH]().build_body(
+            BoxSpec(
+                width=spacer.size[0],
+                length=spacer.size[1],
+                height=spacer.size[2],
+                wall_thickness=2.0,
+                floor_thickness=1.6,
+                rounding=1.5,
+                path=spacer.path,
+            )
+        )
+        b = body.bounds()
+        size = b.size if hasattr(b, "size") else b[1]
+        self.assertAlmostEqual(size[0], spacer.size[0], places=2)
+        self.assertAlmostEqual(size[1], spacer.size[1], places=2)
+
 
 class RectilinearInsetTests(unittest.TestCase):
     """An L must inset on all six sides — a centroid scale gets this wrong."""

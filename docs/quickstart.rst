@@ -114,7 +114,7 @@ Compose relative spatial layouts using :func:`~pyboxbuilder.layout.columns`, :fu
 
 .. pythonscad-example::
 
-   project = Project("BigGame", game_box_size=(300.0, 200.0, 80.0))
+   project = Project("BigGame", game_box_size=(300.0, 200.0, 80.0), generate_spacers=False)
    project.box(BoxType.SLIDING, "CardBox", size=(110.0, 75.0, 50.0))
    project.box(BoxType.CAP, "TokenBox", size=(60.0, 50.0, 30.0))
    project.box(BoxType.CAP, "DiceBox", size=(60.0, 50.0, 30.0))
