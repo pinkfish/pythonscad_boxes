@@ -15,12 +15,12 @@ Full Box Packing
 
 Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
-.. stl:: ../_stl/boxes/1835/HexBox_1_body.stl?v=0b1cf99c,../_stl/boxes/1835/HexBox_1_lid.stl?v=3e5e758f,../_stl/boxes/1835/HexBox_2_body.stl?v=f26aee9f,../_stl/boxes/1835/HexBox_2_lid.stl?v=ba13493c,../_stl/boxes/1835/HexBox_3_body.stl?v=e2321f71,../_stl/boxes/1835/HexBox_3_lid.stl?v=e8c28626,../_stl/boxes/1835/MoneyBox_1_body.stl?v=993319eb,../_stl/boxes/1835/MoneyBox_1_lid.stl?v=0308c1ab,../_stl/boxes/1835/MoneyBox_2_body.stl?v=9ad7e2d6,../_stl/boxes/1835/MoneyBox_2_lid.stl?v=04636fd3,../_stl/boxes/1835/MoneyBox_3_body.stl?v=5d830b53,../_stl/boxes/1835/MoneyBox_3_lid.stl?v=49fbce78,../_stl/boxes/1835/SharesBox_1_body.stl?v=95935654,../_stl/boxes/1835/SharesBox_1_lid.stl?v=3d548c69,../_stl/boxes/1835/SharesBox_2_body.stl?v=7c232afa,../_stl/boxes/1835/SharesBox_2_lid.stl?v=b3e00431,../_stl/boxes/1835/MarkerBox_body.stl?v=dea717d6,../_stl/boxes/1835/MarkerBox_lid.stl?v=a50670d0,../_stl/boxes/1835/spacer_1.stl?v=a721f98e,../_stl/boxes/1835/spacer_2.stl?v=a5b4c580
+.. stl:: ../_stl/boxes/1835/HexBox_1_body.stl?v=0b1cf99c,../_stl/boxes/1835/HexBox_1_lid.stl?v=d80803e6,../_stl/boxes/1835/HexBox_2_body.stl?v=f26aee9f,../_stl/boxes/1835/HexBox_2_lid.stl?v=56433f94,../_stl/boxes/1835/HexBox_3_body.stl?v=e2321f71,../_stl/boxes/1835/HexBox_3_lid.stl?v=cb644c7e,../_stl/boxes/1835/MoneyBox_1_body.stl?v=993319eb,../_stl/boxes/1835/MoneyBox_1_lid.stl?v=23043024,../_stl/boxes/1835/MoneyBox_2_body.stl?v=9ad7e2d6,../_stl/boxes/1835/MoneyBox_2_lid.stl?v=293504fa,../_stl/boxes/1835/MoneyBox_3_body.stl?v=5d830b53,../_stl/boxes/1835/MoneyBox_3_lid.stl?v=9a097755,../_stl/boxes/1835/SharesBox_1_body.stl?v=95935654,../_stl/boxes/1835/SharesBox_1_lid.stl?v=e7840fba,../_stl/boxes/1835/SharesBox_2_body.stl?v=7c232afa,../_stl/boxes/1835/SharesBox_2_lid.stl?v=0528e622,../_stl/boxes/1835/MarkerBox_body.stl?v=dea717d6,../_stl/boxes/1835/MarkerBox_lid.stl?v=d4853874,../_stl/boxes/1835/spacer_1.stl?v=a721f98e,../_stl/boxes/1835/spacer_2.stl?v=a5b4c580
    :height: 440px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/1835/HexBox_1_body.stl?v=0b1cf99c" data-stl-combine="../_stl/boxes/1835/HexBox_1_body.stl?v=0b1cf99c,../_stl/boxes/1835/HexBox_1_lid.stl?v=3e5e758f,../_stl/boxes/1835/HexBox_2_body.stl?v=f26aee9f,../_stl/boxes/1835/HexBox_2_lid.stl?v=ba13493c,../_stl/boxes/1835/HexBox_3_body.stl?v=e2321f71,../_stl/boxes/1835/HexBox_3_lid.stl?v=e8c28626,../_stl/boxes/1835/MoneyBox_1_body.stl?v=993319eb,../_stl/boxes/1835/MoneyBox_1_lid.stl?v=0308c1ab,../_stl/boxes/1835/MoneyBox_2_body.stl?v=9ad7e2d6,../_stl/boxes/1835/MoneyBox_2_lid.stl?v=04636fd3,../_stl/boxes/1835/MoneyBox_3_body.stl?v=5d830b53,../_stl/boxes/1835/MoneyBox_3_lid.stl?v=49fbce78,../_stl/boxes/1835/SharesBox_1_body.stl?v=95935654,../_stl/boxes/1835/SharesBox_1_lid.stl?v=3d548c69,../_stl/boxes/1835/SharesBox_2_body.stl?v=7c232afa,../_stl/boxes/1835/SharesBox_2_lid.stl?v=b3e00431,../_stl/boxes/1835/MarkerBox_body.stl?v=dea717d6,../_stl/boxes/1835/MarkerBox_lid.stl?v=a50670d0,../_stl/boxes/1835/spacer_1.stl?v=a721f98e,../_stl/boxes/1835/spacer_2.stl?v=a5b4c580" download="EighteenThirtyFive_full_packing.stl">⬇ Download Full Box Packing STL (<code>EighteenThirtyFive_full_packing.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/1835/HexBox_1_body.stl?v=0b1cf99c" data-stl-combine="../_stl/boxes/1835/HexBox_1_body.stl?v=0b1cf99c,../_stl/boxes/1835/HexBox_1_lid.stl?v=d80803e6,../_stl/boxes/1835/HexBox_2_body.stl?v=f26aee9f,../_stl/boxes/1835/HexBox_2_lid.stl?v=56433f94,../_stl/boxes/1835/HexBox_3_body.stl?v=e2321f71,../_stl/boxes/1835/HexBox_3_lid.stl?v=cb644c7e,../_stl/boxes/1835/MoneyBox_1_body.stl?v=993319eb,../_stl/boxes/1835/MoneyBox_1_lid.stl?v=23043024,../_stl/boxes/1835/MoneyBox_2_body.stl?v=9ad7e2d6,../_stl/boxes/1835/MoneyBox_2_lid.stl?v=293504fa,../_stl/boxes/1835/MoneyBox_3_body.stl?v=5d830b53,../_stl/boxes/1835/MoneyBox_3_lid.stl?v=9a097755,../_stl/boxes/1835/SharesBox_1_body.stl?v=95935654,../_stl/boxes/1835/SharesBox_1_lid.stl?v=e7840fba,../_stl/boxes/1835/SharesBox_2_body.stl?v=7c232afa,../_stl/boxes/1835/SharesBox_2_lid.stl?v=0528e622,../_stl/boxes/1835/MarkerBox_body.stl?v=dea717d6,../_stl/boxes/1835/MarkerBox_lid.stl?v=d4853874,../_stl/boxes/1835/spacer_1.stl?v=a721f98e,../_stl/boxes/1835/spacer_2.stl?v=a5b4c580" download="EighteenThirtyFive_full_packing.stl">⬇ Download Full Box Packing STL (<code>EighteenThirtyFive_full_packing.stl</code>)</a></p>
 
 Parts Overview
 --------------
@@ -107,12 +107,12 @@ HexBox_1
 
 **Assembled Box (HexBox_1 — Body + Lid)**
 
-.. stl:: ../_stl/boxes/1835/HexBox_1_body.stl?v=0b1cf99c,../_stl/boxes/1835/HexBox_1_lid.stl?v=3e5e758f
+.. stl:: ../_stl/boxes/1835/HexBox_1_body.stl?v=0b1cf99c,../_stl/boxes/1835/HexBox_1_lid.stl?v=d80803e6
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/1835/HexBox_1_body.stl?v=0b1cf99c" data-stl-combine="../_stl/boxes/1835/HexBox_1_body.stl?v=0b1cf99c,../_stl/boxes/1835/HexBox_1_lid.stl?v=3e5e758f" download="HexBox_1_assembled.stl">⬇ Download Assembled HexBox_1 STL (<code>HexBox_1_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/1835/HexBox_1_body.stl?v=0b1cf99c" data-stl-combine="../_stl/boxes/1835/HexBox_1_body.stl?v=0b1cf99c,../_stl/boxes/1835/HexBox_1_lid.stl?v=d80803e6" download="HexBox_1_assembled.stl">⬇ Download Assembled HexBox_1 STL (<code>HexBox_1_assembled.stl</code>)</a></p>
 
 **Part: HexBox_1 Body**
 
@@ -125,12 +125,12 @@ HexBox_1
 
 **Part: HexBox_1 Lid**
 
-.. stl:: ../_stl/boxes/1835/HexBox_1_lid.stl?v=3e5e758f
+.. stl:: ../_stl/boxes/1835/HexBox_1_lid.stl?v=d80803e6
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/1835/HexBox_1_lid.stl?v=3e5e758f" download="HexBox_1_lid.stl">⬇ Download HexBox_1 Lid STL (<code>HexBox_1_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/1835/HexBox_1_lid.stl?v=d80803e6" download="HexBox_1_lid.stl">⬇ Download HexBox_1 Lid STL (<code>HexBox_1_lid.stl</code>)</a></p>
 
 .. _box-1835-hexbox_2:
 
@@ -146,12 +146,12 @@ HexBox_2
 
 **Assembled Box (HexBox_2 — Body + Lid)**
 
-.. stl:: ../_stl/boxes/1835/HexBox_2_body.stl?v=f26aee9f,../_stl/boxes/1835/HexBox_2_lid.stl?v=ba13493c
+.. stl:: ../_stl/boxes/1835/HexBox_2_body.stl?v=f26aee9f,../_stl/boxes/1835/HexBox_2_lid.stl?v=56433f94
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/1835/HexBox_2_body.stl?v=f26aee9f" data-stl-combine="../_stl/boxes/1835/HexBox_2_body.stl?v=f26aee9f,../_stl/boxes/1835/HexBox_2_lid.stl?v=ba13493c" download="HexBox_2_assembled.stl">⬇ Download Assembled HexBox_2 STL (<code>HexBox_2_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/1835/HexBox_2_body.stl?v=f26aee9f" data-stl-combine="../_stl/boxes/1835/HexBox_2_body.stl?v=f26aee9f,../_stl/boxes/1835/HexBox_2_lid.stl?v=56433f94" download="HexBox_2_assembled.stl">⬇ Download Assembled HexBox_2 STL (<code>HexBox_2_assembled.stl</code>)</a></p>
 
 **Part: HexBox_2 Body**
 
@@ -164,12 +164,12 @@ HexBox_2
 
 **Part: HexBox_2 Lid**
 
-.. stl:: ../_stl/boxes/1835/HexBox_2_lid.stl?v=ba13493c
+.. stl:: ../_stl/boxes/1835/HexBox_2_lid.stl?v=56433f94
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/1835/HexBox_2_lid.stl?v=ba13493c" download="HexBox_2_lid.stl">⬇ Download HexBox_2 Lid STL (<code>HexBox_2_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/1835/HexBox_2_lid.stl?v=56433f94" download="HexBox_2_lid.stl">⬇ Download HexBox_2 Lid STL (<code>HexBox_2_lid.stl</code>)</a></p>
 
 .. _box-1835-hexbox_3:
 
@@ -185,12 +185,12 @@ HexBox_3
 
 **Assembled Box (HexBox_3 — Body + Lid)**
 
-.. stl:: ../_stl/boxes/1835/HexBox_3_body.stl?v=e2321f71,../_stl/boxes/1835/HexBox_3_lid.stl?v=e8c28626
+.. stl:: ../_stl/boxes/1835/HexBox_3_body.stl?v=e2321f71,../_stl/boxes/1835/HexBox_3_lid.stl?v=cb644c7e
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/1835/HexBox_3_body.stl?v=e2321f71" data-stl-combine="../_stl/boxes/1835/HexBox_3_body.stl?v=e2321f71,../_stl/boxes/1835/HexBox_3_lid.stl?v=e8c28626" download="HexBox_3_assembled.stl">⬇ Download Assembled HexBox_3 STL (<code>HexBox_3_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/1835/HexBox_3_body.stl?v=e2321f71" data-stl-combine="../_stl/boxes/1835/HexBox_3_body.stl?v=e2321f71,../_stl/boxes/1835/HexBox_3_lid.stl?v=cb644c7e" download="HexBox_3_assembled.stl">⬇ Download Assembled HexBox_3 STL (<code>HexBox_3_assembled.stl</code>)</a></p>
 
 **Part: HexBox_3 Body**
 
@@ -203,12 +203,12 @@ HexBox_3
 
 **Part: HexBox_3 Lid**
 
-.. stl:: ../_stl/boxes/1835/HexBox_3_lid.stl?v=e8c28626
+.. stl:: ../_stl/boxes/1835/HexBox_3_lid.stl?v=cb644c7e
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/1835/HexBox_3_lid.stl?v=e8c28626" download="HexBox_3_lid.stl">⬇ Download HexBox_3 Lid STL (<code>HexBox_3_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/1835/HexBox_3_lid.stl?v=cb644c7e" download="HexBox_3_lid.stl">⬇ Download HexBox_3 Lid STL (<code>HexBox_3_lid.stl</code>)</a></p>
 
 .. _box-1835-moneybox_1:
 
@@ -224,12 +224,12 @@ MoneyBox_1
 
 **Assembled Box (MoneyBox_1 — Body + Lid)**
 
-.. stl:: ../_stl/boxes/1835/MoneyBox_1_body.stl?v=993319eb,../_stl/boxes/1835/MoneyBox_1_lid.stl?v=0308c1ab
+.. stl:: ../_stl/boxes/1835/MoneyBox_1_body.stl?v=993319eb,../_stl/boxes/1835/MoneyBox_1_lid.stl?v=23043024
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/1835/MoneyBox_1_body.stl?v=993319eb" data-stl-combine="../_stl/boxes/1835/MoneyBox_1_body.stl?v=993319eb,../_stl/boxes/1835/MoneyBox_1_lid.stl?v=0308c1ab" download="MoneyBox_1_assembled.stl">⬇ Download Assembled MoneyBox_1 STL (<code>MoneyBox_1_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/1835/MoneyBox_1_body.stl?v=993319eb" data-stl-combine="../_stl/boxes/1835/MoneyBox_1_body.stl?v=993319eb,../_stl/boxes/1835/MoneyBox_1_lid.stl?v=23043024" download="MoneyBox_1_assembled.stl">⬇ Download Assembled MoneyBox_1 STL (<code>MoneyBox_1_assembled.stl</code>)</a></p>
 
 **Part: MoneyBox_1 Body**
 
@@ -242,12 +242,12 @@ MoneyBox_1
 
 **Part: MoneyBox_1 Lid**
 
-.. stl:: ../_stl/boxes/1835/MoneyBox_1_lid.stl?v=0308c1ab
+.. stl:: ../_stl/boxes/1835/MoneyBox_1_lid.stl?v=23043024
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/1835/MoneyBox_1_lid.stl?v=0308c1ab" download="MoneyBox_1_lid.stl">⬇ Download MoneyBox_1 Lid STL (<code>MoneyBox_1_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/1835/MoneyBox_1_lid.stl?v=23043024" download="MoneyBox_1_lid.stl">⬇ Download MoneyBox_1 Lid STL (<code>MoneyBox_1_lid.stl</code>)</a></p>
 
 .. _box-1835-moneybox_2:
 
@@ -263,12 +263,12 @@ MoneyBox_2
 
 **Assembled Box (MoneyBox_2 — Body + Lid)**
 
-.. stl:: ../_stl/boxes/1835/MoneyBox_2_body.stl?v=9ad7e2d6,../_stl/boxes/1835/MoneyBox_2_lid.stl?v=04636fd3
+.. stl:: ../_stl/boxes/1835/MoneyBox_2_body.stl?v=9ad7e2d6,../_stl/boxes/1835/MoneyBox_2_lid.stl?v=293504fa
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/1835/MoneyBox_2_body.stl?v=9ad7e2d6" data-stl-combine="../_stl/boxes/1835/MoneyBox_2_body.stl?v=9ad7e2d6,../_stl/boxes/1835/MoneyBox_2_lid.stl?v=04636fd3" download="MoneyBox_2_assembled.stl">⬇ Download Assembled MoneyBox_2 STL (<code>MoneyBox_2_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/1835/MoneyBox_2_body.stl?v=9ad7e2d6" data-stl-combine="../_stl/boxes/1835/MoneyBox_2_body.stl?v=9ad7e2d6,../_stl/boxes/1835/MoneyBox_2_lid.stl?v=293504fa" download="MoneyBox_2_assembled.stl">⬇ Download Assembled MoneyBox_2 STL (<code>MoneyBox_2_assembled.stl</code>)</a></p>
 
 **Part: MoneyBox_2 Body**
 
@@ -281,12 +281,12 @@ MoneyBox_2
 
 **Part: MoneyBox_2 Lid**
 
-.. stl:: ../_stl/boxes/1835/MoneyBox_2_lid.stl?v=04636fd3
+.. stl:: ../_stl/boxes/1835/MoneyBox_2_lid.stl?v=293504fa
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/1835/MoneyBox_2_lid.stl?v=04636fd3" download="MoneyBox_2_lid.stl">⬇ Download MoneyBox_2 Lid STL (<code>MoneyBox_2_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/1835/MoneyBox_2_lid.stl?v=293504fa" download="MoneyBox_2_lid.stl">⬇ Download MoneyBox_2 Lid STL (<code>MoneyBox_2_lid.stl</code>)</a></p>
 
 .. _box-1835-moneybox_3:
 
@@ -302,12 +302,12 @@ MoneyBox_3
 
 **Assembled Box (MoneyBox_3 — Body + Lid)**
 
-.. stl:: ../_stl/boxes/1835/MoneyBox_3_body.stl?v=5d830b53,../_stl/boxes/1835/MoneyBox_3_lid.stl?v=49fbce78
+.. stl:: ../_stl/boxes/1835/MoneyBox_3_body.stl?v=5d830b53,../_stl/boxes/1835/MoneyBox_3_lid.stl?v=9a097755
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/1835/MoneyBox_3_body.stl?v=5d830b53" data-stl-combine="../_stl/boxes/1835/MoneyBox_3_body.stl?v=5d830b53,../_stl/boxes/1835/MoneyBox_3_lid.stl?v=49fbce78" download="MoneyBox_3_assembled.stl">⬇ Download Assembled MoneyBox_3 STL (<code>MoneyBox_3_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/1835/MoneyBox_3_body.stl?v=5d830b53" data-stl-combine="../_stl/boxes/1835/MoneyBox_3_body.stl?v=5d830b53,../_stl/boxes/1835/MoneyBox_3_lid.stl?v=9a097755" download="MoneyBox_3_assembled.stl">⬇ Download Assembled MoneyBox_3 STL (<code>MoneyBox_3_assembled.stl</code>)</a></p>
 
 **Part: MoneyBox_3 Body**
 
@@ -320,12 +320,12 @@ MoneyBox_3
 
 **Part: MoneyBox_3 Lid**
 
-.. stl:: ../_stl/boxes/1835/MoneyBox_3_lid.stl?v=49fbce78
+.. stl:: ../_stl/boxes/1835/MoneyBox_3_lid.stl?v=9a097755
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/1835/MoneyBox_3_lid.stl?v=49fbce78" download="MoneyBox_3_lid.stl">⬇ Download MoneyBox_3 Lid STL (<code>MoneyBox_3_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/1835/MoneyBox_3_lid.stl?v=9a097755" download="MoneyBox_3_lid.stl">⬇ Download MoneyBox_3 Lid STL (<code>MoneyBox_3_lid.stl</code>)</a></p>
 
 .. _box-1835-sharesbox_1:
 
@@ -341,12 +341,12 @@ SharesBox_1
 
 **Assembled Box (SharesBox_1 — Body + Lid)**
 
-.. stl:: ../_stl/boxes/1835/SharesBox_1_body.stl?v=95935654,../_stl/boxes/1835/SharesBox_1_lid.stl?v=3d548c69
+.. stl:: ../_stl/boxes/1835/SharesBox_1_body.stl?v=95935654,../_stl/boxes/1835/SharesBox_1_lid.stl?v=e7840fba
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/1835/SharesBox_1_body.stl?v=95935654" data-stl-combine="../_stl/boxes/1835/SharesBox_1_body.stl?v=95935654,../_stl/boxes/1835/SharesBox_1_lid.stl?v=3d548c69" download="SharesBox_1_assembled.stl">⬇ Download Assembled SharesBox_1 STL (<code>SharesBox_1_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/1835/SharesBox_1_body.stl?v=95935654" data-stl-combine="../_stl/boxes/1835/SharesBox_1_body.stl?v=95935654,../_stl/boxes/1835/SharesBox_1_lid.stl?v=e7840fba" download="SharesBox_1_assembled.stl">⬇ Download Assembled SharesBox_1 STL (<code>SharesBox_1_assembled.stl</code>)</a></p>
 
 **Part: SharesBox_1 Body**
 
@@ -359,12 +359,12 @@ SharesBox_1
 
 **Part: SharesBox_1 Lid**
 
-.. stl:: ../_stl/boxes/1835/SharesBox_1_lid.stl?v=3d548c69
+.. stl:: ../_stl/boxes/1835/SharesBox_1_lid.stl?v=e7840fba
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/1835/SharesBox_1_lid.stl?v=3d548c69" download="SharesBox_1_lid.stl">⬇ Download SharesBox_1 Lid STL (<code>SharesBox_1_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/1835/SharesBox_1_lid.stl?v=e7840fba" download="SharesBox_1_lid.stl">⬇ Download SharesBox_1 Lid STL (<code>SharesBox_1_lid.stl</code>)</a></p>
 
 .. _box-1835-sharesbox_2:
 
@@ -380,12 +380,12 @@ SharesBox_2
 
 **Assembled Box (SharesBox_2 — Body + Lid)**
 
-.. stl:: ../_stl/boxes/1835/SharesBox_2_body.stl?v=7c232afa,../_stl/boxes/1835/SharesBox_2_lid.stl?v=b3e00431
+.. stl:: ../_stl/boxes/1835/SharesBox_2_body.stl?v=7c232afa,../_stl/boxes/1835/SharesBox_2_lid.stl?v=0528e622
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/1835/SharesBox_2_body.stl?v=7c232afa" data-stl-combine="../_stl/boxes/1835/SharesBox_2_body.stl?v=7c232afa,../_stl/boxes/1835/SharesBox_2_lid.stl?v=b3e00431" download="SharesBox_2_assembled.stl">⬇ Download Assembled SharesBox_2 STL (<code>SharesBox_2_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/1835/SharesBox_2_body.stl?v=7c232afa" data-stl-combine="../_stl/boxes/1835/SharesBox_2_body.stl?v=7c232afa,../_stl/boxes/1835/SharesBox_2_lid.stl?v=0528e622" download="SharesBox_2_assembled.stl">⬇ Download Assembled SharesBox_2 STL (<code>SharesBox_2_assembled.stl</code>)</a></p>
 
 **Part: SharesBox_2 Body**
 
@@ -398,12 +398,12 @@ SharesBox_2
 
 **Part: SharesBox_2 Lid**
 
-.. stl:: ../_stl/boxes/1835/SharesBox_2_lid.stl?v=b3e00431
+.. stl:: ../_stl/boxes/1835/SharesBox_2_lid.stl?v=0528e622
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/1835/SharesBox_2_lid.stl?v=b3e00431" download="SharesBox_2_lid.stl">⬇ Download SharesBox_2 Lid STL (<code>SharesBox_2_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/1835/SharesBox_2_lid.stl?v=0528e622" download="SharesBox_2_lid.stl">⬇ Download SharesBox_2 Lid STL (<code>SharesBox_2_lid.stl</code>)</a></p>
 
 .. _box-1835-markerbox:
 
@@ -417,12 +417,12 @@ MarkerBox
 
 **Assembled Box (MarkerBox — Body + Lid)**
 
-.. stl:: ../_stl/boxes/1835/MarkerBox_body.stl?v=dea717d6,../_stl/boxes/1835/MarkerBox_lid.stl?v=a50670d0
+.. stl:: ../_stl/boxes/1835/MarkerBox_body.stl?v=dea717d6,../_stl/boxes/1835/MarkerBox_lid.stl?v=d4853874
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/1835/MarkerBox_body.stl?v=dea717d6" data-stl-combine="../_stl/boxes/1835/MarkerBox_body.stl?v=dea717d6,../_stl/boxes/1835/MarkerBox_lid.stl?v=a50670d0" download="MarkerBox_assembled.stl">⬇ Download Assembled MarkerBox STL (<code>MarkerBox_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/1835/MarkerBox_body.stl?v=dea717d6" data-stl-combine="../_stl/boxes/1835/MarkerBox_body.stl?v=dea717d6,../_stl/boxes/1835/MarkerBox_lid.stl?v=d4853874" download="MarkerBox_assembled.stl">⬇ Download Assembled MarkerBox STL (<code>MarkerBox_assembled.stl</code>)</a></p>
 
 **Part: MarkerBox Body**
 
@@ -435,12 +435,12 @@ MarkerBox
 
 **Part: MarkerBox Lid**
 
-.. stl:: ../_stl/boxes/1835/MarkerBox_lid.stl?v=a50670d0
+.. stl:: ../_stl/boxes/1835/MarkerBox_lid.stl?v=d4853874
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/1835/MarkerBox_lid.stl?v=a50670d0" download="MarkerBox_lid.stl">⬇ Download MarkerBox Lid STL (<code>MarkerBox_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/1835/MarkerBox_lid.stl?v=d4853874" download="MarkerBox_lid.stl">⬇ Download MarkerBox Lid STL (<code>MarkerBox_lid.stl</code>)</a></p>
 
 Spacer Trays
 ------------

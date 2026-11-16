@@ -15,12 +15,12 @@ Full Box Packing
 
 Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
-.. stl:: ../_stl/boxes/18_cuba/MoneyBox_1_body.stl?v=749634b2,../_stl/boxes/18_cuba/MoneyBox_1_lid.stl?v=01a3df8f,../_stl/boxes/18_cuba/MoneyBox_2_body.stl?v=cb8835d3,../_stl/boxes/18_cuba/MoneyBox_2_lid.stl?v=0993c76e,../_stl/boxes/18_cuba/TrainBox_body.stl?v=5c16a9e0,../_stl/boxes/18_cuba/TrainBox_lid.stl?v=73a116a6,../_stl/boxes/18_cuba/SharesBox_1_body.stl?v=99f7296f,../_stl/boxes/18_cuba/SharesBox_1_lid.stl?v=760eea5e,../_stl/boxes/18_cuba/SharesBox_2_body.stl?v=01a21f13,../_stl/boxes/18_cuba/SharesBox_2_lid.stl?v=5bec8fa8,../_stl/boxes/18_cuba/spacer_1.stl?v=4dc93e8a,../_stl/boxes/18_cuba/spacer_2.stl?v=ee2c2f39
+.. stl:: ../_stl/boxes/18_cuba/MoneyBox_1_body.stl?v=749634b2,../_stl/boxes/18_cuba/MoneyBox_1_lid.stl?v=93eb5186,../_stl/boxes/18_cuba/MoneyBox_2_body.stl?v=cb8835d3,../_stl/boxes/18_cuba/MoneyBox_2_lid.stl?v=3e9ecc18,../_stl/boxes/18_cuba/TrainBox_body.stl?v=5c16a9e0,../_stl/boxes/18_cuba/TrainBox_lid.stl?v=1076307c,../_stl/boxes/18_cuba/SharesBox_1_body.stl?v=99f7296f,../_stl/boxes/18_cuba/SharesBox_1_lid.stl?v=f6dbcd76,../_stl/boxes/18_cuba/SharesBox_2_body.stl?v=01a21f13,../_stl/boxes/18_cuba/SharesBox_2_lid.stl?v=c9880d45,../_stl/boxes/18_cuba/spacer_1.stl?v=4dc93e8a,../_stl/boxes/18_cuba/spacer_2.stl?v=ee2c2f39
    :height: 440px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/18_cuba/MoneyBox_1_body.stl?v=749634b2" data-stl-combine="../_stl/boxes/18_cuba/MoneyBox_1_body.stl?v=749634b2,../_stl/boxes/18_cuba/MoneyBox_1_lid.stl?v=01a3df8f,../_stl/boxes/18_cuba/MoneyBox_2_body.stl?v=cb8835d3,../_stl/boxes/18_cuba/MoneyBox_2_lid.stl?v=0993c76e,../_stl/boxes/18_cuba/TrainBox_body.stl?v=5c16a9e0,../_stl/boxes/18_cuba/TrainBox_lid.stl?v=73a116a6,../_stl/boxes/18_cuba/SharesBox_1_body.stl?v=99f7296f,../_stl/boxes/18_cuba/SharesBox_1_lid.stl?v=760eea5e,../_stl/boxes/18_cuba/SharesBox_2_body.stl?v=01a21f13,../_stl/boxes/18_cuba/SharesBox_2_lid.stl?v=5bec8fa8,../_stl/boxes/18_cuba/spacer_1.stl?v=4dc93e8a,../_stl/boxes/18_cuba/spacer_2.stl?v=ee2c2f39" download="18Cuba_full_packing.stl">⬇ Download Full Box Packing STL (<code>18Cuba_full_packing.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/18_cuba/MoneyBox_1_body.stl?v=749634b2" data-stl-combine="../_stl/boxes/18_cuba/MoneyBox_1_body.stl?v=749634b2,../_stl/boxes/18_cuba/MoneyBox_1_lid.stl?v=93eb5186,../_stl/boxes/18_cuba/MoneyBox_2_body.stl?v=cb8835d3,../_stl/boxes/18_cuba/MoneyBox_2_lid.stl?v=3e9ecc18,../_stl/boxes/18_cuba/TrainBox_body.stl?v=5c16a9e0,../_stl/boxes/18_cuba/TrainBox_lid.stl?v=1076307c,../_stl/boxes/18_cuba/SharesBox_1_body.stl?v=99f7296f,../_stl/boxes/18_cuba/SharesBox_1_lid.stl?v=f6dbcd76,../_stl/boxes/18_cuba/SharesBox_2_body.stl?v=01a21f13,../_stl/boxes/18_cuba/SharesBox_2_lid.stl?v=c9880d45,../_stl/boxes/18_cuba/spacer_1.stl?v=4dc93e8a,../_stl/boxes/18_cuba/spacer_2.stl?v=ee2c2f39" download="18Cuba_full_packing.stl">⬇ Download Full Box Packing STL (<code>18Cuba_full_packing.stl</code>)</a></p>
 
 Parts Overview
 --------------
@@ -85,12 +85,12 @@ MoneyBox_1
 
 **Assembled Box (MoneyBox_1 — Body + Lid)**
 
-.. stl:: ../_stl/boxes/18_cuba/MoneyBox_1_body.stl?v=749634b2,../_stl/boxes/18_cuba/MoneyBox_1_lid.stl?v=01a3df8f
+.. stl:: ../_stl/boxes/18_cuba/MoneyBox_1_body.stl?v=749634b2,../_stl/boxes/18_cuba/MoneyBox_1_lid.stl?v=93eb5186
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/18_cuba/MoneyBox_1_body.stl?v=749634b2" data-stl-combine="../_stl/boxes/18_cuba/MoneyBox_1_body.stl?v=749634b2,../_stl/boxes/18_cuba/MoneyBox_1_lid.stl?v=01a3df8f" download="MoneyBox_1_assembled.stl">⬇ Download Assembled MoneyBox_1 STL (<code>MoneyBox_1_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/18_cuba/MoneyBox_1_body.stl?v=749634b2" data-stl-combine="../_stl/boxes/18_cuba/MoneyBox_1_body.stl?v=749634b2,../_stl/boxes/18_cuba/MoneyBox_1_lid.stl?v=93eb5186" download="MoneyBox_1_assembled.stl">⬇ Download Assembled MoneyBox_1 STL (<code>MoneyBox_1_assembled.stl</code>)</a></p>
 
 **Part: MoneyBox_1 Body**
 
@@ -103,12 +103,12 @@ MoneyBox_1
 
 **Part: MoneyBox_1 Lid**
 
-.. stl:: ../_stl/boxes/18_cuba/MoneyBox_1_lid.stl?v=01a3df8f
+.. stl:: ../_stl/boxes/18_cuba/MoneyBox_1_lid.stl?v=93eb5186
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/18_cuba/MoneyBox_1_lid.stl?v=01a3df8f" download="MoneyBox_1_lid.stl">⬇ Download MoneyBox_1 Lid STL (<code>MoneyBox_1_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/18_cuba/MoneyBox_1_lid.stl?v=93eb5186" download="MoneyBox_1_lid.stl">⬇ Download MoneyBox_1 Lid STL (<code>MoneyBox_1_lid.stl</code>)</a></p>
 
 .. _box-18_cuba-moneybox_2:
 
@@ -122,12 +122,12 @@ MoneyBox_2
 
 **Assembled Box (MoneyBox_2 — Body + Lid)**
 
-.. stl:: ../_stl/boxes/18_cuba/MoneyBox_2_body.stl?v=cb8835d3,../_stl/boxes/18_cuba/MoneyBox_2_lid.stl?v=0993c76e
+.. stl:: ../_stl/boxes/18_cuba/MoneyBox_2_body.stl?v=cb8835d3,../_stl/boxes/18_cuba/MoneyBox_2_lid.stl?v=3e9ecc18
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/18_cuba/MoneyBox_2_body.stl?v=cb8835d3" data-stl-combine="../_stl/boxes/18_cuba/MoneyBox_2_body.stl?v=cb8835d3,../_stl/boxes/18_cuba/MoneyBox_2_lid.stl?v=0993c76e" download="MoneyBox_2_assembled.stl">⬇ Download Assembled MoneyBox_2 STL (<code>MoneyBox_2_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/18_cuba/MoneyBox_2_body.stl?v=cb8835d3" data-stl-combine="../_stl/boxes/18_cuba/MoneyBox_2_body.stl?v=cb8835d3,../_stl/boxes/18_cuba/MoneyBox_2_lid.stl?v=3e9ecc18" download="MoneyBox_2_assembled.stl">⬇ Download Assembled MoneyBox_2 STL (<code>MoneyBox_2_assembled.stl</code>)</a></p>
 
 **Part: MoneyBox_2 Body**
 
@@ -140,12 +140,12 @@ MoneyBox_2
 
 **Part: MoneyBox_2 Lid**
 
-.. stl:: ../_stl/boxes/18_cuba/MoneyBox_2_lid.stl?v=0993c76e
+.. stl:: ../_stl/boxes/18_cuba/MoneyBox_2_lid.stl?v=3e9ecc18
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/18_cuba/MoneyBox_2_lid.stl?v=0993c76e" download="MoneyBox_2_lid.stl">⬇ Download MoneyBox_2 Lid STL (<code>MoneyBox_2_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/18_cuba/MoneyBox_2_lid.stl?v=3e9ecc18" download="MoneyBox_2_lid.stl">⬇ Download MoneyBox_2 Lid STL (<code>MoneyBox_2_lid.stl</code>)</a></p>
 
 .. _box-18_cuba-trainbox:
 
@@ -159,12 +159,12 @@ TrainBox
 
 **Assembled Box (TrainBox — Body + Lid)**
 
-.. stl:: ../_stl/boxes/18_cuba/TrainBox_body.stl?v=5c16a9e0,../_stl/boxes/18_cuba/TrainBox_lid.stl?v=73a116a6
+.. stl:: ../_stl/boxes/18_cuba/TrainBox_body.stl?v=5c16a9e0,../_stl/boxes/18_cuba/TrainBox_lid.stl?v=1076307c
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/18_cuba/TrainBox_body.stl?v=5c16a9e0" data-stl-combine="../_stl/boxes/18_cuba/TrainBox_body.stl?v=5c16a9e0,../_stl/boxes/18_cuba/TrainBox_lid.stl?v=73a116a6" download="TrainBox_assembled.stl">⬇ Download Assembled TrainBox STL (<code>TrainBox_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/18_cuba/TrainBox_body.stl?v=5c16a9e0" data-stl-combine="../_stl/boxes/18_cuba/TrainBox_body.stl?v=5c16a9e0,../_stl/boxes/18_cuba/TrainBox_lid.stl?v=1076307c" download="TrainBox_assembled.stl">⬇ Download Assembled TrainBox STL (<code>TrainBox_assembled.stl</code>)</a></p>
 
 **Part: TrainBox Body**
 
@@ -177,12 +177,12 @@ TrainBox
 
 **Part: TrainBox Lid**
 
-.. stl:: ../_stl/boxes/18_cuba/TrainBox_lid.stl?v=73a116a6
+.. stl:: ../_stl/boxes/18_cuba/TrainBox_lid.stl?v=1076307c
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/18_cuba/TrainBox_lid.stl?v=73a116a6" download="TrainBox_lid.stl">⬇ Download TrainBox Lid STL (<code>TrainBox_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/18_cuba/TrainBox_lid.stl?v=1076307c" download="TrainBox_lid.stl">⬇ Download TrainBox Lid STL (<code>TrainBox_lid.stl</code>)</a></p>
 
 .. _box-18_cuba-sharesbox_1:
 
@@ -196,12 +196,12 @@ SharesBox_1
 
 **Assembled Box (SharesBox_1 — Body + Lid)**
 
-.. stl:: ../_stl/boxes/18_cuba/SharesBox_1_body.stl?v=99f7296f,../_stl/boxes/18_cuba/SharesBox_1_lid.stl?v=760eea5e
+.. stl:: ../_stl/boxes/18_cuba/SharesBox_1_body.stl?v=99f7296f,../_stl/boxes/18_cuba/SharesBox_1_lid.stl?v=f6dbcd76
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/18_cuba/SharesBox_1_body.stl?v=99f7296f" data-stl-combine="../_stl/boxes/18_cuba/SharesBox_1_body.stl?v=99f7296f,../_stl/boxes/18_cuba/SharesBox_1_lid.stl?v=760eea5e" download="SharesBox_1_assembled.stl">⬇ Download Assembled SharesBox_1 STL (<code>SharesBox_1_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/18_cuba/SharesBox_1_body.stl?v=99f7296f" data-stl-combine="../_stl/boxes/18_cuba/SharesBox_1_body.stl?v=99f7296f,../_stl/boxes/18_cuba/SharesBox_1_lid.stl?v=f6dbcd76" download="SharesBox_1_assembled.stl">⬇ Download Assembled SharesBox_1 STL (<code>SharesBox_1_assembled.stl</code>)</a></p>
 
 **Part: SharesBox_1 Body**
 
@@ -214,12 +214,12 @@ SharesBox_1
 
 **Part: SharesBox_1 Lid**
 
-.. stl:: ../_stl/boxes/18_cuba/SharesBox_1_lid.stl?v=760eea5e
+.. stl:: ../_stl/boxes/18_cuba/SharesBox_1_lid.stl?v=f6dbcd76
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/18_cuba/SharesBox_1_lid.stl?v=760eea5e" download="SharesBox_1_lid.stl">⬇ Download SharesBox_1 Lid STL (<code>SharesBox_1_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/18_cuba/SharesBox_1_lid.stl?v=f6dbcd76" download="SharesBox_1_lid.stl">⬇ Download SharesBox_1 Lid STL (<code>SharesBox_1_lid.stl</code>)</a></p>
 
 .. _box-18_cuba-sharesbox_2:
 
@@ -233,12 +233,12 @@ SharesBox_2
 
 **Assembled Box (SharesBox_2 — Body + Lid)**
 
-.. stl:: ../_stl/boxes/18_cuba/SharesBox_2_body.stl?v=01a21f13,../_stl/boxes/18_cuba/SharesBox_2_lid.stl?v=5bec8fa8
+.. stl:: ../_stl/boxes/18_cuba/SharesBox_2_body.stl?v=01a21f13,../_stl/boxes/18_cuba/SharesBox_2_lid.stl?v=c9880d45
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/18_cuba/SharesBox_2_body.stl?v=01a21f13" data-stl-combine="../_stl/boxes/18_cuba/SharesBox_2_body.stl?v=01a21f13,../_stl/boxes/18_cuba/SharesBox_2_lid.stl?v=5bec8fa8" download="SharesBox_2_assembled.stl">⬇ Download Assembled SharesBox_2 STL (<code>SharesBox_2_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/18_cuba/SharesBox_2_body.stl?v=01a21f13" data-stl-combine="../_stl/boxes/18_cuba/SharesBox_2_body.stl?v=01a21f13,../_stl/boxes/18_cuba/SharesBox_2_lid.stl?v=c9880d45" download="SharesBox_2_assembled.stl">⬇ Download Assembled SharesBox_2 STL (<code>SharesBox_2_assembled.stl</code>)</a></p>
 
 **Part: SharesBox_2 Body**
 
@@ -251,12 +251,12 @@ SharesBox_2
 
 **Part: SharesBox_2 Lid**
 
-.. stl:: ../_stl/boxes/18_cuba/SharesBox_2_lid.stl?v=5bec8fa8
+.. stl:: ../_stl/boxes/18_cuba/SharesBox_2_lid.stl?v=c9880d45
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/18_cuba/SharesBox_2_lid.stl?v=5bec8fa8" download="SharesBox_2_lid.stl">⬇ Download SharesBox_2 Lid STL (<code>SharesBox_2_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/18_cuba/SharesBox_2_lid.stl?v=c9880d45" download="SharesBox_2_lid.stl">⬇ Download SharesBox_2 Lid STL (<code>SharesBox_2_lid.stl</code>)</a></p>
 
 Spacer Trays
 ------------

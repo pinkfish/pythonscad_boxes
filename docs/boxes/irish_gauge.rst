@@ -15,12 +15,12 @@ Full Box Packing
 
 Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
-.. stl:: ../_stl/boxes/irish_gauge/CompanyBox_Belfast_body.stl?v=fab31a85,../_stl/boxes/irish_gauge/CompanyBox_Belfast_lid.stl?v=12779754,../_stl/boxes/irish_gauge/CompanyBox_Cork_body.stl?v=435fc7b7,../_stl/boxes/irish_gauge/CompanyBox_Cork_lid.stl?v=cc1161ae,../_stl/boxes/irish_gauge/CompanyBox_Midland_body.stl?v=e7e7f6d9,../_stl/boxes/irish_gauge/CompanyBox_Midland_lid.stl?v=9e69c9c7,../_stl/boxes/irish_gauge/CompanyBox_Waterford_body.stl?v=f8036b8e,../_stl/boxes/irish_gauge/CompanyBox_Waterford_lid.stl?v=cc2bebe5,../_stl/boxes/irish_gauge/CompanyBox_GreatSouthern_body.stl?v=24e483d0,../_stl/boxes/irish_gauge/CompanyBox_GreatSouthern_lid.stl?v=946f1860,../_stl/boxes/irish_gauge/MoneyAndDividendsBox_body.stl?v=fda4eeb8,../_stl/boxes/irish_gauge/MoneyAndDividendsBox_lid.stl?v=cd41507b,../_stl/boxes/irish_gauge/spacer_1.stl?v=8696c4ed,../_stl/boxes/irish_gauge/spacer_2.stl?v=a5a05c08
+.. stl:: ../_stl/boxes/irish_gauge/CompanyBox_Belfast_body.stl?v=fab31a85,../_stl/boxes/irish_gauge/CompanyBox_Belfast_lid.stl?v=1aad0a9e,../_stl/boxes/irish_gauge/CompanyBox_Cork_body.stl?v=435fc7b7,../_stl/boxes/irish_gauge/CompanyBox_Cork_lid.stl?v=e0c479f9,../_stl/boxes/irish_gauge/CompanyBox_Midland_body.stl?v=e7e7f6d9,../_stl/boxes/irish_gauge/CompanyBox_Midland_lid.stl?v=6aaeb65b,../_stl/boxes/irish_gauge/CompanyBox_Waterford_body.stl?v=f8036b8e,../_stl/boxes/irish_gauge/CompanyBox_Waterford_lid.stl?v=0cfc1fbc,../_stl/boxes/irish_gauge/CompanyBox_GreatSouthern_body.stl?v=24e483d0,../_stl/boxes/irish_gauge/CompanyBox_GreatSouthern_lid.stl?v=6eb7c90e,../_stl/boxes/irish_gauge/MoneyAndDividendsBox_body.stl?v=fda4eeb8,../_stl/boxes/irish_gauge/MoneyAndDividendsBox_lid.stl?v=140f1c4b,../_stl/boxes/irish_gauge/spacer_1.stl?v=8696c4ed,../_stl/boxes/irish_gauge/spacer_2.stl?v=a5a05c08
    :height: 440px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/irish_gauge/CompanyBox_Belfast_body.stl?v=fab31a85" data-stl-combine="../_stl/boxes/irish_gauge/CompanyBox_Belfast_body.stl?v=fab31a85,../_stl/boxes/irish_gauge/CompanyBox_Belfast_lid.stl?v=12779754,../_stl/boxes/irish_gauge/CompanyBox_Cork_body.stl?v=435fc7b7,../_stl/boxes/irish_gauge/CompanyBox_Cork_lid.stl?v=cc1161ae,../_stl/boxes/irish_gauge/CompanyBox_Midland_body.stl?v=e7e7f6d9,../_stl/boxes/irish_gauge/CompanyBox_Midland_lid.stl?v=9e69c9c7,../_stl/boxes/irish_gauge/CompanyBox_Waterford_body.stl?v=f8036b8e,../_stl/boxes/irish_gauge/CompanyBox_Waterford_lid.stl?v=cc2bebe5,../_stl/boxes/irish_gauge/CompanyBox_GreatSouthern_body.stl?v=24e483d0,../_stl/boxes/irish_gauge/CompanyBox_GreatSouthern_lid.stl?v=946f1860,../_stl/boxes/irish_gauge/MoneyAndDividendsBox_body.stl?v=fda4eeb8,../_stl/boxes/irish_gauge/MoneyAndDividendsBox_lid.stl?v=cd41507b,../_stl/boxes/irish_gauge/spacer_1.stl?v=8696c4ed,../_stl/boxes/irish_gauge/spacer_2.stl?v=a5a05c08" download="IrishGauge_full_packing.stl">⬇ Download Full Box Packing STL (<code>IrishGauge_full_packing.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/irish_gauge/CompanyBox_Belfast_body.stl?v=fab31a85" data-stl-combine="../_stl/boxes/irish_gauge/CompanyBox_Belfast_body.stl?v=fab31a85,../_stl/boxes/irish_gauge/CompanyBox_Belfast_lid.stl?v=1aad0a9e,../_stl/boxes/irish_gauge/CompanyBox_Cork_body.stl?v=435fc7b7,../_stl/boxes/irish_gauge/CompanyBox_Cork_lid.stl?v=e0c479f9,../_stl/boxes/irish_gauge/CompanyBox_Midland_body.stl?v=e7e7f6d9,../_stl/boxes/irish_gauge/CompanyBox_Midland_lid.stl?v=6aaeb65b,../_stl/boxes/irish_gauge/CompanyBox_Waterford_body.stl?v=f8036b8e,../_stl/boxes/irish_gauge/CompanyBox_Waterford_lid.stl?v=0cfc1fbc,../_stl/boxes/irish_gauge/CompanyBox_GreatSouthern_body.stl?v=24e483d0,../_stl/boxes/irish_gauge/CompanyBox_GreatSouthern_lid.stl?v=6eb7c90e,../_stl/boxes/irish_gauge/MoneyAndDividendsBox_body.stl?v=fda4eeb8,../_stl/boxes/irish_gauge/MoneyAndDividendsBox_lid.stl?v=140f1c4b,../_stl/boxes/irish_gauge/spacer_1.stl?v=8696c4ed,../_stl/boxes/irish_gauge/spacer_2.stl?v=a5a05c08" download="IrishGauge_full_packing.stl">⬇ Download Full Box Packing STL (<code>IrishGauge_full_packing.stl</code>)</a></p>
 
 Parts Overview
 --------------
@@ -92,12 +92,12 @@ CompanyBox_Belfast
 
 **Assembled Box (CompanyBox_Belfast — Body + Lid)**
 
-.. stl:: ../_stl/boxes/irish_gauge/CompanyBox_Belfast_body.stl?v=fab31a85,../_stl/boxes/irish_gauge/CompanyBox_Belfast_lid.stl?v=12779754
+.. stl:: ../_stl/boxes/irish_gauge/CompanyBox_Belfast_body.stl?v=fab31a85,../_stl/boxes/irish_gauge/CompanyBox_Belfast_lid.stl?v=1aad0a9e
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/irish_gauge/CompanyBox_Belfast_body.stl?v=fab31a85" data-stl-combine="../_stl/boxes/irish_gauge/CompanyBox_Belfast_body.stl?v=fab31a85,../_stl/boxes/irish_gauge/CompanyBox_Belfast_lid.stl?v=12779754" download="CompanyBox_Belfast_assembled.stl">⬇ Download Assembled CompanyBox_Belfast STL (<code>CompanyBox_Belfast_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/irish_gauge/CompanyBox_Belfast_body.stl?v=fab31a85" data-stl-combine="../_stl/boxes/irish_gauge/CompanyBox_Belfast_body.stl?v=fab31a85,../_stl/boxes/irish_gauge/CompanyBox_Belfast_lid.stl?v=1aad0a9e" download="CompanyBox_Belfast_assembled.stl">⬇ Download Assembled CompanyBox_Belfast STL (<code>CompanyBox_Belfast_assembled.stl</code>)</a></p>
 
 **Part: CompanyBox_Belfast Body**
 
@@ -110,12 +110,12 @@ CompanyBox_Belfast
 
 **Part: CompanyBox_Belfast Lid**
 
-.. stl:: ../_stl/boxes/irish_gauge/CompanyBox_Belfast_lid.stl?v=12779754
+.. stl:: ../_stl/boxes/irish_gauge/CompanyBox_Belfast_lid.stl?v=1aad0a9e
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/irish_gauge/CompanyBox_Belfast_lid.stl?v=12779754" download="CompanyBox_Belfast_lid.stl">⬇ Download CompanyBox_Belfast Lid STL (<code>CompanyBox_Belfast_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/irish_gauge/CompanyBox_Belfast_lid.stl?v=1aad0a9e" download="CompanyBox_Belfast_lid.stl">⬇ Download CompanyBox_Belfast Lid STL (<code>CompanyBox_Belfast_lid.stl</code>)</a></p>
 
 .. _box-irish_gauge-companybox_cork:
 
@@ -129,12 +129,12 @@ CompanyBox_Cork
 
 **Assembled Box (CompanyBox_Cork — Body + Lid)**
 
-.. stl:: ../_stl/boxes/irish_gauge/CompanyBox_Cork_body.stl?v=435fc7b7,../_stl/boxes/irish_gauge/CompanyBox_Cork_lid.stl?v=cc1161ae
+.. stl:: ../_stl/boxes/irish_gauge/CompanyBox_Cork_body.stl?v=435fc7b7,../_stl/boxes/irish_gauge/CompanyBox_Cork_lid.stl?v=e0c479f9
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/irish_gauge/CompanyBox_Cork_body.stl?v=435fc7b7" data-stl-combine="../_stl/boxes/irish_gauge/CompanyBox_Cork_body.stl?v=435fc7b7,../_stl/boxes/irish_gauge/CompanyBox_Cork_lid.stl?v=cc1161ae" download="CompanyBox_Cork_assembled.stl">⬇ Download Assembled CompanyBox_Cork STL (<code>CompanyBox_Cork_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/irish_gauge/CompanyBox_Cork_body.stl?v=435fc7b7" data-stl-combine="../_stl/boxes/irish_gauge/CompanyBox_Cork_body.stl?v=435fc7b7,../_stl/boxes/irish_gauge/CompanyBox_Cork_lid.stl?v=e0c479f9" download="CompanyBox_Cork_assembled.stl">⬇ Download Assembled CompanyBox_Cork STL (<code>CompanyBox_Cork_assembled.stl</code>)</a></p>
 
 **Part: CompanyBox_Cork Body**
 
@@ -147,12 +147,12 @@ CompanyBox_Cork
 
 **Part: CompanyBox_Cork Lid**
 
-.. stl:: ../_stl/boxes/irish_gauge/CompanyBox_Cork_lid.stl?v=cc1161ae
+.. stl:: ../_stl/boxes/irish_gauge/CompanyBox_Cork_lid.stl?v=e0c479f9
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/irish_gauge/CompanyBox_Cork_lid.stl?v=cc1161ae" download="CompanyBox_Cork_lid.stl">⬇ Download CompanyBox_Cork Lid STL (<code>CompanyBox_Cork_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/irish_gauge/CompanyBox_Cork_lid.stl?v=e0c479f9" download="CompanyBox_Cork_lid.stl">⬇ Download CompanyBox_Cork Lid STL (<code>CompanyBox_Cork_lid.stl</code>)</a></p>
 
 .. _box-irish_gauge-companybox_midland:
 
@@ -166,12 +166,12 @@ CompanyBox_Midland
 
 **Assembled Box (CompanyBox_Midland — Body + Lid)**
 
-.. stl:: ../_stl/boxes/irish_gauge/CompanyBox_Midland_body.stl?v=e7e7f6d9,../_stl/boxes/irish_gauge/CompanyBox_Midland_lid.stl?v=9e69c9c7
+.. stl:: ../_stl/boxes/irish_gauge/CompanyBox_Midland_body.stl?v=e7e7f6d9,../_stl/boxes/irish_gauge/CompanyBox_Midland_lid.stl?v=6aaeb65b
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/irish_gauge/CompanyBox_Midland_body.stl?v=e7e7f6d9" data-stl-combine="../_stl/boxes/irish_gauge/CompanyBox_Midland_body.stl?v=e7e7f6d9,../_stl/boxes/irish_gauge/CompanyBox_Midland_lid.stl?v=9e69c9c7" download="CompanyBox_Midland_assembled.stl">⬇ Download Assembled CompanyBox_Midland STL (<code>CompanyBox_Midland_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/irish_gauge/CompanyBox_Midland_body.stl?v=e7e7f6d9" data-stl-combine="../_stl/boxes/irish_gauge/CompanyBox_Midland_body.stl?v=e7e7f6d9,../_stl/boxes/irish_gauge/CompanyBox_Midland_lid.stl?v=6aaeb65b" download="CompanyBox_Midland_assembled.stl">⬇ Download Assembled CompanyBox_Midland STL (<code>CompanyBox_Midland_assembled.stl</code>)</a></p>
 
 **Part: CompanyBox_Midland Body**
 
@@ -184,12 +184,12 @@ CompanyBox_Midland
 
 **Part: CompanyBox_Midland Lid**
 
-.. stl:: ../_stl/boxes/irish_gauge/CompanyBox_Midland_lid.stl?v=9e69c9c7
+.. stl:: ../_stl/boxes/irish_gauge/CompanyBox_Midland_lid.stl?v=6aaeb65b
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/irish_gauge/CompanyBox_Midland_lid.stl?v=9e69c9c7" download="CompanyBox_Midland_lid.stl">⬇ Download CompanyBox_Midland Lid STL (<code>CompanyBox_Midland_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/irish_gauge/CompanyBox_Midland_lid.stl?v=6aaeb65b" download="CompanyBox_Midland_lid.stl">⬇ Download CompanyBox_Midland Lid STL (<code>CompanyBox_Midland_lid.stl</code>)</a></p>
 
 .. _box-irish_gauge-companybox_waterford:
 
@@ -203,12 +203,12 @@ CompanyBox_Waterford
 
 **Assembled Box (CompanyBox_Waterford — Body + Lid)**
 
-.. stl:: ../_stl/boxes/irish_gauge/CompanyBox_Waterford_body.stl?v=f8036b8e,../_stl/boxes/irish_gauge/CompanyBox_Waterford_lid.stl?v=cc2bebe5
+.. stl:: ../_stl/boxes/irish_gauge/CompanyBox_Waterford_body.stl?v=f8036b8e,../_stl/boxes/irish_gauge/CompanyBox_Waterford_lid.stl?v=0cfc1fbc
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/irish_gauge/CompanyBox_Waterford_body.stl?v=f8036b8e" data-stl-combine="../_stl/boxes/irish_gauge/CompanyBox_Waterford_body.stl?v=f8036b8e,../_stl/boxes/irish_gauge/CompanyBox_Waterford_lid.stl?v=cc2bebe5" download="CompanyBox_Waterford_assembled.stl">⬇ Download Assembled CompanyBox_Waterford STL (<code>CompanyBox_Waterford_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/irish_gauge/CompanyBox_Waterford_body.stl?v=f8036b8e" data-stl-combine="../_stl/boxes/irish_gauge/CompanyBox_Waterford_body.stl?v=f8036b8e,../_stl/boxes/irish_gauge/CompanyBox_Waterford_lid.stl?v=0cfc1fbc" download="CompanyBox_Waterford_assembled.stl">⬇ Download Assembled CompanyBox_Waterford STL (<code>CompanyBox_Waterford_assembled.stl</code>)</a></p>
 
 **Part: CompanyBox_Waterford Body**
 
@@ -221,12 +221,12 @@ CompanyBox_Waterford
 
 **Part: CompanyBox_Waterford Lid**
 
-.. stl:: ../_stl/boxes/irish_gauge/CompanyBox_Waterford_lid.stl?v=cc2bebe5
+.. stl:: ../_stl/boxes/irish_gauge/CompanyBox_Waterford_lid.stl?v=0cfc1fbc
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/irish_gauge/CompanyBox_Waterford_lid.stl?v=cc2bebe5" download="CompanyBox_Waterford_lid.stl">⬇ Download CompanyBox_Waterford Lid STL (<code>CompanyBox_Waterford_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/irish_gauge/CompanyBox_Waterford_lid.stl?v=0cfc1fbc" download="CompanyBox_Waterford_lid.stl">⬇ Download CompanyBox_Waterford Lid STL (<code>CompanyBox_Waterford_lid.stl</code>)</a></p>
 
 .. _box-irish_gauge-companybox_greatsouthern:
 
@@ -242,12 +242,12 @@ CompanyBox_GreatSouthern
 
 **Assembled Box (CompanyBox_GreatSouthern — Body + Lid)**
 
-.. stl:: ../_stl/boxes/irish_gauge/CompanyBox_GreatSouthern_body.stl?v=24e483d0,../_stl/boxes/irish_gauge/CompanyBox_GreatSouthern_lid.stl?v=946f1860
+.. stl:: ../_stl/boxes/irish_gauge/CompanyBox_GreatSouthern_body.stl?v=24e483d0,../_stl/boxes/irish_gauge/CompanyBox_GreatSouthern_lid.stl?v=6eb7c90e
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/irish_gauge/CompanyBox_GreatSouthern_body.stl?v=24e483d0" data-stl-combine="../_stl/boxes/irish_gauge/CompanyBox_GreatSouthern_body.stl?v=24e483d0,../_stl/boxes/irish_gauge/CompanyBox_GreatSouthern_lid.stl?v=946f1860" download="CompanyBox_GreatSouthern_assembled.stl">⬇ Download Assembled CompanyBox_GreatSouthern STL (<code>CompanyBox_GreatSouthern_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/irish_gauge/CompanyBox_GreatSouthern_body.stl?v=24e483d0" data-stl-combine="../_stl/boxes/irish_gauge/CompanyBox_GreatSouthern_body.stl?v=24e483d0,../_stl/boxes/irish_gauge/CompanyBox_GreatSouthern_lid.stl?v=6eb7c90e" download="CompanyBox_GreatSouthern_assembled.stl">⬇ Download Assembled CompanyBox_GreatSouthern STL (<code>CompanyBox_GreatSouthern_assembled.stl</code>)</a></p>
 
 **Part: CompanyBox_GreatSouthern Body**
 
@@ -260,12 +260,12 @@ CompanyBox_GreatSouthern
 
 **Part: CompanyBox_GreatSouthern Lid**
 
-.. stl:: ../_stl/boxes/irish_gauge/CompanyBox_GreatSouthern_lid.stl?v=946f1860
+.. stl:: ../_stl/boxes/irish_gauge/CompanyBox_GreatSouthern_lid.stl?v=6eb7c90e
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/irish_gauge/CompanyBox_GreatSouthern_lid.stl?v=946f1860" download="CompanyBox_GreatSouthern_lid.stl">⬇ Download CompanyBox_GreatSouthern Lid STL (<code>CompanyBox_GreatSouthern_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/irish_gauge/CompanyBox_GreatSouthern_lid.stl?v=6eb7c90e" download="CompanyBox_GreatSouthern_lid.stl">⬇ Download CompanyBox_GreatSouthern Lid STL (<code>CompanyBox_GreatSouthern_lid.stl</code>)</a></p>
 
 .. _box-irish_gauge-moneyanddividendsbox:
 
@@ -279,12 +279,12 @@ MoneyAndDividendsBox
 
 **Assembled Box (MoneyAndDividendsBox — Body + Lid)**
 
-.. stl:: ../_stl/boxes/irish_gauge/MoneyAndDividendsBox_body.stl?v=fda4eeb8,../_stl/boxes/irish_gauge/MoneyAndDividendsBox_lid.stl?v=cd41507b
+.. stl:: ../_stl/boxes/irish_gauge/MoneyAndDividendsBox_body.stl?v=fda4eeb8,../_stl/boxes/irish_gauge/MoneyAndDividendsBox_lid.stl?v=140f1c4b
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/irish_gauge/MoneyAndDividendsBox_body.stl?v=fda4eeb8" data-stl-combine="../_stl/boxes/irish_gauge/MoneyAndDividendsBox_body.stl?v=fda4eeb8,../_stl/boxes/irish_gauge/MoneyAndDividendsBox_lid.stl?v=cd41507b" download="MoneyAndDividendsBox_assembled.stl">⬇ Download Assembled MoneyAndDividendsBox STL (<code>MoneyAndDividendsBox_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/irish_gauge/MoneyAndDividendsBox_body.stl?v=fda4eeb8" data-stl-combine="../_stl/boxes/irish_gauge/MoneyAndDividendsBox_body.stl?v=fda4eeb8,../_stl/boxes/irish_gauge/MoneyAndDividendsBox_lid.stl?v=140f1c4b" download="MoneyAndDividendsBox_assembled.stl">⬇ Download Assembled MoneyAndDividendsBox STL (<code>MoneyAndDividendsBox_assembled.stl</code>)</a></p>
 
 **Part: MoneyAndDividendsBox Body**
 
@@ -297,12 +297,12 @@ MoneyAndDividendsBox
 
 **Part: MoneyAndDividendsBox Lid**
 
-.. stl:: ../_stl/boxes/irish_gauge/MoneyAndDividendsBox_lid.stl?v=cd41507b
+.. stl:: ../_stl/boxes/irish_gauge/MoneyAndDividendsBox_lid.stl?v=140f1c4b
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/irish_gauge/MoneyAndDividendsBox_lid.stl?v=cd41507b" download="MoneyAndDividendsBox_lid.stl">⬇ Download MoneyAndDividendsBox Lid STL (<code>MoneyAndDividendsBox_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/irish_gauge/MoneyAndDividendsBox_lid.stl?v=140f1c4b" download="MoneyAndDividendsBox_lid.stl">⬇ Download MoneyAndDividendsBox Lid STL (<code>MoneyAndDividendsBox_lid.stl</code>)</a></p>
 
 Spacer Trays
 ------------
