@@ -58,6 +58,8 @@ class Label:
     """
     frame: Bosl2Solid | None = None
     """Framed mode only — the outer border ring around the label perimeter."""
+    background: Bosl2Solid | None = None
+    """Framed mode with solid background only — the interior plaque inside the border."""
 
     @property
     def backing(self) -> Bosl2Solid | None:
@@ -175,6 +177,7 @@ def build_label(
     center_x: float | None = None,
     center_y: float | None = None,
     max_text_height_mm: float | None = MAX_TEXT_HEIGHT_MM,
+    solid_background: bool = False,
 ) -> Label | None:
     """Build a label for a lid face, or None if it would be illegible.
 
@@ -195,6 +198,8 @@ def build_label(
         center_x: Explicit X center for the label in the face frame (defaults to width / 2).
         center_y: Explicit Y center for the label in the face frame (defaults to length / 2).
         max_text_height_mm: Maximum cap height for the label text in mm.
+        solid_background: Keep the framed label's interior solid rather than
+            cutting diagonal hatching slots.
 
     Returns:
         A `Label`, or None when the text would come out under the minimum.
@@ -279,6 +284,27 @@ def build_label(
         [plate_w, plate_l, BACKING_HEIGHT_MM],
         at=(plate_x, plate_y, 0.0),
     )
+    if solid_background:
+        clip_solid = _build_clip_solid(
+            plate_w,
+            plate_l,
+            border=border,
+            rounding=rounding_val,
+            text_gap=gap,
+        )
+        bg_solid = (
+            corner(clip_solid, [plate_w, plate_l, BACKING_HEIGHT_MM], at=(plate_x, plate_y, 0.0))
+            if clip_solid is not None
+            else None
+        )
+        return Label(
+            text=solid,
+            hatching=None,
+            plate=plate,
+            frame=frame_ring,
+            background=bg_solid - solid if bg_solid is not None else None,
+        )
+
     raw_hatching = _build_hatching(plate_w, plate_l, border=border, rounding=rounding_val, text_gap=gap)
     hatching = (
         corner(raw_hatching, [plate_w, plate_l, BACKING_HEIGHT_MM], at=(plate_x, plate_y, 0.0))

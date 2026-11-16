@@ -62,6 +62,31 @@ Passing ``frame_color`` adds a contrasting colour exclusively to the outer ``1.5
    project.show(lids_only=True)
 
 
+Solid Background Framed Labels
+------------------------------
+
+Set ``label_solid_background=True`` to replace the diagonal through-hole strips inside a framed label with a solid unperforated background (keeping the lid's own colour inside the frame), or pass ``label_background_color`` to inlay a contrasting solid background colour in the top layer inside the border ring:
+
+.. pythonscad-example::
+
+   project = Project("SolidBackgroundLabelDemo")
+   project.box(
+       BoxType.CAP,
+       "VictoryPoints",
+       size=(110.0, 80.0, 24.0),
+       color=Color("darkslategray"),
+       lid=LidBuilder(
+           text="Victory",
+           label_mode=LabelMode.FRAMED,
+           text_color=Color("white"),
+           frame_color=Color("gold"),
+           label_background_color=Color("navy"),
+           pattern=PatternBuilder(PatternType.HEX, spacing=9.0),
+       ),
+   )
+   project.show(lids_only=True)
+
+
 Frameless Labels (``LabelMode.FRAMELESS``)
 ------------------------------------------
 
