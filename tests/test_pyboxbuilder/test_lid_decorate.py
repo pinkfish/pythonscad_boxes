@@ -1241,6 +1241,59 @@ class InsertColourTests(unittest.TestCase):
                 (_, _, _), (_, sl, _) = _bounds_cs(lbl_single.text)
                 self.assertGreater(ml, sl * 1.5)
 
+    def test_framed_label_solid_background_options(self) -> None:
+        """Framed labels allow a solid lid-colored or custom-colored background with no hatching holes."""
+        from pybosl2 import Color
 
+        from pyboxbuilder.lid.decorate import INLAY_DEPTH_MM
+
+        lid = bare_lid()
+        lbl_open = build_label(100.0, 70.0, 0.0, "Cards", label_mode=LabelMode.FRAMED)
+        lbl_solid = build_label(100.0, 70.0, 0.0, "Cards", label_mode=LabelMode.FRAMED, solid_background=True)
+        assert lbl_open is not None and lbl_open.hatching is not None
+        assert lbl_solid is not None and lbl_solid.plate is not None and lbl_solid.frame is not None
+        self.assertIsNone(lbl_solid.hatching)
+        self.assertIsNotNone(lbl_solid.background)
+
+        # 1. label_solid_background=True keeps interior solid in lid color (no through-holes in hatching zone)
+        dec_solid = decorate_lid(
+            lid,
+            LidBuilder(
+                text="Cards",
+                label_mode=LabelMode.FRAMED,
+                label_solid_background=True,
+                text_color=Color("white"),
+                frame_color=Color("gold"),
+            ),
+            2.0,
+            "mmu",
+        )
+        self.assertEqual(len(dec_solid.inserts), 2)
+        hatch_mid = lbl_open.hatching.translate([0.0, 0.0, 0.5])
+        self.assertGreater(volume(dec_solid.solid & hatch_mid), volume(hatch_mid) - 1.0)
+
+        # 2. label_background_color fills the solid interior plaque in top inlay layer only
+        dec_colored = decorate_lid(
+            lid,
+            LidBuilder(
+                text="Cards",
+                label_mode=LabelMode.FRAMED,
+                label_background_color="navy",
+                text_color=Color("white"),
+                frame_color=Color("gold"),
+            ),
+            2.0,
+            "mmu",
+        )
+        self.assertEqual(len(dec_colored.inserts), 3)
+        self.assertGreater(volume(dec_colored.solid & hatch_mid), volume(hatch_mid) - 1.0)
+        # Check all 3 inserts are top-layer only and mutually disjoint
+        for ins in dec_colored.inserts:
+            (_, _, icz), (_, _, ih) = _bounds_cs(ins.solid)
+            self.assertAlmostEqual(ih, INLAY_DEPTH_MM, places=4)
+            self.assertGreaterEqual(icz - ih / 2.0, 2.0 - INLAY_DEPTH_MM - 1e-4)
+        for i in range(len(dec_colored.inserts)):
+            for j in range(i + 1, len(dec_colored.inserts)):
+                self.assertAlmostEqual(volume(dec_colored.inserts[i].solid & dec_colored.inserts[j].solid), 0.0, places=3)
 
 

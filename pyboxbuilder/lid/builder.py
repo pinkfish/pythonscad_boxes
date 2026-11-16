@@ -321,6 +321,14 @@ class LidBuilder:
     """Gap between label text and inside of the border; ``None`` uses defaults."""
     label_rounding_mm: float | None = None
     """Corner rounding radius of the label backing plate; ``None`` uses defaults."""
+    label_solid_background: bool | None = None
+    """Use a solid unperforated background inside a framed label instead of
+    diagonal hatching slots; ``None`` uses open through-hole strips unless
+    ``label_background_color`` is set."""
+    label_background_color: Color | str | None = None
+    """Top-layer colour for the solid interior background inside a framed label's
+    border ring. Setting a colour automatically enables a solid background (no
+    hatching holes); ``None`` leaves a solid background in the lid's own colour."""
     label_clearance_mm: float | None = None
     """Solid margin kept around the **lettering** where a pattern meets it.
 
@@ -365,6 +373,10 @@ class LidBuilder:
             from pybosl2 import Color
 
             object.__setattr__(self, "pattern_color", Color(self.pattern_color))
+        if isinstance(self.label_background_color, str):
+            from pybosl2 import Color
+
+            object.__setattr__(self, "label_background_color", Color(self.label_background_color))
         if isinstance(self.pattern_colors, (list, tuple)):
             from pybosl2 import Color
 

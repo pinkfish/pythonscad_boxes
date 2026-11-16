@@ -365,6 +365,8 @@ def _build_label(
     margin = border_margin_mm if border_margin_mm is not None else builder.border_margin
 
 
+    solid_background = bool(builder.label_solid_background) or (builder.label_background_color is not None)
+
     return build_label(
         width=width,
         length=length,
@@ -380,6 +382,7 @@ def _build_label(
         center_x=center_x,
         center_y=center_y,
         max_text_height_mm=builder.max_text_height,
+        solid_background=solid_background,
     )
 
 
@@ -1295,14 +1298,28 @@ def _apply_label(
         if label.hatching is not None:
             frame_part = frame_part - label.hatching
 
+    bg_color = builder.label_background_color
+    if isinstance(bg_color, str):
+        from pybosl2 import Color
+
+        bg_color = Color(bg_color)
+    bg_part: Bosl2Solid | None = None
+    if bg_color is not None:
+        if label.background is not None:
+            bg_part = label.background - label.text
+        elif label.plate is not None:
+            base = label.plate - label.frame if label.frame is not None else label.plate
+            bg_part = base - label.text
+
     # Inlaid, not embossed (FR-022a): each coloured part is cut out of the lid
     # and put back in its own colour, exactly as deep as the recess, so the
     # lid's top face stays flat. Only the parts that change colour are cut —
-    # when frame_color is None the frame border and strips stay the box's own
-    # material without an insert of their own (FR-022).
+    # when frame_color / label_background_color are None those parts stay the
+    # box's own material without an insert of their own (FR-022).
     for part, colour in (
         (label.text, builder.text_color),
         (frame_part, builder.frame_color),
+        (bg_part, bg_color),
     ):
         if part is None or colour is None:
             continue
