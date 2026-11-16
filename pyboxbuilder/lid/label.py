@@ -30,8 +30,8 @@ HATCH_WIDTH_MM = 2.0
 LABEL_BORDER_MM = 1.5
 """Default outer border width of the label backing plate."""
 
-LABEL_TEXT_GAP_MM = 0.5
-"""Default gap between label text and the inside of the border."""
+LABEL_TEXT_GAP_MM = 1.5
+"""Default clearance around the highest and longest text edges inside the border."""
 
 
 @dataclass(frozen=True)
@@ -235,7 +235,7 @@ def build_label(
     plate_solid = cuboid([plate_w, plate_l, BACKING_HEIGHT_MM], rounding=rounding_val, edges=vertical_edges())
     plate = corner(plate_solid, [plate_w, plate_l, BACKING_HEIGHT_MM], at=(plate_x, plate_y, 0.0))
     hatching = corner(
-        _build_hatching(plate_w, plate_l, border=border, rounding=rounding_val),
+        _build_hatching(plate_w, plate_l, border=border, rounding=rounding_val, text_gap=gap),
         [plate_w, plate_l, BACKING_HEIGHT_MM],
         at=(plate_x, plate_y, 0.0),
     )
@@ -251,11 +251,13 @@ def _build_hatching(
     spacing: float = 4.0,
     border: float = 1.5,
     rounding: float = 5.0,
+    text_gap: float | None = None,
 ) -> Bosl2Solid:
     """Diagonal hatching lines, centred on the origin and clipped to the area.
 
     The lines are cropped to the label rectangle so the hatching cannot spill
-    past the backing plate it decorates.
+    past the backing plate it decorates. Corner rounding is bounded so the solid
+    border never encroaches into the text bounding box.
     """
     from pybosl2 import cuboid
 
@@ -276,6 +278,14 @@ def _build_hatching(
     clip_w = max(width - 2 * border, 0.0)
     clip_l = max(length - 2 * border, 0.0)
     from pyboxbuilder.rounding import vertical_edges
+
     clip_rounding = max(rounding - border, 0.0)
+    if text_gap is not None:
+        max_safe_rounding = max(0.0, max(0.0, text_gap) * (2.0 + math.sqrt(2.0)) - 0.1)
+        clip_rounding = min(clip_rounding, max_safe_rounding)
+    if clip_w > 0.0 and clip_l > 0.0:
+        clip_rounding = min(clip_rounding, max(0.0, min(clip_w, clip_l) / 2.0 - 0.01))
+    else:
+        clip_rounding = 0.0
     clip_solid = cuboid([clip_w, clip_l, BACKING_HEIGHT_MM], rounding=clip_rounding, edges=vertical_edges())
     return hatching & clip_solid

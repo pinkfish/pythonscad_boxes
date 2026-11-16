@@ -302,9 +302,11 @@ class LidBuilder:
     top_skin_mm: float | None = None
     """Override for the solid top skin thickness in mm supporting thin colored inlays above the backing lattice."""
     logo: Any | None = None
-    """Path to the SVG logo, a Bosl2Solid, or a callable representing the custom lid logo."""
+    """SVG path (monochrome or multi-colour), a single- or multi-coloured ``Bosl2Solid``,
+    a ``PatternResult``, a sequence of ``(shape, colour)`` pairs, or a callable
+    ``(width, length, depth) -> ...`` returning any of those."""
     logo_color: Color | None = None
-    """Colour the logo is inlaid in; ``None`` uses black."""
+    """Default colour for uncoloured logo parts in inlaid mode; ``None`` uses ``text_color``."""
     min_text_height_mm: float | None = None
     """Below this the label is skipped rather than printed illegibly (FR-020).
 
@@ -350,7 +352,9 @@ class LidBuilder:
     """Fields to override for the single-colour export."""
 
     def __post_init__(self) -> None:
-        """Convert list pattern_through_inlay to tuple and coerce pattern."""
+        """Convert list pattern_through_inlay to tuple and coerce pattern/label_mode."""
+        if isinstance(self.label_mode, str):
+            object.__setattr__(self, "label_mode", LabelMode(self.label_mode.lower()))
         if isinstance(self.pattern, str):
             object.__setattr__(self, "pattern", PatternBuilder(PatternType(self.pattern.lower())))
         elif isinstance(self.pattern, PatternType):

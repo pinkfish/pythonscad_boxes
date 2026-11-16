@@ -15,12 +15,12 @@ Full Box Packing
 
 Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
-.. stl:: ../_stl/boxes/kenmore_gold/SquareTileBox_body.stl?v=2921d073,../_stl/boxes/kenmore_gold/SquareTileBox_lid.stl?v=515bae76,../_stl/boxes/kenmore_gold/StartCaveBox_body.stl?v=05c65ff3,../_stl/boxes/kenmore_gold/StartCaveBox_lid.stl?v=e34775e1,../_stl/boxes/kenmore_gold/LootBox_body.stl?v=2f1725a2,../_stl/boxes/kenmore_gold/LootBox_lid.stl?v=996bd076,../_stl/boxes/kenmore_gold/spacer_1.stl?v=00397f90,../_stl/boxes/kenmore_gold/spacer_2.stl?v=dac8d487
+.. stl:: ../_stl/boxes/kenmore_gold/SquareTileBox_body.stl?v=2921d073,../_stl/boxes/kenmore_gold/SquareTileBox_lid.stl?v=bd50969b,../_stl/boxes/kenmore_gold/StartCaveBox_body.stl?v=05c65ff3,../_stl/boxes/kenmore_gold/StartCaveBox_lid.stl?v=eb1f782c,../_stl/boxes/kenmore_gold/LootBox_body.stl?v=2f1725a2,../_stl/boxes/kenmore_gold/LootBox_lid.stl?v=6321bbba,../_stl/boxes/kenmore_gold/spacer_1.stl?v=00397f90,../_stl/boxes/kenmore_gold/spacer_2.stl?v=dac8d487
    :height: 440px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/kenmore_gold/SquareTileBox_body.stl?v=2921d073" data-stl-combine="../_stl/boxes/kenmore_gold/SquareTileBox_body.stl?v=2921d073,../_stl/boxes/kenmore_gold/SquareTileBox_lid.stl?v=515bae76,../_stl/boxes/kenmore_gold/StartCaveBox_body.stl?v=05c65ff3,../_stl/boxes/kenmore_gold/StartCaveBox_lid.stl?v=e34775e1,../_stl/boxes/kenmore_gold/LootBox_body.stl?v=2f1725a2,../_stl/boxes/kenmore_gold/LootBox_lid.stl?v=996bd076,../_stl/boxes/kenmore_gold/spacer_1.stl?v=00397f90,../_stl/boxes/kenmore_gold/spacer_2.stl?v=dac8d487" download="KenmoreGold_full_packing.stl">⬇ Download Full Box Packing STL (<code>KenmoreGold_full_packing.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/kenmore_gold/SquareTileBox_body.stl?v=2921d073" data-stl-combine="../_stl/boxes/kenmore_gold/SquareTileBox_body.stl?v=2921d073,../_stl/boxes/kenmore_gold/SquareTileBox_lid.stl?v=bd50969b,../_stl/boxes/kenmore_gold/StartCaveBox_body.stl?v=05c65ff3,../_stl/boxes/kenmore_gold/StartCaveBox_lid.stl?v=eb1f782c,../_stl/boxes/kenmore_gold/LootBox_body.stl?v=2f1725a2,../_stl/boxes/kenmore_gold/LootBox_lid.stl?v=6321bbba,../_stl/boxes/kenmore_gold/spacer_1.stl?v=00397f90,../_stl/boxes/kenmore_gold/spacer_2.stl?v=dac8d487" download="KenmoreGold_full_packing.stl">⬇ Download Full Box Packing STL (<code>KenmoreGold_full_packing.stl</code>)</a></p>
 
 Parts Overview
 --------------
@@ -75,12 +75,12 @@ SquareTileBox
 
 **Assembled Box (SquareTileBox — Body + Lid)**
 
-.. stl:: ../_stl/boxes/kenmore_gold/SquareTileBox_body.stl?v=2921d073,../_stl/boxes/kenmore_gold/SquareTileBox_lid.stl?v=515bae76
+.. stl:: ../_stl/boxes/kenmore_gold/SquareTileBox_body.stl?v=2921d073,../_stl/boxes/kenmore_gold/SquareTileBox_lid.stl?v=bd50969b
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/kenmore_gold/SquareTileBox_body.stl?v=2921d073" data-stl-combine="../_stl/boxes/kenmore_gold/SquareTileBox_body.stl?v=2921d073,../_stl/boxes/kenmore_gold/SquareTileBox_lid.stl?v=515bae76" download="SquareTileBox_assembled.stl">⬇ Download Assembled SquareTileBox STL (<code>SquareTileBox_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/kenmore_gold/SquareTileBox_body.stl?v=2921d073" data-stl-combine="../_stl/boxes/kenmore_gold/SquareTileBox_body.stl?v=2921d073,../_stl/boxes/kenmore_gold/SquareTileBox_lid.stl?v=bd50969b" download="SquareTileBox_assembled.stl">⬇ Download Assembled SquareTileBox STL (<code>SquareTileBox_assembled.stl</code>)</a></p>
 
 **Part: SquareTileBox Body**
 
@@ -93,12 +93,12 @@ SquareTileBox
 
 **Part: SquareTileBox Lid**
 
-.. stl:: ../_stl/boxes/kenmore_gold/SquareTileBox_lid.stl?v=515bae76
+.. stl:: ../_stl/boxes/kenmore_gold/SquareTileBox_lid.stl?v=bd50969b
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/kenmore_gold/SquareTileBox_lid.stl?v=515bae76" download="SquareTileBox_lid.stl">⬇ Download SquareTileBox Lid STL (<code>SquareTileBox_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/kenmore_gold/SquareTileBox_lid.stl?v=bd50969b" download="SquareTileBox_lid.stl">⬇ Download SquareTileBox Lid STL (<code>SquareTileBox_lid.stl</code>)</a></p>
 
 .. _box-kenmore_gold-startcavebox:
 
@@ -112,12 +112,12 @@ StartCaveBox
 
 **Assembled Box (StartCaveBox — Body + Lid)**
 
-.. stl:: ../_stl/boxes/kenmore_gold/StartCaveBox_body.stl?v=05c65ff3,../_stl/boxes/kenmore_gold/StartCaveBox_lid.stl?v=e34775e1
+.. stl:: ../_stl/boxes/kenmore_gold/StartCaveBox_body.stl?v=05c65ff3,../_stl/boxes/kenmore_gold/StartCaveBox_lid.stl?v=eb1f782c
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/kenmore_gold/StartCaveBox_body.stl?v=05c65ff3" data-stl-combine="../_stl/boxes/kenmore_gold/StartCaveBox_body.stl?v=05c65ff3,../_stl/boxes/kenmore_gold/StartCaveBox_lid.stl?v=e34775e1" download="StartCaveBox_assembled.stl">⬇ Download Assembled StartCaveBox STL (<code>StartCaveBox_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/kenmore_gold/StartCaveBox_body.stl?v=05c65ff3" data-stl-combine="../_stl/boxes/kenmore_gold/StartCaveBox_body.stl?v=05c65ff3,../_stl/boxes/kenmore_gold/StartCaveBox_lid.stl?v=eb1f782c" download="StartCaveBox_assembled.stl">⬇ Download Assembled StartCaveBox STL (<code>StartCaveBox_assembled.stl</code>)</a></p>
 
 **Part: StartCaveBox Body**
 
@@ -130,12 +130,12 @@ StartCaveBox
 
 **Part: StartCaveBox Lid**
 
-.. stl:: ../_stl/boxes/kenmore_gold/StartCaveBox_lid.stl?v=e34775e1
+.. stl:: ../_stl/boxes/kenmore_gold/StartCaveBox_lid.stl?v=eb1f782c
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/kenmore_gold/StartCaveBox_lid.stl?v=e34775e1" download="StartCaveBox_lid.stl">⬇ Download StartCaveBox Lid STL (<code>StartCaveBox_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/kenmore_gold/StartCaveBox_lid.stl?v=eb1f782c" download="StartCaveBox_lid.stl">⬇ Download StartCaveBox Lid STL (<code>StartCaveBox_lid.stl</code>)</a></p>
 
 .. _box-kenmore_gold-lootbox:
 
@@ -149,12 +149,12 @@ LootBox
 
 **Assembled Box (LootBox — Body + Lid)**
 
-.. stl:: ../_stl/boxes/kenmore_gold/LootBox_body.stl?v=2f1725a2,../_stl/boxes/kenmore_gold/LootBox_lid.stl?v=996bd076
+.. stl:: ../_stl/boxes/kenmore_gold/LootBox_body.stl?v=2f1725a2,../_stl/boxes/kenmore_gold/LootBox_lid.stl?v=6321bbba
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/kenmore_gold/LootBox_body.stl?v=2f1725a2" data-stl-combine="../_stl/boxes/kenmore_gold/LootBox_body.stl?v=2f1725a2,../_stl/boxes/kenmore_gold/LootBox_lid.stl?v=996bd076" download="LootBox_assembled.stl">⬇ Download Assembled LootBox STL (<code>LootBox_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/kenmore_gold/LootBox_body.stl?v=2f1725a2" data-stl-combine="../_stl/boxes/kenmore_gold/LootBox_body.stl?v=2f1725a2,../_stl/boxes/kenmore_gold/LootBox_lid.stl?v=6321bbba" download="LootBox_assembled.stl">⬇ Download Assembled LootBox STL (<code>LootBox_assembled.stl</code>)</a></p>
 
 **Part: LootBox Body**
 
@@ -167,12 +167,12 @@ LootBox
 
 **Part: LootBox Lid**
 
-.. stl:: ../_stl/boxes/kenmore_gold/LootBox_lid.stl?v=996bd076
+.. stl:: ../_stl/boxes/kenmore_gold/LootBox_lid.stl?v=6321bbba
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/kenmore_gold/LootBox_lid.stl?v=996bd076" download="LootBox_lid.stl">⬇ Download LootBox Lid STL (<code>LootBox_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/kenmore_gold/LootBox_lid.stl?v=6321bbba" download="LootBox_lid.stl">⬇ Download LootBox Lid STL (<code>LootBox_lid.stl</code>)</a></p>
 
 Spacer Trays
 ------------

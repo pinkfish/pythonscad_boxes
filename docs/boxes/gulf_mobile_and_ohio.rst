@@ -15,12 +15,12 @@ Full Box Packing
 
 Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
-.. stl:: ../_stl/boxes/gulf_mobile_and_ohio/BankMoneyBox_body.stl?v=6a625b45,../_stl/boxes/gulf_mobile_and_ohio/BankMoneyBox_lid.stl?v=9e79044b,../_stl/boxes/gulf_mobile_and_ohio/CompanyCardsBox_1_body.stl?v=9e45034a,../_stl/boxes/gulf_mobile_and_ohio/CompanyCardsBox_1_lid.stl?v=15fc9cb7,../_stl/boxes/gulf_mobile_and_ohio/CompanyCardsBox_2_body.stl?v=ff2e65b9,../_stl/boxes/gulf_mobile_and_ohio/CompanyCardsBox_2_lid.stl?v=73cc6335,../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Red_body.stl?v=151ffd28,../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Red_lid.stl?v=cb55916b,../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Yellow_body.stl?v=555366f6,../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Yellow_lid.stl?v=25afa395,../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Green_body.stl?v=9b7ff154,../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Green_lid.stl?v=aafa82ab,../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Blue_body.stl?v=876ec3f1,../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Blue_lid.stl?v=b6835531,../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Black_body.stl?v=abd3e5ce,../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Black_lid.stl?v=a99fc60e,../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Purple_body.stl?v=326e7fe7,../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Purple_lid.stl?v=2b0771d1,../_stl/boxes/gulf_mobile_and_ohio/PlayerTokenBox_body.stl?v=11c59c48,../_stl/boxes/gulf_mobile_and_ohio/PlayerTokenBox_lid.stl?v=27d822ee,../_stl/boxes/gulf_mobile_and_ohio/spacer_1.stl?v=f26d9a7f
+.. stl:: ../_stl/boxes/gulf_mobile_and_ohio/BankMoneyBox_body.stl?v=6a625b45,../_stl/boxes/gulf_mobile_and_ohio/BankMoneyBox_lid.stl?v=8c07847a,../_stl/boxes/gulf_mobile_and_ohio/CompanyCardsBox_1_body.stl?v=9e45034a,../_stl/boxes/gulf_mobile_and_ohio/CompanyCardsBox_1_lid.stl?v=f525432e,../_stl/boxes/gulf_mobile_and_ohio/CompanyCardsBox_2_body.stl?v=ff2e65b9,../_stl/boxes/gulf_mobile_and_ohio/CompanyCardsBox_2_lid.stl?v=6a95e8ad,../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Red_body.stl?v=151ffd28,../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Red_lid.stl?v=d8d6e704,../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Yellow_body.stl?v=555366f6,../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Yellow_lid.stl?v=e7f1d89e,../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Green_body.stl?v=9b7ff154,../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Green_lid.stl?v=1a4bbbe6,../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Blue_body.stl?v=876ec3f1,../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Blue_lid.stl?v=c7249dd7,../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Black_body.stl?v=abd3e5ce,../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Black_lid.stl?v=43ed40ce,../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Purple_body.stl?v=326e7fe7,../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Purple_lid.stl?v=8700f4fa,../_stl/boxes/gulf_mobile_and_ohio/PlayerTokenBox_body.stl?v=11c59c48,../_stl/boxes/gulf_mobile_and_ohio/PlayerTokenBox_lid.stl?v=e25c1987,../_stl/boxes/gulf_mobile_and_ohio/spacer_1.stl?v=f26d9a7f
    :height: 440px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/gulf_mobile_and_ohio/BankMoneyBox_body.stl?v=6a625b45" data-stl-combine="../_stl/boxes/gulf_mobile_and_ohio/BankMoneyBox_body.stl?v=6a625b45,../_stl/boxes/gulf_mobile_and_ohio/BankMoneyBox_lid.stl?v=9e79044b,../_stl/boxes/gulf_mobile_and_ohio/CompanyCardsBox_1_body.stl?v=9e45034a,../_stl/boxes/gulf_mobile_and_ohio/CompanyCardsBox_1_lid.stl?v=15fc9cb7,../_stl/boxes/gulf_mobile_and_ohio/CompanyCardsBox_2_body.stl?v=ff2e65b9,../_stl/boxes/gulf_mobile_and_ohio/CompanyCardsBox_2_lid.stl?v=73cc6335,../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Red_body.stl?v=151ffd28,../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Red_lid.stl?v=cb55916b,../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Yellow_body.stl?v=555366f6,../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Yellow_lid.stl?v=25afa395,../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Green_body.stl?v=9b7ff154,../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Green_lid.stl?v=aafa82ab,../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Blue_body.stl?v=876ec3f1,../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Blue_lid.stl?v=b6835531,../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Black_body.stl?v=abd3e5ce,../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Black_lid.stl?v=a99fc60e,../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Purple_body.stl?v=326e7fe7,../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Purple_lid.stl?v=2b0771d1,../_stl/boxes/gulf_mobile_and_ohio/PlayerTokenBox_body.stl?v=11c59c48,../_stl/boxes/gulf_mobile_and_ohio/PlayerTokenBox_lid.stl?v=27d822ee,../_stl/boxes/gulf_mobile_and_ohio/spacer_1.stl?v=f26d9a7f" download="GulfMobileAndOhio_full_packing.stl">⬇ Download Full Box Packing STL (<code>GulfMobileAndOhio_full_packing.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/gulf_mobile_and_ohio/BankMoneyBox_body.stl?v=6a625b45" data-stl-combine="../_stl/boxes/gulf_mobile_and_ohio/BankMoneyBox_body.stl?v=6a625b45,../_stl/boxes/gulf_mobile_and_ohio/BankMoneyBox_lid.stl?v=8c07847a,../_stl/boxes/gulf_mobile_and_ohio/CompanyCardsBox_1_body.stl?v=9e45034a,../_stl/boxes/gulf_mobile_and_ohio/CompanyCardsBox_1_lid.stl?v=f525432e,../_stl/boxes/gulf_mobile_and_ohio/CompanyCardsBox_2_body.stl?v=ff2e65b9,../_stl/boxes/gulf_mobile_and_ohio/CompanyCardsBox_2_lid.stl?v=6a95e8ad,../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Red_body.stl?v=151ffd28,../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Red_lid.stl?v=d8d6e704,../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Yellow_body.stl?v=555366f6,../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Yellow_lid.stl?v=e7f1d89e,../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Green_body.stl?v=9b7ff154,../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Green_lid.stl?v=1a4bbbe6,../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Blue_body.stl?v=876ec3f1,../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Blue_lid.stl?v=c7249dd7,../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Black_body.stl?v=abd3e5ce,../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Black_lid.stl?v=43ed40ce,../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Purple_body.stl?v=326e7fe7,../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Purple_lid.stl?v=8700f4fa,../_stl/boxes/gulf_mobile_and_ohio/PlayerTokenBox_body.stl?v=11c59c48,../_stl/boxes/gulf_mobile_and_ohio/PlayerTokenBox_lid.stl?v=e25c1987,../_stl/boxes/gulf_mobile_and_ohio/spacer_1.stl?v=f26d9a7f" download="GulfMobileAndOhio_full_packing.stl">⬇ Download Full Box Packing STL (<code>GulfMobileAndOhio_full_packing.stl</code>)</a></p>
 
 Parts Overview
 --------------
@@ -105,12 +105,12 @@ BankMoneyBox
 
 **Assembled Box (BankMoneyBox — Body + Lid)**
 
-.. stl:: ../_stl/boxes/gulf_mobile_and_ohio/BankMoneyBox_body.stl?v=6a625b45,../_stl/boxes/gulf_mobile_and_ohio/BankMoneyBox_lid.stl?v=9e79044b
+.. stl:: ../_stl/boxes/gulf_mobile_and_ohio/BankMoneyBox_body.stl?v=6a625b45,../_stl/boxes/gulf_mobile_and_ohio/BankMoneyBox_lid.stl?v=8c07847a
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/gulf_mobile_and_ohio/BankMoneyBox_body.stl?v=6a625b45" data-stl-combine="../_stl/boxes/gulf_mobile_and_ohio/BankMoneyBox_body.stl?v=6a625b45,../_stl/boxes/gulf_mobile_and_ohio/BankMoneyBox_lid.stl?v=9e79044b" download="BankMoneyBox_assembled.stl">⬇ Download Assembled BankMoneyBox STL (<code>BankMoneyBox_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/gulf_mobile_and_ohio/BankMoneyBox_body.stl?v=6a625b45" data-stl-combine="../_stl/boxes/gulf_mobile_and_ohio/BankMoneyBox_body.stl?v=6a625b45,../_stl/boxes/gulf_mobile_and_ohio/BankMoneyBox_lid.stl?v=8c07847a" download="BankMoneyBox_assembled.stl">⬇ Download Assembled BankMoneyBox STL (<code>BankMoneyBox_assembled.stl</code>)</a></p>
 
 **Part: BankMoneyBox Body**
 
@@ -123,12 +123,12 @@ BankMoneyBox
 
 **Part: BankMoneyBox Lid**
 
-.. stl:: ../_stl/boxes/gulf_mobile_and_ohio/BankMoneyBox_lid.stl?v=9e79044b
+.. stl:: ../_stl/boxes/gulf_mobile_and_ohio/BankMoneyBox_lid.stl?v=8c07847a
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/gulf_mobile_and_ohio/BankMoneyBox_lid.stl?v=9e79044b" download="BankMoneyBox_lid.stl">⬇ Download BankMoneyBox Lid STL (<code>BankMoneyBox_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/gulf_mobile_and_ohio/BankMoneyBox_lid.stl?v=8c07847a" download="BankMoneyBox_lid.stl">⬇ Download BankMoneyBox Lid STL (<code>BankMoneyBox_lid.stl</code>)</a></p>
 
 .. _box-gulf_mobile_and_ohio-companycardsbox_1:
 
@@ -142,12 +142,12 @@ CompanyCardsBox_1
 
 **Assembled Box (CompanyCardsBox_1 — Body + Lid)**
 
-.. stl:: ../_stl/boxes/gulf_mobile_and_ohio/CompanyCardsBox_1_body.stl?v=9e45034a,../_stl/boxes/gulf_mobile_and_ohio/CompanyCardsBox_1_lid.stl?v=15fc9cb7
+.. stl:: ../_stl/boxes/gulf_mobile_and_ohio/CompanyCardsBox_1_body.stl?v=9e45034a,../_stl/boxes/gulf_mobile_and_ohio/CompanyCardsBox_1_lid.stl?v=f525432e
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/gulf_mobile_and_ohio/CompanyCardsBox_1_body.stl?v=9e45034a" data-stl-combine="../_stl/boxes/gulf_mobile_and_ohio/CompanyCardsBox_1_body.stl?v=9e45034a,../_stl/boxes/gulf_mobile_and_ohio/CompanyCardsBox_1_lid.stl?v=15fc9cb7" download="CompanyCardsBox_1_assembled.stl">⬇ Download Assembled CompanyCardsBox_1 STL (<code>CompanyCardsBox_1_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/gulf_mobile_and_ohio/CompanyCardsBox_1_body.stl?v=9e45034a" data-stl-combine="../_stl/boxes/gulf_mobile_and_ohio/CompanyCardsBox_1_body.stl?v=9e45034a,../_stl/boxes/gulf_mobile_and_ohio/CompanyCardsBox_1_lid.stl?v=f525432e" download="CompanyCardsBox_1_assembled.stl">⬇ Download Assembled CompanyCardsBox_1 STL (<code>CompanyCardsBox_1_assembled.stl</code>)</a></p>
 
 **Part: CompanyCardsBox_1 Body**
 
@@ -160,12 +160,12 @@ CompanyCardsBox_1
 
 **Part: CompanyCardsBox_1 Lid**
 
-.. stl:: ../_stl/boxes/gulf_mobile_and_ohio/CompanyCardsBox_1_lid.stl?v=15fc9cb7
+.. stl:: ../_stl/boxes/gulf_mobile_and_ohio/CompanyCardsBox_1_lid.stl?v=f525432e
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/gulf_mobile_and_ohio/CompanyCardsBox_1_lid.stl?v=15fc9cb7" download="CompanyCardsBox_1_lid.stl">⬇ Download CompanyCardsBox_1 Lid STL (<code>CompanyCardsBox_1_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/gulf_mobile_and_ohio/CompanyCardsBox_1_lid.stl?v=f525432e" download="CompanyCardsBox_1_lid.stl">⬇ Download CompanyCardsBox_1 Lid STL (<code>CompanyCardsBox_1_lid.stl</code>)</a></p>
 
 .. _box-gulf_mobile_and_ohio-companycardsbox_2:
 
@@ -179,12 +179,12 @@ CompanyCardsBox_2
 
 **Assembled Box (CompanyCardsBox_2 — Body + Lid)**
 
-.. stl:: ../_stl/boxes/gulf_mobile_and_ohio/CompanyCardsBox_2_body.stl?v=ff2e65b9,../_stl/boxes/gulf_mobile_and_ohio/CompanyCardsBox_2_lid.stl?v=73cc6335
+.. stl:: ../_stl/boxes/gulf_mobile_and_ohio/CompanyCardsBox_2_body.stl?v=ff2e65b9,../_stl/boxes/gulf_mobile_and_ohio/CompanyCardsBox_2_lid.stl?v=6a95e8ad
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/gulf_mobile_and_ohio/CompanyCardsBox_2_body.stl?v=ff2e65b9" data-stl-combine="../_stl/boxes/gulf_mobile_and_ohio/CompanyCardsBox_2_body.stl?v=ff2e65b9,../_stl/boxes/gulf_mobile_and_ohio/CompanyCardsBox_2_lid.stl?v=73cc6335" download="CompanyCardsBox_2_assembled.stl">⬇ Download Assembled CompanyCardsBox_2 STL (<code>CompanyCardsBox_2_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/gulf_mobile_and_ohio/CompanyCardsBox_2_body.stl?v=ff2e65b9" data-stl-combine="../_stl/boxes/gulf_mobile_and_ohio/CompanyCardsBox_2_body.stl?v=ff2e65b9,../_stl/boxes/gulf_mobile_and_ohio/CompanyCardsBox_2_lid.stl?v=6a95e8ad" download="CompanyCardsBox_2_assembled.stl">⬇ Download Assembled CompanyCardsBox_2 STL (<code>CompanyCardsBox_2_assembled.stl</code>)</a></p>
 
 **Part: CompanyCardsBox_2 Body**
 
@@ -197,12 +197,12 @@ CompanyCardsBox_2
 
 **Part: CompanyCardsBox_2 Lid**
 
-.. stl:: ../_stl/boxes/gulf_mobile_and_ohio/CompanyCardsBox_2_lid.stl?v=73cc6335
+.. stl:: ../_stl/boxes/gulf_mobile_and_ohio/CompanyCardsBox_2_lid.stl?v=6a95e8ad
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/gulf_mobile_and_ohio/CompanyCardsBox_2_lid.stl?v=73cc6335" download="CompanyCardsBox_2_lid.stl">⬇ Download CompanyCardsBox_2 Lid STL (<code>CompanyCardsBox_2_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/gulf_mobile_and_ohio/CompanyCardsBox_2_lid.stl?v=6a95e8ad" download="CompanyCardsBox_2_lid.stl">⬇ Download CompanyCardsBox_2 Lid STL (<code>CompanyCardsBox_2_lid.stl</code>)</a></p>
 
 .. _box-gulf_mobile_and_ohio-cubebox_red:
 
@@ -216,12 +216,12 @@ CubeBox_Red
 
 **Assembled Box (CubeBox_Red — Body + Lid)**
 
-.. stl:: ../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Red_body.stl?v=151ffd28,../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Red_lid.stl?v=cb55916b
+.. stl:: ../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Red_body.stl?v=151ffd28,../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Red_lid.stl?v=d8d6e704
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Red_body.stl?v=151ffd28" data-stl-combine="../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Red_body.stl?v=151ffd28,../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Red_lid.stl?v=cb55916b" download="CubeBox_Red_assembled.stl">⬇ Download Assembled CubeBox_Red STL (<code>CubeBox_Red_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Red_body.stl?v=151ffd28" data-stl-combine="../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Red_body.stl?v=151ffd28,../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Red_lid.stl?v=d8d6e704" download="CubeBox_Red_assembled.stl">⬇ Download Assembled CubeBox_Red STL (<code>CubeBox_Red_assembled.stl</code>)</a></p>
 
 **Part: CubeBox_Red Body**
 
@@ -234,12 +234,12 @@ CubeBox_Red
 
 **Part: CubeBox_Red Lid**
 
-.. stl:: ../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Red_lid.stl?v=cb55916b
+.. stl:: ../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Red_lid.stl?v=d8d6e704
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Red_lid.stl?v=cb55916b" download="CubeBox_Red_lid.stl">⬇ Download CubeBox_Red Lid STL (<code>CubeBox_Red_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Red_lid.stl?v=d8d6e704" download="CubeBox_Red_lid.stl">⬇ Download CubeBox_Red Lid STL (<code>CubeBox_Red_lid.stl</code>)</a></p>
 
 .. _box-gulf_mobile_and_ohio-cubebox_yellow:
 
@@ -253,12 +253,12 @@ CubeBox_Yellow
 
 **Assembled Box (CubeBox_Yellow — Body + Lid)**
 
-.. stl:: ../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Yellow_body.stl?v=555366f6,../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Yellow_lid.stl?v=25afa395
+.. stl:: ../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Yellow_body.stl?v=555366f6,../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Yellow_lid.stl?v=e7f1d89e
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Yellow_body.stl?v=555366f6" data-stl-combine="../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Yellow_body.stl?v=555366f6,../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Yellow_lid.stl?v=25afa395" download="CubeBox_Yellow_assembled.stl">⬇ Download Assembled CubeBox_Yellow STL (<code>CubeBox_Yellow_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Yellow_body.stl?v=555366f6" data-stl-combine="../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Yellow_body.stl?v=555366f6,../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Yellow_lid.stl?v=e7f1d89e" download="CubeBox_Yellow_assembled.stl">⬇ Download Assembled CubeBox_Yellow STL (<code>CubeBox_Yellow_assembled.stl</code>)</a></p>
 
 **Part: CubeBox_Yellow Body**
 
@@ -271,12 +271,12 @@ CubeBox_Yellow
 
 **Part: CubeBox_Yellow Lid**
 
-.. stl:: ../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Yellow_lid.stl?v=25afa395
+.. stl:: ../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Yellow_lid.stl?v=e7f1d89e
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Yellow_lid.stl?v=25afa395" download="CubeBox_Yellow_lid.stl">⬇ Download CubeBox_Yellow Lid STL (<code>CubeBox_Yellow_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Yellow_lid.stl?v=e7f1d89e" download="CubeBox_Yellow_lid.stl">⬇ Download CubeBox_Yellow Lid STL (<code>CubeBox_Yellow_lid.stl</code>)</a></p>
 
 .. _box-gulf_mobile_and_ohio-cubebox_green:
 
@@ -290,12 +290,12 @@ CubeBox_Green
 
 **Assembled Box (CubeBox_Green — Body + Lid)**
 
-.. stl:: ../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Green_body.stl?v=9b7ff154,../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Green_lid.stl?v=aafa82ab
+.. stl:: ../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Green_body.stl?v=9b7ff154,../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Green_lid.stl?v=1a4bbbe6
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Green_body.stl?v=9b7ff154" data-stl-combine="../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Green_body.stl?v=9b7ff154,../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Green_lid.stl?v=aafa82ab" download="CubeBox_Green_assembled.stl">⬇ Download Assembled CubeBox_Green STL (<code>CubeBox_Green_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Green_body.stl?v=9b7ff154" data-stl-combine="../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Green_body.stl?v=9b7ff154,../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Green_lid.stl?v=1a4bbbe6" download="CubeBox_Green_assembled.stl">⬇ Download Assembled CubeBox_Green STL (<code>CubeBox_Green_assembled.stl</code>)</a></p>
 
 **Part: CubeBox_Green Body**
 
@@ -308,12 +308,12 @@ CubeBox_Green
 
 **Part: CubeBox_Green Lid**
 
-.. stl:: ../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Green_lid.stl?v=aafa82ab
+.. stl:: ../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Green_lid.stl?v=1a4bbbe6
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Green_lid.stl?v=aafa82ab" download="CubeBox_Green_lid.stl">⬇ Download CubeBox_Green Lid STL (<code>CubeBox_Green_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Green_lid.stl?v=1a4bbbe6" download="CubeBox_Green_lid.stl">⬇ Download CubeBox_Green Lid STL (<code>CubeBox_Green_lid.stl</code>)</a></p>
 
 .. _box-gulf_mobile_and_ohio-cubebox_blue:
 
@@ -327,12 +327,12 @@ CubeBox_Blue
 
 **Assembled Box (CubeBox_Blue — Body + Lid)**
 
-.. stl:: ../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Blue_body.stl?v=876ec3f1,../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Blue_lid.stl?v=b6835531
+.. stl:: ../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Blue_body.stl?v=876ec3f1,../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Blue_lid.stl?v=c7249dd7
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Blue_body.stl?v=876ec3f1" data-stl-combine="../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Blue_body.stl?v=876ec3f1,../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Blue_lid.stl?v=b6835531" download="CubeBox_Blue_assembled.stl">⬇ Download Assembled CubeBox_Blue STL (<code>CubeBox_Blue_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Blue_body.stl?v=876ec3f1" data-stl-combine="../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Blue_body.stl?v=876ec3f1,../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Blue_lid.stl?v=c7249dd7" download="CubeBox_Blue_assembled.stl">⬇ Download Assembled CubeBox_Blue STL (<code>CubeBox_Blue_assembled.stl</code>)</a></p>
 
 **Part: CubeBox_Blue Body**
 
@@ -345,12 +345,12 @@ CubeBox_Blue
 
 **Part: CubeBox_Blue Lid**
 
-.. stl:: ../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Blue_lid.stl?v=b6835531
+.. stl:: ../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Blue_lid.stl?v=c7249dd7
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Blue_lid.stl?v=b6835531" download="CubeBox_Blue_lid.stl">⬇ Download CubeBox_Blue Lid STL (<code>CubeBox_Blue_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Blue_lid.stl?v=c7249dd7" download="CubeBox_Blue_lid.stl">⬇ Download CubeBox_Blue Lid STL (<code>CubeBox_Blue_lid.stl</code>)</a></p>
 
 .. _box-gulf_mobile_and_ohio-cubebox_black:
 
@@ -364,12 +364,12 @@ CubeBox_Black
 
 **Assembled Box (CubeBox_Black — Body + Lid)**
 
-.. stl:: ../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Black_body.stl?v=abd3e5ce,../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Black_lid.stl?v=a99fc60e
+.. stl:: ../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Black_body.stl?v=abd3e5ce,../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Black_lid.stl?v=43ed40ce
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Black_body.stl?v=abd3e5ce" data-stl-combine="../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Black_body.stl?v=abd3e5ce,../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Black_lid.stl?v=a99fc60e" download="CubeBox_Black_assembled.stl">⬇ Download Assembled CubeBox_Black STL (<code>CubeBox_Black_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Black_body.stl?v=abd3e5ce" data-stl-combine="../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Black_body.stl?v=abd3e5ce,../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Black_lid.stl?v=43ed40ce" download="CubeBox_Black_assembled.stl">⬇ Download Assembled CubeBox_Black STL (<code>CubeBox_Black_assembled.stl</code>)</a></p>
 
 **Part: CubeBox_Black Body**
 
@@ -382,12 +382,12 @@ CubeBox_Black
 
 **Part: CubeBox_Black Lid**
 
-.. stl:: ../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Black_lid.stl?v=a99fc60e
+.. stl:: ../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Black_lid.stl?v=43ed40ce
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Black_lid.stl?v=a99fc60e" download="CubeBox_Black_lid.stl">⬇ Download CubeBox_Black Lid STL (<code>CubeBox_Black_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Black_lid.stl?v=43ed40ce" download="CubeBox_Black_lid.stl">⬇ Download CubeBox_Black Lid STL (<code>CubeBox_Black_lid.stl</code>)</a></p>
 
 .. _box-gulf_mobile_and_ohio-cubebox_purple:
 
@@ -401,12 +401,12 @@ CubeBox_Purple
 
 **Assembled Box (CubeBox_Purple — Body + Lid)**
 
-.. stl:: ../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Purple_body.stl?v=326e7fe7,../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Purple_lid.stl?v=2b0771d1
+.. stl:: ../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Purple_body.stl?v=326e7fe7,../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Purple_lid.stl?v=8700f4fa
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Purple_body.stl?v=326e7fe7" data-stl-combine="../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Purple_body.stl?v=326e7fe7,../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Purple_lid.stl?v=2b0771d1" download="CubeBox_Purple_assembled.stl">⬇ Download Assembled CubeBox_Purple STL (<code>CubeBox_Purple_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Purple_body.stl?v=326e7fe7" data-stl-combine="../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Purple_body.stl?v=326e7fe7,../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Purple_lid.stl?v=8700f4fa" download="CubeBox_Purple_assembled.stl">⬇ Download Assembled CubeBox_Purple STL (<code>CubeBox_Purple_assembled.stl</code>)</a></p>
 
 **Part: CubeBox_Purple Body**
 
@@ -419,12 +419,12 @@ CubeBox_Purple
 
 **Part: CubeBox_Purple Lid**
 
-.. stl:: ../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Purple_lid.stl?v=2b0771d1
+.. stl:: ../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Purple_lid.stl?v=8700f4fa
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Purple_lid.stl?v=2b0771d1" download="CubeBox_Purple_lid.stl">⬇ Download CubeBox_Purple Lid STL (<code>CubeBox_Purple_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Purple_lid.stl?v=8700f4fa" download="CubeBox_Purple_lid.stl">⬇ Download CubeBox_Purple Lid STL (<code>CubeBox_Purple_lid.stl</code>)</a></p>
 
 .. _box-gulf_mobile_and_ohio-playertokenbox:
 
@@ -438,12 +438,12 @@ PlayerTokenBox
 
 **Assembled Box (PlayerTokenBox — Body + Lid)**
 
-.. stl:: ../_stl/boxes/gulf_mobile_and_ohio/PlayerTokenBox_body.stl?v=11c59c48,../_stl/boxes/gulf_mobile_and_ohio/PlayerTokenBox_lid.stl?v=27d822ee
+.. stl:: ../_stl/boxes/gulf_mobile_and_ohio/PlayerTokenBox_body.stl?v=11c59c48,../_stl/boxes/gulf_mobile_and_ohio/PlayerTokenBox_lid.stl?v=e25c1987
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/gulf_mobile_and_ohio/PlayerTokenBox_body.stl?v=11c59c48" data-stl-combine="../_stl/boxes/gulf_mobile_and_ohio/PlayerTokenBox_body.stl?v=11c59c48,../_stl/boxes/gulf_mobile_and_ohio/PlayerTokenBox_lid.stl?v=27d822ee" download="PlayerTokenBox_assembled.stl">⬇ Download Assembled PlayerTokenBox STL (<code>PlayerTokenBox_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/gulf_mobile_and_ohio/PlayerTokenBox_body.stl?v=11c59c48" data-stl-combine="../_stl/boxes/gulf_mobile_and_ohio/PlayerTokenBox_body.stl?v=11c59c48,../_stl/boxes/gulf_mobile_and_ohio/PlayerTokenBox_lid.stl?v=e25c1987" download="PlayerTokenBox_assembled.stl">⬇ Download Assembled PlayerTokenBox STL (<code>PlayerTokenBox_assembled.stl</code>)</a></p>
 
 **Part: PlayerTokenBox Body**
 
@@ -456,12 +456,12 @@ PlayerTokenBox
 
 **Part: PlayerTokenBox Lid**
 
-.. stl:: ../_stl/boxes/gulf_mobile_and_ohio/PlayerTokenBox_lid.stl?v=27d822ee
+.. stl:: ../_stl/boxes/gulf_mobile_and_ohio/PlayerTokenBox_lid.stl?v=e25c1987
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/gulf_mobile_and_ohio/PlayerTokenBox_lid.stl?v=27d822ee" download="PlayerTokenBox_lid.stl">⬇ Download PlayerTokenBox Lid STL (<code>PlayerTokenBox_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/gulf_mobile_and_ohio/PlayerTokenBox_lid.stl?v=e25c1987" download="PlayerTokenBox_lid.stl">⬇ Download PlayerTokenBox Lid STL (<code>PlayerTokenBox_lid.stl</code>)</a></p>
 
 Spacer Trays
 ------------

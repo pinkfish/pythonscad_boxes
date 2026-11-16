@@ -22,7 +22,7 @@ from __future__ import annotations
 
 from collections.abc import Sequence
 from dataclasses import dataclass, field
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 from pyboxbuilder.enums import ColorMode, LabelMode, PatternType
 
@@ -185,17 +185,43 @@ def decorate_lid(
                 label_w, label_l = max(0.0, width - 2 * margin), max(0.0, length - 2 * margin)
         else:
             from pyboxbuilder.box.features import offset_footprint
+            from pyboxbuilder.lid.label import text_height_for
             from pyboxbuilder.paths import longest_inscribed_rectangle
+
+            def _can_fit_label(w_space: float, l_space: float) -> bool:
+                if w_space <= 0 or l_space <= 0:
+                    return False
+                assert resolved.text is not None
+                return (
+                    text_height_for(
+                        w_space,
+                        l_space,
+                        resolved.text,
+                        border_margin_mm=0.0,
+                        diagonal=resolved.is_diagonal,
+                        label_mode=resolved.mode if mode_str != "single" else LabelMode.FRAMELESS,
+                        label_border_mm=(
+                            resolved.label_border_mm if resolved.label_border_mm is not None else 1.5
+                        ),
+                        label_text_gap_mm=(
+                            resolved.label_text_gap_mm if resolved.label_text_gap_mm is not None else 1.5
+                        ),
+                        max_text_height_mm=resolved.max_text_height,
+                    )
+                    >= resolved.min_text_height
+                )
 
             open_path = offset_footprint(path, margin)
             if len(open_path) < 3 and resolved.border_margin_mm is None:
                 open_path = offset_footprint(path, 5.0)
             if len(open_path) >= 3:
                 rx, ry, rw, rl = longest_inscribed_rectangle(open_path)
-                if (rw <= 0 or rl <= 0) and resolved.border_margin_mm is None:
+                if resolved.border_margin_mm is None and not _can_fit_label(rw, rl):
                     open_path_fallback = offset_footprint(path, 5.0)
                     if len(open_path_fallback) >= 3:
-                        rx, ry, rw, rl = longest_inscribed_rectangle(open_path_fallback)
+                        rx2, ry2, rw2, rl2 = longest_inscribed_rectangle(open_path_fallback)
+                        if _can_fit_label(rw2, rl2) or (rw <= 0 or rl <= 0):
+                            rx, ry, rw, rl = rx2, ry2, rw2, rl2
                 if rw > 0 and rl > 0:
                     center_x = (rx + rw / 2) - origin_x
                     center_y = (ry + rl / 2) - origin_y
@@ -229,7 +255,11 @@ def decorate_lid(
     if resolved.text and label is None:
         result.skipped_label = True
 
-    logo_solid = _build_logo(resolved, width, length, mode_str) if resolved.logo else None
+    logo_parts = _build_logo_parts(resolved, width, length, mode_str) if resolved.logo is not None else None
+    logo_keepout: Bosl2Solid | None = None
+    if logo_parts:
+        for part_solid, _ in logo_parts:
+            logo_keepout = part_solid if logo_keepout is None else (logo_keepout | part_solid)
 
     res_pat = _pattern_of(resolved) if resolved.pattern is not None else None
     if (
@@ -248,7 +278,7 @@ def decorate_lid(
                 mode_str,
                 lid_thickness=lid_thickness,
                 keep_clear=label,
-                logo_keepout=logo_solid,
+                logo_keepout=logo_keepout,
                 label_clearance=resolved.label_clearance,
                 reserved=reserved,
                 path=path,
@@ -264,7 +294,7 @@ def decorate_lid(
                 top_z,
                 lid_thickness,
                 keep_clear=label,
-                logo_keepout=logo_solid,
+                logo_keepout=logo_keepout,
                 label_clearance=resolved.label_clearance,
                 reserved=reserved,
                 path=path,
@@ -287,8 +317,11 @@ def decorate_lid(
     if label is not None:
         _apply_label(result, resolved, label, origin_x, origin_y, top_z, mode_str, lid_thickness)
 
-    if logo_solid is not None:
-        _apply_logo(result, resolved, logo_solid, origin_x, origin_y, top_z, mode_str)
+    if logo_parts:
+        _apply_logo_parts(result, resolved, logo_parts, width, length, origin_x, origin_y, top_z, mode_str)
+
+    if mode_str != "single" and len(result.inserts) > 1:
+        result.inserts = _consolidate_inserts(result.inserts)
 
     return result
 
@@ -366,63 +399,272 @@ def _bounds_center_size(
     )
 
 
-def _build_logo(builder: LidBuilder, width: float, length: float, mode: str) -> Bosl2Solid | None:
-    """Build the logo solid, centered on the lid face."""
-    if not builder.logo:
+def _color_key(color: Color | None) -> tuple[float, float, float, float] | None:
+    """Return a hashable RGBA key for deduplicating inserts by color."""
+    if color is None:
+        return None
+    r, g, b, a = color.rgba
+    return (round(float(r), 4), round(float(g), 4), round(float(b), 4), round(float(a), 4))
+
+
+def _consolidate_inserts(inserts: Sequence[LidInsert]) -> list[LidInsert]:
+    """Merge inserts sharing the same color into one solid per material to minimize color switches."""
+    grouped: dict[tuple[float, float, float, float] | None, tuple[Bosl2Solid, Color | None]] = {}
+    order: list[tuple[float, float, float, float] | None] = []
+    for ins in inserts:
+        k = _color_key(ins.color)
+        if k not in grouped:
+            order.append(k)
+            grouped[k] = (ins.solid, ins.color)
+        else:
+            prev_solid, prev_color = grouped[k]
+            grouped[k] = (prev_solid | ins.solid, prev_color)
+    return [LidInsert(_coloured(grouped[k][0], grouped[k][1]), grouped[k][1]) for k in order]
+
+
+def _extract_colored_solids(
+    solid: Bosl2Solid, fallback_color: Color | None
+) -> list[tuple[Bosl2Solid, Color | None]]:
+    """Extract per-color sub-solids from a possibly multi-colored CSG tree."""
+    import ast
+    import re
+
+    import numpy as np
+    from pybosl2 import Color
+    from pybosl2.shapes3d.base import CsgSolid
+
+    shape = getattr(solid, "shape", None)
+    if shape is None:
+        return [(solid, fallback_color)]
+
+    color_re = re.compile(r"^color\(\s*\[([^\]]+)\]\s*\)")
+    matrix_re = re.compile(r"^multmatrix\(\s*(\[\[.*?\].*?\])\s*\)")
+    parts: list[tuple[Bosl2Solid, Color | None]] = []
+
+    def _with_matrix(node: Any, mat: Any) -> Bosl2Solid:
+        if np.allclose(mat, np.eye(4)):
+            return CsgSolid(node)
+        return CsgSolid(node.multmatrix(mat.tolist()))
+
+    def _walk(node: Any, mat: Any) -> None:
+        header = str(node).splitlines()[0].strip() if str(node) else ""
+        m_col = color_re.match(header)
+        if m_col:
+            vals = [float(v.strip()) for v in m_col.group(1).split(",")]
+            col = Color(vals)
+            ch = node.children()
+            inner = ch[0] if len(ch) == 1 else node
+            parts.append((_with_matrix(inner, mat), col))
+            return
+        m_mat = matrix_re.match(header)
+        if m_mat:
+            local = np.array(ast.literal_eval(m_mat.group(1)), dtype=float)
+            next_mat = mat @ local
+            for cnode in node.children():
+                _walk(cnode, next_mat)
+            return
+        if header.startswith("union(") or header.startswith("group("):
+            for cnode in node.children():
+                _walk(cnode, mat)
+            return
+        parts.append((_with_matrix(node, mat), fallback_color))
+
+    _walk(shape, np.eye(4))
+    return parts or [(solid, fallback_color)]
+
+
+def _to_solid_part(
+    item: Any, depth: float, fallback_color: Color | None
+) -> list[tuple[Bosl2Solid, Color | None]]:
+    """Normalize a single shape/SVG/PatternResult item into positioned 3D colored parts."""
+    from pathlib import Path
+
+    from pybosl2 import Color
+    from pybosl2.svg import regions_from_svg
+
+    if isinstance(item, (str, Path)):
+        path_obj = Path(item)
+        if not path_obj.is_absolute() and not path_obj.exists():
+            repo_root = Path(__file__).resolve().parents[2]
+            resolved_p = repo_root / path_obj
+            if resolved_p.exists():
+                path_obj = resolved_p
+        regions = regions_from_svg(str(path_obj), clip_to_viewbox=False)
+        non_none_keys = {
+            _color_key(getattr(r, "_color", None))
+            for r in regions
+            if getattr(r, "_color", None) is not None
+        }
+        if len(non_none_keys) >= 2:
+            return [
+                (reg.linear_extrude(height=depth), getattr(reg, "_color", None) or fallback_color)
+                for reg in regions
+            ]
+        from pyboxbuilder.compartments.element import _svg_region
+
+        return [(_svg_region(str(path_obj)).linear_extrude(height=depth), fallback_color)]
+
+    if hasattr(item, "inlays"):
+        out: list[tuple[Bosl2Solid, Color | None]] = []
+        for sub_solid, col in item.inlays:
+            resolved_col = col if isinstance(col, Color) else fallback_color
+            out.extend(_to_solid_part(sub_solid, depth, resolved_col))
+        return out
+
+    if hasattr(item, "linear_extrude") and not hasattr(item, "shape"):
+        col = getattr(item, "_color", None) or fallback_color
+        return [(item.linear_extrude(height=depth), col)]
+
+    if hasattr(item, "bounds"):
+        return _extract_colored_solids(item, fallback_color)
+
+    return []
+
+
+def _center_and_scale_parts(
+    parts: list[tuple[Bosl2Solid, Color | None]],
+    logo_w: float,
+    logo_l: float,
+    depth: float,
+    rescale_xy: bool = True,
+) -> list[tuple[Bosl2Solid, Color | None]]:
+    """Center multi-color parts on the origin with base at z=0 and fit within (logo_w, logo_l, depth)."""
+    combined: Bosl2Solid | None = None
+    for s, _ in parts:
+        combined = s if combined is None else (combined | s)
+    if combined is None:
+        return []
+    (cx, cy, cz), (w, l, h) = _bounds_center_size(combined)
+    scale_xy = min(logo_w / max(w, 1e-9), logo_l / max(l, 1e-9)) if (rescale_xy and w > 0 and l > 0) else 1.0
+    scale_z = (depth / h) if h > 0 else 1.0
+    tz = -(cz - h / 2.0)
+    out: list[tuple[Bosl2Solid, Color | None]] = []
+    for s, c in parts:
+        transformed = s.translate([-cx, -cy, tz]).scale([scale_xy, scale_xy, scale_z])
+        out.append((transformed, c))
+    return out
+
+
+def _collect_sequence_parts(
+    items: Sequence[Any], depth: float, fallback: Color | None
+) -> list[tuple[Bosl2Solid, Color | None]]:
+    """Collect colored 3D parts from a sequence of solids, SVGs, or ``(shape, color)`` tuples."""
+    from pybosl2 import Color
+
+    out: list[tuple[Bosl2Solid, Color | None]] = []
+    for entry in items:
+        if isinstance(entry, tuple) and len(entry) == 2:
+            shape_item, entry_col = entry
+            if isinstance(entry_col, str):
+                col: Color | None = Color(entry_col)
+            elif isinstance(entry_col, Color):
+                col = entry_col
+            else:
+                col = fallback
+            out.extend(_to_solid_part(shape_item, depth, col))
+        else:
+            out.extend(_to_solid_part(entry, depth, fallback))
+    return out
+
+
+def _build_logo_parts(
+    builder: LidBuilder, width: float, length: float, mode: str
+) -> list[tuple[Bosl2Solid, Color | None]] | None:
+    """Build single- or multi-colored logo/shape solids, centered on the lid face."""
+    if builder.logo is None or builder.logo == () or builder.logo == []:
         return None
 
-    margin = builder.border_margin_mm or 10.0
+    margin = builder.border_margin
     logo_w = width - 2 * margin
     logo_l = length - 2 * margin
     if logo_w <= 0 or logo_l <= 0:
         return None
 
     depth = INLAY_DEPTH_MM
-    if isinstance(builder.logo, str):
-        from pyboxbuilder.compartments.element import _svg_region
+    raw_logo = builder.logo
+    fallback = builder.logo_color
 
-        raw = _svg_region(builder.logo).linear_extrude(height=depth)
-        (cx, cy, cz), (span_x, span_y, _) = _bounds_center_size(raw)
-        raw = raw.translate([-float(cx), -float(cy), -float(cz) + depth / 2])
-        scale_val = min(logo_w / max(float(span_x), 1e-9), logo_l / max(float(span_y), 1e-9))
-        solid = raw.scale([scale_val, scale_val, 1.0])
-    elif callable(builder.logo):
-        solid = builder.logo(logo_w, logo_l, depth)
+    from pathlib import Path
+
+    if callable(raw_logo):
+        produced = raw_logo(logo_w, logo_l, depth)
+        if produced is None:
+            return None
+        if hasattr(produced, "inlays"):
+            parts = _to_solid_part(produced, depth, fallback)
+        elif isinstance(produced, (list, tuple)):
+            parts = _collect_sequence_parts(produced, depth, fallback)
+        else:
+            parts = _extract_colored_solids(produced, fallback)
+        # Callables already compute layout/scale for (logo_w, logo_l, depth); keep XY as returned
+        parts = [(s.translate([width / 2, length / 2, 0.0]), c) for s, c in parts]
+        return parts or None
+
+    if isinstance(raw_logo, (str, Path)) or hasattr(raw_logo, "inlays"):
+        raw_parts = _to_solid_part(raw_logo, depth, fallback)
+        scaled = _center_and_scale_parts(raw_parts, logo_w, logo_l, depth, rescale_xy=True)
+    elif isinstance(raw_logo, (list, tuple)):
+        raw_parts = _collect_sequence_parts(raw_logo, depth, fallback)
+        scaled = _center_and_scale_parts(raw_parts, logo_w, logo_l, depth, rescale_xy=True)
     else:
-        solid = builder.logo
-        (cx, cy, cz), (w, l, h) = _bounds_center_size(solid)
-        if w > 0 and l > 0 and h > 0:
-            scale_val = min(logo_w / w, logo_l / l)
-            scale_z = depth / h
-            solid = solid.translate([-cx, -cy, -cz + h / 2]).scale([scale_val, scale_val, scale_z])
+        raw_parts = _extract_colored_solids(raw_logo, fallback)
+        scaled = _center_and_scale_parts(raw_parts, logo_w, logo_l, depth, rescale_xy=True)
 
-    offset_x = width / 2
-    offset_y = length / 2
-    return solid.translate([offset_x, offset_y, 0.0])
+    if not scaled:
+        return None
+    return [(s.translate([width / 2, length / 2, 0.0]), c) for s, c in scaled]
 
 
-def _apply_logo(
+def _apply_logo_parts(
     result: DecoratedLid,
     builder: LidBuilder,
-    logo_solid: Bosl2Solid,
+    logo_parts: list[tuple[Bosl2Solid, Color | None]],
+    width: float,
+    length: float,
     origin_x: float,
     origin_y: float,
     top_z: float,
     mode: str,
 ) -> None:
-    """Inlay or engrave the logo into the lid."""
+    """Inlay multi-color shapes strictly in the top inlay layer, or engrave in single mode."""
+    from pyboxbuilder.box.shell import block
 
     def onto_face(solid: Bosl2Solid) -> Bosl2Solid:
         return solid.translate([origin_x, origin_y, top_z - INLAY_DEPTH_MM])
 
     if mode == "single":
-        cut = onto_face(logo_solid).translate([0.0, 0.0, INLAY_DEPTH_MM - ENGRAVE_DEPTH_MM])
-        result.solid = result.solid - cut
+        combined: Bosl2Solid | None = None
+        for part_solid, _ in logo_parts:
+            combined = part_solid if combined is None else (combined | part_solid)
+        if combined is not None:
+            cut = onto_face(combined).translate([0.0, 0.0, INLAY_DEPTH_MM - ENGRAVE_DEPTH_MM])
+            result.solid = result.solid - cut
         return
 
-    inlay = onto_face(logo_solid) & result.solid
-    result.solid = result.solid - inlay
-    result.inserts.append(LidInsert(_coloured(inlay, builder.logo_color), builder.logo_color))
+    # Clip strictly to the top inlay surface zone so backing layers remain single-color
+    top_slab = block(
+        [width + 4.0, length + 4.0, INLAY_DEPTH_MM + 1.0],
+        at=(origin_x - 2.0, origin_y - 2.0, top_z - INLAY_DEPTH_MM),
+    )
+
+    # Group by color in order of appearance so identical colors share a single cutout/insert
+    grouped: dict[tuple[float, float, float, float] | None, tuple[Bosl2Solid, Color | None]] = {}
+    order: list[tuple[float, float, float, float] | None] = []
+    for part_solid, part_color in logo_parts:
+        c = part_color if part_color is not None else builder.logo_color
+        k = _color_key(c)
+        if k not in grouped:
+            order.append(k)
+            grouped[k] = (part_solid, c)
+        else:
+            prev_solid, prev_col = grouped[k]
+            grouped[k] = (prev_solid | part_solid, prev_col)
+
+    for k in order:
+        part_solid, colour = grouped[k]
+        inlay = onto_face(part_solid) & top_slab & result.solid
+        result.solid = result.solid - inlay
+        result.inserts.append(LidInsert(_coloured(inlay, colour), colour))
 
 
 KEEPOUT_DIRECTIONS = 12

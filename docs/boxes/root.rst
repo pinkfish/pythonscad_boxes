@@ -15,12 +15,12 @@ Full Box Packing
 
 Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
-.. stl:: ../_stl/boxes/root/BaseCardBox_body.stl?v=87cdf4b3,../_stl/boxes/root/BaseCardBox_lid.stl?v=2b4cdc23,../_stl/boxes/root/ErieCardBox_body.stl?v=dc3a6360,../_stl/boxes/root/ErieCardBox_lid.stl?v=922154cd,../_stl/boxes/root/VagabondCardBox_body.stl?v=24f41ab7,../_stl/boxes/root/VagabondCardBox_lid.stl?v=570ee277,../_stl/boxes/root/OverviewCardBox_body.stl?v=d0207bc6,../_stl/boxes/root/OverviewCardBox_lid.stl?v=9a1d93dd,../_stl/boxes/root/ItemsBoxBottom_body.stl?v=409e33c7,../_stl/boxes/root/ItemsBoxBottom_lid.stl?v=a5c90fec,../_stl/boxes/root/ItemsBoxMiddle_body.stl?v=97d6e033,../_stl/boxes/root/ItemsBoxMiddle_lid.stl?v=ce4a8cb4,../_stl/boxes/root/ItemsBoxWinter_body.stl?v=6cf0eda1,../_stl/boxes/root/ItemsBoxWinter_lid.stl?v=9cff30da,../_stl/boxes/root/ItemsBoxExtras_body.stl?v=9b03fa0a,../_stl/boxes/root/ItemsBoxExtras_lid.stl?v=0fdecd64,../_stl/boxes/root/MarquisBoxBottom_body.stl?v=b22d8106,../_stl/boxes/root/MarquisBoxBottom_lid.stl?v=e6b19aeb,../_stl/boxes/root/MarquisBoxTop_body.stl?v=16295e09,../_stl/boxes/root/MarquisBoxTop_lid.stl?v=962d873a,../_stl/boxes/root/ErieBoxBottom_body.stl?v=5b0ab23f,../_stl/boxes/root/ErieBoxBottom_lid.stl?v=0b3820d0,../_stl/boxes/root/ErieBoxTop_body.stl?v=3c4319e9,../_stl/boxes/root/ErieBoxTop_lid.stl?v=2b396855,../_stl/boxes/root/AllianceBoxBottom_body.stl?v=5eed719b,../_stl/boxes/root/AllianceBoxBottom_lid.stl?v=318a214d,../_stl/boxes/root/AllianceBoxTop_body.stl?v=600177c8,../_stl/boxes/root/AllianceBoxTop_lid.stl?v=48562247,../_stl/boxes/root/LizardBoxBottom_body.stl?v=7405a2e9,../_stl/boxes/root/LizardBoxBottom_lid.stl?v=53d35e02,../_stl/boxes/root/LizardBoxTop_body.stl?v=88b67de2,../_stl/boxes/root/LizardBoxTop_lid.stl?v=c669c35a,../_stl/boxes/root/RiverfolkBoxBottom_body.stl?v=35e4239a,../_stl/boxes/root/RiverfolkBoxBottom_lid.stl?v=1b293a15,../_stl/boxes/root/RiverfolkBoxTop_body.stl?v=921c02ff,../_stl/boxes/root/RiverfolkBoxTop_lid.stl?v=5dec815b,../_stl/boxes/root/VagabondBox_body.stl?v=3cbf1628,../_stl/boxes/root/VagabondBox_lid.stl?v=05d05c56,../_stl/boxes/root/DiceBox_body.stl?v=2f5e1e2d,../_stl/boxes/root/DiceBox_lid.stl?v=39e0b445,../_stl/boxes/root/spacer_1.stl?v=d9a8f56f,../_stl/boxes/root/spacer_2.stl?v=d12207d8,../_stl/boxes/root/spacer_3.stl?v=a44cf160
+.. stl:: ../_stl/boxes/root/BaseCardBox_body.stl?v=87cdf4b3,../_stl/boxes/root/BaseCardBox_lid.stl?v=6400a200,../_stl/boxes/root/ErieCardBox_body.stl?v=dc3a6360,../_stl/boxes/root/ErieCardBox_lid.stl?v=2ff9e4b7,../_stl/boxes/root/VagabondCardBox_body.stl?v=24f41ab7,../_stl/boxes/root/VagabondCardBox_lid.stl?v=d7404c7a,../_stl/boxes/root/OverviewCardBox_body.stl?v=d0207bc6,../_stl/boxes/root/OverviewCardBox_lid.stl?v=fb93103c,../_stl/boxes/root/ItemsBoxBottom_body.stl?v=409e33c7,../_stl/boxes/root/ItemsBoxBottom_lid.stl?v=3fb8b4e3,../_stl/boxes/root/ItemsBoxMiddle_body.stl?v=97d6e033,../_stl/boxes/root/ItemsBoxMiddle_lid.stl?v=880668d5,../_stl/boxes/root/ItemsBoxWinter_body.stl?v=6cf0eda1,../_stl/boxes/root/ItemsBoxWinter_lid.stl?v=1dc51b5e,../_stl/boxes/root/ItemsBoxExtras_body.stl?v=9b03fa0a,../_stl/boxes/root/ItemsBoxExtras_lid.stl?v=e288042e,../_stl/boxes/root/MarquisBoxBottom_body.stl?v=b22d8106,../_stl/boxes/root/MarquisBoxBottom_lid.stl?v=c2a73e8e,../_stl/boxes/root/MarquisBoxTop_body.stl?v=16295e09,../_stl/boxes/root/MarquisBoxTop_lid.stl?v=bbeaeb4c,../_stl/boxes/root/ErieBoxBottom_body.stl?v=5b0ab23f,../_stl/boxes/root/ErieBoxBottom_lid.stl?v=34cbb8b7,../_stl/boxes/root/ErieBoxTop_body.stl?v=3c4319e9,../_stl/boxes/root/ErieBoxTop_lid.stl?v=e87a5d4c,../_stl/boxes/root/AllianceBoxBottom_body.stl?v=5eed719b,../_stl/boxes/root/AllianceBoxBottom_lid.stl?v=b6a8cd64,../_stl/boxes/root/AllianceBoxTop_body.stl?v=600177c8,../_stl/boxes/root/AllianceBoxTop_lid.stl?v=100c4853,../_stl/boxes/root/LizardBoxBottom_body.stl?v=7405a2e9,../_stl/boxes/root/LizardBoxBottom_lid.stl?v=137fb469,../_stl/boxes/root/LizardBoxTop_body.stl?v=88b67de2,../_stl/boxes/root/LizardBoxTop_lid.stl?v=1c527786,../_stl/boxes/root/RiverfolkBoxBottom_body.stl?v=35e4239a,../_stl/boxes/root/RiverfolkBoxBottom_lid.stl?v=ca2fe393,../_stl/boxes/root/RiverfolkBoxTop_body.stl?v=921c02ff,../_stl/boxes/root/RiverfolkBoxTop_lid.stl?v=7db92c32,../_stl/boxes/root/VagabondBox_body.stl?v=3cbf1628,../_stl/boxes/root/VagabondBox_lid.stl?v=a3eddb5f,../_stl/boxes/root/DiceBox_body.stl?v=2f5e1e2d,../_stl/boxes/root/DiceBox_lid.stl?v=4f31d62c,../_stl/boxes/root/spacer_1.stl?v=d9a8f56f,../_stl/boxes/root/spacer_2.stl?v=d12207d8,../_stl/boxes/root/spacer_3.stl?v=a44cf160
    :height: 440px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/root/BaseCardBox_body.stl?v=87cdf4b3" data-stl-combine="../_stl/boxes/root/BaseCardBox_body.stl?v=87cdf4b3,../_stl/boxes/root/BaseCardBox_lid.stl?v=2b4cdc23,../_stl/boxes/root/ErieCardBox_body.stl?v=dc3a6360,../_stl/boxes/root/ErieCardBox_lid.stl?v=922154cd,../_stl/boxes/root/VagabondCardBox_body.stl?v=24f41ab7,../_stl/boxes/root/VagabondCardBox_lid.stl?v=570ee277,../_stl/boxes/root/OverviewCardBox_body.stl?v=d0207bc6,../_stl/boxes/root/OverviewCardBox_lid.stl?v=9a1d93dd,../_stl/boxes/root/ItemsBoxBottom_body.stl?v=409e33c7,../_stl/boxes/root/ItemsBoxBottom_lid.stl?v=a5c90fec,../_stl/boxes/root/ItemsBoxMiddle_body.stl?v=97d6e033,../_stl/boxes/root/ItemsBoxMiddle_lid.stl?v=ce4a8cb4,../_stl/boxes/root/ItemsBoxWinter_body.stl?v=6cf0eda1,../_stl/boxes/root/ItemsBoxWinter_lid.stl?v=9cff30da,../_stl/boxes/root/ItemsBoxExtras_body.stl?v=9b03fa0a,../_stl/boxes/root/ItemsBoxExtras_lid.stl?v=0fdecd64,../_stl/boxes/root/MarquisBoxBottom_body.stl?v=b22d8106,../_stl/boxes/root/MarquisBoxBottom_lid.stl?v=e6b19aeb,../_stl/boxes/root/MarquisBoxTop_body.stl?v=16295e09,../_stl/boxes/root/MarquisBoxTop_lid.stl?v=962d873a,../_stl/boxes/root/ErieBoxBottom_body.stl?v=5b0ab23f,../_stl/boxes/root/ErieBoxBottom_lid.stl?v=0b3820d0,../_stl/boxes/root/ErieBoxTop_body.stl?v=3c4319e9,../_stl/boxes/root/ErieBoxTop_lid.stl?v=2b396855,../_stl/boxes/root/AllianceBoxBottom_body.stl?v=5eed719b,../_stl/boxes/root/AllianceBoxBottom_lid.stl?v=318a214d,../_stl/boxes/root/AllianceBoxTop_body.stl?v=600177c8,../_stl/boxes/root/AllianceBoxTop_lid.stl?v=48562247,../_stl/boxes/root/LizardBoxBottom_body.stl?v=7405a2e9,../_stl/boxes/root/LizardBoxBottom_lid.stl?v=53d35e02,../_stl/boxes/root/LizardBoxTop_body.stl?v=88b67de2,../_stl/boxes/root/LizardBoxTop_lid.stl?v=c669c35a,../_stl/boxes/root/RiverfolkBoxBottom_body.stl?v=35e4239a,../_stl/boxes/root/RiverfolkBoxBottom_lid.stl?v=1b293a15,../_stl/boxes/root/RiverfolkBoxTop_body.stl?v=921c02ff,../_stl/boxes/root/RiverfolkBoxTop_lid.stl?v=5dec815b,../_stl/boxes/root/VagabondBox_body.stl?v=3cbf1628,../_stl/boxes/root/VagabondBox_lid.stl?v=05d05c56,../_stl/boxes/root/DiceBox_body.stl?v=2f5e1e2d,../_stl/boxes/root/DiceBox_lid.stl?v=39e0b445,../_stl/boxes/root/spacer_1.stl?v=d9a8f56f,../_stl/boxes/root/spacer_2.stl?v=d12207d8,../_stl/boxes/root/spacer_3.stl?v=a44cf160" download="Root_full_packing.stl">⬇ Download Full Box Packing STL (<code>Root_full_packing.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/root/BaseCardBox_body.stl?v=87cdf4b3" data-stl-combine="../_stl/boxes/root/BaseCardBox_body.stl?v=87cdf4b3,../_stl/boxes/root/BaseCardBox_lid.stl?v=6400a200,../_stl/boxes/root/ErieCardBox_body.stl?v=dc3a6360,../_stl/boxes/root/ErieCardBox_lid.stl?v=2ff9e4b7,../_stl/boxes/root/VagabondCardBox_body.stl?v=24f41ab7,../_stl/boxes/root/VagabondCardBox_lid.stl?v=d7404c7a,../_stl/boxes/root/OverviewCardBox_body.stl?v=d0207bc6,../_stl/boxes/root/OverviewCardBox_lid.stl?v=fb93103c,../_stl/boxes/root/ItemsBoxBottom_body.stl?v=409e33c7,../_stl/boxes/root/ItemsBoxBottom_lid.stl?v=3fb8b4e3,../_stl/boxes/root/ItemsBoxMiddle_body.stl?v=97d6e033,../_stl/boxes/root/ItemsBoxMiddle_lid.stl?v=880668d5,../_stl/boxes/root/ItemsBoxWinter_body.stl?v=6cf0eda1,../_stl/boxes/root/ItemsBoxWinter_lid.stl?v=1dc51b5e,../_stl/boxes/root/ItemsBoxExtras_body.stl?v=9b03fa0a,../_stl/boxes/root/ItemsBoxExtras_lid.stl?v=e288042e,../_stl/boxes/root/MarquisBoxBottom_body.stl?v=b22d8106,../_stl/boxes/root/MarquisBoxBottom_lid.stl?v=c2a73e8e,../_stl/boxes/root/MarquisBoxTop_body.stl?v=16295e09,../_stl/boxes/root/MarquisBoxTop_lid.stl?v=bbeaeb4c,../_stl/boxes/root/ErieBoxBottom_body.stl?v=5b0ab23f,../_stl/boxes/root/ErieBoxBottom_lid.stl?v=34cbb8b7,../_stl/boxes/root/ErieBoxTop_body.stl?v=3c4319e9,../_stl/boxes/root/ErieBoxTop_lid.stl?v=e87a5d4c,../_stl/boxes/root/AllianceBoxBottom_body.stl?v=5eed719b,../_stl/boxes/root/AllianceBoxBottom_lid.stl?v=b6a8cd64,../_stl/boxes/root/AllianceBoxTop_body.stl?v=600177c8,../_stl/boxes/root/AllianceBoxTop_lid.stl?v=100c4853,../_stl/boxes/root/LizardBoxBottom_body.stl?v=7405a2e9,../_stl/boxes/root/LizardBoxBottom_lid.stl?v=137fb469,../_stl/boxes/root/LizardBoxTop_body.stl?v=88b67de2,../_stl/boxes/root/LizardBoxTop_lid.stl?v=1c527786,../_stl/boxes/root/RiverfolkBoxBottom_body.stl?v=35e4239a,../_stl/boxes/root/RiverfolkBoxBottom_lid.stl?v=ca2fe393,../_stl/boxes/root/RiverfolkBoxTop_body.stl?v=921c02ff,../_stl/boxes/root/RiverfolkBoxTop_lid.stl?v=7db92c32,../_stl/boxes/root/VagabondBox_body.stl?v=3cbf1628,../_stl/boxes/root/VagabondBox_lid.stl?v=a3eddb5f,../_stl/boxes/root/DiceBox_body.stl?v=2f5e1e2d,../_stl/boxes/root/DiceBox_lid.stl?v=4f31d62c,../_stl/boxes/root/spacer_1.stl?v=d9a8f56f,../_stl/boxes/root/spacer_2.stl?v=d12207d8,../_stl/boxes/root/spacer_3.stl?v=a44cf160" download="Root_full_packing.stl">⬇ Download Full Box Packing STL (<code>Root_full_packing.stl</code>)</a></p>
 
 Parts Overview
 --------------
@@ -165,12 +165,12 @@ BaseCardBox
 
 **Assembled Box (BaseCardBox — Body + Lid)**
 
-.. stl:: ../_stl/boxes/root/BaseCardBox_body.stl?v=87cdf4b3,../_stl/boxes/root/BaseCardBox_lid.stl?v=2b4cdc23
+.. stl:: ../_stl/boxes/root/BaseCardBox_body.stl?v=87cdf4b3,../_stl/boxes/root/BaseCardBox_lid.stl?v=6400a200
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/root/BaseCardBox_body.stl?v=87cdf4b3" data-stl-combine="../_stl/boxes/root/BaseCardBox_body.stl?v=87cdf4b3,../_stl/boxes/root/BaseCardBox_lid.stl?v=2b4cdc23" download="BaseCardBox_assembled.stl">⬇ Download Assembled BaseCardBox STL (<code>BaseCardBox_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/root/BaseCardBox_body.stl?v=87cdf4b3" data-stl-combine="../_stl/boxes/root/BaseCardBox_body.stl?v=87cdf4b3,../_stl/boxes/root/BaseCardBox_lid.stl?v=6400a200" download="BaseCardBox_assembled.stl">⬇ Download Assembled BaseCardBox STL (<code>BaseCardBox_assembled.stl</code>)</a></p>
 
 **Part: BaseCardBox Body**
 
@@ -183,12 +183,12 @@ BaseCardBox
 
 **Part: BaseCardBox Lid**
 
-.. stl:: ../_stl/boxes/root/BaseCardBox_lid.stl?v=2b4cdc23
+.. stl:: ../_stl/boxes/root/BaseCardBox_lid.stl?v=6400a200
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/root/BaseCardBox_lid.stl?v=2b4cdc23" download="BaseCardBox_lid.stl">⬇ Download BaseCardBox Lid STL (<code>BaseCardBox_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/root/BaseCardBox_lid.stl?v=6400a200" download="BaseCardBox_lid.stl">⬇ Download BaseCardBox Lid STL (<code>BaseCardBox_lid.stl</code>)</a></p>
 
 .. _box-root-eriecardbox:
 
@@ -204,12 +204,12 @@ ErieCardBox
 
 **Assembled Box (ErieCardBox — Body + Lid)**
 
-.. stl:: ../_stl/boxes/root/ErieCardBox_body.stl?v=dc3a6360,../_stl/boxes/root/ErieCardBox_lid.stl?v=922154cd
+.. stl:: ../_stl/boxes/root/ErieCardBox_body.stl?v=dc3a6360,../_stl/boxes/root/ErieCardBox_lid.stl?v=2ff9e4b7
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/root/ErieCardBox_body.stl?v=dc3a6360" data-stl-combine="../_stl/boxes/root/ErieCardBox_body.stl?v=dc3a6360,../_stl/boxes/root/ErieCardBox_lid.stl?v=922154cd" download="ErieCardBox_assembled.stl">⬇ Download Assembled ErieCardBox STL (<code>ErieCardBox_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/root/ErieCardBox_body.stl?v=dc3a6360" data-stl-combine="../_stl/boxes/root/ErieCardBox_body.stl?v=dc3a6360,../_stl/boxes/root/ErieCardBox_lid.stl?v=2ff9e4b7" download="ErieCardBox_assembled.stl">⬇ Download Assembled ErieCardBox STL (<code>ErieCardBox_assembled.stl</code>)</a></p>
 
 **Part: ErieCardBox Body**
 
@@ -222,12 +222,12 @@ ErieCardBox
 
 **Part: ErieCardBox Lid**
 
-.. stl:: ../_stl/boxes/root/ErieCardBox_lid.stl?v=922154cd
+.. stl:: ../_stl/boxes/root/ErieCardBox_lid.stl?v=2ff9e4b7
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/root/ErieCardBox_lid.stl?v=922154cd" download="ErieCardBox_lid.stl">⬇ Download ErieCardBox Lid STL (<code>ErieCardBox_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/root/ErieCardBox_lid.stl?v=2ff9e4b7" download="ErieCardBox_lid.stl">⬇ Download ErieCardBox Lid STL (<code>ErieCardBox_lid.stl</code>)</a></p>
 
 .. _box-root-vagabondcardbox:
 
@@ -243,12 +243,12 @@ VagabondCardBox
 
 **Assembled Box (VagabondCardBox — Body + Lid)**
 
-.. stl:: ../_stl/boxes/root/VagabondCardBox_body.stl?v=24f41ab7,../_stl/boxes/root/VagabondCardBox_lid.stl?v=570ee277
+.. stl:: ../_stl/boxes/root/VagabondCardBox_body.stl?v=24f41ab7,../_stl/boxes/root/VagabondCardBox_lid.stl?v=d7404c7a
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/root/VagabondCardBox_body.stl?v=24f41ab7" data-stl-combine="../_stl/boxes/root/VagabondCardBox_body.stl?v=24f41ab7,../_stl/boxes/root/VagabondCardBox_lid.stl?v=570ee277" download="VagabondCardBox_assembled.stl">⬇ Download Assembled VagabondCardBox STL (<code>VagabondCardBox_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/root/VagabondCardBox_body.stl?v=24f41ab7" data-stl-combine="../_stl/boxes/root/VagabondCardBox_body.stl?v=24f41ab7,../_stl/boxes/root/VagabondCardBox_lid.stl?v=d7404c7a" download="VagabondCardBox_assembled.stl">⬇ Download Assembled VagabondCardBox STL (<code>VagabondCardBox_assembled.stl</code>)</a></p>
 
 **Part: VagabondCardBox Body**
 
@@ -261,12 +261,12 @@ VagabondCardBox
 
 **Part: VagabondCardBox Lid**
 
-.. stl:: ../_stl/boxes/root/VagabondCardBox_lid.stl?v=570ee277
+.. stl:: ../_stl/boxes/root/VagabondCardBox_lid.stl?v=d7404c7a
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/root/VagabondCardBox_lid.stl?v=570ee277" download="VagabondCardBox_lid.stl">⬇ Download VagabondCardBox Lid STL (<code>VagabondCardBox_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/root/VagabondCardBox_lid.stl?v=d7404c7a" download="VagabondCardBox_lid.stl">⬇ Download VagabondCardBox Lid STL (<code>VagabondCardBox_lid.stl</code>)</a></p>
 
 .. _box-root-overviewcardbox:
 
@@ -282,12 +282,12 @@ OverviewCardBox
 
 **Assembled Box (OverviewCardBox — Body + Lid)**
 
-.. stl:: ../_stl/boxes/root/OverviewCardBox_body.stl?v=d0207bc6,../_stl/boxes/root/OverviewCardBox_lid.stl?v=9a1d93dd
+.. stl:: ../_stl/boxes/root/OverviewCardBox_body.stl?v=d0207bc6,../_stl/boxes/root/OverviewCardBox_lid.stl?v=fb93103c
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/root/OverviewCardBox_body.stl?v=d0207bc6" data-stl-combine="../_stl/boxes/root/OverviewCardBox_body.stl?v=d0207bc6,../_stl/boxes/root/OverviewCardBox_lid.stl?v=9a1d93dd" download="OverviewCardBox_assembled.stl">⬇ Download Assembled OverviewCardBox STL (<code>OverviewCardBox_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/root/OverviewCardBox_body.stl?v=d0207bc6" data-stl-combine="../_stl/boxes/root/OverviewCardBox_body.stl?v=d0207bc6,../_stl/boxes/root/OverviewCardBox_lid.stl?v=fb93103c" download="OverviewCardBox_assembled.stl">⬇ Download Assembled OverviewCardBox STL (<code>OverviewCardBox_assembled.stl</code>)</a></p>
 
 **Part: OverviewCardBox Body**
 
@@ -300,12 +300,12 @@ OverviewCardBox
 
 **Part: OverviewCardBox Lid**
 
-.. stl:: ../_stl/boxes/root/OverviewCardBox_lid.stl?v=9a1d93dd
+.. stl:: ../_stl/boxes/root/OverviewCardBox_lid.stl?v=fb93103c
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/root/OverviewCardBox_lid.stl?v=9a1d93dd" download="OverviewCardBox_lid.stl">⬇ Download OverviewCardBox Lid STL (<code>OverviewCardBox_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/root/OverviewCardBox_lid.stl?v=fb93103c" download="OverviewCardBox_lid.stl">⬇ Download OverviewCardBox Lid STL (<code>OverviewCardBox_lid.stl</code>)</a></p>
 
 .. _box-root-itemsboxbottom:
 
@@ -321,12 +321,12 @@ ItemsBoxBottom
 
 **Assembled Box (ItemsBoxBottom — Body + Lid)**
 
-.. stl:: ../_stl/boxes/root/ItemsBoxBottom_body.stl?v=409e33c7,../_stl/boxes/root/ItemsBoxBottom_lid.stl?v=a5c90fec
+.. stl:: ../_stl/boxes/root/ItemsBoxBottom_body.stl?v=409e33c7,../_stl/boxes/root/ItemsBoxBottom_lid.stl?v=3fb8b4e3
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/root/ItemsBoxBottom_body.stl?v=409e33c7" data-stl-combine="../_stl/boxes/root/ItemsBoxBottom_body.stl?v=409e33c7,../_stl/boxes/root/ItemsBoxBottom_lid.stl?v=a5c90fec" download="ItemsBoxBottom_assembled.stl">⬇ Download Assembled ItemsBoxBottom STL (<code>ItemsBoxBottom_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/root/ItemsBoxBottom_body.stl?v=409e33c7" data-stl-combine="../_stl/boxes/root/ItemsBoxBottom_body.stl?v=409e33c7,../_stl/boxes/root/ItemsBoxBottom_lid.stl?v=3fb8b4e3" download="ItemsBoxBottom_assembled.stl">⬇ Download Assembled ItemsBoxBottom STL (<code>ItemsBoxBottom_assembled.stl</code>)</a></p>
 
 **Part: ItemsBoxBottom Body**
 
@@ -339,12 +339,12 @@ ItemsBoxBottom
 
 **Part: ItemsBoxBottom Lid**
 
-.. stl:: ../_stl/boxes/root/ItemsBoxBottom_lid.stl?v=a5c90fec
+.. stl:: ../_stl/boxes/root/ItemsBoxBottom_lid.stl?v=3fb8b4e3
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/root/ItemsBoxBottom_lid.stl?v=a5c90fec" download="ItemsBoxBottom_lid.stl">⬇ Download ItemsBoxBottom Lid STL (<code>ItemsBoxBottom_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/root/ItemsBoxBottom_lid.stl?v=3fb8b4e3" download="ItemsBoxBottom_lid.stl">⬇ Download ItemsBoxBottom Lid STL (<code>ItemsBoxBottom_lid.stl</code>)</a></p>
 
 .. _box-root-itemsboxmiddle:
 
@@ -360,12 +360,12 @@ ItemsBoxMiddle
 
 **Assembled Box (ItemsBoxMiddle — Body + Lid)**
 
-.. stl:: ../_stl/boxes/root/ItemsBoxMiddle_body.stl?v=97d6e033,../_stl/boxes/root/ItemsBoxMiddle_lid.stl?v=ce4a8cb4
+.. stl:: ../_stl/boxes/root/ItemsBoxMiddle_body.stl?v=97d6e033,../_stl/boxes/root/ItemsBoxMiddle_lid.stl?v=880668d5
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/root/ItemsBoxMiddle_body.stl?v=97d6e033" data-stl-combine="../_stl/boxes/root/ItemsBoxMiddle_body.stl?v=97d6e033,../_stl/boxes/root/ItemsBoxMiddle_lid.stl?v=ce4a8cb4" download="ItemsBoxMiddle_assembled.stl">⬇ Download Assembled ItemsBoxMiddle STL (<code>ItemsBoxMiddle_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/root/ItemsBoxMiddle_body.stl?v=97d6e033" data-stl-combine="../_stl/boxes/root/ItemsBoxMiddle_body.stl?v=97d6e033,../_stl/boxes/root/ItemsBoxMiddle_lid.stl?v=880668d5" download="ItemsBoxMiddle_assembled.stl">⬇ Download Assembled ItemsBoxMiddle STL (<code>ItemsBoxMiddle_assembled.stl</code>)</a></p>
 
 **Part: ItemsBoxMiddle Body**
 
@@ -378,12 +378,12 @@ ItemsBoxMiddle
 
 **Part: ItemsBoxMiddle Lid**
 
-.. stl:: ../_stl/boxes/root/ItemsBoxMiddle_lid.stl?v=ce4a8cb4
+.. stl:: ../_stl/boxes/root/ItemsBoxMiddle_lid.stl?v=880668d5
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/root/ItemsBoxMiddle_lid.stl?v=ce4a8cb4" download="ItemsBoxMiddle_lid.stl">⬇ Download ItemsBoxMiddle Lid STL (<code>ItemsBoxMiddle_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/root/ItemsBoxMiddle_lid.stl?v=880668d5" download="ItemsBoxMiddle_lid.stl">⬇ Download ItemsBoxMiddle Lid STL (<code>ItemsBoxMiddle_lid.stl</code>)</a></p>
 
 .. _box-root-itemsboxwinter:
 
@@ -399,12 +399,12 @@ ItemsBoxWinter
 
 **Assembled Box (ItemsBoxWinter — Body + Lid)**
 
-.. stl:: ../_stl/boxes/root/ItemsBoxWinter_body.stl?v=6cf0eda1,../_stl/boxes/root/ItemsBoxWinter_lid.stl?v=9cff30da
+.. stl:: ../_stl/boxes/root/ItemsBoxWinter_body.stl?v=6cf0eda1,../_stl/boxes/root/ItemsBoxWinter_lid.stl?v=1dc51b5e
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/root/ItemsBoxWinter_body.stl?v=6cf0eda1" data-stl-combine="../_stl/boxes/root/ItemsBoxWinter_body.stl?v=6cf0eda1,../_stl/boxes/root/ItemsBoxWinter_lid.stl?v=9cff30da" download="ItemsBoxWinter_assembled.stl">⬇ Download Assembled ItemsBoxWinter STL (<code>ItemsBoxWinter_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/root/ItemsBoxWinter_body.stl?v=6cf0eda1" data-stl-combine="../_stl/boxes/root/ItemsBoxWinter_body.stl?v=6cf0eda1,../_stl/boxes/root/ItemsBoxWinter_lid.stl?v=1dc51b5e" download="ItemsBoxWinter_assembled.stl">⬇ Download Assembled ItemsBoxWinter STL (<code>ItemsBoxWinter_assembled.stl</code>)</a></p>
 
 **Part: ItemsBoxWinter Body**
 
@@ -417,12 +417,12 @@ ItemsBoxWinter
 
 **Part: ItemsBoxWinter Lid**
 
-.. stl:: ../_stl/boxes/root/ItemsBoxWinter_lid.stl?v=9cff30da
+.. stl:: ../_stl/boxes/root/ItemsBoxWinter_lid.stl?v=1dc51b5e
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/root/ItemsBoxWinter_lid.stl?v=9cff30da" download="ItemsBoxWinter_lid.stl">⬇ Download ItemsBoxWinter Lid STL (<code>ItemsBoxWinter_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/root/ItemsBoxWinter_lid.stl?v=1dc51b5e" download="ItemsBoxWinter_lid.stl">⬇ Download ItemsBoxWinter Lid STL (<code>ItemsBoxWinter_lid.stl</code>)</a></p>
 
 .. _box-root-itemsboxextras:
 
@@ -438,12 +438,12 @@ ItemsBoxExtras
 
 **Assembled Box (ItemsBoxExtras — Body + Lid)**
 
-.. stl:: ../_stl/boxes/root/ItemsBoxExtras_body.stl?v=9b03fa0a,../_stl/boxes/root/ItemsBoxExtras_lid.stl?v=0fdecd64
+.. stl:: ../_stl/boxes/root/ItemsBoxExtras_body.stl?v=9b03fa0a,../_stl/boxes/root/ItemsBoxExtras_lid.stl?v=e288042e
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/root/ItemsBoxExtras_body.stl?v=9b03fa0a" data-stl-combine="../_stl/boxes/root/ItemsBoxExtras_body.stl?v=9b03fa0a,../_stl/boxes/root/ItemsBoxExtras_lid.stl?v=0fdecd64" download="ItemsBoxExtras_assembled.stl">⬇ Download Assembled ItemsBoxExtras STL (<code>ItemsBoxExtras_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/root/ItemsBoxExtras_body.stl?v=9b03fa0a" data-stl-combine="../_stl/boxes/root/ItemsBoxExtras_body.stl?v=9b03fa0a,../_stl/boxes/root/ItemsBoxExtras_lid.stl?v=e288042e" download="ItemsBoxExtras_assembled.stl">⬇ Download Assembled ItemsBoxExtras STL (<code>ItemsBoxExtras_assembled.stl</code>)</a></p>
 
 **Part: ItemsBoxExtras Body**
 
@@ -456,12 +456,12 @@ ItemsBoxExtras
 
 **Part: ItemsBoxExtras Lid**
 
-.. stl:: ../_stl/boxes/root/ItemsBoxExtras_lid.stl?v=0fdecd64
+.. stl:: ../_stl/boxes/root/ItemsBoxExtras_lid.stl?v=e288042e
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/root/ItemsBoxExtras_lid.stl?v=0fdecd64" download="ItemsBoxExtras_lid.stl">⬇ Download ItemsBoxExtras Lid STL (<code>ItemsBoxExtras_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/root/ItemsBoxExtras_lid.stl?v=e288042e" download="ItemsBoxExtras_lid.stl">⬇ Download ItemsBoxExtras Lid STL (<code>ItemsBoxExtras_lid.stl</code>)</a></p>
 
 .. _box-root-marquisboxbottom:
 
@@ -475,12 +475,12 @@ MarquisBoxBottom
 
 **Assembled Box (MarquisBoxBottom — Body + Lid)**
 
-.. stl:: ../_stl/boxes/root/MarquisBoxBottom_body.stl?v=b22d8106,../_stl/boxes/root/MarquisBoxBottom_lid.stl?v=e6b19aeb
+.. stl:: ../_stl/boxes/root/MarquisBoxBottom_body.stl?v=b22d8106,../_stl/boxes/root/MarquisBoxBottom_lid.stl?v=c2a73e8e
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/root/MarquisBoxBottom_body.stl?v=b22d8106" data-stl-combine="../_stl/boxes/root/MarquisBoxBottom_body.stl?v=b22d8106,../_stl/boxes/root/MarquisBoxBottom_lid.stl?v=e6b19aeb" download="MarquisBoxBottom_assembled.stl">⬇ Download Assembled MarquisBoxBottom STL (<code>MarquisBoxBottom_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/root/MarquisBoxBottom_body.stl?v=b22d8106" data-stl-combine="../_stl/boxes/root/MarquisBoxBottom_body.stl?v=b22d8106,../_stl/boxes/root/MarquisBoxBottom_lid.stl?v=c2a73e8e" download="MarquisBoxBottom_assembled.stl">⬇ Download Assembled MarquisBoxBottom STL (<code>MarquisBoxBottom_assembled.stl</code>)</a></p>
 
 **Part: MarquisBoxBottom Body**
 
@@ -493,12 +493,12 @@ MarquisBoxBottom
 
 **Part: MarquisBoxBottom Lid**
 
-.. stl:: ../_stl/boxes/root/MarquisBoxBottom_lid.stl?v=e6b19aeb
+.. stl:: ../_stl/boxes/root/MarquisBoxBottom_lid.stl?v=c2a73e8e
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/root/MarquisBoxBottom_lid.stl?v=e6b19aeb" download="MarquisBoxBottom_lid.stl">⬇ Download MarquisBoxBottom Lid STL (<code>MarquisBoxBottom_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/root/MarquisBoxBottom_lid.stl?v=c2a73e8e" download="MarquisBoxBottom_lid.stl">⬇ Download MarquisBoxBottom Lid STL (<code>MarquisBoxBottom_lid.stl</code>)</a></p>
 
 .. _box-root-marquisboxtop:
 
@@ -512,12 +512,12 @@ MarquisBoxTop
 
 **Assembled Box (MarquisBoxTop — Body + Lid)**
 
-.. stl:: ../_stl/boxes/root/MarquisBoxTop_body.stl?v=16295e09,../_stl/boxes/root/MarquisBoxTop_lid.stl?v=962d873a
+.. stl:: ../_stl/boxes/root/MarquisBoxTop_body.stl?v=16295e09,../_stl/boxes/root/MarquisBoxTop_lid.stl?v=bbeaeb4c
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/root/MarquisBoxTop_body.stl?v=16295e09" data-stl-combine="../_stl/boxes/root/MarquisBoxTop_body.stl?v=16295e09,../_stl/boxes/root/MarquisBoxTop_lid.stl?v=962d873a" download="MarquisBoxTop_assembled.stl">⬇ Download Assembled MarquisBoxTop STL (<code>MarquisBoxTop_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/root/MarquisBoxTop_body.stl?v=16295e09" data-stl-combine="../_stl/boxes/root/MarquisBoxTop_body.stl?v=16295e09,../_stl/boxes/root/MarquisBoxTop_lid.stl?v=bbeaeb4c" download="MarquisBoxTop_assembled.stl">⬇ Download Assembled MarquisBoxTop STL (<code>MarquisBoxTop_assembled.stl</code>)</a></p>
 
 **Part: MarquisBoxTop Body**
 
@@ -530,12 +530,12 @@ MarquisBoxTop
 
 **Part: MarquisBoxTop Lid**
 
-.. stl:: ../_stl/boxes/root/MarquisBoxTop_lid.stl?v=962d873a
+.. stl:: ../_stl/boxes/root/MarquisBoxTop_lid.stl?v=bbeaeb4c
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/root/MarquisBoxTop_lid.stl?v=962d873a" download="MarquisBoxTop_lid.stl">⬇ Download MarquisBoxTop Lid STL (<code>MarquisBoxTop_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/root/MarquisBoxTop_lid.stl?v=bbeaeb4c" download="MarquisBoxTop_lid.stl">⬇ Download MarquisBoxTop Lid STL (<code>MarquisBoxTop_lid.stl</code>)</a></p>
 
 .. _box-root-erieboxbottom:
 
@@ -549,12 +549,12 @@ ErieBoxBottom
 
 **Assembled Box (ErieBoxBottom — Body + Lid)**
 
-.. stl:: ../_stl/boxes/root/ErieBoxBottom_body.stl?v=5b0ab23f,../_stl/boxes/root/ErieBoxBottom_lid.stl?v=0b3820d0
+.. stl:: ../_stl/boxes/root/ErieBoxBottom_body.stl?v=5b0ab23f,../_stl/boxes/root/ErieBoxBottom_lid.stl?v=34cbb8b7
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/root/ErieBoxBottom_body.stl?v=5b0ab23f" data-stl-combine="../_stl/boxes/root/ErieBoxBottom_body.stl?v=5b0ab23f,../_stl/boxes/root/ErieBoxBottom_lid.stl?v=0b3820d0" download="ErieBoxBottom_assembled.stl">⬇ Download Assembled ErieBoxBottom STL (<code>ErieBoxBottom_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/root/ErieBoxBottom_body.stl?v=5b0ab23f" data-stl-combine="../_stl/boxes/root/ErieBoxBottom_body.stl?v=5b0ab23f,../_stl/boxes/root/ErieBoxBottom_lid.stl?v=34cbb8b7" download="ErieBoxBottom_assembled.stl">⬇ Download Assembled ErieBoxBottom STL (<code>ErieBoxBottom_assembled.stl</code>)</a></p>
 
 **Part: ErieBoxBottom Body**
 
@@ -567,12 +567,12 @@ ErieBoxBottom
 
 **Part: ErieBoxBottom Lid**
 
-.. stl:: ../_stl/boxes/root/ErieBoxBottom_lid.stl?v=0b3820d0
+.. stl:: ../_stl/boxes/root/ErieBoxBottom_lid.stl?v=34cbb8b7
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/root/ErieBoxBottom_lid.stl?v=0b3820d0" download="ErieBoxBottom_lid.stl">⬇ Download ErieBoxBottom Lid STL (<code>ErieBoxBottom_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/root/ErieBoxBottom_lid.stl?v=34cbb8b7" download="ErieBoxBottom_lid.stl">⬇ Download ErieBoxBottom Lid STL (<code>ErieBoxBottom_lid.stl</code>)</a></p>
 
 .. _box-root-erieboxtop:
 
@@ -586,12 +586,12 @@ ErieBoxTop
 
 **Assembled Box (ErieBoxTop — Body + Lid)**
 
-.. stl:: ../_stl/boxes/root/ErieBoxTop_body.stl?v=3c4319e9,../_stl/boxes/root/ErieBoxTop_lid.stl?v=2b396855
+.. stl:: ../_stl/boxes/root/ErieBoxTop_body.stl?v=3c4319e9,../_stl/boxes/root/ErieBoxTop_lid.stl?v=e87a5d4c
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/root/ErieBoxTop_body.stl?v=3c4319e9" data-stl-combine="../_stl/boxes/root/ErieBoxTop_body.stl?v=3c4319e9,../_stl/boxes/root/ErieBoxTop_lid.stl?v=2b396855" download="ErieBoxTop_assembled.stl">⬇ Download Assembled ErieBoxTop STL (<code>ErieBoxTop_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/root/ErieBoxTop_body.stl?v=3c4319e9" data-stl-combine="../_stl/boxes/root/ErieBoxTop_body.stl?v=3c4319e9,../_stl/boxes/root/ErieBoxTop_lid.stl?v=e87a5d4c" download="ErieBoxTop_assembled.stl">⬇ Download Assembled ErieBoxTop STL (<code>ErieBoxTop_assembled.stl</code>)</a></p>
 
 **Part: ErieBoxTop Body**
 
@@ -604,12 +604,12 @@ ErieBoxTop
 
 **Part: ErieBoxTop Lid**
 
-.. stl:: ../_stl/boxes/root/ErieBoxTop_lid.stl?v=2b396855
+.. stl:: ../_stl/boxes/root/ErieBoxTop_lid.stl?v=e87a5d4c
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/root/ErieBoxTop_lid.stl?v=2b396855" download="ErieBoxTop_lid.stl">⬇ Download ErieBoxTop Lid STL (<code>ErieBoxTop_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/root/ErieBoxTop_lid.stl?v=e87a5d4c" download="ErieBoxTop_lid.stl">⬇ Download ErieBoxTop Lid STL (<code>ErieBoxTop_lid.stl</code>)</a></p>
 
 .. _box-root-allianceboxbottom:
 
@@ -623,12 +623,12 @@ AllianceBoxBottom
 
 **Assembled Box (AllianceBoxBottom — Body + Lid)**
 
-.. stl:: ../_stl/boxes/root/AllianceBoxBottom_body.stl?v=5eed719b,../_stl/boxes/root/AllianceBoxBottom_lid.stl?v=318a214d
+.. stl:: ../_stl/boxes/root/AllianceBoxBottom_body.stl?v=5eed719b,../_stl/boxes/root/AllianceBoxBottom_lid.stl?v=b6a8cd64
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/root/AllianceBoxBottom_body.stl?v=5eed719b" data-stl-combine="../_stl/boxes/root/AllianceBoxBottom_body.stl?v=5eed719b,../_stl/boxes/root/AllianceBoxBottom_lid.stl?v=318a214d" download="AllianceBoxBottom_assembled.stl">⬇ Download Assembled AllianceBoxBottom STL (<code>AllianceBoxBottom_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/root/AllianceBoxBottom_body.stl?v=5eed719b" data-stl-combine="../_stl/boxes/root/AllianceBoxBottom_body.stl?v=5eed719b,../_stl/boxes/root/AllianceBoxBottom_lid.stl?v=b6a8cd64" download="AllianceBoxBottom_assembled.stl">⬇ Download Assembled AllianceBoxBottom STL (<code>AllianceBoxBottom_assembled.stl</code>)</a></p>
 
 **Part: AllianceBoxBottom Body**
 
@@ -641,12 +641,12 @@ AllianceBoxBottom
 
 **Part: AllianceBoxBottom Lid**
 
-.. stl:: ../_stl/boxes/root/AllianceBoxBottom_lid.stl?v=318a214d
+.. stl:: ../_stl/boxes/root/AllianceBoxBottom_lid.stl?v=b6a8cd64
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/root/AllianceBoxBottom_lid.stl?v=318a214d" download="AllianceBoxBottom_lid.stl">⬇ Download AllianceBoxBottom Lid STL (<code>AllianceBoxBottom_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/root/AllianceBoxBottom_lid.stl?v=b6a8cd64" download="AllianceBoxBottom_lid.stl">⬇ Download AllianceBoxBottom Lid STL (<code>AllianceBoxBottom_lid.stl</code>)</a></p>
 
 .. _box-root-allianceboxtop:
 
@@ -660,12 +660,12 @@ AllianceBoxTop
 
 **Assembled Box (AllianceBoxTop — Body + Lid)**
 
-.. stl:: ../_stl/boxes/root/AllianceBoxTop_body.stl?v=600177c8,../_stl/boxes/root/AllianceBoxTop_lid.stl?v=48562247
+.. stl:: ../_stl/boxes/root/AllianceBoxTop_body.stl?v=600177c8,../_stl/boxes/root/AllianceBoxTop_lid.stl?v=100c4853
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/root/AllianceBoxTop_body.stl?v=600177c8" data-stl-combine="../_stl/boxes/root/AllianceBoxTop_body.stl?v=600177c8,../_stl/boxes/root/AllianceBoxTop_lid.stl?v=48562247" download="AllianceBoxTop_assembled.stl">⬇ Download Assembled AllianceBoxTop STL (<code>AllianceBoxTop_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/root/AllianceBoxTop_body.stl?v=600177c8" data-stl-combine="../_stl/boxes/root/AllianceBoxTop_body.stl?v=600177c8,../_stl/boxes/root/AllianceBoxTop_lid.stl?v=100c4853" download="AllianceBoxTop_assembled.stl">⬇ Download Assembled AllianceBoxTop STL (<code>AllianceBoxTop_assembled.stl</code>)</a></p>
 
 **Part: AllianceBoxTop Body**
 
@@ -678,12 +678,12 @@ AllianceBoxTop
 
 **Part: AllianceBoxTop Lid**
 
-.. stl:: ../_stl/boxes/root/AllianceBoxTop_lid.stl?v=48562247
+.. stl:: ../_stl/boxes/root/AllianceBoxTop_lid.stl?v=100c4853
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/root/AllianceBoxTop_lid.stl?v=48562247" download="AllianceBoxTop_lid.stl">⬇ Download AllianceBoxTop Lid STL (<code>AllianceBoxTop_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/root/AllianceBoxTop_lid.stl?v=100c4853" download="AllianceBoxTop_lid.stl">⬇ Download AllianceBoxTop Lid STL (<code>AllianceBoxTop_lid.stl</code>)</a></p>
 
 .. _box-root-lizardboxbottom:
 
@@ -697,12 +697,12 @@ LizardBoxBottom
 
 **Assembled Box (LizardBoxBottom — Body + Lid)**
 
-.. stl:: ../_stl/boxes/root/LizardBoxBottom_body.stl?v=7405a2e9,../_stl/boxes/root/LizardBoxBottom_lid.stl?v=53d35e02
+.. stl:: ../_stl/boxes/root/LizardBoxBottom_body.stl?v=7405a2e9,../_stl/boxes/root/LizardBoxBottom_lid.stl?v=137fb469
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/root/LizardBoxBottom_body.stl?v=7405a2e9" data-stl-combine="../_stl/boxes/root/LizardBoxBottom_body.stl?v=7405a2e9,../_stl/boxes/root/LizardBoxBottom_lid.stl?v=53d35e02" download="LizardBoxBottom_assembled.stl">⬇ Download Assembled LizardBoxBottom STL (<code>LizardBoxBottom_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/root/LizardBoxBottom_body.stl?v=7405a2e9" data-stl-combine="../_stl/boxes/root/LizardBoxBottom_body.stl?v=7405a2e9,../_stl/boxes/root/LizardBoxBottom_lid.stl?v=137fb469" download="LizardBoxBottom_assembled.stl">⬇ Download Assembled LizardBoxBottom STL (<code>LizardBoxBottom_assembled.stl</code>)</a></p>
 
 **Part: LizardBoxBottom Body**
 
@@ -715,12 +715,12 @@ LizardBoxBottom
 
 **Part: LizardBoxBottom Lid**
 
-.. stl:: ../_stl/boxes/root/LizardBoxBottom_lid.stl?v=53d35e02
+.. stl:: ../_stl/boxes/root/LizardBoxBottom_lid.stl?v=137fb469
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/root/LizardBoxBottom_lid.stl?v=53d35e02" download="LizardBoxBottom_lid.stl">⬇ Download LizardBoxBottom Lid STL (<code>LizardBoxBottom_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/root/LizardBoxBottom_lid.stl?v=137fb469" download="LizardBoxBottom_lid.stl">⬇ Download LizardBoxBottom Lid STL (<code>LizardBoxBottom_lid.stl</code>)</a></p>
 
 .. _box-root-lizardboxtop:
 
@@ -734,12 +734,12 @@ LizardBoxTop
 
 **Assembled Box (LizardBoxTop — Body + Lid)**
 
-.. stl:: ../_stl/boxes/root/LizardBoxTop_body.stl?v=88b67de2,../_stl/boxes/root/LizardBoxTop_lid.stl?v=c669c35a
+.. stl:: ../_stl/boxes/root/LizardBoxTop_body.stl?v=88b67de2,../_stl/boxes/root/LizardBoxTop_lid.stl?v=1c527786
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/root/LizardBoxTop_body.stl?v=88b67de2" data-stl-combine="../_stl/boxes/root/LizardBoxTop_body.stl?v=88b67de2,../_stl/boxes/root/LizardBoxTop_lid.stl?v=c669c35a" download="LizardBoxTop_assembled.stl">⬇ Download Assembled LizardBoxTop STL (<code>LizardBoxTop_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/root/LizardBoxTop_body.stl?v=88b67de2" data-stl-combine="../_stl/boxes/root/LizardBoxTop_body.stl?v=88b67de2,../_stl/boxes/root/LizardBoxTop_lid.stl?v=1c527786" download="LizardBoxTop_assembled.stl">⬇ Download Assembled LizardBoxTop STL (<code>LizardBoxTop_assembled.stl</code>)</a></p>
 
 **Part: LizardBoxTop Body**
 
@@ -752,12 +752,12 @@ LizardBoxTop
 
 **Part: LizardBoxTop Lid**
 
-.. stl:: ../_stl/boxes/root/LizardBoxTop_lid.stl?v=c669c35a
+.. stl:: ../_stl/boxes/root/LizardBoxTop_lid.stl?v=1c527786
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/root/LizardBoxTop_lid.stl?v=c669c35a" download="LizardBoxTop_lid.stl">⬇ Download LizardBoxTop Lid STL (<code>LizardBoxTop_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/root/LizardBoxTop_lid.stl?v=1c527786" download="LizardBoxTop_lid.stl">⬇ Download LizardBoxTop Lid STL (<code>LizardBoxTop_lid.stl</code>)</a></p>
 
 .. _box-root-riverfolkboxbottom:
 
@@ -771,12 +771,12 @@ RiverfolkBoxBottom
 
 **Assembled Box (RiverfolkBoxBottom — Body + Lid)**
 
-.. stl:: ../_stl/boxes/root/RiverfolkBoxBottom_body.stl?v=35e4239a,../_stl/boxes/root/RiverfolkBoxBottom_lid.stl?v=1b293a15
+.. stl:: ../_stl/boxes/root/RiverfolkBoxBottom_body.stl?v=35e4239a,../_stl/boxes/root/RiverfolkBoxBottom_lid.stl?v=ca2fe393
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/root/RiverfolkBoxBottom_body.stl?v=35e4239a" data-stl-combine="../_stl/boxes/root/RiverfolkBoxBottom_body.stl?v=35e4239a,../_stl/boxes/root/RiverfolkBoxBottom_lid.stl?v=1b293a15" download="RiverfolkBoxBottom_assembled.stl">⬇ Download Assembled RiverfolkBoxBottom STL (<code>RiverfolkBoxBottom_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/root/RiverfolkBoxBottom_body.stl?v=35e4239a" data-stl-combine="../_stl/boxes/root/RiverfolkBoxBottom_body.stl?v=35e4239a,../_stl/boxes/root/RiverfolkBoxBottom_lid.stl?v=ca2fe393" download="RiverfolkBoxBottom_assembled.stl">⬇ Download Assembled RiverfolkBoxBottom STL (<code>RiverfolkBoxBottom_assembled.stl</code>)</a></p>
 
 **Part: RiverfolkBoxBottom Body**
 
@@ -789,12 +789,12 @@ RiverfolkBoxBottom
 
 **Part: RiverfolkBoxBottom Lid**
 
-.. stl:: ../_stl/boxes/root/RiverfolkBoxBottom_lid.stl?v=1b293a15
+.. stl:: ../_stl/boxes/root/RiverfolkBoxBottom_lid.stl?v=ca2fe393
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/root/RiverfolkBoxBottom_lid.stl?v=1b293a15" download="RiverfolkBoxBottom_lid.stl">⬇ Download RiverfolkBoxBottom Lid STL (<code>RiverfolkBoxBottom_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/root/RiverfolkBoxBottom_lid.stl?v=ca2fe393" download="RiverfolkBoxBottom_lid.stl">⬇ Download RiverfolkBoxBottom Lid STL (<code>RiverfolkBoxBottom_lid.stl</code>)</a></p>
 
 .. _box-root-riverfolkboxtop:
 
@@ -808,12 +808,12 @@ RiverfolkBoxTop
 
 **Assembled Box (RiverfolkBoxTop — Body + Lid)**
 
-.. stl:: ../_stl/boxes/root/RiverfolkBoxTop_body.stl?v=921c02ff,../_stl/boxes/root/RiverfolkBoxTop_lid.stl?v=5dec815b
+.. stl:: ../_stl/boxes/root/RiverfolkBoxTop_body.stl?v=921c02ff,../_stl/boxes/root/RiverfolkBoxTop_lid.stl?v=7db92c32
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/root/RiverfolkBoxTop_body.stl?v=921c02ff" data-stl-combine="../_stl/boxes/root/RiverfolkBoxTop_body.stl?v=921c02ff,../_stl/boxes/root/RiverfolkBoxTop_lid.stl?v=5dec815b" download="RiverfolkBoxTop_assembled.stl">⬇ Download Assembled RiverfolkBoxTop STL (<code>RiverfolkBoxTop_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/root/RiverfolkBoxTop_body.stl?v=921c02ff" data-stl-combine="../_stl/boxes/root/RiverfolkBoxTop_body.stl?v=921c02ff,../_stl/boxes/root/RiverfolkBoxTop_lid.stl?v=7db92c32" download="RiverfolkBoxTop_assembled.stl">⬇ Download Assembled RiverfolkBoxTop STL (<code>RiverfolkBoxTop_assembled.stl</code>)</a></p>
 
 **Part: RiverfolkBoxTop Body**
 
@@ -826,12 +826,12 @@ RiverfolkBoxTop
 
 **Part: RiverfolkBoxTop Lid**
 
-.. stl:: ../_stl/boxes/root/RiverfolkBoxTop_lid.stl?v=5dec815b
+.. stl:: ../_stl/boxes/root/RiverfolkBoxTop_lid.stl?v=7db92c32
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/root/RiverfolkBoxTop_lid.stl?v=5dec815b" download="RiverfolkBoxTop_lid.stl">⬇ Download RiverfolkBoxTop Lid STL (<code>RiverfolkBoxTop_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/root/RiverfolkBoxTop_lid.stl?v=7db92c32" download="RiverfolkBoxTop_lid.stl">⬇ Download RiverfolkBoxTop Lid STL (<code>RiverfolkBoxTop_lid.stl</code>)</a></p>
 
 .. _box-root-vagabondbox:
 
@@ -847,12 +847,12 @@ VagabondBox
 
 **Assembled Box (VagabondBox — Body + Lid)**
 
-.. stl:: ../_stl/boxes/root/VagabondBox_body.stl?v=3cbf1628,../_stl/boxes/root/VagabondBox_lid.stl?v=05d05c56
+.. stl:: ../_stl/boxes/root/VagabondBox_body.stl?v=3cbf1628,../_stl/boxes/root/VagabondBox_lid.stl?v=a3eddb5f
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/root/VagabondBox_body.stl?v=3cbf1628" data-stl-combine="../_stl/boxes/root/VagabondBox_body.stl?v=3cbf1628,../_stl/boxes/root/VagabondBox_lid.stl?v=05d05c56" download="VagabondBox_assembled.stl">⬇ Download Assembled VagabondBox STL (<code>VagabondBox_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/root/VagabondBox_body.stl?v=3cbf1628" data-stl-combine="../_stl/boxes/root/VagabondBox_body.stl?v=3cbf1628,../_stl/boxes/root/VagabondBox_lid.stl?v=a3eddb5f" download="VagabondBox_assembled.stl">⬇ Download Assembled VagabondBox STL (<code>VagabondBox_assembled.stl</code>)</a></p>
 
 **Part: VagabondBox Body**
 
@@ -865,12 +865,12 @@ VagabondBox
 
 **Part: VagabondBox Lid**
 
-.. stl:: ../_stl/boxes/root/VagabondBox_lid.stl?v=05d05c56
+.. stl:: ../_stl/boxes/root/VagabondBox_lid.stl?v=a3eddb5f
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/root/VagabondBox_lid.stl?v=05d05c56" download="VagabondBox_lid.stl">⬇ Download VagabondBox Lid STL (<code>VagabondBox_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/root/VagabondBox_lid.stl?v=a3eddb5f" download="VagabondBox_lid.stl">⬇ Download VagabondBox Lid STL (<code>VagabondBox_lid.stl</code>)</a></p>
 
 .. _box-root-dicebox:
 
@@ -886,12 +886,12 @@ DiceBox
 
 **Assembled Box (DiceBox — Body + Lid)**
 
-.. stl:: ../_stl/boxes/root/DiceBox_body.stl?v=2f5e1e2d,../_stl/boxes/root/DiceBox_lid.stl?v=39e0b445
+.. stl:: ../_stl/boxes/root/DiceBox_body.stl?v=2f5e1e2d,../_stl/boxes/root/DiceBox_lid.stl?v=4f31d62c
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/root/DiceBox_body.stl?v=2f5e1e2d" data-stl-combine="../_stl/boxes/root/DiceBox_body.stl?v=2f5e1e2d,../_stl/boxes/root/DiceBox_lid.stl?v=39e0b445" download="DiceBox_assembled.stl">⬇ Download Assembled DiceBox STL (<code>DiceBox_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/root/DiceBox_body.stl?v=2f5e1e2d" data-stl-combine="../_stl/boxes/root/DiceBox_body.stl?v=2f5e1e2d,../_stl/boxes/root/DiceBox_lid.stl?v=4f31d62c" download="DiceBox_assembled.stl">⬇ Download Assembled DiceBox STL (<code>DiceBox_assembled.stl</code>)</a></p>
 
 **Part: DiceBox Body**
 
@@ -904,12 +904,12 @@ DiceBox
 
 **Part: DiceBox Lid**
 
-.. stl:: ../_stl/boxes/root/DiceBox_lid.stl?v=39e0b445
+.. stl:: ../_stl/boxes/root/DiceBox_lid.stl?v=4f31d62c
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/root/DiceBox_lid.stl?v=39e0b445" download="DiceBox_lid.stl">⬇ Download DiceBox Lid STL (<code>DiceBox_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/root/DiceBox_lid.stl?v=4f31d62c" download="DiceBox_lid.stl">⬇ Download DiceBox Lid STL (<code>DiceBox_lid.stl</code>)</a></p>
 
 Spacer Trays
 ------------

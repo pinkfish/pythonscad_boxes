@@ -1014,6 +1014,133 @@ class InsertColourTests(unittest.TestCase):
                 self.assertGreaterEqual(cy - sy / 2, BORDER_MARGIN_MM - 1e-3)
                 self.assertLessEqual(cy + sy / 2, expected_l - BORDER_MARGIN_MM + 1e-3)
 
+    def test_framed_label_border_clears_text_edges_by_1_5mm_without_touching(self) -> None:
+        """Bordered labels keep >=1.5mm clearance around highest/longest text edges and zero border overlap."""
+        from pybosl2 import cuboid
 
+        from pyboxbuilder.box.shell import block, corner
+        from pyboxbuilder.lid.label import LABEL_BORDER_MM, LABEL_TEXT_GAP_MM
+        from pyboxbuilder.rounding import vertical_edges
 
+        self.assertGreaterEqual(LABEL_TEXT_GAP_MM, 1.5)
+
+        for w, l, txt, rounding_override in (
+            (213.0, 120.0, "Hex Tiles", None),
+            (60.0, 60.0, "TOKENS", None),
+            (60.0, 60.0, "PLAYER 1", None),
+            (100.0, 70.0, "Cards", 12.0),
+        ):
+            with self.subTest(text=txt, rounding=rounding_override):
+                lbl = build_label(
+                    w,
+                    l,
+                    2.0,
+                    txt,
+                    label_mode=LabelMode.FRAMED,
+                    border_margin_mm=10.0,
+                    label_rounding_mm=rounding_override,
+                )
+                assert lbl is not None and lbl.plate is not None
+                (_, _, _), (tw, tl, _) = _bounds_cs(lbl.text)
+                (pcx, pcy, _), (pw, pl, _) = _bounds_cs(lbl.plate)
+                cw = pw - 2.0 * LABEL_BORDER_MM
+                cl = pl - 2.0 * LABEL_BORDER_MM
+                self.assertGreaterEqual((cw - tw) / 2.0, 1.5 - 1e-4)
+                self.assertGreaterEqual((cl - tl) / 2.0, 1.5 - 1e-4)
+
+                # Verify zero intersection between text glyphs and outer solid frame border
+                dec = decorate_lid(
+                    block([w, l, 2.0]),
+                    LidBuilder(
+                        text=txt,
+                        label_mode=LabelMode.FRAMED,
+                        label_rounding_mm=rounding_override,
+                        pattern=None,
+                    ),
+                    2.0,
+                    "mmu",
+                )
+                self.assertEqual(len(dec.inserts), 1)
+                frame_ring = lbl.plate - corner(
+                    cuboid([cw, cl, 2.0], rounding=0.0, edges=vertical_edges()),
+                    [cw, cl, 2.0],
+                    at=(pcx - cw / 2.0, pcy - cl / 2.0, -0.5),
+                )
+                self.assertLess(volume(lbl.text & frame_ring), 1e-6)
+
+    def test_frameless_label_support_and_multicolor_top_layer_shapes(self) -> None:
+        """Labels without a frame and multi-colored shapes stay in top inlay layer and consolidate colors."""
+        import pybosl2
+        from pybosl2 import Color
+
+        from pyboxbuilder.box.shell import block
+        from pyboxbuilder.lid.decorate import INLAY_DEPTH_MM
+        from pyboxbuilder.lid.pattern import PatternResult
+
+        lid = block([100.0, 80.0, 2.0])
+
+        # 1. Frameless label (including string coercion) has no frame/plate/hatching
+        fb = LidBuilder(text="Notes", label_mode="frameless", pattern=PatternBuilder(PatternType.HEX))
+        self.assertEqual(fb.mode, LabelMode.FRAMELESS)
+        dec_frameless = decorate_lid(lid, fb, 2.0, "mmu")
+        self.assertEqual(len(dec_frameless.inserts), 1)
+        (_, _, cz), (_, _, h) = _bounds_cs(dec_frameless.inserts[0].solid)
+        self.assertAlmostEqual(h, INLAY_DEPTH_MM, places=4)
+        self.assertAlmostEqual(cz + h / 2.0, 2.0, places=4)
+
+        # 2. Multi-color CSG shapes (tall full-depth parts get clipped to top inlay layer only)
+        tall_red = pybosl2.shapes3d.cuboid([20.0, 20.0, 2.0]).translate([-15.0, 0.0, 1.0]).color("red")
+        tall_blue = pybosl2.shapes3d.cuboid([20.0, 20.0, 2.0]).translate([15.0, 0.0, 1.0]).color("blue")
+        extra_red = pybosl2.shapes3d.cuboid([10.0, 10.0, 2.0]).translate([0.0, 15.0, 1.0]).color("red")
+        dec_multi = decorate_lid(
+            lid,
+            LidBuilder(
+                text="Shapes",
+                label_mode="frameless",
+                text_color=Color("red"),
+                logo=tall_red | tall_blue | extra_red,
+                pattern=PatternBuilder(PatternType.HEX),
+            ),
+            2.0,
+            "mmu",
+        )
+        # "red" text + two "red" shapes consolidate into 1 red insert; blue is 1 insert -> 2 total
+        self.assertEqual(len(dec_multi.inserts), 2)
+        for ins in dec_multi.inserts:
+            (_, _, icz), (_, _, ih) = _bounds_cs(ins.solid)
+            self.assertGreaterEqual(icz - ih / 2.0, 2.0 - INLAY_DEPTH_MM - 1e-4)
+            self.assertLessEqual(icz + ih / 2.0, 2.0 + 1e-4)
+
+        # 3. Sequence of (shape, color) and PatternResult keep distinct colors in top layer
+        seq_parts = [
+            (pybosl2.shapes3d.cuboid([15.0, 15.0, 0.6]).translate([-12.0, 0.0, 0.0]), Color("gold")),
+            (pybosl2.shapes3d.cuboid([15.0, 15.0, 0.6]).translate([12.0, 0.0, 0.0]), "green"),
+        ]
+        dec_seq = decorate_lid(lid, LidBuilder(logo=seq_parts, pattern=None), 2.0, "mmu")
+        self.assertEqual(len(dec_seq.inserts), 2)
+        for ins in dec_seq.inserts:
+            (_, _, icz), (_, _, ih) = _bounds_cs(ins.solid)
+            self.assertAlmostEqual(ih, INLAY_DEPTH_MM, places=4)
+            self.assertGreaterEqual(icz - ih / 2.0, 2.0 - INLAY_DEPTH_MM - 1e-4)
+
+        pr = PatternResult(
+            inlays=[
+                (pybosl2.shapes3d.cuboid([12.0, 12.0, 0.6]).translate([-10.0, 0.0, 0.0]), Color("purple")),
+                (pybosl2.shapes3d.cuboid([12.0, 12.0, 0.6]).translate([10.0, 0.0, 0.0]), Color("orange")),
+            ]
+        )
+        dec_pr = decorate_lid(lid, LidBuilder(logo=pr, pattern=None), 2.0, "mmu")
+        self.assertEqual(len(dec_pr.inserts), 2)
+
+        # 4. Multi-color SVG preserves multiple distinct fill colors
+        portugal_svg = (
+            Path(__file__).resolve().parents[2] / "boxes" / "railways_of_the_world" / "svg" / "portugal_castle.svg"
+        )
+        if portugal_svg.is_file():
+            dec_svg = decorate_lid(lid, LidBuilder(logo=str(portugal_svg), pattern=None), 2.0, "mmu")
+            self.assertGreaterEqual(len(dec_svg.inserts), 2)
+            for ins in dec_svg.inserts:
+                (_, _, icz), (_, _, ih) = _bounds_cs(ins.solid)
+                self.assertAlmostEqual(ih, INLAY_DEPTH_MM, places=4)
+                self.assertGreaterEqual(icz - ih / 2.0, 2.0 - INLAY_DEPTH_MM - 1e-4)
 
