@@ -778,12 +778,9 @@
 <span class="sd">    A label is read against a lid whose colour is the game's choice, so the</span>
 <span class="sd">    default is the one colour that reads against all of them."""</span>
     <span class="n">frame_color</span><span class="p">:</span> <span class="n">Color</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="w">    </span><span class="sd">"""Colour the framed label's **striped grid** is inlaid in; ``None`` uses</span>
-<span class="sd">    light grey.</span>
-
-<span class="sd">    The grid is a texture behind the lettering, not a second label. What sits</span>
-<span class="sd">    *behind* both is the box's own material — it is never cut, so it needs no</span>
-<span class="sd">    colour here (FR-022)."""</span>
+<span class="w">    </span><span class="sd">"""Top-layer colour of the framed label's outer border and diagonal strips;</span>
+<span class="sd">    ``None`` leaves them the box's own lid colour while the spaces between the</span>
+<span class="sd">    strips remain open through-holes."""</span>
     <span class="n">pattern</span><span class="p">:</span> <span class="n">PatternBuilder</span> <span class="o">|</span> <span class="n">PatternType</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">PatternBuilder</span><span class="p">(</span><span class="n">PatternType</span><span class="o">.</span><span class="n">HEX</span><span class="p">)</span>
 <span class="w">    </span><span class="sd">"""Through-hole pattern, or ``None`` for a plain lid."""</span>
     <span class="n">pattern_color</span><span class="p">:</span> <span class="n">Color</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>

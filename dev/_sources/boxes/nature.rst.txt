@@ -15,12 +15,12 @@ Full Box Packing
 
 Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
-.. stl:: ../_stl/boxes/nature/NatureCardsBox_body.stl?v=eafedc26,../_stl/boxes/nature/NatureCardsBox_lid.stl?v=b58ffff5,../_stl/boxes/nature/HunterCardsBox_body.stl?v=abf48d6b,../_stl/boxes/nature/HunterCardsBox_lid.stl?v=b372771e,../_stl/boxes/nature/SoloCardsBox_body.stl?v=3dc59bcf,../_stl/boxes/nature/SoloCardsBox_lid.stl?v=59c44615,../_stl/boxes/nature/DialBox_body.stl?v=eed13a6a,../_stl/boxes/nature/DialBox_lid.stl?v=124bc997,../_stl/boxes/nature/LeopardBox_body.stl?v=617fa554,../_stl/boxes/nature/LeopardBox_lid.stl?v=9318f402,../_stl/boxes/nature/ResourceBox_Grass_body.stl?v=0a295459,../_stl/boxes/nature/ResourceBox_Grass_lid.stl?v=88351d15,../_stl/boxes/nature/ResourceBox_Meat_body.stl?v=ff446629,../_stl/boxes/nature/ResourceBox_Meat_lid.stl?v=93b946ab,../_stl/boxes/nature/spacer_1.stl?v=e965964e,../_stl/boxes/nature/spacer_2.stl?v=090d1bce,../_stl/boxes/nature/spacer_3.stl?v=96dede53,../_stl/boxes/nature/spacer_4.stl?v=4f9206bc
+.. stl:: ../_stl/boxes/nature/NatureCardsBox_body.stl?v=eafedc26,../_stl/boxes/nature/NatureCardsBox_lid.stl?v=61625993,../_stl/boxes/nature/HunterCardsBox_body.stl?v=abf48d6b,../_stl/boxes/nature/HunterCardsBox_lid.stl?v=c2326f2e,../_stl/boxes/nature/SoloCardsBox_body.stl?v=3dc59bcf,../_stl/boxes/nature/SoloCardsBox_lid.stl?v=5c520b84,../_stl/boxes/nature/DialBox_body.stl?v=eed13a6a,../_stl/boxes/nature/DialBox_lid.stl?v=4dc14cff,../_stl/boxes/nature/LeopardBox_body.stl?v=617fa554,../_stl/boxes/nature/LeopardBox_lid.stl?v=e5f4d164,../_stl/boxes/nature/ResourceBox_Grass_body.stl?v=0a295459,../_stl/boxes/nature/ResourceBox_Grass_lid.stl?v=cbf81b2e,../_stl/boxes/nature/ResourceBox_Meat_body.stl?v=ff446629,../_stl/boxes/nature/ResourceBox_Meat_lid.stl?v=32edba3c,../_stl/boxes/nature/spacer_1.stl?v=e965964e,../_stl/boxes/nature/spacer_2.stl?v=090d1bce,../_stl/boxes/nature/spacer_3.stl?v=96dede53,../_stl/boxes/nature/spacer_4.stl?v=4f9206bc
    :height: 440px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/nature/NatureCardsBox_body.stl?v=eafedc26" data-stl-combine="../_stl/boxes/nature/NatureCardsBox_body.stl?v=eafedc26,../_stl/boxes/nature/NatureCardsBox_lid.stl?v=b58ffff5,../_stl/boxes/nature/HunterCardsBox_body.stl?v=abf48d6b,../_stl/boxes/nature/HunterCardsBox_lid.stl?v=b372771e,../_stl/boxes/nature/SoloCardsBox_body.stl?v=3dc59bcf,../_stl/boxes/nature/SoloCardsBox_lid.stl?v=59c44615,../_stl/boxes/nature/DialBox_body.stl?v=eed13a6a,../_stl/boxes/nature/DialBox_lid.stl?v=124bc997,../_stl/boxes/nature/LeopardBox_body.stl?v=617fa554,../_stl/boxes/nature/LeopardBox_lid.stl?v=9318f402,../_stl/boxes/nature/ResourceBox_Grass_body.stl?v=0a295459,../_stl/boxes/nature/ResourceBox_Grass_lid.stl?v=88351d15,../_stl/boxes/nature/ResourceBox_Meat_body.stl?v=ff446629,../_stl/boxes/nature/ResourceBox_Meat_lid.stl?v=93b946ab,../_stl/boxes/nature/spacer_1.stl?v=e965964e,../_stl/boxes/nature/spacer_2.stl?v=090d1bce,../_stl/boxes/nature/spacer_3.stl?v=96dede53,../_stl/boxes/nature/spacer_4.stl?v=4f9206bc" download="Nature_full_packing.stl">⬇ Download Full Box Packing STL (<code>Nature_full_packing.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/nature/NatureCardsBox_body.stl?v=eafedc26" data-stl-combine="../_stl/boxes/nature/NatureCardsBox_body.stl?v=eafedc26,../_stl/boxes/nature/NatureCardsBox_lid.stl?v=61625993,../_stl/boxes/nature/HunterCardsBox_body.stl?v=abf48d6b,../_stl/boxes/nature/HunterCardsBox_lid.stl?v=c2326f2e,../_stl/boxes/nature/SoloCardsBox_body.stl?v=3dc59bcf,../_stl/boxes/nature/SoloCardsBox_lid.stl?v=5c520b84,../_stl/boxes/nature/DialBox_body.stl?v=eed13a6a,../_stl/boxes/nature/DialBox_lid.stl?v=4dc14cff,../_stl/boxes/nature/LeopardBox_body.stl?v=617fa554,../_stl/boxes/nature/LeopardBox_lid.stl?v=e5f4d164,../_stl/boxes/nature/ResourceBox_Grass_body.stl?v=0a295459,../_stl/boxes/nature/ResourceBox_Grass_lid.stl?v=cbf81b2e,../_stl/boxes/nature/ResourceBox_Meat_body.stl?v=ff446629,../_stl/boxes/nature/ResourceBox_Meat_lid.stl?v=32edba3c,../_stl/boxes/nature/spacer_1.stl?v=e965964e,../_stl/boxes/nature/spacer_2.stl?v=090d1bce,../_stl/boxes/nature/spacer_3.stl?v=96dede53,../_stl/boxes/nature/spacer_4.stl?v=4f9206bc" download="Nature_full_packing.stl">⬇ Download Full Box Packing STL (<code>Nature_full_packing.stl</code>)</a></p>
 
 Parts Overview
 --------------
@@ -105,12 +105,12 @@ NatureCardsBox
 
 **Assembled Box (NatureCardsBox — Body + Lid)**
 
-.. stl:: ../_stl/boxes/nature/NatureCardsBox_body.stl?v=eafedc26,../_stl/boxes/nature/NatureCardsBox_lid.stl?v=b58ffff5
+.. stl:: ../_stl/boxes/nature/NatureCardsBox_body.stl?v=eafedc26,../_stl/boxes/nature/NatureCardsBox_lid.stl?v=61625993
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/nature/NatureCardsBox_body.stl?v=eafedc26" data-stl-combine="../_stl/boxes/nature/NatureCardsBox_body.stl?v=eafedc26,../_stl/boxes/nature/NatureCardsBox_lid.stl?v=b58ffff5" download="NatureCardsBox_assembled.stl">⬇ Download Assembled NatureCardsBox STL (<code>NatureCardsBox_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/nature/NatureCardsBox_body.stl?v=eafedc26" data-stl-combine="../_stl/boxes/nature/NatureCardsBox_body.stl?v=eafedc26,../_stl/boxes/nature/NatureCardsBox_lid.stl?v=61625993" download="NatureCardsBox_assembled.stl">⬇ Download Assembled NatureCardsBox STL (<code>NatureCardsBox_assembled.stl</code>)</a></p>
 
 **Part: NatureCardsBox Body**
 
@@ -123,12 +123,12 @@ NatureCardsBox
 
 **Part: NatureCardsBox Lid**
 
-.. stl:: ../_stl/boxes/nature/NatureCardsBox_lid.stl?v=b58ffff5
+.. stl:: ../_stl/boxes/nature/NatureCardsBox_lid.stl?v=61625993
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/nature/NatureCardsBox_lid.stl?v=b58ffff5" download="NatureCardsBox_lid.stl">⬇ Download NatureCardsBox Lid STL (<code>NatureCardsBox_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/nature/NatureCardsBox_lid.stl?v=61625993" download="NatureCardsBox_lid.stl">⬇ Download NatureCardsBox Lid STL (<code>NatureCardsBox_lid.stl</code>)</a></p>
 
 .. _box-nature-huntercardsbox:
 
@@ -144,12 +144,12 @@ HunterCardsBox
 
 **Assembled Box (HunterCardsBox — Body + Lid)**
 
-.. stl:: ../_stl/boxes/nature/HunterCardsBox_body.stl?v=abf48d6b,../_stl/boxes/nature/HunterCardsBox_lid.stl?v=b372771e
+.. stl:: ../_stl/boxes/nature/HunterCardsBox_body.stl?v=abf48d6b,../_stl/boxes/nature/HunterCardsBox_lid.stl?v=c2326f2e
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/nature/HunterCardsBox_body.stl?v=abf48d6b" data-stl-combine="../_stl/boxes/nature/HunterCardsBox_body.stl?v=abf48d6b,../_stl/boxes/nature/HunterCardsBox_lid.stl?v=b372771e" download="HunterCardsBox_assembled.stl">⬇ Download Assembled HunterCardsBox STL (<code>HunterCardsBox_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/nature/HunterCardsBox_body.stl?v=abf48d6b" data-stl-combine="../_stl/boxes/nature/HunterCardsBox_body.stl?v=abf48d6b,../_stl/boxes/nature/HunterCardsBox_lid.stl?v=c2326f2e" download="HunterCardsBox_assembled.stl">⬇ Download Assembled HunterCardsBox STL (<code>HunterCardsBox_assembled.stl</code>)</a></p>
 
 **Part: HunterCardsBox Body**
 
@@ -162,12 +162,12 @@ HunterCardsBox
 
 **Part: HunterCardsBox Lid**
 
-.. stl:: ../_stl/boxes/nature/HunterCardsBox_lid.stl?v=b372771e
+.. stl:: ../_stl/boxes/nature/HunterCardsBox_lid.stl?v=c2326f2e
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/nature/HunterCardsBox_lid.stl?v=b372771e" download="HunterCardsBox_lid.stl">⬇ Download HunterCardsBox Lid STL (<code>HunterCardsBox_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/nature/HunterCardsBox_lid.stl?v=c2326f2e" download="HunterCardsBox_lid.stl">⬇ Download HunterCardsBox Lid STL (<code>HunterCardsBox_lid.stl</code>)</a></p>
 
 .. _box-nature-solocardsbox:
 
@@ -183,12 +183,12 @@ SoloCardsBox
 
 **Assembled Box (SoloCardsBox — Body + Lid)**
 
-.. stl:: ../_stl/boxes/nature/SoloCardsBox_body.stl?v=3dc59bcf,../_stl/boxes/nature/SoloCardsBox_lid.stl?v=59c44615
+.. stl:: ../_stl/boxes/nature/SoloCardsBox_body.stl?v=3dc59bcf,../_stl/boxes/nature/SoloCardsBox_lid.stl?v=5c520b84
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/nature/SoloCardsBox_body.stl?v=3dc59bcf" data-stl-combine="../_stl/boxes/nature/SoloCardsBox_body.stl?v=3dc59bcf,../_stl/boxes/nature/SoloCardsBox_lid.stl?v=59c44615" download="SoloCardsBox_assembled.stl">⬇ Download Assembled SoloCardsBox STL (<code>SoloCardsBox_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/nature/SoloCardsBox_body.stl?v=3dc59bcf" data-stl-combine="../_stl/boxes/nature/SoloCardsBox_body.stl?v=3dc59bcf,../_stl/boxes/nature/SoloCardsBox_lid.stl?v=5c520b84" download="SoloCardsBox_assembled.stl">⬇ Download Assembled SoloCardsBox STL (<code>SoloCardsBox_assembled.stl</code>)</a></p>
 
 **Part: SoloCardsBox Body**
 
@@ -201,12 +201,12 @@ SoloCardsBox
 
 **Part: SoloCardsBox Lid**
 
-.. stl:: ../_stl/boxes/nature/SoloCardsBox_lid.stl?v=59c44615
+.. stl:: ../_stl/boxes/nature/SoloCardsBox_lid.stl?v=5c520b84
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/nature/SoloCardsBox_lid.stl?v=59c44615" download="SoloCardsBox_lid.stl">⬇ Download SoloCardsBox Lid STL (<code>SoloCardsBox_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/nature/SoloCardsBox_lid.stl?v=5c520b84" download="SoloCardsBox_lid.stl">⬇ Download SoloCardsBox Lid STL (<code>SoloCardsBox_lid.stl</code>)</a></p>
 
 .. _box-nature-dialbox:
 
@@ -220,12 +220,12 @@ DialBox
 
 **Assembled Box (DialBox — Body + Lid)**
 
-.. stl:: ../_stl/boxes/nature/DialBox_body.stl?v=eed13a6a,../_stl/boxes/nature/DialBox_lid.stl?v=124bc997
+.. stl:: ../_stl/boxes/nature/DialBox_body.stl?v=eed13a6a,../_stl/boxes/nature/DialBox_lid.stl?v=4dc14cff
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/nature/DialBox_body.stl?v=eed13a6a" data-stl-combine="../_stl/boxes/nature/DialBox_body.stl?v=eed13a6a,../_stl/boxes/nature/DialBox_lid.stl?v=124bc997" download="DialBox_assembled.stl">⬇ Download Assembled DialBox STL (<code>DialBox_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/nature/DialBox_body.stl?v=eed13a6a" data-stl-combine="../_stl/boxes/nature/DialBox_body.stl?v=eed13a6a,../_stl/boxes/nature/DialBox_lid.stl?v=4dc14cff" download="DialBox_assembled.stl">⬇ Download Assembled DialBox STL (<code>DialBox_assembled.stl</code>)</a></p>
 
 **Part: DialBox Body**
 
@@ -238,12 +238,12 @@ DialBox
 
 **Part: DialBox Lid**
 
-.. stl:: ../_stl/boxes/nature/DialBox_lid.stl?v=124bc997
+.. stl:: ../_stl/boxes/nature/DialBox_lid.stl?v=4dc14cff
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/nature/DialBox_lid.stl?v=124bc997" download="DialBox_lid.stl">⬇ Download DialBox Lid STL (<code>DialBox_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/nature/DialBox_lid.stl?v=4dc14cff" download="DialBox_lid.stl">⬇ Download DialBox Lid STL (<code>DialBox_lid.stl</code>)</a></p>
 
 .. _box-nature-leopardbox:
 
@@ -257,12 +257,12 @@ LeopardBox
 
 **Assembled Box (LeopardBox — Body + Lid)**
 
-.. stl:: ../_stl/boxes/nature/LeopardBox_body.stl?v=617fa554,../_stl/boxes/nature/LeopardBox_lid.stl?v=9318f402
+.. stl:: ../_stl/boxes/nature/LeopardBox_body.stl?v=617fa554,../_stl/boxes/nature/LeopardBox_lid.stl?v=e5f4d164
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/nature/LeopardBox_body.stl?v=617fa554" data-stl-combine="../_stl/boxes/nature/LeopardBox_body.stl?v=617fa554,../_stl/boxes/nature/LeopardBox_lid.stl?v=9318f402" download="LeopardBox_assembled.stl">⬇ Download Assembled LeopardBox STL (<code>LeopardBox_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/nature/LeopardBox_body.stl?v=617fa554" data-stl-combine="../_stl/boxes/nature/LeopardBox_body.stl?v=617fa554,../_stl/boxes/nature/LeopardBox_lid.stl?v=e5f4d164" download="LeopardBox_assembled.stl">⬇ Download Assembled LeopardBox STL (<code>LeopardBox_assembled.stl</code>)</a></p>
 
 **Part: LeopardBox Body**
 
@@ -275,12 +275,12 @@ LeopardBox
 
 **Part: LeopardBox Lid**
 
-.. stl:: ../_stl/boxes/nature/LeopardBox_lid.stl?v=9318f402
+.. stl:: ../_stl/boxes/nature/LeopardBox_lid.stl?v=e5f4d164
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/nature/LeopardBox_lid.stl?v=9318f402" download="LeopardBox_lid.stl">⬇ Download LeopardBox Lid STL (<code>LeopardBox_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/nature/LeopardBox_lid.stl?v=e5f4d164" download="LeopardBox_lid.stl">⬇ Download LeopardBox Lid STL (<code>LeopardBox_lid.stl</code>)</a></p>
 
 .. _box-nature-resourcebox_grass:
 
@@ -294,12 +294,12 @@ ResourceBox_Grass
 
 **Assembled Box (ResourceBox_Grass — Body + Lid)**
 
-.. stl:: ../_stl/boxes/nature/ResourceBox_Grass_body.stl?v=0a295459,../_stl/boxes/nature/ResourceBox_Grass_lid.stl?v=88351d15
+.. stl:: ../_stl/boxes/nature/ResourceBox_Grass_body.stl?v=0a295459,../_stl/boxes/nature/ResourceBox_Grass_lid.stl?v=cbf81b2e
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/nature/ResourceBox_Grass_body.stl?v=0a295459" data-stl-combine="../_stl/boxes/nature/ResourceBox_Grass_body.stl?v=0a295459,../_stl/boxes/nature/ResourceBox_Grass_lid.stl?v=88351d15" download="ResourceBox_Grass_assembled.stl">⬇ Download Assembled ResourceBox_Grass STL (<code>ResourceBox_Grass_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/nature/ResourceBox_Grass_body.stl?v=0a295459" data-stl-combine="../_stl/boxes/nature/ResourceBox_Grass_body.stl?v=0a295459,../_stl/boxes/nature/ResourceBox_Grass_lid.stl?v=cbf81b2e" download="ResourceBox_Grass_assembled.stl">⬇ Download Assembled ResourceBox_Grass STL (<code>ResourceBox_Grass_assembled.stl</code>)</a></p>
 
 **Part: ResourceBox_Grass Body**
 
@@ -312,12 +312,12 @@ ResourceBox_Grass
 
 **Part: ResourceBox_Grass Lid**
 
-.. stl:: ../_stl/boxes/nature/ResourceBox_Grass_lid.stl?v=88351d15
+.. stl:: ../_stl/boxes/nature/ResourceBox_Grass_lid.stl?v=cbf81b2e
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/nature/ResourceBox_Grass_lid.stl?v=88351d15" download="ResourceBox_Grass_lid.stl">⬇ Download ResourceBox_Grass Lid STL (<code>ResourceBox_Grass_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/nature/ResourceBox_Grass_lid.stl?v=cbf81b2e" download="ResourceBox_Grass_lid.stl">⬇ Download ResourceBox_Grass Lid STL (<code>ResourceBox_Grass_lid.stl</code>)</a></p>
 
 .. _box-nature-resourcebox_meat:
 
@@ -331,12 +331,12 @@ ResourceBox_Meat
 
 **Assembled Box (ResourceBox_Meat — Body + Lid)**
 
-.. stl:: ../_stl/boxes/nature/ResourceBox_Meat_body.stl?v=ff446629,../_stl/boxes/nature/ResourceBox_Meat_lid.stl?v=93b946ab
+.. stl:: ../_stl/boxes/nature/ResourceBox_Meat_body.stl?v=ff446629,../_stl/boxes/nature/ResourceBox_Meat_lid.stl?v=32edba3c
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/nature/ResourceBox_Meat_body.stl?v=ff446629" data-stl-combine="../_stl/boxes/nature/ResourceBox_Meat_body.stl?v=ff446629,../_stl/boxes/nature/ResourceBox_Meat_lid.stl?v=93b946ab" download="ResourceBox_Meat_assembled.stl">⬇ Download Assembled ResourceBox_Meat STL (<code>ResourceBox_Meat_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/nature/ResourceBox_Meat_body.stl?v=ff446629" data-stl-combine="../_stl/boxes/nature/ResourceBox_Meat_body.stl?v=ff446629,../_stl/boxes/nature/ResourceBox_Meat_lid.stl?v=32edba3c" download="ResourceBox_Meat_assembled.stl">⬇ Download Assembled ResourceBox_Meat STL (<code>ResourceBox_Meat_assembled.stl</code>)</a></p>
 
 **Part: ResourceBox_Meat Body**
 
@@ -349,12 +349,12 @@ ResourceBox_Meat
 
 **Part: ResourceBox_Meat Lid**
 
-.. stl:: ../_stl/boxes/nature/ResourceBox_Meat_lid.stl?v=93b946ab
+.. stl:: ../_stl/boxes/nature/ResourceBox_Meat_lid.stl?v=32edba3c
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/nature/ResourceBox_Meat_lid.stl?v=93b946ab" download="ResourceBox_Meat_lid.stl">⬇ Download ResourceBox_Meat Lid STL (<code>ResourceBox_Meat_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/nature/ResourceBox_Meat_lid.stl?v=32edba3c" download="ResourceBox_Meat_lid.stl">⬇ Download ResourceBox_Meat Lid STL (<code>ResourceBox_Meat_lid.stl</code>)</a></p>
 
 Spacer Trays
 ------------

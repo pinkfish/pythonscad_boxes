@@ -15,12 +15,12 @@ Full Box Packing
 
 Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
-.. stl:: ../_stl/boxes/earth_animal_kingdom/AnimalCardsBox_body.stl?v=b9ac5739,../_stl/boxes/earth_animal_kingdom/AnimalCardsBox_lid.stl?v=f3ef5a95,../_stl/boxes/earth_animal_kingdom/ExpansionSproutBox_body.stl?v=66cdb948,../_stl/boxes/earth_animal_kingdom/ExpansionSproutBox_lid.stl?v=a9cffbe2,../_stl/boxes/earth_animal_kingdom/ExpansionCanopyBox_body.stl?v=5201e6bd,../_stl/boxes/earth_animal_kingdom/ExpansionCanopyBox_lid.stl?v=7df92c2e,../_stl/boxes/earth_animal_kingdom/AnimalTokensBox_1_body.stl?v=74d42a0c,../_stl/boxes/earth_animal_kingdom/AnimalTokensBox_1_lid.stl?v=db3ee91a,../_stl/boxes/earth_animal_kingdom/AnimalTokensBox_2_body.stl?v=635dd05f,../_stl/boxes/earth_animal_kingdom/AnimalTokensBox_2_lid.stl?v=69754055,../_stl/boxes/earth_animal_kingdom/spacer_1.stl?v=83cbe1f0,../_stl/boxes/earth_animal_kingdom/spacer_2.stl?v=3f93a37e
+.. stl:: ../_stl/boxes/earth_animal_kingdom/AnimalCardsBox_body.stl?v=b9ac5739,../_stl/boxes/earth_animal_kingdom/AnimalCardsBox_lid.stl?v=394684d5,../_stl/boxes/earth_animal_kingdom/ExpansionSproutBox_body.stl?v=66cdb948,../_stl/boxes/earth_animal_kingdom/ExpansionSproutBox_lid.stl?v=e55bcfa2,../_stl/boxes/earth_animal_kingdom/ExpansionCanopyBox_body.stl?v=5201e6bd,../_stl/boxes/earth_animal_kingdom/ExpansionCanopyBox_lid.stl?v=48106dc8,../_stl/boxes/earth_animal_kingdom/AnimalTokensBox_1_body.stl?v=74d42a0c,../_stl/boxes/earth_animal_kingdom/AnimalTokensBox_1_lid.stl?v=3209b59e,../_stl/boxes/earth_animal_kingdom/AnimalTokensBox_2_body.stl?v=635dd05f,../_stl/boxes/earth_animal_kingdom/AnimalTokensBox_2_lid.stl?v=3df0639b,../_stl/boxes/earth_animal_kingdom/spacer_1.stl?v=83cbe1f0,../_stl/boxes/earth_animal_kingdom/spacer_2.stl?v=3f93a37e
    :height: 440px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/earth_animal_kingdom/AnimalCardsBox_body.stl?v=b9ac5739" data-stl-combine="../_stl/boxes/earth_animal_kingdom/AnimalCardsBox_body.stl?v=b9ac5739,../_stl/boxes/earth_animal_kingdom/AnimalCardsBox_lid.stl?v=f3ef5a95,../_stl/boxes/earth_animal_kingdom/ExpansionSproutBox_body.stl?v=66cdb948,../_stl/boxes/earth_animal_kingdom/ExpansionSproutBox_lid.stl?v=a9cffbe2,../_stl/boxes/earth_animal_kingdom/ExpansionCanopyBox_body.stl?v=5201e6bd,../_stl/boxes/earth_animal_kingdom/ExpansionCanopyBox_lid.stl?v=7df92c2e,../_stl/boxes/earth_animal_kingdom/AnimalTokensBox_1_body.stl?v=74d42a0c,../_stl/boxes/earth_animal_kingdom/AnimalTokensBox_1_lid.stl?v=db3ee91a,../_stl/boxes/earth_animal_kingdom/AnimalTokensBox_2_body.stl?v=635dd05f,../_stl/boxes/earth_animal_kingdom/AnimalTokensBox_2_lid.stl?v=69754055,../_stl/boxes/earth_animal_kingdom/spacer_1.stl?v=83cbe1f0,../_stl/boxes/earth_animal_kingdom/spacer_2.stl?v=3f93a37e" download="EarthAnimalKingdom_full_packing.stl">⬇ Download Full Box Packing STL (<code>EarthAnimalKingdom_full_packing.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/earth_animal_kingdom/AnimalCardsBox_body.stl?v=b9ac5739" data-stl-combine="../_stl/boxes/earth_animal_kingdom/AnimalCardsBox_body.stl?v=b9ac5739,../_stl/boxes/earth_animal_kingdom/AnimalCardsBox_lid.stl?v=394684d5,../_stl/boxes/earth_animal_kingdom/ExpansionSproutBox_body.stl?v=66cdb948,../_stl/boxes/earth_animal_kingdom/ExpansionSproutBox_lid.stl?v=e55bcfa2,../_stl/boxes/earth_animal_kingdom/ExpansionCanopyBox_body.stl?v=5201e6bd,../_stl/boxes/earth_animal_kingdom/ExpansionCanopyBox_lid.stl?v=48106dc8,../_stl/boxes/earth_animal_kingdom/AnimalTokensBox_1_body.stl?v=74d42a0c,../_stl/boxes/earth_animal_kingdom/AnimalTokensBox_1_lid.stl?v=3209b59e,../_stl/boxes/earth_animal_kingdom/AnimalTokensBox_2_body.stl?v=635dd05f,../_stl/boxes/earth_animal_kingdom/AnimalTokensBox_2_lid.stl?v=3df0639b,../_stl/boxes/earth_animal_kingdom/spacer_1.stl?v=83cbe1f0,../_stl/boxes/earth_animal_kingdom/spacer_2.stl?v=3f93a37e" download="EarthAnimalKingdom_full_packing.stl">⬇ Download Full Box Packing STL (<code>EarthAnimalKingdom_full_packing.stl</code>)</a></p>
 
 Parts Overview
 --------------
@@ -85,12 +85,12 @@ AnimalCardsBox
 
 **Assembled Box (AnimalCardsBox — Body + Lid)**
 
-.. stl:: ../_stl/boxes/earth_animal_kingdom/AnimalCardsBox_body.stl?v=b9ac5739,../_stl/boxes/earth_animal_kingdom/AnimalCardsBox_lid.stl?v=f3ef5a95
+.. stl:: ../_stl/boxes/earth_animal_kingdom/AnimalCardsBox_body.stl?v=b9ac5739,../_stl/boxes/earth_animal_kingdom/AnimalCardsBox_lid.stl?v=394684d5
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/earth_animal_kingdom/AnimalCardsBox_body.stl?v=b9ac5739" data-stl-combine="../_stl/boxes/earth_animal_kingdom/AnimalCardsBox_body.stl?v=b9ac5739,../_stl/boxes/earth_animal_kingdom/AnimalCardsBox_lid.stl?v=f3ef5a95" download="AnimalCardsBox_assembled.stl">⬇ Download Assembled AnimalCardsBox STL (<code>AnimalCardsBox_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/earth_animal_kingdom/AnimalCardsBox_body.stl?v=b9ac5739" data-stl-combine="../_stl/boxes/earth_animal_kingdom/AnimalCardsBox_body.stl?v=b9ac5739,../_stl/boxes/earth_animal_kingdom/AnimalCardsBox_lid.stl?v=394684d5" download="AnimalCardsBox_assembled.stl">⬇ Download Assembled AnimalCardsBox STL (<code>AnimalCardsBox_assembled.stl</code>)</a></p>
 
 **Part: AnimalCardsBox Body**
 
@@ -103,12 +103,12 @@ AnimalCardsBox
 
 **Part: AnimalCardsBox Lid**
 
-.. stl:: ../_stl/boxes/earth_animal_kingdom/AnimalCardsBox_lid.stl?v=f3ef5a95
+.. stl:: ../_stl/boxes/earth_animal_kingdom/AnimalCardsBox_lid.stl?v=394684d5
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/earth_animal_kingdom/AnimalCardsBox_lid.stl?v=f3ef5a95" download="AnimalCardsBox_lid.stl">⬇ Download AnimalCardsBox Lid STL (<code>AnimalCardsBox_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/earth_animal_kingdom/AnimalCardsBox_lid.stl?v=394684d5" download="AnimalCardsBox_lid.stl">⬇ Download AnimalCardsBox Lid STL (<code>AnimalCardsBox_lid.stl</code>)</a></p>
 
 .. _box-earth_animal_kingdom-expansionsproutbox:
 
@@ -122,12 +122,12 @@ ExpansionSproutBox
 
 **Assembled Box (ExpansionSproutBox — Body + Lid)**
 
-.. stl:: ../_stl/boxes/earth_animal_kingdom/ExpansionSproutBox_body.stl?v=66cdb948,../_stl/boxes/earth_animal_kingdom/ExpansionSproutBox_lid.stl?v=a9cffbe2
+.. stl:: ../_stl/boxes/earth_animal_kingdom/ExpansionSproutBox_body.stl?v=66cdb948,../_stl/boxes/earth_animal_kingdom/ExpansionSproutBox_lid.stl?v=e55bcfa2
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/earth_animal_kingdom/ExpansionSproutBox_body.stl?v=66cdb948" data-stl-combine="../_stl/boxes/earth_animal_kingdom/ExpansionSproutBox_body.stl?v=66cdb948,../_stl/boxes/earth_animal_kingdom/ExpansionSproutBox_lid.stl?v=a9cffbe2" download="ExpansionSproutBox_assembled.stl">⬇ Download Assembled ExpansionSproutBox STL (<code>ExpansionSproutBox_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/earth_animal_kingdom/ExpansionSproutBox_body.stl?v=66cdb948" data-stl-combine="../_stl/boxes/earth_animal_kingdom/ExpansionSproutBox_body.stl?v=66cdb948,../_stl/boxes/earth_animal_kingdom/ExpansionSproutBox_lid.stl?v=e55bcfa2" download="ExpansionSproutBox_assembled.stl">⬇ Download Assembled ExpansionSproutBox STL (<code>ExpansionSproutBox_assembled.stl</code>)</a></p>
 
 **Part: ExpansionSproutBox Body**
 
@@ -140,12 +140,12 @@ ExpansionSproutBox
 
 **Part: ExpansionSproutBox Lid**
 
-.. stl:: ../_stl/boxes/earth_animal_kingdom/ExpansionSproutBox_lid.stl?v=a9cffbe2
+.. stl:: ../_stl/boxes/earth_animal_kingdom/ExpansionSproutBox_lid.stl?v=e55bcfa2
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/earth_animal_kingdom/ExpansionSproutBox_lid.stl?v=a9cffbe2" download="ExpansionSproutBox_lid.stl">⬇ Download ExpansionSproutBox Lid STL (<code>ExpansionSproutBox_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/earth_animal_kingdom/ExpansionSproutBox_lid.stl?v=e55bcfa2" download="ExpansionSproutBox_lid.stl">⬇ Download ExpansionSproutBox Lid STL (<code>ExpansionSproutBox_lid.stl</code>)</a></p>
 
 .. _box-earth_animal_kingdom-expansioncanopybox:
 
@@ -159,12 +159,12 @@ ExpansionCanopyBox
 
 **Assembled Box (ExpansionCanopyBox — Body + Lid)**
 
-.. stl:: ../_stl/boxes/earth_animal_kingdom/ExpansionCanopyBox_body.stl?v=5201e6bd,../_stl/boxes/earth_animal_kingdom/ExpansionCanopyBox_lid.stl?v=7df92c2e
+.. stl:: ../_stl/boxes/earth_animal_kingdom/ExpansionCanopyBox_body.stl?v=5201e6bd,../_stl/boxes/earth_animal_kingdom/ExpansionCanopyBox_lid.stl?v=48106dc8
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/earth_animal_kingdom/ExpansionCanopyBox_body.stl?v=5201e6bd" data-stl-combine="../_stl/boxes/earth_animal_kingdom/ExpansionCanopyBox_body.stl?v=5201e6bd,../_stl/boxes/earth_animal_kingdom/ExpansionCanopyBox_lid.stl?v=7df92c2e" download="ExpansionCanopyBox_assembled.stl">⬇ Download Assembled ExpansionCanopyBox STL (<code>ExpansionCanopyBox_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/earth_animal_kingdom/ExpansionCanopyBox_body.stl?v=5201e6bd" data-stl-combine="../_stl/boxes/earth_animal_kingdom/ExpansionCanopyBox_body.stl?v=5201e6bd,../_stl/boxes/earth_animal_kingdom/ExpansionCanopyBox_lid.stl?v=48106dc8" download="ExpansionCanopyBox_assembled.stl">⬇ Download Assembled ExpansionCanopyBox STL (<code>ExpansionCanopyBox_assembled.stl</code>)</a></p>
 
 **Part: ExpansionCanopyBox Body**
 
@@ -177,12 +177,12 @@ ExpansionCanopyBox
 
 **Part: ExpansionCanopyBox Lid**
 
-.. stl:: ../_stl/boxes/earth_animal_kingdom/ExpansionCanopyBox_lid.stl?v=7df92c2e
+.. stl:: ../_stl/boxes/earth_animal_kingdom/ExpansionCanopyBox_lid.stl?v=48106dc8
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/earth_animal_kingdom/ExpansionCanopyBox_lid.stl?v=7df92c2e" download="ExpansionCanopyBox_lid.stl">⬇ Download ExpansionCanopyBox Lid STL (<code>ExpansionCanopyBox_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/earth_animal_kingdom/ExpansionCanopyBox_lid.stl?v=48106dc8" download="ExpansionCanopyBox_lid.stl">⬇ Download ExpansionCanopyBox Lid STL (<code>ExpansionCanopyBox_lid.stl</code>)</a></p>
 
 .. _box-earth_animal_kingdom-animaltokensbox_1:
 
@@ -196,12 +196,12 @@ AnimalTokensBox_1
 
 **Assembled Box (AnimalTokensBox_1 — Body + Lid)**
 
-.. stl:: ../_stl/boxes/earth_animal_kingdom/AnimalTokensBox_1_body.stl?v=74d42a0c,../_stl/boxes/earth_animal_kingdom/AnimalTokensBox_1_lid.stl?v=db3ee91a
+.. stl:: ../_stl/boxes/earth_animal_kingdom/AnimalTokensBox_1_body.stl?v=74d42a0c,../_stl/boxes/earth_animal_kingdom/AnimalTokensBox_1_lid.stl?v=3209b59e
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/earth_animal_kingdom/AnimalTokensBox_1_body.stl?v=74d42a0c" data-stl-combine="../_stl/boxes/earth_animal_kingdom/AnimalTokensBox_1_body.stl?v=74d42a0c,../_stl/boxes/earth_animal_kingdom/AnimalTokensBox_1_lid.stl?v=db3ee91a" download="AnimalTokensBox_1_assembled.stl">⬇ Download Assembled AnimalTokensBox_1 STL (<code>AnimalTokensBox_1_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/earth_animal_kingdom/AnimalTokensBox_1_body.stl?v=74d42a0c" data-stl-combine="../_stl/boxes/earth_animal_kingdom/AnimalTokensBox_1_body.stl?v=74d42a0c,../_stl/boxes/earth_animal_kingdom/AnimalTokensBox_1_lid.stl?v=3209b59e" download="AnimalTokensBox_1_assembled.stl">⬇ Download Assembled AnimalTokensBox_1 STL (<code>AnimalTokensBox_1_assembled.stl</code>)</a></p>
 
 **Part: AnimalTokensBox_1 Body**
 
@@ -214,12 +214,12 @@ AnimalTokensBox_1
 
 **Part: AnimalTokensBox_1 Lid**
 
-.. stl:: ../_stl/boxes/earth_animal_kingdom/AnimalTokensBox_1_lid.stl?v=db3ee91a
+.. stl:: ../_stl/boxes/earth_animal_kingdom/AnimalTokensBox_1_lid.stl?v=3209b59e
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/earth_animal_kingdom/AnimalTokensBox_1_lid.stl?v=db3ee91a" download="AnimalTokensBox_1_lid.stl">⬇ Download AnimalTokensBox_1 Lid STL (<code>AnimalTokensBox_1_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/earth_animal_kingdom/AnimalTokensBox_1_lid.stl?v=3209b59e" download="AnimalTokensBox_1_lid.stl">⬇ Download AnimalTokensBox_1 Lid STL (<code>AnimalTokensBox_1_lid.stl</code>)</a></p>
 
 .. _box-earth_animal_kingdom-animaltokensbox_2:
 
@@ -233,12 +233,12 @@ AnimalTokensBox_2
 
 **Assembled Box (AnimalTokensBox_2 — Body + Lid)**
 
-.. stl:: ../_stl/boxes/earth_animal_kingdom/AnimalTokensBox_2_body.stl?v=635dd05f,../_stl/boxes/earth_animal_kingdom/AnimalTokensBox_2_lid.stl?v=69754055
+.. stl:: ../_stl/boxes/earth_animal_kingdom/AnimalTokensBox_2_body.stl?v=635dd05f,../_stl/boxes/earth_animal_kingdom/AnimalTokensBox_2_lid.stl?v=3df0639b
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/earth_animal_kingdom/AnimalTokensBox_2_body.stl?v=635dd05f" data-stl-combine="../_stl/boxes/earth_animal_kingdom/AnimalTokensBox_2_body.stl?v=635dd05f,../_stl/boxes/earth_animal_kingdom/AnimalTokensBox_2_lid.stl?v=69754055" download="AnimalTokensBox_2_assembled.stl">⬇ Download Assembled AnimalTokensBox_2 STL (<code>AnimalTokensBox_2_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/earth_animal_kingdom/AnimalTokensBox_2_body.stl?v=635dd05f" data-stl-combine="../_stl/boxes/earth_animal_kingdom/AnimalTokensBox_2_body.stl?v=635dd05f,../_stl/boxes/earth_animal_kingdom/AnimalTokensBox_2_lid.stl?v=3df0639b" download="AnimalTokensBox_2_assembled.stl">⬇ Download Assembled AnimalTokensBox_2 STL (<code>AnimalTokensBox_2_assembled.stl</code>)</a></p>
 
 **Part: AnimalTokensBox_2 Body**
 
@@ -251,12 +251,12 @@ AnimalTokensBox_2
 
 **Part: AnimalTokensBox_2 Lid**
 
-.. stl:: ../_stl/boxes/earth_animal_kingdom/AnimalTokensBox_2_lid.stl?v=69754055
+.. stl:: ../_stl/boxes/earth_animal_kingdom/AnimalTokensBox_2_lid.stl?v=3df0639b
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/earth_animal_kingdom/AnimalTokensBox_2_lid.stl?v=69754055" download="AnimalTokensBox_2_lid.stl">⬇ Download AnimalTokensBox_2 Lid STL (<code>AnimalTokensBox_2_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/earth_animal_kingdom/AnimalTokensBox_2_lid.stl?v=3df0639b" download="AnimalTokensBox_2_lid.stl">⬇ Download AnimalTokensBox_2 Lid STL (<code>AnimalTokensBox_2_lid.stl</code>)</a></p>
 
 Spacer Trays
 ------------

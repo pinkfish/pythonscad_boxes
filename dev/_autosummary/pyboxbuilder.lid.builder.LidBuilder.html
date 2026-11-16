@@ -1778,11 +1778,9 @@ colour.</p>
 <dl class="py attribute objdesc">
 <dt class="sig sig-object highlight py" id="pyboxbuilder.lid.builder.LidBuilder.frame_color">
 <span class="sig-name descname"><span class="pre">frame_color</span></span><span class="p"> <span class="pre">:</span> </span><span class="desctype"><span class="pre">Color</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.15)"><span class="pre">None</span></a></span><span class="p"> <span class="pre">=</span> </span><code class="code python docutils literal highlight highlight-python"><span class="kc">None</span></code><a class="headerlink" href="#pyboxbuilder.lid.builder.LidBuilder.frame_color" title="Link to this definition">¶</a></dt>
-<dd><p>Colour the framed label’s <strong>striped grid</strong> is inlaid in; <code class="docutils literal notranslate"><span class="pre">None</span></code> uses
-light grey.</p>
-<p>The grid is a texture behind the lettering, not a second label. What sits
-<em>behind</em> both is the box’s own material — it is never cut, so it needs no
-colour here (FR-022).</p>
+<dd><p>Top-layer colour of the framed label’s outer border and diagonal strips;
+<code class="docutils literal notranslate"><span class="pre">None</span></code> leaves them the box’s own lid colour while the spaces between the
+strips remain open through-holes.</p>
 </dd></dl>
 
 <dl class="py property objdesc">
