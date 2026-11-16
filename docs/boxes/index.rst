@@ -192,8 +192,8 @@ Each page provides interactive 3-D STL viewers and downloadable STL meshes for:
      - :ref:`BoxType.SLIDING <box-type-sliding>`, :ref:`BoxType.CAP <box-type-cap>`, :ref:`BoxType.NO_LID <box-type-no-lid>`
    * - :doc:`Root (root) <root>`
      - ``214 × 278 × 67 mm``
-     - 20
-     - 3
+     - 21
+     - 2
      - :ref:`BoxType.SLIDING <box-type-sliding>`, :ref:`BoxType.CAP <box-type-cap>`, :ref:`BoxType.NO_LID <box-type-no-lid>`
    * - :doc:`RussianRailroads (russian_railroads) <russian_railroads>`
      - ``219 × 308 × 70 mm``

@@ -1438,52 +1438,79 @@ project.box(
     ],
 )
 
-# Vagabond Box
-project.box(
-    BoxType.SLIDING,
-    "VagabondBox",
-    size=(53.25, 59.833, 16.0),
-    lid=LID_VAGABOND,
-    color=Color("green"),
-    position=(106.5, 158.333, 28.0),
-).compartment(
-    "ItemsAndScore",
-    elements=[
+# Vagabond Boxes (2 stacked boxes: Base + Riverfolk 2nd Vagabond)
+def _add_vagabond_box(label: str, position: tuple[float, float, float]) -> None:
+    vagabond_comp_depth = 19.5 - 1.6 - 2.0  # 15.9mm
+    elements = [
+        # Front-left: Vagabond meeple cutout (9mm thick + 1mm clearance)
         centered(
-            str(SVG_DIR / "vagabond_warrior.svg"), (15.0, 20.0), (21.0, 22.0), depth=9.0
-        ),
-        # Relations
-        # Pocket (well, depth 4.0)
-        centered(
-            None,
-            (35.0, 20.0),
-            (18.5, 18.5),
-            shape=ElementShape.RECT,
-            depth=4.0,
+            str(SVG_DIR / "vagabond_warrior.svg"),
+            (14.5, 16.0),
+            (21.0, 22.0),
+            depth=10.0,
             pull_out=True,
         ),
-        # Stamp/Inlay at the bottom (z_offset = 12.4 - 4.0 = 8.4)
+        # Front-right: Score marker well + laurel wreath inlay
+        centered(
+            None,
+            (37.5, 16.0),
+            (18.5, 18.5),
+            shape=ElementShape.RECT,
+            depth=3.0,
+            pull_out=True,
+        ),
         centered(
             str(SVG_DIR / "laurel_wreath.svg"),
-            (35.0, 20.0),
+            (37.5, 16.0),
             (12.0, 12.0),
             depth=0.6,
-            z_offset=8.4,
+            z_offset=vagabond_comp_depth - 3.0,
             color="black",
             pull_out=False,
         ),
-    ],
-)
+    ]
+    # Back row: Two relationship marker wells (3 tokens each = 6 per Vagabond)
+    for rel_x in (13.5, 36.0):
+        elements.extend([
+            centered(
+                None,
+                (rel_x, 43.0),
+                (18.5, 18.5),
+                shape=ElementShape.RECT,
+                depth=7.0,
+                pull_out=True,
+            ),
+            centered(
+                "Relation",
+                (rel_x, 43.0),
+                (15.0, 15.0),
+                shape=ElementShape.TEXT,
+                depth=0.6,
+                z_offset=vagabond_comp_depth - 7.0,
+                color="black",
+                pull_out=False,
+            ),
+        ])
+    project.box(
+        BoxType.SLIDING,
+        label,
+        size=(53.25, 59.833, 19.5),
+        lid=LID_VAGABOND,
+        color=Color("green"),
+        position=position,
+    ).compartment("ItemsAndScore", elements=elements)
 
 
+_add_vagabond_box("VagabondBox", (106.5, 158.333, 28.0))
+_add_vagabond_box("VagabondBox2", (106.5, 158.333, 28.0 + 19.5))
 
-# Dice Box
+# Dice Box (placed behind the Items stack in the right column)
 project.box(
     BoxType.SLIDING,
     "DiceBox",
-    size=(53.25, 59.833, 23.0),
+    size=(53.25, 59.833, 39.0),
     lid=LID_BASE.titled("Dice"),
-    position=(106.5, 158.333, 28.0 + 16.0),
+    position=(159.75, 103.5, 28.0),
 ).compartment(
     "Dice",
     elements=[
@@ -1492,7 +1519,7 @@ project.box(
             (14.0, 14.0),
             (22.0, 22.0),
             shape=ElementShape.CIRCLE,
-            depth=20.0,
+            depth=22.0,
             pull_out=True,
         ),
         centered(
@@ -1500,7 +1527,7 @@ project.box(
             (35.25, 41.833),
             (22.0, 22.0),
             shape=ElementShape.CIRCLE,
-            depth=20.0,
+            depth=22.0,
             pull_out=True,
         ),
     ],
@@ -1521,7 +1548,7 @@ project.stack_order(
 )
 project.stack_order(
     "VagabondBox",
-    "DiceBox",
+    "VagabondBox2",
     mode=StackableMode.PYRAMIDS,
 )
 

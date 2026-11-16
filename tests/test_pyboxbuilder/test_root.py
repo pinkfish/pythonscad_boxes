@@ -29,6 +29,7 @@ class TestRoot(unittest.TestCase):
             "LizardBoxBottom",
             "LizardBoxTop",
             "VagabondBox",
+            "VagabondBox2",
             "BaseCardBox",
             "ErieCardBox",
             "VagabondCardBox",
@@ -72,3 +73,11 @@ class TestRoot(unittest.TestCase):
                 28.0 - 1e-3,
                 f"{piece.label} encroaches on bottom 28mm board bay at z={piece.position[2]}",
             )
+
+    def test_two_vagabond_boxes_with_relation_pockets(self) -> None:
+        """Verify both Vagabond boxes are present with warrior, score, and 2 Relation pockets."""
+        for label in ("VagabondBox", "VagabondBox2"):
+            box = next(b for b in project._boxes if b.label == label)
+            elements = box.compartments[0].elements
+            texts = [el.shape_file for el in elements if el.shape_file == "Relation"]
+            self.assertEqual(len(texts), 2, f"{label} should have two Relation inlays")
