@@ -15,12 +15,12 @@ Full Box Packing
 
 Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
-.. stl:: ../_stl/boxes/biome/NestBox_body.stl?v=d50abeb5,../_stl/boxes/biome/NestBox_lid.stl?v=600f47df,../_stl/boxes/biome/PlayerBox_Red_body.stl?v=a7254c1b,../_stl/boxes/biome/PlayerBox_Red_lid.stl?v=9ec77124,../_stl/boxes/biome/Resource_Mouse_body.stl?v=136dc15f,../_stl/boxes/biome/Resource_Mouse_lid.stl?v=89f3ef3b,../_stl/boxes/biome/Resource_Sun_body.stl?v=6de32b4d,../_stl/boxes/biome/Resource_Sun_lid.stl?v=0fb35d74,../_stl/boxes/biome/PlayerBox_Blue_body.stl?v=2d7393d9,../_stl/boxes/biome/PlayerBox_Blue_lid.stl?v=eee7375c,../_stl/boxes/biome/Resource_Fish_body.stl?v=76fd7293,../_stl/boxes/biome/Resource_Fish_lid.stl?v=46b0f2fe,../_stl/boxes/biome/Resource_Leaf_body.stl?v=7f0dc06e,../_stl/boxes/biome/Resource_Leaf_lid.stl?v=750d9d92,../_stl/boxes/biome/PlayerBox_Green_body.stl?v=bba1a81a,../_stl/boxes/biome/PlayerBox_Green_lid.stl?v=631c526a,../_stl/boxes/biome/Resource_Spider_body.stl?v=b748d22b,../_stl/boxes/biome/Resource_Spider_lid.stl?v=6a4ea89d,../_stl/boxes/biome/Resource_Berry_body.stl?v=94d81540,../_stl/boxes/biome/Resource_Berry_lid.stl?v=26ec3fe9,../_stl/boxes/biome/PlayerBox_Yellow_body.stl?v=bbbf59aa,../_stl/boxes/biome/PlayerBox_Yellow_lid.stl?v=6baba2f1,../_stl/boxes/biome/Resource_Chicks_body.stl?v=c670e378,../_stl/boxes/biome/Resource_Chicks_lid.stl?v=9f4e80f6,../_stl/boxes/biome/Resource_Rabbits_body.stl?v=e542fe5a,../_stl/boxes/biome/Resource_Rabbits_lid.stl?v=4621c219,../_stl/boxes/biome/CardBox_MainDeck1_body.stl?v=a242eea2,../_stl/boxes/biome/CardBox_MainDeck1_lid.stl?v=88ba5bfa,../_stl/boxes/biome/CardBox_MainDeck2_body.stl?v=6f9359d3,../_stl/boxes/biome/CardBox_MainDeck2_lid.stl?v=95aaa11c,../_stl/boxes/biome/spacer_1.stl?v=cfd0d11f
+.. stl:: ../_stl/boxes/biome/NestBox_body.stl?v=d50abeb5,../_stl/boxes/biome/NestBox_lid.stl?v=01283a1d,../_stl/boxes/biome/PlayerBox_Red_body.stl?v=a7254c1b,../_stl/boxes/biome/PlayerBox_Red_lid.stl?v=01af9960,../_stl/boxes/biome/Resource_Mouse_body.stl?v=136dc15f,../_stl/boxes/biome/Resource_Mouse_lid.stl?v=979f9477,../_stl/boxes/biome/Resource_Sun_body.stl?v=6de32b4d,../_stl/boxes/biome/Resource_Sun_lid.stl?v=ddf78301,../_stl/boxes/biome/PlayerBox_Blue_body.stl?v=2d7393d9,../_stl/boxes/biome/PlayerBox_Blue_lid.stl?v=3ab8cd52,../_stl/boxes/biome/Resource_Fish_body.stl?v=76fd7293,../_stl/boxes/biome/Resource_Fish_lid.stl?v=e8876c0a,../_stl/boxes/biome/Resource_Leaf_body.stl?v=7f0dc06e,../_stl/boxes/biome/Resource_Leaf_lid.stl?v=eded0ef6,../_stl/boxes/biome/PlayerBox_Green_body.stl?v=bba1a81a,../_stl/boxes/biome/PlayerBox_Green_lid.stl?v=25185f8f,../_stl/boxes/biome/Resource_Spider_body.stl?v=b748d22b,../_stl/boxes/biome/Resource_Spider_lid.stl?v=33431f2c,../_stl/boxes/biome/Resource_Berry_body.stl?v=94d81540,../_stl/boxes/biome/Resource_Berry_lid.stl?v=98c07d2e,../_stl/boxes/biome/PlayerBox_Yellow_body.stl?v=bbbf59aa,../_stl/boxes/biome/PlayerBox_Yellow_lid.stl?v=83f06bf2,../_stl/boxes/biome/Resource_Chicks_body.stl?v=c670e378,../_stl/boxes/biome/Resource_Chicks_lid.stl?v=0098794b,../_stl/boxes/biome/Resource_Rabbits_body.stl?v=e542fe5a,../_stl/boxes/biome/Resource_Rabbits_lid.stl?v=669f80d1,../_stl/boxes/biome/CardBox_MainDeck1_body.stl?v=a242eea2,../_stl/boxes/biome/CardBox_MainDeck1_lid.stl?v=ce73b8b7,../_stl/boxes/biome/CardBox_MainDeck2_body.stl?v=6f9359d3,../_stl/boxes/biome/CardBox_MainDeck2_lid.stl?v=00806cfb,../_stl/boxes/biome/spacer_1.stl?v=cfd0d11f
    :height: 440px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/biome/NestBox_body.stl?v=d50abeb5" data-stl-combine="../_stl/boxes/biome/NestBox_body.stl?v=d50abeb5,../_stl/boxes/biome/NestBox_lid.stl?v=600f47df,../_stl/boxes/biome/PlayerBox_Red_body.stl?v=a7254c1b,../_stl/boxes/biome/PlayerBox_Red_lid.stl?v=9ec77124,../_stl/boxes/biome/Resource_Mouse_body.stl?v=136dc15f,../_stl/boxes/biome/Resource_Mouse_lid.stl?v=89f3ef3b,../_stl/boxes/biome/Resource_Sun_body.stl?v=6de32b4d,../_stl/boxes/biome/Resource_Sun_lid.stl?v=0fb35d74,../_stl/boxes/biome/PlayerBox_Blue_body.stl?v=2d7393d9,../_stl/boxes/biome/PlayerBox_Blue_lid.stl?v=eee7375c,../_stl/boxes/biome/Resource_Fish_body.stl?v=76fd7293,../_stl/boxes/biome/Resource_Fish_lid.stl?v=46b0f2fe,../_stl/boxes/biome/Resource_Leaf_body.stl?v=7f0dc06e,../_stl/boxes/biome/Resource_Leaf_lid.stl?v=750d9d92,../_stl/boxes/biome/PlayerBox_Green_body.stl?v=bba1a81a,../_stl/boxes/biome/PlayerBox_Green_lid.stl?v=631c526a,../_stl/boxes/biome/Resource_Spider_body.stl?v=b748d22b,../_stl/boxes/biome/Resource_Spider_lid.stl?v=6a4ea89d,../_stl/boxes/biome/Resource_Berry_body.stl?v=94d81540,../_stl/boxes/biome/Resource_Berry_lid.stl?v=26ec3fe9,../_stl/boxes/biome/PlayerBox_Yellow_body.stl?v=bbbf59aa,../_stl/boxes/biome/PlayerBox_Yellow_lid.stl?v=6baba2f1,../_stl/boxes/biome/Resource_Chicks_body.stl?v=c670e378,../_stl/boxes/biome/Resource_Chicks_lid.stl?v=9f4e80f6,../_stl/boxes/biome/Resource_Rabbits_body.stl?v=e542fe5a,../_stl/boxes/biome/Resource_Rabbits_lid.stl?v=4621c219,../_stl/boxes/biome/CardBox_MainDeck1_body.stl?v=a242eea2,../_stl/boxes/biome/CardBox_MainDeck1_lid.stl?v=88ba5bfa,../_stl/boxes/biome/CardBox_MainDeck2_body.stl?v=6f9359d3,../_stl/boxes/biome/CardBox_MainDeck2_lid.stl?v=95aaa11c,../_stl/boxes/biome/spacer_1.stl?v=cfd0d11f" download="Biome_full_packing.stl">⬇ Download Full Box Packing STL (<code>Biome_full_packing.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/biome/NestBox_body.stl?v=d50abeb5" data-stl-combine="../_stl/boxes/biome/NestBox_body.stl?v=d50abeb5,../_stl/boxes/biome/NestBox_lid.stl?v=01283a1d,../_stl/boxes/biome/PlayerBox_Red_body.stl?v=a7254c1b,../_stl/boxes/biome/PlayerBox_Red_lid.stl?v=01af9960,../_stl/boxes/biome/Resource_Mouse_body.stl?v=136dc15f,../_stl/boxes/biome/Resource_Mouse_lid.stl?v=979f9477,../_stl/boxes/biome/Resource_Sun_body.stl?v=6de32b4d,../_stl/boxes/biome/Resource_Sun_lid.stl?v=ddf78301,../_stl/boxes/biome/PlayerBox_Blue_body.stl?v=2d7393d9,../_stl/boxes/biome/PlayerBox_Blue_lid.stl?v=3ab8cd52,../_stl/boxes/biome/Resource_Fish_body.stl?v=76fd7293,../_stl/boxes/biome/Resource_Fish_lid.stl?v=e8876c0a,../_stl/boxes/biome/Resource_Leaf_body.stl?v=7f0dc06e,../_stl/boxes/biome/Resource_Leaf_lid.stl?v=eded0ef6,../_stl/boxes/biome/PlayerBox_Green_body.stl?v=bba1a81a,../_stl/boxes/biome/PlayerBox_Green_lid.stl?v=25185f8f,../_stl/boxes/biome/Resource_Spider_body.stl?v=b748d22b,../_stl/boxes/biome/Resource_Spider_lid.stl?v=33431f2c,../_stl/boxes/biome/Resource_Berry_body.stl?v=94d81540,../_stl/boxes/biome/Resource_Berry_lid.stl?v=98c07d2e,../_stl/boxes/biome/PlayerBox_Yellow_body.stl?v=bbbf59aa,../_stl/boxes/biome/PlayerBox_Yellow_lid.stl?v=83f06bf2,../_stl/boxes/biome/Resource_Chicks_body.stl?v=c670e378,../_stl/boxes/biome/Resource_Chicks_lid.stl?v=0098794b,../_stl/boxes/biome/Resource_Rabbits_body.stl?v=e542fe5a,../_stl/boxes/biome/Resource_Rabbits_lid.stl?v=669f80d1,../_stl/boxes/biome/CardBox_MainDeck1_body.stl?v=a242eea2,../_stl/boxes/biome/CardBox_MainDeck1_lid.stl?v=ce73b8b7,../_stl/boxes/biome/CardBox_MainDeck2_body.stl?v=6f9359d3,../_stl/boxes/biome/CardBox_MainDeck2_lid.stl?v=00806cfb,../_stl/boxes/biome/spacer_1.stl?v=cfd0d11f" download="Biome_full_packing.stl">⬇ Download Full Box Packing STL (<code>Biome_full_packing.stl</code>)</a></p>
 
 Parts Overview
 --------------
@@ -130,12 +130,12 @@ NestBox
 
 **Assembled Box (NestBox — Body + Lid)**
 
-.. stl:: ../_stl/boxes/biome/NestBox_body.stl?v=d50abeb5,../_stl/boxes/biome/NestBox_lid.stl?v=600f47df
+.. stl:: ../_stl/boxes/biome/NestBox_body.stl?v=d50abeb5,../_stl/boxes/biome/NestBox_lid.stl?v=01283a1d
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/biome/NestBox_body.stl?v=d50abeb5" data-stl-combine="../_stl/boxes/biome/NestBox_body.stl?v=d50abeb5,../_stl/boxes/biome/NestBox_lid.stl?v=600f47df" download="NestBox_assembled.stl">⬇ Download Assembled NestBox STL (<code>NestBox_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/biome/NestBox_body.stl?v=d50abeb5" data-stl-combine="../_stl/boxes/biome/NestBox_body.stl?v=d50abeb5,../_stl/boxes/biome/NestBox_lid.stl?v=01283a1d" download="NestBox_assembled.stl">⬇ Download Assembled NestBox STL (<code>NestBox_assembled.stl</code>)</a></p>
 
 **Part: NestBox Body**
 
@@ -148,12 +148,12 @@ NestBox
 
 **Part: NestBox Lid**
 
-.. stl:: ../_stl/boxes/biome/NestBox_lid.stl?v=600f47df
+.. stl:: ../_stl/boxes/biome/NestBox_lid.stl?v=01283a1d
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/biome/NestBox_lid.stl?v=600f47df" download="NestBox_lid.stl">⬇ Download NestBox Lid STL (<code>NestBox_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/biome/NestBox_lid.stl?v=01283a1d" download="NestBox_lid.stl">⬇ Download NestBox Lid STL (<code>NestBox_lid.stl</code>)</a></p>
 
 .. _box-biome-playerbox_red:
 
@@ -167,12 +167,12 @@ PlayerBox_Red
 
 **Assembled Box (PlayerBox_Red — Body + Lid)**
 
-.. stl:: ../_stl/boxes/biome/PlayerBox_Red_body.stl?v=a7254c1b,../_stl/boxes/biome/PlayerBox_Red_lid.stl?v=9ec77124
+.. stl:: ../_stl/boxes/biome/PlayerBox_Red_body.stl?v=a7254c1b,../_stl/boxes/biome/PlayerBox_Red_lid.stl?v=01af9960
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/biome/PlayerBox_Red_body.stl?v=a7254c1b" data-stl-combine="../_stl/boxes/biome/PlayerBox_Red_body.stl?v=a7254c1b,../_stl/boxes/biome/PlayerBox_Red_lid.stl?v=9ec77124" download="PlayerBox_Red_assembled.stl">⬇ Download Assembled PlayerBox_Red STL (<code>PlayerBox_Red_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/biome/PlayerBox_Red_body.stl?v=a7254c1b" data-stl-combine="../_stl/boxes/biome/PlayerBox_Red_body.stl?v=a7254c1b,../_stl/boxes/biome/PlayerBox_Red_lid.stl?v=01af9960" download="PlayerBox_Red_assembled.stl">⬇ Download Assembled PlayerBox_Red STL (<code>PlayerBox_Red_assembled.stl</code>)</a></p>
 
 **Part: PlayerBox_Red Body**
 
@@ -185,12 +185,12 @@ PlayerBox_Red
 
 **Part: PlayerBox_Red Lid**
 
-.. stl:: ../_stl/boxes/biome/PlayerBox_Red_lid.stl?v=9ec77124
+.. stl:: ../_stl/boxes/biome/PlayerBox_Red_lid.stl?v=01af9960
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/biome/PlayerBox_Red_lid.stl?v=9ec77124" download="PlayerBox_Red_lid.stl">⬇ Download PlayerBox_Red Lid STL (<code>PlayerBox_Red_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/biome/PlayerBox_Red_lid.stl?v=01af9960" download="PlayerBox_Red_lid.stl">⬇ Download PlayerBox_Red Lid STL (<code>PlayerBox_Red_lid.stl</code>)</a></p>
 
 .. _box-biome-resource_mouse:
 
@@ -204,12 +204,12 @@ Resource_Mouse
 
 **Assembled Box (Resource_Mouse — Body + Lid)**
 
-.. stl:: ../_stl/boxes/biome/Resource_Mouse_body.stl?v=136dc15f,../_stl/boxes/biome/Resource_Mouse_lid.stl?v=89f3ef3b
+.. stl:: ../_stl/boxes/biome/Resource_Mouse_body.stl?v=136dc15f,../_stl/boxes/biome/Resource_Mouse_lid.stl?v=979f9477
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/biome/Resource_Mouse_body.stl?v=136dc15f" data-stl-combine="../_stl/boxes/biome/Resource_Mouse_body.stl?v=136dc15f,../_stl/boxes/biome/Resource_Mouse_lid.stl?v=89f3ef3b" download="Resource_Mouse_assembled.stl">⬇ Download Assembled Resource_Mouse STL (<code>Resource_Mouse_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/biome/Resource_Mouse_body.stl?v=136dc15f" data-stl-combine="../_stl/boxes/biome/Resource_Mouse_body.stl?v=136dc15f,../_stl/boxes/biome/Resource_Mouse_lid.stl?v=979f9477" download="Resource_Mouse_assembled.stl">⬇ Download Assembled Resource_Mouse STL (<code>Resource_Mouse_assembled.stl</code>)</a></p>
 
 **Part: Resource_Mouse Body**
 
@@ -222,12 +222,12 @@ Resource_Mouse
 
 **Part: Resource_Mouse Lid**
 
-.. stl:: ../_stl/boxes/biome/Resource_Mouse_lid.stl?v=89f3ef3b
+.. stl:: ../_stl/boxes/biome/Resource_Mouse_lid.stl?v=979f9477
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/biome/Resource_Mouse_lid.stl?v=89f3ef3b" download="Resource_Mouse_lid.stl">⬇ Download Resource_Mouse Lid STL (<code>Resource_Mouse_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/biome/Resource_Mouse_lid.stl?v=979f9477" download="Resource_Mouse_lid.stl">⬇ Download Resource_Mouse Lid STL (<code>Resource_Mouse_lid.stl</code>)</a></p>
 
 .. _box-biome-resource_sun:
 
@@ -241,12 +241,12 @@ Resource_Sun
 
 **Assembled Box (Resource_Sun — Body + Lid)**
 
-.. stl:: ../_stl/boxes/biome/Resource_Sun_body.stl?v=6de32b4d,../_stl/boxes/biome/Resource_Sun_lid.stl?v=0fb35d74
+.. stl:: ../_stl/boxes/biome/Resource_Sun_body.stl?v=6de32b4d,../_stl/boxes/biome/Resource_Sun_lid.stl?v=ddf78301
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/biome/Resource_Sun_body.stl?v=6de32b4d" data-stl-combine="../_stl/boxes/biome/Resource_Sun_body.stl?v=6de32b4d,../_stl/boxes/biome/Resource_Sun_lid.stl?v=0fb35d74" download="Resource_Sun_assembled.stl">⬇ Download Assembled Resource_Sun STL (<code>Resource_Sun_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/biome/Resource_Sun_body.stl?v=6de32b4d" data-stl-combine="../_stl/boxes/biome/Resource_Sun_body.stl?v=6de32b4d,../_stl/boxes/biome/Resource_Sun_lid.stl?v=ddf78301" download="Resource_Sun_assembled.stl">⬇ Download Assembled Resource_Sun STL (<code>Resource_Sun_assembled.stl</code>)</a></p>
 
 **Part: Resource_Sun Body**
 
@@ -259,12 +259,12 @@ Resource_Sun
 
 **Part: Resource_Sun Lid**
 
-.. stl:: ../_stl/boxes/biome/Resource_Sun_lid.stl?v=0fb35d74
+.. stl:: ../_stl/boxes/biome/Resource_Sun_lid.stl?v=ddf78301
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/biome/Resource_Sun_lid.stl?v=0fb35d74" download="Resource_Sun_lid.stl">⬇ Download Resource_Sun Lid STL (<code>Resource_Sun_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/biome/Resource_Sun_lid.stl?v=ddf78301" download="Resource_Sun_lid.stl">⬇ Download Resource_Sun Lid STL (<code>Resource_Sun_lid.stl</code>)</a></p>
 
 .. _box-biome-playerbox_blue:
 
@@ -278,12 +278,12 @@ PlayerBox_Blue
 
 **Assembled Box (PlayerBox_Blue — Body + Lid)**
 
-.. stl:: ../_stl/boxes/biome/PlayerBox_Blue_body.stl?v=2d7393d9,../_stl/boxes/biome/PlayerBox_Blue_lid.stl?v=eee7375c
+.. stl:: ../_stl/boxes/biome/PlayerBox_Blue_body.stl?v=2d7393d9,../_stl/boxes/biome/PlayerBox_Blue_lid.stl?v=3ab8cd52
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/biome/PlayerBox_Blue_body.stl?v=2d7393d9" data-stl-combine="../_stl/boxes/biome/PlayerBox_Blue_body.stl?v=2d7393d9,../_stl/boxes/biome/PlayerBox_Blue_lid.stl?v=eee7375c" download="PlayerBox_Blue_assembled.stl">⬇ Download Assembled PlayerBox_Blue STL (<code>PlayerBox_Blue_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/biome/PlayerBox_Blue_body.stl?v=2d7393d9" data-stl-combine="../_stl/boxes/biome/PlayerBox_Blue_body.stl?v=2d7393d9,../_stl/boxes/biome/PlayerBox_Blue_lid.stl?v=3ab8cd52" download="PlayerBox_Blue_assembled.stl">⬇ Download Assembled PlayerBox_Blue STL (<code>PlayerBox_Blue_assembled.stl</code>)</a></p>
 
 **Part: PlayerBox_Blue Body**
 
@@ -296,12 +296,12 @@ PlayerBox_Blue
 
 **Part: PlayerBox_Blue Lid**
 
-.. stl:: ../_stl/boxes/biome/PlayerBox_Blue_lid.stl?v=eee7375c
+.. stl:: ../_stl/boxes/biome/PlayerBox_Blue_lid.stl?v=3ab8cd52
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/biome/PlayerBox_Blue_lid.stl?v=eee7375c" download="PlayerBox_Blue_lid.stl">⬇ Download PlayerBox_Blue Lid STL (<code>PlayerBox_Blue_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/biome/PlayerBox_Blue_lid.stl?v=3ab8cd52" download="PlayerBox_Blue_lid.stl">⬇ Download PlayerBox_Blue Lid STL (<code>PlayerBox_Blue_lid.stl</code>)</a></p>
 
 .. _box-biome-resource_fish:
 
@@ -315,12 +315,12 @@ Resource_Fish
 
 **Assembled Box (Resource_Fish — Body + Lid)**
 
-.. stl:: ../_stl/boxes/biome/Resource_Fish_body.stl?v=76fd7293,../_stl/boxes/biome/Resource_Fish_lid.stl?v=46b0f2fe
+.. stl:: ../_stl/boxes/biome/Resource_Fish_body.stl?v=76fd7293,../_stl/boxes/biome/Resource_Fish_lid.stl?v=e8876c0a
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/biome/Resource_Fish_body.stl?v=76fd7293" data-stl-combine="../_stl/boxes/biome/Resource_Fish_body.stl?v=76fd7293,../_stl/boxes/biome/Resource_Fish_lid.stl?v=46b0f2fe" download="Resource_Fish_assembled.stl">⬇ Download Assembled Resource_Fish STL (<code>Resource_Fish_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/biome/Resource_Fish_body.stl?v=76fd7293" data-stl-combine="../_stl/boxes/biome/Resource_Fish_body.stl?v=76fd7293,../_stl/boxes/biome/Resource_Fish_lid.stl?v=e8876c0a" download="Resource_Fish_assembled.stl">⬇ Download Assembled Resource_Fish STL (<code>Resource_Fish_assembled.stl</code>)</a></p>
 
 **Part: Resource_Fish Body**
 
@@ -333,12 +333,12 @@ Resource_Fish
 
 **Part: Resource_Fish Lid**
 
-.. stl:: ../_stl/boxes/biome/Resource_Fish_lid.stl?v=46b0f2fe
+.. stl:: ../_stl/boxes/biome/Resource_Fish_lid.stl?v=e8876c0a
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/biome/Resource_Fish_lid.stl?v=46b0f2fe" download="Resource_Fish_lid.stl">⬇ Download Resource_Fish Lid STL (<code>Resource_Fish_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/biome/Resource_Fish_lid.stl?v=e8876c0a" download="Resource_Fish_lid.stl">⬇ Download Resource_Fish Lid STL (<code>Resource_Fish_lid.stl</code>)</a></p>
 
 .. _box-biome-resource_leaf:
 
@@ -352,12 +352,12 @@ Resource_Leaf
 
 **Assembled Box (Resource_Leaf — Body + Lid)**
 
-.. stl:: ../_stl/boxes/biome/Resource_Leaf_body.stl?v=7f0dc06e,../_stl/boxes/biome/Resource_Leaf_lid.stl?v=750d9d92
+.. stl:: ../_stl/boxes/biome/Resource_Leaf_body.stl?v=7f0dc06e,../_stl/boxes/biome/Resource_Leaf_lid.stl?v=eded0ef6
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/biome/Resource_Leaf_body.stl?v=7f0dc06e" data-stl-combine="../_stl/boxes/biome/Resource_Leaf_body.stl?v=7f0dc06e,../_stl/boxes/biome/Resource_Leaf_lid.stl?v=750d9d92" download="Resource_Leaf_assembled.stl">⬇ Download Assembled Resource_Leaf STL (<code>Resource_Leaf_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/biome/Resource_Leaf_body.stl?v=7f0dc06e" data-stl-combine="../_stl/boxes/biome/Resource_Leaf_body.stl?v=7f0dc06e,../_stl/boxes/biome/Resource_Leaf_lid.stl?v=eded0ef6" download="Resource_Leaf_assembled.stl">⬇ Download Assembled Resource_Leaf STL (<code>Resource_Leaf_assembled.stl</code>)</a></p>
 
 **Part: Resource_Leaf Body**
 
@@ -370,12 +370,12 @@ Resource_Leaf
 
 **Part: Resource_Leaf Lid**
 
-.. stl:: ../_stl/boxes/biome/Resource_Leaf_lid.stl?v=750d9d92
+.. stl:: ../_stl/boxes/biome/Resource_Leaf_lid.stl?v=eded0ef6
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/biome/Resource_Leaf_lid.stl?v=750d9d92" download="Resource_Leaf_lid.stl">⬇ Download Resource_Leaf Lid STL (<code>Resource_Leaf_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/biome/Resource_Leaf_lid.stl?v=eded0ef6" download="Resource_Leaf_lid.stl">⬇ Download Resource_Leaf Lid STL (<code>Resource_Leaf_lid.stl</code>)</a></p>
 
 .. _box-biome-playerbox_green:
 
@@ -389,12 +389,12 @@ PlayerBox_Green
 
 **Assembled Box (PlayerBox_Green — Body + Lid)**
 
-.. stl:: ../_stl/boxes/biome/PlayerBox_Green_body.stl?v=bba1a81a,../_stl/boxes/biome/PlayerBox_Green_lid.stl?v=631c526a
+.. stl:: ../_stl/boxes/biome/PlayerBox_Green_body.stl?v=bba1a81a,../_stl/boxes/biome/PlayerBox_Green_lid.stl?v=25185f8f
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/biome/PlayerBox_Green_body.stl?v=bba1a81a" data-stl-combine="../_stl/boxes/biome/PlayerBox_Green_body.stl?v=bba1a81a,../_stl/boxes/biome/PlayerBox_Green_lid.stl?v=631c526a" download="PlayerBox_Green_assembled.stl">⬇ Download Assembled PlayerBox_Green STL (<code>PlayerBox_Green_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/biome/PlayerBox_Green_body.stl?v=bba1a81a" data-stl-combine="../_stl/boxes/biome/PlayerBox_Green_body.stl?v=bba1a81a,../_stl/boxes/biome/PlayerBox_Green_lid.stl?v=25185f8f" download="PlayerBox_Green_assembled.stl">⬇ Download Assembled PlayerBox_Green STL (<code>PlayerBox_Green_assembled.stl</code>)</a></p>
 
 **Part: PlayerBox_Green Body**
 
@@ -407,12 +407,12 @@ PlayerBox_Green
 
 **Part: PlayerBox_Green Lid**
 
-.. stl:: ../_stl/boxes/biome/PlayerBox_Green_lid.stl?v=631c526a
+.. stl:: ../_stl/boxes/biome/PlayerBox_Green_lid.stl?v=25185f8f
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/biome/PlayerBox_Green_lid.stl?v=631c526a" download="PlayerBox_Green_lid.stl">⬇ Download PlayerBox_Green Lid STL (<code>PlayerBox_Green_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/biome/PlayerBox_Green_lid.stl?v=25185f8f" download="PlayerBox_Green_lid.stl">⬇ Download PlayerBox_Green Lid STL (<code>PlayerBox_Green_lid.stl</code>)</a></p>
 
 .. _box-biome-resource_spider:
 
@@ -426,12 +426,12 @@ Resource_Spider
 
 **Assembled Box (Resource_Spider — Body + Lid)**
 
-.. stl:: ../_stl/boxes/biome/Resource_Spider_body.stl?v=b748d22b,../_stl/boxes/biome/Resource_Spider_lid.stl?v=6a4ea89d
+.. stl:: ../_stl/boxes/biome/Resource_Spider_body.stl?v=b748d22b,../_stl/boxes/biome/Resource_Spider_lid.stl?v=33431f2c
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/biome/Resource_Spider_body.stl?v=b748d22b" data-stl-combine="../_stl/boxes/biome/Resource_Spider_body.stl?v=b748d22b,../_stl/boxes/biome/Resource_Spider_lid.stl?v=6a4ea89d" download="Resource_Spider_assembled.stl">⬇ Download Assembled Resource_Spider STL (<code>Resource_Spider_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/biome/Resource_Spider_body.stl?v=b748d22b" data-stl-combine="../_stl/boxes/biome/Resource_Spider_body.stl?v=b748d22b,../_stl/boxes/biome/Resource_Spider_lid.stl?v=33431f2c" download="Resource_Spider_assembled.stl">⬇ Download Assembled Resource_Spider STL (<code>Resource_Spider_assembled.stl</code>)</a></p>
 
 **Part: Resource_Spider Body**
 
@@ -444,12 +444,12 @@ Resource_Spider
 
 **Part: Resource_Spider Lid**
 
-.. stl:: ../_stl/boxes/biome/Resource_Spider_lid.stl?v=6a4ea89d
+.. stl:: ../_stl/boxes/biome/Resource_Spider_lid.stl?v=33431f2c
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/biome/Resource_Spider_lid.stl?v=6a4ea89d" download="Resource_Spider_lid.stl">⬇ Download Resource_Spider Lid STL (<code>Resource_Spider_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/biome/Resource_Spider_lid.stl?v=33431f2c" download="Resource_Spider_lid.stl">⬇ Download Resource_Spider Lid STL (<code>Resource_Spider_lid.stl</code>)</a></p>
 
 .. _box-biome-resource_berry:
 
@@ -463,12 +463,12 @@ Resource_Berry
 
 **Assembled Box (Resource_Berry — Body + Lid)**
 
-.. stl:: ../_stl/boxes/biome/Resource_Berry_body.stl?v=94d81540,../_stl/boxes/biome/Resource_Berry_lid.stl?v=26ec3fe9
+.. stl:: ../_stl/boxes/biome/Resource_Berry_body.stl?v=94d81540,../_stl/boxes/biome/Resource_Berry_lid.stl?v=98c07d2e
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/biome/Resource_Berry_body.stl?v=94d81540" data-stl-combine="../_stl/boxes/biome/Resource_Berry_body.stl?v=94d81540,../_stl/boxes/biome/Resource_Berry_lid.stl?v=26ec3fe9" download="Resource_Berry_assembled.stl">⬇ Download Assembled Resource_Berry STL (<code>Resource_Berry_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/biome/Resource_Berry_body.stl?v=94d81540" data-stl-combine="../_stl/boxes/biome/Resource_Berry_body.stl?v=94d81540,../_stl/boxes/biome/Resource_Berry_lid.stl?v=98c07d2e" download="Resource_Berry_assembled.stl">⬇ Download Assembled Resource_Berry STL (<code>Resource_Berry_assembled.stl</code>)</a></p>
 
 **Part: Resource_Berry Body**
 
@@ -481,12 +481,12 @@ Resource_Berry
 
 **Part: Resource_Berry Lid**
 
-.. stl:: ../_stl/boxes/biome/Resource_Berry_lid.stl?v=26ec3fe9
+.. stl:: ../_stl/boxes/biome/Resource_Berry_lid.stl?v=98c07d2e
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/biome/Resource_Berry_lid.stl?v=26ec3fe9" download="Resource_Berry_lid.stl">⬇ Download Resource_Berry Lid STL (<code>Resource_Berry_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/biome/Resource_Berry_lid.stl?v=98c07d2e" download="Resource_Berry_lid.stl">⬇ Download Resource_Berry Lid STL (<code>Resource_Berry_lid.stl</code>)</a></p>
 
 .. _box-biome-playerbox_yellow:
 
@@ -500,12 +500,12 @@ PlayerBox_Yellow
 
 **Assembled Box (PlayerBox_Yellow — Body + Lid)**
 
-.. stl:: ../_stl/boxes/biome/PlayerBox_Yellow_body.stl?v=bbbf59aa,../_stl/boxes/biome/PlayerBox_Yellow_lid.stl?v=6baba2f1
+.. stl:: ../_stl/boxes/biome/PlayerBox_Yellow_body.stl?v=bbbf59aa,../_stl/boxes/biome/PlayerBox_Yellow_lid.stl?v=83f06bf2
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/biome/PlayerBox_Yellow_body.stl?v=bbbf59aa" data-stl-combine="../_stl/boxes/biome/PlayerBox_Yellow_body.stl?v=bbbf59aa,../_stl/boxes/biome/PlayerBox_Yellow_lid.stl?v=6baba2f1" download="PlayerBox_Yellow_assembled.stl">⬇ Download Assembled PlayerBox_Yellow STL (<code>PlayerBox_Yellow_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/biome/PlayerBox_Yellow_body.stl?v=bbbf59aa" data-stl-combine="../_stl/boxes/biome/PlayerBox_Yellow_body.stl?v=bbbf59aa,../_stl/boxes/biome/PlayerBox_Yellow_lid.stl?v=83f06bf2" download="PlayerBox_Yellow_assembled.stl">⬇ Download Assembled PlayerBox_Yellow STL (<code>PlayerBox_Yellow_assembled.stl</code>)</a></p>
 
 **Part: PlayerBox_Yellow Body**
 
@@ -518,12 +518,12 @@ PlayerBox_Yellow
 
 **Part: PlayerBox_Yellow Lid**
 
-.. stl:: ../_stl/boxes/biome/PlayerBox_Yellow_lid.stl?v=6baba2f1
+.. stl:: ../_stl/boxes/biome/PlayerBox_Yellow_lid.stl?v=83f06bf2
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/biome/PlayerBox_Yellow_lid.stl?v=6baba2f1" download="PlayerBox_Yellow_lid.stl">⬇ Download PlayerBox_Yellow Lid STL (<code>PlayerBox_Yellow_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/biome/PlayerBox_Yellow_lid.stl?v=83f06bf2" download="PlayerBox_Yellow_lid.stl">⬇ Download PlayerBox_Yellow Lid STL (<code>PlayerBox_Yellow_lid.stl</code>)</a></p>
 
 .. _box-biome-resource_chicks:
 
@@ -537,12 +537,12 @@ Resource_Chicks
 
 **Assembled Box (Resource_Chicks — Body + Lid)**
 
-.. stl:: ../_stl/boxes/biome/Resource_Chicks_body.stl?v=c670e378,../_stl/boxes/biome/Resource_Chicks_lid.stl?v=9f4e80f6
+.. stl:: ../_stl/boxes/biome/Resource_Chicks_body.stl?v=c670e378,../_stl/boxes/biome/Resource_Chicks_lid.stl?v=0098794b
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/biome/Resource_Chicks_body.stl?v=c670e378" data-stl-combine="../_stl/boxes/biome/Resource_Chicks_body.stl?v=c670e378,../_stl/boxes/biome/Resource_Chicks_lid.stl?v=9f4e80f6" download="Resource_Chicks_assembled.stl">⬇ Download Assembled Resource_Chicks STL (<code>Resource_Chicks_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/biome/Resource_Chicks_body.stl?v=c670e378" data-stl-combine="../_stl/boxes/biome/Resource_Chicks_body.stl?v=c670e378,../_stl/boxes/biome/Resource_Chicks_lid.stl?v=0098794b" download="Resource_Chicks_assembled.stl">⬇ Download Assembled Resource_Chicks STL (<code>Resource_Chicks_assembled.stl</code>)</a></p>
 
 **Part: Resource_Chicks Body**
 
@@ -555,12 +555,12 @@ Resource_Chicks
 
 **Part: Resource_Chicks Lid**
 
-.. stl:: ../_stl/boxes/biome/Resource_Chicks_lid.stl?v=9f4e80f6
+.. stl:: ../_stl/boxes/biome/Resource_Chicks_lid.stl?v=0098794b
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/biome/Resource_Chicks_lid.stl?v=9f4e80f6" download="Resource_Chicks_lid.stl">⬇ Download Resource_Chicks Lid STL (<code>Resource_Chicks_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/biome/Resource_Chicks_lid.stl?v=0098794b" download="Resource_Chicks_lid.stl">⬇ Download Resource_Chicks Lid STL (<code>Resource_Chicks_lid.stl</code>)</a></p>
 
 .. _box-biome-resource_rabbits:
 
@@ -574,12 +574,12 @@ Resource_Rabbits
 
 **Assembled Box (Resource_Rabbits — Body + Lid)**
 
-.. stl:: ../_stl/boxes/biome/Resource_Rabbits_body.stl?v=e542fe5a,../_stl/boxes/biome/Resource_Rabbits_lid.stl?v=4621c219
+.. stl:: ../_stl/boxes/biome/Resource_Rabbits_body.stl?v=e542fe5a,../_stl/boxes/biome/Resource_Rabbits_lid.stl?v=669f80d1
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/biome/Resource_Rabbits_body.stl?v=e542fe5a" data-stl-combine="../_stl/boxes/biome/Resource_Rabbits_body.stl?v=e542fe5a,../_stl/boxes/biome/Resource_Rabbits_lid.stl?v=4621c219" download="Resource_Rabbits_assembled.stl">⬇ Download Assembled Resource_Rabbits STL (<code>Resource_Rabbits_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/biome/Resource_Rabbits_body.stl?v=e542fe5a" data-stl-combine="../_stl/boxes/biome/Resource_Rabbits_body.stl?v=e542fe5a,../_stl/boxes/biome/Resource_Rabbits_lid.stl?v=669f80d1" download="Resource_Rabbits_assembled.stl">⬇ Download Assembled Resource_Rabbits STL (<code>Resource_Rabbits_assembled.stl</code>)</a></p>
 
 **Part: Resource_Rabbits Body**
 
@@ -592,12 +592,12 @@ Resource_Rabbits
 
 **Part: Resource_Rabbits Lid**
 
-.. stl:: ../_stl/boxes/biome/Resource_Rabbits_lid.stl?v=4621c219
+.. stl:: ../_stl/boxes/biome/Resource_Rabbits_lid.stl?v=669f80d1
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/biome/Resource_Rabbits_lid.stl?v=4621c219" download="Resource_Rabbits_lid.stl">⬇ Download Resource_Rabbits Lid STL (<code>Resource_Rabbits_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/biome/Resource_Rabbits_lid.stl?v=669f80d1" download="Resource_Rabbits_lid.stl">⬇ Download Resource_Rabbits Lid STL (<code>Resource_Rabbits_lid.stl</code>)</a></p>
 
 .. _box-biome-cardbox_maindeck1:
 
@@ -611,12 +611,12 @@ CardBox_MainDeck1
 
 **Assembled Box (CardBox_MainDeck1 — Body + Lid)**
 
-.. stl:: ../_stl/boxes/biome/CardBox_MainDeck1_body.stl?v=a242eea2,../_stl/boxes/biome/CardBox_MainDeck1_lid.stl?v=88ba5bfa
+.. stl:: ../_stl/boxes/biome/CardBox_MainDeck1_body.stl?v=a242eea2,../_stl/boxes/biome/CardBox_MainDeck1_lid.stl?v=ce73b8b7
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/biome/CardBox_MainDeck1_body.stl?v=a242eea2" data-stl-combine="../_stl/boxes/biome/CardBox_MainDeck1_body.stl?v=a242eea2,../_stl/boxes/biome/CardBox_MainDeck1_lid.stl?v=88ba5bfa" download="CardBox_MainDeck1_assembled.stl">⬇ Download Assembled CardBox_MainDeck1 STL (<code>CardBox_MainDeck1_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/biome/CardBox_MainDeck1_body.stl?v=a242eea2" data-stl-combine="../_stl/boxes/biome/CardBox_MainDeck1_body.stl?v=a242eea2,../_stl/boxes/biome/CardBox_MainDeck1_lid.stl?v=ce73b8b7" download="CardBox_MainDeck1_assembled.stl">⬇ Download Assembled CardBox_MainDeck1 STL (<code>CardBox_MainDeck1_assembled.stl</code>)</a></p>
 
 **Part: CardBox_MainDeck1 Body**
 
@@ -629,12 +629,12 @@ CardBox_MainDeck1
 
 **Part: CardBox_MainDeck1 Lid**
 
-.. stl:: ../_stl/boxes/biome/CardBox_MainDeck1_lid.stl?v=88ba5bfa
+.. stl:: ../_stl/boxes/biome/CardBox_MainDeck1_lid.stl?v=ce73b8b7
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/biome/CardBox_MainDeck1_lid.stl?v=88ba5bfa" download="CardBox_MainDeck1_lid.stl">⬇ Download CardBox_MainDeck1 Lid STL (<code>CardBox_MainDeck1_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/biome/CardBox_MainDeck1_lid.stl?v=ce73b8b7" download="CardBox_MainDeck1_lid.stl">⬇ Download CardBox_MainDeck1 Lid STL (<code>CardBox_MainDeck1_lid.stl</code>)</a></p>
 
 .. _box-biome-cardbox_maindeck2:
 
@@ -648,12 +648,12 @@ CardBox_MainDeck2
 
 **Assembled Box (CardBox_MainDeck2 — Body + Lid)**
 
-.. stl:: ../_stl/boxes/biome/CardBox_MainDeck2_body.stl?v=6f9359d3,../_stl/boxes/biome/CardBox_MainDeck2_lid.stl?v=95aaa11c
+.. stl:: ../_stl/boxes/biome/CardBox_MainDeck2_body.stl?v=6f9359d3,../_stl/boxes/biome/CardBox_MainDeck2_lid.stl?v=00806cfb
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/biome/CardBox_MainDeck2_body.stl?v=6f9359d3" data-stl-combine="../_stl/boxes/biome/CardBox_MainDeck2_body.stl?v=6f9359d3,../_stl/boxes/biome/CardBox_MainDeck2_lid.stl?v=95aaa11c" download="CardBox_MainDeck2_assembled.stl">⬇ Download Assembled CardBox_MainDeck2 STL (<code>CardBox_MainDeck2_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/biome/CardBox_MainDeck2_body.stl?v=6f9359d3" data-stl-combine="../_stl/boxes/biome/CardBox_MainDeck2_body.stl?v=6f9359d3,../_stl/boxes/biome/CardBox_MainDeck2_lid.stl?v=00806cfb" download="CardBox_MainDeck2_assembled.stl">⬇ Download Assembled CardBox_MainDeck2 STL (<code>CardBox_MainDeck2_assembled.stl</code>)</a></p>
 
 **Part: CardBox_MainDeck2 Body**
 
@@ -666,12 +666,12 @@ CardBox_MainDeck2
 
 **Part: CardBox_MainDeck2 Lid**
 
-.. stl:: ../_stl/boxes/biome/CardBox_MainDeck2_lid.stl?v=95aaa11c
+.. stl:: ../_stl/boxes/biome/CardBox_MainDeck2_lid.stl?v=00806cfb
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/biome/CardBox_MainDeck2_lid.stl?v=95aaa11c" download="CardBox_MainDeck2_lid.stl">⬇ Download CardBox_MainDeck2 Lid STL (<code>CardBox_MainDeck2_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/biome/CardBox_MainDeck2_lid.stl?v=00806cfb" download="CardBox_MainDeck2_lid.stl">⬇ Download CardBox_MainDeck2 Lid STL (<code>CardBox_MainDeck2_lid.stl</code>)</a></p>
 
 Spacer Trays
 ------------

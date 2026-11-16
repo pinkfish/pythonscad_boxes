@@ -1774,20 +1774,19 @@
         <span class="k">return</span>
 
     <span class="c1"># In framed mode, the diagonal hatching spaces between strips are always cut</span>
-    <span class="c1"># as through-holes in the lid. If frame_color is set, it colours the outer</span>
-    <span class="c1"># frame border and solid strips themselves on the top layer rather than</span>
-    <span class="c1"># filling the through-hole spaces.</span>
+    <span class="c1"># as through-holes in the lid. If frame_color is set, it colours only the</span>
+    <span class="c1"># outer perimeter edge border ring (`label.frame`), leaving the interior</span>
+    <span class="c1"># 1.5mm border spacing, strips, and text backing in the lid's own colour.</span>
     <span class="k">if</span> <span class="n">label</span><span class="o">.</span><span class="n">hatching</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">hatching_cut</span> <span class="o">=</span> <span class="n">_as_depth</span><span class="p">(</span><span class="n">label</span><span class="o">.</span><span class="n">hatching</span><span class="p">,</span> <span class="n">lid_thickness</span> <span class="o">+</span> <span class="mf">2.0</span><span class="p">)</span>
         <span class="n">hatching_cut</span> <span class="o">=</span> <span class="n">hatching_cut</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">origin_x</span><span class="p">,</span> <span class="n">origin_y</span><span class="p">,</span> <span class="n">top_z</span> <span class="o">-</span> <span class="n">lid_thickness</span> <span class="o">-</span> <span class="mf">1.0</span><span class="p">])</span>
         <span class="n">result</span><span class="o">.</span><span class="n">solid</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">solid</span> <span class="o">-</span> <span class="n">hatching_cut</span>
 
     <span class="n">frame_part</span><span class="p">:</span> <span class="n">Bosl2Solid</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="k">if</span> <span class="n">builder</span><span class="o">.</span><span class="n">frame_color</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">label</span><span class="o">.</span><span class="n">plate</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">frame_part</span> <span class="o">=</span> <span class="n">label</span><span class="o">.</span><span class="n">plate</span>
+    <span class="k">if</span> <span class="n">builder</span><span class="o">.</span><span class="n">frame_color</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">label</span><span class="o">.</span><span class="n">frame</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">frame_part</span> <span class="o">=</span> <span class="n">label</span><span class="o">.</span><span class="n">frame</span> <span class="o">-</span> <span class="n">label</span><span class="o">.</span><span class="n">text</span>
         <span class="k">if</span> <span class="n">label</span><span class="o">.</span><span class="n">hatching</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">frame_part</span> <span class="o">=</span> <span class="n">frame_part</span> <span class="o">-</span> <span class="n">label</span><span class="o">.</span><span class="n">hatching</span>
-        <span class="n">frame_part</span> <span class="o">=</span> <span class="n">frame_part</span> <span class="o">-</span> <span class="n">label</span><span class="o">.</span><span class="n">text</span>
 
     <span class="c1"># Inlaid, not embossed (FR-022a): each coloured part is cut out of the lid</span>
     <span class="c1"># and put back in its own colour, exactly as deep as the recess, so the</span>

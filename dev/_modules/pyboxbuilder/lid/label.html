@@ -544,6 +544,8 @@
 <span class="sd">    Not a coloured part — it stays lid material. Carried so the pattern knows</span>
 <span class="sd">    what to keep clear of and the single-colour pass knows what to engrave.</span>
 <span class="sd">    """</span>
+    <span class="n">frame</span><span class="p">:</span> <span class="n">Bosl2Solid</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">"""Framed mode only — the outer border ring around the label perimeter."""</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">backing</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
@@ -729,18 +731,63 @@
     <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">cuboid</span>
 
     <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.rounding</span><span class="w"> </span><span class="kn">import</span> <span class="n">vertical_edges</span>
+
     <span class="n">plate_solid</span> <span class="o">=</span> <span class="n">cuboid</span><span class="p">([</span><span class="n">plate_w</span><span class="p">,</span> <span class="n">plate_l</span><span class="p">,</span> <span class="n">BACKING_HEIGHT_MM</span><span class="p">],</span> <span class="n">rounding</span><span class="o">=</span><span class="n">rounding_val</span><span class="p">,</span> <span class="n">edges</span><span class="o">=</span><span class="n">vertical_edges</span><span class="p">())</span>
     <span class="n">plate</span> <span class="o">=</span> <span class="n">corner</span><span class="p">(</span><span class="n">plate_solid</span><span class="p">,</span> <span class="p">[</span><span class="n">plate_w</span><span class="p">,</span> <span class="n">plate_l</span><span class="p">,</span> <span class="n">BACKING_HEIGHT_MM</span><span class="p">],</span> <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="n">plate_x</span><span class="p">,</span> <span class="n">plate_y</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">))</span>
-    <span class="n">hatching</span> <span class="o">=</span> <span class="n">corner</span><span class="p">(</span>
-        <span class="n">_build_hatching</span><span class="p">(</span><span class="n">plate_w</span><span class="p">,</span> <span class="n">plate_l</span><span class="p">,</span> <span class="n">border</span><span class="o">=</span><span class="n">border</span><span class="p">,</span> <span class="n">rounding</span><span class="o">=</span><span class="n">rounding_val</span><span class="p">,</span> <span class="n">text_gap</span><span class="o">=</span><span class="n">gap</span><span class="p">),</span>
+    <span class="n">clip_cut</span> <span class="o">=</span> <span class="n">_build_clip_solid</span><span class="p">(</span>
+        <span class="n">plate_w</span><span class="p">,</span>
+        <span class="n">plate_l</span><span class="p">,</span>
+        <span class="n">border</span><span class="o">=</span><span class="n">border</span><span class="p">,</span>
+        <span class="n">rounding</span><span class="o">=</span><span class="n">rounding_val</span><span class="p">,</span>
+        <span class="n">text_gap</span><span class="o">=</span><span class="n">gap</span><span class="p">,</span>
+        <span class="n">height</span><span class="o">=</span><span class="n">BACKING_HEIGHT_MM</span> <span class="o">+</span> <span class="mf">2.0</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">frame_ring</span> <span class="o">=</span> <span class="n">corner</span><span class="p">(</span>
+        <span class="n">plate_solid</span> <span class="o">-</span> <span class="n">clip_cut</span> <span class="k">if</span> <span class="n">clip_cut</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">plate_solid</span><span class="p">,</span>
         <span class="p">[</span><span class="n">plate_w</span><span class="p">,</span> <span class="n">plate_l</span><span class="p">,</span> <span class="n">BACKING_HEIGHT_MM</span><span class="p">],</span>
         <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="n">plate_x</span><span class="p">,</span> <span class="n">plate_y</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">raw_hatching</span> <span class="o">=</span> <span class="n">_build_hatching</span><span class="p">(</span><span class="n">plate_w</span><span class="p">,</span> <span class="n">plate_l</span><span class="p">,</span> <span class="n">border</span><span class="o">=</span><span class="n">border</span><span class="p">,</span> <span class="n">rounding</span><span class="o">=</span><span class="n">rounding_val</span><span class="p">,</span> <span class="n">text_gap</span><span class="o">=</span><span class="n">gap</span><span class="p">)</span>
+    <span class="n">hatching</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">corner</span><span class="p">(</span><span class="n">raw_hatching</span><span class="p">,</span> <span class="p">[</span><span class="n">plate_w</span><span class="p">,</span> <span class="n">plate_l</span><span class="p">,</span> <span class="n">BACKING_HEIGHT_MM</span><span class="p">],</span> <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="n">plate_x</span><span class="p">,</span> <span class="n">plate_y</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">raw_hatching</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+        <span class="k">else</span> <span class="kc">None</span>
     <span class="p">)</span>
     <span class="c1"># The striped grid stops at the lettering: the two are inlaid side by side</span>
     <span class="c1"># into one face, so a stripe running under a glyph would be competing with</span>
     <span class="c1"># it for the same top layer.</span>
-    <span class="k">return</span> <span class="n">Label</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="n">solid</span><span class="p">,</span> <span class="n">hatching</span><span class="o">=</span><span class="n">hatching</span> <span class="o">-</span> <span class="n">solid</span><span class="p">,</span> <span class="n">plate</span><span class="o">=</span><span class="n">plate</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">Label</span><span class="p">(</span>
+        <span class="n">text</span><span class="o">=</span><span class="n">solid</span><span class="p">,</span>
+        <span class="n">hatching</span><span class="o">=</span><span class="n">hatching</span> <span class="o">-</span> <span class="n">solid</span> <span class="k">if</span> <span class="n">hatching</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">plate</span><span class="o">=</span><span class="n">plate</span><span class="p">,</span>
+        <span class="n">frame</span><span class="o">=</span><span class="n">frame_ring</span><span class="p">,</span>
+    <span class="p">)</span></div>
 
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_build_clip_solid</span><span class="p">(</span>
+    <span class="n">width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">border</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.5</span><span class="p">,</span>
+    <span class="n">rounding</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">5.0</span><span class="p">,</span>
+    <span class="n">text_gap</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">height</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">BACKING_HEIGHT_MM</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Interior cutout cuboid inside the label frame's outer border."""</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">cuboid</span>
+
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.rounding</span><span class="w"> </span><span class="kn">import</span> <span class="n">vertical_edges</span>
+
+    <span class="n">clip_w</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">width</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">border</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+    <span class="n">clip_l</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">length</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">border</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">clip_w</span> <span class="o">&lt;=</span> <span class="mf">0.0</span> <span class="ow">or</span> <span class="n">clip_l</span> <span class="o">&lt;=</span> <span class="mf">0.0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+    <span class="n">clip_rounding</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">rounding</span> <span class="o">-</span> <span class="n">border</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">text_gap</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">max_safe_rounding</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">text_gap</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mf">2.0</span> <span class="o">+</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">2.0</span><span class="p">))</span> <span class="o">-</span> <span class="mf">0.1</span><span class="p">)</span>
+        <span class="n">clip_rounding</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">clip_rounding</span><span class="p">,</span> <span class="n">max_safe_rounding</span><span class="p">)</span>
+    <span class="n">clip_rounding</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">clip_rounding</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="n">clip_w</span><span class="p">,</span> <span class="n">clip_l</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span> <span class="o">-</span> <span class="mf">0.01</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">cuboid</span><span class="p">([</span><span class="n">clip_w</span><span class="p">,</span> <span class="n">clip_l</span><span class="p">,</span> <span class="n">height</span><span class="p">],</span> <span class="n">rounding</span><span class="o">=</span><span class="n">clip_rounding</span><span class="p">,</span> <span class="n">edges</span><span class="o">=</span><span class="n">vertical_edges</span><span class="p">())</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_build_hatching</span><span class="p">(</span>
@@ -750,7 +797,7 @@
     <span class="n">border</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.5</span><span class="p">,</span>
     <span class="n">rounding</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">5.0</span><span class="p">,</span>
     <span class="n">text_gap</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Diagonal hatching lines, centred on the origin and clipped to the area.</span>
 
 <span class="sd">    The lines are cropped to the label rectangle so the hatching cannot spill</span>
@@ -758,6 +805,10 @@
 <span class="sd">    border never encroaches into the text bounding box.</span>
 <span class="sd">    """</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">cuboid</span>
+
+    <span class="n">clip_solid</span> <span class="o">=</span> <span class="n">_build_clip_solid</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">border</span><span class="o">=</span><span class="n">border</span><span class="p">,</span> <span class="n">rounding</span><span class="o">=</span><span class="n">rounding</span><span class="p">,</span> <span class="n">text_gap</span><span class="o">=</span><span class="n">text_gap</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">clip_solid</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
 
     <span class="n">diagonal</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">hypot</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">length</span><span class="p">)</span>
     <span class="n">angle</span> <span class="o">=</span> <span class="mf">45.0</span>
@@ -773,19 +824,6 @@
 
     <span class="n">hatching</span> <span class="o">=</span> <span class="n">union_all</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span>
     <span class="k">assert</span> <span class="n">hatching</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
-    <span class="n">clip_w</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">width</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">border</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
-    <span class="n">clip_l</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">length</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">border</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
-    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.rounding</span><span class="w"> </span><span class="kn">import</span> <span class="n">vertical_edges</span>
-
-    <span class="n">clip_rounding</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">rounding</span> <span class="o">-</span> <span class="n">border</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">text_gap</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">max_safe_rounding</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">text_gap</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mf">2.0</span> <span class="o">+</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">2.0</span><span class="p">))</span> <span class="o">-</span> <span class="mf">0.1</span><span class="p">)</span>
-        <span class="n">clip_rounding</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">clip_rounding</span><span class="p">,</span> <span class="n">max_safe_rounding</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">clip_w</span> <span class="o">&gt;</span> <span class="mf">0.0</span> <span class="ow">and</span> <span class="n">clip_l</span> <span class="o">&gt;</span> <span class="mf">0.0</span><span class="p">:</span>
-        <span class="n">clip_rounding</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">clip_rounding</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="n">clip_w</span><span class="p">,</span> <span class="n">clip_l</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span> <span class="o">-</span> <span class="mf">0.01</span><span class="p">))</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">clip_rounding</span> <span class="o">=</span> <span class="mf">0.0</span>
-    <span class="n">clip_solid</span> <span class="o">=</span> <span class="n">cuboid</span><span class="p">([</span><span class="n">clip_w</span><span class="p">,</span> <span class="n">clip_l</span><span class="p">,</span> <span class="n">BACKING_HEIGHT_MM</span><span class="p">],</span> <span class="n">rounding</span><span class="o">=</span><span class="n">clip_rounding</span><span class="p">,</span> <span class="n">edges</span><span class="o">=</span><span class="n">vertical_edges</span><span class="p">())</span>
     <span class="k">return</span> <span class="n">hatching</span> <span class="o">&amp;</span> <span class="n">clip_solid</span>
 </code></pre></div>
 
