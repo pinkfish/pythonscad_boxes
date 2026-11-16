@@ -1526,8 +1526,8 @@
 <div class="stl-viewer" data-stl-uri="_stl/e19bff93f2b65c9c.stl" data-stl-color="#6f9ac9" style="width:100%;height:360px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a class="reference external" href="_stl/e19bff93f2b65c9c.stl">⬇ Download STL mesh</a></p>
 <p>Key features used here:</p>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">width_ratio=0.5</span></code>: Divides the usable interior into two equal wells. The library calculates divider wall thickness and floor spacing automatically.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">holds_pieces=True</span></code>: Shapes the bottom corners into smooth ergonomic scoops so tokens can be swept out easily with a fingertip.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">width_ratio=0.5</span></code>: Divides the usable interior into two equal wells. The library calculates divider wall thickness and floor spacing automatically and keeps the outer walls solid around the wells.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">holds_pieces=True</span></code>: Shapes the bottom corners into smooth ergonomic scoops so tokens can be swept out easily with a fingertip (for card or tile slots that need side-wall finger access, pass <code class="docutils literal notranslate"><span class="pre">cut=FingerCut.SCOOP</span></code> on the compartment).</p></li>
 </ul>
 <h3 id="adding-lids-patterns-and-labels">Adding Lids, Patterns, and Labels<a class="headerlink" href="#adding-lids-patterns-and-labels" title="Link to this heading">¶</a></h3>
 <p>You can customize lids with geometric patterns, finger grips, or text labels:</p>

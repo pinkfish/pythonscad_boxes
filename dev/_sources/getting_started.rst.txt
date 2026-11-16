@@ -80,8 +80,8 @@ Rather than calculating internal wall widths and floor offsets by hand, you can 
 
 Key features used here:
 
-* ``width_ratio=0.5``: Divides the usable interior into two equal wells. The library calculates divider wall thickness and floor spacing automatically.
-* ``holds_pieces=True``: Shapes the bottom corners into smooth ergonomic scoops so tokens can be swept out easily with a fingertip.
+* ``width_ratio=0.5``: Divides the usable interior into two equal wells. The library calculates divider wall thickness and floor spacing automatically and keeps the outer walls solid around the wells.
+* ``holds_pieces=True``: Shapes the bottom corners into smooth ergonomic scoops so tokens can be swept out easily with a fingertip (for card or tile slots that need side-wall finger access, pass ``cut=FingerCut.SCOOP`` on the compartment).
 
 Adding Lids, Patterns, and Labels
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

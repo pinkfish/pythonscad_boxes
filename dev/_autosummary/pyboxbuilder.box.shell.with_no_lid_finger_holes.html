@@ -1803,9 +1803,14 @@
 <p>Idempotent: an explicit <code class="docutils literal notranslate"><span class="pre">finger_hole(side)</span></code> call on the builder wins, and
 a second call to this changes nothing. A spec that sets
 <code class="docutils literal notranslate"><span class="pre">auto_finger_holes</span></code> to <code class="docutils literal notranslate"><span class="pre">False</span></code> opts out entirely (FR-047b).</p>
+<p>A <strong>compartmented</strong> tray (<code class="docutils literal notranslate"><span class="pre">hollow=False</span></code>) is skipped: its outer rim is
+backed by inner gutter walls and compartment dividers, so an edge dip only
+one <code class="docutils literal notranslate"><span class="pre">wall_thickness</span></code> deep forms a blind pocket in the side wall instead of
+opening into a well (use per-compartment <code class="docutils literal notranslate"><span class="pre">cut=FingerCut.SCOOP</span></code> where side
+access is wanted).</p>
 <p>A <strong>polygon</strong> footprint gets none either (FR-047c). The rule names four
 walls and a longer side, and a polygon has neither — <cite>no_lid_finger_holes</cite>
-would read the bounding box and place a cut on a wall that need not exist.
+would read the bounding box and cut into a wall that need not exist.
 The test is the footprint rather than the box type, because that is what
 the rule is actually about; an explicit <cite>finger_hole(side)</cite> still works,
 since the caller can see the outline.</p>

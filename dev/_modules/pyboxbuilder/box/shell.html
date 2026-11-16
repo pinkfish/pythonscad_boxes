@@ -1171,9 +1171,15 @@
 <span class="sd">    a second call to this changes nothing. A spec that sets</span>
 <span class="sd">    ``auto_finger_holes`` to ``False`` opts out entirely (FR-047b).</span>
 
+<span class="sd">    A **compartmented** tray (``hollow=False``) is skipped: its outer rim is</span>
+<span class="sd">    backed by inner gutter walls and compartment dividers, so an edge dip only</span>
+<span class="sd">    one ``wall_thickness`` deep forms a blind pocket in the side wall instead of</span>
+<span class="sd">    opening into a well (use per-compartment ``cut=FingerCut.SCOOP`` where side</span>
+<span class="sd">    access is wanted).</span>
+
 <span class="sd">    A **polygon** footprint gets none either (FR-047c). The rule names four</span>
 <span class="sd">    walls and a longer side, and a polygon has neither — `no_lid_finger_holes`</span>
-<span class="sd">    would read the bounding box and place a cut on a wall that need not exist.</span>
+<span class="sd">    would read the bounding box and cut into a wall that need not exist.</span>
 <span class="sd">    The test is the footprint rather than the box type, because that is what</span>
 <span class="sd">    the rule is actually about; an explicit `finger_hole(side)` still works,</span>
 <span class="sd">    since the caller can see the outline.</span>
@@ -1185,7 +1191,7 @@
 <span class="sd">        The spec, or a copy carrying the automatic pair.</span>
 
 <span class="sd">    """</span>
-    <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">auto_finger_holes</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">spec</span><span class="o">.</span><span class="n">finger_holes</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">spec</span><span class="o">.</span><span class="n">path</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">auto_finger_holes</span> <span class="ow">and</span> <span class="n">spec</span><span class="o">.</span><span class="n">hollow</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">spec</span><span class="o">.</span><span class="n">finger_holes</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">spec</span><span class="o">.</span><span class="n">path</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">replace</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="n">finger_holes</span><span class="o">=</span><span class="n">no_lid_finger_holes</span><span class="p">(</span><span class="n">spec</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">spec</span></div>
 
