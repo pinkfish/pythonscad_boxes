@@ -1175,11 +1175,20 @@ class InsertColourTests(unittest.TestCase):
         for ins in dec.inserts:
             self.assertAlmostEqual(volume(ins.solid & hatch_top), 0.0, places=3)
 
-        # The two colored inserts (text + frame/strips) must be disjoint and top-layer only.
+        # The two colored inserts (text + outer border ring) must be disjoint and top-layer only.
         self.assertAlmostEqual(volume(dec.inserts[0].solid & dec.inserts[1].solid), 0.0, places=3)
         for ins in dec.inserts:
             (_, _, icz), (_, _, ih) = _bounds_cs(ins.solid)
             self.assertAlmostEqual(ih, INLAY_DEPTH_MM, places=4)
             self.assertGreaterEqual(icz - ih / 2.0, 2.0 - INLAY_DEPTH_MM - 1e-4)
+
+        # frame_color insert must only overlap the outer edge border ring, never the
+        # interior 1.5mm spacing, interior strips, or text area inside.
+        assert lbl.frame is not None
+        frame_insert = next(ins for ins in dec.inserts if tuple(round(v, 3) for v in ins.color.rgba[:3]) == (1.0, 0.843, 0.0))
+        interior_zone = (lbl.plate - lbl.frame).translate([0.0, 0.0, 2.0 - INLAY_DEPTH_MM])
+        self.assertAlmostEqual(volume(frame_insert.solid & interior_zone), 0.0, places=3)
+        self.assertGreater(volume(frame_insert.solid), 0.0)
+
 
 
