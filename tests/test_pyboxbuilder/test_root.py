@@ -3,7 +3,13 @@
 
 import unittest
 
-from boxes.root.root import project
+from boxes.root.root import (
+    ROOT_BOX_CATALOG,
+    ROOT_EXPANSIONS,
+    RootBoxCategory,
+    build_root_project,
+    project,
+)
 
 
 class TestRoot(unittest.TestCase):
@@ -81,3 +87,45 @@ class TestRoot(unittest.TestCase):
             elements = box.compartments[0].elements
             texts = [el.shape_file for el in elements if el.shape_file == "Relation"]
             self.assertEqual(len(texts), 2, f"{label} should have two Relation inlays")
+
+    def test_base_only_expansion_selection(self) -> None:
+        """Verify Base Game builds cleanly without Riverfolk expansion boxes."""
+        base_proj = build_root_project(("base",))
+        base_labels = {b.label for b in base_proj._boxes}
+        self.assertEqual(len(base_labels), 16)
+        for absent in (
+            "LizardBoxBottom",
+            "LizardBoxTop",
+            "RiverfolkBoxBottom",
+            "RiverfolkBoxTop",
+            "VagabondBox2",
+        ):
+            self.assertNotIn(absent, base_labels)
+
+        base_build = base_proj.build()
+        spacers = [p for p in base_build.pieces if p.kind == "spacer"]
+        self.assertGreater(len(spacers), 0)
+        for piece in base_build.pieces:
+            if piece.position is None:
+                continue
+            self.assertGreaterEqual(piece.position[2], 28.0 - 1e-3)
+
+    def test_subgroup_filter_and_planned_expansions(self) -> None:
+        """Verify custom subgroup filtering, complete box catalog, and planned expansion hooks."""
+        custom = build_root_project(subgroups=("shared_cards", "marquise"))
+        self.assertEqual(
+            {b.label for b in custom._boxes},
+            {"BaseCardBox", "OverviewCardBox", "MarquisBoxBottom", "MarquisBoxTop"},
+        )
+
+        catalog_labels = {meta.label for meta in ROOT_BOX_CATALOG}
+        self.assertEqual(catalog_labels, {b.label for b in project._boxes})
+        self.assertEqual(
+            {meta.category for meta in ROOT_BOX_CATALOG},
+            {RootBoxCategory.CARDS, RootBoxCategory.FACTIONS, RootBoxCategory.ITEMS_AND_DICE},
+        )
+
+        planned = {spec.key for spec in ROOT_EXPANSIONS if spec.status == "planned"}
+        self.assertTrue({"underworld", "marauder"}.issubset(planned))
+        with self.assertRaises(NotImplementedError):
+            build_root_project(("base", "underworld"))
