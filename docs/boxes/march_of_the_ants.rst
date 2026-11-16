@@ -15,12 +15,12 @@ Full Box Packing
 
 Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
-.. stl:: ../_stl/boxes/march_of_the_ants/HexTileBox_body.stl?v=fd095e79,../_stl/boxes/march_of_the_ants/HexTileBox_lid.stl?v=ea039b05,../_stl/boxes/march_of_the_ants/CardBox_Base_body.stl?v=e2acb1d9,../_stl/boxes/march_of_the_ants/CardBox_Base_lid.stl?v=7a8212f1,../_stl/boxes/march_of_the_ants/CardBox_Expansion_body.stl?v=b2df47c6,../_stl/boxes/march_of_the_ants/CardBox_Expansion_lid.stl?v=e22705f7,../_stl/boxes/march_of_the_ants/FoodTokensBox_body.stl?v=5e912629,../_stl/boxes/march_of_the_ants/FoodTokensBox_lid.stl?v=67b7e2b8,../_stl/boxes/march_of_the_ants/PredatorsBox_body.stl?v=b0d1b4bf,../_stl/boxes/march_of_the_ants/PredatorsBox_lid.stl?v=9be93a1b,../_stl/boxes/march_of_the_ants/PlayerBox_Red_body.stl?v=30256947,../_stl/boxes/march_of_the_ants/PlayerBox_Red_lid.stl?v=a085609f,../_stl/boxes/march_of_the_ants/PlayerBox_Blue_body.stl?v=ba0490bb,../_stl/boxes/march_of_the_ants/PlayerBox_Blue_lid.stl?v=0a205a9e,../_stl/boxes/march_of_the_ants/PlayerBox_Yellow_body.stl?v=ad2abf7d,../_stl/boxes/march_of_the_ants/PlayerBox_Yellow_lid.stl?v=f278195f,../_stl/boxes/march_of_the_ants/PlayerBox_Green_body.stl?v=57788bd0,../_stl/boxes/march_of_the_ants/PlayerBox_Green_lid.stl?v=49f07167,../_stl/boxes/march_of_the_ants/PlayerBox_Black_body.stl?v=fcdc28b6,../_stl/boxes/march_of_the_ants/PlayerBox_Black_lid.stl?v=fa3e9c1a,../_stl/boxes/march_of_the_ants/spacer_1.stl?v=02b8cf34
+.. stl:: ../_stl/boxes/march_of_the_ants/HexTileBox_body.stl?v=fd095e79,../_stl/boxes/march_of_the_ants/HexTileBox_lid.stl?v=ca4cd24a,../_stl/boxes/march_of_the_ants/CardBox_Base_body.stl?v=e2acb1d9,../_stl/boxes/march_of_the_ants/CardBox_Base_lid.stl?v=0872ca10,../_stl/boxes/march_of_the_ants/CardBox_Expansion_body.stl?v=b2df47c6,../_stl/boxes/march_of_the_ants/CardBox_Expansion_lid.stl?v=81843680,../_stl/boxes/march_of_the_ants/FoodTokensBox_body.stl?v=5e912629,../_stl/boxes/march_of_the_ants/FoodTokensBox_lid.stl?v=cae66914,../_stl/boxes/march_of_the_ants/PredatorsBox_body.stl?v=b0d1b4bf,../_stl/boxes/march_of_the_ants/PredatorsBox_lid.stl?v=7066f273,../_stl/boxes/march_of_the_ants/PlayerBox_Red_body.stl?v=30256947,../_stl/boxes/march_of_the_ants/PlayerBox_Red_lid.stl?v=f5885bad,../_stl/boxes/march_of_the_ants/PlayerBox_Blue_body.stl?v=ba0490bb,../_stl/boxes/march_of_the_ants/PlayerBox_Blue_lid.stl?v=bbf6efe9,../_stl/boxes/march_of_the_ants/PlayerBox_Yellow_body.stl?v=ad2abf7d,../_stl/boxes/march_of_the_ants/PlayerBox_Yellow_lid.stl?v=0f91fc74,../_stl/boxes/march_of_the_ants/PlayerBox_Green_body.stl?v=57788bd0,../_stl/boxes/march_of_the_ants/PlayerBox_Green_lid.stl?v=cd9b9256,../_stl/boxes/march_of_the_ants/PlayerBox_Black_body.stl?v=fcdc28b6,../_stl/boxes/march_of_the_ants/PlayerBox_Black_lid.stl?v=c469a1f3,../_stl/boxes/march_of_the_ants/spacer_1.stl?v=02b8cf34
    :height: 440px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/march_of_the_ants/HexTileBox_body.stl?v=fd095e79" data-stl-combine="../_stl/boxes/march_of_the_ants/HexTileBox_body.stl?v=fd095e79,../_stl/boxes/march_of_the_ants/HexTileBox_lid.stl?v=ea039b05,../_stl/boxes/march_of_the_ants/CardBox_Base_body.stl?v=e2acb1d9,../_stl/boxes/march_of_the_ants/CardBox_Base_lid.stl?v=7a8212f1,../_stl/boxes/march_of_the_ants/CardBox_Expansion_body.stl?v=b2df47c6,../_stl/boxes/march_of_the_ants/CardBox_Expansion_lid.stl?v=e22705f7,../_stl/boxes/march_of_the_ants/FoodTokensBox_body.stl?v=5e912629,../_stl/boxes/march_of_the_ants/FoodTokensBox_lid.stl?v=67b7e2b8,../_stl/boxes/march_of_the_ants/PredatorsBox_body.stl?v=b0d1b4bf,../_stl/boxes/march_of_the_ants/PredatorsBox_lid.stl?v=9be93a1b,../_stl/boxes/march_of_the_ants/PlayerBox_Red_body.stl?v=30256947,../_stl/boxes/march_of_the_ants/PlayerBox_Red_lid.stl?v=a085609f,../_stl/boxes/march_of_the_ants/PlayerBox_Blue_body.stl?v=ba0490bb,../_stl/boxes/march_of_the_ants/PlayerBox_Blue_lid.stl?v=0a205a9e,../_stl/boxes/march_of_the_ants/PlayerBox_Yellow_body.stl?v=ad2abf7d,../_stl/boxes/march_of_the_ants/PlayerBox_Yellow_lid.stl?v=f278195f,../_stl/boxes/march_of_the_ants/PlayerBox_Green_body.stl?v=57788bd0,../_stl/boxes/march_of_the_ants/PlayerBox_Green_lid.stl?v=49f07167,../_stl/boxes/march_of_the_ants/PlayerBox_Black_body.stl?v=fcdc28b6,../_stl/boxes/march_of_the_ants/PlayerBox_Black_lid.stl?v=fa3e9c1a,../_stl/boxes/march_of_the_ants/spacer_1.stl?v=02b8cf34" download="MarchOfTheAnts_full_packing.stl">⬇ Download Full Box Packing STL (<code>MarchOfTheAnts_full_packing.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/march_of_the_ants/HexTileBox_body.stl?v=fd095e79" data-stl-combine="../_stl/boxes/march_of_the_ants/HexTileBox_body.stl?v=fd095e79,../_stl/boxes/march_of_the_ants/HexTileBox_lid.stl?v=ca4cd24a,../_stl/boxes/march_of_the_ants/CardBox_Base_body.stl?v=e2acb1d9,../_stl/boxes/march_of_the_ants/CardBox_Base_lid.stl?v=0872ca10,../_stl/boxes/march_of_the_ants/CardBox_Expansion_body.stl?v=b2df47c6,../_stl/boxes/march_of_the_ants/CardBox_Expansion_lid.stl?v=81843680,../_stl/boxes/march_of_the_ants/FoodTokensBox_body.stl?v=5e912629,../_stl/boxes/march_of_the_ants/FoodTokensBox_lid.stl?v=cae66914,../_stl/boxes/march_of_the_ants/PredatorsBox_body.stl?v=b0d1b4bf,../_stl/boxes/march_of_the_ants/PredatorsBox_lid.stl?v=7066f273,../_stl/boxes/march_of_the_ants/PlayerBox_Red_body.stl?v=30256947,../_stl/boxes/march_of_the_ants/PlayerBox_Red_lid.stl?v=f5885bad,../_stl/boxes/march_of_the_ants/PlayerBox_Blue_body.stl?v=ba0490bb,../_stl/boxes/march_of_the_ants/PlayerBox_Blue_lid.stl?v=bbf6efe9,../_stl/boxes/march_of_the_ants/PlayerBox_Yellow_body.stl?v=ad2abf7d,../_stl/boxes/march_of_the_ants/PlayerBox_Yellow_lid.stl?v=0f91fc74,../_stl/boxes/march_of_the_ants/PlayerBox_Green_body.stl?v=57788bd0,../_stl/boxes/march_of_the_ants/PlayerBox_Green_lid.stl?v=cd9b9256,../_stl/boxes/march_of_the_ants/PlayerBox_Black_body.stl?v=fcdc28b6,../_stl/boxes/march_of_the_ants/PlayerBox_Black_lid.stl?v=c469a1f3,../_stl/boxes/march_of_the_ants/spacer_1.stl?v=02b8cf34" download="MarchOfTheAnts_full_packing.stl">⬇ Download Full Box Packing STL (<code>MarchOfTheAnts_full_packing.stl</code>)</a></p>
 
 Parts Overview
 --------------
@@ -105,12 +105,12 @@ HexTileBox
 
 **Assembled Box (HexTileBox — Body + Lid)**
 
-.. stl:: ../_stl/boxes/march_of_the_ants/HexTileBox_body.stl?v=fd095e79,../_stl/boxes/march_of_the_ants/HexTileBox_lid.stl?v=ea039b05
+.. stl:: ../_stl/boxes/march_of_the_ants/HexTileBox_body.stl?v=fd095e79,../_stl/boxes/march_of_the_ants/HexTileBox_lid.stl?v=ca4cd24a
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/march_of_the_ants/HexTileBox_body.stl?v=fd095e79" data-stl-combine="../_stl/boxes/march_of_the_ants/HexTileBox_body.stl?v=fd095e79,../_stl/boxes/march_of_the_ants/HexTileBox_lid.stl?v=ea039b05" download="HexTileBox_assembled.stl">⬇ Download Assembled HexTileBox STL (<code>HexTileBox_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/march_of_the_ants/HexTileBox_body.stl?v=fd095e79" data-stl-combine="../_stl/boxes/march_of_the_ants/HexTileBox_body.stl?v=fd095e79,../_stl/boxes/march_of_the_ants/HexTileBox_lid.stl?v=ca4cd24a" download="HexTileBox_assembled.stl">⬇ Download Assembled HexTileBox STL (<code>HexTileBox_assembled.stl</code>)</a></p>
 
 **Part: HexTileBox Body**
 
@@ -123,12 +123,12 @@ HexTileBox
 
 **Part: HexTileBox Lid**
 
-.. stl:: ../_stl/boxes/march_of_the_ants/HexTileBox_lid.stl?v=ea039b05
+.. stl:: ../_stl/boxes/march_of_the_ants/HexTileBox_lid.stl?v=ca4cd24a
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/march_of_the_ants/HexTileBox_lid.stl?v=ea039b05" download="HexTileBox_lid.stl">⬇ Download HexTileBox Lid STL (<code>HexTileBox_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/march_of_the_ants/HexTileBox_lid.stl?v=ca4cd24a" download="HexTileBox_lid.stl">⬇ Download HexTileBox Lid STL (<code>HexTileBox_lid.stl</code>)</a></p>
 
 .. _box-march_of_the_ants-cardbox_base:
 
@@ -144,12 +144,12 @@ CardBox_Base
 
 **Assembled Box (CardBox_Base — Body + Lid)**
 
-.. stl:: ../_stl/boxes/march_of_the_ants/CardBox_Base_body.stl?v=e2acb1d9,../_stl/boxes/march_of_the_ants/CardBox_Base_lid.stl?v=7a8212f1
+.. stl:: ../_stl/boxes/march_of_the_ants/CardBox_Base_body.stl?v=e2acb1d9,../_stl/boxes/march_of_the_ants/CardBox_Base_lid.stl?v=0872ca10
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/march_of_the_ants/CardBox_Base_body.stl?v=e2acb1d9" data-stl-combine="../_stl/boxes/march_of_the_ants/CardBox_Base_body.stl?v=e2acb1d9,../_stl/boxes/march_of_the_ants/CardBox_Base_lid.stl?v=7a8212f1" download="CardBox_Base_assembled.stl">⬇ Download Assembled CardBox_Base STL (<code>CardBox_Base_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/march_of_the_ants/CardBox_Base_body.stl?v=e2acb1d9" data-stl-combine="../_stl/boxes/march_of_the_ants/CardBox_Base_body.stl?v=e2acb1d9,../_stl/boxes/march_of_the_ants/CardBox_Base_lid.stl?v=0872ca10" download="CardBox_Base_assembled.stl">⬇ Download Assembled CardBox_Base STL (<code>CardBox_Base_assembled.stl</code>)</a></p>
 
 **Part: CardBox_Base Body**
 
@@ -162,12 +162,12 @@ CardBox_Base
 
 **Part: CardBox_Base Lid**
 
-.. stl:: ../_stl/boxes/march_of_the_ants/CardBox_Base_lid.stl?v=7a8212f1
+.. stl:: ../_stl/boxes/march_of_the_ants/CardBox_Base_lid.stl?v=0872ca10
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/march_of_the_ants/CardBox_Base_lid.stl?v=7a8212f1" download="CardBox_Base_lid.stl">⬇ Download CardBox_Base Lid STL (<code>CardBox_Base_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/march_of_the_ants/CardBox_Base_lid.stl?v=0872ca10" download="CardBox_Base_lid.stl">⬇ Download CardBox_Base Lid STL (<code>CardBox_Base_lid.stl</code>)</a></p>
 
 .. _box-march_of_the_ants-cardbox_expansion:
 
@@ -183,12 +183,12 @@ CardBox_Expansion
 
 **Assembled Box (CardBox_Expansion — Body + Lid)**
 
-.. stl:: ../_stl/boxes/march_of_the_ants/CardBox_Expansion_body.stl?v=b2df47c6,../_stl/boxes/march_of_the_ants/CardBox_Expansion_lid.stl?v=e22705f7
+.. stl:: ../_stl/boxes/march_of_the_ants/CardBox_Expansion_body.stl?v=b2df47c6,../_stl/boxes/march_of_the_ants/CardBox_Expansion_lid.stl?v=81843680
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/march_of_the_ants/CardBox_Expansion_body.stl?v=b2df47c6" data-stl-combine="../_stl/boxes/march_of_the_ants/CardBox_Expansion_body.stl?v=b2df47c6,../_stl/boxes/march_of_the_ants/CardBox_Expansion_lid.stl?v=e22705f7" download="CardBox_Expansion_assembled.stl">⬇ Download Assembled CardBox_Expansion STL (<code>CardBox_Expansion_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/march_of_the_ants/CardBox_Expansion_body.stl?v=b2df47c6" data-stl-combine="../_stl/boxes/march_of_the_ants/CardBox_Expansion_body.stl?v=b2df47c6,../_stl/boxes/march_of_the_ants/CardBox_Expansion_lid.stl?v=81843680" download="CardBox_Expansion_assembled.stl">⬇ Download Assembled CardBox_Expansion STL (<code>CardBox_Expansion_assembled.stl</code>)</a></p>
 
 **Part: CardBox_Expansion Body**
 
@@ -201,12 +201,12 @@ CardBox_Expansion
 
 **Part: CardBox_Expansion Lid**
 
-.. stl:: ../_stl/boxes/march_of_the_ants/CardBox_Expansion_lid.stl?v=e22705f7
+.. stl:: ../_stl/boxes/march_of_the_ants/CardBox_Expansion_lid.stl?v=81843680
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/march_of_the_ants/CardBox_Expansion_lid.stl?v=e22705f7" download="CardBox_Expansion_lid.stl">⬇ Download CardBox_Expansion Lid STL (<code>CardBox_Expansion_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/march_of_the_ants/CardBox_Expansion_lid.stl?v=81843680" download="CardBox_Expansion_lid.stl">⬇ Download CardBox_Expansion Lid STL (<code>CardBox_Expansion_lid.stl</code>)</a></p>
 
 .. _box-march_of_the_ants-foodtokensbox:
 
@@ -220,12 +220,12 @@ FoodTokensBox
 
 **Assembled Box (FoodTokensBox — Body + Lid)**
 
-.. stl:: ../_stl/boxes/march_of_the_ants/FoodTokensBox_body.stl?v=5e912629,../_stl/boxes/march_of_the_ants/FoodTokensBox_lid.stl?v=67b7e2b8
+.. stl:: ../_stl/boxes/march_of_the_ants/FoodTokensBox_body.stl?v=5e912629,../_stl/boxes/march_of_the_ants/FoodTokensBox_lid.stl?v=cae66914
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/march_of_the_ants/FoodTokensBox_body.stl?v=5e912629" data-stl-combine="../_stl/boxes/march_of_the_ants/FoodTokensBox_body.stl?v=5e912629,../_stl/boxes/march_of_the_ants/FoodTokensBox_lid.stl?v=67b7e2b8" download="FoodTokensBox_assembled.stl">⬇ Download Assembled FoodTokensBox STL (<code>FoodTokensBox_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/march_of_the_ants/FoodTokensBox_body.stl?v=5e912629" data-stl-combine="../_stl/boxes/march_of_the_ants/FoodTokensBox_body.stl?v=5e912629,../_stl/boxes/march_of_the_ants/FoodTokensBox_lid.stl?v=cae66914" download="FoodTokensBox_assembled.stl">⬇ Download Assembled FoodTokensBox STL (<code>FoodTokensBox_assembled.stl</code>)</a></p>
 
 **Part: FoodTokensBox Body**
 
@@ -238,12 +238,12 @@ FoodTokensBox
 
 **Part: FoodTokensBox Lid**
 
-.. stl:: ../_stl/boxes/march_of_the_ants/FoodTokensBox_lid.stl?v=67b7e2b8
+.. stl:: ../_stl/boxes/march_of_the_ants/FoodTokensBox_lid.stl?v=cae66914
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/march_of_the_ants/FoodTokensBox_lid.stl?v=67b7e2b8" download="FoodTokensBox_lid.stl">⬇ Download FoodTokensBox Lid STL (<code>FoodTokensBox_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/march_of_the_ants/FoodTokensBox_lid.stl?v=cae66914" download="FoodTokensBox_lid.stl">⬇ Download FoodTokensBox Lid STL (<code>FoodTokensBox_lid.stl</code>)</a></p>
 
 .. _box-march_of_the_ants-predatorsbox:
 
@@ -257,12 +257,12 @@ PredatorsBox
 
 **Assembled Box (PredatorsBox — Body + Lid)**
 
-.. stl:: ../_stl/boxes/march_of_the_ants/PredatorsBox_body.stl?v=b0d1b4bf,../_stl/boxes/march_of_the_ants/PredatorsBox_lid.stl?v=9be93a1b
+.. stl:: ../_stl/boxes/march_of_the_ants/PredatorsBox_body.stl?v=b0d1b4bf,../_stl/boxes/march_of_the_ants/PredatorsBox_lid.stl?v=7066f273
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/march_of_the_ants/PredatorsBox_body.stl?v=b0d1b4bf" data-stl-combine="../_stl/boxes/march_of_the_ants/PredatorsBox_body.stl?v=b0d1b4bf,../_stl/boxes/march_of_the_ants/PredatorsBox_lid.stl?v=9be93a1b" download="PredatorsBox_assembled.stl">⬇ Download Assembled PredatorsBox STL (<code>PredatorsBox_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/march_of_the_ants/PredatorsBox_body.stl?v=b0d1b4bf" data-stl-combine="../_stl/boxes/march_of_the_ants/PredatorsBox_body.stl?v=b0d1b4bf,../_stl/boxes/march_of_the_ants/PredatorsBox_lid.stl?v=7066f273" download="PredatorsBox_assembled.stl">⬇ Download Assembled PredatorsBox STL (<code>PredatorsBox_assembled.stl</code>)</a></p>
 
 **Part: PredatorsBox Body**
 
@@ -275,12 +275,12 @@ PredatorsBox
 
 **Part: PredatorsBox Lid**
 
-.. stl:: ../_stl/boxes/march_of_the_ants/PredatorsBox_lid.stl?v=9be93a1b
+.. stl:: ../_stl/boxes/march_of_the_ants/PredatorsBox_lid.stl?v=7066f273
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/march_of_the_ants/PredatorsBox_lid.stl?v=9be93a1b" download="PredatorsBox_lid.stl">⬇ Download PredatorsBox Lid STL (<code>PredatorsBox_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/march_of_the_ants/PredatorsBox_lid.stl?v=7066f273" download="PredatorsBox_lid.stl">⬇ Download PredatorsBox Lid STL (<code>PredatorsBox_lid.stl</code>)</a></p>
 
 .. _box-march_of_the_ants-playerbox_red:
 
@@ -294,12 +294,12 @@ PlayerBox_Red
 
 **Assembled Box (PlayerBox_Red — Body + Lid)**
 
-.. stl:: ../_stl/boxes/march_of_the_ants/PlayerBox_Red_body.stl?v=30256947,../_stl/boxes/march_of_the_ants/PlayerBox_Red_lid.stl?v=a085609f
+.. stl:: ../_stl/boxes/march_of_the_ants/PlayerBox_Red_body.stl?v=30256947,../_stl/boxes/march_of_the_ants/PlayerBox_Red_lid.stl?v=f5885bad
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/march_of_the_ants/PlayerBox_Red_body.stl?v=30256947" data-stl-combine="../_stl/boxes/march_of_the_ants/PlayerBox_Red_body.stl?v=30256947,../_stl/boxes/march_of_the_ants/PlayerBox_Red_lid.stl?v=a085609f" download="PlayerBox_Red_assembled.stl">⬇ Download Assembled PlayerBox_Red STL (<code>PlayerBox_Red_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/march_of_the_ants/PlayerBox_Red_body.stl?v=30256947" data-stl-combine="../_stl/boxes/march_of_the_ants/PlayerBox_Red_body.stl?v=30256947,../_stl/boxes/march_of_the_ants/PlayerBox_Red_lid.stl?v=f5885bad" download="PlayerBox_Red_assembled.stl">⬇ Download Assembled PlayerBox_Red STL (<code>PlayerBox_Red_assembled.stl</code>)</a></p>
 
 **Part: PlayerBox_Red Body**
 
@@ -312,12 +312,12 @@ PlayerBox_Red
 
 **Part: PlayerBox_Red Lid**
 
-.. stl:: ../_stl/boxes/march_of_the_ants/PlayerBox_Red_lid.stl?v=a085609f
+.. stl:: ../_stl/boxes/march_of_the_ants/PlayerBox_Red_lid.stl?v=f5885bad
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/march_of_the_ants/PlayerBox_Red_lid.stl?v=a085609f" download="PlayerBox_Red_lid.stl">⬇ Download PlayerBox_Red Lid STL (<code>PlayerBox_Red_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/march_of_the_ants/PlayerBox_Red_lid.stl?v=f5885bad" download="PlayerBox_Red_lid.stl">⬇ Download PlayerBox_Red Lid STL (<code>PlayerBox_Red_lid.stl</code>)</a></p>
 
 .. _box-march_of_the_ants-playerbox_blue:
 
@@ -331,12 +331,12 @@ PlayerBox_Blue
 
 **Assembled Box (PlayerBox_Blue — Body + Lid)**
 
-.. stl:: ../_stl/boxes/march_of_the_ants/PlayerBox_Blue_body.stl?v=ba0490bb,../_stl/boxes/march_of_the_ants/PlayerBox_Blue_lid.stl?v=0a205a9e
+.. stl:: ../_stl/boxes/march_of_the_ants/PlayerBox_Blue_body.stl?v=ba0490bb,../_stl/boxes/march_of_the_ants/PlayerBox_Blue_lid.stl?v=bbf6efe9
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/march_of_the_ants/PlayerBox_Blue_body.stl?v=ba0490bb" data-stl-combine="../_stl/boxes/march_of_the_ants/PlayerBox_Blue_body.stl?v=ba0490bb,../_stl/boxes/march_of_the_ants/PlayerBox_Blue_lid.stl?v=0a205a9e" download="PlayerBox_Blue_assembled.stl">⬇ Download Assembled PlayerBox_Blue STL (<code>PlayerBox_Blue_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/march_of_the_ants/PlayerBox_Blue_body.stl?v=ba0490bb" data-stl-combine="../_stl/boxes/march_of_the_ants/PlayerBox_Blue_body.stl?v=ba0490bb,../_stl/boxes/march_of_the_ants/PlayerBox_Blue_lid.stl?v=bbf6efe9" download="PlayerBox_Blue_assembled.stl">⬇ Download Assembled PlayerBox_Blue STL (<code>PlayerBox_Blue_assembled.stl</code>)</a></p>
 
 **Part: PlayerBox_Blue Body**
 
@@ -349,12 +349,12 @@ PlayerBox_Blue
 
 **Part: PlayerBox_Blue Lid**
 
-.. stl:: ../_stl/boxes/march_of_the_ants/PlayerBox_Blue_lid.stl?v=0a205a9e
+.. stl:: ../_stl/boxes/march_of_the_ants/PlayerBox_Blue_lid.stl?v=bbf6efe9
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/march_of_the_ants/PlayerBox_Blue_lid.stl?v=0a205a9e" download="PlayerBox_Blue_lid.stl">⬇ Download PlayerBox_Blue Lid STL (<code>PlayerBox_Blue_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/march_of_the_ants/PlayerBox_Blue_lid.stl?v=bbf6efe9" download="PlayerBox_Blue_lid.stl">⬇ Download PlayerBox_Blue Lid STL (<code>PlayerBox_Blue_lid.stl</code>)</a></p>
 
 .. _box-march_of_the_ants-playerbox_yellow:
 
@@ -368,12 +368,12 @@ PlayerBox_Yellow
 
 **Assembled Box (PlayerBox_Yellow — Body + Lid)**
 
-.. stl:: ../_stl/boxes/march_of_the_ants/PlayerBox_Yellow_body.stl?v=ad2abf7d,../_stl/boxes/march_of_the_ants/PlayerBox_Yellow_lid.stl?v=f278195f
+.. stl:: ../_stl/boxes/march_of_the_ants/PlayerBox_Yellow_body.stl?v=ad2abf7d,../_stl/boxes/march_of_the_ants/PlayerBox_Yellow_lid.stl?v=0f91fc74
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/march_of_the_ants/PlayerBox_Yellow_body.stl?v=ad2abf7d" data-stl-combine="../_stl/boxes/march_of_the_ants/PlayerBox_Yellow_body.stl?v=ad2abf7d,../_stl/boxes/march_of_the_ants/PlayerBox_Yellow_lid.stl?v=f278195f" download="PlayerBox_Yellow_assembled.stl">⬇ Download Assembled PlayerBox_Yellow STL (<code>PlayerBox_Yellow_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/march_of_the_ants/PlayerBox_Yellow_body.stl?v=ad2abf7d" data-stl-combine="../_stl/boxes/march_of_the_ants/PlayerBox_Yellow_body.stl?v=ad2abf7d,../_stl/boxes/march_of_the_ants/PlayerBox_Yellow_lid.stl?v=0f91fc74" download="PlayerBox_Yellow_assembled.stl">⬇ Download Assembled PlayerBox_Yellow STL (<code>PlayerBox_Yellow_assembled.stl</code>)</a></p>
 
 **Part: PlayerBox_Yellow Body**
 
@@ -386,12 +386,12 @@ PlayerBox_Yellow
 
 **Part: PlayerBox_Yellow Lid**
 
-.. stl:: ../_stl/boxes/march_of_the_ants/PlayerBox_Yellow_lid.stl?v=f278195f
+.. stl:: ../_stl/boxes/march_of_the_ants/PlayerBox_Yellow_lid.stl?v=0f91fc74
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/march_of_the_ants/PlayerBox_Yellow_lid.stl?v=f278195f" download="PlayerBox_Yellow_lid.stl">⬇ Download PlayerBox_Yellow Lid STL (<code>PlayerBox_Yellow_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/march_of_the_ants/PlayerBox_Yellow_lid.stl?v=0f91fc74" download="PlayerBox_Yellow_lid.stl">⬇ Download PlayerBox_Yellow Lid STL (<code>PlayerBox_Yellow_lid.stl</code>)</a></p>
 
 .. _box-march_of_the_ants-playerbox_green:
 
@@ -405,12 +405,12 @@ PlayerBox_Green
 
 **Assembled Box (PlayerBox_Green — Body + Lid)**
 
-.. stl:: ../_stl/boxes/march_of_the_ants/PlayerBox_Green_body.stl?v=57788bd0,../_stl/boxes/march_of_the_ants/PlayerBox_Green_lid.stl?v=49f07167
+.. stl:: ../_stl/boxes/march_of_the_ants/PlayerBox_Green_body.stl?v=57788bd0,../_stl/boxes/march_of_the_ants/PlayerBox_Green_lid.stl?v=cd9b9256
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/march_of_the_ants/PlayerBox_Green_body.stl?v=57788bd0" data-stl-combine="../_stl/boxes/march_of_the_ants/PlayerBox_Green_body.stl?v=57788bd0,../_stl/boxes/march_of_the_ants/PlayerBox_Green_lid.stl?v=49f07167" download="PlayerBox_Green_assembled.stl">⬇ Download Assembled PlayerBox_Green STL (<code>PlayerBox_Green_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/march_of_the_ants/PlayerBox_Green_body.stl?v=57788bd0" data-stl-combine="../_stl/boxes/march_of_the_ants/PlayerBox_Green_body.stl?v=57788bd0,../_stl/boxes/march_of_the_ants/PlayerBox_Green_lid.stl?v=cd9b9256" download="PlayerBox_Green_assembled.stl">⬇ Download Assembled PlayerBox_Green STL (<code>PlayerBox_Green_assembled.stl</code>)</a></p>
 
 **Part: PlayerBox_Green Body**
 
@@ -423,12 +423,12 @@ PlayerBox_Green
 
 **Part: PlayerBox_Green Lid**
 
-.. stl:: ../_stl/boxes/march_of_the_ants/PlayerBox_Green_lid.stl?v=49f07167
+.. stl:: ../_stl/boxes/march_of_the_ants/PlayerBox_Green_lid.stl?v=cd9b9256
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/march_of_the_ants/PlayerBox_Green_lid.stl?v=49f07167" download="PlayerBox_Green_lid.stl">⬇ Download PlayerBox_Green Lid STL (<code>PlayerBox_Green_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/march_of_the_ants/PlayerBox_Green_lid.stl?v=cd9b9256" download="PlayerBox_Green_lid.stl">⬇ Download PlayerBox_Green Lid STL (<code>PlayerBox_Green_lid.stl</code>)</a></p>
 
 .. _box-march_of_the_ants-playerbox_black:
 
@@ -442,12 +442,12 @@ PlayerBox_Black
 
 **Assembled Box (PlayerBox_Black — Body + Lid)**
 
-.. stl:: ../_stl/boxes/march_of_the_ants/PlayerBox_Black_body.stl?v=fcdc28b6,../_stl/boxes/march_of_the_ants/PlayerBox_Black_lid.stl?v=fa3e9c1a
+.. stl:: ../_stl/boxes/march_of_the_ants/PlayerBox_Black_body.stl?v=fcdc28b6,../_stl/boxes/march_of_the_ants/PlayerBox_Black_lid.stl?v=c469a1f3
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/march_of_the_ants/PlayerBox_Black_body.stl?v=fcdc28b6" data-stl-combine="../_stl/boxes/march_of_the_ants/PlayerBox_Black_body.stl?v=fcdc28b6,../_stl/boxes/march_of_the_ants/PlayerBox_Black_lid.stl?v=fa3e9c1a" download="PlayerBox_Black_assembled.stl">⬇ Download Assembled PlayerBox_Black STL (<code>PlayerBox_Black_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/march_of_the_ants/PlayerBox_Black_body.stl?v=fcdc28b6" data-stl-combine="../_stl/boxes/march_of_the_ants/PlayerBox_Black_body.stl?v=fcdc28b6,../_stl/boxes/march_of_the_ants/PlayerBox_Black_lid.stl?v=c469a1f3" download="PlayerBox_Black_assembled.stl">⬇ Download Assembled PlayerBox_Black STL (<code>PlayerBox_Black_assembled.stl</code>)</a></p>
 
 **Part: PlayerBox_Black Body**
 
@@ -460,12 +460,12 @@ PlayerBox_Black
 
 **Part: PlayerBox_Black Lid**
 
-.. stl:: ../_stl/boxes/march_of_the_ants/PlayerBox_Black_lid.stl?v=fa3e9c1a
+.. stl:: ../_stl/boxes/march_of_the_ants/PlayerBox_Black_lid.stl?v=c469a1f3
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/march_of_the_ants/PlayerBox_Black_lid.stl?v=fa3e9c1a" download="PlayerBox_Black_lid.stl">⬇ Download PlayerBox_Black Lid STL (<code>PlayerBox_Black_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/march_of_the_ants/PlayerBox_Black_lid.stl?v=c469a1f3" download="PlayerBox_Black_lid.stl">⬇ Download PlayerBox_Black Lid STL (<code>PlayerBox_Black_lid.stl</code>)</a></p>
 
 Spacer Trays
 ------------

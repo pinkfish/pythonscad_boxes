@@ -15,12 +15,12 @@ Full Box Packing
 
 Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
-.. stl:: ../_stl/boxes/maglev_metro/CardBox_Connections_body.stl?v=7a60aaa5,../_stl/boxes/maglev_metro/CardBox_Connections_lid.stl?v=b14249ea,../_stl/boxes/maglev_metro/CardBox_Passengers_body.stl?v=c7ee914d,../_stl/boxes/maglev_metro/CardBox_Passengers_lid.stl?v=8fc09f98,../_stl/boxes/maglev_metro/CardBox_Tracks_body.stl?v=1da78386,../_stl/boxes/maglev_metro/CardBox_Tracks_lid.stl?v=60d29d54,../_stl/boxes/maglev_metro/CardBox_PlayerObjectives_body.stl?v=78b7756c,../_stl/boxes/maglev_metro/CardBox_PlayerObjectives_lid.stl?v=007cfa94,../_stl/boxes/maglev_metro/PlayerBox_green_body.stl?v=788e3a12,../_stl/boxes/maglev_metro/PlayerBox_green_lid.stl?v=90f735f4,../_stl/boxes/maglev_metro/PlayerBox_deeppink_body.stl?v=9c88356e,../_stl/boxes/maglev_metro/PlayerBox_deeppink_lid.stl?v=d9ad8275,../_stl/boxes/maglev_metro/PlayerBox_cyan_body.stl?v=e0690bb4,../_stl/boxes/maglev_metro/PlayerBox_cyan_lid.stl?v=ff8766b6,../_stl/boxes/maglev_metro/PlayerBox_darkorange_body.stl?v=9858758d,../_stl/boxes/maglev_metro/PlayerBox_darkorange_lid.stl?v=bfde113e,../_stl/boxes/maglev_metro/FactoryBox_Factories_body.stl?v=ce54f064,../_stl/boxes/maglev_metro/FactoryBox_Factories_lid.stl?v=e33139c7,../_stl/boxes/maglev_metro/FactoryBox_Warehouses_body.stl?v=314beea3,../_stl/boxes/maglev_metro/FactoryBox_Warehouses_lid.stl?v=425ad35f,../_stl/boxes/maglev_metro/FactoryBox_Labs_body.stl?v=55fd0da6,../_stl/boxes/maglev_metro/FactoryBox_Labs_lid.stl?v=05aa5ece,../_stl/boxes/maglev_metro/FactoryBox_Offices_body.stl?v=46af093d,../_stl/boxes/maglev_metro/FactoryBox_Offices_lid.stl?v=d47c9300,../_stl/boxes/maglev_metro/FactoryBox_Stores_body.stl?v=c7b1b38e,../_stl/boxes/maglev_metro/FactoryBox_Stores_lid.stl?v=ace67d5e,../_stl/boxes/maglev_metro/FactoryBox_Embassies_body.stl?v=76b001fe,../_stl/boxes/maglev_metro/FactoryBox_Embassies_lid.stl?v=a7ccad4a,../_stl/boxes/maglev_metro/spacer_1.stl?v=4117faa5,../_stl/boxes/maglev_metro/spacer_2.stl?v=70265253,../_stl/boxes/maglev_metro/spacer_3.stl?v=df19dd78
+.. stl:: ../_stl/boxes/maglev_metro/CardBox_Connections_body.stl?v=7a60aaa5,../_stl/boxes/maglev_metro/CardBox_Connections_lid.stl?v=d14c11f0,../_stl/boxes/maglev_metro/CardBox_Passengers_body.stl?v=c7ee914d,../_stl/boxes/maglev_metro/CardBox_Passengers_lid.stl?v=781c5a7f,../_stl/boxes/maglev_metro/CardBox_Tracks_body.stl?v=1da78386,../_stl/boxes/maglev_metro/CardBox_Tracks_lid.stl?v=745de448,../_stl/boxes/maglev_metro/CardBox_PlayerObjectives_body.stl?v=78b7756c,../_stl/boxes/maglev_metro/CardBox_PlayerObjectives_lid.stl?v=d9a7aeec,../_stl/boxes/maglev_metro/PlayerBox_green_body.stl?v=788e3a12,../_stl/boxes/maglev_metro/PlayerBox_green_lid.stl?v=6e832e31,../_stl/boxes/maglev_metro/PlayerBox_deeppink_body.stl?v=9c88356e,../_stl/boxes/maglev_metro/PlayerBox_deeppink_lid.stl?v=d76f9594,../_stl/boxes/maglev_metro/PlayerBox_cyan_body.stl?v=e0690bb4,../_stl/boxes/maglev_metro/PlayerBox_cyan_lid.stl?v=3e8acafd,../_stl/boxes/maglev_metro/PlayerBox_darkorange_body.stl?v=9858758d,../_stl/boxes/maglev_metro/PlayerBox_darkorange_lid.stl?v=cfd4fbb9,../_stl/boxes/maglev_metro/FactoryBox_Factories_body.stl?v=ce54f064,../_stl/boxes/maglev_metro/FactoryBox_Factories_lid.stl?v=e36048e6,../_stl/boxes/maglev_metro/FactoryBox_Warehouses_body.stl?v=314beea3,../_stl/boxes/maglev_metro/FactoryBox_Warehouses_lid.stl?v=93e8ddae,../_stl/boxes/maglev_metro/FactoryBox_Labs_body.stl?v=55fd0da6,../_stl/boxes/maglev_metro/FactoryBox_Labs_lid.stl?v=0b90e08d,../_stl/boxes/maglev_metro/FactoryBox_Offices_body.stl?v=46af093d,../_stl/boxes/maglev_metro/FactoryBox_Offices_lid.stl?v=ea2533bf,../_stl/boxes/maglev_metro/FactoryBox_Stores_body.stl?v=c7b1b38e,../_stl/boxes/maglev_metro/FactoryBox_Stores_lid.stl?v=50333485,../_stl/boxes/maglev_metro/FactoryBox_Embassies_body.stl?v=76b001fe,../_stl/boxes/maglev_metro/FactoryBox_Embassies_lid.stl?v=87773cde,../_stl/boxes/maglev_metro/spacer_1.stl?v=4117faa5,../_stl/boxes/maglev_metro/spacer_2.stl?v=70265253,../_stl/boxes/maglev_metro/spacer_3.stl?v=df19dd78
    :height: 440px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/maglev_metro/CardBox_Connections_body.stl?v=7a60aaa5" data-stl-combine="../_stl/boxes/maglev_metro/CardBox_Connections_body.stl?v=7a60aaa5,../_stl/boxes/maglev_metro/CardBox_Connections_lid.stl?v=b14249ea,../_stl/boxes/maglev_metro/CardBox_Passengers_body.stl?v=c7ee914d,../_stl/boxes/maglev_metro/CardBox_Passengers_lid.stl?v=8fc09f98,../_stl/boxes/maglev_metro/CardBox_Tracks_body.stl?v=1da78386,../_stl/boxes/maglev_metro/CardBox_Tracks_lid.stl?v=60d29d54,../_stl/boxes/maglev_metro/CardBox_PlayerObjectives_body.stl?v=78b7756c,../_stl/boxes/maglev_metro/CardBox_PlayerObjectives_lid.stl?v=007cfa94,../_stl/boxes/maglev_metro/PlayerBox_green_body.stl?v=788e3a12,../_stl/boxes/maglev_metro/PlayerBox_green_lid.stl?v=90f735f4,../_stl/boxes/maglev_metro/PlayerBox_deeppink_body.stl?v=9c88356e,../_stl/boxes/maglev_metro/PlayerBox_deeppink_lid.stl?v=d9ad8275,../_stl/boxes/maglev_metro/PlayerBox_cyan_body.stl?v=e0690bb4,../_stl/boxes/maglev_metro/PlayerBox_cyan_lid.stl?v=ff8766b6,../_stl/boxes/maglev_metro/PlayerBox_darkorange_body.stl?v=9858758d,../_stl/boxes/maglev_metro/PlayerBox_darkorange_lid.stl?v=bfde113e,../_stl/boxes/maglev_metro/FactoryBox_Factories_body.stl?v=ce54f064,../_stl/boxes/maglev_metro/FactoryBox_Factories_lid.stl?v=e33139c7,../_stl/boxes/maglev_metro/FactoryBox_Warehouses_body.stl?v=314beea3,../_stl/boxes/maglev_metro/FactoryBox_Warehouses_lid.stl?v=425ad35f,../_stl/boxes/maglev_metro/FactoryBox_Labs_body.stl?v=55fd0da6,../_stl/boxes/maglev_metro/FactoryBox_Labs_lid.stl?v=05aa5ece,../_stl/boxes/maglev_metro/FactoryBox_Offices_body.stl?v=46af093d,../_stl/boxes/maglev_metro/FactoryBox_Offices_lid.stl?v=d47c9300,../_stl/boxes/maglev_metro/FactoryBox_Stores_body.stl?v=c7b1b38e,../_stl/boxes/maglev_metro/FactoryBox_Stores_lid.stl?v=ace67d5e,../_stl/boxes/maglev_metro/FactoryBox_Embassies_body.stl?v=76b001fe,../_stl/boxes/maglev_metro/FactoryBox_Embassies_lid.stl?v=a7ccad4a,../_stl/boxes/maglev_metro/spacer_1.stl?v=4117faa5,../_stl/boxes/maglev_metro/spacer_2.stl?v=70265253,../_stl/boxes/maglev_metro/spacer_3.stl?v=df19dd78" download="MaglevMetro_full_packing.stl">⬇ Download Full Box Packing STL (<code>MaglevMetro_full_packing.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/maglev_metro/CardBox_Connections_body.stl?v=7a60aaa5" data-stl-combine="../_stl/boxes/maglev_metro/CardBox_Connections_body.stl?v=7a60aaa5,../_stl/boxes/maglev_metro/CardBox_Connections_lid.stl?v=d14c11f0,../_stl/boxes/maglev_metro/CardBox_Passengers_body.stl?v=c7ee914d,../_stl/boxes/maglev_metro/CardBox_Passengers_lid.stl?v=781c5a7f,../_stl/boxes/maglev_metro/CardBox_Tracks_body.stl?v=1da78386,../_stl/boxes/maglev_metro/CardBox_Tracks_lid.stl?v=745de448,../_stl/boxes/maglev_metro/CardBox_PlayerObjectives_body.stl?v=78b7756c,../_stl/boxes/maglev_metro/CardBox_PlayerObjectives_lid.stl?v=d9a7aeec,../_stl/boxes/maglev_metro/PlayerBox_green_body.stl?v=788e3a12,../_stl/boxes/maglev_metro/PlayerBox_green_lid.stl?v=6e832e31,../_stl/boxes/maglev_metro/PlayerBox_deeppink_body.stl?v=9c88356e,../_stl/boxes/maglev_metro/PlayerBox_deeppink_lid.stl?v=d76f9594,../_stl/boxes/maglev_metro/PlayerBox_cyan_body.stl?v=e0690bb4,../_stl/boxes/maglev_metro/PlayerBox_cyan_lid.stl?v=3e8acafd,../_stl/boxes/maglev_metro/PlayerBox_darkorange_body.stl?v=9858758d,../_stl/boxes/maglev_metro/PlayerBox_darkorange_lid.stl?v=cfd4fbb9,../_stl/boxes/maglev_metro/FactoryBox_Factories_body.stl?v=ce54f064,../_stl/boxes/maglev_metro/FactoryBox_Factories_lid.stl?v=e36048e6,../_stl/boxes/maglev_metro/FactoryBox_Warehouses_body.stl?v=314beea3,../_stl/boxes/maglev_metro/FactoryBox_Warehouses_lid.stl?v=93e8ddae,../_stl/boxes/maglev_metro/FactoryBox_Labs_body.stl?v=55fd0da6,../_stl/boxes/maglev_metro/FactoryBox_Labs_lid.stl?v=0b90e08d,../_stl/boxes/maglev_metro/FactoryBox_Offices_body.stl?v=46af093d,../_stl/boxes/maglev_metro/FactoryBox_Offices_lid.stl?v=ea2533bf,../_stl/boxes/maglev_metro/FactoryBox_Stores_body.stl?v=c7b1b38e,../_stl/boxes/maglev_metro/FactoryBox_Stores_lid.stl?v=50333485,../_stl/boxes/maglev_metro/FactoryBox_Embassies_body.stl?v=76b001fe,../_stl/boxes/maglev_metro/FactoryBox_Embassies_lid.stl?v=87773cde,../_stl/boxes/maglev_metro/spacer_1.stl?v=4117faa5,../_stl/boxes/maglev_metro/spacer_2.stl?v=70265253,../_stl/boxes/maglev_metro/spacer_3.stl?v=df19dd78" download="MaglevMetro_full_packing.stl">⬇ Download Full Box Packing STL (<code>MaglevMetro_full_packing.stl</code>)</a></p>
 
 Parts Overview
 --------------
@@ -137,12 +137,12 @@ CardBox_Connections
 
 **Assembled Box (CardBox_Connections — Body + Lid)**
 
-.. stl:: ../_stl/boxes/maglev_metro/CardBox_Connections_body.stl?v=7a60aaa5,../_stl/boxes/maglev_metro/CardBox_Connections_lid.stl?v=b14249ea
+.. stl:: ../_stl/boxes/maglev_metro/CardBox_Connections_body.stl?v=7a60aaa5,../_stl/boxes/maglev_metro/CardBox_Connections_lid.stl?v=d14c11f0
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/maglev_metro/CardBox_Connections_body.stl?v=7a60aaa5" data-stl-combine="../_stl/boxes/maglev_metro/CardBox_Connections_body.stl?v=7a60aaa5,../_stl/boxes/maglev_metro/CardBox_Connections_lid.stl?v=b14249ea" download="CardBox_Connections_assembled.stl">⬇ Download Assembled CardBox_Connections STL (<code>CardBox_Connections_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/maglev_metro/CardBox_Connections_body.stl?v=7a60aaa5" data-stl-combine="../_stl/boxes/maglev_metro/CardBox_Connections_body.stl?v=7a60aaa5,../_stl/boxes/maglev_metro/CardBox_Connections_lid.stl?v=d14c11f0" download="CardBox_Connections_assembled.stl">⬇ Download Assembled CardBox_Connections STL (<code>CardBox_Connections_assembled.stl</code>)</a></p>
 
 **Part: CardBox_Connections Body**
 
@@ -155,12 +155,12 @@ CardBox_Connections
 
 **Part: CardBox_Connections Lid**
 
-.. stl:: ../_stl/boxes/maglev_metro/CardBox_Connections_lid.stl?v=b14249ea
+.. stl:: ../_stl/boxes/maglev_metro/CardBox_Connections_lid.stl?v=d14c11f0
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/maglev_metro/CardBox_Connections_lid.stl?v=b14249ea" download="CardBox_Connections_lid.stl">⬇ Download CardBox_Connections Lid STL (<code>CardBox_Connections_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/maglev_metro/CardBox_Connections_lid.stl?v=d14c11f0" download="CardBox_Connections_lid.stl">⬇ Download CardBox_Connections Lid STL (<code>CardBox_Connections_lid.stl</code>)</a></p>
 
 .. _box-maglev_metro-cardbox_passengers:
 
@@ -176,12 +176,12 @@ CardBox_Passengers
 
 **Assembled Box (CardBox_Passengers — Body + Lid)**
 
-.. stl:: ../_stl/boxes/maglev_metro/CardBox_Passengers_body.stl?v=c7ee914d,../_stl/boxes/maglev_metro/CardBox_Passengers_lid.stl?v=8fc09f98
+.. stl:: ../_stl/boxes/maglev_metro/CardBox_Passengers_body.stl?v=c7ee914d,../_stl/boxes/maglev_metro/CardBox_Passengers_lid.stl?v=781c5a7f
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/maglev_metro/CardBox_Passengers_body.stl?v=c7ee914d" data-stl-combine="../_stl/boxes/maglev_metro/CardBox_Passengers_body.stl?v=c7ee914d,../_stl/boxes/maglev_metro/CardBox_Passengers_lid.stl?v=8fc09f98" download="CardBox_Passengers_assembled.stl">⬇ Download Assembled CardBox_Passengers STL (<code>CardBox_Passengers_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/maglev_metro/CardBox_Passengers_body.stl?v=c7ee914d" data-stl-combine="../_stl/boxes/maglev_metro/CardBox_Passengers_body.stl?v=c7ee914d,../_stl/boxes/maglev_metro/CardBox_Passengers_lid.stl?v=781c5a7f" download="CardBox_Passengers_assembled.stl">⬇ Download Assembled CardBox_Passengers STL (<code>CardBox_Passengers_assembled.stl</code>)</a></p>
 
 **Part: CardBox_Passengers Body**
 
@@ -194,12 +194,12 @@ CardBox_Passengers
 
 **Part: CardBox_Passengers Lid**
 
-.. stl:: ../_stl/boxes/maglev_metro/CardBox_Passengers_lid.stl?v=8fc09f98
+.. stl:: ../_stl/boxes/maglev_metro/CardBox_Passengers_lid.stl?v=781c5a7f
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/maglev_metro/CardBox_Passengers_lid.stl?v=8fc09f98" download="CardBox_Passengers_lid.stl">⬇ Download CardBox_Passengers Lid STL (<code>CardBox_Passengers_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/maglev_metro/CardBox_Passengers_lid.stl?v=781c5a7f" download="CardBox_Passengers_lid.stl">⬇ Download CardBox_Passengers Lid STL (<code>CardBox_Passengers_lid.stl</code>)</a></p>
 
 .. _box-maglev_metro-cardbox_tracks:
 
@@ -215,12 +215,12 @@ CardBox_Tracks
 
 **Assembled Box (CardBox_Tracks — Body + Lid)**
 
-.. stl:: ../_stl/boxes/maglev_metro/CardBox_Tracks_body.stl?v=1da78386,../_stl/boxes/maglev_metro/CardBox_Tracks_lid.stl?v=60d29d54
+.. stl:: ../_stl/boxes/maglev_metro/CardBox_Tracks_body.stl?v=1da78386,../_stl/boxes/maglev_metro/CardBox_Tracks_lid.stl?v=745de448
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/maglev_metro/CardBox_Tracks_body.stl?v=1da78386" data-stl-combine="../_stl/boxes/maglev_metro/CardBox_Tracks_body.stl?v=1da78386,../_stl/boxes/maglev_metro/CardBox_Tracks_lid.stl?v=60d29d54" download="CardBox_Tracks_assembled.stl">⬇ Download Assembled CardBox_Tracks STL (<code>CardBox_Tracks_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/maglev_metro/CardBox_Tracks_body.stl?v=1da78386" data-stl-combine="../_stl/boxes/maglev_metro/CardBox_Tracks_body.stl?v=1da78386,../_stl/boxes/maglev_metro/CardBox_Tracks_lid.stl?v=745de448" download="CardBox_Tracks_assembled.stl">⬇ Download Assembled CardBox_Tracks STL (<code>CardBox_Tracks_assembled.stl</code>)</a></p>
 
 **Part: CardBox_Tracks Body**
 
@@ -233,12 +233,12 @@ CardBox_Tracks
 
 **Part: CardBox_Tracks Lid**
 
-.. stl:: ../_stl/boxes/maglev_metro/CardBox_Tracks_lid.stl?v=60d29d54
+.. stl:: ../_stl/boxes/maglev_metro/CardBox_Tracks_lid.stl?v=745de448
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/maglev_metro/CardBox_Tracks_lid.stl?v=60d29d54" download="CardBox_Tracks_lid.stl">⬇ Download CardBox_Tracks Lid STL (<code>CardBox_Tracks_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/maglev_metro/CardBox_Tracks_lid.stl?v=745de448" download="CardBox_Tracks_lid.stl">⬇ Download CardBox_Tracks Lid STL (<code>CardBox_Tracks_lid.stl</code>)</a></p>
 
 .. _box-maglev_metro-cardbox_playerobjectives:
 
@@ -254,12 +254,12 @@ CardBox_PlayerObjectives
 
 **Assembled Box (CardBox_PlayerObjectives — Body + Lid)**
 
-.. stl:: ../_stl/boxes/maglev_metro/CardBox_PlayerObjectives_body.stl?v=78b7756c,../_stl/boxes/maglev_metro/CardBox_PlayerObjectives_lid.stl?v=007cfa94
+.. stl:: ../_stl/boxes/maglev_metro/CardBox_PlayerObjectives_body.stl?v=78b7756c,../_stl/boxes/maglev_metro/CardBox_PlayerObjectives_lid.stl?v=d9a7aeec
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/maglev_metro/CardBox_PlayerObjectives_body.stl?v=78b7756c" data-stl-combine="../_stl/boxes/maglev_metro/CardBox_PlayerObjectives_body.stl?v=78b7756c,../_stl/boxes/maglev_metro/CardBox_PlayerObjectives_lid.stl?v=007cfa94" download="CardBox_PlayerObjectives_assembled.stl">⬇ Download Assembled CardBox_PlayerObjectives STL (<code>CardBox_PlayerObjectives_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/maglev_metro/CardBox_PlayerObjectives_body.stl?v=78b7756c" data-stl-combine="../_stl/boxes/maglev_metro/CardBox_PlayerObjectives_body.stl?v=78b7756c,../_stl/boxes/maglev_metro/CardBox_PlayerObjectives_lid.stl?v=d9a7aeec" download="CardBox_PlayerObjectives_assembled.stl">⬇ Download Assembled CardBox_PlayerObjectives STL (<code>CardBox_PlayerObjectives_assembled.stl</code>)</a></p>
 
 **Part: CardBox_PlayerObjectives Body**
 
@@ -272,12 +272,12 @@ CardBox_PlayerObjectives
 
 **Part: CardBox_PlayerObjectives Lid**
 
-.. stl:: ../_stl/boxes/maglev_metro/CardBox_PlayerObjectives_lid.stl?v=007cfa94
+.. stl:: ../_stl/boxes/maglev_metro/CardBox_PlayerObjectives_lid.stl?v=d9a7aeec
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/maglev_metro/CardBox_PlayerObjectives_lid.stl?v=007cfa94" download="CardBox_PlayerObjectives_lid.stl">⬇ Download CardBox_PlayerObjectives Lid STL (<code>CardBox_PlayerObjectives_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/maglev_metro/CardBox_PlayerObjectives_lid.stl?v=d9a7aeec" download="CardBox_PlayerObjectives_lid.stl">⬇ Download CardBox_PlayerObjectives Lid STL (<code>CardBox_PlayerObjectives_lid.stl</code>)</a></p>
 
 .. _box-maglev_metro-playerbox_green:
 
@@ -293,12 +293,12 @@ PlayerBox_green
 
 **Assembled Box (PlayerBox_green — Body + Lid)**
 
-.. stl:: ../_stl/boxes/maglev_metro/PlayerBox_green_body.stl?v=788e3a12,../_stl/boxes/maglev_metro/PlayerBox_green_lid.stl?v=90f735f4
+.. stl:: ../_stl/boxes/maglev_metro/PlayerBox_green_body.stl?v=788e3a12,../_stl/boxes/maglev_metro/PlayerBox_green_lid.stl?v=6e832e31
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/maglev_metro/PlayerBox_green_body.stl?v=788e3a12" data-stl-combine="../_stl/boxes/maglev_metro/PlayerBox_green_body.stl?v=788e3a12,../_stl/boxes/maglev_metro/PlayerBox_green_lid.stl?v=90f735f4" download="PlayerBox_green_assembled.stl">⬇ Download Assembled PlayerBox_green STL (<code>PlayerBox_green_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/maglev_metro/PlayerBox_green_body.stl?v=788e3a12" data-stl-combine="../_stl/boxes/maglev_metro/PlayerBox_green_body.stl?v=788e3a12,../_stl/boxes/maglev_metro/PlayerBox_green_lid.stl?v=6e832e31" download="PlayerBox_green_assembled.stl">⬇ Download Assembled PlayerBox_green STL (<code>PlayerBox_green_assembled.stl</code>)</a></p>
 
 **Part: PlayerBox_green Body**
 
@@ -311,12 +311,12 @@ PlayerBox_green
 
 **Part: PlayerBox_green Lid**
 
-.. stl:: ../_stl/boxes/maglev_metro/PlayerBox_green_lid.stl?v=90f735f4
+.. stl:: ../_stl/boxes/maglev_metro/PlayerBox_green_lid.stl?v=6e832e31
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/maglev_metro/PlayerBox_green_lid.stl?v=90f735f4" download="PlayerBox_green_lid.stl">⬇ Download PlayerBox_green Lid STL (<code>PlayerBox_green_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/maglev_metro/PlayerBox_green_lid.stl?v=6e832e31" download="PlayerBox_green_lid.stl">⬇ Download PlayerBox_green Lid STL (<code>PlayerBox_green_lid.stl</code>)</a></p>
 
 .. _box-maglev_metro-playerbox_deeppink:
 
@@ -332,12 +332,12 @@ PlayerBox_deeppink
 
 **Assembled Box (PlayerBox_deeppink — Body + Lid)**
 
-.. stl:: ../_stl/boxes/maglev_metro/PlayerBox_deeppink_body.stl?v=9c88356e,../_stl/boxes/maglev_metro/PlayerBox_deeppink_lid.stl?v=d9ad8275
+.. stl:: ../_stl/boxes/maglev_metro/PlayerBox_deeppink_body.stl?v=9c88356e,../_stl/boxes/maglev_metro/PlayerBox_deeppink_lid.stl?v=d76f9594
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/maglev_metro/PlayerBox_deeppink_body.stl?v=9c88356e" data-stl-combine="../_stl/boxes/maglev_metro/PlayerBox_deeppink_body.stl?v=9c88356e,../_stl/boxes/maglev_metro/PlayerBox_deeppink_lid.stl?v=d9ad8275" download="PlayerBox_deeppink_assembled.stl">⬇ Download Assembled PlayerBox_deeppink STL (<code>PlayerBox_deeppink_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/maglev_metro/PlayerBox_deeppink_body.stl?v=9c88356e" data-stl-combine="../_stl/boxes/maglev_metro/PlayerBox_deeppink_body.stl?v=9c88356e,../_stl/boxes/maglev_metro/PlayerBox_deeppink_lid.stl?v=d76f9594" download="PlayerBox_deeppink_assembled.stl">⬇ Download Assembled PlayerBox_deeppink STL (<code>PlayerBox_deeppink_assembled.stl</code>)</a></p>
 
 **Part: PlayerBox_deeppink Body**
 
@@ -350,12 +350,12 @@ PlayerBox_deeppink
 
 **Part: PlayerBox_deeppink Lid**
 
-.. stl:: ../_stl/boxes/maglev_metro/PlayerBox_deeppink_lid.stl?v=d9ad8275
+.. stl:: ../_stl/boxes/maglev_metro/PlayerBox_deeppink_lid.stl?v=d76f9594
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/maglev_metro/PlayerBox_deeppink_lid.stl?v=d9ad8275" download="PlayerBox_deeppink_lid.stl">⬇ Download PlayerBox_deeppink Lid STL (<code>PlayerBox_deeppink_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/maglev_metro/PlayerBox_deeppink_lid.stl?v=d76f9594" download="PlayerBox_deeppink_lid.stl">⬇ Download PlayerBox_deeppink Lid STL (<code>PlayerBox_deeppink_lid.stl</code>)</a></p>
 
 .. _box-maglev_metro-playerbox_cyan:
 
@@ -371,12 +371,12 @@ PlayerBox_cyan
 
 **Assembled Box (PlayerBox_cyan — Body + Lid)**
 
-.. stl:: ../_stl/boxes/maglev_metro/PlayerBox_cyan_body.stl?v=e0690bb4,../_stl/boxes/maglev_metro/PlayerBox_cyan_lid.stl?v=ff8766b6
+.. stl:: ../_stl/boxes/maglev_metro/PlayerBox_cyan_body.stl?v=e0690bb4,../_stl/boxes/maglev_metro/PlayerBox_cyan_lid.stl?v=3e8acafd
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/maglev_metro/PlayerBox_cyan_body.stl?v=e0690bb4" data-stl-combine="../_stl/boxes/maglev_metro/PlayerBox_cyan_body.stl?v=e0690bb4,../_stl/boxes/maglev_metro/PlayerBox_cyan_lid.stl?v=ff8766b6" download="PlayerBox_cyan_assembled.stl">⬇ Download Assembled PlayerBox_cyan STL (<code>PlayerBox_cyan_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/maglev_metro/PlayerBox_cyan_body.stl?v=e0690bb4" data-stl-combine="../_stl/boxes/maglev_metro/PlayerBox_cyan_body.stl?v=e0690bb4,../_stl/boxes/maglev_metro/PlayerBox_cyan_lid.stl?v=3e8acafd" download="PlayerBox_cyan_assembled.stl">⬇ Download Assembled PlayerBox_cyan STL (<code>PlayerBox_cyan_assembled.stl</code>)</a></p>
 
 **Part: PlayerBox_cyan Body**
 
@@ -389,12 +389,12 @@ PlayerBox_cyan
 
 **Part: PlayerBox_cyan Lid**
 
-.. stl:: ../_stl/boxes/maglev_metro/PlayerBox_cyan_lid.stl?v=ff8766b6
+.. stl:: ../_stl/boxes/maglev_metro/PlayerBox_cyan_lid.stl?v=3e8acafd
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/maglev_metro/PlayerBox_cyan_lid.stl?v=ff8766b6" download="PlayerBox_cyan_lid.stl">⬇ Download PlayerBox_cyan Lid STL (<code>PlayerBox_cyan_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/maglev_metro/PlayerBox_cyan_lid.stl?v=3e8acafd" download="PlayerBox_cyan_lid.stl">⬇ Download PlayerBox_cyan Lid STL (<code>PlayerBox_cyan_lid.stl</code>)</a></p>
 
 .. _box-maglev_metro-playerbox_darkorange:
 
@@ -410,12 +410,12 @@ PlayerBox_darkorange
 
 **Assembled Box (PlayerBox_darkorange — Body + Lid)**
 
-.. stl:: ../_stl/boxes/maglev_metro/PlayerBox_darkorange_body.stl?v=9858758d,../_stl/boxes/maglev_metro/PlayerBox_darkorange_lid.stl?v=bfde113e
+.. stl:: ../_stl/boxes/maglev_metro/PlayerBox_darkorange_body.stl?v=9858758d,../_stl/boxes/maglev_metro/PlayerBox_darkorange_lid.stl?v=cfd4fbb9
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/maglev_metro/PlayerBox_darkorange_body.stl?v=9858758d" data-stl-combine="../_stl/boxes/maglev_metro/PlayerBox_darkorange_body.stl?v=9858758d,../_stl/boxes/maglev_metro/PlayerBox_darkorange_lid.stl?v=bfde113e" download="PlayerBox_darkorange_assembled.stl">⬇ Download Assembled PlayerBox_darkorange STL (<code>PlayerBox_darkorange_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/maglev_metro/PlayerBox_darkorange_body.stl?v=9858758d" data-stl-combine="../_stl/boxes/maglev_metro/PlayerBox_darkorange_body.stl?v=9858758d,../_stl/boxes/maglev_metro/PlayerBox_darkorange_lid.stl?v=cfd4fbb9" download="PlayerBox_darkorange_assembled.stl">⬇ Download Assembled PlayerBox_darkorange STL (<code>PlayerBox_darkorange_assembled.stl</code>)</a></p>
 
 **Part: PlayerBox_darkorange Body**
 
@@ -428,12 +428,12 @@ PlayerBox_darkorange
 
 **Part: PlayerBox_darkorange Lid**
 
-.. stl:: ../_stl/boxes/maglev_metro/PlayerBox_darkorange_lid.stl?v=bfde113e
+.. stl:: ../_stl/boxes/maglev_metro/PlayerBox_darkorange_lid.stl?v=cfd4fbb9
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/maglev_metro/PlayerBox_darkorange_lid.stl?v=bfde113e" download="PlayerBox_darkorange_lid.stl">⬇ Download PlayerBox_darkorange Lid STL (<code>PlayerBox_darkorange_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/maglev_metro/PlayerBox_darkorange_lid.stl?v=cfd4fbb9" download="PlayerBox_darkorange_lid.stl">⬇ Download PlayerBox_darkorange Lid STL (<code>PlayerBox_darkorange_lid.stl</code>)</a></p>
 
 .. _box-maglev_metro-factorybox_factories:
 
@@ -447,12 +447,12 @@ FactoryBox_Factories
 
 **Assembled Box (FactoryBox_Factories — Body + Lid)**
 
-.. stl:: ../_stl/boxes/maglev_metro/FactoryBox_Factories_body.stl?v=ce54f064,../_stl/boxes/maglev_metro/FactoryBox_Factories_lid.stl?v=e33139c7
+.. stl:: ../_stl/boxes/maglev_metro/FactoryBox_Factories_body.stl?v=ce54f064,../_stl/boxes/maglev_metro/FactoryBox_Factories_lid.stl?v=e36048e6
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/maglev_metro/FactoryBox_Factories_body.stl?v=ce54f064" data-stl-combine="../_stl/boxes/maglev_metro/FactoryBox_Factories_body.stl?v=ce54f064,../_stl/boxes/maglev_metro/FactoryBox_Factories_lid.stl?v=e33139c7" download="FactoryBox_Factories_assembled.stl">⬇ Download Assembled FactoryBox_Factories STL (<code>FactoryBox_Factories_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/maglev_metro/FactoryBox_Factories_body.stl?v=ce54f064" data-stl-combine="../_stl/boxes/maglev_metro/FactoryBox_Factories_body.stl?v=ce54f064,../_stl/boxes/maglev_metro/FactoryBox_Factories_lid.stl?v=e36048e6" download="FactoryBox_Factories_assembled.stl">⬇ Download Assembled FactoryBox_Factories STL (<code>FactoryBox_Factories_assembled.stl</code>)</a></p>
 
 **Part: FactoryBox_Factories Body**
 
@@ -465,12 +465,12 @@ FactoryBox_Factories
 
 **Part: FactoryBox_Factories Lid**
 
-.. stl:: ../_stl/boxes/maglev_metro/FactoryBox_Factories_lid.stl?v=e33139c7
+.. stl:: ../_stl/boxes/maglev_metro/FactoryBox_Factories_lid.stl?v=e36048e6
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/maglev_metro/FactoryBox_Factories_lid.stl?v=e33139c7" download="FactoryBox_Factories_lid.stl">⬇ Download FactoryBox_Factories Lid STL (<code>FactoryBox_Factories_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/maglev_metro/FactoryBox_Factories_lid.stl?v=e36048e6" download="FactoryBox_Factories_lid.stl">⬇ Download FactoryBox_Factories Lid STL (<code>FactoryBox_Factories_lid.stl</code>)</a></p>
 
 .. _box-maglev_metro-factorybox_warehouses:
 
@@ -484,12 +484,12 @@ FactoryBox_Warehouses
 
 **Assembled Box (FactoryBox_Warehouses — Body + Lid)**
 
-.. stl:: ../_stl/boxes/maglev_metro/FactoryBox_Warehouses_body.stl?v=314beea3,../_stl/boxes/maglev_metro/FactoryBox_Warehouses_lid.stl?v=425ad35f
+.. stl:: ../_stl/boxes/maglev_metro/FactoryBox_Warehouses_body.stl?v=314beea3,../_stl/boxes/maglev_metro/FactoryBox_Warehouses_lid.stl?v=93e8ddae
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/maglev_metro/FactoryBox_Warehouses_body.stl?v=314beea3" data-stl-combine="../_stl/boxes/maglev_metro/FactoryBox_Warehouses_body.stl?v=314beea3,../_stl/boxes/maglev_metro/FactoryBox_Warehouses_lid.stl?v=425ad35f" download="FactoryBox_Warehouses_assembled.stl">⬇ Download Assembled FactoryBox_Warehouses STL (<code>FactoryBox_Warehouses_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/maglev_metro/FactoryBox_Warehouses_body.stl?v=314beea3" data-stl-combine="../_stl/boxes/maglev_metro/FactoryBox_Warehouses_body.stl?v=314beea3,../_stl/boxes/maglev_metro/FactoryBox_Warehouses_lid.stl?v=93e8ddae" download="FactoryBox_Warehouses_assembled.stl">⬇ Download Assembled FactoryBox_Warehouses STL (<code>FactoryBox_Warehouses_assembled.stl</code>)</a></p>
 
 **Part: FactoryBox_Warehouses Body**
 
@@ -502,12 +502,12 @@ FactoryBox_Warehouses
 
 **Part: FactoryBox_Warehouses Lid**
 
-.. stl:: ../_stl/boxes/maglev_metro/FactoryBox_Warehouses_lid.stl?v=425ad35f
+.. stl:: ../_stl/boxes/maglev_metro/FactoryBox_Warehouses_lid.stl?v=93e8ddae
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/maglev_metro/FactoryBox_Warehouses_lid.stl?v=425ad35f" download="FactoryBox_Warehouses_lid.stl">⬇ Download FactoryBox_Warehouses Lid STL (<code>FactoryBox_Warehouses_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/maglev_metro/FactoryBox_Warehouses_lid.stl?v=93e8ddae" download="FactoryBox_Warehouses_lid.stl">⬇ Download FactoryBox_Warehouses Lid STL (<code>FactoryBox_Warehouses_lid.stl</code>)</a></p>
 
 .. _box-maglev_metro-factorybox_labs:
 
@@ -521,12 +521,12 @@ FactoryBox_Labs
 
 **Assembled Box (FactoryBox_Labs — Body + Lid)**
 
-.. stl:: ../_stl/boxes/maglev_metro/FactoryBox_Labs_body.stl?v=55fd0da6,../_stl/boxes/maglev_metro/FactoryBox_Labs_lid.stl?v=05aa5ece
+.. stl:: ../_stl/boxes/maglev_metro/FactoryBox_Labs_body.stl?v=55fd0da6,../_stl/boxes/maglev_metro/FactoryBox_Labs_lid.stl?v=0b90e08d
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/maglev_metro/FactoryBox_Labs_body.stl?v=55fd0da6" data-stl-combine="../_stl/boxes/maglev_metro/FactoryBox_Labs_body.stl?v=55fd0da6,../_stl/boxes/maglev_metro/FactoryBox_Labs_lid.stl?v=05aa5ece" download="FactoryBox_Labs_assembled.stl">⬇ Download Assembled FactoryBox_Labs STL (<code>FactoryBox_Labs_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/maglev_metro/FactoryBox_Labs_body.stl?v=55fd0da6" data-stl-combine="../_stl/boxes/maglev_metro/FactoryBox_Labs_body.stl?v=55fd0da6,../_stl/boxes/maglev_metro/FactoryBox_Labs_lid.stl?v=0b90e08d" download="FactoryBox_Labs_assembled.stl">⬇ Download Assembled FactoryBox_Labs STL (<code>FactoryBox_Labs_assembled.stl</code>)</a></p>
 
 **Part: FactoryBox_Labs Body**
 
@@ -539,12 +539,12 @@ FactoryBox_Labs
 
 **Part: FactoryBox_Labs Lid**
 
-.. stl:: ../_stl/boxes/maglev_metro/FactoryBox_Labs_lid.stl?v=05aa5ece
+.. stl:: ../_stl/boxes/maglev_metro/FactoryBox_Labs_lid.stl?v=0b90e08d
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/maglev_metro/FactoryBox_Labs_lid.stl?v=05aa5ece" download="FactoryBox_Labs_lid.stl">⬇ Download FactoryBox_Labs Lid STL (<code>FactoryBox_Labs_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/maglev_metro/FactoryBox_Labs_lid.stl?v=0b90e08d" download="FactoryBox_Labs_lid.stl">⬇ Download FactoryBox_Labs Lid STL (<code>FactoryBox_Labs_lid.stl</code>)</a></p>
 
 .. _box-maglev_metro-factorybox_offices:
 
@@ -558,12 +558,12 @@ FactoryBox_Offices
 
 **Assembled Box (FactoryBox_Offices — Body + Lid)**
 
-.. stl:: ../_stl/boxes/maglev_metro/FactoryBox_Offices_body.stl?v=46af093d,../_stl/boxes/maglev_metro/FactoryBox_Offices_lid.stl?v=d47c9300
+.. stl:: ../_stl/boxes/maglev_metro/FactoryBox_Offices_body.stl?v=46af093d,../_stl/boxes/maglev_metro/FactoryBox_Offices_lid.stl?v=ea2533bf
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/maglev_metro/FactoryBox_Offices_body.stl?v=46af093d" data-stl-combine="../_stl/boxes/maglev_metro/FactoryBox_Offices_body.stl?v=46af093d,../_stl/boxes/maglev_metro/FactoryBox_Offices_lid.stl?v=d47c9300" download="FactoryBox_Offices_assembled.stl">⬇ Download Assembled FactoryBox_Offices STL (<code>FactoryBox_Offices_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/maglev_metro/FactoryBox_Offices_body.stl?v=46af093d" data-stl-combine="../_stl/boxes/maglev_metro/FactoryBox_Offices_body.stl?v=46af093d,../_stl/boxes/maglev_metro/FactoryBox_Offices_lid.stl?v=ea2533bf" download="FactoryBox_Offices_assembled.stl">⬇ Download Assembled FactoryBox_Offices STL (<code>FactoryBox_Offices_assembled.stl</code>)</a></p>
 
 **Part: FactoryBox_Offices Body**
 
@@ -576,12 +576,12 @@ FactoryBox_Offices
 
 **Part: FactoryBox_Offices Lid**
 
-.. stl:: ../_stl/boxes/maglev_metro/FactoryBox_Offices_lid.stl?v=d47c9300
+.. stl:: ../_stl/boxes/maglev_metro/FactoryBox_Offices_lid.stl?v=ea2533bf
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/maglev_metro/FactoryBox_Offices_lid.stl?v=d47c9300" download="FactoryBox_Offices_lid.stl">⬇ Download FactoryBox_Offices Lid STL (<code>FactoryBox_Offices_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/maglev_metro/FactoryBox_Offices_lid.stl?v=ea2533bf" download="FactoryBox_Offices_lid.stl">⬇ Download FactoryBox_Offices Lid STL (<code>FactoryBox_Offices_lid.stl</code>)</a></p>
 
 .. _box-maglev_metro-factorybox_stores:
 
@@ -595,12 +595,12 @@ FactoryBox_Stores
 
 **Assembled Box (FactoryBox_Stores — Body + Lid)**
 
-.. stl:: ../_stl/boxes/maglev_metro/FactoryBox_Stores_body.stl?v=c7b1b38e,../_stl/boxes/maglev_metro/FactoryBox_Stores_lid.stl?v=ace67d5e
+.. stl:: ../_stl/boxes/maglev_metro/FactoryBox_Stores_body.stl?v=c7b1b38e,../_stl/boxes/maglev_metro/FactoryBox_Stores_lid.stl?v=50333485
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/maglev_metro/FactoryBox_Stores_body.stl?v=c7b1b38e" data-stl-combine="../_stl/boxes/maglev_metro/FactoryBox_Stores_body.stl?v=c7b1b38e,../_stl/boxes/maglev_metro/FactoryBox_Stores_lid.stl?v=ace67d5e" download="FactoryBox_Stores_assembled.stl">⬇ Download Assembled FactoryBox_Stores STL (<code>FactoryBox_Stores_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/maglev_metro/FactoryBox_Stores_body.stl?v=c7b1b38e" data-stl-combine="../_stl/boxes/maglev_metro/FactoryBox_Stores_body.stl?v=c7b1b38e,../_stl/boxes/maglev_metro/FactoryBox_Stores_lid.stl?v=50333485" download="FactoryBox_Stores_assembled.stl">⬇ Download Assembled FactoryBox_Stores STL (<code>FactoryBox_Stores_assembled.stl</code>)</a></p>
 
 **Part: FactoryBox_Stores Body**
 
@@ -613,12 +613,12 @@ FactoryBox_Stores
 
 **Part: FactoryBox_Stores Lid**
 
-.. stl:: ../_stl/boxes/maglev_metro/FactoryBox_Stores_lid.stl?v=ace67d5e
+.. stl:: ../_stl/boxes/maglev_metro/FactoryBox_Stores_lid.stl?v=50333485
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/maglev_metro/FactoryBox_Stores_lid.stl?v=ace67d5e" download="FactoryBox_Stores_lid.stl">⬇ Download FactoryBox_Stores Lid STL (<code>FactoryBox_Stores_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/maglev_metro/FactoryBox_Stores_lid.stl?v=50333485" download="FactoryBox_Stores_lid.stl">⬇ Download FactoryBox_Stores Lid STL (<code>FactoryBox_Stores_lid.stl</code>)</a></p>
 
 .. _box-maglev_metro-factorybox_embassies:
 
@@ -632,12 +632,12 @@ FactoryBox_Embassies
 
 **Assembled Box (FactoryBox_Embassies — Body + Lid)**
 
-.. stl:: ../_stl/boxes/maglev_metro/FactoryBox_Embassies_body.stl?v=76b001fe,../_stl/boxes/maglev_metro/FactoryBox_Embassies_lid.stl?v=a7ccad4a
+.. stl:: ../_stl/boxes/maglev_metro/FactoryBox_Embassies_body.stl?v=76b001fe,../_stl/boxes/maglev_metro/FactoryBox_Embassies_lid.stl?v=87773cde
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/maglev_metro/FactoryBox_Embassies_body.stl?v=76b001fe" data-stl-combine="../_stl/boxes/maglev_metro/FactoryBox_Embassies_body.stl?v=76b001fe,../_stl/boxes/maglev_metro/FactoryBox_Embassies_lid.stl?v=a7ccad4a" download="FactoryBox_Embassies_assembled.stl">⬇ Download Assembled FactoryBox_Embassies STL (<code>FactoryBox_Embassies_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/maglev_metro/FactoryBox_Embassies_body.stl?v=76b001fe" data-stl-combine="../_stl/boxes/maglev_metro/FactoryBox_Embassies_body.stl?v=76b001fe,../_stl/boxes/maglev_metro/FactoryBox_Embassies_lid.stl?v=87773cde" download="FactoryBox_Embassies_assembled.stl">⬇ Download Assembled FactoryBox_Embassies STL (<code>FactoryBox_Embassies_assembled.stl</code>)</a></p>
 
 **Part: FactoryBox_Embassies Body**
 
@@ -650,12 +650,12 @@ FactoryBox_Embassies
 
 **Part: FactoryBox_Embassies Lid**
 
-.. stl:: ../_stl/boxes/maglev_metro/FactoryBox_Embassies_lid.stl?v=a7ccad4a
+.. stl:: ../_stl/boxes/maglev_metro/FactoryBox_Embassies_lid.stl?v=87773cde
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/maglev_metro/FactoryBox_Embassies_lid.stl?v=a7ccad4a" download="FactoryBox_Embassies_lid.stl">⬇ Download FactoryBox_Embassies Lid STL (<code>FactoryBox_Embassies_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/maglev_metro/FactoryBox_Embassies_lid.stl?v=87773cde" download="FactoryBox_Embassies_lid.stl">⬇ Download FactoryBox_Embassies Lid STL (<code>FactoryBox_Embassies_lid.stl</code>)</a></p>
 
 Spacer Trays
 ------------

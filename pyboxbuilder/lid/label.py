@@ -56,6 +56,8 @@ class Label:
     Not a coloured part — it stays lid material. Carried so the pattern knows
     what to keep clear of and the single-colour pass knows what to engrave.
     """
+    frame: Bosl2Solid | None = None
+    """Framed mode only — the outer border ring around the label perimeter."""
 
     @property
     def backing(self) -> Bosl2Solid | None:
@@ -232,17 +234,62 @@ def build_label(
     from pybosl2 import cuboid
 
     from pyboxbuilder.rounding import vertical_edges
+
     plate_solid = cuboid([plate_w, plate_l, BACKING_HEIGHT_MM], rounding=rounding_val, edges=vertical_edges())
     plate = corner(plate_solid, [plate_w, plate_l, BACKING_HEIGHT_MM], at=(plate_x, plate_y, 0.0))
-    hatching = corner(
-        _build_hatching(plate_w, plate_l, border=border, rounding=rounding_val, text_gap=gap),
+    clip_cut = _build_clip_solid(
+        plate_w,
+        plate_l,
+        border=border,
+        rounding=rounding_val,
+        text_gap=gap,
+        height=BACKING_HEIGHT_MM + 2.0,
+    )
+    frame_ring = corner(
+        plate_solid - clip_cut if clip_cut is not None else plate_solid,
         [plate_w, plate_l, BACKING_HEIGHT_MM],
         at=(plate_x, plate_y, 0.0),
+    )
+    raw_hatching = _build_hatching(plate_w, plate_l, border=border, rounding=rounding_val, text_gap=gap)
+    hatching = (
+        corner(raw_hatching, [plate_w, plate_l, BACKING_HEIGHT_MM], at=(plate_x, plate_y, 0.0))
+        if raw_hatching is not None
+        else None
     )
     # The striped grid stops at the lettering: the two are inlaid side by side
     # into one face, so a stripe running under a glyph would be competing with
     # it for the same top layer.
-    return Label(text=solid, hatching=hatching - solid, plate=plate)
+    return Label(
+        text=solid,
+        hatching=hatching - solid if hatching is not None else None,
+        plate=plate,
+        frame=frame_ring,
+    )
+
+
+def _build_clip_solid(
+    width: float,
+    length: float,
+    border: float = 1.5,
+    rounding: float = 5.0,
+    text_gap: float | None = None,
+    height: float = BACKING_HEIGHT_MM,
+) -> Bosl2Solid | None:
+    """Interior cutout cuboid inside the label frame's outer border."""
+    from pybosl2 import cuboid
+
+    from pyboxbuilder.rounding import vertical_edges
+
+    clip_w = max(width - 2 * border, 0.0)
+    clip_l = max(length - 2 * border, 0.0)
+    if clip_w <= 0.0 or clip_l <= 0.0:
+        return None
+    clip_rounding = max(rounding - border, 0.0)
+    if text_gap is not None:
+        max_safe_rounding = max(0.0, max(0.0, text_gap) * (2.0 + math.sqrt(2.0)) - 0.1)
+        clip_rounding = min(clip_rounding, max_safe_rounding)
+    clip_rounding = min(clip_rounding, max(0.0, min(clip_w, clip_l) / 2.0 - 0.01))
+    return cuboid([clip_w, clip_l, height], rounding=clip_rounding, edges=vertical_edges())
 
 
 def _build_hatching(
@@ -252,7 +299,7 @@ def _build_hatching(
     border: float = 1.5,
     rounding: float = 5.0,
     text_gap: float | None = None,
-) -> Bosl2Solid:
+) -> Bosl2Solid | None:
     """Diagonal hatching lines, centred on the origin and clipped to the area.
 
     The lines are cropped to the label rectangle so the hatching cannot spill
@@ -260,6 +307,10 @@ def _build_hatching(
     border never encroaches into the text bounding box.
     """
     from pybosl2 import cuboid
+
+    clip_solid = _build_clip_solid(width, length, border=border, rounding=rounding, text_gap=text_gap)
+    if clip_solid is None:
+        return None
 
     diagonal = math.hypot(width, length)
     angle = 45.0
@@ -275,17 +326,4 @@ def _build_hatching(
 
     hatching = union_all(lines)
     assert hatching is not None
-    clip_w = max(width - 2 * border, 0.0)
-    clip_l = max(length - 2 * border, 0.0)
-    from pyboxbuilder.rounding import vertical_edges
-
-    clip_rounding = max(rounding - border, 0.0)
-    if text_gap is not None:
-        max_safe_rounding = max(0.0, max(0.0, text_gap) * (2.0 + math.sqrt(2.0)) - 0.1)
-        clip_rounding = min(clip_rounding, max_safe_rounding)
-    if clip_w > 0.0 and clip_l > 0.0:
-        clip_rounding = min(clip_rounding, max(0.0, min(clip_w, clip_l) / 2.0 - 0.01))
-    else:
-        clip_rounding = 0.0
-    clip_solid = cuboid([clip_w, clip_l, BACKING_HEIGHT_MM], rounding=clip_rounding, edges=vertical_edges())
     return hatching & clip_solid

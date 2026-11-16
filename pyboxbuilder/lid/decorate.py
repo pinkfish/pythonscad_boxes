@@ -1279,20 +1279,19 @@ def _apply_label(
         return
 
     # In framed mode, the diagonal hatching spaces between strips are always cut
-    # as through-holes in the lid. If frame_color is set, it colours the outer
-    # frame border and solid strips themselves on the top layer rather than
-    # filling the through-hole spaces.
+    # as through-holes in the lid. If frame_color is set, it colours only the
+    # outer perimeter edge border ring (`label.frame`), leaving the interior
+    # 1.5mm border spacing, strips, and text backing in the lid's own colour.
     if label.hatching is not None:
         hatching_cut = _as_depth(label.hatching, lid_thickness + 2.0)
         hatching_cut = hatching_cut.translate([origin_x, origin_y, top_z - lid_thickness - 1.0])
         result.solid = result.solid - hatching_cut
 
     frame_part: Bosl2Solid | None = None
-    if builder.frame_color is not None and label.plate is not None:
-        frame_part = label.plate
+    if builder.frame_color is not None and label.frame is not None:
+        frame_part = label.frame - label.text
         if label.hatching is not None:
             frame_part = frame_part - label.hatching
-        frame_part = frame_part - label.text
 
     # Inlaid, not embossed (FR-022a): each coloured part is cut out of the lid
     # and put back in its own colour, exactly as deep as the recess, so the
