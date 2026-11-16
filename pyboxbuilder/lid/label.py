@@ -77,16 +77,45 @@ NOMINAL_SIZE_MM = 10.0
 
 FONT = "Liberation Sans:style=Bold"
 
+LINE_SPACING_FACTOR = 1.35
+"""Line-to-line vertical baseline spacing multiplier relative to cap height."""
+
 
 def _set_text(text: str, diagonal: bool, width: float, length: float) -> Bosl2Solid:
-    """Extrude the label text at the nominal size, rotated if diagonal."""
+    """Extrude the label text at the nominal size, centered line-by-line and rotated if diagonal."""
     from pybosl2 import text as bosl2_text
 
-    solid = bosl2_text(text=text, size=NOMINAL_SIZE_MM, font=FONT).linear_extrude(
-        height=TEXT_HEIGHT_MM
-    )
+    from pyboxbuilder.compartments.element import union_all
+
+    lines = text.splitlines()
+    if len(lines) <= 1:
+        line = lines[0] if lines else text
+        solid = bosl2_text(text=line, size=NOMINAL_SIZE_MM, font=FONT).linear_extrude(
+            height=TEXT_HEIGHT_MM
+        )
+    else:
+        line_step = NOMINAL_SIZE_MM * LINE_SPACING_FACTOR
+        parts: list[Bosl2Solid] = []
+        for idx, line in enumerate(lines):
+            if not line.strip():
+                continue
+            part = bosl2_text(text=line, size=NOMINAL_SIZE_MM, font=FONT).linear_extrude(
+                height=TEXT_HEIGHT_MM
+            )
+            pb = part.bounds()
+            pcx = float(pb.center[0]) if hasattr(pb, "center") else float(pb[0][0])
+            parts.append(part.translate([-pcx, -idx * line_step, 0.0]))
+        solid = union_all(parts) if parts else bosl2_text(
+            text=text, size=NOMINAL_SIZE_MM, font=FONT
+        ).linear_extrude(height=TEXT_HEIGHT_MM)
+
     if diagonal:
-        solid = solid.rotate([0.0, 0.0, math.degrees(math.atan2(length, width))])
+        sb = solid.bounds()
+        scx = float(sb.center[0]) if hasattr(sb, "center") else float(sb[0][0])
+        scy = float(sb.center[1]) if hasattr(sb, "center") else float(sb[0][1])
+        solid = solid.translate([-scx, -scy, 0.0]).rotate(
+            [0.0, 0.0, math.degrees(math.atan2(length, width))]
+        )
     return solid
 
 
@@ -115,7 +144,7 @@ def text_height_for(
         label_w = max(label_w - 2 * pad, 0.0)
         label_l = max(label_l - 2 * pad, 0.0)
 
-    if label_w <= 0 or label_l <= 0 or not text:
+    if label_w <= 0 or label_l <= 0 or not text or not text.strip():
         return 0.0
 
     is_vertical = (length > width) and not diagonal
@@ -179,7 +208,7 @@ def build_label(
 
     label_w = width - 2 * border_margin_mm
     label_l = length - 2 * border_margin_mm
-    if label_w <= 0 or label_l <= 0 or not text:
+    if label_w <= 0 or label_l <= 0 or not text or not text.strip():
         return None
 
     size = text_height_for(
