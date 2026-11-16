@@ -1166,9 +1166,10 @@ class InsertColourTests(unittest.TestCase):
         """Spaces between framed-label diagonal strips stay through-holes even when frame_color is set."""
         from pybosl2 import Color
 
+        from pyboxbuilder.box.shell import block
         from pyboxbuilder.lid.decorate import INLAY_DEPTH_MM
 
-        lid = bare_lid()
+        lid = block([100.0, 70.0, 2.0])
         lbl = build_label(100.0, 70.0, 0.0, "Cards", label_mode=LabelMode.FRAMED)
         assert lbl is not None and lbl.hatching is not None and lbl.plate is not None
 
@@ -1245,9 +1246,10 @@ class InsertColourTests(unittest.TestCase):
         """Framed labels allow a solid lid-colored or custom-colored background with no hatching holes."""
         from pybosl2 import Color
 
-        from pyboxbuilder.lid.decorate import INLAY_DEPTH_MM
+        from pyboxbuilder.box.shell import block
+        from pyboxbuilder.lid.decorate import INLAY_DEPTH_MM, _as_depth
 
-        lid = bare_lid()
+        lid = block([100.0, 70.0, 2.0])
         lbl_open = build_label(100.0, 70.0, 0.0, "Cards", label_mode=LabelMode.FRAMED)
         lbl_solid = build_label(100.0, 70.0, 0.0, "Cards", label_mode=LabelMode.FRAMED, solid_background=True)
         assert lbl_open is not None and lbl_open.hatching is not None
@@ -1255,7 +1257,10 @@ class InsertColourTests(unittest.TestCase):
         self.assertIsNone(lbl_solid.hatching)
         self.assertIsNotNone(lbl_solid.background)
 
-        # 1. label_solid_background=True keeps interior solid in lid color (no through-holes in hatching zone)
+        hatch_top_skin = _as_depth(lbl_open.hatching, 0.18).translate([0.0, 0.0, 1.21])
+        hatch_top_face = _as_depth(lbl_open.hatching, 0.5).translate([0.0, 0.0, 1.45])
+
+        # 1. label_solid_background=True keeps interior solid in lid color (no through-holes in top skin/face)
         dec_solid = decorate_lid(
             lid,
             LidBuilder(
@@ -1269,8 +1274,8 @@ class InsertColourTests(unittest.TestCase):
             "mmu",
         )
         self.assertEqual(len(dec_solid.inserts), 2)
-        hatch_mid = lbl_open.hatching.translate([0.0, 0.0, 0.5])
-        self.assertGreater(volume(dec_solid.solid & hatch_mid), volume(hatch_mid) - 1.0)
+        self.assertAlmostEqual(volume(dec_solid.solid & hatch_top_skin), volume(hatch_top_skin), places=2)
+        self.assertAlmostEqual(volume(dec_solid.solid & hatch_top_face), volume(hatch_top_face), places=2)
 
         # 2. label_background_color fills the solid interior plaque in top inlay layer only
         dec_colored = decorate_lid(
@@ -1286,7 +1291,7 @@ class InsertColourTests(unittest.TestCase):
             "mmu",
         )
         self.assertEqual(len(dec_colored.inserts), 3)
-        self.assertGreater(volume(dec_colored.solid & hatch_mid), volume(hatch_mid) - 1.0)
+        self.assertAlmostEqual(volume(dec_colored.solid & hatch_top_skin), volume(hatch_top_skin), places=2)
         # Check all 3 inserts are top-layer only and mutually disjoint
         for ins in dec_colored.inserts:
             (_, _, icz), (_, _, ih) = _bounds_cs(ins.solid)
