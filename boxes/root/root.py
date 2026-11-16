@@ -1843,6 +1843,18 @@ def _fmt_pos(pos: tuple[float, float, float] | None) -> str:
     return f"({pos[0]:g}, {pos[1]:g}, {pos[2]:g})"
 
 
+def _spacer_geom_key(sp: Any) -> str:
+    """Stable short geometry signature for deduplicating identical variant spacer STLs."""
+    import hashlib
+
+    pos = tuple(round(float(v), 2) for v in (sp.position or (0.0, 0.0, 0.0)))
+    size = tuple(round(float(v), 2) for v in (sp.size or (0.0, 0.0, 0.0)))
+    raw_path = getattr(sp, "path", None)
+    path_key = tuple((round(float(x), 2), round(float(y), 2)) for x, y in raw_path) if raw_path else None
+    payload = repr((pos, size, path_key)).encode("utf-8")
+    return hashlib.sha256(payload).hexdigest()[:12]
+
+
 def build_doc_selector(
     *,
     game_slug: str,
@@ -1854,55 +1866,18 @@ def build_doc_selector(
     body_pieces: dict[str, Any],
     write_colored_stl_fn: Any,
 ) -> dict[str, Any]:
-    """Generate Base-only spacer STLs and return selector metadata for Sphinx docs."""
+    """Generate exact variant spacer STLs for every Riverfolk subset and return selector metadata."""
     import hashlib
+    import itertools
+    import shutil
 
-    base_spacers_dir = out_stl_dir / "base_spacers"
-    base_spacers_dir.mkdir(parents=True, exist_ok=True)
-    base_proj = build_root_project(("base",))
-    base_build = base_proj.build()
-    base_spacers = [p for p in base_build.pieces if p.kind == "spacer"]
+    # Clean up legacy un-deduplicated base_spacers dir if present.
+    legacy_base_dir = out_stl_dir / "base_spacers"
+    if legacy_base_dir.exists():
+        shutil.rmtree(legacy_base_dir)
 
-    # Remove any stale Base-only spacer STL files beyond current count
-    expected_base_names = {f"{sp.label}.stl" for sp in base_spacers}
-    for existing in base_spacers_dir.glob("spacer_*.stl"):
-        if existing.name not in expected_base_names:
-            existing.unlink()
-
-    base_missing = {
-        sp.label
-        for sp in base_spacers
-        if not (
-            (base_spacers_dir / f"{sp.label}.stl").is_file()
-            and (base_spacers_dir / f"{sp.label}.stl").stat().st_size > 84
-        )
-    }
-    if base_missing:
-        preview_list = base_proj.preview_pieces(show_lids=True)
-        grouped: dict[str, list[tuple[Any, Any]]] = {}
-        for piece in preview_list:
-            if piece.kind == "spacer" and piece.label in base_missing:
-                grouped.setdefault(piece.label, []).append((piece.solid, piece.color))
-        for sp_label, solids in grouped.items():
-            write_colored_stl_fn(base_spacers_dir / f"{sp_label}.stl", solids)
-
-    base_spacer_entries = []
-    for sp in base_spacers:
-        fname = f"{sp.label}.stl"
-        stl_path = base_spacers_dir / fname
-        digest = hashlib.sha256(stl_path.read_bytes()).hexdigest()[:8] if stl_path.is_file() else "0"
-        base_spacer_entries.append({
-            "label": sp.label,
-            "dimensions": _fmt_dims(sp.size),
-            "position": _fmt_pos(sp.position),
-            "files": [
-                {
-                    "uri": f"../_stl/boxes/{game_slug}/base_spacers/{fname}?v={digest}",
-                    "filename": f"base_{fname}",
-                    "kind": "spacer",
-                }
-            ],
-        })
+    variant_dir = out_stl_dir / "variant_spacers"
+    variant_dir.mkdir(parents=True, exist_ok=True)
 
     full_spacers = [p for p in build.pieces if p.kind == "spacer"]
     full_spacer_entries = []
@@ -1917,6 +1892,63 @@ def build_doc_selector(
             "position": _fmt_pos(sp.position),
             "files": [{"uri": uri, "filename": fname, "kind": "spacer"}],
         })
+
+    base_sgs = list(ROOT_EXPANSIONS[0].subgroups)
+    rf_sgs = sorted(ROOT_EXPANSIONS[1].subgroups)
+
+    spacer_sets: dict[str, list[dict[str, Any]]] = {"base+riverfolk": full_spacer_entries}
+    keep_variant_files: set[str] = set()
+
+    for r in range(len(rf_sgs)):
+        for combo in itertools.combinations(rf_sgs, r):
+            combo_key = "+".join(["base", *combo])
+            sub_proj = build_root_project(subgroups=[*base_sgs, *combo])
+            packing = sub_proj._compiler.resolve_final_layout(sub_proj._manifest)
+            sp_placements = sub_proj._compiler.spacer_placements(sub_proj._manifest, packing)
+
+            missing_labels: set[str] = set()
+            geom_hashes: dict[str, str] = {}
+            for sp in sp_placements:
+                ghash = _spacer_geom_key(sp)
+                vname = f"spacer_{ghash}.stl"
+                geom_hashes[sp.label] = ghash
+                keep_variant_files.add(vname)
+                vpath = variant_dir / vname
+                if not (vpath.is_file() and vpath.stat().st_size > 84):
+                    missing_labels.add(sp.label)
+
+            if missing_labels:
+                preview_list = sub_proj.preview_pieces(show_lids=True)
+                grouped: dict[str, list[tuple[Any, Any]]] = {}
+                for piece in preview_list:
+                    if piece.kind == "spacer" and piece.label in missing_labels:
+                        grouped.setdefault(piece.label, []).append((piece.solid, piece.color))
+                for sp_label, solids in grouped.items():
+                    vname = f"spacer_{geom_hashes[sp_label]}.stl"
+                    write_colored_stl_fn(variant_dir / vname, solids)
+
+            entries: list[dict[str, Any]] = []
+            for sp in sp_placements:
+                vname = f"spacer_{geom_hashes[sp.label]}.stl"
+                vpath = variant_dir / vname
+                digest = hashlib.sha256(vpath.read_bytes()).hexdigest()[:8] if vpath.is_file() else "0"
+                entries.append({
+                    "label": sp.label,
+                    "dimensions": _fmt_dims(sp.size),
+                    "position": _fmt_pos(sp.position),
+                    "files": [
+                        {
+                            "uri": f"../_stl/boxes/{game_slug}/variant_spacers/{vname}?v={digest}",
+                            "filename": f"{sp.label}.stl",
+                            "kind": "spacer",
+                        }
+                    ],
+                })
+            spacer_sets[combo_key] = entries
+
+    for existing in variant_dir.glob("spacer_*.stl"):
+        if existing.name not in keep_variant_files:
+            existing.unlink()
 
     box_entries = []
     for b in proj.boxes:
@@ -1980,10 +2012,7 @@ def build_doc_selector(
             for cat in RootBoxCategory
         ],
         "boxes": box_entries,
-        "spacerSets": {
-            "base": base_spacer_entries,
-            "base+riverfolk": full_spacer_entries,
-        },
+        "spacerSets": spacer_sets,
     }
 
 

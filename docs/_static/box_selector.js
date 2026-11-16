@@ -407,25 +407,26 @@ function initBoxSelector(container) {
         items: spacerSets[activePreset.spacerPresetKey],
       };
     }
-    const baseKeys = new Set(subgroupsByExpansion.get("base") || []);
-    const allRiverfolkPresent = (subgroupsByExpansion.get("riverfolk") || []).every((sg) =>
-      state.activeSubgroups.has(sg),
-    );
-    const allBasePresent = Array.from(baseKeys).every((sg) =>
-      state.activeSubgroups.has(sg),
-    );
-    if (allBasePresent && allRiverfolkPresent && spacerSets["base+riverfolk"]) {
+    const baseKeys = Array.from(subgroupsByExpansion.get("base") || []);
+    const allBasePresent = baseKeys.every((sg) => state.activeSubgroups.has(sg));
+    const rfKeys = (subgroupsByExpansion.get("riverfolk") || [])
+      .filter((sg) => state.activeSubgroups.has(sg))
+      .sort();
+    const allRfKeys = subgroupsByExpansion.get("riverfolk") || [];
+    const lookupKey =
+      rfKeys.length === allRfKeys.length && allRfKeys.length > 0
+        ? "base+riverfolk"
+        : ["base", ...rfKeys].join("+");
+
+    if (spacerSets[lookupKey]) {
+      const rfNames = rfKeys
+        .map((k) => subgroupByKey.get(k)?.name || k)
+        .join(", ");
+      const layoutLabel = rfNames ? `Base + ${rfNames}` : "Base Game";
       return {
-        exact: true,
-        presetName: "Base + Riverfolk",
-        items: spacerSets["base+riverfolk"],
-      };
-    }
-    if (allBasePresent && spacerSets.base) {
-      return {
-        exact: false,
-        presetName: "Base Game",
-        items: spacerSets.base,
+        exact: allBasePresent,
+        presetName: layoutLabel,
+        items: spacerSets[lookupKey],
       };
     }
     return {

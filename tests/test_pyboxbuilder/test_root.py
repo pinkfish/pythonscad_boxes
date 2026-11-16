@@ -171,3 +171,53 @@ class TestRoot(unittest.TestCase):
                 expected,
                 f"{label} should have {expected} pockets, got {len(pockets)}",
             )
+
+    def test_all_riverfolk_subset_spacers_fit_without_overlap(self) -> None:
+        """Verify every Base + partial Riverfolk combination builds non-overlapping spacers."""
+        import itertools
+
+        base_sgs = list(ROOT_EXPANSIONS[0].subgroups)
+        rf_sgs = sorted(ROOT_EXPANSIONS[1].subgroups)
+
+        def _box_volume(items: list[object]) -> float:
+            total = 0.0
+            for item in items:
+                s = item.size  # type: ignore[attr-defined]
+                total += s[0] * s[1] * s[2]
+            return total
+
+        full_proj = build_root_project(("base", "riverfolk"))
+        full_spacers = full_proj._compiler.spacer_placements(
+            full_proj._manifest, full_proj._compiler.resolve_final_layout(full_proj._manifest)
+        )
+
+        for r in range(len(rf_sgs)):
+            for combo in itertools.combinations(rf_sgs, r):
+                sub_proj = build_root_project(subgroups=[*base_sgs, *combo])
+                packing = sub_proj._compiler.resolve_final_layout(sub_proj._manifest)
+                spacers = sub_proj._compiler.spacer_placements(sub_proj._manifest, packing)
+                self.assertGreater(len(spacers), 0)
+                # Omitting any Riverfolk boxes leaves strictly more spacer volume than full layout
+                self.assertGreater(_box_volume(spacers), _box_volume(full_spacers))
+                for sp in spacers:
+                    self.assertGreaterEqual(sp.position[2], 28.0 - 1e-3)
+                    self.assertLessEqual(sp.position[2] + sp.size[2], 67.0 + 1e-3)
+                    if sp.path is not None:
+                        continue
+                    for bx in packing.placements:
+                        overlap_x = (
+                            sp.position[0] < bx.position[0] + bx.size[0] - 1e-2
+                            and sp.position[0] + sp.size[0] > bx.position[0] + 1e-2
+                        )
+                        overlap_y = (
+                            sp.position[1] < bx.position[1] + bx.size[1] - 1e-2
+                            and sp.position[1] + sp.size[1] > bx.position[1] + 1e-2
+                        )
+                        overlap_z = (
+                            sp.position[2] < bx.position[2] + bx.size[2] - 1e-2
+                            and sp.position[2] + sp.size[2] > bx.position[2] + 1e-2
+                        )
+                        self.assertFalse(
+                            overlap_x and overlap_y and overlap_z,
+                            f"{sp.label} overlaps {bx.label} in combo {combo}",
+                        )
