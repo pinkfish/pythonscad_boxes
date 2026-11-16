@@ -82,111 +82,121 @@ class PathBox(BoxTypeBase):
         return profile.linear_extrude(height=height)
 
     @classmethod
-    def _extrude_outer(
-        cls, path: tuple[tuple[float, float], ...], spec: BoxSpec
+    def _extrude_offset_profile(
+        cls,
+        path: tuple[tuple[float, float], ...],
+        height: float,
+        radius: float,
+        r_body: float,
+        *,
+        top_profile: bool,
     ) -> Bosl2Solid:
-        """Extrude the outer polygon shell with rounded top and bottom rims."""
+        """Extrude a 2D footprint with rounded vertical and rim profiles.
+
+        Applies ``offset(delta=-radius)`` before ``round_corners`` so concave
+        reflex corners on thin arms never self-intersect when ``r_corner <= radius``.
+        """
         import math
 
         from pybosl2 import Path2D
         from pybosl2.shapes3d.base import CsgSolid
         from pybosl2.skin import os_profile
 
-        from pyboxbuilder.box.shell import body_rounding
         from pyboxbuilder.paths import is_rectilinear
         from pyboxbuilder.rounding import rounding_facets
 
-        wt = spec.wall_thickness
-        r_body = body_rounding(spec)
-        r_outer = min(r_body, wt * 0.45, spec.height / 4.0)
-        if r_outer <= 0.05 or len(path) < 3:
-            return cls._extrude(path, spec.height)
+        if radius <= 0.05 or len(path) < 3:
+            return cls._extrude(path, height)
+
+        clean: list[tuple[float, float]] = []
+        for x, y in path:
+            fx, fy = float(x), float(y)
+            if not clean or math.hypot(fx - clean[-1][0], fy - clean[-1][1]) > 1e-6:
+                clean.append((fx, fy))
+        if len(clean) >= 2 and math.hypot(clean[0][0] - clean[-1][0], clean[0][1] - clean[-1][1]) <= 1e-6:
+            clean.pop()
+        if len(clean) < 3:
+            return cls._extrude(path, height)
 
         try:
             steps = max(8, rounding_facets()["fn"] // 4)
             fn = rounding_facets()["fn"]
-            outer_2d = Path2D([(float(x), float(y)) for x, y in path], closed=True)
-            if is_rectilinear(path):
-                min_edge = min(
+            base_2d = Path2D(clean, closed=True)
+            offset_2d = base_2d.offset(delta=-radius)
+            off_pts = list(offset_2d.points if hasattr(offset_2d, "points") else offset_2d)
+            if len(off_pts) < 3:
+                return cls._extrude(path, height)
+            # Check that offsetting did not collapse the bounding span of the footprint.
+            raw_w = max(p[0] for p in clean) - min(p[0] for p in clean)
+            raw_l = max(p[1] for p in clean) - min(p[1] for p in clean)
+            off_w = max(float(p[0]) for p in off_pts) - min(float(p[0]) for p in off_pts)
+            off_l = max(float(p[1]) for p in off_pts) - min(float(p[1]) for p in off_pts)
+            if (raw_w > 2 * radius and off_w < (raw_w - 2 * radius) * 0.5) or (
+                raw_l > 2 * radius and off_l < (raw_l - 2 * radius) * 0.5
+            ):
+                return cls._extrude(path, height)
+
+            if is_rectilinear(clean):
+                edges = [
                     math.hypot(
-                        path[(i + 1) % len(path)][0] - path[i][0],
-                        path[(i + 1) % len(path)][1] - path[i][1],
+                        float(off_pts[(i + 1) % len(off_pts)][0]) - float(off_pts[i][0]),
+                        float(off_pts[(i + 1) % len(off_pts)][1]) - float(off_pts[i][1]),
                     )
-                    for i in range(len(path))
-                )
-                r_corner = min(r_body, min_edge * 0.2)
+                    for i in range(len(off_pts))
+                ]
+                pos_edges = [e for e in edges if e > 0.05]
+                r_corner = min(r_body, min(pos_edges) * 0.2) if pos_edges else 0.0
                 if r_corner > 0.05:
-                    outer_2d = outer_2d.round_corners(radius=r_corner, fn=fn)
-            outer_base = outer_2d.offset(delta=-r_outer)
+                    offset_2d = offset_2d.round_corners(radius=r_corner, fn=fn)
+
             prof_pts = [
                 [
-                    -r_outer * math.sin((math.pi / 2) * i / steps),
-                    r_outer * (1.0 - math.cos((math.pi / 2) * i / steps)),
+                    -radius * math.sin((math.pi / 2) * i / steps),
+                    radius * (1.0 - math.cos((math.pi / 2) * i / steps)),
                 ]
                 for i in range(steps + 1)
             ]
             prof = os_profile(Path2D(prof_pts))
-            swept = outer_base.offset_sweep(
-                height=spec.height, bottom=prof, top=prof, steps=steps
+            swept = offset_2d.offset_sweep(
+                height=height,
+                bottom=prof,
+                top=prof if top_profile else None,
+                steps=steps,
             )
             return CsgSolid(swept.polyhedron()) if hasattr(swept, "polyhedron") else swept
         except Exception:
-            return cls._extrude(path, spec.height)
+            return cls._extrude(path, height)
+
+    @classmethod
+    def _extrude_outer(
+        cls, path: tuple[tuple[float, float], ...], spec: BoxSpec
+    ) -> Bosl2Solid:
+        """Extrude the outer polygon shell with rounded top and bottom rims."""
+        from pyboxbuilder.box.shell import body_rounding
+
+        wt = spec.wall_thickness
+        r_body = body_rounding(spec)
+        r_outer = min(r_body, wt * 0.45, spec.height / 4.0)
+        return cls._extrude_offset_profile(
+            path, spec.height, r_outer, r_body, top_profile=True
+        )
 
     @classmethod
     def _extrude_inner(
         cls, inner_path: tuple[tuple[float, float], ...], spec: BoxSpec
     ) -> Bosl2Solid:
         """Extrude the inner polygon cavity with a rounded floor fillet."""
-        import math
-
-        from pybosl2 import Path2D
-        from pybosl2.shapes3d.base import CsgSolid
-        from pybosl2.skin import os_profile
-
         from pyboxbuilder.box.shell import body_rounding
-        from pyboxbuilder.paths import is_rectilinear
-        from pyboxbuilder.rounding import rounding_facets
 
         wt = spec.wall_thickness
         ft = spec.floor_thickness
         cav_h = spec.height - ft
         r_body = body_rounding(spec)
         r_inner = min(r_body, wt * 0.35, cav_h / 4.0)
-        if r_inner <= 0.05 or len(inner_path) < 3:
-            return cls._extrude(inner_path, cav_h).translate([0.0, 0.0, ft])
-
-        try:
-            steps = max(8, rounding_facets()["fn"] // 4)
-            fn = rounding_facets()["fn"]
-            inner_2d = Path2D([(float(x), float(y)) for x, y in inner_path], closed=True)
-            if is_rectilinear(inner_path):
-                min_edge = min(
-                    math.hypot(
-                        inner_path[(i + 1) % len(inner_path)][0] - inner_path[i][0],
-                        inner_path[(i + 1) % len(inner_path)][1] - inner_path[i][1],
-                    )
-                    for i in range(len(inner_path))
-                )
-                r_corner = min(r_inner, min_edge * 0.2)
-                if r_corner > 0.05:
-                    inner_2d = inner_2d.round_corners(radius=r_corner, fn=fn)
-            inner_base = inner_2d.offset(delta=-r_inner)
-            prof_pts = [
-                [
-                    -r_inner * math.sin((math.pi / 2) * i / steps),
-                    r_inner * (1.0 - math.cos((math.pi / 2) * i / steps)),
-                ]
-                for i in range(steps + 1)
-            ]
-            prof = os_profile(Path2D(prof_pts))
-            swept = inner_base.offset_sweep(
-                height=cav_h + 0.1, bottom=prof, steps=steps
-            )
-            solid = CsgSolid(swept.polyhedron()) if hasattr(swept, "polyhedron") else swept
-            return solid.translate([0.0, 0.0, ft])
-        except Exception:
-            return cls._extrude(inner_path, cav_h).translate([0.0, 0.0, ft])
+        solid = cls._extrude_offset_profile(
+            inner_path, cav_h + 0.1, r_inner, r_body, top_profile=False
+        )
+        return solid.translate([0.0, 0.0, ft])
 
     @staticmethod
     def _round_inner_rim(
