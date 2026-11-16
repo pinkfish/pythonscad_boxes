@@ -1213,7 +1213,7 @@ def _populate_root_boxes(project: Project) -> None:
     )
 
     # Alliance Box Bottom
-    alliance_bottom_size = (53.25, 59.833, 25.5)
+    alliance_bottom_size = (53.25, 59.833, 24.5)
     project.box(
         BoxType.CAP,
         "AllianceBoxBottom",
@@ -1243,13 +1243,13 @@ def _populate_root_boxes(project: Project) -> None:
                 pull_out_width=40.0,
                 pull_out_depth=9.0,
             ),
-            # Stamps/Inlays at the bottom of the channels
+            # Stamps/Inlays at the bottom of the channels (comp_depth = 20.9)
             centered(
                 str(SVG_DIR / "alliance_warrior.svg"),
                 (24.625, 15.0),
                 (12.0, 12.0),
                 depth=0.6,
-                z_offset=4.9,
+                z_offset=20.9 - 18.0,
                 color="black",
                 pull_out=False,
             ),
@@ -1258,78 +1258,95 @@ def _populate_root_boxes(project: Project) -> None:
                 (24.625, 39.8),
                 (12.0, 12.0),
                 depth=0.6,
-                z_offset=4.9,
+                z_offset=20.9 - 18.0,
                 color="black",
                 pull_out=False,
             ),
         ],
     )
 
-    # Alliance Box Top
+    # Alliance Box Top (4 pockets: Score, 3 Bases, 2x5 Sympathy)
+    alliance_top_comp_depth = 14.5 - 1.6 - 2.0  # 10.9mm
     project.box(
         BoxType.SLIDING,
         "AllianceBoxTop",
-        size=(53.25, 59.833, 13.5),
+        size=(53.25, 59.833, 14.5),
         lid=LID_ALLIANCE,
         color=Color("green"),
-        position=(106.5, 98.5, 28.0 + 25.5),
+        position=(106.5, 98.5, 28.0 + 24.5),
     ).compartment(
         "BasesAndSympathy",
         elements=[
-            # Pockets (wells)
-            # Alliance Camp / Bases (rectangular well, depth 6.0 for 3-high stack)
+            # Score marker (front-left, depth 3.0)
             centered(
                 None,
-                (15.0, 15.0),
+                (13.5, 15.0),
                 (18.5, 18.5),
                 shape=ElementShape.RECT,
-                depth=6.0,
+                depth=3.0,
                 pull_out=True,
             ),
-            # Sympathy / Fist (circular wells, depth 9.5 for 5-high stack)
+            # Sympathy / Fist #1 (front-right, 5 tokens, depth 10.5)
             centered(
                 None,
-                (35.0, 15.0),
+                (35.75, 15.0),
                 (18.5, 18.5),
                 shape=ElementShape.CIRCLE,
-                depth=9.5,
+                depth=10.5,
                 pull_out=True,
             ),
+            # Alliance Camp / Bases (back-left, 3 tokens, depth 7.0)
             centered(
                 None,
-                (25.0, 40.0),
+                (13.5, 41.0),
                 (18.5, 18.5),
-                shape=ElementShape.CIRCLE,
-                depth=9.5,
+                shape=ElementShape.RECT,
+                depth=7.0,
                 pull_out=True,
             ),
-            # Stamps/Inlays at the bottom of the pockets (depth=0.6, comp_depth = 9.9)
-            # Bases (z_offset = 9.9 - 6.0 = 3.9)
+            # Sympathy / Fist #2 (back-right, 5 tokens, depth 10.5)
+            centered(
+                None,
+                (35.75, 41.0),
+                (18.5, 18.5),
+                shape=ElementShape.CIRCLE,
+                depth=10.5,
+                pull_out=True,
+            ),
+            # Stamps/Inlays at the bottom of the pockets
+            centered(
+                str(SVG_DIR / "laurel_wreath.svg"),
+                (13.5, 15.0),
+                (12.0, 12.0),
+                depth=0.6,
+                z_offset=alliance_top_comp_depth - 3.0,
+                color="black",
+                pull_out=False,
+            ),
+            centered(
+                str(SVG_DIR / "fist.svg"),
+                (35.75, 15.0),
+                (12.0, 12.0),
+                depth=0.6,
+                z_offset=alliance_top_comp_depth - 10.5,
+                color="black",
+                pull_out=False,
+            ),
             centered(
                 str(SVG_DIR / "camp.svg"),
-                (15.0, 15.0),
+                (13.5, 41.0),
                 (12.0, 12.0),
                 depth=0.6,
-                z_offset=3.9,
-                color="black",
-                pull_out=False,
-            ),
-            # Sympathy (z_offset = 9.9 - 9.5 = 0.4)
-            centered(
-                str(SVG_DIR / "fist.svg"),
-                (35.0, 15.0),
-                (12.0, 12.0),
-                depth=0.6,
-                z_offset=0.4,
+                z_offset=alliance_top_comp_depth - 7.0,
                 color="black",
                 pull_out=False,
             ),
             centered(
                 str(SVG_DIR / "fist.svg"),
-                (25.0, 40.0),
+                (35.75, 41.0),
                 (12.0, 12.0),
                 depth=0.6,
-                z_offset=0.4,
+                z_offset=alliance_top_comp_depth - 10.5,
                 color="black",
                 pull_out=False,
             ),
@@ -1557,7 +1574,8 @@ def _populate_root_boxes(project: Project) -> None:
         ],
     )
 
-    # Riverfolk Box Top
+    # Riverfolk Box Top (7 pockets: Score + 3 Glass Gems + 3 Trade Post suits)
+    riverfolk_top_comp_depth = 12.5 - 1.6 - 2.0  # 8.9mm
     project.box(
         BoxType.SLIDING,
         "RiverfolkBoxTop",
@@ -1568,119 +1586,72 @@ def _populate_root_boxes(project: Project) -> None:
     ).compartment(
         "TradePosts",
         elements=[
-            # Pockets (wells, depth 8.0)
-            # Trade Posts (Signs)
+            # Row 1 (front): Score marker + 3 Glass Gems (17mm diameter)
             centered(
                 None,
-                (16.34, 17.5),
-                (18.5, 18.5),
-                shape=ElementShape.RECT,
-                depth=8.0,
-                pull_out=True,
-            ),
-            centered(
-                None,
-                (39.93, 17.5),
-                (18.5, 18.5),
-                shape=ElementShape.RECT,
-                depth=8.0,
-                pull_out=True,
-            ),
-            # Glass gems (Egg shapes)
-            centered(
-                None,
-                (63.52, 17.5),
-                (18.5, 18.5),
-                shape=ElementShape.RECT,
-                depth=8.0,
-                pull_out=True,
-            ),
-            # Glass Gem 2
-            centered(
-                None,
-                (16.34, 42.333),
-                (18.5, 18.5),
-                shape=ElementShape.RECT,
-                depth=8.0,
-                pull_out=True,
-            ),
-            # Glass Gem 3
-            centered(
-                None,
-                (39.93, 42.333),
-                (18.5, 18.5),
-                shape=ElementShape.RECT,
-                depth=8.0,
-                pull_out=True,
-            ),
-            # Score marker (Laurel wreath)
-            centered(
-                None,
-                (63.52, 42.333),
+                (10.25, 14.5),
                 (18.5, 18.5),
                 shape=ElementShape.RECT,
                 depth=3.0,
                 pull_out=True,
             ),
-            # Stamps/Inlays at the bottom of the pockets (depth=0.6, comp_depth = 8.9)
-            # Trade Posts (z_offset = 8.9 - 8.0 = 0.9)
-            centered(
-                str(SVG_DIR / "sign.svg"),
-                (16.34, 17.5),
-                (12.0, 12.0),
-                depth=0.6,
-                z_offset=0.9,
-                color="black",
-                pull_out=False,
-            ),
-            centered(
-                str(SVG_DIR / "sign.svg"),
-                (39.93, 17.5),
-                (12.0, 12.0),
-                depth=0.6,
-                z_offset=0.9,
-                color="black",
-                pull_out=False,
-            ),
-            # Glass Gem 1 (z_offset = 8.9 - 8.0 = 0.9)
-            centered(
-                str(SVG_DIR / "gem.svg"),
-                (63.52, 17.5),
-                (12.0, 12.0),
-                depth=0.6,
-                z_offset=0.9,
-                color="black",
-                pull_out=False,
-            ),
-            # Glass Gem 2 & 3 (z_offset = 8.9 - 8.0 = 0.9)
-            centered(
-                str(SVG_DIR / "gem.svg"),
-                (16.34, 42.333),
-                (12.0, 12.0),
-                depth=0.6,
-                z_offset=0.9,
-                color="black",
-                pull_out=False,
-            ),
-            centered(
-                str(SVG_DIR / "gem.svg"),
-                (39.93, 42.333),
-                (12.0, 12.0),
-                depth=0.6,
-                z_offset=0.9,
-                color="black",
-                pull_out=False,
-            ),
-            # Score marker (z_offset = 8.9 - 3.0 = 5.9)
+            *[
+                centered(
+                    None,
+                    (gem_x, 14.5),
+                    (17.0, 17.0),
+                    shape=ElementShape.CIRCLE,
+                    depth=8.5,
+                    pull_out=True,
+                )
+                for gem_x in (29.5, 48.0, 66.5)
+            ],
+            # Row 2 (back): 3 Trade Post suits (Fox, Rabbit, Mouse - 3 tokens each)
+            *[
+                centered(
+                    None,
+                    (sign_x, 41.5),
+                    (18.5, 18.5),
+                    shape=ElementShape.CIRCLE,
+                    depth=7.0,
+                    pull_out=True,
+                )
+                for sign_x in (15.5, 37.9, 60.3)
+            ],
+            # Stamps/Inlays at pocket bottoms
             centered(
                 str(SVG_DIR / "laurel_wreath.svg"),
-                (63.52, 42.333),
+                (10.25, 14.5),
                 (12.0, 12.0),
                 depth=0.6,
-                z_offset=5.9,
+                z_offset=riverfolk_top_comp_depth - 3.0,
                 color="black",
                 pull_out=False,
             ),
+            *[
+                centered(
+                    str(SVG_DIR / "gem.svg"),
+                    (gem_x, 14.5),
+                    (11.0, 11.0),
+                    depth=0.6,
+                    z_offset=riverfolk_top_comp_depth - 8.5,
+                    color="black",
+                    pull_out=False,
+                )
+                for gem_x in (29.5, 48.0, 66.5)
+            ],
+            *[
+                centered(
+                    str(SVG_DIR / "sign.svg"),
+                    (sign_x, 41.5),
+                    (12.0, 12.0),
+                    depth=0.6,
+                    z_offset=riverfolk_top_comp_depth - 7.0,
+                    color="black",
+                    pull_out=False,
+                )
+                for sign_x in (15.5, 37.9, 60.3)
+            ],
         ],
     )
 

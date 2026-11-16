@@ -129,3 +129,45 @@ class TestRoot(unittest.TestCase):
         self.assertTrue({"underworld", "marauder"}.issubset(planned))
         with self.assertRaises(NotImplementedError):
             build_root_project(("base", "underworld"))
+
+    def test_expected_pocket_counts_for_all_boxes(self) -> None:
+        """Verify each faction and item tray has the exact expected number of main pockets."""
+        expected_pockets = {
+            "ItemsBoxBottom": 10,
+            "ItemsBoxMiddle": 9,
+            "ItemsBoxWinter": 6,
+            "ItemsBoxExtras": 8,
+            "MarquisBoxBottom": 3,
+            "MarquisBoxTop": 10,
+            "ErieBoxBottom": 2,
+            "ErieBoxTop": 3,
+            "AllianceBoxBottom": 2,
+            "AllianceBoxTop": 4,
+            "LizardBoxBottom": 25,
+            "LizardBoxTop": 6,
+            "RiverfolkBoxBottom": 3,
+            "RiverfolkBoxTop": 7,
+            "VagabondBox": 4,
+            "VagabondBox2": 4,
+            "DiceBox": 2,
+        }
+        from pyboxbuilder.enums import ElementShape
+
+        boxes_by_label = {b.label: b for b in project._boxes}
+        for label, expected in expected_pockets.items():
+            elements = boxes_by_label[label].compartments[0].elements
+            pockets = [
+                el
+                for el in elements
+                if el.depth > 1.0
+                and not (
+                    el.shape is ElementShape.CIRCLE
+                    and el.footprint == (12.0, 12.0)
+                    and not el.pull_out
+                )
+            ]
+            self.assertEqual(
+                len(pockets),
+                expected,
+                f"{label} should have {expected} pockets, got {len(pockets)}",
+            )
