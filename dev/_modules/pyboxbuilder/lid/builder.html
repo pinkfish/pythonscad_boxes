@@ -799,9 +799,11 @@
     <span class="n">top_skin_mm</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="w">    </span><span class="sd">"""Override for the solid top skin thickness in mm supporting thin colored inlays above the backing lattice."""</span>
     <span class="n">logo</span><span class="p">:</span> <span class="n">Any</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="w">    </span><span class="sd">"""Path to the SVG logo, a Bosl2Solid, or a callable representing the custom lid logo."""</span>
+<span class="w">    </span><span class="sd">"""SVG path (monochrome or multi-colour), a single- or multi-coloured ``Bosl2Solid``,</span>
+<span class="sd">    a ``PatternResult``, a sequence of ``(shape, colour)`` pairs, or a callable</span>
+<span class="sd">    ``(width, length, depth) -&gt; ...`` returning any of those."""</span>
     <span class="n">logo_color</span><span class="p">:</span> <span class="n">Color</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="w">    </span><span class="sd">"""Colour the logo is inlaid in; ``None`` uses black."""</span>
+<span class="w">    </span><span class="sd">"""Default colour for uncoloured logo parts in inlaid mode; ``None`` uses ``text_color``."""</span>
     <span class="n">min_text_height_mm</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="w">    </span><span class="sd">"""Below this the label is skipped rather than printed illegibly (FR-020).</span>
 
@@ -847,7 +849,9 @@
 <span class="w">    </span><span class="sd">"""Fields to override for the single-colour export."""</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">"""Convert list pattern_through_inlay to tuple and coerce pattern."""</span>
+<span class="w">        </span><span class="sd">"""Convert list pattern_through_inlay to tuple and coerce pattern/label_mode."""</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">label_mode</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">"label_mode"</span><span class="p">,</span> <span class="n">LabelMode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">label_mode</span><span class="o">.</span><span class="n">lower</span><span class="p">()))</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pattern</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">"pattern"</span><span class="p">,</span> <span class="n">PatternBuilder</span><span class="p">(</span><span class="n">PatternType</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pattern</span><span class="o">.</span><span class="n">lower</span><span class="p">())))</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pattern</span><span class="p">,</span> <span class="n">PatternType</span><span class="p">):</span>

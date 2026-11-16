@@ -15,12 +15,12 @@ Full Box Packing
 
 Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
-.. stl:: ../_stl/boxes/modern_art/CardBox_body.stl?v=9ab5066f,../_stl/boxes/modern_art/CardBox_lid.stl?v=9506edda,../_stl/boxes/modern_art/TokensBox_body.stl?v=17c54ae6,../_stl/boxes/modern_art/TokensBox_lid.stl?v=8e26fbd4
+.. stl:: ../_stl/boxes/modern_art/CardBox_body.stl?v=9ab5066f,../_stl/boxes/modern_art/CardBox_lid.stl?v=474063c0,../_stl/boxes/modern_art/TokensBox_body.stl?v=17c54ae6,../_stl/boxes/modern_art/TokensBox_lid.stl?v=0e50d566
    :height: 440px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/modern_art/CardBox_body.stl?v=9ab5066f" data-stl-combine="../_stl/boxes/modern_art/CardBox_body.stl?v=9ab5066f,../_stl/boxes/modern_art/CardBox_lid.stl?v=9506edda,../_stl/boxes/modern_art/TokensBox_body.stl?v=17c54ae6,../_stl/boxes/modern_art/TokensBox_lid.stl?v=8e26fbd4" download="ModernArt_full_packing.stl">⬇ Download Full Box Packing STL (<code>ModernArt_full_packing.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/modern_art/CardBox_body.stl?v=9ab5066f" data-stl-combine="../_stl/boxes/modern_art/CardBox_body.stl?v=9ab5066f,../_stl/boxes/modern_art/CardBox_lid.stl?v=474063c0,../_stl/boxes/modern_art/TokensBox_body.stl?v=17c54ae6,../_stl/boxes/modern_art/TokensBox_lid.stl?v=0e50d566" download="ModernArt_full_packing.stl">⬇ Download Full Box Packing STL (<code>ModernArt_full_packing.stl</code>)</a></p>
 
 Parts Overview
 --------------
@@ -60,12 +60,12 @@ CardBox
 
 **Assembled Box (CardBox — Body + Lid)**
 
-.. stl:: ../_stl/boxes/modern_art/CardBox_body.stl?v=9ab5066f,../_stl/boxes/modern_art/CardBox_lid.stl?v=9506edda
+.. stl:: ../_stl/boxes/modern_art/CardBox_body.stl?v=9ab5066f,../_stl/boxes/modern_art/CardBox_lid.stl?v=474063c0
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/modern_art/CardBox_body.stl?v=9ab5066f" data-stl-combine="../_stl/boxes/modern_art/CardBox_body.stl?v=9ab5066f,../_stl/boxes/modern_art/CardBox_lid.stl?v=9506edda" download="CardBox_assembled.stl">⬇ Download Assembled CardBox STL (<code>CardBox_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/modern_art/CardBox_body.stl?v=9ab5066f" data-stl-combine="../_stl/boxes/modern_art/CardBox_body.stl?v=9ab5066f,../_stl/boxes/modern_art/CardBox_lid.stl?v=474063c0" download="CardBox_assembled.stl">⬇ Download Assembled CardBox STL (<code>CardBox_assembled.stl</code>)</a></p>
 
 **Part: CardBox Body**
 
@@ -78,12 +78,12 @@ CardBox
 
 **Part: CardBox Lid**
 
-.. stl:: ../_stl/boxes/modern_art/CardBox_lid.stl?v=9506edda
+.. stl:: ../_stl/boxes/modern_art/CardBox_lid.stl?v=474063c0
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/modern_art/CardBox_lid.stl?v=9506edda" download="CardBox_lid.stl">⬇ Download CardBox Lid STL (<code>CardBox_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/modern_art/CardBox_lid.stl?v=474063c0" download="CardBox_lid.stl">⬇ Download CardBox Lid STL (<code>CardBox_lid.stl</code>)</a></p>
 
 .. _box-modern_art-tokensbox:
 
@@ -97,12 +97,12 @@ TokensBox
 
 **Assembled Box (TokensBox — Body + Lid)**
 
-.. stl:: ../_stl/boxes/modern_art/TokensBox_body.stl?v=17c54ae6,../_stl/boxes/modern_art/TokensBox_lid.stl?v=8e26fbd4
+.. stl:: ../_stl/boxes/modern_art/TokensBox_body.stl?v=17c54ae6,../_stl/boxes/modern_art/TokensBox_lid.stl?v=0e50d566
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/modern_art/TokensBox_body.stl?v=17c54ae6" data-stl-combine="../_stl/boxes/modern_art/TokensBox_body.stl?v=17c54ae6,../_stl/boxes/modern_art/TokensBox_lid.stl?v=8e26fbd4" download="TokensBox_assembled.stl">⬇ Download Assembled TokensBox STL (<code>TokensBox_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/modern_art/TokensBox_body.stl?v=17c54ae6" data-stl-combine="../_stl/boxes/modern_art/TokensBox_body.stl?v=17c54ae6,../_stl/boxes/modern_art/TokensBox_lid.stl?v=0e50d566" download="TokensBox_assembled.stl">⬇ Download Assembled TokensBox STL (<code>TokensBox_assembled.stl</code>)</a></p>
 
 **Part: TokensBox Body**
 
@@ -115,9 +115,9 @@ TokensBox
 
 **Part: TokensBox Lid**
 
-.. stl:: ../_stl/boxes/modern_art/TokensBox_lid.stl?v=8e26fbd4
+.. stl:: ../_stl/boxes/modern_art/TokensBox_lid.stl?v=0e50d566
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/modern_art/TokensBox_lid.stl?v=8e26fbd4" download="TokensBox_lid.stl">⬇ Download TokensBox Lid STL (<code>TokensBox_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/modern_art/TokensBox_lid.stl?v=0e50d566" download="TokensBox_lid.stl">⬇ Download TokensBox Lid STL (<code>TokensBox_lid.stl</code>)</a></p>
