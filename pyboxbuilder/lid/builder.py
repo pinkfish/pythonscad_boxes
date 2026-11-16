@@ -281,12 +281,9 @@ class LidBuilder:
     A label is read against a lid whose colour is the game's choice, so the
     default is the one colour that reads against all of them."""
     frame_color: Color | None = None
-    """Colour the framed label's **striped grid** is inlaid in; ``None`` uses
-    light grey.
-
-    The grid is a texture behind the lettering, not a second label. What sits
-    *behind* both is the box's own material — it is never cut, so it needs no
-    colour here (FR-022)."""
+    """Top-layer colour of the framed label's outer border and diagonal strips;
+    ``None`` leaves them the box's own lid colour while the spaces between the
+    strips remain open through-holes."""
     pattern: PatternBuilder | PatternType | str | None = PatternBuilder(PatternType.HEX)
     """Through-hole pattern, or ``None`` for a plain lid."""
     pattern_color: Color | str | None = None
