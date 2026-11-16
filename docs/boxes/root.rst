@@ -7,7 +7,7 @@ Root board game insert — pyboxbuilder port of `examples/root.scad`.
 
 - **Source Script**: ``boxes/root/root.py``
 - **Game Box Dimensions**: ``214 × 278 × 67 mm`` (usable height ``39 mm`` with ``28 mm`` board storage)
-- **Boxes**: 20 sub-box(es), 2 spacer tray(s)
+- **Boxes**: 21 sub-box(es), 2 spacer tray(s)
 - **Box Types Used**: :ref:`BoxType.SLIDING <box-type-sliding>`, :ref:`BoxType.CAP <box-type-cap>`, :ref:`BoxType.NO_LID <box-type-no-lid>`
 
 Full Box Packing
@@ -15,12 +15,12 @@ Full Box Packing
 
 Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
-.. stl:: ../_stl/boxes/root/BaseCardBox_body.stl?v=87cdf4b3,../_stl/boxes/root/BaseCardBox_lid.stl?v=6400a200,../_stl/boxes/root/ErieCardBox_body.stl?v=dc3a6360,../_stl/boxes/root/ErieCardBox_lid.stl?v=6e40804b,../_stl/boxes/root/VagabondCardBox_body.stl?v=24f41ab7,../_stl/boxes/root/VagabondCardBox_lid.stl?v=d7404c7a,../_stl/boxes/root/OverviewCardBox_body.stl?v=d0207bc6,../_stl/boxes/root/OverviewCardBox_lid.stl?v=fb93103c,../_stl/boxes/root/ItemsBoxBottom_body.stl?v=409e33c7,../_stl/boxes/root/ItemsBoxBottom_lid.stl?v=3fb8b4e3,../_stl/boxes/root/ItemsBoxMiddle_body.stl?v=97d6e033,../_stl/boxes/root/ItemsBoxMiddle_lid.stl?v=880668d5,../_stl/boxes/root/ItemsBoxWinter_body.stl?v=6cf0eda1,../_stl/boxes/root/ItemsBoxWinter_lid.stl?v=1dc51b5e,../_stl/boxes/root/ItemsBoxExtras_body.stl?v=9b03fa0a,../_stl/boxes/root/ItemsBoxExtras_lid.stl?v=e288042e,../_stl/boxes/root/MarquisBoxBottom_body.stl?v=b22d8106,../_stl/boxes/root/MarquisBoxBottom_lid.stl?v=c2a73e8e,../_stl/boxes/root/MarquisBoxTop_body.stl?v=16295e09,../_stl/boxes/root/MarquisBoxTop_lid.stl?v=bbeaeb4c,../_stl/boxes/root/ErieBoxBottom_body.stl?v=5b0ab23f,../_stl/boxes/root/ErieBoxBottom_lid.stl?v=34cbb8b7,../_stl/boxes/root/ErieBoxTop_body.stl?v=3c4319e9,../_stl/boxes/root/ErieBoxTop_lid.stl?v=e87a5d4c,../_stl/boxes/root/AllianceBoxBottom_body.stl?v=5eed719b,../_stl/boxes/root/AllianceBoxBottom_lid.stl?v=b6a8cd64,../_stl/boxes/root/AllianceBoxTop_body.stl?v=600177c8,../_stl/boxes/root/AllianceBoxTop_lid.stl?v=100c4853,../_stl/boxes/root/LizardBoxBottom_body.stl?v=7405a2e9,../_stl/boxes/root/LizardBoxBottom_lid.stl?v=137fb469,../_stl/boxes/root/LizardBoxTop_body.stl?v=88b67de2,../_stl/boxes/root/LizardBoxTop_lid.stl?v=1c527786,../_stl/boxes/root/RiverfolkBoxBottom_body.stl?v=35e4239a,../_stl/boxes/root/RiverfolkBoxBottom_lid.stl?v=ca2fe393,../_stl/boxes/root/RiverfolkBoxTop_body.stl?v=921c02ff,../_stl/boxes/root/RiverfolkBoxTop_lid.stl?v=7db92c32,../_stl/boxes/root/VagabondBox_body.stl?v=3cbf1628,../_stl/boxes/root/VagabondBox_lid.stl?v=a3eddb5f,../_stl/boxes/root/DiceBox_body.stl?v=2f5e1e2d,../_stl/boxes/root/DiceBox_lid.stl?v=4f31d62c,../_stl/boxes/root/spacer_1.stl?v=a6f6e5a4,../_stl/boxes/root/spacer_2.stl?v=a44cf160
+.. stl:: ../_stl/boxes/root/BaseCardBox_body.stl?v=87cdf4b3,../_stl/boxes/root/BaseCardBox_lid.stl?v=6400a200,../_stl/boxes/root/ErieCardBox_body.stl?v=dc3a6360,../_stl/boxes/root/ErieCardBox_lid.stl?v=6e40804b,../_stl/boxes/root/VagabondCardBox_body.stl?v=24f41ab7,../_stl/boxes/root/VagabondCardBox_lid.stl?v=d7404c7a,../_stl/boxes/root/OverviewCardBox_body.stl?v=d0207bc6,../_stl/boxes/root/OverviewCardBox_lid.stl?v=fb93103c,../_stl/boxes/root/ItemsBoxBottom_body.stl?v=409e33c7,../_stl/boxes/root/ItemsBoxBottom_lid.stl?v=3fb8b4e3,../_stl/boxes/root/ItemsBoxMiddle_body.stl?v=97d6e033,../_stl/boxes/root/ItemsBoxMiddle_lid.stl?v=880668d5,../_stl/boxes/root/ItemsBoxWinter_body.stl?v=6cf0eda1,../_stl/boxes/root/ItemsBoxWinter_lid.stl?v=1dc51b5e,../_stl/boxes/root/ItemsBoxExtras_body.stl?v=9b03fa0a,../_stl/boxes/root/ItemsBoxExtras_lid.stl?v=e288042e,../_stl/boxes/root/MarquisBoxBottom_body.stl?v=b22d8106,../_stl/boxes/root/MarquisBoxBottom_lid.stl?v=c2a73e8e,../_stl/boxes/root/MarquisBoxTop_body.stl?v=16295e09,../_stl/boxes/root/MarquisBoxTop_lid.stl?v=bbeaeb4c,../_stl/boxes/root/ErieBoxBottom_body.stl?v=5b0ab23f,../_stl/boxes/root/ErieBoxBottom_lid.stl?v=34cbb8b7,../_stl/boxes/root/ErieBoxTop_body.stl?v=3c4319e9,../_stl/boxes/root/ErieBoxTop_lid.stl?v=e87a5d4c,../_stl/boxes/root/AllianceBoxBottom_body.stl?v=5eed719b,../_stl/boxes/root/AllianceBoxBottom_lid.stl?v=b6a8cd64,../_stl/boxes/root/AllianceBoxTop_body.stl?v=600177c8,../_stl/boxes/root/AllianceBoxTop_lid.stl?v=100c4853,../_stl/boxes/root/LizardBoxBottom_body.stl?v=7405a2e9,../_stl/boxes/root/LizardBoxBottom_lid.stl?v=137fb469,../_stl/boxes/root/LizardBoxTop_body.stl?v=88b67de2,../_stl/boxes/root/LizardBoxTop_lid.stl?v=1c527786,../_stl/boxes/root/RiverfolkBoxBottom_body.stl?v=35e4239a,../_stl/boxes/root/RiverfolkBoxBottom_lid.stl?v=ca2fe393,../_stl/boxes/root/RiverfolkBoxTop_body.stl?v=921c02ff,../_stl/boxes/root/RiverfolkBoxTop_lid.stl?v=7db92c32,../_stl/boxes/root/VagabondBox_body.stl?v=b5c295e5,../_stl/boxes/root/VagabondBox_lid.stl?v=628d9d6c,../_stl/boxes/root/VagabondBox2_body.stl?v=9d978f7f,../_stl/boxes/root/VagabondBox2_lid.stl?v=dc72d023,../_stl/boxes/root/DiceBox_body.stl?v=2b5ed583,../_stl/boxes/root/DiceBox_lid.stl?v=a9c3a060,../_stl/boxes/root/spacer_1.stl?v=e529430c,../_stl/boxes/root/spacer_2.stl?v=a44cf160
    :height: 440px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/root/BaseCardBox_body.stl?v=87cdf4b3" data-stl-combine="../_stl/boxes/root/BaseCardBox_body.stl?v=87cdf4b3,../_stl/boxes/root/BaseCardBox_lid.stl?v=6400a200,../_stl/boxes/root/ErieCardBox_body.stl?v=dc3a6360,../_stl/boxes/root/ErieCardBox_lid.stl?v=6e40804b,../_stl/boxes/root/VagabondCardBox_body.stl?v=24f41ab7,../_stl/boxes/root/VagabondCardBox_lid.stl?v=d7404c7a,../_stl/boxes/root/OverviewCardBox_body.stl?v=d0207bc6,../_stl/boxes/root/OverviewCardBox_lid.stl?v=fb93103c,../_stl/boxes/root/ItemsBoxBottom_body.stl?v=409e33c7,../_stl/boxes/root/ItemsBoxBottom_lid.stl?v=3fb8b4e3,../_stl/boxes/root/ItemsBoxMiddle_body.stl?v=97d6e033,../_stl/boxes/root/ItemsBoxMiddle_lid.stl?v=880668d5,../_stl/boxes/root/ItemsBoxWinter_body.stl?v=6cf0eda1,../_stl/boxes/root/ItemsBoxWinter_lid.stl?v=1dc51b5e,../_stl/boxes/root/ItemsBoxExtras_body.stl?v=9b03fa0a,../_stl/boxes/root/ItemsBoxExtras_lid.stl?v=e288042e,../_stl/boxes/root/MarquisBoxBottom_body.stl?v=b22d8106,../_stl/boxes/root/MarquisBoxBottom_lid.stl?v=c2a73e8e,../_stl/boxes/root/MarquisBoxTop_body.stl?v=16295e09,../_stl/boxes/root/MarquisBoxTop_lid.stl?v=bbeaeb4c,../_stl/boxes/root/ErieBoxBottom_body.stl?v=5b0ab23f,../_stl/boxes/root/ErieBoxBottom_lid.stl?v=34cbb8b7,../_stl/boxes/root/ErieBoxTop_body.stl?v=3c4319e9,../_stl/boxes/root/ErieBoxTop_lid.stl?v=e87a5d4c,../_stl/boxes/root/AllianceBoxBottom_body.stl?v=5eed719b,../_stl/boxes/root/AllianceBoxBottom_lid.stl?v=b6a8cd64,../_stl/boxes/root/AllianceBoxTop_body.stl?v=600177c8,../_stl/boxes/root/AllianceBoxTop_lid.stl?v=100c4853,../_stl/boxes/root/LizardBoxBottom_body.stl?v=7405a2e9,../_stl/boxes/root/LizardBoxBottom_lid.stl?v=137fb469,../_stl/boxes/root/LizardBoxTop_body.stl?v=88b67de2,../_stl/boxes/root/LizardBoxTop_lid.stl?v=1c527786,../_stl/boxes/root/RiverfolkBoxBottom_body.stl?v=35e4239a,../_stl/boxes/root/RiverfolkBoxBottom_lid.stl?v=ca2fe393,../_stl/boxes/root/RiverfolkBoxTop_body.stl?v=921c02ff,../_stl/boxes/root/RiverfolkBoxTop_lid.stl?v=7db92c32,../_stl/boxes/root/VagabondBox_body.stl?v=3cbf1628,../_stl/boxes/root/VagabondBox_lid.stl?v=a3eddb5f,../_stl/boxes/root/DiceBox_body.stl?v=2f5e1e2d,../_stl/boxes/root/DiceBox_lid.stl?v=4f31d62c,../_stl/boxes/root/spacer_1.stl?v=a6f6e5a4,../_stl/boxes/root/spacer_2.stl?v=a44cf160" download="Root_full_packing.stl">⬇ Download Full Box Packing STL (<code>Root_full_packing.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/root/BaseCardBox_body.stl?v=87cdf4b3" data-stl-combine="../_stl/boxes/root/BaseCardBox_body.stl?v=87cdf4b3,../_stl/boxes/root/BaseCardBox_lid.stl?v=6400a200,../_stl/boxes/root/ErieCardBox_body.stl?v=dc3a6360,../_stl/boxes/root/ErieCardBox_lid.stl?v=6e40804b,../_stl/boxes/root/VagabondCardBox_body.stl?v=24f41ab7,../_stl/boxes/root/VagabondCardBox_lid.stl?v=d7404c7a,../_stl/boxes/root/OverviewCardBox_body.stl?v=d0207bc6,../_stl/boxes/root/OverviewCardBox_lid.stl?v=fb93103c,../_stl/boxes/root/ItemsBoxBottom_body.stl?v=409e33c7,../_stl/boxes/root/ItemsBoxBottom_lid.stl?v=3fb8b4e3,../_stl/boxes/root/ItemsBoxMiddle_body.stl?v=97d6e033,../_stl/boxes/root/ItemsBoxMiddle_lid.stl?v=880668d5,../_stl/boxes/root/ItemsBoxWinter_body.stl?v=6cf0eda1,../_stl/boxes/root/ItemsBoxWinter_lid.stl?v=1dc51b5e,../_stl/boxes/root/ItemsBoxExtras_body.stl?v=9b03fa0a,../_stl/boxes/root/ItemsBoxExtras_lid.stl?v=e288042e,../_stl/boxes/root/MarquisBoxBottom_body.stl?v=b22d8106,../_stl/boxes/root/MarquisBoxBottom_lid.stl?v=c2a73e8e,../_stl/boxes/root/MarquisBoxTop_body.stl?v=16295e09,../_stl/boxes/root/MarquisBoxTop_lid.stl?v=bbeaeb4c,../_stl/boxes/root/ErieBoxBottom_body.stl?v=5b0ab23f,../_stl/boxes/root/ErieBoxBottom_lid.stl?v=34cbb8b7,../_stl/boxes/root/ErieBoxTop_body.stl?v=3c4319e9,../_stl/boxes/root/ErieBoxTop_lid.stl?v=e87a5d4c,../_stl/boxes/root/AllianceBoxBottom_body.stl?v=5eed719b,../_stl/boxes/root/AllianceBoxBottom_lid.stl?v=b6a8cd64,../_stl/boxes/root/AllianceBoxTop_body.stl?v=600177c8,../_stl/boxes/root/AllianceBoxTop_lid.stl?v=100c4853,../_stl/boxes/root/LizardBoxBottom_body.stl?v=7405a2e9,../_stl/boxes/root/LizardBoxBottom_lid.stl?v=137fb469,../_stl/boxes/root/LizardBoxTop_body.stl?v=88b67de2,../_stl/boxes/root/LizardBoxTop_lid.stl?v=1c527786,../_stl/boxes/root/RiverfolkBoxBottom_body.stl?v=35e4239a,../_stl/boxes/root/RiverfolkBoxBottom_lid.stl?v=ca2fe393,../_stl/boxes/root/RiverfolkBoxTop_body.stl?v=921c02ff,../_stl/boxes/root/RiverfolkBoxTop_lid.stl?v=7db92c32,../_stl/boxes/root/VagabondBox_body.stl?v=b5c295e5,../_stl/boxes/root/VagabondBox_lid.stl?v=628d9d6c,../_stl/boxes/root/VagabondBox2_body.stl?v=9d978f7f,../_stl/boxes/root/VagabondBox2_lid.stl?v=dc72d023,../_stl/boxes/root/DiceBox_body.stl?v=2b5ed583,../_stl/boxes/root/DiceBox_lid.stl?v=a9c3a060,../_stl/boxes/root/spacer_1.stl?v=e529430c,../_stl/boxes/root/spacer_2.stl?v=a44cf160" download="Root_full_packing.stl">⬇ Download Full Box Packing STL (<code>Root_full_packing.stl</code>)</a></p>
 
 Parts Overview
 --------------
@@ -126,18 +126,23 @@ Parts Overview
      - 1
    * - :ref:`VagabondBox <box-root-vagabondbox>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
-     - ``53.25 × 59.833 × 16 mm``
+     - ``53.25 × 59.833 × 19.5 mm``
      - ``(106.5, 158.333, 28)``
+     - 1
+   * - :ref:`VagabondBox2 <box-root-vagabondbox2>`
+     - :ref:`BoxType.SLIDING <box-type-sliding>`
+     - ``53.25 × 59.833 × 19.5 mm``
+     - ``(106.5, 158.333, 47.5)``
      - 1
    * - :ref:`DiceBox <box-root-dicebox>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
-     - ``53.25 × 59.833 × 23 mm``
-     - ``(106.5, 158.333, 44)``
+     - ``53.25 × 59.833 × 39 mm``
+     - ``(159.75, 103.5, 28)``
      - 1
    * - :ref:`spacer_1 <spacer-root-spacer_1>`
      - :ref:`BoxType.NO_LID <box-type-no-lid>` (spacer)
-     - ``50.97 × 171.22 × 39 mm``
-     - ``(161.39, 105.14, 28)``
+     - ``50.97 × 111.387 × 39 mm``
+     - ``(161.39, 164.973, 28)``
      - —
    * - :ref:`spacer_2 <spacer-root-spacer_2>`
      - :ref:`BoxType.NO_LID <box-type-no-lid>` (spacer)
@@ -834,38 +839,77 @@ VagabondBox
 ^^^^^^^^^^^
 
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
-- **Outer Dimensions**: ``53.25 × 59.833 × 16 mm``
+- **Outer Dimensions**: ``53.25 × 59.833 × 19.5 mm``
 - **Packed Position**: ``(106.5, 158.333, 28)``
 - **Stackable Mode**: ``StackableMode.PYRAMIDS``
 - **Stacking Order Key**: bottom ``flat (bottom of stack)``, top ``pyramids=2``
-- **Compartments (1)**: ``ItemsAndScore`` (3 elements)
+- **Compartments (1)**: ``ItemsAndScore`` (7 elements)
 
 **Assembled Box (VagabondBox — Body + Lid)**
 
-.. stl:: ../_stl/boxes/root/VagabondBox_body.stl?v=3cbf1628,../_stl/boxes/root/VagabondBox_lid.stl?v=a3eddb5f
+.. stl:: ../_stl/boxes/root/VagabondBox_body.stl?v=b5c295e5,../_stl/boxes/root/VagabondBox_lid.stl?v=628d9d6c
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/root/VagabondBox_body.stl?v=3cbf1628" data-stl-combine="../_stl/boxes/root/VagabondBox_body.stl?v=3cbf1628,../_stl/boxes/root/VagabondBox_lid.stl?v=a3eddb5f" download="VagabondBox_assembled.stl">⬇ Download Assembled VagabondBox STL (<code>VagabondBox_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/root/VagabondBox_body.stl?v=b5c295e5" data-stl-combine="../_stl/boxes/root/VagabondBox_body.stl?v=b5c295e5,../_stl/boxes/root/VagabondBox_lid.stl?v=628d9d6c" download="VagabondBox_assembled.stl">⬇ Download Assembled VagabondBox STL (<code>VagabondBox_assembled.stl</code>)</a></p>
 
 **Part: VagabondBox Body**
 
-.. stl:: ../_stl/boxes/root/VagabondBox_body.stl?v=3cbf1628
+.. stl:: ../_stl/boxes/root/VagabondBox_body.stl?v=b5c295e5
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/root/VagabondBox_body.stl?v=3cbf1628" download="VagabondBox_body.stl">⬇ Download VagabondBox Body STL (<code>VagabondBox_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/root/VagabondBox_body.stl?v=b5c295e5" download="VagabondBox_body.stl">⬇ Download VagabondBox Body STL (<code>VagabondBox_body.stl</code>)</a></p>
 
 **Part: VagabondBox Lid**
 
-.. stl:: ../_stl/boxes/root/VagabondBox_lid.stl?v=a3eddb5f
+.. stl:: ../_stl/boxes/root/VagabondBox_lid.stl?v=628d9d6c
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/root/VagabondBox_lid.stl?v=a3eddb5f" download="VagabondBox_lid.stl">⬇ Download VagabondBox Lid STL (<code>VagabondBox_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/root/VagabondBox_lid.stl?v=628d9d6c" download="VagabondBox_lid.stl">⬇ Download VagabondBox Lid STL (<code>VagabondBox_lid.stl</code>)</a></p>
+
+.. _box-root-vagabondbox2:
+
+VagabondBox2
+^^^^^^^^^^^^
+
+- **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
+- **Outer Dimensions**: ``53.25 × 59.833 × 19.5 mm``
+- **Packed Position**: ``(106.5, 158.333, 47.5)``
+- **Stackable Mode**: ``StackableMode.PYRAMIDS``
+- **Stacking Order Key**: bottom ``pyramids=2``, top ``flat (top of stack)``
+- **Compartments (1)**: ``ItemsAndScore`` (7 elements)
+
+**Assembled Box (VagabondBox2 — Body + Lid)**
+
+.. stl:: ../_stl/boxes/root/VagabondBox2_body.stl?v=9d978f7f,../_stl/boxes/root/VagabondBox2_lid.stl?v=dc72d023
+   :height: 320px
+
+.. raw:: html
+
+   <p><a href="../_stl/boxes/root/VagabondBox2_body.stl?v=9d978f7f" data-stl-combine="../_stl/boxes/root/VagabondBox2_body.stl?v=9d978f7f,../_stl/boxes/root/VagabondBox2_lid.stl?v=dc72d023" download="VagabondBox2_assembled.stl">⬇ Download Assembled VagabondBox2 STL (<code>VagabondBox2_assembled.stl</code>)</a></p>
+
+**Part: VagabondBox2 Body**
+
+.. stl:: ../_stl/boxes/root/VagabondBox2_body.stl?v=9d978f7f
+   :height: 280px
+
+.. raw:: html
+
+   <p><a href="../_stl/boxes/root/VagabondBox2_body.stl?v=9d978f7f" download="VagabondBox2_body.stl">⬇ Download VagabondBox2 Body STL (<code>VagabondBox2_body.stl</code>)</a></p>
+
+**Part: VagabondBox2 Lid**
+
+.. stl:: ../_stl/boxes/root/VagabondBox2_lid.stl?v=dc72d023
+   :height: 280px
+
+.. raw:: html
+
+   <p><a href="../_stl/boxes/root/VagabondBox2_lid.stl?v=dc72d023" download="VagabondBox2_lid.stl">⬇ Download VagabondBox2 Lid STL (<code>VagabondBox2_lid.stl</code>)</a></p>
 
 .. _box-root-dicebox:
 
@@ -873,38 +917,36 @@ DiceBox
 ^^^^^^^
 
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
-- **Outer Dimensions**: ``53.25 × 59.833 × 23 mm``
-- **Packed Position**: ``(106.5, 158.333, 44)``
-- **Stackable Mode**: ``StackableMode.PYRAMIDS``
-- **Stacking Order Key**: bottom ``pyramids=2``, top ``flat (top of stack)``
+- **Outer Dimensions**: ``53.25 × 59.833 × 39 mm``
+- **Packed Position**: ``(159.75, 103.5, 28)``
 - **Compartments (1)**: ``Dice`` (2 elements)
 
 **Assembled Box (DiceBox — Body + Lid)**
 
-.. stl:: ../_stl/boxes/root/DiceBox_body.stl?v=2f5e1e2d,../_stl/boxes/root/DiceBox_lid.stl?v=4f31d62c
+.. stl:: ../_stl/boxes/root/DiceBox_body.stl?v=2b5ed583,../_stl/boxes/root/DiceBox_lid.stl?v=a9c3a060
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/root/DiceBox_body.stl?v=2f5e1e2d" data-stl-combine="../_stl/boxes/root/DiceBox_body.stl?v=2f5e1e2d,../_stl/boxes/root/DiceBox_lid.stl?v=4f31d62c" download="DiceBox_assembled.stl">⬇ Download Assembled DiceBox STL (<code>DiceBox_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/root/DiceBox_body.stl?v=2b5ed583" data-stl-combine="../_stl/boxes/root/DiceBox_body.stl?v=2b5ed583,../_stl/boxes/root/DiceBox_lid.stl?v=a9c3a060" download="DiceBox_assembled.stl">⬇ Download Assembled DiceBox STL (<code>DiceBox_assembled.stl</code>)</a></p>
 
 **Part: DiceBox Body**
 
-.. stl:: ../_stl/boxes/root/DiceBox_body.stl?v=2f5e1e2d
+.. stl:: ../_stl/boxes/root/DiceBox_body.stl?v=2b5ed583
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/root/DiceBox_body.stl?v=2f5e1e2d" download="DiceBox_body.stl">⬇ Download DiceBox Body STL (<code>DiceBox_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/root/DiceBox_body.stl?v=2b5ed583" download="DiceBox_body.stl">⬇ Download DiceBox Body STL (<code>DiceBox_body.stl</code>)</a></p>
 
 **Part: DiceBox Lid**
 
-.. stl:: ../_stl/boxes/root/DiceBox_lid.stl?v=4f31d62c
+.. stl:: ../_stl/boxes/root/DiceBox_lid.stl?v=a9c3a060
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/root/DiceBox_lid.stl?v=4f31d62c" download="DiceBox_lid.stl">⬇ Download DiceBox Lid STL (<code>DiceBox_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/root/DiceBox_lid.stl?v=a9c3a060" download="DiceBox_lid.stl">⬇ Download DiceBox Lid STL (<code>DiceBox_lid.stl</code>)</a></p>
 
 Spacer Trays
 ------------
@@ -915,15 +957,15 @@ spacer_1
 ^^^^^^^^
 
 - **Type**: :ref:`BoxType.NO_LID <box-type-no-lid>` filler spacer tray
-- **Outer Dimensions**: ``50.97 × 171.22 × 39 mm``
-- **Packed Position**: ``(161.39, 105.14, 28)``
+- **Outer Dimensions**: ``50.97 × 111.387 × 39 mm``
+- **Packed Position**: ``(161.39, 164.973, 28)``
 
-.. stl:: ../_stl/boxes/root/spacer_1.stl?v=a6f6e5a4
+.. stl:: ../_stl/boxes/root/spacer_1.stl?v=e529430c
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/root/spacer_1.stl?v=a6f6e5a4" download="spacer_1.stl">⬇ Download spacer_1 STL (<code>spacer_1.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/root/spacer_1.stl?v=e529430c" download="spacer_1.stl">⬇ Download spacer_1 STL (<code>spacer_1.stl</code>)</a></p>
 
 .. _spacer-root-spacer_2:
 
