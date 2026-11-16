@@ -132,14 +132,17 @@ class LayoutCompiler:
         cls,
         manifest: ProjectManifest,
         layout: Node,
-        origin: tuple[float, float, float] = (0.0, 0.0, 0.0),
+        origin: tuple[float, float, float] | None = None,
     ) -> Arrangement:
         """Position boxes from a declarative layout tree."""
         from pyboxbuilder.layout import LayoutError
         from pyboxbuilder.layout import arrange as resolve
 
+        resolved_origin = (
+            origin if origin is not None else (0.0, 0.0, manifest.board_z_offset)
+        )
         sizes = {b.label: cls.min_size(manifest, b) for b in manifest.boxes}
-        arrangement = resolve(layout, sizes, origin)
+        arrangement = resolve(layout, sizes, resolved_origin)
 
         if manifest.game_box_size is not None and not arrangement.fits(manifest.game_box_size):
             raise LayoutError(
@@ -194,6 +197,7 @@ class LayoutCompiler:
         )
         packing = pack_boxes(packing_container, box_data)
 
+        z_offset = manifest.board_z_offset
         shifted_placements = []
         for p in packing.placements:
             b = manifest.get_by_label(p.label)
@@ -211,7 +215,7 @@ class LayoutCompiler:
                     position=(
                         p.position[0] + slack + pos_offset_x,
                         p.position[1] + slack + pos_offset_y,
-                        p.position[2],
+                        p.position[2] + z_offset,
                     ),
                     size=p_size,
                     rotation=p.rotation,
@@ -275,6 +279,26 @@ class LayoutCompiler:
                     object.__setattr__(ordered[idx], "stackable_top_pyramid_count", cfg)
                     object.__setattr__(ordered[idx + 1], "stackable_bottom_pyramid_count", cfg)
 
+    @staticmethod
+    def _shift_placements_z(
+        placements: list[Placement], dz: float
+    ) -> list[Placement]:
+        """Translate placements along Z when shifting between box and effective board frames."""
+        if not dz:
+            return placements
+        from pyboxbuilder.packing.layout import Placement
+
+        return [
+            Placement(
+                label=p.label,
+                position=(p.position[0], p.position[1], p.position[2] + dz),
+                size=p.size,
+                rotation=p.rotation,
+                path=p.path,
+            )
+            for p in placements
+        ]
+
     @classmethod
     def spacer_placements(
         cls, manifest: ProjectManifest, packing: BoxPacking
@@ -289,10 +313,12 @@ class LayoutCompiler:
             manifest.game_box_size[1],
             manifest.game_box_size[2] - manifest.board_thickness,
         )
-        return generate_spacer_placements(
+        z_offset = manifest.board_z_offset
+        spacers = generate_spacer_placements(
             effective_box,
-            packing.placements,
+            cls._shift_placements_z(packing.placements, -z_offset),
             clearance=manifest.resolved_clearance_slack,
             min_dim=manifest.min_spacer_height,
         )
+        return cls._shift_placements_z(spacers, z_offset)
 

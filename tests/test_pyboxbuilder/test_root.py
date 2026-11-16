@@ -58,3 +58,17 @@ class TestRoot(unittest.TestCase):
             self.assertLessEqual(x + w, box_width + tol, f"{piece.label} overflows box width ({x+w} > {box_width})")
             self.assertLessEqual(y + l, box_length + tol, f"{piece.label} overflows box length ({y+l} > {box_length})")
             self.assertLessEqual(z + h, box_height + tol, f"{piece.label} overflows box height ({z+h} > {box_height})")
+
+    def test_bottom_board_space_reserved_not_spacer(self) -> None:
+        """Verify bottom 28mm board bay has no pieces or auto-generated spacers."""
+        build = project.build()
+        spacers = [piece for piece in build.pieces if piece.kind == "spacer"]
+        self.assertEqual(len(spacers), 2)
+        for piece in build.pieces:
+            if piece.position is None:
+                continue
+            self.assertGreaterEqual(
+                piece.position[2],
+                28.0 - 1e-3,
+                f"{piece.label} encroaches on bottom 28mm board bay at z={piece.position[2]}",
+            )

@@ -151,6 +151,8 @@ SVG_DIR = Path("boxes/root/svg")
 project = Project(
     "Root",
     game_box_size=(214.0, 278.0, 67.0),
+    board_thickness=28.0,
+    board_on_bottom=True,
     generate_spacers=True,
     box_defaults={"no_rotate": True},
 )

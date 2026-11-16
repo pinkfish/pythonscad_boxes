@@ -110,8 +110,11 @@ class Project:
     board_thickness: float = 0.0
     """Thickness of the game board (mm).
 
-    Reserved at the TOP of the box: the board sits on top of the sub-boxes and
-    is the first thing out, so this is not a spacer gap."""
+    Reserved at the TOP of the box by default (or at the BOTTOM when
+    :attr:`board_on_bottom` is ``True``), so this region is not filled with
+    auto-generated spacers."""
+    board_on_bottom: bool = False
+    """Whether the reserved :attr:`board_thickness` space sits at the bottom (``z = 0..board_thickness``)."""
     ribbon_channels: bool = False
     """Cut bottom groove for lifting ribbon on all sub-boxes by default."""
     generate_spacers: bool = True
@@ -154,6 +157,7 @@ class Project:
             min_spacer_height=self.min_spacer_height,
             clearance_slack=self.clearance_slack,
             board_thickness=self.board_thickness,
+            board_on_bottom=self.board_on_bottom,
             ribbon_channels=self.ribbon_channels,
             generate_spacers=self.generate_spacers,
             box_defaults=self.box_defaults,
@@ -275,7 +279,7 @@ class Project:
         return self._manifest.add_box(builder)
 
     def arrange(
-        self, layout: Node, origin: tuple[float, float, float] = (0.0, 0.0, 0.0)
+        self, layout: Node, origin: tuple[float, float, float] | None = None
     ) -> Arrangement:
         """Position boxes from a declarative layout tree (T186).
 
@@ -289,7 +293,9 @@ class Project:
 
         Args:
             layout: A `pyboxbuilder.layout` group, or a single box label.
-            origin: Where the arrangement's minimum corner goes.
+            origin: Where the arrangement's minimum corner goes. Defaults to
+                ``(0.0, 0.0, board_thickness)`` when ``board_on_bottom=True``,
+                or ``(0.0, 0.0, 0.0)`` otherwise.
 
         Returns:
             The `Arrangement`, so a caller can inspect the resolved extent.
@@ -317,7 +323,10 @@ class Project:
                 project.show()
 
         """
-        return self._compiler.arrange(self._manifest, layout, origin)
+        resolved_origin = (
+            origin if origin is not None else (0.0, 0.0, self._manifest.board_z_offset)
+        )
+        return self._compiler.arrange(self._manifest, layout, resolved_origin)
 
     def stack_order(
         self,
