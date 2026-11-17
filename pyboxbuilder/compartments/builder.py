@@ -72,6 +72,8 @@ class CompartmentBuilder:
     element_margin: float = 0.0
     """Clearance added around an element pack's bounding box when `size` is
     derived from the elements."""
+    growable: bool = False
+    """Whether this well's width/length may expand into leftover row slack (FR-004)."""
 
     def __post_init__(self) -> None:
         """Validate the ratio fields lie in (0.0, 1.0]."""
@@ -119,13 +121,26 @@ class CompartmentBuilder:
             wells all fill needs an explicit size, and says so.
 
         """
-        if self.fills_interior or self.size is None:
+        if self.fills_interior:
             return None
-        return (self.label, self.size[0], self.size[1], self.depth or 0.0)
+        if self.size is not None and self.size[0] is not None and self.size[1] is not None:
+            return (self.label, float(self.size[0]), float(self.size[1]), self.depth or 0.0)
+        if self.elements:
+            from pyboxbuilder.compartments.element import elements_footprint
+
+            ew, el = elements_footprint(self.elements, margin=self.element_margin)
+            return (self.label, ew, el, self.depth or 0.0)
+        return None
 
     def resolved(
-        self, interior_w: float, interior_l: float, interior_h: float,
+        self,
+        interior_w: float,
+        interior_l: float,
+        interior_h: float,
         siblings: int = 1,
+        *,
+        x_tracks: int | None = None,
+        y_tracks: int | None = None,
     ) -> tuple[
         str, float, float, float,
         str | None, tuple[float, float] | None, tuple[CompartmentElement, ...],
@@ -140,12 +155,16 @@ class CompartmentBuilder:
             siblings: How many compartments share the interior, so a ratio can
                 be read against the room left once the dividing walls are taken
                 out (see :meth:`resolve_size`).
+            x_tracks: Number of horizontal columns across the width (optional).
+            y_tracks: Number of vertical rows along the length (optional).
 
         Returns:
             ``(label, width, length, depth, shape_file, position, elements)``.
 
         """
-        width, length = self.resolve_size(interior_w, interior_l, siblings)
+        width, length = self.resolve_size(
+            interior_w, interior_l, siblings, x_tracks=x_tracks, y_tracks=y_tracks
+        )
         return (
             self.label, width, length, self.resolve_depth(interior_h),
             self.shape_file, self.position, self.elements,
@@ -165,7 +184,13 @@ class CompartmentBuilder:
         return float(self.depth) if self.depth is not None else float(interior_h)
 
     def resolve_size(
-        self, interior_w: float, interior_l: float, siblings: int = 1
+        self,
+        interior_w: float,
+        interior_l: float,
+        siblings: int = 1,
+        *,
+        x_tracks: int | None = None,
+        y_tracks: int | None = None,
     ) -> tuple[float, float]:
         """Resolve absolute size from ratios and/or absolute dimensions.
 
@@ -183,6 +208,9 @@ class CompartmentBuilder:
             siblings: How many compartments share the interior. One well takes
                 the interior whole, since the layout gives a lone compartment no
                 spacing at all.
+            x_tracks: Explicit column count across width; inferred from siblings when None.
+            y_tracks: Explicit row count along length; inferred as 1 (or siblings for
+                length-only ratios) when None.
 
         Returns:
             (width, length) in mm.
@@ -190,33 +218,43 @@ class CompartmentBuilder:
         """
         from pyboxbuilder.compartments.layout import WALL_SPACING_MM
 
-        # The layout runs compartments along the width, so that axis carries a
-        # gutter before, between and after them — `siblings + 1` of them. The
-        # length axis only ever has the two outer gutters, whatever the count.
-        # A lone compartment gets none at all: the layout sits it flush.
-        gutter = 0.0 if siblings <= 1 else WALL_SPACING_MM
-        room_w = max(0.0, interior_w - gutter * (siblings + 1))
-        room_l = max(0.0, interior_l - gutter * 2)
+        if x_tracks is None and y_tracks is None:
+            if self.length_ratio is not None and self.width_ratio is None and self.size is None:
+                xt, yt = 1, max(1, siblings)
+            else:
+                xt, yt = max(1, siblings), 1
+        else:
+            xt = max(1, x_tracks if x_tracks is not None else siblings)
+            yt = max(1, y_tracks if y_tracks is not None else 1)
+
+        total_cells = max(siblings, xt * yt)
+        gutter = 0.0 if total_cells <= 1 else WALL_SPACING_MM
+        room_w = max(0.0, interior_w - gutter * (xt + 1))
+        room_l = max(0.0, interior_l - gutter * (yt + 1))
+
         if self.size is not None:
-            w, l = self.size
+            raw_w, raw_l = self.size
+            w = float(raw_w) if raw_w is not None else (room_w / xt)
+            l = float(raw_l) if raw_l is not None else (room_l / yt)
         elif self.elements:
             # Element pack: the bounding box of the pack IS the compartment (FR-004b).
             from pyboxbuilder.compartments.element import elements_footprint
 
             w, l = elements_footprint(self.elements, margin=self.element_margin)
         else:
-            # No size given: fill the room there is, sharing the width with any
-            # siblings so a row of unsized wells divides the box evenly.
-            w = room_w / max(1, siblings)
-            l = room_l
+            # No size given: fill the room there is, sharing tracks across siblings.
+            w = room_w / xt
+            l = room_l / yt
 
         if self.width_ratio is not None:
             w = room_w * self.width_ratio
         if self.length_ratio is not None:
             l = room_l * self.length_ratio
+            if self.width_ratio is None and self.size is None and not self.elements:
+                w = max(0.0, interior_w - gutter * 2)
         elif self.width_ratio is not None and self.size is None:
-            # Sized by width alone: the length is whatever is left.
-            l = room_l
+            # Sized by width alone: the length is whatever is left across Y.
+            l = max(0.0, interior_l - gutter * 2)
 
         import math
 
@@ -224,3 +262,25 @@ class CompartmentBuilder:
             math.floor((w + 1e-9) * 10.0) / 10.0,
             math.floor((l + 1e-9) * 10.0) / 10.0,
         )
+
+
+def infer_ratio_tracks(compartments: tuple[CompartmentBuilder, ...] | list[CompartmentBuilder]) -> tuple[int, int]:
+    """Infer ``(x_tracks, y_tracks)`` grid dimensions for a box's auto-placed compartments."""
+    auto_comps = [cb for cb in compartments if cb.position is None]
+    n = len(auto_comps)
+    if n <= 1:
+        return (1, 1)
+
+    has_w = [cb for cb in auto_comps if cb.width_ratio is not None]
+    has_l = [cb for cb in auto_comps if cb.length_ratio is not None]
+    both = [cb for cb in auto_comps if cb.width_ratio is not None and cb.length_ratio is not None]
+
+    if both and len(both) == n:
+        w_sum = sum(cb.width_ratio for cb in both if cb.width_ratio is not None)
+        l_sum = sum(cb.length_ratio for cb in both if cb.length_ratio is not None)
+        return (max(1, round(l_sum)), max(1, round(w_sum)))
+
+    if has_l and not has_w:
+        return (1, n)
+
+    return (n, 1)

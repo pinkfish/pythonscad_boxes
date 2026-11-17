@@ -15,12 +15,12 @@ Full Box Packing
 
 Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
-.. stl:: ../_stl/boxes/moonrakers/CardBox_Thrusters_body.stl?v=86918a83,../_stl/boxes/moonrakers/CardBox_Thrusters_lid.stl?v=e5afc6f7,../_stl/boxes/moonrakers/CardBox_Damage_body.stl?v=7fea4590,../_stl/boxes/moonrakers/CardBox_Damage_lid.stl?v=bc48e7ee,../_stl/boxes/moonrakers/CardBox_Reactor_body.stl?v=c178cede,../_stl/boxes/moonrakers/CardBox_Reactor_lid.stl?v=836d0841,../_stl/boxes/moonrakers/CardBox_Shield_body.stl?v=949ee230,../_stl/boxes/moonrakers/CardBox_Shield_lid.stl?v=28184395,../_stl/boxes/moonrakers/CardBox_Miss_body.stl?v=6bd28fcc,../_stl/boxes/moonrakers/CardBox_Miss_lid.stl?v=69479840,../_stl/boxes/moonrakers/CardBox_Crew_body.stl?v=b8ae6e35,../_stl/boxes/moonrakers/CardBox_Crew_lid.stl?v=e23a215d,../_stl/boxes/moonrakers/CardBox_Contracts_body.stl?v=34792cae,../_stl/boxes/moonrakers/CardBox_Contracts_lid.stl?v=978b6b65,../_stl/boxes/moonrakers/CardBox_Ships_body.stl?v=ffcbff3f,../_stl/boxes/moonrakers/CardBox_Ships_lid.stl?v=20509be3,../_stl/boxes/moonrakers/CardBox_Objectives_body.stl?v=ff0a03ab,../_stl/boxes/moonrakers/CardBox_Objectives_lid.stl?v=b848ba5d,../_stl/boxes/moonrakers/DiceAndTokensBox_body.stl?v=26fad5fe,../_stl/boxes/moonrakers/DiceAndTokensBox_lid.stl?v=8f35c29f,../_stl/boxes/moonrakers/spacer_1.stl?v=e7944fda,../_stl/boxes/moonrakers/spacer_2.stl?v=6b66c5d4
+.. stl:: ../_stl/boxes/moonrakers/CardBox_Thrusters_body.stl?v=86918a83,../_stl/boxes/moonrakers/CardBox_Thrusters_lid.stl?v=e5afc6f7,../_stl/boxes/moonrakers/CardBox_Damage_body.stl?v=7fea4590,../_stl/boxes/moonrakers/CardBox_Damage_lid.stl?v=bc48e7ee,../_stl/boxes/moonrakers/CardBox_Reactor_body.stl?v=c178cede,../_stl/boxes/moonrakers/CardBox_Reactor_lid.stl?v=836d0841,../_stl/boxes/moonrakers/CardBox_Shield_body.stl?v=949ee230,../_stl/boxes/moonrakers/CardBox_Shield_lid.stl?v=28184395,../_stl/boxes/moonrakers/CardBox_Miss_body.stl?v=6bd28fcc,../_stl/boxes/moonrakers/CardBox_Miss_lid.stl?v=69479840,../_stl/boxes/moonrakers/CardBox_Crew_body.stl?v=b8ae6e35,../_stl/boxes/moonrakers/CardBox_Crew_lid.stl?v=e23a215d,../_stl/boxes/moonrakers/CardBox_Contracts_body.stl?v=34792cae,../_stl/boxes/moonrakers/CardBox_Contracts_lid.stl?v=978b6b65,../_stl/boxes/moonrakers/CardBox_Ships_body.stl?v=ffcbff3f,../_stl/boxes/moonrakers/CardBox_Ships_lid.stl?v=20509be3,../_stl/boxes/moonrakers/CardBox_Objectives_body.stl?v=ff0a03ab,../_stl/boxes/moonrakers/CardBox_Objectives_lid.stl?v=b848ba5d,../_stl/boxes/moonrakers/DiceAndTokensBox_body.stl?v=26fad5fe,../_stl/boxes/moonrakers/DiceAndTokensBox_lid.stl?v=8f35c29f,../_stl/boxes/moonrakers/spacer_1.stl?v=8ccaf643,../_stl/boxes/moonrakers/spacer_2.stl?v=ae286038
    :height: 440px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/moonrakers/CardBox_Thrusters_body.stl?v=86918a83" data-stl-combine="../_stl/boxes/moonrakers/CardBox_Thrusters_body.stl?v=86918a83,../_stl/boxes/moonrakers/CardBox_Thrusters_lid.stl?v=e5afc6f7,../_stl/boxes/moonrakers/CardBox_Damage_body.stl?v=7fea4590,../_stl/boxes/moonrakers/CardBox_Damage_lid.stl?v=bc48e7ee,../_stl/boxes/moonrakers/CardBox_Reactor_body.stl?v=c178cede,../_stl/boxes/moonrakers/CardBox_Reactor_lid.stl?v=836d0841,../_stl/boxes/moonrakers/CardBox_Shield_body.stl?v=949ee230,../_stl/boxes/moonrakers/CardBox_Shield_lid.stl?v=28184395,../_stl/boxes/moonrakers/CardBox_Miss_body.stl?v=6bd28fcc,../_stl/boxes/moonrakers/CardBox_Miss_lid.stl?v=69479840,../_stl/boxes/moonrakers/CardBox_Crew_body.stl?v=b8ae6e35,../_stl/boxes/moonrakers/CardBox_Crew_lid.stl?v=e23a215d,../_stl/boxes/moonrakers/CardBox_Contracts_body.stl?v=34792cae,../_stl/boxes/moonrakers/CardBox_Contracts_lid.stl?v=978b6b65,../_stl/boxes/moonrakers/CardBox_Ships_body.stl?v=ffcbff3f,../_stl/boxes/moonrakers/CardBox_Ships_lid.stl?v=20509be3,../_stl/boxes/moonrakers/CardBox_Objectives_body.stl?v=ff0a03ab,../_stl/boxes/moonrakers/CardBox_Objectives_lid.stl?v=b848ba5d,../_stl/boxes/moonrakers/DiceAndTokensBox_body.stl?v=26fad5fe,../_stl/boxes/moonrakers/DiceAndTokensBox_lid.stl?v=8f35c29f,../_stl/boxes/moonrakers/spacer_1.stl?v=e7944fda,../_stl/boxes/moonrakers/spacer_2.stl?v=6b66c5d4" download="Moonrakers_full_packing.stl">⬇ Download Full Box Packing STL (<code>Moonrakers_full_packing.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/moonrakers/CardBox_Thrusters_body.stl?v=86918a83" data-stl-combine="../_stl/boxes/moonrakers/CardBox_Thrusters_body.stl?v=86918a83,../_stl/boxes/moonrakers/CardBox_Thrusters_lid.stl?v=e5afc6f7,../_stl/boxes/moonrakers/CardBox_Damage_body.stl?v=7fea4590,../_stl/boxes/moonrakers/CardBox_Damage_lid.stl?v=bc48e7ee,../_stl/boxes/moonrakers/CardBox_Reactor_body.stl?v=c178cede,../_stl/boxes/moonrakers/CardBox_Reactor_lid.stl?v=836d0841,../_stl/boxes/moonrakers/CardBox_Shield_body.stl?v=949ee230,../_stl/boxes/moonrakers/CardBox_Shield_lid.stl?v=28184395,../_stl/boxes/moonrakers/CardBox_Miss_body.stl?v=6bd28fcc,../_stl/boxes/moonrakers/CardBox_Miss_lid.stl?v=69479840,../_stl/boxes/moonrakers/CardBox_Crew_body.stl?v=b8ae6e35,../_stl/boxes/moonrakers/CardBox_Crew_lid.stl?v=e23a215d,../_stl/boxes/moonrakers/CardBox_Contracts_body.stl?v=34792cae,../_stl/boxes/moonrakers/CardBox_Contracts_lid.stl?v=978b6b65,../_stl/boxes/moonrakers/CardBox_Ships_body.stl?v=ffcbff3f,../_stl/boxes/moonrakers/CardBox_Ships_lid.stl?v=20509be3,../_stl/boxes/moonrakers/CardBox_Objectives_body.stl?v=ff0a03ab,../_stl/boxes/moonrakers/CardBox_Objectives_lid.stl?v=b848ba5d,../_stl/boxes/moonrakers/DiceAndTokensBox_body.stl?v=26fad5fe,../_stl/boxes/moonrakers/DiceAndTokensBox_lid.stl?v=8f35c29f,../_stl/boxes/moonrakers/spacer_1.stl?v=8ccaf643,../_stl/boxes/moonrakers/spacer_2.stl?v=ae286038" download="Moonrakers_full_packing.stl">⬇ Download Full Box Packing STL (<code>Moonrakers_full_packing.stl</code>)</a></p>
 
 Parts Overview
 --------------
@@ -484,12 +484,12 @@ spacer_1
 - **Outer Dimensions**: ``213 × 303 × 27.75 mm``
 - **Packed Position**: ``(0, 0, 27.75)``
 
-.. stl:: ../_stl/boxes/moonrakers/spacer_1.stl?v=e7944fda
+.. stl:: ../_stl/boxes/moonrakers/spacer_1.stl?v=8ccaf643
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/moonrakers/spacer_1.stl?v=e7944fda" download="spacer_1.stl">⬇ Download spacer_1 STL (<code>spacer_1.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/moonrakers/spacer_1.stl?v=8ccaf643" download="spacer_1.stl">⬇ Download spacer_1 STL (<code>spacer_1.stl</code>)</a></p>
 
 .. _spacer-moonrakers-spacer_2:
 
@@ -500,9 +500,9 @@ spacer_2
 - **Outer Dimensions**: ``213 × 303 × 27.75 mm``
 - **Packed Position**: ``(0, 0, 0)``
 
-.. stl:: ../_stl/boxes/moonrakers/spacer_2.stl?v=6b66c5d4
+.. stl:: ../_stl/boxes/moonrakers/spacer_2.stl?v=ae286038
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/moonrakers/spacer_2.stl?v=6b66c5d4" download="spacer_2.stl">⬇ Download spacer_2 STL (<code>spacer_2.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/moonrakers/spacer_2.stl?v=ae286038" download="spacer_2.stl">⬇ Download spacer_2 STL (<code>spacer_2.stl</code>)</a></p>

@@ -1,21 +1,18 @@
 # SPDX-License-Identifier: Apache-2.0
-"""Spacer tray generation — fill the leftover space with as few trays as possible.
+"""Spacer tray generation — fill leftover space with minimal, hole-free, supported trays.
 
-Three stages (FR-014, FR-014a/b/c):
+Four stages (FR-014, FR-014a/b/c, FR-018):
 
-1. **Sweep** the game box for the volume no sub-box occupies, and decompose that
-   volume into axis-aligned boxes, largest first.
-2. **Merge** any two boxes whose union is itself a box, to a fixed point.
-3. **Shrink** each survivor by the clearance slack and drop the ones too thin to
-   print.
-
-Stage 1 takes the largest box available at each step rather than scanning the
-grid in index order, and stage 2 exists at all, for the same reason: the plane
-grid is global, so a box in one corner of the game box contributes cut planes
-that slice free space everywhere else. Index-order scanning lets a 2 mm sliver
-claim cells out of the middle of a large void and leave it in fragments — the
-number of trays then depends on how many boxes the layout happens to contain,
-which is what FR-014a forbids.
+1. **Sweep** the game box for empty volume using an axis-unbiased 3D histogram
+   maximal-empty-cuboid DP ($O(N_x N_y N_z^2)$), extracting the globally largest
+   empty cuboid at every step regardless of axis orientation.
+2. **Merge** adjacent cuboids whose union is itself a cuboid via indexed face
+   matching to a deterministic fixed point.
+3. **Rectilinear polygon merge** of coplanar same-Z neighbors into L/T/U
+   `PathBox` footprints, automatically splitting genus >= 1 ring/donut frames
+   around interior boxes so no spacer ever swallows an enclosed box.
+4. **Support & clearance filter** shrinking footprints by `clearance` and
+   verifying both vertical support from below and minimum printable thickness.
 """
 
 from __future__ import annotations
@@ -34,7 +31,7 @@ MIN_SPACER_DIM = 5.0
 """A tray thinner than this in any axis is too fragile to print (FR-014)."""
 
 MAX_GRID_CELLS = 200_000
-"""Above this the largest-first search is skipped for the cheap index-order scan."""
+"""Above this the exact 3D histogram search falls back to the cheap linear scan."""
 
 
 @dataclass(frozen=True)
@@ -50,12 +47,7 @@ class SpacerSpec:
 
 @dataclass(frozen=True)
 class Void:
-    """An empty region: a box, or a prism over a non-rectangular footprint.
-
-    `position` and `size` are always the axis-aligned bounding box. `path`, when
-    set, is the real footprint outline in absolute X/Y — an L, T or U left over
-    between boxes (FR-018).
-    """
+    """An empty region: a box, or a prism over a non-rectangular footprint."""
 
     position: tuple[float, float, float]
     size: tuple[float, float, float]
@@ -88,6 +80,17 @@ class Void:
 # --------------------------------------------------------------------- sweep
 
 
+def _dedupe_planes(values: set[float], upper: float) -> list[float]:
+    """Sort plane coordinates inside ``[0..upper]`` and collapse < EPSILON/10 duplicates."""
+    raw = sorted(v for v in values if -EPSILON <= v <= upper + EPSILON)
+    out: list[float] = []
+    for v in raw:
+        clamped = min(max(v, 0.0), upper)
+        if not out or abs(clamped - out[-1]) > 1e-5:
+            out.append(clamped)
+    return out
+
+
 def _plane_grid(
     container: tuple[float, float, float], placements: Sequence[Placement]
 ) -> tuple[list[float], list[float], list[float]]:
@@ -97,9 +100,10 @@ def _plane_grid(
         for i in range(3):
             axes[i].add(float(placement.position[i]))
             axes[i].add(float(placement.position[i] + placement.size[i]))
-    return tuple(  # type: ignore[return-value]
-        [v for v in sorted(axis) if -EPSILON <= v <= container[i] + EPSILON]
-        for i, axis in enumerate(axes)
+    return (
+        _dedupe_planes(axes[0], float(container[0])),
+        _dedupe_planes(axes[1], float(container[1])),
+        _dedupe_planes(axes[2], float(container[2])),
     )
 
 
@@ -131,7 +135,7 @@ def _grow(
     start: tuple[int, int, int],
     counts: tuple[int, int, int],
 ) -> tuple[int, int, int]:
-    """Grow the largest cell box from `start`: +x as far as it goes, then +y, then +z."""
+    """Cheap linear fallback growth from ``start`` when grid exceeds MAX_GRID_CELLS."""
     i, j, k = start
     nx, ny, nz = counts
 
@@ -152,23 +156,88 @@ def _grow(
     return i2, j2, k2
 
 
+def _best_empty_cuboid_3d(
+    taken: list[list[list[bool]]],
+    xs: list[float],
+    ys: list[float],
+    zs: list[float],
+) -> tuple[float, tuple[int, int, int], tuple[int, int, int]] | None:
+    """Find the globally largest-volume empty 3D cuboid via 2D histogram DP across Z slabs."""
+    nx, ny, nz = len(xs) - 1, len(ys) - 1, len(zs) - 1
+    max_xy_area = (xs[-1] - xs[0]) * (ys[-1] - ys[0])
+
+    best_vol = 0.0
+    best_bounds: tuple[tuple[int, int, int], tuple[int, int, int]] | None = None
+    best_tiebreak: tuple[float, float, float] = (0.0, 0.0, 0.0)
+
+    for k1 in range(nz):
+        if (zs[-1] - zs[k1]) * max_xy_area <= best_vol + 1e-9:
+            break
+        slab_free = [[True] * ny for _ in range(nx)]
+
+        for k2 in range(k1 + 1, nz + 1):
+            kk = k2 - 1
+            any_free = False
+            for i in range(nx):
+                tk_col = taken[i]
+                sf_col = slab_free[i]
+                for j in range(ny):
+                    if sf_col[j]:
+                        if tk_col[j][kk]:
+                            sf_col[j] = False
+                        else:
+                            any_free = True
+            if not any_free:
+                break
+
+            h_mm = zs[k2] - zs[k1]
+            if h_mm * max_xy_area <= best_vol + 1e-9:
+                continue
+
+            # Monotonic-stack largest physical-area rectangle on (xs, ys)
+            start_j = [0] * nx
+            for j in range(ny):
+                y_end = ys[j + 1]
+                # Stack entries: (start_col_i, physical_len_y, row_start_j)
+                stack: list[tuple[int, float, int]] = []
+                for i in range(nx + 1):
+                    if i < nx:
+                        if slab_free[i][j]:
+                            sj = start_j[i]
+                            hy = y_end - ys[sj]
+                        else:
+                            start_j[i] = j + 1
+                            sj = j + 1
+                            hy = 0.0
+                    else:
+                        sj = j + 1
+                        hy = 0.0
+
+                    push_i = i
+                    while stack and stack[-1][1] > hy + 1e-9:
+                        si, prev_hy, prev_sj = stack.pop()
+                        vol = (xs[i] - xs[si]) * prev_hy * h_mm
+                        tb = (-xs[si], -ys[prev_sj], -zs[k1])
+                        if vol > best_vol + 1e-9 or (
+                            abs(vol - best_vol) <= 1e-9 and tb > best_tiebreak
+                        ):
+                            best_vol = vol
+                            best_bounds = ((si, prev_sj, k1), (i, j + 1, k2))
+                            best_tiebreak = tb
+                        push_i = si
+
+                    if hy > 1e-9 and (not stack or stack[-1][1] < hy - 1e-9):
+                        stack.append((push_i, hy, sj))
+
+    if best_bounds is None or best_vol <= 0.0:
+        return None
+    return best_vol, best_bounds[0], best_bounds[1]
+
+
 def sweep_free_space(
     container: tuple[float, float, float], placements: Sequence[Placement]
 ) -> list[Void]:
-    """Decompose the space no placement occupies into boxes, largest first.
-
-    Taking the biggest box available at each step is what keeps a big void in one
-    piece: a sliver alongside it would otherwise claim cells out of its middle
-    and leave it split (FR-014a).
-
-    Args:
-        container: (width, length, height) of the volume to fill.
-        placements: The boxes already placed in it.
-
-    Returns:
-        Disjoint ``Void`` instances covering all of the free space, in descending volume.
-
-    """
+    """Decompose the space no placement occupies into disjoint boxes, largest first."""
     if not placements:
         return []
 
@@ -179,7 +248,7 @@ def sweep_free_space(
         return []
 
     taken = _occupancy(planes, placements)
-    largest_first = counts[0] * counts[1] * counts[2] <= MAX_GRID_CELLS
+    exact_dp = counts[0] * counts[1] * counts[2] <= MAX_GRID_CELLS
 
     def void_from(start: tuple[int, int, int], end: tuple[int, int, int]) -> Void:
         i, j, k = start
@@ -190,45 +259,38 @@ def sweep_free_space(
         )
 
     voids: list[Void] = []
-    while True:
-        best: tuple[Void, tuple[int, int, int], tuple[int, int, int]] | None = None
-        for i in range(counts[0]):
-            for j in range(counts[1]):
-                for k in range(counts[2]):
-                    if taken[i][j][k]:
-                        continue
-                    end = _grow(taken, (i, j, k), counts)
-                    candidate = void_from((i, j, k), end)
-                    if best is None or candidate.volume > best[0].volume:
-                        best = (candidate, (i, j, k), end)
-                    if not largest_first:
-                        break
-                if best is not None and not largest_first:
-                    break
-            if best is not None and not largest_first:
-                break
+    if exact_dp:
+        while True:
+            found = _best_empty_cuboid_3d(taken, xs, ys, zs)
+            if found is None:
+                return voids
+            _vol, (i, j, k), (i2, j2, k2) = found
+            for ii in range(i, i2):
+                for jj in range(j, j2):
+                    for kk in range(k, k2):
+                        taken[ii][jj][kk] = True
+            voids.append(void_from((i, j, k), (i2, j2, k2)))
 
-        if best is None:
-            return voids
-
-        void, (i, j, k), (i2, j2, k2) = best
-        for ii in range(i, i2):
-            for jj in range(j, j2):
-                for kk in range(k, k2):
-                    taken[ii][jj][kk] = True
-        voids.append(void)
+    # Fallback cheap linear scan when grid exceeds MAX_GRID_CELLS
+    for i in range(counts[0]):
+        for j in range(counts[1]):
+            for k in range(counts[2]):
+                if taken[i][j][k]:
+                    continue
+                i2, j2, k2 = _grow(taken, (i, j, k), counts)
+                for ii in range(i, i2):
+                    for jj in range(j, j2):
+                        for kk in range(k, k2):
+                            taken[ii][jj][kk] = True
+                voids.append(void_from((i, j, k), (i2, j2, k2)))
+    return voids
 
 
 # --------------------------------------------------------------------- merge
 
 
 def _mergeable_axis(a: Void, b: Void) -> int | None:
-    """Return the axis along which `a` and `b` fuse into one box, or None.
-
-    They fuse when they meet face to face on one axis and match exactly on the
-    other two — the union then covers the two originals and nothing else, so it
-    can never swallow occupied space.
-    """
+    """Return the axis along which `a` and `b` fuse into one box, or None."""
     for axis in range(3):
         others = [i for i in range(3) if i != axis]
         if any(
@@ -255,36 +317,62 @@ def _fuse(a: Void, b: Void, axis: int) -> Void:
 
 
 def merge_voids(voids: list[Void]) -> list[Void]:
-    """Fuse mergeable voids until none remain (FR-014b).
+    """Fuse mergeable voids deterministically using orthogonal face-bucket indexing (FR-014b)."""
+    if len(voids) <= 1:
+        return list(voids)
 
-    Every fusion drops the count by one, so this terminates in at most N rounds.
-    Voids are visited in a canonical order, which makes the result depend only on
-    the geometry and not on the order the sweep happened to find them in — note
-    that this is determinism, not uniqueness: an L-shaped run of three voids can
-    legitimately fuse two different ways, and both leave two boxes behind.
-    """
-    remaining = sorted(voids, key=lambda v: (v.position, v.size))
+    remaining = sorted(
+        voids,
+        key=lambda v: (
+            round(v.position[0], 3),
+            round(v.position[1], 3),
+            round(v.position[2], 3),
+            round(v.size[0], 3),
+            round(v.size[1], 3),
+            round(v.size[2], 3),
+        ),
+    )
 
-    fused = True
-    while fused:
-        fused = False
-        for index_a, a in enumerate(remaining):
-            for offset, b in enumerate(remaining[index_a + 1:]):
-                axis = _mergeable_axis(a, b)
-                if axis is None:
-                    continue
-                index_b = index_a + 1 + offset
-                merged = _fuse(a, b, axis)
-                remaining = [
-                    v for n, v in enumerate(remaining) if n not in (index_a, index_b)
-                ]
-                remaining.append(merged)
-                remaining.sort(key=lambda v: (v.position, v.size))
-                fused = True
-                break
-            if fused:
-                break
+    # Fuse along each axis in canonical order, repeating until fixed point
+    changed = True
+    while changed:
+        changed = False
+        for axis in range(3):
+            o1, o2 = [i for i in range(3) if i != axis]
+            buckets: dict[tuple[int, int, int, int], list[Void]] = {}
+            for v in remaining:
+                bkey = (
+                    round(v.position[o1] * 50),
+                    round(v.size[o1] * 50),
+                    round(v.position[o2] * 50),
+                    round(v.size[o2] * 50),
+                )
+                buckets.setdefault(bkey, []).append(v)
 
+            next_remaining: list[Void] = []
+            for group in buckets.values():
+                group.sort(key=lambda v: v.position[axis])
+                cur = group[0]
+                for nxt in group[1:]:
+                    if _mergeable_axis(cur, nxt) == axis:
+                        cur = _fuse(cur, nxt, axis)
+                        changed = True
+                    else:
+                        next_remaining.append(cur)
+                        cur = nxt
+                next_remaining.append(cur)
+            remaining = next_remaining
+
+    remaining.sort(
+        key=lambda v: (
+            round(v.position[0], 3),
+            round(v.position[1], 3),
+            round(v.position[2], 3),
+            round(v.size[0], 3),
+            round(v.size[1], 3),
+            round(v.size[2], 3),
+        )
+    )
     return remaining
 
 
@@ -332,17 +420,16 @@ def _components(voids: list[Void]) -> list[list[Void]]:
     return groups
 
 
-def union_outline(voids: list[Void]) -> tuple[tuple[float, float], ...]:
-    """Trace the outline of a union of axis-aligned footprints.
-
-    Works by cancellation: walk each cell's border counter-clockwise, and drop
-    any edge that also appears reversed — those are the internal seams between
-    two filled cells. What survives is the boundary, which then chains into a
-    loop. Collinear runs are collapsed so an L comes back as six points, not
-    every grid step along its sides.
-    """
-    xs = sorted({v.position[0] for v in voids} | {v.position[0] + v.size[0] for v in voids})
-    ys = sorted({v.position[1] for v in voids} | {v.position[1] + v.size[1] for v in voids})
+def _extract_boundary_loops(voids: list[Void]) -> list[tuple[tuple[float, float], ...]]:
+    """Extract all closed boundary rings (outer CCW rings and inner CW hole rings)."""
+    xs = _dedupe_planes(
+        {v.position[0] for v in voids} | {v.position[0] + v.size[0] for v in voids},
+        max((v.position[0] + v.size[0] for v in voids), default=0.0) + 1.0,
+    )
+    ys = _dedupe_planes(
+        {v.position[1] for v in voids} | {v.position[1] + v.size[1] for v in voids},
+        max((v.position[1] + v.size[1] for v in voids), default=0.0) + 1.0,
+    )
 
     filled: set[tuple[int, int]] = set()
     for void in voids:
@@ -365,37 +452,87 @@ def union_outline(voids: list[Void]) -> tuple[tuple[float, float], ...]:
         for n in range(4):
             start, end = corners[n], corners[(n + 1) % 4]
             if (end, start) in edges:
-                edges.discard((end, start))  # internal seam — cancels with its twin
+                edges.discard((end, start))
             else:
                 edges.add((start, end))
 
     if not edges:
-        return ()
+        return []
 
-    # A reflex corner is the start of two boundary edges, so this has to be a
-    # multimap — keying by start vertex alone drops one of them and the trace
-    # below then never closes.
     outgoing: dict[tuple[int, int], list[tuple[int, int]]] = {}
     for start, end in sorted(edges):
         outgoing.setdefault(start, []).append(end)
 
-    first = min(outgoing)
-    loop = [first]
-    node = outgoing[first].pop()
-    while node != first:
-        loop.append(node)
-        options = outgoing.get(node)
-        if not options:  # not a closed ring; caller keeps the pieces apart
-            return ()
-        node = options.pop()
-        if len(loop) > len(edges) + 1:  # cannot happen, but never spin
-            return ()
+    # Right-turn preference at degree-4 saddle vertices keeps filled cells on the left
+    # and splits figure-8 pinches cleanly without self-crossing.
+    def turn_priority(prev_pt: tuple[int, int], cur_pt: tuple[int, int], nxt_pt: tuple[int, int]) -> int:
+        dx1, dy1 = cur_pt[0] - prev_pt[0], cur_pt[1] - prev_pt[1]
+        dx2, dy2 = nxt_pt[0] - cur_pt[0], nxt_pt[1] - cur_pt[1]
+        cross = dx1 * dy2 - dy1 * dx2
+        dot = dx1 * dx2 + dy1 * dy2
+        if cross < 0:
+            return 0  # right turn (keeps interior connected locally)
+        if dot > 0:
+            return 1  # straight
+        if cross > 0:
+            return 2  # left turn
+        return 3
 
-    return _drop_collinear([(xs[i], ys[j]) for i, j in loop])
+    loops: list[tuple[tuple[float, float], ...]] = []
+    max_steps = len(edges) + 2
+
+    while outgoing:
+        first = min(outgoing)
+        opts_first = outgoing[first]
+        nxt = opts_first.pop(0)
+        if not opts_first:
+            del outgoing[first]
+
+        ring_idx = [first]
+        prev, node = first, nxt
+        steps = 0
+        while node != first:
+            steps += 1
+            if steps > max_steps:
+                return []
+            ring_idx.append(node)
+            options = outgoing.get(node)
+            if not options:
+                return []
+            if len(options) > 1:
+                options.sort(key=lambda cand: turn_priority(prev, node, cand))
+            chosen = options.pop(0)
+            if not options:
+                del outgoing[node]
+            prev, node = node, chosen
+
+        pts = _drop_collinear([(xs[i], ys[j]) for i, j in ring_idx])
+        if len(pts) >= 4:
+            loops.append(pts)
+
+    return loops
+
+
+def union_outline(voids: list[Void]) -> tuple[tuple[float, float], ...]:
+    """Trace the single genus-0 outline of a union of axis-aligned footprints.
+
+    Returns ``()`` if the union is disconnected or contains an interior hole
+    (genus >= 1), so callers never swallow an enclosed box inside a ring void.
+    """
+    loops = _extract_boundary_loops(voids)
+    if len(loops) != 1:
+        return ()
+    from pyboxbuilder.paths import signed_area
+
+    if signed_area(loops[0]) <= 0:
+        return ()
+    return loops[0]
 
 
 def _drop_collinear(points: Sequence[tuple[float, float]]) -> tuple[tuple[float, float], ...]:
     """Remove points that sit in the middle of a straight run."""
+    if len(points) < 3:
+        return tuple(points)
     kept = []
     for n, point in enumerate(points):
         before = points[n - 1]
@@ -410,19 +547,67 @@ def _drop_collinear(points: Sequence[tuple[float, float]]) -> tuple[tuple[float,
     return tuple(kept)
 
 
+def _slice_voids_at_y(voids: list[Void], cut_y: float) -> tuple[list[Void], list[Void]]:
+    """Split rectangular voids across horizontal plane ``y = cut_y``."""
+    below: list[Void] = []
+    above: list[Void] = []
+    for v in voids:
+        y0, y1 = v.position[1], v.position[1] + v.size[1]
+        if y1 <= cut_y + EPSILON:
+            below.append(v)
+        elif y0 >= cut_y - EPSILON:
+            above.append(v)
+        else:
+            below.append(Void(v.position, (v.size[0], cut_y - y0, v.size[2])))
+            above.append(
+                Void((v.position[0], cut_y, v.position[2]), (v.size[0], y1 - cut_y, v.size[2]))
+            )
+    return merge_voids(below), merge_voids(above)
+
+
+def _merge_component_with_hole_split(group: list[Void], z_origin: float, z_size: float) -> list[Void]:
+    """Merge a connected coplanar component, splitting along interior holes if genus >= 1."""
+    if len(group) == 1:
+        return group
+
+    loops = _extract_boundary_loops(group)
+    if not loops:
+        return group
+
+    from pyboxbuilder.paths import signed_area
+
+    outer_loops = [lp for lp in loops if signed_area(lp) > 0]
+    hole_loops = [lp for lp in loops if signed_area(lp) < 0]
+
+    if len(outer_loops) == 1 and not hole_loops:
+        outline = outer_loops[0]
+        xs = [x for x, _ in outline]
+        ys = [y for _, y in outline]
+        return [
+            Void(
+                position=(min(xs), min(ys), z_origin),
+                size=(max(xs) - min(xs), max(ys) - min(ys), z_size),
+                path=outline,
+            )
+        ]
+
+    if hole_loops and all(v.path is None for v in group):
+        # Cut across the middle of the first interior hole so the donut splits into two U/L trays!
+        hys = [y for _, y in hole_loops[0]]
+        cut_y = (min(hys) + max(hys)) / 2.0
+        low_part, high_part = _slice_voids_at_y(group, cut_y)
+        if low_part and high_part:
+            out: list[Void] = []
+            for half in (low_part, high_part):
+                for sub_comp in _components(half):
+                    out.extend(_merge_component_with_hole_split(sub_comp, z_origin, z_size))
+            return out
+
+    return group
+
+
 def merge_rectilinear(voids: list[Void]) -> list[Void]:
-    """Fuse coplanar neighbours into one polygon-footprint tray (FR-018).
-
-    After `merge_voids` has taken every rectangular fusion, what can be left is
-    an L, T or U — a shape no rectangle covers. Those still want to be one part,
-    so they become a single tray with a polygon footprint.
-
-    Only voids sharing an **identical Z span** are considered. Two voids at
-    different heights can also form an L, but in the vertical plane, and fusing
-    those is a mistake: the upper arm would have nothing beneath it, turning two
-    trays that each sit flat on what is below them into one part with an
-    unsupported overhang. Stacked neighbours stay separate on purpose.
-    """
+    """Fuse coplanar same-Z neighbours into polygon-footprint trays, splitting holes (FR-018)."""
     by_layer: dict[tuple[float, float], list[Void]] = {}
     for void in voids:
         if void.path is not None:
@@ -433,23 +618,11 @@ def merge_rectilinear(voids: list[Void]) -> list[Void]:
 
     merged: list[Void] = []
     for (z_origin, z_size), layer in sorted(by_layer.items()):
-        for group in _components(layer):
-            if len(group) == 1:
-                merged.append(group[0])
-                continue
-            outline = union_outline(group)
-            if not outline:
-                merged.extend(group)
-                continue
-            xs = [x for x, _ in outline]
-            ys = [y for _, y in outline]
-            merged.append(
-                Void(
-                    position=(min(xs), min(ys), z_origin),
-                    size=(max(xs) - min(xs), max(ys) - min(ys), z_size),
-                    path=outline,
-                )
-            )
+        passthrough = [v for v in layer if v.path is not None]
+        rects = [v for v in layer if v.path is None]
+        merged.extend(passthrough)
+        for group in _components(rects):
+            merged.extend(_merge_component_with_hole_split(group, z_origin, z_size))
     return merged
 
 
@@ -457,12 +630,7 @@ def merge_rectilinear(voids: list[Void]) -> list[Void]:
 
 
 def apply_clearance(void: Void, slack: float) -> Void:
-    """Shrink a void by `slack` on every side so the tray can be lifted out.
-
-    The sweep measures the true empty volume; a tray printed to that exact size
-    is an interference fit against its neighbours (FR-014c). Height is left
-    alone — a tray is lifted straight up, so only the footprint needs the gap.
-    """
+    """Shrink a void by `slack` on every horizontal side so the tray lifts out freely."""
     if slack <= 0:
         return void
 
@@ -480,17 +648,56 @@ def apply_clearance(void: Void, slack: float) -> Void:
 
 
 def _inset_polygon_void(void: Void, slack: float) -> Void:
-    """Pull an L/T/U footprint inward by `slack` on every side."""
-    from pyboxbuilder.paths import bounds, inset_rectilinear
+    """Pull an L/T/U footprint inward by `slack` on every side, guarding against inversion."""
+    from pyboxbuilder.paths import bounds, inset_rectilinear, signed_area
 
     assert void.path is not None
+    orig_sign = signed_area(void.path)
     moved = inset_rectilinear(void.path, slack)
+    if orig_sign * signed_area(moved) <= 0:
+        # Arm collapsed/inverted under slack
+        return Void(position=void.position, size=(0.0, 0.0, void.size[2]))
     (min_x, min_y), (max_x, max_y) = bounds(moved)
     return Void(
         position=(min_x, min_y, void.position[2]),
-        size=(max_x - min_x, max_y - min_y, void.size[2]),
+        size=(max(0.0, max_x - min_x), max(0.0, max_y - min_y), void.size[2]),
         path=moved,
     )
+
+
+def _has_vertical_support(
+    void: Void,
+    placements: Sequence[Placement],
+    lower_spacers: Sequence[Void],
+) -> bool:
+    """Return True if ``void`` sits on the floor or has substantial support at ``z = void.position[2]``."""
+    z = void.position[2]
+    if z <= EPSILON:
+        return True
+
+    vx, vy, _ = void.position
+    vw, vl, _ = void.size
+    footprint_area = _polygon_area(void.path) if void.path is not None else (vw * vl)
+    if footprint_area <= 1e-6:
+        return False
+
+    supported_area = 0.0
+    # Sum overlap with placed boxes whose top sits at z
+    for p in placements:
+        if abs((p.position[2] + p.size[2]) - z) > EPSILON * 2:
+            continue
+        ox = max(0.0, min(vx + vw, p.position[0] + p.size[0]) - max(vx, p.position[0]))
+        oy = max(0.0, min(vy + vl, p.position[1] + p.size[1]) - max(vy, p.position[1]))
+        supported_area += ox * oy
+
+    for s in lower_spacers:
+        if abs((s.position[2] + s.size[2]) - z) > EPSILON * 2:
+            continue
+        ox = max(0.0, min(vx + vw, s.position[0] + s.size[0]) - max(vx, s.position[0]))
+        oy = max(0.0, min(vy + vl, s.position[1] + s.size[1]) - max(vy, s.position[1]))
+        supported_area += ox * oy
+
+    return supported_area >= footprint_area * 0.70 - 1e-4
 
 
 def generate_spacer_voids(
@@ -500,24 +707,26 @@ def generate_spacer_voids(
     clearance: float = 0.0,
     min_dim: float = MIN_SPACER_DIM,
 ) -> list[Void]:
-    """Sweep, merge, shrink and filter — the whole spacer pass.
-
-    Args:
-        container: (width, length, height) of the volume to fill.
-        placements: The sub-boxes already placed in it.
-        clearance: Slack removed from each side of a tray's footprint.
-        min_dim: Trays thinner than this on any axis are dropped as unprintable.
-
-    Returns:
-        The voids that earn a tray, in descending volume.
-
-    """
+    """Sweep, merge, split holes, verify support, shrink and filter — the whole spacer pass."""
     voids = merge_voids(sweep_free_space(container, placements))
-    # Drop the unprintable slivers before grouping, so a 2mm shard cannot become
-    # the thin arm of an L that then has to be printed.
     printable = [v for v in voids if v.thinnest() >= min_dim - EPSILON]
-    trays = [apply_clearance(v, clearance) for v in merge_rectilinear(printable)]
-    kept = [v for v in trays if v.size[2] >= min_dim - EPSILON and v.volume > 0]
+
+    # Check vertical support from bottom to top so an upper spacer never floats over a dropped sliver
+    supported_rects: list[Void] = []
+    for v in sorted(printable, key=lambda item: item.position[2]):
+        if _has_vertical_support(v, placements, supported_rects):
+            supported_rects.append(v)
+
+    min_post_xy = max(2.0, min_dim - 2.0 * clearance) - EPSILON
+    trays = [apply_clearance(v, clearance) for v in merge_rectilinear(supported_rects)]
+    kept = [
+        v
+        for v in trays
+        if v.size[2] >= min_dim - EPSILON
+        and v.size[0] >= min_post_xy
+        and v.size[1] >= min_post_xy
+        and v.volume > 0
+    ]
     return sorted(kept, key=lambda v: (-v.volume, v.position))
 
 
@@ -560,24 +769,7 @@ def generate_spacers(
     min_spacer_dim: float = 15.0,
     min_spacer_height: float = 5.0,
 ) -> list[SpacerSpec]:
-    """Generate spacer tray specs for gaps left at the end of 2D rows.
-
-    Predates the 3D sweep above and only sees row widths, not real placements.
-    Kept for callers that lay out in rows rather than packing in 3D.
-
-    Args:
-        container_width: Outer container interior width.
-        container_length: Outer container interior length.
-        row_widths: Total width used by each row.
-        row_lengths: Length of each row.
-        gap_threshold: Gaps < this are absorbed, not filled.
-        min_spacer_dim: Minimum spacer width/length before absorption.
-        min_spacer_height: Default spacer tray height.
-
-    Returns:
-        List of SpacerSpec for gaps that need filling.
-
-    """
+    """Generate spacer tray specs for gaps left at the end of 2D rows."""
     spacers: list[SpacerSpec] = []
     counter = 1
 
@@ -596,7 +788,6 @@ def generate_spacers(
             )
             counter += 1
 
-    # Check for gap after last row
     total_length_used = sum(row_lengths)
     remaining_l = container_length - total_length_used
     if remaining_l >= min_spacer_dim and remaining_l >= gap_threshold:

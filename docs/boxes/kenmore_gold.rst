@@ -15,12 +15,12 @@ Full Box Packing
 
 Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
-.. stl:: ../_stl/boxes/kenmore_gold/SquareTileBox_body.stl?v=2921d073,../_stl/boxes/kenmore_gold/SquareTileBox_lid.stl?v=a9b6951c,../_stl/boxes/kenmore_gold/StartCaveBox_body.stl?v=05c65ff3,../_stl/boxes/kenmore_gold/StartCaveBox_lid.stl?v=9fc68150,../_stl/boxes/kenmore_gold/LootBox_body.stl?v=2f1725a2,../_stl/boxes/kenmore_gold/LootBox_lid.stl?v=f36ae330,../_stl/boxes/kenmore_gold/spacer_1.stl?v=00397f90,../_stl/boxes/kenmore_gold/spacer_2.stl?v=dac8d487
+.. stl:: ../_stl/boxes/kenmore_gold/SquareTileBox_body.stl?v=2921d073,../_stl/boxes/kenmore_gold/SquareTileBox_lid.stl?v=a9b6951c,../_stl/boxes/kenmore_gold/StartCaveBox_body.stl?v=05c65ff3,../_stl/boxes/kenmore_gold/StartCaveBox_lid.stl?v=9fc68150,../_stl/boxes/kenmore_gold/LootBox_body.stl?v=2f1725a2,../_stl/boxes/kenmore_gold/LootBox_lid.stl?v=f36ae330,../_stl/boxes/kenmore_gold/spacer_1.stl?v=00397f90,../_stl/boxes/kenmore_gold/spacer_2.stl?v=644d8ce9
    :height: 440px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/kenmore_gold/SquareTileBox_body.stl?v=2921d073" data-stl-combine="../_stl/boxes/kenmore_gold/SquareTileBox_body.stl?v=2921d073,../_stl/boxes/kenmore_gold/SquareTileBox_lid.stl?v=a9b6951c,../_stl/boxes/kenmore_gold/StartCaveBox_body.stl?v=05c65ff3,../_stl/boxes/kenmore_gold/StartCaveBox_lid.stl?v=9fc68150,../_stl/boxes/kenmore_gold/LootBox_body.stl?v=2f1725a2,../_stl/boxes/kenmore_gold/LootBox_lid.stl?v=f36ae330,../_stl/boxes/kenmore_gold/spacer_1.stl?v=00397f90,../_stl/boxes/kenmore_gold/spacer_2.stl?v=dac8d487" download="KenmoreGold_full_packing.stl">⬇ Download Full Box Packing STL (<code>KenmoreGold_full_packing.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/kenmore_gold/SquareTileBox_body.stl?v=2921d073" data-stl-combine="../_stl/boxes/kenmore_gold/SquareTileBox_body.stl?v=2921d073,../_stl/boxes/kenmore_gold/SquareTileBox_lid.stl?v=a9b6951c,../_stl/boxes/kenmore_gold/StartCaveBox_body.stl?v=05c65ff3,../_stl/boxes/kenmore_gold/StartCaveBox_lid.stl?v=9fc68150,../_stl/boxes/kenmore_gold/LootBox_body.stl?v=2f1725a2,../_stl/boxes/kenmore_gold/LootBox_lid.stl?v=f36ae330,../_stl/boxes/kenmore_gold/spacer_1.stl?v=00397f90,../_stl/boxes/kenmore_gold/spacer_2.stl?v=644d8ce9" download="KenmoreGold_full_packing.stl">⬇ Download Full Box Packing STL (<code>KenmoreGold_full_packing.stl</code>)</a></p>
 
 Parts Overview
 --------------
@@ -202,9 +202,9 @@ spacer_2
 - **Outer Dimensions**: ``130 × 120 × 69 mm``
 - **Packed Position**: ``(0, 0, 0)``
 
-.. stl:: ../_stl/boxes/kenmore_gold/spacer_2.stl?v=dac8d487
+.. stl:: ../_stl/boxes/kenmore_gold/spacer_2.stl?v=644d8ce9
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/kenmore_gold/spacer_2.stl?v=dac8d487" download="spacer_2.stl">⬇ Download spacer_2 STL (<code>spacer_2.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/kenmore_gold/spacer_2.stl?v=644d8ce9" download="spacer_2.stl">⬇ Download spacer_2 STL (<code>spacer_2.stl</code>)</a></p>

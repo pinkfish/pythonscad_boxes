@@ -15,12 +15,12 @@ Full Box Packing
 
 Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
-.. stl:: ../_stl/boxes/pioneer_rails/PencilBox_body.stl?v=e336c64f,../_stl/boxes/pioneer_rails/PencilBox_lid.stl?v=28afa8b5,../_stl/boxes/pioneer_rails/CardBox_GoalCards_body.stl?v=186b6922,../_stl/boxes/pioneer_rails/CardBox_GoalCards_lid.stl?v=67d0cf2c,../_stl/boxes/pioneer_rails/CardBox_PlayingCards_body.stl?v=7dcae35d,../_stl/boxes/pioneer_rails/CardBox_PlayingCards_lid.stl?v=a76dc93b,../_stl/boxes/pioneer_rails/CardBox_ForestCards_body.stl?v=9138439d,../_stl/boxes/pioneer_rails/CardBox_ForestCards_lid.stl?v=78d068f1,../_stl/boxes/pioneer_rails/CardBox_CompanyCards_body.stl?v=5c9c4731,../_stl/boxes/pioneer_rails/CardBox_CompanyCards_lid.stl?v=9f305546,../_stl/boxes/pioneer_rails/spacer_1.stl?v=5bf3cb1d
+.. stl:: ../_stl/boxes/pioneer_rails/PencilBox_body.stl?v=e336c64f,../_stl/boxes/pioneer_rails/PencilBox_lid.stl?v=28afa8b5,../_stl/boxes/pioneer_rails/CardBox_GoalCards_body.stl?v=186b6922,../_stl/boxes/pioneer_rails/CardBox_GoalCards_lid.stl?v=67d0cf2c,../_stl/boxes/pioneer_rails/CardBox_PlayingCards_body.stl?v=7dcae35d,../_stl/boxes/pioneer_rails/CardBox_PlayingCards_lid.stl?v=a76dc93b,../_stl/boxes/pioneer_rails/CardBox_ForestCards_body.stl?v=9138439d,../_stl/boxes/pioneer_rails/CardBox_ForestCards_lid.stl?v=78d068f1,../_stl/boxes/pioneer_rails/CardBox_CompanyCards_body.stl?v=5c9c4731,../_stl/boxes/pioneer_rails/CardBox_CompanyCards_lid.stl?v=9f305546,../_stl/boxes/pioneer_rails/spacer_1.stl?v=5198be57
    :height: 440px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/pioneer_rails/PencilBox_body.stl?v=e336c64f" data-stl-combine="../_stl/boxes/pioneer_rails/PencilBox_body.stl?v=e336c64f,../_stl/boxes/pioneer_rails/PencilBox_lid.stl?v=28afa8b5,../_stl/boxes/pioneer_rails/CardBox_GoalCards_body.stl?v=186b6922,../_stl/boxes/pioneer_rails/CardBox_GoalCards_lid.stl?v=67d0cf2c,../_stl/boxes/pioneer_rails/CardBox_PlayingCards_body.stl?v=7dcae35d,../_stl/boxes/pioneer_rails/CardBox_PlayingCards_lid.stl?v=a76dc93b,../_stl/boxes/pioneer_rails/CardBox_ForestCards_body.stl?v=9138439d,../_stl/boxes/pioneer_rails/CardBox_ForestCards_lid.stl?v=78d068f1,../_stl/boxes/pioneer_rails/CardBox_CompanyCards_body.stl?v=5c9c4731,../_stl/boxes/pioneer_rails/CardBox_CompanyCards_lid.stl?v=9f305546,../_stl/boxes/pioneer_rails/spacer_1.stl?v=5bf3cb1d" download="PioneerRails_full_packing.stl">⬇ Download Full Box Packing STL (<code>PioneerRails_full_packing.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/pioneer_rails/PencilBox_body.stl?v=e336c64f" data-stl-combine="../_stl/boxes/pioneer_rails/PencilBox_body.stl?v=e336c64f,../_stl/boxes/pioneer_rails/PencilBox_lid.stl?v=28afa8b5,../_stl/boxes/pioneer_rails/CardBox_GoalCards_body.stl?v=186b6922,../_stl/boxes/pioneer_rails/CardBox_GoalCards_lid.stl?v=67d0cf2c,../_stl/boxes/pioneer_rails/CardBox_PlayingCards_body.stl?v=7dcae35d,../_stl/boxes/pioneer_rails/CardBox_PlayingCards_lid.stl?v=a76dc93b,../_stl/boxes/pioneer_rails/CardBox_ForestCards_body.stl?v=9138439d,../_stl/boxes/pioneer_rails/CardBox_ForestCards_lid.stl?v=78d068f1,../_stl/boxes/pioneer_rails/CardBox_CompanyCards_body.stl?v=5c9c4731,../_stl/boxes/pioneer_rails/CardBox_CompanyCards_lid.stl?v=9f305546,../_stl/boxes/pioneer_rails/spacer_1.stl?v=5198be57" download="PioneerRails_full_packing.stl">⬇ Download Full Box Packing STL (<code>PioneerRails_full_packing.stl</code>)</a></p>
 
 Parts Overview
 --------------
@@ -265,9 +265,9 @@ spacer_1
 - **Outer Dimensions**: ``209 × 209 × 22 mm``
 - **Packed Position**: ``(0, 0, 0)``
 
-.. stl:: ../_stl/boxes/pioneer_rails/spacer_1.stl?v=5bf3cb1d
+.. stl:: ../_stl/boxes/pioneer_rails/spacer_1.stl?v=5198be57
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/pioneer_rails/spacer_1.stl?v=5bf3cb1d" download="spacer_1.stl">⬇ Download spacer_1 STL (<code>spacer_1.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/pioneer_rails/spacer_1.stl?v=5198be57" download="spacer_1.stl">⬇ Download spacer_1 STL (<code>spacer_1.stl</code>)</a></p>

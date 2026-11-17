@@ -299,6 +299,7 @@ class BoxBuilder:
         position: tuple[float, float] | None = None,
         elements: tuple[CompartmentElement, ...] = (),
         element_margin: float = 0.0,
+        growable: bool = False,
     ) -> CompartmentBuilder:
         """Add a compartment to this box.
 
@@ -327,6 +328,7 @@ class BoxBuilder:
                 letting the layout place it.
             elements: Individual piece pockets making up an element pack.
             element_margin: Clearance around an element pack's bounding box.
+            growable: Whether this well expands proportionally into leftover row width.
 
         Returns:
             The :class:`CompartmentBuilder` that was added, already registered
@@ -350,6 +352,7 @@ class BoxBuilder:
             position=position,
             elements=elements,
             element_margin=element_margin,
+            growable=growable,
         )
         object.__setattr__(self, "compartments", (*self.compartments, cb))
         return cb

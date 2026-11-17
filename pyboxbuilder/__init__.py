@@ -38,7 +38,13 @@ from pyboxbuilder.builders import (
     ThreadedBoxBuilder,
 )
 from pyboxbuilder.builders._base import Cut
-from pyboxbuilder.compartments.element import CompartmentElement, centered, centered_in_box, grid_pack
+from pyboxbuilder.compartments.element import (
+    CompartmentElement,
+    centered,
+    centered_in_box,
+    grid_pack,
+    pack_elements,
+)
 from pyboxbuilder.enums import (
     BoxType,
     CatchType,
@@ -59,7 +65,7 @@ from pyboxbuilder.enums import (
 )
 from pyboxbuilder.export.result import ExportResult
 from pyboxbuilder.helpers import CardSize, CardSpec, SleeveType
-from pyboxbuilder.layout import columns, rows, stack
+from pyboxbuilder.layout import columns, polygon_grid, rows, stack
 from pyboxbuilder.lid.builder import LidBuilder, PatternBuilder
 from pyboxbuilder.project import GeometryPipeline, LayoutCompiler, Project, ProjectManifest
 from pyboxbuilder.run import run
@@ -147,6 +153,8 @@ __all__ = [
     "columns",
     "find_sleeve",
     "grid_pack",
+    "pack_elements",
+    "polygon_grid",
     "register_box",
     "rows",
     "run",

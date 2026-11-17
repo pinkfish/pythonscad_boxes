@@ -382,6 +382,10 @@ class Project:
             object.__setattr__(resolved[idx + 1], "stackable_bottom", True)
             object.__setattr__(resolved[idx + 1], "stackable_bottom_pyramid_count", cfg)
 
+        chain = tuple(b.label for b in resolved)
+        if chain not in self._manifest.stack_groups:
+            self._manifest.stack_groups.append(chain)
+
         return resolved
 
     def build(self) -> Build:
@@ -760,6 +764,7 @@ class Project:
         *,
         tile_width: float,
         count: int,
+        tile_thickness: float = 2.0,
         box_type: BoxType = BoxType.SLIDING,
         cut: Cut | FingerCut | None = FingerCut.THROUGH_FLOOR,
         **kwargs: Any,
@@ -773,8 +778,10 @@ class Project:
             shape=ElementShape.HEXAGON,
             size=(tile_width, tile_width),
         )
+        derived_depth = (count * tile_thickness + 1.0) if count > 0 else None
         builder.compartment(
             "Tiles",
+            depth=derived_depth,
             elements=(elem,),
             holds_pieces=False,
             cut=cut,

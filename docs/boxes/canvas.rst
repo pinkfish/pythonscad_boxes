@@ -15,12 +15,12 @@ Full Box Packing
 
 Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
-.. stl:: ../_stl/boxes/canvas/RibbonBox_Red_body.stl?v=64208b25,../_stl/boxes/canvas/RibbonBox_Red_lid.stl?v=39cb9a0c,../_stl/boxes/canvas/RibbonBox_Green_body.stl?v=600be950,../_stl/boxes/canvas/RibbonBox_Green_lid.stl?v=55da1be8,../_stl/boxes/canvas/RibbonBox_Grey_body.stl?v=e7fe9d2e,../_stl/boxes/canvas/RibbonBox_Grey_lid.stl?v=d7198b8e,../_stl/boxes/canvas/RibbonBox_Blue_body.stl?v=02e31642,../_stl/boxes/canvas/RibbonBox_Blue_lid.stl?v=c1b23e37,../_stl/boxes/canvas/RibbonBox_Purple_body.stl?v=29436a40,../_stl/boxes/canvas/RibbonBox_Purple_lid.stl?v=182f27f3,../_stl/boxes/canvas/RibbonBox_Palette_body.stl?v=dc2a044d,../_stl/boxes/canvas/RibbonBox_Palette_lid.stl?v=4aeaf87e,../_stl/boxes/canvas/CardTray_body.stl?v=41610e61,../_stl/boxes/canvas/CardTray_lid.stl?v=bf4605e5,../_stl/boxes/canvas/spacer_1.stl?v=dd308272,../_stl/boxes/canvas/spacer_2.stl?v=dca8845a,../_stl/boxes/canvas/spacer_3.stl?v=70e5276f
+.. stl:: ../_stl/boxes/canvas/RibbonBox_Red_body.stl?v=64208b25,../_stl/boxes/canvas/RibbonBox_Red_lid.stl?v=39cb9a0c,../_stl/boxes/canvas/RibbonBox_Green_body.stl?v=600be950,../_stl/boxes/canvas/RibbonBox_Green_lid.stl?v=55da1be8,../_stl/boxes/canvas/RibbonBox_Grey_body.stl?v=e7fe9d2e,../_stl/boxes/canvas/RibbonBox_Grey_lid.stl?v=d7198b8e,../_stl/boxes/canvas/RibbonBox_Blue_body.stl?v=02e31642,../_stl/boxes/canvas/RibbonBox_Blue_lid.stl?v=c1b23e37,../_stl/boxes/canvas/RibbonBox_Purple_body.stl?v=29436a40,../_stl/boxes/canvas/RibbonBox_Purple_lid.stl?v=182f27f3,../_stl/boxes/canvas/RibbonBox_Palette_body.stl?v=dc2a044d,../_stl/boxes/canvas/RibbonBox_Palette_lid.stl?v=4aeaf87e,../_stl/boxes/canvas/CardTray_body.stl?v=41610e61,../_stl/boxes/canvas/CardTray_lid.stl?v=bf4605e5,../_stl/boxes/canvas/spacer_1.stl?v=dd308272,../_stl/boxes/canvas/spacer_2.stl?v=dca8845a,../_stl/boxes/canvas/spacer_3.stl?v=d76c5cfa
    :height: 440px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/canvas/RibbonBox_Red_body.stl?v=64208b25" data-stl-combine="../_stl/boxes/canvas/RibbonBox_Red_body.stl?v=64208b25,../_stl/boxes/canvas/RibbonBox_Red_lid.stl?v=39cb9a0c,../_stl/boxes/canvas/RibbonBox_Green_body.stl?v=600be950,../_stl/boxes/canvas/RibbonBox_Green_lid.stl?v=55da1be8,../_stl/boxes/canvas/RibbonBox_Grey_body.stl?v=e7fe9d2e,../_stl/boxes/canvas/RibbonBox_Grey_lid.stl?v=d7198b8e,../_stl/boxes/canvas/RibbonBox_Blue_body.stl?v=02e31642,../_stl/boxes/canvas/RibbonBox_Blue_lid.stl?v=c1b23e37,../_stl/boxes/canvas/RibbonBox_Purple_body.stl?v=29436a40,../_stl/boxes/canvas/RibbonBox_Purple_lid.stl?v=182f27f3,../_stl/boxes/canvas/RibbonBox_Palette_body.stl?v=dc2a044d,../_stl/boxes/canvas/RibbonBox_Palette_lid.stl?v=4aeaf87e,../_stl/boxes/canvas/CardTray_body.stl?v=41610e61,../_stl/boxes/canvas/CardTray_lid.stl?v=bf4605e5,../_stl/boxes/canvas/spacer_1.stl?v=dd308272,../_stl/boxes/canvas/spacer_2.stl?v=dca8845a,../_stl/boxes/canvas/spacer_3.stl?v=70e5276f" download="Canvas_full_packing.stl">⬇ Download Full Box Packing STL (<code>Canvas_full_packing.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/canvas/RibbonBox_Red_body.stl?v=64208b25" data-stl-combine="../_stl/boxes/canvas/RibbonBox_Red_body.stl?v=64208b25,../_stl/boxes/canvas/RibbonBox_Red_lid.stl?v=39cb9a0c,../_stl/boxes/canvas/RibbonBox_Green_body.stl?v=600be950,../_stl/boxes/canvas/RibbonBox_Green_lid.stl?v=55da1be8,../_stl/boxes/canvas/RibbonBox_Grey_body.stl?v=e7fe9d2e,../_stl/boxes/canvas/RibbonBox_Grey_lid.stl?v=d7198b8e,../_stl/boxes/canvas/RibbonBox_Blue_body.stl?v=02e31642,../_stl/boxes/canvas/RibbonBox_Blue_lid.stl?v=c1b23e37,../_stl/boxes/canvas/RibbonBox_Purple_body.stl?v=29436a40,../_stl/boxes/canvas/RibbonBox_Purple_lid.stl?v=182f27f3,../_stl/boxes/canvas/RibbonBox_Palette_body.stl?v=dc2a044d,../_stl/boxes/canvas/RibbonBox_Palette_lid.stl?v=4aeaf87e,../_stl/boxes/canvas/CardTray_body.stl?v=41610e61,../_stl/boxes/canvas/CardTray_lid.stl?v=bf4605e5,../_stl/boxes/canvas/spacer_1.stl?v=dd308272,../_stl/boxes/canvas/spacer_2.stl?v=dca8845a,../_stl/boxes/canvas/spacer_3.stl?v=d76c5cfa" download="Canvas_full_packing.stl">⬇ Download Full Box Packing STL (<code>Canvas_full_packing.stl</code>)</a></p>
 
 Parts Overview
 --------------
@@ -81,8 +81,8 @@ Parts Overview
      - —
    * - :ref:`spacer_3 <spacer-canvas-spacer_3>`
      - :ref:`BoxType.NO_LID <box-type-no-lid>` (spacer)
-     - ``200 × 208 × 5 mm``
-     - ``(0, 0, 30)``
+     - ``77 × 62 × 5 mm``
+     - ``(123, 146, 30)``
      - —
 
 Individual Boxes & Parts
@@ -388,12 +388,12 @@ spacer_3
 ^^^^^^^^
 
 - **Type**: :ref:`BoxType.NO_LID <box-type-no-lid>` filler spacer tray
-- **Outer Dimensions**: ``200 × 208 × 5 mm``
-- **Packed Position**: ``(0, 0, 30)``
+- **Outer Dimensions**: ``77 × 62 × 5 mm``
+- **Packed Position**: ``(123, 146, 30)``
 
-.. stl:: ../_stl/boxes/canvas/spacer_3.stl?v=70e5276f
+.. stl:: ../_stl/boxes/canvas/spacer_3.stl?v=d76c5cfa
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/canvas/spacer_3.stl?v=70e5276f" download="spacer_3.stl">⬇ Download spacer_3 STL (<code>spacer_3.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/canvas/spacer_3.stl?v=d76c5cfa" download="spacer_3.stl">⬇ Download spacer_3 STL (<code>spacer_3.stl</code>)</a></p>

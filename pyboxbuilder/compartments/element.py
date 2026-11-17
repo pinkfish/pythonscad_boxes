@@ -124,6 +124,10 @@ class CompartmentElement:
         w, l = self.base_footprint
         rad = math.radians(self.rotation)
         cos_r, sin_r = abs(math.cos(rad)), abs(math.sin(rad))
+        if self.shape is ElementShape.ROUNDED_RECT:
+            cr = max(0.0, min(self.corner_radius, w / 2.0, l / 2.0))
+            iw, il = max(0.0, w - 2.0 * cr), max(0.0, l - 2.0 * cr)
+            return (iw * cos_r + il * sin_r + 2.0 * cr, iw * sin_r + il * cos_r + 2.0 * cr)
         return (w * cos_r + l * sin_r, w * sin_r + l * cos_r)
 
     def bounds(self) -> tuple[float, float, float, float]:
@@ -188,8 +192,10 @@ def elements_footprint(
     """
     if not elements:
         return (0.0, 0.0)
-    _, _, max_x, max_y = elements_bounding_box(elements)
-    return (round(max_x + margin, 1), round(max_y + margin, 1))
+    min_x, min_y, max_x, max_y = elements_bounding_box(elements)
+    span_x = max_x - min(0.0, min_x)
+    span_y = max_y - min(0.0, min_y)
+    return (round(span_x + margin, 1), round(span_y + margin, 1))
 
 
 def normalize_elements(
@@ -241,6 +247,142 @@ def grid_pack(
             )
         )
     return tuple(out)
+
+
+def pack_elements(
+    elements: Sequence[CompartmentElement],
+    *,
+    max_width: float | None = None,
+    spacing: float = 2.0,
+    margin: float = 0.0,
+    allow_rotate: bool = True,
+) -> tuple[CompartmentElement, ...]:
+    """Auto-pack loose ``CompartmentElement`` items into a compact 2D element pack.
+
+    Uses a 2D Best-Short-Side-Fit (BSSF) MaxRects layout, optionally testing a
+    90-degree rotation per asymmetric element and reserving room between slots.
+    Coloured floor-inlay icons positioned relative to another element should be
+    added after packing; every element passed here receives a fresh non-overlapping
+    ``offset``.
+
+    Args:
+        elements: Elements to place (their existing ``offset`` is replaced).
+        max_width: Maximum pack width in mm; ``None`` derives a near-square target.
+        spacing: Minimum gap between adjacent element footprints in mm.
+        margin: Outer border inset around the entire pack in mm.
+        allow_rotate: Allow 90-degree Z rotation when it improves 2D fit.
+
+    Returns:
+        Packed ``CompartmentElement`` tuple in the original input order.
+
+    """
+    if not elements:
+        return ()
+
+    indexed = list(enumerate(elements))
+    # Sort largest footprint area first for tight 2D bin packing.
+    order = sorted(
+        indexed,
+        key=lambda pair: pair[1].footprint[0] * pair[1].footprint[1],
+        reverse=True,
+    )
+
+    if max_width is None:
+        total_area = sum(
+            (el.footprint[0] + spacing) * (el.footprint[1] + spacing) for el in elements
+        )
+        widest = max(min(el.footprint) if allow_rotate else el.footprint[0] for el in elements)
+        target_w = max(widest + 2.0 * margin, math.sqrt(total_area) * 1.05 + 2.0 * margin)
+    else:
+        target_w = float(max_width)
+
+    usable_w = max(1e-3, target_w - 2.0 * margin)
+    big_l = sum(max(el.footprint) + spacing for el in elements) + 2.0 * margin + 100.0
+    free_rects: list[tuple[float, float, float, float]] = [(0.0, 0.0, usable_w, big_l)]
+    placed_by_idx: dict[int, CompartmentElement] = {}
+
+    for orig_idx, el in order:
+        fw, fl = el.footprint
+        variants: list[tuple[float, float, float]] = [(fw, fl, el.rotation)]
+        if (
+            allow_rotate
+            and el.shape not in (ElementShape.CIRCLE, ElementShape.SPHERE_SCOOP)
+            and abs(fw - fl) > 1e-6
+        ):
+            rot_el = replace(el, rotation=el.rotation + 90.0)
+            rw, rl = rot_el.footprint
+            variants.append((rw, rl, el.rotation + 90.0))
+
+        best_score: tuple[float, float, float, int] | None = None
+        best_choice: tuple[float, float, float, float, float] | None = None
+
+        for rx, ry, rw_avail, rl_avail in free_rects:
+            for vw, vl, vrot in variants:
+                if vw <= rw_avail + 1e-6 and vl <= rl_avail + 1e-6:
+                    # Prefer lowest Y (skyline compactness), then tightest BSSF, then lowest X.
+                    short_left = min(rw_avail - vw, rl_avail - vl)
+                    score = (round(ry + vl, 4), round(ry, 4), round(short_left, 4), int(vrot != el.rotation))
+                    if best_score is None or score < best_score:
+                        best_score = score
+                        best_choice = (rx, ry, vw, vl, vrot)
+
+        if best_choice is None:
+            # Widen container dynamically if an oversized element exceeds max_width
+            cur_max_y = max((e.bounds()[3] - margin for e in placed_by_idx.values()), default=0.0)
+            y_pos = cur_max_y + (spacing if placed_by_idx else 0.0)
+            best_choice = (0.0, y_pos, fw, fl, el.rotation)
+
+        px, py, pw, pl, prot = best_choice
+        placed_by_idx[orig_idx] = replace(
+            el,
+            offset=(round(margin + px, 4), round(margin + py, 4)),
+            rotation=prot,
+        )
+
+        # Subtract padded box [px - spacing, py - spacing, px + pw + spacing, py + pl + spacing]
+        ox0 = px - spacing
+        oy0 = py - spacing
+        ox1 = px + pw + spacing
+        oy1 = py + pl + spacing
+        next_free: list[tuple[float, float, float, float]] = []
+        for fx, fy, fw_r, fl_r in free_rects:
+            fx1, fy1 = fx + fw_r, fy + fl_r
+            if ox1 <= fx + 1e-9 or ox0 >= fx1 - 1e-9 or oy1 <= fy + 1e-9 or oy0 >= fy1 - 1e-9:
+                next_free.append((fx, fy, fw_r, fl_r))
+                continue
+            if ox0 > fx + 1e-6:
+                next_free.append((fx, fy, ox0 - fx, fl_r))
+            if ox1 < fx1 - 1e-6:
+                next_free.append((ox1, fy, fx1 - ox1, fl_r))
+            if oy0 > fy + 1e-6:
+                next_free.append((fx, fy, fw_r, oy0 - fy))
+            if oy1 < fy1 - 1e-6:
+                next_free.append((fx, oy1, fw_r, fy1 - oy1))
+
+        # Prune dominated free rectangles
+        pruned: list[tuple[float, float, float, float]] = []
+        for i, a in enumerate(next_free):
+            ax0, ay0, aw, al = a
+            ax1, ay1 = ax0 + aw, ay0 + al
+            dominated = False
+            for j, b in enumerate(next_free):
+                if i == j:
+                    continue
+                bx0, by0, bw, bl = b
+                if (
+                    bx0 <= ax0 + 1e-6
+                    and by0 <= ay0 + 1e-6
+                    and bx0 + bw >= ax1 - 1e-6
+                    and by0 + bl >= ay1 - 1e-6
+                    and ((bw * bl > aw * al + 1e-6) or j < i)
+                ):
+                    dominated = True
+                    break
+            if not dominated:
+                pruned.append(a)
+        free_rects = pruned
+
+    return tuple(placed_by_idx[i] for i in range(len(elements)))
 
 
 def elements_overlap(
@@ -452,8 +594,7 @@ def build_pull_out(
     from pyboxbuilder.rounding import rounding_facets
 
     assert element.size is not None
-    w, l = element.size
-    width, length = (l, w) if abs(element.rotation) == 90 else (w, l)
+    width, length = element.footprint
     depth = element.depth or default_depth
     actual_z_offset = element.z_offset if element.z_offset is not None else (default_depth - depth)
     drop = (element.pull_out_depth / 2.0) if element.pull_out_depth is not None else (depth * PULL_OUT_DEPTH_SHARE)
@@ -587,7 +728,7 @@ def build_element_pack_pull_outs(
     sum_clearance_y = 0.0
     for element in elements_list:
         assert element.size is not None
-        width, length = element.size
+        width, length = element.footprint
         sum_clearance_x += min(element.offset[0], comp_w - (element.offset[0] + width))
         sum_clearance_y += min(element.offset[1], comp_l - (element.offset[1] + length))
 
@@ -601,7 +742,7 @@ def build_element_pack_pull_outs(
             continue
 
         assert element.size is not None
-        width, length = element.size
+        width, length = element.footprint
         depth = element.depth or default_depth
         drop = (element.pull_out_depth / 2.0) if element.pull_out_depth is not None else (depth * PULL_OUT_DEPTH_SHARE)
 
