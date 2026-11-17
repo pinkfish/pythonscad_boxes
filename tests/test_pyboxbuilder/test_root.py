@@ -9,6 +9,7 @@ from boxes.root.root import (
     RootBoxCategory,
     build_root_project,
     project,
+    summarize_board_storage,
 )
 
 
@@ -221,3 +222,23 @@ class TestRoot(unittest.TestCase):
                             overlap_x and overlap_y and overlap_z,
                             f"{sp.label} overlaps {bx.label} in combo {combo}",
                         )
+
+    def test_board_storage_indicator_and_external_boards_option(self) -> None:
+        """Verify board storage status for Base-only, Base+Riverfolk, and beyond-Riverfolk."""
+        base_status = summarize_board_storage(("base",))
+        self.assertEqual(base_status.status, "thin_top_gap")
+        self.assertGreater(base_status.top_gap_mm, 0.0)
+
+        full_status = summarize_board_storage(("base", "riverfolk"))
+        self.assertEqual(full_status.status, "exact_fit")
+        self.assertAlmostEqual(full_status.overflow_mm, 0.0)
+        self.assertAlmostEqual(full_status.top_gap_mm, 0.0)
+
+        beyond_status = summarize_board_storage(("base", "riverfolk", "underworld"))
+        self.assertEqual(beyond_status.status, "external_box_required")
+        self.assertGreater(beyond_status.overflow_mm, 0.0)
+
+        ext_proj = build_root_project(("base", "riverfolk"), boards_external=True)
+        self.assertEqual(ext_proj.board_thickness, 0.0)
+        self.assertFalse(ext_proj.board_on_bottom)
+        self.assertEqual(ext_proj.effective_game_box_size, (214.0, 278.0, 67.0))

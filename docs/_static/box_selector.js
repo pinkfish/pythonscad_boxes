@@ -220,6 +220,7 @@ function initBoxSelector(container) {
     activeSubgroups: new Set(
       defaultPreset ? defaultPreset.subgroups : Array.from(allAvailableSubgroups),
     ),
+    plannedBoardCheck: new Set(),
     excludedBoxes: new Set(),
     includeSpacers: true,
     busy: false,
@@ -284,8 +285,20 @@ function initBoxSelector(container) {
     } else {
       titleLine.appendChild(el("span", "bs-badge is-planned", "Planned"));
     }
+    if (exp.boardThicknessMm > 0) {
+      titleLine.appendChild(
+        el(
+          "span",
+          "bs-badge is-boards",
+          `${exp.required ? "" : "+"}${exp.boardThicknessMm} mm boards`,
+        ),
+      );
+    }
     titleWrap.appendChild(titleLine);
     titleWrap.appendChild(el("div", "bs-exp-desc", exp.description));
+    if (exp.boardsSummary) {
+      titleWrap.appendChild(el("div", "bs-exp-notes", `Boards: ${exp.boardsSummary}`));
+    }
     if (exp.notes) {
       titleWrap.appendChild(el("div", "bs-exp-notes", exp.notes));
     }
@@ -355,6 +368,9 @@ function initBoxSelector(container) {
 
   const summaryNote = el("div", "bs-summary-note");
   breakdownSection.appendChild(summaryNote);
+
+  const boardBanner = el("div", "bs-board-banner");
+  breakdownSection.appendChild(boardBanner);
 
   const catGrid = el("div", "bs-category-grid");
   breakdownSection.appendChild(catGrid);
@@ -524,6 +540,80 @@ function initBoxSelector(container) {
             ` (using closest spacer layout: ${spacerInfo.presetName}; regenerate via build_root_project() if printing a custom partial subset)`,
           ),
         );
+      }
+    }
+
+    // Board & Map Storage Indicator
+    if (config.boardStorage) {
+      const capMm = Number(config.boardStorage.capacityMm || 28);
+      let boardsMm = 0;
+      for (const exp of config.expansions || []) {
+        if (exp.status === "available") {
+          const hasAnySubgroup = (exp.subgroups || []).some((sg) =>
+            state.activeSubgroups.has(sg),
+          );
+          if (hasAnySubgroup) boardsMm += Number(exp.boardThicknessMm || 0);
+        } else if (state.plannedBoardCheck.has(exp.key)) {
+          boardsMm += Number(exp.boardThicknessMm || 0);
+        }
+      }
+
+      const overflowMm = Math.max(0, boardsMm - capMm);
+      const gapMm = Math.max(0, capMm - boardsMm);
+      let boardStateClass = "is-fit";
+      let boardBadgeText = `Exact Single-Box Fit (${boardsMm} / ${capMm} mm)`;
+      let boardHint = config.boardStorage.exactFitHint || "";
+      if (overflowMm > 0.01) {
+        boardStateClass = "is-overflow";
+        boardBadgeText = `Separate Board Box Needed (+${overflowMm} mm over ${capMm} mm bay)`;
+        boardHint = config.boardStorage.externalBoxHint || "";
+      } else if (gapMm > 0.01) {
+        boardStateClass = "is-gap";
+        boardBadgeText = `Fits in Base Box — ~${gapMm} mm Thin Top Space (${boardsMm} / ${capMm} mm)`;
+        boardHint = config.boardStorage.thinTopSpaceHint || "";
+      }
+
+      boardBanner.className = `bs-board-banner ${boardStateClass}`;
+      boardBanner.innerHTML = "";
+      const bbTop = el("div", "bs-board-top");
+      bbTop.appendChild(el("strong", null, "Board & Map Storage:"));
+      bbTop.appendChild(el("span", `bs-badge ${boardStateClass}`, boardBadgeText));
+      boardBanner.appendChild(bbTop);
+
+      const meter = el("div", "bs-board-meter");
+      const fillPct = Math.min(100, Math.round((boardsMm / capMm) * 100));
+      const fill = el("div", `bs-board-meter-fill ${boardStateClass}`);
+      fill.style.width = `${fillPct}%`;
+      meter.appendChild(fill);
+      boardBanner.appendChild(meter);
+
+      boardBanner.appendChild(el("div", "bs-board-hint", boardHint));
+
+      const plannedWithBoards = (config.expansions || []).filter(
+        (exp) => exp.status !== "available" && Number(exp.boardThicknessMm || 0) > 0,
+      );
+      if (plannedWithBoards.length) {
+        const simRow = el("div", "bs-board-sim");
+        simRow.appendChild(
+          el("span", "bs-lid-label", "Preview future expansion boards:"),
+        );
+        for (const pExp of plannedWithBoards) {
+          const pill = el("label", "bs-sim-pill");
+          const pCb = document.createElement("input");
+          pCb.type = "checkbox";
+          pCb.checked = state.plannedBoardCheck.has(pExp.key);
+          pCb.addEventListener("change", () => {
+            if (pCb.checked) state.plannedBoardCheck.add(pExp.key);
+            else state.plannedBoardCheck.delete(pExp.key);
+            render();
+          });
+          pill.appendChild(pCb);
+          pill.appendChild(
+            el("span", null, `${pExp.name} (+${pExp.boardThicknessMm} mm)`),
+          );
+          simRow.appendChild(pill);
+        }
+        boardBanner.appendChild(simRow);
       }
     }
 

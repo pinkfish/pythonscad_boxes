@@ -52,6 +52,10 @@ class RootBoxCategory(StrEnum):
     SPACERS = "spacers"
 
 
+ROOT_BOARD_BAY_HEIGHT_MM = 28.0
+ROOT_BOX_TOTAL_HEIGHT_MM = 67.0
+
+
 @dataclass(frozen=True)
 class RootExpansionSpec:
     """Metadata describing a Root game module/expansion (implemented or planned)."""
@@ -62,7 +66,22 @@ class RootExpansionSpec:
     description: str
     required: bool = False
     subgroups: tuple[str, ...] = ()
+    board_thickness_mm: float = 0.0
+    boards_summary: str = ""
     notes: str = ""
+
+
+@dataclass(frozen=True)
+class RootBoardStatus:
+    """Board-stack space assessment for a given Root expansion combination."""
+
+    expansions: tuple[str, ...]
+    boards_mm: float
+    capacity_mm: float
+    top_gap_mm: float
+    overflow_mm: float
+    status: Literal["thin_top_gap", "exact_fit", "external_box_required"]
+    summary: str
 
 
 @dataclass(frozen=True)
@@ -106,6 +125,8 @@ ROOT_EXPANSIONS: tuple[RootExpansionSpec, ...] = (
             "alliance",
             "vagabond1",
         ),
+        board_thickness_mm=22.0,
+        boards_summary="Main folded map board, 4 Base faction boards, and Base rulebooks (~22 mm)",
     ),
     RootExpansionSpec(
         key="riverfolk",
@@ -117,6 +138,8 @@ ROOT_EXPANSIONS: tuple[RootExpansionSpec, ...] = (
             "(extra Vagabond quest/character cards and items already fit in the Base trays)."
         ),
         subgroups=("lizard_cult", "riverfolk_company", "vagabond2"),
+        board_thickness_mm=6.0,
+        boards_summary="Lizard Cult & Riverfolk faction boards + expansion rulebook (~6 mm)",
     ),
     RootExpansionSpec(
         key="underworld",
@@ -124,7 +147,12 @@ ROOT_EXPANSIONS: tuple[RootExpansionSpec, ...] = (
         status="planned",
         description="Underground Duchy & Corvid Conspiracy factions, landmarks, and extra maps.",
         subgroups=("underground_duchy", "corvid_conspiracy"),
-        notes="Warrior SVGs (duchy_warrior.svg, corvid_warrior.svg) exist in boxes/root/svg/.",
+        board_thickness_mm=11.0,
+        boards_summary="Extra Underground/Lake map board + Duchy & Corvid boards (~11 mm)",
+        notes=(
+            "Beyond single-box board capacity: requires moving all boards out to a separate box. "
+            "Warrior SVGs (duchy_warrior.svg, corvid_warrior.svg) exist in boxes/root/svg/."
+        ),
     ),
     RootExpansionSpec(
         key="marauder",
@@ -132,19 +160,28 @@ ROOT_EXPANSIONS: tuple[RootExpansionSpec, ...] = (
         status="planned",
         description="Lord of the Hundreds & Keepers in Iron factions, advance setup, and hirelings.",
         subgroups=("lord_of_the_hundreds", "keepers_in_iron"),
-        notes="Warrior SVGs (hundreds_warrior.svg, keepers_warrior.svg) exist in boxes/root/svg/.",
+        board_thickness_mm=7.0,
+        boards_summary="Hundreds & Keepers faction boards + setup/rule sheets (~7 mm)",
+        notes=(
+            "Beyond single-box board capacity: requires moving all boards out to a separate box. "
+            "Warrior SVGs (hundreds_warrior.svg, keepers_warrior.svg) exist in boxes/root/svg/."
+        ),
     ),
     RootExpansionSpec(
         key="exiles_and_partisans",
         name="Exiles & Partisans Deck",
         status="planned",
         description="Alternative 54-card shared deck storage.",
+        board_thickness_mm=0.0,
+        boards_summary="Cards only (no extra boards)",
     ),
     RootExpansionSpec(
         key="hirelings_landmarks",
         name="Hirelings & Landmarks",
         status="planned",
         description="Modular trays for Hirelings and Landmarks packs.",
+        board_thickness_mm=2.0,
+        boards_summary="Hirelings & Landmarks rule/reference sheets (~2 mm)",
     ),
 )
 
@@ -390,12 +427,59 @@ SVG_DIR = Path("boxes/root/svg")
 
 # Active build helpers: build_root_project() creates a fresh Project for any
 # expansion / subgroup selection; module-level `project` keeps the full default layout.
-def _make_root_project() -> Project:
+def summarize_board_storage(expansions: Iterable[str] | None = None) -> RootBoardStatus:
+    """Evaluate whether the selected expansions' boards fit inside the main box."""
+    exp_keys = tuple(expansions) if expansions is not None else ("base", "riverfolk")
+    total_mm = 0.0
+    for key in exp_keys:
+        spec = _EXPANSION_BY_KEY.get(key)
+        if spec is None:
+            raise ValueError(f"Unknown Root expansion: '{key}'")
+        total_mm += spec.board_thickness_mm
+
+    capacity = ROOT_BOARD_BAY_HEIGHT_MM
+    gap = max(0.0, capacity - total_mm)
+    overflow = max(0.0, total_mm - capacity)
+    if overflow > 1e-6:
+        status: Literal["thin_top_gap", "exact_fit", "external_box_required"] = (
+            "external_box_required"
+        )
+        summary = (
+            f"Boards total ~{total_mm:g} mm ({overflow:g} mm over the {capacity:g} mm bay): "
+            "store all game/map & faction boards in a separate box, freeing the full "
+            f"{ROOT_BOX_TOTAL_HEIGHT_MM:g} mm main box height for trays."
+        )
+    elif gap > 1e-6:
+        status = "thin_top_gap"
+        summary = (
+            f"Boards total ~{total_mm:g} mm inside the {capacity:g} mm bay, leaving a thin "
+            f"~{gap:g} mm top space where expansion boards would sit (pad lightly on top or "
+            "keep open for future expansion boards)."
+        )
+    else:
+        status = "exact_fit"
+        summary = (
+            f"Boards fill the {capacity:g} mm bottom bay (~{total_mm:g} / {capacity:g} mm) "
+            "flush beneath the 39 mm insert boxes."
+        )
+    return RootBoardStatus(
+        expansions=exp_keys,
+        boards_mm=total_mm,
+        capacity_mm=capacity,
+        top_gap_mm=gap,
+        overflow_mm=overflow,
+        status=status,
+        summary=summary,
+    )
+
+
+def _make_root_project(*, boards_external: bool = False) -> Project:
+    board_reserve = 0.0 if boards_external else ROOT_BOARD_BAY_HEIGHT_MM
     return Project(
         "Root",
-        game_box_size=(214.0, 278.0, 67.0),
-        board_thickness=28.0,
-        board_on_bottom=True,
+        game_box_size=(214.0, 278.0, ROOT_BOX_TOTAL_HEIGHT_MM),
+        board_thickness=board_reserve,
+        board_on_bottom=not boards_external,
         generate_spacers=True,
         box_defaults={"no_rotate": True},
     )
@@ -1762,13 +1846,17 @@ def build_root_project(
     expansions: Iterable[str] | None = None,
     *,
     subgroups: Iterable[str] | None = None,
+    boards_external: bool = False,
 ) -> Project:
     """Build a Root Project containing only the selected expansions or subgroups.
 
     Defaults to all implemented expansions (``("base", "riverfolk")``).
+    Set ``boards_external=True`` when moving all game/faction boards out to a
+    separate board box (e.g., for expansions beyond Riverfolk), freeing the
+    entire 67 mm height.
     """
     active_subgroups = resolve_root_subgroups(expansions, subgroups=subgroups)
-    root_project = _make_root_project()
+    root_project = _make_root_project(boards_external=boards_external)
     _populate_root_boxes(root_project)
 
     unknown_boxes = {
@@ -1981,6 +2069,25 @@ def build_doc_selector(
     return {
         "projectName": proj.name,
         "defaultPreset": "base_riverfolk",
+        "boardStorage": {
+            "capacityMm": ROOT_BOARD_BAY_HEIGHT_MM,
+            "totalBoxHeightMm": ROOT_BOX_TOTAL_HEIGHT_MM,
+            "thinTopSpaceHint": (
+                "Base Game boards (~22 mm) leave a thin ~6 mm space at the top where "
+                "Riverfolk's 2 faction boards and rules would go. Place a thin ~6 mm "
+                "foam/cardboard pad on top of the trays to keep lids snug, or leave "
+                "open to fit Riverfolk boards later."
+            ),
+            "exactFitHint": (
+                "Base + Riverfolk boards (~28 mm) fill the 28 mm bottom bay flush "
+                "beneath the 39 mm insert trays."
+            ),
+            "externalBoxHint": (
+                "Expansions beyond Riverfolk exceed the 28 mm board bay in this box: "
+                "move all game/map and faction boards into a separate dedicated board box, "
+                "freeing the full 67 mm height of the Base box for expansion insert trays."
+            ),
+        },
         "presets": list(ROOT_PRESETS),
         "expansions": [
             {
@@ -1990,6 +2097,8 @@ def build_doc_selector(
                 "required": spec.required,
                 "description": spec.description,
                 "subgroups": list(spec.subgroups),
+                "boardThicknessMm": spec.board_thickness_mm,
+                "boardsSummary": spec.boards_summary,
                 "notes": spec.notes,
             }
             for spec in ROOT_EXPANSIONS
