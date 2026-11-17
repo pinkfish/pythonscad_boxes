@@ -64,12 +64,11 @@ project = Project(
     lid_thickness=lid_thickness,
     clearance_slack=0.0,
     generate_spacers=True,
-    box_defaults={"no_rotate": True},
 )
 
 ANIMAL_PATTERN = PatternBuilder(PatternType.DENSE_HEX)
 
-# ── 1. Oversized Animal Cards & Sprout Box (Column 0, X = 0) ──────
+# ── 1. Oversized Animal Cards & Sprout Box ────────────────────────
 project.box(
     BoxType.SLIDING,
     "AnimalCardsBox",
@@ -81,7 +80,7 @@ project.box(
         text_color=Color("white"),
         frame_color=Color("maroon"),
     ),
-    position=(0.0, 0.0, 0.0),
+    expandable=False,
 ).compartment(
     "Cards",
     cut=FingerCut.SCOOP,
@@ -98,13 +97,13 @@ project.box(
         text_color=Color("white"),
         frame_color=Color("forestgreen"),
     ),
-    position=(0.0, 0.0, card_box_height),
+    expandable=False,
 ).compartment(
     "Cubes",
     cut=FingerCut.SCOOP,
 )
 
-# ── 2. Canopy Toppers Box (Column 1, X = card_box_width) ──────────
+# ── 2. Canopy Toppers Box ─────────────────────────────────────────
 project.box(
     BoxType.CAP,
     "ExpansionCanopyBox",
@@ -116,15 +115,13 @@ project.box(
         text_color=Color("white"),
         frame_color=Color("peru"),
     ),
-    position=(card_box_width, 0.0, 0.0),
+    expandable=False,
 ).compartment(
     "Canopies",
     cut=FingerCut.SCOOP,
 )
 
-# ── 3. Animal Token Trays (Column 2, stacked 2-high at X = card + canopy)
-x_animals = card_box_width + canopy_box_width  # 116.0mm
-
+# ── 3. Animal Token Trays ─────────────────────────────────────────
 for tier in range(2):
     a_box = project.box(
         BoxType.CAP,
@@ -137,7 +134,6 @@ for tier in range(2):
             text_color=Color("white"),
             frame_color=Color("darkgoldenrod"),
         ),
-        position=(x_animals, 0.0, tier * animal_box_height),
     )
     for slot in range(3):
         a_box.compartment(

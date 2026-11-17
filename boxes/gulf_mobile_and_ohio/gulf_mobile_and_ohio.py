@@ -67,7 +67,7 @@ project = Project(
     clearance_slack=0.0,
     board_thickness=board_thickness,
     generate_spacers=True,
-    box_defaults={"no_rotate": True},
+    box_defaults={"expandable": False},
 )
 
 GMO_PATTERN = PatternBuilder(PatternType.DENSE_HEX)
@@ -84,7 +84,6 @@ money_box = project.box(
         text_color=Color("white"),
         frame_color=Color("gold"),
     ),
-    position=(0.0, 0.0, 0.0),
 )
 for slot in range(3):
     money_box.compartment(
@@ -93,7 +92,7 @@ for slot in range(3):
         cut=FingerCut.SCOOP,
     )
 
-# ── 2. Company Railroad Card Boxes (2 boxes side-by-side) ─────────
+# ── 2. Company Railroad Card Boxes ────────────────────────────────
 for i in range(2):
     c_box = project.box(
         BoxType.SLIDING,
@@ -106,20 +105,16 @@ for i in range(2):
             text_color=Color("white"),
             frame_color=Color("navy"),
         ),
-        position=(i * company_box_width, money_box_length, 0.0),
     )
     c_box.compartment(
         "Cards",
         cut=FingerCut.SCOOP,
     )
 
-# ── 3. Resource Cube Boxes (6 colors, stacked 2 high in 3 columns)
+# ── 3. Resource Cube Boxes ────────────────────────────────────────
 cube_colors = ["red", "yellow", "green", "blue", "black", "purple"]
-y_cubes = money_box_length + company_box_length  # 204.0mm
 
-for idx, color_name in enumerate(cube_colors):
-    col = idx % 3
-    tier = idx // 3
+for color_name in cube_colors:
     bx = project.box(
         BoxType.CAP,
         f"CubeBox_{color_name.title()}",
@@ -131,14 +126,13 @@ for idx, color_name in enumerate(cube_colors):
             text_color=Color("black" if color_name == "yellow" else "white"),
             frame_color=Color(color_name),
         ),
-        position=(col * cube_box_width, y_cubes, tier * cube_box_height),
     )
     bx.compartment(
         "Cubes",
         cut=FingerCut.SCOOP,
     )
 
-# ── 4. Player Tokens Box (Column 4) ───────────────────────────────
+# ── 4. Player Tokens Box ──────────────────────────────────────────
 tok_box = project.box(
     BoxType.CAP,
     "PlayerTokenBox",
@@ -150,7 +144,6 @@ tok_box = project.box(
         text_color=Color("white"),
         frame_color=Color("darkslategray"),
     ),
-    position=(cube_box_width * 3.0, y_cubes, 0.0),
 )
 tok_box.compartment(
     "Tokens",

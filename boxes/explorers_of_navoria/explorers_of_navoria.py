@@ -68,18 +68,15 @@ project = Project(
     clearance_slack=0.0,
     board_thickness=board_thickness,
     generate_spacers=True,
-    box_defaults={"no_rotate": True},
 )
 
 NAVORIA_PATTERN = PatternBuilder(PatternType.DENSE_HEX)
 
-# ── 1. Player Boxes (Column 0, 2 rows x 2 tiers at X = 0) ─────────
+# ── 1. Player Boxes ───────────────────────────────────────────────
 player_factions = ["Yellow", "Purple", "Black", "Green"]
 player_colors = ["gold", "purple", "black", "forestgreen"]
 
-for idx, (faction, color_name) in enumerate(zip(player_factions, player_colors, strict=True)):
-    row = idx % 2
-    tier = idx // 2
+for faction, color_name in zip(player_factions, player_colors, strict=True):
     p_box = project.box(
         BoxType.CAP,
         f"PlayerBox_{faction}",
@@ -91,7 +88,6 @@ for idx, (faction, color_name) in enumerate(zip(player_factions, player_colors, 
             text_color=Color("black" if color_name == "gold" else "white"),
             frame_color=Color(color_name),
         ),
-        position=(0.0, row * player_box_length, tier * player_box_height),
     )
     p_box.compartment(
         "TradingPosts",
@@ -104,9 +100,7 @@ for idx, (faction, color_name) in enumerate(zip(player_factions, player_colors, 
         cut=FingerCut.SCOOP,
     )
 
-# ── 2. Adventure Cards Box (Column 1, X = player_box_width) ───────
-x_col1 = player_box_width
-
+# ── 2. Adventure Cards Box ────────────────────────────────────────
 project.box(
     BoxType.SLIDING,
     "CardBox",
@@ -118,13 +112,13 @@ project.box(
         text_color=Color("white"),
         frame_color=Color("navy"),
     ),
-    position=(x_col1, 0.0, 0.0),
+    expandable=False,
 ).compartment(
     "AdventureCards",
     cut=FingerCut.SCOOP,
 )
 
-# ── 3. Favour & Token Trays (Y = card_box_length) ─────────────────
+# ── 3. Favour & Token Trays ───────────────────────────────────────
 for tier in range(2):
     f_box = project.box(
         BoxType.CAP,
@@ -137,16 +131,13 @@ for tier in range(2):
             text_color=Color("white"),
             frame_color=Color("darkorange"),
         ),
-        position=(x_col1, card_box_length, tier * favour_box_height),
     )
     f_box.compartment(
         "Tiles",
         cut=FingerCut.SCOOP,
     )
 
-# ── 4. Drawing Bag & Large Bits (Y = card_box_length + favour_box_length)
-y_bag = card_box_length + favour_box_length
-
+# ── 4. Drawing Bag & Large Bits ───────────────────────────────────
 project.box(
     BoxType.CAP,
     "BagBox",
@@ -158,7 +149,6 @@ project.box(
         text_color=Color("white"),
         frame_color=Color("peru"),
     ),
-    position=(x_col1, y_bag, 0.0),
 ).compartment(
     "BagAndBits",
     cut=FingerCut.SCOOP,

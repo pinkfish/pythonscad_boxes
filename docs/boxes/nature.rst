@@ -15,12 +15,12 @@ Full Box Packing
 
 Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
-.. stl:: ../_stl/boxes/nature/NatureCardsBox_body.stl?v=eafedc26,../_stl/boxes/nature/NatureCardsBox_lid.stl?v=44603d89,../_stl/boxes/nature/HunterCardsBox_body.stl?v=abf48d6b,../_stl/boxes/nature/HunterCardsBox_lid.stl?v=c4f6737e,../_stl/boxes/nature/SoloCardsBox_body.stl?v=3dc59bcf,../_stl/boxes/nature/SoloCardsBox_lid.stl?v=e5375356,../_stl/boxes/nature/DialBox_body.stl?v=eed13a6a,../_stl/boxes/nature/DialBox_lid.stl?v=23c59438,../_stl/boxes/nature/LeopardBox_body.stl?v=617fa554,../_stl/boxes/nature/LeopardBox_lid.stl?v=27289da1,../_stl/boxes/nature/ResourceBox_Grass_body.stl?v=0a295459,../_stl/boxes/nature/ResourceBox_Grass_lid.stl?v=434be39a,../_stl/boxes/nature/ResourceBox_Meat_body.stl?v=ff446629,../_stl/boxes/nature/ResourceBox_Meat_lid.stl?v=4bfd3f84,../_stl/boxes/nature/spacer_1.stl?v=e965964e,../_stl/boxes/nature/spacer_2.stl?v=090d1bce,../_stl/boxes/nature/spacer_3.stl?v=96dede53,../_stl/boxes/nature/spacer_4.stl?v=4f9206bc
+.. stl:: ../_stl/boxes/nature/NatureCardsBox_body.stl?v=eafedc26,../_stl/boxes/nature/NatureCardsBox_lid.stl?v=44603d89,../_stl/boxes/nature/HunterCardsBox_body.stl?v=e086ba82,../_stl/boxes/nature/HunterCardsBox_lid.stl?v=ecd43107,../_stl/boxes/nature/SoloCardsBox_body.stl?v=4f9cce7a,../_stl/boxes/nature/SoloCardsBox_lid.stl?v=55d6d194,../_stl/boxes/nature/DialBox_body.stl?v=2ea60b66,../_stl/boxes/nature/DialBox_lid.stl?v=6c0450e7,../_stl/boxes/nature/LeopardBox_body.stl?v=08297db2,../_stl/boxes/nature/LeopardBox_lid.stl?v=06e6f6e6,../_stl/boxes/nature/ResourceBox_Grass_body.stl?v=4f064b2d,../_stl/boxes/nature/ResourceBox_Grass_lid.stl?v=0964e250,../_stl/boxes/nature/ResourceBox_Meat_body.stl?v=aced9327,../_stl/boxes/nature/ResourceBox_Meat_lid.stl?v=536ef47e,../_stl/boxes/nature/spacer_1.stl?v=f382908f,../_stl/boxes/nature/spacer_2.stl?v=e104ab57,../_stl/boxes/nature/spacer_3.stl?v=beedae35,../_stl/boxes/nature/spacer_4.stl?v=79b8fc30
    :height: 440px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/nature/NatureCardsBox_body.stl?v=eafedc26" data-stl-combine="../_stl/boxes/nature/NatureCardsBox_body.stl?v=eafedc26,../_stl/boxes/nature/NatureCardsBox_lid.stl?v=44603d89,../_stl/boxes/nature/HunterCardsBox_body.stl?v=abf48d6b,../_stl/boxes/nature/HunterCardsBox_lid.stl?v=c4f6737e,../_stl/boxes/nature/SoloCardsBox_body.stl?v=3dc59bcf,../_stl/boxes/nature/SoloCardsBox_lid.stl?v=e5375356,../_stl/boxes/nature/DialBox_body.stl?v=eed13a6a,../_stl/boxes/nature/DialBox_lid.stl?v=23c59438,../_stl/boxes/nature/LeopardBox_body.stl?v=617fa554,../_stl/boxes/nature/LeopardBox_lid.stl?v=27289da1,../_stl/boxes/nature/ResourceBox_Grass_body.stl?v=0a295459,../_stl/boxes/nature/ResourceBox_Grass_lid.stl?v=434be39a,../_stl/boxes/nature/ResourceBox_Meat_body.stl?v=ff446629,../_stl/boxes/nature/ResourceBox_Meat_lid.stl?v=4bfd3f84,../_stl/boxes/nature/spacer_1.stl?v=e965964e,../_stl/boxes/nature/spacer_2.stl?v=090d1bce,../_stl/boxes/nature/spacer_3.stl?v=96dede53,../_stl/boxes/nature/spacer_4.stl?v=4f9206bc" download="Nature_full_packing.stl">⬇ Download Full Box Packing STL (<code>Nature_full_packing.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/nature/NatureCardsBox_body.stl?v=eafedc26" data-stl-combine="../_stl/boxes/nature/NatureCardsBox_body.stl?v=eafedc26,../_stl/boxes/nature/NatureCardsBox_lid.stl?v=44603d89,../_stl/boxes/nature/HunterCardsBox_body.stl?v=e086ba82,../_stl/boxes/nature/HunterCardsBox_lid.stl?v=ecd43107,../_stl/boxes/nature/SoloCardsBox_body.stl?v=4f9cce7a,../_stl/boxes/nature/SoloCardsBox_lid.stl?v=55d6d194,../_stl/boxes/nature/DialBox_body.stl?v=2ea60b66,../_stl/boxes/nature/DialBox_lid.stl?v=6c0450e7,../_stl/boxes/nature/LeopardBox_body.stl?v=08297db2,../_stl/boxes/nature/LeopardBox_lid.stl?v=06e6f6e6,../_stl/boxes/nature/ResourceBox_Grass_body.stl?v=4f064b2d,../_stl/boxes/nature/ResourceBox_Grass_lid.stl?v=0964e250,../_stl/boxes/nature/ResourceBox_Meat_body.stl?v=aced9327,../_stl/boxes/nature/ResourceBox_Meat_lid.stl?v=536ef47e,../_stl/boxes/nature/spacer_1.stl?v=f382908f,../_stl/boxes/nature/spacer_2.stl?v=e104ab57,../_stl/boxes/nature/spacer_3.stl?v=beedae35,../_stl/boxes/nature/spacer_4.stl?v=79b8fc30" download="Nature_full_packing.stl">⬇ Download Full Box Packing STL (<code>Nature_full_packing.stl</code>)</a></p>
 
 Parts Overview
 --------------
@@ -42,52 +42,52 @@ Parts Overview
    * - :ref:`HunterCardsBox <box-nature-huntercardsbox>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``104 × 73 × 20 mm``
-     - ``(104, 0, 0)``
+     - ``(0, 73, 0)``
      - 1
    * - :ref:`SoloCardsBox <box-nature-solocardsbox>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``104 × 73 × 20 mm``
-     - ``(104, 0, 20)``
+     - ``(0, 73, 20)``
      - 1
    * - :ref:`DialBox <box-nature-dialbox>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``107 × 52 × 51 mm``
-     - ``(0, 73, 0)``
+     - ``(104, 0, 0)``
      - 1
    * - :ref:`LeopardBox <box-nature-leopardbox>`
      - :ref:`BoxType.CAP <box-type-cap>`
-     - ``107 × 52 × 51 mm``
-     - ``(0, 125, 0)``
+     - ``107 × 54 × 51 mm``
+     - ``(156, 0, 0)``
      - 1
    * - :ref:`ResourceBox_Grass <box-nature-resourcebox_grass>`
      - :ref:`BoxType.CAP <box-type-cap>`
-     - ``101 × 67.5 × 25.5 mm``
-     - ``(107, 73, 0)``
+     - ``104 × 73 × 28 mm``
+     - ``(0, 73, 40)``
      - 1
    * - :ref:`ResourceBox_Meat <box-nature-resourcebox_meat>`
      - :ref:`BoxType.CAP <box-type-cap>`
-     - ``101 × 67.5 × 25.5 mm``
-     - ``(107, 140.5, 0)``
+     - ``106 × 67.5 × 25.5 mm``
+     - ``(104, 107, 0)``
      - 1
    * - :ref:`spacer_1 <spacer-nature-spacer_1>`
      - :ref:`BoxType.NO_LID <box-type-no-lid>` (spacer)
-     - ``103 × 210 × 28 mm``
-     - ``(107, 0, 40)``
+     - ``210 × 64 × 42.5 mm``
+     - ``(0, 146, 25.5)``
      - —
    * - :ref:`spacer_2 <spacer-nature-spacer_2>`
      - :ref:`BoxType.NO_LID <box-type-no-lid>` (spacer)
-     - ``107 × 137 × 17 mm``
-     - ``(0, 73, 51)``
+     - ``210 × 64 × 25.5 mm``
+     - ``(0, 146, 0)``
      - —
    * - :ref:`spacer_3 <spacer-nature-spacer_3>`
      - :ref:`BoxType.NO_LID <box-type-no-lid>` (spacer)
-     - ``103 × 137 × 14.5 mm``
-     - ``(107, 73, 25.5)``
+     - ``106 × 146 × 17 mm``
+     - ``(104, 0, 51)``
      - —
    * - :ref:`spacer_4 <spacer-nature-spacer_4>`
      - :ref:`BoxType.NO_LID <box-type-no-lid>` (spacer)
-     - ``107 × 33 × 51 mm``
-     - ``(0, 177, 0)``
+     - ``106 × 39 × 25.5 mm``
+     - ``(104, 107, 25.5)``
      - —
 
 Individual Boxes & Parts
@@ -137,37 +137,37 @@ HunterCardsBox
 
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``104 × 73 × 20 mm``
-- **Packed Position**: ``(104, 0, 0)``
+- **Packed Position**: ``(0, 73, 0)``
 - **Stackable Mode**: ``StackableMode.PYRAMIDS``
 - **Stacking Order Key**: bottom ``flat (bottom of stack)``, top ``pyramids=2``
 - **Compartments (1)**: ``Cards`` (full interior)
 
 **Assembled Box (HunterCardsBox — Body + Lid)**
 
-.. stl:: ../_stl/boxes/nature/HunterCardsBox_body.stl?v=abf48d6b,../_stl/boxes/nature/HunterCardsBox_lid.stl?v=c4f6737e
+.. stl:: ../_stl/boxes/nature/HunterCardsBox_body.stl?v=e086ba82,../_stl/boxes/nature/HunterCardsBox_lid.stl?v=ecd43107
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/nature/HunterCardsBox_body.stl?v=abf48d6b" data-stl-combine="../_stl/boxes/nature/HunterCardsBox_body.stl?v=abf48d6b,../_stl/boxes/nature/HunterCardsBox_lid.stl?v=c4f6737e" download="HunterCardsBox_assembled.stl">⬇ Download Assembled HunterCardsBox STL (<code>HunterCardsBox_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/nature/HunterCardsBox_body.stl?v=e086ba82" data-stl-combine="../_stl/boxes/nature/HunterCardsBox_body.stl?v=e086ba82,../_stl/boxes/nature/HunterCardsBox_lid.stl?v=ecd43107" download="HunterCardsBox_assembled.stl">⬇ Download Assembled HunterCardsBox STL (<code>HunterCardsBox_assembled.stl</code>)</a></p>
 
 **Part: HunterCardsBox Body**
 
-.. stl:: ../_stl/boxes/nature/HunterCardsBox_body.stl?v=abf48d6b
+.. stl:: ../_stl/boxes/nature/HunterCardsBox_body.stl?v=e086ba82
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/nature/HunterCardsBox_body.stl?v=abf48d6b" download="HunterCardsBox_body.stl">⬇ Download HunterCardsBox Body STL (<code>HunterCardsBox_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/nature/HunterCardsBox_body.stl?v=e086ba82" download="HunterCardsBox_body.stl">⬇ Download HunterCardsBox Body STL (<code>HunterCardsBox_body.stl</code>)</a></p>
 
 **Part: HunterCardsBox Lid**
 
-.. stl:: ../_stl/boxes/nature/HunterCardsBox_lid.stl?v=c4f6737e
+.. stl:: ../_stl/boxes/nature/HunterCardsBox_lid.stl?v=ecd43107
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/nature/HunterCardsBox_lid.stl?v=c4f6737e" download="HunterCardsBox_lid.stl">⬇ Download HunterCardsBox Lid STL (<code>HunterCardsBox_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/nature/HunterCardsBox_lid.stl?v=ecd43107" download="HunterCardsBox_lid.stl">⬇ Download HunterCardsBox Lid STL (<code>HunterCardsBox_lid.stl</code>)</a></p>
 
 .. _box-nature-solocardsbox:
 
@@ -176,37 +176,37 @@ SoloCardsBox
 
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``104 × 73 × 20 mm``
-- **Packed Position**: ``(104, 0, 20)``
+- **Packed Position**: ``(0, 73, 20)``
 - **Stackable Mode**: ``StackableMode.PYRAMIDS``
 - **Stacking Order Key**: bottom ``pyramids=2``, top ``flat (top of stack)``
 - **Compartments (1)**: ``Cards`` (full interior)
 
 **Assembled Box (SoloCardsBox — Body + Lid)**
 
-.. stl:: ../_stl/boxes/nature/SoloCardsBox_body.stl?v=3dc59bcf,../_stl/boxes/nature/SoloCardsBox_lid.stl?v=e5375356
+.. stl:: ../_stl/boxes/nature/SoloCardsBox_body.stl?v=4f9cce7a,../_stl/boxes/nature/SoloCardsBox_lid.stl?v=55d6d194
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/nature/SoloCardsBox_body.stl?v=3dc59bcf" data-stl-combine="../_stl/boxes/nature/SoloCardsBox_body.stl?v=3dc59bcf,../_stl/boxes/nature/SoloCardsBox_lid.stl?v=e5375356" download="SoloCardsBox_assembled.stl">⬇ Download Assembled SoloCardsBox STL (<code>SoloCardsBox_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/nature/SoloCardsBox_body.stl?v=4f9cce7a" data-stl-combine="../_stl/boxes/nature/SoloCardsBox_body.stl?v=4f9cce7a,../_stl/boxes/nature/SoloCardsBox_lid.stl?v=55d6d194" download="SoloCardsBox_assembled.stl">⬇ Download Assembled SoloCardsBox STL (<code>SoloCardsBox_assembled.stl</code>)</a></p>
 
 **Part: SoloCardsBox Body**
 
-.. stl:: ../_stl/boxes/nature/SoloCardsBox_body.stl?v=3dc59bcf
+.. stl:: ../_stl/boxes/nature/SoloCardsBox_body.stl?v=4f9cce7a
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/nature/SoloCardsBox_body.stl?v=3dc59bcf" download="SoloCardsBox_body.stl">⬇ Download SoloCardsBox Body STL (<code>SoloCardsBox_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/nature/SoloCardsBox_body.stl?v=4f9cce7a" download="SoloCardsBox_body.stl">⬇ Download SoloCardsBox Body STL (<code>SoloCardsBox_body.stl</code>)</a></p>
 
 **Part: SoloCardsBox Lid**
 
-.. stl:: ../_stl/boxes/nature/SoloCardsBox_lid.stl?v=e5375356
+.. stl:: ../_stl/boxes/nature/SoloCardsBox_lid.stl?v=55d6d194
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/nature/SoloCardsBox_lid.stl?v=e5375356" download="SoloCardsBox_lid.stl">⬇ Download SoloCardsBox Lid STL (<code>SoloCardsBox_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/nature/SoloCardsBox_lid.stl?v=55d6d194" download="SoloCardsBox_lid.stl">⬇ Download SoloCardsBox Lid STL (<code>SoloCardsBox_lid.stl</code>)</a></p>
 
 .. _box-nature-dialbox:
 
@@ -215,35 +215,35 @@ DialBox
 
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``107 × 52 × 51 mm``
-- **Packed Position**: ``(0, 73, 0)``
+- **Packed Position**: ``(104, 0, 0)``
 - **Compartments (1)**: ``Dials`` (full interior)
 
 **Assembled Box (DialBox — Body + Lid)**
 
-.. stl:: ../_stl/boxes/nature/DialBox_body.stl?v=eed13a6a,../_stl/boxes/nature/DialBox_lid.stl?v=23c59438
+.. stl:: ../_stl/boxes/nature/DialBox_body.stl?v=2ea60b66,../_stl/boxes/nature/DialBox_lid.stl?v=6c0450e7
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/nature/DialBox_body.stl?v=eed13a6a" data-stl-combine="../_stl/boxes/nature/DialBox_body.stl?v=eed13a6a,../_stl/boxes/nature/DialBox_lid.stl?v=23c59438" download="DialBox_assembled.stl">⬇ Download Assembled DialBox STL (<code>DialBox_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/nature/DialBox_body.stl?v=2ea60b66" data-stl-combine="../_stl/boxes/nature/DialBox_body.stl?v=2ea60b66,../_stl/boxes/nature/DialBox_lid.stl?v=6c0450e7" download="DialBox_assembled.stl">⬇ Download Assembled DialBox STL (<code>DialBox_assembled.stl</code>)</a></p>
 
 **Part: DialBox Body**
 
-.. stl:: ../_stl/boxes/nature/DialBox_body.stl?v=eed13a6a
+.. stl:: ../_stl/boxes/nature/DialBox_body.stl?v=2ea60b66
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/nature/DialBox_body.stl?v=eed13a6a" download="DialBox_body.stl">⬇ Download DialBox Body STL (<code>DialBox_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/nature/DialBox_body.stl?v=2ea60b66" download="DialBox_body.stl">⬇ Download DialBox Body STL (<code>DialBox_body.stl</code>)</a></p>
 
 **Part: DialBox Lid**
 
-.. stl:: ../_stl/boxes/nature/DialBox_lid.stl?v=23c59438
+.. stl:: ../_stl/boxes/nature/DialBox_lid.stl?v=6c0450e7
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/nature/DialBox_lid.stl?v=23c59438" download="DialBox_lid.stl">⬇ Download DialBox Lid STL (<code>DialBox_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/nature/DialBox_lid.stl?v=6c0450e7" download="DialBox_lid.stl">⬇ Download DialBox Lid STL (<code>DialBox_lid.stl</code>)</a></p>
 
 .. _box-nature-leopardbox:
 
@@ -251,36 +251,36 @@ LeopardBox
 ^^^^^^^^^^
 
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
-- **Outer Dimensions**: ``107 × 52 × 51 mm``
-- **Packed Position**: ``(0, 125, 0)``
+- **Outer Dimensions**: ``107 × 54 × 51 mm``
+- **Packed Position**: ``(156, 0, 0)``
 - **Compartments (1)**: ``Leopard`` (full interior)
 
 **Assembled Box (LeopardBox — Body + Lid)**
 
-.. stl:: ../_stl/boxes/nature/LeopardBox_body.stl?v=617fa554,../_stl/boxes/nature/LeopardBox_lid.stl?v=27289da1
+.. stl:: ../_stl/boxes/nature/LeopardBox_body.stl?v=08297db2,../_stl/boxes/nature/LeopardBox_lid.stl?v=06e6f6e6
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/nature/LeopardBox_body.stl?v=617fa554" data-stl-combine="../_stl/boxes/nature/LeopardBox_body.stl?v=617fa554,../_stl/boxes/nature/LeopardBox_lid.stl?v=27289da1" download="LeopardBox_assembled.stl">⬇ Download Assembled LeopardBox STL (<code>LeopardBox_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/nature/LeopardBox_body.stl?v=08297db2" data-stl-combine="../_stl/boxes/nature/LeopardBox_body.stl?v=08297db2,../_stl/boxes/nature/LeopardBox_lid.stl?v=06e6f6e6" download="LeopardBox_assembled.stl">⬇ Download Assembled LeopardBox STL (<code>LeopardBox_assembled.stl</code>)</a></p>
 
 **Part: LeopardBox Body**
 
-.. stl:: ../_stl/boxes/nature/LeopardBox_body.stl?v=617fa554
+.. stl:: ../_stl/boxes/nature/LeopardBox_body.stl?v=08297db2
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/nature/LeopardBox_body.stl?v=617fa554" download="LeopardBox_body.stl">⬇ Download LeopardBox Body STL (<code>LeopardBox_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/nature/LeopardBox_body.stl?v=08297db2" download="LeopardBox_body.stl">⬇ Download LeopardBox Body STL (<code>LeopardBox_body.stl</code>)</a></p>
 
 **Part: LeopardBox Lid**
 
-.. stl:: ../_stl/boxes/nature/LeopardBox_lid.stl?v=27289da1
+.. stl:: ../_stl/boxes/nature/LeopardBox_lid.stl?v=06e6f6e6
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/nature/LeopardBox_lid.stl?v=27289da1" download="LeopardBox_lid.stl">⬇ Download LeopardBox Lid STL (<code>LeopardBox_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/nature/LeopardBox_lid.stl?v=06e6f6e6" download="LeopardBox_lid.stl">⬇ Download LeopardBox Lid STL (<code>LeopardBox_lid.stl</code>)</a></p>
 
 .. _box-nature-resourcebox_grass:
 
@@ -288,36 +288,36 @@ ResourceBox_Grass
 ^^^^^^^^^^^^^^^^^
 
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
-- **Outer Dimensions**: ``101 × 67.5 × 25.5 mm``
-- **Packed Position**: ``(107, 73, 0)``
+- **Outer Dimensions**: ``104 × 73 × 28 mm``
+- **Packed Position**: ``(0, 73, 40)``
 - **Compartments (1)**: ``GrassTokens`` (full interior)
 
 **Assembled Box (ResourceBox_Grass — Body + Lid)**
 
-.. stl:: ../_stl/boxes/nature/ResourceBox_Grass_body.stl?v=0a295459,../_stl/boxes/nature/ResourceBox_Grass_lid.stl?v=434be39a
+.. stl:: ../_stl/boxes/nature/ResourceBox_Grass_body.stl?v=4f064b2d,../_stl/boxes/nature/ResourceBox_Grass_lid.stl?v=0964e250
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/nature/ResourceBox_Grass_body.stl?v=0a295459" data-stl-combine="../_stl/boxes/nature/ResourceBox_Grass_body.stl?v=0a295459,../_stl/boxes/nature/ResourceBox_Grass_lid.stl?v=434be39a" download="ResourceBox_Grass_assembled.stl">⬇ Download Assembled ResourceBox_Grass STL (<code>ResourceBox_Grass_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/nature/ResourceBox_Grass_body.stl?v=4f064b2d" data-stl-combine="../_stl/boxes/nature/ResourceBox_Grass_body.stl?v=4f064b2d,../_stl/boxes/nature/ResourceBox_Grass_lid.stl?v=0964e250" download="ResourceBox_Grass_assembled.stl">⬇ Download Assembled ResourceBox_Grass STL (<code>ResourceBox_Grass_assembled.stl</code>)</a></p>
 
 **Part: ResourceBox_Grass Body**
 
-.. stl:: ../_stl/boxes/nature/ResourceBox_Grass_body.stl?v=0a295459
+.. stl:: ../_stl/boxes/nature/ResourceBox_Grass_body.stl?v=4f064b2d
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/nature/ResourceBox_Grass_body.stl?v=0a295459" download="ResourceBox_Grass_body.stl">⬇ Download ResourceBox_Grass Body STL (<code>ResourceBox_Grass_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/nature/ResourceBox_Grass_body.stl?v=4f064b2d" download="ResourceBox_Grass_body.stl">⬇ Download ResourceBox_Grass Body STL (<code>ResourceBox_Grass_body.stl</code>)</a></p>
 
 **Part: ResourceBox_Grass Lid**
 
-.. stl:: ../_stl/boxes/nature/ResourceBox_Grass_lid.stl?v=434be39a
+.. stl:: ../_stl/boxes/nature/ResourceBox_Grass_lid.stl?v=0964e250
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/nature/ResourceBox_Grass_lid.stl?v=434be39a" download="ResourceBox_Grass_lid.stl">⬇ Download ResourceBox_Grass Lid STL (<code>ResourceBox_Grass_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/nature/ResourceBox_Grass_lid.stl?v=0964e250" download="ResourceBox_Grass_lid.stl">⬇ Download ResourceBox_Grass Lid STL (<code>ResourceBox_Grass_lid.stl</code>)</a></p>
 
 .. _box-nature-resourcebox_meat:
 
@@ -325,36 +325,36 @@ ResourceBox_Meat
 ^^^^^^^^^^^^^^^^
 
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
-- **Outer Dimensions**: ``101 × 67.5 × 25.5 mm``
-- **Packed Position**: ``(107, 140.5, 0)``
+- **Outer Dimensions**: ``106 × 67.5 × 25.5 mm``
+- **Packed Position**: ``(104, 107, 0)``
 - **Compartments (1)**: ``MeatTokens`` (full interior)
 
 **Assembled Box (ResourceBox_Meat — Body + Lid)**
 
-.. stl:: ../_stl/boxes/nature/ResourceBox_Meat_body.stl?v=ff446629,../_stl/boxes/nature/ResourceBox_Meat_lid.stl?v=4bfd3f84
+.. stl:: ../_stl/boxes/nature/ResourceBox_Meat_body.stl?v=aced9327,../_stl/boxes/nature/ResourceBox_Meat_lid.stl?v=536ef47e
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/nature/ResourceBox_Meat_body.stl?v=ff446629" data-stl-combine="../_stl/boxes/nature/ResourceBox_Meat_body.stl?v=ff446629,../_stl/boxes/nature/ResourceBox_Meat_lid.stl?v=4bfd3f84" download="ResourceBox_Meat_assembled.stl">⬇ Download Assembled ResourceBox_Meat STL (<code>ResourceBox_Meat_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/nature/ResourceBox_Meat_body.stl?v=aced9327" data-stl-combine="../_stl/boxes/nature/ResourceBox_Meat_body.stl?v=aced9327,../_stl/boxes/nature/ResourceBox_Meat_lid.stl?v=536ef47e" download="ResourceBox_Meat_assembled.stl">⬇ Download Assembled ResourceBox_Meat STL (<code>ResourceBox_Meat_assembled.stl</code>)</a></p>
 
 **Part: ResourceBox_Meat Body**
 
-.. stl:: ../_stl/boxes/nature/ResourceBox_Meat_body.stl?v=ff446629
+.. stl:: ../_stl/boxes/nature/ResourceBox_Meat_body.stl?v=aced9327
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/nature/ResourceBox_Meat_body.stl?v=ff446629" download="ResourceBox_Meat_body.stl">⬇ Download ResourceBox_Meat Body STL (<code>ResourceBox_Meat_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/nature/ResourceBox_Meat_body.stl?v=aced9327" download="ResourceBox_Meat_body.stl">⬇ Download ResourceBox_Meat Body STL (<code>ResourceBox_Meat_body.stl</code>)</a></p>
 
 **Part: ResourceBox_Meat Lid**
 
-.. stl:: ../_stl/boxes/nature/ResourceBox_Meat_lid.stl?v=4bfd3f84
+.. stl:: ../_stl/boxes/nature/ResourceBox_Meat_lid.stl?v=536ef47e
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/nature/ResourceBox_Meat_lid.stl?v=4bfd3f84" download="ResourceBox_Meat_lid.stl">⬇ Download ResourceBox_Meat Lid STL (<code>ResourceBox_Meat_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/nature/ResourceBox_Meat_lid.stl?v=536ef47e" download="ResourceBox_Meat_lid.stl">⬇ Download ResourceBox_Meat Lid STL (<code>ResourceBox_Meat_lid.stl</code>)</a></p>
 
 Spacer Trays
 ------------
@@ -365,15 +365,15 @@ spacer_1
 ^^^^^^^^
 
 - **Type**: :ref:`BoxType.NO_LID <box-type-no-lid>` filler spacer tray
-- **Outer Dimensions**: ``103 × 210 × 28 mm``
-- **Packed Position**: ``(107, 0, 40)``
+- **Outer Dimensions**: ``210 × 64 × 42.5 mm``
+- **Packed Position**: ``(0, 146, 25.5)``
 
-.. stl:: ../_stl/boxes/nature/spacer_1.stl?v=e965964e
+.. stl:: ../_stl/boxes/nature/spacer_1.stl?v=f382908f
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/nature/spacer_1.stl?v=e965964e" download="spacer_1.stl">⬇ Download spacer_1 STL (<code>spacer_1.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/nature/spacer_1.stl?v=f382908f" download="spacer_1.stl">⬇ Download spacer_1 STL (<code>spacer_1.stl</code>)</a></p>
 
 .. _spacer-nature-spacer_2:
 
@@ -381,15 +381,15 @@ spacer_2
 ^^^^^^^^
 
 - **Type**: :ref:`BoxType.NO_LID <box-type-no-lid>` filler spacer tray
-- **Outer Dimensions**: ``107 × 137 × 17 mm``
-- **Packed Position**: ``(0, 73, 51)``
+- **Outer Dimensions**: ``210 × 64 × 25.5 mm``
+- **Packed Position**: ``(0, 146, 0)``
 
-.. stl:: ../_stl/boxes/nature/spacer_2.stl?v=090d1bce
+.. stl:: ../_stl/boxes/nature/spacer_2.stl?v=e104ab57
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/nature/spacer_2.stl?v=090d1bce" download="spacer_2.stl">⬇ Download spacer_2 STL (<code>spacer_2.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/nature/spacer_2.stl?v=e104ab57" download="spacer_2.stl">⬇ Download spacer_2 STL (<code>spacer_2.stl</code>)</a></p>
 
 .. _spacer-nature-spacer_3:
 
@@ -397,15 +397,15 @@ spacer_3
 ^^^^^^^^
 
 - **Type**: :ref:`BoxType.NO_LID <box-type-no-lid>` filler spacer tray
-- **Outer Dimensions**: ``103 × 137 × 14.5 mm``
-- **Packed Position**: ``(107, 73, 25.5)``
+- **Outer Dimensions**: ``106 × 146 × 17 mm``
+- **Packed Position**: ``(104, 0, 51)``
 
-.. stl:: ../_stl/boxes/nature/spacer_3.stl?v=96dede53
+.. stl:: ../_stl/boxes/nature/spacer_3.stl?v=beedae35
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/nature/spacer_3.stl?v=96dede53" download="spacer_3.stl">⬇ Download spacer_3 STL (<code>spacer_3.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/nature/spacer_3.stl?v=beedae35" download="spacer_3.stl">⬇ Download spacer_3 STL (<code>spacer_3.stl</code>)</a></p>
 
 .. _spacer-nature-spacer_4:
 
@@ -413,12 +413,12 @@ spacer_4
 ^^^^^^^^
 
 - **Type**: :ref:`BoxType.NO_LID <box-type-no-lid>` filler spacer tray
-- **Outer Dimensions**: ``107 × 33 × 51 mm``
-- **Packed Position**: ``(0, 177, 0)``
+- **Outer Dimensions**: ``106 × 39 × 25.5 mm``
+- **Packed Position**: ``(104, 107, 25.5)``
 
-.. stl:: ../_stl/boxes/nature/spacer_4.stl?v=4f9206bc
+.. stl:: ../_stl/boxes/nature/spacer_4.stl?v=79b8fc30
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/nature/spacer_4.stl?v=4f9206bc" download="spacer_4.stl">⬇ Download spacer_4 STL (<code>spacer_4.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/nature/spacer_4.stl?v=79b8fc30" download="spacer_4.stl">⬇ Download spacer_4 STL (<code>spacer_4.stl</code>)</a></p>

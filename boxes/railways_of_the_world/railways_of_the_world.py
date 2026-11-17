@@ -151,8 +151,9 @@ project = Project(
     lid_thickness=lid_thickness,
     clearance_slack=0.0,
     board_thickness=total_board_thickness,
+    board_on_bottom=True,
     generate_spacers=True,
-    box_defaults={"no_rotate": True},
+    box_defaults={"expandable": False},
 )
 
 # ── 1. Card Boxes ──────────────────────────────────────────────────
@@ -164,7 +165,6 @@ project.box(
     size=card_eastern_us_size,
     lid=LidBuilder(text="Eastern US", label_mode=LabelMode.FRAMED, text_color=Color("black")),
     color=Color("purple"),
-    position=(0.0, 0.0, total_board_thickness),
 ).compartment(
     "CardsAndBonds",
     elements=[
@@ -211,7 +211,6 @@ project.box(
         text_color=Color("black"),
     ),
     color=Color("purple"),
-    position=(eastern_us_card_box_length, 0.0, total_board_thickness),
 ).compartment(
     "Cards",
     cut=FingerCut.SCOOP,
@@ -230,7 +229,6 @@ project.box(
         text_color=Color("black"),
     ),
     color=Color("purple"),
-    position=(eastern_us_card_box_length + card_aus_len, 0.0, total_board_thickness),
 ).compartment(
     "Cards",
     cut=FingerCut.SCOOP,
@@ -244,7 +242,6 @@ project.box(
     size=(card_mex_len, card_box_width, all_boxes_height),
     lid=LidBuilder(text="Mexico", label_mode=LabelMode.FRAMED, text_color=Color("black")),
     color=Color("purple"),
-    position=(eastern_us_card_box_length + card_aus_len + card_swe_len, 0.0, total_board_thickness),
 ).compartment(
     "Cards",
     cut=FingerCut.SCOOP,
@@ -263,25 +260,19 @@ project.box(
         text_color=Color("black"),
     ),
     color=Color("purple"),
-    position=(
-        eastern_us_card_box_length + card_aus_len + card_swe_len + card_mex_len,
-        0.0,
-        total_board_thickness,
-    ),
 ).compartment(
     "Cards",
     cut=FingerCut.SCOOP,
 )
 
 # ── 2. Empty City Boxes ────────────────────────────────────────────
-for idx, y_pos in enumerate([card_box_width, card_box_width + empty_city_length], start=1):
+for idx in (1, 2):
     project.box(
         BoxType.SLIDING,
         f"EmptyCityBox{idx}",
         size=(empty_city_width, empty_city_length, empty_city_height),
         lid=LidBuilder(text="Empty City", label_mode=LabelMode.FRAMED, text_color=Color("black")),
         color=Color("purple"),
-        position=(0.0, y_pos, total_board_thickness),
     ).compartment(
         "Markers",
         cut=FingerCut.SCOOP,
@@ -290,38 +281,28 @@ for idx, y_pos in enumerate([card_box_width, card_box_width + empty_city_length]
 # ── 3. Player Boxes ────────────────────────────────────────────────
 PLAYER_COLORS = ["red", "blue", "green", "yellow", "black", "purple"]
 
-# 6 Train Miniature Boxes (2 layers of 3 boxes)
-for i, color_name in enumerate(PLAYER_COLORS):
-    col = i % 3
-    row = i // 3
-    y_pos = card_box_width + col * player_box_width
-    z_pos = total_board_thickness + row * player_box_height
+# 6 Train Miniature Boxes
+for color_name in PLAYER_COLORS:
     project.box(
         BoxType.SLIDING,
         f"PlayerBoxTrains_{color_name}",
         size=(player_box_trains_length, player_box_width, player_box_height),
         lid=LidBuilder(text=f"Trains ({color_name.title()})", label_mode=LabelMode.FRAMED, text_color=Color("black")),
         color=Color(color_name if color_name != "black" else "gray"),
-        position=(empty_city_width, y_pos, z_pos),
         stackable=StackableMode.PYRAMIDS,
     ).compartment(
         "Trains",
         cut=FingerCut.SCOOP,
     )
 
-# 6 Player Card & Marker Boxes (2 columns of 3 boxes stacked)
-for i, color_name in enumerate(PLAYER_COLORS):
-    col = i // 3
-    layer = i % 3
-    x_pos = empty_city_width + player_box_trains_length + col * player_box_length
-    z_pos = total_board_thickness + layer * player_box_small_height
+# 6 Player Card & Marker Boxes
+for color_name in PLAYER_COLORS:
     project.box(
         BoxType.CAP,
         f"PlayerBox_{color_name}",
         size=(player_box_length, player_box_width, player_box_small_height),
         lid=LidBuilder(text=f"Player ({color_name.title()})", label_mode=LabelMode.FRAMED, text_color=Color("black")),
         color=Color(color_name if color_name != "black" else "gray"),
-        position=(x_pos, card_box_width, z_pos),
     ).compartment(
         "CardsAndMarker",
         elements=[
@@ -354,7 +335,7 @@ for i, color_name in enumerate(PLAYER_COLORS):
         ],
     )
 
-# ── 4. Track Hex Boxes (2 stacked) ─────────────────────────────────
+# ── 4. Track Hex Boxes (2 boxes) ───────────────────────────────────
 for i in range(2):
     project.box(
         BoxType.CAP,
@@ -362,28 +343,17 @@ for i in range(2):
         size=(hex_box_width, hex_box_length, hex_box_height),
         lid=LidBuilder(text="Tracks", label_mode=LabelMode.FRAMED, text_color=Color("black")),
         color=Color("purple"),
-        position=(
-            empty_city_width + player_box_trains_length,
-            card_box_width + player_box_width,
-            total_board_thickness + i * hex_box_height,
-        ),
     ).compartment(
         "HexGrid",
     )
 
 # ── 5. Money Box & New City Box ────────────────────────────────────
-money_z_pos = total_board_thickness + top_section_height * 2.0 + hex_box_extra_height * 2.0
 project.box(
     BoxType.SLIDING,
     "MoneyBox",
     size=(money_section_width + new_city_extra_length, money_section_length + new_city_extra_width, top_section_height),
     lid=LidBuilder(text="Money", label_mode=LabelMode.FRAMED, text_color=Color("black")),
     color=Color("purple"),
-    position=(
-        empty_city_width + player_box_trains_length,
-        card_box_width + player_box_width,
-        money_z_pos,
-    ),
 ).compartment(
     "Money",
     cut=FingerCut.SCOOP,
@@ -395,11 +365,6 @@ project.box(
     size=(money_section_width + new_city_extra_length, money_section_length + new_city_extra_width, top_section_height),
     lid=LidBuilder(text="New Cities", label_mode=LabelMode.FRAMED, text_color=Color("black")),
     color=Color("purple"),
-    position=(
-        empty_city_width + player_box_trains_length + money_section_width + new_city_extra_length,
-        card_box_width + player_box_width,
-        money_z_pos,
-    ),
 ).compartment(
     "NewCities",
     elements=[
@@ -444,7 +409,6 @@ project.box(
         text_color=Color("blue"),
     ),
     color=Color("purple"),
-    position=(0.0, card_box_width, total_board_thickness + empty_city_height),
 ).compartment(
     "AustraliaExpansion",
     elements=[
@@ -493,7 +457,6 @@ project.box(
         text_color=Color("lightblue"),
     ),
     color=Color("purple"),
-    position=(0.0, card_box_width + australia_box_length, total_board_thickness + empty_city_height),
 ).compartment(
     "SwedenExpansion",
     elements=[

@@ -72,7 +72,6 @@ project = Project(
     clearance_slack=0.0,
     board_thickness=board_thickness,
     generate_spacers=True,
-    box_defaults={"no_rotate": True},
 )
 
 ATHLETE_PATTERN = PatternBuilder(PatternType.DENSE_HEX)
@@ -89,13 +88,13 @@ project.box(
         text_color=Color("white"),
         frame_color=Color("darkblue"),
     ),
-    position=(0.0, 0.0, 0.0),
+    expandable=False,
 ).compartment(
     "Cards",
     cut=FingerCut.SCOOP,
 )
 
-# ── 2. Dice Box & Award Medal Box (Stacked) ───────────────────────
+# ── 2. Dice Box & Award Medal Box ─────────────────────────────────
 project.box(
     BoxType.CAP,
     "DiceBox",
@@ -107,7 +106,6 @@ project.box(
         text_color=Color("white"),
         frame_color=Color("crimson"),
     ),
-    position=(card_box_width, 0.0, 0.0),
 ).compartment(
     "Dice",
     cut=FingerCut.SCOOP,
@@ -124,13 +122,12 @@ project.box(
         text_color=Color("white"),
         frame_color=Color("gold"),
     ),
-    position=(card_box_width, 0.0, dice_box_height),
 ).compartment(
     "Medals",
     cut=FingerCut.SCOOP,
 )
 
-# ── 3. Athlete Character Pieces (2 stacked boxes) ─────────────────
+# ── 3. Athlete Character Pieces ───────────────────────────────────
 for i in range(2):
     p_box = project.box(
         BoxType.CAP,
@@ -143,7 +140,6 @@ for i in range(2):
             text_color=Color("white"),
             frame_color=Color("darkorange"),
         ),
-        position=(0.0, card_box_length + i * piece_box_length, 0.0),
     )
     for slot in range(4):
         p_box.compartment(
@@ -164,7 +160,7 @@ project.box(
         text_color=Color("white"),
         frame_color=Color("purple"),
     ),
-    position=(0.0, card_box_length + piece_box_length * 2.0, 0.0),
+    expandable=False,
 ).compartment(
     "BigBaby",
     cut=FingerCut.SCOOP,

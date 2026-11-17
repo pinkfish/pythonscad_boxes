@@ -65,12 +65,12 @@ project = Project(
     clearance_slack=0.0,
     board_thickness=board_thickness,
     generate_spacers=True,
-    box_defaults={"no_rotate": True},
+    box_defaults={"expandable": False},
 )
 
 BIOME_PATTERN = PatternBuilder(PatternType.DENSE_HEX)
 
-# ── 1. Nest Boards Longitudinal Tray (Column 0, X = 0) ────────────
+# ── 1. Nest Boards Longitudinal Tray ──────────────────────────────
 project.box(
     BoxType.CAP,
     "NestBox",
@@ -82,34 +82,28 @@ project.box(
         text_color=Color("white"),
         frame_color=Color("peru"),
     ),
-    position=(0.0, 0.0, 0.0),
 ).compartment(
     "NestBoards",
     cut=FingerCut.SCOOP,
 )
 
-# ── 2. Resource & Player Trays (Column 1, X = nest_box_width) ─────
-# 4 columns along Y, stacked 3 high (12 boxes total: 4 player + 8 resources)
+# ── 2. Resource & Player Trays ────────────────────────────────────
 resources = [
-    # Col 0
     [
         ("PlayerBox_Red", "Red", "darkred"),
         ("Resource_Mouse", "Mouse", "gray"),
         ("Resource_Sun", "Sun", "gold"),
     ],
-    # Col 1
     [
         ("PlayerBox_Blue", "Blue", "navy"),
         ("Resource_Fish", "Fish", "dodgerblue"),
         ("Resource_Leaf", "Leaf", "forestgreen"),
     ],
-    # Col 2
     [
         ("PlayerBox_Green", "Green", "green"),
         ("Resource_Spider", "Spider", "black"),
         ("Resource_Berry", "Berry", "purple"),
     ],
-    # Col 3
     [
         ("PlayerBox_Yellow", "Yellow", "goldenrod"),
         ("Resource_Chicks", "Chicks", "khaki"),
@@ -117,10 +111,8 @@ resources = [
     ],
 ]
 
-for col_idx, col_items in enumerate(resources):
-    y_pos = col_idx * res_box_length
-    for tier_idx, (box_id, title, color_name) in enumerate(col_items):
-        z_pos = tier_idx * res_box_height
+for col_items in resources:
+    for box_id, title, color_name in col_items:
         bx = project.box(
             BoxType.CAP,
             box_id,
@@ -132,22 +124,19 @@ for col_idx, col_items in enumerate(resources):
                 text_color=Color("black" if color_name in ("gold", "khaki", "yellow") else "white"),
                 frame_color=Color(color_name),
             ),
-            position=(nest_box_width, y_pos, z_pos),
         )
         bx.compartment(
             "Tokens",
             cut=FingerCut.SCOOP,
         )
 
-# ── 3. Playing Cards Boxes (Column 2, X = nest + res) ─────────────
-x_cards = nest_box_width + res_box_width  # 108.0mm
-
+# ── 3. Playing Cards Boxes ────────────────────────────────────────
 card_decks = [
     ("MainDeck1", "Animals & Plants 1", "forestgreen"),
     ("MainDeck2", "Animals & Plants 2", "darkolivegreen"),
 ]
 
-for idx, (deck_id, title, color_name) in enumerate(card_decks):
+for deck_id, title, color_name in card_decks:
     c_box = project.box(
         BoxType.CAP,
         f"CardBox_{deck_id}",
@@ -159,7 +148,6 @@ for idx, (deck_id, title, color_name) in enumerate(card_decks):
             text_color=Color("white"),
             frame_color=Color(color_name),
         ),
-        position=(x_cards, idx * card_box_length, 0.0),
     )
     c_box.compartment(
         "Cards",

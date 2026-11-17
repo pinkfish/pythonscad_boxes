@@ -68,12 +68,11 @@ project = Project(
     clearance_slack=0.0,
     board_thickness=board_thickness,
     generate_spacers=True,
-    box_defaults={"no_rotate": True},
 )
 
 TRAIN_PATTERN = PatternBuilder(PatternType.DENSE_HEX)
 
-# ── 1. Track Hex Tile Boxes (3 tiers stacked at X = 0, Y = 0) ─────
+# ── 1. Track Hex Tile Boxes (3 tiers stacked) ─────────────────────
 for tier in range(3):
     h_box = project.box(
         BoxType.SLIDING,
@@ -86,7 +85,6 @@ for tier in range(3):
             text_color=Color("white"),
             frame_color=Color("goldenrod" if tier == 0 else "forestgreen" if tier == 1 else "saddlebrown"),
         ),
-        position=(0.0, 0.0, tier * hex_box_height),
         stackable=StackableMode.PYRAMIDS,
     )
     for slot in range(3):
@@ -96,9 +94,7 @@ for tier in range(3):
             cut=FingerCut.SCOOP,
         )
 
-# ── 2. Bank Money Trays (3 tiers stacked at X = 0, Y = hex_box_length / 2)
-y_money = hex_box_length / 2.0
-
+# ── 2. Bank Money Trays (3 tiers stacked) ─────────────────────────
 money_denoms = ["1-5-10", "20-50-100", "200-500"]
 for tier, denom in enumerate(money_denoms):
     m_box = project.box(
@@ -112,7 +108,6 @@ for tier, denom in enumerate(money_denoms):
             text_color=Color("white"),
             frame_color=Color("darkgreen"),
         ),
-        position=(0.0, y_money, tier * hex_box_height),
         stackable=StackableMode.PYRAMIDS,
     )
     for slot in range(3):
@@ -122,14 +117,14 @@ for tier, denom in enumerate(money_denoms):
             cut=FingerCut.SCOOP,
         )
 
-# ── 3. Railroad Company Shares (X = hex_box_width) ────────────────
-x_shares = hex_box_width
+# ── 3. Railroad Company Shares (2 tiers stacked) ──────────────────
+shares_w = box_width - hex_box_width
 
 for tier in range(2):
     s_box = project.box(
         BoxType.SLIDING,
         f"SharesBox_{tier + 1}",
-        size=(box_width - x_shares, shares_box_length, shares_box_height),
+        size=(shares_w, shares_box_length, shares_box_height),
         lid=LidBuilder(
             text=f"Company Shares {tier + 1}",
             label_mode=LabelMode.FRAMED,
@@ -137,7 +132,6 @@ for tier in range(2):
             text_color=Color("white"),
             frame_color=Color("darkred"),
         ),
-        position=(x_shares, 0.0, tier * shares_box_height),
         stackable=StackableMode.PYRAMIDS,
     )
     s_box.compartment(
@@ -151,11 +145,11 @@ for tier in range(2):
         cut=FingerCut.SCOOP,
     )
 
-# ── 4. Priority Deal & Markers Box (Y = shares_box_length) ────────
+# ── 4. Priority Deal & Markers Box ────────────────────────────────
 p_box = project.box(
     BoxType.SLIDING,
     "MarkerBox",
-    size=(box_width - x_shares, marker_box_length, marker_box_height),
+    size=(shares_w, marker_box_length, marker_box_height),
     lid=LidBuilder(
         text="Markers",
         label_mode=LabelMode.FRAMED,
@@ -163,7 +157,6 @@ p_box = project.box(
         text_color=Color("white"),
         frame_color=Color("navy"),
     ),
-    position=(x_shares, shares_box_length, 0.0),
 )
 p_box.compartment("Markers", cut=FingerCut.SCOOP)
 

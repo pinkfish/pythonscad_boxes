@@ -69,12 +69,11 @@ project = Project(
     clearance_slack=0.0,
     board_thickness=board_thickness,
     generate_spacers=True,
-    box_defaults={"no_rotate": True},
 )
 
 NAVORIA_PATTERN = PatternBuilder(PatternType.DENSE_HEX)
 
-# ── 1. 5th Player & Species Tokens (Column 0, X = 0) ──────────────
+# ── 1. 5th Player & Species Tokens ────────────────────────────────
 project.box(
     BoxType.CAP,
     "PlayerBox_White",
@@ -86,7 +85,6 @@ project.box(
         text_color=Color("black"),
         frame_color=Color("white"),
     ),
-    position=(0.0, 0.0, 0.0),
 ).compartment(
     "TradingPosts",
     cut=FingerCut.SCOOP,
@@ -103,15 +101,12 @@ project.box(
         text_color=Color("white"),
         frame_color=Color("peru"),
     ),
-    position=(0.0, 0.0, player_box_height),
 ).compartment(
     "Tokens",
     cut=FingerCut.SCOOP,
 )
 
-# ── 2. Faction Skills & Bits (Column 1, X = player_box_width) ─────
-x_col1 = player_box_width
-
+# ── 2. Faction Skills & Bits ──────────────────────────────────────
 project.box(
     BoxType.CAP,
     "FactionSkillBox",
@@ -123,7 +118,6 @@ project.box(
         text_color=Color("white"),
         frame_color=Color("purple"),
     ),
-    position=(x_col1, 0.0, 0.0),
 ).compartment(
     "FactionTiles",
     cut=FingerCut.SCOOP,
@@ -140,15 +134,12 @@ project.box(
         text_color=Color("white"),
         frame_color=Color("darkorange"),
     ),
-    position=(x_col1, 0.0, bits_box_height),
 ).compartment(
     "Bits",
     cut=FingerCut.SCOOP,
 )
 
-# ── 3. Expansion Adventure Cards (Column 1, Y = bits_box_length) ──
-y_cards = bits_box_length
-
+# ── 3. Expansion Adventure Cards ──────────────────────────────────
 project.box(
     BoxType.SLIDING,
     "ExpansionCardsBox",
@@ -160,7 +151,7 @@ project.box(
         text_color=Color("white"),
         frame_color=Color("navy"),
     ),
-    position=(x_col1, y_cards, 0.0),
+    expandable=False,
 ).compartment(
     "Cards",
     cut=FingerCut.SCOOP,

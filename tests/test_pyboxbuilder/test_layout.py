@@ -157,7 +157,7 @@ class ProjectArrangeTests(unittest.TestCase):
 
 
 class EmberleafArrangementTests(unittest.TestCase):
-    """The derived positions must equal the coordinates the original hand-types."""
+    """The derived positions from arrange() must match Emberleaf's reference grid."""
 
     def test_emberleaf_arrangement_matches_the_original_coordinates(self) -> None:
         import runpy
@@ -165,7 +165,16 @@ class EmberleafArrangementTests(unittest.TestCase):
 
         root = Path(__file__).resolve().parent.parent.parent
         mod = runpy.run_path(str(root / "boxes" / "emberleaf" / "emberleaf.py"))
-        boxes = {b.label: b for b in mod["project"]._boxes}
+        sizes = {b.label: b.size for b in mod["project"]._boxes}
+        tree = columns(
+            rows(
+                stack("PlayerBoxBlack", "PlayerBoxYellow", "PlayerBoxGrey"),
+                stack("PlayerBoxRed", "PlayerBoxBlue"),
+            ),
+            rows("CardBoxFavor", "CardBoxHero", "CardBoxSolo"),
+            rows("CardBoxPlayerBlack", "CommonBox"),
+        )
+        result = arrange(tree, sizes)
 
         pbw = mod["PLAYER_BOX_WIDTH"]
         pbl = mod["PLAYER_BOX_LENGTH"]
@@ -183,7 +192,7 @@ class EmberleafArrangementTests(unittest.TestCase):
             "CommonBox": (pbw * 2, mod["PLAYER_CARD_BOX_LENGTH"], 0.0),
         }
         for label, position in expected.items():
-            for got, want in zip(boxes[label].position, position):
+            for got, want in zip(result.positions[label], position, strict=True):
                 self.assertAlmostEqual(got, want, places=6, msg=label)
 
 

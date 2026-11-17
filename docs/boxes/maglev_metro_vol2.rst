@@ -15,12 +15,12 @@ Full Box Packing
 
 Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
-.. stl:: ../_stl/boxes/maglev_metro_vol2/ExpansionCardsBox_body.stl?v=9a6548a5,../_stl/boxes/maglev_metro_vol2/ExpansionCardsBox_lid.stl?v=b30ab6ae,../_stl/boxes/maglev_metro_vol2/UpgradeTileBox_body.stl?v=678892ab,../_stl/boxes/maglev_metro_vol2/UpgradeTileBox_lid.stl?v=119d1065,../_stl/boxes/maglev_metro_vol2/OutbackGhostTilesBox_body.stl?v=d219fa2c,../_stl/boxes/maglev_metro_vol2/OutbackGhostTilesBox_lid.stl?v=d46504e0,../_stl/boxes/maglev_metro_vol2/MetroTokenBox_body.stl?v=e72b052e,../_stl/boxes/maglev_metro_vol2/MetroTokenBox_lid.stl?v=e5f07ed8,../_stl/boxes/maglev_metro_vol2/spacer_1.stl?v=c8dccfc9,../_stl/boxes/maglev_metro_vol2/spacer_2.stl?v=846b3e6c,../_stl/boxes/maglev_metro_vol2/spacer_3.stl?v=40aeab81
+.. stl:: ../_stl/boxes/maglev_metro_vol2/ExpansionCardsBox_body.stl?v=742169a3,../_stl/boxes/maglev_metro_vol2/ExpansionCardsBox_lid.stl?v=8aede8f7,../_stl/boxes/maglev_metro_vol2/UpgradeTileBox_body.stl?v=30361e23,../_stl/boxes/maglev_metro_vol2/UpgradeTileBox_lid.stl?v=b9277b6b,../_stl/boxes/maglev_metro_vol2/OutbackGhostTilesBox_body.stl?v=e32654bf,../_stl/boxes/maglev_metro_vol2/OutbackGhostTilesBox_lid.stl?v=f5c79947,../_stl/boxes/maglev_metro_vol2/MetroTokenBox_body.stl?v=74049a28,../_stl/boxes/maglev_metro_vol2/MetroTokenBox_lid.stl?v=fcbaf6a9,../_stl/boxes/maglev_metro_vol2/spacer_1.stl?v=bf4a3b33,../_stl/boxes/maglev_metro_vol2/spacer_2.stl?v=802cbdd4,../_stl/boxes/maglev_metro_vol2/spacer_3.stl?v=1f043992
    :height: 440px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/maglev_metro_vol2/ExpansionCardsBox_body.stl?v=9a6548a5" data-stl-combine="../_stl/boxes/maglev_metro_vol2/ExpansionCardsBox_body.stl?v=9a6548a5,../_stl/boxes/maglev_metro_vol2/ExpansionCardsBox_lid.stl?v=b30ab6ae,../_stl/boxes/maglev_metro_vol2/UpgradeTileBox_body.stl?v=678892ab,../_stl/boxes/maglev_metro_vol2/UpgradeTileBox_lid.stl?v=119d1065,../_stl/boxes/maglev_metro_vol2/OutbackGhostTilesBox_body.stl?v=d219fa2c,../_stl/boxes/maglev_metro_vol2/OutbackGhostTilesBox_lid.stl?v=d46504e0,../_stl/boxes/maglev_metro_vol2/MetroTokenBox_body.stl?v=e72b052e,../_stl/boxes/maglev_metro_vol2/MetroTokenBox_lid.stl?v=e5f07ed8,../_stl/boxes/maglev_metro_vol2/spacer_1.stl?v=c8dccfc9,../_stl/boxes/maglev_metro_vol2/spacer_2.stl?v=846b3e6c,../_stl/boxes/maglev_metro_vol2/spacer_3.stl?v=40aeab81" download="MaglevMetroVol2_full_packing.stl">⬇ Download Full Box Packing STL (<code>MaglevMetroVol2_full_packing.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/maglev_metro_vol2/ExpansionCardsBox_body.stl?v=742169a3" data-stl-combine="../_stl/boxes/maglev_metro_vol2/ExpansionCardsBox_body.stl?v=742169a3,../_stl/boxes/maglev_metro_vol2/ExpansionCardsBox_lid.stl?v=8aede8f7,../_stl/boxes/maglev_metro_vol2/UpgradeTileBox_body.stl?v=30361e23,../_stl/boxes/maglev_metro_vol2/UpgradeTileBox_lid.stl?v=b9277b6b,../_stl/boxes/maglev_metro_vol2/OutbackGhostTilesBox_body.stl?v=e32654bf,../_stl/boxes/maglev_metro_vol2/OutbackGhostTilesBox_lid.stl?v=f5c79947,../_stl/boxes/maglev_metro_vol2/MetroTokenBox_body.stl?v=74049a28,../_stl/boxes/maglev_metro_vol2/MetroTokenBox_lid.stl?v=fcbaf6a9,../_stl/boxes/maglev_metro_vol2/spacer_1.stl?v=bf4a3b33,../_stl/boxes/maglev_metro_vol2/spacer_2.stl?v=802cbdd4,../_stl/boxes/maglev_metro_vol2/spacer_3.stl?v=1f043992" download="MaglevMetroVol2_full_packing.stl">⬇ Download Full Box Packing STL (<code>MaglevMetroVol2_full_packing.stl</code>)</a></p>
 
 Parts Overview
 --------------
@@ -37,22 +37,22 @@ Parts Overview
    * - :ref:`ExpansionCardsBox <box-maglev_metro_vol2-expansioncardsbox>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``73 × 96 × 19 mm``
-     - ``(0, 0, 0)``
+     - ``(0, 140, 19)``
      - 1
    * - :ref:`UpgradeTileBox <box-maglev_metro_vol2-upgradetilebox>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``73 × 126 × 19 mm``
-     - ``(0, 96, 0)``
+     - ``(0, 140, 0)``
      - 3
    * - :ref:`OutbackGhostTilesBox <box-maglev_metro_vol2-outbackghosttilesbox>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``110 × 140 × 19 mm``
-     - ``(73, 0, 0)``
+     - ``(0, 0, 0)``
      - 2
    * - :ref:`MetroTokenBox <box-maglev_metro_vol2-metrotokenbox>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``110 × 140 × 19 mm``
-     - ``(73, 0, 19)``
+     - ``(0, 0, 19)``
      - 2
    * - :ref:`spacer_1 <spacer-maglev_metro_vol2-spacer_1>`
      - :ref:`BoxType.NO_LID <box-type-no-lid>` (spacer)
@@ -61,13 +61,13 @@ Parts Overview
      - —
    * - :ref:`spacer_2 <spacer-maglev_metro_vol2-spacer_2>`
      - :ref:`BoxType.NO_LID <box-type-no-lid>` (spacer)
-     - ``73 × 286 × 19 mm``
-     - ``(0, 0, 19)``
+     - ``73 × 50 × 19 mm``
+     - ``(0, 236, 19)``
      - —
    * - :ref:`spacer_3 <spacer-maglev_metro_vol2-spacer_3>`
      - :ref:`BoxType.NO_LID <box-type-no-lid>` (spacer)
-     - ``73 × 64 × 19 mm``
-     - ``(0, 222, 0)``
+     - ``73 × 20 × 19 mm``
+     - ``(0, 266, 0)``
      - —
 
 Individual Boxes & Parts
@@ -80,35 +80,35 @@ ExpansionCardsBox
 
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``73 × 96 × 19 mm``
-- **Packed Position**: ``(0, 0, 0)``
+- **Packed Position**: ``(0, 140, 19)``
 - **Compartments (1)**: ``Cards`` (full interior)
 
 **Assembled Box (ExpansionCardsBox — Body + Lid)**
 
-.. stl:: ../_stl/boxes/maglev_metro_vol2/ExpansionCardsBox_body.stl?v=9a6548a5,../_stl/boxes/maglev_metro_vol2/ExpansionCardsBox_lid.stl?v=b30ab6ae
+.. stl:: ../_stl/boxes/maglev_metro_vol2/ExpansionCardsBox_body.stl?v=742169a3,../_stl/boxes/maglev_metro_vol2/ExpansionCardsBox_lid.stl?v=8aede8f7
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/maglev_metro_vol2/ExpansionCardsBox_body.stl?v=9a6548a5" data-stl-combine="../_stl/boxes/maglev_metro_vol2/ExpansionCardsBox_body.stl?v=9a6548a5,../_stl/boxes/maglev_metro_vol2/ExpansionCardsBox_lid.stl?v=b30ab6ae" download="ExpansionCardsBox_assembled.stl">⬇ Download Assembled ExpansionCardsBox STL (<code>ExpansionCardsBox_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/maglev_metro_vol2/ExpansionCardsBox_body.stl?v=742169a3" data-stl-combine="../_stl/boxes/maglev_metro_vol2/ExpansionCardsBox_body.stl?v=742169a3,../_stl/boxes/maglev_metro_vol2/ExpansionCardsBox_lid.stl?v=8aede8f7" download="ExpansionCardsBox_assembled.stl">⬇ Download Assembled ExpansionCardsBox STL (<code>ExpansionCardsBox_assembled.stl</code>)</a></p>
 
 **Part: ExpansionCardsBox Body**
 
-.. stl:: ../_stl/boxes/maglev_metro_vol2/ExpansionCardsBox_body.stl?v=9a6548a5
+.. stl:: ../_stl/boxes/maglev_metro_vol2/ExpansionCardsBox_body.stl?v=742169a3
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/maglev_metro_vol2/ExpansionCardsBox_body.stl?v=9a6548a5" download="ExpansionCardsBox_body.stl">⬇ Download ExpansionCardsBox Body STL (<code>ExpansionCardsBox_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/maglev_metro_vol2/ExpansionCardsBox_body.stl?v=742169a3" download="ExpansionCardsBox_body.stl">⬇ Download ExpansionCardsBox Body STL (<code>ExpansionCardsBox_body.stl</code>)</a></p>
 
 **Part: ExpansionCardsBox Lid**
 
-.. stl:: ../_stl/boxes/maglev_metro_vol2/ExpansionCardsBox_lid.stl?v=b30ab6ae
+.. stl:: ../_stl/boxes/maglev_metro_vol2/ExpansionCardsBox_lid.stl?v=8aede8f7
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/maglev_metro_vol2/ExpansionCardsBox_lid.stl?v=b30ab6ae" download="ExpansionCardsBox_lid.stl">⬇ Download ExpansionCardsBox Lid STL (<code>ExpansionCardsBox_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/maglev_metro_vol2/ExpansionCardsBox_lid.stl?v=8aede8f7" download="ExpansionCardsBox_lid.stl">⬇ Download ExpansionCardsBox Lid STL (<code>ExpansionCardsBox_lid.stl</code>)</a></p>
 
 .. _box-maglev_metro_vol2-upgradetilebox:
 
@@ -117,35 +117,35 @@ UpgradeTileBox
 
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``73 × 126 × 19 mm``
-- **Packed Position**: ``(0, 96, 0)``
+- **Packed Position**: ``(0, 140, 0)``
 - **Compartments (3)**: ``Upgrade_1`` (L=33%), ``Upgrade_2`` (L=33%), ``Upgrade_3`` (L=33%)
 
 **Assembled Box (UpgradeTileBox — Body + Lid)**
 
-.. stl:: ../_stl/boxes/maglev_metro_vol2/UpgradeTileBox_body.stl?v=678892ab,../_stl/boxes/maglev_metro_vol2/UpgradeTileBox_lid.stl?v=119d1065
+.. stl:: ../_stl/boxes/maglev_metro_vol2/UpgradeTileBox_body.stl?v=30361e23,../_stl/boxes/maglev_metro_vol2/UpgradeTileBox_lid.stl?v=b9277b6b
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/maglev_metro_vol2/UpgradeTileBox_body.stl?v=678892ab" data-stl-combine="../_stl/boxes/maglev_metro_vol2/UpgradeTileBox_body.stl?v=678892ab,../_stl/boxes/maglev_metro_vol2/UpgradeTileBox_lid.stl?v=119d1065" download="UpgradeTileBox_assembled.stl">⬇ Download Assembled UpgradeTileBox STL (<code>UpgradeTileBox_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/maglev_metro_vol2/UpgradeTileBox_body.stl?v=30361e23" data-stl-combine="../_stl/boxes/maglev_metro_vol2/UpgradeTileBox_body.stl?v=30361e23,../_stl/boxes/maglev_metro_vol2/UpgradeTileBox_lid.stl?v=b9277b6b" download="UpgradeTileBox_assembled.stl">⬇ Download Assembled UpgradeTileBox STL (<code>UpgradeTileBox_assembled.stl</code>)</a></p>
 
 **Part: UpgradeTileBox Body**
 
-.. stl:: ../_stl/boxes/maglev_metro_vol2/UpgradeTileBox_body.stl?v=678892ab
+.. stl:: ../_stl/boxes/maglev_metro_vol2/UpgradeTileBox_body.stl?v=30361e23
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/maglev_metro_vol2/UpgradeTileBox_body.stl?v=678892ab" download="UpgradeTileBox_body.stl">⬇ Download UpgradeTileBox Body STL (<code>UpgradeTileBox_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/maglev_metro_vol2/UpgradeTileBox_body.stl?v=30361e23" download="UpgradeTileBox_body.stl">⬇ Download UpgradeTileBox Body STL (<code>UpgradeTileBox_body.stl</code>)</a></p>
 
 **Part: UpgradeTileBox Lid**
 
-.. stl:: ../_stl/boxes/maglev_metro_vol2/UpgradeTileBox_lid.stl?v=119d1065
+.. stl:: ../_stl/boxes/maglev_metro_vol2/UpgradeTileBox_lid.stl?v=b9277b6b
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/maglev_metro_vol2/UpgradeTileBox_lid.stl?v=119d1065" download="UpgradeTileBox_lid.stl">⬇ Download UpgradeTileBox Lid STL (<code>UpgradeTileBox_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/maglev_metro_vol2/UpgradeTileBox_lid.stl?v=b9277b6b" download="UpgradeTileBox_lid.stl">⬇ Download UpgradeTileBox Lid STL (<code>UpgradeTileBox_lid.stl</code>)</a></p>
 
 .. _box-maglev_metro_vol2-outbackghosttilesbox:
 
@@ -154,35 +154,35 @@ OutbackGhostTilesBox
 
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``110 × 140 × 19 mm``
-- **Packed Position**: ``(73, 0, 0)``
+- **Packed Position**: ``(0, 0, 0)``
 - **Compartments (2)**: ``OutbackHexes`` (W=50%), ``GhostHexes`` (W=50%)
 
 **Assembled Box (OutbackGhostTilesBox — Body + Lid)**
 
-.. stl:: ../_stl/boxes/maglev_metro_vol2/OutbackGhostTilesBox_body.stl?v=d219fa2c,../_stl/boxes/maglev_metro_vol2/OutbackGhostTilesBox_lid.stl?v=d46504e0
+.. stl:: ../_stl/boxes/maglev_metro_vol2/OutbackGhostTilesBox_body.stl?v=e32654bf,../_stl/boxes/maglev_metro_vol2/OutbackGhostTilesBox_lid.stl?v=f5c79947
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/maglev_metro_vol2/OutbackGhostTilesBox_body.stl?v=d219fa2c" data-stl-combine="../_stl/boxes/maglev_metro_vol2/OutbackGhostTilesBox_body.stl?v=d219fa2c,../_stl/boxes/maglev_metro_vol2/OutbackGhostTilesBox_lid.stl?v=d46504e0" download="OutbackGhostTilesBox_assembled.stl">⬇ Download Assembled OutbackGhostTilesBox STL (<code>OutbackGhostTilesBox_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/maglev_metro_vol2/OutbackGhostTilesBox_body.stl?v=e32654bf" data-stl-combine="../_stl/boxes/maglev_metro_vol2/OutbackGhostTilesBox_body.stl?v=e32654bf,../_stl/boxes/maglev_metro_vol2/OutbackGhostTilesBox_lid.stl?v=f5c79947" download="OutbackGhostTilesBox_assembled.stl">⬇ Download Assembled OutbackGhostTilesBox STL (<code>OutbackGhostTilesBox_assembled.stl</code>)</a></p>
 
 **Part: OutbackGhostTilesBox Body**
 
-.. stl:: ../_stl/boxes/maglev_metro_vol2/OutbackGhostTilesBox_body.stl?v=d219fa2c
+.. stl:: ../_stl/boxes/maglev_metro_vol2/OutbackGhostTilesBox_body.stl?v=e32654bf
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/maglev_metro_vol2/OutbackGhostTilesBox_body.stl?v=d219fa2c" download="OutbackGhostTilesBox_body.stl">⬇ Download OutbackGhostTilesBox Body STL (<code>OutbackGhostTilesBox_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/maglev_metro_vol2/OutbackGhostTilesBox_body.stl?v=e32654bf" download="OutbackGhostTilesBox_body.stl">⬇ Download OutbackGhostTilesBox Body STL (<code>OutbackGhostTilesBox_body.stl</code>)</a></p>
 
 **Part: OutbackGhostTilesBox Lid**
 
-.. stl:: ../_stl/boxes/maglev_metro_vol2/OutbackGhostTilesBox_lid.stl?v=d46504e0
+.. stl:: ../_stl/boxes/maglev_metro_vol2/OutbackGhostTilesBox_lid.stl?v=f5c79947
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/maglev_metro_vol2/OutbackGhostTilesBox_lid.stl?v=d46504e0" download="OutbackGhostTilesBox_lid.stl">⬇ Download OutbackGhostTilesBox Lid STL (<code>OutbackGhostTilesBox_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/maglev_metro_vol2/OutbackGhostTilesBox_lid.stl?v=f5c79947" download="OutbackGhostTilesBox_lid.stl">⬇ Download OutbackGhostTilesBox Lid STL (<code>OutbackGhostTilesBox_lid.stl</code>)</a></p>
 
 .. _box-maglev_metro_vol2-metrotokenbox:
 
@@ -191,35 +191,35 @@ MetroTokenBox
 
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``110 × 140 × 19 mm``
-- **Packed Position**: ``(73, 0, 19)``
+- **Packed Position**: ``(0, 0, 19)``
 - **Compartments (2)**: ``Tickets`` (W=50%), ``Nanobots`` (W=50%)
 
 **Assembled Box (MetroTokenBox — Body + Lid)**
 
-.. stl:: ../_stl/boxes/maglev_metro_vol2/MetroTokenBox_body.stl?v=e72b052e,../_stl/boxes/maglev_metro_vol2/MetroTokenBox_lid.stl?v=e5f07ed8
+.. stl:: ../_stl/boxes/maglev_metro_vol2/MetroTokenBox_body.stl?v=74049a28,../_stl/boxes/maglev_metro_vol2/MetroTokenBox_lid.stl?v=fcbaf6a9
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/maglev_metro_vol2/MetroTokenBox_body.stl?v=e72b052e" data-stl-combine="../_stl/boxes/maglev_metro_vol2/MetroTokenBox_body.stl?v=e72b052e,../_stl/boxes/maglev_metro_vol2/MetroTokenBox_lid.stl?v=e5f07ed8" download="MetroTokenBox_assembled.stl">⬇ Download Assembled MetroTokenBox STL (<code>MetroTokenBox_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/maglev_metro_vol2/MetroTokenBox_body.stl?v=74049a28" data-stl-combine="../_stl/boxes/maglev_metro_vol2/MetroTokenBox_body.stl?v=74049a28,../_stl/boxes/maglev_metro_vol2/MetroTokenBox_lid.stl?v=fcbaf6a9" download="MetroTokenBox_assembled.stl">⬇ Download Assembled MetroTokenBox STL (<code>MetroTokenBox_assembled.stl</code>)</a></p>
 
 **Part: MetroTokenBox Body**
 
-.. stl:: ../_stl/boxes/maglev_metro_vol2/MetroTokenBox_body.stl?v=e72b052e
+.. stl:: ../_stl/boxes/maglev_metro_vol2/MetroTokenBox_body.stl?v=74049a28
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/maglev_metro_vol2/MetroTokenBox_body.stl?v=e72b052e" download="MetroTokenBox_body.stl">⬇ Download MetroTokenBox Body STL (<code>MetroTokenBox_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/maglev_metro_vol2/MetroTokenBox_body.stl?v=74049a28" download="MetroTokenBox_body.stl">⬇ Download MetroTokenBox Body STL (<code>MetroTokenBox_body.stl</code>)</a></p>
 
 **Part: MetroTokenBox Lid**
 
-.. stl:: ../_stl/boxes/maglev_metro_vol2/MetroTokenBox_lid.stl?v=e5f07ed8
+.. stl:: ../_stl/boxes/maglev_metro_vol2/MetroTokenBox_lid.stl?v=fcbaf6a9
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/maglev_metro_vol2/MetroTokenBox_lid.stl?v=e5f07ed8" download="MetroTokenBox_lid.stl">⬇ Download MetroTokenBox Lid STL (<code>MetroTokenBox_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/maglev_metro_vol2/MetroTokenBox_lid.stl?v=fcbaf6a9" download="MetroTokenBox_lid.stl">⬇ Download MetroTokenBox Lid STL (<code>MetroTokenBox_lid.stl</code>)</a></p>
 
 Spacer Trays
 ------------
@@ -233,12 +233,12 @@ spacer_1
 - **Outer Dimensions**: ``213 × 286 × 38 mm``
 - **Packed Position**: ``(73, 0, 0)``
 
-.. stl:: ../_stl/boxes/maglev_metro_vol2/spacer_1.stl?v=c8dccfc9
+.. stl:: ../_stl/boxes/maglev_metro_vol2/spacer_1.stl?v=bf4a3b33
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/maglev_metro_vol2/spacer_1.stl?v=c8dccfc9" download="spacer_1.stl">⬇ Download spacer_1 STL (<code>spacer_1.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/maglev_metro_vol2/spacer_1.stl?v=bf4a3b33" download="spacer_1.stl">⬇ Download spacer_1 STL (<code>spacer_1.stl</code>)</a></p>
 
 .. _spacer-maglev_metro_vol2-spacer_2:
 
@@ -246,15 +246,15 @@ spacer_2
 ^^^^^^^^
 
 - **Type**: :ref:`BoxType.NO_LID <box-type-no-lid>` filler spacer tray
-- **Outer Dimensions**: ``73 × 286 × 19 mm``
-- **Packed Position**: ``(0, 0, 19)``
+- **Outer Dimensions**: ``73 × 50 × 19 mm``
+- **Packed Position**: ``(0, 236, 19)``
 
-.. stl:: ../_stl/boxes/maglev_metro_vol2/spacer_2.stl?v=846b3e6c
+.. stl:: ../_stl/boxes/maglev_metro_vol2/spacer_2.stl?v=802cbdd4
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/maglev_metro_vol2/spacer_2.stl?v=846b3e6c" download="spacer_2.stl">⬇ Download spacer_2 STL (<code>spacer_2.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/maglev_metro_vol2/spacer_2.stl?v=802cbdd4" download="spacer_2.stl">⬇ Download spacer_2 STL (<code>spacer_2.stl</code>)</a></p>
 
 .. _spacer-maglev_metro_vol2-spacer_3:
 
@@ -262,12 +262,12 @@ spacer_3
 ^^^^^^^^
 
 - **Type**: :ref:`BoxType.NO_LID <box-type-no-lid>` filler spacer tray
-- **Outer Dimensions**: ``73 × 64 × 19 mm``
-- **Packed Position**: ``(0, 222, 0)``
+- **Outer Dimensions**: ``73 × 20 × 19 mm``
+- **Packed Position**: ``(0, 266, 0)``
 
-.. stl:: ../_stl/boxes/maglev_metro_vol2/spacer_3.stl?v=40aeab81
+.. stl:: ../_stl/boxes/maglev_metro_vol2/spacer_3.stl?v=1f043992
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/maglev_metro_vol2/spacer_3.stl?v=40aeab81" download="spacer_3.stl">⬇ Download spacer_3 STL (<code>spacer_3.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/maglev_metro_vol2/spacer_3.stl?v=1f043992" download="spacer_3.stl">⬇ Download spacer_3 STL (<code>spacer_3.stl</code>)</a></p>

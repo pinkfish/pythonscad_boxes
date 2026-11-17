@@ -42,7 +42,6 @@ project = Project(
     game_box_size=(300, 200, 80),  # Outer game box dimensions [W, L, H] in mm
     board_thickness=8.0,            # Reserved clearance at top of box for folded boards
     generate_spacers=True,          # Automatically fill leftover voids with snug trays
-    box_defaults={"no_rotate": True},  # Defaults applied across all boxes in this insert
 )
 
 # ── A card box, described by the cards ────────────────────────────

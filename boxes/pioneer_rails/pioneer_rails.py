@@ -61,7 +61,6 @@ project = Project(
     clearance_slack=0.0,
     board_thickness=board_thickness,
     generate_spacers=True,
-    box_defaults={"no_rotate": True},
 )
 
 PIONEER_PATTERN = PatternBuilder(PatternType.DENSE_HEX)
@@ -78,7 +77,6 @@ p_box = project.box(
         text_color=Color("white"),
         frame_color=Color("peru"),
     ),
-    position=(0.0, 0.0, 0.0),
 )
 p_box.compartment(
     "PencilsAndErasers",
@@ -93,7 +91,7 @@ decks = [
     ("CompanyCards", "Company", "gold"),
 ]
 
-for idx, (deck_id, title, color_name) in enumerate(decks):
+for deck_id, title, color_name in decks:
     c_box = project.box(
         BoxType.SLIDING,
         f"CardBox_{deck_id}",
@@ -105,7 +103,7 @@ for idx, (deck_id, title, color_name) in enumerate(decks):
             text_color=Color("white"),
             frame_color=Color(color_name),
         ),
-        position=(pencil_box_width + idx * card_box_width, 0.0, 0.0),
+        expandable=False,
     )
     c_box.compartment(
         "Cards",

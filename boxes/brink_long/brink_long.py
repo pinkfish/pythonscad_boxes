@@ -62,15 +62,13 @@ project = Project(
     clearance_slack=0.0,
     board_thickness=board_thickness,
     generate_spacers=True,
-    box_defaults={"no_rotate": True},
 )
 
 BRINK_PATTERN = PatternBuilder(PatternType.DENSE_HEX)
 
-# ── 1. Longitudinal Player Trays (Column 0, X = 0) ────────────────
-# 2 long trays stacked 2 high along the full box length
+# ── 1. Longitudinal Player Trays ──────────────────────────────────
 player_fleets = [("FleetSolari", "Solari Fleet", "royalblue"), ("FleetHorizon", "Horizon Fleet", "gold")]
-for tier, (label, title, color_name) in enumerate(player_fleets):
+for label, title, color_name in player_fleets:
     p_box = project.box(
         BoxType.CAP,
         label,
@@ -82,7 +80,6 @@ for tier, (label, title, color_name) in enumerate(player_fleets):
             text_color=Color("black" if color_name == "gold" else "white"),
             frame_color=Color(color_name),
         ),
-        position=(0.0, 0.0, tier * long_player_box_height),
     )
     p_box.compartment(
         "LongShips", length_ratio=0.5, cut=FingerCut.SCOOP
@@ -91,16 +88,14 @@ for tier, (label, title, color_name) in enumerate(player_fleets):
         "Upgrades", length_ratio=0.5, cut=FingerCut.SCOOP
     )
 
-# ── 2. Card Boxes (Column 1, X = long_player_box_width) ───────────
-x_col1 = long_player_box_width
-
+# ── 2. Card Boxes ─────────────────────────────────────────────────
 card_decks = [
     ("Actions", "Actions", "gold"),
     ("Riders", "Riders", "firebrick"),
     ("Ambassadors", "Ambassadors", "navy"),
 ]
 
-for idx, (deck_id, title, color_name) in enumerate(card_decks):
+for deck_id, title, color_name in card_decks:
     c_box = project.box(
         BoxType.SLIDING,
         f"CardBox_{deck_id}",
@@ -112,11 +107,11 @@ for idx, (deck_id, title, color_name) in enumerate(card_decks):
             text_color=Color("white"),
             frame_color=Color(color_name),
         ),
-        position=(x_col1, idx * card_box_length, 0.0),
+        expandable=False,
     )
     c_box.compartment("Cards", cut=FingerCut.SCOOP)
 
-# ── 3. Sector Hex Box (Column 1, Y = card_box_length * 3) ─────────
+# ── 3. Sector Hex Box ─────────────────────────────────────────────
 y_hex = card_box_length * 3.0  # 232.5mm
 
 h_box = project.box(
@@ -130,7 +125,6 @@ h_box = project.box(
         text_color=Color("white"),
         frame_color=Color("dimgray"),
     ),
-    position=(x_col1, y_hex, 0.0),
 )
 h_box.compartment("Hexes", cut=FingerCut.SCOOP)
 

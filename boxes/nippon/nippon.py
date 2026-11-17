@@ -60,7 +60,7 @@ project = Project(
     clearance_slack=0.0,
     board_thickness=total_board_reserve,
     generate_spacers=True,
-    box_defaults={"no_rotate": True},
+    box_defaults={"expandable": False},
 )
 
 NIPPON_PATTERN = PatternBuilder(PatternType.DENSE_HEX)
@@ -68,7 +68,7 @@ NIPPON_PATTERN = PatternBuilder(PatternType.DENSE_HEX)
 # ── 1. Player Boxes (4 colors) ────────────────────────────────────
 player_colors = ["white", "yellow", "red", "purple"]
 
-for idx, color_name in enumerate(player_colors):
+for color_name in player_colors:
     box = project.box(
         BoxType.CAP,
         f"PlayerBox_{color_name}",
@@ -80,7 +80,6 @@ for idx, color_name in enumerate(player_colors):
             text_color=Color("black" if color_name in ["white", "yellow"] else "white"),
             frame_color=Color(color_name if color_name != "white" else "silver"),
         ),
-        position=(idx * player_box_width, 0.0, 0.0),
     )
     # Ships & Trains compartment
     box.compartment(
@@ -96,8 +95,6 @@ for idx, color_name in enumerate(player_colors):
     )
 
 # ── 2. Factory & Demand Tile Boxes (Row 2) ─────────────────────────
-y_offset = player_box_length  # 92.0mm
-
 tile_boxes = [
     ("FactoryTiles_1", "Factories I"),
     ("FactoryTiles_2", "Factories II"),
@@ -107,7 +104,7 @@ tile_boxes = [
 
 tile_box_width = box_width / 4.0
 
-for idx, (label, text) in enumerate(tile_boxes):
+for label, text in tile_boxes:
     project.box(
         BoxType.SLIDING,
         label,
@@ -119,21 +116,19 @@ for idx, (label, text) in enumerate(tile_boxes):
             text_color=Color("white"),
             frame_color=Color("navy"),
         ),
-        position=(idx * tile_box_width, y_offset, 0.0),
     ).compartment(
         "Tiles",
         cut=FingerCut.SCOOP,
     )
 
 # ── 3. Resource Cubes & Money Trays (Row 3) ───────────────────────
-y_offset_3 = y_offset + factory_tile_length  # 154.5mm
 resource_box_length = 80.0
 
-for idx, (label, text, color) in enumerate([
+for label, text, color in [
     ("ResourceCubes_SilkPaper", "Silk & Paper", "crimson"),
     ("ResourceCubes_CoalCopper", "Coal & Copper", "dimgray"),
     ("MoneyAndContracts", "Money & Contracts", "gold"),
-]):
+]:
     res_width = box_width / 3.0
     project.box(
         BoxType.CAP,
@@ -146,7 +141,6 @@ for idx, (label, text, color) in enumerate([
             text_color=Color("white"),
             frame_color=Color(color),
         ),
-        position=(idx * res_width, y_offset_3, 0.0),
     ).compartment(
         "Resources",
         cut=FingerCut.SCOOP,

@@ -7,7 +7,7 @@ Brink: Long Box Variant organizer.
 
 - **Source Script**: ``boxes/brink_long/brink_long.py``
 - **Game Box Dimensions**: ``215 × 307 × 96 mm`` (usable height ``78 mm`` with ``18 mm`` board storage)
-- **Boxes**: 6 sub-box(es), 2 spacer tray(s)
+- **Boxes**: 6 sub-box(es), 3 spacer tray(s)
 - **Box Types Used**: :ref:`BoxType.CAP <box-type-cap>`, :ref:`BoxType.SLIDING <box-type-sliding>`, :ref:`BoxType.NO_LID <box-type-no-lid>`
 
 Full Box Packing
@@ -15,12 +15,12 @@ Full Box Packing
 
 Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
-.. stl:: ../_stl/boxes/brink_long/FleetSolari_body.stl?v=932e6849,../_stl/boxes/brink_long/FleetSolari_lid.stl?v=39a66fa0,../_stl/boxes/brink_long/FleetHorizon_body.stl?v=7825033b,../_stl/boxes/brink_long/FleetHorizon_lid.stl?v=881c4d92,../_stl/boxes/brink_long/CardBox_Actions_body.stl?v=976d59b8,../_stl/boxes/brink_long/CardBox_Actions_lid.stl?v=407de077,../_stl/boxes/brink_long/CardBox_Riders_body.stl?v=f1898864,../_stl/boxes/brink_long/CardBox_Riders_lid.stl?v=fcf7df99,../_stl/boxes/brink_long/CardBox_Ambassadors_body.stl?v=635b209a,../_stl/boxes/brink_long/CardBox_Ambassadors_lid.stl?v=721a68ba,../_stl/boxes/brink_long/HexBox_body.stl?v=3afcea24,../_stl/boxes/brink_long/HexBox_lid.stl?v=4181a20d,../_stl/boxes/brink_long/spacer_1.stl?v=978f1a08,../_stl/boxes/brink_long/spacer_2.stl?v=a0b495ce
+.. stl:: ../_stl/boxes/brink_long/FleetSolari_body.stl?v=8eeded7c,../_stl/boxes/brink_long/FleetSolari_lid.stl?v=42f97922,../_stl/boxes/brink_long/FleetHorizon_body.stl?v=ff32cbf2,../_stl/boxes/brink_long/FleetHorizon_lid.stl?v=335bea83,../_stl/boxes/brink_long/CardBox_Actions_body.stl?v=33b81f03,../_stl/boxes/brink_long/CardBox_Actions_lid.stl?v=9a62313f,../_stl/boxes/brink_long/CardBox_Riders_body.stl?v=360920f1,../_stl/boxes/brink_long/CardBox_Riders_lid.stl?v=aae80ec1,../_stl/boxes/brink_long/CardBox_Ambassadors_body.stl?v=231d59bb,../_stl/boxes/brink_long/CardBox_Ambassadors_lid.stl?v=5e17c191,../_stl/boxes/brink_long/HexBox_body.stl?v=0c8b0067,../_stl/boxes/brink_long/HexBox_lid.stl?v=7f76f450,../_stl/boxes/brink_long/spacer_1.stl?v=b78c78b4,../_stl/boxes/brink_long/spacer_2.stl?v=22d22e2e,../_stl/boxes/brink_long/spacer_3.stl?v=d171e0e5
    :height: 440px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/brink_long/FleetSolari_body.stl?v=932e6849" data-stl-combine="../_stl/boxes/brink_long/FleetSolari_body.stl?v=932e6849,../_stl/boxes/brink_long/FleetSolari_lid.stl?v=39a66fa0,../_stl/boxes/brink_long/FleetHorizon_body.stl?v=7825033b,../_stl/boxes/brink_long/FleetHorizon_lid.stl?v=881c4d92,../_stl/boxes/brink_long/CardBox_Actions_body.stl?v=976d59b8,../_stl/boxes/brink_long/CardBox_Actions_lid.stl?v=407de077,../_stl/boxes/brink_long/CardBox_Riders_body.stl?v=f1898864,../_stl/boxes/brink_long/CardBox_Riders_lid.stl?v=fcf7df99,../_stl/boxes/brink_long/CardBox_Ambassadors_body.stl?v=635b209a,../_stl/boxes/brink_long/CardBox_Ambassadors_lid.stl?v=721a68ba,../_stl/boxes/brink_long/HexBox_body.stl?v=3afcea24,../_stl/boxes/brink_long/HexBox_lid.stl?v=4181a20d,../_stl/boxes/brink_long/spacer_1.stl?v=978f1a08,../_stl/boxes/brink_long/spacer_2.stl?v=a0b495ce" download="BrinkLong_full_packing.stl">⬇ Download Full Box Packing STL (<code>BrinkLong_full_packing.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/brink_long/FleetSolari_body.stl?v=8eeded7c" data-stl-combine="../_stl/boxes/brink_long/FleetSolari_body.stl?v=8eeded7c,../_stl/boxes/brink_long/FleetSolari_lid.stl?v=42f97922,../_stl/boxes/brink_long/FleetHorizon_body.stl?v=ff32cbf2,../_stl/boxes/brink_long/FleetHorizon_lid.stl?v=335bea83,../_stl/boxes/brink_long/CardBox_Actions_body.stl?v=33b81f03,../_stl/boxes/brink_long/CardBox_Actions_lid.stl?v=9a62313f,../_stl/boxes/brink_long/CardBox_Riders_body.stl?v=360920f1,../_stl/boxes/brink_long/CardBox_Riders_lid.stl?v=aae80ec1,../_stl/boxes/brink_long/CardBox_Ambassadors_body.stl?v=231d59bb,../_stl/boxes/brink_long/CardBox_Ambassadors_lid.stl?v=5e17c191,../_stl/boxes/brink_long/HexBox_body.stl?v=0c8b0067,../_stl/boxes/brink_long/HexBox_lid.stl?v=7f76f450,../_stl/boxes/brink_long/spacer_1.stl?v=b78c78b4,../_stl/boxes/brink_long/spacer_2.stl?v=22d22e2e,../_stl/boxes/brink_long/spacer_3.stl?v=d171e0e5" download="BrinkLong_full_packing.stl">⬇ Download Full Box Packing STL (<code>BrinkLong_full_packing.stl</code>)</a></p>
 
 Parts Overview
 --------------
@@ -36,43 +36,48 @@ Parts Overview
      - Compartments
    * - :ref:`FleetSolari <box-brink_long-fleetsolari>`
      - :ref:`BoxType.CAP <box-type-cap>`
-     - ``106 × 305 × 24 mm``
+     - ``106 × 307 × 24 mm``
      - ``(0, 0, 0)``
      - 2
    * - :ref:`FleetHorizon <box-brink_long-fleethorizon>`
      - :ref:`BoxType.CAP <box-type-cap>`
-     - ``106 × 305 × 24 mm``
+     - ``106 × 307 × 24 mm``
      - ``(0, 0, 24)``
      - 2
    * - :ref:`CardBox_Actions <box-brink_long-cardbox_actions>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``106.5 × 77.5 × 24 mm``
-     - ``(106, 0, 0)``
+     - ``(0, 0, 48)``
      - 1
    * - :ref:`CardBox_Riders <box-brink_long-cardbox_riders>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``106.5 × 77.5 × 24 mm``
-     - ``(106, 77.5, 0)``
+     - ``(0, 106.5, 48)``
      - 1
    * - :ref:`CardBox_Ambassadors <box-brink_long-cardbox_ambassadors>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``106.5 × 77.5 × 24 mm``
-     - ``(106, 155, 0)``
+     - ``(106, 0, 0)``
      - 1
    * - :ref:`HexBox <box-brink_long-hexbox>`
      - :ref:`BoxType.CAP <box-type-cap>`
-     - ``106.5 × 72.5 × 24 mm``
-     - ``(106, 232.5, 0)``
+     - ``106.5 × 77.5 × 24 mm``
+     - ``(106, 0, 24)``
      - 1
    * - :ref:`spacer_1 <spacer-brink_long-spacer_1>`
+     - :ref:`BoxType.NO_LID <box-type-no-lid>` (spacer)
+     - ``109 × 229.5 × 78 mm``
+     - ``(106, 77.5, 0)``
+     - —
+   * - :ref:`spacer_2 <spacer-brink_long-spacer_2>`
      - :ref:`BoxType.NO_LID <box-type-no-lid>` (spacer)
      - ``215 × 307 × 30 mm``
      - ``(0, 0, 48)``
      - —
-   * - :ref:`spacer_2 <spacer-brink_long-spacer_2>`
+   * - :ref:`spacer_3 <spacer-brink_long-spacer_3>`
      - :ref:`BoxType.NO_LID <box-type-no-lid>` (spacer)
-     - ``109 × 307 × 24 mm``
-     - ``(106, 0, 24)``
+     - ``77.5 × 213 × 6 mm``
+     - ``(0, 0, 72)``
      - —
 
 Individual Boxes & Parts
@@ -84,36 +89,36 @@ FleetSolari
 ^^^^^^^^^^^
 
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
-- **Outer Dimensions**: ``106 × 305 × 24 mm``
+- **Outer Dimensions**: ``106 × 307 × 24 mm``
 - **Packed Position**: ``(0, 0, 0)``
 - **Compartments (2)**: ``LongShips`` (L=50%), ``Upgrades`` (L=50%)
 
 **Assembled Box (FleetSolari — Body + Lid)**
 
-.. stl:: ../_stl/boxes/brink_long/FleetSolari_body.stl?v=932e6849,../_stl/boxes/brink_long/FleetSolari_lid.stl?v=39a66fa0
+.. stl:: ../_stl/boxes/brink_long/FleetSolari_body.stl?v=8eeded7c,../_stl/boxes/brink_long/FleetSolari_lid.stl?v=42f97922
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/brink_long/FleetSolari_body.stl?v=932e6849" data-stl-combine="../_stl/boxes/brink_long/FleetSolari_body.stl?v=932e6849,../_stl/boxes/brink_long/FleetSolari_lid.stl?v=39a66fa0" download="FleetSolari_assembled.stl">⬇ Download Assembled FleetSolari STL (<code>FleetSolari_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/brink_long/FleetSolari_body.stl?v=8eeded7c" data-stl-combine="../_stl/boxes/brink_long/FleetSolari_body.stl?v=8eeded7c,../_stl/boxes/brink_long/FleetSolari_lid.stl?v=42f97922" download="FleetSolari_assembled.stl">⬇ Download Assembled FleetSolari STL (<code>FleetSolari_assembled.stl</code>)</a></p>
 
 **Part: FleetSolari Body**
 
-.. stl:: ../_stl/boxes/brink_long/FleetSolari_body.stl?v=932e6849
+.. stl:: ../_stl/boxes/brink_long/FleetSolari_body.stl?v=8eeded7c
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/brink_long/FleetSolari_body.stl?v=932e6849" download="FleetSolari_body.stl">⬇ Download FleetSolari Body STL (<code>FleetSolari_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/brink_long/FleetSolari_body.stl?v=8eeded7c" download="FleetSolari_body.stl">⬇ Download FleetSolari Body STL (<code>FleetSolari_body.stl</code>)</a></p>
 
 **Part: FleetSolari Lid**
 
-.. stl:: ../_stl/boxes/brink_long/FleetSolari_lid.stl?v=39a66fa0
+.. stl:: ../_stl/boxes/brink_long/FleetSolari_lid.stl?v=42f97922
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/brink_long/FleetSolari_lid.stl?v=39a66fa0" download="FleetSolari_lid.stl">⬇ Download FleetSolari Lid STL (<code>FleetSolari_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/brink_long/FleetSolari_lid.stl?v=42f97922" download="FleetSolari_lid.stl">⬇ Download FleetSolari Lid STL (<code>FleetSolari_lid.stl</code>)</a></p>
 
 .. _box-brink_long-fleethorizon:
 
@@ -121,36 +126,36 @@ FleetHorizon
 ^^^^^^^^^^^^
 
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
-- **Outer Dimensions**: ``106 × 305 × 24 mm``
+- **Outer Dimensions**: ``106 × 307 × 24 mm``
 - **Packed Position**: ``(0, 0, 24)``
 - **Compartments (2)**: ``LongShips`` (L=50%), ``Upgrades`` (L=50%)
 
 **Assembled Box (FleetHorizon — Body + Lid)**
 
-.. stl:: ../_stl/boxes/brink_long/FleetHorizon_body.stl?v=7825033b,../_stl/boxes/brink_long/FleetHorizon_lid.stl?v=881c4d92
+.. stl:: ../_stl/boxes/brink_long/FleetHorizon_body.stl?v=ff32cbf2,../_stl/boxes/brink_long/FleetHorizon_lid.stl?v=335bea83
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/brink_long/FleetHorizon_body.stl?v=7825033b" data-stl-combine="../_stl/boxes/brink_long/FleetHorizon_body.stl?v=7825033b,../_stl/boxes/brink_long/FleetHorizon_lid.stl?v=881c4d92" download="FleetHorizon_assembled.stl">⬇ Download Assembled FleetHorizon STL (<code>FleetHorizon_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/brink_long/FleetHorizon_body.stl?v=ff32cbf2" data-stl-combine="../_stl/boxes/brink_long/FleetHorizon_body.stl?v=ff32cbf2,../_stl/boxes/brink_long/FleetHorizon_lid.stl?v=335bea83" download="FleetHorizon_assembled.stl">⬇ Download Assembled FleetHorizon STL (<code>FleetHorizon_assembled.stl</code>)</a></p>
 
 **Part: FleetHorizon Body**
 
-.. stl:: ../_stl/boxes/brink_long/FleetHorizon_body.stl?v=7825033b
+.. stl:: ../_stl/boxes/brink_long/FleetHorizon_body.stl?v=ff32cbf2
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/brink_long/FleetHorizon_body.stl?v=7825033b" download="FleetHorizon_body.stl">⬇ Download FleetHorizon Body STL (<code>FleetHorizon_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/brink_long/FleetHorizon_body.stl?v=ff32cbf2" download="FleetHorizon_body.stl">⬇ Download FleetHorizon Body STL (<code>FleetHorizon_body.stl</code>)</a></p>
 
 **Part: FleetHorizon Lid**
 
-.. stl:: ../_stl/boxes/brink_long/FleetHorizon_lid.stl?v=881c4d92
+.. stl:: ../_stl/boxes/brink_long/FleetHorizon_lid.stl?v=335bea83
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/brink_long/FleetHorizon_lid.stl?v=881c4d92" download="FleetHorizon_lid.stl">⬇ Download FleetHorizon Lid STL (<code>FleetHorizon_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/brink_long/FleetHorizon_lid.stl?v=335bea83" download="FleetHorizon_lid.stl">⬇ Download FleetHorizon Lid STL (<code>FleetHorizon_lid.stl</code>)</a></p>
 
 .. _box-brink_long-cardbox_actions:
 
@@ -159,35 +164,35 @@ CardBox_Actions
 
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``106.5 × 77.5 × 24 mm``
-- **Packed Position**: ``(106, 0, 0)``
+- **Packed Position**: ``(0, 0, 48)``
 - **Compartments (1)**: ``Cards`` (full interior)
 
 **Assembled Box (CardBox_Actions — Body + Lid)**
 
-.. stl:: ../_stl/boxes/brink_long/CardBox_Actions_body.stl?v=976d59b8,../_stl/boxes/brink_long/CardBox_Actions_lid.stl?v=407de077
+.. stl:: ../_stl/boxes/brink_long/CardBox_Actions_body.stl?v=33b81f03,../_stl/boxes/brink_long/CardBox_Actions_lid.stl?v=9a62313f
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/brink_long/CardBox_Actions_body.stl?v=976d59b8" data-stl-combine="../_stl/boxes/brink_long/CardBox_Actions_body.stl?v=976d59b8,../_stl/boxes/brink_long/CardBox_Actions_lid.stl?v=407de077" download="CardBox_Actions_assembled.stl">⬇ Download Assembled CardBox_Actions STL (<code>CardBox_Actions_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/brink_long/CardBox_Actions_body.stl?v=33b81f03" data-stl-combine="../_stl/boxes/brink_long/CardBox_Actions_body.stl?v=33b81f03,../_stl/boxes/brink_long/CardBox_Actions_lid.stl?v=9a62313f" download="CardBox_Actions_assembled.stl">⬇ Download Assembled CardBox_Actions STL (<code>CardBox_Actions_assembled.stl</code>)</a></p>
 
 **Part: CardBox_Actions Body**
 
-.. stl:: ../_stl/boxes/brink_long/CardBox_Actions_body.stl?v=976d59b8
+.. stl:: ../_stl/boxes/brink_long/CardBox_Actions_body.stl?v=33b81f03
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/brink_long/CardBox_Actions_body.stl?v=976d59b8" download="CardBox_Actions_body.stl">⬇ Download CardBox_Actions Body STL (<code>CardBox_Actions_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/brink_long/CardBox_Actions_body.stl?v=33b81f03" download="CardBox_Actions_body.stl">⬇ Download CardBox_Actions Body STL (<code>CardBox_Actions_body.stl</code>)</a></p>
 
 **Part: CardBox_Actions Lid**
 
-.. stl:: ../_stl/boxes/brink_long/CardBox_Actions_lid.stl?v=407de077
+.. stl:: ../_stl/boxes/brink_long/CardBox_Actions_lid.stl?v=9a62313f
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/brink_long/CardBox_Actions_lid.stl?v=407de077" download="CardBox_Actions_lid.stl">⬇ Download CardBox_Actions Lid STL (<code>CardBox_Actions_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/brink_long/CardBox_Actions_lid.stl?v=9a62313f" download="CardBox_Actions_lid.stl">⬇ Download CardBox_Actions Lid STL (<code>CardBox_Actions_lid.stl</code>)</a></p>
 
 .. _box-brink_long-cardbox_riders:
 
@@ -196,35 +201,35 @@ CardBox_Riders
 
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``106.5 × 77.5 × 24 mm``
-- **Packed Position**: ``(106, 77.5, 0)``
+- **Packed Position**: ``(0, 106.5, 48)``
 - **Compartments (1)**: ``Cards`` (full interior)
 
 **Assembled Box (CardBox_Riders — Body + Lid)**
 
-.. stl:: ../_stl/boxes/brink_long/CardBox_Riders_body.stl?v=f1898864,../_stl/boxes/brink_long/CardBox_Riders_lid.stl?v=fcf7df99
+.. stl:: ../_stl/boxes/brink_long/CardBox_Riders_body.stl?v=360920f1,../_stl/boxes/brink_long/CardBox_Riders_lid.stl?v=aae80ec1
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/brink_long/CardBox_Riders_body.stl?v=f1898864" data-stl-combine="../_stl/boxes/brink_long/CardBox_Riders_body.stl?v=f1898864,../_stl/boxes/brink_long/CardBox_Riders_lid.stl?v=fcf7df99" download="CardBox_Riders_assembled.stl">⬇ Download Assembled CardBox_Riders STL (<code>CardBox_Riders_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/brink_long/CardBox_Riders_body.stl?v=360920f1" data-stl-combine="../_stl/boxes/brink_long/CardBox_Riders_body.stl?v=360920f1,../_stl/boxes/brink_long/CardBox_Riders_lid.stl?v=aae80ec1" download="CardBox_Riders_assembled.stl">⬇ Download Assembled CardBox_Riders STL (<code>CardBox_Riders_assembled.stl</code>)</a></p>
 
 **Part: CardBox_Riders Body**
 
-.. stl:: ../_stl/boxes/brink_long/CardBox_Riders_body.stl?v=f1898864
+.. stl:: ../_stl/boxes/brink_long/CardBox_Riders_body.stl?v=360920f1
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/brink_long/CardBox_Riders_body.stl?v=f1898864" download="CardBox_Riders_body.stl">⬇ Download CardBox_Riders Body STL (<code>CardBox_Riders_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/brink_long/CardBox_Riders_body.stl?v=360920f1" download="CardBox_Riders_body.stl">⬇ Download CardBox_Riders Body STL (<code>CardBox_Riders_body.stl</code>)</a></p>
 
 **Part: CardBox_Riders Lid**
 
-.. stl:: ../_stl/boxes/brink_long/CardBox_Riders_lid.stl?v=fcf7df99
+.. stl:: ../_stl/boxes/brink_long/CardBox_Riders_lid.stl?v=aae80ec1
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/brink_long/CardBox_Riders_lid.stl?v=fcf7df99" download="CardBox_Riders_lid.stl">⬇ Download CardBox_Riders Lid STL (<code>CardBox_Riders_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/brink_long/CardBox_Riders_lid.stl?v=aae80ec1" download="CardBox_Riders_lid.stl">⬇ Download CardBox_Riders Lid STL (<code>CardBox_Riders_lid.stl</code>)</a></p>
 
 .. _box-brink_long-cardbox_ambassadors:
 
@@ -233,35 +238,35 @@ CardBox_Ambassadors
 
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``106.5 × 77.5 × 24 mm``
-- **Packed Position**: ``(106, 155, 0)``
+- **Packed Position**: ``(106, 0, 0)``
 - **Compartments (1)**: ``Cards`` (full interior)
 
 **Assembled Box (CardBox_Ambassadors — Body + Lid)**
 
-.. stl:: ../_stl/boxes/brink_long/CardBox_Ambassadors_body.stl?v=635b209a,../_stl/boxes/brink_long/CardBox_Ambassadors_lid.stl?v=721a68ba
+.. stl:: ../_stl/boxes/brink_long/CardBox_Ambassadors_body.stl?v=231d59bb,../_stl/boxes/brink_long/CardBox_Ambassadors_lid.stl?v=5e17c191
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/brink_long/CardBox_Ambassadors_body.stl?v=635b209a" data-stl-combine="../_stl/boxes/brink_long/CardBox_Ambassadors_body.stl?v=635b209a,../_stl/boxes/brink_long/CardBox_Ambassadors_lid.stl?v=721a68ba" download="CardBox_Ambassadors_assembled.stl">⬇ Download Assembled CardBox_Ambassadors STL (<code>CardBox_Ambassadors_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/brink_long/CardBox_Ambassadors_body.stl?v=231d59bb" data-stl-combine="../_stl/boxes/brink_long/CardBox_Ambassadors_body.stl?v=231d59bb,../_stl/boxes/brink_long/CardBox_Ambassadors_lid.stl?v=5e17c191" download="CardBox_Ambassadors_assembled.stl">⬇ Download Assembled CardBox_Ambassadors STL (<code>CardBox_Ambassadors_assembled.stl</code>)</a></p>
 
 **Part: CardBox_Ambassadors Body**
 
-.. stl:: ../_stl/boxes/brink_long/CardBox_Ambassadors_body.stl?v=635b209a
+.. stl:: ../_stl/boxes/brink_long/CardBox_Ambassadors_body.stl?v=231d59bb
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/brink_long/CardBox_Ambassadors_body.stl?v=635b209a" download="CardBox_Ambassadors_body.stl">⬇ Download CardBox_Ambassadors Body STL (<code>CardBox_Ambassadors_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/brink_long/CardBox_Ambassadors_body.stl?v=231d59bb" download="CardBox_Ambassadors_body.stl">⬇ Download CardBox_Ambassadors Body STL (<code>CardBox_Ambassadors_body.stl</code>)</a></p>
 
 **Part: CardBox_Ambassadors Lid**
 
-.. stl:: ../_stl/boxes/brink_long/CardBox_Ambassadors_lid.stl?v=721a68ba
+.. stl:: ../_stl/boxes/brink_long/CardBox_Ambassadors_lid.stl?v=5e17c191
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/brink_long/CardBox_Ambassadors_lid.stl?v=721a68ba" download="CardBox_Ambassadors_lid.stl">⬇ Download CardBox_Ambassadors Lid STL (<code>CardBox_Ambassadors_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/brink_long/CardBox_Ambassadors_lid.stl?v=5e17c191" download="CardBox_Ambassadors_lid.stl">⬇ Download CardBox_Ambassadors Lid STL (<code>CardBox_Ambassadors_lid.stl</code>)</a></p>
 
 .. _box-brink_long-hexbox:
 
@@ -269,36 +274,36 @@ HexBox
 ^^^^^^
 
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
-- **Outer Dimensions**: ``106.5 × 72.5 × 24 mm``
-- **Packed Position**: ``(106, 232.5, 0)``
+- **Outer Dimensions**: ``106.5 × 77.5 × 24 mm``
+- **Packed Position**: ``(106, 0, 24)``
 - **Compartments (1)**: ``Hexes`` (full interior)
 
 **Assembled Box (HexBox — Body + Lid)**
 
-.. stl:: ../_stl/boxes/brink_long/HexBox_body.stl?v=3afcea24,../_stl/boxes/brink_long/HexBox_lid.stl?v=4181a20d
+.. stl:: ../_stl/boxes/brink_long/HexBox_body.stl?v=0c8b0067,../_stl/boxes/brink_long/HexBox_lid.stl?v=7f76f450
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/brink_long/HexBox_body.stl?v=3afcea24" data-stl-combine="../_stl/boxes/brink_long/HexBox_body.stl?v=3afcea24,../_stl/boxes/brink_long/HexBox_lid.stl?v=4181a20d" download="HexBox_assembled.stl">⬇ Download Assembled HexBox STL (<code>HexBox_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/brink_long/HexBox_body.stl?v=0c8b0067" data-stl-combine="../_stl/boxes/brink_long/HexBox_body.stl?v=0c8b0067,../_stl/boxes/brink_long/HexBox_lid.stl?v=7f76f450" download="HexBox_assembled.stl">⬇ Download Assembled HexBox STL (<code>HexBox_assembled.stl</code>)</a></p>
 
 **Part: HexBox Body**
 
-.. stl:: ../_stl/boxes/brink_long/HexBox_body.stl?v=3afcea24
+.. stl:: ../_stl/boxes/brink_long/HexBox_body.stl?v=0c8b0067
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/brink_long/HexBox_body.stl?v=3afcea24" download="HexBox_body.stl">⬇ Download HexBox Body STL (<code>HexBox_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/brink_long/HexBox_body.stl?v=0c8b0067" download="HexBox_body.stl">⬇ Download HexBox Body STL (<code>HexBox_body.stl</code>)</a></p>
 
 **Part: HexBox Lid**
 
-.. stl:: ../_stl/boxes/brink_long/HexBox_lid.stl?v=4181a20d
+.. stl:: ../_stl/boxes/brink_long/HexBox_lid.stl?v=7f76f450
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/brink_long/HexBox_lid.stl?v=4181a20d" download="HexBox_lid.stl">⬇ Download HexBox Lid STL (<code>HexBox_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/brink_long/HexBox_lid.stl?v=7f76f450" download="HexBox_lid.stl">⬇ Download HexBox Lid STL (<code>HexBox_lid.stl</code>)</a></p>
 
 Spacer Trays
 ------------
@@ -309,15 +314,15 @@ spacer_1
 ^^^^^^^^
 
 - **Type**: :ref:`BoxType.NO_LID <box-type-no-lid>` filler spacer tray
-- **Outer Dimensions**: ``215 × 307 × 30 mm``
-- **Packed Position**: ``(0, 0, 48)``
+- **Outer Dimensions**: ``109 × 229.5 × 78 mm``
+- **Packed Position**: ``(106, 77.5, 0)``
 
-.. stl:: ../_stl/boxes/brink_long/spacer_1.stl?v=978f1a08
+.. stl:: ../_stl/boxes/brink_long/spacer_1.stl?v=b78c78b4
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/brink_long/spacer_1.stl?v=978f1a08" download="spacer_1.stl">⬇ Download spacer_1 STL (<code>spacer_1.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/brink_long/spacer_1.stl?v=b78c78b4" download="spacer_1.stl">⬇ Download spacer_1 STL (<code>spacer_1.stl</code>)</a></p>
 
 .. _spacer-brink_long-spacer_2:
 
@@ -325,12 +330,28 @@ spacer_2
 ^^^^^^^^
 
 - **Type**: :ref:`BoxType.NO_LID <box-type-no-lid>` filler spacer tray
-- **Outer Dimensions**: ``109 × 307 × 24 mm``
-- **Packed Position**: ``(106, 0, 24)``
+- **Outer Dimensions**: ``215 × 307 × 30 mm``
+- **Packed Position**: ``(0, 0, 48)``
 
-.. stl:: ../_stl/boxes/brink_long/spacer_2.stl?v=a0b495ce
+.. stl:: ../_stl/boxes/brink_long/spacer_2.stl?v=22d22e2e
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/brink_long/spacer_2.stl?v=a0b495ce" download="spacer_2.stl">⬇ Download spacer_2 STL (<code>spacer_2.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/brink_long/spacer_2.stl?v=22d22e2e" download="spacer_2.stl">⬇ Download spacer_2 STL (<code>spacer_2.stl</code>)</a></p>
+
+.. _spacer-brink_long-spacer_3:
+
+spacer_3
+^^^^^^^^
+
+- **Type**: :ref:`BoxType.NO_LID <box-type-no-lid>` filler spacer tray
+- **Outer Dimensions**: ``77.5 × 213 × 6 mm``
+- **Packed Position**: ``(0, 0, 72)``
+
+.. stl:: ../_stl/boxes/brink_long/spacer_3.stl?v=d171e0e5
+   :height: 280px
+
+.. raw:: html
+
+   <p><a href="../_stl/boxes/brink_long/spacer_3.stl?v=d171e0e5" download="spacer_3.stl">⬇ Download spacer_3 STL (<code>spacer_3.stl</code>)</a></p>

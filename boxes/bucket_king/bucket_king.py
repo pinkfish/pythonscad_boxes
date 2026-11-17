@@ -57,12 +57,11 @@ project = Project(
     lid_thickness=lid_thickness,
     clearance_slack=0.0,
     generate_spacers=True,
-    box_defaults={"no_rotate": True},
 )
 
 BUCKET_PATTERN = PatternBuilder(PatternType.DENSE_HEX)
 
-# ── 1. Playing Card Box (Row 0, Y = 0) ────────────────────────────
+# ── 1. Playing Card Box ───────────────────────────────────────────
 c_box = project.box(
     BoxType.CAP,
     "CardBox",
@@ -74,7 +73,7 @@ c_box = project.box(
         text_color=Color("white"),
         frame_color=Color("royalblue"),
     ),
-    position=(0.0, 0.0, 0.0),
+    expandable=False,
 )
 c_box.compartment(
     "Deck_Left",
@@ -87,17 +86,9 @@ c_box.compartment(
     cut=FingerCut.SCOOP,
 )
 
-# ── 2. Player Bucket Boxes (6 players: 2 rows x 3 cols) ───────────
-y_players = card_box_length
-
+# ── 2. Player Bucket Boxes (6 players) ────────────────────────────
 player_names = ["Player_1", "Player_2", "Player_3", "Player_4", "Player_5", "Player_6"]
 for idx, _name in enumerate(player_names):
-    col = idx % 2
-    row = (idx // 2) % 3
-    tier = idx // 4  # or stack 2-high in 3 longitudinal slots
-    # 2 columns across X, 3 rows along Y, 1 tier each (or 6 boxes packing 2x3):
-    # player_box_width * 2 = 138mm <= 140mm
-    # player_box_length * 3 = 211mm + 75mm = 286mm <= 288mm
     p_box = project.box(
         BoxType.CAP,
         f"PlayerBox_{idx + 1}",
@@ -109,7 +100,6 @@ for idx, _name in enumerate(player_names):
             text_color=Color("white"),
             frame_color=Color("darkorange"),
         ),
-        position=(col * player_box_width, y_players + (idx // 2) * player_box_length, 0.0),
     )
     p_box.compartment(
         "Buckets",

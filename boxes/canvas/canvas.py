@@ -58,12 +58,12 @@ project = Project(
     clearance_slack=0.0,
     board_thickness=board_thickness,
     generate_spacers=True,
-    box_defaults={"no_rotate": True},
+    box_defaults={"expandable": False},
 )
 
 CANVAS_PATTERN = PatternBuilder(PatternType.DENSE_HEX)
 
-# ── 1. Ribbon Token Boxes (6 boxes across X at Y = 0) ─────────────
+# ── 1. Ribbon Token Boxes (6 boxes) ───────────────────────────────
 ribbons = [
     ("Red", "Red", "darkred"),
     ("Green", "Green", "forestgreen"),
@@ -73,10 +73,7 @@ ribbons = [
     ("Palette", "Palette", "goldenrod"),
 ]
 
-# 2 rows of 3 boxes across the 200mm box width (41mm * 3 = 123mm <= 200mm)
-for idx, (token_id, title, color_name) in enumerate(ribbons):
-    col = idx % 3
-    row = idx // 3
+for token_id, title, color_name in ribbons:
     r_box = project.box(
         BoxType.CAP,
         f"RibbonBox_{token_id}",
@@ -88,14 +85,13 @@ for idx, (token_id, title, color_name) in enumerate(ribbons):
             text_color=Color("white"),
             frame_color=Color(color_name),
         ),
-        position=(col * piece_box_width, row * piece_box_length, 0.0),
     )
     r_box.compartment(
         "Ribbons",
         cut=FingerCut.SCOOP,
     )
 
-# ── 2. Card Tray Rack (Y = piece_box_length * 2 = 146mm) ──────────
+# ── 2. Card Tray Rack ─────────────────────────────────────────────
 c_tray = project.box(
     BoxType.CAP,
     "CardTray",
@@ -107,7 +103,6 @@ c_tray = project.box(
         text_color=Color("white"),
         frame_color=Color("darkslateblue"),
     ),
-    position=(0.0, piece_box_length * 2.0, 0.0),
 )
 c_tray.compartment(
     "ArtCards_Left",

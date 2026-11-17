@@ -70,12 +70,12 @@ project = Project(
     clearance_slack=0.0,
     board_thickness=board_thickness,
     generate_spacers=True,
-    box_defaults={"no_rotate": True},
+    box_defaults={"expandable": False},
 )
 
 BRINK_PATTERN = PatternBuilder(PatternType.DENSE_HEX)
 
-# ── 1. Sector Hex Tile Box (X = 0, Y = 0) ─────────────────────────
+# ── 1. Sector Hex Tile Box ────────────────────────────────────────
 hex_box = project.box(
     BoxType.CAP,
     "HexBox",
@@ -87,7 +87,6 @@ hex_box = project.box(
         text_color=Color("white"),
         frame_color=Color("dimgray"),
     ),
-    position=(0.0, 0.0, 0.0),
 )
 for h in range(3):
     hex_box.compartment(
@@ -96,13 +95,9 @@ for h in range(3):
         cut=FingerCut.SCOOP,
     )
 
-# ── 2. Player Boxes (4 boxes: 2 columns, stacked 2 high at Y = hex_box_length)
-y_player = hex_box_length
-
+# ── 2. Player Boxes ───────────────────────────────────────────────
 player_factions = ["Solari", "Vanguard", "Eclipse", "Horizon"]
-for idx, faction in enumerate(player_factions):
-    col = idx % 2
-    tier = idx // 2
+for faction in player_factions:
     p_box = project.box(
         BoxType.CAP,
         f"PlayerBox_{faction}",
@@ -114,16 +109,13 @@ for idx, faction in enumerate(player_factions):
             text_color=Color("white"),
             frame_color=Color("royalblue"),
         ),
-        position=(col * player_box_width, y_player, tier * player_box_height),
     )
     p_box.compartment(
         "ShipsAndUpgrades",
         cut=FingerCut.SCOOP,
     )
 
-# ── 3. Modular Card Boxes (Y = hex_box_length + player_box_length) ─
-y_cards = hex_box_length + player_box_length
-
+# ── 3. Modular Card Boxes ─────────────────────────────────────────
 card_types = [
     ("Actions", "Actions", "gold"),
     ("Riders", "Riders", "firebrick"),
@@ -131,9 +123,7 @@ card_types = [
     ("Factions", "Factions", "forestgreen"),
 ]
 
-for idx, (deck_id, title, color_name) in enumerate(card_types):
-    col = idx % 2
-    tier = idx // 2
+for deck_id, title, color_name in card_types:
     c_box = project.box(
         BoxType.SLIDING,
         f"CardBox_{deck_id}",
@@ -145,7 +135,6 @@ for idx, (deck_id, title, color_name) in enumerate(card_types):
             text_color=Color("white"),
             frame_color=Color(color_name),
         ),
-        position=(col * ambassador_box_width, y_cards, tier * (usable_height / 3.0)),
         stackable=StackableMode.PYRAMIDS,
     )
     c_box.compartment(

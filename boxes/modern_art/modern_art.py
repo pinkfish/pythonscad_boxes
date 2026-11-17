@@ -61,12 +61,11 @@ project = Project(
     clearance_slack=0.0,
     board_thickness=board_thickness,
     generate_spacers=True,
-    box_defaults={"no_rotate": True},
 )
 
 ART_PATTERN = PatternBuilder(PatternType.DENSE_HEX)
 
-# ── 1. Art Cards Box (Row 0, Y = 0) ───────────────────────────────
+# ── 1. Art Cards Box ──────────────────────────────────────────────
 c_box = project.box(
     BoxType.CAP,
     "CardBox",
@@ -78,7 +77,7 @@ c_box = project.box(
         text_color=Color("white"),
         frame_color=Color("royalblue"),
     ),
-    position=(0.0, 0.0, 0.0),
+    expandable=False,
 )
 c_box.compartment(
     "Paintings_1",
@@ -91,9 +90,7 @@ c_box.compartment(
     cut=FingerCut.SCOOP,
 )
 
-# ── 2. Auction Money & Chips Box (Row 1, Y = card_box_length) ─────
-y_tokens = card_box_length
-
+# ── 2. Auction Money & Chips Box ──────────────────────────────────
 t_box = project.box(
     BoxType.CAP,
     "TokensBox",
@@ -105,7 +102,6 @@ t_box = project.box(
         text_color=Color("white"),
         frame_color=Color("goldenrod"),
     ),
-    position=(0.0, y_tokens, 0.0),
 )
 t_box.compartment(
     "MoneyTokens",

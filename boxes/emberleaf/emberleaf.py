@@ -69,22 +69,20 @@ project = Project(
     clearance_slack=0.0,
     board_thickness=board_thickness,
     generate_spacers=True,
-    box_defaults={"no_rotate": True},
 )
 
 EMBER_PATTERN = PatternBuilder(PatternType.DENSE_HEX)
 
-# ── 1. Player Boxes (Column 0, X = 0) ─────────────────────────────
-# 5 player boxes placed according to layout expectations:
+# ── 1. Player Boxes ───────────────────────────────────────────────
 player_configs = [
-    ("PlayerBoxBlack", (0.0, 0.0, 0.0), "black"),
-    ("PlayerBoxRed", (0.0, PLAYER_BOX_LENGTH, 0.0), "darkred"),
-    ("PlayerBoxYellow", (0.0, 0.0, PLAYER_BOX_HEIGHT), "gold"),
-    ("PlayerBoxBlue", (0.0, PLAYER_BOX_LENGTH, PLAYER_BOX_HEIGHT), "navy"),
-    ("PlayerBoxGrey", (0.0, 0.0, PLAYER_BOX_HEIGHT * 2.0), "gray"),
+    ("PlayerBoxBlack", "black"),
+    ("PlayerBoxRed", "darkred"),
+    ("PlayerBoxYellow", "gold"),
+    ("PlayerBoxBlue", "navy"),
+    ("PlayerBoxGrey", "gray"),
 ]
 
-for label, pos, color_name in player_configs:
+for label, color_name in player_configs:
     p_box = project.box(
         BoxType.CAP,
         label,
@@ -96,7 +94,6 @@ for label, pos, color_name in player_configs:
             text_color=Color("black" if color_name == "gold" else "white"),
             frame_color=Color(color_name),
         ),
-        position=pos,
     )
     p_box.compartment(
         "Meeples", length_ratio=0.6, cut=FingerCut.SCOOP
@@ -105,14 +102,14 @@ for label, pos, color_name in player_configs:
         "DiscsAndTrophies", length_ratio=0.4, cut=FingerCut.SCOOP
     )
 
-# ── 2. Card Boxes (Column 1, X = PLAYER_BOX_WIDTH) ────────────────
+# ── 2. Card Boxes ─────────────────────────────────────────────────
 card_configs = [
-    ("CardBoxFavor", (PLAYER_BOX_WIDTH, 0.0, 0.0), "Favor Cards", "royalblue"),
-    ("CardBoxHero", (PLAYER_BOX_WIDTH, CARD_BOX_LENGTH, 0.0), "Hero Cards", "darkorange"),
-    ("CardBoxSolo", (PLAYER_BOX_WIDTH, CARD_BOX_LENGTH * 2.0, 0.0), "Solo Cards", "darkgreen"),
+    ("CardBoxFavor", "Favor Cards", "royalblue"),
+    ("CardBoxHero", "Hero Cards", "darkorange"),
+    ("CardBoxSolo", "Solo Cards", "darkgreen"),
 ]
 
-for label, pos, text, color_name in card_configs:
+for label, text, color_name in card_configs:
     c_box = project.box(
         BoxType.SLIDING,
         label,
@@ -124,14 +121,12 @@ for label, pos, text, color_name in card_configs:
             text_color=Color("white"),
             frame_color=Color(color_name),
         ),
-        position=pos,
+        expandable=False,
     )
     c_box.compartment("Cards", cut=FingerCut.SCOOP)
 
-# ── 3. Player Card Boxes (Column 2, X = PLAYER_BOX_WIDTH * 2) ─────
+# ── 3. Player Card Box ────────────────────────────────────────────
 # Shallow box (10.5mm) uses SLIPOVER to support finger cutouts at this height
-x_col2 = PLAYER_BOX_WIDTH * 2.0
-
 h_box = project.box(
     BoxType.SLIPOVER,
     "CardBoxPlayerBlack",
@@ -143,11 +138,11 @@ h_box = project.box(
         text_color=Color("white"),
         frame_color=Color("purple"),
     ),
-    position=(x_col2, 0.0, 0.0),
+    expandable=False,
 )
 h_box.compartment("Cards", cut=FingerCut.SCOOP)
 
-# ── 4. Common Box (Column 2, Y = PLAYER_CARD_BOX_LENGTH) ──────────
+# ── 4. Common Box ─────────────────────────────────────────────────
 com_box = project.box(
     BoxType.CAP,
     "CommonBox",
@@ -159,7 +154,6 @@ com_box = project.box(
         text_color=Color("white"),
         frame_color=Color("saddlebrown"),
     ),
-    position=(x_col2, PLAYER_CARD_BOX_LENGTH, 0.0),
 )
 for slot in range(3):
     com_box.compartment(

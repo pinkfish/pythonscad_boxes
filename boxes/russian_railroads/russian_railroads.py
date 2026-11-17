@@ -64,24 +64,22 @@ project = Project(
     clearance_slack=0.0,
     board_thickness=board_thickness,
     generate_spacers=True,
-    box_defaults={"no_rotate": True},
+    box_defaults={"expandable": False},
 )
 
 RR_PATTERN = PatternBuilder(PatternType.DENSE_HEX)
 
-# ── 1. Player & Currency Section (2 columns, stacked 3 high at Y = 0)
+# ── 1. Player & Currency Section ──────────────────────────────────
 trays = [
-    # Column 0
-    ("PlayerBox_Red", "Red", "red", 0, 0),
-    ("PlayerBox_Blue", "Blue", "navy", 0, 1),
-    ("ExtraTokensBox", "Tokens", "dimgray", 0, 2),
-    # Column 1
-    ("PlayerBox_Green", "Green", "forestgreen", 1, 0),
-    ("PlayerBox_Yellow", "Yellow", "gold", 1, 1),
-    ("MoneyBox", "Rubels", "goldenrod", 1, 2),
+    ("PlayerBox_Red", "Red", "red"),
+    ("PlayerBox_Blue", "Blue", "navy"),
+    ("ExtraTokensBox", "Tokens", "dimgray"),
+    ("PlayerBox_Green", "Green", "forestgreen"),
+    ("PlayerBox_Yellow", "Yellow", "gold"),
+    ("MoneyBox", "Rubels", "goldenrod"),
 ]
 
-for name, title, color_name, col, tier in trays:
+for name, title, color_name in trays:
     p_box = project.box(
         BoxType.CAP,
         name,
@@ -93,7 +91,6 @@ for name, title, color_name, col, tier in trays:
             text_color=Color("black" if color_name in ("gold", "yellow") else "white"),
             frame_color=Color(color_name),
         ),
-        position=(col * player_box_width, 0.0, tier * player_box_height),
     )
     p_box.compartment(
         "Workers",
@@ -106,9 +103,7 @@ for name, title, color_name, col, tier in trays:
         cut=FingerCut.SCOOP,
     )
 
-# ── 2. Train, Engineer, Track & Card Section (Y = player_box_length)
-y_trains = player_box_length
-
+# ── 2. Train, Engineer, Track & Card Section ──────────────────────
 project.box(
     BoxType.SLIDING,
     "CardBox",
@@ -120,13 +115,11 @@ project.box(
         text_color=Color("white"),
         frame_color=Color("peru"),
     ),
-    position=(train_box_width, y_trains, 0.0),
 ).compartment(
     "Cards",
     cut=FingerCut.SCOOP,
 )
 
-# Stacked at X = 0, Y = y_trains
 project.box(
     BoxType.CAP,
     "TrainBox",
@@ -138,7 +131,6 @@ project.box(
         text_color=Color("white"),
         frame_color=Color("darkred"),
     ),
-    position=(0.0, y_trains, 0.0),
 ).compartment(
     "TrainTiles",
     cut=FingerCut.SCOOP,
@@ -155,7 +147,6 @@ project.box(
         text_color=Color("white"),
         frame_color=Color("darkslategray"),
     ),
-    position=(0.0, y_trains, train_box_height),
 ).compartment(
     "EngineerTiles",
     cut=FingerCut.SCOOP,
@@ -172,7 +163,6 @@ project.box(
         text_color=Color("white"),
         frame_color=Color("saddlebrown"),
     ),
-    position=(0.0, y_trains, train_box_height + engineer_box_height),
 ).compartment(
     "WoodenTracks",
     cut=FingerCut.SCOOP,

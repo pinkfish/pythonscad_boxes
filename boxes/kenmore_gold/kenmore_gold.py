@@ -59,12 +59,11 @@ project = Project(
     lid_thickness=lid_thickness,
     clearance_slack=0.0,
     generate_spacers=True,
-    box_defaults={"no_rotate": True},
 )
 
 GOLD_PATTERN = PatternBuilder(PatternType.DENSE_HEX)
 
-# ── 1. Square Dungeon Tile Box (Row 0, Y = 0) ─────────────────────
+# ── 1. Square Dungeon Tile Box ────────────────────────────────────
 t_box = project.box(
     BoxType.CAP,
     "SquareTileBox",
@@ -76,7 +75,6 @@ t_box = project.box(
         text_color=Color("white"),
         frame_color=Color("goldenrod"),
     ),
-    position=(0.0, 0.0, 0.0),
 )
 t_box.compartment(
     "Tiles_A",
@@ -89,9 +87,7 @@ t_box.compartment(
     cut=FingerCut.SCOOP,
 )
 
-# ── 2. Start Cave & Loot Boxes (Row 1, Y = tile_box_length = 64mm)
-y_cave = tile_box_length
-
+# ── 2. Start Cave & Loot Boxes ────────────────────────────────────
 project.box(
     BoxType.CAP,
     "StartCaveBox",
@@ -103,7 +99,6 @@ project.box(
         text_color=Color("white"),
         frame_color=Color("saddlebrown"),
     ),
-    position=(0.0, y_cave, 0.0),
 ).compartment(
     "CaveTile",
     cut=FingerCut.SCOOP,
@@ -120,7 +115,6 @@ project.box(
         text_color=Color("white"),
         frame_color=Color("gold"),
     ),
-    position=(0.0, y_cave, start_cave_box_height),
 ).compartment(
     "LootTokens",
     cut=FingerCut.SCOOP,
