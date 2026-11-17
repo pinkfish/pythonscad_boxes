@@ -15,12 +15,12 @@ Full Box Packing
 
 Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
-.. stl:: ../_stl/boxes/cascadero/PlayerBox_1_body.stl?v=737d9112,../_stl/boxes/cascadero/PlayerBox_1_lid.stl?v=e36d70f2,../_stl/boxes/cascadero/PlayerBox_2_body.stl?v=e6eefe60,../_stl/boxes/cascadero/PlayerBox_2_lid.stl?v=e95bfc67,../_stl/boxes/cascadero/PlayerBox_3_body.stl?v=c9454551,../_stl/boxes/cascadero/PlayerBox_3_lid.stl?v=acf5f016,../_stl/boxes/cascadero/PlayerBox_4_body.stl?v=98bc8dcc,../_stl/boxes/cascadero/PlayerBox_4_lid.stl?v=40e1f345,../_stl/boxes/cascadero/SealsBox_body.stl?v=4866ea8b,../_stl/boxes/cascadero/SealsBox_lid.stl?v=c30f3d12,../_stl/boxes/cascadero/HeraldBox_body.stl?v=1ec42b7f,../_stl/boxes/cascadero/HeraldBox_lid.stl?v=50760439,../_stl/boxes/cascadero/FarmerBox_body.stl?v=a668d598,../_stl/boxes/cascadero/FarmerBox_lid.stl?v=01b1b4cf
+.. stl:: ../_stl/boxes/cascadero/PlayerBox_1_body.stl?v=2a8f5656,../_stl/boxes/cascadero/PlayerBox_1_lid.stl?v=e36d70f2,../_stl/boxes/cascadero/PlayerBox_2_body.stl?v=ea62341d,../_stl/boxes/cascadero/PlayerBox_2_lid.stl?v=e95bfc67,../_stl/boxes/cascadero/PlayerBox_3_body.stl?v=246be020,../_stl/boxes/cascadero/PlayerBox_3_lid.stl?v=acf5f016,../_stl/boxes/cascadero/PlayerBox_4_body.stl?v=b0288fa7,../_stl/boxes/cascadero/PlayerBox_4_lid.stl?v=40e1f345,../_stl/boxes/cascadero/SealsBox_body.stl?v=4866ea8b,../_stl/boxes/cascadero/SealsBox_lid.stl?v=c30f3d12,../_stl/boxes/cascadero/HeraldBox_body.stl?v=1ec42b7f,../_stl/boxes/cascadero/HeraldBox_lid.stl?v=50760439,../_stl/boxes/cascadero/FarmerBox_body.stl?v=a668d598,../_stl/boxes/cascadero/FarmerBox_lid.stl?v=01b1b4cf
    :height: 440px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/cascadero/PlayerBox_1_body.stl?v=737d9112" data-stl-combine="../_stl/boxes/cascadero/PlayerBox_1_body.stl?v=737d9112,../_stl/boxes/cascadero/PlayerBox_1_lid.stl?v=e36d70f2,../_stl/boxes/cascadero/PlayerBox_2_body.stl?v=e6eefe60,../_stl/boxes/cascadero/PlayerBox_2_lid.stl?v=e95bfc67,../_stl/boxes/cascadero/PlayerBox_3_body.stl?v=c9454551,../_stl/boxes/cascadero/PlayerBox_3_lid.stl?v=acf5f016,../_stl/boxes/cascadero/PlayerBox_4_body.stl?v=98bc8dcc,../_stl/boxes/cascadero/PlayerBox_4_lid.stl?v=40e1f345,../_stl/boxes/cascadero/SealsBox_body.stl?v=4866ea8b,../_stl/boxes/cascadero/SealsBox_lid.stl?v=c30f3d12,../_stl/boxes/cascadero/HeraldBox_body.stl?v=1ec42b7f,../_stl/boxes/cascadero/HeraldBox_lid.stl?v=50760439,../_stl/boxes/cascadero/FarmerBox_body.stl?v=a668d598,../_stl/boxes/cascadero/FarmerBox_lid.stl?v=01b1b4cf" download="Cascadero_full_packing.stl">⬇ Download Full Box Packing STL (<code>Cascadero_full_packing.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/cascadero/PlayerBox_1_body.stl?v=2a8f5656" data-stl-combine="../_stl/boxes/cascadero/PlayerBox_1_body.stl?v=2a8f5656,../_stl/boxes/cascadero/PlayerBox_1_lid.stl?v=e36d70f2,../_stl/boxes/cascadero/PlayerBox_2_body.stl?v=ea62341d,../_stl/boxes/cascadero/PlayerBox_2_lid.stl?v=e95bfc67,../_stl/boxes/cascadero/PlayerBox_3_body.stl?v=246be020,../_stl/boxes/cascadero/PlayerBox_3_lid.stl?v=acf5f016,../_stl/boxes/cascadero/PlayerBox_4_body.stl?v=b0288fa7,../_stl/boxes/cascadero/PlayerBox_4_lid.stl?v=40e1f345,../_stl/boxes/cascadero/SealsBox_body.stl?v=4866ea8b,../_stl/boxes/cascadero/SealsBox_lid.stl?v=c30f3d12,../_stl/boxes/cascadero/HeraldBox_body.stl?v=1ec42b7f,../_stl/boxes/cascadero/HeraldBox_lid.stl?v=50760439,../_stl/boxes/cascadero/FarmerBox_body.stl?v=a668d598,../_stl/boxes/cascadero/FarmerBox_lid.stl?v=01b1b4cf" download="Cascadero_full_packing.stl">⬇ Download Full Box Packing STL (<code>Cascadero_full_packing.stl</code>)</a></p>
 
 Parts Overview
 --------------
@@ -85,21 +85,21 @@ PlayerBox_1
 
 **Assembled Box (PlayerBox_1 — Body + Lid)**
 
-.. stl:: ../_stl/boxes/cascadero/PlayerBox_1_body.stl?v=737d9112,../_stl/boxes/cascadero/PlayerBox_1_lid.stl?v=e36d70f2
+.. stl:: ../_stl/boxes/cascadero/PlayerBox_1_body.stl?v=2a8f5656,../_stl/boxes/cascadero/PlayerBox_1_lid.stl?v=e36d70f2
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/cascadero/PlayerBox_1_body.stl?v=737d9112" data-stl-combine="../_stl/boxes/cascadero/PlayerBox_1_body.stl?v=737d9112,../_stl/boxes/cascadero/PlayerBox_1_lid.stl?v=e36d70f2" download="PlayerBox_1_assembled.stl">⬇ Download Assembled PlayerBox_1 STL (<code>PlayerBox_1_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/cascadero/PlayerBox_1_body.stl?v=2a8f5656" data-stl-combine="../_stl/boxes/cascadero/PlayerBox_1_body.stl?v=2a8f5656,../_stl/boxes/cascadero/PlayerBox_1_lid.stl?v=e36d70f2" download="PlayerBox_1_assembled.stl">⬇ Download Assembled PlayerBox_1 STL (<code>PlayerBox_1_assembled.stl</code>)</a></p>
 
 **Part: PlayerBox_1 Body**
 
-.. stl:: ../_stl/boxes/cascadero/PlayerBox_1_body.stl?v=737d9112
+.. stl:: ../_stl/boxes/cascadero/PlayerBox_1_body.stl?v=2a8f5656
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/cascadero/PlayerBox_1_body.stl?v=737d9112" download="PlayerBox_1_body.stl">⬇ Download PlayerBox_1 Body STL (<code>PlayerBox_1_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/cascadero/PlayerBox_1_body.stl?v=2a8f5656" download="PlayerBox_1_body.stl">⬇ Download PlayerBox_1 Body STL (<code>PlayerBox_1_body.stl</code>)</a></p>
 
 **Part: PlayerBox_1 Lid**
 
@@ -122,21 +122,21 @@ PlayerBox_2
 
 **Assembled Box (PlayerBox_2 — Body + Lid)**
 
-.. stl:: ../_stl/boxes/cascadero/PlayerBox_2_body.stl?v=e6eefe60,../_stl/boxes/cascadero/PlayerBox_2_lid.stl?v=e95bfc67
+.. stl:: ../_stl/boxes/cascadero/PlayerBox_2_body.stl?v=ea62341d,../_stl/boxes/cascadero/PlayerBox_2_lid.stl?v=e95bfc67
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/cascadero/PlayerBox_2_body.stl?v=e6eefe60" data-stl-combine="../_stl/boxes/cascadero/PlayerBox_2_body.stl?v=e6eefe60,../_stl/boxes/cascadero/PlayerBox_2_lid.stl?v=e95bfc67" download="PlayerBox_2_assembled.stl">⬇ Download Assembled PlayerBox_2 STL (<code>PlayerBox_2_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/cascadero/PlayerBox_2_body.stl?v=ea62341d" data-stl-combine="../_stl/boxes/cascadero/PlayerBox_2_body.stl?v=ea62341d,../_stl/boxes/cascadero/PlayerBox_2_lid.stl?v=e95bfc67" download="PlayerBox_2_assembled.stl">⬇ Download Assembled PlayerBox_2 STL (<code>PlayerBox_2_assembled.stl</code>)</a></p>
 
 **Part: PlayerBox_2 Body**
 
-.. stl:: ../_stl/boxes/cascadero/PlayerBox_2_body.stl?v=e6eefe60
+.. stl:: ../_stl/boxes/cascadero/PlayerBox_2_body.stl?v=ea62341d
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/cascadero/PlayerBox_2_body.stl?v=e6eefe60" download="PlayerBox_2_body.stl">⬇ Download PlayerBox_2 Body STL (<code>PlayerBox_2_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/cascadero/PlayerBox_2_body.stl?v=ea62341d" download="PlayerBox_2_body.stl">⬇ Download PlayerBox_2 Body STL (<code>PlayerBox_2_body.stl</code>)</a></p>
 
 **Part: PlayerBox_2 Lid**
 
@@ -159,21 +159,21 @@ PlayerBox_3
 
 **Assembled Box (PlayerBox_3 — Body + Lid)**
 
-.. stl:: ../_stl/boxes/cascadero/PlayerBox_3_body.stl?v=c9454551,../_stl/boxes/cascadero/PlayerBox_3_lid.stl?v=acf5f016
+.. stl:: ../_stl/boxes/cascadero/PlayerBox_3_body.stl?v=246be020,../_stl/boxes/cascadero/PlayerBox_3_lid.stl?v=acf5f016
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/cascadero/PlayerBox_3_body.stl?v=c9454551" data-stl-combine="../_stl/boxes/cascadero/PlayerBox_3_body.stl?v=c9454551,../_stl/boxes/cascadero/PlayerBox_3_lid.stl?v=acf5f016" download="PlayerBox_3_assembled.stl">⬇ Download Assembled PlayerBox_3 STL (<code>PlayerBox_3_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/cascadero/PlayerBox_3_body.stl?v=246be020" data-stl-combine="../_stl/boxes/cascadero/PlayerBox_3_body.stl?v=246be020,../_stl/boxes/cascadero/PlayerBox_3_lid.stl?v=acf5f016" download="PlayerBox_3_assembled.stl">⬇ Download Assembled PlayerBox_3 STL (<code>PlayerBox_3_assembled.stl</code>)</a></p>
 
 **Part: PlayerBox_3 Body**
 
-.. stl:: ../_stl/boxes/cascadero/PlayerBox_3_body.stl?v=c9454551
+.. stl:: ../_stl/boxes/cascadero/PlayerBox_3_body.stl?v=246be020
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/cascadero/PlayerBox_3_body.stl?v=c9454551" download="PlayerBox_3_body.stl">⬇ Download PlayerBox_3 Body STL (<code>PlayerBox_3_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/cascadero/PlayerBox_3_body.stl?v=246be020" download="PlayerBox_3_body.stl">⬇ Download PlayerBox_3 Body STL (<code>PlayerBox_3_body.stl</code>)</a></p>
 
 **Part: PlayerBox_3 Lid**
 
@@ -196,21 +196,21 @@ PlayerBox_4
 
 **Assembled Box (PlayerBox_4 — Body + Lid)**
 
-.. stl:: ../_stl/boxes/cascadero/PlayerBox_4_body.stl?v=98bc8dcc,../_stl/boxes/cascadero/PlayerBox_4_lid.stl?v=40e1f345
+.. stl:: ../_stl/boxes/cascadero/PlayerBox_4_body.stl?v=b0288fa7,../_stl/boxes/cascadero/PlayerBox_4_lid.stl?v=40e1f345
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/cascadero/PlayerBox_4_body.stl?v=98bc8dcc" data-stl-combine="../_stl/boxes/cascadero/PlayerBox_4_body.stl?v=98bc8dcc,../_stl/boxes/cascadero/PlayerBox_4_lid.stl?v=40e1f345" download="PlayerBox_4_assembled.stl">⬇ Download Assembled PlayerBox_4 STL (<code>PlayerBox_4_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/cascadero/PlayerBox_4_body.stl?v=b0288fa7" data-stl-combine="../_stl/boxes/cascadero/PlayerBox_4_body.stl?v=b0288fa7,../_stl/boxes/cascadero/PlayerBox_4_lid.stl?v=40e1f345" download="PlayerBox_4_assembled.stl">⬇ Download Assembled PlayerBox_4 STL (<code>PlayerBox_4_assembled.stl</code>)</a></p>
 
 **Part: PlayerBox_4 Body**
 
-.. stl:: ../_stl/boxes/cascadero/PlayerBox_4_body.stl?v=98bc8dcc
+.. stl:: ../_stl/boxes/cascadero/PlayerBox_4_body.stl?v=b0288fa7
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/cascadero/PlayerBox_4_body.stl?v=98bc8dcc" download="PlayerBox_4_body.stl">⬇ Download PlayerBox_4 Body STL (<code>PlayerBox_4_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/cascadero/PlayerBox_4_body.stl?v=b0288fa7" download="PlayerBox_4_body.stl">⬇ Download PlayerBox_4 Body STL (<code>PlayerBox_4_body.stl</code>)</a></p>
 
 **Part: PlayerBox_4 Lid**
 

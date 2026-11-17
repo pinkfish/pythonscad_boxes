@@ -165,7 +165,11 @@ def build_compartment_scoop(
     # cut into the box's top edge.
     top = top_z if top_z is not None else interior.origin_z + interior.height
     depth = max(0.1, top - floor_z)
-    base_wt = interior.origin_x if interior.origin_x > 0 else 2.0
+    base_wt = (
+        interior.wall_thickness
+        if interior.wall_thickness is not None
+        else (interior.origin_x if interior.origin_x > 0 else 2.0)
+    )
     if scoop_side == ScoopSide.FRONT:
         gap = placement.position[1] - interior.origin_y
     elif scoop_side == ScoopSide.BACK:

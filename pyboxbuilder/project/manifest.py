@@ -54,6 +54,8 @@ class ProjectManifest:
     shared_groups: list[tuple[list[str], list[tuple[str, float, float, float]]]] = field(
         default_factory=list
     )
+    stack_groups: list[tuple[str, ...]] = field(default_factory=list)
+    """Ordered bottom-to-top box label chains registered via Project.stack_order()."""
     piece_bounds: tuple[PieceBounds, ...] = field(default_factory=tuple)
     """Bounding box of every exported piece, populated by export."""
 

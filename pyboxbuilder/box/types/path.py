@@ -6,7 +6,7 @@ from __future__ import annotations
 from dataclasses import replace
 from typing import TYPE_CHECKING
 
-from pyboxbuilder.box.spec import BoxSpec
+from pyboxbuilder.box.spec import BoxSpec, UnresolvedBoxSpec
 
 if TYPE_CHECKING:
     from pybosl2.shapes3d import Bosl2Solid
@@ -35,6 +35,18 @@ class PathBox(BoxTypeBase):
             height=spec.height - ft,
             origin_x=wt, origin_y=wt, origin_z=ft,
         )
+
+    def outer_size_for_interior(
+        self,
+        spec: BoxSpec | UnresolvedBoxSpec,
+        inner_w: float,
+        inner_l: float,
+        inner_h: float,
+    ) -> tuple[float, float, float]:
+        """Return outer (W, L, H) for a lidless path tray."""
+        wt = spec.wall_thickness
+        ft = spec.floor_thickness
+        return (inner_w + 2.0 * wt + 0.5, inner_l + 2.0 * wt + 0.5, inner_h + ft + 0.5)
 
     def build_body(self, spec: BoxSpec) -> Bosl2Solid:
         """Build an open tray on a polygon footprint, with no lid."""

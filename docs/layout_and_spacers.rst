@@ -24,6 +24,7 @@ The :mod:`pyboxbuilder.layout` module solves this by letting you describe the ar
 - :func:`~pyboxbuilder.layout.columns`: Arranges children side-by-side along the X-axis (width).
 - :func:`~pyboxbuilder.layout.rows`: Arranges children front-to-back along the Y-axis (length).
 - :func:`~pyboxbuilder.layout.stack`: Arranges children bottom-to-top along the Z-axis (height).
+- :func:`~pyboxbuilder.layout.polygon_grid`: Tessellates regular polygonal trays (such as hexagonal ``BoxType.POLYGON`` player pods or triangular trays) in a staggered honeycomb or alternating lattice.
 
 Groups can be nested arbitrarily, and you can specify a ``gap`` (in mm) between adjacent boxes to ensure clearance for easy removal.
 
@@ -58,6 +59,11 @@ Automatic 3D Bin Packing
 
 If you do not call :meth:`~pyboxbuilder.project.core.Project.arrange` and omit explicit ``position=(x, y, z)`` coordinates, ``pyboxbuilder`` automatically runs its 3D guillotine bin packer (:mod:`pyboxbuilder.packing.guillotine`).
 
+- **Multi-Choice Co-Sizing**: Unsized multi-compartment boxes generate a Pareto menu of candidate ``(W, L, H)`` envelopes across valid compartment arrangements, letting the 3D solver select the aspect ratio that minimizes wasted space inside the game box.
+- **Mixed Pinned & Auto-Packed Layouts**: Any boxes given explicit ``position=(x, y, z)`` coordinates act as 3D obstacles; remaining unpositioned boxes automatically pack into the residual free space without overlapping pinned trays.
+- **Physical Protrusions & Stack Chains**: Exterior handles (such as ``BoxType.SLEEVE_DRAWER`` pulls or ``BoxType.DISPENSER`` trays) and ordered :meth:`~pyboxbuilder.project.core.Project.stack_order` chains are accounted for automatically during packing, post-pack expansion, and boss/recess generation.
+- **2D Element Auto-Packing**: Inside a custom piece tray, :func:`~pyboxbuilder.compartments.element.pack_elements` packs loose :class:`~pyboxbuilder.compartments.element.CompartmentElement` pockets into a compact 2D skyline footprint automatically.
+
 The packer optimizes the placement of all boxes to fit inside the declared :attr:`~pyboxbuilder.project.core.Project.game_box_size`. If the boxes cannot fit, it reports a :class:`~pyboxbuilder.packing.layout.PackingError` identifying the overflow.
 
 
@@ -69,7 +75,7 @@ Commercial game boxes rarely match the exact sum of your components' dimensions.
 When ``generate_spacers=True`` is passed to :class:`~pyboxbuilder.project.core.Project` (enabled by default), ``pyboxbuilder``:
 
 1. Computes the geometric difference between the outer ``game_box_size`` and the placed boxes.
-2. Decomposes leftover void regions into printable rectangular trays (:class:`~pyboxbuilder.packing.spacer.SpacerSpec`).
+2. Extracts maximal axis-unbiased 3D empty cuboids, filters out unsupported mid-air voids, and merges adjacent co-planar voids into rectilinear L-, T-, or U-shaped spacer trays (:class:`~pyboxbuilder.packing.spacer.SpacerSpec`), automatically splitting ring-shaped voids around centered trays so no spacer ever collides with an interior box.
 3. Generates hollow organizer trays or solid blocks for each void, sizing them to fill the gap while leaving slight clearance for easy insertion.
 4. Includes the spacer trays in 3D previews (:meth:`~pyboxbuilder.project.core.Project.show`), exports (:meth:`~pyboxbuilder.project.core.Project.export`), and blueprint layout PDFs.
 

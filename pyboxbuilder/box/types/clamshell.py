@@ -15,7 +15,7 @@ from pyboxbuilder.box.features import (
 )
 from pyboxbuilder.box.registry import register_box
 from pyboxbuilder.box.shell import block, body_rounding, build_shell, corner
-from pyboxbuilder.box.spec import BoxSpec
+from pyboxbuilder.box.spec import BoxSpec, UnresolvedBoxSpec
 from pyboxbuilder.builders.clamshell import ClamshellBoxBuilder
 from pyboxbuilder.compartments.element import union_all
 from pyboxbuilder.enums import BoxType
@@ -42,6 +42,22 @@ class ClamshellBox(BoxTypeBase):
             origin_x=wt,
             origin_y=wt,
             origin_z=ft,
+        )
+
+    def outer_size_for_interior(
+        self,
+        spec: BoxSpec | UnresolvedBoxSpec,
+        inner_w: float,
+        inner_l: float,
+        inner_h: float,
+    ) -> tuple[float, float, float]:
+        """Return outer (W, L, H) for a bifold clamshell (base half holds inner_h)."""
+        wt = spec.wall_thickness
+        ft = spec.floor_thickness
+        return (
+            inner_w + 2.0 * wt + 0.5,
+            inner_l + 2.0 * wt + 0.5,
+            2.0 * (inner_h + ft + 0.25),
         )
 
     @staticmethod

@@ -30,6 +30,9 @@ STANDALONE_GAP_MM = 10.0
 class GeometryPipeline:
     """Executes CSG construction, lid decoration, previewing, and 3MF exporting (FR-093)."""
 
+    def __init__(self) -> None:
+        self._resolved_cache: dict[tuple[Any, ...], ResolvedBox] = {}
+
     def build(
         self,
         manifest: ProjectManifest,
@@ -42,6 +45,7 @@ class GeometryPipeline:
         """
         from pyboxbuilder.project.compiler import LayoutCompiler
 
+        self._resolved_cache.clear()
         comp = compiler or LayoutCompiler()
         comp.resolve_shared_compartments(manifest)
 
@@ -79,15 +83,18 @@ class GeometryPipeline:
             return Build(pieces=tuple(pieces))
 
         packing = comp.resolve_final_layout(manifest)
-        positions = {p.label: p.position for p in packing.placements}
+        placements_by_label = {p.label: p for p in packing.placements}
 
         for builder in manifest.boxes:
-            at = positions.get(builder.label, builder.position or (0.0, 0.0, 0.0))
+            pl = placements_by_label.get(builder.label)
+            at = pl.position if pl is not None else (builder.position or (0.0, 0.0, 0.0))
+            rot = pl.rotation if pl is not None else False
             pieces.extend(
                 self._box_pieces(
                     manifest,
                     builder,
                     at,
+                    rotation=rot,
                     build_box_solids_fn=build_box_solids_fn,
                 )
             )
@@ -113,12 +120,14 @@ class GeometryPipeline:
         manifest: ProjectManifest,
         builder: BoxBuilder,
         at: tuple[float, float, float],
+        rotation: bool = False,
         build_box_solids_fn: Any = None,
     ) -> list[Piece]:
         """Return the body and lid pieces for one box, at the position it packs to."""
         size = builder.final_size
         assert size is not None
-        # Validate now, build later: pre-CSG validation runs here eagerly (FR-092).
+        # Validate now, build later: pre-CSG validation runs here eagerly (FR-092),
+        # and the ResolvedBox is cached so _build_box_solids never repeats the work.
         self._resolve_box(manifest, builder)
         build_fn = build_box_solids_fn or partial(self._build_box_solids, manifest)
         build_once = cache(partial(build_fn, builder))
@@ -132,6 +141,7 @@ class GeometryPipeline:
                 builder=builder,
                 _build=lambda: build_once()[0],
                 _build_inserts=lambda: build_once()[3],
+                rotation=rotation,
             )
         ]
         if self._has_lid(builder):
@@ -143,6 +153,7 @@ class GeometryPipeline:
                     position=at,
                     builder=builder,
                     _build=lambda: build_once()[1],
+                    rotation=rotation,
                 )
             )
         return pieces
@@ -158,16 +169,33 @@ class GeometryPipeline:
         self, manifest: ProjectManifest, builder: BoxBuilder
     ) -> ResolvedBox:
         """Everything about a box that is decided before any geometry is cut."""
+        size = builder.final_size
+        assert size is not None
+        cache_k = (
+            id(manifest),
+            id(builder),
+            builder.label,
+            size,
+            tuple(id(c) for c in builder.compartments),
+            tuple(id(fh) for fh in builder.finger_holes),
+            builder.auto_finger_holes,
+            builder.stackable_top,
+            builder.stackable_bottom,
+            id(builder.lid),
+        )
+        cached = self._resolved_cache.get(cache_k)
+        if cached is not None and cached.builder is builder:
+            return cached
+
         from pyboxbuilder.box.registry import BOX_IMPL_REGISTRY
         from pyboxbuilder.box.spec import build_spec
         from pyboxbuilder.box.validation import GeometryValidator
-        from pyboxbuilder.compartments.layout import layout_compartments
+        from pyboxbuilder.compartments.builder import infer_ratio_tracks
+        from pyboxbuilder.compartments.layout import WALL_SPACING_MM, layout_compartments
+        from pyboxbuilder.compartments.sizing import RowItem, distribute_row_width, rows_from_placements
         from pyboxbuilder.project.compiler import LayoutCompiler
 
         LayoutCompiler.check_ratios(builder)
-
-        size = builder.final_size
-        assert size is not None
         spec = build_spec(manifest, builder, size)
 
         # Pre-CSG physical invariant validation (FR-092 / SC-092)
@@ -181,9 +209,17 @@ class GeometryPipeline:
         else:
             interior = spec.interior()
 
-        siblings = len(builder.compartments)
+        siblings = len([cb for cb in builder.compartments if cb.position is None])
+        x_tracks, y_tracks = infer_ratio_tracks(builder.compartments)
         comp_data = [
-            cb.resolved(interior.width, interior.length, interior.height, siblings)
+            cb.resolved(
+                interior.width,
+                interior.length,
+                interior.height,
+                max(1, siblings),
+                x_tracks=x_tracks,
+                y_tracks=y_tracks,
+            )
             for cb in builder.compartments
         ]
 
@@ -194,8 +230,14 @@ class GeometryPipeline:
                 for cb in builder.compartments
                 if cb.no_rotate or cb.derives_size
             }
+            preserve_order = all(
+                cb.derives_size for cb in builder.compartments if cb.position is None
+            )
             comp_layout = layout_compartments(
-                interior, comp_data, no_rotate_labels=no_rotate_labels
+                interior,
+                comp_data,
+                no_rotate_labels=no_rotate_labels,
+                preserve_order=preserve_order,
             )
             if comp_layout.overflow:
                 raise ValueError(
@@ -203,13 +245,42 @@ class GeometryPipeline:
                     f"interior ({interior.width}x{interior.length})"
                 )
 
-        return ResolvedBox(
+            # Expand growable compartments proportionally across row slack (FR-004)
+            by_comp_label = {cb.label: cb for cb in builder.compartments}
+            if any(cb.growable for cb in builder.compartments) and len(comp_layout.placements) > 1:
+                pl_map = {pl.label: pl for pl in comp_layout.placements}
+                for row_labels in rows_from_placements(comp_layout.placements, gap=WALL_SPACING_MM):
+                    if not any(
+                        by_comp_label[lbl].growable and by_comp_label[lbl].position is None
+                        for lbl in row_labels
+                    ):
+                        continue
+                    row_items = [
+                        RowItem(
+                            label=lbl,
+                            width=pl_map[lbl].size[0],
+                            length=pl_map[lbl].size[1],
+                            growable=(by_comp_label[lbl].growable and by_comp_label[lbl].position is None),
+                        )
+                        for lbl in row_labels
+                    ]
+                    distributed = distribute_row_width(row_items, interior.width, gap=WALL_SPACING_MM)
+                    x_cur = interior.origin_x + WALL_SPACING_MM
+                    for lbl, new_w, new_l in distributed:
+                        pl = pl_map[lbl]
+                        pl.size = (new_w, new_l)
+                        pl.position = (x_cur, pl.position[1])
+                        x_cur += new_w + WALL_SPACING_MM
+
+        resolved = ResolvedBox(
             builder=builder,
             box=box,
             spec=spec,
             interior=interior,
             compartments=comp_layout,
         )
+        self._resolved_cache[cache_k] = resolved
+        return resolved
 
     def _build_box_solids(
         self, manifest: ProjectManifest, builder: BoxBuilder
@@ -468,9 +539,15 @@ class GeometryPipeline:
             colour = colour_for(piece)
             if piece.kind == "lid":
                 colour = lid_color(colour)
+
+            def _place_in_container(s: Bosl2Solid, pc: Piece) -> Bosl2Solid:
+                if pc.rotation:
+                    s = s.rotate([0.0, 0.0, 90.0]).translate([pc.size[1], 0.0, 0.0])
+                return s.translate(list(pc.position))
+
             out.append(
                 PreviewPiece(
-                    piece.label, solid.translate(list(piece.position)), colour, piece.kind
+                    piece.label, _place_in_container(solid, piece), colour, piece.kind
                 )
             )
 
@@ -478,7 +555,7 @@ class GeometryPipeline:
                 out.append(
                     PreviewPiece(
                         piece.label,
-                        insert.solid.translate(list(piece.position)),
+                        _place_in_container(insert.solid, piece),
                         insert.color if insert.color is not None else colour,
                         "lid",
                     )
@@ -488,7 +565,7 @@ class GeometryPipeline:
                 out.append(
                     PreviewPiece(
                         piece.label,
-                        solid_insert.translate(list(piece.position)),
+                        _place_in_container(solid_insert, piece),
                         color,
                         "body",
                     )
@@ -676,5 +753,7 @@ class GeometryPipeline:
                 manifest.name,
                 manifest.game_box_size,
                 box_builders=manifest.boxes,
+                manifest=manifest,
+                pipeline=self,
             )
             exporter.state.written.append(f"{manifest.name}/layout.pdf")

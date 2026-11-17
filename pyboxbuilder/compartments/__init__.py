@@ -10,6 +10,7 @@ from pyboxbuilder.compartments.element import (
     elements_overlap,
     grid_pack,
     normalize_elements,
+    pack_elements,
 )
 
 __all__ = [
@@ -21,4 +22,5 @@ __all__ = [
     "elements_overlap",
     "grid_pack",
     "normalize_elements",
+    "pack_elements",
 ]

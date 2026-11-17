@@ -34,11 +34,36 @@ if TYPE_CHECKING:
 X, Y, Z = 0, 1, 2
 AXIS_NAMES = ("columns", "rows", "stack")
 
-Node = Union["Group", str]
+Node = Union["Group", "PolygonGrid", str]
 
 
 class LayoutError(ValueError):
     """Raised when a layout tree cannot be resolved into positions."""
+
+
+@dataclass(frozen=True)
+class PolygonGrid:
+    """A tessellated regular-polygon lattice (e.g., hexagonal honeycomb) of boxes."""
+
+    children: tuple[Node, ...]
+    cols: int
+    sides: int = 6
+    apothem: float = 20.0
+    gap: float = 0.0
+
+    def labels(self) -> list[str]:
+        """Every box label in this subtree, in layout order."""
+        found: list[str] = []
+        for child in self.children:
+            found.extend([child] if isinstance(child, str) else child.labels())
+        return found
+
+    def __repr__(self) -> str:
+        """Return the polygon grid representation."""
+        return (
+            f"polygon_grid({', '.join(map(repr, self.children))}, "
+            f"cols={self.cols}, sides={self.sides}, apothem={self.apothem})"
+        )
 
 
 @dataclass(frozen=True)
@@ -77,6 +102,27 @@ def stack(*children: Node, gap: float = 0.0) -> Group:
     return Group(axis=Z, children=tuple(children), gap=gap)
 
 
+def polygon_grid(
+    *children: Node,
+    cols: int,
+    sides: int = 6,
+    apothem: float,
+    gap: float = 0.0,
+) -> PolygonGrid:
+    """Lay regular-polygon boxes out in a tessellated honeycomb/triangle/square grid."""
+    if cols <= 0:
+        raise LayoutError(f"polygon_grid cols must be >= 1; got {cols}")
+    if sides < 3:
+        raise LayoutError(f"polygon_grid sides must be >= 3; got {sides}")
+    return PolygonGrid(
+        children=tuple(children),
+        cols=cols,
+        sides=sides,
+        apothem=float(apothem),
+        gap=float(gap),
+    )
+
+
 @dataclass(frozen=True)
 class Arrangement:
     """The result of resolving a layout tree."""
@@ -99,6 +145,25 @@ def measure(node: Node, sizes: dict[str, tuple[float, float, float]]) -> tuple[f
 
     if not node.children:
         return (0.0, 0.0, 0.0)
+
+    if isinstance(node, PolygonGrid):
+        from pyboxbuilder.box.features import polygon_grid_position
+
+        max_x = max_y = max_z = 0.0
+        for idx, child in enumerate(node.children):
+            ext = measure(child, sizes)
+            dx, dy = polygon_grid_position(
+                row=idx // node.cols,
+                col=idx % node.cols,
+                sides=node.sides,
+                apothem=node.apothem,
+                spacing=node.gap,
+                origin=(0.0, 0.0),
+            )
+            max_x = max(max_x, dx + ext[0])
+            max_y = max(max_y, dy + ext[1])
+            max_z = max(max_z, ext[2])
+        return (max_x, max_y, max_z)
 
     extents = [measure(child, sizes) for child in node.children]
     gaps = node.gap * (len(extents) - 1)
@@ -150,6 +215,21 @@ def _place(
         positions[node] = at
         return
 
+    if isinstance(node, PolygonGrid):
+        from pyboxbuilder.box.features import polygon_grid_position
+
+        for idx, child in enumerate(node.children):
+            dx, dy = polygon_grid_position(
+                row=idx // node.cols,
+                col=idx % node.cols,
+                sides=node.sides,
+                apothem=node.apothem,
+                spacing=node.gap,
+                origin=(0.0, 0.0),
+            )
+            _place(child, sizes, (at[0] + dx, at[1] + dy, at[2]), positions)
+        return
+
     cursor = at[node.axis]
     for child in node.children:
         child_at = list(at)
@@ -160,5 +240,5 @@ def _place(
 
 def check_complete(node: Node, builders: Iterable[BoxBuilder]) -> list[str]:
     """Return the labels of boxes the project has but the layout leaves out."""
-    named = set(node.labels() if isinstance(node, Group) else [node])
+    named = set(node.labels() if isinstance(node, (Group, PolygonGrid)) else [node])
     return sorted(b.label for b in builders if b.label not in named)

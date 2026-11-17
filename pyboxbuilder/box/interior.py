@@ -14,6 +14,7 @@ class Interior:
     origin_x: float = 0.0
     origin_y: float = 0.0
     origin_z: float = 0.0
+    wall_thickness: float | None = None
 
     @property
     def max_x(self) -> float:

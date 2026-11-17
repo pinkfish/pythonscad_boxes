@@ -10,7 +10,7 @@ from pybosl2.shapes3d import cuboid, cyl
 from pyboxbuilder.box.base import BoxTypeBase, Interior
 from pyboxbuilder.box.registry import register_box
 from pyboxbuilder.box.shell import block, body_rounding
-from pyboxbuilder.box.spec import BoxSpec
+from pyboxbuilder.box.spec import BoxSpec, UnresolvedBoxSpec
 from pyboxbuilder.builders.sleeve_drawer import SleeveDrawerBoxBuilder
 from pyboxbuilder.enums import BoxType, DrawerHandleStyle
 from pyboxbuilder.precision import precision
@@ -24,7 +24,7 @@ if TYPE_CHECKING:
 class SleeveDrawerBox(BoxTypeBase):
     """Two-piece matchbox assembly with outer sleeve and sliding drawer (FR-087)."""
 
-    def _sleeve_wall(self, spec: BoxSpec) -> float:
+    def _sleeve_wall(self, spec: BoxSpec | UnresolvedBoxSpec) -> float:
         """Return the sleeve wall thickness, defaulting to half the standard wall thickness."""
         if spec.sleeve_wall_thickness is not None:
             return max(0.8, spec.sleeve_wall_thickness)
@@ -46,7 +46,43 @@ class SleeveDrawerBox(BoxTypeBase):
             origin_x=sw + slack + wt,
             origin_y=wt,
             origin_z=sw + slack + ft,
+            wall_thickness=wt,
         )
+
+    def outer_size_for_interior(
+        self,
+        spec: BoxSpec | UnresolvedBoxSpec,
+        inner_w: float,
+        inner_l: float,
+        inner_h: float,
+    ) -> tuple[float, float, float]:
+        """Return outer (W, L, H) required to enclose (inner_w, inner_l, inner_h)."""
+        sw = self._sleeve_wall(spec)
+        slack = spec.sleeve_slack
+        wt = spec.wall_thickness
+        ft = spec.floor_thickness
+        return (
+            inner_w + 2 * (sw + slack + wt) + 0.5,
+            inner_l + sw + slack + 2 * wt + 0.5,
+            inner_h + ft + 2 * (sw + slack) + 0.5,
+        )
+
+    def exterior_protrusions(
+        self, spec: BoxSpec | UnresolvedBoxSpec
+    ) -> tuple[float, float, float, float, float, float]:
+        """Account for the front pull handle/lip protruding in -Y."""
+        nx, px, ny, py, nz, pz = super().exterior_protrusions(spec)
+        handle_len = (
+            spec.drawer_handle_length
+            if spec.drawer_handle_length is not None
+            else spec.drawer_pull_lip
+        )
+        style = spec.drawer_handle_style
+        if isinstance(style, str):
+            style = DrawerHandleStyle(style.lower())
+        if handle_len > 0 and style != DrawerHandleStyle.NONE:
+            ny += float(handle_len)
+        return (nx, px, ny, py, nz, pz)
 
     def build_body(self, spec: BoxSpec) -> Bosl2Solid:
         """Return the inner sliding drawer with solid front face and pull handle."""

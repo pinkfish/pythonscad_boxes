@@ -6,7 +6,7 @@ from __future__ import annotations
 from dataclasses import replace
 from typing import TYPE_CHECKING
 
-from pyboxbuilder.box.spec import BoxSpec
+from pyboxbuilder.box.spec import BoxSpec, UnresolvedBoxSpec
 from pyboxbuilder.precision import kwargs as precision_kwargs
 
 if TYPE_CHECKING:
@@ -33,6 +33,18 @@ class NoLidBox(BoxTypeBase):
             height=spec.height - ft,
             origin_x=wt, origin_y=wt, origin_z=ft,
         )
+
+    def outer_size_for_interior(
+        self,
+        spec: BoxSpec | UnresolvedBoxSpec,
+        inner_w: float,
+        inner_l: float,
+        inner_h: float,
+    ) -> tuple[float, float, float]:
+        """Return outer (W, L, H) for a lidless tray (no lid_thickness added)."""
+        wt = spec.wall_thickness
+        ft = spec.floor_thickness
+        return (inner_w + 2.0 * wt + 0.5, inner_l + 2.0 * wt + 0.5, inner_h + ft + 0.5)
 
     def _build_shell(self, spec: BoxSpec) -> Bosl2Solid:
         from pyboxbuilder.box.shell import build_shell, with_no_lid_finger_holes

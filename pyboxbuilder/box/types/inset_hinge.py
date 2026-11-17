@@ -13,7 +13,7 @@ from pyboxbuilder.box.base import BoxTypeBase, Interior
 from pyboxbuilder.box.features import hinge_catch
 from pyboxbuilder.box.registry import register_box
 from pyboxbuilder.box.shell import block, body_rounding
-from pyboxbuilder.box.spec import BoxSpec
+from pyboxbuilder.box.spec import BoxSpec, UnresolvedBoxSpec
 from pyboxbuilder.builders.inset_hinge import InsetHingeBoxBuilder
 from pyboxbuilder.enums import BoxType, CatchType
 from pyboxbuilder.precision import kwargs as precision_kwargs
@@ -220,7 +220,7 @@ class InsetHingeBox(BoxTypeBase):
     """Print-in-place inset-hinge box based on MakeBoxAndLidWithInsetHinge (hinge_box.scad)."""
 
     @staticmethod
-    def _effective_gap(spec: BoxSpec) -> float:
+    def _effective_gap(spec: BoxSpec | UnresolvedBoxSpec) -> float:
         """Return the print-in-place bed gap between the two box halves (2 * hinge_offset)."""
         hinge_offset = spec.pip_radial_clearance
         raw_gap = getattr(spec, "pip_gap_mm", 0.0)
@@ -265,6 +265,25 @@ class InsetHingeBox(BoxTypeBase):
             origin_x=wt,
             origin_y=wt,
             origin_z=ft,
+        )
+
+    def outer_size_for_interior(
+        self,
+        spec: BoxSpec | UnresolvedBoxSpec,
+        inner_w: float,
+        inner_l: float,
+        inner_h: float,
+    ) -> tuple[float, float, float]:
+        """Return closed outer (W, L, H) accounting for the inset hinge width."""
+        wt = spec.wall_thickness
+        ft = spec.floor_thickness
+        gap = self._effective_gap(spec)
+        hinge_d = 2.0 * spec.pip_hinge_radius
+        hinge_width = hinge_d * 2.0 + gap
+        return (
+            inner_w + wt + hinge_width + 0.5,
+            inner_l + 2.0 * wt + 0.5,
+            2.0 * (inner_h + ft + 0.25),
         )
 
     def interior_mask(self, spec: BoxSpec) -> Bosl2Solid:

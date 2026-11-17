@@ -15,12 +15,12 @@ Full Box Packing
 
 Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
-.. stl:: ../_stl/boxes/explorers_of_navoria/PlayerBox_Yellow_body.stl?v=78fc2764,../_stl/boxes/explorers_of_navoria/PlayerBox_Yellow_lid.stl?v=095513fa,../_stl/boxes/explorers_of_navoria/PlayerBox_Purple_body.stl?v=530a16ac,../_stl/boxes/explorers_of_navoria/PlayerBox_Purple_lid.stl?v=3d01fa66,../_stl/boxes/explorers_of_navoria/PlayerBox_Black_body.stl?v=3c6cc962,../_stl/boxes/explorers_of_navoria/PlayerBox_Black_lid.stl?v=797748a0,../_stl/boxes/explorers_of_navoria/PlayerBox_Green_body.stl?v=6759b38a,../_stl/boxes/explorers_of_navoria/PlayerBox_Green_lid.stl?v=46bea61d,../_stl/boxes/explorers_of_navoria/CardBox_body.stl?v=f4ef94d1,../_stl/boxes/explorers_of_navoria/CardBox_lid.stl?v=3f319095,../_stl/boxes/explorers_of_navoria/FavourBox_1_body.stl?v=b98f8242,../_stl/boxes/explorers_of_navoria/FavourBox_1_lid.stl?v=63802aa5,../_stl/boxes/explorers_of_navoria/FavourBox_2_body.stl?v=06f0c589,../_stl/boxes/explorers_of_navoria/FavourBox_2_lid.stl?v=d1c50deb,../_stl/boxes/explorers_of_navoria/BagBox_body.stl?v=be71cead,../_stl/boxes/explorers_of_navoria/BagBox_lid.stl?v=aeb92e3d
+.. stl:: ../_stl/boxes/explorers_of_navoria/PlayerBox_Yellow_body.stl?v=082cba99,../_stl/boxes/explorers_of_navoria/PlayerBox_Yellow_lid.stl?v=f79f6e7e,../_stl/boxes/explorers_of_navoria/PlayerBox_Purple_body.stl?v=47fb2582,../_stl/boxes/explorers_of_navoria/PlayerBox_Purple_lid.stl?v=a89dee41,../_stl/boxes/explorers_of_navoria/PlayerBox_Black_body.stl?v=a624fa0a,../_stl/boxes/explorers_of_navoria/PlayerBox_Black_lid.stl?v=5eb36ff0,../_stl/boxes/explorers_of_navoria/PlayerBox_Green_body.stl?v=b10ab7e2,../_stl/boxes/explorers_of_navoria/PlayerBox_Green_lid.stl?v=d6ed42b9,../_stl/boxes/explorers_of_navoria/CardBox_body.stl?v=f4ef94d1,../_stl/boxes/explorers_of_navoria/CardBox_lid.stl?v=3f319095,../_stl/boxes/explorers_of_navoria/FavourBox_1_body.stl?v=b98f8242,../_stl/boxes/explorers_of_navoria/FavourBox_1_lid.stl?v=63802aa5,../_stl/boxes/explorers_of_navoria/FavourBox_2_body.stl?v=06f0c589,../_stl/boxes/explorers_of_navoria/FavourBox_2_lid.stl?v=d1c50deb,../_stl/boxes/explorers_of_navoria/BagBox_body.stl?v=be71cead,../_stl/boxes/explorers_of_navoria/BagBox_lid.stl?v=aeb92e3d
    :height: 440px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/explorers_of_navoria/PlayerBox_Yellow_body.stl?v=78fc2764" data-stl-combine="../_stl/boxes/explorers_of_navoria/PlayerBox_Yellow_body.stl?v=78fc2764,../_stl/boxes/explorers_of_navoria/PlayerBox_Yellow_lid.stl?v=095513fa,../_stl/boxes/explorers_of_navoria/PlayerBox_Purple_body.stl?v=530a16ac,../_stl/boxes/explorers_of_navoria/PlayerBox_Purple_lid.stl?v=3d01fa66,../_stl/boxes/explorers_of_navoria/PlayerBox_Black_body.stl?v=3c6cc962,../_stl/boxes/explorers_of_navoria/PlayerBox_Black_lid.stl?v=797748a0,../_stl/boxes/explorers_of_navoria/PlayerBox_Green_body.stl?v=6759b38a,../_stl/boxes/explorers_of_navoria/PlayerBox_Green_lid.stl?v=46bea61d,../_stl/boxes/explorers_of_navoria/CardBox_body.stl?v=f4ef94d1,../_stl/boxes/explorers_of_navoria/CardBox_lid.stl?v=3f319095,../_stl/boxes/explorers_of_navoria/FavourBox_1_body.stl?v=b98f8242,../_stl/boxes/explorers_of_navoria/FavourBox_1_lid.stl?v=63802aa5,../_stl/boxes/explorers_of_navoria/FavourBox_2_body.stl?v=06f0c589,../_stl/boxes/explorers_of_navoria/FavourBox_2_lid.stl?v=d1c50deb,../_stl/boxes/explorers_of_navoria/BagBox_body.stl?v=be71cead,../_stl/boxes/explorers_of_navoria/BagBox_lid.stl?v=aeb92e3d" download="ExplorersOfNavoria_full_packing.stl">⬇ Download Full Box Packing STL (<code>ExplorersOfNavoria_full_packing.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/explorers_of_navoria/PlayerBox_Yellow_body.stl?v=082cba99" data-stl-combine="../_stl/boxes/explorers_of_navoria/PlayerBox_Yellow_body.stl?v=082cba99,../_stl/boxes/explorers_of_navoria/PlayerBox_Yellow_lid.stl?v=f79f6e7e,../_stl/boxes/explorers_of_navoria/PlayerBox_Purple_body.stl?v=47fb2582,../_stl/boxes/explorers_of_navoria/PlayerBox_Purple_lid.stl?v=a89dee41,../_stl/boxes/explorers_of_navoria/PlayerBox_Black_body.stl?v=a624fa0a,../_stl/boxes/explorers_of_navoria/PlayerBox_Black_lid.stl?v=5eb36ff0,../_stl/boxes/explorers_of_navoria/PlayerBox_Green_body.stl?v=b10ab7e2,../_stl/boxes/explorers_of_navoria/PlayerBox_Green_lid.stl?v=d6ed42b9,../_stl/boxes/explorers_of_navoria/CardBox_body.stl?v=f4ef94d1,../_stl/boxes/explorers_of_navoria/CardBox_lid.stl?v=3f319095,../_stl/boxes/explorers_of_navoria/FavourBox_1_body.stl?v=b98f8242,../_stl/boxes/explorers_of_navoria/FavourBox_1_lid.stl?v=63802aa5,../_stl/boxes/explorers_of_navoria/FavourBox_2_body.stl?v=06f0c589,../_stl/boxes/explorers_of_navoria/FavourBox_2_lid.stl?v=d1c50deb,../_stl/boxes/explorers_of_navoria/BagBox_body.stl?v=be71cead,../_stl/boxes/explorers_of_navoria/BagBox_lid.stl?v=aeb92e3d" download="ExplorersOfNavoria_full_packing.stl">⬇ Download Full Box Packing STL (<code>ExplorersOfNavoria_full_packing.stl</code>)</a></p>
 
 Parts Overview
 --------------
@@ -90,30 +90,30 @@ PlayerBox_Yellow
 
 **Assembled Box (PlayerBox_Yellow — Body + Lid)**
 
-.. stl:: ../_stl/boxes/explorers_of_navoria/PlayerBox_Yellow_body.stl?v=78fc2764,../_stl/boxes/explorers_of_navoria/PlayerBox_Yellow_lid.stl?v=095513fa
+.. stl:: ../_stl/boxes/explorers_of_navoria/PlayerBox_Yellow_body.stl?v=082cba99,../_stl/boxes/explorers_of_navoria/PlayerBox_Yellow_lid.stl?v=f79f6e7e
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/explorers_of_navoria/PlayerBox_Yellow_body.stl?v=78fc2764" data-stl-combine="../_stl/boxes/explorers_of_navoria/PlayerBox_Yellow_body.stl?v=78fc2764,../_stl/boxes/explorers_of_navoria/PlayerBox_Yellow_lid.stl?v=095513fa" download="PlayerBox_Yellow_assembled.stl">⬇ Download Assembled PlayerBox_Yellow STL (<code>PlayerBox_Yellow_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/explorers_of_navoria/PlayerBox_Yellow_body.stl?v=082cba99" data-stl-combine="../_stl/boxes/explorers_of_navoria/PlayerBox_Yellow_body.stl?v=082cba99,../_stl/boxes/explorers_of_navoria/PlayerBox_Yellow_lid.stl?v=f79f6e7e" download="PlayerBox_Yellow_assembled.stl">⬇ Download Assembled PlayerBox_Yellow STL (<code>PlayerBox_Yellow_assembled.stl</code>)</a></p>
 
 **Part: PlayerBox_Yellow Body**
 
-.. stl:: ../_stl/boxes/explorers_of_navoria/PlayerBox_Yellow_body.stl?v=78fc2764
+.. stl:: ../_stl/boxes/explorers_of_navoria/PlayerBox_Yellow_body.stl?v=082cba99
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/explorers_of_navoria/PlayerBox_Yellow_body.stl?v=78fc2764" download="PlayerBox_Yellow_body.stl">⬇ Download PlayerBox_Yellow Body STL (<code>PlayerBox_Yellow_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/explorers_of_navoria/PlayerBox_Yellow_body.stl?v=082cba99" download="PlayerBox_Yellow_body.stl">⬇ Download PlayerBox_Yellow Body STL (<code>PlayerBox_Yellow_body.stl</code>)</a></p>
 
 **Part: PlayerBox_Yellow Lid**
 
-.. stl:: ../_stl/boxes/explorers_of_navoria/PlayerBox_Yellow_lid.stl?v=095513fa
+.. stl:: ../_stl/boxes/explorers_of_navoria/PlayerBox_Yellow_lid.stl?v=f79f6e7e
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/explorers_of_navoria/PlayerBox_Yellow_lid.stl?v=095513fa" download="PlayerBox_Yellow_lid.stl">⬇ Download PlayerBox_Yellow Lid STL (<code>PlayerBox_Yellow_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/explorers_of_navoria/PlayerBox_Yellow_lid.stl?v=f79f6e7e" download="PlayerBox_Yellow_lid.stl">⬇ Download PlayerBox_Yellow Lid STL (<code>PlayerBox_Yellow_lid.stl</code>)</a></p>
 
 .. _box-explorers_of_navoria-playerbox_purple:
 
@@ -127,30 +127,30 @@ PlayerBox_Purple
 
 **Assembled Box (PlayerBox_Purple — Body + Lid)**
 
-.. stl:: ../_stl/boxes/explorers_of_navoria/PlayerBox_Purple_body.stl?v=530a16ac,../_stl/boxes/explorers_of_navoria/PlayerBox_Purple_lid.stl?v=3d01fa66
+.. stl:: ../_stl/boxes/explorers_of_navoria/PlayerBox_Purple_body.stl?v=47fb2582,../_stl/boxes/explorers_of_navoria/PlayerBox_Purple_lid.stl?v=a89dee41
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/explorers_of_navoria/PlayerBox_Purple_body.stl?v=530a16ac" data-stl-combine="../_stl/boxes/explorers_of_navoria/PlayerBox_Purple_body.stl?v=530a16ac,../_stl/boxes/explorers_of_navoria/PlayerBox_Purple_lid.stl?v=3d01fa66" download="PlayerBox_Purple_assembled.stl">⬇ Download Assembled PlayerBox_Purple STL (<code>PlayerBox_Purple_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/explorers_of_navoria/PlayerBox_Purple_body.stl?v=47fb2582" data-stl-combine="../_stl/boxes/explorers_of_navoria/PlayerBox_Purple_body.stl?v=47fb2582,../_stl/boxes/explorers_of_navoria/PlayerBox_Purple_lid.stl?v=a89dee41" download="PlayerBox_Purple_assembled.stl">⬇ Download Assembled PlayerBox_Purple STL (<code>PlayerBox_Purple_assembled.stl</code>)</a></p>
 
 **Part: PlayerBox_Purple Body**
 
-.. stl:: ../_stl/boxes/explorers_of_navoria/PlayerBox_Purple_body.stl?v=530a16ac
+.. stl:: ../_stl/boxes/explorers_of_navoria/PlayerBox_Purple_body.stl?v=47fb2582
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/explorers_of_navoria/PlayerBox_Purple_body.stl?v=530a16ac" download="PlayerBox_Purple_body.stl">⬇ Download PlayerBox_Purple Body STL (<code>PlayerBox_Purple_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/explorers_of_navoria/PlayerBox_Purple_body.stl?v=47fb2582" download="PlayerBox_Purple_body.stl">⬇ Download PlayerBox_Purple Body STL (<code>PlayerBox_Purple_body.stl</code>)</a></p>
 
 **Part: PlayerBox_Purple Lid**
 
-.. stl:: ../_stl/boxes/explorers_of_navoria/PlayerBox_Purple_lid.stl?v=3d01fa66
+.. stl:: ../_stl/boxes/explorers_of_navoria/PlayerBox_Purple_lid.stl?v=a89dee41
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/explorers_of_navoria/PlayerBox_Purple_lid.stl?v=3d01fa66" download="PlayerBox_Purple_lid.stl">⬇ Download PlayerBox_Purple Lid STL (<code>PlayerBox_Purple_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/explorers_of_navoria/PlayerBox_Purple_lid.stl?v=a89dee41" download="PlayerBox_Purple_lid.stl">⬇ Download PlayerBox_Purple Lid STL (<code>PlayerBox_Purple_lid.stl</code>)</a></p>
 
 .. _box-explorers_of_navoria-playerbox_black:
 
@@ -164,30 +164,30 @@ PlayerBox_Black
 
 **Assembled Box (PlayerBox_Black — Body + Lid)**
 
-.. stl:: ../_stl/boxes/explorers_of_navoria/PlayerBox_Black_body.stl?v=3c6cc962,../_stl/boxes/explorers_of_navoria/PlayerBox_Black_lid.stl?v=797748a0
+.. stl:: ../_stl/boxes/explorers_of_navoria/PlayerBox_Black_body.stl?v=a624fa0a,../_stl/boxes/explorers_of_navoria/PlayerBox_Black_lid.stl?v=5eb36ff0
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/explorers_of_navoria/PlayerBox_Black_body.stl?v=3c6cc962" data-stl-combine="../_stl/boxes/explorers_of_navoria/PlayerBox_Black_body.stl?v=3c6cc962,../_stl/boxes/explorers_of_navoria/PlayerBox_Black_lid.stl?v=797748a0" download="PlayerBox_Black_assembled.stl">⬇ Download Assembled PlayerBox_Black STL (<code>PlayerBox_Black_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/explorers_of_navoria/PlayerBox_Black_body.stl?v=a624fa0a" data-stl-combine="../_stl/boxes/explorers_of_navoria/PlayerBox_Black_body.stl?v=a624fa0a,../_stl/boxes/explorers_of_navoria/PlayerBox_Black_lid.stl?v=5eb36ff0" download="PlayerBox_Black_assembled.stl">⬇ Download Assembled PlayerBox_Black STL (<code>PlayerBox_Black_assembled.stl</code>)</a></p>
 
 **Part: PlayerBox_Black Body**
 
-.. stl:: ../_stl/boxes/explorers_of_navoria/PlayerBox_Black_body.stl?v=3c6cc962
+.. stl:: ../_stl/boxes/explorers_of_navoria/PlayerBox_Black_body.stl?v=a624fa0a
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/explorers_of_navoria/PlayerBox_Black_body.stl?v=3c6cc962" download="PlayerBox_Black_body.stl">⬇ Download PlayerBox_Black Body STL (<code>PlayerBox_Black_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/explorers_of_navoria/PlayerBox_Black_body.stl?v=a624fa0a" download="PlayerBox_Black_body.stl">⬇ Download PlayerBox_Black Body STL (<code>PlayerBox_Black_body.stl</code>)</a></p>
 
 **Part: PlayerBox_Black Lid**
 
-.. stl:: ../_stl/boxes/explorers_of_navoria/PlayerBox_Black_lid.stl?v=797748a0
+.. stl:: ../_stl/boxes/explorers_of_navoria/PlayerBox_Black_lid.stl?v=5eb36ff0
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/explorers_of_navoria/PlayerBox_Black_lid.stl?v=797748a0" download="PlayerBox_Black_lid.stl">⬇ Download PlayerBox_Black Lid STL (<code>PlayerBox_Black_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/explorers_of_navoria/PlayerBox_Black_lid.stl?v=5eb36ff0" download="PlayerBox_Black_lid.stl">⬇ Download PlayerBox_Black Lid STL (<code>PlayerBox_Black_lid.stl</code>)</a></p>
 
 .. _box-explorers_of_navoria-playerbox_green:
 
@@ -201,30 +201,30 @@ PlayerBox_Green
 
 **Assembled Box (PlayerBox_Green — Body + Lid)**
 
-.. stl:: ../_stl/boxes/explorers_of_navoria/PlayerBox_Green_body.stl?v=6759b38a,../_stl/boxes/explorers_of_navoria/PlayerBox_Green_lid.stl?v=46bea61d
+.. stl:: ../_stl/boxes/explorers_of_navoria/PlayerBox_Green_body.stl?v=b10ab7e2,../_stl/boxes/explorers_of_navoria/PlayerBox_Green_lid.stl?v=d6ed42b9
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/explorers_of_navoria/PlayerBox_Green_body.stl?v=6759b38a" data-stl-combine="../_stl/boxes/explorers_of_navoria/PlayerBox_Green_body.stl?v=6759b38a,../_stl/boxes/explorers_of_navoria/PlayerBox_Green_lid.stl?v=46bea61d" download="PlayerBox_Green_assembled.stl">⬇ Download Assembled PlayerBox_Green STL (<code>PlayerBox_Green_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/explorers_of_navoria/PlayerBox_Green_body.stl?v=b10ab7e2" data-stl-combine="../_stl/boxes/explorers_of_navoria/PlayerBox_Green_body.stl?v=b10ab7e2,../_stl/boxes/explorers_of_navoria/PlayerBox_Green_lid.stl?v=d6ed42b9" download="PlayerBox_Green_assembled.stl">⬇ Download Assembled PlayerBox_Green STL (<code>PlayerBox_Green_assembled.stl</code>)</a></p>
 
 **Part: PlayerBox_Green Body**
 
-.. stl:: ../_stl/boxes/explorers_of_navoria/PlayerBox_Green_body.stl?v=6759b38a
+.. stl:: ../_stl/boxes/explorers_of_navoria/PlayerBox_Green_body.stl?v=b10ab7e2
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/explorers_of_navoria/PlayerBox_Green_body.stl?v=6759b38a" download="PlayerBox_Green_body.stl">⬇ Download PlayerBox_Green Body STL (<code>PlayerBox_Green_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/explorers_of_navoria/PlayerBox_Green_body.stl?v=b10ab7e2" download="PlayerBox_Green_body.stl">⬇ Download PlayerBox_Green Body STL (<code>PlayerBox_Green_body.stl</code>)</a></p>
 
 **Part: PlayerBox_Green Lid**
 
-.. stl:: ../_stl/boxes/explorers_of_navoria/PlayerBox_Green_lid.stl?v=46bea61d
+.. stl:: ../_stl/boxes/explorers_of_navoria/PlayerBox_Green_lid.stl?v=d6ed42b9
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/explorers_of_navoria/PlayerBox_Green_lid.stl?v=46bea61d" download="PlayerBox_Green_lid.stl">⬇ Download PlayerBox_Green Lid STL (<code>PlayerBox_Green_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/explorers_of_navoria/PlayerBox_Green_lid.stl?v=d6ed42b9" download="PlayerBox_Green_lid.stl">⬇ Download PlayerBox_Green Lid STL (<code>PlayerBox_Green_lid.stl</code>)</a></p>
 
 .. _box-explorers_of_navoria-cardbox:
 

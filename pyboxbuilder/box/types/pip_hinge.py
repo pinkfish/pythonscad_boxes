@@ -13,7 +13,7 @@ from pyboxbuilder.box.base import BoxTypeBase, Interior
 from pyboxbuilder.box.features import hinge_catch
 from pyboxbuilder.box.registry import register_box
 from pyboxbuilder.box.shell import block, body_rounding
-from pyboxbuilder.box.spec import BoxSpec
+from pyboxbuilder.box.spec import BoxSpec, UnresolvedBoxSpec
 from pyboxbuilder.builders.pip_hinge import PrintInPlaceHingeBoxBuilder
 from pyboxbuilder.enums import BoxType, CatchType
 from pyboxbuilder.precision import kwargs as precision_kwargs
@@ -42,6 +42,22 @@ class PrintInPlaceHingeBox(BoxTypeBase):
             origin_x=wt,
             origin_y=wt,
             origin_z=ft,
+        )
+
+    def outer_size_for_interior(
+        self,
+        spec: BoxSpec | UnresolvedBoxSpec,
+        inner_w: float,
+        inner_l: float,
+        inner_h: float,
+    ) -> tuple[float, float, float]:
+        """Return closed outer (W, L, H) for a print-in-place hinge box."""
+        wt = spec.wall_thickness
+        ft = spec.floor_thickness
+        return (
+            inner_w + 2.0 * wt + 0.5,
+            inner_l + 2.0 * wt + 0.5,
+            2.0 * (inner_h + ft + 0.25),
         )
 
     def interior_mask(self, spec: BoxSpec) -> Bosl2Solid:

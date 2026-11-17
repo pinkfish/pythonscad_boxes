@@ -21,7 +21,7 @@ if TYPE_CHECKING:
     from pybosl2.shapes3d import Bosl2Solid
 
     from pyboxbuilder.box.features import FingernailCatch
-    from pyboxbuilder.box.spec import BoxSpec, ResolvedBoxSpec
+    from pyboxbuilder.box.spec import BoxSpec, ResolvedBoxSpec, UnresolvedBoxSpec
     from pyboxbuilder.enums import ScoopSide
 
 __all__ = ["BoxTypeBase", "Interior"]
@@ -80,6 +80,50 @@ class BoxTypeBase:
 
         """
         return spec.interior()
+
+    def outer_size_for_interior(
+        self,
+        spec: BoxSpec | UnresolvedBoxSpec,
+        inner_w: float,
+        inner_l: float,
+        inner_h: float,
+    ) -> tuple[float, float, float]:
+        """Return the outer ``(width, length, height)`` needed to enclose an interior.
+
+        The inverse of :meth:`interior`, used when deriving a box's minimum
+        envelope from its compartments so types with sleeves, clamshell halves,
+        or no lid are sized accurately rather than assuming ``2 * wall`` and a
+        standard lid plate.
+        """
+        wt = spec.wall_thickness
+        ft = spec.floor_thickness
+        lt = spec.lid_thickness
+        return (
+            inner_w + 2.0 * wt + 0.5,
+            inner_l + 2.0 * wt + 0.5,
+            inner_h + ft + lt + 0.5,
+        )
+
+    def exterior_protrusions(
+        self, spec: BoxSpec | UnresolvedBoxSpec
+    ) -> tuple[float, float, float, float, float, float]:
+        """Return ``(neg_x, pos_x, neg_y, pos_y, neg_z, pos_z)`` protruding beyond ``[0..W, 0..L, 0..H]``.
+
+        Used by the container packer so features that intentionally stand proud
+        of the nominal body — drawer handles, dispenser landing trays, or
+        external stacking skirts — reserve clearance inside the game box.
+        """
+        from pyboxbuilder.enums import StackableMode
+
+        nx = px = ny = py = nz = pz = 0.0
+        if spec.stackable is StackableMode.OUTSIDE and getattr(spec, "stackable_bottom", True):
+            rim = spec.stackable_thickness or spec.wall_thickness
+            ext = max(0.0, float(rim - spec.stackable_fit_offset))
+            nx += ext
+            px += ext
+            ny += ext
+            py += ext
+        return (nx, px, ny, py, nz, pz)
 
     def preferred_scoop_side(self, spec: BoxSpec) -> ScoopSide | None:
         """Which wall this box type wants a finger scoop in.

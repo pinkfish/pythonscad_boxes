@@ -15,12 +15,12 @@ Full Box Packing
 
 Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
-.. stl:: ../_stl/boxes/earth_animal_kingdom/AnimalCardsBox_body.stl?v=b9ac5739,../_stl/boxes/earth_animal_kingdom/AnimalCardsBox_lid.stl?v=b949cea7,../_stl/boxes/earth_animal_kingdom/ExpansionSproutBox_body.stl?v=66cdb948,../_stl/boxes/earth_animal_kingdom/ExpansionSproutBox_lid.stl?v=3813a91e,../_stl/boxes/earth_animal_kingdom/ExpansionCanopyBox_body.stl?v=5201e6bd,../_stl/boxes/earth_animal_kingdom/ExpansionCanopyBox_lid.stl?v=34f02ebf,../_stl/boxes/earth_animal_kingdom/AnimalTokensBox_1_body.stl?v=74d42a0c,../_stl/boxes/earth_animal_kingdom/AnimalTokensBox_1_lid.stl?v=5c3f5451,../_stl/boxes/earth_animal_kingdom/AnimalTokensBox_2_body.stl?v=635dd05f,../_stl/boxes/earth_animal_kingdom/AnimalTokensBox_2_lid.stl?v=2e37e0aa,../_stl/boxes/earth_animal_kingdom/spacer_1.stl?v=83cbe1f0,../_stl/boxes/earth_animal_kingdom/spacer_2.stl?v=3f93a37e
+.. stl:: ../_stl/boxes/earth_animal_kingdom/AnimalCardsBox_body.stl?v=b9ac5739,../_stl/boxes/earth_animal_kingdom/AnimalCardsBox_lid.stl?v=b949cea7,../_stl/boxes/earth_animal_kingdom/ExpansionSproutBox_body.stl?v=66cdb948,../_stl/boxes/earth_animal_kingdom/ExpansionSproutBox_lid.stl?v=3813a91e,../_stl/boxes/earth_animal_kingdom/ExpansionCanopyBox_body.stl?v=5201e6bd,../_stl/boxes/earth_animal_kingdom/ExpansionCanopyBox_lid.stl?v=34f02ebf,../_stl/boxes/earth_animal_kingdom/AnimalTokensBox_1_body.stl?v=74d42a0c,../_stl/boxes/earth_animal_kingdom/AnimalTokensBox_1_lid.stl?v=5c3f5451,../_stl/boxes/earth_animal_kingdom/AnimalTokensBox_2_body.stl?v=635dd05f,../_stl/boxes/earth_animal_kingdom/AnimalTokensBox_2_lid.stl?v=2e37e0aa,../_stl/boxes/earth_animal_kingdom/spacer_1.stl?v=1f6938d8,../_stl/boxes/earth_animal_kingdom/spacer_2.stl?v=3f93a37e
    :height: 440px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/earth_animal_kingdom/AnimalCardsBox_body.stl?v=b9ac5739" data-stl-combine="../_stl/boxes/earth_animal_kingdom/AnimalCardsBox_body.stl?v=b9ac5739,../_stl/boxes/earth_animal_kingdom/AnimalCardsBox_lid.stl?v=b949cea7,../_stl/boxes/earth_animal_kingdom/ExpansionSproutBox_body.stl?v=66cdb948,../_stl/boxes/earth_animal_kingdom/ExpansionSproutBox_lid.stl?v=3813a91e,../_stl/boxes/earth_animal_kingdom/ExpansionCanopyBox_body.stl?v=5201e6bd,../_stl/boxes/earth_animal_kingdom/ExpansionCanopyBox_lid.stl?v=34f02ebf,../_stl/boxes/earth_animal_kingdom/AnimalTokensBox_1_body.stl?v=74d42a0c,../_stl/boxes/earth_animal_kingdom/AnimalTokensBox_1_lid.stl?v=5c3f5451,../_stl/boxes/earth_animal_kingdom/AnimalTokensBox_2_body.stl?v=635dd05f,../_stl/boxes/earth_animal_kingdom/AnimalTokensBox_2_lid.stl?v=2e37e0aa,../_stl/boxes/earth_animal_kingdom/spacer_1.stl?v=83cbe1f0,../_stl/boxes/earth_animal_kingdom/spacer_2.stl?v=3f93a37e" download="EarthAnimalKingdom_full_packing.stl">⬇ Download Full Box Packing STL (<code>EarthAnimalKingdom_full_packing.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/earth_animal_kingdom/AnimalCardsBox_body.stl?v=b9ac5739" data-stl-combine="../_stl/boxes/earth_animal_kingdom/AnimalCardsBox_body.stl?v=b9ac5739,../_stl/boxes/earth_animal_kingdom/AnimalCardsBox_lid.stl?v=b949cea7,../_stl/boxes/earth_animal_kingdom/ExpansionSproutBox_body.stl?v=66cdb948,../_stl/boxes/earth_animal_kingdom/ExpansionSproutBox_lid.stl?v=3813a91e,../_stl/boxes/earth_animal_kingdom/ExpansionCanopyBox_body.stl?v=5201e6bd,../_stl/boxes/earth_animal_kingdom/ExpansionCanopyBox_lid.stl?v=34f02ebf,../_stl/boxes/earth_animal_kingdom/AnimalTokensBox_1_body.stl?v=74d42a0c,../_stl/boxes/earth_animal_kingdom/AnimalTokensBox_1_lid.stl?v=5c3f5451,../_stl/boxes/earth_animal_kingdom/AnimalTokensBox_2_body.stl?v=635dd05f,../_stl/boxes/earth_animal_kingdom/AnimalTokensBox_2_lid.stl?v=2e37e0aa,../_stl/boxes/earth_animal_kingdom/spacer_1.stl?v=1f6938d8,../_stl/boxes/earth_animal_kingdom/spacer_2.stl?v=3f93a37e" download="EarthAnimalKingdom_full_packing.stl">⬇ Download Full Box Packing STL (<code>EarthAnimalKingdom_full_packing.stl</code>)</a></p>
 
 Parts Overview
 --------------
@@ -270,12 +270,12 @@ spacer_1
 - **Outer Dimensions**: ``288 × 158 × 21 mm``
 - **Packed Position**: ``(0, 0, 26)``
 
-.. stl:: ../_stl/boxes/earth_animal_kingdom/spacer_1.stl?v=83cbe1f0
+.. stl:: ../_stl/boxes/earth_animal_kingdom/spacer_1.stl?v=1f6938d8
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/earth_animal_kingdom/spacer_1.stl?v=83cbe1f0" download="spacer_1.stl">⬇ Download spacer_1 STL (<code>spacer_1.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/earth_animal_kingdom/spacer_1.stl?v=1f6938d8" download="spacer_1.stl">⬇ Download spacer_1 STL (<code>spacer_1.stl</code>)</a></p>
 
 .. _spacer-earth_animal_kingdom-spacer_2:
 

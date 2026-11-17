@@ -5,7 +5,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from pyboxbuilder.box.spec import BoxSpec
+from pyboxbuilder.box.spec import BoxSpec, UnresolvedBoxSpec
 
 if TYPE_CHECKING:
     from pybosl2.shapes3d import Bosl2Solid
@@ -22,15 +22,43 @@ class SlipoverPathBox(BoxTypeBase):
     """Slipover-path lid box type."""
 
     def interior(self, spec: BoxSpec) -> Interior:
-        """Return the frame the box's contents may occupy."""
+        """Return the frame the box's contents may occupy inside the inset body."""
+        from pyboxbuilder.box.features import path_body_metrics, slipover_metrics
+
+        wt = spec.wall_thickness
+        ft = spec.floor_thickness
+        inset, body_height = (
+            path_body_metrics(spec) if spec.path else slipover_metrics(spec)
+        )
+        return Interior(
+            width=max(1.0, spec.width - 2 * (inset + wt)),
+            length=max(1.0, spec.length - 2 * (inset + wt)),
+            height=max(1.0, body_height - ft),
+            origin_x=inset + wt,
+            origin_y=inset + wt,
+            origin_z=ft,
+            wall_thickness=wt,
+        )
+
+    def outer_size_for_interior(
+        self,
+        spec: BoxSpec | UnresolvedBoxSpec,
+        inner_w: float,
+        inner_l: float,
+        inner_h: float,
+    ) -> tuple[float, float, float]:
+        """Return outer (W, L, H) required to enclose (inner_w, inner_l, inner_h)."""
+        from pyboxbuilder.box.features import SLIPOVER_SLEEVE_WALL_SHARE
+
         wt = spec.wall_thickness
         ft = spec.floor_thickness
         lt = spec.lid_thickness
-        return Interior(
-            width=spec.width - 2 * wt,
-            length=spec.length - 2 * wt,
-            height=spec.height - lt - ft,
-            origin_x=wt, origin_y=wt, origin_z=ft,
+        wiggle = spec.size_spacing
+        inset = (spec.slip + spec.slip_slack) if spec.path else (wt * SLIPOVER_SLEEVE_WALL_SHARE + wiggle)
+        return (
+            inner_w + 2 * (inset + wt) + 0.5,
+            inner_l + 2 * (inset + wt) + 0.5,
+            inner_h + ft + lt + wiggle + 0.5,
         )
 
     def build_body(self, spec: BoxSpec) -> Bosl2Solid:

@@ -42,6 +42,15 @@ class Piece:
     """The box builder this piece came from; ``None`` for a spacer tray."""
     _build_inserts: Callable[[], list[tuple[Any, Any]]] | None = None
     """Builds this piece's coloured positive inserts, or ``None`` for none."""
+    rotation: bool = False
+    """True when the packer rotated this piece 90° around Z in the container frame."""
+
+    @property
+    def packed_size(self) -> tuple[float, float, float]:
+        """Dimensions occupied inside the container frame after any 90° Z rotation."""
+        if self.rotation:
+            return (self.size[1], self.size[0], self.size[2])
+        return self.size
 
     @property
     def solid(self) -> Any | None:

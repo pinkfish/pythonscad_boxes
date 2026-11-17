@@ -12,7 +12,7 @@ from pybosl2.shapes3d import cyl, wedge
 from pyboxbuilder.box.base import BoxTypeBase, Interior
 from pyboxbuilder.box.registry import register_box
 from pyboxbuilder.box.shell import block, body_rounding, build_shell
-from pyboxbuilder.box.spec import BoxSpec
+from pyboxbuilder.box.spec import BoxSpec, UnresolvedBoxSpec
 from pyboxbuilder.builders.dispenser import DispenserBoxBuilder
 from pyboxbuilder.compartments.element import union_all
 from pyboxbuilder.enums import BoxType, DispenserExtractionMode
@@ -40,6 +40,15 @@ class DispenserBox(BoxTypeBase):
             origin_y=wt,
             origin_z=ft,
         )
+
+    def exterior_protrusions(
+        self, spec: BoxSpec | UnresolvedBoxSpec
+    ) -> tuple[float, float, float, float, float, float]:
+        """Account for the protruding landing tray shelf in TRAY extraction mode."""
+        nx, px, ny, py, nz, pz = super().exterior_protrusions(spec)
+        if spec.dispenser_mode == DispenserExtractionMode.TRAY and spec.tray_depth > 0:
+            ny += float(spec.tray_depth)
+        return (nx, px, ny, py, nz, pz)
 
     def _body_spec(self, spec: BoxSpec) -> BoxSpec:
         """Return the body spec stopped below the lid plate."""
