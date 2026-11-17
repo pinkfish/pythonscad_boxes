@@ -249,56 +249,41 @@ def grid_pack(
     return tuple(out)
 
 
-def pack_elements(
+def _pack_maxrects_core(
     elements: Sequence[CompartmentElement],
     *,
-    max_width: float | None = None,
-    spacing: float = 2.0,
-    margin: float = 0.0,
-    allow_rotate: bool = True,
-) -> tuple[CompartmentElement, ...]:
-    """Auto-pack loose ``CompartmentElement`` items into a compact 2D element pack.
-
-    Uses a 2D Best-Short-Side-Fit (BSSF) MaxRects layout, optionally testing a
-    90-degree rotation per asymmetric element and reserving room between slots.
-    Coloured floor-inlay icons positioned relative to another element should be
-    added after packing; every element passed here receives a fresh non-overlapping
-    ``offset``.
-
-    Args:
-        elements: Elements to place (their existing ``offset`` is replaced).
-        max_width: Maximum pack width in mm; ``None`` derives a near-square target.
-        spacing: Minimum gap between adjacent element footprints in mm.
-        margin: Outer border inset around the entire pack in mm.
-        allow_rotate: Allow 90-degree Z rotation when it improves 2D fit.
-
-    Returns:
-        Packed ``CompartmentElement`` tuple in the original input order.
-
-    """
+    usable_w: float,
+    usable_l: float,
+    spacing: float,
+    margin: float,
+    allow_rotate: bool,
+    sort_mode: str = "area_desc",
+    score_mode: str = "skyline",
+    keep_unrotated: set[int] | None = None,
+    overflow_fallback: bool = True,
+) -> tuple[CompartmentElement, ...] | None:
+    """Place elements with 2D BSSF MaxRects; return ``None`` if bounded and full."""
     if not elements:
         return ()
 
+    keep_unrotated = keep_unrotated or set()
     indexed = list(enumerate(elements))
-    # Sort largest footprint area first for tight 2D bin packing.
-    order = sorted(
-        indexed,
-        key=lambda pair: pair[1].footprint[0] * pair[1].footprint[1],
-        reverse=True,
-    )
-
-    if max_width is None:
-        total_area = sum(
-            (el.footprint[0] + spacing) * (el.footprint[1] + spacing) for el in elements
+    if sort_mode == "area_desc":
+        order = sorted(
+            indexed,
+            key=lambda pair: pair[1].footprint[0] * pair[1].footprint[1],
+            reverse=True,
         )
-        widest = max(min(el.footprint) if allow_rotate else el.footprint[0] for el in elements)
-        target_w = max(widest + 2.0 * margin, math.sqrt(total_area) * 1.05 + 2.0 * margin)
+    elif sort_mode == "max_side":
+        order = sorted(
+            indexed,
+            key=lambda pair: (max(pair[1].footprint), pair[1].footprint[0] * pair[1].footprint[1]),
+            reverse=True,
+        )
     else:
-        target_w = float(max_width)
+        order = indexed
 
-    usable_w = max(1e-3, target_w - 2.0 * margin)
-    big_l = sum(max(el.footprint) + spacing for el in elements) + 2.0 * margin + 100.0
-    free_rects: list[tuple[float, float, float, float]] = [(0.0, 0.0, usable_w, big_l)]
+    free_rects: list[tuple[float, float, float, float]] = [(0.0, 0.0, usable_w, usable_l)]
     placed_by_idx: dict[int, CompartmentElement] = {}
 
     for orig_idx, el in order:
@@ -306,6 +291,7 @@ def pack_elements(
         variants: list[tuple[float, float, float]] = [(fw, fl, el.rotation)]
         if (
             allow_rotate
+            and orig_idx not in keep_unrotated
             and el.shape not in (ElementShape.CIRCLE, ElementShape.SPHERE_SCOOP)
             and abs(fw - fl) > 1e-6
         ):
@@ -313,21 +299,25 @@ def pack_elements(
             rw, rl = rot_el.footprint
             variants.append((rw, rl, el.rotation + 90.0))
 
-        best_score: tuple[float, float, float, int] | None = None
+        best_score: tuple[float, float, float, float] | None = None
         best_choice: tuple[float, float, float, float, float] | None = None
 
         for rx, ry, rw_avail, rl_avail in free_rects:
             for vw, vl, vrot in variants:
                 if vw <= rw_avail + 1e-6 and vl <= rl_avail + 1e-6:
-                    # Prefer lowest Y (skyline compactness), then tightest BSSF, then lowest X.
                     short_left = min(rw_avail - vw, rl_avail - vl)
-                    score = (round(ry + vl, 4), round(ry, 4), round(short_left, 4), int(vrot != el.rotation))
+                    if score_mode == "bssf":
+                        long_left = max(rw_avail - vw, rl_avail - vl)
+                        score = (round(short_left, 4), round(long_left, 4), float(vrot != el.rotation), round(ry, 4))
+                    else:
+                        score = (round(ry + vl, 4), round(ry, 4), round(short_left, 4), float(vrot != el.rotation))
                     if best_score is None or score < best_score:
                         best_score = score
                         best_choice = (rx, ry, vw, vl, vrot)
 
         if best_choice is None:
-            # Widen container dynamically if an oversized element exceeds max_width
+            if not overflow_fallback:
+                return None
             cur_max_y = max((e.bounds()[3] - margin for e in placed_by_idx.values()), default=0.0)
             y_pos = cur_max_y + (spacing if placed_by_idx else 0.0)
             best_choice = (0.0, y_pos, fw, fl, el.rotation)
@@ -383,6 +373,412 @@ def pack_elements(
         free_rects = pruned
 
     return tuple(placed_by_idx[i] for i in range(len(elements)))
+
+
+def pack_elements(
+    elements: Sequence[CompartmentElement],
+    *,
+    max_width: float | None = None,
+    spacing: float = 2.0,
+    margin: float = 0.0,
+    allow_rotate: bool = True,
+) -> tuple[CompartmentElement, ...]:
+    """Auto-pack loose ``CompartmentElement`` items into a compact 2D element pack.
+
+    Uses a 2D Best-Short-Side-Fit (BSSF) MaxRects layout, optionally testing a
+    90-degree rotation per asymmetric element and reserving room between slots.
+    Coloured floor-inlay icons positioned relative to another element should be
+    added after packing; every element passed here receives a fresh non-overlapping
+    ``offset``.
+
+    Args:
+        elements: Elements to place (their existing ``offset`` is replaced).
+        max_width: Maximum pack width in mm; ``None`` derives a near-square target.
+        spacing: Minimum gap between adjacent element footprints in mm.
+        margin: Outer border inset around the entire pack in mm.
+        allow_rotate: Allow 90-degree Z rotation when it improves 2D fit.
+
+    Returns:
+        Packed ``CompartmentElement`` tuple in the original input order.
+
+    """
+    if not elements:
+        return ()
+
+    if max_width is None:
+        total_area = sum(
+            (el.footprint[0] + spacing) * (el.footprint[1] + spacing) for el in elements
+        )
+        widest = max(min(el.footprint) if allow_rotate else el.footprint[0] for el in elements)
+        target_w = max(widest + 2.0 * margin, math.sqrt(total_area) * 1.05 + 2.0 * margin)
+    else:
+        target_w = float(max_width)
+
+    usable_w = max(1e-3, target_w - 2.0 * margin)
+    big_l = sum(max(el.footprint) + spacing for el in elements) + 2.0 * margin + 100.0
+    result = _pack_maxrects_core(
+        elements,
+        usable_w=usable_w,
+        usable_l=big_l,
+        spacing=spacing,
+        margin=margin,
+        allow_rotate=allow_rotate,
+        sort_mode="area_desc",
+        overflow_fallback=True,
+    )
+    assert result is not None
+    return result
+
+
+ElementGroup = CompartmentElement | Sequence[CompartmentElement]
+
+
+def _distribute_linear_gap(
+    total: float, widths: Sequence[float], min_gap: float, min_margin: float
+) -> tuple[float, float] | None:
+    """Return ``(outer_margin, inner_gap)`` along one axis, or ``None`` if tight."""
+    n = len(widths)
+    if n == 0:
+        return (0.0, 0.0)
+    used = sum(widths)
+    extra = total - used
+    if extra < -1e-6:
+        return None
+    extra = max(0.0, extra)
+    if n == 1:
+        margin = extra / 2.0
+        return (margin, 0.0) if margin + 1e-6 >= min_margin else None
+
+    min_inner = min_gap * (n - 1)
+    if extra + 1e-6 < min_inner:
+        return None
+    # When room suffices for >= min_margin on outer walls and >= min_inner between items,
+    # distribute slack evenly; otherwise reserve inner divider thickness first.
+    even = extra / (n + 1)
+    if even + 1e-6 >= min_gap and even + 1e-6 >= min_margin:
+        return (even, even)
+    inner = min(min_gap, (extra - 2.0 * min_margin) / (n - 1)) if extra >= min_inner + 2.0 * min_margin else min_gap
+    inner = max(min_gap, inner)
+    margin = max(0.0, (extra - inner * (n - 1)) / 2.0)
+    if margin + 1e-6 < min_margin:
+        return None
+    return (margin, inner)
+
+
+def _attach_group_children(
+    primary: CompartmentElement,
+    children: Sequence[CompartmentElement],
+    rot_delta: float,
+) -> list[CompartmentElement]:
+    """Place child elements centered on ``primary`` and rotated by ``rot_delta``."""
+    pw, pl = primary.footprint
+    cx = primary.offset[0] + pw / 2.0
+    cy = primary.offset[1] + pl / 2.0
+    out: list[CompartmentElement] = []
+    for child in children:
+        new_rot = (child.rotation + rot_delta) % 360.0 if rot_delta else child.rotation
+        rotated_child = replace(child, rotation=new_rot)
+        chw, chl = rotated_child.footprint
+        out.append(
+            replace(
+                rotated_child,
+                offset=(round(cx - chw / 2.0, 4), round(cy - chl / 2.0, 4)),
+            )
+        )
+    return out
+
+
+def _try_shelf_pack_groups(
+    groups: Sequence[tuple[CompartmentElement, tuple[CompartmentElement, ...]]],
+    comp_w: float,
+    comp_l: float,
+    spacing: float,
+    margin: float,
+    *,
+    allow_rotate: bool,
+    sort_mode: str,
+    distribute: bool,
+) -> tuple[tuple[CompartmentElement, ...], int] | None:
+    """Attempt shelf-row placement of primary elements + attached children inside ``(comp_w, comp_l)``."""
+    avail_w = comp_w - 2.0 * margin
+    avail_l = comp_l - 2.0 * margin
+    if avail_w <= 1e-6 or avail_l <= 1e-6:
+        return None
+
+    order = list(range(len(groups)))
+    if sort_mode == "area_desc":
+        order.sort(
+            key=lambda i: groups[i][0].footprint[0] * groups[i][0].footprint[1],
+            reverse=True,
+        )
+    elif sort_mode == "height_desc":
+        order.sort(
+            key=lambda i: (groups[i][0].footprint[1], groups[i][0].footprint[0]),
+            reverse=True,
+        )
+
+    rows: list[tuple[list[tuple[int, float, float, float]], float]] = []
+    cur_row: list[tuple[int, float, float, float]] = []
+    cur_w = 0.0
+    cur_h = 0.0
+    used_y = 0.0
+
+    for idx in order:
+        el = groups[idx][0]
+        fw0, fl0 = el.footprint
+        choices: list[tuple[float, float, float]] = [(0.0, fw0, fl0)]
+        if (
+            allow_rotate
+            and el.shape not in (ElementShape.CIRCLE, ElementShape.SPHERE_SCOOP)
+            and abs(fw0 - fl0) > 1e-6
+        ):
+            rw, rl = replace(el, rotation=el.rotation + 90.0).footprint
+            choices.append((90.0, rw, rl))
+
+        best: tuple[float, int, float, float, float] | None = None
+        for drot, w, l in choices:
+            needed_w = w + (spacing if cur_row else 0.0)
+            new_row_h = max(cur_h, l)
+            if (
+                cur_w + needed_w <= avail_w + 1e-6
+                and used_y + (spacing if rows else 0.0) + new_row_h <= avail_l + 1e-6
+            ):
+                # Prefer fitting without increasing row height, then keep unrotated orientation.
+                cand = (round(new_row_h, 4), int(drot != 0.0), drot, w, l)
+                if best is None or cand < best:
+                    best = cand
+
+        if best is not None:
+            _, _, drot, w, l = best
+            cur_row.append((idx, drot, w, l))
+            cur_w += (spacing if len(cur_row) > 1 else 0.0) + w
+            cur_h = max(cur_h, l)
+            continue
+
+        if cur_row:
+            rows.append((cur_row, cur_h))
+            used_y += (spacing if len(rows) > 1 else 0.0) + cur_h
+
+        best_new: tuple[float, int, float, float, float] | None = None
+        for drot, w, l in choices:
+            if w <= avail_w + 1e-6 and used_y + (spacing if rows else 0.0) + l <= avail_l + 1e-6:
+                cand = (round(l, 4), int(drot != 0.0), drot, w, l)
+                if best_new is None or cand < best_new:
+                    best_new = cand
+        if best_new is None:
+            return None
+        _, _, drot, w, l = best_new
+        cur_row = [(idx, drot, w, l)]
+        cur_w = w
+        cur_h = l
+
+    if cur_row:
+        rows.append((cur_row, cur_h))
+
+    row_heights = [rh for _, rh in rows]
+    if distribute:
+        y_dist = _distribute_linear_gap(comp_l, row_heights, spacing, margin)
+        if y_dist is None:
+            return None
+        y_cur, y_gap = y_dist
+    else:
+        y_gap = spacing
+        y_cur = margin
+
+    placed_groups: dict[int, list[CompartmentElement]] = {}
+    rot_count = 0
+    for row_items, rh in rows:
+        item_widths = [w for _, _, w, _ in row_items]
+        if distribute:
+            x_dist = _distribute_linear_gap(comp_w, item_widths, spacing, margin)
+            if x_dist is None:
+                return None
+            x_cur, x_gap = x_dist
+        else:
+            x_gap = spacing
+            x_cur = margin
+
+        for idx, drot, w, l in row_items:
+            el, children = groups[idx]
+            if drot != 0.0:
+                rot_count += 1
+            y_item = y_cur + (rh - l) / 2.0
+            new_rot = (el.rotation + drot) % 360.0 if drot else el.rotation
+            placed_primary = replace(
+                el,
+                offset=(round(x_cur, 4), round(y_item, 4)),
+                rotation=new_rot,
+            )
+            attached = _attach_group_children(placed_primary, children, drot)
+            placed_groups[idx] = [placed_primary, *attached]
+            x_cur += w + x_gap
+        y_cur += rh + y_gap
+
+    ordered: list[CompartmentElement] = []
+    for idx in range(len(groups)):
+        ordered.extend(placed_groups[idx])
+    return tuple(ordered), rot_count
+
+
+def _try_maxrects_pack_groups(
+    groups: Sequence[tuple[CompartmentElement, tuple[CompartmentElement, ...]]],
+    comp_w: float,
+    comp_l: float,
+    spacing: float,
+    margin: float,
+    *,
+    allow_rotate: bool,
+) -> tuple[tuple[CompartmentElement, ...], int] | None:
+    """Fallback 2D MaxRects placement centered within ``(comp_w, comp_l)``."""
+    usable_w = comp_w - 2.0 * margin
+    usable_l = comp_l - 2.0 * margin
+    if usable_w <= 1e-6 or usable_l <= 1e-6:
+        return None
+
+    primaries = [g[0] for g in groups]
+    largest_idx = max(
+        range(len(primaries)),
+        key=lambda i: primaries[i].footprint[0] * primaries[i].footprint[1],
+    )
+    pin_sets: tuple[set[int], ...] = (
+        ({largest_idx}, set()) if allow_rotate else (set(),)
+    )
+    for pinned in pin_sets:
+        for score_mode in ("bssf", "skyline"):
+            for sort_mode in ("area_desc", "max_side", "input"):
+                packed = _pack_maxrects_core(
+                    primaries,
+                    usable_w=usable_w,
+                    usable_l=usable_l,
+                    spacing=spacing,
+                    margin=margin,
+                    allow_rotate=allow_rotate,
+                    sort_mode=sort_mode,
+                    score_mode=score_mode,
+                    keep_unrotated=pinned,
+                    overflow_fallback=False,
+                )
+                if packed is None:
+                    continue
+                min_x, min_y, max_x, max_y = elements_bounding_box(packed)
+                span_w = max_x - min_x
+                span_l = max_y - min_y
+                if span_w > usable_w + 1e-6 or span_l > usable_l + 1e-6:
+                    continue
+                if elements_overlap(packed, tolerance=0.05):
+                    continue
+
+                dx = (comp_w - span_w) / 2.0 - min_x
+                dy = (comp_l - span_l) / 2.0 - min_y
+                ordered: list[CompartmentElement] = []
+                rot_count = 0
+                for idx, placed_primary in enumerate(packed):
+                    orig_primary, children = groups[idx]
+                    drot = (placed_primary.rotation - orig_primary.rotation) % 360.0
+                    if drot != 0.0:
+                        rot_count += 1
+                    centered_primary = replace(
+                        placed_primary,
+                        offset=(
+                            round(placed_primary.offset[0] + dx, 4),
+                            round(placed_primary.offset[1] + dy, 4),
+                        ),
+                    )
+                    ordered.append(centered_primary)
+                    ordered.extend(_attach_group_children(centered_primary, children, drot))
+                return tuple(ordered), rot_count
+    return None
+
+
+def pack_into_compartment(
+    items: Sequence[ElementGroup],
+    compartment_size: tuple[float, float],
+    *,
+    spacing: float = 2.0,
+    min_spacing: float = 1.5,
+    margin: float | None = None,
+    allow_rotate: bool = True,
+    distribute: bool = True,
+) -> tuple[CompartmentElement, ...]:
+    """Auto-lay out elements inside a fixed-size compartment interior.
+
+    Preserves the compartment's fixed dimensions (never altering the owning box's
+    size) while arranging piece slots with balanced margins, divider gaps and
+    room for ``pull_out`` finger access.
+
+    Each entry in ``items`` may be either a standalone :class:`CompartmentElement`
+    or a sequence ``(primary, child1, ...)`` whose trailing child elements
+    (e.g. floor inlays or stacked Z wells) stay centered on ``primary`` and
+    rotate alongside it.
+    """
+    if not items:
+        return ()
+
+    comp_w, comp_l = compartment_size
+    groups: list[tuple[CompartmentElement, tuple[CompartmentElement, ...]]] = []
+    for item in items:
+        if isinstance(item, CompartmentElement):
+            groups.append((item, ()))
+        else:
+            item_seq = tuple(item)
+            if not item_seq:
+                continue
+            groups.append((item_seq[0], item_seq[1:]))
+    if not groups:
+        return ()
+
+    base_margin = float(spacing if margin is None else margin)
+    tiers: list[tuple[float, float]] = [(base_margin, float(spacing))]
+    if margin is None:
+        if base_margin > 1.0:
+            tiers.append((1.0, float(spacing)))
+        if base_margin > 0.0:
+            tiers.append((0.0, float(spacing)))
+        if min_spacing < spacing:
+            tiers.append((0.0, float(min_spacing)))
+
+    rot_modes = (False, True) if allow_rotate else (False,)
+    for tier_margin, tier_spacing in tiers:
+        candidates: list[tuple[tuple[int, int, float], tuple[CompartmentElement, ...]]] = []
+        for rot_flag in rot_modes:
+            for sort_mode in ("input", "area_desc", "height_desc"):
+                res = _try_shelf_pack_groups(
+                    groups,
+                    comp_w,
+                    comp_l,
+                    tier_spacing,
+                    tier_margin,
+                    allow_rotate=rot_flag,
+                    sort_mode=sort_mode,
+                    distribute=distribute,
+                )
+                if res is not None:
+                    packed, rot_count = res
+                    bb = elements_bounding_box([el for el in packed if el.color is None])
+                    # Measure smallest edge clearance so pull-outs keep room when possible.
+                    min_edge = min(bb[0], bb[1], comp_w - bb[2], comp_l - bb[3])
+                    candidates.append(((int(rot_count > 0), rot_count, -round(min_edge, 3)), packed))
+            if not candidates:
+                mr_res = _try_maxrects_pack_groups(
+                    groups,
+                    comp_w,
+                    comp_l,
+                    tier_spacing,
+                    tier_margin,
+                    allow_rotate=rot_flag,
+                )
+                if mr_res is not None:
+                    packed, rot_count = mr_res
+                    bb = elements_bounding_box([el for el in packed if el.color is None])
+                    min_edge = min(bb[0], bb[1], comp_w - bb[2], comp_l - bb[3])
+                    candidates.append(((int(rot_count > 0), rot_count, -round(min_edge, 3)), packed))
+        if candidates:
+            candidates.sort(key=lambda pair: pair[0])
+            return candidates[0][1]
+
+    raise ValueError(
+        f"Cannot pack {len(groups)} elements into compartment size ({comp_w:.2f}, {comp_l:.2f})"
+    )
 
 
 def elements_overlap(

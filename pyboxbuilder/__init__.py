@@ -44,6 +44,7 @@ from pyboxbuilder.compartments.element import (
     centered_in_box,
     grid_pack,
     pack_elements,
+    pack_into_compartment,
 )
 from pyboxbuilder.enums import (
     BoxType,
@@ -154,6 +155,7 @@ __all__ = [
     "find_sleeve",
     "grid_pack",
     "pack_elements",
+    "pack_into_compartment",
     "polygon_grid",
     "register_box",
     "rows",
