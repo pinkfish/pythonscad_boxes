@@ -283,7 +283,6 @@ def accessory_elements() -> tuple[CompartmentElement, ...]:
                     DISTRESS_WELL,
                     shape=ElementShape.ROUNDED_RECT,
                     corner_radius=DISTRESS_WELL[1] / 2 - 1.0,
-                    rotation=90.0,
                     label="distress",
                     **SLOT,
                 ),

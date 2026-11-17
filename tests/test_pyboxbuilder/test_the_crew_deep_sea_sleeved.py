@@ -112,6 +112,22 @@ class AccessoryTests(unittest.TestCase):
         self.assertLessEqual(max_x, self.mod["ACCESSORY_INNER_W"])
         self.assertLessEqual(max_y, self.mod["ACCESSORY_INNER_L"])
 
+    def test_icons_sit_inside_their_wells(self) -> None:
+        """Each coloured icon is centered within and no larger than its pocket."""
+        for icon_label, well_label in (
+            ("sonar_icon_3", "sonar_3"),
+            ("sonar_icon_2", "sonar_2"),
+            ("distress_icon", "distress"),
+        ):
+            icon = next(e for e in self.elements if e.label == icon_label)
+            well = next(e for e in self.elements if e.label == well_label)
+            ix0, iy0, ix1, iy1 = icon.bounds()
+            wx0, wy0, wx1, wy1 = well.bounds()
+            self.assertLessEqual(ix1 - ix0, wx1 - wx0 + 1e-6, icon_label)
+            self.assertLessEqual(iy1 - iy0, wy1 - wy0 + 1e-6, icon_label)
+            self.assertAlmostEqual((ix0 + ix1) / 2, (wx0 + wx1) / 2, places=3, msg=icon_label)
+            self.assertAlmostEqual((iy0 + iy1) / 2, (wy0 + wy1) / 2, places=3, msg=icon_label)
+
 
 class LayoutTests(unittest.TestCase):
     @classmethod
