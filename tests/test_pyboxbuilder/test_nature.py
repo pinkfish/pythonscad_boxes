@@ -48,7 +48,7 @@ class TestNature(unittest.TestCase):
             if piece.position is None or piece.size is None:
                 continue
             x, y, z = piece.position
-            w, l, h = piece.size
+            w, l, h = piece.packed_size
             self.assertGreaterEqual(x, -tol, f"{piece.label} X < 0")
             self.assertGreaterEqual(y, -tol, f"{piece.label} Y < 0")
             self.assertGreaterEqual(z, -tol, f"{piece.label} Z < 0")

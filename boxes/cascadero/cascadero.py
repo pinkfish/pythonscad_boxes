@@ -58,16 +58,13 @@ project = Project(
     clearance_slack=0.0,
     board_thickness=board_thickness,
     generate_spacers=True,
-    box_defaults={"no_rotate": True},
 )
 
 CASCADERO_PATTERN = PatternBuilder(PatternType.DENSE_HEX)
 
-# ── 1. Player Envoy Boxes (4 players: 2x2 grid) ───────────────────
+# ── 1. Player Envoy Boxes (4 players) ─────────────────────────────
 player_colors = ["red", "gold", "forestgreen", "royalblue"]
 for idx, color_name in enumerate(player_colors):
-    col = idx % 2
-    row = idx // 2
     p_box = project.box(
         BoxType.SLIDING,
         f"PlayerBox_{idx + 1}",
@@ -79,7 +76,6 @@ for idx, color_name in enumerate(player_colors):
             text_color=Color("white"),
             frame_color=Color(color_name),
         ),
-        position=(col * player_width, row * player_length, 0.0),
     )
     p_box.compartment(
         "Envoys",
@@ -92,9 +88,7 @@ for idx, color_name in enumerate(player_colors):
         cut=FingerCut.SCOOP,
     )
 
-# ── 2. Herald, Farmer & Seal Boxes (Y = player_length * 2 = 210mm)
-y_utility = player_length * 2.0
-
+# ── 2. Herald, Farmer & Seal Boxes ────────────────────────────────
 project.box(
     BoxType.SLIDING,
     "SealsBox",
@@ -106,7 +100,6 @@ project.box(
         text_color=Color("white"),
         frame_color=Color("firebrick"),
     ),
-    position=(0.0, y_utility, 0.0),
 ).compartment(
     "Seals",
     cut=FingerCut.SCOOP,
@@ -123,7 +116,6 @@ project.box(
         text_color=Color("white"),
         frame_color=Color("goldenrod"),
     ),
-    position=(top_width, y_utility, 0.0),
 ).compartment(
     "Heralds",
     cut=FingerCut.SCOOP,
@@ -140,7 +132,6 @@ project.box(
         text_color=Color("white"),
         frame_color=Color("seagreen"),
     ),
-    position=(top_width + herald_width, y_utility, 0.0),
 ).compartment(
     "Farmers",
     cut=FingerCut.SCOOP,

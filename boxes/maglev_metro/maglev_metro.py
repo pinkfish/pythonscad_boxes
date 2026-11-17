@@ -67,16 +67,14 @@ project = Project(
     clearance_slack=0.0,
     board_thickness=total_board_reserve,
     generate_spacers=True,
-    box_defaults={"no_rotate": True},
+    box_defaults={"expandable": False},
 )
 
 METRO_PATTERN = PatternBuilder(PatternType.DENSE_HEX)
 
-# ── 1. Card Boxes (2 columns of 2, stacked 2 high) ────────────────
+# ── 1. Card Boxes ─────────────────────────────────────────────────
 card_titles = ["Connections", "Passengers", "Tracks", "Player Objectives"]
-for idx, title in enumerate(card_titles):
-    tier = idx // 2
-    col = idx % 2
+for title in card_titles:
     c_box = project.box(
         BoxType.SLIDING,
         f"CardBox_{title.replace(' ', '')}",
@@ -88,7 +86,6 @@ for idx, title in enumerate(card_titles):
             text_color=Color("white"),
             frame_color=Color("royalblue"),
         ),
-        position=(0.0, col * card_box_length, tier * card_box_height),
         stackable=StackableMode.PYRAMIDS,
     )
     c_box.compartment(
@@ -96,11 +93,9 @@ for idx, title in enumerate(card_titles):
         cut=FingerCut.SCOOP,
     )
 
-# ── 2. Player Boxes (4 colors, 2 stacked in 2 tiers) ──────────────
+# ── 2. Player Boxes ───────────────────────────────────────────────
 player_colors = ["green", "deeppink", "cyan", "darkorange"]
-for idx, color_name in enumerate(player_colors):
-    col = idx % 2
-    tier = idx // 2
+for color_name in player_colors:
     p_box = project.box(
         BoxType.SLIDING,
         f"PlayerBox_{color_name}",
@@ -112,7 +107,6 @@ for idx, color_name in enumerate(player_colors):
             text_color=Color("white"),
             frame_color=Color(color_name),
         ),
-        position=(card_box_width, col * player_box_length, tier * player_box_height),
         stackable=StackableMode.PYRAMIDS,
     )
     p_box.compartment(
@@ -126,13 +120,10 @@ for idx, color_name in enumerate(player_colors):
         cut=FingerCut.SCOOP,
     )
 
-# ── 3. Factory Station Hex Tile Boxes (6 types, 2x3 grid) ─────────
+# ── 3. Factory Station Hex Tile Boxes ─────────────────────────────
 factory_types = ["Factories", "Warehouses", "Labs", "Offices", "Stores", "Embassies"]
-x_factories = card_box_width + player_box_width  # 134.5mm
 
-for idx, f_name in enumerate(factory_types):
-    col = idx % 2
-    row = idx // 2
+for f_name in factory_types:
     f_box = project.box(
         BoxType.SLIDING,
         f"FactoryBox_{f_name}",
@@ -144,7 +135,6 @@ for idx, f_name in enumerate(factory_types):
             text_color=Color("white"),
             frame_color=Color("goldenrod"),
         ),
-        position=(x_factories + col * factory_box_width, row * factory_box_length, 0.0),
     )
     f_box.compartment(
         "StationHexes",

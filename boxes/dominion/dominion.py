@@ -57,7 +57,7 @@ project = Project(
     lid_thickness=lid_thickness,
     clearance_slack=0.0,
     generate_spacers=True,
-    box_defaults={"no_rotate": True},
+    box_defaults={"expandable": False},
 )
 
 DOMINION_PATTERN = PatternBuilder(PatternType.DENSE_HEX)
@@ -74,7 +74,6 @@ base_box = project.box(
         text_color=Color("white"),
         frame_color=Color("royalblue"),
     ),
-    position=(0.0, 0.0, 0.0),
 )
 base_box.compartment(
     "KingdomDecks",
@@ -93,7 +92,6 @@ treasure_box = project.box(
         text_color=Color("white"),
         frame_color=Color("gold"),
     ),
-    position=(card_box_width, 0.0, 0.0),
 )
 treasure_box.compartment(
     "TreasuresAndVictory",
@@ -112,14 +110,13 @@ alchemy_box = project.box(
         text_color=Color("white"),
         frame_color=Color("purple"),
     ),
-    position=(card_box_width, money_victory_len, 0.0),
 )
 alchemy_box.compartment(
     "AlchemyCards",
     cut=FingerCut.SCOOP,
 )
 
-# ── 4. Token, Coin & Mat Trays (Column 3) ─────────────────────────
+# ── 4. Token, Coin & Mat Trays ────────────────────────────────────
 token_box_width = card_box_width
 token_tray_len = (money_victory_len + alchemy_cards_len) / 2.0  # 140.0mm
 token_tray_height = all_boxes_height / 2.0                     # 37.5mm
@@ -136,7 +133,6 @@ for idx, label in enumerate(["CoinAndDebtTokens", "MatsAndSpecialTokens"], start
             text_color=Color("white"),
             frame_color=Color("darkslategray"),
         ),
-        position=(card_box_width * 2.0, (idx - 1) * token_tray_len, 0.0),
     )
     tray.compartment(
         "Tokens_Left",

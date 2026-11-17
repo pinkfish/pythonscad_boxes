@@ -61,12 +61,12 @@ project = Project(
     clearance_slack=0.0,
     board_thickness=board_thickness,
     generate_spacers=True,
-    box_defaults={"no_rotate": True},
+    box_defaults={"expandable": False},
 )
 
 IRISH_PATTERN = PatternBuilder(PatternType.DENSE_HEX)
 
-# ── 1. Railway Company Boxes (4 columns across X, 2 tiers) ────────
+# ── 1. Railway Company Boxes ──────────────────────────────────────
 companies = [
     ("Belfast", "Belfast", "darkorange"),
     ("Cork", "Cork", "gold"),
@@ -75,9 +75,7 @@ companies = [
     ("GreatSouthern", "Great Southern", "navy"),
 ]
 
-for idx, (company_id, title, color_name) in enumerate(companies):
-    col = idx % 4
-    tier = idx // 4
+for company_id, title, color_name in companies:
     c_box = project.box(
         BoxType.SLIDING,
         f"CompanyBox_{company_id}",
@@ -89,15 +87,12 @@ for idx, (company_id, title, color_name) in enumerate(companies):
             text_color=Color("black" if color_name == "gold" else "white"),
             frame_color=Color(color_name),
         ),
-        position=(col * company_box_width, 0.0, tier * company_box_height),
     )
     c_box.compartment("SharesAndLocos", cut=FingerCut.SCOOP)
 
 project.stack_order("CompanyBox_Belfast", "CompanyBox_GreatSouthern")
 
-# ── 2. Bank Money & Dividend Cubes Box (Y = company_box_length) ───
-y_money = company_box_length
-
+# ── 2. Bank Money & Dividend Cubes Box ────────────────────────────
 m_box = project.box(
     BoxType.SLIDING,
     "MoneyAndDividendsBox",
@@ -109,7 +104,6 @@ m_box = project.box(
         text_color=Color("white"),
         frame_color=Color("forestgreen"),
     ),
-    position=(0.0, y_money, 0.0),
 )
 for name in ["Money_1", "Money_5", "Money_10", "DividendCubes"]:
     m_box.compartment(

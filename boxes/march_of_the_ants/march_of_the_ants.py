@@ -68,12 +68,12 @@ project = Project(
     clearance_slack=0.0,
     board_thickness=board_thickness,
     generate_spacers=True,
-    box_defaults={"no_rotate": True},
+    box_defaults={"expandable": False},
 )
 
 ANT_PATTERN = PatternBuilder(PatternType.DENSE_HEX)
 
-# ── 1. Territory Hex Tiles Box (Row 0, Y = 0) ─────────────────────
+# ── 1. Territory Hex Tiles Box ────────────────────────────────────
 t_box = project.box(
     BoxType.CAP,
     "HexTileBox",
@@ -85,14 +85,11 @@ t_box = project.box(
         text_color=Color("white"),
         frame_color=Color("saddlebrown"),
     ),
-    position=(0.0, 0.0, 0.0),
 )
 t_box.compartment("Hexes_Left", width_ratio=0.5, cut=FingerCut.SCOOP)
 t_box.compartment("Hexes_Right", width_ratio=0.5, cut=FingerCut.SCOOP)
 
-# ── 2. Card Boxes & Resource Trays (Row 1, Y = tile_box_length) ───
-y_cards = tile_box_length
-
+# ── 2. Card Boxes & Resource Trays ────────────────────────────────
 project.box(
     BoxType.SLIDING,
     "CardBox_Base",
@@ -104,7 +101,6 @@ project.box(
         text_color=Color("white"),
         frame_color=Color("royalblue"),
     ),
-    position=(0.0, y_cards, 0.0),
     stackable=StackableMode.PYRAMIDS,
 ).compartment("Cards", cut=FingerCut.SCOOP)
 
@@ -119,7 +115,6 @@ project.box(
         text_color=Color("white"),
         frame_color=Color("purple"),
     ),
-    position=(0.0, y_cards, card_box_height),
     stackable=StackableMode.PYRAMIDS,
 ).compartment("Cards", cut=FingerCut.SCOOP)
 
@@ -134,7 +129,6 @@ project.box(
         text_color=Color("white"),
         frame_color=Color("forestgreen"),
     ),
-    position=(card_box_width, y_cards, 0.0),
 ).compartment("Food", cut=FingerCut.SCOOP)
 
 project.box(
@@ -148,12 +142,9 @@ project.box(
         text_color=Color("white"),
         frame_color=Color("darkred"),
     ),
-    position=(card_box_width, y_cards, res_box_height),
 ).compartment("Predators", cut=FingerCut.SCOOP)
 
-# ── 3. Player Ant Colony Boxes (Row 2, Y = tile + card = 198mm) ───
-y_players = tile_box_length + card_box_length
-
+# ── 3. Player Ant Colony Boxes ────────────────────────────────────
 player_factions = [
     ("Red", "darkred"),
     ("Blue", "navy"),
@@ -162,9 +153,7 @@ player_factions = [
     ("Black", "black"),
 ]
 
-for idx, (p_name, color_name) in enumerate(player_factions):
-    col = idx % 2
-    tier = idx // 2
+for p_name, color_name in player_factions:
     p_box = project.box(
         BoxType.CAP,
         f"PlayerBox_{p_name}",
@@ -176,7 +165,6 @@ for idx, (p_name, color_name) in enumerate(player_factions):
             text_color=Color("black" if color_name == "gold" else "white"),
             frame_color=Color(color_name),
         ),
-        position=(col * player_box_width, y_players, tier * player_box_height),
     )
     p_box.compartment("Cubes", cut=FingerCut.SCOOP)
 

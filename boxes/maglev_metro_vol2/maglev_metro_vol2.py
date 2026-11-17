@@ -67,7 +67,7 @@ project = Project(
     clearance_slack=0.0,
     board_thickness=game_board_thickness + player_board_thickness,
     generate_spacers=True,
-    box_defaults={"no_rotate": True},
+    box_defaults={"expandable": False},
 )
 
 METRO_PATTERN = PatternBuilder(PatternType.DENSE_HEX)
@@ -84,7 +84,6 @@ c_box = project.box(
         text_color=Color("white"),
         frame_color=Color("darkorange"),
     ),
-    position=(0.0, 0.0, 0.0),
 )
 c_box.compartment(
     "Cards",
@@ -103,7 +102,6 @@ u_box = project.box(
         text_color=Color("white"),
         frame_color=Color("seagreen"),
     ),
-    position=(0.0, card_box_length, 0.0),
 )
 for slot in range(3):
     u_box.compartment(
@@ -124,7 +122,6 @@ t_box = project.box(
         text_color=Color("white"),
         frame_color=Color("darkviolet"),
     ),
-    position=(card_box_width, 0.0, 0.0),
 )
 t_box.compartment(
     "OutbackHexes",
@@ -149,7 +146,6 @@ tok_box = project.box(
         text_color=Color("white"),
         frame_color=Color("gold"),
     ),
-    position=(card_box_width, 0.0, tile_box_height),
 )
 tok_box.compartment(
     "Tickets",

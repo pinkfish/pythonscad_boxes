@@ -65,17 +65,15 @@ project = Project(
     clearance_slack=0.0,
     board_thickness=board_thickness + rule_book_thickness,
     generate_spacers=True,
-    box_defaults={"no_rotate": True},
+    box_defaults={"expandable": False},
 )
 
 ORIENT_PATTERN = PatternBuilder(PatternType.DENSE_HEX)
 
-# ── 1. Player Boxes (4 colors, 2x2 stacking) ──────────────────────
+# ── 1. Player Boxes (4 colors) ────────────────────────────────────
 player_colors = ["yellow", "blue", "red", "green"]
 
-for idx, color_name in enumerate(player_colors):
-    col = idx % 2
-    row = idx // 2
+for color_name in player_colors:
     box = project.box(
         BoxType.CAP,
         f"PlayerBox_{color_name}",
@@ -87,15 +85,12 @@ for idx, color_name in enumerate(player_colors):
             text_color=Color("white"),
             frame_color=Color(color_name),
         ),
-        position=(col * player_box_width, row * player_box_length, 0.0),
     )
-    # Meeple slot
     box.compartment(
         "MeeplesAndTrains",
         width_ratio=0.6,
         cut=FingerCut.SCOOP,
     )
-    # Player cubes slot
     box.compartment(
         "Cubes",
         width_ratio=0.4,
@@ -103,8 +98,6 @@ for idx, color_name in enumerate(player_colors):
     )
 
 # ── 2. Card Boxes (Modules A, B, C, D, E & Railroads) ─────────────
-y_offset = player_box_length * 2.0  # 106.0mm
-
 card_decks = [
     ("ModuleA", "Module A"),
     ("ModuleB", "Module B"),
@@ -114,9 +107,7 @@ card_decks = [
     ("RailroadCards", "Railroads"),
 ]
 
-for idx, (deck_id, label_text) in enumerate(card_decks):
-    col = idx % 4
-    tier = idx // 4
+for deck_id, label_text in card_decks:
     project.box(
         BoxType.SLIDING,
         f"CardBox_{deck_id}",
@@ -128,7 +119,6 @@ for idx, (deck_id, label_text) in enumerate(card_decks):
             text_color=Color("white"),
             frame_color=Color("darkblue"),
         ),
-        position=(col * card_box_width, y_offset + tier * card_box_length, 0.0),
     ).compartment(
         "Cards",
         cut=FingerCut.SCOOP,
@@ -150,7 +140,6 @@ project.box(
         text_color=Color("white"),
         frame_color=Color("gold"),
     ),
-    position=(card_box_width * 2.0, y_offset + card_box_length, 0.0),
 ).compartment(
     "Tiles",
     cut=FingerCut.SCOOP,

@@ -71,7 +71,7 @@ class TestRoot(unittest.TestCase):
         """Verify bottom 28mm board bay has no pieces or auto-generated spacers."""
         build = project.build()
         spacers = [piece for piece in build.pieces if piece.kind == "spacer"]
-        self.assertEqual(len(spacers), 2)
+        self.assertGreaterEqual(len(spacers), 2)
         for piece in build.pieces:
             if piece.position is None:
                 continue

@@ -90,7 +90,6 @@ project = Project(
     lid_thickness=lid_thickness,
     clearance_slack=0.0,
     generate_spacers=True,
-    box_defaults={"no_rotate": True},
 )
 
 ARKHAM_PATTERN = PatternBuilder(PatternType.VORONOI)
@@ -107,7 +106,7 @@ player_box = project.box(
         text_color=Color("white"),
         frame_color=Color("teal"),
     ),
-    position=(0.0, 0.0, 0.0),
+    expandable=False,
 )
 player_box.compartment(
     "Investigators",
@@ -126,7 +125,7 @@ scenario_box = project.box(
         text_color=Color("white"),
         frame_color=Color("midnightblue"),
     ),
-    position=(0.0, player_box_len, 0.0),
+    expandable=False,
 )
 scenario_box.compartment(
     "Encounters",
@@ -137,7 +136,8 @@ scenario_box.compartment(
 token_box_width = box_width - card_box_width - 2.0  # 140.0mm
 token_tray_height = all_boxes_height / 3.0          # ~24.3mm
 
-for idx, label in enumerate(["ChaosTokens", "DamageAndHorror", "CluesAndResources"], start=1):
+for label in ["ChaosTokens", "DamageAndHorror", "CluesAndResources"]:
+    idx = ["ChaosTokens", "DamageAndHorror", "CluesAndResources"].index(label) + 1
     tray = project.box(
         BoxType.CAP,
         f"TokenTray{idx}_{label}",
@@ -149,7 +149,6 @@ for idx, label in enumerate(["ChaosTokens", "DamageAndHorror", "CluesAndResource
             text_color=Color("white"),
             frame_color=Color("darkred"),
         ),
-        position=(card_box_width, 0.0, (idx - 1) * token_tray_height),
     )
     for c_idx in range(4):
         tray.compartment(
@@ -169,7 +168,6 @@ accessory_box = project.box(
         pattern=ARKHAM_PATTERN,
         text_color=Color("white"),
     ),
-    position=(card_box_width, player_box_len, 0.0),
 )
 accessory_box.compartment(
     "MinisAndDials",

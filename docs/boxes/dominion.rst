@@ -7,7 +7,7 @@ Dominion Big Box organizer.
 
 - **Source Script**: ``boxes/dominion/dominion.py``
 - **Game Box Dimensions**: ``470 × 290 × 90 mm``
-- **Boxes**: 5 sub-box(es), 6 spacer tray(s)
+- **Boxes**: 5 sub-box(es), 3 spacer tray(s)
 - **Box Types Used**: :ref:`BoxType.SLIDING <box-type-sliding>`, :ref:`BoxType.CAP <box-type-cap>`, :ref:`BoxType.NO_LID <box-type-no-lid>`
 
 Full Box Packing
@@ -15,12 +15,12 @@ Full Box Packing
 
 Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
-.. stl:: ../_stl/boxes/dominion/BaseKingdomCards_body.stl?v=7034e861,../_stl/boxes/dominion/BaseKingdomCards_lid.stl?v=b16814c5,../_stl/boxes/dominion/TreasureAndVictoryCards_body.stl?v=a90391df,../_stl/boxes/dominion/TreasureAndVictoryCards_lid.stl?v=50103b3d,../_stl/boxes/dominion/AlchemyExpansionCards_body.stl?v=be2db888,../_stl/boxes/dominion/AlchemyExpansionCards_lid.stl?v=c21c1b9a,../_stl/boxes/dominion/TokenTray1_CoinAndDebtTokens_body.stl?v=f856c1c0,../_stl/boxes/dominion/TokenTray1_CoinAndDebtTokens_lid.stl?v=8cd8ffa6,../_stl/boxes/dominion/TokenTray2_MatsAndSpecialTokens_body.stl?v=204726d3,../_stl/boxes/dominion/TokenTray2_MatsAndSpecialTokens_lid.stl?v=96e021a3,../_stl/boxes/dominion/spacer_1.stl?v=a67d5e91,../_stl/boxes/dominion/spacer_2.stl?v=7c561ce2,../_stl/boxes/dominion/spacer_3.stl?v=957a667e,../_stl/boxes/dominion/spacer_4.stl?v=1fb33235,../_stl/boxes/dominion/spacer_5.stl?v=1908ae37,../_stl/boxes/dominion/spacer_6.stl?v=1dd4df45
+.. stl:: ../_stl/boxes/dominion/BaseKingdomCards_body.stl?v=7034e861,../_stl/boxes/dominion/BaseKingdomCards_lid.stl?v=b16814c5,../_stl/boxes/dominion/TreasureAndVictoryCards_body.stl?v=a90391df,../_stl/boxes/dominion/TreasureAndVictoryCards_lid.stl?v=50103b3d,../_stl/boxes/dominion/AlchemyExpansionCards_body.stl?v=be2db888,../_stl/boxes/dominion/AlchemyExpansionCards_lid.stl?v=c21c1b9a,../_stl/boxes/dominion/TokenTray1_CoinAndDebtTokens_body.stl?v=f856c1c0,../_stl/boxes/dominion/TokenTray1_CoinAndDebtTokens_lid.stl?v=8cd8ffa6,../_stl/boxes/dominion/TokenTray2_MatsAndSpecialTokens_body.stl?v=7d99e519,../_stl/boxes/dominion/TokenTray2_MatsAndSpecialTokens_lid.stl?v=63ad6877,../_stl/boxes/dominion/spacer_1.stl?v=03ec0be4,../_stl/boxes/dominion/spacer_2.stl?v=89a0794a,../_stl/boxes/dominion/spacer_3.stl?v=d19f07c6
    :height: 440px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/dominion/BaseKingdomCards_body.stl?v=7034e861" data-stl-combine="../_stl/boxes/dominion/BaseKingdomCards_body.stl?v=7034e861,../_stl/boxes/dominion/BaseKingdomCards_lid.stl?v=b16814c5,../_stl/boxes/dominion/TreasureAndVictoryCards_body.stl?v=a90391df,../_stl/boxes/dominion/TreasureAndVictoryCards_lid.stl?v=50103b3d,../_stl/boxes/dominion/AlchemyExpansionCards_body.stl?v=be2db888,../_stl/boxes/dominion/AlchemyExpansionCards_lid.stl?v=c21c1b9a,../_stl/boxes/dominion/TokenTray1_CoinAndDebtTokens_body.stl?v=f856c1c0,../_stl/boxes/dominion/TokenTray1_CoinAndDebtTokens_lid.stl?v=8cd8ffa6,../_stl/boxes/dominion/TokenTray2_MatsAndSpecialTokens_body.stl?v=204726d3,../_stl/boxes/dominion/TokenTray2_MatsAndSpecialTokens_lid.stl?v=96e021a3,../_stl/boxes/dominion/spacer_1.stl?v=a67d5e91,../_stl/boxes/dominion/spacer_2.stl?v=7c561ce2,../_stl/boxes/dominion/spacer_3.stl?v=957a667e,../_stl/boxes/dominion/spacer_4.stl?v=1fb33235,../_stl/boxes/dominion/spacer_5.stl?v=1908ae37,../_stl/boxes/dominion/spacer_6.stl?v=1dd4df45" download="DominionBigBox_full_packing.stl">⬇ Download Full Box Packing STL (<code>DominionBigBox_full_packing.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/dominion/BaseKingdomCards_body.stl?v=7034e861" data-stl-combine="../_stl/boxes/dominion/BaseKingdomCards_body.stl?v=7034e861,../_stl/boxes/dominion/BaseKingdomCards_lid.stl?v=b16814c5,../_stl/boxes/dominion/TreasureAndVictoryCards_body.stl?v=a90391df,../_stl/boxes/dominion/TreasureAndVictoryCards_lid.stl?v=50103b3d,../_stl/boxes/dominion/AlchemyExpansionCards_body.stl?v=be2db888,../_stl/boxes/dominion/AlchemyExpansionCards_lid.stl?v=c21c1b9a,../_stl/boxes/dominion/TokenTray1_CoinAndDebtTokens_body.stl?v=f856c1c0,../_stl/boxes/dominion/TokenTray1_CoinAndDebtTokens_lid.stl?v=8cd8ffa6,../_stl/boxes/dominion/TokenTray2_MatsAndSpecialTokens_body.stl?v=7d99e519,../_stl/boxes/dominion/TokenTray2_MatsAndSpecialTokens_lid.stl?v=63ad6877,../_stl/boxes/dominion/spacer_1.stl?v=03ec0be4,../_stl/boxes/dominion/spacer_2.stl?v=89a0794a,../_stl/boxes/dominion/spacer_3.stl?v=d19f07c6" download="DominionBigBox_full_packing.stl">⬇ Download Full Box Packing STL (<code>DominionBigBox_full_packing.stl</code>)</a></p>
 
 Parts Overview
 --------------
@@ -57,37 +57,22 @@ Parts Overview
    * - :ref:`TokenTray2_MatsAndSpecialTokens <box-dominion-tokentray2_matsandspecialtokens>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``101 × 140 × 37.5 mm``
-     - ``(202, 140, 0)``
+     - ``(202, 0, 37.5)``
      - 2
    * - :ref:`spacer_1 <spacer-dominion-spacer_1>`
      - :ref:`BoxType.NO_LID <box-type-no-lid>` (spacer)
-     - ``167 × 290 × 90 mm``
-     - ``(303, 0, 0)``
+     - ``268 × 290 × 90 mm``
+     - ``(202, 0, 0)``
      - —
    * - :ref:`spacer_2 <spacer-dominion-spacer_2>`
      - :ref:`BoxType.NO_LID <box-type-no-lid>` (spacer)
-     - ``101 × 290 × 52.5 mm``
-     - ``(202, 0, 37.5)``
+     - ``303 × 290 × 15 mm``
+     - ``(0, 0, 75)``
      - —
    * - :ref:`spacer_3 <spacer-dominion-spacer_3>`
      - :ref:`BoxType.NO_LID <box-type-no-lid>` (spacer)
-     - ``202 × 290 × 15 mm``
-     - ``(0, 0, 75)``
-     - —
-   * - :ref:`spacer_4 <spacer-dominion-spacer_4>`
-     - :ref:`BoxType.NO_LID <box-type-no-lid>` (spacer)
-     - ``101 × 60 × 75 mm``
+     - ``202 × 60 × 75 mm``
      - ``(0, 230, 0)``
-     - —
-   * - :ref:`spacer_5 <spacer-dominion-spacer_5>`
-     - :ref:`BoxType.NO_LID <box-type-no-lid>` (spacer)
-     - ``202 × 10 × 37.5 mm``
-     - ``(101, 280, 0)``
-     - —
-   * - :ref:`spacer_6 <spacer-dominion-spacer_6>`
-     - :ref:`BoxType.NO_LID <box-type-no-lid>` (spacer)
-     - ``101 × 10 × 37.5 mm``
-     - ``(101, 280, 37.5)``
      - —
 
 Individual Boxes & Parts
@@ -248,35 +233,35 @@ TokenTray2_MatsAndSpecialTokens
 
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``101 × 140 × 37.5 mm``
-- **Packed Position**: ``(202, 140, 0)``
+- **Packed Position**: ``(202, 0, 37.5)``
 - **Compartments (2)**: ``Tokens_Left`` (W=50%), ``Tokens_Right`` (W=50%)
 
 **Assembled Box (TokenTray2_MatsAndSpecialTokens — Body + Lid)**
 
-.. stl:: ../_stl/boxes/dominion/TokenTray2_MatsAndSpecialTokens_body.stl?v=204726d3,../_stl/boxes/dominion/TokenTray2_MatsAndSpecialTokens_lid.stl?v=96e021a3
+.. stl:: ../_stl/boxes/dominion/TokenTray2_MatsAndSpecialTokens_body.stl?v=7d99e519,../_stl/boxes/dominion/TokenTray2_MatsAndSpecialTokens_lid.stl?v=63ad6877
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/dominion/TokenTray2_MatsAndSpecialTokens_body.stl?v=204726d3" data-stl-combine="../_stl/boxes/dominion/TokenTray2_MatsAndSpecialTokens_body.stl?v=204726d3,../_stl/boxes/dominion/TokenTray2_MatsAndSpecialTokens_lid.stl?v=96e021a3" download="TokenTray2_MatsAndSpecialTokens_assembled.stl">⬇ Download Assembled TokenTray2_MatsAndSpecialTokens STL (<code>TokenTray2_MatsAndSpecialTokens_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/dominion/TokenTray2_MatsAndSpecialTokens_body.stl?v=7d99e519" data-stl-combine="../_stl/boxes/dominion/TokenTray2_MatsAndSpecialTokens_body.stl?v=7d99e519,../_stl/boxes/dominion/TokenTray2_MatsAndSpecialTokens_lid.stl?v=63ad6877" download="TokenTray2_MatsAndSpecialTokens_assembled.stl">⬇ Download Assembled TokenTray2_MatsAndSpecialTokens STL (<code>TokenTray2_MatsAndSpecialTokens_assembled.stl</code>)</a></p>
 
 **Part: TokenTray2_MatsAndSpecialTokens Body**
 
-.. stl:: ../_stl/boxes/dominion/TokenTray2_MatsAndSpecialTokens_body.stl?v=204726d3
+.. stl:: ../_stl/boxes/dominion/TokenTray2_MatsAndSpecialTokens_body.stl?v=7d99e519
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/dominion/TokenTray2_MatsAndSpecialTokens_body.stl?v=204726d3" download="TokenTray2_MatsAndSpecialTokens_body.stl">⬇ Download TokenTray2_MatsAndSpecialTokens Body STL (<code>TokenTray2_MatsAndSpecialTokens_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/dominion/TokenTray2_MatsAndSpecialTokens_body.stl?v=7d99e519" download="TokenTray2_MatsAndSpecialTokens_body.stl">⬇ Download TokenTray2_MatsAndSpecialTokens Body STL (<code>TokenTray2_MatsAndSpecialTokens_body.stl</code>)</a></p>
 
 **Part: TokenTray2_MatsAndSpecialTokens Lid**
 
-.. stl:: ../_stl/boxes/dominion/TokenTray2_MatsAndSpecialTokens_lid.stl?v=96e021a3
+.. stl:: ../_stl/boxes/dominion/TokenTray2_MatsAndSpecialTokens_lid.stl?v=63ad6877
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/dominion/TokenTray2_MatsAndSpecialTokens_lid.stl?v=96e021a3" download="TokenTray2_MatsAndSpecialTokens_lid.stl">⬇ Download TokenTray2_MatsAndSpecialTokens Lid STL (<code>TokenTray2_MatsAndSpecialTokens_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/dominion/TokenTray2_MatsAndSpecialTokens_lid.stl?v=63ad6877" download="TokenTray2_MatsAndSpecialTokens_lid.stl">⬇ Download TokenTray2_MatsAndSpecialTokens Lid STL (<code>TokenTray2_MatsAndSpecialTokens_lid.stl</code>)</a></p>
 
 Spacer Trays
 ------------
@@ -287,15 +272,15 @@ spacer_1
 ^^^^^^^^
 
 - **Type**: :ref:`BoxType.NO_LID <box-type-no-lid>` filler spacer tray
-- **Outer Dimensions**: ``167 × 290 × 90 mm``
-- **Packed Position**: ``(303, 0, 0)``
+- **Outer Dimensions**: ``268 × 290 × 90 mm``
+- **Packed Position**: ``(202, 0, 0)``
 
-.. stl:: ../_stl/boxes/dominion/spacer_1.stl?v=a67d5e91
+.. stl:: ../_stl/boxes/dominion/spacer_1.stl?v=03ec0be4
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/dominion/spacer_1.stl?v=a67d5e91" download="spacer_1.stl">⬇ Download spacer_1 STL (<code>spacer_1.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/dominion/spacer_1.stl?v=03ec0be4" download="spacer_1.stl">⬇ Download spacer_1 STL (<code>spacer_1.stl</code>)</a></p>
 
 .. _spacer-dominion-spacer_2:
 
@@ -303,15 +288,15 @@ spacer_2
 ^^^^^^^^
 
 - **Type**: :ref:`BoxType.NO_LID <box-type-no-lid>` filler spacer tray
-- **Outer Dimensions**: ``101 × 290 × 52.5 mm``
-- **Packed Position**: ``(202, 0, 37.5)``
+- **Outer Dimensions**: ``303 × 290 × 15 mm``
+- **Packed Position**: ``(0, 0, 75)``
 
-.. stl:: ../_stl/boxes/dominion/spacer_2.stl?v=7c561ce2
+.. stl:: ../_stl/boxes/dominion/spacer_2.stl?v=89a0794a
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/dominion/spacer_2.stl?v=7c561ce2" download="spacer_2.stl">⬇ Download spacer_2 STL (<code>spacer_2.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/dominion/spacer_2.stl?v=89a0794a" download="spacer_2.stl">⬇ Download spacer_2 STL (<code>spacer_2.stl</code>)</a></p>
 
 .. _spacer-dominion-spacer_3:
 
@@ -319,60 +304,12 @@ spacer_3
 ^^^^^^^^
 
 - **Type**: :ref:`BoxType.NO_LID <box-type-no-lid>` filler spacer tray
-- **Outer Dimensions**: ``202 × 290 × 15 mm``
-- **Packed Position**: ``(0, 0, 75)``
-
-.. stl:: ../_stl/boxes/dominion/spacer_3.stl?v=957a667e
-   :height: 280px
-
-.. raw:: html
-
-   <p><a href="../_stl/boxes/dominion/spacer_3.stl?v=957a667e" download="spacer_3.stl">⬇ Download spacer_3 STL (<code>spacer_3.stl</code>)</a></p>
-
-.. _spacer-dominion-spacer_4:
-
-spacer_4
-^^^^^^^^
-
-- **Type**: :ref:`BoxType.NO_LID <box-type-no-lid>` filler spacer tray
-- **Outer Dimensions**: ``101 × 60 × 75 mm``
+- **Outer Dimensions**: ``202 × 60 × 75 mm``
 - **Packed Position**: ``(0, 230, 0)``
 
-.. stl:: ../_stl/boxes/dominion/spacer_4.stl?v=1fb33235
+.. stl:: ../_stl/boxes/dominion/spacer_3.stl?v=d19f07c6
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/dominion/spacer_4.stl?v=1fb33235" download="spacer_4.stl">⬇ Download spacer_4 STL (<code>spacer_4.stl</code>)</a></p>
-
-.. _spacer-dominion-spacer_5:
-
-spacer_5
-^^^^^^^^
-
-- **Type**: :ref:`BoxType.NO_LID <box-type-no-lid>` filler spacer tray
-- **Outer Dimensions**: ``202 × 10 × 37.5 mm``
-- **Packed Position**: ``(101, 280, 0)``
-
-.. stl:: ../_stl/boxes/dominion/spacer_5.stl?v=1908ae37
-   :height: 280px
-
-.. raw:: html
-
-   <p><a href="../_stl/boxes/dominion/spacer_5.stl?v=1908ae37" download="spacer_5.stl">⬇ Download spacer_5 STL (<code>spacer_5.stl</code>)</a></p>
-
-.. _spacer-dominion-spacer_6:
-
-spacer_6
-^^^^^^^^
-
-- **Type**: :ref:`BoxType.NO_LID <box-type-no-lid>` filler spacer tray
-- **Outer Dimensions**: ``101 × 10 × 37.5 mm``
-- **Packed Position**: ``(101, 280, 37.5)``
-
-.. stl:: ../_stl/boxes/dominion/spacer_6.stl?v=1dd4df45
-   :height: 280px
-
-.. raw:: html
-
-   <p><a href="../_stl/boxes/dominion/spacer_6.stl?v=1dd4df45" download="spacer_6.stl">⬇ Download spacer_6 STL (<code>spacer_6.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/dominion/spacer_3.stl?v=d19f07c6" download="spacer_3.stl">⬇ Download spacer_3 STL (<code>spacer_3.stl</code>)</a></p>

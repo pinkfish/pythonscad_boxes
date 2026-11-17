@@ -479,9 +479,10 @@ def _make_root_project(*, boards_external: bool = False) -> Project:
         "Root",
         game_box_size=(214.0, 278.0, ROOT_BOX_TOTAL_HEIGHT_MM),
         board_thickness=board_reserve,
+        clearance_slack=0.0,
         board_on_bottom=not boards_external,
         generate_spacers=True,
-        box_defaults={"no_rotate": True},
+        box_defaults={"expandable": False},
     )
 
 from pybosl2.shapes3d.base import CsgSolid
@@ -641,7 +642,6 @@ def _populate_root_boxes(project: Project) -> None:
         card_size=(74.875, 93.5),
         size=card_size,
         lid=replace(LID_BASE, text="Shared"),
-        position=(0.0, 0.0, 28.0),
     )
 
     card_erie_size = (79.875, 98.5, 8.6)
@@ -650,7 +650,6 @@ def _populate_root_boxes(project: Project) -> None:
         card_size=(74.875, 93.5),
         size=card_erie_size,
         lid=LID_ERIE,
-        position=(79.875, 0.0, 28.0),
     )
 
     card_vagabond_size = (79.875, 98.5, 19.4)
@@ -660,7 +659,6 @@ def _populate_root_boxes(project: Project) -> None:
         size=card_vagabond_size,
         lid=LID_VAGABOND,
         color=Color("green"),
-        position=(79.875, 0.0, 28.0 + 8.6),
     )
 
     card_overview_size = (79.875, 98.5, 11.0)
@@ -669,7 +667,6 @@ def _populate_root_boxes(project: Project) -> None:
         card_size=(74.875, 93.5),
         size=card_overview_size,
         lid=LID_BASE.titled("Overview"),
-        position=(79.875, 0.0, 28.0 + 8.6 + 19.4),
     )
 
     # Stacked Item Boxes
@@ -682,7 +679,6 @@ def _populate_root_boxes(project: Project) -> None:
         "ItemsBoxBottom",
         size=(53.25, item_box_length, 10.0),
         lid=LID_BASE.titled("Items Bot"),
-        position=(159.75, 0.0, 28.0),
     ).compartment(
         "Items",
         depth=6.0,
@@ -717,7 +713,6 @@ def _populate_root_boxes(project: Project) -> None:
         "ItemsBoxMiddle",
         size=(53.25, item_box_length, 9.0),
         lid=LID_BASE.titled("Items Mid"),
-        position=(159.75, 0.0, 28.0 + 10.0),
     ).compartment(
         "Items",
         depth=5.0,
@@ -751,7 +746,6 @@ def _populate_root_boxes(project: Project) -> None:
         "ItemsBoxWinter",
         size=(53.25, item_box_length, 9.0),
         lid=LID_BASE.titled("Winter"),
-        position=(159.75, 0.0, 28.0 + 10.0 + 9.0),
     ).compartment(
         "WinterTokens",
         depth=5.0,
@@ -837,7 +831,6 @@ def _populate_root_boxes(project: Project) -> None:
         "ItemsBoxExtras",
         size=(53.25, item_box_length, 11.0),
         lid=LID_BASE.titled("Extras"),
-        position=(159.75, 0.0, 28.0 + 10.0 + 9.0 + 9.0),
     ).compartment(
         "Extras",
         depth=7.0,
@@ -916,7 +909,6 @@ def _populate_root_boxes(project: Project) -> None:
         size=marquis_bottom_size,
         lid=LID_MARQUIS,
         color=Color("orange"),
-        position=(0.0, 98.5, 28.0),
     ).compartment(
         "Warriors",
         elements=[
@@ -986,7 +978,6 @@ def _populate_root_boxes(project: Project) -> None:
         size=(106.5, 59.833, 14.5),
         lid=LID_MARQUIS,
         color=Color("orange"),
-        position=(0.0, 98.5, 28.0 + 24.5),
     ).compartment(
         "WoodAndBuildings",
         elements=[
@@ -1183,7 +1174,6 @@ def _populate_root_boxes(project: Project) -> None:
         size=erie_bottom_size,
         lid=LID_ERIE,
         color=Color("blue"),
-        position=(0.0, 158.333, 28.0),
     ).compartment(
         "Warriors",
         elements=[
@@ -1235,7 +1225,6 @@ def _populate_root_boxes(project: Project) -> None:
         size=(53.25, 59.833, 14.5),
         lid=LID_ERIE,
         color=Color("blue"),
-        position=(0.0, 158.333, 28.0 + 24.5),
     ).compartment(
         "Roosts",
         elements=[
@@ -1304,7 +1293,6 @@ def _populate_root_boxes(project: Project) -> None:
         size=alliance_bottom_size,
         lid=LID_ALLIANCE,
         color=Color("green"),
-        position=(106.5, 98.5, 28.0),
     ).compartment(
         "Warriors",
         elements=[
@@ -1357,7 +1345,6 @@ def _populate_root_boxes(project: Project) -> None:
         size=(53.25, 59.833, 14.5),
         lid=LID_ALLIANCE,
         color=Color("green"),
-        position=(106.5, 98.5, 28.0 + 24.5),
     ).compartment(
         "BasesAndSympathy",
         elements=[
@@ -1445,7 +1432,6 @@ def _populate_root_boxes(project: Project) -> None:
         size=lizard_bottom_size,
         lid=LID_LIZARD,
         color=Color("yellow"),
-        position=(0.0, 218.166, 28.0),
     ).compartment(
         "Warriors",
         elements=[
@@ -1472,7 +1458,6 @@ def _populate_root_boxes(project: Project) -> None:
         size=(79.875, 59.833, 12.5),
         lid=LID_LIZARD,
         color=Color("yellow"),
-        position=(0.0, 218.166, 28.0 + 26.5),
     ).compartment(
         "Gardens",
         elements=[
@@ -1595,7 +1580,6 @@ def _populate_root_boxes(project: Project) -> None:
         size=riverfolk_bottom_size,
         lid=LID_RIVERFOLK,
         color=Color("teal"),
-        position=(106.5, 218.166, 28.0),
     ).compartment(
         "Warriors",
         elements=[
@@ -1666,7 +1650,6 @@ def _populate_root_boxes(project: Project) -> None:
         size=(79.875, 59.833, 12.5),
         lid=LID_RIVERFOLK,
         color=Color("teal"),
-        position=(79.875, 218.166, 28.0 + 26.5),
     ).compartment(
         "TradePosts",
         elements=[
@@ -1740,7 +1723,7 @@ def _populate_root_boxes(project: Project) -> None:
     )
 
     # Vagabond Boxes (2 stacked boxes: Base + Riverfolk 2nd Vagabond)
-    def _add_vagabond_box(label: str, position: tuple[float, float, float]) -> None:
+    def _add_vagabond_box(label: str) -> None:
         vagabond_comp_depth = 19.5 - 1.6 - 2.0  # 15.9mm
         elements = [
             # Front-left: Vagabond meeple cutout (9mm thick + 1mm clearance)
@@ -1798,12 +1781,11 @@ def _populate_root_boxes(project: Project) -> None:
             size=(53.25, 59.833, 19.5),
             lid=LID_VAGABOND,
             color=Color("green"),
-            position=position,
         ).compartment("ItemsAndScore", elements=elements)
 
 
-    _add_vagabond_box("VagabondBox", (106.5, 158.333, 28.0))
-    _add_vagabond_box("VagabondBox2", (106.5, 158.333, 28.0 + 19.5))
+    _add_vagabond_box("VagabondBox")
+    _add_vagabond_box("VagabondBox2")
 
     # Dice Box (placed behind the Items stack in the right column)
     project.box(
@@ -1811,7 +1793,6 @@ def _populate_root_boxes(project: Project) -> None:
         "DiceBox",
         size=(53.25, 59.833, 39.0),
         lid=LID_BASE.titled("Dice"),
-        position=(159.75, 103.5, 28.0),
     ).compartment(
         "Dice",
         elements=[

@@ -66,16 +66,13 @@ project = Project(
     clearance_slack=0.0,
     board_thickness=board_thickness + player_board_thickness,
     generate_spacers=True,
-    box_defaults={"no_rotate": True},
 )
 
 BOOM_PATTERN = PatternBuilder(PatternType.DENSE_HEX)
 
 # ── 1. Player Boxes (4 boxes: 2 columns, stacked 2 high at Y = 0) ─
 player_colors = ["red", "yellow", "blue", "green"]
-for idx, color_name in enumerate(player_colors):
-    col = idx % 2
-    tier = idx // 2
+for color_name in player_colors:
     p_box = project.box(
         BoxType.CAP,
         f"PlayerBox_{color_name.title()}",
@@ -87,7 +84,6 @@ for idx, color_name in enumerate(player_colors):
             text_color=Color("black" if color_name == "yellow" else "white"),
             frame_color=Color(color_name),
         ),
-        position=(col * player_box_width, 0.0, tier * player_box_height),
     )
     p_box.compartment(
         "TrainsAndStations",
@@ -100,9 +96,7 @@ for idx, color_name in enumerate(player_colors):
         cut=FingerCut.SCOOP,
     )
 
-# ── 2. Standard Card Boxes (Y = player_box_length = 108mm) ────────
-y_cards = player_box_length
-
+# ── 2. Standard Card Boxes ────────────────────────────────────────
 project.box(
     BoxType.SLIDING,
     "StationCardBox",
@@ -114,7 +108,7 @@ project.box(
         text_color=Color("white"),
         frame_color=Color("navy"),
     ),
-    position=(0.0, y_cards, 0.0),
+    expandable=False,
 ).compartment(
     "StationCards",
     cut=FingerCut.SCOOP,
@@ -131,21 +125,19 @@ project.box(
         text_color=Color("white"),
         frame_color=Color("darkorange"),
     ),
-    position=(card_box_width, y_cards, 0.0),
+    expandable=False,
 ).compartment(
     "ObjectiveCards",
     cut=FingerCut.SCOOP,
 )
 
-# ── 3. Small Card Boxes & City Tiles (Y = 108 + 73 = 181mm) ───────
-y_small = y_cards + card_box_length
-
+# ── 3. Small Card Boxes & City Tiles ──────────────────────────────
 small_decks = [
     ("Locomotives", "Locomotives", "darkred"),
     ("Carriages", "Carriages", "peru"),
 ]
 
-for idx, (deck_id, title, color_name) in enumerate(small_decks):
+for deck_id, title, color_name in small_decks:
     s_box = project.box(
         BoxType.SLIDING,
         f"SmallCardBox_{deck_id}",
@@ -157,7 +149,7 @@ for idx, (deck_id, title, color_name) in enumerate(small_decks):
             text_color=Color("white"),
             frame_color=Color(color_name),
         ),
-        position=(idx * small_card_box_width, y_small, 0.0),
+        expandable=False,
     )
     s_box.compartment(
         "Cards",
@@ -176,7 +168,6 @@ project.box(
         text_color=Color("white"),
         frame_color=Color("dimgray"),
     ),
-    position=(small_card_box_width * 2.0, y_small, 0.0),
 ).compartment(
     "CityTiles",
     cut=FingerCut.SCOOP,

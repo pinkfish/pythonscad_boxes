@@ -65,14 +65,14 @@ project = Project(
     clearance_slack=0.0,
     board_thickness=board_thickness,
     generate_spacers=True,
-    box_defaults={"no_rotate": True},
+    box_defaults={"expandable": False},
 )
 
 TILE_PATTERN = PatternBuilder(PatternType.DENSE_HEX)
 
 # ── 1. Tokens Boxes (4 columns, stacked 2 high at Y = 0) ──────────
 token_labels = ["Tokens_1", "Tokens_2", "Tokens_3", "Tokens_4"]
-for idx, label in enumerate(token_labels):
+for label in token_labels:
     for tier in range(2):
         t_box = project.box(
             BoxType.CAP,
@@ -85,16 +85,13 @@ for idx, label in enumerate(token_labels):
                 text_color=Color("white"),
                 frame_color=Color("navy"),
             ),
-            position=(idx * token_box_width, 0.0, tier * token_box_height),
         )
         t_box.compartment(
             "Tokens",
             cut=FingerCut.SCOOP,
         )
 
-# ── 2. Player & Starting Marker Boxes (atop token boxes) ──────────
-z_top = token_box_height * 2.0
-
+# ── 2. Player & Starting Marker Boxes ─────────────────────────────
 project.box(
     BoxType.CAP,
     "PlayerMarkersBox",
@@ -106,7 +103,6 @@ project.box(
         text_color=Color("white"),
         frame_color=Color("darkgreen"),
     ),
-    position=(0.0, 0.0, z_top),
 ).compartment(
     "Markers",
     cut=FingerCut.SCOOP,
@@ -123,13 +119,12 @@ project.box(
         text_color=Color("white"),
         frame_color=Color("gold"),
     ),
-    position=(player_box_width, 0.0, z_top),
 ).compartment(
     "Clocks",
     cut=FingerCut.SCOOP,
 )
 
-# ── 3. Objective Tile Boxes (5 stacked trays at Y = token_box_length)
+# ── 3. Objective Tile Boxes (5 trays) ─────────────────────────────
 for i in range(5):
     obj_box = project.box(
         BoxType.CAP,
@@ -142,7 +137,6 @@ for i in range(5):
             text_color=Color("white"),
             frame_color=Color("darkorange"),
         ),
-        position=(0.0, token_box_length, i * objective_box_height),
     )
     obj_box.compartment(
         "ObjectiveTiles_Left",

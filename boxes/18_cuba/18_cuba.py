@@ -63,12 +63,11 @@ project = Project(
     clearance_slack=0.0,
     board_thickness=total_board_thickness,
     generate_spacers=True,
-    box_defaults={"no_rotate": True},
 )
 
 CUBA_PATTERN = PatternBuilder(PatternType.DENSE_HEX)
 
-# ── 1. Money Boxes (2 split boxes side-by-side across width) ───────
+# ── 1. Money Boxes (2 split boxes) ─────────────────────────────────
 half_width = tray_width / 2.0  # 111.5mm
 
 for i in range(2):
@@ -83,7 +82,7 @@ for i in range(2):
             text_color=Color("white"),
             frame_color=Color("gold"),
         ),
-        position=(i * half_width, 0.0, 0.0),
+        expandable=False,
     )
     for slot in range(4):
         m_box.compartment(
@@ -104,7 +103,6 @@ t_box = project.box(
         text_color=Color("white"),
         frame_color=Color("blue"),
     ),
-    position=(0.0, money_box_len, 0.0),
 )
 for slot in range(5):
     t_box.compartment(
@@ -113,9 +111,7 @@ for slot in range(5):
         cut=FingerCut.SCOOP,
     )
 
-# ── 3. Corporate Shares Boxes (2 split boxes across width) ─────────
-y_shares = money_box_len + train_box_len  # 166.0mm
-
+# ── 3. Corporate Shares Boxes (2 split boxes) ──────────────────────
 for i in range(2):
     s_box = project.box(
         BoxType.SLIPOVER,
@@ -128,7 +124,7 @@ for i in range(2):
             text_color=Color("white"),
             frame_color=Color("royalblue"),
         ),
-        position=(i * half_width, y_shares, 0.0),
+        expandable=False,
     )
     for slot in range(4):
         s_box.compartment(

@@ -71,12 +71,11 @@ project = Project(
     lid_thickness=lid_thickness,
     clearance_slack=0.0,
     generate_spacers=True,
-    box_defaults={"no_rotate": True},
 )
 
 TRAIN_PATTERN = PatternBuilder(PatternType.DENSE_HEX)
 
-# ── 1. Destination Box & Victory Box (Stacked 2-high at Y = 0) ────
+# ── 1. Destination Box & Victory Box ──────────────────────────────
 dest_box = project.box(
     BoxType.CAP,
     "DestinationBox",
@@ -88,7 +87,6 @@ dest_box = project.box(
         text_color=Color("white"),
         frame_color=Color("darkgreen"),
     ),
-    position=(0.0, 0.0, 0.0),
 )
 dest_box.compartment(
     "Destinations",
@@ -112,7 +110,6 @@ vic_box = project.box(
         text_color=Color("white"),
         frame_color=Color("gold"),
     ),
-    position=(0.0, 0.0, destination_box_height),
 )
 for slot in range(4):
     vic_box.compartment(
@@ -121,7 +118,7 @@ for slot in range(4):
         cut=FingerCut.SCOOP,
     )
 
-# ── 2. Middle Storage Box (Y = destination_box_length) ────────────
+# ── 2. Middle Storage Box ─────────────────────────────────────────
 mid_box = project.box(
     BoxType.CAP,
     "MiddleBox",
@@ -133,16 +130,13 @@ mid_box = project.box(
         text_color=Color("white"),
         frame_color=Color("darkslategray"),
     ),
-    position=(0.0, destination_box_length, 0.0),
 )
 mid_box.compartment(
     "Tokens",
     cut=FingerCut.SCOOP,
 )
 
-# ── 3. Playing Cards Box (Y = destination + middle) ───────────────
-y_cards = destination_box_length + middle_box_length
-
+# ── 3. Playing Cards Box ──────────────────────────────────────────
 card_box = project.box(
     BoxType.CAP,
     "CardBox",
@@ -154,14 +148,14 @@ card_box = project.box(
         text_color=Color("white"),
         frame_color=Color("navy"),
     ),
-    position=(0.0, y_cards, 0.0),
+    expandable=False,
 )
 card_box.compartment(
     "Cards",
     cut=FingerCut.SCOOP,
 )
 
-# ── 4. Ticket Tiles & Train Token Box (Right Column) ──────────────
+# ── 4. Ticket Tiles & Train Token Box ─────────────────────────────
 tick_box = project.box(
     BoxType.CAP,
     "TicketBox",
@@ -173,7 +167,6 @@ tick_box = project.box(
         text_color=Color("white"),
         frame_color=Color("firebrick"),
     ),
-    position=(card_box_width, destination_box_length, 0.0),
 )
 tick_box.compartment(
     "TicketTiles",

@@ -64,13 +64,12 @@ project = Project(
     clearance_slack=0.0,
     board_thickness=board_thickness,
     generate_spacers=True,
-    box_defaults={"no_rotate": True},
+    box_defaults={"expandable": False},
 )
 
 ADA_PATTERN = PatternBuilder(PatternType.DENSE_HEX)
 
-# ── 1. Player Boxes & Small Utility Boxes (Columns 0 & 1, Y = 0) ──
-# Left column (X = 0)
+# ── 1. Player Boxes & Utility Stacks ──────────────────────────────
 project.box(
     BoxType.SLIDING,
     "PlayerBox_Red",
@@ -82,7 +81,6 @@ project.box(
         text_color=Color("white"),
         frame_color=Color("darkred"),
     ),
-    position=(0.0, 0.0, 0.0),
     stackable=StackableMode.PYRAMIDS,
 ).compartment("Bits", cut=FingerCut.SCOOP)
 
@@ -97,7 +95,6 @@ project.box(
         text_color=Color("white"),
         frame_color=Color("forestgreen"),
     ),
-    position=(0.0, 0.0, player_box_height),
     stackable=StackableMode.PYRAMIDS,
 ).compartment("Bits", cut=FingerCut.SCOOP)
 
@@ -112,11 +109,9 @@ project.box(
         text_color=Color("white"),
         frame_color=Color("gold"),
     ),
-    position=(0.0, 0.0, player_box_height * 2.0),
     stackable=StackableMode.PYRAMIDS,
 ).compartment("Bits", cut=FingerCut.SCOOP)
 
-# Right column (X = card_box_width = 72mm)
 project.box(
     BoxType.SLIDING,
     "PlayerBox_Blue",
@@ -128,7 +123,6 @@ project.box(
         text_color=Color("white"),
         frame_color=Color("navy"),
     ),
-    position=(card_box_width, 0.0, 0.0),
     stackable=StackableMode.PYRAMIDS,
 ).compartment("Bits", cut=FingerCut.SCOOP)
 
@@ -143,7 +137,6 @@ project.box(
         text_color=Color("white"),
         frame_color=Color("purple"),
     ),
-    position=(card_box_width, 0.0, player_box_height),
     stackable=StackableMode.PYRAMIDS,
 ).compartment("Bits", cut=FingerCut.SCOOP)
 
@@ -158,13 +151,10 @@ project.box(
         text_color=Color("white"),
         frame_color=Color("silver"),
     ),
-    position=(card_box_width, 0.0, player_box_height * 2.0),
     stackable=StackableMode.PYRAMIDS,
 ).compartment("Money", cut=FingerCut.SCOOP)
 
-# ── 2. Card Boxes (Row 2, Y = card_box_length = 97mm) ─────────────
-y_row2 = card_box_length
-
+# ── 2. Card Boxes ─────────────────────────────────────────────────
 project.box(
     BoxType.SLIDING,
     "OtherCardBox",
@@ -176,7 +166,6 @@ project.box(
         text_color=Color("white"),
         frame_color=Color("royalblue"),
     ),
-    position=(card_box_width, y_row2, 0.0),
     stackable=StackableMode.PYRAMIDS,
 ).compartment("Cards", cut=FingerCut.SCOOP)
 
@@ -191,15 +180,12 @@ project.box(
         text_color=Color("white"),
         frame_color=Color("darkorange"),
     ),
-    position=(card_box_width, y_row2, usable_height / 2.0),
     stackable=StackableMode.PYRAMIDS,
 ).compartment("Cards", cut=FingerCut.SCOOP)
 
-# ── 3. Gear / Cog Boxes (Stacked 3 high at Y = 97 + 97 = 194mm) ───
-y_row3 = card_box_length * 2.0  # 194.0mm
-
+# ── 3. Gear / Cog Boxes ───────────────────────────────────────────
 gear_labels = ["AddGears", "SubGears", "MulGears"]
-for idx, label in enumerate(gear_labels):
+for label in gear_labels:
     g_box = project.box(
         BoxType.CAP,
         f"GearBox_{label}",
@@ -211,14 +197,13 @@ for idx, label in enumerate(gear_labels):
             text_color=Color("white"),
             frame_color=Color("peru"),
         ),
-        position=(card_box_width, y_row3, idx * gear_box_height),
     )
     g_box.compartment(
         "Gears",
         cut=FingerCut.SCOOP,
     )
 
-# ── 4. Dice & Token Boxes (X = 0, Y = 97mm) ───────────────────────
+# ── 4. Dice & Book Boxes ──────────────────────────────────────────
 project.box(
     BoxType.CAP,
     "DiceBox",
@@ -230,7 +215,6 @@ project.box(
         text_color=Color("white"),
         frame_color=Color("firebrick"),
     ),
-    position=(0.0, y_row2, 0.0),
 ).compartment("Dice", cut=FingerCut.SCOOP)
 
 project.box(
@@ -244,7 +228,6 @@ project.box(
         text_color=Color("white"),
         frame_color=Color("teal"),
     ),
-    position=(0.0, y_row2 + card_box_length / 2.0, 0.0),
 ).compartment("Books", cut=FingerCut.SCOOP)
 
 project.stack_order("PlayerBox_Red", "PlayerBox_Green", "ScoringBox")

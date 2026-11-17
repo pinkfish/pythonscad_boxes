@@ -98,36 +98,30 @@ project = Project(
     clearance_slack=0.0,
     board_thickness=board_thickness,
     generate_spacers=True,
-    box_defaults={"no_rotate": True},
 )
 
 HEX_PATTERN = PatternBuilder(PatternType.DENSE_HEX)
 
-# ── 1. Hex Tile Boxes (4 boxes: 2 columns, stacked 2 high) ────────
-for col in range(2):
-    y_pos = col * hex_box_length
-    for tier in range(2):
-        z_pos = tier * hex_box_height
-        box_num = col * 2 + tier + 1
-        box = project.box(
-            BoxType.CAP,
-            f"HexBox_{box_num}",
-            size=(hex_box_width, hex_box_length, hex_box_height),
-            lid=LidBuilder(
-                text="1899 Daihan",
-                label_mode=LabelMode.FRAMED,
-                pattern=HEX_PATTERN,
-                text_color=Color("white"),
-                frame_color=Color("darkgreen"),
-            ),
-            position=(0.0, y_pos, z_pos),
-        )
-        box.compartment(
-            "Tiles",
-            cut=FingerCut.SCOOP,
-        )
+# ── 1. Hex Tile Boxes ─────────────────────────────────────────────
+for box_num in range(1, 5):
+    box = project.box(
+        BoxType.CAP,
+        f"HexBox_{box_num}",
+        size=(hex_box_width, hex_box_length, hex_box_height),
+        lid=LidBuilder(
+            text="1899 Daihan",
+            label_mode=LabelMode.FRAMED,
+            pattern=HEX_PATTERN,
+            text_color=Color("white"),
+            frame_color=Color("darkgreen"),
+        ),
+    )
+    box.compartment(
+        "Tiles",
+        cut=FingerCut.SCOOP,
+    )
 
-# ── 2. Share & Money Boxes (Stacked 3 high at X = hex_box_width) ──
+# ── 2. Share & Money Boxes ────────────────────────────────────────
 for i in range(2):
     s_box = project.box(
         BoxType.CAP,
@@ -140,7 +134,6 @@ for i in range(2):
             text_color=Color("white"),
             frame_color=Color("navy"),
         ),
-        position=(hex_box_width, 0.0, i * share_box_height),
     )
     for slot in range(4):
         s_box.compartment(
@@ -160,7 +153,6 @@ m_box = project.box(
         text_color=Color("white"),
         frame_color=Color("gold"),
     ),
-    position=(hex_box_width, 0.0, share_box_height * 2.0),
 )
 for slot in range(5):
     m_box.compartment(
@@ -169,9 +161,7 @@ for slot in range(5):
         cut=FingerCut.SCOOP,
     )
 
-# ── 3. Company Markers, Private Cards & Extra Bits (atop HexBoxes) ─
-z_top = hex_box_height * 2.0  # 32.0mm
-
+# ── 3. Company Markers, Private Cards & Extra Bits ────────────────
 for i in range(2):
     c_box = project.box(
         BoxType.SLIPOVER,
@@ -183,7 +173,6 @@ for i in range(2):
             pattern=HEX_PATTERN,
             text_color=Color("white"),
         ),
-        position=(0.0, i * company_marker_box_length, z_top),
     )
     c_box.compartment(
         "Tokens",
@@ -200,7 +189,7 @@ project.box(
         pattern=HEX_PATTERN,
         text_color=Color("white"),
     ),
-    position=(0.0, company_marker_box_length * 2.0, z_top),
+    expandable=False,
 ).compartment(
     "Cards",
     cut=FingerCut.SCOOP,
@@ -216,13 +205,12 @@ project.box(
         pattern=HEX_PATTERN,
         text_color=Color("white"),
     ),
-    position=(private_card_box_width, company_marker_box_length * 2.0, z_top),
 ).compartment(
     "Tokens",
     cut=FingerCut.SCOOP,
 )
 
-# ── 4. Train Card Box (Row at Y = 258mm) ───────────────────────────
+# ── 4. Train Card Box ─────────────────────────────────────────────
 project.box(
     BoxType.SLIDING,
     "TrainCardBox",
@@ -234,7 +222,7 @@ project.box(
         text_color=Color("white"),
         frame_color=Color("darkred"),
     ),
-    position=(0.0, hex_box_length * 2.0, 0.0),
+    expandable=False,
 ).compartment(
     "TrainCards",
     depth=min(train_card_box_height, usable_height) - lid_thickness,

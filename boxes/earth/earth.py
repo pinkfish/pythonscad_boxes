@@ -66,12 +66,11 @@ project = Project(
     clearance_slack=0.0,
     board_thickness=total_board_reserve,
     generate_spacers=True,
-    box_defaults={"no_rotate": True},
 )
 
 EARTH_PATTERN = PatternBuilder(PatternType.DENSE_HEX)
 
-# ── 1. Main Card Decks (4 columns across X at Y = 0) ──────────────
+# ── 1. Main Card Decks ────────────────────────────────────────────
 decks = [
     ("Flora", "Flora Cards", "forestgreen"),
     ("Terrain", "Terrain Cards", "sienna"),
@@ -79,7 +78,7 @@ decks = [
     ("Abundance", "Abundance", "darkgoldenrod"),
 ]
 
-for idx, (deck_id, title, color_name) in enumerate(decks):
+for deck_id, title, color_name in decks:
     c_box = project.box(
         BoxType.SLIDING,
         f"CardBox_{deck_id}",
@@ -91,16 +90,14 @@ for idx, (deck_id, title, color_name) in enumerate(decks):
             text_color=Color("white"),
             frame_color=Color(color_name),
         ),
-        position=(idx * card_box_width, 0.0, 0.0),
+        expandable=False,
     )
     c_box.compartment(
         "Cards",
         cut=FingerCut.SCOOP,
     )
 
-# ── 2. Canopies, Trunks & Sprout Cubes (Row 1, Y = card_box_length)
-y_row1 = card_box_length
-
+# ── 2. Canopies, Trunks & Sprout Cubes ────────────────────────────
 project.box(
     BoxType.CAP,
     "CanopyBox",
@@ -112,7 +109,6 @@ project.box(
         text_color=Color("white"),
         frame_color=Color("peru"),
     ),
-    position=(0.0, y_row1, 0.0),
 ).compartment(
     "CanopiesAndTrunks",
     cut=FingerCut.SCOOP,
@@ -129,21 +125,18 @@ project.box(
         text_color=Color("white"),
         frame_color=Color("limegreen"),
     ),
-    position=(canopy_box_width, y_row1, 0.0),
 ).compartment(
     "SproutCubes",
     cut=FingerCut.SCOOP,
 )
 
-# ── 3. Player Leaf Token Trays (6 players, stacked 3-high x 2-cols)
+# ── 3. Player Leaf Token Trays (6 players) ────────────────────────
 player_colors = ["red", "green", "yellow", "blue", "purple", "pink"]
 p_width = (box_width - canopy_box_width * 2.0) / 2.0  # 69.0mm
 p_length = canopy_box_length                         # 90.0mm
 p_height = usable_height / 3.0                       # 18.4mm
 
-for idx, color_name in enumerate(player_colors):
-    col = idx % 2
-    tier = idx // 2
+for color_name in player_colors:
     p_box = project.box(
         BoxType.CAP,
         f"PlayerBox_{color_name.title()}",
@@ -155,7 +148,6 @@ for idx, color_name in enumerate(player_colors):
             text_color=Color("black" if color_name in ("yellow", "pink") else "white"),
             frame_color=Color(color_name),
         ),
-        position=(canopy_box_width * 2.0 + col * p_width, y_row1, tier * p_height),
     )
     p_box.compartment(
         "LeafTokens",

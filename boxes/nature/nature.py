@@ -70,12 +70,11 @@ project = Project(
     clearance_slack=0.0,
     board_thickness=board_thickness,
     generate_spacers=True,
-    box_defaults={"no_rotate": True},
 )
 
 NATURE_PATTERN = PatternBuilder(PatternType.DENSE_HEX)
 
-# ── 1. Main Nature Cards & Hunter Cards (Column 0, X = 0) ─────────
+# ── 1. Main Nature Cards Box ──────────────────────────────────────
 project.box(
     BoxType.SLIDING,
     "NatureCardsBox",
@@ -87,12 +86,10 @@ project.box(
         text_color=Color("white"),
         frame_color=Color("forestgreen"),
     ),
-    position=(0.0, 0.0, 0.0),
+    expandable=False,
 ).compartment("Cards", cut=FingerCut.SCOOP)
 
-# ── 2. Small Decks (Hunter & Solo) (Column 1, X = card_box_width) ──
-x_col1 = card_box_width
-
+# ── 2. Small Decks (Hunter & Solo) ────────────────────────────────
 project.box(
     BoxType.SLIDING,
     "HunterCardsBox",
@@ -104,7 +101,7 @@ project.box(
         text_color=Color("white"),
         frame_color=Color("darkred"),
     ),
-    position=(x_col1, 0.0, 0.0),
+    expandable=False,
     stackable=StackableMode.PYRAMIDS,
 ).compartment("Cards", cut=FingerCut.SCOOP)
 
@@ -119,13 +116,11 @@ project.box(
         text_color=Color("white"),
         frame_color=Color("royalblue"),
     ),
-    position=(x_col1, 0.0, hunter_card_box_height),
+    expandable=False,
     stackable=StackableMode.PYRAMIDS,
 ).compartment("Cards", cut=FingerCut.SCOOP)
 
-# ── 3. Population Dials & Leopard Box (Row 1, Y = card_box_length)
-y_row1 = card_box_length
-
+# ── 3. Population Dials & Leopard Box ─────────────────────────────
 project.box(
     BoxType.CAP,
     "DialBox",
@@ -137,7 +132,6 @@ project.box(
         text_color=Color("white"),
         frame_color=Color("darkgoldenrod"),
     ),
-    position=(0.0, y_row1, 0.0),
 ).compartment("Dials", cut=FingerCut.SCOOP)
 
 project.box(
@@ -151,12 +145,9 @@ project.box(
         text_color=Color("white"),
         frame_color=Color("peru"),
     ),
-    position=(0.0, y_row1 + dial_box_length, 0.0),
 ).compartment("Leopard", cut=FingerCut.SCOOP)
 
-# ── 4. Food Resource Trays (Grass & Meat) (X = dial_box_width) ────
-x_res = dial_box_width
-
+# ── 4. Food Resource Trays (Grass & Meat) ─────────────────────────
 project.box(
     BoxType.CAP,
     "ResourceBox_Grass",
@@ -168,7 +159,6 @@ project.box(
         text_color=Color("white"),
         frame_color=Color("green"),
     ),
-    position=(x_res, y_row1, 0.0),
 ).compartment("GrassTokens", cut=FingerCut.SCOOP)
 
 project.box(
@@ -182,7 +172,6 @@ project.box(
         text_color=Color("white"),
         frame_color=Color("firebrick"),
     ),
-    position=(x_res, y_row1 + resource_box_length, 0.0),
 ).compartment("MeatTokens", cut=FingerCut.SCOOP)
 
 project.stack_order("HunterCardsBox", "SoloCardsBox")
