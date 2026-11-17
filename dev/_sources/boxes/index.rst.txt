@@ -28,22 +28,22 @@ Each page provides interactive 3-D STL viewers and downloadable STL meshes for:
    * - :doc:`1899Daihan (1899_daihan) <1899_daihan>`
      - ``225 × 305 × 63 mm``
      - 12
-     - 2
+     - 4
      - :ref:`BoxType.CAP <box-type-cap>`, :ref:`BoxType.SLIPOVER <box-type-slipover>`, :ref:`BoxType.SLIDING <box-type-sliding>`, :ref:`BoxType.NO_LID <box-type-no-lid>`
    * - :doc:`18Cuba (18_cuba) <18_cuba>`
      - ``225 × 314 × 68 mm``
      - 5
-     - 2
+     - 1
      - :ref:`BoxType.SLIPOVER <box-type-slipover>`, :ref:`BoxType.NO_LID <box-type-no-lid>`
    * - :doc:`AdasDream (adas_dream) <adas_dream>`
      - ``212 × 291 × 90 mm``
      - 13
-     - 3
+     - 1
      - :ref:`BoxType.SLIDING <box-type-sliding>`, :ref:`BoxType.CAP <box-type-cap>`, :ref:`BoxType.NO_LID <box-type-no-lid>`
    * - :doc:`ArkhamHorrorLCG (arkham_horror) <arkham_horror>`
      - ``242 × 283 × 75 mm``
      - 6
-     - 1
+     - 2
      - :ref:`BoxType.SLIDING <box-type-sliding>`, :ref:`BoxType.CAP <box-type-cap>`, :ref:`BoxType.NO_LID <box-type-no-lid>`
    * - :doc:`Biome (biome) <biome>`
      - ``285 × 285 × 73 mm``
@@ -53,22 +53,22 @@ Each page provides interactive 3-D STL viewers and downloadable STL meshes for:
    * - :doc:`Brink (brink) <brink>`
      - ``215 × 307 × 96 mm``
      - 9
-     - 3
+     - 4
      - :ref:`BoxType.CAP <box-type-cap>`, :ref:`BoxType.SLIDING <box-type-sliding>`, :ref:`BoxType.NO_LID <box-type-no-lid>`
    * - :doc:`BrinkLong (brink_long) <brink_long>`
      - ``215 × 307 × 96 mm``
      - 6
-     - 2
+     - 3
      - :ref:`BoxType.CAP <box-type-cap>`, :ref:`BoxType.SLIDING <box-type-sliding>`, :ref:`BoxType.NO_LID <box-type-no-lid>`
    * - :doc:`BucketKing (bucket_king) <bucket_king>`
      - ``140 × 288 × 70 mm``
      - 7
-     - 1
-     - :ref:`BoxType.CAP <box-type-cap>`, :ref:`BoxType.NO_LID <box-type-no-lid>`
+     - 0
+     - :ref:`BoxType.CAP <box-type-cap>`
    * - :doc:`Canvas (canvas) <canvas>`
      - ``200 × 250 × 50 mm``
      - 7
-     - 3
+     - 2
      - :ref:`BoxType.CAP <box-type-cap>`, :ref:`BoxType.NO_LID <box-type-no-lid>`
    * - :doc:`Cascadero (cascadero) <cascadero>`
      - ``212 × 304 × 40 mm``
@@ -78,22 +78,22 @@ Each page provides interactive 3-D STL viewers and downloadable STL meshes for:
    * - :doc:`DominionBigBox (dominion) <dominion>`
      - ``470 × 290 × 90 mm``
      - 5
-     - 6
+     - 3
      - :ref:`BoxType.SLIDING <box-type-sliding>`, :ref:`BoxType.CAP <box-type-cap>`, :ref:`BoxType.NO_LID <box-type-no-lid>`
    * - :doc:`Earth (earth) <earth>`
      - ``288 × 288 × 72 mm``
      - 12
-     - 2
+     - 1
      - :ref:`BoxType.SLIDING <box-type-sliding>`, :ref:`BoxType.CAP <box-type-cap>`, :ref:`BoxType.NO_LID <box-type-no-lid>`
    * - :doc:`EarthAnimalKingdom (earth_animal_kingdom) <earth_animal_kingdom>`
      - ``288 × 158 × 47 mm``
      - 5
-     - 2
+     - 3
      - :ref:`BoxType.SLIDING <box-type-sliding>`, :ref:`BoxType.CAP <box-type-cap>`, :ref:`BoxType.NO_LID <box-type-no-lid>`
    * - :doc:`Emberleaf (emberleaf) <emberleaf>`
      - ``287 × 287 × 79 mm``
      - 10
-     - 5
+     - 6
      - :ref:`BoxType.CAP <box-type-cap>`, :ref:`BoxType.SLIDING <box-type-sliding>`, :ref:`BoxType.SLIPOVER <box-type-slipover>`, :ref:`BoxType.NO_LID <box-type-no-lid>`
    * - :doc:`ExplorersOfNavoria (explorers_of_navoria) <explorers_of_navoria>`
      - ``211 × 268 × 68 mm``
@@ -108,7 +108,7 @@ Each page provides interactive 3-D STL viewers and downloadable STL meshes for:
    * - :doc:`FirstClass (first_class) <first_class>`
      - ``217 × 307 × 70 mm``
      - 11
-     - 3
+     - 5
      - :ref:`BoxType.CAP <box-type-cap>`, :ref:`BoxType.SLIDING <box-type-sliding>`, :ref:`BoxType.NO_LID <box-type-no-lid>`
    * - :doc:`GulfMobileAndOhio (gulf_mobile_and_ohio) <gulf_mobile_and_ohio>`
      - ``217 × 307 × 39 mm``
@@ -118,7 +118,7 @@ Each page provides interactive 3-D STL viewers and downloadable STL meshes for:
    * - :doc:`IrishGauge (irish_gauge) <irish_gauge>`
      - ``214 × 302 × 39 mm``
      - 6
-     - 2
+     - 3
      - :ref:`BoxType.SLIDING <box-type-sliding>`, :ref:`BoxType.NO_LID <box-type-no-lid>`
    * - :doc:`IsleOfTrains (isle_of_trains) <isle_of_trains>`
      - ``130 × 180 × 38 mm``
@@ -128,17 +128,17 @@ Each page provides interactive 3-D STL viewers and downloadable STL meshes for:
    * - :doc:`KenmoreGold (kenmore_gold) <kenmore_gold>`
      - ``130 × 120 × 77 mm``
      - 3
-     - 2
+     - 1
      - :ref:`BoxType.CAP <box-type-cap>`, :ref:`BoxType.NO_LID <box-type-no-lid>`
    * - :doc:`MagicalAthlete (magical_athlete) <magical_athlete>`
      - ``184 × 294 × 45 mm``
      - 6
-     - 2
+     - 1
      - :ref:`BoxType.SLIDING <box-type-sliding>`, :ref:`BoxType.CAP <box-type-cap>`, :ref:`BoxType.NO_LID <box-type-no-lid>`
    * - :doc:`MaglevMetro (maglev_metro) <maglev_metro>`
      - ``286 × 286 × 65 mm``
      - 14
-     - 3
+     - 1
      - :ref:`BoxType.SLIDING <box-type-sliding>`, :ref:`BoxType.NO_LID <box-type-no-lid>`
    * - :doc:`MaglevMetroVol2 (maglev_metro_vol2) <maglev_metro_vol2>`
      - ``286 × 286 × 65 mm``
@@ -158,7 +158,7 @@ Each page provides interactive 3-D STL viewers and downloadable STL meshes for:
    * - :doc:`Moonrakers (moonrakers) <moonrakers>`
      - ``213 × 303 × 93 mm``
      - 10
-     - 2
+     - 1
      - :ref:`BoxType.SLIDING <box-type-sliding>`, :ref:`BoxType.CAP <box-type-cap>`, :ref:`BoxType.NO_LID <box-type-no-lid>`
    * - :doc:`Nature (nature) <nature>`
      - ``210 × 210 × 75 mm``
@@ -178,22 +178,22 @@ Each page provides interactive 3-D STL viewers and downloadable STL meshes for:
    * - :doc:`RailroadTiles (railroad_tiles) <railroad_tiles>`
      - ``230 × 230 × 63 mm``
      - 15
-     - 1
+     - 4
      - :ref:`BoxType.CAP <box-type-cap>`, :ref:`BoxType.NO_LID <box-type-no-lid>`
    * - :doc:`RailwayBoom (railway_boom) <railway_boom>`
      - ``209 × 300 × 46 mm``
      - 9
-     - 1
+     - 2
      - :ref:`BoxType.CAP <box-type-cap>`, :ref:`BoxType.SLIDING <box-type-sliding>`, :ref:`BoxType.NO_LID <box-type-no-lid>`
    * - :doc:`Railways of the World (railways_of_the_world) <railways_of_the_world>`
      - ``310 × 385 × 100 mm``
      - 25
-     - 2
+     - 7
      - :ref:`BoxType.SLIDING <box-type-sliding>`, :ref:`BoxType.CAP <box-type-cap>`, :ref:`BoxType.NO_LID <box-type-no-lid>`
    * - :doc:`Root (root) <root>`
      - ``214 × 278 × 67 mm``
      - 21
-     - 2
+     - 6
      - :ref:`BoxType.SLIDING <box-type-sliding>`, :ref:`BoxType.CAP <box-type-cap>`, :ref:`BoxType.NO_LID <box-type-no-lid>`
    * - :doc:`RussianRailroads (russian_railroads) <russian_railroads>`
      - ``219 × 308 × 70 mm``
