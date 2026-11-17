@@ -89,6 +89,45 @@ class TestRoot(unittest.TestCase):
             texts = [el.shape_file for el in elements if el.shape_file == "Relation"]
             self.assertEqual(len(texts), 2, f"{label} should have two Relation inlays")
 
+    def test_floor_inlays_aligned_inside_pockets(self) -> None:
+        """Verify every icon and text label stays centered inside its pocket floor."""
+        expected_inlay_boxes = {
+            "ItemsBoxBottom": 10,
+            "ItemsBoxMiddle": 9,
+            "ItemsBoxWinter": 6,
+            "ItemsBoxExtras": 8,
+            "MarquisBoxBottom": 3,
+            "MarquisBoxTop": 10,
+            "ErieBoxBottom": 2,
+            "ErieBoxTop": 3,
+            "AllianceBoxBottom": 2,
+            "AllianceBoxTop": 4,
+            "LizardBoxTop": 6,
+            "RiverfolkBoxBottom": 3,
+            "RiverfolkBoxTop": 7,
+            "VagabondBox": 3,
+            "VagabondBox2": 3,
+        }
+        by_label = {b.label: b for b in project._boxes}
+        for label, count in expected_inlay_boxes.items():
+            elems = [e for c in by_label[label].compartments for e in c.elements]
+            inlays = [e for e in elems if e.color is not None]
+            cutouts = [e for e in elems if e.color is None]
+            self.assertEqual(len(inlays), count, f"{label} inlay count")
+            for inl in inlays:
+                ix0, iy0, ix1, iy1 = inl.bounds()
+                cx, cy = (ix0 + ix1) / 2.0, (iy0 + iy1) / 2.0
+                parents = [
+                    p
+                    for p in cutouts
+                    if p.bounds()[0] - 1e-3 <= cx <= p.bounds()[2] + 1e-3
+                    and p.bounds()[1] - 1e-3 <= cy <= p.bounds()[3] + 1e-3
+                ]
+                self.assertTrue(parents, f"{label} inlay {inl.shape_file} not inside any pocket")
+                px0, py0, px1, py1 = parents[0].bounds()
+                self.assertLessEqual(ix1 - ix0, px1 - px0 + 1e-3, f"{label} inlay wider than pocket")
+                self.assertLessEqual(iy1 - iy0, py1 - py0 + 1e-3, f"{label} inlay taller than pocket")
+
     def test_base_only_expansion_selection(self) -> None:
         """Verify Base Game builds cleanly without Riverfolk expansion boxes."""
         base_proj = build_root_project(("base",))
