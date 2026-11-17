@@ -369,8 +369,8 @@ def pack_in_columns(
             )
         )
         if has_custom_scoop:
-            # Cut a vertical cylinder notch on the bottom edge of the pocket
-            # pointing towards the interior (Row 3) to avoid outer wall intrusion
+            # Cut a vertical cylinder notch with a rounded floor transition on the
+            # bottom edge of the pocket pointing towards the interior to avoid outer wall intrusion.
             elements.append(
                 centered(
                     None,
@@ -378,6 +378,7 @@ def pack_in_columns(
                     (12.0, 12.0),
                     shape=ElementShape.CIRCLE,
                     depth=depth,
+                    bottom_rounding=min(0.8, depth * 0.4),
                     pull_out=False,
                 )
             )

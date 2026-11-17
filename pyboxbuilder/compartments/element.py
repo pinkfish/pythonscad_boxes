@@ -1013,61 +1013,42 @@ def build_pull_out(
         drop_front = max(0.0, min(drop, clearance_y_front))
         drop_back = max(0.0, min(drop, clearance_y_back))
         actual_drop = max(0.1, max(drop_front, drop_back))
-        radius = min(actual_drop, across / 2 - 0.01)
         centre_x = element.offset[0] + width / 2
         centre_y = element.offset[1] + length / 2 + (drop_back - drop_front) / 2
-        z = actual_z_offset + depth - actual_drop
-
-        from pybosl2 import Anchor
-        dish_edges = [Anchor.BOTTOM_LEFT, Anchor.BOTTOM_RIGHT, *vertical_edges()]
-        total_len = length + drop_front + drop_back
-        dish = cuboid(
-            [across, total_len, actual_drop * 2],
-            rounding=radius,
-            edges=dish_edges,
-            **rounding_facets(),
-        ) if radius > 0 else cuboid([across, total_len, actual_drop * 2])
-        dish = dish.translate([centre_x, centre_y, z])
-
-        # Extend the pull-out upwards from its center to prevent top tapering, keeping the sides rounded
-        block = cuboid(
-            [across, total_len, 100.0],
-            rounding=radius,
-            edges=vertical_edges(),
-            **rounding_facets(),
-        ) if radius > 0 else cuboid([across, total_len, 100.0])
-        block = block.translate([centre_x, centre_y, z + 50.0])
-        return union_all([dish, block])
+        dish_w, dish_l = across, length + drop_front + drop_back
     else:
         # Orient along X (widthwise)
         drop_left = max(0.0, min(drop, clearance_x_left))
         drop_right = max(0.0, min(drop, clearance_x_right))
         actual_drop = max(0.1, max(drop_left, drop_right))
-        radius = min(actual_drop, across / 2 - 0.01)
         centre_x = element.offset[0] + width / 2 + (drop_right - drop_left) / 2
         centre_y = element.offset[1] + length / 2
-        z = actual_z_offset + depth - actual_drop
+        dish_w, dish_l = width + drop_left + drop_right, across
 
-        from pybosl2 import Anchor
-        dish_edges = [Anchor.BOTTOM_FRONT, Anchor.BOTTOM_BACK, *vertical_edges()]
-        total_w = width + drop_left + drop_right
-        dish = cuboid(
-            [total_w, across, actual_drop * 2],
-            rounding=radius,
-            edges=dish_edges,
-            **rounding_facets(),
-        ) if radius > 0 else cuboid([total_w, across, actual_drop * 2])
-        dish = dish.translate([centre_x, centre_y, z])
+    radius = min(actual_drop, dish_w / 2 - 0.01, dish_l / 2 - 0.01)
+    z = actual_z_offset + depth - actual_drop
 
-        # Extend the pull-out upwards from its center to prevent top tapering, keeping the sides rounded
-        block = cuboid(
-            [total_w, across, 100.0],
-            rounding=radius,
-            edges=vertical_edges(),
-            **rounding_facets(),
-        ) if radius > 0 else cuboid([total_w, across, 100.0])
-        block = block.translate([centre_x, centre_y, z + 50.0])
-        return union_all([dish, block])
+    from pybosl2 import Anchor
+    # Round all bottom edges (sides plus entry/exit ramps) so a finger slides smoothly
+    # down into the trough from any side rather than meeting a square vertical step.
+    dish_edges = [Anchor.BOTTOM, *vertical_edges()]
+    dish = cuboid(
+        [dish_w, dish_l, actual_drop * 2],
+        rounding=radius,
+        edges=dish_edges,
+        **rounding_facets(),
+    ) if radius > 0 else cuboid([dish_w, dish_l, actual_drop * 2])
+    dish = dish.translate([centre_x, centre_y, z])
+
+    # Extend the pull-out upwards from its center to prevent top tapering, keeping the sides rounded.
+    block = cuboid(
+        [dish_w, dish_l, 100.0],
+        rounding=radius,
+        edges=vertical_edges(),
+        **rounding_facets(),
+    ) if radius > 0 else cuboid([dish_w, dish_l, 100.0])
+    block = block.translate([centre_x, centre_y, z + 50.0])
+    return union_all([dish, block])
 
 
 def build_element_pack(

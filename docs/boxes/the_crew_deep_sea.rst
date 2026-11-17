@@ -15,12 +15,12 @@ Full Box Packing
 
 Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
-.. stl:: ../_stl/boxes/the_crew_deep_sea/Deck_body.stl?v=228e73e8,../_stl/boxes/the_crew_deep_sea/Deck_lid.stl?v=5518f1bd,../_stl/boxes/the_crew_deep_sea/Tasks1_body.stl?v=e74b0af2,../_stl/boxes/the_crew_deep_sea/Tasks1_lid.stl?v=15a09370,../_stl/boxes/the_crew_deep_sea/Tasks2_body.stl?v=cf0fc66a,../_stl/boxes/the_crew_deep_sea/Tasks2_lid.stl?v=00304842,../_stl/boxes/the_crew_deep_sea/Accessories_body.stl?v=beba5afd,../_stl/boxes/the_crew_deep_sea/Accessories_lid.stl?v=47d4fd3b,../_stl/boxes/the_crew_deep_sea/spacer_1.stl?v=b9fb441e,../_stl/boxes/the_crew_deep_sea/spacer_2.stl?v=a4d808e5
+.. stl:: ../_stl/boxes/the_crew_deep_sea/Deck_body.stl?v=640c5330,../_stl/boxes/the_crew_deep_sea/Deck_lid.stl?v=551bbf1d,../_stl/boxes/the_crew_deep_sea/Tasks1_body.stl?v=679e1dce,../_stl/boxes/the_crew_deep_sea/Tasks1_lid.stl?v=e0efe084,../_stl/boxes/the_crew_deep_sea/Tasks2_body.stl?v=152ff6fa,../_stl/boxes/the_crew_deep_sea/Tasks2_lid.stl?v=51bf784c,../_stl/boxes/the_crew_deep_sea/Accessories_body.stl?v=bbc6da6b,../_stl/boxes/the_crew_deep_sea/Accessories_lid.stl?v=8dd14a49,../_stl/boxes/the_crew_deep_sea/spacer_1.stl?v=0b1b437d,../_stl/boxes/the_crew_deep_sea/spacer_2.stl?v=0835a3cc
    :height: 440px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/the_crew_deep_sea/Deck_body.stl?v=228e73e8" data-stl-combine="../_stl/boxes/the_crew_deep_sea/Deck_body.stl?v=228e73e8,../_stl/boxes/the_crew_deep_sea/Deck_lid.stl?v=5518f1bd,../_stl/boxes/the_crew_deep_sea/Tasks1_body.stl?v=e74b0af2,../_stl/boxes/the_crew_deep_sea/Tasks1_lid.stl?v=15a09370,../_stl/boxes/the_crew_deep_sea/Tasks2_body.stl?v=cf0fc66a,../_stl/boxes/the_crew_deep_sea/Tasks2_lid.stl?v=00304842,../_stl/boxes/the_crew_deep_sea/Accessories_body.stl?v=beba5afd,../_stl/boxes/the_crew_deep_sea/Accessories_lid.stl?v=47d4fd3b,../_stl/boxes/the_crew_deep_sea/spacer_1.stl?v=b9fb441e,../_stl/boxes/the_crew_deep_sea/spacer_2.stl?v=a4d808e5" download="TheCrewDeepSea_full_packing.stl">⬇ Download Full Box Packing STL (<code>TheCrewDeepSea_full_packing.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/the_crew_deep_sea/Deck_body.stl?v=640c5330" data-stl-combine="../_stl/boxes/the_crew_deep_sea/Deck_body.stl?v=640c5330,../_stl/boxes/the_crew_deep_sea/Deck_lid.stl?v=551bbf1d,../_stl/boxes/the_crew_deep_sea/Tasks1_body.stl?v=679e1dce,../_stl/boxes/the_crew_deep_sea/Tasks1_lid.stl?v=e0efe084,../_stl/boxes/the_crew_deep_sea/Tasks2_body.stl?v=152ff6fa,../_stl/boxes/the_crew_deep_sea/Tasks2_lid.stl?v=51bf784c,../_stl/boxes/the_crew_deep_sea/Accessories_body.stl?v=bbc6da6b,../_stl/boxes/the_crew_deep_sea/Accessories_lid.stl?v=8dd14a49,../_stl/boxes/the_crew_deep_sea/spacer_1.stl?v=0b1b437d,../_stl/boxes/the_crew_deep_sea/spacer_2.stl?v=0835a3cc" download="TheCrewDeepSea_full_packing.stl">⬇ Download Full Box Packing STL (<code>TheCrewDeepSea_full_packing.stl</code>)</a></p>
 
 Parts Overview
 --------------
@@ -80,30 +80,30 @@ Deck
 
 **Assembled Box (Deck — Body + Lid)**
 
-.. stl:: ../_stl/boxes/the_crew_deep_sea/Deck_body.stl?v=228e73e8,../_stl/boxes/the_crew_deep_sea/Deck_lid.stl?v=5518f1bd
+.. stl:: ../_stl/boxes/the_crew_deep_sea/Deck_body.stl?v=640c5330,../_stl/boxes/the_crew_deep_sea/Deck_lid.stl?v=551bbf1d
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/the_crew_deep_sea/Deck_body.stl?v=228e73e8" data-stl-combine="../_stl/boxes/the_crew_deep_sea/Deck_body.stl?v=228e73e8,../_stl/boxes/the_crew_deep_sea/Deck_lid.stl?v=5518f1bd" download="Deck_assembled.stl">⬇ Download Assembled Deck STL (<code>Deck_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/the_crew_deep_sea/Deck_body.stl?v=640c5330" data-stl-combine="../_stl/boxes/the_crew_deep_sea/Deck_body.stl?v=640c5330,../_stl/boxes/the_crew_deep_sea/Deck_lid.stl?v=551bbf1d" download="Deck_assembled.stl">⬇ Download Assembled Deck STL (<code>Deck_assembled.stl</code>)</a></p>
 
 **Part: Deck Body**
 
-.. stl:: ../_stl/boxes/the_crew_deep_sea/Deck_body.stl?v=228e73e8
+.. stl:: ../_stl/boxes/the_crew_deep_sea/Deck_body.stl?v=640c5330
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/the_crew_deep_sea/Deck_body.stl?v=228e73e8" download="Deck_body.stl">⬇ Download Deck Body STL (<code>Deck_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/the_crew_deep_sea/Deck_body.stl?v=640c5330" download="Deck_body.stl">⬇ Download Deck Body STL (<code>Deck_body.stl</code>)</a></p>
 
 **Part: Deck Lid**
 
-.. stl:: ../_stl/boxes/the_crew_deep_sea/Deck_lid.stl?v=5518f1bd
+.. stl:: ../_stl/boxes/the_crew_deep_sea/Deck_lid.stl?v=551bbf1d
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/the_crew_deep_sea/Deck_lid.stl?v=5518f1bd" download="Deck_lid.stl">⬇ Download Deck Lid STL (<code>Deck_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/the_crew_deep_sea/Deck_lid.stl?v=551bbf1d" download="Deck_lid.stl">⬇ Download Deck Lid STL (<code>Deck_lid.stl</code>)</a></p>
 
 .. _box-the_crew_deep_sea-tasks1:
 
@@ -117,30 +117,30 @@ Tasks1
 
 **Assembled Box (Tasks1 — Body + Lid)**
 
-.. stl:: ../_stl/boxes/the_crew_deep_sea/Tasks1_body.stl?v=e74b0af2,../_stl/boxes/the_crew_deep_sea/Tasks1_lid.stl?v=15a09370
+.. stl:: ../_stl/boxes/the_crew_deep_sea/Tasks1_body.stl?v=679e1dce,../_stl/boxes/the_crew_deep_sea/Tasks1_lid.stl?v=e0efe084
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/the_crew_deep_sea/Tasks1_body.stl?v=e74b0af2" data-stl-combine="../_stl/boxes/the_crew_deep_sea/Tasks1_body.stl?v=e74b0af2,../_stl/boxes/the_crew_deep_sea/Tasks1_lid.stl?v=15a09370" download="Tasks1_assembled.stl">⬇ Download Assembled Tasks1 STL (<code>Tasks1_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/the_crew_deep_sea/Tasks1_body.stl?v=679e1dce" data-stl-combine="../_stl/boxes/the_crew_deep_sea/Tasks1_body.stl?v=679e1dce,../_stl/boxes/the_crew_deep_sea/Tasks1_lid.stl?v=e0efe084" download="Tasks1_assembled.stl">⬇ Download Assembled Tasks1 STL (<code>Tasks1_assembled.stl</code>)</a></p>
 
 **Part: Tasks1 Body**
 
-.. stl:: ../_stl/boxes/the_crew_deep_sea/Tasks1_body.stl?v=e74b0af2
+.. stl:: ../_stl/boxes/the_crew_deep_sea/Tasks1_body.stl?v=679e1dce
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/the_crew_deep_sea/Tasks1_body.stl?v=e74b0af2" download="Tasks1_body.stl">⬇ Download Tasks1 Body STL (<code>Tasks1_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/the_crew_deep_sea/Tasks1_body.stl?v=679e1dce" download="Tasks1_body.stl">⬇ Download Tasks1 Body STL (<code>Tasks1_body.stl</code>)</a></p>
 
 **Part: Tasks1 Lid**
 
-.. stl:: ../_stl/boxes/the_crew_deep_sea/Tasks1_lid.stl?v=15a09370
+.. stl:: ../_stl/boxes/the_crew_deep_sea/Tasks1_lid.stl?v=e0efe084
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/the_crew_deep_sea/Tasks1_lid.stl?v=15a09370" download="Tasks1_lid.stl">⬇ Download Tasks1 Lid STL (<code>Tasks1_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/the_crew_deep_sea/Tasks1_lid.stl?v=e0efe084" download="Tasks1_lid.stl">⬇ Download Tasks1 Lid STL (<code>Tasks1_lid.stl</code>)</a></p>
 
 .. _box-the_crew_deep_sea-tasks2:
 
@@ -154,30 +154,30 @@ Tasks2
 
 **Assembled Box (Tasks2 — Body + Lid)**
 
-.. stl:: ../_stl/boxes/the_crew_deep_sea/Tasks2_body.stl?v=cf0fc66a,../_stl/boxes/the_crew_deep_sea/Tasks2_lid.stl?v=00304842
+.. stl:: ../_stl/boxes/the_crew_deep_sea/Tasks2_body.stl?v=152ff6fa,../_stl/boxes/the_crew_deep_sea/Tasks2_lid.stl?v=51bf784c
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/the_crew_deep_sea/Tasks2_body.stl?v=cf0fc66a" data-stl-combine="../_stl/boxes/the_crew_deep_sea/Tasks2_body.stl?v=cf0fc66a,../_stl/boxes/the_crew_deep_sea/Tasks2_lid.stl?v=00304842" download="Tasks2_assembled.stl">⬇ Download Assembled Tasks2 STL (<code>Tasks2_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/the_crew_deep_sea/Tasks2_body.stl?v=152ff6fa" data-stl-combine="../_stl/boxes/the_crew_deep_sea/Tasks2_body.stl?v=152ff6fa,../_stl/boxes/the_crew_deep_sea/Tasks2_lid.stl?v=51bf784c" download="Tasks2_assembled.stl">⬇ Download Assembled Tasks2 STL (<code>Tasks2_assembled.stl</code>)</a></p>
 
 **Part: Tasks2 Body**
 
-.. stl:: ../_stl/boxes/the_crew_deep_sea/Tasks2_body.stl?v=cf0fc66a
+.. stl:: ../_stl/boxes/the_crew_deep_sea/Tasks2_body.stl?v=152ff6fa
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/the_crew_deep_sea/Tasks2_body.stl?v=cf0fc66a" download="Tasks2_body.stl">⬇ Download Tasks2 Body STL (<code>Tasks2_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/the_crew_deep_sea/Tasks2_body.stl?v=152ff6fa" download="Tasks2_body.stl">⬇ Download Tasks2 Body STL (<code>Tasks2_body.stl</code>)</a></p>
 
 **Part: Tasks2 Lid**
 
-.. stl:: ../_stl/boxes/the_crew_deep_sea/Tasks2_lid.stl?v=00304842
+.. stl:: ../_stl/boxes/the_crew_deep_sea/Tasks2_lid.stl?v=51bf784c
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/the_crew_deep_sea/Tasks2_lid.stl?v=00304842" download="Tasks2_lid.stl">⬇ Download Tasks2 Lid STL (<code>Tasks2_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/the_crew_deep_sea/Tasks2_lid.stl?v=51bf784c" download="Tasks2_lid.stl">⬇ Download Tasks2 Lid STL (<code>Tasks2_lid.stl</code>)</a></p>
 
 .. _box-the_crew_deep_sea-accessories:
 
@@ -191,30 +191,30 @@ Accessories
 
 **Assembled Box (Accessories — Body + Lid)**
 
-.. stl:: ../_stl/boxes/the_crew_deep_sea/Accessories_body.stl?v=beba5afd,../_stl/boxes/the_crew_deep_sea/Accessories_lid.stl?v=47d4fd3b
+.. stl:: ../_stl/boxes/the_crew_deep_sea/Accessories_body.stl?v=bbc6da6b,../_stl/boxes/the_crew_deep_sea/Accessories_lid.stl?v=8dd14a49
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/the_crew_deep_sea/Accessories_body.stl?v=beba5afd" data-stl-combine="../_stl/boxes/the_crew_deep_sea/Accessories_body.stl?v=beba5afd,../_stl/boxes/the_crew_deep_sea/Accessories_lid.stl?v=47d4fd3b" download="Accessories_assembled.stl">⬇ Download Assembled Accessories STL (<code>Accessories_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/the_crew_deep_sea/Accessories_body.stl?v=bbc6da6b" data-stl-combine="../_stl/boxes/the_crew_deep_sea/Accessories_body.stl?v=bbc6da6b,../_stl/boxes/the_crew_deep_sea/Accessories_lid.stl?v=8dd14a49" download="Accessories_assembled.stl">⬇ Download Assembled Accessories STL (<code>Accessories_assembled.stl</code>)</a></p>
 
 **Part: Accessories Body**
 
-.. stl:: ../_stl/boxes/the_crew_deep_sea/Accessories_body.stl?v=beba5afd
+.. stl:: ../_stl/boxes/the_crew_deep_sea/Accessories_body.stl?v=bbc6da6b
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/the_crew_deep_sea/Accessories_body.stl?v=beba5afd" download="Accessories_body.stl">⬇ Download Accessories Body STL (<code>Accessories_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/the_crew_deep_sea/Accessories_body.stl?v=bbc6da6b" download="Accessories_body.stl">⬇ Download Accessories Body STL (<code>Accessories_body.stl</code>)</a></p>
 
 **Part: Accessories Lid**
 
-.. stl:: ../_stl/boxes/the_crew_deep_sea/Accessories_lid.stl?v=47d4fd3b
+.. stl:: ../_stl/boxes/the_crew_deep_sea/Accessories_lid.stl?v=8dd14a49
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/the_crew_deep_sea/Accessories_lid.stl?v=47d4fd3b" download="Accessories_lid.stl">⬇ Download Accessories Lid STL (<code>Accessories_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/the_crew_deep_sea/Accessories_lid.stl?v=8dd14a49" download="Accessories_lid.stl">⬇ Download Accessories Lid STL (<code>Accessories_lid.stl</code>)</a></p>
 
 Spacer Trays
 ------------
@@ -228,12 +228,12 @@ spacer_1
 - **Outer Dimensions**: ``108 × 119 × 14.7 mm``
 - **Packed Position**: ``(62.5, 1.5, 0)``
 
-.. stl:: ../_stl/boxes/the_crew_deep_sea/spacer_1.stl?v=b9fb441e
+.. stl:: ../_stl/boxes/the_crew_deep_sea/spacer_1.stl?v=0b1b437d
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/the_crew_deep_sea/spacer_1.stl?v=b9fb441e" download="spacer_1.stl">⬇ Download spacer_1 STL (<code>spacer_1.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/the_crew_deep_sea/spacer_1.stl?v=0b1b437d" download="spacer_1.stl">⬇ Download spacer_1 STL (<code>spacer_1.stl</code>)</a></p>
 
 .. _spacer-the_crew_deep_sea-spacer_2:
 
@@ -244,9 +244,9 @@ spacer_2
 - **Outer Dimensions**: ``58 × 26 × 26 mm``
 - **Packed Position**: ``(1.5, 94.5, 0)``
 
-.. stl:: ../_stl/boxes/the_crew_deep_sea/spacer_2.stl?v=a4d808e5
+.. stl:: ../_stl/boxes/the_crew_deep_sea/spacer_2.stl?v=0835a3cc
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/the_crew_deep_sea/spacer_2.stl?v=a4d808e5" download="spacer_2.stl">⬇ Download spacer_2 STL (<code>spacer_2.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/the_crew_deep_sea/spacer_2.stl?v=0835a3cc" download="spacer_2.stl">⬇ Download spacer_2 STL (<code>spacer_2.stl</code>)</a></p>
