@@ -37,6 +37,7 @@ from pyboxbuilder import (
     Project,
     StackableMode,
     centered,
+    pack_into_compartment,
     run,
 )
 from pyboxbuilder.compartments import CompartmentElement
@@ -901,6 +902,58 @@ def _populate_root_boxes(project: Project) -> None:
         ),
     )
 
+    def _pack_pockets(
+        box_size: tuple[float, float, float],
+        items: list[Any],
+        *,
+        min_spacing: float = 1.5,
+        allow_rotate: bool = False,
+    ) -> tuple[CompartmentElement, ...]:
+        return pack_into_compartment(
+            items,
+            (box_size[0] - 4.0, box_size[1] - 4.0),
+            spacing=2.0,
+            min_spacing=min_spacing,
+            allow_rotate=allow_rotate,
+        )
+
+    def _pocket_with_inlay(
+        size: tuple[float, float],
+        *,
+        depth: float,
+        comp_depth: float,
+        inlay: str | None = None,
+        inlay_size: tuple[float, float] = (12.0, 12.0),
+        shape: ElementShape = ElementShape.RECT,
+        inlay_shape: ElementShape = ElementShape.SVG,
+        inlay_z_offset: float | None = None,
+        pull_out_width: float | None = None,
+        pull_out_depth: float | None = None,
+    ) -> tuple[CompartmentElement, ...]:
+        pocket = centered(
+            None,
+            (0.0, 0.0),
+            size,
+            shape=shape,
+            depth=depth,
+            pull_out=True,
+            pull_out_width=pull_out_width,
+            pull_out_depth=pull_out_depth,
+        )
+        if inlay is None:
+            return (pocket,)
+        stamp = centered(
+            inlay,
+            (0.0, 0.0),
+            inlay_size,
+            shape=inlay_shape,
+            depth=0.6,
+            z_offset=(comp_depth - depth) if inlay_z_offset is None else inlay_z_offset,
+            color="black",
+            pull_out=False,
+        )
+        return (pocket, stamp)
+
     # Marquis Box Bottom
     marquis_bottom_size = (106.5, 59.833, 24.5)
     project.box(
@@ -911,259 +964,96 @@ def _populate_root_boxes(project: Project) -> None:
         color=Color("orange"),
     ).compartment(
         "Warriors",
-        elements=[
-            # 3 horizontal channels for 25 cat meeples (8 + 8 + 9) with wide divider walls and long finger pulls
-            centered(
-                None,
-                (51.25, 9.5),
-                (73.0, 14.5),
-                depth=18.0,
-                pull_out=True,
-                pull_out_width=65.0,
-                pull_out_depth=9.0,
-            ),
-            centered(
-                None,
-                (51.25, 27.9),
-                (73.0, 14.5),
-                depth=18.0,
-                pull_out=True,
-                pull_out_width=65.0,
-                pull_out_depth=9.0,
-            ),
-            centered(
-                None,
-                (51.25, 46.3),
-                (82.0, 14.5),
-                depth=18.0,
-                pull_out=True,
-                pull_out_width=75.0,
-                pull_out_depth=9.0,
-            ),
-            # Stamps/Inlays at the bottom of the channels
-            centered(
-                str(SVG_DIR / "marquis_warrior.svg"),
-                (51.25, 9.5),
-                (12.0, 12.0),
-                depth=0.6,
-                z_offset=3.9,
-                color="black",
-                pull_out=False,
-            ),
-            centered(
-                str(SVG_DIR / "marquis_warrior.svg"),
-                (51.25, 27.9),
-                (12.0, 12.0),
-                depth=0.6,
-                z_offset=3.9,
-                color="black",
-                pull_out=False,
-            ),
-            centered(
-                str(SVG_DIR / "marquis_warrior.svg"),
-                (51.25, 46.3),
-                (12.0, 12.0),
-                depth=0.6,
-                z_offset=3.9,
-                color="black",
-                pull_out=False,
-            ),
-        ],
+        elements=_pack_pockets(
+            marquis_bottom_size,
+            [
+                # 3 horizontal channels for 25 cat meeples (8 + 8 + 9)
+                _pocket_with_inlay(
+                    (width, 14.5),
+                    depth=18.0,
+                    comp_depth=21.9,
+                    inlay=str(SVG_DIR / "marquis_warrior.svg"),
+                    inlay_z_offset=3.9,
+                    pull_out_width=p_w,
+                    pull_out_depth=9.0,
+                )
+                for width, p_w in ((73.0, 65.0), (73.0, 65.0), (82.0, 75.0))
+            ],
+        ),
     )
 
     # Marquis Box Top
+    marquis_top_size = (106.5, 59.833, 14.5)
+    marquis_top_comp_depth = 12.9
     project.box(
         BoxType.SLIDING,
         "MarquisBoxTop",
-        size=(106.5, 59.833, 14.5),
+        size=marquis_top_size,
         lid=LID_MARQUIS,
         color=Color("orange"),
     ).compartment(
         "WoodAndBuildings",
-        elements=[
-            # --- Wood Logs (2 slots, stacked 4-high, depth 8.0) ---
-            centered(
-                None,
-                (10.91, 9.25),
-                (15.0, 15.0),
-                shape=ElementShape.CIRCLE,
-                depth=8.0,
-                pull_out=True,
-            ),
-            centered(
-                None,
-                (31.07, 9.25),
-                (15.0, 15.0),
-                shape=ElementShape.CIRCLE,
-                depth=8.0,
-                pull_out=True,
-            ),
-            # --- Recruiters / Handshake (2 slots, stacked 3-high, depth 6.0) ---
-            centered(
-                None,
-                (71.39, 9.25),
-                (18.5, 18.5),
-                shape=ElementShape.RECT,
-                depth=6.0,
-                pull_out=True,
-            ),
-            centered(
-                None,
-                (91.55, 9.25),
-                (18.5, 18.5),
-                shape=ElementShape.RECT,
-                depth=6.0,
-                pull_out=True,
-            ),
-            # --- Workshops / Anvil (2 slots, stacked 3-high, depth 6.0) ---
-            centered(
-                None,
-                (10.91, 46.583),
-                (18.5, 18.5),
-                shape=ElementShape.RECT,
-                depth=6.0,
-                pull_out=True,
-            ),
-            centered(
-                None,
-                (31.07, 46.583),
-                (18.5, 18.5),
-                shape=ElementShape.RECT,
-                depth=6.0,
-                pull_out=True,
-            ),
-            # --- Sawmills / Saw (2 slots, stacked 3-high, depth 6.0) ---
-            centered(
-                None,
-                (71.39, 46.583),
-                (18.5, 18.5),
-                shape=ElementShape.RECT,
-                depth=6.0,
-                pull_out=True,
-            ),
-            centered(
-                None,
-                (91.55, 46.583),
-                (18.5, 18.5),
-                shape=ElementShape.RECT,
-                depth=6.0,
-                pull_out=True,
-            ),
-            # --- Keep (1 slot, stacked 1-high, depth 2.0) ---
-            centered(
-                None,
-                (51.23, 11.25),
-                (18.5, 18.5),
-                shape=ElementShape.CIRCLE,
-                depth=2.0,
-                pull_out=True,
-            ),
-            # --- Score Laurel (1 slot, stacked 1-high, depth 2.0) ---
-            centered(
-                None,
-                (51.23, 41.583),
-                (18.5, 18.5),
-                shape=ElementShape.RECT,
-                depth=2.0,
-                pull_out=True,
-            ),
-            # --- Wood Stamps ---
-            centered(
-                str(SVG_DIR / "log.svg"),
-                (10.91, 9.25),
-                (15.0 * 0.35, 15.0 * 0.35),
-                depth=0.6,
-                z_offset=12.9 - 8.0,
-                color="black",
-                pull_out=False,
-            ),
-            centered(
-                str(SVG_DIR / "log.svg"),
-                (31.07, 9.25),
-                (15.0 * 0.35, 15.0 * 0.35),
-                depth=0.6,
-                z_offset=12.9 - 8.0,
-                color="black",
-                pull_out=False,
-            ),
-            # --- Recruiter Stamps ---
-            centered(
-                str(SVG_DIR / "handshake.svg"),
-                (71.39, 9.25),
-                (18.5 * 0.35, 18.5 * 0.35),
-                depth=0.6,
-                z_offset=12.9 - 6.0,
-                color="black",
-                pull_out=False,
-            ),
-            centered(
-                str(SVG_DIR / "handshake.svg"),
-                (91.55, 9.25),
-                (18.5 * 0.35, 18.5 * 0.35),
-                depth=0.6,
-                z_offset=12.9 - 6.0,
-                color="black",
-                pull_out=False,
-            ),
-            # --- Workshop Stamps ---
-            centered(
-                str(SVG_DIR / "anvil.svg"),
-                (10.91, 46.583),
-                (18.5 * 0.35, 18.5 * 0.35),
-                depth=0.6,
-                z_offset=12.9 - 6.0,
-                color="black",
-                pull_out=False,
-            ),
-            centered(
-                str(SVG_DIR / "anvil.svg"),
-                (31.07, 46.583),
-                (18.5 * 0.35, 18.5 * 0.35),
-                depth=0.6,
-                z_offset=12.9 - 6.0,
-                color="black",
-                pull_out=False,
-            ),
-            # --- Sawmill Stamps ---
-            centered(
-                str(SVG_DIR / "saw.svg"),
-                (71.39, 46.583),
-                (18.5 * 0.35, 18.5 * 0.35),
-                depth=0.6,
-                z_offset=12.9 - 6.0,
-                color="black",
-                pull_out=False,
-            ),
-            centered(
-                str(SVG_DIR / "saw.svg"),
-                (91.55, 46.583),
-                (18.5 * 0.35, 18.5 * 0.35),
-                depth=0.6,
-                z_offset=12.9 - 6.0,
-                color="black",
-                pull_out=False,
-            ),
-            # --- Keep Stamp ---
-            centered(
-                str(SVG_DIR / "keep.svg"),
-                (51.23, 11.25),
-                (18.5 * 0.35, 18.5 * 0.35),
-                depth=0.6,
-                z_offset=12.9 - 2.0,
-                color="black",
-                pull_out=False,
-            ),
-            # --- Score Laurel Stamp ---
-            centered(
-                str(SVG_DIR / "laurel_wreath.svg"),
-                (51.23, 41.583),
-                (18.5 * 0.35, 18.5 * 0.35),
-                depth=0.6,
-                z_offset=12.9 - 2.0,
-                color="black",
-                pull_out=False,
-            ),
-        ],
+        elements=_pack_pockets(
+            marquis_top_size,
+            [
+                *[
+                    _pocket_with_inlay(
+                        (15.0, 15.0),
+                        depth=8.0,
+                        comp_depth=marquis_top_comp_depth,
+                        inlay=str(SVG_DIR / "log.svg"),
+                        inlay_size=(15.0 * 0.35, 15.0 * 0.35),
+                        shape=ElementShape.CIRCLE,
+                    )
+                    for _ in range(2)
+                ],
+                _pocket_with_inlay(
+                    (18.5, 18.5),
+                    depth=2.0,
+                    comp_depth=marquis_top_comp_depth,
+                    inlay=str(SVG_DIR / "keep.svg"),
+                    inlay_size=(18.5 * 0.35, 18.5 * 0.35),
+                    shape=ElementShape.CIRCLE,
+                ),
+                *[
+                    _pocket_with_inlay(
+                        (18.5, 18.5),
+                        depth=6.0,
+                        comp_depth=marquis_top_comp_depth,
+                        inlay=str(SVG_DIR / "handshake.svg"),
+                        inlay_size=(18.5 * 0.35, 18.5 * 0.35),
+                    )
+                    for _ in range(2)
+                ],
+                *[
+                    _pocket_with_inlay(
+                        (18.5, 18.5),
+                        depth=6.0,
+                        comp_depth=marquis_top_comp_depth,
+                        inlay=str(SVG_DIR / "anvil.svg"),
+                        inlay_size=(18.5 * 0.35, 18.5 * 0.35),
+                    )
+                    for _ in range(2)
+                ],
+                _pocket_with_inlay(
+                    (18.5, 18.5),
+                    depth=2.0,
+                    comp_depth=marquis_top_comp_depth,
+                    inlay=str(SVG_DIR / "laurel_wreath.svg"),
+                    inlay_size=(18.5 * 0.35, 18.5 * 0.35),
+                ),
+                *[
+                    _pocket_with_inlay(
+                        (18.5, 18.5),
+                        depth=6.0,
+                        comp_depth=marquis_top_comp_depth,
+                        inlay=str(SVG_DIR / "saw.svg"),
+                        inlay_size=(18.5 * 0.35, 18.5 * 0.35),
+                    )
+                    for _ in range(2)
+                ],
+            ],
+        ),
     )
 
     # Erie Box Bottom
@@ -1176,113 +1066,57 @@ def _populate_root_boxes(project: Project) -> None:
         color=Color("blue"),
     ).compartment(
         "Warriors",
-        elements=[
-            # 2 horizontal channels for 20 bird meeples (10 + 10)
-            centered(
-                None,
-                (51.25, 15.0),
-                (91.0, 21.0),
-                depth=18.0,
-                pull_out=True,
-                pull_out_width=80.0,
-                pull_out_depth=9.0,
-            ),
-            centered(
-                None,
-                (51.25, 40.8),
-                (91.0, 21.0),
-                depth=18.0,
-                pull_out=True,
-                pull_out_width=80.0,
-                pull_out_depth=9.0,
-            ),
-            # Stamps/Inlays at the bottom of the channels
-            centered(
-                str(SVG_DIR / "erie_warrior.svg"),
-                (51.25, 15.0),
-                (12.0, 12.0),
-                depth=0.6,
-                z_offset=3.9,
-                color="black",
-                pull_out=False,
-            ),
-            centered(
-                str(SVG_DIR / "erie_warrior.svg"),
-                (51.25, 40.8),
-                (12.0, 12.0),
-                depth=0.6,
-                z_offset=3.9,
-                color="black",
-                pull_out=False,
-            ),
-        ],
+        elements=_pack_pockets(
+            erie_bottom_size,
+            [
+                # 2 horizontal channels for 20 bird meeples (10 + 10)
+                _pocket_with_inlay(
+                    (91.0, 21.0),
+                    depth=18.0,
+                    comp_depth=21.9,
+                    inlay=str(SVG_DIR / "erie_warrior.svg"),
+                    inlay_z_offset=3.9,
+                    pull_out_width=80.0,
+                    pull_out_depth=9.0,
+                )
+                for _ in range(2)
+            ],
+        ),
     )
 
     # Erie Box Top
+    erie_top_size = (53.25, 59.833, 14.5)
+    erie_top_comp_depth = 12.9
     project.box(
         BoxType.SLIDING,
         "ErieBoxTop",
-        size=(53.25, 59.833, 14.5),
+        size=erie_top_size,
         lid=LID_ERIE,
         color=Color("blue"),
     ).compartment(
         "Roosts",
-        elements=[
-            # Roost slots (stacked 4-high, depth 8.0)
-            centered(
-                None,
-                (15.0, 20.0),
-                (18.5, 18.5),
-                shape=ElementShape.RECT,
-                depth=8.0,
-                pull_out=True,
-            ),
-            centered(
-                None,
-                (35.0, 20.0),
-                (18.5, 18.5),
-                shape=ElementShape.RECT,
-                depth=8.0,
-                pull_out=True,
-            ),
-            # Score marker (laurel wreath)
-            centered(
-                None,
-                (25.0, 45.0),
-                (18.5, 18.5),
-                shape=ElementShape.RECT,
-                depth=2.0,
-                pull_out=True,
-            ),
-            # Floor Stamps
-            centered(
-                str(SVG_DIR / "tree.svg"),
-                (15.0, 20.0),
-                (18.5 * 0.35, 18.5 * 0.35),
-                depth=0.6,
-                z_offset=12.9 - 8.0,
-                color="black",
-                pull_out=False,
-            ),
-            centered(
-                str(SVG_DIR / "tree.svg"),
-                (35.0, 20.0),
-                (18.5 * 0.35, 18.5 * 0.35),
-                depth=0.6,
-                z_offset=12.9 - 8.0,
-                color="black",
-                pull_out=False,
-            ),
-            centered(
-                str(SVG_DIR / "laurel_wreath.svg"),
-                (25.0, 45.0),
-                (18.5 * 0.35, 18.5 * 0.35),
-                depth=0.6,
-                z_offset=12.9 - 2.0,
-                color="black",
-                pull_out=False,
-            ),
-        ],
+        elements=_pack_pockets(
+            erie_top_size,
+            [
+                *[
+                    _pocket_with_inlay(
+                        (18.5, 18.5),
+                        depth=8.0,
+                        comp_depth=erie_top_comp_depth,
+                        inlay=str(SVG_DIR / "tree.svg"),
+                        inlay_size=(18.5 * 0.35, 18.5 * 0.35),
+                    )
+                    for _ in range(2)
+                ],
+                _pocket_with_inlay(
+                    (18.5, 18.5),
+                    depth=2.0,
+                    comp_depth=erie_top_comp_depth,
+                    inlay=str(SVG_DIR / "laurel_wreath.svg"),
+                    inlay_size=(18.5 * 0.35, 18.5 * 0.35),
+                ),
+            ],
+        ),
     )
 
     # Alliance Box Bottom
@@ -1295,133 +1129,65 @@ def _populate_root_boxes(project: Project) -> None:
         color=Color("green"),
     ).compartment(
         "Warriors",
-        elements=[
-            # 2 horizontal channels for 10 alliance meeples (5 + 5)
-            centered(
-                None,
-                (24.625, 15.0),
-                (46.0, 19.5),
-                depth=18.0,
-                pull_out=True,
-                pull_out_width=40.0,
-                pull_out_depth=9.0,
-            ),
-            centered(
-                None,
-                (24.625, 39.8),
-                (46.0, 19.5),
-                depth=18.0,
-                pull_out=True,
-                pull_out_width=40.0,
-                pull_out_depth=9.0,
-            ),
-            # Stamps/Inlays at the bottom of the channels (comp_depth = 20.9)
-            centered(
-                str(SVG_DIR / "alliance_warrior.svg"),
-                (24.625, 15.0),
-                (12.0, 12.0),
-                depth=0.6,
-                z_offset=20.9 - 18.0,
-                color="black",
-                pull_out=False,
-            ),
-            centered(
-                str(SVG_DIR / "alliance_warrior.svg"),
-                (24.625, 39.8),
-                (12.0, 12.0),
-                depth=0.6,
-                z_offset=20.9 - 18.0,
-                color="black",
-                pull_out=False,
-            ),
-        ],
+        elements=_pack_pockets(
+            alliance_bottom_size,
+            [
+                # 2 horizontal channels for 10 alliance meeples (5 + 5)
+                _pocket_with_inlay(
+                    (46.0, 19.5),
+                    depth=18.0,
+                    comp_depth=20.9,
+                    inlay=str(SVG_DIR / "alliance_warrior.svg"),
+                    pull_out_width=40.0,
+                    pull_out_depth=9.0,
+                )
+                for _ in range(2)
+            ],
+        ),
     )
 
     # Alliance Box Top (4 pockets: Score, 3 Bases, 2x5 Sympathy)
+    alliance_top_size = (53.25, 59.833, 14.5)
     alliance_top_comp_depth = 14.5 - 1.6 - 2.0  # 10.9mm
     project.box(
         BoxType.SLIDING,
         "AllianceBoxTop",
-        size=(53.25, 59.833, 14.5),
+        size=alliance_top_size,
         lid=LID_ALLIANCE,
         color=Color("green"),
     ).compartment(
         "BasesAndSympathy",
-        elements=[
-            # Score marker (front-left, depth 3.0)
-            centered(
-                None,
-                (13.5, 15.0),
-                (18.5, 18.5),
-                shape=ElementShape.RECT,
-                depth=3.0,
-                pull_out=True,
-            ),
-            # Sympathy / Fist #1 (front-right, 5 tokens, depth 10.5)
-            centered(
-                None,
-                (35.75, 15.0),
-                (18.5, 18.5),
-                shape=ElementShape.CIRCLE,
-                depth=10.5,
-                pull_out=True,
-            ),
-            # Alliance Camp / Bases (back-left, 3 tokens, depth 7.0)
-            centered(
-                None,
-                (13.5, 41.0),
-                (18.5, 18.5),
-                shape=ElementShape.RECT,
-                depth=7.0,
-                pull_out=True,
-            ),
-            # Sympathy / Fist #2 (back-right, 5 tokens, depth 10.5)
-            centered(
-                None,
-                (35.75, 41.0),
-                (18.5, 18.5),
-                shape=ElementShape.CIRCLE,
-                depth=10.5,
-                pull_out=True,
-            ),
-            # Stamps/Inlays at the bottom of the pockets
-            centered(
-                str(SVG_DIR / "laurel_wreath.svg"),
-                (13.5, 15.0),
-                (12.0, 12.0),
-                depth=0.6,
-                z_offset=alliance_top_comp_depth - 3.0,
-                color="black",
-                pull_out=False,
-            ),
-            centered(
-                str(SVG_DIR / "fist.svg"),
-                (35.75, 15.0),
-                (12.0, 12.0),
-                depth=0.6,
-                z_offset=alliance_top_comp_depth - 10.5,
-                color="black",
-                pull_out=False,
-            ),
-            centered(
-                str(SVG_DIR / "camp.svg"),
-                (13.5, 41.0),
-                (12.0, 12.0),
-                depth=0.6,
-                z_offset=alliance_top_comp_depth - 7.0,
-                color="black",
-                pull_out=False,
-            ),
-            centered(
-                str(SVG_DIR / "fist.svg"),
-                (35.75, 41.0),
-                (12.0, 12.0),
-                depth=0.6,
-                z_offset=alliance_top_comp_depth - 10.5,
-                color="black",
-                pull_out=False,
-            ),
-        ],
+        elements=_pack_pockets(
+            alliance_top_size,
+            [
+                _pocket_with_inlay(
+                    (18.5, 18.5),
+                    depth=3.0,
+                    comp_depth=alliance_top_comp_depth,
+                    inlay=str(SVG_DIR / "laurel_wreath.svg"),
+                ),
+                _pocket_with_inlay(
+                    (18.5, 18.5),
+                    depth=10.5,
+                    comp_depth=alliance_top_comp_depth,
+                    inlay=str(SVG_DIR / "fist.svg"),
+                    shape=ElementShape.CIRCLE,
+                ),
+                _pocket_with_inlay(
+                    (18.5, 18.5),
+                    depth=7.0,
+                    comp_depth=alliance_top_comp_depth,
+                    inlay=str(SVG_DIR / "camp.svg"),
+                ),
+                _pocket_with_inlay(
+                    (18.5, 18.5),
+                    depth=10.5,
+                    comp_depth=alliance_top_comp_depth,
+                    inlay=str(SVG_DIR / "fist.svg"),
+                    shape=ElementShape.CIRCLE,
+                ),
+            ],
+        ),
     )
 
     # Lizard Box Bottom
@@ -1434,142 +1200,69 @@ def _populate_root_boxes(project: Project) -> None:
         color=Color("yellow"),
     ).compartment(
         "Warriors",
-        elements=[
-            # 5 rows of 5 individual lizard warrior slots (25 total)
-            *[
+        elements=_pack_pockets(
+            lizard_bottom_size,
+            [
+                # 5 rows of 5 individual lizard warrior slots (25 total)
                 centered(
                     None,
-                    (11.65 + 19.8 * i, 7.916 + 10.0 * j),
+                    (0.0, 0.0),
                     (18.0, 9.0),
                     depth=20.0,
                     pull_out=True,
                     pull_out_depth=10.0,
                 )
-                for i in range(5)
-                for j in range(5)
-            ]
-        ],
+                for _ in range(25)
+            ],
+        ),
     )
 
     # Lizard Box Top
+    lizard_top_size = (79.875, 59.833, 12.5)
+    lizard_top_comp_depth = 8.9
     project.box(
         BoxType.SLIDING,
         "LizardBoxTop",
-        size=(79.875, 59.833, 12.5),
+        size=lizard_top_size,
         lid=LID_LIZARD,
         color=Color("yellow"),
     ).compartment(
         "Gardens",
-        elements=[
-            # Rectangular Pockets (3x2 Grid)
-            centered(
-                None,
-                (16.34, 17.5),
-                (18.5, 18.5),
-                shape=ElementShape.RECT,
-                depth=8.0,
-                pull_out=True,
-            ),
-            centered(
-                None,
-                (39.93, 17.5),
-                (18.5, 18.5),
-                shape=ElementShape.RECT,
-                depth=8.0,
-                pull_out=True,
-            ),
-            centered(
-                None,
-                (63.52, 17.5),
-                (18.5, 18.5),
-                shape=ElementShape.RECT,
-                depth=8.0,
-                pull_out=True,
-            ),
-            centered(
-                None,
-                (16.34, 42.333),
-                (18.5, 18.5),
-                shape=ElementShape.RECT,
-                depth=3.0,
-                pull_out=True,
-            ),
-            centered(
-                None,
-                (39.93, 42.333),
-                (18.5, 18.5),
-                shape=ElementShape.RECT,
-                depth=4.0,
-                pull_out=True,
-            ),
-            centered(
-                None,
-                (63.52, 42.333),
-                (18.5, 18.5),
-                shape=ElementShape.RECT,
-                depth=2.0,
-                pull_out=True,
-            ),
-            # Stamps/Inlays at the bottom of the pockets (depth=0.6, comp_depth = 8.9)
-            # Gardens (z_offset = 8.9 - 8.0 = 0.9)
-            centered(
-                str(SVG_DIR / "fox.svg"),
-                (16.34, 17.5),
-                (10.0, 10.0),
-                depth=0.6,
-                z_offset=0.9,
-                color="black",
-                pull_out=False,
-            ),
-            centered(
-                str(SVG_DIR / "rabbit.svg"),
-                (39.93, 17.5),
-                (10.0, 10.0),
-                depth=0.6,
-                z_offset=0.9,
-                color="black",
-                pull_out=False,
-            ),
-            centered(
-                str(SVG_DIR / "mouse.svg"),
-                (63.52, 17.5),
-                (10.0, 10.0),
-                depth=0.6,
-                z_offset=0.9,
-                color="black",
-                pull_out=False,
-            ),
-            # Score Laurel (z_offset = 8.9 - 3.0 = 5.9)
-            centered(
-                str(SVG_DIR / "laurel_wreath.svg"),
-                (16.34, 42.333),
-                (12.0, 12.0),
-                depth=0.6,
-                z_offset=5.9,
-                color="black",
-                pull_out=False,
-            ),
-            # Faction (z_offset = 8.9 - 4.0 = 4.9)
-            centered(
-                str(SVG_DIR / "lizard_faction.svg"),
-                (39.93, 42.333),
-                (10.0, 10.0),
-                depth=0.6,
-                z_offset=4.9,
-                color="black",
-                pull_out=False,
-            ),
-            # Outcast (z_offset = 8.9 - 2.0 = 6.9)
-            centered(
-                str(SVG_DIR / "outcast.svg"),
-                (63.52, 42.333),
-                (10.0, 10.0),
-                depth=0.6,
-                z_offset=6.9,
-                color="black",
-                pull_out=False,
-            ),
-        ],
+        elements=_pack_pockets(
+            lizard_top_size,
+            [
+                *[
+                    _pocket_with_inlay(
+                        (18.5, 18.5),
+                        depth=8.0,
+                        comp_depth=lizard_top_comp_depth,
+                        inlay=str(SVG_DIR / suit_svg),
+                        inlay_size=(10.0, 10.0),
+                    )
+                    for suit_svg in ("fox.svg", "rabbit.svg", "mouse.svg")
+                ],
+                _pocket_with_inlay(
+                    (18.5, 18.5),
+                    depth=3.0,
+                    comp_depth=lizard_top_comp_depth,
+                    inlay=str(SVG_DIR / "laurel_wreath.svg"),
+                ),
+                _pocket_with_inlay(
+                    (18.5, 18.5),
+                    depth=4.0,
+                    comp_depth=lizard_top_comp_depth,
+                    inlay=str(SVG_DIR / "lizard_faction.svg"),
+                    inlay_size=(10.0, 10.0),
+                ),
+                _pocket_with_inlay(
+                    (18.5, 18.5),
+                    depth=2.0,
+                    comp_depth=lizard_top_comp_depth,
+                    inlay=str(SVG_DIR / "outcast.svg"),
+                    inlay_size=(10.0, 10.0),
+                ),
+            ],
+        ),
     )
 
     # Riverfolk Box Bottom
@@ -1582,237 +1275,139 @@ def _populate_root_boxes(project: Project) -> None:
         color=Color("teal"),
     ).compartment(
         "Warriors",
-        elements=[
-            # 3 horizontal channels for 15 otter meeples (5 + 5 + 5)
-            centered(
-                None,
-                (24.625, 11.5),
-                (46.0, 15.0),
-                depth=18.0,
-                pull_out=True,
-                pull_out_width=40.0,
-                pull_out_depth=9.0,
-            ),
-            centered(
-                None,
-                (24.625, 27.9),
-                (46.0, 15.0),
-                depth=18.0,
-                pull_out=True,
-                pull_out_width=40.0,
-                pull_out_depth=9.0,
-            ),
-            centered(
-                None,
-                (24.625, 44.3),
-                (46.0, 15.0),
-                depth=18.0,
-                pull_out=True,
-                pull_out_width=40.0,
-                pull_out_depth=9.0,
-            ),
-            # Stamps/Inlays at the bottom of the channels
-            centered(
-                str(SVG_DIR / "riverfolk_warrior.svg"),
-                (24.625, 11.5),
-                (12.0, 12.0),
-                depth=0.6,
-                z_offset=4.9,
-                color="black",
-                pull_out=False,
-            ),
-            centered(
-                str(SVG_DIR / "riverfolk_warrior.svg"),
-                (24.625, 27.9),
-                (12.0, 12.0),
-                depth=0.6,
-                z_offset=4.9,
-                color="black",
-                pull_out=False,
-            ),
-            centered(
-                str(SVG_DIR / "riverfolk_warrior.svg"),
-                (24.625, 44.3),
-                (12.0, 12.0),
-                depth=0.6,
-                z_offset=4.9,
-                color="black",
-                pull_out=False,
-            ),
-        ],
+        elements=_pack_pockets(
+            riverfolk_bottom_size,
+            [
+                # 3 horizontal channels for 15 otter meeples (5 + 5 + 5)
+                _pocket_with_inlay(
+                    (46.0, 15.0),
+                    depth=18.0,
+                    comp_depth=22.9,
+                    inlay=str(SVG_DIR / "riverfolk_warrior.svg"),
+                    inlay_z_offset=4.9,
+                    pull_out_width=40.0,
+                    pull_out_depth=9.0,
+                )
+                for _ in range(3)
+            ],
+        ),
     )
 
     # Riverfolk Box Top (7 pockets: Score + 3 Glass Gems + 3 Trade Post suits)
+    riverfolk_top_size = (79.875, 59.833, 12.5)
     riverfolk_top_comp_depth = 12.5 - 1.6 - 2.0  # 8.9mm
     project.box(
         BoxType.SLIDING,
         "RiverfolkBoxTop",
-        size=(79.875, 59.833, 12.5),
+        size=riverfolk_top_size,
         lid=LID_RIVERFOLK,
         color=Color("teal"),
     ).compartment(
         "TradePosts",
-        elements=[
-            # Row 1 (front): Score marker + 3 Glass Gems (17mm diameter)
-            centered(
-                None,
-                (10.25, 14.5),
-                (18.5, 18.5),
-                shape=ElementShape.RECT,
-                depth=3.0,
-                pull_out=True,
-            ),
-            *[
-                centered(
-                    None,
-                    (gem_x, 14.5),
-                    (17.0, 17.0),
-                    shape=ElementShape.CIRCLE,
-                    depth=8.5,
-                    pull_out=True,
-                )
-                for gem_x in (29.5, 48.0, 66.5)
-            ],
-            # Row 2 (back): 3 Trade Post suits (Fox, Rabbit, Mouse - 3 tokens each)
-            *[
-                centered(
-                    None,
-                    (sign_x, 41.5),
+        elements=_pack_pockets(
+            riverfolk_top_size,
+            [
+                _pocket_with_inlay(
                     (18.5, 18.5),
-                    shape=ElementShape.CIRCLE,
-                    depth=7.0,
-                    pull_out=True,
-                )
-                for sign_x in (15.5, 37.9, 60.3)
+                    depth=3.0,
+                    comp_depth=riverfolk_top_comp_depth,
+                    inlay=str(SVG_DIR / "laurel_wreath.svg"),
+                ),
+                *[
+                    _pocket_with_inlay(
+                        (17.0, 17.0),
+                        depth=8.5,
+                        comp_depth=riverfolk_top_comp_depth,
+                        inlay=str(SVG_DIR / "gem.svg"),
+                        inlay_size=(11.0, 11.0),
+                        shape=ElementShape.CIRCLE,
+                    )
+                    for _ in range(3)
+                ],
+                *[
+                    _pocket_with_inlay(
+                        (18.5, 18.5),
+                        depth=7.0,
+                        comp_depth=riverfolk_top_comp_depth,
+                        inlay=str(SVG_DIR / "sign.svg"),
+                        shape=ElementShape.CIRCLE,
+                    )
+                    for _ in range(3)
+                ],
             ],
-            # Stamps/Inlays at pocket bottoms
-            centered(
-                str(SVG_DIR / "laurel_wreath.svg"),
-                (10.25, 14.5),
-                (12.0, 12.0),
-                depth=0.6,
-                z_offset=riverfolk_top_comp_depth - 3.0,
-                color="black",
-                pull_out=False,
-            ),
-            *[
-                centered(
-                    str(SVG_DIR / "gem.svg"),
-                    (gem_x, 14.5),
-                    (11.0, 11.0),
-                    depth=0.6,
-                    z_offset=riverfolk_top_comp_depth - 8.5,
-                    color="black",
-                    pull_out=False,
-                )
-                for gem_x in (29.5, 48.0, 66.5)
-            ],
-            *[
-                centered(
-                    str(SVG_DIR / "sign.svg"),
-                    (sign_x, 41.5),
-                    (12.0, 12.0),
-                    depth=0.6,
-                    z_offset=riverfolk_top_comp_depth - 7.0,
-                    color="black",
-                    pull_out=False,
-                )
-                for sign_x in (15.5, 37.9, 60.3)
-            ],
-        ],
+        ),
     )
 
     # Vagabond Boxes (2 stacked boxes: Base + Riverfolk 2nd Vagabond)
     def _add_vagabond_box(label: str) -> None:
+        vagabond_size = (53.25, 59.833, 19.5)
         vagabond_comp_depth = 19.5 - 1.6 - 2.0  # 15.9mm
-        elements = [
-            # Front-left: Vagabond meeple cutout (9mm thick + 1mm clearance)
-            centered(
-                str(SVG_DIR / "vagabond_warrior.svg"),
-                (14.5, 16.0),
-                (21.0, 22.0),
-                depth=10.0,
-                pull_out=True,
-            ),
-            # Front-right: Score marker well + laurel wreath inlay
-            centered(
-                None,
-                (37.5, 16.0),
-                (18.5, 18.5),
-                shape=ElementShape.RECT,
-                depth=3.0,
-                pull_out=True,
-            ),
-            centered(
-                str(SVG_DIR / "laurel_wreath.svg"),
-                (37.5, 16.0),
-                (12.0, 12.0),
-                depth=0.6,
-                z_offset=vagabond_comp_depth - 3.0,
-                color="black",
-                pull_out=False,
-            ),
-        ]
-        # Back row: Two relationship marker wells (3 tokens each = 6 per Vagabond)
-        for rel_x in (13.5, 36.0):
-            elements.extend([
+        elements = _pack_pockets(
+            vagabond_size,
+            [
+                # Vagabond meeple cutout (9mm thick + 1mm clearance)
                 centered(
-                    None,
-                    (rel_x, 43.0),
-                    (18.5, 18.5),
-                    shape=ElementShape.RECT,
-                    depth=7.0,
+                    str(SVG_DIR / "vagabond_warrior.svg"),
+                    (0.0, 0.0),
+                    (21.0, 22.0),
+                    depth=10.0,
                     pull_out=True,
                 ),
-                centered(
-                    "Relation",
-                    (rel_x, 43.0),
-                    (15.0, 15.0),
-                    shape=ElementShape.TEXT,
-                    depth=0.6,
-                    z_offset=vagabond_comp_depth - 7.0,
-                    color="black",
-                    pull_out=False,
+                # Score marker well + laurel wreath inlay
+                _pocket_with_inlay(
+                    (18.5, 18.5),
+                    depth=3.0,
+                    comp_depth=vagabond_comp_depth,
+                    inlay=str(SVG_DIR / "laurel_wreath.svg"),
                 ),
-            ])
+                # Relationship marker wells (3 tokens each = 6 per Vagabond)
+                *[
+                    _pocket_with_inlay(
+                        (18.5, 18.5),
+                        depth=7.0,
+                        comp_depth=vagabond_comp_depth,
+                        inlay="Relation",
+                        inlay_size=(15.0, 15.0),
+                        inlay_shape=ElementShape.TEXT,
+                    )
+                    for _ in range(2)
+                ],
+            ],
+        )
         project.box(
             BoxType.SLIDING,
             label,
-            size=(53.25, 59.833, 19.5),
+            size=vagabond_size,
             lid=LID_VAGABOND,
             color=Color("green"),
         ).compartment("ItemsAndScore", elements=elements)
-
 
     _add_vagabond_box("VagabondBox")
     _add_vagabond_box("VagabondBox2")
 
     # Dice Box (placed behind the Items stack in the right column)
+    dice_box_size = (53.25, 59.833, 39.0)
     project.box(
         BoxType.SLIDING,
         "DiceBox",
-        size=(53.25, 59.833, 39.0),
+        size=dice_box_size,
         lid=LID_BASE.titled("Dice"),
     ).compartment(
         "Dice",
-        elements=[
-            centered(
-                None,
-                (14.0, 14.0),
-                (22.0, 22.0),
-                shape=ElementShape.CIRCLE,
-                depth=22.0,
-                pull_out=True,
-            ),
-            centered(
-                None,
-                (35.25, 41.833),
-                (22.0, 22.0),
-                shape=ElementShape.CIRCLE,
-                depth=22.0,
-                pull_out=True,
-            ),
-        ],
+        elements=_pack_pockets(
+            dice_box_size,
+            [
+                centered(
+                    None,
+                    (0.0, 0.0),
+                    (22.0, 22.0),
+                    shape=ElementShape.CIRCLE,
+                    depth=22.0,
+                    pull_out=True,
+                )
+                for _ in range(2)
+            ],
+        ),
     )
 
 

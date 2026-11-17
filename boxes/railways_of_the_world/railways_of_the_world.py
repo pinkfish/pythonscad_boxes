@@ -28,6 +28,7 @@ from pyboxbuilder import (
     Project,
     StackableMode,
     centered,
+    pack_into_compartment,
     run,
 )
 
@@ -156,6 +157,10 @@ project = Project(
     box_defaults={"expandable": False},
 )
 
+def _inner_size(box_size: tuple[float, float, float]) -> tuple[float, float]:
+    return (box_size[0] - wall_thickness * 2.0, box_size[1] - wall_thickness * 2.0)
+
+
 # ── 1. Card Boxes ──────────────────────────────────────────────────
 # Eastern US Card Box
 card_eastern_us_size = (eastern_us_card_box_length, card_box_width, all_boxes_height)
@@ -167,35 +172,36 @@ project.box(
     color=Color("purple"),
 ).compartment(
     "CardsAndBonds",
-    elements=[
-        # Main Eastern US cards compartment
-        centered(
-            None,
-            (
-                (card_box_width_calc(eastern_us_cards) - wall_thickness * 2.0) / 2.0,
-                (card_box_width - wall_thickness * 2.0) / 2.0,
+    elements=pack_into_compartment(
+        [
+            # Main Eastern US cards compartment
+            centered(
+                None,
+                (0.0, 0.0),
+                (
+                    card_box_width_calc(eastern_us_cards) - wall_thickness * 2.0,
+                    card_box_width - wall_thickness * 2.0,
+                ),
+                pull_out=True,
+                pull_out_width=25.0,
+                pull_out_depth=(all_boxes_height - lid_thickness) / 2.0,
             ),
-            (
-                card_box_width_calc(eastern_us_cards) - wall_thickness * 2.0,
-                card_box_width - wall_thickness * 2.0,
+            # Bond cards compartment
+            centered(
+                None,
+                (0.0, 0.0),
+                (bond_card_thickness, bond_length),
+                depth=bond_width + wall_thickness,
+                z_offset=card_width - bond_width,
+                pull_out=True,
+                pull_out_width=13.0,
             ),
-            pull_out=True,
-            pull_out_width=25.0,
-            pull_out_depth=(all_boxes_height - lid_thickness) / 2.0,
-        ),
-        # Bond cards compartment
-        centered(
-            None,
-            (
-                card_box_width_calc(eastern_us_cards) + inner_wall - wall_thickness * 2.0 + bond_card_thickness / 2.0,
-                (card_box_width - wall_thickness * 2.0) / 2.0,
-            ),
-            (bond_card_thickness, bond_length),
-            depth=bond_width + wall_thickness,
-            z_offset=card_width - bond_width,
-            pull_out=False,
-        ),
-    ],
+        ],
+        _inner_size(card_eastern_us_size),
+        spacing=inner_wall,
+        min_spacing=inner_wall,
+        allow_rotate=False,
+    ),
 )
 
 # Australia Card Box
@@ -297,42 +303,43 @@ for color_name in PLAYER_COLORS:
 
 # 6 Player Card & Marker Boxes
 for color_name in PLAYER_COLORS:
+    player_box_size = (player_box_length, player_box_width, player_box_small_height)
     project.box(
         BoxType.CAP,
         f"PlayerBox_{color_name}",
-        size=(player_box_length, player_box_width, player_box_small_height),
+        size=player_box_size,
         lid=LidBuilder(text=f"Player ({color_name.title()})", label_mode=LabelMode.FRAMED, text_color=Color("black")),
         color=Color(color_name if color_name != "black" else "gray"),
     ).compartment(
         "CardsAndMarker",
-        elements=[
-            # Locomotive card well
-            centered(
-                None,
+        elements=pack_into_compartment(
+            [
                 (
-                    (player_box_length - wall_thickness * 2.0) / 2.0,
-                    (player_box_width - wall_thickness * 2.0) / 2.0,
+                    # Locomotive card well
+                    centered(
+                        None,
+                        (0.0, 0.0),
+                        (train_card_width, train_card_length),
+                        depth=train_card_thickness * 4.0 + 1.0,
+                        pull_out=True,
+                        pull_out_width=25.0,
+                    ),
+                    # Player score marker well (stacked above card well)
+                    centered(
+                        None,
+                        (0.0, 0.0),
+                        (player_marker_diameter + 0.5, player_marker_diameter + 0.5),
+                        shape=ElementShape.CIRCLE,
+                        depth=player_marker_thickness + 2.0,
+                        z_offset=train_card_thickness * 4.0 + 1.0,
+                        pull_out=True,
+                        pull_out_width=15.0,
+                    ),
                 ),
-                (train_card_width, train_card_length),
-                depth=train_card_thickness * 4.0 + 1.0,
-                pull_out=True,
-                pull_out_width=25.0,
-            ),
-            # Player score marker well
-            centered(
-                None,
-                (
-                    (player_box_length - wall_thickness * 2.0) / 2.0,
-                    (player_box_width - wall_thickness * 2.0) / 2.0,
-                ),
-                (player_marker_diameter + 0.5, player_marker_diameter + 0.5),
-                shape=ElementShape.CIRCLE,
-                depth=player_marker_thickness + 2.0,
-                z_offset=train_card_thickness * 4.0 + 1.0,
-                pull_out=True,
-                pull_out_width=15.0,
-            ),
-        ],
+            ],
+            _inner_size(player_box_size),
+            allow_rotate=False,
+        ),
     )
 
 # ── 4. Track Hex Boxes (2 boxes) ───────────────────────────────────
@@ -345,6 +352,7 @@ for i in range(2):
         color=Color("purple"),
     ).compartment(
         "HexGrid",
+        cut=FingerCut.SCOOP,
     )
 
 # ── 5. Money Box & New City Box ────────────────────────────────────
@@ -359,49 +367,58 @@ project.box(
     cut=FingerCut.SCOOP,
 )
 
+new_city_box_size = (
+    money_section_width + new_city_extra_length,
+    money_section_length + new_city_extra_width,
+    top_section_height,
+)
 project.box(
     BoxType.CAP,
     "NewCityBox",
-    size=(money_section_width + new_city_extra_length, money_section_length + new_city_extra_width, top_section_height),
+    size=new_city_box_size,
     lid=LidBuilder(text="New Cities", label_mode=LabelMode.FRAMED, text_color=Color("black")),
     color=Color("purple"),
 ).compartment(
     "NewCities",
-    elements=[
-        # Hex cutouts for New City tiles
-        centered(
-            None,
-            ((money_section_width + new_city_extra_length - wall_thickness * 2.0) / 2.0, 25.0),
-            (tile_width, tile_width),
-            shape=ElementShape.CIRCLE,
-            depth=tile_thickness * 4.25,
-            pull_out=True,
-        ),
-        centered(
-            None,
-            ((money_section_width + new_city_extra_length - wall_thickness * 2.0) / 2.0, 65.0),
-            (tile_width, tile_width),
-            shape=ElementShape.CIRCLE,
-            depth=tile_thickness * 4.25,
-            pull_out=True,
-        ),
-        # Token compartment
-        centered(
-            None,
-            ((money_section_width + new_city_extra_length - wall_thickness * 2.0) / 2.0, 115.0),
-            (41.0, 15.5),
-            depth=10.0,
-            pull_out=True,
-        ),
-    ],
+    elements=pack_into_compartment(
+        [
+            # Hex cutouts for New City tiles
+            centered(
+                None,
+                (0.0, 0.0),
+                (tile_width, tile_width),
+                shape=ElementShape.CIRCLE,
+                depth=tile_thickness * 4.25,
+                pull_out=True,
+            ),
+            centered(
+                None,
+                (0.0, 0.0),
+                (tile_width, tile_width),
+                shape=ElementShape.CIRCLE,
+                depth=tile_thickness * 4.25,
+                pull_out=True,
+            ),
+            # Token compartment
+            centered(
+                None,
+                (0.0, 0.0),
+                (41.0, 15.5),
+                depth=10.0,
+                pull_out=True,
+            ),
+        ],
+        _inner_size(new_city_box_size),
+    ),
 )
 
 # ── 6. Expansion Boxes ─────────────────────────────────────────────
 # Australia Expansion Box
+australia_box_size = (australia_box_width, australia_box_length, top_section_height)
 project.box(
     BoxType.CAP,
     "AustraliaBox",
-    size=(australia_box_width, australia_box_length, top_section_height),
+    size=australia_box_size,
     lid=LidBuilder(
         text="Australia",
         logo=str(SVG_DIR / "australia.svg") if (SVG_DIR / "australia.svg").is_file() else None,
@@ -411,45 +428,46 @@ project.box(
     color=Color("purple"),
 ).compartment(
     "AustraliaExpansion",
-    elements=[
-        # 5x4 Hex grid compartment for Australia tracks
-        centered(
-            None,
-            ((australia_box_width - wall_thickness * 2.0) / 2.0, 38.0),
-            (australia_box_width - wall_thickness * 2.0, 70.0),
-            pull_out=True,
-        ),
-        # Bonus tiles
-        centered(
-            None,
-            (32.0, 100.0),
-            (sweden_bonus_width, sweden_bonus_length),
-            depth=tile_thickness * 4.5,
-            pull_out=True,
-        ),
-        # Switch track token wells
-        *[
+    elements=pack_into_compartment(
+        [
+            # 5x4 Hex grid compartment for Australia tracks
             centered(
                 None,
-                (
-                    11.0 + 20.0 * (k % 2),
-                    85.0 + (k // 2) * 22.0,
-                ),
-                (australia_switch_track_token_radius * 2.0, australia_switch_track_token_radius * 2.0),
-                shape=ElementShape.CIRCLE,
-                depth=tile_thickness * 2.4,
+                (0.0, 0.0),
+                (australia_box_width - wall_thickness * 2.0, 70.0),
                 pull_out=True,
-            )
-            for k in range(4)
+            ),
+            # Bonus tiles
+            centered(
+                None,
+                (0.0, 0.0),
+                (sweden_bonus_width, sweden_bonus_length),
+                depth=tile_thickness * 4.5,
+                pull_out=True,
+            ),
+            # Switch track token wells
+            *[
+                centered(
+                    None,
+                    (0.0, 0.0),
+                    (australia_switch_track_token_radius * 2.0, australia_switch_track_token_radius * 2.0),
+                    shape=ElementShape.CIRCLE,
+                    depth=tile_thickness * 2.4,
+                    pull_out=True,
+                )
+                for _ in range(4)
+            ],
         ],
-    ],
+        _inner_size(australia_box_size),
+    ),
 )
 
 # Sweden Expansion Box
+sweden_box_size = (sweden_box_width, sweden_box_length, top_section_height)
 project.box(
     BoxType.CAP,
     "SwedenBox",
-    size=(sweden_box_width, sweden_box_length, top_section_height),
+    size=sweden_box_size,
     lid=LidBuilder(
         text="Sweden",
         logo=str(SVG_DIR / "sweden.svg") if (SVG_DIR / "sweden.svg").is_file() else None,
@@ -459,29 +477,29 @@ project.box(
     color=Color("purple"),
 ).compartment(
     "SwedenExpansion",
-    elements=[
-        # 6x3 Hex grid compartment for Sweden tracks
-        centered(
-            None,
-            ((sweden_box_width - wall_thickness * 2.0) / 2.0, 42.0),
-            (sweden_box_width - wall_thickness * 2.0, 75.0),
-            pull_out=True,
-        ),
-        # 2 Bonus tile wells
-        *[
+    elements=pack_into_compartment(
+        [
+            # 6x3 Hex grid compartment for Sweden tracks
             centered(
                 None,
-                (
-                    (sweden_box_width - wall_thickness * 2.0) / 2.0,
-                    95.0 + i * 25.0,
-                ),
-                (sweden_bonus_width, sweden_bonus_length),
-                depth=tile_thickness * 2.4,
+                (0.0, 0.0),
+                (sweden_box_width - wall_thickness * 2.0, 75.0),
                 pull_out=True,
-            )
-            for i in range(2)
+            ),
+            # 2 Bonus tile wells
+            *[
+                centered(
+                    None,
+                    (0.0, 0.0),
+                    (sweden_bonus_width, sweden_bonus_length),
+                    depth=tile_thickness * 2.4,
+                    pull_out=True,
+                )
+                for _ in range(2)
+            ],
         ],
-    ],
+        _inner_size(sweden_box_size),
+    ),
 )
 
 # ── 7. Spacers ─────────────────────────────────────────────────────

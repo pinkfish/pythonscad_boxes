@@ -11,6 +11,7 @@ from pyboxbuilder.compartments.element import (
     grid_pack,
     normalize_elements,
     pack_elements,
+    pack_into_compartment,
 )
 
 __all__ = [
@@ -23,4 +24,5 @@ __all__ = [
     "grid_pack",
     "normalize_elements",
     "pack_elements",
+    "pack_into_compartment",
 ]

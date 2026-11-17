@@ -14,6 +14,7 @@ from pyboxbuilder.compartments.element import (
     elements_overlap,
     grid_pack,
     normalize_elements,
+    pack_into_compartment,
 )
 from pyboxbuilder.enums import ElementShape
 
@@ -168,6 +169,69 @@ class ElementPackCompartmentTests(unittest.TestCase):
         bare = CompartmentBuilder(label="Nothing", depth=9.0)
         self.assertTrue(bare.fills_interior)
         self.assertEqual(bare.resolve_size(80.0, 60.0), (80.0, 60.0))
+
+
+class CompartmentAutoLayoutTests(unittest.TestCase):
+    """Fixed-size compartment inside-box auto-layout preserves box size & finger clearance."""
+
+    def test_distributes_wells_symmetrically_with_paired_inlays(self) -> None:
+        pocket = CompartmentElement(shape=ElementShape.RECT, size=(20.0, 20.0), label="slot")
+        inlay = CompartmentElement(
+            shape=ElementShape.CIRCLE, size=(10.0, 10.0), z_offset=3.0, depth=0.6, color="black", label="icon",
+        )
+        packed = pack_into_compartment([(pocket, inlay), (pocket, inlay)], (80.0, 40.0))
+        self.assertEqual(len(packed), 4)
+        cutouts = [e for e in packed if e.color is None]
+        self.assertEqual(elements_overlap(cutouts, tolerance=0.5), [])
+        min_x, min_y, max_x, max_y = elements_bounding_box(cutouts)
+        self.assertGreaterEqual(min_x, 10.0)
+        self.assertAlmostEqual(80.0 - max_x, min_x, places=3)
+        self.assertAlmostEqual(min_y, 10.0, places=3)
+        self.assertAlmostEqual(40.0 - max_y, 10.0, places=3)
+        # Each icon sits centered on its paired slot
+        for parent, child in zip(packed[0::2], packed[1::2], strict=True):
+            px0, py0, px1, py1 = parent.bounds()
+            cx0, cy0, cx1, cy1 = child.bounds()
+            self.assertAlmostEqual((px0 + px1) / 2, (cx0 + cx1) / 2, places=3)
+            self.assertAlmostEqual((py0 + py1) / 2, (cy0 + cy1) / 2, places=3)
+
+    def test_rotates_children_along_with_rotated_parent(self) -> None:
+        tall = CompartmentElement(shape=ElementShape.RECT, size=(40.0, 15.0), label="tall")
+        inlay = CompartmentElement(
+            shape=ElementShape.RECT, size=(12.0, 6.0), z_offset=2.0, depth=0.6, color="black", label="stamp",
+        )
+        packed = pack_into_compartment([(tall, inlay)], (20.0, 50.0), allow_rotate=True)
+        parent, child = packed
+        self.assertEqual(parent.rotation, 90.0)
+        self.assertEqual(child.rotation, 90.0)
+        self.assertAlmostEqual(child.footprint[0], 6.0, places=6)
+        self.assertAlmostEqual(child.footprint[1], 12.0, places=6)
+
+    def test_maxrects_fallback_handles_heterogeneous_elements(self) -> None:
+        packed = pack_into_compartment(
+            [
+                CompartmentElement(shape=ElementShape.RECT, size=(60.0, 80.0), label="tall"),
+                CompartmentElement(shape=ElementShape.RECT, size=(55.0, 20.0), label="base"),
+                CompartmentElement(shape=ElementShape.RECT, size=(40.0, 28.0), label="wide"),
+                CompartmentElement(shape=ElementShape.CIRCLE, size=(28.0, 28.0), label="tok1"),
+                CompartmentElement(shape=ElementShape.CIRCLE, size=(28.0, 28.0), label="tok2"),
+            ],
+            (100.0, 110.0),
+        )
+        self.assertEqual(len(packed), 5)
+        self.assertEqual(elements_overlap(packed, tolerance=0.5), [])
+        min_x, min_y, max_x, max_y = elements_bounding_box(packed)
+        self.assertGreaterEqual(min_x, 0.0)
+        self.assertGreaterEqual(min_y, 0.0)
+        self.assertLessEqual(max_x, 100.0 + 1e-6)
+        self.assertLessEqual(max_y, 110.0 + 1e-6)
+
+    def test_raises_when_elements_cannot_fit_interior(self) -> None:
+        with self.assertRaises(ValueError):
+            pack_into_compartment(
+                [CompartmentElement(shape=ElementShape.RECT, size=(60.0, 60.0))],
+                (50.0, 50.0),
+            )
 
 
 if __name__ == "__main__":

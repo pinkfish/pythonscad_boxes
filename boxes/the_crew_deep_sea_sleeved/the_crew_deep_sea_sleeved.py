@@ -42,6 +42,7 @@ from pyboxbuilder import (
     centered,
     columns,
     find_sleeve,
+    pack_into_compartment,
     run,
     stack,
 )
@@ -219,109 +220,95 @@ def icon_pocket(well: dict) -> dict:
 
 
 def accessory_elements() -> tuple[CompartmentElement, ...]:
-    elements: list[CompartmentElement] = []
-
-    # Diver on the left, base tucked beneath it — both aligned to the left edge.
-    elements.append(
-        centered(
-            f"{SVG}/the crew - diver.svg",
-            (DIVER_WIDTH / 2, DIVER_HEIGHT / 2),
-            (DIVER_WIDTH, DIVER_HEIGHT),
-            label="diver",
-            **DIVER_SLOT,
-        )
+    return pack_into_compartment(
+        [
+            centered(
+                f"{SVG}/the crew - diver.svg",
+                (0.0, 0.0),
+                (DIVER_WIDTH, DIVER_HEIGHT),
+                label="diver",
+                **DIVER_SLOT,
+            ),
+            centered(
+                f"{SVG}/the crew - base.svg",
+                (0.0, 0.0),
+                (BASE_WIDTH, BASE_HEIGHT),
+                label="base",
+                **DIVER_SLOT,
+            ),
+            (
+                centered(
+                    None,
+                    (0.0, 0.0),
+                    (SONAR_WELL, SONAR_WELL),
+                    shape=ElementShape.CIRCLE,
+                    label="sonar_3",
+                    **SONAR_THREE,
+                ),
+                centered(
+                    f"{SVG}/the crew - sonar.svg",
+                    (0.0, 0.0),
+                    (SONAR_ICON_W, SONAR_ICON_L),
+                    shape=ElementShape.SVG,
+                    rotation=90.0,
+                    label="sonar_icon_3",
+                    color="green",
+                    **icon_pocket(SONAR_THREE),
+                ),
+            ),
+            (
+                centered(
+                    None,
+                    (0.0, 0.0),
+                    (SONAR_WELL, SONAR_WELL),
+                    shape=ElementShape.CIRCLE,
+                    label="sonar_2",
+                    **SONAR_TWO,
+                ),
+                centered(
+                    f"{SVG}/the crew - sonar.svg",
+                    (0.0, 0.0),
+                    (SONAR_ICON_W, SONAR_ICON_L),
+                    shape=ElementShape.SVG,
+                    rotation=90.0,
+                    label="sonar_icon_2",
+                    color="green",
+                    **icon_pocket(SONAR_TWO),
+                ),
+            ),
+            (
+                centered(
+                    None,
+                    (0.0, 0.0),
+                    DISTRESS_WELL,
+                    shape=ElementShape.ROUNDED_RECT,
+                    corner_radius=DISTRESS_WELL[1] / 2 - 1.0,
+                    rotation=90.0,
+                    label="distress",
+                    **SLOT,
+                ),
+                centered(
+                    f"{SVG}/the crew - distress.svg",
+                    (0.0, 0.0),
+                    (DISTRESS_ICON_W, DISTRESS_ICON_L),
+                    shape=ElementShape.SVG,
+                    rotation=90.0,
+                    label="distress_icon",
+                    color="blue",
+                    **icon_pocket(SLOT),
+                ),
+            ),
+        ],
+        (ACCESSORY_INNER_W, ACCESSORY_INNER_L),
+        spacing=2.0,
+        min_spacing=1.5,
     )
-    elements.append(
-        centered(
-            f"{SVG}/the crew - base.svg",
-            (BASE_WIDTH / 2, DIVER_HEIGHT + 3.0 + BASE_HEIGHT / 2),
-            (BASE_WIDTH, BASE_HEIGHT),
-            label="base",
-            **DIVER_SLOT,
-        )
-    )
-
-    # The five sonar tokens stack in two wells in the strip to the right of the
-    # diver — three above and two below the rotated distress token.
-    elements.append(
-        centered(
-            None,
-            (79.0, 15.0),
-            (SONAR_WELL, SONAR_WELL),
-            shape=ElementShape.CIRCLE,
-            label="sonar_3",
-            **SONAR_THREE,
-        )
-    )
-    elements.append(
-        centered(
-            None,
-            (79.0, 47.0),
-            (SONAR_WELL, SONAR_WELL),
-            shape=ElementShape.CIRCLE,
-            label="sonar_2",
-            **SONAR_TWO,
-        )
-    )
-    elements.append(
-        centered(
-            None,
-            (78.5, 86.0),
-            DISTRESS_WELL,
-            shape=ElementShape.ROUNDED_RECT,
-            corner_radius=DISTRESS_WELL[1] / 2 - 1.0,
-            rotation=90.0,
-            label="distress",
-            **SLOT,
-        )
-    )
-
-    # Each well carries its icon pressed into the bottom as a second colour.
-    elements.append(
-        centered(
-            f"{SVG}/the crew - sonar.svg",
-            (79.0, 15.0),
-            (SONAR_ICON_W, SONAR_ICON_L),
-            shape=ElementShape.SVG,
-            rotation=90.0,
-            label="sonar_icon_3",
-            color="green",
-            **icon_pocket(SONAR_THREE),
-        )
-    )
-    elements.append(
-        centered(
-            f"{SVG}/the crew - sonar.svg",
-            (79.0, 47.0),
-            (SONAR_ICON_W, SONAR_ICON_L),
-            shape=ElementShape.SVG,
-            rotation=90.0,
-            label="sonar_icon_2",
-            color="green",
-            **icon_pocket(SONAR_TWO),
-        )
-    )
-    elements.append(
-        centered(
-            f"{SVG}/the crew - distress.svg",
-            (78.5, 86.0),
-            (DISTRESS_ICON_W, DISTRESS_ICON_L),
-            shape=ElementShape.SVG,
-            rotation=90.0,
-            label="distress_icon",
-            color="blue",
-            **icon_pocket(SLOT),
-        )
-    )
-
-    return tuple(elements)
 
 
 accessories.compartment(
     "Contents",
     size=(ACCESSORY_INNER_W, ACCESSORY_INNER_L),
     depth=ACCESSORY_INNER_H,
-    position=(0.0, 0.0),
     elements=accessory_elements(),
 )
 
