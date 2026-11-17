@@ -15,12 +15,12 @@ Full Box Packing
 
 Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
-.. stl:: ../_stl/boxes/dominion/BaseKingdomCards_body.stl?v=7034e861,../_stl/boxes/dominion/BaseKingdomCards_lid.stl?v=b16814c5,../_stl/boxes/dominion/TreasureAndVictoryCards_body.stl?v=a90391df,../_stl/boxes/dominion/TreasureAndVictoryCards_lid.stl?v=50103b3d,../_stl/boxes/dominion/AlchemyExpansionCards_body.stl?v=be2db888,../_stl/boxes/dominion/AlchemyExpansionCards_lid.stl?v=c21c1b9a,../_stl/boxes/dominion/TokenTray1_CoinAndDebtTokens_body.stl?v=f856c1c0,../_stl/boxes/dominion/TokenTray1_CoinAndDebtTokens_lid.stl?v=8cd8ffa6,../_stl/boxes/dominion/TokenTray2_MatsAndSpecialTokens_body.stl?v=7d99e519,../_stl/boxes/dominion/TokenTray2_MatsAndSpecialTokens_lid.stl?v=63ad6877,../_stl/boxes/dominion/spacer_1.stl?v=03ec0be4,../_stl/boxes/dominion/spacer_2.stl?v=89a0794a,../_stl/boxes/dominion/spacer_3.stl?v=d19f07c6
+.. stl:: ../_stl/boxes/dominion/BaseKingdomCards_body.stl?v=8fb0dd75,../_stl/boxes/dominion/BaseKingdomCards_lid.stl?v=89411a28,../_stl/boxes/dominion/TreasureAndVictoryCards_body.stl?v=c8276555,../_stl/boxes/dominion/TreasureAndVictoryCards_lid.stl?v=46e751d2,../_stl/boxes/dominion/AlchemyExpansionCards_body.stl?v=18c75540,../_stl/boxes/dominion/AlchemyExpansionCards_lid.stl?v=a3bf1efb,../_stl/boxes/dominion/TokenTray1_CoinAndDebtTokens_body.stl?v=33ed0c31,../_stl/boxes/dominion/TokenTray1_CoinAndDebtTokens_lid.stl?v=71fe4a3a,../_stl/boxes/dominion/TokenTray2_MatsAndSpecialTokens_body.stl?v=adfa96bb,../_stl/boxes/dominion/TokenTray2_MatsAndSpecialTokens_lid.stl?v=04d4d0e7,../_stl/boxes/dominion/spacer_1.stl?v=00a6e0df,../_stl/boxes/dominion/spacer_2.stl?v=f6b83a7f,../_stl/boxes/dominion/spacer_3.stl?v=c937b24b
    :height: 440px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/dominion/BaseKingdomCards_body.stl?v=7034e861" data-stl-combine="../_stl/boxes/dominion/BaseKingdomCards_body.stl?v=7034e861,../_stl/boxes/dominion/BaseKingdomCards_lid.stl?v=b16814c5,../_stl/boxes/dominion/TreasureAndVictoryCards_body.stl?v=a90391df,../_stl/boxes/dominion/TreasureAndVictoryCards_lid.stl?v=50103b3d,../_stl/boxes/dominion/AlchemyExpansionCards_body.stl?v=be2db888,../_stl/boxes/dominion/AlchemyExpansionCards_lid.stl?v=c21c1b9a,../_stl/boxes/dominion/TokenTray1_CoinAndDebtTokens_body.stl?v=f856c1c0,../_stl/boxes/dominion/TokenTray1_CoinAndDebtTokens_lid.stl?v=8cd8ffa6,../_stl/boxes/dominion/TokenTray2_MatsAndSpecialTokens_body.stl?v=7d99e519,../_stl/boxes/dominion/TokenTray2_MatsAndSpecialTokens_lid.stl?v=63ad6877,../_stl/boxes/dominion/spacer_1.stl?v=03ec0be4,../_stl/boxes/dominion/spacer_2.stl?v=89a0794a,../_stl/boxes/dominion/spacer_3.stl?v=d19f07c6" download="DominionBigBox_full_packing.stl">⬇ Download Full Box Packing STL (<code>DominionBigBox_full_packing.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/dominion/BaseKingdomCards_body.stl?v=8fb0dd75" data-stl-combine="../_stl/boxes/dominion/BaseKingdomCards_body.stl?v=8fb0dd75,../_stl/boxes/dominion/BaseKingdomCards_lid.stl?v=89411a28,../_stl/boxes/dominion/TreasureAndVictoryCards_body.stl?v=c8276555,../_stl/boxes/dominion/TreasureAndVictoryCards_lid.stl?v=46e751d2,../_stl/boxes/dominion/AlchemyExpansionCards_body.stl?v=18c75540,../_stl/boxes/dominion/AlchemyExpansionCards_lid.stl?v=a3bf1efb,../_stl/boxes/dominion/TokenTray1_CoinAndDebtTokens_body.stl?v=33ed0c31,../_stl/boxes/dominion/TokenTray1_CoinAndDebtTokens_lid.stl?v=71fe4a3a,../_stl/boxes/dominion/TokenTray2_MatsAndSpecialTokens_body.stl?v=adfa96bb,../_stl/boxes/dominion/TokenTray2_MatsAndSpecialTokens_lid.stl?v=04d4d0e7,../_stl/boxes/dominion/spacer_1.stl?v=00a6e0df,../_stl/boxes/dominion/spacer_2.stl?v=f6b83a7f,../_stl/boxes/dominion/spacer_3.stl?v=c937b24b" download="DominionBigBox_full_packing.stl">⬇ Download Full Box Packing STL (<code>DominionBigBox_full_packing.stl</code>)</a></p>
 
 Parts Overview
 --------------
@@ -90,30 +90,30 @@ BaseKingdomCards
 
 **Assembled Box (BaseKingdomCards — Body + Lid)**
 
-.. stl:: ../_stl/boxes/dominion/BaseKingdomCards_body.stl?v=7034e861,../_stl/boxes/dominion/BaseKingdomCards_lid.stl?v=b16814c5
+.. stl:: ../_stl/boxes/dominion/BaseKingdomCards_body.stl?v=8fb0dd75,../_stl/boxes/dominion/BaseKingdomCards_lid.stl?v=89411a28
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/dominion/BaseKingdomCards_body.stl?v=7034e861" data-stl-combine="../_stl/boxes/dominion/BaseKingdomCards_body.stl?v=7034e861,../_stl/boxes/dominion/BaseKingdomCards_lid.stl?v=b16814c5" download="BaseKingdomCards_assembled.stl">⬇ Download Assembled BaseKingdomCards STL (<code>BaseKingdomCards_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/dominion/BaseKingdomCards_body.stl?v=8fb0dd75" data-stl-combine="../_stl/boxes/dominion/BaseKingdomCards_body.stl?v=8fb0dd75,../_stl/boxes/dominion/BaseKingdomCards_lid.stl?v=89411a28" download="BaseKingdomCards_assembled.stl">⬇ Download Assembled BaseKingdomCards STL (<code>BaseKingdomCards_assembled.stl</code>)</a></p>
 
 **Part: BaseKingdomCards Body**
 
-.. stl:: ../_stl/boxes/dominion/BaseKingdomCards_body.stl?v=7034e861
+.. stl:: ../_stl/boxes/dominion/BaseKingdomCards_body.stl?v=8fb0dd75
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/dominion/BaseKingdomCards_body.stl?v=7034e861" download="BaseKingdomCards_body.stl">⬇ Download BaseKingdomCards Body STL (<code>BaseKingdomCards_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/dominion/BaseKingdomCards_body.stl?v=8fb0dd75" download="BaseKingdomCards_body.stl">⬇ Download BaseKingdomCards Body STL (<code>BaseKingdomCards_body.stl</code>)</a></p>
 
 **Part: BaseKingdomCards Lid**
 
-.. stl:: ../_stl/boxes/dominion/BaseKingdomCards_lid.stl?v=b16814c5
+.. stl:: ../_stl/boxes/dominion/BaseKingdomCards_lid.stl?v=89411a28
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/dominion/BaseKingdomCards_lid.stl?v=b16814c5" download="BaseKingdomCards_lid.stl">⬇ Download BaseKingdomCards Lid STL (<code>BaseKingdomCards_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/dominion/BaseKingdomCards_lid.stl?v=89411a28" download="BaseKingdomCards_lid.stl">⬇ Download BaseKingdomCards Lid STL (<code>BaseKingdomCards_lid.stl</code>)</a></p>
 
 .. _box-dominion-treasureandvictorycards:
 
@@ -127,30 +127,30 @@ TreasureAndVictoryCards
 
 **Assembled Box (TreasureAndVictoryCards — Body + Lid)**
 
-.. stl:: ../_stl/boxes/dominion/TreasureAndVictoryCards_body.stl?v=a90391df,../_stl/boxes/dominion/TreasureAndVictoryCards_lid.stl?v=50103b3d
+.. stl:: ../_stl/boxes/dominion/TreasureAndVictoryCards_body.stl?v=c8276555,../_stl/boxes/dominion/TreasureAndVictoryCards_lid.stl?v=46e751d2
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/dominion/TreasureAndVictoryCards_body.stl?v=a90391df" data-stl-combine="../_stl/boxes/dominion/TreasureAndVictoryCards_body.stl?v=a90391df,../_stl/boxes/dominion/TreasureAndVictoryCards_lid.stl?v=50103b3d" download="TreasureAndVictoryCards_assembled.stl">⬇ Download Assembled TreasureAndVictoryCards STL (<code>TreasureAndVictoryCards_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/dominion/TreasureAndVictoryCards_body.stl?v=c8276555" data-stl-combine="../_stl/boxes/dominion/TreasureAndVictoryCards_body.stl?v=c8276555,../_stl/boxes/dominion/TreasureAndVictoryCards_lid.stl?v=46e751d2" download="TreasureAndVictoryCards_assembled.stl">⬇ Download Assembled TreasureAndVictoryCards STL (<code>TreasureAndVictoryCards_assembled.stl</code>)</a></p>
 
 **Part: TreasureAndVictoryCards Body**
 
-.. stl:: ../_stl/boxes/dominion/TreasureAndVictoryCards_body.stl?v=a90391df
+.. stl:: ../_stl/boxes/dominion/TreasureAndVictoryCards_body.stl?v=c8276555
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/dominion/TreasureAndVictoryCards_body.stl?v=a90391df" download="TreasureAndVictoryCards_body.stl">⬇ Download TreasureAndVictoryCards Body STL (<code>TreasureAndVictoryCards_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/dominion/TreasureAndVictoryCards_body.stl?v=c8276555" download="TreasureAndVictoryCards_body.stl">⬇ Download TreasureAndVictoryCards Body STL (<code>TreasureAndVictoryCards_body.stl</code>)</a></p>
 
 **Part: TreasureAndVictoryCards Lid**
 
-.. stl:: ../_stl/boxes/dominion/TreasureAndVictoryCards_lid.stl?v=50103b3d
+.. stl:: ../_stl/boxes/dominion/TreasureAndVictoryCards_lid.stl?v=46e751d2
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/dominion/TreasureAndVictoryCards_lid.stl?v=50103b3d" download="TreasureAndVictoryCards_lid.stl">⬇ Download TreasureAndVictoryCards Lid STL (<code>TreasureAndVictoryCards_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/dominion/TreasureAndVictoryCards_lid.stl?v=46e751d2" download="TreasureAndVictoryCards_lid.stl">⬇ Download TreasureAndVictoryCards Lid STL (<code>TreasureAndVictoryCards_lid.stl</code>)</a></p>
 
 .. _box-dominion-alchemyexpansioncards:
 
@@ -164,30 +164,30 @@ AlchemyExpansionCards
 
 **Assembled Box (AlchemyExpansionCards — Body + Lid)**
 
-.. stl:: ../_stl/boxes/dominion/AlchemyExpansionCards_body.stl?v=be2db888,../_stl/boxes/dominion/AlchemyExpansionCards_lid.stl?v=c21c1b9a
+.. stl:: ../_stl/boxes/dominion/AlchemyExpansionCards_body.stl?v=18c75540,../_stl/boxes/dominion/AlchemyExpansionCards_lid.stl?v=a3bf1efb
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/dominion/AlchemyExpansionCards_body.stl?v=be2db888" data-stl-combine="../_stl/boxes/dominion/AlchemyExpansionCards_body.stl?v=be2db888,../_stl/boxes/dominion/AlchemyExpansionCards_lid.stl?v=c21c1b9a" download="AlchemyExpansionCards_assembled.stl">⬇ Download Assembled AlchemyExpansionCards STL (<code>AlchemyExpansionCards_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/dominion/AlchemyExpansionCards_body.stl?v=18c75540" data-stl-combine="../_stl/boxes/dominion/AlchemyExpansionCards_body.stl?v=18c75540,../_stl/boxes/dominion/AlchemyExpansionCards_lid.stl?v=a3bf1efb" download="AlchemyExpansionCards_assembled.stl">⬇ Download Assembled AlchemyExpansionCards STL (<code>AlchemyExpansionCards_assembled.stl</code>)</a></p>
 
 **Part: AlchemyExpansionCards Body**
 
-.. stl:: ../_stl/boxes/dominion/AlchemyExpansionCards_body.stl?v=be2db888
+.. stl:: ../_stl/boxes/dominion/AlchemyExpansionCards_body.stl?v=18c75540
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/dominion/AlchemyExpansionCards_body.stl?v=be2db888" download="AlchemyExpansionCards_body.stl">⬇ Download AlchemyExpansionCards Body STL (<code>AlchemyExpansionCards_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/dominion/AlchemyExpansionCards_body.stl?v=18c75540" download="AlchemyExpansionCards_body.stl">⬇ Download AlchemyExpansionCards Body STL (<code>AlchemyExpansionCards_body.stl</code>)</a></p>
 
 **Part: AlchemyExpansionCards Lid**
 
-.. stl:: ../_stl/boxes/dominion/AlchemyExpansionCards_lid.stl?v=c21c1b9a
+.. stl:: ../_stl/boxes/dominion/AlchemyExpansionCards_lid.stl?v=a3bf1efb
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/dominion/AlchemyExpansionCards_lid.stl?v=c21c1b9a" download="AlchemyExpansionCards_lid.stl">⬇ Download AlchemyExpansionCards Lid STL (<code>AlchemyExpansionCards_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/dominion/AlchemyExpansionCards_lid.stl?v=a3bf1efb" download="AlchemyExpansionCards_lid.stl">⬇ Download AlchemyExpansionCards Lid STL (<code>AlchemyExpansionCards_lid.stl</code>)</a></p>
 
 .. _box-dominion-tokentray1_coinanddebttokens:
 
@@ -201,30 +201,30 @@ TokenTray1_CoinAndDebtTokens
 
 **Assembled Box (TokenTray1_CoinAndDebtTokens — Body + Lid)**
 
-.. stl:: ../_stl/boxes/dominion/TokenTray1_CoinAndDebtTokens_body.stl?v=f856c1c0,../_stl/boxes/dominion/TokenTray1_CoinAndDebtTokens_lid.stl?v=8cd8ffa6
+.. stl:: ../_stl/boxes/dominion/TokenTray1_CoinAndDebtTokens_body.stl?v=33ed0c31,../_stl/boxes/dominion/TokenTray1_CoinAndDebtTokens_lid.stl?v=71fe4a3a
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/dominion/TokenTray1_CoinAndDebtTokens_body.stl?v=f856c1c0" data-stl-combine="../_stl/boxes/dominion/TokenTray1_CoinAndDebtTokens_body.stl?v=f856c1c0,../_stl/boxes/dominion/TokenTray1_CoinAndDebtTokens_lid.stl?v=8cd8ffa6" download="TokenTray1_CoinAndDebtTokens_assembled.stl">⬇ Download Assembled TokenTray1_CoinAndDebtTokens STL (<code>TokenTray1_CoinAndDebtTokens_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/dominion/TokenTray1_CoinAndDebtTokens_body.stl?v=33ed0c31" data-stl-combine="../_stl/boxes/dominion/TokenTray1_CoinAndDebtTokens_body.stl?v=33ed0c31,../_stl/boxes/dominion/TokenTray1_CoinAndDebtTokens_lid.stl?v=71fe4a3a" download="TokenTray1_CoinAndDebtTokens_assembled.stl">⬇ Download Assembled TokenTray1_CoinAndDebtTokens STL (<code>TokenTray1_CoinAndDebtTokens_assembled.stl</code>)</a></p>
 
 **Part: TokenTray1_CoinAndDebtTokens Body**
 
-.. stl:: ../_stl/boxes/dominion/TokenTray1_CoinAndDebtTokens_body.stl?v=f856c1c0
+.. stl:: ../_stl/boxes/dominion/TokenTray1_CoinAndDebtTokens_body.stl?v=33ed0c31
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/dominion/TokenTray1_CoinAndDebtTokens_body.stl?v=f856c1c0" download="TokenTray1_CoinAndDebtTokens_body.stl">⬇ Download TokenTray1_CoinAndDebtTokens Body STL (<code>TokenTray1_CoinAndDebtTokens_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/dominion/TokenTray1_CoinAndDebtTokens_body.stl?v=33ed0c31" download="TokenTray1_CoinAndDebtTokens_body.stl">⬇ Download TokenTray1_CoinAndDebtTokens Body STL (<code>TokenTray1_CoinAndDebtTokens_body.stl</code>)</a></p>
 
 **Part: TokenTray1_CoinAndDebtTokens Lid**
 
-.. stl:: ../_stl/boxes/dominion/TokenTray1_CoinAndDebtTokens_lid.stl?v=8cd8ffa6
+.. stl:: ../_stl/boxes/dominion/TokenTray1_CoinAndDebtTokens_lid.stl?v=71fe4a3a
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/dominion/TokenTray1_CoinAndDebtTokens_lid.stl?v=8cd8ffa6" download="TokenTray1_CoinAndDebtTokens_lid.stl">⬇ Download TokenTray1_CoinAndDebtTokens Lid STL (<code>TokenTray1_CoinAndDebtTokens_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/dominion/TokenTray1_CoinAndDebtTokens_lid.stl?v=71fe4a3a" download="TokenTray1_CoinAndDebtTokens_lid.stl">⬇ Download TokenTray1_CoinAndDebtTokens Lid STL (<code>TokenTray1_CoinAndDebtTokens_lid.stl</code>)</a></p>
 
 .. _box-dominion-tokentray2_matsandspecialtokens:
 
@@ -238,30 +238,30 @@ TokenTray2_MatsAndSpecialTokens
 
 **Assembled Box (TokenTray2_MatsAndSpecialTokens — Body + Lid)**
 
-.. stl:: ../_stl/boxes/dominion/TokenTray2_MatsAndSpecialTokens_body.stl?v=7d99e519,../_stl/boxes/dominion/TokenTray2_MatsAndSpecialTokens_lid.stl?v=63ad6877
+.. stl:: ../_stl/boxes/dominion/TokenTray2_MatsAndSpecialTokens_body.stl?v=adfa96bb,../_stl/boxes/dominion/TokenTray2_MatsAndSpecialTokens_lid.stl?v=04d4d0e7
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/dominion/TokenTray2_MatsAndSpecialTokens_body.stl?v=7d99e519" data-stl-combine="../_stl/boxes/dominion/TokenTray2_MatsAndSpecialTokens_body.stl?v=7d99e519,../_stl/boxes/dominion/TokenTray2_MatsAndSpecialTokens_lid.stl?v=63ad6877" download="TokenTray2_MatsAndSpecialTokens_assembled.stl">⬇ Download Assembled TokenTray2_MatsAndSpecialTokens STL (<code>TokenTray2_MatsAndSpecialTokens_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/dominion/TokenTray2_MatsAndSpecialTokens_body.stl?v=adfa96bb" data-stl-combine="../_stl/boxes/dominion/TokenTray2_MatsAndSpecialTokens_body.stl?v=adfa96bb,../_stl/boxes/dominion/TokenTray2_MatsAndSpecialTokens_lid.stl?v=04d4d0e7" download="TokenTray2_MatsAndSpecialTokens_assembled.stl">⬇ Download Assembled TokenTray2_MatsAndSpecialTokens STL (<code>TokenTray2_MatsAndSpecialTokens_assembled.stl</code>)</a></p>
 
 **Part: TokenTray2_MatsAndSpecialTokens Body**
 
-.. stl:: ../_stl/boxes/dominion/TokenTray2_MatsAndSpecialTokens_body.stl?v=7d99e519
+.. stl:: ../_stl/boxes/dominion/TokenTray2_MatsAndSpecialTokens_body.stl?v=adfa96bb
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/dominion/TokenTray2_MatsAndSpecialTokens_body.stl?v=7d99e519" download="TokenTray2_MatsAndSpecialTokens_body.stl">⬇ Download TokenTray2_MatsAndSpecialTokens Body STL (<code>TokenTray2_MatsAndSpecialTokens_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/dominion/TokenTray2_MatsAndSpecialTokens_body.stl?v=adfa96bb" download="TokenTray2_MatsAndSpecialTokens_body.stl">⬇ Download TokenTray2_MatsAndSpecialTokens Body STL (<code>TokenTray2_MatsAndSpecialTokens_body.stl</code>)</a></p>
 
 **Part: TokenTray2_MatsAndSpecialTokens Lid**
 
-.. stl:: ../_stl/boxes/dominion/TokenTray2_MatsAndSpecialTokens_lid.stl?v=63ad6877
+.. stl:: ../_stl/boxes/dominion/TokenTray2_MatsAndSpecialTokens_lid.stl?v=04d4d0e7
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/dominion/TokenTray2_MatsAndSpecialTokens_lid.stl?v=63ad6877" download="TokenTray2_MatsAndSpecialTokens_lid.stl">⬇ Download TokenTray2_MatsAndSpecialTokens Lid STL (<code>TokenTray2_MatsAndSpecialTokens_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/dominion/TokenTray2_MatsAndSpecialTokens_lid.stl?v=04d4d0e7" download="TokenTray2_MatsAndSpecialTokens_lid.stl">⬇ Download TokenTray2_MatsAndSpecialTokens Lid STL (<code>TokenTray2_MatsAndSpecialTokens_lid.stl</code>)</a></p>
 
 Spacer Trays
 ------------
@@ -275,12 +275,12 @@ spacer_1
 - **Outer Dimensions**: ``268 × 290 × 90 mm``
 - **Packed Position**: ``(202, 0, 0)``
 
-.. stl:: ../_stl/boxes/dominion/spacer_1.stl?v=03ec0be4
+.. stl:: ../_stl/boxes/dominion/spacer_1.stl?v=00a6e0df
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/dominion/spacer_1.stl?v=03ec0be4" download="spacer_1.stl">⬇ Download spacer_1 STL (<code>spacer_1.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/dominion/spacer_1.stl?v=00a6e0df" download="spacer_1.stl">⬇ Download spacer_1 STL (<code>spacer_1.stl</code>)</a></p>
 
 .. _spacer-dominion-spacer_2:
 
@@ -291,12 +291,12 @@ spacer_2
 - **Outer Dimensions**: ``303 × 290 × 15 mm``
 - **Packed Position**: ``(0, 0, 75)``
 
-.. stl:: ../_stl/boxes/dominion/spacer_2.stl?v=89a0794a
+.. stl:: ../_stl/boxes/dominion/spacer_2.stl?v=f6b83a7f
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/dominion/spacer_2.stl?v=89a0794a" download="spacer_2.stl">⬇ Download spacer_2 STL (<code>spacer_2.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/dominion/spacer_2.stl?v=f6b83a7f" download="spacer_2.stl">⬇ Download spacer_2 STL (<code>spacer_2.stl</code>)</a></p>
 
 .. _spacer-dominion-spacer_3:
 
@@ -307,9 +307,9 @@ spacer_3
 - **Outer Dimensions**: ``202 × 60 × 75 mm``
 - **Packed Position**: ``(0, 230, 0)``
 
-.. stl:: ../_stl/boxes/dominion/spacer_3.stl?v=d19f07c6
+.. stl:: ../_stl/boxes/dominion/spacer_3.stl?v=c937b24b
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/dominion/spacer_3.stl?v=d19f07c6" download="spacer_3.stl">⬇ Download spacer_3 STL (<code>spacer_3.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/dominion/spacer_3.stl?v=c937b24b" download="spacer_3.stl">⬇ Download spacer_3 STL (<code>spacer_3.stl</code>)</a></p>

@@ -34,7 +34,6 @@ if str(REPO_ROOT) not in sys.path:
 
 import openscad  # noqa: E402
 
-import pyboxbuilder.rounding as _rounding  # noqa: E402
 from pyboxbuilder import BoxType, StackableMode, precision  # noqa: E402
 
 BOXES_DIR = REPO_ROOT / "boxes"
@@ -205,9 +204,8 @@ def process_game(game_slug: str) -> dict[str, Any]:
     docstring = ast.get_docstring(tree) or ""
     first_line = docstring.strip().splitlines()[0] if docstring.strip() else game_slug
 
-    # Execute project definition without running __main__ CLI
-    _rounding.MIN_ROUNDING_FACETS = 8
-    with precision.use(fn=8):
+    # Execute project definition with smooth curve tessellation (matching library rounding facets)
+    with precision.use(fn=48):
         mod_name = f"__docgen_{game_slug}__"
         mod = types.ModuleType(mod_name)
         mod.__file__ = str(script_path)

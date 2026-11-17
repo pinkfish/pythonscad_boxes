@@ -233,6 +233,21 @@ class CompartmentAutoLayoutTests(unittest.TestCase):
                 (50.0, 50.0),
             )
 
+    def test_build_pull_out_smooth_all_bottom_edges(self) -> None:
+        """Pull-out scoops curve smoothly along all bottom edges on both axes at fn=48."""
+        from pyboxbuilder import precision
+        from pyboxbuilder.compartments.element import build_pull_out
+
+        slot = CompartmentElement(
+            shape=ElementShape.RECT, size=(20.0, 20.0), offset=(10.0, 10.0), depth=10.0, pull_out=True,
+        )
+        with precision.use(fn=48):
+            for axis in ("y", "x"):
+                solid = build_pull_out(slot, 10.0, (40.0, 40.0), force_axis=axis)
+                assert solid is not None
+                _verts, faces = solid.shape.mesh()
+                self.assertGreater(len(faces), 1000, f"expected smooth faceted scoop for axis={axis}")
+
 
 if __name__ == "__main__":
     unittest.main()
