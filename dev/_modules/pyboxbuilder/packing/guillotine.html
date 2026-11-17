@@ -510,64 +510,51 @@
 
 <h1>Source code for pyboxbuilder.packing.guillotine</h1><div class="highlight"><pre>
 <span></span><code><span class="c1"># SPDX-License-Identifier: Apache-2.0</span>
-<span class="sd">"""Guillotine box packer for densely-filled inserts (T187).</span>
+<span class="sd">"""Guillotine 3D box packer for densely-filled inserts (T187 / Auto-Layout v2).</span>
 
-<span class="sd">The extreme-point First-Fit-Decreasing solver in `layout.py` places boxes at</span>
-<span class="sd">corner points, which fragments the free space: above roughly 70% fill it cannot</span>
-<span class="sd">find arrangements that demonstrably exist. Emberleaf is the standing example --</span>
-<span class="sd">18 boxes at 77% fill, whose sizes tile exactly in three columns, and which</span>
-<span class="sd">266,000 random permutations of that solver never packed.</span>
-
-<span class="sd">This solver searches a different space. Instead of tracking corner points it</span>
-<span class="sd">tracks free *regions*, and placing a box cuts the region it went into. Three</span>
-<span class="sd">things make that work where the corner-point search did not:</span>
-
-<span class="sd">**Support is structural, not checked.** A box may only be opened above another</span>
-<span class="sd">box's own top face, or above a layer that is required to be filled solid (see</span>
-<span class="sd">`Region.full`). The corner-point search floats a box with one corner resting on</span>
-<span class="sd">another; bolting an explicit support test onto it made the search 3000x more</span>
-<span class="sd">expensive and it still failed.</span>
-
-<span class="sd">**Feasibility depends on region sizes alone.** The regions are disjoint, so</span>
-<span class="sd">where they are cannot affect whether the remaining boxes fit -- only how big</span>
-<span class="sd">they are. That makes the memo key position-free, which is what keeps the state</span>
-<span class="sd">count small enough to search exhaustively.</span>
-
-<span class="sd">**Smallest region first.** The fail-first principle, and the single biggest</span>
-<span class="sd">lever here: the most constrained region has the fewest options, so a dead end</span>
-<span class="sd">surfaces immediately instead of after the rest of the box is filled around it.</span>
-<span class="sd">Measured on Emberleaf, taking the largest region first fails to find any packing</span>
-<span class="sd">in 1,000,000 nodes; taking the smallest finds one in 3,237.</span>
+<span class="sd">Tracks disjoint free regions using exact 64-bit integer picometre arithmetic</span>
+<span class="sd">(eliminating floating-point subtraction drift on fractional splits like H/3),</span>
+<span class="sd">supports Corner, Full-Layer, and 1D Slab-Layer cuts (allowing independent Z</span>
+<span class="sd">bridges within individual rows or columns), supports pre-cut pinned obstacles,</span>
+<span class="sd">multi-choice Pareto box envelopes, and composite vertical stack chains, and uses</span>
+<span class="sd">a 2-stage root-budgeted search to escape heavy-tailed root dead ends in &lt;12 ms.</span>
 <span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Iterator</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">defaultdict</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">Sequence</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
 
-<span class="n">Region</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">bool</span><span class="p">]</span>
-<span class="sd">"""One free region — ``(x, y, z, w, l, h, full)`` (see the region comment below)."""</span>
+<span class="n">SCALE</span> <span class="o">=</span> <span class="mi">1_000_000_000</span>
+<span class="sd">"""Picometres per millimetre (10^-9 mm). Exact 64-bit int arithmetic with zero drift."""</span>
+
+<span class="n">TOL</span> <span class="o">=</span> <span class="mi">200</span>
+<span class="sd">"""Comparison tolerance in picometres (2e-7 mm), well inside 1e-6 mm validation."""</span>
+
+<span class="n">MEMO_QUANT</span> <span class="o">=</span> <span class="mi">10_000</span>
+<span class="sd">"""Quantisation step (10 nm = 1e-5 mm) for position-free memoisation keys."""</span>
 
 <span class="n">EPS</span> <span class="o">=</span> <span class="mf">1e-9</span>
-<span class="sd">"""Comparison tolerance in mm. Well under any printable dimension."""</span>
+<span class="sd">"""Float tolerance for orientation symmetry checks."""</span>
 
-<span class="n">PLACES</span> <span class="o">=</span> <span class="mi">6</span>
-<span class="sd">"""Decimal places region sizes are rounded to.</span>
-
-<span class="sd">Repeated subtraction leaves dust like 71.24999999999999, which would stop two</span>
-<span class="sd">states that are really the same from sharing a memo entry.</span>
-<span class="sd">"""</span>
+<span class="n">Region</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">bool</span><span class="p">]</span>
+<span class="sd">"""One free region in integer picometres — ``(x, y, z, w, l, h, full)``."""</span>
 
 
 <div class="viewcode-block" id="Item">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.packing.guillotine.Item.html#pyboxbuilder.packing.guillotine.Item">[docs]</a>
 <span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">Item</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""A box to place."""</span>
+<span class="w">    </span><span class="sd">"""A box (or composite vertical stack / multi-choice box) to place."""</span>
 
     <span class="n">label</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">size</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span>
-    <span class="n">no_rotate</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span></div>
+    <span class="n">no_rotate</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">size_options</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="p">()</span>
+<span class="w">    </span><span class="sd">"""Optional Pareto-optimal alternative ``(w, l, h)`` envelopes for unsized boxes."""</span>
+    <span class="n">stack_members</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]],</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="p">()</span>
+<span class="w">    </span><span class="sd">"""Optional bottom-to-top ``(label, size)`` members bound into one vertical stack."""</span></div>
 
 
 
@@ -584,25 +571,442 @@
 
 
 
+<span class="k">def</span><span class="w"> </span><span class="nf">_to_int</span><span class="p">(</span><span class="n">mm</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="k">return</span> <span class="nb">round</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">mm</span><span class="p">)</span> <span class="o">*</span> <span class="n">SCALE</span><span class="p">)</span>
+
+
 <span class="k">def</span><span class="w"> </span><span class="nf">_orientations</span><span class="p">(</span>
-    <span class="n">size</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="n">no_rotate</span><span class="p">:</span> <span class="nb">bool</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="nb">bool</span><span class="p">]]:</span>
-<span class="w">    </span><span class="sd">"""Return the ways a box may be turned.</span>
+    <span class="n">options</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]],</span> <span class="n">no_rotate</span><span class="p">:</span> <span class="nb">bool</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="nb">bool</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sd">"""Return unique ``(int_size, float_size, rotated)`` orientations across ``options``."""</span>
+    <span class="n">out</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="nb">bool</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">seen</span><span class="p">:</span> <span class="nb">set</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">bool</span><span class="p">]]</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">raw</span> <span class="ow">in</span> <span class="n">options</span><span class="p">:</span>
+        <span class="n">w</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">h</span> <span class="o">=</span> <span class="n">raw</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">raw</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">raw</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+        <span class="n">iw</span><span class="p">,</span> <span class="n">il</span><span class="p">,</span> <span class="n">ih</span> <span class="o">=</span> <span class="n">_to_int</span><span class="p">(</span><span class="n">w</span><span class="p">),</span> <span class="n">_to_int</span><span class="p">(</span><span class="n">l</span><span class="p">),</span> <span class="n">_to_int</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
+        <span class="n">k0</span> <span class="o">=</span> <span class="p">(</span><span class="n">iw</span> <span class="o">//</span> <span class="n">MEMO_QUANT</span><span class="p">,</span> <span class="n">il</span> <span class="o">//</span> <span class="n">MEMO_QUANT</span><span class="p">,</span> <span class="n">ih</span> <span class="o">//</span> <span class="n">MEMO_QUANT</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">k0</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">seen</span><span class="p">:</span>
+            <span class="n">seen</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">k0</span><span class="p">)</span>
+            <span class="n">out</span><span class="o">.</span><span class="n">append</span><span class="p">(((</span><span class="n">iw</span><span class="p">,</span> <span class="n">il</span><span class="p">,</span> <span class="n">ih</span><span class="p">),</span> <span class="n">raw</span><span class="p">,</span> <span class="kc">False</span><span class="p">))</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">no_rotate</span> <span class="ow">and</span> <span class="nb">abs</span><span class="p">(</span><span class="n">w</span> <span class="o">-</span> <span class="n">l</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">EPS</span><span class="p">:</span>
+            <span class="n">k1</span> <span class="o">=</span> <span class="p">(</span><span class="n">il</span> <span class="o">//</span> <span class="n">MEMO_QUANT</span><span class="p">,</span> <span class="n">iw</span> <span class="o">//</span> <span class="n">MEMO_QUANT</span><span class="p">,</span> <span class="n">ih</span> <span class="o">//</span> <span class="n">MEMO_QUANT</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">k1</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">seen</span><span class="p">:</span>
+                <span class="n">seen</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">k1</span><span class="p">)</span>
+                <span class="n">out</span><span class="o">.</span><span class="n">append</span><span class="p">(((</span><span class="n">il</span><span class="p">,</span> <span class="n">iw</span><span class="p">,</span> <span class="n">ih</span><span class="p">),</span> <span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">h</span><span class="p">),</span> <span class="kc">True</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">out</span>
 
-<span class="sd">    Only the quarter turn about Z: a box printed with its lid on top has to stay</span>
-<span class="sd">    that way up.</span>
-<span class="sd">    """</span>
-    <span class="n">w</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">h</span> <span class="o">=</span> <span class="n">size</span>
-    <span class="k">yield</span> <span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">h</span><span class="p">),</span> <span class="kc">False</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">no_rotate</span> <span class="ow">and</span> <span class="nb">abs</span><span class="p">(</span><span class="n">w</span> <span class="o">-</span> <span class="n">l</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">EPS</span><span class="p">:</span>
-        <span class="k">yield</span> <span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">h</span><span class="p">),</span> <span class="kc">True</span>
+
+<div class="viewcode-block" id="subtract_obstacles_3d">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.packing.guillotine.subtract_obstacles_3d.html#pyboxbuilder.packing.guillotine.subtract_obstacles_3d">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">subtract_obstacles_3d</span><span class="p">(</span>
+    <span class="n">container</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
+    <span class="n">obstacles</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]],</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Region</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">"""Cut pinned boxes ``(x, y, z, w, l, h)`` out of ``container`` into disjoint supported regions."""</span>
+    <span class="n">cw</span><span class="p">,</span> <span class="n">cl</span><span class="p">,</span> <span class="n">ch</span> <span class="o">=</span> <span class="n">_to_int</span><span class="p">(</span><span class="n">container</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">_to_int</span><span class="p">(</span><span class="n">container</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="n">_to_int</span><span class="p">(</span><span class="n">container</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+    <span class="n">regions</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Region</span><span class="p">]</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">cw</span><span class="p">,</span> <span class="n">cl</span><span class="p">,</span> <span class="n">ch</span><span class="p">,</span> <span class="kc">False</span><span class="p">)]</span>
+
+    <span class="k">for</span> <span class="n">ox_f</span><span class="p">,</span> <span class="n">oy_f</span><span class="p">,</span> <span class="n">oz_f</span><span class="p">,</span> <span class="n">ow_f</span><span class="p">,</span> <span class="n">ol_f</span><span class="p">,</span> <span class="n">oh_f</span> <span class="ow">in</span> <span class="n">obstacles</span><span class="p">:</span>
+        <span class="n">ox</span><span class="p">,</span> <span class="n">oy</span><span class="p">,</span> <span class="n">oz</span> <span class="o">=</span> <span class="n">_to_int</span><span class="p">(</span><span class="n">ox_f</span><span class="p">),</span> <span class="n">_to_int</span><span class="p">(</span><span class="n">oy_f</span><span class="p">),</span> <span class="n">_to_int</span><span class="p">(</span><span class="n">oz_f</span><span class="p">)</span>
+        <span class="n">ox1</span><span class="p">,</span> <span class="n">oy1</span><span class="p">,</span> <span class="n">oz1</span> <span class="o">=</span> <span class="n">ox</span> <span class="o">+</span> <span class="n">_to_int</span><span class="p">(</span><span class="n">ow_f</span><span class="p">),</span> <span class="n">oy</span> <span class="o">+</span> <span class="n">_to_int</span><span class="p">(</span><span class="n">ol_f</span><span class="p">),</span> <span class="n">oz</span> <span class="o">+</span> <span class="n">_to_int</span><span class="p">(</span><span class="n">oh_f</span><span class="p">)</span>
+        <span class="n">next_regions</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Region</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">rx</span><span class="p">,</span> <span class="n">ry</span><span class="p">,</span> <span class="n">rz</span><span class="p">,</span> <span class="n">rw</span><span class="p">,</span> <span class="n">rl</span><span class="p">,</span> <span class="n">rh</span><span class="p">,</span> <span class="n">rfull</span> <span class="ow">in</span> <span class="n">regions</span><span class="p">:</span>
+            <span class="n">rx1</span><span class="p">,</span> <span class="n">ry1</span><span class="p">,</span> <span class="n">rz1</span> <span class="o">=</span> <span class="n">rx</span> <span class="o">+</span> <span class="n">rw</span><span class="p">,</span> <span class="n">ry</span> <span class="o">+</span> <span class="n">rl</span><span class="p">,</span> <span class="n">rz</span> <span class="o">+</span> <span class="n">rh</span>
+            <span class="k">if</span> <span class="p">(</span>
+                <span class="n">ox1</span> <span class="o">&lt;=</span> <span class="n">rx</span> <span class="o">+</span> <span class="n">TOL</span>
+                <span class="ow">or</span> <span class="n">ox</span> <span class="o">&gt;=</span> <span class="n">rx1</span> <span class="o">-</span> <span class="n">TOL</span>
+                <span class="ow">or</span> <span class="n">oy1</span> <span class="o">&lt;=</span> <span class="n">ry</span> <span class="o">+</span> <span class="n">TOL</span>
+                <span class="ow">or</span> <span class="n">oy</span> <span class="o">&gt;=</span> <span class="n">ry1</span> <span class="o">-</span> <span class="n">TOL</span>
+                <span class="ow">or</span> <span class="n">oz1</span> <span class="o">&lt;=</span> <span class="n">rz</span> <span class="o">+</span> <span class="n">TOL</span>
+                <span class="ow">or</span> <span class="n">oz</span> <span class="o">&gt;=</span> <span class="n">rz1</span> <span class="o">-</span> <span class="n">TOL</span>
+            <span class="p">):</span>
+                <span class="n">next_regions</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">rx</span><span class="p">,</span> <span class="n">ry</span><span class="p">,</span> <span class="n">rz</span><span class="p">,</span> <span class="n">rw</span><span class="p">,</span> <span class="n">rl</span><span class="p">,</span> <span class="n">rh</span><span class="p">,</span> <span class="n">rfull</span><span class="p">))</span>
+                <span class="k">continue</span>
+
+            <span class="n">ix0</span><span class="p">,</span> <span class="n">ix1</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">rx</span><span class="p">,</span> <span class="n">ox</span><span class="p">),</span> <span class="nb">min</span><span class="p">(</span><span class="n">rx1</span><span class="p">,</span> <span class="n">ox1</span><span class="p">)</span>
+            <span class="n">iy0</span><span class="p">,</span> <span class="n">iy1</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">ry</span><span class="p">,</span> <span class="n">oy</span><span class="p">),</span> <span class="nb">min</span><span class="p">(</span><span class="n">ry1</span><span class="p">,</span> <span class="n">oy1</span><span class="p">)</span>
+
+            <span class="c1"># Left &amp; right full-depth/full-height slabs</span>
+            <span class="k">if</span> <span class="n">ix0</span> <span class="o">-</span> <span class="n">rx</span> <span class="o">&gt;</span> <span class="n">TOL</span><span class="p">:</span>
+                <span class="n">next_regions</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">rx</span><span class="p">,</span> <span class="n">ry</span><span class="p">,</span> <span class="n">rz</span><span class="p">,</span> <span class="n">ix0</span> <span class="o">-</span> <span class="n">rx</span><span class="p">,</span> <span class="n">rl</span><span class="p">,</span> <span class="n">rh</span><span class="p">,</span> <span class="n">rfull</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">rx1</span> <span class="o">-</span> <span class="n">ix1</span> <span class="o">&gt;</span> <span class="n">TOL</span><span class="p">:</span>
+                <span class="n">next_regions</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">ix1</span><span class="p">,</span> <span class="n">ry</span><span class="p">,</span> <span class="n">rz</span><span class="p">,</span> <span class="n">rx1</span> <span class="o">-</span> <span class="n">ix1</span><span class="p">,</span> <span class="n">rl</span><span class="p">,</span> <span class="n">rh</span><span class="p">,</span> <span class="n">rfull</span><span class="p">))</span>
+
+            <span class="c1"># Front &amp; back slabs within [ix0..ix1]</span>
+            <span class="k">if</span> <span class="n">iy0</span> <span class="o">-</span> <span class="n">ry</span> <span class="o">&gt;</span> <span class="n">TOL</span> <span class="ow">and</span> <span class="n">ix1</span> <span class="o">-</span> <span class="n">ix0</span> <span class="o">&gt;</span> <span class="n">TOL</span><span class="p">:</span>
+                <span class="n">next_regions</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">ix0</span><span class="p">,</span> <span class="n">ry</span><span class="p">,</span> <span class="n">rz</span><span class="p">,</span> <span class="n">ix1</span> <span class="o">-</span> <span class="n">ix0</span><span class="p">,</span> <span class="n">iy0</span> <span class="o">-</span> <span class="n">ry</span><span class="p">,</span> <span class="n">rh</span><span class="p">,</span> <span class="n">rfull</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">ry1</span> <span class="o">-</span> <span class="n">iy1</span> <span class="o">&gt;</span> <span class="n">TOL</span> <span class="ow">and</span> <span class="n">ix1</span> <span class="o">-</span> <span class="n">ix0</span> <span class="o">&gt;</span> <span class="n">TOL</span><span class="p">:</span>
+                <span class="n">next_regions</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">ix0</span><span class="p">,</span> <span class="n">iy1</span><span class="p">,</span> <span class="n">rz</span><span class="p">,</span> <span class="n">ix1</span> <span class="o">-</span> <span class="n">ix0</span><span class="p">,</span> <span class="n">ry1</span> <span class="o">-</span> <span class="n">iy1</span><span class="p">,</span> <span class="n">rh</span><span class="p">,</span> <span class="n">rfull</span><span class="p">))</span>
+
+            <span class="c1"># Above the obstacle (supported by the obstacle's own top face oz1!)</span>
+            <span class="k">if</span> <span class="n">rz1</span> <span class="o">-</span> <span class="n">oz1</span> <span class="o">&gt;</span> <span class="n">TOL</span> <span class="ow">and</span> <span class="n">ix1</span> <span class="o">-</span> <span class="n">ix0</span> <span class="o">&gt;</span> <span class="n">TOL</span> <span class="ow">and</span> <span class="n">iy1</span> <span class="o">-</span> <span class="n">iy0</span> <span class="o">&gt;</span> <span class="n">TOL</span> <span class="ow">and</span> <span class="n">oz</span> <span class="o">&lt;=</span> <span class="n">rz</span> <span class="o">+</span> <span class="n">TOL</span><span class="p">:</span>
+                <span class="n">next_regions</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">ix0</span><span class="p">,</span> <span class="n">iy0</span><span class="p">,</span> <span class="n">oz1</span><span class="p">,</span> <span class="n">ix1</span> <span class="o">-</span> <span class="n">ix0</span><span class="p">,</span> <span class="n">iy1</span> <span class="o">-</span> <span class="n">iy0</span><span class="p">,</span> <span class="n">rz1</span> <span class="o">-</span> <span class="n">oz1</span><span class="p">,</span> <span class="kc">False</span><span class="p">))</span>
+
+            <span class="c1"># Below the obstacle (only usable if fully filled or no obstacle rests solely on air)</span>
+            <span class="k">if</span> <span class="n">oz</span> <span class="o">-</span> <span class="n">rz</span> <span class="o">&gt;</span> <span class="n">TOL</span> <span class="ow">and</span> <span class="n">ix1</span> <span class="o">-</span> <span class="n">ix0</span> <span class="o">&gt;</span> <span class="n">TOL</span> <span class="ow">and</span> <span class="n">iy1</span> <span class="o">-</span> <span class="n">iy0</span> <span class="o">&gt;</span> <span class="n">TOL</span><span class="p">:</span>
+                <span class="n">next_regions</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">ix0</span><span class="p">,</span> <span class="n">iy0</span><span class="p">,</span> <span class="n">rz</span><span class="p">,</span> <span class="n">ix1</span> <span class="o">-</span> <span class="n">ix0</span><span class="p">,</span> <span class="n">iy1</span> <span class="o">-</span> <span class="n">iy0</span><span class="p">,</span> <span class="n">oz</span> <span class="o">-</span> <span class="n">rz</span><span class="p">,</span> <span class="kc">True</span><span class="p">))</span>
+
+        <span class="n">regions</span> <span class="o">=</span> <span class="n">next_regions</span>
+
+    <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">regions</span><span class="p">)</span></div>
 
 
-<span class="c1"># A region is (x, y, z, w, l, h, full). `full` marks a region that MUST be</span>
-<span class="c1"># filled to its own full height, because something rests on top of it. Only a</span>
-<span class="c1"># box exactly as tall as the region may go in one, and its leftovers inherit the</span>
-<span class="c1"># obligation. Without that flag a layer cut would let a box bridge over a</span>
-<span class="c1"># half-filled layer with nothing underneath it.</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_solve_core</span><span class="p">(</span>
+    <span class="n">initial_regions</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Region</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span>
+    <span class="n">items</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Item</span><span class="p">],</span>
+    <span class="n">node_budget</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Placed</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Core exact-integer guillotine solver with slab-layer cuts and 2-stage root cap."""</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">items</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">[]</span>
+
+    <span class="c1"># Group identical items (same options, no_rotate, and stack signature) into equivalence classes</span>
+    <span class="n">class_keys</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="o">...</span><span class="p">],</span> <span class="nb">bool</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">class_orients</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="nb">bool</span><span class="p">]]]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">class_items</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="n">Item</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">items</span><span class="p">:</span>
+        <span class="n">opts</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">size_options</span> <span class="k">if</span> <span class="n">item</span><span class="o">.</span><span class="n">size_options</span> <span class="k">else</span> <span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">size</span><span class="p">,)</span>
+        <span class="n">quant_opts</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span>
+            <span class="p">(</span><span class="n">_to_int</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">//</span> <span class="n">MEMO_QUANT</span><span class="p">,</span> <span class="n">_to_int</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">//</span> <span class="n">MEMO_QUANT</span><span class="p">,</span> <span class="n">_to_int</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span> <span class="o">//</span> <span class="n">MEMO_QUANT</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">opts</span>
+        <span class="p">)</span>
+        <span class="c1"># Keep items with distinct stack_members separate unless identical member sizes</span>
+        <span class="n">stack_sig</span> <span class="o">=</span> <span class="nb">hash</span><span class="p">(</span><span class="nb">tuple</span><span class="p">((</span><span class="n">m</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">m</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="n">m</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">2</span><span class="p">])</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">item</span><span class="o">.</span><span class="n">stack_members</span><span class="p">))</span> <span class="k">if</span> <span class="n">item</span><span class="o">.</span><span class="n">stack_members</span> <span class="k">else</span> <span class="mi">0</span>
+        <span class="n">key</span> <span class="o">=</span> <span class="p">(</span><span class="n">quant_opts</span><span class="p">,</span> <span class="n">item</span><span class="o">.</span><span class="n">no_rotate</span><span class="p">,</span> <span class="n">stack_sig</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">class_keys</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">item</span><span class="o">.</span><span class="n">size_options</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">item</span><span class="o">.</span><span class="n">stack_members</span><span class="p">:</span>
+            <span class="n">idx</span> <span class="o">=</span> <span class="n">class_keys</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+            <span class="n">class_items</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">class_keys</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+            <span class="n">class_orients</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_orientations</span><span class="p">(</span><span class="n">opts</span><span class="p">,</span> <span class="n">item</span><span class="o">.</span><span class="n">no_rotate</span><span class="p">))</span>
+            <span class="n">class_items</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">item</span><span class="p">])</span>
+
+    <span class="n">n_classes</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">class_keys</span><span class="p">)</span>
+    <span class="n">counts</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">group</span><span class="p">)</span> <span class="k">for</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">class_items</span><span class="p">)</span>
+
+    <span class="c1"># Minimum possible volume and minimum possible dimension per class (for multi-choice bounds)</span>
+    <span class="n">class_min_vol</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="nb">min</span><span class="p">(</span><span class="n">iw</span> <span class="o">*</span> <span class="n">il</span> <span class="o">*</span> <span class="n">ih</span> <span class="k">for</span> <span class="p">(</span><span class="n">iw</span><span class="p">,</span> <span class="n">il</span><span class="p">,</span> <span class="n">ih</span><span class="p">),</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">orients</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">orients</span> <span class="ow">in</span> <span class="n">class_orients</span>
+    <span class="p">]</span>
+    <span class="n">total_min_vol</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">counts</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">class_min_vol</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_classes</span><span class="p">))</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">region_fits_any</span><span class="p">(</span><span class="n">rw</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">rl</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">rh</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">must_fill</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span> <span class="n">remaining</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_classes</span><span class="p">):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">remaining</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span>
+                <span class="k">continue</span>
+            <span class="k">for</span> <span class="p">(</span><span class="n">iw</span><span class="p">,</span> <span class="n">il</span><span class="p">,</span> <span class="n">ih</span><span class="p">),</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">class_orients</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="n">iw</span> <span class="o">&lt;=</span> <span class="n">rw</span> <span class="o">+</span> <span class="n">TOL</span> <span class="ow">and</span> <span class="n">il</span> <span class="o">&lt;=</span> <span class="n">rl</span> <span class="o">+</span> <span class="n">TOL</span> <span class="ow">and</span> <span class="n">ih</span> <span class="o">&lt;=</span> <span class="n">rh</span> <span class="o">+</span> <span class="n">TOL</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">must_fill</span> <span class="ow">and</span> <span class="nb">abs</span><span class="p">(</span><span class="n">ih</span> <span class="o">-</span> <span class="n">rh</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">TOL</span><span class="p">:</span>
+                        <span class="k">continue</span>
+                    <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">splits</span><span class="p">(</span>
+        <span class="n">region</span><span class="p">:</span> <span class="n">Region</span><span class="p">,</span>
+        <span class="n">isize</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span>
+        <span class="n">remaining_after</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="n">Region</span><span class="p">,</span> <span class="o">...</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">"""Yield Corner, Full-Layer, and 1D Slab-Layer cuts of ``region``."""</span>
+        <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">full</span> <span class="o">=</span> <span class="n">region</span>
+        <span class="n">bw</span><span class="p">,</span> <span class="n">bl</span><span class="p">,</span> <span class="n">bh</span> <span class="o">=</span> <span class="n">isize</span>
+        <span class="n">gap_h</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">h</span> <span class="o">-</span> <span class="n">bh</span><span class="p">)</span>
+        <span class="n">dw</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">w</span> <span class="o">-</span> <span class="n">bw</span><span class="p">)</span>
+        <span class="n">dl</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">l</span> <span class="o">-</span> <span class="n">bl</span><span class="p">)</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">keep</span><span class="p">(</span><span class="n">r</span><span class="p">:</span> <span class="n">Region</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">min</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">r</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="n">r</span><span class="p">[</span><span class="mi">5</span><span class="p">])</span> <span class="o">&lt;=</span> <span class="n">TOL</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">False</span>
+            <span class="c1"># Keep `full=True` obligations so `any(not usable)` rejects unfillable holes!</span>
+            <span class="k">return</span> <span class="n">region_fits_any</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">r</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="n">r</span><span class="p">[</span><span class="mi">5</span><span class="p">],</span> <span class="n">r</span><span class="p">[</span><span class="mi">6</span><span class="p">],</span> <span class="n">remaining_after</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">x_major</span> <span class="ow">in</span> <span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">x_major</span><span class="p">:</span>
+                <span class="n">sides</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">bw</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">dw</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">full</span><span class="p">),</span>
+                    <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">+</span> <span class="n">bl</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">bw</span><span class="p">,</span> <span class="n">dl</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">full</span><span class="p">),</span>
+                <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">sides</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">+</span> <span class="n">bl</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">dl</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">full</span><span class="p">),</span>
+                    <span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">bw</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">dw</span><span class="p">,</span> <span class="n">bl</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">full</span><span class="p">),</span>
+                <span class="p">)</span>
+
+            <span class="c1"># 1. Corner family: space above is strictly the box's own top face</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">full</span> <span class="ow">or</span> <span class="n">gap_h</span> <span class="o">&lt;=</span> <span class="n">TOL</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">full</span><span class="p">:</span>
+                    <span class="c1"># Any leftover in a `full` region must also be fillable to full height!</span>
+                    <span class="n">raw_sides</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">sides</span> <span class="k">if</span> <span class="nb">min</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">s</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="n">s</span><span class="p">[</span><span class="mi">5</span><span class="p">])</span> <span class="o">&gt;</span> <span class="n">TOL</span><span class="p">]</span>
+                    <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="n">keep</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">raw_sides</span><span class="p">):</span>
+                        <span class="k">yield</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">raw_sides</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">above</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">+</span> <span class="n">bh</span><span class="p">,</span> <span class="n">bw</span><span class="p">,</span> <span class="n">bl</span><span class="p">,</span> <span class="n">gap_h</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+                    <span class="k">yield</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">r</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="p">(</span><span class="o">*</span><span class="n">sides</span><span class="p">,</span> <span class="n">above</span><span class="p">)</span> <span class="k">if</span> <span class="n">keep</span><span class="p">(</span><span class="n">r</span><span class="p">))</span>
+
+            <span class="c1"># 2. Full-Layer family: cut across entire (w, l) at z + bh</span>
+            <span class="k">if</span> <span class="n">gap_h</span> <span class="o">&gt;</span> <span class="n">TOL</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">full</span><span class="p">:</span>
+                <span class="n">layer_sides</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span>
+                    <span class="p">(</span><span class="n">sx</span><span class="p">,</span> <span class="n">sy</span><span class="p">,</span> <span class="n">sz</span><span class="p">,</span> <span class="n">sw</span><span class="p">,</span> <span class="n">sl</span><span class="p">,</span> <span class="n">bh</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+                    <span class="k">for</span> <span class="p">(</span><span class="n">sx</span><span class="p">,</span> <span class="n">sy</span><span class="p">,</span> <span class="n">sz</span><span class="p">,</span> <span class="n">sw</span><span class="p">,</span> <span class="n">sl</span><span class="p">,</span> <span class="n">_sh</span><span class="p">,</span> <span class="n">_f</span><span class="p">)</span> <span class="ow">in</span> <span class="n">sides</span>
+                    <span class="k">if</span> <span class="nb">min</span><span class="p">(</span><span class="n">sw</span><span class="p">,</span> <span class="n">sl</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">TOL</span>
+                <span class="p">)</span>
+                <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="n">keep</span><span class="p">(</span><span class="n">r</span><span class="p">)</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">layer_sides</span><span class="p">):</span>
+                    <span class="n">above_full</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">+</span> <span class="n">bh</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">gap_h</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+                    <span class="k">yield</span> <span class="p">(</span><span class="o">*</span><span class="n">layer_sides</span><span class="p">,</span> <span class="o">*</span><span class="p">((</span><span class="n">above_full</span><span class="p">,)</span> <span class="k">if</span> <span class="n">keep</span><span class="p">(</span><span class="n">above_full</span><span class="p">)</span> <span class="k">else</span> <span class="p">()))</span>
+
+        <span class="c1"># 3. 1D Slab-Layer family: isolate a Y-row (w x bl) or X-column (bw x l) first,</span>
+        <span class="c1">#    and cut a horizontal bridge layer ONLY across that row/column!</span>
+        <span class="k">if</span> <span class="n">gap_h</span> <span class="o">&gt;</span> <span class="n">TOL</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">full</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">dw</span> <span class="o">&gt;</span> <span class="n">TOL</span><span class="p">:</span>
+                <span class="n">y_slab_side</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">bw</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">dw</span><span class="p">,</span> <span class="n">bl</span><span class="p">,</span> <span class="n">bh</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">keep</span><span class="p">(</span><span class="n">y_slab_side</span><span class="p">):</span>
+                    <span class="n">y_above</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">+</span> <span class="n">bh</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">bl</span><span class="p">,</span> <span class="n">gap_h</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+                    <span class="n">y_rem</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">+</span> <span class="n">bl</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">dl</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+                    <span class="n">out_y</span> <span class="o">=</span> <span class="p">[</span><span class="n">y_slab_side</span><span class="p">]</span>
+                    <span class="k">if</span> <span class="n">keep</span><span class="p">(</span><span class="n">y_above</span><span class="p">):</span>
+                        <span class="n">out_y</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">y_above</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">keep</span><span class="p">(</span><span class="n">y_rem</span><span class="p">):</span>
+                        <span class="n">out_y</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">y_rem</span><span class="p">)</span>
+                    <span class="k">yield</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">out_y</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">dl</span> <span class="o">&gt;</span> <span class="n">TOL</span><span class="p">:</span>
+                <span class="n">x_slab_side</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">+</span> <span class="n">bl</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">bw</span><span class="p">,</span> <span class="n">dl</span><span class="p">,</span> <span class="n">bh</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">keep</span><span class="p">(</span><span class="n">x_slab_side</span><span class="p">):</span>
+                    <span class="n">x_above</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">+</span> <span class="n">bh</span><span class="p">,</span> <span class="n">bw</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">gap_h</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+                    <span class="n">x_rem</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">bw</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">dw</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+                    <span class="n">out_x</span> <span class="o">=</span> <span class="p">[</span><span class="n">x_slab_side</span><span class="p">]</span>
+                    <span class="k">if</span> <span class="n">keep</span><span class="p">(</span><span class="n">x_above</span><span class="p">):</span>
+                        <span class="n">out_x</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x_above</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">keep</span><span class="p">(</span><span class="n">x_rem</span><span class="p">):</span>
+                        <span class="n">out_x</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x_rem</span><span class="p">)</span>
+                    <span class="k">yield</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">out_x</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">memo_shape</span><span class="p">(</span><span class="n">r</span><span class="p">:</span> <span class="n">Region</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">bool</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">//</span> <span class="n">MEMO_QUANT</span><span class="p">,</span> <span class="n">r</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">//</span> <span class="n">MEMO_QUANT</span><span class="p">,</span> <span class="n">r</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span> <span class="o">//</span> <span class="n">MEMO_QUANT</span><span class="p">,</span> <span class="n">r</span><span class="p">[</span><span class="mi">6</span><span class="p">])</span>
+
+    <span class="n">total_nodes</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">dead</span><span class="p">:</span> <span class="nb">set</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">bool</span><span class="p">],</span> <span class="o">...</span><span class="p">],</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">]]]</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+
+    <span class="n">SolutionStep</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="nb">bool</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">solve</span><span class="p">(</span>
+        <span class="n">regions</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Region</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span>
+        <span class="n">remaining</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span>
+        <span class="n">need_vol</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">branch_limit</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span><span class="p">],</span>
+        <span class="n">is_root</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">SolutionStep</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">nonlocal</span> <span class="n">total_nodes</span>
+        <span class="k">if</span> <span class="n">total_nodes</span> <span class="o">&gt;</span> <span class="n">node_budget</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">(</span><span class="n">remaining</span><span class="p">):</span>
+            <span class="k">return</span> <span class="p">[]</span> <span class="k">if</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">regions</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">regions</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="c1"># Tight volume bound: only count regions that can hold at least one remaining item</span>
+        <span class="n">usable_vol</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">regions</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">r</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">region_fits_any</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">r</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="n">r</span><span class="p">[</span><span class="mi">5</span><span class="p">],</span> <span class="kc">True</span><span class="p">,</span> <span class="n">remaining</span><span class="p">):</span>
+                <span class="k">return</span> <span class="kc">None</span>
+            <span class="k">if</span> <span class="n">region_fits_any</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">r</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="n">r</span><span class="p">[</span><span class="mi">5</span><span class="p">],</span> <span class="n">r</span><span class="p">[</span><span class="mi">6</span><span class="p">],</span> <span class="n">remaining</span><span class="p">):</span>
+                <span class="n">usable_vol</span> <span class="o">+=</span> <span class="n">r</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">*</span> <span class="n">r</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">*</span> <span class="n">r</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">usable_vol</span> <span class="o">&lt;</span> <span class="n">need_vol</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="n">key</span> <span class="o">=</span> <span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">memo_shape</span><span class="p">(</span><span class="n">r</span><span class="p">)</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">regions</span><span class="p">)),</span> <span class="n">remaining</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">dead</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="c1"># Fail-first: must_fill regions first, then smallest volume region</span>
+        <span class="n">index</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span>
+            <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">regions</span><span class="p">)),</span>
+            <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">i</span><span class="p">:</span> <span class="p">(</span><span class="ow">not</span> <span class="n">regions</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">6</span><span class="p">],</span> <span class="n">regions</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">3</span><span class="p">]</span> <span class="o">*</span> <span class="n">regions</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">4</span><span class="p">]</span> <span class="o">*</span> <span class="n">regions</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">5</span><span class="p">]),</span>
+        <span class="p">)</span>
+        <span class="n">region</span> <span class="o">=</span> <span class="n">regions</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
+        <span class="n">rest</span> <span class="o">=</span> <span class="n">regions</span><span class="p">[:</span><span class="n">index</span><span class="p">]</span> <span class="o">+</span> <span class="n">regions</span><span class="p">[</span><span class="n">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:]</span>
+        <span class="n">rw</span><span class="p">,</span> <span class="n">rl</span><span class="p">,</span> <span class="n">rh</span><span class="p">,</span> <span class="n">must_fill</span> <span class="o">=</span> <span class="n">region</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">region</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="n">region</span><span class="p">[</span><span class="mi">5</span><span class="p">],</span> <span class="n">region</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span>
+
+        <span class="n">candidates</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span>
+            <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="nb">bool</span><span class="p">]</span>
+        <span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_classes</span><span class="p">):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">remaining</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span>
+                <span class="k">continue</span>
+            <span class="k">for</span> <span class="n">isize</span><span class="p">,</span> <span class="n">fsize</span><span class="p">,</span> <span class="n">rotated</span> <span class="ow">in</span> <span class="n">class_orients</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span>
+                <span class="n">iw</span><span class="p">,</span> <span class="n">il</span><span class="p">,</span> <span class="n">ih</span> <span class="o">=</span> <span class="n">isize</span>
+                <span class="k">if</span> <span class="n">iw</span> <span class="o">&gt;</span> <span class="n">rw</span> <span class="o">+</span> <span class="n">TOL</span> <span class="ow">or</span> <span class="n">il</span> <span class="o">&gt;</span> <span class="n">rl</span> <span class="o">+</span> <span class="n">TOL</span> <span class="ow">or</span> <span class="n">ih</span> <span class="o">&gt;</span> <span class="n">rh</span> <span class="o">+</span> <span class="n">TOL</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="k">if</span> <span class="n">must_fill</span> <span class="ow">and</span> <span class="nb">abs</span><span class="p">(</span><span class="n">ih</span> <span class="o">-</span> <span class="n">rh</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">TOL</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="n">flush</span> <span class="o">=</span> <span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">iw</span> <span class="o">-</span> <span class="n">rw</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">TOL</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">il</span> <span class="o">-</span> <span class="n">rl</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">TOL</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">ih</span> <span class="o">-</span> <span class="n">rh</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">TOL</span><span class="p">)</span>
+                <span class="n">candidates</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="o">-</span><span class="n">flush</span><span class="p">,</span> <span class="o">-</span><span class="p">(</span><span class="n">iw</span> <span class="o">*</span> <span class="n">il</span> <span class="o">*</span> <span class="n">ih</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">rotated</span><span class="p">),</span> <span class="n">i</span><span class="p">,</span> <span class="n">isize</span><span class="p">,</span> <span class="n">fsize</span><span class="p">,</span> <span class="n">rotated</span><span class="p">))</span>
+        <span class="n">candidates</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+
+        <span class="n">fully_explored</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">root_cap</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">250</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="mi">600</span><span class="p">,</span> <span class="n">node_budget</span> <span class="o">//</span> <span class="mi">10</span><span class="p">))</span>
+
+        <span class="k">for</span> <span class="n">_flush</span><span class="p">,</span> <span class="n">_vol</span><span class="p">,</span> <span class="n">_turn</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">isize</span><span class="p">,</span> <span class="n">fsize</span><span class="p">,</span> <span class="n">rotated</span> <span class="ow">in</span> <span class="n">candidates</span><span class="p">:</span>
+            <span class="n">nxt_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">remaining</span><span class="p">)</span>
+            <span class="n">nxt_list</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-=</span> <span class="mi">1</span>
+            <span class="n">nxt</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">nxt_list</span><span class="p">)</span>
+            <span class="n">next_need</span> <span class="o">=</span> <span class="n">need_vol</span> <span class="o">-</span> <span class="n">class_min_vol</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+
+            <span class="n">shapes_tried</span><span class="p">:</span> <span class="nb">set</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">bool</span><span class="p">],</span> <span class="o">...</span><span class="p">]]</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">subs</span> <span class="ow">in</span> <span class="n">splits</span><span class="p">(</span><span class="n">region</span><span class="p">,</span> <span class="n">isize</span><span class="p">,</span> <span class="n">nxt</span><span class="p">):</span>
+                <span class="n">shape</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">memo_shape</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">subs</span><span class="p">))</span>
+                <span class="k">if</span> <span class="n">shape</span> <span class="ow">in</span> <span class="n">shapes_tried</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="n">shapes_tried</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">shape</span><span class="p">)</span>
+
+                <span class="n">sub_limit</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="p">[</span><span class="n">root_cap</span><span class="p">]</span> <span class="k">if</span> <span class="p">(</span><span class="n">is_root</span> <span class="ow">and</span> <span class="n">branch_limit</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span> <span class="k">else</span> <span class="n">branch_limit</span>
+                <span class="p">)</span>
+                <span class="k">if</span> <span class="n">sub_limit</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">sub_limit</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="n">fully_explored</span> <span class="o">=</span> <span class="kc">False</span>
+                        <span class="k">continue</span>
+                    <span class="n">sub_limit</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-=</span> <span class="mi">1</span>
+
+                <span class="n">total_nodes</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="k">if</span> <span class="n">total_nodes</span> <span class="o">&gt;</span> <span class="n">node_budget</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="kc">None</span>
+
+                <span class="n">tail</span> <span class="o">=</span> <span class="n">solve</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">rest</span> <span class="o">+</span> <span class="n">subs</span><span class="p">)),</span> <span class="n">nxt</span><span class="p">,</span> <span class="n">next_need</span><span class="p">,</span> <span class="n">sub_limit</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">tail</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="p">[(</span><span class="n">region</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">region</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">region</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">fsize</span><span class="p">,</span> <span class="n">rotated</span><span class="p">,</span> <span class="n">i</span><span class="p">),</span> <span class="o">*</span><span class="n">tail</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">sub_limit</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">sub_limit</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">fully_explored</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">must_fill</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">branch_limit</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">branch_limit</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">branch_limit</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">branch_limit</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-=</span> <span class="mi">1</span>
+                <span class="n">total_nodes</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="n">tail</span> <span class="o">=</span> <span class="n">solve</span><span class="p">(</span><span class="n">rest</span><span class="p">,</span> <span class="n">remaining</span><span class="p">,</span> <span class="n">need_vol</span><span class="p">,</span> <span class="n">branch_limit</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">tail</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="n">tail</span>
+                <span class="k">if</span> <span class="n">branch_limit</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">branch_limit</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">fully_explored</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">fully_explored</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="k">if</span> <span class="n">fully_explored</span> <span class="ow">and</span> <span class="n">total_nodes</span> <span class="o">&lt;=</span> <span class="n">node_budget</span><span class="p">:</span>
+            <span class="n">dead</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="c1"># Pass 1: per-root-choice node cap escapes bad depth-0 choices rapidly</span>
+    <span class="n">solution</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="n">node_budget</span> <span class="o">&gt;=</span> <span class="mi">2_000</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">items</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">6</span><span class="p">:</span>
+        <span class="n">solution</span> <span class="o">=</span> <span class="n">solve</span><span class="p">(</span><span class="n">initial_regions</span><span class="p">,</span> <span class="n">counts</span><span class="p">,</span> <span class="n">total_min_vol</span><span class="p">,</span> <span class="p">[</span><span class="mi">600</span><span class="p">],</span> <span class="n">is_root</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="c1"># Pass 2: full remaining budget reusing all proven-dead states from Pass 1</span>
+    <span class="k">if</span> <span class="n">solution</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">total_nodes</span> <span class="o">&lt;=</span> <span class="n">node_budget</span><span class="p">:</span>
+        <span class="n">solution</span> <span class="o">=</span> <span class="n">solve</span><span class="p">(</span><span class="n">initial_regions</span><span class="p">,</span> <span class="n">counts</span><span class="p">,</span> <span class="n">total_min_vol</span><span class="p">,</span> <span class="p">[</span><span class="kc">None</span><span class="p">],</span> <span class="n">is_root</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">solution</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="n">pool</span> <span class="o">=</span> <span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">group</span><span class="p">)</span> <span class="k">for</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">class_items</span><span class="p">]</span>
+    <span class="n">placed_out</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Placed</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">rx</span><span class="p">,</span> <span class="n">ry</span><span class="p">,</span> <span class="n">rz</span><span class="p">,</span> <span class="n">fsize</span><span class="p">,</span> <span class="n">rotated</span><span class="p">,</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">solution</span><span class="p">:</span>
+        <span class="n">item</span> <span class="o">=</span> <span class="n">pool</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">px</span><span class="p">,</span> <span class="n">py</span><span class="p">,</span> <span class="n">pz</span> <span class="o">=</span> <span class="n">rx</span> <span class="o">/</span> <span class="n">SCALE</span><span class="p">,</span> <span class="n">ry</span> <span class="o">/</span> <span class="n">SCALE</span><span class="p">,</span> <span class="n">rz</span> <span class="o">/</span> <span class="n">SCALE</span>
+        <span class="k">if</span> <span class="n">item</span><span class="o">.</span><span class="n">stack_members</span><span class="p">:</span>
+            <span class="n">z_cur</span> <span class="o">=</span> <span class="n">pz</span>
+            <span class="k">for</span> <span class="n">member_label</span><span class="p">,</span> <span class="n">msize</span> <span class="ow">in</span> <span class="n">item</span><span class="o">.</span><span class="n">stack_members</span><span class="p">:</span>
+                <span class="n">ms</span> <span class="o">=</span> <span class="p">(</span><span class="n">msize</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">msize</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">msize</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span> <span class="k">if</span> <span class="n">rotated</span> <span class="k">else</span> <span class="n">msize</span>
+                <span class="n">placed_out</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="n">Placed</span><span class="p">(</span>
+                        <span class="n">label</span><span class="o">=</span><span class="n">member_label</span><span class="p">,</span>
+                        <span class="n">position</span><span class="o">=</span><span class="p">(</span><span class="n">px</span><span class="p">,</span> <span class="n">py</span><span class="p">,</span> <span class="n">z_cur</span><span class="p">),</span>
+                        <span class="n">size</span><span class="o">=</span><span class="n">ms</span><span class="p">,</span>
+                        <span class="n">rotated</span><span class="o">=</span><span class="n">rotated</span><span class="p">,</span>
+                    <span class="p">)</span>
+                <span class="p">)</span>
+                <span class="n">z_cur</span> <span class="o">+=</span> <span class="n">msize</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">placed_out</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="n">Placed</span><span class="p">(</span>
+                    <span class="n">label</span><span class="o">=</span><span class="n">item</span><span class="o">.</span><span class="n">label</span><span class="p">,</span>
+                    <span class="n">position</span><span class="o">=</span><span class="p">(</span><span class="n">px</span><span class="p">,</span> <span class="n">py</span><span class="p">,</span> <span class="n">pz</span><span class="p">),</span>
+                    <span class="n">size</span><span class="o">=</span><span class="n">fsize</span><span class="p">,</span>
+                    <span class="n">rotated</span><span class="o">=</span><span class="n">rotated</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+    <span class="k">return</span> <span class="n">placed_out</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_pregroup_full_height_columns</span><span class="p">(</span>
+    <span class="n">container_h</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">items</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Item</span><span class="p">]</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Item</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Group identical-(W, L) single-size items whose heights partition into ``container_h``."""</span>
+    <span class="n">by_fp</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">bool</span><span class="p">],</span> <span class="nb">list</span><span class="p">[</span><span class="n">Item</span><span class="p">]]</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+    <span class="n">passthrough</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Item</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="n">ih_target</span> <span class="o">=</span> <span class="n">_to_int</span><span class="p">(</span><span class="n">container_h</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">items</span><span class="p">:</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="n">item</span><span class="o">.</span><span class="n">size_options</span>
+            <span class="ow">or</span> <span class="n">item</span><span class="o">.</span><span class="n">stack_members</span>
+            <span class="ow">or</span> <span class="nb">abs</span><span class="p">(</span><span class="n">_to_int</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span> <span class="o">-</span> <span class="n">ih_target</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">TOL</span>
+        <span class="p">):</span>
+            <span class="n">passthrough</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">iw</span><span class="p">,</span> <span class="n">il</span> <span class="o">=</span> <span class="n">_to_int</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">//</span> <span class="n">MEMO_QUANT</span><span class="p">,</span> <span class="n">_to_int</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">//</span> <span class="n">MEMO_QUANT</span>
+            <span class="n">by_fp</span><span class="p">[(</span><span class="n">iw</span><span class="p">,</span> <span class="n">il</span><span class="p">,</span> <span class="n">item</span><span class="o">.</span><span class="n">no_rotate</span><span class="p">)]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+
+    <span class="n">grouped</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">passthrough</span><span class="p">)</span>
+    <span class="n">made_any_group</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="n">_iw</span><span class="p">,</span> <span class="n">_il</span><span class="p">,</span> <span class="n">nr</span><span class="p">),</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">by_fp</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">group</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="n">grouped</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">group</span><span class="p">)</span>
+            <span class="k">continue</span>
+        <span class="n">rem</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">it</span><span class="p">:</span> <span class="o">-</span><span class="n">it</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+        <span class="n">used</span> <span class="o">=</span> <span class="p">[</span><span class="kc">False</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">rem</span><span class="p">)</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">find_subset</span><span class="p">(</span>
+            <span class="n">start</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+            <span class="n">target_h</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+            <span class="n">rem_items</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Item</span><span class="p">]</span> <span class="o">=</span> <span class="n">rem</span><span class="p">,</span>
+            <span class="n">used_flags</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="n">used</span><span class="p">,</span>
+        <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">target_h</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">TOL</span><span class="p">:</span>
+                <span class="k">return</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">rem_items</span><span class="p">)):</span>
+                <span class="k">if</span> <span class="n">used_flags</span><span class="p">[</span><span class="n">idx</span><span class="p">]:</span>
+                    <span class="k">continue</span>
+                <span class="n">mh</span> <span class="o">=</span> <span class="n">_to_int</span><span class="p">(</span><span class="n">rem_items</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+                <span class="k">if</span> <span class="n">mh</span> <span class="o">&gt;</span> <span class="n">target_h</span> <span class="o">+</span> <span class="n">TOL</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="n">sub</span> <span class="o">=</span> <span class="n">find_subset</span><span class="p">(</span><span class="n">idx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">target_h</span> <span class="o">-</span> <span class="n">mh</span><span class="p">,</span> <span class="n">rem_items</span><span class="p">,</span> <span class="n">used_flags</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">sub</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="o">*</span><span class="n">sub</span><span class="p">]</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">sub</span> <span class="o">=</span> <span class="n">find_subset</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">ih_target</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">sub</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">sub</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="k">break</span>
+            <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="n">sub</span><span class="p">:</span>
+                <span class="n">used</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="n">made_any_group</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="n">members</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">((</span><span class="n">rem</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">label</span><span class="p">,</span> <span class="n">rem</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">size</span><span class="p">)</span> <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="n">sub</span><span class="p">)</span>
+            <span class="n">base_w</span><span class="p">,</span> <span class="n">base_l</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">rem</span><span class="p">[</span><span class="n">sub</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span><span class="o">.</span><span class="n">size</span>
+            <span class="n">grouped</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="n">Item</span><span class="p">(</span>
+                    <span class="n">label</span><span class="o">=</span><span class="s2">"+"</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">m</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">members</span><span class="p">),</span>
+                    <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="n">base_w</span><span class="p">,</span> <span class="n">base_l</span><span class="p">,</span> <span class="n">container_h</span><span class="p">),</span>
+                    <span class="n">no_rotate</span><span class="o">=</span><span class="n">nr</span><span class="p">,</span>
+                    <span class="n">stack_members</span><span class="o">=</span><span class="n">members</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+        <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">it</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">rem</span><span class="p">):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">used</span><span class="p">[</span><span class="n">idx</span><span class="p">]:</span>
+                <span class="n">grouped</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">it</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">grouped</span> <span class="k">if</span> <span class="n">made_any_group</span> <span class="k">else</span> <span class="kc">None</span>
 
 
 <div class="viewcode-block" id="pack_guillotine">
@@ -612,211 +1016,45 @@
     <span class="n">items</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Item</span><span class="p">],</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">node_budget</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">200_000</span><span class="p">,</span>
+    <span class="n">obstacles</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="p">(),</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Placed</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""Pack `items` into `container`, or return None if this search cannot.</span>
-
-<span class="sd">    Returns None rather than raising: the caller decides whether to fall back to</span>
-<span class="sd">    another solver or to report the failure. None is not proof that no packing</span>
-<span class="sd">    exists -- `node_budget` may simply have run out.</span>
+<span class="w">    </span><span class="sd">"""Pack ``items`` into ``container`` around optional ``obstacles``, or return ``None``.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        container: (width, length, height) of the space to fill.</span>
-<span class="sd">        items: The boxes. Identical ones are searched as a single class, so five</span>
-<span class="sd">            copies of one box cost no more than one.</span>
-<span class="sd">        node_budget: Search nodes before giving up. The 18-box Emberleaf layout</span>
-<span class="sd">            resolves in 3,237 of them, in about 30ms; the budget is headroom for</span>
-<span class="sd">            harder inputs, not a figure normal ones approach.</span>
+<span class="sd">        container: ``(width, length, height)`` of the space to fill in mm.</span>
+<span class="sd">        items: Boxes to place (may carry ``size_options`` or ``stack_members``).</span>
+<span class="sd">        node_budget: Search nodes before giving up.</span>
+<span class="sd">        obstacles: Already-placed ``(x, y, z, w, l, h)`` boxes to pack around.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        List of ``Placed`` records, or ``None`` if no packing was found within budget.</span>
 
 <span class="sd">    """</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">items</span><span class="p">:</span>
         <span class="k">return</span> <span class="p">[]</span>
-
-    <span class="c1"># Identical boxes are interchangeable, so search them as one class and hand</span>
-    <span class="c1"># the labels back out at the end. This is what stops five identical player</span>
-    <span class="c1"># boxes from multiplying the search by 5!.</span>
-    <span class="n">classes</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="nb">bool</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">labels</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">items</span><span class="p">:</span>
-        <span class="n">w</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">h</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">size</span>
-        <span class="n">key</span> <span class="o">=</span> <span class="p">((</span><span class="nb">float</span><span class="p">(</span><span class="n">w</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="n">l</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="n">h</span><span class="p">)),</span> <span class="n">item</span><span class="o">.</span><span class="n">no_rotate</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">classes</span><span class="p">:</span>
-            <span class="n">labels</span><span class="p">[</span><span class="n">classes</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">key</span><span class="p">)]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">label</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">classes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
-            <span class="n">labels</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">item</span><span class="o">.</span><span class="n">label</span><span class="p">])</span>
-
-    <span class="n">counts</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">group</span><span class="p">)</span> <span class="k">for</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">labels</span><span class="p">)</span>
-    <span class="n">smallest_dim</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">size</span><span class="p">)</span> <span class="k">for</span> <span class="n">size</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">classes</span><span class="p">)</span>
-    <span class="n">total_volume</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span>
-        <span class="n">n</span> <span class="o">*</span> <span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">size</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="n">_</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">counts</span><span class="p">,</span> <span class="n">classes</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-    <span class="p">)</span>
-
-    <span class="n">nodes</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="n">dead</span><span class="p">:</span> <span class="nb">set</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">bool</span><span class="p">],</span> <span class="o">...</span><span class="p">],</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">]]]</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="nf">usable</span><span class="p">(</span><span class="n">region</span><span class="p">:</span> <span class="n">Region</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">"""Whether a region is big enough to be worth keeping in the pool."""</span>
-        <span class="k">return</span> <span class="nb">min</span><span class="p">(</span><span class="n">region</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">region</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="n">region</span><span class="p">[</span><span class="mi">5</span><span class="p">])</span> <span class="o">&gt;=</span> <span class="n">smallest_dim</span> <span class="o">-</span> <span class="n">EPS</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="nf">splits</span><span class="p">(</span><span class="n">region</span><span class="p">:</span> <span class="n">Region</span><span class="p">,</span> <span class="n">size</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="n">Region</span><span class="p">,</span> <span class="o">...</span><span class="p">]]:</span>
-<span class="w">        </span><span class="sd">"""Every way of cutting `region` once a box sits in its origin corner.</span>
-
-<span class="sd">        Yields tuples of sub-regions, or None for a split that is not allowed.</span>
-
-<span class="sd">        Two families:</span>
-
-<span class="sd">        * **Corner** -- the box's own faces cut the region, and the only space</span>
-<span class="sd">          opened above the box is the column standing on it. Two variants,</span>
-<span class="sd">          differing in which side slab runs the full depth.</span>
-<span class="sd">        * **Layer** -- cut clean across the region at the box's height first, so</span>
-<span class="sd">          the space above spans the whole footprint rather than one box's top.</span>
-<span class="sd">          This is what lets a box bridge two boxes below it, which is how real</span>
-<span class="sd">          inserts stack, and the corner family cannot express it. The rest of the</span>
-<span class="sd">          layer is marked `full` so it has to be filled solid; otherwise the</span>
-<span class="sd">          bridge would span a void.</span>
-<span class="sd">        """</span>
-        <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">full</span> <span class="o">=</span> <span class="n">region</span>
-        <span class="n">bw</span><span class="p">,</span> <span class="n">bl</span><span class="p">,</span> <span class="n">bh</span> <span class="o">=</span> <span class="n">size</span>
-        <span class="n">gap_h</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">h</span> <span class="o">-</span> <span class="n">bh</span><span class="p">,</span> <span class="n">PLACES</span><span class="p">)</span>
-
-        <span class="k">for</span> <span class="n">x_major</span> <span class="ow">in</span> <span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
-            <span class="k">if</span> <span class="n">x_major</span><span class="p">:</span>
-                <span class="n">sides</span> <span class="o">=</span> <span class="p">(</span>
-                    <span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">bw</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">w</span> <span class="o">-</span> <span class="n">bw</span><span class="p">,</span> <span class="n">PLACES</span><span class="p">),</span> <span class="n">l</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">full</span><span class="p">),</span>
-                    <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">+</span> <span class="n">bl</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">bw</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">l</span> <span class="o">-</span> <span class="n">bl</span><span class="p">,</span> <span class="n">PLACES</span><span class="p">),</span> <span class="n">h</span><span class="p">,</span> <span class="n">full</span><span class="p">),</span>
-                <span class="p">)</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">sides</span> <span class="o">=</span> <span class="p">(</span>
-                    <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">+</span> <span class="n">bl</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">l</span> <span class="o">-</span> <span class="n">bl</span><span class="p">,</span> <span class="n">PLACES</span><span class="p">),</span> <span class="n">h</span><span class="p">,</span> <span class="n">full</span><span class="p">),</span>
-                    <span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">bw</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">w</span> <span class="o">-</span> <span class="n">bw</span><span class="p">,</span> <span class="n">PLACES</span><span class="p">),</span> <span class="n">bl</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">full</span><span class="p">),</span>
-                <span class="p">)</span>
-
-            <span class="c1"># Corner: space above the box is exactly the box's top face.</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">full</span> <span class="ow">or</span> <span class="n">gap_h</span> <span class="o">&lt;=</span> <span class="n">EPS</span><span class="p">:</span>
-                <span class="n">above</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">+</span> <span class="n">bh</span><span class="p">,</span> <span class="n">bw</span><span class="p">,</span> <span class="n">bl</span><span class="p">,</span> <span class="n">gap_h</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
-                <span class="k">yield</span> <span class="nb">tuple</span><span class="p">(</span>
-                    <span class="n">r</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="p">(</span><span class="o">*</span><span class="n">sides</span><span class="p">,</span> <span class="n">above</span><span class="p">)</span>
-                    <span class="k">if</span> <span class="nb">min</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">r</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="n">r</span><span class="p">[</span><span class="mi">5</span><span class="p">])</span> <span class="o">&gt;</span> <span class="n">EPS</span> <span class="ow">and</span> <span class="n">usable</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
-                <span class="p">)</span>
-
-            <span class="c1"># Layer: cut across at the box's height. The rest of this layer must</span>
-            <span class="c1"># be filled solid, so anything placed above it is fully supported.</span>
-            <span class="k">if</span> <span class="n">gap_h</span> <span class="o">&gt;</span> <span class="n">EPS</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">full</span><span class="p">:</span>
-                <span class="n">layer_sides</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span>
-                    <span class="p">(</span><span class="n">sx</span><span class="p">,</span> <span class="n">sy</span><span class="p">,</span> <span class="n">sz</span><span class="p">,</span> <span class="n">sw</span><span class="p">,</span> <span class="n">sl</span><span class="p">,</span> <span class="n">bh</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
-                    <span class="k">for</span> <span class="p">(</span><span class="n">sx</span><span class="p">,</span> <span class="n">sy</span><span class="p">,</span> <span class="n">sz</span><span class="p">,</span> <span class="n">sw</span><span class="p">,</span> <span class="n">sl</span><span class="p">,</span> <span class="n">_sh</span><span class="p">,</span> <span class="n">_f</span><span class="p">)</span> <span class="ow">in</span> <span class="n">sides</span>
-                    <span class="k">if</span> <span class="nb">min</span><span class="p">(</span><span class="n">sw</span><span class="p">,</span> <span class="n">sl</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">EPS</span>
-                <span class="p">)</span>
-                <span class="c1"># An unfillable sliver in the layer makes the whole cut invalid:</span>
-                <span class="c1"># it would leave a void with a box bridging over it.</span>
-                <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="ow">not</span> <span class="n">usable</span><span class="p">(</span><span class="n">r</span><span class="p">)</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">layer_sides</span><span class="p">):</span>
-                    <span class="k">continue</span>
-                <span class="k">yield</span> <span class="p">(</span><span class="o">*</span><span class="n">layer_sides</span><span class="p">,</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">+</span> <span class="n">bh</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">gap_h</span><span class="p">,</span> <span class="kc">False</span><span class="p">))</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="nf">solve</span><span class="p">(</span>
-        <span class="n">regions</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Region</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="n">remaining</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="n">need</span><span class="p">:</span> <span class="nb">float</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="nb">bool</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">nonlocal</span> <span class="n">nodes</span>
-        <span class="n">nodes</span> <span class="o">+=</span> <span class="mi">1</span>
-        <span class="k">if</span> <span class="n">nodes</span> <span class="o">&gt;</span> <span class="n">node_budget</span><span class="p">:</span>
-            <span class="k">return</span> <span class="kc">None</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">(</span><span class="n">remaining</span><span class="p">):</span>
-            <span class="c1"># Any region still demanding to be filled solid means a box above it</span>
-            <span class="c1"># would bridge a void.</span>
-            <span class="k">return</span> <span class="p">[]</span> <span class="k">if</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">regions</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">regions</span><span class="p">:</span>
-            <span class="k">return</span> <span class="kc">None</span>
-        <span class="k">if</span> <span class="nb">sum</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">*</span> <span class="n">r</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">*</span> <span class="n">r</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">regions</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">need</span> <span class="o">-</span> <span class="n">EPS</span><span class="p">:</span>
-            <span class="k">return</span> <span class="kc">None</span>
-
-        <span class="n">key</span> <span class="o">=</span> <span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="mi">3</span><span class="p">:]</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">regions</span><span class="p">)),</span> <span class="n">remaining</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">dead</span><span class="p">:</span>
-            <span class="k">return</span> <span class="kc">None</span>
-
-        <span class="c1"># Smallest region first -- see the module docstring. A region that must</span>
-        <span class="c1"># be filled solid comes first of all: it has the least freedom.</span>
-        <span class="n">index</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span>
-            <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">regions</span><span class="p">)),</span>
-            <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">i</span><span class="p">:</span> <span class="p">(</span><span class="ow">not</span> <span class="n">regions</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">6</span><span class="p">],</span>
-                           <span class="n">regions</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">3</span><span class="p">]</span> <span class="o">*</span> <span class="n">regions</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">4</span><span class="p">]</span> <span class="o">*</span> <span class="n">regions</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">5</span><span class="p">]),</span>
-        <span class="p">)</span>
-        <span class="n">region</span> <span class="o">=</span> <span class="n">regions</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
-        <span class="n">rest</span> <span class="o">=</span> <span class="n">regions</span><span class="p">[:</span><span class="n">index</span><span class="p">]</span> <span class="o">+</span> <span class="n">regions</span><span class="p">[</span><span class="n">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:]</span>
-        <span class="n">rw</span><span class="p">,</span> <span class="n">rl</span><span class="p">,</span> <span class="n">rh</span><span class="p">,</span> <span class="n">must_fill</span> <span class="o">=</span> <span class="n">region</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">region</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="n">region</span><span class="p">[</span><span class="mi">5</span><span class="p">],</span> <span class="n">region</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span>
-
-        <span class="n">candidates</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="n">no_rotate</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">classes</span><span class="p">):</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">remaining</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span>
-                <span class="k">continue</span>
-            <span class="k">for</span> <span class="n">turned</span><span class="p">,</span> <span class="n">rotated</span> <span class="ow">in</span> <span class="n">_orientations</span><span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="n">no_rotate</span><span class="p">):</span>
-                <span class="n">w</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">h</span> <span class="o">=</span> <span class="n">turned</span>
-                <span class="k">if</span> <span class="n">w</span> <span class="o">&gt;</span> <span class="n">rw</span> <span class="o">+</span> <span class="n">EPS</span> <span class="ow">or</span> <span class="n">l</span> <span class="o">&gt;</span> <span class="n">rl</span> <span class="o">+</span> <span class="n">EPS</span> <span class="ow">or</span> <span class="n">h</span> <span class="o">&gt;</span> <span class="n">rh</span> <span class="o">+</span> <span class="n">EPS</span><span class="p">:</span>
-                    <span class="k">continue</span>
-                <span class="k">if</span> <span class="n">must_fill</span> <span class="ow">and</span> <span class="nb">abs</span><span class="p">(</span><span class="n">h</span> <span class="o">-</span> <span class="n">rh</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">EPS</span><span class="p">:</span>
-                    <span class="k">continue</span>  <span class="c1"># a short box here would leave a void above it</span>
-                <span class="c1"># Prefer a box that finishes flush with the region's walls: a</span>
-                <span class="c1"># flush face leaves no sliver behind it.</span>
-                <span class="n">flush</span> <span class="o">=</span> <span class="p">(</span>
-                    <span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">w</span> <span class="o">-</span> <span class="n">rw</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">EPS</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">l</span> <span class="o">-</span> <span class="n">rl</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">EPS</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">h</span> <span class="o">-</span> <span class="n">rh</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">EPS</span><span class="p">)</span>
-                <span class="p">)</span>
-                <span class="c1"># `rotated` ahead of the class index keeps a box the way up the</span>
-                <span class="c1"># caller declared it unless turning actually buys something. A</span>
-                <span class="c1"># box that fits either way should come out unturned, or the</span>
-                <span class="c1"># printed part changes orientation for no reason.</span>
-                <span class="n">candidates</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-                    <span class="p">(</span><span class="o">-</span><span class="n">flush</span><span class="p">,</span> <span class="o">-</span><span class="p">(</span><span class="n">w</span> <span class="o">*</span> <span class="n">l</span> <span class="o">*</span> <span class="n">h</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">rotated</span><span class="p">),</span> <span class="n">i</span><span class="p">,</span> <span class="n">turned</span><span class="p">,</span> <span class="n">rotated</span><span class="p">)</span>
-                <span class="p">)</span>
-        <span class="n">candidates</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
-
-        <span class="k">for</span> <span class="n">_flush</span><span class="p">,</span> <span class="n">_volume</span><span class="p">,</span> <span class="n">_turn</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">turned</span><span class="p">,</span> <span class="n">rotated</span> <span class="ow">in</span> <span class="n">candidates</span><span class="p">:</span>
-            <span class="n">shapes_tried</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
-            <span class="k">for</span> <span class="n">subs</span> <span class="ow">in</span> <span class="n">splits</span><span class="p">(</span><span class="n">region</span><span class="p">,</span> <span class="n">turned</span><span class="p">):</span>
-                <span class="n">shape</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="mi">3</span><span class="p">:]</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">subs</span><span class="p">))</span>
-                <span class="k">if</span> <span class="n">shape</span> <span class="ow">in</span> <span class="n">shapes_tried</span><span class="p">:</span>
-                    <span class="k">continue</span>  <span class="c1"># another variant already cut it this way</span>
-                <span class="n">shapes_tried</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">shape</span><span class="p">)</span>
-
-                <span class="n">nxt</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">remaining</span><span class="p">)</span>
-                <span class="n">nxt</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-=</span> <span class="mi">1</span>
-                <span class="n">tail</span> <span class="o">=</span> <span class="n">solve</span><span class="p">(</span>
-                    <span class="nb">tuple</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">rest</span> <span class="o">+</span> <span class="n">subs</span><span class="p">)),</span>
-                    <span class="nb">tuple</span><span class="p">(</span><span class="n">nxt</span><span class="p">),</span>
-                    <span class="n">need</span> <span class="o">-</span> <span class="n">turned</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">turned</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">turned</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
-                <span class="p">)</span>
-                <span class="k">if</span> <span class="n">tail</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                    <span class="k">return</span> <span class="p">[(</span><span class="n">region</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">region</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">region</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">turned</span><span class="p">,</span> <span class="n">rotated</span><span class="p">,</span> <span class="n">i</span><span class="p">),</span> <span class="o">*</span><span class="n">tail</span><span class="p">]</span>
-
-        <span class="c1"># Nothing fits, or nothing that fits leads anywhere. A plain region can</span>
-        <span class="c1"># be given up as waste; one that owes a solid fill cannot.</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">must_fill</span><span class="p">:</span>
-            <span class="n">tail</span> <span class="o">=</span> <span class="n">solve</span><span class="p">(</span><span class="n">rest</span><span class="p">,</span> <span class="n">remaining</span><span class="p">,</span> <span class="n">need</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">tail</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="k">return</span> <span class="n">tail</span>
-
-        <span class="n">dead</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">min</span><span class="p">(</span><span class="n">container</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">None</span>
 
-    <span class="n">root</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span>
-        <span class="nb">round</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">container</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">PLACES</span><span class="p">),</span>
-        <span class="nb">round</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">container</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="n">PLACES</span><span class="p">),</span>
-        <span class="nb">round</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">container</span><span class="p">[</span><span class="mi">2</span><span class="p">]),</span> <span class="n">PLACES</span><span class="p">),</span>
-        <span class="kc">False</span><span class="p">,</span>
+    <span class="n">initial_regions</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">subtract_obstacles_3d</span><span class="p">(</span><span class="n">container</span><span class="p">,</span> <span class="n">obstacles</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">obstacles</span>
+        <span class="k">else</span> <span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">_to_int</span><span class="p">(</span><span class="n">container</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">_to_int</span><span class="p">(</span><span class="n">container</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="n">_to_int</span><span class="p">(</span><span class="n">container</span><span class="p">[</span><span class="mi">2</span><span class="p">]),</span> <span class="kc">False</span><span class="p">),)</span>
     <span class="p">)</span>
-    <span class="n">solution</span> <span class="o">=</span> <span class="n">solve</span><span class="p">((</span><span class="n">root</span><span class="p">,),</span> <span class="n">counts</span><span class="p">,</span> <span class="n">total_volume</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">solution</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">initial_regions</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">None</span>
 
-    <span class="n">pool</span> <span class="o">=</span> <span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">group</span><span class="p">)</span> <span class="k">for</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">labels</span><span class="p">]</span>
-    <span class="k">return</span> <span class="p">[</span>
-        <span class="n">Placed</span><span class="p">(</span>
-            <span class="n">label</span><span class="o">=</span><span class="n">pool</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
-            <span class="n">position</span><span class="o">=</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">),</span>
-            <span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">,</span>
-            <span class="n">rotated</span><span class="o">=</span><span class="n">rotated</span><span class="p">,</span>
-        <span class="p">)</span>
-        <span class="k">for</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">rotated</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span> <span class="ow">in</span> <span class="n">solution</span>
-    <span class="p">]</span></div>
+    <span class="c1"># Fast pre-grouped pass for structured multi-column inserts (e.g. Root, 1899 Daihan);</span>
+    <span class="c1"># falls back cleanly to ungrouped search if pre-grouping was over-constrained.</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">obstacles</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">items</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">8</span><span class="p">:</span>
+        <span class="n">macro_items</span> <span class="o">=</span> <span class="n">_pregroup_full_height_columns</span><span class="p">(</span><span class="n">container</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">items</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">macro_items</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">fast_budget</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mi">25_000</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mi">5_000</span><span class="p">,</span> <span class="n">node_budget</span> <span class="o">//</span> <span class="mi">4</span><span class="p">))</span>
+            <span class="n">grouped_res</span> <span class="o">=</span> <span class="n">_solve_core</span><span class="p">(</span><span class="n">initial_regions</span><span class="p">,</span> <span class="n">macro_items</span><span class="p">,</span> <span class="n">fast_budget</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">grouped_res</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">grouped_res</span>
+            <span class="n">node_budget</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">node_budget</span> <span class="o">-</span> <span class="n">fast_budget</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">_solve_core</span><span class="p">(</span><span class="n">initial_regions</span><span class="p">,</span> <span class="n">items</span><span class="p">,</span> <span class="n">node_budget</span><span class="p">)</span></div>
 
 </code></pre></div>
 

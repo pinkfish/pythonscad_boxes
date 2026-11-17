@@ -906,6 +906,10 @@
             <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="n">resolved</span><span class="p">[</span><span class="n">idx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">],</span> <span class="s2">"stackable_bottom"</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
             <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="n">resolved</span><span class="p">[</span><span class="n">idx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">],</span> <span class="s2">"stackable_bottom_pyramid_count"</span><span class="p">,</span> <span class="n">cfg</span><span class="p">)</span>
 
+        <span class="n">chain</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">label</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">resolved</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">chain</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_manifest</span><span class="o">.</span><span class="n">stack_groups</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_manifest</span><span class="o">.</span><span class="n">stack_groups</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">chain</span><span class="p">)</span>
+
         <span class="k">return</span> <span class="n">resolved</span></div>
 
 
@@ -1311,6 +1315,7 @@
         <span class="o">*</span><span class="p">,</span>
         <span class="n">tile_width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
         <span class="n">count</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">tile_thickness</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">2.0</span><span class="p">,</span>
         <span class="n">box_type</span><span class="p">:</span> <span class="n">BoxType</span> <span class="o">=</span> <span class="n">BoxType</span><span class="o">.</span><span class="n">SLIDING</span><span class="p">,</span>
         <span class="n">cut</span><span class="p">:</span> <span class="n">Cut</span> <span class="o">|</span> <span class="n">FingerCut</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">FingerCut</span><span class="o">.</span><span class="n">THROUGH_FLOOR</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
@@ -1324,8 +1329,10 @@
             <span class="n">shape</span><span class="o">=</span><span class="n">ElementShape</span><span class="o">.</span><span class="n">HEXAGON</span><span class="p">,</span>
             <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="n">tile_width</span><span class="p">,</span> <span class="n">tile_width</span><span class="p">),</span>
         <span class="p">)</span>
+        <span class="n">derived_depth</span> <span class="o">=</span> <span class="p">(</span><span class="n">count</span> <span class="o">*</span> <span class="n">tile_thickness</span> <span class="o">+</span> <span class="mf">1.0</span><span class="p">)</span> <span class="k">if</span> <span class="n">count</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="kc">None</span>
         <span class="n">builder</span><span class="o">.</span><span class="n">compartment</span><span class="p">(</span>
             <span class="s2">"Tiles"</span><span class="p">,</span>
+            <span class="n">depth</span><span class="o">=</span><span class="n">derived_depth</span><span class="p">,</span>
             <span class="n">elements</span><span class="o">=</span><span class="p">(</span><span class="n">elem</span><span class="p">,),</span>
             <span class="n">holds_pieces</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
             <span class="n">cut</span><span class="o">=</span><span class="n">cut</span><span class="p">,</span>

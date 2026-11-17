@@ -11,7 +11,7 @@
       
       
       
-        <link rel="prev" href="pyboxbuilder.packing.cache.set_cached.html">
+        <link rel="prev" href="pyboxbuilder.packing.cache.set_memory_cached.html">
       
       
         <link rel="next" href="pyboxbuilder.packing.guillotine.Item.html">
@@ -966,6 +966,30 @@
 
               
             
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pyboxbuilder.packing.guillotine.subtract_obstacles_3d.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>packing.<wbr>guillotine.<wbr>subtract_<wbr>obstacles_<wbr>3d</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -1044,6 +1068,16 @@
     
     <span class="md-ellipsis">
       <span>pyboxbuilder.<wbr>packing.<wbr>guillotine.<wbr>pack_<wbr>guillotine</span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="pyboxbuilder.packing.guillotine.subtract_obstacles_3d.html" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span>pyboxbuilder.<wbr>packing.<wbr>guillotine.<wbr>subtract_<wbr>obstacles_<wbr>3d</span>
     </span>
   </a>
   
@@ -1343,34 +1377,18 @@
 
 
 <h1 id="module-pyboxbuilder.packing.guillotine"><span id="pyboxbuilder-packing-guillotine"></span>pyboxbuilder.packing.guillotine<a class="headerlink" href="#module-pyboxbuilder.packing.guillotine" title="Link to this heading">¶</a></h1>
-<p>Guillotine box packer for densely-filled inserts (T187).</p>
-<p>The extreme-point First-Fit-Decreasing solver in <cite>layout.py</cite> places boxes at
-corner points, which fragments the free space: above roughly 70% fill it cannot
-find arrangements that demonstrably exist. Emberleaf is the standing example –
-18 boxes at 77% fill, whose sizes tile exactly in three columns, and which
-266,000 random permutations of that solver never packed.</p>
-<p>This solver searches a different space. Instead of tracking corner points it
-tracks free <em>regions</em>, and placing a box cuts the region it went into. Three
-things make that work where the corner-point search did not:</p>
-<p><strong>Support is structural, not checked.</strong> A box may only be opened above another
-box’s own top face, or above a layer that is required to be filled solid (see
-<cite>Region.full</cite>). The corner-point search floats a box with one corner resting on
-another; bolting an explicit support test onto it made the search 3000x more
-expensive and it still failed.</p>
-<p><strong>Feasibility depends on region sizes alone.</strong> The regions are disjoint, so
-where they are cannot affect whether the remaining boxes fit – only how big
-they are. That makes the memo key position-free, which is what keeps the state
-count small enough to search exhaustively.</p>
-<p><strong>Smallest region first.</strong> The fail-first principle, and the single biggest
-lever here: the most constrained region has the fewest options, so a dead end
-surfaces immediately instead of after the rest of the box is filled around it.
-Measured on Emberleaf, taking the largest region first fails to find any packing
-in 1,000,000 nodes; taking the smallest finds one in 3,237.</p>
+<p>Guillotine 3D box packer for densely-filled inserts (T187 / Auto-Layout v2).</p>
+<p>Tracks disjoint free regions using exact 64-bit integer picometre arithmetic
+(eliminating floating-point subtraction drift on fractional splits like H/3),
+supports Corner, Full-Layer, and 1D Slab-Layer cuts (allowing independent Z
+bridges within individual rows or columns), supports pre-cut pinned obstacles,
+multi-choice Pareto box envelopes, and composite vertical stack chains, and uses
+a 2-stage root-budgeted search to escape heavy-tailed root dead ends in &lt;12 ms.</p>
 <p class="rubric">Classes</p>
 <table class="autosummary longtable docutils data align-default">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="pyboxbuilder.packing.guillotine.Item.html#pyboxbuilder.packing.guillotine.Item" title="pyboxbuilder.packing.guillotine.Item (Python class) — Bases: object"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Item</span></code></a></p></td>
-<td><p>A box to place.</p></td>
+<td><p>A box (or composite vertical stack / multi-choice box) to place.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="pyboxbuilder.packing.guillotine.Placed.html#pyboxbuilder.packing.guillotine.Placed" title="pyboxbuilder.packing.guillotine.Placed (Python class) — Bases: object"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Placed</span></code></a></p></td>
 <td><p>Where one box ended up.</p></td>
@@ -1380,8 +1398,11 @@ in 1,000,000 nodes; taking the smallest finds one in 3,237.</p>
 <p class="rubric">Functions</p>
 <table class="autosummary longtable docutils data align-default">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="pyboxbuilder.packing.guillotine.pack_guillotine.html#pyboxbuilder.packing.guillotine.pack_guillotine" title="pyboxbuilder.packing.guillotine.pack_guillotine (Python function) — Pack items into container, or return None if this search cannot."><code class="xref py py-obj docutils literal notranslate"><span class="pre">pack_guillotine</span></code></a></p></td>
-<td><p>Pack <cite>items</cite> into <cite>container</cite>, or return None if this search cannot.</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="pyboxbuilder.packing.guillotine.pack_guillotine.html#pyboxbuilder.packing.guillotine.pack_guillotine" title="pyboxbuilder.packing.guillotine.pack_guillotine (Python function) — Pack items into container around optional obstacles, or return None."><code class="xref py py-obj docutils literal notranslate"><span class="pre">pack_guillotine</span></code></a></p></td>
+<td><p>Pack <code class="docutils literal notranslate"><span class="pre">items</span></code> into <code class="docutils literal notranslate"><span class="pre">container</span></code> around optional <code class="docutils literal notranslate"><span class="pre">obstacles</span></code>, or return <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="pyboxbuilder.packing.guillotine.subtract_obstacles_3d.html#pyboxbuilder.packing.guillotine.subtract_obstacles_3d" title="pyboxbuilder.packing.guillotine.subtract_obstacles_3d (Python function) — Cut pinned boxes (x, y, z, w, l, h) out of container into disjoint supported regions."><code class="xref py py-obj docutils literal notranslate"><span class="pre">subtract_obstacles_3d</span></code></a></p></td>
+<td><p>Cut pinned boxes <code class="docutils literal notranslate"><span class="pre">(x,</span> <span class="pre">y,</span> <span class="pre">z,</span> <span class="pre">w,</span> <span class="pre">l,</span> <span class="pre">h)</span></code> out of <code class="docutils literal notranslate"><span class="pre">container</span></code> into disjoint supported regions.</p></td>
 </tr>
 </tbody>
 </table>

@@ -14,7 +14,7 @@
         <link rel="prev" href="pyboxbuilder.packing.cache.cache_key.html">
       
       
-        <link rel="next" href="pyboxbuilder.packing.cache.layout_cache_clear.html">
+        <link rel="next" href="pyboxbuilder.packing.cache.get_memory_cached.html">
       
       
       <link rel="icon" href="">
@@ -960,35 +960,9 @@
       <span aria-label="Python function" class="objinfo-icon objinfo-icon__procedure" title="Python function">F</span>
     
     <span class="md-ellipsis">
-      <span title="pyboxbuilder.packing.cache.get_cached (Python function) — Get a cached value by key."><span>pyboxbuilder.<wbr>packing.<wbr>cache.<wbr>get_<wbr>cached</span></span>
+      <span title="pyboxbuilder.packing.cache.get_cached (Python function) — Get a cached value by key (checks memory first, then disk)."><span>pyboxbuilder.<wbr>packing.<wbr>cache.<wbr>get_<wbr>cached</span></span>
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="pyboxbuilder.packing.cache.get_cached">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#pyboxbuilder.packing.cache.get_cached-parameters" class="md-nav__link">
-    
-    <span class="md-ellipsis">
-      <span>Parameters</span>
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#pyboxbuilder.packing.cache.get_cached-returns" class="md-nav__link">
-    
-    <span class="md-ellipsis">
-      <span>Returns</span>
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -996,6 +970,30 @@
   
 </nav>
       
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pyboxbuilder.packing.cache.get_memory_cached.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>packing.<wbr>cache.<wbr>get_<wbr>memory_<wbr>cached</span>
+    
+  </span>
+  
+
+      </a>
     </li>
   
 
@@ -1087,6 +1085,30 @@
   
   <span class="md-ellipsis">
     <span>pyboxbuilder.<wbr>packing.<wbr>cache.<wbr>set_<wbr>cached</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pyboxbuilder.packing.cache.set_memory_cached.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>packing.<wbr>cache.<wbr>set_<wbr>memory_<wbr>cached</span>
     
   </span>
   
@@ -1412,35 +1434,9 @@
       <span aria-label="Python function" class="objinfo-icon objinfo-icon__procedure" title="Python function">F</span>
     
     <span class="md-ellipsis">
-      <span title="pyboxbuilder.packing.cache.get_cached (Python function) — Get a cached value by key."><span>pyboxbuilder.<wbr>packing.<wbr>cache.<wbr>get_<wbr>cached</span></span>
+      <span title="pyboxbuilder.packing.cache.get_cached (Python function) — Get a cached value by key (checks memory first, then disk)."><span>pyboxbuilder.<wbr>packing.<wbr>cache.<wbr>get_<wbr>cached</span></span>
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="pyboxbuilder.packing.cache.get_cached">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#pyboxbuilder.packing.cache.get_cached-parameters" class="md-nav__link">
-    
-    <span class="md-ellipsis">
-      <span>Parameters</span>
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#pyboxbuilder.packing.cache.get_cached-returns" class="md-nav__link">
-    
-    <span class="md-ellipsis">
-      <span>Returns</span>
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -1463,20 +1459,8 @@
 <h1 id="pyboxbuilder-packing-cache-get-cached">pyboxbuilder.packing.cache.get_cached<a class="headerlink" href="#pyboxbuilder-packing-cache-get-cached" title="Link to this heading">¶</a></h1>
 <dl class="py function objdesc">
 <dt class="sig sig-object highlight py" id="pyboxbuilder.packing.cache.get_cached">
-<span class="sig-prename descclassname"><span class="pre">pyboxbuilder.packing.cache.</span></span><span class="sig-name descname"><span class="pre">get_cached</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#pyboxbuilder.packing.cache.get_cached.key" title="pyboxbuilder.packing.cache.get_cached.key (Python parameter) — SHA-256 hash key."><span class="n"><span class="pre">key</span></span></a><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><span class="pre">str</span></a></span></span></em></span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.15)"><span class="pre">Any</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.15)"><span class="pre">None</span></a></span></span></span><a class="reference internal" href="../_modules/pyboxbuilder/packing/cache.html#get_cached"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyboxbuilder.packing.cache.get_cached" title="Link to this definition">¶</a></dt>
-<dd><p>Get a cached value by key.</p>
-<p>Checks memory cache first, then disk cache. Caches to memory on disk hit.</p>
-<dl class="field-list simple">
-<dt class="field-odd" id="pyboxbuilder.packing.cache.get_cached-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#pyboxbuilder.packing.cache.get_cached-parameters" title="Permalink to this headline">¶</a></dt>
-<dd class="field-odd"><dl class="simple api-field highlight">
-<dt id="pyboxbuilder.packing.cache.get_cached.key"><span class="n sig-name">key</span><span class="p">:</span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)">str</a></span></span><a class="headerlink" href="#pyboxbuilder.packing.cache.get_cached.key" title="Permalink to this definition">¶</a></dt><dd><p>SHA-256 hash key.</p>
-</dd>
-</dl>
-</dd>
-<dt class="field-even" id="pyboxbuilder.packing.cache.get_cached-returns">Returns<span class="colon">:</span><a class="headerlink" href="#pyboxbuilder.packing.cache.get_cached-returns" title="Permalink to this headline">¶</a></dt>
-<dd class="field-even"><p>The cached value, or None if not found.</p>
-</dd>
-</dl>
+<span class="sig-prename descclassname"><span class="pre">pyboxbuilder.packing.cache.</span></span><span class="sig-name descname"><span class="pre">get_cached</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#pyboxbuilder.packing.cache.get_cached" title="pyboxbuilder.packing.cache.get_cached.key (Python parameter)"><span class="n"><span class="pre">key</span></span></a><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><span class="pre">str</span></a></span></span></em></span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.15)"><span class="pre">Any</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.15)"><span class="pre">None</span></a></span></span></span><a class="reference internal" href="../_modules/pyboxbuilder/packing/cache.html#get_cached"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyboxbuilder.packing.cache.get_cached" title="Link to this definition">¶</a></dt>
+<dd><p>Get a cached value by key (checks memory first, then disk).</p>
 </dd></dl>
 
 

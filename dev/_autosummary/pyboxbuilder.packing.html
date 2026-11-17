@@ -1256,16 +1256,16 @@
 <table class="autosummary longtable docutils data align-default">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="pyboxbuilder.packing.cache.html#module-pyboxbuilder.packing.cache" title="pyboxbuilder.packing.cache (Python module)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cache</span></code></a></p></td>
-<td><p>Two-level layout cache — memory + disk JSON with SHA-256 hash keys.</p></td>
+<td><p>Two-level layout cache — in-memory LRU + user cache JSON with SHA-256 hash keys.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="pyboxbuilder.packing.guillotine.html#module-pyboxbuilder.packing.guillotine" title="pyboxbuilder.packing.guillotine (Python module)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">guillotine</span></code></a></p></td>
-<td><p>Guillotine box packer for densely-filled inserts (T187).</p></td>
+<td><p>Guillotine 3D box packer for densely-filled inserts (T187 / Auto-Layout v2).</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="pyboxbuilder.packing.layout.html#module-pyboxbuilder.packing.layout" title="pyboxbuilder.packing.layout (Python module)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">layout</span></code></a></p></td>
-<td><p>Box packing layout — skyline-based 3D box packing into game box interior.</p></td>
+<td><p>Box packing layout — constraint-aware 3D box packing into game box interior.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="pyboxbuilder.packing.spacer.html#module-pyboxbuilder.packing.spacer" title="pyboxbuilder.packing.spacer (Python module)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">spacer</span></code></a></p></td>
-<td><p>Spacer tray generation — fill the leftover space with as few trays as possible.</p></td>
+<td><p>Spacer tray generation — fill leftover space with minimal, hole-free, supported trays.</p></td>
 </tr>
 </tbody>
 </table>

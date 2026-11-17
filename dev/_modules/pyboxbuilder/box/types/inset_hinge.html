@@ -524,7 +524,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.features</span><span class="w"> </span><span class="kn">import</span> <span class="n">hinge_catch</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.registry</span><span class="w"> </span><span class="kn">import</span> <span class="n">register_box</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.shell</span><span class="w"> </span><span class="kn">import</span> <span class="n">block</span><span class="p">,</span> <span class="n">body_rounding</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.spec</span><span class="w"> </span><span class="kn">import</span> <span class="n">BoxSpec</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.spec</span><span class="w"> </span><span class="kn">import</span> <span class="n">BoxSpec</span><span class="p">,</span> <span class="n">UnresolvedBoxSpec</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.builders.inset_hinge</span><span class="w"> </span><span class="kn">import</span> <span class="n">InsetHingeBoxBuilder</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">BoxType</span><span class="p">,</span> <span class="n">CatchType</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.precision</span><span class="w"> </span><span class="kn">import</span> <span class="n">kwargs</span> <span class="k">as</span> <span class="n">precision_kwargs</span>
@@ -733,7 +733,7 @@
 <span class="w">    </span><span class="sd">"""Print-in-place inset-hinge box based on MakeBoxAndLidWithInsetHinge (hinge_box.scad)."""</span>
 
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">_effective_gap</span><span class="p">(</span><span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_effective_gap</span><span class="p">(</span><span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span> <span class="o">|</span> <span class="n">UnresolvedBoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Return the print-in-place bed gap between the two box halves (2 * hinge_offset)."""</span>
         <span class="n">hinge_offset</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">pip_radial_clearance</span>
         <span class="n">raw_gap</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="s2">"pip_gap_mm"</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
@@ -780,6 +780,28 @@
             <span class="n">origin_x</span><span class="o">=</span><span class="n">wt</span><span class="p">,</span>
             <span class="n">origin_y</span><span class="o">=</span><span class="n">wt</span><span class="p">,</span>
             <span class="n">origin_z</span><span class="o">=</span><span class="n">ft</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="InsetHingeBox.outer_size_for_interior">
+<a class="viewcode-back" href="../../../../_autosummary/pyboxbuilder.box.types.inset_hinge.InsetHingeBox.html#pyboxbuilder.box.types.inset_hinge.InsetHingeBox.outer_size_for_interior">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">outer_size_for_interior</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span> <span class="o">|</span> <span class="n">UnresolvedBoxSpec</span><span class="p">,</span>
+        <span class="n">inner_w</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">inner_l</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">inner_h</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Return closed outer (W, L, H) accounting for the inset hinge width."""</span>
+        <span class="n">wt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">wall_thickness</span>
+        <span class="n">ft</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">floor_thickness</span>
+        <span class="n">gap</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_effective_gap</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
+        <span class="n">hinge_d</span> <span class="o">=</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">spec</span><span class="o">.</span><span class="n">pip_hinge_radius</span>
+        <span class="n">hinge_width</span> <span class="o">=</span> <span class="n">hinge_d</span> <span class="o">*</span> <span class="mf">2.0</span> <span class="o">+</span> <span class="n">gap</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="n">inner_w</span> <span class="o">+</span> <span class="n">wt</span> <span class="o">+</span> <span class="n">hinge_width</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">,</span>
+            <span class="n">inner_l</span> <span class="o">+</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">wt</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">,</span>
+            <span class="mf">2.0</span> <span class="o">*</span> <span class="p">(</span><span class="n">inner_h</span> <span class="o">+</span> <span class="n">ft</span> <span class="o">+</span> <span class="mf">0.25</span><span class="p">),</span>
         <span class="p">)</span></div>
 
 

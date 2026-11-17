@@ -15,12 +15,12 @@ Full Box Packing
 
 Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
-.. stl:: ../_stl/boxes/the_crew_deep_sea/Deck_body.stl?v=228e73e8,../_stl/boxes/the_crew_deep_sea/Deck_lid.stl?v=aab46c0b,../_stl/boxes/the_crew_deep_sea/Tasks1_body.stl?v=e74b0af2,../_stl/boxes/the_crew_deep_sea/Tasks1_lid.stl?v=839848e1,../_stl/boxes/the_crew_deep_sea/Tasks2_body.stl?v=cf0fc66a,../_stl/boxes/the_crew_deep_sea/Tasks2_lid.stl?v=973a548e,../_stl/boxes/the_crew_deep_sea/Accessories_body.stl?v=35fae712,../_stl/boxes/the_crew_deep_sea/Accessories_lid.stl?v=f06cadab,../_stl/boxes/the_crew_deep_sea/spacer_1.stl?v=195ac800,../_stl/boxes/the_crew_deep_sea/spacer_2.stl?v=a4d808e5
+.. stl:: ../_stl/boxes/the_crew_deep_sea/Deck_body.stl?v=228e73e8,../_stl/boxes/the_crew_deep_sea/Deck_lid.stl?v=aab46c0b,../_stl/boxes/the_crew_deep_sea/Tasks1_body.stl?v=e74b0af2,../_stl/boxes/the_crew_deep_sea/Tasks1_lid.stl?v=839848e1,../_stl/boxes/the_crew_deep_sea/Tasks2_body.stl?v=cf0fc66a,../_stl/boxes/the_crew_deep_sea/Tasks2_lid.stl?v=973a548e,../_stl/boxes/the_crew_deep_sea/Accessories_body.stl?v=35fae712,../_stl/boxes/the_crew_deep_sea/Accessories_lid.stl?v=f06cadab,../_stl/boxes/the_crew_deep_sea/spacer_1.stl?v=b9fb441e,../_stl/boxes/the_crew_deep_sea/spacer_2.stl?v=a4d808e5
    :height: 440px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/the_crew_deep_sea/Deck_body.stl?v=228e73e8" data-stl-combine="../_stl/boxes/the_crew_deep_sea/Deck_body.stl?v=228e73e8,../_stl/boxes/the_crew_deep_sea/Deck_lid.stl?v=aab46c0b,../_stl/boxes/the_crew_deep_sea/Tasks1_body.stl?v=e74b0af2,../_stl/boxes/the_crew_deep_sea/Tasks1_lid.stl?v=839848e1,../_stl/boxes/the_crew_deep_sea/Tasks2_body.stl?v=cf0fc66a,../_stl/boxes/the_crew_deep_sea/Tasks2_lid.stl?v=973a548e,../_stl/boxes/the_crew_deep_sea/Accessories_body.stl?v=35fae712,../_stl/boxes/the_crew_deep_sea/Accessories_lid.stl?v=f06cadab,../_stl/boxes/the_crew_deep_sea/spacer_1.stl?v=195ac800,../_stl/boxes/the_crew_deep_sea/spacer_2.stl?v=a4d808e5" download="TheCrewDeepSea_full_packing.stl">⬇ Download Full Box Packing STL (<code>TheCrewDeepSea_full_packing.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/the_crew_deep_sea/Deck_body.stl?v=228e73e8" data-stl-combine="../_stl/boxes/the_crew_deep_sea/Deck_body.stl?v=228e73e8,../_stl/boxes/the_crew_deep_sea/Deck_lid.stl?v=aab46c0b,../_stl/boxes/the_crew_deep_sea/Tasks1_body.stl?v=e74b0af2,../_stl/boxes/the_crew_deep_sea/Tasks1_lid.stl?v=839848e1,../_stl/boxes/the_crew_deep_sea/Tasks2_body.stl?v=cf0fc66a,../_stl/boxes/the_crew_deep_sea/Tasks2_lid.stl?v=973a548e,../_stl/boxes/the_crew_deep_sea/Accessories_body.stl?v=35fae712,../_stl/boxes/the_crew_deep_sea/Accessories_lid.stl?v=f06cadab,../_stl/boxes/the_crew_deep_sea/spacer_1.stl?v=b9fb441e,../_stl/boxes/the_crew_deep_sea/spacer_2.stl?v=a4d808e5" download="TheCrewDeepSea_full_packing.stl">⬇ Download Full Box Packing STL (<code>TheCrewDeepSea_full_packing.stl</code>)</a></p>
 
 Parts Overview
 --------------
@@ -228,12 +228,12 @@ spacer_1
 - **Outer Dimensions**: ``108 × 119 × 14.7 mm``
 - **Packed Position**: ``(62.5, 1.5, 0)``
 
-.. stl:: ../_stl/boxes/the_crew_deep_sea/spacer_1.stl?v=195ac800
+.. stl:: ../_stl/boxes/the_crew_deep_sea/spacer_1.stl?v=b9fb441e
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/the_crew_deep_sea/spacer_1.stl?v=195ac800" download="spacer_1.stl">⬇ Download spacer_1 STL (<code>spacer_1.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/the_crew_deep_sea/spacer_1.stl?v=b9fb441e" download="spacer_1.stl">⬇ Download spacer_1 STL (<code>spacer_1.stl</code>)</a></p>
 
 .. _spacer-the_crew_deep_sea-spacer_2:
 

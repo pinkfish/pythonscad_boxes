@@ -532,7 +532,7 @@
     <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2.shapes3d</span><span class="w"> </span><span class="kn">import</span> <span class="n">Bosl2Solid</span>
 
     <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.features</span><span class="w"> </span><span class="kn">import</span> <span class="n">FingernailCatch</span>
-    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.spec</span><span class="w"> </span><span class="kn">import</span> <span class="n">BoxSpec</span><span class="p">,</span> <span class="n">ResolvedBoxSpec</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.spec</span><span class="w"> </span><span class="kn">import</span> <span class="n">BoxSpec</span><span class="p">,</span> <span class="n">ResolvedBoxSpec</span><span class="p">,</span> <span class="n">UnresolvedBoxSpec</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">ScoopSide</span>
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"BoxTypeBase"</span><span class="p">,</span> <span class="s2">"Interior"</span><span class="p">]</span>
@@ -601,6 +601,56 @@
 
 <span class="sd">        """</span>
         <span class="k">return</span> <span class="n">spec</span><span class="o">.</span><span class="n">interior</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="BoxTypeBase.outer_size_for_interior">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.base.BoxTypeBase.html#pyboxbuilder.box.base.BoxTypeBase.outer_size_for_interior">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">outer_size_for_interior</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span> <span class="o">|</span> <span class="n">UnresolvedBoxSpec</span><span class="p">,</span>
+        <span class="n">inner_w</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">inner_l</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">inner_h</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Return the outer ``(width, length, height)`` needed to enclose an interior.</span>
+
+<span class="sd">        The inverse of :meth:`interior`, used when deriving a box's minimum</span>
+<span class="sd">        envelope from its compartments so types with sleeves, clamshell halves,</span>
+<span class="sd">        or no lid are sized accurately rather than assuming ``2 * wall`` and a</span>
+<span class="sd">        standard lid plate.</span>
+<span class="sd">        """</span>
+        <span class="n">wt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">wall_thickness</span>
+        <span class="n">ft</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">floor_thickness</span>
+        <span class="n">lt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">lid_thickness</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="n">inner_w</span> <span class="o">+</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">wt</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">,</span>
+            <span class="n">inner_l</span> <span class="o">+</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">wt</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">,</span>
+            <span class="n">inner_h</span> <span class="o">+</span> <span class="n">ft</span> <span class="o">+</span> <span class="n">lt</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="BoxTypeBase.exterior_protrusions">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.base.BoxTypeBase.html#pyboxbuilder.box.base.BoxTypeBase.exterior_protrusions">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">exterior_protrusions</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span> <span class="o">|</span> <span class="n">UnresolvedBoxSpec</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Return ``(neg_x, pos_x, neg_y, pos_y, neg_z, pos_z)`` protruding beyond ``[0..W, 0..L, 0..H]``.</span>
+
+<span class="sd">        Used by the container packer so features that intentionally stand proud</span>
+<span class="sd">        of the nominal body — drawer handles, dispenser landing trays, or</span>
+<span class="sd">        external stacking skirts — reserve clearance inside the game box.</span>
+<span class="sd">        """</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">StackableMode</span>
+
+        <span class="n">nx</span> <span class="o">=</span> <span class="n">px</span> <span class="o">=</span> <span class="n">ny</span> <span class="o">=</span> <span class="n">py</span> <span class="o">=</span> <span class="n">nz</span> <span class="o">=</span> <span class="n">pz</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">stackable</span> <span class="ow">is</span> <span class="n">StackableMode</span><span class="o">.</span><span class="n">OUTSIDE</span> <span class="ow">and</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="s2">"stackable_bottom"</span><span class="p">,</span> <span class="kc">True</span><span class="p">):</span>
+            <span class="n">rim</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">stackable_thickness</span> <span class="ow">or</span> <span class="n">spec</span><span class="o">.</span><span class="n">wall_thickness</span>
+            <span class="n">ext</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">rim</span> <span class="o">-</span> <span class="n">spec</span><span class="o">.</span><span class="n">stackable_fit_offset</span><span class="p">))</span>
+            <span class="n">nx</span> <span class="o">+=</span> <span class="n">ext</span>
+            <span class="n">px</span> <span class="o">+=</span> <span class="n">ext</span>
+            <span class="n">ny</span> <span class="o">+=</span> <span class="n">ext</span>
+            <span class="n">py</span> <span class="o">+=</span> <span class="n">ext</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">nx</span><span class="p">,</span> <span class="n">px</span><span class="p">,</span> <span class="n">ny</span><span class="p">,</span> <span class="n">py</span><span class="p">,</span> <span class="n">nz</span><span class="p">,</span> <span class="n">pz</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="BoxTypeBase.preferred_scoop_side">

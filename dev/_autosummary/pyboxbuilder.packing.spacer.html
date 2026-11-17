@@ -1581,22 +1581,20 @@
 
 
 <h1 id="module-pyboxbuilder.packing.spacer"><span id="pyboxbuilder-packing-spacer"></span>pyboxbuilder.packing.spacer<a class="headerlink" href="#module-pyboxbuilder.packing.spacer" title="Link to this heading">¶</a></h1>
-<p>Spacer tray generation — fill the leftover space with as few trays as possible.</p>
-<p>Three stages (FR-014, FR-014a/b/c):</p>
+<p>Spacer tray generation — fill leftover space with minimal, hole-free, supported trays.</p>
+<p>Four stages (FR-014, FR-014a/b/c, FR-018):</p>
 <ol class="arabic simple">
-<li><p><strong>Sweep</strong> the game box for the volume no sub-box occupies, and decompose that
-volume into axis-aligned boxes, largest first.</p></li>
-<li><p><strong>Merge</strong> any two boxes whose union is itself a box, to a fixed point.</p></li>
-<li><p><strong>Shrink</strong> each survivor by the clearance slack and drop the ones too thin to
-print.</p></li>
+<li><p><strong>Sweep</strong> the game box for empty volume using an axis-unbiased 3D histogram
+maximal-empty-cuboid DP ($O(N_x N_y N_z^2)$), extracting the globally largest
+empty cuboid at every step regardless of axis orientation.</p></li>
+<li><p><strong>Merge</strong> adjacent cuboids whose union is itself a cuboid via indexed face
+matching to a deterministic fixed point.</p></li>
+<li><p><strong>Rectilinear polygon merge</strong> of coplanar same-Z neighbors into L/T/U
+<cite>PathBox</cite> footprints, automatically splitting genus &gt;= 1 ring/donut frames
+around interior boxes so no spacer ever swallows an enclosed box.</p></li>
+<li><p><strong>Support &amp; clearance filter</strong> shrinking footprints by <cite>clearance</cite> and
+verifying both vertical support from below and minimum printable thickness.</p></li>
 </ol>
-<p>Stage 1 takes the largest box available at each step rather than scanning the
-grid in index order, and stage 2 exists at all, for the same reason: the plane
-grid is global, so a box in one corner of the game box contributes cut planes
-that slice free space everywhere else. Index-order scanning lets a 2 mm sliver
-claim cells out of the middle of a large void and leave it in fragments — the
-number of trays then depends on how many boxes the layout happens to contain,
-which is what FR-014a forbids.</p>
 <p class="rubric">Classes</p>
 <table class="autosummary longtable docutils data align-default">
 <tbody>
@@ -1611,29 +1609,29 @@ which is what FR-014a forbids.</p>
 <p class="rubric">Functions</p>
 <table class="autosummary longtable docutils data align-default">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="pyboxbuilder.packing.spacer.apply_clearance.html#pyboxbuilder.packing.spacer.apply_clearance" title="pyboxbuilder.packing.spacer.apply_clearance (Python function) — Shrink a void by slack on every side so the tray can be lifted out."><code class="xref py py-obj docutils literal notranslate"><span class="pre">apply_clearance</span></code></a></p></td>
-<td><p>Shrink a void by <cite>slack</cite> on every side so the tray can be lifted out.</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="pyboxbuilder.packing.spacer.apply_clearance.html#pyboxbuilder.packing.spacer.apply_clearance" title="pyboxbuilder.packing.spacer.apply_clearance (Python function) — Shrink a void by slack on every horizontal side so the tray lifts out freely."><code class="xref py py-obj docutils literal notranslate"><span class="pre">apply_clearance</span></code></a></p></td>
+<td><p>Shrink a void by <cite>slack</cite> on every horizontal side so the tray lifts out freely.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="pyboxbuilder.packing.spacer.generate_spacer_placements.html#pyboxbuilder.packing.spacer.generate_spacer_placements" title="pyboxbuilder.packing.spacer.generate_spacer_placements (Python function) — generate_spacer_voids as Placement`s named `spacer_1..spacer_N."><code class="xref py py-obj docutils literal notranslate"><span class="pre">generate_spacer_placements</span></code></a></p></td>
 <td><p><cite>generate_spacer_voids</cite> as <cite>Placement`s named `spacer_1..spacer_N</cite>.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="pyboxbuilder.packing.spacer.generate_spacer_voids.html#pyboxbuilder.packing.spacer.generate_spacer_voids" title="pyboxbuilder.packing.spacer.generate_spacer_voids (Python function) — Sweep, merge, shrink and filter — the whole spacer pass."><code class="xref py py-obj docutils literal notranslate"><span class="pre">generate_spacer_voids</span></code></a></p></td>
-<td><p>Sweep, merge, shrink and filter — the whole spacer pass.</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="pyboxbuilder.packing.spacer.generate_spacer_voids.html#pyboxbuilder.packing.spacer.generate_spacer_voids" title="pyboxbuilder.packing.spacer.generate_spacer_voids (Python function) — Sweep, merge, split holes, verify support, shrink and filter — the whole spacer pass."><code class="xref py py-obj docutils literal notranslate"><span class="pre">generate_spacer_voids</span></code></a></p></td>
+<td><p>Sweep, merge, split holes, verify support, shrink and filter — the whole spacer pass.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="pyboxbuilder.packing.spacer.generate_spacers.html#pyboxbuilder.packing.spacer.generate_spacers" title="pyboxbuilder.packing.spacer.generate_spacers (Python function) — Generate spacer tray specs for gaps left at the end of 2D rows."><code class="xref py py-obj docutils literal notranslate"><span class="pre">generate_spacers</span></code></a></p></td>
 <td><p>Generate spacer tray specs for gaps left at the end of 2D rows.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="pyboxbuilder.packing.spacer.merge_rectilinear.html#pyboxbuilder.packing.spacer.merge_rectilinear" title="pyboxbuilder.packing.spacer.merge_rectilinear (Python function) — Fuse coplanar neighbours into one polygon-footprint tray (FR-018)."><code class="xref py py-obj docutils literal notranslate"><span class="pre">merge_rectilinear</span></code></a></p></td>
-<td><p>Fuse coplanar neighbours into one polygon-footprint tray (FR-018).</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="pyboxbuilder.packing.spacer.merge_rectilinear.html#pyboxbuilder.packing.spacer.merge_rectilinear" title="pyboxbuilder.packing.spacer.merge_rectilinear (Python function) — Fuse coplanar same-Z neighbours into polygon-footprint trays, splitting holes (FR-018)."><code class="xref py py-obj docutils literal notranslate"><span class="pre">merge_rectilinear</span></code></a></p></td>
+<td><p>Fuse coplanar same-Z neighbours into polygon-footprint trays, splitting holes (FR-018).</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="pyboxbuilder.packing.spacer.merge_voids.html#pyboxbuilder.packing.spacer.merge_voids" title="pyboxbuilder.packing.spacer.merge_voids (Python function) — Fuse mergeable voids until none remain (FR-014b)."><code class="xref py py-obj docutils literal notranslate"><span class="pre">merge_voids</span></code></a></p></td>
-<td><p>Fuse mergeable voids until none remain (FR-014b).</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="pyboxbuilder.packing.spacer.merge_voids.html#pyboxbuilder.packing.spacer.merge_voids" title="pyboxbuilder.packing.spacer.merge_voids (Python function) — Fuse mergeable voids deterministically using orthogonal face-bucket indexing (FR-014b)."><code class="xref py py-obj docutils literal notranslate"><span class="pre">merge_voids</span></code></a></p></td>
+<td><p>Fuse mergeable voids deterministically using orthogonal face-bucket indexing (FR-014b).</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="pyboxbuilder.packing.spacer.sweep_free_space.html#pyboxbuilder.packing.spacer.sweep_free_space" title="pyboxbuilder.packing.spacer.sweep_free_space (Python function) — Decompose the space no placement occupies into boxes, largest first."><code class="xref py py-obj docutils literal notranslate"><span class="pre">sweep_free_space</span></code></a></p></td>
-<td><p>Decompose the space no placement occupies into boxes, largest first.</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="pyboxbuilder.packing.spacer.sweep_free_space.html#pyboxbuilder.packing.spacer.sweep_free_space" title="pyboxbuilder.packing.spacer.sweep_free_space (Python function) — Decompose the space no placement occupies into disjoint boxes, largest first."><code class="xref py py-obj docutils literal notranslate"><span class="pre">sweep_free_space</span></code></a></p></td>
+<td><p>Decompose the space no placement occupies into disjoint boxes, largest first.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="pyboxbuilder.packing.spacer.union_outline.html#pyboxbuilder.packing.spacer.union_outline" title="pyboxbuilder.packing.spacer.union_outline (Python function) — Trace the outline of a union of axis-aligned footprints."><code class="xref py py-obj docutils literal notranslate"><span class="pre">union_outline</span></code></a></p></td>
-<td><p>Trace the outline of a union of axis-aligned footprints.</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="pyboxbuilder.packing.spacer.union_outline.html#pyboxbuilder.packing.spacer.union_outline" title="pyboxbuilder.packing.spacer.union_outline (Python function) — Trace the single genus-0 outline of a union of axis-aligned footprints."><code class="xref py py-obj docutils literal notranslate"><span class="pre">union_outline</span></code></a></p></td>
+<td><p>Trace the single genus-0 outline of a union of axis-aligned footprints.</p></td>
 </tr>
 </tbody>
 </table>

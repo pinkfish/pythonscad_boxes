@@ -14,7 +14,7 @@
         <link rel="prev" href="pyboxbuilder.packing.guillotine.Placed.html">
       
       
-        <link rel="next" href="pyboxbuilder.packing.layout.html">
+        <link rel="next" href="pyboxbuilder.packing.guillotine.subtract_obstacles_3d.html">
       
       
       <link rel="icon" href="">
@@ -1008,7 +1008,7 @@
       <span aria-label="Python function" class="objinfo-icon objinfo-icon__procedure" title="Python function">F</span>
     
     <span class="md-ellipsis">
-      <span title="pyboxbuilder.packing.guillotine.pack_guillotine (Python function) — Pack items into container, or return None if this search cannot."><span>pyboxbuilder.<wbr>packing.<wbr>guillotine.<wbr>pack_<wbr>guillotine</span></span>
+      <span title="pyboxbuilder.packing.guillotine.pack_guillotine (Python function) — Pack items into container around optional obstacles, or return None."><span>pyboxbuilder.<wbr>packing.<wbr>guillotine.<wbr>pack_<wbr>guillotine</span></span>
     </span>
   </a>
   
@@ -1025,6 +1025,16 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#pyboxbuilder.packing.guillotine.pack_guillotine-returns" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span>Returns</span>
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1034,6 +1044,30 @@
   
 </nav>
       
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pyboxbuilder.packing.guillotine.subtract_obstacles_3d.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>packing.<wbr>guillotine.<wbr>subtract_<wbr>obstacles_<wbr>3d</span>
+    
+  </span>
+  
+
+      </a>
     </li>
   
 
@@ -1330,7 +1364,7 @@
       <span aria-label="Python function" class="objinfo-icon objinfo-icon__procedure" title="Python function">F</span>
     
     <span class="md-ellipsis">
-      <span title="pyboxbuilder.packing.guillotine.pack_guillotine (Python function) — Pack items into container, or return None if this search cannot."><span>pyboxbuilder.<wbr>packing.<wbr>guillotine.<wbr>pack_<wbr>guillotine</span></span>
+      <span title="pyboxbuilder.packing.guillotine.pack_guillotine (Python function) — Pack items into container around optional obstacles, or return None."><span>pyboxbuilder.<wbr>packing.<wbr>guillotine.<wbr>pack_<wbr>guillotine</span></span>
     </span>
   </a>
   
@@ -1342,6 +1376,16 @@
     
     <span class="md-ellipsis">
       <span>Parameters</span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pyboxbuilder.packing.guillotine.pack_guillotine-returns" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span>Returns</span>
     </span>
   </a>
   
@@ -1371,24 +1415,23 @@
 <h1 id="pyboxbuilder-packing-guillotine-pack-guillotine">pyboxbuilder.packing.guillotine.pack_guillotine<a class="headerlink" href="#pyboxbuilder-packing-guillotine-pack-guillotine" title="Link to this heading">¶</a></h1>
 <dl class="py function objdesc">
 <dt class="sig sig-object highlight sig-wrap py" id="pyboxbuilder.packing.guillotine.pack_guillotine">
-<span class="sig-prename descclassname"><span class="pre">pyboxbuilder.packing.guillotine.</span></span><span class="sig-name descname"><span class="pre">pack_guillotine</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#pyboxbuilder.packing.guillotine.pack_guillotine.container" title="pyboxbuilder.packing.guillotine.pack_guillotine.container (Python parameter) — (width, length, height) of the space to fill."><span class="n"><span class="pre">container</span></span></a><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#tuple" title="(in Python v3.15)"><span class="pre">tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.15)"><span class="pre">float</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.15)"><span class="pre">float</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.15)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span></span></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#pyboxbuilder.packing.guillotine.pack_guillotine.items" title="pyboxbuilder.packing.guillotine.pack_guillotine.items (Python parameter) — The boxes."><span class="n"><span class="pre">items</span></span></a><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.15)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="pyboxbuilder.packing.guillotine.Item.html#pyboxbuilder.packing.guillotine.Item" title="pyboxbuilder.packing.guillotine.Item (Python class) — Bases: object"><span class="pre">Item</span></a><span class="p"><span class="pre">]</span></span></span></span></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#pyboxbuilder.packing.guillotine.pack_guillotine.node_budget" title="pyboxbuilder.packing.guillotine.pack_guillotine.node_budget (Python parameter) — Search nodes before giving up."><span class="n"><span class="pre">node_budget</span></span></a><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.15)"><span class="pre">int</span></a></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><code class="code python default_value docutils literal highlight highlight-python"><span class="mi">200000</span></code></em></span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.15)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="pyboxbuilder.packing.guillotine.Placed.html#pyboxbuilder.packing.guillotine.Placed" title="pyboxbuilder.packing.guillotine.Placed (Python class) — Bases: object"><span class="pre">Placed</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.15)"><span class="pre">None</span></a></span></span></span><a class="reference internal" href="../_modules/pyboxbuilder/packing/guillotine.html#pack_guillotine"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyboxbuilder.packing.guillotine.pack_guillotine" title="Link to this definition">¶</a></dt>
-<dd><p>Pack <cite>items</cite> into <cite>container</cite>, or return None if this search cannot.</p>
-<p>Returns None rather than raising: the caller decides whether to fall back to
-another solver or to report the failure. None is not proof that no packing
-exists – <cite>node_budget</cite> may simply have run out.</p>
+<span class="sig-prename descclassname"><span class="pre">pyboxbuilder.packing.guillotine.</span></span><span class="sig-name descname"><span class="pre">pack_guillotine</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#pyboxbuilder.packing.guillotine.pack_guillotine.container" title="pyboxbuilder.packing.guillotine.pack_guillotine.container (Python parameter) — (width, length, height) of the space to fill in mm."><span class="n"><span class="pre">container</span></span></a><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#tuple" title="(in Python v3.15)"><span class="pre">tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.15)"><span class="pre">float</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.15)"><span class="pre">float</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.15)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span></span></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#pyboxbuilder.packing.guillotine.pack_guillotine.items" title="pyboxbuilder.packing.guillotine.pack_guillotine.items (Python parameter) — Boxes to place (may carry size_options or stack_members)."><span class="n"><span class="pre">items</span></span></a><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.15)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="pyboxbuilder.packing.guillotine.Item.html#pyboxbuilder.packing.guillotine.Item" title="pyboxbuilder.packing.guillotine.Item (Python class) — Bases: object"><span class="pre">Item</span></a><span class="p"><span class="pre">]</span></span></span></span></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#pyboxbuilder.packing.guillotine.pack_guillotine.node_budget" title="pyboxbuilder.packing.guillotine.pack_guillotine.node_budget (Python parameter) — Search nodes before giving up."><span class="n"><span class="pre">node_budget</span></span></a><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.15)"><span class="pre">int</span></a></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><code class="code python default_value docutils literal highlight highlight-python"><span class="mi">200000</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#pyboxbuilder.packing.guillotine.pack_guillotine.obstacles" title="pyboxbuilder.packing.guillotine.pack_guillotine.obstacles (Python parameter) — Already-placed (x, y, z, w, l, h) boxes to pack around."><span class="n"><span class="pre">obstacles</span></span></a><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Sequence" title="(in Python v3.15)"><span class="pre">Sequence</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#tuple" title="(in Python v3.15)"><span class="pre">tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.15)"><span class="pre">float</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.15)"><span class="pre">float</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.15)"><span class="pre">float</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.15)"><span class="pre">float</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.15)"><span class="pre">float</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.15)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><code class="code python default_value docutils literal highlight highlight-python"><span class="p">()</span></code></em></span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.15)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="pyboxbuilder.packing.guillotine.Placed.html#pyboxbuilder.packing.guillotine.Placed" title="pyboxbuilder.packing.guillotine.Placed (Python class) — Bases: object"><span class="pre">Placed</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.15)"><span class="pre">None</span></a></span></span></span><a class="reference internal" href="../_modules/pyboxbuilder/packing/guillotine.html#pack_guillotine"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyboxbuilder.packing.guillotine.pack_guillotine" title="Link to this definition">¶</a></dt>
+<dd><p>Pack <code class="docutils literal notranslate"><span class="pre">items</span></code> into <code class="docutils literal notranslate"><span class="pre">container</span></code> around optional <code class="docutils literal notranslate"><span class="pre">obstacles</span></code>, or return <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd" id="pyboxbuilder.packing.guillotine.pack_guillotine-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#pyboxbuilder.packing.guillotine.pack_guillotine-parameters" title="Permalink to this headline">¶</a></dt>
 <dd class="field-odd"><dl class="simple api-field highlight">
-<dt id="pyboxbuilder.packing.guillotine.pack_guillotine.container"><span class="n sig-name">container</span><span class="p">:</span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#tuple" title="(in Python v3.15)">tuple</a><span class="p">[</span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.15)">float</a><span class="p">,</span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.15)">float</a><span class="p">,</span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.15)">float</a><span class="p">]</span></span></span><a class="headerlink" href="#pyboxbuilder.packing.guillotine.pack_guillotine.container" title="Permalink to this definition">¶</a></dt><dd><p>(width, length, height) of the space to fill.</p>
+<dt id="pyboxbuilder.packing.guillotine.pack_guillotine.container"><span class="n sig-name">container</span><span class="p">:</span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#tuple" title="(in Python v3.15)">tuple</a><span class="p">[</span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.15)">float</a><span class="p">,</span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.15)">float</a><span class="p">,</span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.15)">float</a><span class="p">]</span></span></span><a class="headerlink" href="#pyboxbuilder.packing.guillotine.pack_guillotine.container" title="Permalink to this definition">¶</a></dt><dd><p><code class="docutils literal notranslate"><span class="pre">(width,</span> <span class="pre">length,</span> <span class="pre">height)</span></code> of the space to fill in mm.</p>
 </dd>
-<dt id="pyboxbuilder.packing.guillotine.pack_guillotine.items"><span class="n sig-name">items</span><span class="p">:</span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.15)">list</a><span class="p">[</span><a class="reference internal" href="pyboxbuilder.packing.guillotine.Item.html#pyboxbuilder.packing.guillotine.Item" title="pyboxbuilder.packing.guillotine.Item (Python class) — Bases: object">Item</a><span class="p">]</span></span></span><a class="headerlink" href="#pyboxbuilder.packing.guillotine.pack_guillotine.items" title="Permalink to this definition">¶</a></dt><dd><p>The boxes. Identical ones are searched as a single class, so five
-copies of one box cost no more than one.</p>
+<dt id="pyboxbuilder.packing.guillotine.pack_guillotine.items"><span class="n sig-name">items</span><span class="p">:</span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.15)">list</a><span class="p">[</span><a class="reference internal" href="pyboxbuilder.packing.guillotine.Item.html#pyboxbuilder.packing.guillotine.Item" title="pyboxbuilder.packing.guillotine.Item (Python class) — Bases: object">Item</a><span class="p">]</span></span></span><a class="headerlink" href="#pyboxbuilder.packing.guillotine.pack_guillotine.items" title="Permalink to this definition">¶</a></dt><dd><p>Boxes to place (may carry <code class="docutils literal notranslate"><span class="pre">size_options</span></code> or <code class="docutils literal notranslate"><span class="pre">stack_members</span></code>).</p>
 </dd>
-<dt id="pyboxbuilder.packing.guillotine.pack_guillotine.node_budget"><span class="n sig-name">node_budget</span><span class="p">:</span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.15)">int</a></span></span><span class="w"> </span><span class="o">=</span><span class="w"> </span><code class="code python default_value docutils literal highlight highlight-python"><span class="mi">200000</span></code><a class="headerlink" href="#pyboxbuilder.packing.guillotine.pack_guillotine.node_budget" title="Permalink to this definition">¶</a></dt><dd><p>Search nodes before giving up. The 18-box Emberleaf layout
-resolves in 3,237 of them, in about 30ms; the budget is headroom for
-harder inputs, not a figure normal ones approach.</p>
+<dt id="pyboxbuilder.packing.guillotine.pack_guillotine.node_budget"><span class="n sig-name">node_budget</span><span class="p">:</span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.15)">int</a></span></span><span class="w"> </span><span class="o">=</span><span class="w"> </span><code class="code python default_value docutils literal highlight highlight-python"><span class="mi">200000</span></code><a class="headerlink" href="#pyboxbuilder.packing.guillotine.pack_guillotine.node_budget" title="Permalink to this definition">¶</a></dt><dd><p>Search nodes before giving up.</p>
+</dd>
+<dt id="pyboxbuilder.packing.guillotine.pack_guillotine.obstacles"><span class="n sig-name">obstacles</span><span class="p">:</span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Sequence" title="(in Python v3.15)">Sequence</a><span class="p">[</span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#tuple" title="(in Python v3.15)">tuple</a><span class="p">[</span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.15)">float</a><span class="p">,</span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.15)">float</a><span class="p">,</span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.15)">float</a><span class="p">,</span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.15)">float</a><span class="p">,</span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.15)">float</a><span class="p">,</span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.15)">float</a><span class="p">]</span><span class="p">]</span></span></span><span class="w"> </span><span class="o">=</span><span class="w"> </span><code class="code python default_value docutils literal highlight highlight-python"><span class="p">()</span></code><a class="headerlink" href="#pyboxbuilder.packing.guillotine.pack_guillotine.obstacles" title="Permalink to this definition">¶</a></dt><dd><p>Already-placed <code class="docutils literal notranslate"><span class="pre">(x,</span> <span class="pre">y,</span> <span class="pre">z,</span> <span class="pre">w,</span> <span class="pre">l,</span> <span class="pre">h)</span></code> boxes to pack around.</p>
 </dd>
 </dl>
+</dd>
+<dt class="field-even" id="pyboxbuilder.packing.guillotine.pack_guillotine-returns">Returns<span class="colon">:</span><a class="headerlink" href="#pyboxbuilder.packing.guillotine.pack_guillotine-returns" title="Permalink to this headline">¶</a></dt>
+<dd class="field-even"><p>List of <code class="docutils literal notranslate"><span class="pre">Placed</span></code> records, or <code class="docutils literal notranslate"><span class="pre">None</span></code> if no packing was found within budget.</p>
 </dd>
 </dl>
 </dd></dl>

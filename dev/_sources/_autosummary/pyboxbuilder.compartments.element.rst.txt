@@ -39,6 +39,7 @@ pyboxbuilder.compartments.element
       elements_overlap
       grid_pack
       normalize_elements
+      pack_elements
       svg_solid
       union_all
    

@@ -1052,12 +1052,24 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#pyboxbuilder.project.compiler.LayoutCompiler.candidate_sizes" class="md-nav__link">
+    
+      <span aria-label="Python method" class="objinfo-icon objinfo-icon__procedure" title="Python method">M</span>
+    
+    <span class="md-ellipsis">
+      <span title="pyboxbuilder.project.compiler.LayoutCompiler.candidate_sizes (Python method) — Return Pareto-optimal (W, L, H) envelopes for an unsized compartment box."><span>candidate_<wbr>sizes</span></span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#pyboxbuilder.project.compiler.LayoutCompiler.min_size" class="md-nav__link">
     
       <span aria-label="Python method" class="objinfo-icon objinfo-icon__procedure" title="Python method">M</span>
     
     <span class="md-ellipsis">
-      <span title="pyboxbuilder.project.compiler.LayoutCompiler.min_size (Python method) — Return the smallest this box may be: its explicit size, or its contents."><span>min_<wbr>size</span></span>
+      <span title="pyboxbuilder.project.compiler.LayoutCompiler.min_size (Python method) — Return the smallest compact envelope this box may take."><span>min_<wbr>size</span></span>
     </span>
   </a>
   
@@ -1069,7 +1081,7 @@
       <span aria-label="Python method" class="objinfo-icon objinfo-icon__procedure" title="Python method">M</span>
     
     <span class="md-ellipsis">
-      <span title="pyboxbuilder.project.compiler.LayoutCompiler.resolve_final_layout (Python method) — Resolve each box&#39;s final size and packed position."><span>resolve_<wbr>final_<wbr>layout</span></span>
+      <span title="pyboxbuilder.project.compiler.LayoutCompiler.resolve_final_layout (Python method) — Resolve each box&#39;s final size and packed position inside the game box."><span>resolve_<wbr>final_<wbr>layout</span></span>
     </span>
   </a>
   
@@ -1400,12 +1412,24 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#pyboxbuilder.project.compiler.LayoutCompiler.candidate_sizes" class="md-nav__link">
+    
+      <span aria-label="Python method" class="objinfo-icon objinfo-icon__procedure" title="Python method">M</span>
+    
+    <span class="md-ellipsis">
+      <span title="pyboxbuilder.project.compiler.LayoutCompiler.candidate_sizes (Python method) — Return Pareto-optimal (W, L, H) envelopes for an unsized compartment box."><span>candidate_<wbr>sizes</span></span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#pyboxbuilder.project.compiler.LayoutCompiler.min_size" class="md-nav__link">
     
       <span aria-label="Python method" class="objinfo-icon objinfo-icon__procedure" title="Python method">M</span>
     
     <span class="md-ellipsis">
-      <span title="pyboxbuilder.project.compiler.LayoutCompiler.min_size (Python method) — Return the smallest this box may be: its explicit size, or its contents."><span>min_<wbr>size</span></span>
+      <span title="pyboxbuilder.project.compiler.LayoutCompiler.min_size (Python method) — Return the smallest compact envelope this box may take."><span>min_<wbr>size</span></span>
     </span>
   </a>
   
@@ -1417,7 +1441,7 @@
       <span aria-label="Python method" class="objinfo-icon objinfo-icon__procedure" title="Python method">M</span>
     
     <span class="md-ellipsis">
-      <span title="pyboxbuilder.project.compiler.LayoutCompiler.resolve_final_layout (Python method) — Resolve each box&#39;s final size and packed position."><span>resolve_<wbr>final_<wbr>layout</span></span>
+      <span title="pyboxbuilder.project.compiler.LayoutCompiler.resolve_final_layout (Python method) — Resolve each box&#39;s final size and packed position inside the game box."><span>resolve_<wbr>final_<wbr>layout</span></span>
     </span>
   </a>
   
@@ -1505,15 +1529,21 @@
 </dd></dl>
 
 <dl class="py method objdesc">
+<dt class="sig sig-object highlight sig-wrap py" id="pyboxbuilder.project.compiler.LayoutCompiler.candidate_sizes">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">candidate_sizes</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#pyboxbuilder.project.compiler.LayoutCompiler.candidate_sizes" title="pyboxbuilder.project.compiler.LayoutCompiler.candidate_sizes.manifest (Python parameter)"><span class="n"><span class="pre">manifest</span></span></a><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference internal" href="pyboxbuilder.project.manifest.ProjectManifest.html#pyboxbuilder.project.manifest.ProjectManifest" title="pyboxbuilder.project.manifest.ProjectManifest (Python class) — Bases: object"><span class="pre">ProjectManifest</span></a></span></span></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#pyboxbuilder.project.compiler.LayoutCompiler.candidate_sizes" title="pyboxbuilder.project.compiler.LayoutCompiler.candidate_sizes.builder (Python parameter)"><span class="n"><span class="pre">builder</span></span></a><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="desctype"><span class="pre">BoxBuilder</span></span></span></em></span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.15)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#tuple" title="(in Python v3.15)"><span class="pre">tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.15)"><span class="pre">float</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.15)"><span class="pre">float</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.15)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span></span><a class="reference internal" href="../_modules/pyboxbuilder/project/compiler.html#LayoutCompiler.candidate_sizes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyboxbuilder.project.compiler.LayoutCompiler.candidate_sizes" title="Link to this definition">¶</a></dt>
+<dd><p>Return Pareto-optimal <code class="docutils literal notranslate"><span class="pre">(W,</span> <span class="pre">L,</span> <span class="pre">H)</span></code> envelopes for an unsized compartment box.</p>
+</dd></dl>
+
+<dl class="py method objdesc">
 <dt class="sig sig-object highlight sig-wrap py" id="pyboxbuilder.project.compiler.LayoutCompiler.min_size">
 <em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">min_size</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#pyboxbuilder.project.compiler.LayoutCompiler.min_size" title="pyboxbuilder.project.compiler.LayoutCompiler.min_size.manifest (Python parameter)"><span class="n"><span class="pre">manifest</span></span></a><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference internal" href="pyboxbuilder.project.manifest.ProjectManifest.html#pyboxbuilder.project.manifest.ProjectManifest" title="pyboxbuilder.project.manifest.ProjectManifest (Python class) — Bases: object"><span class="pre">ProjectManifest</span></a></span></span></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#pyboxbuilder.project.compiler.LayoutCompiler.min_size" title="pyboxbuilder.project.compiler.LayoutCompiler.min_size.builder (Python parameter)"><span class="n"><span class="pre">builder</span></span></a><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="desctype"><span class="pre">BoxBuilder</span></span></span></em></span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#tuple" title="(in Python v3.15)"><span class="pre">tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.15)"><span class="pre">float</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.15)"><span class="pre">float</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.15)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span></span></span><a class="reference internal" href="../_modules/pyboxbuilder/project/compiler.html#LayoutCompiler.min_size"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyboxbuilder.project.compiler.LayoutCompiler.min_size" title="Link to this definition">¶</a></dt>
-<dd><p>Return the smallest this box may be: its explicit size, or its contents.</p>
+<dd><p>Return the smallest compact envelope this box may take.</p>
 </dd></dl>
 
 <dl class="py method objdesc">
 <dt class="sig sig-object highlight sig-wrap py" id="pyboxbuilder.project.compiler.LayoutCompiler.resolve_final_layout">
 <em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">resolve_final_layout</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#pyboxbuilder.project.compiler.LayoutCompiler.resolve_final_layout" title="pyboxbuilder.project.compiler.LayoutCompiler.resolve_final_layout.manifest (Python parameter)"><span class="n"><span class="pre">manifest</span></span></a><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference internal" href="pyboxbuilder.project.manifest.ProjectManifest.html#pyboxbuilder.project.manifest.ProjectManifest" title="pyboxbuilder.project.manifest.ProjectManifest (Python class) — Bases: object"><span class="pre">ProjectManifest</span></a></span></span></em></span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="desctype"><a class="reference internal" href="pyboxbuilder.packing.layout.BoxPacking.html#pyboxbuilder.packing.layout.BoxPacking" title="pyboxbuilder.packing.layout.BoxPacking (Python class) — Bases: object"><span class="pre">BoxPacking</span></a></span></span></span><a class="reference internal" href="../_modules/pyboxbuilder/project/compiler.html#LayoutCompiler.resolve_final_layout"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyboxbuilder.project.compiler.LayoutCompiler.resolve_final_layout" title="Link to this definition">¶</a></dt>
-<dd><p>Resolve each box’s final size and packed position.</p>
+<dd><p>Resolve each box’s final size and packed position inside the game box.</p>
 </dd></dl>
 
 <dl class="py method objdesc">
@@ -1538,6 +1568,9 @@
 <dt class="sig sig-object highlight py" id="pyboxbuilder.project.compiler.LayoutCompiler.check_ratios">
 <em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">check_ratios</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#pyboxbuilder.project.compiler.LayoutCompiler.check_ratios" title="pyboxbuilder.project.compiler.LayoutCompiler.check_ratios.builder (Python parameter)"><span class="n"><span class="pre">builder</span></span></a><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="desctype"><span class="pre">BoxBuilder</span></span></span></em></span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.15)"><span class="pre">None</span></a></span></span></span><a class="reference internal" href="../_modules/pyboxbuilder/project/compiler.html#LayoutCompiler.check_ratios"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyboxbuilder.project.compiler.LayoutCompiler.check_ratios" title="Link to this definition">¶</a></dt>
 <dd><p>Reject ratio allocations that cannot fit in the box.</p>
+<p>Supports 1D width-ratio rows, 1D length-ratio stacks, and 2D <code class="docutils literal notranslate"><span class="pre">(width_ratio,</span> <span class="pre">length_ratio)</span></code>
+grids (such as <a class="reference internal" href="pyboxbuilder.project.core.Project.html#pyboxbuilder.project.core.Project.token_tray" title="pyboxbuilder.project.core.Project.token_tray (Python method) — Add a tray subdivided into a grid of compartments for tokens, with finger scoops."><code class="xref py py-meth docutils literal notranslate"><span class="pre">token_tray()</span></code></a>), where cell area
+shares sum to &lt;= 1.0.</p>
 </dd></dl>
 
 </dd></dl>

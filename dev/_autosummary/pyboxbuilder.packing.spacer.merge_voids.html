@@ -1176,7 +1176,7 @@
       <span aria-label="Python function" class="objinfo-icon objinfo-icon__procedure" title="Python function">F</span>
     
     <span class="md-ellipsis">
-      <span title="pyboxbuilder.packing.spacer.merge_voids (Python function) — Fuse mergeable voids until none remain (FR-014b)."><span>pyboxbuilder.<wbr>packing.<wbr>spacer.<wbr>merge_<wbr>voids</span></span>
+      <span title="pyboxbuilder.packing.spacer.merge_voids (Python function) — Fuse mergeable voids deterministically using orthogonal face-bucket indexing (FR-014b)."><span>pyboxbuilder.<wbr>packing.<wbr>spacer.<wbr>merge_<wbr>voids</span></span>
     </span>
   </a>
   
@@ -1482,7 +1482,7 @@
       <span aria-label="Python function" class="objinfo-icon objinfo-icon__procedure" title="Python function">F</span>
     
     <span class="md-ellipsis">
-      <span title="pyboxbuilder.packing.spacer.merge_voids (Python function) — Fuse mergeable voids until none remain (FR-014b)."><span>pyboxbuilder.<wbr>packing.<wbr>spacer.<wbr>merge_<wbr>voids</span></span>
+      <span title="pyboxbuilder.packing.spacer.merge_voids (Python function) — Fuse mergeable voids deterministically using orthogonal face-bucket indexing (FR-014b)."><span>pyboxbuilder.<wbr>packing.<wbr>spacer.<wbr>merge_<wbr>voids</span></span>
     </span>
   </a>
   
@@ -1508,12 +1508,7 @@
 <dl class="py function objdesc">
 <dt class="sig sig-object highlight sig-wrap py" id="pyboxbuilder.packing.spacer.merge_voids">
 <span class="sig-prename descclassname"><span class="pre">pyboxbuilder.packing.spacer.</span></span><span class="sig-name descname"><span class="pre">merge_voids</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#pyboxbuilder.packing.spacer.merge_voids" title="pyboxbuilder.packing.spacer.merge_voids.voids (Python parameter)"><span class="n"><span class="pre">voids</span></span></a><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.15)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="pyboxbuilder.packing.spacer.Void.html#pyboxbuilder.packing.spacer.Void" title="pyboxbuilder.packing.spacer.Void (Python class) — Bases: object"><span class="pre">Void</span></a><span class="p"><span class="pre">]</span></span></span></span></em></span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.15)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="pyboxbuilder.packing.spacer.Void.html#pyboxbuilder.packing.spacer.Void" title="pyboxbuilder.packing.spacer.Void (Python class) — Bases: object"><span class="pre">Void</span></a><span class="p"><span class="pre">]</span></span></span></span></span><a class="reference internal" href="../_modules/pyboxbuilder/packing/spacer.html#merge_voids"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyboxbuilder.packing.spacer.merge_voids" title="Link to this definition">¶</a></dt>
-<dd><p>Fuse mergeable voids until none remain (FR-014b).</p>
-<p>Every fusion drops the count by one, so this terminates in at most N rounds.
-Voids are visited in a canonical order, which makes the result depend only on
-the geometry and not on the order the sweep happened to find them in — note
-that this is determinism, not uniqueness: an L-shaped run of three voids can
-legitimately fuse two different ways, and both leave two boxes behind.</p>
+<dd><p>Fuse mergeable voids deterministically using orthogonal face-bucket indexing (FR-014b).</p>
 </dd></dl>
 
 

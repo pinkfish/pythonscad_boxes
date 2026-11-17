@@ -521,7 +521,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">BoxTypeBase</span><span class="p">,</span> <span class="n">Interior</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.registry</span><span class="w"> </span><span class="kn">import</span> <span class="n">register_box</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.shell</span><span class="w"> </span><span class="kn">import</span> <span class="n">block</span><span class="p">,</span> <span class="n">body_rounding</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.spec</span><span class="w"> </span><span class="kn">import</span> <span class="n">BoxSpec</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.spec</span><span class="w"> </span><span class="kn">import</span> <span class="n">BoxSpec</span><span class="p">,</span> <span class="n">UnresolvedBoxSpec</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.builders.sleeve_drawer</span><span class="w"> </span><span class="kn">import</span> <span class="n">SleeveDrawerBoxBuilder</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">BoxType</span><span class="p">,</span> <span class="n">DrawerHandleStyle</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.precision</span><span class="w"> </span><span class="kn">import</span> <span class="n">precision</span>
@@ -537,7 +537,7 @@
 <span class="k">class</span><span class="w"> </span><span class="nc">SleeveDrawerBox</span><span class="p">(</span><span class="n">BoxTypeBase</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""Two-piece matchbox assembly with outer sleeve and sliding drawer (FR-087)."""</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">_sleeve_wall</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_sleeve_wall</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span> <span class="o">|</span> <span class="n">UnresolvedBoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Return the sleeve wall thickness, defaulting to half the standard wall thickness."""</span>
         <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">sleeve_wall_thickness</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">sleeve_wall_thickness</span><span class="p">)</span>
@@ -561,7 +561,49 @@
             <span class="n">origin_x</span><span class="o">=</span><span class="n">sw</span> <span class="o">+</span> <span class="n">slack</span> <span class="o">+</span> <span class="n">wt</span><span class="p">,</span>
             <span class="n">origin_y</span><span class="o">=</span><span class="n">wt</span><span class="p">,</span>
             <span class="n">origin_z</span><span class="o">=</span><span class="n">sw</span> <span class="o">+</span> <span class="n">slack</span> <span class="o">+</span> <span class="n">ft</span><span class="p">,</span>
+            <span class="n">wall_thickness</span><span class="o">=</span><span class="n">wt</span><span class="p">,</span>
         <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SleeveDrawerBox.outer_size_for_interior">
+<a class="viewcode-back" href="../../../../_autosummary/pyboxbuilder.box.types.sleeve_drawer.SleeveDrawerBox.html#pyboxbuilder.box.types.sleeve_drawer.SleeveDrawerBox.outer_size_for_interior">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">outer_size_for_interior</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span> <span class="o">|</span> <span class="n">UnresolvedBoxSpec</span><span class="p">,</span>
+        <span class="n">inner_w</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">inner_l</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">inner_h</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Return outer (W, L, H) required to enclose (inner_w, inner_l, inner_h)."""</span>
+        <span class="n">sw</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sleeve_wall</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
+        <span class="n">slack</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">sleeve_slack</span>
+        <span class="n">wt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">wall_thickness</span>
+        <span class="n">ft</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">floor_thickness</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="n">inner_w</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">sw</span> <span class="o">+</span> <span class="n">slack</span> <span class="o">+</span> <span class="n">wt</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">,</span>
+            <span class="n">inner_l</span> <span class="o">+</span> <span class="n">sw</span> <span class="o">+</span> <span class="n">slack</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">wt</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">,</span>
+            <span class="n">inner_h</span> <span class="o">+</span> <span class="n">ft</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">sw</span> <span class="o">+</span> <span class="n">slack</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SleeveDrawerBox.exterior_protrusions">
+<a class="viewcode-back" href="../../../../_autosummary/pyboxbuilder.box.types.sleeve_drawer.SleeveDrawerBox.html#pyboxbuilder.box.types.sleeve_drawer.SleeveDrawerBox.exterior_protrusions">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">exterior_protrusions</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span> <span class="o">|</span> <span class="n">UnresolvedBoxSpec</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Account for the front pull handle/lip protruding in -Y."""</span>
+        <span class="n">nx</span><span class="p">,</span> <span class="n">px</span><span class="p">,</span> <span class="n">ny</span><span class="p">,</span> <span class="n">py</span><span class="p">,</span> <span class="n">nz</span><span class="p">,</span> <span class="n">pz</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">exterior_protrusions</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
+        <span class="n">handle_len</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">spec</span><span class="o">.</span><span class="n">drawer_handle_length</span>
+            <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">drawer_handle_length</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+            <span class="k">else</span> <span class="n">spec</span><span class="o">.</span><span class="n">drawer_pull_lip</span>
+        <span class="p">)</span>
+        <span class="n">style</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">drawer_handle_style</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">style</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">style</span> <span class="o">=</span> <span class="n">DrawerHandleStyle</span><span class="p">(</span><span class="n">style</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
+        <span class="k">if</span> <span class="n">handle_len</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">style</span> <span class="o">!=</span> <span class="n">DrawerHandleStyle</span><span class="o">.</span><span class="n">NONE</span><span class="p">:</span>
+            <span class="n">ny</span> <span class="o">+=</span> <span class="nb">float</span><span class="p">(</span><span class="n">handle_len</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">nx</span><span class="p">,</span> <span class="n">px</span><span class="p">,</span> <span class="n">ny</span><span class="p">,</span> <span class="n">py</span><span class="p">,</span> <span class="n">nz</span><span class="p">,</span> <span class="n">pz</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="SleeveDrawerBox.build_body">

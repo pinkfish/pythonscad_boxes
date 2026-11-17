@@ -510,19 +510,21 @@
 
 <h1>Source code for pyboxbuilder.packing.layout</h1><div class="highlight"><pre>
 <span></span><code><span class="c1"># SPDX-License-Identifier: Apache-2.0</span>
-<span class="sd">"""Box packing layout — skyline-based 3D box packing into game box interior."""</span>
+<span class="sd">"""Box packing layout — constraint-aware 3D box packing into game box interior."""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Sequence</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">field</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">itertools</span><span class="w"> </span><span class="kn">import</span> <span class="n">pairwise</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span>
 
 
 <span class="k">class</span><span class="w"> </span><span class="nc">PackingError</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""Raised when the sub-boxes cannot be arranged inside the game box.</span>
 
-<span class="sd">    Note that the packer is a greedy heuristic, so this does not prove the</span>
-<span class="sd">    layout is impossible — only that this solver could not find it.</span>
+<span class="sd">    Note that the packer is a bounded search, so this does not prove the</span>
+<span class="sd">    layout is impossible — only that the solver could not find it.</span>
 <span class="sd">    """</span>
 
 
@@ -560,14 +562,101 @@
 
 
 <span class="n">HEIGHT_ABSORB_MM</span> <span class="o">=</span> <span class="mf">3.0</span>
-<span class="sd">"""A gap above an expandable box no deeper than this is absorbed into it (FR-012).</span>
+<span class="sd">"""A gap above an expandable box no deeper than this is absorbed into it (FR-012)."""</span>
 
-<span class="sd">Anything deeper is real space that a spacer should claim, not slack to grow into.</span>
-<span class="sd">"""</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_intervals_cover</span><span class="p">(</span>
+    <span class="n">intervals</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]],</span> <span class="n">lo</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">hi</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">eps</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-5</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Return True when ``[lo, hi]`` is continuously covered by ``intervals``."""</span>
+    <span class="k">if</span> <span class="n">hi</span> <span class="o">&lt;=</span> <span class="n">lo</span> <span class="o">+</span> <span class="n">eps</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">True</span>
+    <span class="n">relevant</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span>
+        <span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">lo</span><span class="p">,</span> <span class="n">a</span><span class="p">),</span> <span class="nb">min</span><span class="p">(</span><span class="n">hi</span><span class="p">,</span> <span class="n">b</span><span class="p">))</span> <span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">intervals</span> <span class="k">if</span> <span class="n">b</span> <span class="o">&gt;</span> <span class="n">lo</span> <span class="o">+</span> <span class="n">eps</span> <span class="ow">and</span> <span class="n">a</span> <span class="o">&lt;</span> <span class="n">hi</span> <span class="o">-</span> <span class="n">eps</span>
+    <span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">relevant</span> <span class="ow">or</span> <span class="n">relevant</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">lo</span> <span class="o">+</span> <span class="n">eps</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="n">reach</span> <span class="o">=</span> <span class="n">relevant</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">relevant</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
+        <span class="k">if</span> <span class="n">a</span> <span class="o">&gt;</span> <span class="n">reach</span> <span class="o">+</span> <span class="n">eps</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="n">reach</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">reach</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">reach</span> <span class="o">&gt;=</span> <span class="n">hi</span> <span class="o">-</span> <span class="n">eps</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_max_supported_wall</span><span class="p">(</span>
+    <span class="n">p</span><span class="p">:</span> <span class="n">Placement</span><span class="p">,</span>
+    <span class="n">all_placements</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Placement</span><span class="p">],</span>
+    <span class="n">limit</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">axis</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Return the furthest ``+X`` (axis=0) or ``+Y`` (axis=1) coordinate supported beneath ``p``."""</span>
+    <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">position</span>
+    <span class="n">w</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">size</span>
+    <span class="n">cur_end</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">w</span><span class="p">)</span> <span class="k">if</span> <span class="n">axis</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="p">(</span><span class="n">y</span> <span class="o">+</span> <span class="n">l</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">z</span> <span class="o">&lt;=</span> <span class="mf">1e-5</span> <span class="ow">or</span> <span class="n">limit</span> <span class="o">&lt;=</span> <span class="n">cur_end</span> <span class="o">+</span> <span class="mf">1e-6</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">limit</span>
+
+    <span class="n">supporters</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">o</span>
+        <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">all_placements</span>
+        <span class="k">if</span> <span class="n">o</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">p</span> <span class="ow">and</span> <span class="nb">abs</span><span class="p">((</span><span class="n">o</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="n">o</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span> <span class="o">-</span> <span class="n">z</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mf">1e-4</span>
+    <span class="p">]</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">supporters</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">cur_end</span>
+
+    <span class="k">if</span> <span class="n">axis</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">cuts</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">({</span>
+            <span class="n">cur_end</span><span class="p">,</span>
+            <span class="n">limit</span><span class="p">,</span>
+            <span class="o">*</span><span class="p">(</span>
+                <span class="n">v</span>
+                <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">supporters</span>
+                <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="p">(</span><span class="n">o</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">o</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">o</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                <span class="k">if</span> <span class="n">cur_end</span> <span class="o">+</span> <span class="mf">1e-6</span> <span class="o">&lt;</span> <span class="n">v</span> <span class="o">&lt;</span> <span class="n">limit</span> <span class="o">-</span> <span class="mf">1e-6</span>
+            <span class="p">),</span>
+        <span class="p">})</span>
+        <span class="n">supported_end</span> <span class="o">=</span> <span class="n">cur_end</span>
+        <span class="k">for</span> <span class="n">xa</span><span class="p">,</span> <span class="n">xb</span> <span class="ow">in</span> <span class="n">pairwise</span><span class="p">(</span><span class="n">cuts</span><span class="p">):</span>
+            <span class="n">y_spans</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="p">(</span><span class="n">o</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">o</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">o</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+                <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">supporters</span>
+                <span class="k">if</span> <span class="n">o</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">xa</span> <span class="o">+</span> <span class="mf">1e-5</span> <span class="ow">and</span> <span class="n">o</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">o</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">xb</span> <span class="o">-</span> <span class="mf">1e-5</span>
+            <span class="p">]</span>
+            <span class="k">if</span> <span class="n">_intervals_cover</span><span class="p">(</span><span class="n">y_spans</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">y</span> <span class="o">+</span> <span class="n">l</span><span class="p">):</span>
+                <span class="n">supported_end</span> <span class="o">=</span> <span class="n">xb</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">break</span>
+        <span class="k">return</span> <span class="n">supported_end</span>
+
+    <span class="n">cuts_y</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">({</span>
+        <span class="n">cur_end</span><span class="p">,</span>
+        <span class="n">limit</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">(</span>
+            <span class="n">v</span>
+            <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">supporters</span>
+            <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="p">(</span><span class="n">o</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">o</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">o</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="k">if</span> <span class="n">cur_end</span> <span class="o">+</span> <span class="mf">1e-6</span> <span class="o">&lt;</span> <span class="n">v</span> <span class="o">&lt;</span> <span class="n">limit</span> <span class="o">-</span> <span class="mf">1e-6</span>
+        <span class="p">),</span>
+    <span class="p">})</span>
+    <span class="n">supported_end</span> <span class="o">=</span> <span class="n">cur_end</span>
+    <span class="k">for</span> <span class="n">ya</span><span class="p">,</span> <span class="n">yb</span> <span class="ow">in</span> <span class="n">pairwise</span><span class="p">(</span><span class="n">cuts_y</span><span class="p">):</span>
+        <span class="n">x_spans</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="p">(</span><span class="n">o</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">o</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">o</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">supporters</span>
+            <span class="k">if</span> <span class="n">o</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">ya</span> <span class="o">+</span> <span class="mf">1e-5</span> <span class="ow">and</span> <span class="n">o</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">o</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">yb</span> <span class="o">-</span> <span class="mf">1e-5</span>
+        <span class="p">]</span>
+        <span class="k">if</span> <span class="n">_intervals_cover</span><span class="p">(</span><span class="n">x_spans</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">x</span> <span class="o">+</span> <span class="n">w</span><span class="p">):</span>
+            <span class="n">supported_end</span> <span class="o">=</span> <span class="n">yb</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">break</span>
+    <span class="k">return</span> <span class="n">supported_end</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_pack_guillotine</span><span class="p">(</span>
-    <span class="n">container_size</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="n">boxes</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span>
+    <span class="n">container_size</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
+    <span class="n">boxes</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]],</span>
+    <span class="n">obstacles</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="p">(),</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Placement</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Try the guillotine solver, returning None if it finds nothing."""</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.packing.guillotine</span><span class="w"> </span><span class="kn">import</span> <span class="n">Item</span><span class="p">,</span> <span class="n">pack_guillotine</span>
@@ -579,9 +668,18 @@
                 <span class="n">label</span><span class="o">=</span><span class="n">b</span><span class="p">[</span><span class="s2">"label"</span><span class="p">],</span>
                 <span class="n">size</span><span class="o">=</span><span class="nb">tuple</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">b</span><span class="p">[</span><span class="s2">"size"</span><span class="p">]),</span>  <span class="c1"># type: ignore[arg-type]</span>
                 <span class="n">no_rotate</span><span class="o">=</span><span class="nb">bool</span><span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"no_rotate"</span><span class="p">,</span> <span class="kc">False</span><span class="p">)),</span>
+                <span class="n">size_options</span><span class="o">=</span><span class="nb">tuple</span><span class="p">(</span>
+                    <span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="nb">float</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="nb">float</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="mi">2</span><span class="p">]))</span>
+                    <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">b</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"size_options"</span><span class="p">,</span> <span class="p">())</span>
+                <span class="p">),</span>
+                <span class="n">stack_members</span><span class="o">=</span><span class="nb">tuple</span><span class="p">(</span>
+                    <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">m</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">m</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]),</span> <span class="nb">float</span><span class="p">(</span><span class="n">m</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]),</span> <span class="nb">float</span><span class="p">(</span><span class="n">m</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">2</span><span class="p">])))</span>
+                    <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">b</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"stack_members"</span><span class="p">,</span> <span class="p">())</span>
+                <span class="p">),</span>
             <span class="p">)</span>
             <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">boxes</span>
         <span class="p">],</span>
+        <span class="n">obstacles</span><span class="o">=</span><span class="n">obstacles</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="k">if</span> <span class="n">placed</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">None</span>
@@ -596,72 +694,212 @@
     <span class="p">]</span>
 
 
+<span class="k">def</span><span class="w"> </span><span class="nf">_pack_extreme_points_supported</span><span class="p">(</span>
+    <span class="n">container_size</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
+    <span class="n">boxes</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]],</span>
+    <span class="n">obstacles</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="p">(),</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Placement</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Non-guillotine extreme-point fallback (e.g. 4-box pinwheels) with strict 100% support."""</span>
+    <span class="n">cw</span><span class="p">,</span> <span class="n">cl</span><span class="p">,</span> <span class="n">ch</span> <span class="o">=</span> <span class="n">container_size</span>
+    <span class="n">placed</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Placement</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">Placement</span><span class="p">(</span><span class="sa">f</span><span class="s2">"__obs_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="p">(</span><span class="n">ox</span><span class="p">,</span> <span class="n">oy</span><span class="p">,</span> <span class="n">oz</span><span class="p">),</span> <span class="p">(</span><span class="n">ow</span><span class="p">,</span> <span class="n">ol</span><span class="p">,</span> <span class="n">oh</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">ox</span><span class="p">,</span> <span class="n">oy</span><span class="p">,</span> <span class="n">oz</span><span class="p">,</span> <span class="n">ow</span><span class="p">,</span> <span class="n">ol</span><span class="p">,</span> <span class="n">oh</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">obstacles</span><span class="p">)</span>
+    <span class="p">]</span>
+    <span class="n">n_obs</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">placed</span><span class="p">)</span>
+
+    <span class="n">eps</span><span class="p">:</span> <span class="nb">set</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)}</span>
+    <span class="k">for</span> <span class="n">ox</span><span class="p">,</span> <span class="n">oy</span><span class="p">,</span> <span class="n">oz</span><span class="p">,</span> <span class="n">ow</span><span class="p">,</span> <span class="n">ol</span><span class="p">,</span> <span class="n">oh</span> <span class="ow">in</span> <span class="n">obstacles</span><span class="p">:</span>
+        <span class="n">eps</span><span class="o">.</span><span class="n">update</span><span class="p">({</span>
+            <span class="p">(</span><span class="n">ox</span> <span class="o">+</span> <span class="n">ow</span><span class="p">,</span> <span class="n">oy</span><span class="p">,</span> <span class="n">oz</span><span class="p">),</span>
+            <span class="p">(</span><span class="n">ox</span><span class="p">,</span> <span class="n">oy</span> <span class="o">+</span> <span class="n">ol</span><span class="p">,</span> <span class="n">oz</span><span class="p">),</span>
+            <span class="p">(</span><span class="n">ox</span><span class="p">,</span> <span class="n">oy</span><span class="p">,</span> <span class="n">oz</span> <span class="o">+</span> <span class="n">oh</span><span class="p">),</span>
+        <span class="p">})</span>
+
+    <span class="c1"># Flatten stack_members if any</span>
+    <span class="n">flat_boxes</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">boxes</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">b</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"stack_members"</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">mlbl</span><span class="p">,</span> <span class="n">msz</span> <span class="ow">in</span> <span class="n">b</span><span class="p">[</span><span class="s2">"stack_members"</span><span class="p">]:</span>
+                <span class="n">flat_boxes</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+                    <span class="s2">"label"</span><span class="p">:</span> <span class="n">mlbl</span><span class="p">,</span>
+                    <span class="s2">"size"</span><span class="p">:</span> <span class="n">msz</span><span class="p">,</span>
+                    <span class="s2">"no_rotate"</span><span class="p">:</span> <span class="n">b</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"no_rotate"</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span>
+                <span class="p">})</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">flat_boxes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+
+    <span class="n">ordered</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span>
+        <span class="n">flat_boxes</span><span class="p">,</span>
+        <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">b</span><span class="p">:</span> <span class="n">b</span><span class="p">[</span><span class="s2">"size"</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">b</span><span class="p">[</span><span class="s2">"size"</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">b</span><span class="p">[</span><span class="s2">"size"</span><span class="p">][</span><span class="mi">2</span><span class="p">],</span>
+        <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">ordered</span><span class="p">:</span>
+        <span class="n">bw0</span><span class="p">,</span> <span class="n">bl0</span><span class="p">,</span> <span class="n">bh</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="s2">"size"</span><span class="p">][</span><span class="mi">0</span><span class="p">]),</span> <span class="nb">float</span><span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="s2">"size"</span><span class="p">][</span><span class="mi">1</span><span class="p">]),</span> <span class="nb">float</span><span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="s2">"size"</span><span class="p">][</span><span class="mi">2</span><span class="p">])</span>
+        <span class="n">orients</span> <span class="o">=</span> <span class="p">[(</span><span class="n">bw0</span><span class="p">,</span> <span class="n">bl0</span><span class="p">,</span> <span class="kc">False</span><span class="p">)]</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">b</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"no_rotate"</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">abs</span><span class="p">(</span><span class="n">bw0</span> <span class="o">-</span> <span class="n">bl0</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">1e-6</span><span class="p">:</span>
+            <span class="n">orients</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">bl0</span><span class="p">,</span> <span class="n">bw0</span><span class="p">,</span> <span class="kc">True</span><span class="p">))</span>
+
+        <span class="n">best_pos</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">bool</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">for</span> <span class="n">px</span><span class="p">,</span> <span class="n">py</span><span class="p">,</span> <span class="n">pz</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">eps</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">pt</span><span class="p">:</span> <span class="p">(</span><span class="n">pt</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">pt</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">pt</span><span class="p">[</span><span class="mi">0</span><span class="p">])):</span>
+            <span class="k">for</span> <span class="n">bw</span><span class="p">,</span> <span class="n">bl</span><span class="p">,</span> <span class="n">rot</span> <span class="ow">in</span> <span class="n">orients</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">px</span> <span class="o">+</span> <span class="n">bw</span> <span class="o">&gt;</span> <span class="n">cw</span> <span class="o">+</span> <span class="mf">1e-6</span> <span class="ow">or</span> <span class="n">py</span> <span class="o">+</span> <span class="n">bl</span> <span class="o">&gt;</span> <span class="n">cl</span> <span class="o">+</span> <span class="mf">1e-6</span> <span class="ow">or</span> <span class="n">pz</span> <span class="o">+</span> <span class="n">bh</span> <span class="o">&gt;</span> <span class="n">ch</span> <span class="o">+</span> <span class="mf">1e-6</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="c1"># Overlap test</span>
+                <span class="k">if</span> <span class="nb">any</span><span class="p">(</span>
+                    <span class="n">px</span> <span class="o">&lt;</span> <span class="n">o</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">o</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mf">1e-6</span>
+                    <span class="ow">and</span> <span class="n">px</span> <span class="o">+</span> <span class="n">bw</span> <span class="o">&gt;</span> <span class="n">o</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mf">1e-6</span>
+                    <span class="ow">and</span> <span class="n">py</span> <span class="o">&lt;</span> <span class="n">o</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">o</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="mf">1e-6</span>
+                    <span class="ow">and</span> <span class="n">py</span> <span class="o">+</span> <span class="n">bl</span> <span class="o">&gt;</span> <span class="n">o</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mf">1e-6</span>
+                    <span class="ow">and</span> <span class="n">pz</span> <span class="o">&lt;</span> <span class="n">o</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="n">o</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="mf">1e-6</span>
+                    <span class="ow">and</span> <span class="n">pz</span> <span class="o">+</span> <span class="n">bh</span> <span class="o">&gt;</span> <span class="n">o</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="mf">1e-6</span>
+                    <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">placed</span>
+                <span class="p">):</span>
+                    <span class="k">continue</span>
+                <span class="c1"># Full base support test</span>
+                <span class="n">probe</span> <span class="o">=</span> <span class="n">Placement</span><span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="s2">"label"</span><span class="p">],</span> <span class="p">(</span><span class="n">px</span><span class="p">,</span> <span class="n">py</span><span class="p">,</span> <span class="n">pz</span><span class="p">),</span> <span class="p">(</span><span class="n">bw</span><span class="p">,</span> <span class="n">bl</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">))</span>
+                <span class="k">if</span> <span class="n">_max_supported_wall</span><span class="p">(</span><span class="n">probe</span><span class="p">,</span> <span class="n">placed</span><span class="p">,</span> <span class="n">px</span> <span class="o">+</span> <span class="n">bw</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">px</span> <span class="o">+</span> <span class="n">bw</span> <span class="o">-</span> <span class="mf">1e-5</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="n">best_pos</span> <span class="o">=</span> <span class="p">(</span><span class="n">px</span><span class="p">,</span> <span class="n">py</span><span class="p">,</span> <span class="n">pz</span><span class="p">,</span> <span class="n">bw</span><span class="p">,</span> <span class="n">bl</span><span class="p">,</span> <span class="n">rot</span><span class="p">)</span>
+                <span class="k">break</span>
+            <span class="k">if</span> <span class="n">best_pos</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">break</span>
+
+        <span class="k">if</span> <span class="n">best_pos</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="n">px</span><span class="p">,</span> <span class="n">py</span><span class="p">,</span> <span class="n">pz</span><span class="p">,</span> <span class="n">bw</span><span class="p">,</span> <span class="n">bl</span><span class="p">,</span> <span class="n">rot</span> <span class="o">=</span> <span class="n">best_pos</span>
+        <span class="n">placed</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Placement</span><span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="s2">"label"</span><span class="p">],</span> <span class="p">(</span><span class="n">px</span><span class="p">,</span> <span class="n">py</span><span class="p">,</span> <span class="n">pz</span><span class="p">),</span> <span class="p">(</span><span class="n">bw</span><span class="p">,</span> <span class="n">bl</span><span class="p">,</span> <span class="n">bh</span><span class="p">),</span> <span class="n">rotation</span><span class="o">=</span><span class="n">rot</span><span class="p">))</span>
+        <span class="n">eps</span><span class="o">.</span><span class="n">discard</span><span class="p">((</span><span class="n">px</span><span class="p">,</span> <span class="n">py</span><span class="p">,</span> <span class="n">pz</span><span class="p">))</span>
+        <span class="n">eps</span><span class="o">.</span><span class="n">update</span><span class="p">({</span>
+            <span class="p">(</span><span class="n">px</span> <span class="o">+</span> <span class="n">bw</span><span class="p">,</span> <span class="n">py</span><span class="p">,</span> <span class="n">pz</span><span class="p">),</span>
+            <span class="p">(</span><span class="n">px</span><span class="p">,</span> <span class="n">py</span> <span class="o">+</span> <span class="n">bl</span><span class="p">,</span> <span class="n">pz</span><span class="p">),</span>
+            <span class="p">(</span><span class="n">px</span><span class="p">,</span> <span class="n">py</span><span class="p">,</span> <span class="n">pz</span> <span class="o">+</span> <span class="n">bh</span><span class="p">),</span>
+        <span class="p">})</span>
+
+    <span class="k">return</span> <span class="n">placed</span><span class="p">[</span><span class="n">n_obs</span><span class="p">:]</span>
+
+
 <span class="k">def</span><span class="w"> </span><span class="nf">_expand_in_place</span><span class="p">(</span>
     <span class="n">placements</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Placement</span><span class="p">],</span>
     <span class="n">container_size</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
     <span class="n">boxes</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]],</span>
+    <span class="n">gap_threshold</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">10.0</span><span class="p">,</span>
+    <span class="n">obstacles</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="p">(),</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""Grow expandable boxes into the slack around them (FR-012).</span>
-
-<span class="sd">    Two independent passes, matching what the corner-point solver has always</span>
-<span class="sd">    done: close a shallow gap above a box, then run a box right up to whatever</span>
-<span class="sd">    is beside it. Height first, because growing a box taller can bring it</span>
-<span class="sd">    alongside a neighbour it did not previously touch.</span>
-<span class="sd">    """</span>
-    <span class="n">container_w</span><span class="p">,</span> <span class="n">_container_l</span><span class="p">,</span> <span class="n">container_h</span> <span class="o">=</span> <span class="n">container_size</span>
-    <span class="n">axes</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="w">    </span><span class="sd">"""Grow expandable boxes into adjacent slack while preserving 100% base support (FR-012)."""</span>
+    <span class="n">container_w</span><span class="p">,</span> <span class="n">container_l</span><span class="p">,</span> <span class="n">container_h</span> <span class="o">=</span> <span class="n">container_size</span>
+    <span class="n">axes</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="nb">bool</span><span class="p">,</span> <span class="nb">bool</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">boxes</span><span class="p">:</span>
-        <span class="n">expandable</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"expandable"</span><span class="p">))</span>
-        <span class="n">axes</span><span class="p">[</span><span class="n">b</span><span class="p">[</span><span class="s2">"label"</span><span class="p">]]</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="n">expandable</span><span class="p">,</span>
-            <span class="n">expandable</span> <span class="ow">and</span> <span class="nb">bool</span><span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"expandable_width"</span><span class="p">,</span> <span class="kc">True</span><span class="p">)),</span>
-        <span class="p">)</span>
+        <span class="n">exp</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"expandable"</span><span class="p">))</span>
+        <span class="n">exp_w</span> <span class="o">=</span> <span class="n">exp</span> <span class="ow">and</span> <span class="nb">bool</span><span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"expandable_width"</span><span class="p">,</span> <span class="kc">True</span><span class="p">))</span>
+        <span class="n">exp_l</span> <span class="o">=</span> <span class="n">exp</span> <span class="ow">and</span> <span class="nb">bool</span><span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"expandable_length"</span><span class="p">,</span> <span class="kc">True</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">b</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"stack_members"</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">mlbl</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">b</span><span class="p">[</span><span class="s2">"stack_members"</span><span class="p">]:</span>
+                <span class="n">axes</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">mlbl</span><span class="p">)]</span> <span class="o">=</span> <span class="p">(</span><span class="n">exp</span><span class="p">,</span> <span class="n">exp_w</span><span class="p">,</span> <span class="n">exp_l</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">axes</span><span class="p">[</span><span class="n">b</span><span class="p">[</span><span class="s2">"label"</span><span class="p">]]</span> <span class="o">=</span> <span class="p">(</span><span class="n">exp</span><span class="p">,</span> <span class="n">exp_w</span><span class="p">,</span> <span class="n">exp_l</span><span class="p">)</span>
+
+    <span class="n">obs_placements</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">Placement</span><span class="p">(</span><span class="sa">f</span><span class="s2">"__obs_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="p">(</span><span class="n">ox</span><span class="p">,</span> <span class="n">oy</span><span class="p">,</span> <span class="n">oz</span><span class="p">),</span> <span class="p">(</span><span class="n">ow</span><span class="p">,</span> <span class="n">ol</span><span class="p">,</span> <span class="n">oh</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">ox</span><span class="p">,</span> <span class="n">oy</span><span class="p">,</span> <span class="n">oz</span><span class="p">,</span> <span class="n">ow</span><span class="p">,</span> <span class="n">ol</span><span class="p">,</span> <span class="n">oh</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">obstacles</span><span class="p">)</span>
+    <span class="p">]</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">sized</span><span class="p">(</span>
         <span class="n">placement</span><span class="p">:</span> <span class="n">Placement</span><span class="p">,</span>
         <span class="n">width</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">length</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">height</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Placement</span><span class="p">:</span>
         <span class="n">w</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">h</span> <span class="o">=</span> <span class="n">placement</span><span class="o">.</span><span class="n">size</span>
         <span class="k">return</span> <span class="n">Placement</span><span class="p">(</span>
             <span class="n">label</span><span class="o">=</span><span class="n">placement</span><span class="o">.</span><span class="n">label</span><span class="p">,</span>
             <span class="n">position</span><span class="o">=</span><span class="n">placement</span><span class="o">.</span><span class="n">position</span><span class="p">,</span>
-            <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="n">width</span> <span class="k">if</span> <span class="n">width</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">w</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span>
-                  <span class="n">height</span> <span class="k">if</span> <span class="n">height</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">h</span><span class="p">),</span>
+            <span class="n">size</span><span class="o">=</span><span class="p">(</span>
+                <span class="n">width</span> <span class="k">if</span> <span class="n">width</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">w</span><span class="p">,</span>
+                <span class="n">length</span> <span class="k">if</span> <span class="n">length</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">l</span><span class="p">,</span>
+                <span class="n">height</span> <span class="k">if</span> <span class="n">height</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">h</span><span class="p">,</span>
+            <span class="p">),</span>
             <span class="n">rotation</span><span class="o">=</span><span class="n">placement</span><span class="o">.</span><span class="n">rotation</span><span class="p">,</span>
             <span class="n">path</span><span class="o">=</span><span class="n">placement</span><span class="o">.</span><span class="n">path</span><span class="p">,</span>
         <span class="p">)</span>
 
+    <span class="c1"># 1. Close sub-3mm headroom gaps above expandable boxes</span>
     <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">p</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">placements</span><span class="p">):</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">axes</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">label</span><span class="p">,</span> <span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">))[</span><span class="mi">0</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">axes</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">label</span><span class="p">,</span> <span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">))[</span><span class="mi">0</span><span class="p">]:</span>
             <span class="k">continue</span>
         <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">position</span>
         <span class="n">w</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">h</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">size</span>
         <span class="n">ceiling</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">container_h</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">other</span> <span class="ow">in</span> <span class="n">placements</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">other</span> <span class="ow">in</span> <span class="p">(</span><span class="o">*</span><span class="n">placements</span><span class="p">,</span> <span class="o">*</span><span class="n">obs_placements</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">other</span> <span class="ow">is</span> <span class="n">p</span><span class="p">:</span>
                 <span class="k">continue</span>
             <span class="n">ox</span><span class="p">,</span> <span class="n">oy</span><span class="p">,</span> <span class="n">oz</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">position</span>
-            <span class="n">ow</span><span class="p">,</span> <span class="n">ol</span><span class="p">,</span> <span class="n">oh</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">size</span>
-            <span class="k">if</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="n">ox</span> <span class="o">+</span> <span class="n">ow</span> <span class="ow">and</span> <span class="n">x</span> <span class="o">+</span> <span class="n">w</span> <span class="o">&gt;</span> <span class="n">ox</span> <span class="ow">and</span> <span class="n">y</span> <span class="o">&lt;</span> <span class="n">oy</span> <span class="o">+</span> <span class="n">ol</span> <span class="ow">and</span> <span class="n">y</span> <span class="o">+</span> <span class="n">l</span> <span class="o">&gt;</span> <span class="n">oy</span> <span class="ow">and</span> <span class="n">oz</span> <span class="o">&gt;=</span> <span class="n">z</span> <span class="o">+</span> <span class="n">h</span><span class="p">:</span>
+            <span class="n">ow</span><span class="p">,</span> <span class="n">ol</span><span class="p">,</span> <span class="n">_oh</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">size</span>
+            <span class="k">if</span> <span class="p">(</span>
+                <span class="n">x</span> <span class="o">&lt;</span> <span class="n">ox</span> <span class="o">+</span> <span class="n">ow</span> <span class="o">-</span> <span class="mf">1e-6</span>
+                <span class="ow">and</span> <span class="n">x</span> <span class="o">+</span> <span class="n">w</span> <span class="o">&gt;</span> <span class="n">ox</span> <span class="o">+</span> <span class="mf">1e-6</span>
+                <span class="ow">and</span> <span class="n">y</span> <span class="o">&lt;</span> <span class="n">oy</span> <span class="o">+</span> <span class="n">ol</span> <span class="o">-</span> <span class="mf">1e-6</span>
+                <span class="ow">and</span> <span class="n">y</span> <span class="o">+</span> <span class="n">l</span> <span class="o">&gt;</span> <span class="n">oy</span> <span class="o">+</span> <span class="mf">1e-6</span>
+                <span class="ow">and</span> <span class="n">oz</span> <span class="o">&gt;=</span> <span class="n">z</span> <span class="o">+</span> <span class="n">h</span> <span class="o">-</span> <span class="mf">1e-6</span>
+            <span class="p">):</span>
                 <span class="n">ceiling</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">ceiling</span><span class="p">,</span> <span class="n">oz</span><span class="p">)</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">ceiling</span> <span class="o">-</span> <span class="n">z</span><span class="p">)</span> <span class="o">-</span> <span class="n">h</span> <span class="o">&lt;</span> <span class="n">HEIGHT_ABSORB_MM</span><span class="p">:</span>
+        <span class="k">if</span> <span class="mf">0.0</span> <span class="o">&lt;</span> <span class="p">(</span><span class="n">ceiling</span> <span class="o">-</span> <span class="n">z</span><span class="p">)</span> <span class="o">-</span> <span class="n">h</span> <span class="o">&lt;</span> <span class="n">HEIGHT_ABSORB_MM</span><span class="p">:</span>
             <span class="n">placements</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="n">sized</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">ceiling</span> <span class="o">-</span> <span class="n">z</span><span class="p">)</span>
 
+    <span class="c1"># 2. Grow along container +X (respecting rotation mapping and 100% base support!)</span>
     <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">p</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">placements</span><span class="p">):</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">axes</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">label</span><span class="p">,</span> <span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">))[</span><span class="mi">1</span><span class="p">]:</span>
+        <span class="n">exp_h</span><span class="p">,</span> <span class="n">exp_w</span><span class="p">,</span> <span class="n">exp_l</span> <span class="o">=</span> <span class="n">axes</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">label</span><span class="p">,</span> <span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">))</span>
+        <span class="n">can_grow_x</span> <span class="o">=</span> <span class="n">exp_l</span> <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">rotation</span> <span class="k">else</span> <span class="n">exp_w</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">exp_h</span> <span class="ow">and</span> <span class="n">can_grow_x</span><span class="p">):</span>
             <span class="k">continue</span>
         <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">position</span>
         <span class="n">w</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">h</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">size</span>
         <span class="n">wall</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">container_w</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">other</span> <span class="ow">in</span> <span class="n">placements</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">other</span> <span class="ow">in</span> <span class="p">(</span><span class="o">*</span><span class="n">placements</span><span class="p">,</span> <span class="o">*</span><span class="n">obs_placements</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">other</span> <span class="ow">is</span> <span class="n">p</span><span class="p">:</span>
                 <span class="k">continue</span>
             <span class="n">ox</span><span class="p">,</span> <span class="n">oy</span><span class="p">,</span> <span class="n">oz</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">position</span>
-            <span class="n">ow</span><span class="p">,</span> <span class="n">ol</span><span class="p">,</span> <span class="n">oh</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">size</span>
-            <span class="k">if</span> <span class="n">y</span> <span class="o">&lt;</span> <span class="n">oy</span> <span class="o">+</span> <span class="n">ol</span> <span class="ow">and</span> <span class="n">y</span> <span class="o">+</span> <span class="n">l</span> <span class="o">&gt;</span> <span class="n">oy</span> <span class="ow">and</span> <span class="n">z</span> <span class="o">&lt;</span> <span class="n">oz</span> <span class="o">+</span> <span class="n">oh</span> <span class="ow">and</span> <span class="n">z</span> <span class="o">+</span> <span class="n">h</span> <span class="o">&gt;</span> <span class="n">oz</span> <span class="ow">and</span> <span class="n">ox</span> <span class="o">&gt;=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">w</span><span class="p">:</span>
+            <span class="n">_ow</span><span class="p">,</span> <span class="n">ol</span><span class="p">,</span> <span class="n">oh</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">size</span>
+            <span class="k">if</span> <span class="p">(</span>
+                <span class="n">y</span> <span class="o">&lt;</span> <span class="n">oy</span> <span class="o">+</span> <span class="n">ol</span> <span class="o">-</span> <span class="mf">1e-6</span>
+                <span class="ow">and</span> <span class="n">y</span> <span class="o">+</span> <span class="n">l</span> <span class="o">&gt;</span> <span class="n">oy</span> <span class="o">+</span> <span class="mf">1e-6</span>
+                <span class="ow">and</span> <span class="n">z</span> <span class="o">&lt;</span> <span class="n">oz</span> <span class="o">+</span> <span class="n">oh</span> <span class="o">-</span> <span class="mf">1e-6</span>
+                <span class="ow">and</span> <span class="n">z</span> <span class="o">+</span> <span class="n">h</span> <span class="o">&gt;</span> <span class="n">oz</span> <span class="o">+</span> <span class="mf">1e-6</span>
+                <span class="ow">and</span> <span class="n">ox</span> <span class="o">&gt;=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">w</span> <span class="o">-</span> <span class="mf">1e-6</span>
+            <span class="p">):</span>
                 <span class="n">wall</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">wall</span><span class="p">,</span> <span class="n">ox</span><span class="p">)</span>
-        <span class="n">placements</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="n">sized</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="n">wall</span> <span class="o">-</span> <span class="n">x</span><span class="p">)</span>
+        <span class="n">wall</span> <span class="o">=</span> <span class="n">_max_supported_wall</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="p">(</span><span class="o">*</span><span class="n">placements</span><span class="p">,</span> <span class="o">*</span><span class="n">obs_placements</span><span class="p">),</span> <span class="n">wall</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">wall</span> <span class="o">&gt;</span> <span class="n">x</span> <span class="o">+</span> <span class="n">w</span> <span class="o">+</span> <span class="mf">1e-6</span><span class="p">:</span>
+            <span class="n">placements</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="n">sized</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="n">wall</span> <span class="o">-</span> <span class="n">x</span><span class="p">)</span>
+
+    <span class="c1"># 3. Absorb shallow +Y slivers up to `gap_threshold` (with 100% base support)</span>
+    <span class="k">if</span> <span class="n">gap_threshold</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">p</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">placements</span><span class="p">):</span>
+            <span class="n">exp_h</span><span class="p">,</span> <span class="n">exp_w</span><span class="p">,</span> <span class="n">exp_l</span> <span class="o">=</span> <span class="n">axes</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">label</span><span class="p">,</span> <span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">))</span>
+            <span class="n">can_grow_y</span> <span class="o">=</span> <span class="n">exp_w</span> <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">rotation</span> <span class="k">else</span> <span class="n">exp_l</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">exp_h</span> <span class="ow">and</span> <span class="n">can_grow_y</span><span class="p">):</span>
+                <span class="k">continue</span>
+            <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">position</span>
+            <span class="n">w</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">h</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">size</span>
+            <span class="n">wall_y</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">container_l</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">other</span> <span class="ow">in</span> <span class="p">(</span><span class="o">*</span><span class="n">placements</span><span class="p">,</span> <span class="o">*</span><span class="n">obs_placements</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">other</span> <span class="ow">is</span> <span class="n">p</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="n">ox</span><span class="p">,</span> <span class="n">oy</span><span class="p">,</span> <span class="n">oz</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">position</span>
+                <span class="n">ow</span><span class="p">,</span> <span class="n">_ol</span><span class="p">,</span> <span class="n">oh</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">size</span>
+                <span class="k">if</span> <span class="p">(</span>
+                    <span class="n">x</span> <span class="o">&lt;</span> <span class="n">ox</span> <span class="o">+</span> <span class="n">ow</span> <span class="o">-</span> <span class="mf">1e-6</span>
+                    <span class="ow">and</span> <span class="n">x</span> <span class="o">+</span> <span class="n">w</span> <span class="o">&gt;</span> <span class="n">ox</span> <span class="o">+</span> <span class="mf">1e-6</span>
+                    <span class="ow">and</span> <span class="n">z</span> <span class="o">&lt;</span> <span class="n">oz</span> <span class="o">+</span> <span class="n">oh</span> <span class="o">-</span> <span class="mf">1e-6</span>
+                    <span class="ow">and</span> <span class="n">z</span> <span class="o">+</span> <span class="n">h</span> <span class="o">&gt;</span> <span class="n">oz</span> <span class="o">+</span> <span class="mf">1e-6</span>
+                    <span class="ow">and</span> <span class="n">oy</span> <span class="o">&gt;=</span> <span class="n">y</span> <span class="o">+</span> <span class="n">l</span> <span class="o">-</span> <span class="mf">1e-6</span>
+                <span class="p">):</span>
+                    <span class="n">wall_y</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">wall_y</span><span class="p">,</span> <span class="n">oy</span><span class="p">)</span>
+            <span class="n">wall_y</span> <span class="o">=</span> <span class="n">_max_supported_wall</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="p">(</span><span class="o">*</span><span class="n">placements</span><span class="p">,</span> <span class="o">*</span><span class="n">obs_placements</span><span class="p">),</span> <span class="n">wall_y</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">gap_y</span> <span class="o">=</span> <span class="n">wall_y</span> <span class="o">-</span> <span class="p">(</span><span class="n">y</span> <span class="o">+</span> <span class="n">l</span><span class="p">)</span>
+            <span class="k">if</span> <span class="mf">1e-6</span> <span class="o">&lt;</span> <span class="n">gap_y</span> <span class="o">&lt;=</span> <span class="n">gap_threshold</span> <span class="o">+</span> <span class="mf">1e-6</span><span class="p">:</span>
+                <span class="n">placements</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="n">sized</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="n">wall_y</span> <span class="o">-</span> <span class="n">y</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="pack_boxes">
@@ -671,101 +909,91 @@
     <span class="n">boxes</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]],</span>
     <span class="n">gap_threshold</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">10.0</span><span class="p">,</span>
     <span class="n">min_spacer_dim</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">15.0</span><span class="p">,</span>
+    <span class="n">obstacles</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="p">(),</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BoxPacking</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""Pack sub-boxes into a container using a 3D First-Fit Decreasing solver.</span>
+<span class="w">    </span><span class="sd">"""Pack sub-boxes into a container using 3D Guillotine + Extreme-Point fallback.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        container_size: (width, length, height) of the outer box interior.</span>
-<span class="sd">        boxes: List of dicts with keys: label, size (w, l, h), expandable.</span>
-<span class="sd">        gap_threshold: Gaps &lt;= this are absorbed.</span>
+<span class="sd">        boxes: List of dicts with keys: label, size (w, l, h), expandable, etc.</span>
+<span class="sd">        gap_threshold: Shallow Y gaps &lt;= this are absorbed into expandable boxes.</span>
 <span class="sd">        min_spacer_dim: Minimum spacer dimension before absorption.</span>
+<span class="sd">        obstacles: Pinned ``(x, y, z, w, l, h)`` regions already occupied.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        BoxPacking with placements assigned.</span>
 
 <span class="sd">    """</span>
-    <span class="n">packing</span> <span class="o">=</span> <span class="n">BoxPacking</span><span class="p">(</span><span class="n">container_size</span><span class="o">=</span><span class="n">container_size</span><span class="p">)</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.packing.cache</span><span class="w"> </span><span class="kn">import</span> <span class="n">cache_key</span><span class="p">,</span> <span class="n">get_memory_cached</span><span class="p">,</span> <span class="n">set_memory_cached</span>
 
+    <span class="n">packing</span> <span class="o">=</span> <span class="n">BoxPacking</span><span class="p">(</span><span class="n">container_size</span><span class="o">=</span><span class="n">container_size</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">boxes</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">packing</span>
 
-    <span class="c1"># The guillotine solver goes first: it handles densely-filled layouts the</span>
-    <span class="c1"># corner-point one cannot, and it cannot float a box (see guillotine.py).</span>
-    <span class="c1"># The corner-point solver stays as a fallback because it searches a</span>
-    <span class="c1"># different, non-guillotine space, so it can still place the odd layout the</span>
-    <span class="c1"># other rules out.</span>
-    <span class="n">placed</span> <span class="o">=</span> <span class="n">_pack_guillotine</span><span class="p">(</span><span class="n">container_size</span><span class="p">,</span> <span class="n">boxes</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">placed</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">packing</span><span class="o">.</span><span class="n">placements</span> <span class="o">=</span> <span class="n">placed</span>
-        <span class="n">_expand_in_place</span><span class="p">(</span><span class="n">packing</span><span class="o">.</span><span class="n">placements</span><span class="p">,</span> <span class="n">container_size</span><span class="p">,</span> <span class="n">boxes</span><span class="p">)</span>
+    <span class="n">ckey</span> <span class="o">=</span> <span class="n">cache_key</span><span class="p">({</span>
+        <span class="s2">"container"</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">container_size</span><span class="p">),</span>
+        <span class="s2">"boxes"</span><span class="p">:</span> <span class="n">boxes</span><span class="p">,</span>
+        <span class="s2">"gap_threshold"</span><span class="p">:</span> <span class="n">gap_threshold</span><span class="p">,</span>
+        <span class="s2">"obstacles"</span><span class="p">:</span> <span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">o</span><span class="p">)</span> <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">obstacles</span><span class="p">],</span>
+    <span class="p">})</span>
+    <span class="n">cached</span> <span class="o">=</span> <span class="n">get_memory_cached</span><span class="p">(</span><span class="n">ckey</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">cached</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">packing</span><span class="o">.</span><span class="n">placements</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">Placement</span><span class="p">(</span>
+                <span class="n">label</span><span class="o">=</span><span class="n">d</span><span class="p">[</span><span class="s2">"label"</span><span class="p">],</span>
+                <span class="n">position</span><span class="o">=</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s2">"position"</span><span class="p">][</span><span class="mi">0</span><span class="p">]),</span> <span class="nb">float</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s2">"position"</span><span class="p">][</span><span class="mi">1</span><span class="p">]),</span> <span class="nb">float</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s2">"position"</span><span class="p">][</span><span class="mi">2</span><span class="p">])),</span>
+                <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s2">"size"</span><span class="p">][</span><span class="mi">0</span><span class="p">]),</span> <span class="nb">float</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s2">"size"</span><span class="p">][</span><span class="mi">1</span><span class="p">]),</span> <span class="nb">float</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s2">"size"</span><span class="p">][</span><span class="mi">2</span><span class="p">])),</span>
+                <span class="n">rotation</span><span class="o">=</span><span class="nb">bool</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s2">"rotation"</span><span class="p">]),</span>
+            <span class="p">)</span>
+            <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">cached</span>
+        <span class="p">]</span>
         <span class="k">return</span> <span class="n">packing</span>
 
-    <span class="c1"># Only the fallback needs the legacy root-level module, so import it only</span>
-    <span class="c1"># when the fallback is actually reached — and treat its absence as "no</span>
-    <span class="c1"># fallback available" rather than letting an ImportError escape in place of</span>
-    <span class="c1"># the PackingError callers handle.</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="kn">from</span><span class="w"> </span><span class="nn">compartments</span><span class="w"> </span><span class="kn">import</span> <span class="n">pack_3d_boxes</span>
-    <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
-        <span class="n">pack_3d_boxes</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">placed</span> <span class="o">=</span> <span class="n">_pack_guillotine</span><span class="p">(</span><span class="n">container_size</span><span class="p">,</span> <span class="n">boxes</span><span class="p">,</span> <span class="n">obstacles</span><span class="o">=</span><span class="n">obstacles</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">placed</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">placed</span> <span class="o">=</span> <span class="n">_pack_extreme_points_supported</span><span class="p">(</span><span class="n">container_size</span><span class="p">,</span> <span class="n">boxes</span><span class="p">,</span> <span class="n">obstacles</span><span class="o">=</span><span class="n">obstacles</span><span class="p">)</span>
 
-    <span class="c1"># Prepare items for 3D packer. The axis codes it understands are "w" (grow</span>
-    <span class="c1"># right to the next neighbour) and "h" (close a sub-3mm gap above, FR-012);</span>
-    <span class="c1"># a box that is not expandable at all gets neither and keeps its size.</span>
-    <span class="n">items</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">boxes</span><span class="p">:</span>
-        <span class="n">axes</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">if</span> <span class="n">b</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"expandable"</span><span class="p">):</span>
-            <span class="n">axes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">"h"</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">b</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"expandable_width"</span><span class="p">,</span> <span class="kc">True</span><span class="p">):</span>
-                <span class="n">axes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">"w"</span><span class="p">)</span>
-        <span class="n">items</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
-            <span class="s2">"name"</span><span class="p">:</span> <span class="n">b</span><span class="p">[</span><span class="s2">"label"</span><span class="p">],</span>
-            <span class="s2">"size"</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="s2">"size"</span><span class="p">]),</span>
-            <span class="s2">"expandable"</span><span class="p">:</span> <span class="n">axes</span><span class="p">,</span>
-            <span class="s2">"no_rotate"</span><span class="p">:</span> <span class="n">b</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"no_rotate"</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span>
-        <span class="p">})</span>
-
-    <span class="c1"># Run 3D solver. A failure here used to be swallowed and returned as an</span>
-    <span class="c1"># empty packing, so the export "succeeded" while writing no boxes at all —</span>
-    <span class="c1"># say what went wrong instead.</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">pack_3d_boxes</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">PackingError</span><span class="p">(</span><span class="s2">"no fallback solver available"</span><span class="p">)</span>
-        <span class="n">packed</span> <span class="o">=</span> <span class="n">pack_3d_boxes</span><span class="p">(</span><span class="n">container_size</span><span class="p">,</span> <span class="n">items</span><span class="p">)</span>
-    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">placed</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">box_volume</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="s2">"size"</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">b</span><span class="p">[</span><span class="s2">"size"</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">b</span><span class="p">[</span><span class="s2">"size"</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">boxes</span><span class="p">)</span>
+        <span class="n">obs_volume</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">o</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">*</span> <span class="n">o</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">*</span> <span class="n">o</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span> <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">obstacles</span><span class="p">)</span>
         <span class="n">container_volume</span> <span class="o">=</span> <span class="n">container_size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">container_size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">container_size</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
-        <span class="n">fill</span> <span class="o">=</span> <span class="mi">100</span> <span class="o">*</span> <span class="n">box_volume</span> <span class="o">/</span> <span class="n">container_volume</span> <span class="k">if</span> <span class="n">container_volume</span> <span class="k">else</span> <span class="mf">0.0</span>
+        <span class="n">fill</span> <span class="o">=</span> <span class="mi">100</span> <span class="o">*</span> <span class="p">(</span><span class="n">box_volume</span> <span class="o">+</span> <span class="n">obs_volume</span><span class="p">)</span> <span class="o">/</span> <span class="n">container_volume</span> <span class="k">if</span> <span class="n">container_volume</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mf">0.0</span>
         <span class="n">too_tall</span> <span class="o">=</span> <span class="p">[</span>
             <span class="n">b</span><span class="p">[</span><span class="s2">"label"</span><span class="p">]</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">boxes</span> <span class="k">if</span> <span class="n">b</span><span class="p">[</span><span class="s2">"size"</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">container_size</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="mf">1e-6</span>
         <span class="p">]</span>
         <span class="n">detail</span> <span class="o">=</span> <span class="p">(</span>
             <span class="sa">f</span><span class="s2">" Boxes taller than the container: </span><span class="si">{</span><span class="s1">', '</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">too_tall</span><span class="p">)</span><span class="si">}</span><span class="s2">."</span>
             <span class="k">if</span> <span class="n">too_tall</span>
-            <span class="k">else</span> <span class="sa">f</span><span class="s2">" At </span><span class="si">{</span><span class="n">fill</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">% fill the packer's greedy placement may simply "</span>
-            <span class="sa">f</span><span class="s2">"not find an arrangement even though one exists — give the boxes "</span>
-            <span class="sa">f</span><span class="s2">"explicit positions, or make them smaller or expandable."</span>
+            <span class="k">else</span> <span class="sa">f</span><span class="s2">" At </span><span class="si">{</span><span class="n">fill</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">% fill no valid supported arrangement was found — "</span>
+            <span class="sa">f</span><span class="s2">"give the boxes explicit positions, or make them smaller."</span>
         <span class="p">)</span>
         <span class="k">raise</span> <span class="n">PackingError</span><span class="p">(</span>
             <span class="sa">f</span><span class="s2">"Could not pack </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">boxes</span><span class="p">)</span><span class="si">}</span><span class="s2"> boxes into "</span>
             <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">container_size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> x </span><span class="si">{</span><span class="n">container_size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> x "</span>
             <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">container_size</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> mm.</span><span class="si">{</span><span class="n">detail</span><span class="si">}</span><span class="s2">"</span>
-        <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">exc</span>
-
-    <span class="c1"># Convert results to placements</span>
-    <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">info</span> <span class="ow">in</span> <span class="n">packed</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-        <span class="n">packing</span><span class="o">.</span><span class="n">placements</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-            <span class="n">Placement</span><span class="p">(</span>
-                <span class="n">label</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
-                <span class="n">position</span><span class="o">=</span><span class="nb">tuple</span><span class="p">(</span><span class="n">info</span><span class="p">[</span><span class="s2">"pos"</span><span class="p">]),</span>
-                <span class="n">size</span><span class="o">=</span><span class="nb">tuple</span><span class="p">(</span><span class="n">info</span><span class="p">[</span><span class="s2">"size"</span><span class="p">]),</span>
-                <span class="n">rotation</span><span class="o">=</span><span class="n">info</span><span class="p">[</span><span class="s2">"rotated"</span><span class="p">],</span>
-            <span class="p">)</span>
         <span class="p">)</span>
 
-    <span class="c1"># Note: Spacers and row computations can be added if needed,</span>
-    <span class="c1"># but the 3D packer will pack boxes at their full 3D coordinates.</span>
+    <span class="n">packing</span><span class="o">.</span><span class="n">placements</span> <span class="o">=</span> <span class="n">placed</span>
+    <span class="n">_expand_in_place</span><span class="p">(</span>
+        <span class="n">packing</span><span class="o">.</span><span class="n">placements</span><span class="p">,</span>
+        <span class="n">container_size</span><span class="p">,</span>
+        <span class="n">boxes</span><span class="p">,</span>
+        <span class="n">gap_threshold</span><span class="o">=</span><span class="n">gap_threshold</span><span class="p">,</span>
+        <span class="n">obstacles</span><span class="o">=</span><span class="n">obstacles</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">set_memory_cached</span><span class="p">(</span>
+        <span class="n">ckey</span><span class="p">,</span>
+        <span class="p">[</span>
+            <span class="p">{</span>
+                <span class="s2">"label"</span><span class="p">:</span> <span class="n">p</span><span class="o">.</span><span class="n">label</span><span class="p">,</span>
+                <span class="s2">"position"</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">position</span><span class="p">),</span>
+                <span class="s2">"size"</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">size</span><span class="p">),</span>
+                <span class="s2">"rotation"</span><span class="p">:</span> <span class="n">p</span><span class="o">.</span><span class="n">rotation</span><span class="p">,</span>
+            <span class="p">}</span>
+            <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">packing</span><span class="o">.</span><span class="n">placements</span>
+        <span class="p">],</span>
+    <span class="p">)</span>
     <span class="k">return</span> <span class="n">packing</span></div>
 
 </code></pre></div>

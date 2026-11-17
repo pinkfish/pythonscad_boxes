@@ -926,6 +926,30 @@
   
   
     <li class="md-nav__item">
+      <a href="pyboxbuilder.packing.cache.get_memory_cached.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>packing.<wbr>cache.<wbr>get_<wbr>memory_<wbr>cached</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="pyboxbuilder.packing.cache.layout_cache_clear.html" class="md-nav__link">
         
   
@@ -1014,6 +1038,30 @@
 
               
             
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pyboxbuilder.packing.cache.set_memory_cached.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>pyboxbuilder.<wbr>packing.<wbr>cache.<wbr>set_<wbr>memory_<wbr>cached</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -1088,6 +1136,16 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="pyboxbuilder.packing.cache.get_memory_cached.html" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span>pyboxbuilder.<wbr>packing.<wbr>cache.<wbr>get_<wbr>memory_<wbr>cached</span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="pyboxbuilder.packing.cache.layout_cache_clear.html" class="md-nav__link">
     
     <span class="md-ellipsis">
@@ -1122,6 +1180,16 @@
     
     <span class="md-ellipsis">
       <span>pyboxbuilder.<wbr>packing.<wbr>cache.<wbr>set_<wbr>cached</span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="pyboxbuilder.packing.cache.set_memory_cached.html" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span>pyboxbuilder.<wbr>packing.<wbr>cache.<wbr>set_<wbr>memory_<wbr>cached</span>
     </span>
   </a>
   
@@ -1445,27 +1513,33 @@
 
 
 <h1 id="module-pyboxbuilder.packing.cache"><span id="pyboxbuilder-packing-cache"></span>pyboxbuilder.packing.cache<a class="headerlink" href="#module-pyboxbuilder.packing.cache" title="Link to this heading">¶</a></h1>
-<p>Two-level layout cache — memory + disk JSON with SHA-256 hash keys.</p>
+<p>Two-level layout cache — in-memory LRU + user cache JSON with SHA-256 hash keys.</p>
 <p class="rubric">Functions</p>
 <table class="autosummary longtable docutils data align-default">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="pyboxbuilder.packing.cache.cache_key.html#pyboxbuilder.packing.cache.cache_key" title="pyboxbuilder.packing.cache.cache_key (Python function) — Generate a SHA-256 hash cache key from serialized input."><code class="xref py py-obj docutils literal notranslate"><span class="pre">cache_key</span></code></a></p></td>
 <td><p>Generate a SHA-256 hash cache key from serialized input.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="pyboxbuilder.packing.cache.get_cached.html#pyboxbuilder.packing.cache.get_cached" title="pyboxbuilder.packing.cache.get_cached (Python function) — Get a cached value by key."><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_cached</span></code></a></p></td>
-<td><p>Get a cached value by key.</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="pyboxbuilder.packing.cache.get_cached.html#pyboxbuilder.packing.cache.get_cached" title="pyboxbuilder.packing.cache.get_cached (Python function) — Get a cached value by key (checks memory first, then disk)."><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_cached</span></code></a></p></td>
+<td><p>Get a cached value by key (checks memory first, then disk).</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="pyboxbuilder.packing.cache.layout_cache_clear.html#pyboxbuilder.packing.cache.layout_cache_clear" title="pyboxbuilder.packing.cache.layout_cache_clear (Python function) — Clear all caches (memory and disk)."><code class="xref py py-obj docutils literal notranslate"><span class="pre">layout_cache_clear</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="pyboxbuilder.packing.cache.get_memory_cached.html#pyboxbuilder.packing.cache.get_memory_cached" title="pyboxbuilder.packing.cache.get_memory_cached (Python function) — Fast process-local lookup without disk I/O."><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_memory_cached</span></code></a></p></td>
+<td><p>Fast process-local lookup without disk I/O.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="pyboxbuilder.packing.cache.layout_cache_clear.html#pyboxbuilder.packing.cache.layout_cache_clear" title="pyboxbuilder.packing.cache.layout_cache_clear (Python function) — Clear all caches (memory and disk)."><code class="xref py py-obj docutils literal notranslate"><span class="pre">layout_cache_clear</span></code></a></p></td>
 <td><p>Clear all caches (memory and disk).</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="pyboxbuilder.packing.cache.load_cache.html#pyboxbuilder.packing.cache.load_cache" title="pyboxbuilder.packing.cache.load_cache (Python function) — Load the disk cache into memory."><code class="xref py py-obj docutils literal notranslate"><span class="pre">load_cache</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="pyboxbuilder.packing.cache.load_cache.html#pyboxbuilder.packing.cache.load_cache" title="pyboxbuilder.packing.cache.load_cache (Python function) — Load the disk cache into memory."><code class="xref py py-obj docutils literal notranslate"><span class="pre">load_cache</span></code></a></p></td>
 <td><p>Load the disk cache into memory.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="pyboxbuilder.packing.cache.save_cache.html#pyboxbuilder.packing.cache.save_cache" title="pyboxbuilder.packing.cache.save_cache (Python function) — Save the cache dictionary to disk."><code class="xref py py-obj docutils literal notranslate"><span class="pre">save_cache</span></code></a></p></td>
-<td><p>Save the cache dictionary to disk.</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="pyboxbuilder.packing.cache.save_cache.html#pyboxbuilder.packing.cache.save_cache" title="pyboxbuilder.packing.cache.save_cache (Python function) — Save the cache dictionary to disk (best-effort on read-only environments)."><code class="xref py py-obj docutils literal notranslate"><span class="pre">save_cache</span></code></a></p></td>
+<td><p>Save the cache dictionary to disk (best-effort on read-only environments).</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="pyboxbuilder.packing.cache.set_cached.html#pyboxbuilder.packing.cache.set_cached" title="pyboxbuilder.packing.cache.set_cached (Python function) — Store a value in both memory and disk cache."><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_cached</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="pyboxbuilder.packing.cache.set_cached.html#pyboxbuilder.packing.cache.set_cached" title="pyboxbuilder.packing.cache.set_cached (Python function) — Store a value in both memory and disk cache."><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_cached</span></code></a></p></td>
 <td><p>Store a value in both memory and disk cache.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="pyboxbuilder.packing.cache.set_memory_cached.html#pyboxbuilder.packing.cache.set_memory_cached" title="pyboxbuilder.packing.cache.set_memory_cached (Python function) — Fast process-local store without disk I/O."><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_memory_cached</span></code></a></p></td>
+<td><p>Fast process-local store without disk I/O.</p></td>
 </tr>
 </tbody>
 </table>

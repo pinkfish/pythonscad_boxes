@@ -543,6 +543,9 @@
 <span class="k">class</span><span class="w"> </span><span class="nc">GeometryPipeline</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Executes CSG construction, lid decoration, previewing, and 3MF exporting (FR-093)."""</span>
 
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_resolved_cache</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="n">ResolvedBox</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+
 <div class="viewcode-block" id="GeometryPipeline.build">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.project.pipeline.GeometryPipeline.html#pyboxbuilder.project.pipeline.GeometryPipeline.build">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">build</span><span class="p">(</span>
@@ -557,6 +560,7 @@
 <span class="sd">        """</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.project.compiler</span><span class="w"> </span><span class="kn">import</span> <span class="n">LayoutCompiler</span>
 
+        <span class="bp">self</span><span class="o">.</span><span class="n">_resolved_cache</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
         <span class="n">comp</span> <span class="o">=</span> <span class="n">compiler</span> <span class="ow">or</span> <span class="n">LayoutCompiler</span><span class="p">()</span>
         <span class="n">comp</span><span class="o">.</span><span class="n">resolve_shared_compartments</span><span class="p">(</span><span class="n">manifest</span><span class="p">)</span>
 
@@ -594,15 +598,18 @@
             <span class="k">return</span> <span class="n">Build</span><span class="p">(</span><span class="n">pieces</span><span class="o">=</span><span class="nb">tuple</span><span class="p">(</span><span class="n">pieces</span><span class="p">))</span>
 
         <span class="n">packing</span> <span class="o">=</span> <span class="n">comp</span><span class="o">.</span><span class="n">resolve_final_layout</span><span class="p">(</span><span class="n">manifest</span><span class="p">)</span>
-        <span class="n">positions</span> <span class="o">=</span> <span class="p">{</span><span class="n">p</span><span class="o">.</span><span class="n">label</span><span class="p">:</span> <span class="n">p</span><span class="o">.</span><span class="n">position</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">packing</span><span class="o">.</span><span class="n">placements</span><span class="p">}</span>
+        <span class="n">placements_by_label</span> <span class="o">=</span> <span class="p">{</span><span class="n">p</span><span class="o">.</span><span class="n">label</span><span class="p">:</span> <span class="n">p</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">packing</span><span class="o">.</span><span class="n">placements</span><span class="p">}</span>
 
         <span class="k">for</span> <span class="n">builder</span> <span class="ow">in</span> <span class="n">manifest</span><span class="o">.</span><span class="n">boxes</span><span class="p">:</span>
-            <span class="n">at</span> <span class="o">=</span> <span class="n">positions</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">builder</span><span class="o">.</span><span class="n">label</span><span class="p">,</span> <span class="n">builder</span><span class="o">.</span><span class="n">position</span> <span class="ow">or</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">))</span>
+            <span class="n">pl</span> <span class="o">=</span> <span class="n">placements_by_label</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">builder</span><span class="o">.</span><span class="n">label</span><span class="p">)</span>
+            <span class="n">at</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">position</span> <span class="k">if</span> <span class="n">pl</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="p">(</span><span class="n">builder</span><span class="o">.</span><span class="n">position</span> <span class="ow">or</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">))</span>
+            <span class="n">rot</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">rotation</span> <span class="k">if</span> <span class="n">pl</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">False</span>
             <span class="n">pieces</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_box_pieces</span><span class="p">(</span>
                     <span class="n">manifest</span><span class="p">,</span>
                     <span class="n">builder</span><span class="p">,</span>
                     <span class="n">at</span><span class="p">,</span>
+                    <span class="n">rotation</span><span class="o">=</span><span class="n">rot</span><span class="p">,</span>
                     <span class="n">build_box_solids_fn</span><span class="o">=</span><span class="n">build_box_solids_fn</span><span class="p">,</span>
                 <span class="p">)</span>
             <span class="p">)</span>
@@ -629,12 +636,14 @@
         <span class="n">manifest</span><span class="p">:</span> <span class="n">ProjectManifest</span><span class="p">,</span>
         <span class="n">builder</span><span class="p">:</span> <span class="n">BoxBuilder</span><span class="p">,</span>
         <span class="n">at</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
+        <span class="n">rotation</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="n">build_box_solids_fn</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Piece</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">"""Return the body and lid pieces for one box, at the position it packs to."""</span>
         <span class="n">size</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">final_size</span>
         <span class="k">assert</span> <span class="n">size</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
-        <span class="c1"># Validate now, build later: pre-CSG validation runs here eagerly (FR-092).</span>
+        <span class="c1"># Validate now, build later: pre-CSG validation runs here eagerly (FR-092),</span>
+        <span class="c1"># and the ResolvedBox is cached so _build_box_solids never repeats the work.</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_resolve_box</span><span class="p">(</span><span class="n">manifest</span><span class="p">,</span> <span class="n">builder</span><span class="p">)</span>
         <span class="n">build_fn</span> <span class="o">=</span> <span class="n">build_box_solids_fn</span> <span class="ow">or</span> <span class="n">partial</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_build_box_solids</span><span class="p">,</span> <span class="n">manifest</span><span class="p">)</span>
         <span class="n">build_once</span> <span class="o">=</span> <span class="n">cache</span><span class="p">(</span><span class="n">partial</span><span class="p">(</span><span class="n">build_fn</span><span class="p">,</span> <span class="n">builder</span><span class="p">))</span>
@@ -648,6 +657,7 @@
                 <span class="n">builder</span><span class="o">=</span><span class="n">builder</span><span class="p">,</span>
                 <span class="n">_build</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="n">build_once</span><span class="p">()[</span><span class="mi">0</span><span class="p">],</span>
                 <span class="n">_build_inserts</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="n">build_once</span><span class="p">()[</span><span class="mi">3</span><span class="p">],</span>
+                <span class="n">rotation</span><span class="o">=</span><span class="n">rotation</span><span class="p">,</span>
             <span class="p">)</span>
         <span class="p">]</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_has_lid</span><span class="p">(</span><span class="n">builder</span><span class="p">):</span>
@@ -659,6 +669,7 @@
                     <span class="n">position</span><span class="o">=</span><span class="n">at</span><span class="p">,</span>
                     <span class="n">builder</span><span class="o">=</span><span class="n">builder</span><span class="p">,</span>
                     <span class="n">_build</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="n">build_once</span><span class="p">()[</span><span class="mi">1</span><span class="p">],</span>
+                    <span class="n">rotation</span><span class="o">=</span><span class="n">rotation</span><span class="p">,</span>
                 <span class="p">)</span>
             <span class="p">)</span>
         <span class="k">return</span> <span class="n">pieces</span>
@@ -674,16 +685,33 @@
         <span class="bp">self</span><span class="p">,</span> <span class="n">manifest</span><span class="p">:</span> <span class="n">ProjectManifest</span><span class="p">,</span> <span class="n">builder</span><span class="p">:</span> <span class="n">BoxBuilder</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ResolvedBox</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Everything about a box that is decided before any geometry is cut."""</span>
+        <span class="n">size</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">final_size</span>
+        <span class="k">assert</span> <span class="n">size</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+        <span class="n">cache_k</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="nb">id</span><span class="p">(</span><span class="n">manifest</span><span class="p">),</span>
+            <span class="nb">id</span><span class="p">(</span><span class="n">builder</span><span class="p">),</span>
+            <span class="n">builder</span><span class="o">.</span><span class="n">label</span><span class="p">,</span>
+            <span class="n">size</span><span class="p">,</span>
+            <span class="nb">tuple</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">builder</span><span class="o">.</span><span class="n">compartments</span><span class="p">),</span>
+            <span class="nb">tuple</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="n">fh</span><span class="p">)</span> <span class="k">for</span> <span class="n">fh</span> <span class="ow">in</span> <span class="n">builder</span><span class="o">.</span><span class="n">finger_holes</span><span class="p">),</span>
+            <span class="n">builder</span><span class="o">.</span><span class="n">auto_finger_holes</span><span class="p">,</span>
+            <span class="n">builder</span><span class="o">.</span><span class="n">stackable_top</span><span class="p">,</span>
+            <span class="n">builder</span><span class="o">.</span><span class="n">stackable_bottom</span><span class="p">,</span>
+            <span class="nb">id</span><span class="p">(</span><span class="n">builder</span><span class="o">.</span><span class="n">lid</span><span class="p">),</span>
+        <span class="p">)</span>
+        <span class="n">cached</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resolved_cache</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">cache_k</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">cached</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">cached</span><span class="o">.</span><span class="n">builder</span> <span class="ow">is</span> <span class="n">builder</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">cached</span>
+
         <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.registry</span><span class="w"> </span><span class="kn">import</span> <span class="n">BOX_IMPL_REGISTRY</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.spec</span><span class="w"> </span><span class="kn">import</span> <span class="n">build_spec</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.validation</span><span class="w"> </span><span class="kn">import</span> <span class="n">GeometryValidator</span>
-        <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.compartments.layout</span><span class="w"> </span><span class="kn">import</span> <span class="n">layout_compartments</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.compartments.builder</span><span class="w"> </span><span class="kn">import</span> <span class="n">infer_ratio_tracks</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.compartments.layout</span><span class="w"> </span><span class="kn">import</span> <span class="n">WALL_SPACING_MM</span><span class="p">,</span> <span class="n">layout_compartments</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.compartments.sizing</span><span class="w"> </span><span class="kn">import</span> <span class="n">RowItem</span><span class="p">,</span> <span class="n">distribute_row_width</span><span class="p">,</span> <span class="n">rows_from_placements</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.project.compiler</span><span class="w"> </span><span class="kn">import</span> <span class="n">LayoutCompiler</span>
 
         <span class="n">LayoutCompiler</span><span class="o">.</span><span class="n">check_ratios</span><span class="p">(</span><span class="n">builder</span><span class="p">)</span>
-
-        <span class="n">size</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">final_size</span>
-        <span class="k">assert</span> <span class="n">size</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
         <span class="n">spec</span> <span class="o">=</span> <span class="n">build_spec</span><span class="p">(</span><span class="n">manifest</span><span class="p">,</span> <span class="n">builder</span><span class="p">,</span> <span class="n">size</span><span class="p">)</span>
 
         <span class="c1"># Pre-CSG physical invariant validation (FR-092 / SC-092)</span>
@@ -697,9 +725,17 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="n">interior</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">interior</span><span class="p">()</span>
 
-        <span class="n">siblings</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">builder</span><span class="o">.</span><span class="n">compartments</span><span class="p">)</span>
+        <span class="n">siblings</span> <span class="o">=</span> <span class="nb">len</span><span class="p">([</span><span class="n">cb</span> <span class="k">for</span> <span class="n">cb</span> <span class="ow">in</span> <span class="n">builder</span><span class="o">.</span><span class="n">compartments</span> <span class="k">if</span> <span class="n">cb</span><span class="o">.</span><span class="n">position</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">])</span>
+        <span class="n">x_tracks</span><span class="p">,</span> <span class="n">y_tracks</span> <span class="o">=</span> <span class="n">infer_ratio_tracks</span><span class="p">(</span><span class="n">builder</span><span class="o">.</span><span class="n">compartments</span><span class="p">)</span>
         <span class="n">comp_data</span> <span class="o">=</span> <span class="p">[</span>
-            <span class="n">cb</span><span class="o">.</span><span class="n">resolved</span><span class="p">(</span><span class="n">interior</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="n">interior</span><span class="o">.</span><span class="n">length</span><span class="p">,</span> <span class="n">interior</span><span class="o">.</span><span class="n">height</span><span class="p">,</span> <span class="n">siblings</span><span class="p">)</span>
+            <span class="n">cb</span><span class="o">.</span><span class="n">resolved</span><span class="p">(</span>
+                <span class="n">interior</span><span class="o">.</span><span class="n">width</span><span class="p">,</span>
+                <span class="n">interior</span><span class="o">.</span><span class="n">length</span><span class="p">,</span>
+                <span class="n">interior</span><span class="o">.</span><span class="n">height</span><span class="p">,</span>
+                <span class="nb">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">siblings</span><span class="p">),</span>
+                <span class="n">x_tracks</span><span class="o">=</span><span class="n">x_tracks</span><span class="p">,</span>
+                <span class="n">y_tracks</span><span class="o">=</span><span class="n">y_tracks</span><span class="p">,</span>
+            <span class="p">)</span>
             <span class="k">for</span> <span class="n">cb</span> <span class="ow">in</span> <span class="n">builder</span><span class="o">.</span><span class="n">compartments</span>
         <span class="p">]</span>
 
@@ -710,8 +746,14 @@
                 <span class="k">for</span> <span class="n">cb</span> <span class="ow">in</span> <span class="n">builder</span><span class="o">.</span><span class="n">compartments</span>
                 <span class="k">if</span> <span class="n">cb</span><span class="o">.</span><span class="n">no_rotate</span> <span class="ow">or</span> <span class="n">cb</span><span class="o">.</span><span class="n">derives_size</span>
             <span class="p">}</span>
+            <span class="n">preserve_order</span> <span class="o">=</span> <span class="nb">all</span><span class="p">(</span>
+                <span class="n">cb</span><span class="o">.</span><span class="n">derives_size</span> <span class="k">for</span> <span class="n">cb</span> <span class="ow">in</span> <span class="n">builder</span><span class="o">.</span><span class="n">compartments</span> <span class="k">if</span> <span class="n">cb</span><span class="o">.</span><span class="n">position</span> <span class="ow">is</span> <span class="kc">None</span>
+            <span class="p">)</span>
             <span class="n">comp_layout</span> <span class="o">=</span> <span class="n">layout_compartments</span><span class="p">(</span>
-                <span class="n">interior</span><span class="p">,</span> <span class="n">comp_data</span><span class="p">,</span> <span class="n">no_rotate_labels</span><span class="o">=</span><span class="n">no_rotate_labels</span>
+                <span class="n">interior</span><span class="p">,</span>
+                <span class="n">comp_data</span><span class="p">,</span>
+                <span class="n">no_rotate_labels</span><span class="o">=</span><span class="n">no_rotate_labels</span><span class="p">,</span>
+                <span class="n">preserve_order</span><span class="o">=</span><span class="n">preserve_order</span><span class="p">,</span>
             <span class="p">)</span>
             <span class="k">if</span> <span class="n">comp_layout</span><span class="o">.</span><span class="n">overflow</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
@@ -719,13 +761,42 @@
                     <span class="sa">f</span><span class="s2">"interior (</span><span class="si">{</span><span class="n">interior</span><span class="o">.</span><span class="n">width</span><span class="si">}</span><span class="s2">x</span><span class="si">{</span><span class="n">interior</span><span class="o">.</span><span class="n">length</span><span class="si">}</span><span class="s2">)"</span>
                 <span class="p">)</span>
 
-        <span class="k">return</span> <span class="n">ResolvedBox</span><span class="p">(</span>
+            <span class="c1"># Expand growable compartments proportionally across row slack (FR-004)</span>
+            <span class="n">by_comp_label</span> <span class="o">=</span> <span class="p">{</span><span class="n">cb</span><span class="o">.</span><span class="n">label</span><span class="p">:</span> <span class="n">cb</span> <span class="k">for</span> <span class="n">cb</span> <span class="ow">in</span> <span class="n">builder</span><span class="o">.</span><span class="n">compartments</span><span class="p">}</span>
+            <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">cb</span><span class="o">.</span><span class="n">growable</span> <span class="k">for</span> <span class="n">cb</span> <span class="ow">in</span> <span class="n">builder</span><span class="o">.</span><span class="n">compartments</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">comp_layout</span><span class="o">.</span><span class="n">placements</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">pl_map</span> <span class="o">=</span> <span class="p">{</span><span class="n">pl</span><span class="o">.</span><span class="n">label</span><span class="p">:</span> <span class="n">pl</span> <span class="k">for</span> <span class="n">pl</span> <span class="ow">in</span> <span class="n">comp_layout</span><span class="o">.</span><span class="n">placements</span><span class="p">}</span>
+                <span class="k">for</span> <span class="n">row_labels</span> <span class="ow">in</span> <span class="n">rows_from_placements</span><span class="p">(</span><span class="n">comp_layout</span><span class="o">.</span><span class="n">placements</span><span class="p">,</span> <span class="n">gap</span><span class="o">=</span><span class="n">WALL_SPACING_MM</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">(</span>
+                        <span class="n">by_comp_label</span><span class="p">[</span><span class="n">lbl</span><span class="p">]</span><span class="o">.</span><span class="n">growable</span> <span class="ow">and</span> <span class="n">by_comp_label</span><span class="p">[</span><span class="n">lbl</span><span class="p">]</span><span class="o">.</span><span class="n">position</span> <span class="ow">is</span> <span class="kc">None</span>
+                        <span class="k">for</span> <span class="n">lbl</span> <span class="ow">in</span> <span class="n">row_labels</span>
+                    <span class="p">):</span>
+                        <span class="k">continue</span>
+                    <span class="n">row_items</span> <span class="o">=</span> <span class="p">[</span>
+                        <span class="n">RowItem</span><span class="p">(</span>
+                            <span class="n">label</span><span class="o">=</span><span class="n">lbl</span><span class="p">,</span>
+                            <span class="n">width</span><span class="o">=</span><span class="n">pl_map</span><span class="p">[</span><span class="n">lbl</span><span class="p">]</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                            <span class="n">length</span><span class="o">=</span><span class="n">pl_map</span><span class="p">[</span><span class="n">lbl</span><span class="p">]</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                            <span class="n">growable</span><span class="o">=</span><span class="p">(</span><span class="n">by_comp_label</span><span class="p">[</span><span class="n">lbl</span><span class="p">]</span><span class="o">.</span><span class="n">growable</span> <span class="ow">and</span> <span class="n">by_comp_label</span><span class="p">[</span><span class="n">lbl</span><span class="p">]</span><span class="o">.</span><span class="n">position</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">),</span>
+                        <span class="p">)</span>
+                        <span class="k">for</span> <span class="n">lbl</span> <span class="ow">in</span> <span class="n">row_labels</span>
+                    <span class="p">]</span>
+                    <span class="n">distributed</span> <span class="o">=</span> <span class="n">distribute_row_width</span><span class="p">(</span><span class="n">row_items</span><span class="p">,</span> <span class="n">interior</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="n">gap</span><span class="o">=</span><span class="n">WALL_SPACING_MM</span><span class="p">)</span>
+                    <span class="n">x_cur</span> <span class="o">=</span> <span class="n">interior</span><span class="o">.</span><span class="n">origin_x</span> <span class="o">+</span> <span class="n">WALL_SPACING_MM</span>
+                    <span class="k">for</span> <span class="n">lbl</span><span class="p">,</span> <span class="n">new_w</span><span class="p">,</span> <span class="n">new_l</span> <span class="ow">in</span> <span class="n">distributed</span><span class="p">:</span>
+                        <span class="n">pl</span> <span class="o">=</span> <span class="n">pl_map</span><span class="p">[</span><span class="n">lbl</span><span class="p">]</span>
+                        <span class="n">pl</span><span class="o">.</span><span class="n">size</span> <span class="o">=</span> <span class="p">(</span><span class="n">new_w</span><span class="p">,</span> <span class="n">new_l</span><span class="p">)</span>
+                        <span class="n">pl</span><span class="o">.</span><span class="n">position</span> <span class="o">=</span> <span class="p">(</span><span class="n">x_cur</span><span class="p">,</span> <span class="n">pl</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+                        <span class="n">x_cur</span> <span class="o">+=</span> <span class="n">new_w</span> <span class="o">+</span> <span class="n">WALL_SPACING_MM</span>
+
+        <span class="n">resolved</span> <span class="o">=</span> <span class="n">ResolvedBox</span><span class="p">(</span>
             <span class="n">builder</span><span class="o">=</span><span class="n">builder</span><span class="p">,</span>
             <span class="n">box</span><span class="o">=</span><span class="n">box</span><span class="p">,</span>
             <span class="n">spec</span><span class="o">=</span><span class="n">spec</span><span class="p">,</span>
             <span class="n">interior</span><span class="o">=</span><span class="n">interior</span><span class="p">,</span>
             <span class="n">compartments</span><span class="o">=</span><span class="n">comp_layout</span><span class="p">,</span>
         <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_resolved_cache</span><span class="p">[</span><span class="n">cache_k</span><span class="p">]</span> <span class="o">=</span> <span class="n">resolved</span>
+        <span class="k">return</span> <span class="n">resolved</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_build_box_solids</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">manifest</span><span class="p">:</span> <span class="n">ProjectManifest</span><span class="p">,</span> <span class="n">builder</span><span class="p">:</span> <span class="n">BoxBuilder</span>
@@ -986,9 +1057,15 @@
             <span class="n">colour</span> <span class="o">=</span> <span class="n">colour_for</span><span class="p">(</span><span class="n">piece</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">piece</span><span class="o">.</span><span class="n">kind</span> <span class="o">==</span> <span class="s2">"lid"</span><span class="p">:</span>
                 <span class="n">colour</span> <span class="o">=</span> <span class="n">lid_color</span><span class="p">(</span><span class="n">colour</span><span class="p">)</span>
+
+            <span class="k">def</span><span class="w"> </span><span class="nf">_place_in_container</span><span class="p">(</span><span class="n">s</span><span class="p">:</span> <span class="n">Bosl2Solid</span><span class="p">,</span> <span class="n">pc</span><span class="p">:</span> <span class="n">Piece</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">pc</span><span class="o">.</span><span class="n">rotation</span><span class="p">:</span>
+                    <span class="n">s</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">rotate</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">90.0</span><span class="p">])</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">pc</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">])</span>
+                <span class="k">return</span> <span class="n">s</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">pc</span><span class="o">.</span><span class="n">position</span><span class="p">))</span>
+
             <span class="n">out</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
                 <span class="n">PreviewPiece</span><span class="p">(</span>
-                    <span class="n">piece</span><span class="o">.</span><span class="n">label</span><span class="p">,</span> <span class="n">solid</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">piece</span><span class="o">.</span><span class="n">position</span><span class="p">)),</span> <span class="n">colour</span><span class="p">,</span> <span class="n">piece</span><span class="o">.</span><span class="n">kind</span>
+                    <span class="n">piece</span><span class="o">.</span><span class="n">label</span><span class="p">,</span> <span class="n">_place_in_container</span><span class="p">(</span><span class="n">solid</span><span class="p">,</span> <span class="n">piece</span><span class="p">),</span> <span class="n">colour</span><span class="p">,</span> <span class="n">piece</span><span class="o">.</span><span class="n">kind</span>
                 <span class="p">)</span>
             <span class="p">)</span>
 
@@ -996,7 +1073,7 @@
                 <span class="n">out</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
                     <span class="n">PreviewPiece</span><span class="p">(</span>
                         <span class="n">piece</span><span class="o">.</span><span class="n">label</span><span class="p">,</span>
-                        <span class="n">insert</span><span class="o">.</span><span class="n">solid</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">piece</span><span class="o">.</span><span class="n">position</span><span class="p">)),</span>
+                        <span class="n">_place_in_container</span><span class="p">(</span><span class="n">insert</span><span class="o">.</span><span class="n">solid</span><span class="p">,</span> <span class="n">piece</span><span class="p">),</span>
                         <span class="n">insert</span><span class="o">.</span><span class="n">color</span> <span class="k">if</span> <span class="n">insert</span><span class="o">.</span><span class="n">color</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">colour</span><span class="p">,</span>
                         <span class="s2">"lid"</span><span class="p">,</span>
                     <span class="p">)</span>
@@ -1006,7 +1083,7 @@
                 <span class="n">out</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
                     <span class="n">PreviewPiece</span><span class="p">(</span>
                         <span class="n">piece</span><span class="o">.</span><span class="n">label</span><span class="p">,</span>
-                        <span class="n">solid_insert</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">piece</span><span class="o">.</span><span class="n">position</span><span class="p">)),</span>
+                        <span class="n">_place_in_container</span><span class="p">(</span><span class="n">solid_insert</span><span class="p">,</span> <span class="n">piece</span><span class="p">),</span>
                         <span class="n">color</span><span class="p">,</span>
                         <span class="s2">"body"</span><span class="p">,</span>
                     <span class="p">)</span>
@@ -1201,6 +1278,8 @@
                 <span class="n">manifest</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
                 <span class="n">manifest</span><span class="o">.</span><span class="n">game_box_size</span><span class="p">,</span>
                 <span class="n">box_builders</span><span class="o">=</span><span class="n">manifest</span><span class="o">.</span><span class="n">boxes</span><span class="p">,</span>
+                <span class="n">manifest</span><span class="o">=</span><span class="n">manifest</span><span class="p">,</span>
+                <span class="n">pipeline</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span>
             <span class="p">)</span>
             <span class="n">exporter</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">written</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">manifest</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">/layout.pdf"</span><span class="p">)</span></div>
 

@@ -28,6 +28,7 @@ pyboxbuilder.compartments.layout
       :toctree:
       :nosignatures:
    
+      candidate_box_sizes
       compute_min_box_size
       layout_compartments
       normalise_compartments

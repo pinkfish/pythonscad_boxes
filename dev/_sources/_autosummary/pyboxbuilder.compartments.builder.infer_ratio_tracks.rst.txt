@@ -1,0 +1,6 @@
+pyboxbuilder.compartments.builder.infer\_ratio\_tracks
+======================================================
+
+.. currentmodule:: pyboxbuilder.compartments.builder
+
+.. autofunction:: infer_ratio_tracks
