@@ -352,7 +352,16 @@ def build_contents(
         )
         if placement.elements:
             from pyboxbuilder.compartments.element import build_element_pack_pull_outs
-            pull_outs = build_element_pack_pull_outs(placement.elements, placement.depth, placement.size)
+            if len(placements) == 1:
+                pull_out_canvas = (
+                    max(placement.size[0], interior.width - (placement.position[0] - interior.origin_x)),
+                    max(placement.size[1], interior.length - (placement.position[1] - interior.origin_y)),
+                )
+            else:
+                pull_out_canvas = placement.size
+            pull_outs = build_element_pack_pull_outs(
+                placement.elements, placement.depth, pull_out_canvas
+            )
             if pull_outs is not None:
                 scoops.append(_place(pull_outs, placement, interior))
         cut = getattr(builder, "cut", None)

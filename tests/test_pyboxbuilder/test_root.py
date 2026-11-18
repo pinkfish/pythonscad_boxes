@@ -128,7 +128,10 @@ class TestRoot(unittest.TestCase):
                 self.assertLessEqual(ix1 - ix0, px1 - px0 + 1e-3, f"{label} inlay wider than pocket")
                 self.assertLessEqual(iy1 - iy0, py1 - py0 + 1e-3, f"{label} inlay taller than pocket")
 
-        # Also check 3D build: no coloured inlay hovers above its enclosing pocket floor.
+        # Also check 3D build: no coloured inlay hovers above its enclosing pocket floor,
+        # and pull-out scoops never tunnel beneath any inlay's supporting floor.
+        from pybosl2 import cuboid
+
         from pyboxbuilder.compartments.carve import compartment_floor_z
 
         plan = project.build()
@@ -140,6 +143,8 @@ class TestRoot(unittest.TestCase):
             pl = resolved.compartments.placements[0]
             comp_d = min(pl.depth, resolved.interior.height)
             base_z = compartment_floor_z(pl, resolved.interior)
+            body = piece.solid
+            assert body is not None
             for ins, _col in piece.inserts:
                 ib = ins.bounds()
                 cx = (ib.min_x + ib.max_x) / 2.0 - pl.position[0]
@@ -161,9 +166,22 @@ class TestRoot(unittest.TestCase):
                     places=2,
                     msg=f"{piece.label} insert floats relative to pocket floor",
                 )
+                probe_h = max(0.1, float(ib.min_z))
+                probe = cuboid([0.5, 0.5, probe_h]).translate([
+                    (float(ib.min_x) + float(ib.max_x)) / 2.0,
+                    (float(ib.min_y) + float(ib.max_y)) / 2.0,
+                    probe_h / 2.0,
+                ])
+                support = body & probe
+                self.assertAlmostEqual(
+                    float(support.bounds().max_z),
+                    float(ib.min_z),
+                    places=2,
+                    msg=f"{piece.label} insert lacks solid floor support underneath",
+                )
 
     def test_marquis_top_arranged_in_centered_symmetric_rows(self) -> None:
-        """MarquisBoxTop packs into 2 centered, evenly spaced 5-column rows."""
+        """MarquisBoxTop packs into 2 centered, evenly spaced 5-column rows with shallow slots at one end."""
         marquis_top = next(b for b in project._boxes if b.label == "MarquisBoxTop")
         pockets = [e for e in marquis_top.compartments[0].elements if e.color is None]
         self.assertEqual(len(pockets), 10)
@@ -178,6 +196,10 @@ class TestRoot(unittest.TestCase):
         # Interior width = 102.5, length = 55.833 -> symmetric margins on X and Y
         self.assertAlmostEqual(min_x, 102.5 - max_x, places=2)
         self.assertAlmostEqual(min_y, 55.833 - max_y, places=2)
+        shallow = [p for p in pockets if (p.depth or 0.0) <= 2.5]
+        self.assertEqual(len(shallow), 2)
+        for sp in shallow:
+            self.assertGreater(sp.bounds()[0], 80.0)
 
     def test_base_only_expansion_selection(self) -> None:
         """Verify Base Game builds cleanly without Riverfolk expansion boxes."""

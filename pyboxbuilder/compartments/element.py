@@ -1193,6 +1193,7 @@ def build_pull_out(
     default_depth: float,
     comp_size: tuple[float, float] = (1000.0, 1000.0),
     force_axis: str | None = None,
+    clearances: tuple[float, float, float, float] | None = None,
 ) -> Bosl2Solid | None:
     """Return the finger dish that lets a piece be lifted out of its slot.
 
@@ -1214,19 +1215,31 @@ def build_pull_out(
     depth = element.depth or default_depth
     actual_z_offset = element.z_offset if element.z_offset is not None else (default_depth - depth)
     drop = (element.pull_out_depth / 2.0) if element.pull_out_depth is not None else (depth * PULL_OUT_DEPTH_SHARE)
-    across = min(element.pull_out_width or DEFAULT_PULL_OUT_WIDTH_MM, max(width, length))
+    target_across = element.pull_out_width or DEFAULT_PULL_OUT_WIDTH_MM
 
-    # Calculate clearances to compartment boundaries to automatically pick the direction with most room
+    # Calculate clearances to compartment boundaries (or neighbor-clamped clearances)
     comp_w, comp_l = comp_size
-    clearance_x_left = element.offset[0]
-    clearance_x_right = comp_w - (element.offset[0] + width)
-    clearance_y_front = element.offset[1]
-    clearance_y_back = comp_l - (element.offset[1] + length)
+    if clearances is not None:
+        clearance_x_left, clearance_x_right, clearance_y_front, clearance_y_back = clearances
+    else:
+        clearance_x_left = max(0.0, element.offset[0])
+        clearance_x_right = max(0.0, comp_w - (element.offset[0] + width))
+        clearance_y_front = max(0.0, element.offset[1])
+        clearance_y_back = max(0.0, comp_l - (element.offset[1] + length))
 
     clearance_x = min(clearance_x_left, clearance_x_right)
     clearance_y = min(clearance_y_front, clearance_y_back)
 
-    use_y = force_axis == "y" if force_axis is not None else clearance_y >= clearance_x
+    if force_axis is not None:
+        use_y = force_axis == "y"
+    elif target_across > length + 1e-6 and width >= length:
+        use_y = True
+    elif target_across > width + 1e-6 and length > width:
+        use_y = False
+    else:
+        use_y = clearance_y >= clearance_x
+
+    across = min(target_across, width if use_y else length)
 
     if use_y:
         # Orient along Y (lengthwise)
@@ -1361,81 +1374,186 @@ def build_element_pack_inserts(
     return inserts
 
 
+def _neighbor_clearances(
+    element: CompartmentElement,
+    all_cutouts: Sequence[CompartmentElement],
+    comp_w: float,
+    comp_l: float,
+    default_depth: float,
+) -> tuple[float, float, float, float]:
+    """Return neighbor-safe ``(left, right, front, back)`` pull-out clearances in mm."""
+    ex0, ey0, ex1, ey1 = element.bounds()
+    depth = element.depth or default_depth
+    z_floor = element.z_offset if element.z_offset is not None else (default_depth - depth)
+    z_top = z_floor + depth
+
+    left = max(0.0, ex0)
+    right = max(0.0, comp_w - ex1)
+    front = max(0.0, ey0)
+    back = max(0.0, comp_l - ey1)
+    min_wall = 1.0
+
+    for other in all_cutouts:
+        if other is element:
+            continue
+        ox0, oy0, ox1, oy1 = other.bounds()
+        od = other.depth or default_depth
+        oz_floor = other.z_offset if other.z_offset is not None else (default_depth - od)
+        oz_top = oz_floor + od
+        same_z = abs(z_floor - oz_floor) < 0.2 and abs(z_top - oz_top) < 0.2
+
+        # Neighbors overlapping in Y bound horizontal (left/right) pull-out extensions.
+        if oy0 < ey1 - 0.2 and ey0 < oy1 - 0.2:
+            aligned_y = abs(oy0 - ey0) < 1.0 and abs(oy1 - ey1) < 1.0
+            if ox1 <= ex0 + 0.1 and ox0 < ex0 - 0.5:
+                gap = max(0.0, ex0 - ox1)
+                if same_z and aligned_y and other.pull_out and gap <= 2.5:
+                    allowed = gap / 2.0 + 0.5
+                elif other.pull_out:
+                    allowed = max(0.0, (gap - min_wall) / 2.0)
+                else:
+                    allowed = max(0.0, gap - min_wall)
+                left = min(left, allowed)
+            if ox0 >= ex1 - 0.1 and ox1 > ex1 + 0.5:
+                gap = max(0.0, ox0 - ex1)
+                if same_z and aligned_y and other.pull_out and gap <= 2.5:
+                    allowed = gap / 2.0 + 0.5
+                elif other.pull_out:
+                    allowed = max(0.0, (gap - min_wall) / 2.0)
+                else:
+                    allowed = max(0.0, gap - min_wall)
+                right = min(right, allowed)
+
+        # Neighbors overlapping in X bound vertical (front/back) pull-out extensions.
+        if ox0 < ex1 - 0.2 and ex0 < ox1 - 0.2:
+            aligned_x = abs(ox0 - ex0) < 1.0 and abs(ox1 - ex1) < 1.0
+            if oy1 <= ey0 + 0.1 and oy0 < ey0 - 0.5:
+                gap = max(0.0, ey0 - oy1)
+                if same_z and aligned_x and other.pull_out and gap <= 2.5:
+                    allowed = gap / 2.0 + 0.5
+                elif other.pull_out:
+                    allowed = max(0.0, (gap - min_wall) / 2.0)
+                else:
+                    allowed = max(0.0, gap - min_wall)
+                front = min(front, allowed)
+            if oy0 >= ey1 - 0.1 and oy1 > ey1 + 0.5:
+                gap = max(0.0, oy0 - ey1)
+                if same_z and aligned_x and other.pull_out and gap <= 2.5:
+                    allowed = gap / 2.0 + 0.5
+                elif other.pull_out:
+                    allowed = max(0.0, (gap - min_wall) / 2.0)
+                else:
+                    allowed = max(0.0, gap - min_wall)
+                back = min(back, allowed)
+
+    return (left, right, front, back)
+
+
 def build_element_pack_pull_outs(
     elements: Iterable[CompartmentElement], default_depth: float, comp_size: tuple[float, float]
 ) -> Bosl2Solid | None:
-    """Union every pull-out scoop in a pack, hulling overlapping scoops to avoid sharp edges."""
-    elements_list = [el for el in elements if el.pull_out and el.color is None]
+    """Union every pull-out scoop in a pack, hulling aligned same-depth overlapping scoops."""
+    all_cutouts = [el for el in elements if el.color is None]
+    elements_list = [el for el in all_cutouts if el.pull_out]
     if not elements_list:
         return None
 
     comp_w, comp_l = comp_size
-    # Align all scoops in the compartment along the overall best axis.
-    comp_w, comp_l = comp_size
-    sum_clearance_x = 0.0
-    sum_clearance_y = 0.0
-    for element in elements_list:
-        assert element.size is not None
-        width, length = element.footprint
-        sum_clearance_x += min(element.offset[0], comp_w - (element.offset[0] + width))
-        sum_clearance_y += min(element.offset[1], comp_l - (element.offset[1] + length))
 
-    use_y = sum_clearance_y >= sum_clearance_x
-
-    # Map each element to its individual pull_out solid and its footprint bounds
+    # Pick each element's pull-out axis from its neighbor-safe clearances & across-width fit.
     built_pieces = []
     for element in elements_list:
-        solid = build_pull_out(element, default_depth, comp_size, force_axis="y" if use_y else "x")
-        if solid is None:
-            continue
-
         assert element.size is not None
         width, length = element.footprint
         depth = element.depth or default_depth
-        drop = (element.pull_out_depth / 2.0) if element.pull_out_depth is not None else (depth * PULL_OUT_DEPTH_SHARE)
+        z_floor = element.z_offset if element.z_offset is not None else (default_depth - depth)
+        z_top = z_floor + depth
+        drop = (
+            (element.pull_out_depth / 2.0)
+            if element.pull_out_depth is not None
+            else (depth * PULL_OUT_DEPTH_SHARE)
+        )
+        target_across = element.pull_out_width or DEFAULT_PULL_OUT_WIDTH_MM
+        clearances = _neighbor_clearances(element, all_cutouts, comp_w, comp_l, default_depth)
+        c_left, c_right, c_front, c_back = clearances
 
+        if target_across > length + 1e-6 and width >= length:
+            use_y = True
+        elif target_across > width + 1e-6 and length > width:
+            use_y = False
+        else:
+            min_y = min(c_front, c_back)
+            min_x = min(c_left, c_right)
+            use_y = (
+                min_y > min_x
+                if abs(min_y - min_x) > 1e-4
+                else (c_front + c_back) >= (c_left + c_right)
+            )
+
+        axis = "y" if use_y else "x"
+        solid = build_pull_out(
+            element, default_depth, comp_size, force_axis=axis, clearances=clearances
+        )
+        if solid is None:
+            continue
+
+        across = min(target_across, width if use_y else length)
         if use_y:
-            clearance_y_front = element.offset[1]
-            clearance_y_back = comp_l - (element.offset[1] + length)
-            drop_front = max(0.0, min(drop, clearance_y_front))
-            drop_back = max(0.0, min(drop, clearance_y_back))
-
-            min_x = element.offset[0]
-            max_x = element.offset[0] + width
+            drop_front = max(0.0, min(drop, c_front))
+            drop_back = max(0.0, min(drop, c_back))
+            cx = element.offset[0] + width / 2.0
+            min_x = cx - across / 2.0
+            max_x = cx + across / 2.0
             min_y = element.offset[1] - drop_front
             max_y = element.offset[1] + length + drop_back
         else:
-            clearance_x_left = element.offset[0]
-            clearance_x_right = comp_w - (element.offset[0] + width)
-            drop_left = max(0.0, min(drop, clearance_x_left))
-            drop_right = max(0.0, min(drop, clearance_x_right))
-
+            drop_left = max(0.0, min(drop, c_left))
+            drop_right = max(0.0, min(drop, c_right))
+            cy = element.offset[1] + length / 2.0
             min_x = element.offset[0] - drop_left
             max_x = element.offset[0] + width + drop_right
-            min_y = element.offset[1]
-            max_y = element.offset[1] + length
+            min_y = cy - across / 2.0
+            max_y = cy + across / 2.0
 
         built_pieces.append({
-            'solid': solid,
-            'min_x': min_x, 'max_x': max_x,
-            'min_y': min_y, 'max_y': max_y
+            "solid": solid,
+            "axis": axis,
+            "z_floor": z_floor,
+            "z_top": z_top,
+            "min_x": min_x,
+            "max_x": max_x,
+            "min_y": min_y,
+            "max_y": max_y,
         })
 
-    # Group overlapping pieces
+    # Hull only aligned same-axis, same-depth scoops whose cutouts intentionally overlap.
     groups: list[list[dict[str, Any]]] = []
     for p in built_pieces:
         matched_indices = []
         for idx, g in enumerate(groups):
             overlaps = False
             for other in g:
+                if p["axis"] != other["axis"]:
+                    continue
+                if (
+                    abs(p["z_floor"] - other["z_floor"]) >= 0.2
+                    or abs(p["z_top"] - other["z_top"]) >= 0.2
+                ):
+                    continue
                 tol = 0.5
-                if use_y:
-                    x_match = abs(p['min_x'] - other['min_x']) < 1.0 and abs(p['max_x'] - other['max_x']) < 1.0
-                    y_overlap = p['min_y'] - tol < other['max_y'] and other['min_y'] - tol < p['max_y']
+                if p["axis"] == "y":
+                    x_match = (
+                        abs(p["min_x"] - other["min_x"]) < 1.0
+                        and abs(p["max_x"] - other["max_x"]) < 1.0
+                    )
+                    y_overlap = p["min_y"] - tol < other["max_y"] and other["min_y"] - tol < p["max_y"]
                     overlaps = x_match and y_overlap
                 else:
-                    y_match = abs(p['min_y'] - other['min_y']) < 1.0 and abs(p['max_y'] - other['max_y']) < 1.0
-                    x_overlap = p['min_x'] - tol < other['max_x'] and other['min_x'] - tol < p['max_x']
+                    y_match = (
+                        abs(p["min_y"] - other["min_y"]) < 1.0
+                        and abs(p["max_y"] - other["max_y"]) < 1.0
+                    )
+                    x_overlap = p["min_x"] - tol < other["max_x"] and other["min_x"] - tol < p["max_x"]
                     overlaps = y_match and x_overlap
                 if overlaps:
                     break
@@ -1458,9 +1576,9 @@ def build_element_pack_pull_outs(
 
     for g in groups:
         if len(g) == 1:
-            final_solids.append(g[0]['solid'])
+            final_solids.append(g[0]["solid"])
         else:
-            raw_shapes = [p['solid'].shape for p in g]
+            raw_shapes = [p["solid"].shape for p in g]
             final_solids.append(CsgSolid(hull_fn(raw_shapes)))
 
     return union_all([p for p in final_solids if p is not None])

@@ -15,12 +15,12 @@ Full Box Packing
 
 Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
-.. stl:: ../_stl/boxes/moonrakers/CardBox_Thrusters_body.stl?v=8a040c09,../_stl/boxes/moonrakers/CardBox_Thrusters_lid.stl?v=741f669c,../_stl/boxes/moonrakers/CardBox_Damage_body.stl?v=c2b46171,../_stl/boxes/moonrakers/CardBox_Damage_lid.stl?v=576977cc,../_stl/boxes/moonrakers/CardBox_Reactor_body.stl?v=89cc632a,../_stl/boxes/moonrakers/CardBox_Reactor_lid.stl?v=853e7675,../_stl/boxes/moonrakers/CardBox_Shield_body.stl?v=56f33664,../_stl/boxes/moonrakers/CardBox_Shield_lid.stl?v=9d8f1425,../_stl/boxes/moonrakers/CardBox_Miss_body.stl?v=bb7c7854,../_stl/boxes/moonrakers/CardBox_Miss_lid.stl?v=6fb6de05,../_stl/boxes/moonrakers/CardBox_Crew_body.stl?v=9f6be670,../_stl/boxes/moonrakers/CardBox_Crew_lid.stl?v=d8972304,../_stl/boxes/moonrakers/CardBox_Contracts_body.stl?v=077071e1,../_stl/boxes/moonrakers/CardBox_Contracts_lid.stl?v=c8dbc42d,../_stl/boxes/moonrakers/CardBox_Ships_body.stl?v=f5cff371,../_stl/boxes/moonrakers/CardBox_Ships_lid.stl?v=d7c96d70,../_stl/boxes/moonrakers/CardBox_Objectives_body.stl?v=7595c7fc,../_stl/boxes/moonrakers/CardBox_Objectives_lid.stl?v=39ee89d8,../_stl/boxes/moonrakers/DiceAndTokensBox_body.stl?v=3cb8e6dc,../_stl/boxes/moonrakers/DiceAndTokensBox_lid.stl?v=0489c77c,../_stl/boxes/moonrakers/spacer_1.stl?v=d2ec0d71
+.. stl:: ../_stl/boxes/moonrakers/CardBox_Thrusters_body.stl?v=8a040c09,../_stl/boxes/moonrakers/CardBox_Thrusters_lid.stl?v=741f669c,../_stl/boxes/moonrakers/CardBox_Damage_body.stl?v=c2b46171,../_stl/boxes/moonrakers/CardBox_Damage_lid.stl?v=15b386a0,../_stl/boxes/moonrakers/CardBox_Reactor_body.stl?v=89cc632a,../_stl/boxes/moonrakers/CardBox_Reactor_lid.stl?v=853e7675,../_stl/boxes/moonrakers/CardBox_Shield_body.stl?v=56f33664,../_stl/boxes/moonrakers/CardBox_Shield_lid.stl?v=9d8f1425,../_stl/boxes/moonrakers/CardBox_Miss_body.stl?v=bb7c7854,../_stl/boxes/moonrakers/CardBox_Miss_lid.stl?v=6fb6de05,../_stl/boxes/moonrakers/CardBox_Crew_body.stl?v=9f6be670,../_stl/boxes/moonrakers/CardBox_Crew_lid.stl?v=d8972304,../_stl/boxes/moonrakers/CardBox_Contracts_body.stl?v=077071e1,../_stl/boxes/moonrakers/CardBox_Contracts_lid.stl?v=c8dbc42d,../_stl/boxes/moonrakers/CardBox_Ships_body.stl?v=f5cff371,../_stl/boxes/moonrakers/CardBox_Ships_lid.stl?v=d7c96d70,../_stl/boxes/moonrakers/CardBox_Objectives_body.stl?v=7595c7fc,../_stl/boxes/moonrakers/CardBox_Objectives_lid.stl?v=39ee89d8,../_stl/boxes/moonrakers/DiceAndTokensBox_body.stl?v=3cb8e6dc,../_stl/boxes/moonrakers/DiceAndTokensBox_lid.stl?v=0489c77c,../_stl/boxes/moonrakers/spacer_1.stl?v=d2ec0d71
    :height: 440px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/moonrakers/CardBox_Thrusters_body.stl?v=8a040c09" data-stl-combine="../_stl/boxes/moonrakers/CardBox_Thrusters_body.stl?v=8a040c09,../_stl/boxes/moonrakers/CardBox_Thrusters_lid.stl?v=741f669c,../_stl/boxes/moonrakers/CardBox_Damage_body.stl?v=c2b46171,../_stl/boxes/moonrakers/CardBox_Damage_lid.stl?v=576977cc,../_stl/boxes/moonrakers/CardBox_Reactor_body.stl?v=89cc632a,../_stl/boxes/moonrakers/CardBox_Reactor_lid.stl?v=853e7675,../_stl/boxes/moonrakers/CardBox_Shield_body.stl?v=56f33664,../_stl/boxes/moonrakers/CardBox_Shield_lid.stl?v=9d8f1425,../_stl/boxes/moonrakers/CardBox_Miss_body.stl?v=bb7c7854,../_stl/boxes/moonrakers/CardBox_Miss_lid.stl?v=6fb6de05,../_stl/boxes/moonrakers/CardBox_Crew_body.stl?v=9f6be670,../_stl/boxes/moonrakers/CardBox_Crew_lid.stl?v=d8972304,../_stl/boxes/moonrakers/CardBox_Contracts_body.stl?v=077071e1,../_stl/boxes/moonrakers/CardBox_Contracts_lid.stl?v=c8dbc42d,../_stl/boxes/moonrakers/CardBox_Ships_body.stl?v=f5cff371,../_stl/boxes/moonrakers/CardBox_Ships_lid.stl?v=d7c96d70,../_stl/boxes/moonrakers/CardBox_Objectives_body.stl?v=7595c7fc,../_stl/boxes/moonrakers/CardBox_Objectives_lid.stl?v=39ee89d8,../_stl/boxes/moonrakers/DiceAndTokensBox_body.stl?v=3cb8e6dc,../_stl/boxes/moonrakers/DiceAndTokensBox_lid.stl?v=0489c77c,../_stl/boxes/moonrakers/spacer_1.stl?v=d2ec0d71" download="Moonrakers_full_packing.stl">⬇ Download Full Box Packing STL (<code>Moonrakers_full_packing.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/moonrakers/CardBox_Thrusters_body.stl?v=8a040c09" data-stl-combine="../_stl/boxes/moonrakers/CardBox_Thrusters_body.stl?v=8a040c09,../_stl/boxes/moonrakers/CardBox_Thrusters_lid.stl?v=741f669c,../_stl/boxes/moonrakers/CardBox_Damage_body.stl?v=c2b46171,../_stl/boxes/moonrakers/CardBox_Damage_lid.stl?v=15b386a0,../_stl/boxes/moonrakers/CardBox_Reactor_body.stl?v=89cc632a,../_stl/boxes/moonrakers/CardBox_Reactor_lid.stl?v=853e7675,../_stl/boxes/moonrakers/CardBox_Shield_body.stl?v=56f33664,../_stl/boxes/moonrakers/CardBox_Shield_lid.stl?v=9d8f1425,../_stl/boxes/moonrakers/CardBox_Miss_body.stl?v=bb7c7854,../_stl/boxes/moonrakers/CardBox_Miss_lid.stl?v=6fb6de05,../_stl/boxes/moonrakers/CardBox_Crew_body.stl?v=9f6be670,../_stl/boxes/moonrakers/CardBox_Crew_lid.stl?v=d8972304,../_stl/boxes/moonrakers/CardBox_Contracts_body.stl?v=077071e1,../_stl/boxes/moonrakers/CardBox_Contracts_lid.stl?v=c8dbc42d,../_stl/boxes/moonrakers/CardBox_Ships_body.stl?v=f5cff371,../_stl/boxes/moonrakers/CardBox_Ships_lid.stl?v=d7c96d70,../_stl/boxes/moonrakers/CardBox_Objectives_body.stl?v=7595c7fc,../_stl/boxes/moonrakers/CardBox_Objectives_lid.stl?v=39ee89d8,../_stl/boxes/moonrakers/DiceAndTokensBox_body.stl?v=3cb8e6dc,../_stl/boxes/moonrakers/DiceAndTokensBox_lid.stl?v=0489c77c,../_stl/boxes/moonrakers/spacer_1.stl?v=d2ec0d71" download="Moonrakers_full_packing.stl">⬇ Download Full Box Packing STL (<code>Moonrakers_full_packing.stl</code>)</a></p>
 
 Parts Overview
 --------------
@@ -144,12 +144,12 @@ CardBox_Damage
 
 **Assembled Box (CardBox_Damage — Body + Lid)**
 
-.. stl:: ../_stl/boxes/moonrakers/CardBox_Damage_body.stl?v=c2b46171,../_stl/boxes/moonrakers/CardBox_Damage_lid.stl?v=576977cc
+.. stl:: ../_stl/boxes/moonrakers/CardBox_Damage_body.stl?v=c2b46171,../_stl/boxes/moonrakers/CardBox_Damage_lid.stl?v=15b386a0
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/moonrakers/CardBox_Damage_body.stl?v=c2b46171" data-stl-combine="../_stl/boxes/moonrakers/CardBox_Damage_body.stl?v=c2b46171,../_stl/boxes/moonrakers/CardBox_Damage_lid.stl?v=576977cc" download="CardBox_Damage_assembled.stl">⬇ Download Assembled CardBox_Damage STL (<code>CardBox_Damage_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/moonrakers/CardBox_Damage_body.stl?v=c2b46171" data-stl-combine="../_stl/boxes/moonrakers/CardBox_Damage_body.stl?v=c2b46171,../_stl/boxes/moonrakers/CardBox_Damage_lid.stl?v=15b386a0" download="CardBox_Damage_assembled.stl">⬇ Download Assembled CardBox_Damage STL (<code>CardBox_Damage_assembled.stl</code>)</a></p>
 
 **Part: CardBox_Damage Body**
 
@@ -162,12 +162,12 @@ CardBox_Damage
 
 **Part: CardBox_Damage Lid**
 
-.. stl:: ../_stl/boxes/moonrakers/CardBox_Damage_lid.stl?v=576977cc
+.. stl:: ../_stl/boxes/moonrakers/CardBox_Damage_lid.stl?v=15b386a0
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/moonrakers/CardBox_Damage_lid.stl?v=576977cc" download="CardBox_Damage_lid.stl">⬇ Download CardBox_Damage Lid STL (<code>CardBox_Damage_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/moonrakers/CardBox_Damage_lid.stl?v=15b386a0" download="CardBox_Damage_lid.stl">⬇ Download CardBox_Damage Lid STL (<code>CardBox_Damage_lid.stl</code>)</a></p>
 
 .. _box-moonrakers-cardbox_reactor:
 
