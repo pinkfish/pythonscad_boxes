@@ -562,6 +562,7 @@
     <span class="n">TOP_ROLL_RISE_RATIO</span><span class="p">,</span>
     <span class="n">TOUCHING_TOLERANCE_MM</span><span class="p">,</span>
     <span class="n">CutProfile</span><span class="p">,</span>
+    <span class="n">_elliptical_quarter</span><span class="p">,</span>
     <span class="n">_fit_radii</span><span class="p">,</span>
     <span class="n">_quarter_arc</span><span class="p">,</span>
     <span class="n">dish_radius</span><span class="p">,</span>
@@ -940,6 +941,7 @@
             <span class="n">wall_thickness</span><span class="o">=</span><span class="n">wall_thickness</span><span class="p">,</span>
             <span class="n">floor_thickness</span><span class="o">=</span><span class="n">floor_thickness</span> <span class="k">if</span> <span class="n">floor_thickness</span> <span class="k">else</span> <span class="mf">2.0</span><span class="p">,</span>
             <span class="n">mouth_flare</span><span class="o">=</span><span class="n">profile</span><span class="o">.</span><span class="n">mouth_flare</span><span class="p">,</span>
+            <span class="n">roll_rise</span><span class="o">=</span><span class="n">profile</span><span class="o">.</span><span class="n">roll_rise</span><span class="p">,</span>
             <span class="n">rounding_edge</span><span class="o">=</span><span class="n">faces</span><span class="o">.</span><span class="n">fillet</span><span class="p">,</span>
         <span class="p">)</span>
     <span class="k">if</span> <span class="n">comp_depth</span> <span class="o">&gt;=</span> <span class="n">MIN_WALL_SCOOP_DEPTH_MM</span><span class="p">:</span>
@@ -999,6 +1001,7 @@
     <span class="n">floor_thickness</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">2.0</span><span class="p">,</span>
     <span class="n">mouth_flare</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">rounding_edge</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">roll_rise</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Return a finger hole cut **through the floor**, for a well holding a stack.</span>
 
@@ -1024,12 +1027,14 @@
 <span class="sd">        wall_thickness: The wall the hole breaks through.</span>
 <span class="sd">        floor_thickness: The floor it passes through; the cut starts below it.</span>
 <span class="sd">        mouth_flare: How far the hole's top rolls outward into the wall's rim;</span>
-<span class="sd">            ``None`` uses the 3mm the original does.</span>
+<span class="sd">            ``None`` derives it proportionally from ``radius`` and the span.</span>
 <span class="sd">        rounding_edge: Fillet where the cut emerges on the wall's **outside**</span>
 <span class="sd">            face. The inside face and the base stay square: the inside is what</span>
 <span class="sd">            a card stack rests against, and the base is a surface the box sits</span>
 <span class="sd">            on. ``None`` uses</span>
 <span class="sd">            ``wall_thickness / 2``, as everywhere else.</span>
+<span class="sd">        roll_rise: How far the top roll reaches down into the wall; ``None``</span>
+<span class="sd">            derives ``TOP_ROLL_RISE_RATIO * mouth_flare`` capped to the wall.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        Bosl2Solid cutout, positioned in the compartment frame — its floor at</span>
@@ -1050,7 +1055,22 @@
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"radius must be &gt; 0; got </span><span class="si">{</span><span class="n">radius</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">rounding_edge</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">rounding_edge</span> <span class="o">=</span> <span class="n">wall_thickness</span> <span class="o">/</span> <span class="mi">2</span>
-    <span class="n">radius</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">radius</span><span class="p">,</span> <span class="n">span</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">mouth_flare</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">mouth_flare</span> <span class="o">=</span> <span class="n">radius</span> <span class="o">*</span> <span class="n">DEFAULT_TOP_ROUNDING_RATIO</span>
+        <span class="k">if</span> <span class="n">radius</span> <span class="o">+</span> <span class="n">mouth_flare</span> <span class="o">&gt;</span> <span class="n">span</span> <span class="o">/</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="n">scale</span> <span class="o">=</span> <span class="p">(</span><span class="n">span</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">radius</span> <span class="o">+</span> <span class="n">mouth_flare</span><span class="p">)</span>
+            <span class="n">radius</span><span class="p">,</span> <span class="n">mouth_flare</span> <span class="o">=</span> <span class="n">radius</span> <span class="o">*</span> <span class="n">scale</span><span class="p">,</span> <span class="n">mouth_flare</span> <span class="o">*</span> <span class="n">scale</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">radius</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">radius</span><span class="p">,</span> <span class="n">span</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="n">mouth_flare</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="n">mouth_flare</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">span</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">-</span> <span class="n">radius</span><span class="p">)))</span>
+    <span class="n">mouth_flare</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">mouth_flare</span><span class="p">)</span>
+    <span class="n">rise</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">mouth_flare</span> <span class="o">*</span> <span class="n">TOP_ROLL_RISE_RATIO</span>
+        <span class="k">if</span> <span class="n">roll_rise</span> <span class="ow">is</span> <span class="kc">None</span>
+        <span class="k">else</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">roll_rise</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="n">rise</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">rise</span><span class="p">,</span> <span class="n">comp_depth</span><span class="p">)</span> <span class="k">if</span> <span class="n">mouth_flare</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mf">0.0</span>
 
     <span class="c1"># Below the base and above the rim: the cut has to *leave* on both sides,</span>
     <span class="c1"># so neither end is a coincident face for the boolean to resolve. Clear of</span>
@@ -1075,19 +1095,19 @@
     <span class="c1"># of the way through is a slot of the same width, rolled onto each face by</span>
     <span class="c1"># the same fillet the scoops use (FR-073).</span>
     <span class="c1">#</span>
-    <span class="c1"># Its **top corners roll into the wall's rim** rather than meeting it</span>
-    <span class="c1"># square (FR-060) — the original flares them by `rounding_radius` and</span>
-    <span class="c1"># rolls the top edge over by half the wall besides. This is the edge a hand</span>
-    <span class="c1"># meets when it picks the box up, so a square one is felt immediately. The</span>
-    <span class="c1"># roll is circular and tangent to the top face, as a grip's is.</span>
-    <span class="k">if</span> <span class="n">mouth_flare</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">mouth_flare</span> <span class="o">=</span> <span class="n">DEFAULT_MOUTH_ROUNDING_MM</span>
-    <span class="n">mouth_flare</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="n">mouth_flare</span><span class="p">,</span> <span class="n">radius</span><span class="p">))</span>
+    <span class="c1"># Its **top corners roll smoothly into the wall's rim** rather than meeting</span>
+    <span class="c1"># it square (FR-060), matching the elliptical transition of wall scoops.</span>
     <span class="n">right</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[(</span><span class="n">radius</span><span class="p">,</span> <span class="o">-</span><span class="n">below</span><span class="p">)]</span>
-    <span class="k">if</span> <span class="n">mouth_flare</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="n">right</span> <span class="o">+=</span> <span class="n">_quarter_arc</span><span class="p">(</span>
-            <span class="p">(</span><span class="n">radius</span> <span class="o">+</span> <span class="n">mouth_flare</span><span class="p">,</span> <span class="n">comp_depth</span> <span class="o">-</span> <span class="n">mouth_flare</span><span class="p">),</span> <span class="n">mouth_flare</span><span class="p">,</span> <span class="mf">180.0</span><span class="p">,</span> <span class="mf">90.0</span>
-        <span class="p">)</span>
+    <span class="k">if</span> <span class="n">mouth_flare</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">rise</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">right</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">radius</span><span class="p">,</span> <span class="n">comp_depth</span> <span class="o">-</span> <span class="n">rise</span><span class="p">))</span>
+        <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">rise</span> <span class="o">-</span> <span class="n">mouth_flare</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1e-9</span><span class="p">:</span>
+            <span class="n">right</span> <span class="o">+=</span> <span class="n">_quarter_arc</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">radius</span> <span class="o">+</span> <span class="n">mouth_flare</span><span class="p">,</span> <span class="n">comp_depth</span> <span class="o">-</span> <span class="n">rise</span><span class="p">),</span> <span class="n">mouth_flare</span><span class="p">,</span> <span class="mf">180.0</span><span class="p">,</span> <span class="mf">90.0</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">right</span> <span class="o">+=</span> <span class="n">_elliptical_quarter</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">radius</span> <span class="o">+</span> <span class="n">mouth_flare</span><span class="p">,</span> <span class="n">comp_depth</span> <span class="o">-</span> <span class="n">rise</span><span class="p">),</span> <span class="n">mouth_flare</span><span class="p">,</span> <span class="n">rise</span>
+            <span class="p">)</span>
     <span class="n">right</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">radius</span> <span class="o">+</span> <span class="n">mouth_flare</span><span class="p">,</span> <span class="n">comp_depth</span> <span class="o">+</span> <span class="n">RIM_OVERSHOOT_MM</span><span class="p">))</span>
     <span class="n">outline</span> <span class="o">=</span> <span class="p">[(</span><span class="o">-</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="n">right</span><span class="p">)]</span> <span class="o">+</span> <span class="n">right</span>
 
@@ -1098,7 +1118,7 @@
         <span class="n">side</span><span class="p">,</span>
         <span class="n">comp_depth</span><span class="o">=</span><span class="n">comp_depth</span><span class="p">,</span>
         <span class="n">wall_thickness</span><span class="o">=</span><span class="n">wall_thickness</span><span class="p">,</span>
-        <span class="n">rounding_radius</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">rounding_radius</span><span class="o">=</span><span class="n">mouth_flare</span><span class="p">,</span>
         <span class="n">span</span><span class="o">=</span><span class="n">span</span><span class="p">,</span>
         <span class="n">radius</span><span class="o">=</span><span class="n">radius</span><span class="p">,</span>
         <span class="c1"># Only the box's **outside** is rolled — the inside is what the stack</span>
