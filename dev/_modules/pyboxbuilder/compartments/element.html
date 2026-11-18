@@ -1758,6 +1758,14 @@
     <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.2</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="n">depth</span><span class="p">,</span> <span class="n">default_depth</span> <span class="o">-</span> <span class="n">z_off</span><span class="p">))</span> <span class="k">if</span> <span class="n">z_off</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">depth</span>
 
 
+<span class="k">def</span><span class="w"> </span><span class="nf">_is_full_depth_pull_out</span><span class="p">(</span><span class="n">element</span><span class="p">:</span> <span class="n">CompartmentElement</span><span class="p">,</span> <span class="n">default_depth</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Whether ``element`` needs a full-depth finger bay down to its floor (cardboard/thin tokens)."""</span>
+    <span class="n">eff_depth</span> <span class="o">=</span> <span class="n">_element_effective_depth</span><span class="p">(</span><span class="n">element</span><span class="p">,</span> <span class="n">default_depth</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">element</span><span class="o">.</span><span class="n">pull_out_depth</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">element</span><span class="o">.</span><span class="n">pull_out_depth</span> <span class="o">&gt;=</span> <span class="n">eff_depth</span> <span class="o">-</span> <span class="mf">1e-6</span>
+    <span class="k">return</span> <span class="n">eff_depth</span> <span class="o">&lt;=</span> <span class="n">SHALLOW_TOKEN_MAX_DEPTH_MM</span>
+
+
 <span class="k">def</span><span class="w"> </span><span class="nf">_thick_cut_depth</span><span class="p">(</span><span class="n">element</span><span class="p">:</span> <span class="n">CompartmentElement</span><span class="p">,</span> <span class="n">default_depth</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Vertical depth cut down from the rim for thick/stacked tokens."""</span>
     <span class="n">eff_depth</span> <span class="o">=</span> <span class="n">_element_effective_depth</span><span class="p">(</span><span class="n">element</span><span class="p">,</span> <span class="n">default_depth</span><span class="p">)</span>
@@ -1808,6 +1816,33 @@
     <span class="k">return</span> <span class="n">res</span>
 
 
+<span class="k">def</span><span class="w"> </span><span class="nf">_choose_pull_out_axis</span><span class="p">(</span>
+    <span class="n">width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">target_across</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">clearances</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">is_full_depth</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Return True to orient a pull-out along Y (front/back), False for X (left/right)."""</span>
+    <span class="n">c_left</span><span class="p">,</span> <span class="n">c_right</span><span class="p">,</span> <span class="n">c_front</span><span class="p">,</span> <span class="n">c_back</span> <span class="o">=</span> <span class="n">clearances</span>
+    <span class="n">max_y</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">c_front</span><span class="p">,</span> <span class="n">c_back</span><span class="p">)</span>
+    <span class="n">max_x</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">c_left</span><span class="p">,</span> <span class="n">c_right</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">target_across</span> <span class="o">&gt;</span> <span class="n">length</span> <span class="o">+</span> <span class="mf">1e-6</span> <span class="ow">and</span> <span class="n">width</span> <span class="o">&gt;=</span> <span class="n">length</span> <span class="ow">and</span> <span class="n">max_y</span> <span class="o">&gt;=</span> <span class="mf">2.5</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">if</span> <span class="n">target_across</span> <span class="o">&gt;</span> <span class="n">width</span> <span class="o">+</span> <span class="mf">1e-6</span> <span class="ow">and</span> <span class="n">length</span> <span class="o">&gt;</span> <span class="n">width</span> <span class="ow">and</span> <span class="n">max_x</span> <span class="o">&gt;=</span> <span class="mf">2.5</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">if</span> <span class="n">is_full_depth</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">max_y</span> <span class="o">-</span> <span class="n">max_x</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">1e-4</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">max_y</span> <span class="o">&gt;</span> <span class="n">max_x</span>
+        <span class="k">return</span> <span class="nb">min</span><span class="p">(</span><span class="n">c_front</span><span class="p">,</span> <span class="n">c_back</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="nb">min</span><span class="p">(</span><span class="n">c_left</span><span class="p">,</span> <span class="n">c_right</span><span class="p">)</span>
+    <span class="n">min_y</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">c_front</span><span class="p">,</span> <span class="n">c_back</span><span class="p">)</span>
+    <span class="n">min_x</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">c_left</span><span class="p">,</span> <span class="n">c_right</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">min_y</span> <span class="o">-</span> <span class="n">min_x</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">1e-4</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">min_y</span> <span class="o">&gt;</span> <span class="n">min_x</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">c_front</span> <span class="o">+</span> <span class="n">c_back</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="p">(</span><span class="n">c_left</span> <span class="o">+</span> <span class="n">c_right</span><span class="p">)</span>
+
+
 <div class="viewcode-block" id="build_pull_out">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.compartments.element.build_pull_out.html#pyboxbuilder.compartments.element.build_pull_out">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">build_pull_out</span><span class="p">(</span>
@@ -1835,9 +1870,9 @@
     <span class="n">depth</span> <span class="o">=</span> <span class="n">element</span><span class="o">.</span><span class="n">depth</span> <span class="ow">or</span> <span class="n">default_depth</span>
     <span class="n">actual_z_offset</span> <span class="o">=</span> <span class="n">element</span><span class="o">.</span><span class="n">z_offset</span> <span class="k">if</span> <span class="n">element</span><span class="o">.</span><span class="n">z_offset</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="p">(</span><span class="n">default_depth</span> <span class="o">-</span> <span class="n">depth</span><span class="p">)</span>
     <span class="n">eff_depth</span> <span class="o">=</span> <span class="n">_element_effective_depth</span><span class="p">(</span><span class="n">element</span><span class="p">,</span> <span class="n">default_depth</span><span class="p">)</span>
-    <span class="n">is_shallow</span> <span class="o">=</span> <span class="n">element</span><span class="o">.</span><span class="n">pull_out_depth</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">eff_depth</span> <span class="o">&lt;=</span> <span class="n">SHALLOW_TOKEN_MAX_DEPTH_MM</span>
-    <span class="n">cut_depth</span> <span class="o">=</span> <span class="n">eff_depth</span> <span class="k">if</span> <span class="n">is_shallow</span> <span class="k">else</span> <span class="n">_thick_cut_depth</span><span class="p">(</span><span class="n">element</span><span class="p">,</span> <span class="n">default_depth</span><span class="p">)</span>
-    <span class="n">drop</span> <span class="o">=</span> <span class="n">SHALLOW_FINGER_REACH_MM</span> <span class="k">if</span> <span class="n">is_shallow</span> <span class="k">else</span> <span class="nb">min</span><span class="p">(</span><span class="n">cut_depth</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mf">3.5</span><span class="p">,</span> <span class="n">cut_depth</span> <span class="o">*</span> <span class="mf">0.6</span><span class="p">))</span>
+    <span class="n">is_full_depth</span> <span class="o">=</span> <span class="n">_is_full_depth_pull_out</span><span class="p">(</span><span class="n">element</span><span class="p">,</span> <span class="n">default_depth</span><span class="p">)</span>
+    <span class="n">cut_depth</span> <span class="o">=</span> <span class="n">eff_depth</span> <span class="k">if</span> <span class="n">is_full_depth</span> <span class="k">else</span> <span class="n">_thick_cut_depth</span><span class="p">(</span><span class="n">element</span><span class="p">,</span> <span class="n">default_depth</span><span class="p">)</span>
+    <span class="n">drop</span> <span class="o">=</span> <span class="n">SHALLOW_FINGER_REACH_MM</span> <span class="k">if</span> <span class="n">is_full_depth</span> <span class="k">else</span> <span class="nb">min</span><span class="p">(</span><span class="n">cut_depth</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mf">3.5</span><span class="p">,</span> <span class="n">cut_depth</span> <span class="o">*</span> <span class="mf">0.6</span><span class="p">))</span>
     <span class="n">target_across</span> <span class="o">=</span> <span class="n">element</span><span class="o">.</span><span class="n">pull_out_width</span> <span class="ow">or</span> <span class="n">DEFAULT_PULL_OUT_WIDTH_MM</span>
 
     <span class="c1"># Calculate clearances to compartment boundaries (or neighbor-clamped clearances)</span>
@@ -1850,21 +1885,17 @@
         <span class="n">clearance_y_front</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">element</span><span class="o">.</span><span class="n">offset</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
         <span class="n">clearance_y_back</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">comp_l</span> <span class="o">-</span> <span class="p">(</span><span class="n">element</span><span class="o">.</span><span class="n">offset</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">length</span><span class="p">))</span>
 
-    <span class="n">clearance_x</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">clearance_x_left</span><span class="p">,</span> <span class="n">clearance_x_right</span><span class="p">)</span>
-    <span class="n">clearance_y</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">clearance_y_front</span><span class="p">,</span> <span class="n">clearance_y_back</span><span class="p">)</span>
-
-    <span class="k">if</span> <span class="n">force_axis</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">use_y</span> <span class="o">=</span> <span class="n">force_axis</span> <span class="o">==</span> <span class="s2">"y"</span>
-    <span class="k">elif</span> <span class="n">target_across</span> <span class="o">&gt;</span> <span class="n">length</span> <span class="o">+</span> <span class="mf">1e-6</span> <span class="ow">and</span> <span class="n">width</span> <span class="o">&gt;=</span> <span class="n">length</span><span class="p">:</span>
-        <span class="n">use_y</span> <span class="o">=</span> <span class="kc">True</span>
-    <span class="k">elif</span> <span class="n">target_across</span> <span class="o">&gt;</span> <span class="n">width</span> <span class="o">+</span> <span class="mf">1e-6</span> <span class="ow">and</span> <span class="n">length</span> <span class="o">&gt;</span> <span class="n">width</span><span class="p">:</span>
-        <span class="n">use_y</span> <span class="o">=</span> <span class="kc">False</span>
-    <span class="k">elif</span> <span class="n">is_shallow</span><span class="p">:</span>
-        <span class="n">max_y</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">clearance_y_front</span><span class="p">,</span> <span class="n">clearance_y_back</span><span class="p">)</span>
-        <span class="n">max_x</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">clearance_x_left</span><span class="p">,</span> <span class="n">clearance_x_right</span><span class="p">)</span>
-        <span class="n">use_y</span> <span class="o">=</span> <span class="n">max_y</span> <span class="o">&gt;</span> <span class="n">max_x</span> <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">max_y</span> <span class="o">-</span> <span class="n">max_x</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">1e-4</span> <span class="k">else</span> <span class="n">clearance_y</span> <span class="o">&gt;=</span> <span class="n">clearance_x</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">use_y</span> <span class="o">=</span> <span class="n">clearance_y</span> <span class="o">&gt;=</span> <span class="n">clearance_x</span>
+    <span class="n">use_y</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">force_axis</span> <span class="o">==</span> <span class="s2">"y"</span>
+        <span class="k">if</span> <span class="n">force_axis</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+        <span class="k">else</span> <span class="n">_choose_pull_out_axis</span><span class="p">(</span>
+            <span class="n">width</span><span class="p">,</span>
+            <span class="n">length</span><span class="p">,</span>
+            <span class="n">target_across</span><span class="p">,</span>
+            <span class="p">(</span><span class="n">clearance_x_left</span><span class="p">,</span> <span class="n">clearance_x_right</span><span class="p">,</span> <span class="n">clearance_y_front</span><span class="p">,</span> <span class="n">clearance_y_back</span><span class="p">),</span>
+            <span class="n">is_full_depth</span><span class="o">=</span><span class="n">is_full_depth</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
 
     <span class="n">across</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">target_across</span><span class="p">,</span> <span class="n">width</span> <span class="k">if</span> <span class="n">use_y</span> <span class="k">else</span> <span class="n">length</span><span class="p">)</span>
 
@@ -1883,7 +1914,7 @@
         <span class="n">centre_y</span> <span class="o">=</span> <span class="n">element</span><span class="o">.</span><span class="n">offset</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">length</span> <span class="o">/</span> <span class="mi">2</span>
         <span class="n">dish_w</span><span class="p">,</span> <span class="n">dish_l</span> <span class="o">=</span> <span class="n">width</span> <span class="o">+</span> <span class="n">drop_left</span> <span class="o">+</span> <span class="n">drop_right</span><span class="p">,</span> <span class="n">across</span>
 
-    <span class="k">if</span> <span class="n">is_shallow</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">is_full_depth</span><span class="p">:</span>
         <span class="c1"># Full-depth rounded capsule bay reaching the pocket base so a finger gets under thin tokens.</span>
         <span class="n">r_xy</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mf">6.0</span><span class="p">,</span> <span class="n">dish_w</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">-</span> <span class="mf">0.01</span><span class="p">,</span> <span class="n">dish_l</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">-</span> <span class="mf">0.01</span><span class="p">)</span>
         <span class="n">bay_h</span> <span class="o">=</span> <span class="n">eff_depth</span> <span class="o">+</span> <span class="mf">100.0</span>
@@ -2013,6 +2044,24 @@
     <span class="n">front</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">ey0</span><span class="p">)</span>
     <span class="n">back</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">comp_l</span> <span class="o">-</span> <span class="n">ey1</span><span class="p">)</span>
     <span class="n">min_wall</span> <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="n">el_full_depth</span> <span class="o">=</span> <span class="n">_is_full_depth_pull_out</span><span class="p">(</span><span class="n">element</span><span class="p">,</span> <span class="n">default_depth</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_allowed_gap</span><span class="p">(</span>
+        <span class="n">gap</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">same_z</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span> <span class="n">aligned</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">CompartmentElement</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="n">other_full_depth</span> <span class="o">=</span> <span class="n">_is_full_depth_pull_out</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">default_depth</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="n">same_z</span>
+            <span class="ow">and</span> <span class="n">aligned</span>
+            <span class="ow">and</span> <span class="n">other</span><span class="o">.</span><span class="n">pull_out</span>
+            <span class="ow">and</span> <span class="ow">not</span> <span class="n">el_full_depth</span>
+            <span class="ow">and</span> <span class="ow">not</span> <span class="n">other_full_depth</span>
+            <span class="ow">and</span> <span class="n">gap</span> <span class="o">&lt;=</span> <span class="mf">2.5</span>
+        <span class="p">):</span>
+            <span class="k">return</span> <span class="n">gap</span> <span class="o">/</span> <span class="mf">2.0</span> <span class="o">+</span> <span class="mf">0.5</span>
+        <span class="k">if</span> <span class="n">other</span><span class="o">.</span><span class="n">pull_out</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="p">(</span><span class="n">gap</span> <span class="o">-</span> <span class="n">min_wall</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">gap</span> <span class="o">-</span> <span class="n">min_wall</span><span class="p">)</span>
 
     <span class="k">for</span> <span class="n">other</span> <span class="ow">in</span> <span class="n">all_cutouts</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">other</span> <span class="ow">is</span> <span class="n">element</span><span class="p">:</span>
@@ -2028,44 +2077,20 @@
             <span class="n">aligned_y</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">oy0</span> <span class="o">-</span> <span class="n">ey0</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1.0</span> <span class="ow">and</span> <span class="nb">abs</span><span class="p">(</span><span class="n">oy1</span> <span class="o">-</span> <span class="n">ey1</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1.0</span>
             <span class="k">if</span> <span class="n">ox1</span> <span class="o">&lt;=</span> <span class="n">ex0</span> <span class="o">+</span> <span class="mf">0.1</span> <span class="ow">and</span> <span class="n">ox0</span> <span class="o">&lt;</span> <span class="n">ex0</span> <span class="o">-</span> <span class="mf">0.5</span><span class="p">:</span>
                 <span class="n">gap</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">ex0</span> <span class="o">-</span> <span class="n">ox1</span><span class="p">)</span>
-                <span class="k">if</span> <span class="n">same_z</span> <span class="ow">and</span> <span class="n">aligned_y</span> <span class="ow">and</span> <span class="n">other</span><span class="o">.</span><span class="n">pull_out</span> <span class="ow">and</span> <span class="n">gap</span> <span class="o">&lt;=</span> <span class="mf">2.5</span><span class="p">:</span>
-                    <span class="n">allowed</span> <span class="o">=</span> <span class="n">gap</span> <span class="o">/</span> <span class="mf">2.0</span> <span class="o">+</span> <span class="mf">0.5</span>
-                <span class="k">elif</span> <span class="n">other</span><span class="o">.</span><span class="n">pull_out</span><span class="p">:</span>
-                    <span class="n">allowed</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="p">(</span><span class="n">gap</span> <span class="o">-</span> <span class="n">min_wall</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">)</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="n">allowed</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">gap</span> <span class="o">-</span> <span class="n">min_wall</span><span class="p">)</span>
-                <span class="n">left</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">left</span><span class="p">,</span> <span class="n">allowed</span><span class="p">)</span>
+                <span class="n">left</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">left</span><span class="p">,</span> <span class="n">_allowed_gap</span><span class="p">(</span><span class="n">gap</span><span class="p">,</span> <span class="n">same_z</span><span class="p">,</span> <span class="n">aligned_y</span><span class="p">,</span> <span class="n">other</span><span class="p">))</span>
             <span class="k">if</span> <span class="n">ox0</span> <span class="o">&gt;=</span> <span class="n">ex1</span> <span class="o">-</span> <span class="mf">0.1</span> <span class="ow">and</span> <span class="n">ox1</span> <span class="o">&gt;</span> <span class="n">ex1</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">:</span>
                 <span class="n">gap</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">ox0</span> <span class="o">-</span> <span class="n">ex1</span><span class="p">)</span>
-                <span class="k">if</span> <span class="n">same_z</span> <span class="ow">and</span> <span class="n">aligned_y</span> <span class="ow">and</span> <span class="n">other</span><span class="o">.</span><span class="n">pull_out</span> <span class="ow">and</span> <span class="n">gap</span> <span class="o">&lt;=</span> <span class="mf">2.5</span><span class="p">:</span>
-                    <span class="n">allowed</span> <span class="o">=</span> <span class="n">gap</span> <span class="o">/</span> <span class="mf">2.0</span> <span class="o">+</span> <span class="mf">0.5</span>
-                <span class="k">elif</span> <span class="n">other</span><span class="o">.</span><span class="n">pull_out</span><span class="p">:</span>
-                    <span class="n">allowed</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="p">(</span><span class="n">gap</span> <span class="o">-</span> <span class="n">min_wall</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">)</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="n">allowed</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">gap</span> <span class="o">-</span> <span class="n">min_wall</span><span class="p">)</span>
-                <span class="n">right</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">right</span><span class="p">,</span> <span class="n">allowed</span><span class="p">)</span>
+                <span class="n">right</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">right</span><span class="p">,</span> <span class="n">_allowed_gap</span><span class="p">(</span><span class="n">gap</span><span class="p">,</span> <span class="n">same_z</span><span class="p">,</span> <span class="n">aligned_y</span><span class="p">,</span> <span class="n">other</span><span class="p">))</span>
 
         <span class="c1"># Neighbors overlapping in X bound vertical (front/back) pull-out extensions.</span>
         <span class="k">if</span> <span class="n">ox0</span> <span class="o">&lt;</span> <span class="n">ex1</span> <span class="o">-</span> <span class="mf">0.2</span> <span class="ow">and</span> <span class="n">ex0</span> <span class="o">&lt;</span> <span class="n">ox1</span> <span class="o">-</span> <span class="mf">0.2</span><span class="p">:</span>
             <span class="n">aligned_x</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">ox0</span> <span class="o">-</span> <span class="n">ex0</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1.0</span> <span class="ow">and</span> <span class="nb">abs</span><span class="p">(</span><span class="n">ox1</span> <span class="o">-</span> <span class="n">ex1</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1.0</span>
             <span class="k">if</span> <span class="n">oy1</span> <span class="o">&lt;=</span> <span class="n">ey0</span> <span class="o">+</span> <span class="mf">0.1</span> <span class="ow">and</span> <span class="n">oy0</span> <span class="o">&lt;</span> <span class="n">ey0</span> <span class="o">-</span> <span class="mf">0.5</span><span class="p">:</span>
                 <span class="n">gap</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">ey0</span> <span class="o">-</span> <span class="n">oy1</span><span class="p">)</span>
-                <span class="k">if</span> <span class="n">same_z</span> <span class="ow">and</span> <span class="n">aligned_x</span> <span class="ow">and</span> <span class="n">other</span><span class="o">.</span><span class="n">pull_out</span> <span class="ow">and</span> <span class="n">gap</span> <span class="o">&lt;=</span> <span class="mf">2.5</span><span class="p">:</span>
-                    <span class="n">allowed</span> <span class="o">=</span> <span class="n">gap</span> <span class="o">/</span> <span class="mf">2.0</span> <span class="o">+</span> <span class="mf">0.5</span>
-                <span class="k">elif</span> <span class="n">other</span><span class="o">.</span><span class="n">pull_out</span><span class="p">:</span>
-                    <span class="n">allowed</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="p">(</span><span class="n">gap</span> <span class="o">-</span> <span class="n">min_wall</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">)</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="n">allowed</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">gap</span> <span class="o">-</span> <span class="n">min_wall</span><span class="p">)</span>
-                <span class="n">front</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">front</span><span class="p">,</span> <span class="n">allowed</span><span class="p">)</span>
+                <span class="n">front</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">front</span><span class="p">,</span> <span class="n">_allowed_gap</span><span class="p">(</span><span class="n">gap</span><span class="p">,</span> <span class="n">same_z</span><span class="p">,</span> <span class="n">aligned_x</span><span class="p">,</span> <span class="n">other</span><span class="p">))</span>
             <span class="k">if</span> <span class="n">oy0</span> <span class="o">&gt;=</span> <span class="n">ey1</span> <span class="o">-</span> <span class="mf">0.1</span> <span class="ow">and</span> <span class="n">oy1</span> <span class="o">&gt;</span> <span class="n">ey1</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">:</span>
                 <span class="n">gap</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">oy0</span> <span class="o">-</span> <span class="n">ey1</span><span class="p">)</span>
-                <span class="k">if</span> <span class="n">same_z</span> <span class="ow">and</span> <span class="n">aligned_x</span> <span class="ow">and</span> <span class="n">other</span><span class="o">.</span><span class="n">pull_out</span> <span class="ow">and</span> <span class="n">gap</span> <span class="o">&lt;=</span> <span class="mf">2.5</span><span class="p">:</span>
-                    <span class="n">allowed</span> <span class="o">=</span> <span class="n">gap</span> <span class="o">/</span> <span class="mf">2.0</span> <span class="o">+</span> <span class="mf">0.5</span>
-                <span class="k">elif</span> <span class="n">other</span><span class="o">.</span><span class="n">pull_out</span><span class="p">:</span>
-                    <span class="n">allowed</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="p">(</span><span class="n">gap</span> <span class="o">-</span> <span class="n">min_wall</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">)</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="n">allowed</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">gap</span> <span class="o">-</span> <span class="n">min_wall</span><span class="p">)</span>
-                <span class="n">back</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">back</span><span class="p">,</span> <span class="n">allowed</span><span class="p">)</span>
+                <span class="n">back</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">back</span><span class="p">,</span> <span class="n">_allowed_gap</span><span class="p">(</span><span class="n">gap</span><span class="p">,</span> <span class="n">same_z</span><span class="p">,</span> <span class="n">aligned_x</span><span class="p">,</span> <span class="n">other</span><span class="p">))</span>
 
     <span class="k">return</span> <span class="p">(</span><span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">,</span> <span class="n">front</span><span class="p">,</span> <span class="n">back</span><span class="p">)</span>
 
@@ -2170,7 +2195,7 @@
     <span class="n">thick</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">CompartmentElement</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">el</span> <span class="ow">in</span> <span class="n">elements_list</span><span class="p">:</span>
         <span class="n">eff_d</span> <span class="o">=</span> <span class="n">_element_effective_depth</span><span class="p">(</span><span class="n">el</span><span class="p">,</span> <span class="n">default_depth</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">eff_d</span> <span class="o">&gt;</span> <span class="n">SHALLOW_TOKEN_MAX_DEPTH_MM</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">_is_full_depth_pull_out</span><span class="p">(</span><span class="n">el</span><span class="p">,</span> <span class="n">default_depth</span><span class="p">)</span> <span class="ow">and</span> <span class="n">eff_d</span> <span class="o">&gt;</span> <span class="n">SHALLOW_TOKEN_MAX_DEPTH_MM</span><span class="p">:</span>
             <span class="n">thick</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">el</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">thick</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
@@ -2286,33 +2311,24 @@
         <span class="n">eff_depth</span> <span class="o">=</span> <span class="n">_element_effective_depth</span><span class="p">(</span><span class="n">element</span><span class="p">,</span> <span class="n">default_depth</span><span class="p">)</span>
         <span class="n">z_floor</span> <span class="o">=</span> <span class="n">element</span><span class="o">.</span><span class="n">z_offset</span> <span class="k">if</span> <span class="n">element</span><span class="o">.</span><span class="n">z_offset</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="p">(</span><span class="n">default_depth</span> <span class="o">-</span> <span class="n">depth</span><span class="p">)</span>
         <span class="n">z_top</span> <span class="o">=</span> <span class="n">z_floor</span> <span class="o">+</span> <span class="n">eff_depth</span>
-        <span class="n">is_shallow</span> <span class="o">=</span> <span class="n">element</span><span class="o">.</span><span class="n">pull_out_depth</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">eff_depth</span> <span class="o">&lt;=</span> <span class="n">SHALLOW_TOKEN_MAX_DEPTH_MM</span>
-        <span class="n">cut_depth</span> <span class="o">=</span> <span class="n">eff_depth</span> <span class="k">if</span> <span class="n">is_shallow</span> <span class="k">else</span> <span class="n">_thick_cut_depth</span><span class="p">(</span><span class="n">element</span><span class="p">,</span> <span class="n">default_depth</span><span class="p">)</span>
-        <span class="n">drop</span> <span class="o">=</span> <span class="n">SHALLOW_FINGER_REACH_MM</span> <span class="k">if</span> <span class="n">is_shallow</span> <span class="k">else</span> <span class="nb">min</span><span class="p">(</span><span class="n">cut_depth</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mf">3.5</span><span class="p">,</span> <span class="n">cut_depth</span> <span class="o">*</span> <span class="mf">0.6</span><span class="p">))</span>
+        <span class="n">is_full_depth</span> <span class="o">=</span> <span class="n">_is_full_depth_pull_out</span><span class="p">(</span><span class="n">element</span><span class="p">,</span> <span class="n">default_depth</span><span class="p">)</span>
+        <span class="n">cut_depth</span> <span class="o">=</span> <span class="n">eff_depth</span> <span class="k">if</span> <span class="n">is_full_depth</span> <span class="k">else</span> <span class="n">_thick_cut_depth</span><span class="p">(</span><span class="n">element</span><span class="p">,</span> <span class="n">default_depth</span><span class="p">)</span>
+        <span class="n">drop</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">SHALLOW_FINGER_REACH_MM</span>
+            <span class="k">if</span> <span class="n">is_full_depth</span>
+            <span class="k">else</span> <span class="nb">min</span><span class="p">(</span><span class="n">cut_depth</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mf">3.5</span><span class="p">,</span> <span class="n">cut_depth</span> <span class="o">*</span> <span class="mf">0.6</span><span class="p">))</span>
+        <span class="p">)</span>
         <span class="n">target_across</span> <span class="o">=</span> <span class="n">element</span><span class="o">.</span><span class="n">pull_out_width</span> <span class="ow">or</span> <span class="n">DEFAULT_PULL_OUT_WIDTH_MM</span>
         <span class="n">clearances</span> <span class="o">=</span> <span class="n">_neighbor_clearances</span><span class="p">(</span><span class="n">element</span><span class="p">,</span> <span class="n">all_cutouts</span><span class="p">,</span> <span class="n">comp_w</span><span class="p">,</span> <span class="n">comp_l</span><span class="p">,</span> <span class="n">default_depth</span><span class="p">)</span>
         <span class="n">c_left</span><span class="p">,</span> <span class="n">c_right</span><span class="p">,</span> <span class="n">c_front</span><span class="p">,</span> <span class="n">c_back</span> <span class="o">=</span> <span class="n">clearances</span>
 
-        <span class="k">if</span> <span class="n">target_across</span> <span class="o">&gt;</span> <span class="n">length</span> <span class="o">+</span> <span class="mf">1e-6</span> <span class="ow">and</span> <span class="n">width</span> <span class="o">&gt;=</span> <span class="n">length</span><span class="p">:</span>
-            <span class="n">use_y</span> <span class="o">=</span> <span class="kc">True</span>
-        <span class="k">elif</span> <span class="n">target_across</span> <span class="o">&gt;</span> <span class="n">width</span> <span class="o">+</span> <span class="mf">1e-6</span> <span class="ow">and</span> <span class="n">length</span> <span class="o">&gt;</span> <span class="n">width</span><span class="p">:</span>
-            <span class="n">use_y</span> <span class="o">=</span> <span class="kc">False</span>
-        <span class="k">elif</span> <span class="n">is_shallow</span><span class="p">:</span>
-            <span class="n">max_y</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">c_front</span><span class="p">,</span> <span class="n">c_back</span><span class="p">)</span>
-            <span class="n">max_x</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">c_left</span><span class="p">,</span> <span class="n">c_right</span><span class="p">)</span>
-            <span class="n">use_y</span> <span class="o">=</span> <span class="p">(</span>
-                <span class="n">max_y</span> <span class="o">&gt;</span> <span class="n">max_x</span>
-                <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">max_y</span> <span class="o">-</span> <span class="n">max_x</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">1e-4</span>
-                <span class="k">else</span> <span class="nb">min</span><span class="p">(</span><span class="n">c_front</span><span class="p">,</span> <span class="n">c_back</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="nb">min</span><span class="p">(</span><span class="n">c_left</span><span class="p">,</span> <span class="n">c_right</span><span class="p">)</span>
-            <span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">min_y</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">c_front</span><span class="p">,</span> <span class="n">c_back</span><span class="p">)</span>
-            <span class="n">min_x</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">c_left</span><span class="p">,</span> <span class="n">c_right</span><span class="p">)</span>
-            <span class="n">use_y</span> <span class="o">=</span> <span class="p">(</span>
-                <span class="n">min_y</span> <span class="o">&gt;</span> <span class="n">min_x</span>
-                <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">min_y</span> <span class="o">-</span> <span class="n">min_x</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">1e-4</span>
-                <span class="k">else</span> <span class="p">(</span><span class="n">c_front</span> <span class="o">+</span> <span class="n">c_back</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="p">(</span><span class="n">c_left</span> <span class="o">+</span> <span class="n">c_right</span><span class="p">)</span>
-            <span class="p">)</span>
+        <span class="n">use_y</span> <span class="o">=</span> <span class="n">_choose_pull_out_axis</span><span class="p">(</span>
+            <span class="n">width</span><span class="p">,</span>
+            <span class="n">length</span><span class="p">,</span>
+            <span class="n">target_across</span><span class="p">,</span>
+            <span class="n">clearances</span><span class="p">,</span>
+            <span class="n">is_full_depth</span><span class="o">=</span><span class="n">is_full_depth</span><span class="p">,</span>
+        <span class="p">)</span>
 
         <span class="n">axis</span> <span class="o">=</span> <span class="s2">"y"</span> <span class="k">if</span> <span class="n">use_y</span> <span class="k">else</span> <span class="s2">"x"</span>
         <span class="n">solid</span> <span class="o">=</span> <span class="n">build_pull_out</span><span class="p">(</span>
