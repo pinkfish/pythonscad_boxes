@@ -772,6 +772,7 @@ cuboid([1, 1, 1]).show()
         meets is the roll sliced through mid-curve rather than tangentially.
         """
         from pyboxbuilder.builders._base import DEFAULT_FINGER_WIDTH_MM
+        from pyboxbuilder.compartments.finger_hole import RIM_OVERSHOOT_MM
 
         scoop = self.result.boxes["no_lid_scoop"]
         # The scoop hangs from the interior top, so its bottom sits half the
@@ -780,12 +781,10 @@ cuboid([1, 1, 1]).show()
             40.0 - scoop.position[2], DEFAULT_FINGER_WIDTH_MM / 2, delta=0.2,
             msg="the cut is not the depth it was asked for",
         )
-        # The outline spans exactly that reach, and the 1mm face fillet grows
-        # one millimetre past each end of it, so the placed scoop is reach + 2mm
-        # tall. The extra 2mm is what the body clips; the cut itself does not
-        # show it.
+        # The bottom fillet adds 1mm past the outline's bottom and the open top
+        # ends at rim + RIM_OVERSHOOT_MM (without inflating the overshoot).
         self.assertAlmostEqual(
-            scoop.size[2], DEFAULT_FINGER_WIDTH_MM / 2 + 2.0, delta=0.2,
+            scoop.size[2], DEFAULT_FINGER_WIDTH_MM / 2 + RIM_OVERSHOOT_MM, delta=0.2,
             msg="the roll does not finish at the rim",
         )
 
@@ -2056,3 +2055,51 @@ cuboid([1, 1, 1]).show()
         """What remains is the slot's own fillet where it crosses the wall's
         inner face — a fraction of a millimetre deep across the cut."""
         self.assertLess(float(self.result.reports["as_built"]), 10.0)
+
+
+@unittest.skipUnless(render_available(), "PythonSCAD binary not available")
+class SmoothTopCornerTransitionTests(unittest.TestCase):
+    """The rounded mouth flare must meet the wall's top rim cleanly without a cliff."""
+
+    @classmethod
+    def setUpClass(cls) -> None:
+        body = '''
+from pybosl2 import cuboid
+from pyboxbuilder.compartments.finger_hole import build_through_hole, build_wall_scoop
+from pyboxbuilder.enums import ScoopSide
+
+# On a 3mm wall (y in [-3, 0], rim z=20), a 14mm scoop with 7mm flare and 1.5mm
+# outer fillet reaches x = 14 + 7 + 1.5 = 22.5mm from centre at z=20.
+# Previously, offsetting the vertical overshoot dropped the mouth curve at z = 20 - 1.5 = 18.5
+# and left a hard step between x=21 and x=22.5 just below the rim.
+slab = cuboid([60.0, 3.0, 20.0]).translate([30.0, -1.5, 10.0])
+scoop = build_wall_scoop(60.0, 40.0, 20.0, ScoopSide.FRONT, radius=14.0, wall_thickness=3.0)
+carved_scoop = slab - scoop
+# Thin slice along the outer face just below the rim (z in [19.4, 19.8]):
+# must widen smoothly past 21mm (no cliff cutting straight up at 22.5mm).
+measure("scoop_just_below_rim", carved_scoop & cuboid([60.0, 0.2, 0.4]).translate([30.0, -2.9, 19.6]))
+measure("scoop_cut_slice", scoop & cuboid([60.0, 0.2, 0.2]).translate([30.0, -2.9, 19.7]))
+measure("scoop_rim_slice", scoop & cuboid([60.0, 0.2, 0.2]).translate([30.0, -2.9, 19.95]))
+
+through = build_through_hole(60.0, 40.0, ScoopSide.FRONT, radius=15.0, comp_depth=26.0, wall_thickness=3.0)
+measure("through_cut_slice", through & cuboid([60.0, 0.2, 0.2]).translate([30.0, -2.9, 25.7]))
+measure("through_rim_slice", through & cuboid([60.0, 0.2, 0.2]).translate([30.0, -2.9, 25.95]))
+cuboid([1, 1, 1]).show()
+'''
+        cls.result = measure_python(body)
+        if not cls.result.ok:
+            raise AssertionError(f"measurement run failed: {cls.result.error}")
+
+    def test_wall_scoop_curves_smoothly_to_outer_rim_corner(self) -> None:
+        just_below = self.result.boxes["scoop_cut_slice"].size[0]
+        at_rim = self.result.boxes["scoop_rim_slice"].size[0]
+        self.assertLess(just_below, at_rim - 0.1,
+                        "mouth curve dropped to a hard vertical cliff before the rim")
+
+    def test_through_hole_curves_smoothly_to_outer_rim_corner(self) -> None:
+        just_below = self.result.boxes["through_cut_slice"].size[0]
+        at_rim = self.result.boxes["through_rim_slice"].size[0]
+        self.assertLess(just_below, at_rim - 0.1,
+                        "card-box finger loop has a vertical cliff before the rim")
+        self.assertGreater(at_rim, 44.0,
+                           "card-box finger loop lacks a smooth proportional flare")

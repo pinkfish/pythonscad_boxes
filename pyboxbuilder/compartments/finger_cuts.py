@@ -51,6 +51,7 @@ from pyboxbuilder.compartments.finger_outline import (
     TOP_ROLL_RISE_RATIO,
     TOUCHING_TOLERANCE_MM,
     CutProfile,
+    _elliptical_quarter,
     _fit_radii,
     _quarter_arc,
     dish_radius,
@@ -421,6 +422,7 @@ def build_cut(
             wall_thickness=wall_thickness,
             floor_thickness=floor_thickness if floor_thickness else 2.0,
             mouth_flare=profile.mouth_flare,
+            roll_rise=profile.roll_rise,
             rounding_edge=faces.fillet,
         )
     if comp_depth >= MIN_WALL_SCOOP_DEPTH_MM:
@@ -474,6 +476,7 @@ def build_through_hole(
     floor_thickness: float = 2.0,
     mouth_flare: float | None = None,
     rounding_edge: float | None = None,
+    roll_rise: float | None = None,
 ) -> Bosl2Solid:
     """Return a finger hole cut **through the floor**, for a well holding a stack.
 
@@ -499,12 +502,14 @@ def build_through_hole(
         wall_thickness: The wall the hole breaks through.
         floor_thickness: The floor it passes through; the cut starts below it.
         mouth_flare: How far the hole's top rolls outward into the wall's rim;
-            ``None`` uses the 3mm the original does.
+            ``None`` derives it proportionally from ``radius`` and the span.
         rounding_edge: Fillet where the cut emerges on the wall's **outside**
             face. The inside face and the base stay square: the inside is what
             a card stack rests against, and the base is a surface the box sits
             on. ``None`` uses
             ``wall_thickness / 2``, as everywhere else.
+        roll_rise: How far the top roll reaches down into the wall; ``None``
+            derives ``TOP_ROLL_RISE_RATIO * mouth_flare`` capped to the wall.
 
     Returns:
         Bosl2Solid cutout, positioned in the compartment frame — its floor at
@@ -525,7 +530,22 @@ def build_through_hole(
         raise ValueError(f"radius must be > 0; got {radius}")
     if rounding_edge is None:
         rounding_edge = wall_thickness / 2
-    radius = min(radius, span / 2)
+
+    if mouth_flare is None:
+        mouth_flare = radius * DEFAULT_TOP_ROUNDING_RATIO
+        if radius + mouth_flare > span / 2:
+            scale = (span / 2) / (radius + mouth_flare)
+            radius, mouth_flare = radius * scale, mouth_flare * scale
+    else:
+        radius = min(radius, span / 2)
+        mouth_flare = max(0.0, min(mouth_flare, max(0.0, span / 2 - radius)))
+    mouth_flare = max(0.0, mouth_flare)
+    rise = (
+        mouth_flare * TOP_ROLL_RISE_RATIO
+        if roll_rise is None
+        else max(0.0, roll_rise)
+    )
+    rise = min(rise, comp_depth) if mouth_flare > 0 else 0.0
 
     # Below the base and above the rim: the cut has to *leave* on both sides,
     # so neither end is a coincident face for the boolean to resolve. Clear of
@@ -550,19 +570,19 @@ def build_through_hole(
     # of the way through is a slot of the same width, rolled onto each face by
     # the same fillet the scoops use (FR-073).
     #
-    # Its **top corners roll into the wall's rim** rather than meeting it
-    # square (FR-060) — the original flares them by `rounding_radius` and
-    # rolls the top edge over by half the wall besides. This is the edge a hand
-    # meets when it picks the box up, so a square one is felt immediately. The
-    # roll is circular and tangent to the top face, as a grip's is.
-    if mouth_flare is None:
-        mouth_flare = DEFAULT_MOUTH_ROUNDING_MM
-    mouth_flare = max(0.0, min(mouth_flare, radius))
+    # Its **top corners roll smoothly into the wall's rim** rather than meeting
+    # it square (FR-060), matching the elliptical transition of wall scoops.
     right: list[tuple[float, float]] = [(radius, -below)]
-    if mouth_flare > 0:
-        right += _quarter_arc(
-            (radius + mouth_flare, comp_depth - mouth_flare), mouth_flare, 180.0, 90.0
-        )
+    if mouth_flare > 0 and rise > 0:
+        right.append((radius, comp_depth - rise))
+        if abs(rise - mouth_flare) < 1e-9:
+            right += _quarter_arc(
+                (radius + mouth_flare, comp_depth - rise), mouth_flare, 180.0, 90.0
+            )
+        else:
+            right += _elliptical_quarter(
+                (radius + mouth_flare, comp_depth - rise), mouth_flare, rise
+            )
     right.append((radius + mouth_flare, comp_depth + RIM_OVERSHOOT_MM))
     outline = [(-x, y) for x, y in reversed(right)] + right
 
@@ -573,7 +593,7 @@ def build_through_hole(
         side,
         comp_depth=comp_depth,
         wall_thickness=wall_thickness,
-        rounding_radius=0.0,
+        rounding_radius=mouth_flare,
         span=span,
         radius=radius,
         # Only the box's **outside** is rolled — the inside is what the stack

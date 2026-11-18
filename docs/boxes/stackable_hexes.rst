@@ -15,12 +15,12 @@ Full Box Packing
 
 Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
-.. stl:: ../_stl/boxes/stackable_hexes/HexBoxSingle6x3RoundMagnet_body.stl?v=7542cb59,../_stl/boxes/stackable_hexes/HexBoxSingle6x3RoundMagnetWithTwoPartitions_body.stl?v=ac45fe1c,../_stl/boxes/stackable_hexes/HexBoxSingle6x3RoundMagnetWithThreePartitions_body.stl?v=a4f98394,../_stl/boxes/stackable_hexes/HexBoxSingle6x3RoundMagnetWithFourPartitions_body.stl?v=1f05fb45,../_stl/boxes/stackable_hexes/HexBoxSingle10x5x2RectMagnet_body.stl?v=f20230fe,../_stl/boxes/stackable_hexes/HexBoxSingle10x5x2RectMagnetWithTwoPartitions_body.stl?v=bece14ef,../_stl/boxes/stackable_hexes/HexBoxSingle10x5x2RectMagnetWithThreePartitions_body.stl?v=ac9d3dce,../_stl/boxes/stackable_hexes/HexBoxSingle10x5x2RectMagnetWithFourPartitions_body.stl?v=d1ae13c7
+.. stl:: ../_stl/boxes/stackable_hexes/HexBoxSingle6x3RoundMagnet_body.stl?v=4d5305e4,../_stl/boxes/stackable_hexes/HexBoxSingle6x3RoundMagnetWithTwoPartitions_body.stl?v=ac45fe1c,../_stl/boxes/stackable_hexes/HexBoxSingle6x3RoundMagnetWithThreePartitions_body.stl?v=a4f98394,../_stl/boxes/stackable_hexes/HexBoxSingle6x3RoundMagnetWithFourPartitions_body.stl?v=1f05fb45,../_stl/boxes/stackable_hexes/HexBoxSingle10x5x2RectMagnet_body.stl?v=ef3965f4,../_stl/boxes/stackable_hexes/HexBoxSingle10x5x2RectMagnetWithTwoPartitions_body.stl?v=bece14ef,../_stl/boxes/stackable_hexes/HexBoxSingle10x5x2RectMagnetWithThreePartitions_body.stl?v=ac9d3dce,../_stl/boxes/stackable_hexes/HexBoxSingle10x5x2RectMagnetWithFourPartitions_body.stl?v=d1ae13c7
    :height: 440px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/stackable_hexes/HexBoxSingle6x3RoundMagnet_body.stl?v=7542cb59" data-stl-combine="../_stl/boxes/stackable_hexes/HexBoxSingle6x3RoundMagnet_body.stl?v=7542cb59,../_stl/boxes/stackable_hexes/HexBoxSingle6x3RoundMagnetWithTwoPartitions_body.stl?v=ac45fe1c,../_stl/boxes/stackable_hexes/HexBoxSingle6x3RoundMagnetWithThreePartitions_body.stl?v=a4f98394,../_stl/boxes/stackable_hexes/HexBoxSingle6x3RoundMagnetWithFourPartitions_body.stl?v=1f05fb45,../_stl/boxes/stackable_hexes/HexBoxSingle10x5x2RectMagnet_body.stl?v=f20230fe,../_stl/boxes/stackable_hexes/HexBoxSingle10x5x2RectMagnetWithTwoPartitions_body.stl?v=bece14ef,../_stl/boxes/stackable_hexes/HexBoxSingle10x5x2RectMagnetWithThreePartitions_body.stl?v=ac9d3dce,../_stl/boxes/stackable_hexes/HexBoxSingle10x5x2RectMagnetWithFourPartitions_body.stl?v=d1ae13c7" download="StackableHexes_full_packing.stl">⬇ Download Full Box Packing STL (<code>StackableHexes_full_packing.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/stackable_hexes/HexBoxSingle6x3RoundMagnet_body.stl?v=4d5305e4" data-stl-combine="../_stl/boxes/stackable_hexes/HexBoxSingle6x3RoundMagnet_body.stl?v=4d5305e4,../_stl/boxes/stackable_hexes/HexBoxSingle6x3RoundMagnetWithTwoPartitions_body.stl?v=ac45fe1c,../_stl/boxes/stackable_hexes/HexBoxSingle6x3RoundMagnetWithThreePartitions_body.stl?v=a4f98394,../_stl/boxes/stackable_hexes/HexBoxSingle6x3RoundMagnetWithFourPartitions_body.stl?v=1f05fb45,../_stl/boxes/stackable_hexes/HexBoxSingle10x5x2RectMagnet_body.stl?v=ef3965f4,../_stl/boxes/stackable_hexes/HexBoxSingle10x5x2RectMagnetWithTwoPartitions_body.stl?v=bece14ef,../_stl/boxes/stackable_hexes/HexBoxSingle10x5x2RectMagnetWithThreePartitions_body.stl?v=ac9d3dce,../_stl/boxes/stackable_hexes/HexBoxSingle10x5x2RectMagnetWithFourPartitions_body.stl?v=d1ae13c7" download="StackableHexes_full_packing.stl">⬇ Download Full Box Packing STL (<code>StackableHexes_full_packing.stl</code>)</a></p>
 
 Parts Overview
 --------------
@@ -90,12 +90,12 @@ HexBoxSingle6x3RoundMagnet
 
 **Part: HexBoxSingle6x3RoundMagnet Body**
 
-.. stl:: ../_stl/boxes/stackable_hexes/HexBoxSingle6x3RoundMagnet_body.stl?v=7542cb59
+.. stl:: ../_stl/boxes/stackable_hexes/HexBoxSingle6x3RoundMagnet_body.stl?v=4d5305e4
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/stackable_hexes/HexBoxSingle6x3RoundMagnet_body.stl?v=7542cb59" download="HexBoxSingle6x3RoundMagnet_body.stl">⬇ Download HexBoxSingle6x3RoundMagnet Body STL (<code>HexBoxSingle6x3RoundMagnet_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/stackable_hexes/HexBoxSingle6x3RoundMagnet_body.stl?v=4d5305e4" download="HexBoxSingle6x3RoundMagnet_body.stl">⬇ Download HexBoxSingle6x3RoundMagnet Body STL (<code>HexBoxSingle6x3RoundMagnet_body.stl</code>)</a></p>
 
 .. _box-stackable_hexes-hexboxsingle6x3roundmagnetwithtwopartitions:
 
@@ -169,12 +169,12 @@ HexBoxSingle10x5x2RectMagnet
 
 **Part: HexBoxSingle10x5x2RectMagnet Body**
 
-.. stl:: ../_stl/boxes/stackable_hexes/HexBoxSingle10x5x2RectMagnet_body.stl?v=f20230fe
+.. stl:: ../_stl/boxes/stackable_hexes/HexBoxSingle10x5x2RectMagnet_body.stl?v=ef3965f4
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/stackable_hexes/HexBoxSingle10x5x2RectMagnet_body.stl?v=f20230fe" download="HexBoxSingle10x5x2RectMagnet_body.stl">⬇ Download HexBoxSingle10x5x2RectMagnet Body STL (<code>HexBoxSingle10x5x2RectMagnet_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/stackable_hexes/HexBoxSingle10x5x2RectMagnet_body.stl?v=ef3965f4" download="HexBoxSingle10x5x2RectMagnet_body.stl">⬇ Download HexBoxSingle10x5x2RectMagnet Body STL (<code>HexBoxSingle10x5x2RectMagnet_body.stl</code>)</a></p>
 
 .. _box-stackable_hexes-hexboxsingle10x5x2rectmagnetwithtwopartitions:
 

@@ -18,6 +18,7 @@ invisible whenever both are rounded the same, and shipped once (T330).
 
 from __future__ import annotations
 
+import math
 from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
@@ -118,6 +119,142 @@ def scoop_face_flare(
         rounding_edge = wall_thickness / 2
     fudge = 0.03
     return max(0.0, min(rounding_edge, (wall_thickness + fudge - 0.01) / 2))
+def _offset_open_top_outline(
+    outline: list[tuple[float, float]],
+    comp_depth: float,
+    offset: float,
+) -> list[list[float]]:
+    """Expand a symmetric open-top cut outline outward while keeping its rim tangent.
+
+    A 2D polygon offset turns the 90-degree transition from the mouth roll into
+    the vertical ``RIM_OVERSHOOT_MM`` stem inward/downward, leaving a sharp
+    triangular step on the wall's rim where the face fillet emerges. Expanding
+    along the outward normal below the roll and fading the vertical component
+    to zero along the roll keeps every slice tangent at ``y = comp_depth``.
+    """
+    if abs(offset) < 1e-12:
+        return [[float(x), float(y)] for x, y in outline]
+
+    mid = len(outline) // 2
+    right_full = outline[mid:]
+    right = [pt for pt in right_full if pt[1] <= comp_depth + 1e-9]
+    overshoot_count = len(right_full) - len(right)
+    if not right:
+        return [[float(x), float(y)] for x, y in outline]
+
+    n = len(right)
+    # Square sub-floor throat (e.g. build_through_hole) starts away from X=0
+    # below the box base rather than tangent to Y=0 on the centreline.
+    square_throat_base = abs(right[0][0]) > 1e-9
+
+    tangents: list[tuple[float, float]] = []
+    for i in range(n):
+        j_prev = i - 1
+        while j_prev >= 0 and math.dist(right[j_prev], right[i]) < 1e-9:
+            j_prev -= 1
+        j_next = i + 1
+        while j_next < n and math.dist(right[j_next], right[i]) < 1e-9:
+            j_next += 1
+
+        if j_prev < 0:
+            if square_throat_base:
+                tangents.append((0.0, 1.0))
+                continue
+            tangents.append((1.0, 0.0))
+            continue
+
+        if j_next >= n:
+            p_prev = right[j_prev]
+            dx, dy = right[i][0] - p_prev[0], right[i][1] - p_prev[1]
+        else:
+            p_prev, p_next = right[j_prev], right[j_next]
+            dx, dy = p_next[0] - p_prev[0], p_next[1] - p_prev[1]
+        length = math.hypot(dx, dy)
+        if length < 1e-12:
+            tangents.append(tangents[-1] if tangents else (1.0, 0.0))
+        else:
+            tangents.append((dx / length, dy / length))
+
+    normals = [(ty, -tx) for tx, ty in tangents]
+    peak_i = max(range(n), key=lambda k: tangents[k][1])
+    y_start = right[peak_i][1]
+    span_y = comp_depth - y_start
+    nx0, ny0 = normals[peak_i]
+
+    out_right: list[tuple[float, float]] = []
+    for i, (x, y) in enumerate(right):
+        if i <= peak_i or span_y <= 1e-9:
+            nx, ny = normals[i]
+            ox = offset * nx
+            oy = -offset if (i == 0 and square_throat_base) else offset * ny
+        else:
+            t = max(0.0, min(1.0, (y - y_start) / span_y))
+            s = 0.5 * (1.0 - math.cos(math.pi * t))
+            ox = offset * ((1.0 - s) * nx0 + s * 1.0)
+            oy = offset * ((1.0 - s) * ny0)
+        nx_pt = 0.0 if i == 0 and abs(x) < 1e-9 else x + ox
+        out_right.append((nx_pt, y + oy))
+
+    if overshoot_count > 0:
+        top_x = out_right[-1][0]
+        for _ in range(overshoot_count):
+            out_right.append((top_x, comp_depth + RIM_OVERSHOOT_MM))
+
+    out_left = [(-x, y) for x, y in reversed(out_right)]
+    return [[float(x), float(y)] for x, y in (out_left + out_right)]
+
+
+def _build_open_top_rounded_sweep(
+    outline: list[tuple[float, float]],
+    comp_depth: float,
+    depth: float,
+    fillet: float,
+    round_inner: bool,
+    round_outer: bool,
+    steps: int,
+) -> Bosl2Solid:
+    """Loft a rounded open-top cut across the wall without a rim-corner cliff."""
+    import math as _math
+
+    from pybosl2 import VNF, Path3D
+    from pybosl2.enums import VNFStyle
+    from pybosl2.skin import CapType, _as_solid
+
+    samples: list[tuple[float, float]] = []
+    if round_inner:
+        for i in range(steps + 1):
+            a = (_math.pi / 2) * i / steps
+            samples.append(
+                (fillet * (1.0 - _math.cos(a)), fillet * (1.0 - _math.sin(a)))
+            )
+    else:
+        samples.append((0.0, 0.0))
+
+    if round_outer:
+        for i in range(steps + 1):
+            a = (_math.pi / 2) * (1.0 - i / steps)
+            z = depth - fillet * (1.0 - _math.cos(a))
+            if abs(z - samples[-1][0]) < 1e-7:
+                continue
+            samples.append((z, fillet * (1.0 - _math.sin(a))))
+    elif abs(depth - samples[-1][0]) > 1e-7:
+        samples.append((depth, 0.0))
+
+    rows = [
+        Path3D([
+            [x, y, z]
+            for x, y in _offset_open_top_outline(outline, comp_depth, offset)
+        ])
+        for z, offset in samples
+    ]
+    vnf = VNF.vertex_array(
+        rows, caps=CapType.BUTT, col_wrap=True, style=VNFStyle.MIN_EDGE
+    )
+    if vnf.volume() < 0:
+        vnf = vnf.reverse()
+    return _as_solid(vnf)
+
+
 def _sweep_through_wall(
     outline: list[tuple[float, float]],
     comp_width: float,
@@ -185,8 +322,13 @@ def _sweep_through_wall(
     steps = max(8, rounding_facets()["fn"] // 4)
     ring = [[float(x), float(y)] for x, y in outline]
     fillet = rim if (rim > 0 and (round_outer or round_inner)) else 0.0
+    is_open_top = max(y for _, y in outline) > comp_depth + 1e-4
 
-    if fillet > 0:
+    if fillet > 0 and is_open_top and top_limit is None:
+        swept = _build_open_top_rounded_sweep(
+            outline, comp_depth, depth, fillet, round_inner, round_outer, steps,
+        )
+    elif fillet > 0:
         # The path is the cross-section **at the end face**, and a rim profile
         # moves it as you travel inward. So the widened outline is the path and
         # the rim brings it back in: that is what puts the extra material at
@@ -207,11 +349,14 @@ def _sweep_through_wall(
             top=roundover_profile(fillet, steps) if round_outer else None,
             steps=steps,
         )
+        if hasattr(swept, "polyhedron"):
+            from pybosl2.shapes3d.base import CsgSolid
+            swept = CsgSolid(swept.polyhedron())
     else:
         swept = Path2D(ring, closed=True).offset_sweep(height=depth, steps=steps)
-    if hasattr(swept, "polyhedron"):
-        from pybosl2.shapes3d.base import CsgSolid
-        swept = CsgSolid(swept.polyhedron())
+        if hasattr(swept, "polyhedron"):
+            from pybosl2.shapes3d.base import CsgSolid
+            swept = CsgSolid(swept.polyhedron())
 
     # The profile is built in X-Z and extruded along +Z. Stand it up so the
     # extrusion runs along -Y (into the wall), then shift it so it spans the

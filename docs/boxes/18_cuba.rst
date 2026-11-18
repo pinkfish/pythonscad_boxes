@@ -15,12 +15,12 @@ Full Box Packing
 
 Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
-.. stl:: ../_stl/boxes/18_cuba/MoneyBox_1_body.stl?v=126758bc,../_stl/boxes/18_cuba/MoneyBox_1_lid.stl?v=d96626fa,../_stl/boxes/18_cuba/MoneyBox_2_body.stl?v=1891d727,../_stl/boxes/18_cuba/MoneyBox_2_lid.stl?v=272cfaa1,../_stl/boxes/18_cuba/TrainBox_body.stl?v=532cd146,../_stl/boxes/18_cuba/TrainBox_lid.stl?v=c036f31a,../_stl/boxes/18_cuba/SharesBox_1_body.stl?v=01a8299e,../_stl/boxes/18_cuba/SharesBox_1_lid.stl?v=661a6e8a,../_stl/boxes/18_cuba/SharesBox_2_body.stl?v=30da682e,../_stl/boxes/18_cuba/SharesBox_2_lid.stl?v=d086b482,../_stl/boxes/18_cuba/spacer_1.stl?v=5fbf98cd
+.. stl:: ../_stl/boxes/18_cuba/MoneyBox_1_body.stl?v=126758bc,../_stl/boxes/18_cuba/MoneyBox_1_lid.stl?v=d96626fa,../_stl/boxes/18_cuba/MoneyBox_2_body.stl?v=1891d727,../_stl/boxes/18_cuba/MoneyBox_2_lid.stl?v=272cfaa1,../_stl/boxes/18_cuba/TrainBox_body.stl?v=532cd146,../_stl/boxes/18_cuba/TrainBox_lid.stl?v=c036f31a,../_stl/boxes/18_cuba/SharesBox_1_body.stl?v=01a8299e,../_stl/boxes/18_cuba/SharesBox_1_lid.stl?v=661a6e8a,../_stl/boxes/18_cuba/SharesBox_2_body.stl?v=30da682e,../_stl/boxes/18_cuba/SharesBox_2_lid.stl?v=d086b482,../_stl/boxes/18_cuba/spacer_1.stl?v=e7c0e383
    :height: 440px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/18_cuba/MoneyBox_1_body.stl?v=126758bc" data-stl-combine="../_stl/boxes/18_cuba/MoneyBox_1_body.stl?v=126758bc,../_stl/boxes/18_cuba/MoneyBox_1_lid.stl?v=d96626fa,../_stl/boxes/18_cuba/MoneyBox_2_body.stl?v=1891d727,../_stl/boxes/18_cuba/MoneyBox_2_lid.stl?v=272cfaa1,../_stl/boxes/18_cuba/TrainBox_body.stl?v=532cd146,../_stl/boxes/18_cuba/TrainBox_lid.stl?v=c036f31a,../_stl/boxes/18_cuba/SharesBox_1_body.stl?v=01a8299e,../_stl/boxes/18_cuba/SharesBox_1_lid.stl?v=661a6e8a,../_stl/boxes/18_cuba/SharesBox_2_body.stl?v=30da682e,../_stl/boxes/18_cuba/SharesBox_2_lid.stl?v=d086b482,../_stl/boxes/18_cuba/spacer_1.stl?v=5fbf98cd" download="18Cuba_full_packing.stl">⬇ Download Full Box Packing STL (<code>18Cuba_full_packing.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/18_cuba/MoneyBox_1_body.stl?v=126758bc" data-stl-combine="../_stl/boxes/18_cuba/MoneyBox_1_body.stl?v=126758bc,../_stl/boxes/18_cuba/MoneyBox_1_lid.stl?v=d96626fa,../_stl/boxes/18_cuba/MoneyBox_2_body.stl?v=1891d727,../_stl/boxes/18_cuba/MoneyBox_2_lid.stl?v=272cfaa1,../_stl/boxes/18_cuba/TrainBox_body.stl?v=532cd146,../_stl/boxes/18_cuba/TrainBox_lid.stl?v=c036f31a,../_stl/boxes/18_cuba/SharesBox_1_body.stl?v=01a8299e,../_stl/boxes/18_cuba/SharesBox_1_lid.stl?v=661a6e8a,../_stl/boxes/18_cuba/SharesBox_2_body.stl?v=30da682e,../_stl/boxes/18_cuba/SharesBox_2_lid.stl?v=d086b482,../_stl/boxes/18_cuba/spacer_1.stl?v=e7c0e383" download="18Cuba_full_packing.stl">⬇ Download Full Box Packing STL (<code>18Cuba_full_packing.stl</code>)</a></p>
 
 Parts Overview
 --------------
@@ -265,9 +265,9 @@ spacer_1
 - **Outer Dimensions**: ``225 × 246 × 42 mm``
 - **Packed Position**: ``(0, 68, 0)``
 
-.. stl:: ../_stl/boxes/18_cuba/spacer_1.stl?v=5fbf98cd
+.. stl:: ../_stl/boxes/18_cuba/spacer_1.stl?v=e7c0e383
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/18_cuba/spacer_1.stl?v=5fbf98cd" download="spacer_1.stl">⬇ Download spacer_1 STL (<code>spacer_1.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/18_cuba/spacer_1.stl?v=e7c0e383" download="spacer_1.stl">⬇ Download spacer_1 STL (<code>spacer_1.stl</code>)</a></p>
