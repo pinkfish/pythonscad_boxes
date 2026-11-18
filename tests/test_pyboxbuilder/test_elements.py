@@ -359,6 +359,83 @@ class CompartmentAutoLayoutTests(unittest.TestCase):
         bay_cut = po & bay_probe
         self.assertAlmostEqual(float(bay_cut.bounds().min_z), comp_d - 2.0, places=2)
 
+    def test_explicit_full_depth_cardboard_tokens_cut_to_base_and_keep_walls(self) -> None:
+        """Stacked cardboard pockets (depth > 3.5mm) with pull_out_depth=depth cut to the base."""
+        from pybosl2 import cuboid
+
+        from pyboxbuilder.compartments.element import (
+            _choose_pull_out_axis,
+            _extract_thick_area_groups,
+            _neighbor_clearances,
+            build_element_pack_pull_outs,
+            build_pull_out,
+        )
+
+        comp_d = 10.9
+        comp_size = (60.0, 56.0)
+        # Two adjacent 8mm stacked cardboard pockets separated by 2mm in X, wide open in Y.
+        left = CompartmentElement(
+            shape=ElementShape.RECT,
+            offset=(10.0, 10.0),
+            size=(18.5, 18.5),
+            depth=8.0,
+            pull_out_depth=8.0,
+        )
+        right = CompartmentElement(
+            shape=ElementShape.RECT,
+            offset=(30.5, 10.0),
+            size=(18.5, 18.5),
+            depth=8.0,
+            pull_out_depth=8.0,
+        )
+
+        # Must NOT be grouped into a half-depth thick-token area cutout.
+        areas, handled = _extract_thick_area_groups((left, right), (left, right), *comp_size, comp_d)
+        self.assertEqual(areas, [])
+        self.assertEqual(handled, set())
+
+        # Front open margin (y=5.5) reaches the 8mm pocket floor (10.9 - 8.0 = 2.9).
+        po = build_element_pack_pull_outs((left, right), comp_d, comp_size)
+        assert po is not None
+        bay_probe = cuboid([4.0, 2.0, comp_d]).translate([19.25, 5.5, comp_d / 2.0])
+        bay_cut = po & bay_probe
+        self.assertAlmostEqual(float(bay_cut.bounds().min_z), comp_d - 8.0, places=2)
+
+        # Individual left & right pull-outs stay inside their pockets in X, keeping the 2mm divider intact.
+        clr_left = _neighbor_clearances(left, (left, right), *comp_size, comp_d)
+        clr_right = _neighbor_clearances(right, (left, right), *comp_size, comp_d)
+        left_bay = build_pull_out(left, comp_d, comp_size, clearances=clr_left)
+        right_bay = build_pull_out(right, comp_d, comp_size, clearances=clr_right)
+        assert left_bay is not None and right_bay is not None
+        self.assertLessEqual(float(left_bay.bounds().max_x), 28.5 + 1e-3)
+        self.assertGreaterEqual(float(right_bay.bounds().min_x), 30.5 - 1e-3)
+
+        # Oblong pocket blocked tightly in Y (gap=1.0) must pick X and keep the 1mm Y wall solid.
+        blocked_y_a = CompartmentElement(
+            shape=ElementShape.RECT,
+            offset=(10.0, 1.0),
+            size=(29.5, 15.5),
+            depth=5.0,
+            pull_out_depth=5.0,
+        )
+        blocked_y_b = CompartmentElement(
+            shape=ElementShape.RECT,
+            offset=(10.0, 17.5),
+            size=(29.5, 15.5),
+            depth=5.0,
+            pull_out_depth=5.0,
+        )
+        ob_clr = _neighbor_clearances(blocked_y_b, (blocked_y_a, blocked_y_b), 50.0, 34.0, 5.0)
+        self.assertFalse(
+            _choose_pull_out_axis(29.5, 15.5, 16.0, ob_clr, is_full_depth=True)
+        )
+        ob_bay = build_pull_out(blocked_y_b, 5.0, (50.0, 34.0), clearances=ob_clr)
+        assert ob_bay is not None
+        ob_bounds = ob_bay.bounds()
+        self.assertAlmostEqual(float(ob_bounds.min_z), 0.0, places=2)
+        self.assertAlmostEqual(float(ob_bounds.min_x), 4.0, places=2)
+        self.assertGreaterEqual(float(ob_bounds.min_y), 17.5 - 1e-3)
+
 
 if __name__ == "__main__":
     unittest.main()

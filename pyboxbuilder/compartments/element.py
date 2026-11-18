@@ -1205,6 +1205,14 @@ def _element_effective_depth(element: CompartmentElement, default_depth: float) 
     return max(0.2, min(depth, default_depth - z_off)) if z_off >= 0 else depth
 
 
+def _is_full_depth_pull_out(element: CompartmentElement, default_depth: float) -> bool:
+    """Whether ``element`` needs a full-depth finger bay down to its floor (cardboard/thin tokens)."""
+    eff_depth = _element_effective_depth(element, default_depth)
+    if element.pull_out_depth is not None:
+        return element.pull_out_depth >= eff_depth - 1e-6
+    return eff_depth <= SHALLOW_TOKEN_MAX_DEPTH_MM
+
+
 def _thick_cut_depth(element: CompartmentElement, default_depth: float) -> float:
     """Vertical depth cut down from the rim for thick/stacked tokens."""
     eff_depth = _element_effective_depth(element, default_depth)
@@ -1255,6 +1263,33 @@ def _rounded_dish_cutout(
     return res
 
 
+def _choose_pull_out_axis(
+    width: float,
+    length: float,
+    target_across: float,
+    clearances: tuple[float, float, float, float],
+    *,
+    is_full_depth: bool,
+) -> bool:
+    """Return True to orient a pull-out along Y (front/back), False for X (left/right)."""
+    c_left, c_right, c_front, c_back = clearances
+    max_y = max(c_front, c_back)
+    max_x = max(c_left, c_right)
+    if target_across > length + 1e-6 and width >= length and max_y >= 2.5:
+        return True
+    if target_across > width + 1e-6 and length > width and max_x >= 2.5:
+        return False
+    if is_full_depth:
+        if abs(max_y - max_x) > 1e-4:
+            return max_y > max_x
+        return min(c_front, c_back) >= min(c_left, c_right)
+    min_y = min(c_front, c_back)
+    min_x = min(c_left, c_right)
+    if abs(min_y - min_x) > 1e-4:
+        return min_y > min_x
+    return (c_front + c_back) >= (c_left + c_right)
+
+
 def build_pull_out(
     element: CompartmentElement,
     default_depth: float,
@@ -1280,9 +1315,9 @@ def build_pull_out(
     depth = element.depth or default_depth
     actual_z_offset = element.z_offset if element.z_offset is not None else (default_depth - depth)
     eff_depth = _element_effective_depth(element, default_depth)
-    is_shallow = element.pull_out_depth is None and eff_depth <= SHALLOW_TOKEN_MAX_DEPTH_MM
-    cut_depth = eff_depth if is_shallow else _thick_cut_depth(element, default_depth)
-    drop = SHALLOW_FINGER_REACH_MM if is_shallow else min(cut_depth, max(3.5, cut_depth * 0.6))
+    is_full_depth = _is_full_depth_pull_out(element, default_depth)
+    cut_depth = eff_depth if is_full_depth else _thick_cut_depth(element, default_depth)
+    drop = SHALLOW_FINGER_REACH_MM if is_full_depth else min(cut_depth, max(3.5, cut_depth * 0.6))
     target_across = element.pull_out_width or DEFAULT_PULL_OUT_WIDTH_MM
 
     # Calculate clearances to compartment boundaries (or neighbor-clamped clearances)
@@ -1295,21 +1330,17 @@ def build_pull_out(
         clearance_y_front = max(0.0, element.offset[1])
         clearance_y_back = max(0.0, comp_l - (element.offset[1] + length))
 
-    clearance_x = min(clearance_x_left, clearance_x_right)
-    clearance_y = min(clearance_y_front, clearance_y_back)
-
-    if force_axis is not None:
-        use_y = force_axis == "y"
-    elif target_across > length + 1e-6 and width >= length:
-        use_y = True
-    elif target_across > width + 1e-6 and length > width:
-        use_y = False
-    elif is_shallow:
-        max_y = max(clearance_y_front, clearance_y_back)
-        max_x = max(clearance_x_left, clearance_x_right)
-        use_y = max_y > max_x if abs(max_y - max_x) > 1e-4 else clearance_y >= clearance_x
-    else:
-        use_y = clearance_y >= clearance_x
+    use_y = (
+        force_axis == "y"
+        if force_axis is not None
+        else _choose_pull_out_axis(
+            width,
+            length,
+            target_across,
+            (clearance_x_left, clearance_x_right, clearance_y_front, clearance_y_back),
+            is_full_depth=is_full_depth,
+        )
+    )
 
     across = min(target_across, width if use_y else length)
 
@@ -1328,7 +1359,7 @@ def build_pull_out(
         centre_y = element.offset[1] + length / 2
         dish_w, dish_l = width + drop_left + drop_right, across
 
-    if is_shallow:
+    if is_full_depth:
         # Full-depth rounded capsule bay reaching the pocket base so a finger gets under thin tokens.
         r_xy = min(6.0, dish_w / 2 - 0.01, dish_l / 2 - 0.01)
         bay_h = eff_depth + 100.0
@@ -1451,6 +1482,24 @@ def _neighbor_clearances(
     front = max(0.0, ey0)
     back = max(0.0, comp_l - ey1)
     min_wall = 1.0
+    el_full_depth = _is_full_depth_pull_out(element, default_depth)
+
+    def _allowed_gap(
+        gap: float, same_z: bool, aligned: bool, other: CompartmentElement
+    ) -> float:
+        other_full_depth = _is_full_depth_pull_out(other, default_depth)
+        if (
+            same_z
+            and aligned
+            and other.pull_out
+            and not el_full_depth
+            and not other_full_depth
+            and gap <= 2.5
+        ):
+            return gap / 2.0 + 0.5
+        if other.pull_out:
+            return max(0.0, (gap - min_wall) / 2.0)
+        return max(0.0, gap - min_wall)
 
     for other in all_cutouts:
         if other is element:
@@ -1466,44 +1515,20 @@ def _neighbor_clearances(
             aligned_y = abs(oy0 - ey0) < 1.0 and abs(oy1 - ey1) < 1.0
             if ox1 <= ex0 + 0.1 and ox0 < ex0 - 0.5:
                 gap = max(0.0, ex0 - ox1)
-                if same_z and aligned_y and other.pull_out and gap <= 2.5:
-                    allowed = gap / 2.0 + 0.5
-                elif other.pull_out:
-                    allowed = max(0.0, (gap - min_wall) / 2.0)
-                else:
-                    allowed = max(0.0, gap - min_wall)
-                left = min(left, allowed)
+                left = min(left, _allowed_gap(gap, same_z, aligned_y, other))
             if ox0 >= ex1 - 0.1 and ox1 > ex1 + 0.5:
                 gap = max(0.0, ox0 - ex1)
-                if same_z and aligned_y and other.pull_out and gap <= 2.5:
-                    allowed = gap / 2.0 + 0.5
-                elif other.pull_out:
-                    allowed = max(0.0, (gap - min_wall) / 2.0)
-                else:
-                    allowed = max(0.0, gap - min_wall)
-                right = min(right, allowed)
+                right = min(right, _allowed_gap(gap, same_z, aligned_y, other))
 
         # Neighbors overlapping in X bound vertical (front/back) pull-out extensions.
         if ox0 < ex1 - 0.2 and ex0 < ox1 - 0.2:
             aligned_x = abs(ox0 - ex0) < 1.0 and abs(ox1 - ex1) < 1.0
             if oy1 <= ey0 + 0.1 and oy0 < ey0 - 0.5:
                 gap = max(0.0, ey0 - oy1)
-                if same_z and aligned_x and other.pull_out and gap <= 2.5:
-                    allowed = gap / 2.0 + 0.5
-                elif other.pull_out:
-                    allowed = max(0.0, (gap - min_wall) / 2.0)
-                else:
-                    allowed = max(0.0, gap - min_wall)
-                front = min(front, allowed)
+                front = min(front, _allowed_gap(gap, same_z, aligned_x, other))
             if oy0 >= ey1 - 0.1 and oy1 > ey1 + 0.5:
                 gap = max(0.0, oy0 - ey1)
-                if same_z and aligned_x and other.pull_out and gap <= 2.5:
-                    allowed = gap / 2.0 + 0.5
-                elif other.pull_out:
-                    allowed = max(0.0, (gap - min_wall) / 2.0)
-                else:
-                    allowed = max(0.0, gap - min_wall)
-                back = min(back, allowed)
+                back = min(back, _allowed_gap(gap, same_z, aligned_x, other))
 
     return (left, right, front, back)
 
@@ -1608,7 +1633,7 @@ def _extract_thick_area_groups(
     thick: list[CompartmentElement] = []
     for el in elements_list:
         eff_d = _element_effective_depth(el, default_depth)
-        if eff_d > SHALLOW_TOKEN_MAX_DEPTH_MM:
+        if not _is_full_depth_pull_out(el, default_depth) and eff_d > SHALLOW_TOKEN_MAX_DEPTH_MM:
             thick.append(el)
 
     if len(thick) < 2:
@@ -1722,33 +1747,24 @@ def build_element_pack_pull_outs(
         eff_depth = _element_effective_depth(element, default_depth)
         z_floor = element.z_offset if element.z_offset is not None else (default_depth - depth)
         z_top = z_floor + eff_depth
-        is_shallow = element.pull_out_depth is None and eff_depth <= SHALLOW_TOKEN_MAX_DEPTH_MM
-        cut_depth = eff_depth if is_shallow else _thick_cut_depth(element, default_depth)
-        drop = SHALLOW_FINGER_REACH_MM if is_shallow else min(cut_depth, max(3.5, cut_depth * 0.6))
+        is_full_depth = _is_full_depth_pull_out(element, default_depth)
+        cut_depth = eff_depth if is_full_depth else _thick_cut_depth(element, default_depth)
+        drop = (
+            SHALLOW_FINGER_REACH_MM
+            if is_full_depth
+            else min(cut_depth, max(3.5, cut_depth * 0.6))
+        )
         target_across = element.pull_out_width or DEFAULT_PULL_OUT_WIDTH_MM
         clearances = _neighbor_clearances(element, all_cutouts, comp_w, comp_l, default_depth)
         c_left, c_right, c_front, c_back = clearances
 
-        if target_across > length + 1e-6 and width >= length:
-            use_y = True
-        elif target_across > width + 1e-6 and length > width:
-            use_y = False
-        elif is_shallow:
-            max_y = max(c_front, c_back)
-            max_x = max(c_left, c_right)
-            use_y = (
-                max_y > max_x
-                if abs(max_y - max_x) > 1e-4
-                else min(c_front, c_back) >= min(c_left, c_right)
-            )
-        else:
-            min_y = min(c_front, c_back)
-            min_x = min(c_left, c_right)
-            use_y = (
-                min_y > min_x
-                if abs(min_y - min_x) > 1e-4
-                else (c_front + c_back) >= (c_left + c_right)
-            )
+        use_y = _choose_pull_out_axis(
+            width,
+            length,
+            target_across,
+            clearances,
+            is_full_depth=is_full_depth,
+        )
 
         axis = "y" if use_y else "x"
         solid = build_pull_out(

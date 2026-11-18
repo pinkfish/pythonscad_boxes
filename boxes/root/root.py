@@ -350,11 +350,7 @@ def pack_in_columns(
 
         pull_out = item.get("pull_out", True)
         pull_out_width = item.get("pull_out_width")
-
-        has_custom_scoop = False
-        if depth == 2.0:
-            pull_out = False
-            has_custom_scoop = True
+        pull_out_depth = item.get("pull_out_depth", depth)
 
         elements.append(
             centered(
@@ -366,22 +362,9 @@ def pack_in_columns(
                 depth=depth,
                 pull_out=pull_out,
                 pull_out_width=pull_out_width,
+                pull_out_depth=pull_out_depth,
             )
         )
-        if has_custom_scoop:
-            # Cut a vertical cylinder notch with a rounded floor transition on the
-            # bottom edge of the pocket pointing towards the interior to avoid outer wall intrusion.
-            elements.append(
-                centered(
-                    None,
-                    (cx, cy - l / 2),
-                    (12.0, 12.0),
-                    shape=ElementShape.CIRCLE,
-                    depth=depth,
-                    bottom_rounding=min(0.8, depth * 0.4),
-                    pull_out=False,
-                )
-            )
         insert_svg = item.get("insert_svg", svg)
         insert_text = item.get("text")
         if "insert_color" in item and (
@@ -762,7 +745,6 @@ def _populate_root_boxes(project: Project) -> None:
                     "size": (15.5, 29.5),
                     "rotation": 90,
                     "insert_color": "black",
-                    "pull_out_width": 12.0,  # Smaller finger scoop to avoid wall intrusion
                     "is_winter": True,
                 },
                 {
@@ -815,7 +797,6 @@ def _populate_root_boxes(project: Project) -> None:
                     "size": (15.5, 29.5),
                     "rotation": 90,
                     "insert_color": "black",
-                    "pull_out_width": 12.0,  # Smaller finger scoop to avoid wall intrusion
                     "is_winter": True,
                 },
             ],
@@ -930,7 +911,9 @@ def _populate_root_boxes(project: Project) -> None:
         inlay_z_offset: float | None = None,
         pull_out_width: float | None = None,
         pull_out_depth: float | None = None,
+        cardboard: bool = False,
     ) -> tuple[CompartmentElement, ...]:
+        resolved_pull_out_depth = depth if (cardboard and pull_out_depth is None) else pull_out_depth
         pocket = centered(
             None,
             (0.0, 0.0),
@@ -939,7 +922,7 @@ def _populate_root_boxes(project: Project) -> None:
             depth=depth,
             pull_out=True,
             pull_out_width=pull_out_width,
-            pull_out_depth=pull_out_depth,
+            pull_out_depth=resolved_pull_out_depth,
         )
         if inlay is None:
             return (pocket,)
@@ -1006,24 +989,28 @@ def _populate_root_boxes(project: Project) -> None:
                     inlay=str(SVG_DIR / "log.svg"),
                     inlay_size=(15.0 * 0.35, 15.0 * 0.35),
                     shape=ElementShape.CIRCLE,
+                    cardboard=True,
                 ),
                 _pocket_with_inlay(
                     (18.5, 18.5),
                     depth=6.0,
                     inlay=str(SVG_DIR / "handshake.svg"),
                     inlay_size=(18.5 * 0.35, 18.5 * 0.35),
+                    cardboard=True,
                 ),
                 _pocket_with_inlay(
                     (18.5, 18.5),
                     depth=6.0,
                     inlay=str(SVG_DIR / "anvil.svg"),
                     inlay_size=(18.5 * 0.35, 18.5 * 0.35),
+                    cardboard=True,
                 ),
                 _pocket_with_inlay(
                     (18.5, 18.5),
                     depth=6.0,
                     inlay=str(SVG_DIR / "saw.svg"),
                     inlay_size=(18.5 * 0.35, 18.5 * 0.35),
+                    cardboard=True,
                 ),
                 _pocket_with_inlay(
                     (18.5, 18.5),
@@ -1031,6 +1018,7 @@ def _populate_root_boxes(project: Project) -> None:
                     inlay=str(SVG_DIR / "keep.svg"),
                     inlay_size=(18.5 * 0.35, 18.5 * 0.35),
                     shape=ElementShape.CIRCLE,
+                    cardboard=True,
                 ),
                 _pocket_with_inlay(
                     (15.0, 15.0),
@@ -1038,30 +1026,35 @@ def _populate_root_boxes(project: Project) -> None:
                     inlay=str(SVG_DIR / "log.svg"),
                     inlay_size=(15.0 * 0.35, 15.0 * 0.35),
                     shape=ElementShape.CIRCLE,
+                    cardboard=True,
                 ),
                 _pocket_with_inlay(
                     (18.5, 18.5),
                     depth=6.0,
                     inlay=str(SVG_DIR / "handshake.svg"),
                     inlay_size=(18.5 * 0.35, 18.5 * 0.35),
+                    cardboard=True,
                 ),
                 _pocket_with_inlay(
                     (18.5, 18.5),
                     depth=6.0,
                     inlay=str(SVG_DIR / "anvil.svg"),
                     inlay_size=(18.5 * 0.35, 18.5 * 0.35),
+                    cardboard=True,
                 ),
                 _pocket_with_inlay(
                     (18.5, 18.5),
                     depth=6.0,
                     inlay=str(SVG_DIR / "saw.svg"),
                     inlay_size=(18.5 * 0.35, 18.5 * 0.35),
+                    cardboard=True,
                 ),
                 _pocket_with_inlay(
                     (18.5, 18.5),
                     depth=2.0,
                     inlay=str(SVG_DIR / "laurel_wreath.svg"),
                     inlay_size=(18.5 * 0.35, 18.5 * 0.35),
+                    cardboard=True,
                 ),
             ],
         ),
@@ -1112,6 +1105,7 @@ def _populate_root_boxes(project: Project) -> None:
                         depth=8.0,
                         inlay=str(SVG_DIR / "tree.svg"),
                         inlay_size=(18.5 * 0.35, 18.5 * 0.35),
+                        cardboard=True,
                     )
                     for _ in range(2)
                 ],
@@ -1120,6 +1114,7 @@ def _populate_root_boxes(project: Project) -> None:
                     depth=2.0,
                     inlay=str(SVG_DIR / "laurel_wreath.svg"),
                     inlay_size=(18.5 * 0.35, 18.5 * 0.35),
+                    cardboard=True,
                 ),
             ],
         ),
@@ -1170,6 +1165,7 @@ def _populate_root_boxes(project: Project) -> None:
                         depth=10.5,
                         inlay=str(SVG_DIR / "fist.svg"),
                         shape=ElementShape.CIRCLE,
+                        cardboard=True,
                     )
                     for _ in range(2)
                 ],
@@ -1177,11 +1173,13 @@ def _populate_root_boxes(project: Project) -> None:
                     (18.5, 18.5),
                     depth=7.0,
                     inlay=str(SVG_DIR / "camp.svg"),
+                    cardboard=True,
                 ),
                 _pocket_with_inlay(
                     (18.5, 18.5),
                     depth=3.0,
                     inlay=str(SVG_DIR / "laurel_wreath.svg"),
+                    cardboard=True,
                 ),
             ],
         ),
@@ -1233,6 +1231,7 @@ def _populate_root_boxes(project: Project) -> None:
                         depth=8.0,
                         inlay=str(SVG_DIR / suit_svg),
                         inlay_size=(10.0, 10.0),
+                        cardboard=True,
                     )
                     for suit_svg in ("fox.svg", "rabbit.svg", "mouse.svg")
                 ],
@@ -1241,17 +1240,20 @@ def _populate_root_boxes(project: Project) -> None:
                     depth=4.0,
                     inlay=str(SVG_DIR / "lizard_faction.svg"),
                     inlay_size=(10.0, 10.0),
+                    cardboard=True,
                 ),
                 _pocket_with_inlay(
                     (18.5, 18.5),
                     depth=3.0,
                     inlay=str(SVG_DIR / "laurel_wreath.svg"),
+                    cardboard=True,
                 ),
                 _pocket_with_inlay(
                     (18.5, 18.5),
                     depth=2.0,
                     inlay=str(SVG_DIR / "outcast.svg"),
                     inlay_size=(10.0, 10.0),
+                    cardboard=True,
                 ),
             ],
         ),
@@ -1310,6 +1312,7 @@ def _populate_root_boxes(project: Project) -> None:
                     (18.5, 18.5),
                     depth=3.0,
                     inlay=str(SVG_DIR / "laurel_wreath.svg"),
+                    cardboard=True,
                 ),
                 *[
                     _pocket_with_inlay(
@@ -1317,6 +1320,7 @@ def _populate_root_boxes(project: Project) -> None:
                         depth=7.0,
                         inlay=str(SVG_DIR / "sign.svg"),
                         shape=ElementShape.CIRCLE,
+                        cardboard=True,
                     )
                     for _ in range(3)
                 ],
@@ -1343,6 +1347,7 @@ def _populate_root_boxes(project: Project) -> None:
                     (18.5, 18.5),
                     depth=3.0,
                     inlay=str(SVG_DIR / "laurel_wreath.svg"),
+                    cardboard=True,
                 ),
                 # Relationship marker wells (3 tokens each = 6 per Vagabond)
                 *[
@@ -1352,6 +1357,7 @@ def _populate_root_boxes(project: Project) -> None:
                         inlay="Relation",
                         inlay_size=(15.0, 15.0),
                         inlay_shape=ElementShape.TEXT,
+                        cardboard=True,
                     )
                     for _ in range(2)
                 ],
