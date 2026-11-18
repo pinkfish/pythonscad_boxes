@@ -48,6 +48,7 @@ report("base", "%.3f" % volume(base))
 for flag, flipped in (("round_outer", False), ("round_inner", False),
                       ("breach_floor", True), ("inner_overshoot", 1.5)):
     report(flag, "%.3f" % volume(cut(**{flag: flipped})))
+report("face_asymmetry", "%.3f" % volume(cut(round_outer=False) - cut(round_inner=False)))
 
 # the two shape switches live on the builder rather than the faces
 report("keep_flat_bottom", "%.3f" % volume(build_wall_scoop(
@@ -91,13 +92,12 @@ cuboid([1, 1, 1]).show()
                 )
 
     def test_the_two_faces_are_not_the_same_switch(self) -> None:
-        """The bug this file is named for: rounding one face is not the same as
-        rounding the other, and if it measures the same they are wired to one
-        end of the sweep."""
-        self.assertNotAlmostEqual(
-            float(self.result.reports["round_outer"]),
-            float(self.result.reports["round_inner"]),
-            delta=0.01,
+        """Rounding only the inner face vs only the outer face must cut different
+        sides of the wall (their set difference is positive even when their
+        symmetric standalone volumes match)."""
+        self.assertGreater(
+            float(self.result.reports["face_asymmetry"]),
+            1.0,
         )
 
 

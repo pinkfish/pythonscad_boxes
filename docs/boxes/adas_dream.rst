@@ -15,12 +15,12 @@ Full Box Packing
 
 Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
-.. stl:: ../_stl/boxes/adas_dream/PlayerBox_Red_body.stl?v=5783967c,../_stl/boxes/adas_dream/PlayerBox_Red_lid.stl?v=9fcb5575,../_stl/boxes/adas_dream/PlayerBox_Green_body.stl?v=9b5f6adc,../_stl/boxes/adas_dream/PlayerBox_Green_lid.stl?v=280a0009,../_stl/boxes/adas_dream/ScoringBox_body.stl?v=3c1156f4,../_stl/boxes/adas_dream/ScoringBox_lid.stl?v=e7fc53cd,../_stl/boxes/adas_dream/PlayerBox_Blue_body.stl?v=47f651ed,../_stl/boxes/adas_dream/PlayerBox_Blue_lid.stl?v=e1907b91,../_stl/boxes/adas_dream/PlayerBox_Purple_body.stl?v=91bdaeee,../_stl/boxes/adas_dream/PlayerBox_Purple_lid.stl?v=9a1ea67e,../_stl/boxes/adas_dream/MoneyBox_body.stl?v=86930ce9,../_stl/boxes/adas_dream/MoneyBox_lid.stl?v=e5cbec04,../_stl/boxes/adas_dream/OtherCardBox_body.stl?v=f72c1d29,../_stl/boxes/adas_dream/OtherCardBox_lid.stl?v=5fac983a,../_stl/boxes/adas_dream/TierCardBox_body.stl?v=6a5de12d,../_stl/boxes/adas_dream/TierCardBox_lid.stl?v=3a30c379,../_stl/boxes/adas_dream/GearBox_AddGears_body.stl?v=62ee0e7a,../_stl/boxes/adas_dream/GearBox_AddGears_lid.stl?v=9ccb1d09,../_stl/boxes/adas_dream/GearBox_SubGears_body.stl?v=371b7def,../_stl/boxes/adas_dream/GearBox_SubGears_lid.stl?v=e24b55d2,../_stl/boxes/adas_dream/GearBox_MulGears_body.stl?v=8f02fba2,../_stl/boxes/adas_dream/GearBox_MulGears_lid.stl?v=104c14fa,../_stl/boxes/adas_dream/DiceBox_body.stl?v=8c6eb99d,../_stl/boxes/adas_dream/DiceBox_lid.stl?v=872bc4c4,../_stl/boxes/adas_dream/BookBox_body.stl?v=69761c32,../_stl/boxes/adas_dream/BookBox_lid.stl?v=dd22b5c8,../_stl/boxes/adas_dream/spacer_1.stl?v=f1e0fc72
+.. stl:: ../_stl/boxes/adas_dream/PlayerBox_Red_body.stl?v=d31b32b3,../_stl/boxes/adas_dream/PlayerBox_Red_lid.stl?v=9fcb5575,../_stl/boxes/adas_dream/PlayerBox_Green_body.stl?v=5e5c4300,../_stl/boxes/adas_dream/PlayerBox_Green_lid.stl?v=280a0009,../_stl/boxes/adas_dream/ScoringBox_body.stl?v=98fe2047,../_stl/boxes/adas_dream/ScoringBox_lid.stl?v=e7fc53cd,../_stl/boxes/adas_dream/PlayerBox_Blue_body.stl?v=933e6fd1,../_stl/boxes/adas_dream/PlayerBox_Blue_lid.stl?v=e1907b91,../_stl/boxes/adas_dream/PlayerBox_Purple_body.stl?v=a309afb6,../_stl/boxes/adas_dream/PlayerBox_Purple_lid.stl?v=9a1ea67e,../_stl/boxes/adas_dream/MoneyBox_body.stl?v=64ca4d12,../_stl/boxes/adas_dream/MoneyBox_lid.stl?v=e5cbec04,../_stl/boxes/adas_dream/OtherCardBox_body.stl?v=492dcfec,../_stl/boxes/adas_dream/OtherCardBox_lid.stl?v=5fac983a,../_stl/boxes/adas_dream/TierCardBox_body.stl?v=8e5935c6,../_stl/boxes/adas_dream/TierCardBox_lid.stl?v=3a30c379,../_stl/boxes/adas_dream/GearBox_AddGears_body.stl?v=62ee0e7a,../_stl/boxes/adas_dream/GearBox_AddGears_lid.stl?v=9ccb1d09,../_stl/boxes/adas_dream/GearBox_SubGears_body.stl?v=371b7def,../_stl/boxes/adas_dream/GearBox_SubGears_lid.stl?v=e24b55d2,../_stl/boxes/adas_dream/GearBox_MulGears_body.stl?v=8f02fba2,../_stl/boxes/adas_dream/GearBox_MulGears_lid.stl?v=104c14fa,../_stl/boxes/adas_dream/DiceBox_body.stl?v=8c6eb99d,../_stl/boxes/adas_dream/DiceBox_lid.stl?v=872bc4c4,../_stl/boxes/adas_dream/BookBox_body.stl?v=69761c32,../_stl/boxes/adas_dream/BookBox_lid.stl?v=dd22b5c8,../_stl/boxes/adas_dream/spacer_1.stl?v=b162662d
    :height: 440px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/adas_dream/PlayerBox_Red_body.stl?v=5783967c" data-stl-combine="../_stl/boxes/adas_dream/PlayerBox_Red_body.stl?v=5783967c,../_stl/boxes/adas_dream/PlayerBox_Red_lid.stl?v=9fcb5575,../_stl/boxes/adas_dream/PlayerBox_Green_body.stl?v=9b5f6adc,../_stl/boxes/adas_dream/PlayerBox_Green_lid.stl?v=280a0009,../_stl/boxes/adas_dream/ScoringBox_body.stl?v=3c1156f4,../_stl/boxes/adas_dream/ScoringBox_lid.stl?v=e7fc53cd,../_stl/boxes/adas_dream/PlayerBox_Blue_body.stl?v=47f651ed,../_stl/boxes/adas_dream/PlayerBox_Blue_lid.stl?v=e1907b91,../_stl/boxes/adas_dream/PlayerBox_Purple_body.stl?v=91bdaeee,../_stl/boxes/adas_dream/PlayerBox_Purple_lid.stl?v=9a1ea67e,../_stl/boxes/adas_dream/MoneyBox_body.stl?v=86930ce9,../_stl/boxes/adas_dream/MoneyBox_lid.stl?v=e5cbec04,../_stl/boxes/adas_dream/OtherCardBox_body.stl?v=f72c1d29,../_stl/boxes/adas_dream/OtherCardBox_lid.stl?v=5fac983a,../_stl/boxes/adas_dream/TierCardBox_body.stl?v=6a5de12d,../_stl/boxes/adas_dream/TierCardBox_lid.stl?v=3a30c379,../_stl/boxes/adas_dream/GearBox_AddGears_body.stl?v=62ee0e7a,../_stl/boxes/adas_dream/GearBox_AddGears_lid.stl?v=9ccb1d09,../_stl/boxes/adas_dream/GearBox_SubGears_body.stl?v=371b7def,../_stl/boxes/adas_dream/GearBox_SubGears_lid.stl?v=e24b55d2,../_stl/boxes/adas_dream/GearBox_MulGears_body.stl?v=8f02fba2,../_stl/boxes/adas_dream/GearBox_MulGears_lid.stl?v=104c14fa,../_stl/boxes/adas_dream/DiceBox_body.stl?v=8c6eb99d,../_stl/boxes/adas_dream/DiceBox_lid.stl?v=872bc4c4,../_stl/boxes/adas_dream/BookBox_body.stl?v=69761c32,../_stl/boxes/adas_dream/BookBox_lid.stl?v=dd22b5c8,../_stl/boxes/adas_dream/spacer_1.stl?v=f1e0fc72" download="AdasDream_full_packing.stl">⬇ Download Full Box Packing STL (<code>AdasDream_full_packing.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/adas_dream/PlayerBox_Red_body.stl?v=d31b32b3" data-stl-combine="../_stl/boxes/adas_dream/PlayerBox_Red_body.stl?v=d31b32b3,../_stl/boxes/adas_dream/PlayerBox_Red_lid.stl?v=9fcb5575,../_stl/boxes/adas_dream/PlayerBox_Green_body.stl?v=5e5c4300,../_stl/boxes/adas_dream/PlayerBox_Green_lid.stl?v=280a0009,../_stl/boxes/adas_dream/ScoringBox_body.stl?v=98fe2047,../_stl/boxes/adas_dream/ScoringBox_lid.stl?v=e7fc53cd,../_stl/boxes/adas_dream/PlayerBox_Blue_body.stl?v=933e6fd1,../_stl/boxes/adas_dream/PlayerBox_Blue_lid.stl?v=e1907b91,../_stl/boxes/adas_dream/PlayerBox_Purple_body.stl?v=a309afb6,../_stl/boxes/adas_dream/PlayerBox_Purple_lid.stl?v=9a1ea67e,../_stl/boxes/adas_dream/MoneyBox_body.stl?v=64ca4d12,../_stl/boxes/adas_dream/MoneyBox_lid.stl?v=e5cbec04,../_stl/boxes/adas_dream/OtherCardBox_body.stl?v=492dcfec,../_stl/boxes/adas_dream/OtherCardBox_lid.stl?v=5fac983a,../_stl/boxes/adas_dream/TierCardBox_body.stl?v=8e5935c6,../_stl/boxes/adas_dream/TierCardBox_lid.stl?v=3a30c379,../_stl/boxes/adas_dream/GearBox_AddGears_body.stl?v=62ee0e7a,../_stl/boxes/adas_dream/GearBox_AddGears_lid.stl?v=9ccb1d09,../_stl/boxes/adas_dream/GearBox_SubGears_body.stl?v=371b7def,../_stl/boxes/adas_dream/GearBox_SubGears_lid.stl?v=e24b55d2,../_stl/boxes/adas_dream/GearBox_MulGears_body.stl?v=8f02fba2,../_stl/boxes/adas_dream/GearBox_MulGears_lid.stl?v=104c14fa,../_stl/boxes/adas_dream/DiceBox_body.stl?v=8c6eb99d,../_stl/boxes/adas_dream/DiceBox_lid.stl?v=872bc4c4,../_stl/boxes/adas_dream/BookBox_body.stl?v=69761c32,../_stl/boxes/adas_dream/BookBox_lid.stl?v=dd22b5c8,../_stl/boxes/adas_dream/spacer_1.stl?v=b162662d" download="AdasDream_full_packing.stl">⬇ Download Full Box Packing STL (<code>AdasDream_full_packing.stl</code>)</a></p>
 
 Parts Overview
 --------------
@@ -122,21 +122,21 @@ PlayerBox_Red
 
 **Assembled Box (PlayerBox_Red — Body + Lid)**
 
-.. stl:: ../_stl/boxes/adas_dream/PlayerBox_Red_body.stl?v=5783967c,../_stl/boxes/adas_dream/PlayerBox_Red_lid.stl?v=9fcb5575
+.. stl:: ../_stl/boxes/adas_dream/PlayerBox_Red_body.stl?v=d31b32b3,../_stl/boxes/adas_dream/PlayerBox_Red_lid.stl?v=9fcb5575
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/adas_dream/PlayerBox_Red_body.stl?v=5783967c" data-stl-combine="../_stl/boxes/adas_dream/PlayerBox_Red_body.stl?v=5783967c,../_stl/boxes/adas_dream/PlayerBox_Red_lid.stl?v=9fcb5575" download="PlayerBox_Red_assembled.stl">⬇ Download Assembled PlayerBox_Red STL (<code>PlayerBox_Red_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/adas_dream/PlayerBox_Red_body.stl?v=d31b32b3" data-stl-combine="../_stl/boxes/adas_dream/PlayerBox_Red_body.stl?v=d31b32b3,../_stl/boxes/adas_dream/PlayerBox_Red_lid.stl?v=9fcb5575" download="PlayerBox_Red_assembled.stl">⬇ Download Assembled PlayerBox_Red STL (<code>PlayerBox_Red_assembled.stl</code>)</a></p>
 
 **Part: PlayerBox_Red Body**
 
-.. stl:: ../_stl/boxes/adas_dream/PlayerBox_Red_body.stl?v=5783967c
+.. stl:: ../_stl/boxes/adas_dream/PlayerBox_Red_body.stl?v=d31b32b3
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/adas_dream/PlayerBox_Red_body.stl?v=5783967c" download="PlayerBox_Red_body.stl">⬇ Download PlayerBox_Red Body STL (<code>PlayerBox_Red_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/adas_dream/PlayerBox_Red_body.stl?v=d31b32b3" download="PlayerBox_Red_body.stl">⬇ Download PlayerBox_Red Body STL (<code>PlayerBox_Red_body.stl</code>)</a></p>
 
 **Part: PlayerBox_Red Lid**
 
@@ -161,21 +161,21 @@ PlayerBox_Green
 
 **Assembled Box (PlayerBox_Green — Body + Lid)**
 
-.. stl:: ../_stl/boxes/adas_dream/PlayerBox_Green_body.stl?v=9b5f6adc,../_stl/boxes/adas_dream/PlayerBox_Green_lid.stl?v=280a0009
+.. stl:: ../_stl/boxes/adas_dream/PlayerBox_Green_body.stl?v=5e5c4300,../_stl/boxes/adas_dream/PlayerBox_Green_lid.stl?v=280a0009
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/adas_dream/PlayerBox_Green_body.stl?v=9b5f6adc" data-stl-combine="../_stl/boxes/adas_dream/PlayerBox_Green_body.stl?v=9b5f6adc,../_stl/boxes/adas_dream/PlayerBox_Green_lid.stl?v=280a0009" download="PlayerBox_Green_assembled.stl">⬇ Download Assembled PlayerBox_Green STL (<code>PlayerBox_Green_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/adas_dream/PlayerBox_Green_body.stl?v=5e5c4300" data-stl-combine="../_stl/boxes/adas_dream/PlayerBox_Green_body.stl?v=5e5c4300,../_stl/boxes/adas_dream/PlayerBox_Green_lid.stl?v=280a0009" download="PlayerBox_Green_assembled.stl">⬇ Download Assembled PlayerBox_Green STL (<code>PlayerBox_Green_assembled.stl</code>)</a></p>
 
 **Part: PlayerBox_Green Body**
 
-.. stl:: ../_stl/boxes/adas_dream/PlayerBox_Green_body.stl?v=9b5f6adc
+.. stl:: ../_stl/boxes/adas_dream/PlayerBox_Green_body.stl?v=5e5c4300
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/adas_dream/PlayerBox_Green_body.stl?v=9b5f6adc" download="PlayerBox_Green_body.stl">⬇ Download PlayerBox_Green Body STL (<code>PlayerBox_Green_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/adas_dream/PlayerBox_Green_body.stl?v=5e5c4300" download="PlayerBox_Green_body.stl">⬇ Download PlayerBox_Green Body STL (<code>PlayerBox_Green_body.stl</code>)</a></p>
 
 **Part: PlayerBox_Green Lid**
 
@@ -200,21 +200,21 @@ ScoringBox
 
 **Assembled Box (ScoringBox — Body + Lid)**
 
-.. stl:: ../_stl/boxes/adas_dream/ScoringBox_body.stl?v=3c1156f4,../_stl/boxes/adas_dream/ScoringBox_lid.stl?v=e7fc53cd
+.. stl:: ../_stl/boxes/adas_dream/ScoringBox_body.stl?v=98fe2047,../_stl/boxes/adas_dream/ScoringBox_lid.stl?v=e7fc53cd
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/adas_dream/ScoringBox_body.stl?v=3c1156f4" data-stl-combine="../_stl/boxes/adas_dream/ScoringBox_body.stl?v=3c1156f4,../_stl/boxes/adas_dream/ScoringBox_lid.stl?v=e7fc53cd" download="ScoringBox_assembled.stl">⬇ Download Assembled ScoringBox STL (<code>ScoringBox_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/adas_dream/ScoringBox_body.stl?v=98fe2047" data-stl-combine="../_stl/boxes/adas_dream/ScoringBox_body.stl?v=98fe2047,../_stl/boxes/adas_dream/ScoringBox_lid.stl?v=e7fc53cd" download="ScoringBox_assembled.stl">⬇ Download Assembled ScoringBox STL (<code>ScoringBox_assembled.stl</code>)</a></p>
 
 **Part: ScoringBox Body**
 
-.. stl:: ../_stl/boxes/adas_dream/ScoringBox_body.stl?v=3c1156f4
+.. stl:: ../_stl/boxes/adas_dream/ScoringBox_body.stl?v=98fe2047
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/adas_dream/ScoringBox_body.stl?v=3c1156f4" download="ScoringBox_body.stl">⬇ Download ScoringBox Body STL (<code>ScoringBox_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/adas_dream/ScoringBox_body.stl?v=98fe2047" download="ScoringBox_body.stl">⬇ Download ScoringBox Body STL (<code>ScoringBox_body.stl</code>)</a></p>
 
 **Part: ScoringBox Lid**
 
@@ -239,21 +239,21 @@ PlayerBox_Blue
 
 **Assembled Box (PlayerBox_Blue — Body + Lid)**
 
-.. stl:: ../_stl/boxes/adas_dream/PlayerBox_Blue_body.stl?v=47f651ed,../_stl/boxes/adas_dream/PlayerBox_Blue_lid.stl?v=e1907b91
+.. stl:: ../_stl/boxes/adas_dream/PlayerBox_Blue_body.stl?v=933e6fd1,../_stl/boxes/adas_dream/PlayerBox_Blue_lid.stl?v=e1907b91
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/adas_dream/PlayerBox_Blue_body.stl?v=47f651ed" data-stl-combine="../_stl/boxes/adas_dream/PlayerBox_Blue_body.stl?v=47f651ed,../_stl/boxes/adas_dream/PlayerBox_Blue_lid.stl?v=e1907b91" download="PlayerBox_Blue_assembled.stl">⬇ Download Assembled PlayerBox_Blue STL (<code>PlayerBox_Blue_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/adas_dream/PlayerBox_Blue_body.stl?v=933e6fd1" data-stl-combine="../_stl/boxes/adas_dream/PlayerBox_Blue_body.stl?v=933e6fd1,../_stl/boxes/adas_dream/PlayerBox_Blue_lid.stl?v=e1907b91" download="PlayerBox_Blue_assembled.stl">⬇ Download Assembled PlayerBox_Blue STL (<code>PlayerBox_Blue_assembled.stl</code>)</a></p>
 
 **Part: PlayerBox_Blue Body**
 
-.. stl:: ../_stl/boxes/adas_dream/PlayerBox_Blue_body.stl?v=47f651ed
+.. stl:: ../_stl/boxes/adas_dream/PlayerBox_Blue_body.stl?v=933e6fd1
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/adas_dream/PlayerBox_Blue_body.stl?v=47f651ed" download="PlayerBox_Blue_body.stl">⬇ Download PlayerBox_Blue Body STL (<code>PlayerBox_Blue_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/adas_dream/PlayerBox_Blue_body.stl?v=933e6fd1" download="PlayerBox_Blue_body.stl">⬇ Download PlayerBox_Blue Body STL (<code>PlayerBox_Blue_body.stl</code>)</a></p>
 
 **Part: PlayerBox_Blue Lid**
 
@@ -278,21 +278,21 @@ PlayerBox_Purple
 
 **Assembled Box (PlayerBox_Purple — Body + Lid)**
 
-.. stl:: ../_stl/boxes/adas_dream/PlayerBox_Purple_body.stl?v=91bdaeee,../_stl/boxes/adas_dream/PlayerBox_Purple_lid.stl?v=9a1ea67e
+.. stl:: ../_stl/boxes/adas_dream/PlayerBox_Purple_body.stl?v=a309afb6,../_stl/boxes/adas_dream/PlayerBox_Purple_lid.stl?v=9a1ea67e
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/adas_dream/PlayerBox_Purple_body.stl?v=91bdaeee" data-stl-combine="../_stl/boxes/adas_dream/PlayerBox_Purple_body.stl?v=91bdaeee,../_stl/boxes/adas_dream/PlayerBox_Purple_lid.stl?v=9a1ea67e" download="PlayerBox_Purple_assembled.stl">⬇ Download Assembled PlayerBox_Purple STL (<code>PlayerBox_Purple_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/adas_dream/PlayerBox_Purple_body.stl?v=a309afb6" data-stl-combine="../_stl/boxes/adas_dream/PlayerBox_Purple_body.stl?v=a309afb6,../_stl/boxes/adas_dream/PlayerBox_Purple_lid.stl?v=9a1ea67e" download="PlayerBox_Purple_assembled.stl">⬇ Download Assembled PlayerBox_Purple STL (<code>PlayerBox_Purple_assembled.stl</code>)</a></p>
 
 **Part: PlayerBox_Purple Body**
 
-.. stl:: ../_stl/boxes/adas_dream/PlayerBox_Purple_body.stl?v=91bdaeee
+.. stl:: ../_stl/boxes/adas_dream/PlayerBox_Purple_body.stl?v=a309afb6
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/adas_dream/PlayerBox_Purple_body.stl?v=91bdaeee" download="PlayerBox_Purple_body.stl">⬇ Download PlayerBox_Purple Body STL (<code>PlayerBox_Purple_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/adas_dream/PlayerBox_Purple_body.stl?v=a309afb6" download="PlayerBox_Purple_body.stl">⬇ Download PlayerBox_Purple Body STL (<code>PlayerBox_Purple_body.stl</code>)</a></p>
 
 **Part: PlayerBox_Purple Lid**
 
@@ -317,21 +317,21 @@ MoneyBox
 
 **Assembled Box (MoneyBox — Body + Lid)**
 
-.. stl:: ../_stl/boxes/adas_dream/MoneyBox_body.stl?v=86930ce9,../_stl/boxes/adas_dream/MoneyBox_lid.stl?v=e5cbec04
+.. stl:: ../_stl/boxes/adas_dream/MoneyBox_body.stl?v=64ca4d12,../_stl/boxes/adas_dream/MoneyBox_lid.stl?v=e5cbec04
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/adas_dream/MoneyBox_body.stl?v=86930ce9" data-stl-combine="../_stl/boxes/adas_dream/MoneyBox_body.stl?v=86930ce9,../_stl/boxes/adas_dream/MoneyBox_lid.stl?v=e5cbec04" download="MoneyBox_assembled.stl">⬇ Download Assembled MoneyBox STL (<code>MoneyBox_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/adas_dream/MoneyBox_body.stl?v=64ca4d12" data-stl-combine="../_stl/boxes/adas_dream/MoneyBox_body.stl?v=64ca4d12,../_stl/boxes/adas_dream/MoneyBox_lid.stl?v=e5cbec04" download="MoneyBox_assembled.stl">⬇ Download Assembled MoneyBox STL (<code>MoneyBox_assembled.stl</code>)</a></p>
 
 **Part: MoneyBox Body**
 
-.. stl:: ../_stl/boxes/adas_dream/MoneyBox_body.stl?v=86930ce9
+.. stl:: ../_stl/boxes/adas_dream/MoneyBox_body.stl?v=64ca4d12
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/adas_dream/MoneyBox_body.stl?v=86930ce9" download="MoneyBox_body.stl">⬇ Download MoneyBox Body STL (<code>MoneyBox_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/adas_dream/MoneyBox_body.stl?v=64ca4d12" download="MoneyBox_body.stl">⬇ Download MoneyBox Body STL (<code>MoneyBox_body.stl</code>)</a></p>
 
 **Part: MoneyBox Lid**
 
@@ -356,21 +356,21 @@ OtherCardBox
 
 **Assembled Box (OtherCardBox — Body + Lid)**
 
-.. stl:: ../_stl/boxes/adas_dream/OtherCardBox_body.stl?v=f72c1d29,../_stl/boxes/adas_dream/OtherCardBox_lid.stl?v=5fac983a
+.. stl:: ../_stl/boxes/adas_dream/OtherCardBox_body.stl?v=492dcfec,../_stl/boxes/adas_dream/OtherCardBox_lid.stl?v=5fac983a
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/adas_dream/OtherCardBox_body.stl?v=f72c1d29" data-stl-combine="../_stl/boxes/adas_dream/OtherCardBox_body.stl?v=f72c1d29,../_stl/boxes/adas_dream/OtherCardBox_lid.stl?v=5fac983a" download="OtherCardBox_assembled.stl">⬇ Download Assembled OtherCardBox STL (<code>OtherCardBox_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/adas_dream/OtherCardBox_body.stl?v=492dcfec" data-stl-combine="../_stl/boxes/adas_dream/OtherCardBox_body.stl?v=492dcfec,../_stl/boxes/adas_dream/OtherCardBox_lid.stl?v=5fac983a" download="OtherCardBox_assembled.stl">⬇ Download Assembled OtherCardBox STL (<code>OtherCardBox_assembled.stl</code>)</a></p>
 
 **Part: OtherCardBox Body**
 
-.. stl:: ../_stl/boxes/adas_dream/OtherCardBox_body.stl?v=f72c1d29
+.. stl:: ../_stl/boxes/adas_dream/OtherCardBox_body.stl?v=492dcfec
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/adas_dream/OtherCardBox_body.stl?v=f72c1d29" download="OtherCardBox_body.stl">⬇ Download OtherCardBox Body STL (<code>OtherCardBox_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/adas_dream/OtherCardBox_body.stl?v=492dcfec" download="OtherCardBox_body.stl">⬇ Download OtherCardBox Body STL (<code>OtherCardBox_body.stl</code>)</a></p>
 
 **Part: OtherCardBox Lid**
 
@@ -395,21 +395,21 @@ TierCardBox
 
 **Assembled Box (TierCardBox — Body + Lid)**
 
-.. stl:: ../_stl/boxes/adas_dream/TierCardBox_body.stl?v=6a5de12d,../_stl/boxes/adas_dream/TierCardBox_lid.stl?v=3a30c379
+.. stl:: ../_stl/boxes/adas_dream/TierCardBox_body.stl?v=8e5935c6,../_stl/boxes/adas_dream/TierCardBox_lid.stl?v=3a30c379
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/adas_dream/TierCardBox_body.stl?v=6a5de12d" data-stl-combine="../_stl/boxes/adas_dream/TierCardBox_body.stl?v=6a5de12d,../_stl/boxes/adas_dream/TierCardBox_lid.stl?v=3a30c379" download="TierCardBox_assembled.stl">⬇ Download Assembled TierCardBox STL (<code>TierCardBox_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/adas_dream/TierCardBox_body.stl?v=8e5935c6" data-stl-combine="../_stl/boxes/adas_dream/TierCardBox_body.stl?v=8e5935c6,../_stl/boxes/adas_dream/TierCardBox_lid.stl?v=3a30c379" download="TierCardBox_assembled.stl">⬇ Download Assembled TierCardBox STL (<code>TierCardBox_assembled.stl</code>)</a></p>
 
 **Part: TierCardBox Body**
 
-.. stl:: ../_stl/boxes/adas_dream/TierCardBox_body.stl?v=6a5de12d
+.. stl:: ../_stl/boxes/adas_dream/TierCardBox_body.stl?v=8e5935c6
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/adas_dream/TierCardBox_body.stl?v=6a5de12d" download="TierCardBox_body.stl">⬇ Download TierCardBox Body STL (<code>TierCardBox_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/adas_dream/TierCardBox_body.stl?v=8e5935c6" download="TierCardBox_body.stl">⬇ Download TierCardBox Body STL (<code>TierCardBox_body.stl</code>)</a></p>
 
 **Part: TierCardBox Lid**
 
@@ -617,9 +617,9 @@ spacer_1
 - **Outer Dimensions**: ``140 × 291 × 59 mm``
 - **Packed Position**: ``(72, 0, 0)``
 
-.. stl:: ../_stl/boxes/adas_dream/spacer_1.stl?v=f1e0fc72
+.. stl:: ../_stl/boxes/adas_dream/spacer_1.stl?v=b162662d
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/adas_dream/spacer_1.stl?v=f1e0fc72" download="spacer_1.stl">⬇ Download spacer_1 STL (<code>spacer_1.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/adas_dream/spacer_1.stl?v=b162662d" download="spacer_1.stl">⬇ Download spacer_1 STL (<code>spacer_1.stl</code>)</a></p>

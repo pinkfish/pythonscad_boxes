@@ -402,18 +402,10 @@ def floor_bore_outline(
     if top_rounding < 0:
         raise ValueError(f"top_rounding must be >= 0; got {top_rounding}")
 
-    r1 = min(top_rounding, max(0.0, height - radius))
-    right: list[tuple[float, float]] = []
-    # The bowl: a quarter of the bore circle, from its lowest point out to the
-    # side, tangent to the floor at the bottom and vertical at the side.
-    right += _quarter_arc((0.0, radius), radius, -90.0, 0.0)
-    right.append((radius, height - r1))
-    if r1 > 0:
-        right += _quarter_arc((radius + r1, height - r1), r1, 180.0, 90.0)
-    right.append((radius + r1, height + RIM_OVERSHOOT_MM))
-
-    left = [(-x, y) for x, y in reversed(right)]
-    return left + right
+    flare, rise, r2 = _fit_radii(
+        radius, height, top_rounding, None, keep_flat_bottom=False
+    )
+    return scoop_outline(radius, height, flare, r2, rise)
 def _elliptical_quarter(
     centre: tuple[float, float],
     flare: float,

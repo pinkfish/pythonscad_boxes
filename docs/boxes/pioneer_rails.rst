@@ -15,12 +15,12 @@ Full Box Packing
 
 Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
-.. stl:: ../_stl/boxes/pioneer_rails/PencilBox_body.stl?v=d4ed93e9,../_stl/boxes/pioneer_rails/PencilBox_lid.stl?v=1a7a7382,../_stl/boxes/pioneer_rails/CardBox_GoalCards_body.stl?v=51425442,../_stl/boxes/pioneer_rails/CardBox_GoalCards_lid.stl?v=f29f0e58,../_stl/boxes/pioneer_rails/CardBox_PlayingCards_body.stl?v=de27b1d0,../_stl/boxes/pioneer_rails/CardBox_PlayingCards_lid.stl?v=8cc256f3,../_stl/boxes/pioneer_rails/CardBox_ForestCards_body.stl?v=5719eed2,../_stl/boxes/pioneer_rails/CardBox_ForestCards_lid.stl?v=f89c8ef2,../_stl/boxes/pioneer_rails/CardBox_CompanyCards_body.stl?v=5396f5d3,../_stl/boxes/pioneer_rails/CardBox_CompanyCards_lid.stl?v=72a9e2d9,../_stl/boxes/pioneer_rails/spacer_1.stl?v=944b5b8b
+.. stl:: ../_stl/boxes/pioneer_rails/PencilBox_body.stl?v=d4ed93e9,../_stl/boxes/pioneer_rails/PencilBox_lid.stl?v=1a7a7382,../_stl/boxes/pioneer_rails/CardBox_GoalCards_body.stl?v=518a8e03,../_stl/boxes/pioneer_rails/CardBox_GoalCards_lid.stl?v=f29f0e58,../_stl/boxes/pioneer_rails/CardBox_PlayingCards_body.stl?v=b12a017f,../_stl/boxes/pioneer_rails/CardBox_PlayingCards_lid.stl?v=8cc256f3,../_stl/boxes/pioneer_rails/CardBox_ForestCards_body.stl?v=ec8ac509,../_stl/boxes/pioneer_rails/CardBox_ForestCards_lid.stl?v=f89c8ef2,../_stl/boxes/pioneer_rails/CardBox_CompanyCards_body.stl?v=f4d0584b,../_stl/boxes/pioneer_rails/CardBox_CompanyCards_lid.stl?v=72a9e2d9,../_stl/boxes/pioneer_rails/spacer_1.stl?v=9ac43d48
    :height: 440px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/pioneer_rails/PencilBox_body.stl?v=d4ed93e9" data-stl-combine="../_stl/boxes/pioneer_rails/PencilBox_body.stl?v=d4ed93e9,../_stl/boxes/pioneer_rails/PencilBox_lid.stl?v=1a7a7382,../_stl/boxes/pioneer_rails/CardBox_GoalCards_body.stl?v=51425442,../_stl/boxes/pioneer_rails/CardBox_GoalCards_lid.stl?v=f29f0e58,../_stl/boxes/pioneer_rails/CardBox_PlayingCards_body.stl?v=de27b1d0,../_stl/boxes/pioneer_rails/CardBox_PlayingCards_lid.stl?v=8cc256f3,../_stl/boxes/pioneer_rails/CardBox_ForestCards_body.stl?v=5719eed2,../_stl/boxes/pioneer_rails/CardBox_ForestCards_lid.stl?v=f89c8ef2,../_stl/boxes/pioneer_rails/CardBox_CompanyCards_body.stl?v=5396f5d3,../_stl/boxes/pioneer_rails/CardBox_CompanyCards_lid.stl?v=72a9e2d9,../_stl/boxes/pioneer_rails/spacer_1.stl?v=944b5b8b" download="PioneerRails_full_packing.stl">⬇ Download Full Box Packing STL (<code>PioneerRails_full_packing.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/pioneer_rails/PencilBox_body.stl?v=d4ed93e9" data-stl-combine="../_stl/boxes/pioneer_rails/PencilBox_body.stl?v=d4ed93e9,../_stl/boxes/pioneer_rails/PencilBox_lid.stl?v=1a7a7382,../_stl/boxes/pioneer_rails/CardBox_GoalCards_body.stl?v=518a8e03,../_stl/boxes/pioneer_rails/CardBox_GoalCards_lid.stl?v=f29f0e58,../_stl/boxes/pioneer_rails/CardBox_PlayingCards_body.stl?v=b12a017f,../_stl/boxes/pioneer_rails/CardBox_PlayingCards_lid.stl?v=8cc256f3,../_stl/boxes/pioneer_rails/CardBox_ForestCards_body.stl?v=ec8ac509,../_stl/boxes/pioneer_rails/CardBox_ForestCards_lid.stl?v=f89c8ef2,../_stl/boxes/pioneer_rails/CardBox_CompanyCards_body.stl?v=f4d0584b,../_stl/boxes/pioneer_rails/CardBox_CompanyCards_lid.stl?v=72a9e2d9,../_stl/boxes/pioneer_rails/spacer_1.stl?v=9ac43d48" download="PioneerRails_full_packing.stl">⬇ Download Full Box Packing STL (<code>PioneerRails_full_packing.stl</code>)</a></p>
 
 Parts Overview
 --------------
@@ -117,21 +117,21 @@ CardBox_GoalCards
 
 **Assembled Box (CardBox_GoalCards — Body + Lid)**
 
-.. stl:: ../_stl/boxes/pioneer_rails/CardBox_GoalCards_body.stl?v=51425442,../_stl/boxes/pioneer_rails/CardBox_GoalCards_lid.stl?v=f29f0e58
+.. stl:: ../_stl/boxes/pioneer_rails/CardBox_GoalCards_body.stl?v=518a8e03,../_stl/boxes/pioneer_rails/CardBox_GoalCards_lid.stl?v=f29f0e58
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/pioneer_rails/CardBox_GoalCards_body.stl?v=51425442" data-stl-combine="../_stl/boxes/pioneer_rails/CardBox_GoalCards_body.stl?v=51425442,../_stl/boxes/pioneer_rails/CardBox_GoalCards_lid.stl?v=f29f0e58" download="CardBox_GoalCards_assembled.stl">⬇ Download Assembled CardBox_GoalCards STL (<code>CardBox_GoalCards_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/pioneer_rails/CardBox_GoalCards_body.stl?v=518a8e03" data-stl-combine="../_stl/boxes/pioneer_rails/CardBox_GoalCards_body.stl?v=518a8e03,../_stl/boxes/pioneer_rails/CardBox_GoalCards_lid.stl?v=f29f0e58" download="CardBox_GoalCards_assembled.stl">⬇ Download Assembled CardBox_GoalCards STL (<code>CardBox_GoalCards_assembled.stl</code>)</a></p>
 
 **Part: CardBox_GoalCards Body**
 
-.. stl:: ../_stl/boxes/pioneer_rails/CardBox_GoalCards_body.stl?v=51425442
+.. stl:: ../_stl/boxes/pioneer_rails/CardBox_GoalCards_body.stl?v=518a8e03
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/pioneer_rails/CardBox_GoalCards_body.stl?v=51425442" download="CardBox_GoalCards_body.stl">⬇ Download CardBox_GoalCards Body STL (<code>CardBox_GoalCards_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/pioneer_rails/CardBox_GoalCards_body.stl?v=518a8e03" download="CardBox_GoalCards_body.stl">⬇ Download CardBox_GoalCards Body STL (<code>CardBox_GoalCards_body.stl</code>)</a></p>
 
 **Part: CardBox_GoalCards Lid**
 
@@ -154,21 +154,21 @@ CardBox_PlayingCards
 
 **Assembled Box (CardBox_PlayingCards — Body + Lid)**
 
-.. stl:: ../_stl/boxes/pioneer_rails/CardBox_PlayingCards_body.stl?v=de27b1d0,../_stl/boxes/pioneer_rails/CardBox_PlayingCards_lid.stl?v=8cc256f3
+.. stl:: ../_stl/boxes/pioneer_rails/CardBox_PlayingCards_body.stl?v=b12a017f,../_stl/boxes/pioneer_rails/CardBox_PlayingCards_lid.stl?v=8cc256f3
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/pioneer_rails/CardBox_PlayingCards_body.stl?v=de27b1d0" data-stl-combine="../_stl/boxes/pioneer_rails/CardBox_PlayingCards_body.stl?v=de27b1d0,../_stl/boxes/pioneer_rails/CardBox_PlayingCards_lid.stl?v=8cc256f3" download="CardBox_PlayingCards_assembled.stl">⬇ Download Assembled CardBox_PlayingCards STL (<code>CardBox_PlayingCards_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/pioneer_rails/CardBox_PlayingCards_body.stl?v=b12a017f" data-stl-combine="../_stl/boxes/pioneer_rails/CardBox_PlayingCards_body.stl?v=b12a017f,../_stl/boxes/pioneer_rails/CardBox_PlayingCards_lid.stl?v=8cc256f3" download="CardBox_PlayingCards_assembled.stl">⬇ Download Assembled CardBox_PlayingCards STL (<code>CardBox_PlayingCards_assembled.stl</code>)</a></p>
 
 **Part: CardBox_PlayingCards Body**
 
-.. stl:: ../_stl/boxes/pioneer_rails/CardBox_PlayingCards_body.stl?v=de27b1d0
+.. stl:: ../_stl/boxes/pioneer_rails/CardBox_PlayingCards_body.stl?v=b12a017f
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/pioneer_rails/CardBox_PlayingCards_body.stl?v=de27b1d0" download="CardBox_PlayingCards_body.stl">⬇ Download CardBox_PlayingCards Body STL (<code>CardBox_PlayingCards_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/pioneer_rails/CardBox_PlayingCards_body.stl?v=b12a017f" download="CardBox_PlayingCards_body.stl">⬇ Download CardBox_PlayingCards Body STL (<code>CardBox_PlayingCards_body.stl</code>)</a></p>
 
 **Part: CardBox_PlayingCards Lid**
 
@@ -191,21 +191,21 @@ CardBox_ForestCards
 
 **Assembled Box (CardBox_ForestCards — Body + Lid)**
 
-.. stl:: ../_stl/boxes/pioneer_rails/CardBox_ForestCards_body.stl?v=5719eed2,../_stl/boxes/pioneer_rails/CardBox_ForestCards_lid.stl?v=f89c8ef2
+.. stl:: ../_stl/boxes/pioneer_rails/CardBox_ForestCards_body.stl?v=ec8ac509,../_stl/boxes/pioneer_rails/CardBox_ForestCards_lid.stl?v=f89c8ef2
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/pioneer_rails/CardBox_ForestCards_body.stl?v=5719eed2" data-stl-combine="../_stl/boxes/pioneer_rails/CardBox_ForestCards_body.stl?v=5719eed2,../_stl/boxes/pioneer_rails/CardBox_ForestCards_lid.stl?v=f89c8ef2" download="CardBox_ForestCards_assembled.stl">⬇ Download Assembled CardBox_ForestCards STL (<code>CardBox_ForestCards_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/pioneer_rails/CardBox_ForestCards_body.stl?v=ec8ac509" data-stl-combine="../_stl/boxes/pioneer_rails/CardBox_ForestCards_body.stl?v=ec8ac509,../_stl/boxes/pioneer_rails/CardBox_ForestCards_lid.stl?v=f89c8ef2" download="CardBox_ForestCards_assembled.stl">⬇ Download Assembled CardBox_ForestCards STL (<code>CardBox_ForestCards_assembled.stl</code>)</a></p>
 
 **Part: CardBox_ForestCards Body**
 
-.. stl:: ../_stl/boxes/pioneer_rails/CardBox_ForestCards_body.stl?v=5719eed2
+.. stl:: ../_stl/boxes/pioneer_rails/CardBox_ForestCards_body.stl?v=ec8ac509
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/pioneer_rails/CardBox_ForestCards_body.stl?v=5719eed2" download="CardBox_ForestCards_body.stl">⬇ Download CardBox_ForestCards Body STL (<code>CardBox_ForestCards_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/pioneer_rails/CardBox_ForestCards_body.stl?v=ec8ac509" download="CardBox_ForestCards_body.stl">⬇ Download CardBox_ForestCards Body STL (<code>CardBox_ForestCards_body.stl</code>)</a></p>
 
 **Part: CardBox_ForestCards Lid**
 
@@ -228,21 +228,21 @@ CardBox_CompanyCards
 
 **Assembled Box (CardBox_CompanyCards — Body + Lid)**
 
-.. stl:: ../_stl/boxes/pioneer_rails/CardBox_CompanyCards_body.stl?v=5396f5d3,../_stl/boxes/pioneer_rails/CardBox_CompanyCards_lid.stl?v=72a9e2d9
+.. stl:: ../_stl/boxes/pioneer_rails/CardBox_CompanyCards_body.stl?v=f4d0584b,../_stl/boxes/pioneer_rails/CardBox_CompanyCards_lid.stl?v=72a9e2d9
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/pioneer_rails/CardBox_CompanyCards_body.stl?v=5396f5d3" data-stl-combine="../_stl/boxes/pioneer_rails/CardBox_CompanyCards_body.stl?v=5396f5d3,../_stl/boxes/pioneer_rails/CardBox_CompanyCards_lid.stl?v=72a9e2d9" download="CardBox_CompanyCards_assembled.stl">⬇ Download Assembled CardBox_CompanyCards STL (<code>CardBox_CompanyCards_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/pioneer_rails/CardBox_CompanyCards_body.stl?v=f4d0584b" data-stl-combine="../_stl/boxes/pioneer_rails/CardBox_CompanyCards_body.stl?v=f4d0584b,../_stl/boxes/pioneer_rails/CardBox_CompanyCards_lid.stl?v=72a9e2d9" download="CardBox_CompanyCards_assembled.stl">⬇ Download Assembled CardBox_CompanyCards STL (<code>CardBox_CompanyCards_assembled.stl</code>)</a></p>
 
 **Part: CardBox_CompanyCards Body**
 
-.. stl:: ../_stl/boxes/pioneer_rails/CardBox_CompanyCards_body.stl?v=5396f5d3
+.. stl:: ../_stl/boxes/pioneer_rails/CardBox_CompanyCards_body.stl?v=f4d0584b
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/pioneer_rails/CardBox_CompanyCards_body.stl?v=5396f5d3" download="CardBox_CompanyCards_body.stl">⬇ Download CardBox_CompanyCards Body STL (<code>CardBox_CompanyCards_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/pioneer_rails/CardBox_CompanyCards_body.stl?v=f4d0584b" download="CardBox_CompanyCards_body.stl">⬇ Download CardBox_CompanyCards Body STL (<code>CardBox_CompanyCards_body.stl</code>)</a></p>
 
 **Part: CardBox_CompanyCards Lid**
 
@@ -265,9 +265,9 @@ spacer_1
 - **Outer Dimensions**: ``209 × 209 × 22 mm``
 - **Packed Position**: ``(0, 0, 0)``
 
-.. stl:: ../_stl/boxes/pioneer_rails/spacer_1.stl?v=944b5b8b
+.. stl:: ../_stl/boxes/pioneer_rails/spacer_1.stl?v=9ac43d48
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/pioneer_rails/spacer_1.stl?v=944b5b8b" download="spacer_1.stl">⬇ Download spacer_1 STL (<code>spacer_1.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/pioneer_rails/spacer_1.stl?v=9ac43d48" download="spacer_1.stl">⬇ Download spacer_1 STL (<code>spacer_1.stl</code>)</a></p>
