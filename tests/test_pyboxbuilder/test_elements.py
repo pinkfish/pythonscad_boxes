@@ -329,6 +329,36 @@ class CompartmentAutoLayoutTests(unittest.TestCase):
         carved_under_shallow = po & shallow_probe
         self.assertGreaterEqual(float(carved_under_shallow.bounds().min_z), 8.9 - 0.05)
 
+    def test_thick_area_cutout_and_full_depth_shallow_finger_bay(self) -> None:
+        """Contiguous thick pockets open an upper half-depth area while thin tokens carve down to their base."""
+        from pybosl2 import cuboid
+
+        from pyboxbuilder.compartments.element import build_element_pack_pull_outs
+
+        comp_d = 10.9
+        comp_size = (90.0, 56.0)
+        elements = (
+            # 2x2 thick d=6.0 group at X=[10..50], Y=[10..50] (gap 3mm between rows/cols)
+            CompartmentElement(shape=ElementShape.RECT, offset=(10.0, 10.0), size=(18.5, 18.5), depth=6.0),
+            CompartmentElement(shape=ElementShape.RECT, offset=(31.0, 10.0), size=(18.5, 18.5), depth=6.0),
+            CompartmentElement(shape=ElementShape.RECT, offset=(10.0, 31.0), size=(18.5, 18.5), depth=6.0),
+            CompartmentElement(shape=ElementShape.RECT, offset=(31.0, 31.0), size=(18.5, 18.5), depth=6.0),
+            # Separate shallow d=2.0 cardboard slot at right end with 10mm open front/back margin
+            CompartmentElement(shape=ElementShape.RECT, offset=(60.0, 10.0), size=(18.5, 18.5), depth=2.0),
+        )
+        po = build_element_pack_pull_outs(elements, comp_d, comp_size)
+        assert po is not None
+
+        # Center gap between the 2x2 thick slots ((29.75, 29.75)) is carved down to half-depth (10.9 - 3.0 = 7.9)
+        mid_probe = cuboid([1.0, 1.0, comp_d]).translate([29.75, 29.75, comp_d / 2.0])
+        mid_cut = po & mid_probe
+        self.assertAlmostEqual(float(mid_cut.bounds().min_z), comp_d - 3.0, places=1)
+
+        # Open margin in front of the shallow 2.0mm token (y=5.5, 4.5mm past front edge) is cut down to the base (8.9mm)
+        bay_probe = cuboid([4.0, 2.0, comp_d]).translate([69.25, 5.5, comp_d / 2.0])
+        bay_cut = po & bay_probe
+        self.assertAlmostEqual(float(bay_cut.bounds().min_z), comp_d - 2.0, places=2)
+
 
 if __name__ == "__main__":
     unittest.main()

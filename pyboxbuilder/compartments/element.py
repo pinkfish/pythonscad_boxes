@@ -1180,12 +1180,79 @@ _SVG_CACHE: dict[tuple[str, int], Region] = {}
 PULL_OUT_DEPTH_SHARE = 0.5
 """How deep a pull-out goes, as a share of the piece's depth.
 
-Half gets a fingertip under the piece while leaving the slot deep enough that
-the piece still seats flat in it rather than tipping into the dish.
+Half gets a fingertip under a thick piece/stack while leaving the lower pocket
+walls intact so pieces still seat flat without sliding into neighbours.
 """
 
 DEFAULT_PULL_OUT_WIDTH_MM = 16.0
 """Fingertip width for a pull-out dish, when the element names none."""
+
+SHALLOW_TOKEN_MAX_DEPTH_MM = 3.5
+"""Pockets at or below this depth hold thin cardboard tokens and need full-depth
+finger bays reaching all the way to the pocket base rather than half-height notches."""
+
+SHALLOW_FINGER_REACH_MM = 6.0
+"""Minimum outward reach from a thin cardboard token pocket for fingertip access."""
+
+THICK_AREA_MAX_GAP_MM = 7.5
+"""Maximum gap between adjacent equal-depth thick pockets merged into one rounded upper area cutout."""
+
+
+def _element_effective_depth(element: CompartmentElement, default_depth: float) -> float:
+    """Actual pocket depth below the compartment rim (clamped against Z overshoot)."""
+    depth = element.depth or default_depth
+    z_off = element.z_offset if element.z_offset is not None else (default_depth - depth)
+    return max(0.2, min(depth, default_depth - z_off)) if z_off >= 0 else depth
+
+
+def _thick_cut_depth(element: CompartmentElement, default_depth: float) -> float:
+    """Vertical depth cut down from the rim for thick/stacked tokens."""
+    eff_depth = _element_effective_depth(element, default_depth)
+    if element.pull_out_depth is not None:
+        return max(0.2, min(eff_depth, element.pull_out_depth))
+    return max(0.2, eff_depth * PULL_OUT_DEPTH_SHARE)
+
+
+def _rounded_dish_cutout(
+    cx: float,
+    cy: float,
+    span_w: float,
+    span_l: float,
+    z_rim: float,
+    cut_depth: float,
+    *,
+    max_bottom_radius: float | None = None,
+) -> Bosl2Solid:
+    """Build a rounded cutout descending ``cut_depth`` mm below ``z_rim`` and extending upward."""
+    from pybosl2 import Anchor, cuboid
+
+    from pyboxbuilder.rounding import rounding_facets
+
+    r_cap = cut_depth if max_bottom_radius is None else min(cut_depth, max_bottom_radius)
+    radius = min(r_cap, span_w / 2.0 - 0.01, span_l / 2.0 - 0.01)
+    dish = (
+        cuboid(
+            [span_w, span_l, cut_depth * 2.0],
+            rounding=radius,
+            edges=[Anchor.BOTTOM, *vertical_edges()],
+            **rounding_facets(),
+        )
+        if radius > 0
+        else cuboid([span_w, span_l, cut_depth * 2.0])
+    ).translate([cx, cy, z_rim])
+    block = (
+        cuboid(
+            [span_w, span_l, 100.0],
+            rounding=radius,
+            edges=vertical_edges(),
+            **rounding_facets(),
+        )
+        if radius > 0
+        else cuboid([span_w, span_l, 100.0])
+    ).translate([cx, cy, z_rim + 50.0])
+    res = union_all([dish, block])
+    assert res is not None
+    return res
 
 
 def build_pull_out(
@@ -1197,11 +1264,9 @@ def build_pull_out(
 ) -> Bosl2Solid | None:
     """Return the finger dish that lets a piece be lifted out of its slot.
 
-    Cut across the slot and **curved in from the surrounding floor** on both
-    sides, so a finger slides down into it rather than meeting a step. Without
-    it a silhouette slot has no purchase at all: it fits the piece exactly,
-    which is what makes it look right and what makes it impossible to empty.
-
+    For thick/stacked pockets (``> 3.5 mm``), cuts a curved half-depth dish.
+    For thin cardboard token pockets (``<= 3.5 mm``), cuts a generous rounded
+    finger bay down to the pocket base so a fingertip reaches under the token.
     """
     if not element.pull_out:
         return None
@@ -1214,7 +1279,10 @@ def build_pull_out(
     width, length = element.footprint
     depth = element.depth or default_depth
     actual_z_offset = element.z_offset if element.z_offset is not None else (default_depth - depth)
-    drop = (element.pull_out_depth / 2.0) if element.pull_out_depth is not None else (depth * PULL_OUT_DEPTH_SHARE)
+    eff_depth = _element_effective_depth(element, default_depth)
+    is_shallow = element.pull_out_depth is None and eff_depth <= SHALLOW_TOKEN_MAX_DEPTH_MM
+    cut_depth = eff_depth if is_shallow else _thick_cut_depth(element, default_depth)
+    drop = SHALLOW_FINGER_REACH_MM if is_shallow else min(cut_depth, max(3.5, cut_depth * 0.6))
     target_across = element.pull_out_width or DEFAULT_PULL_OUT_WIDTH_MM
 
     # Calculate clearances to compartment boundaries (or neighbor-clamped clearances)
@@ -1236,6 +1304,10 @@ def build_pull_out(
         use_y = True
     elif target_across > width + 1e-6 and length > width:
         use_y = False
+    elif is_shallow:
+        max_y = max(clearance_y_front, clearance_y_back)
+        max_x = max(clearance_x_left, clearance_x_right)
+        use_y = max_y > max_x if abs(max_y - max_x) > 1e-4 else clearance_y >= clearance_x
     else:
         use_y = clearance_y >= clearance_x
 
@@ -1245,7 +1317,6 @@ def build_pull_out(
         # Orient along Y (lengthwise)
         drop_front = max(0.0, min(drop, clearance_y_front))
         drop_back = max(0.0, min(drop, clearance_y_back))
-        actual_drop = max(0.1, max(drop_front, drop_back))
         centre_x = element.offset[0] + width / 2
         centre_y = element.offset[1] + length / 2 + (drop_back - drop_front) / 2
         dish_w, dish_l = across, length + drop_front + drop_back
@@ -1253,35 +1324,23 @@ def build_pull_out(
         # Orient along X (widthwise)
         drop_left = max(0.0, min(drop, clearance_x_left))
         drop_right = max(0.0, min(drop, clearance_x_right))
-        actual_drop = max(0.1, max(drop_left, drop_right))
         centre_x = element.offset[0] + width / 2 + (drop_right - drop_left) / 2
         centre_y = element.offset[1] + length / 2
         dish_w, dish_l = width + drop_left + drop_right, across
 
-    radius = min(actual_drop, dish_w / 2 - 0.01, dish_l / 2 - 0.01)
-    z = actual_z_offset + depth - actual_drop
+    if is_shallow:
+        # Full-depth rounded capsule bay reaching the pocket base so a finger gets under thin tokens.
+        r_xy = min(6.0, dish_w / 2 - 0.01, dish_l / 2 - 0.01)
+        bay_h = eff_depth + 100.0
+        bay = (
+            cuboid([dish_w, dish_l, bay_h], rounding=r_xy, edges=vertical_edges(), **rounding_facets())
+            if r_xy > 0
+            else cuboid([dish_w, dish_l, bay_h])
+        )
+        return bay.translate([centre_x, centre_y, actual_z_offset + bay_h / 2.0])
 
-    from pybosl2 import Anchor
-    # Round all bottom edges (sides plus entry/exit ramps) so a finger slides smoothly
-    # down into the trough from any side rather than meeting a square vertical step.
-    dish_edges = [Anchor.BOTTOM, *vertical_edges()]
-    dish = cuboid(
-        [dish_w, dish_l, actual_drop * 2],
-        rounding=radius,
-        edges=dish_edges,
-        **rounding_facets(),
-    ) if radius > 0 else cuboid([dish_w, dish_l, actual_drop * 2])
-    dish = dish.translate([centre_x, centre_y, z])
-
-    # Extend the pull-out upwards from its center to prevent top tapering, keeping the sides rounded.
-    block = cuboid(
-        [dish_w, dish_l, 100.0],
-        rounding=radius,
-        edges=vertical_edges(),
-        **rounding_facets(),
-    ) if radius > 0 else cuboid([dish_w, dish_l, 100.0])
-    block = block.translate([centre_x, centre_y, z + 50.0])
-    return union_all([dish, block])
+    z_rim = actual_z_offset + eff_depth
+    return _rounded_dish_cutout(centre_x, centre_y, dish_w, dish_l, z_rim, cut_depth)
 
 
 def _resolve_inlay_z_offset(
@@ -1449,30 +1508,223 @@ def _neighbor_clearances(
     return (left, right, front, back)
 
 
+def _box_non_member_clearances(
+    bbox: tuple[float, float, float, float],
+    member_ids: set[int],
+    all_cutouts: Sequence[CompartmentElement],
+    comp_w: float,
+    comp_l: float,
+) -> tuple[float, float, float, float]:
+    """Return ``(left, right, front, back)`` clearance from ``bbox`` to boundaries and non-members."""
+    bx0, by0, bx1, by1 = bbox
+    left = max(0.0, bx0)
+    right = max(0.0, comp_w - bx1)
+    front = max(0.0, by0)
+    back = max(0.0, comp_l - by1)
+    min_wall = 1.2
+
+    for other in all_cutouts:
+        if id(other) in member_ids:
+            continue
+        ox0, oy0, ox1, oy1 = other.bounds()
+        if oy0 < by1 - 0.2 and by0 < oy1 - 0.2:
+            if ox1 <= bx0 + 0.1 and ox0 < bx0 - 0.5:
+                left = min(left, max(0.0, bx0 - ox1 - min_wall))
+            if ox0 >= bx1 - 0.1 and ox1 > bx1 + 0.5:
+                right = min(right, max(0.0, ox0 - bx1 - min_wall))
+        if ox0 < bx1 - 0.2 and bx0 < ox1 - 0.2:
+            if oy1 <= by0 + 0.1 and oy0 < by0 - 0.5:
+                front = min(front, max(0.0, by0 - oy1 - min_wall))
+            if oy0 >= by1 - 0.1 and oy1 > by1 + 0.5:
+                back = min(back, max(0.0, oy0 - by1 - min_wall))
+    return (left, right, front, back)
+
+
+def _rect_clear_of_obstacles(
+    bbox: tuple[float, float, float, float],
+    member_ids: set[int],
+    all_cutouts: Sequence[CompartmentElement],
+) -> bool:
+    """True when no non-member cutout overlaps ``bbox``."""
+    bx0, by0, bx1, by1 = bbox
+    for other in all_cutouts:
+        if id(other) in member_ids:
+            continue
+        ox0, oy0, ox1, oy1 = other.bounds()
+        if ox0 < bx1 + 0.5 and ox1 > bx0 - 0.5 and oy0 < by1 + 0.5 and oy1 > by0 - 0.5:
+            return False
+    return True
+
+
+def _build_rounded_area_cutout(
+    group: Sequence[CompartmentElement],
+    all_cutouts: Sequence[CompartmentElement],
+    comp_w: float,
+    comp_l: float,
+    default_depth: float,
+) -> Bosl2Solid:
+    """Build one smooth rounded half-depth upper cutout spanning a contiguous thick-token zone."""
+    ref = group[0]
+    eff_depth = _element_effective_depth(ref, default_depth)
+    raw_depth = ref.depth or default_depth
+    z_floor = ref.z_offset if ref.z_offset is not None else (default_depth - raw_depth)
+    cut_depth = _thick_cut_depth(ref, default_depth)
+
+    bounds_list = [e.bounds() for e in group]
+    bx0 = min(b[0] for b in bounds_list)
+    by0 = min(b[1] for b in bounds_list)
+    bx1 = max(b[2] for b in bounds_list)
+    by1 = max(b[3] for b in bounds_list)
+    member_ids = {id(e) for e in group}
+
+    c_left, c_right, c_front, c_back = _box_non_member_clearances(
+        (bx0, by0, bx1, by1), member_ids, all_cutouts, comp_w, comp_l
+    )
+    target_pad = min(cut_depth, 3.5)
+    pad_l = min(target_pad, c_left)
+    pad_r = min(target_pad, c_right)
+    pad_f = min(target_pad, c_front)
+    pad_b = min(target_pad, c_back)
+
+    x0, y0 = bx0 - pad_l, by0 - pad_f
+    x1, y1 = bx1 + pad_r, by1 + pad_b
+    span_w, span_l = x1 - x0, y1 - y0
+    cx, cy = (x0 + x1) / 2.0, (y0 + y1) / 2.0
+    z_rim = z_floor + eff_depth
+
+    return _rounded_dish_cutout(
+        cx, cy, span_w, span_l, z_rim, cut_depth, max_bottom_radius=4.0
+    )
+
+
+def _extract_thick_area_groups(
+    elements_list: Sequence[CompartmentElement],
+    all_cutouts: Sequence[CompartmentElement],
+    comp_w: float,
+    comp_l: float,
+    default_depth: float,
+) -> tuple[list[Bosl2Solid], set[int]]:
+    """Find contiguous groups of thick tokens and build rounded upper area cutouts."""
+    thick: list[CompartmentElement] = []
+    for el in elements_list:
+        eff_d = _element_effective_depth(el, default_depth)
+        if eff_d > SHALLOW_TOKEN_MAX_DEPTH_MM:
+            thick.append(el)
+
+    if len(thick) < 2:
+        return [], set()
+
+    def z_sig(el: CompartmentElement) -> tuple[float, float, float]:
+        raw_d = el.depth or default_depth
+        eff_d = _element_effective_depth(el, default_depth)
+        z_floor = el.z_offset if el.z_offset is not None else (default_depth - raw_d)
+        cut_d = _thick_cut_depth(el, default_depth)
+        return (z_floor, eff_d, cut_d)
+
+    def are_neighbors(a: CompartmentElement, b: CompartmentElement) -> bool:
+        sa, sb = z_sig(a), z_sig(b)
+        if any(abs(x - y) >= 0.2 for x, y in zip(sa, sb, strict=True)):
+            return False
+        ax0, ay0, ax1, ay1 = a.bounds()
+        bx0, by0, bx1, by1 = b.bounds()
+        x_ov = ax0 < bx1 + 0.5 and bx0 < ax1 + 0.5
+        y_ov = ay0 < by1 + 0.5 and by0 < ay1 + 0.5
+        gx = max(0.0, bx0 - ax1, ax0 - bx1)
+        gy = max(0.0, by0 - ay1, ay0 - by1)
+        return (y_ov and gx <= THICK_AREA_MAX_GAP_MM) or (
+            x_ov and gy <= THICK_AREA_MAX_GAP_MM
+        )
+
+    n = len(thick)
+    visited = [False] * n
+    components: list[list[CompartmentElement]] = []
+    for start in range(n):
+        if visited[start]:
+            continue
+        stack = [start]
+        visited[start] = True
+        comp: list[CompartmentElement] = []
+        while stack:
+            cur = stack.pop()
+            comp.append(thick[cur])
+            for nxt in range(n):
+                if not visited[nxt] and are_neighbors(thick[cur], thick[nxt]):
+                    visited[nxt] = True
+                    stack.append(nxt)
+        if len(comp) >= 2:
+            components.append(comp)
+
+    area_solids: list[Bosl2Solid] = []
+    handled_ids: set[int] = set()
+
+    def try_emit(sub: Sequence[CompartmentElement]) -> bool:
+        if len(sub) < 2:
+            return False
+        bs = [e.bounds() for e in sub]
+        bbox = (
+            min(b[0] for b in bs),
+            min(b[1] for b in bs),
+            max(b[2] for b in bs),
+            max(b[3] for b in bs),
+        )
+        mids = {id(e) for e in sub}
+        if not _rect_clear_of_obstacles(bbox, mids, all_cutouts):
+            return False
+        area_solids.append(
+            _build_rounded_area_cutout(sub, all_cutouts, comp_w, comp_l, default_depth)
+        )
+        handled_ids.update(mids)
+        return True
+
+    for comp in components:
+        if try_emit(comp):
+            continue
+        # Irregular/L-shaped component with an interior obstacle: try clean X-column or Y-row runs.
+        by_col: dict[float, list[CompartmentElement]] = {}
+        for el in comp:
+            by_col.setdefault(round(el.offset[0], 0), []).append(el)
+        for col_els in by_col.values():
+            col_els.sort(key=lambda e: e.offset[1])
+            try_emit(col_els)
+        remaining = [el for el in comp if id(el) not in handled_ids]
+        by_row: dict[float, list[CompartmentElement]] = {}
+        for el in remaining:
+            by_row.setdefault(round(el.offset[1], 0), []).append(el)
+        for row_els in by_row.values():
+            row_els.sort(key=lambda e: e.offset[0])
+            try_emit(row_els)
+
+    return area_solids, handled_ids
+
+
 def build_element_pack_pull_outs(
     elements: Iterable[CompartmentElement], default_depth: float, comp_size: tuple[float, float]
 ) -> Bosl2Solid | None:
-    """Union every pull-out scoop in a pack, hulling aligned same-depth overlapping scoops."""
+    """Union every pull-out scoop in a pack, using area cutouts for thick groups and deep bays for thin tokens."""
     all_cutouts = [el for el in elements if el.color is None]
     elements_list = [el for el in all_cutouts if el.pull_out]
     if not elements_list:
         return None
 
     comp_w, comp_l = comp_size
+    area_solids, handled_ids = _extract_thick_area_groups(
+        elements_list, all_cutouts, comp_w, comp_l, default_depth
+    )
 
-    # Pick each element's pull-out axis from its neighbor-safe clearances & across-width fit.
+    # Pick each remaining element's pull-out axis from its neighbor-safe clearances & across-width fit.
     built_pieces = []
     for element in elements_list:
+        if id(element) in handled_ids:
+            continue
         assert element.size is not None
         width, length = element.footprint
         depth = element.depth or default_depth
+        eff_depth = _element_effective_depth(element, default_depth)
         z_floor = element.z_offset if element.z_offset is not None else (default_depth - depth)
-        z_top = z_floor + depth
-        drop = (
-            (element.pull_out_depth / 2.0)
-            if element.pull_out_depth is not None
-            else (depth * PULL_OUT_DEPTH_SHARE)
-        )
+        z_top = z_floor + eff_depth
+        is_shallow = element.pull_out_depth is None and eff_depth <= SHALLOW_TOKEN_MAX_DEPTH_MM
+        cut_depth = eff_depth if is_shallow else _thick_cut_depth(element, default_depth)
+        drop = SHALLOW_FINGER_REACH_MM if is_shallow else min(cut_depth, max(3.5, cut_depth * 0.6))
         target_across = element.pull_out_width or DEFAULT_PULL_OUT_WIDTH_MM
         clearances = _neighbor_clearances(element, all_cutouts, comp_w, comp_l, default_depth)
         c_left, c_right, c_front, c_back = clearances
@@ -1481,6 +1733,14 @@ def build_element_pack_pull_outs(
             use_y = True
         elif target_across > width + 1e-6 and length > width:
             use_y = False
+        elif is_shallow:
+            max_y = max(c_front, c_back)
+            max_x = max(c_left, c_right)
+            use_y = (
+                max_y > max_x
+                if abs(max_y - max_x) > 1e-4
+                else min(c_front, c_back) >= min(c_left, c_right)
+            )
         else:
             min_y = min(c_front, c_back)
             min_x = min(c_left, c_right)
@@ -1568,18 +1828,19 @@ def build_element_pack_pull_outs(
                 new_group.extend(groups.pop(idx))
             groups.append(new_group)
 
-    # Hull overlapping groups, union non-overlapping ones
-    final_solids = []
-    from pybosl2._native import native
-    from pybosl2.shapes3d.base import CsgSolid
-    hull_fn = native("hull")
+    # Hull overlapping groups, union with thick-area cutouts
+    final_solids: list[Bosl2Solid] = [*area_solids]
+    if groups:
+        from pybosl2._native import native
+        from pybosl2.shapes3d.base import CsgSolid
+        hull_fn = native("hull")
 
-    for g in groups:
-        if len(g) == 1:
-            final_solids.append(g[0]["solid"])
-        else:
-            raw_shapes = [p["solid"].shape for p in g]
-            final_solids.append(CsgSolid(hull_fn(raw_shapes)))
+        for g in groups:
+            if len(g) == 1:
+                final_solids.append(g[0]["solid"])
+            else:
+                raw_shapes = [p["solid"].shape for p in g]
+                final_solids.append(CsgSolid(hull_fn(raw_shapes)))
 
     return union_all([p for p in final_solids if p is not None])
 
