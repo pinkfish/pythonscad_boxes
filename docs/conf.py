@@ -187,6 +187,7 @@ nitpick_ignore = [
     # Module-level constants referenced by name, not part of the API reference.
     ("py:data", "DEFAULT_THROAT_RADIUS_MM"),
     ("py:data", "MIN_TEXT_HEIGHT_MM"),
+    ("py:data", "MAX_TEXT_HEIGHT_MM"),
     ("py:data", "BORDER_MARGIN_MM"),
     ("py:data", "PATTERN_BORDER_MM"),
     ("py:data", "DEFAULT_WEB_MM"),
